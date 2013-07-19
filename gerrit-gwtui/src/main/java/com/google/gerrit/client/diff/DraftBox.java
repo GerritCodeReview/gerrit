@@ -20,6 +20,7 @@ import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.changes.CommentInput;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
+import com.google.gerrit.common.changes.Side;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -210,9 +211,13 @@ class DraftBox extends CommentBox {
     if (replyToBox != null) {
       replyToBox.unregisterReplyBox();
     }
-    parent.removeDraft(this, comment.side(), comment.line() - 1);
-
+    Side side = comment.side();
     removeFromParent();
+    if (!getCommentInfo().has_line()) {
+      parent.removeFileCommentBox(this, side);
+      return;
+    }
+    parent.removeDraft(this, comment.side(), comment.line() - 1);
     getSelfWidget().clear();
 
     PaddingManager manager = getPaddingManager();

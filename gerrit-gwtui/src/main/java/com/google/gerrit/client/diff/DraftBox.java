@@ -156,7 +156,7 @@ class DraftBox extends CommentBox {
       replyToBox.unregisterReplyBox();
     }
     CommentInfo info = getOriginal();
-    getDiffView().removeDraft(info.side(), info.line() - 1);
+    getDiffView().removeDraft(this, info.side(), info.line() - 1);
     removeFromParent();
     getSelfWidget().clear();
     PaddingManager manager = getPaddingManager();

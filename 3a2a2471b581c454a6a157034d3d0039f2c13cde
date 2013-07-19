@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3352d751_78f10119",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-19T06:41:09Z",
+      "side": 1,
+      "message": "Actually this information is also stale if the submit type for the change has changed since the mergeability was tested. This is also wrong in MergeOp, but now it\u0027s two places to fix.",
+      "revId": "3a2a2471b581c454a6a157034d3d0039f2c13cde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3352d751_18ec4541",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-19T06:41:09Z",
+      "side": 1,
+      "message": "The refreshing of the mergeable state is already implemented in MergeOp.verifyMergeability(Change). I would prefer to have the code only in one place.",
+      "revId": "3a2a2471b581c454a6a157034d3d0039f2c13cde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f36bdffb_56f69412",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-19T06:41:09Z",
+      "side": 1,
+      "message": "I know, in MergeOp we also use the submit type from the project to verify the mergeability, but actually we should use the submit type for that change, which could be different from the default submit type set on the project. If this ever gets fixed, we now need to fix it in two places.",
+      "revId": "3a2a2471b581c454a6a157034d3d0039f2c13cde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

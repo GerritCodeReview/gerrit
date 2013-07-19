@@ -31,10 +31,14 @@ abstract class CommentBox extends Composite {
   private LineWidget selfWidget;
 
   void resizePaddingWidget() {
+    if (!getCommentInfo().has_line()) {
+      return;
+    }
     Scheduler.get().scheduleDeferred(new ScheduledCommand(){
       public void execute() {
         assert selfWidget != null;
         assert widgetManager != null;
+
         selfWidget.changed();
         widgetManager.resizePaddingWidget();
       }

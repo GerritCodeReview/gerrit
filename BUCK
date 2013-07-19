@@ -66,7 +66,7 @@ java_binary(
 
 genrule(
   name = 'download',
-  cmd = '${//tools:download_all}',
+  cmd = '$(exe //tools:download_all)',
   srcs = [],
   deps = ['//tools:download_all'],
   out = '__fake.download__',
@@ -74,7 +74,7 @@ genrule(
 
 genrule(
   name = 'download_sources',
-  cmd = '${//tools:download_all} --src',
+  cmd = '$(exe //tools:download_all) --src',
   srcs = [],
   deps = ['//tools:download_all'],
   out = '__fake.download__',

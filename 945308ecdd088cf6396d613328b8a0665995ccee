@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3352d751_3835c9f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-19T09:02:35Z",
+      "side": 1,
+      "message": "That is very sensible change and i am not sure if it is generally wanted as default behavior. If at all, it should be configurable and may be even disabled per default.",
+      "revId": "945308ecdd088cf6396d613328b8a0665995ccee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

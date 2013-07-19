@@ -287,13 +287,25 @@ public class SideBySide2 extends Screen {
     super.registerKeys();
 
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
-    keysNavigation.add(new NoOpKeyCommand(0, 'u', PatchUtil.C.upToChange()));
+    keysNavigation.add(new KeyCommand(0, 'u', PatchUtil.C.upToChange()) {
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        Gerrit.display(PageLinks.toChange2(
+            revision.getParentKey(),
+            String.valueOf(revision.get())));
+      }
+    });
     keysNavigation.add(new NoOpKeyCommand(0, 'j', PatchUtil.C.lineNext()));
     keysNavigation.add(new NoOpKeyCommand(0, 'k', PatchUtil.C.linePrev()));
 
     keysAction = new KeyCommandSet(Gerrit.C.sectionActions());
     keysAction.add(new NoOpKeyCommand(0, 'o', PatchUtil.C.expandComment()));
-    keysAction.add(new NoOpKeyCommand(0, 'm', PatchUtil.C.toggleReviewed()));
+    keysAction.add(new KeyCommand(0, 'm', PatchUtil.C.toggleReviewed()) {
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        reviewedTop.setReviewed(!reviewedTop.isReviewed());
+      }
+    });
 
     keysOpenByEnter = new KeyCommandSet(Gerrit.C.sectionNavigation());
     keysOpenByEnter.add(new NoOpKeyCommand(0, KeyCodes.KEY_ENTER,

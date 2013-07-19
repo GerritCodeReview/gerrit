@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <!--
 Copyright (C) 2013 The Android Open Source Project
 
@@ -29,19 +30,14 @@ limitations under the License.
       width: 20%;
       text-align: right;
     }
-    .anchor {
-      color: inherit;
-      text-decoration: none;
-    }
   </ui:style>
   <g:HTMLPanel styleName='{style.reviewedPanel}'>
     <table class='{style.table}'>
     <tr>
       <td ui:field='fileName' class='{style.fileName}' />
       <td class='{style.reviewed}'>
-        <g:CheckBox ui:field='checkBox' />
-        <span><ui:msg>Reviewed &amp; </ui:msg></span>
-        <g:Anchor ui:field='nextLink' styleName='{style.anchor}' />
+        <g:CheckBox ui:field='checkBox'><ui:msg>Reviewed &amp; </ui:msg></g:CheckBox>
+        <g:Anchor ui:field='nextLink' href='javascript:;'/>
       </td>
     </tr>
     </table>

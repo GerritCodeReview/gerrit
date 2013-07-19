@@ -16,6 +16,24 @@
       "revId": "945308ecdd088cf6396d613328b8a0665995ccee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d37c1ba6_7b02f7d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-19T16:12:17Z",
+      "side": 1,
+      "message": "Every time I have demoed Gerrit to a group folks want to know how Gerrit lets them know new updates are available. Clicking \"refresh/reload\" always leads to a frowny face from the trainee.\n\nI think Google has upped the bar for what people expect from web applications that help them communicate. Thanks GMail. :-)\n\nThe biggest issue with this change is load on servers. I\u0027ve tried to make it as cheap as possible by using If-Modified-Since from browser caches and a 304 Not Modified response early, as soon as the Change record\u0027s updated date is known.\n\nIf we leave it off by default nobody will enable it. Maybe its reasonable to have a config variable to disable the feature, but if its worth doing we should have it on by default.",
+      "parentUuid": "3352d751_3835c9f0",
+      "revId": "945308ecdd088cf6396d613328b8a0665995ccee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

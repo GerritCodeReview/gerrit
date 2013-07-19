@@ -144,12 +144,16 @@ public class CodeMirror extends JavaScriptObject {
     return this.getScrollInfo();
   }-*/;
 
-  public final native boolean isScrollSetByOther() /*-{
-    return this.state.scrollSetByOther == true;
+  public final native FromTo getViewport() /*-{
+    return this.getViewport();
   }-*/;
 
-  public final native void setScrollSetByOther(boolean setByOther) /*-{
-    this.state.scrollSetByOther = setByOther;
+  public final native double getScrollSetAt() /*-{
+    return this.state.scrollSetAt || 0;
+  }-*/;
+
+  public final native void setScrollSetAt(double when) /*-{
+    this.state.scrollSetAt = when;
   }-*/;
 
   public final native void on(String event, Runnable thunk) /*-{
@@ -244,6 +248,15 @@ public class CodeMirror extends JavaScriptObject {
   }-*/;
 
   protected CodeMirror() {
+  }
+
+  public static class FromTo extends JavaScriptObject {
+
+    public final native int getFrom() /*-{ return this.from; }-*/;
+    public final native int getTo() /*-{ return this.to; }-*/;
+
+    protected FromTo(){
+    }
   }
 
   public static class LineHandle extends JavaScriptObject {

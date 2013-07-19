@@ -20,7 +20,8 @@ import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.diff.DiffInfo.Region;
 import com.google.gerrit.client.diff.DiffInfo.Span;
 import com.google.gerrit.client.diff.LineMapper.LineOnOtherInfo;
-import com.google.gerrit.client.diff.PaddingManager.LineWidgetElementPair;
+import com.google.gerrit.client.diff.PaddingManager.LinePaddingWidgetWrapper;
+import com.google.gerrit.client.diff.PaddingManager.LineWidgetWrapper;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.patches.SkippedLine;
 import com.google.gerrit.client.projects.ConfigInfoCache;
@@ -61,6 +62,7 @@ import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.CodeMirror.LineClassWhere;
 import net.codemirror.lib.CodeMirror.LineHandle;
+import net.codemirror.lib.CodeMirror.RenderLineHandler;
 import net.codemirror.lib.Configuration;
 import net.codemirror.lib.KeyMap;
 import net.codemirror.lib.LineCharacter;
@@ -97,7 +99,7 @@ public class SideBySide2 extends Screen {
   private HandlerRegistration resizeHandler;
   private JsArray<CommentInfo> published;
   private JsArray<CommentInfo> drafts;
-  private List<CommentBox> initialBoxes;
+  private List<CommentBox> allBoxes;
   private DiffInfo diff;
   private LineMapper mapper;
   private CommentLinkProcessor commentLinkProcessor;
@@ -105,6 +107,8 @@ public class SideBySide2 extends Screen {
   private Map<LineHandle, CommentBox> lineActiveBoxMap;
   private Map<LineHandle, PublishedBox> lineLastPublishedBoxMap;
   private Map<LineHandle, PaddingManager> linePaddingManagerMap;
+  private Map<LineHandle, LinePaddingWidgetWrapper> linePaddingWidgetMap;
+  private Map<LineHandle, Element> lineElementMap;
   private List<SkippedLine> skips;
   private int context;
 
@@ -113,6 +117,7 @@ public class SideBySide2 extends Screen {
   private KeyCommandSet keysComment;
   private KeyCommandSet keysOpenByEnter;
   private List<HandlerRegistration> keyHandlers;
+
 
   public SideBySide2(
       PatchSet.Id base,
@@ -199,9 +204,6 @@ public class SideBySide2 extends Screen {
       cmB.refresh();
     }
     Window.enableScrolling(false);
-    for (CommentBox box : initialBoxes) {
-      box.resizePaddingWidget();
-    }
     Scheduler.get().scheduleDeferred(new ScheduledCommand() {
       @Override
       public void execute() {
@@ -213,6 +215,7 @@ public class SideBySide2 extends Screen {
         }
       }
     });
+    resizeBoxPaddings();
     (cmB != null ? cmB : cmA).focus();
   }
 
@@ -243,9 +246,21 @@ public class SideBySide2 extends Screen {
     keyHandlers.clear();
   }
 
+  private void resizeBoxPaddings() {
+    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+      @Override
+      public void execute() {
+        for (CommentBox box : allBoxes) {
+          box.resizePaddingWidget();
+        }
+      }
+    });
+  }
+
   private void registerCmEvents(CodeMirror cm) {
     cm.on("cursorActivity", updateActiveLine(cm));
     cm.on("scroll", doScroll(cm));
+    cm.on("renderLine", resizeEmptyLine(getSideFromCm(cm)));
     // TODO: Prevent right click from updating the cursor.
     cm.addKeyMap(KeyMap.create().on("'j'", moveCursorDown(cm, 1)));
     cm.addKeyMap(KeyMap.create().on("'k'", moveCursorDown(cm, -1)));
@@ -262,7 +277,7 @@ public class SideBySide2 extends Screen {
      * temporary navigation hacks.
      */
     for (String s : new String[]{"C", "J", "K", "O", "R", "U", "Ctrl-C",
-        "Ctrl-F", "Enter"}) {
+        "Enter"}) {
       CodeMirror.disableUnwantedKey("vim", s);
     }
   }
@@ -307,8 +322,10 @@ public class SideBySide2 extends Screen {
     cmA = displaySide(diffInfo.meta_a(), diffInfo.text_a(), diffTable.cmA);
     cmB = displaySide(diffInfo.meta_b(), diffInfo.text_b(), diffTable.cmB);
     skips = new ArrayList<SkippedLine>();
+    linePaddingWidgetMap = new HashMap<LineHandle, LinePaddingWidgetWrapper>();
+    lineElementMap = new HashMap<LineHandle, Element>();
     render(diffInfo);
-    initialBoxes = new ArrayList<CommentBox>();
+    allBoxes = new ArrayList<CommentBox>();
     lineActiveBoxMap = new HashMap<LineHandle, CommentBox>();
     lineLastPublishedBoxMap = new HashMap<LineHandle, PublishedBox>();
     linePaddingManagerMap = new HashMap<LineHandle, PaddingManager>();
@@ -337,6 +354,7 @@ public class SideBySide2 extends Screen {
           cmB.setHeight(event.getHeight() - HEADER_FOOTER);
           cmB.refresh();
         }
+        resizeBoxPaddings();
       }
     });
   }
@@ -403,16 +421,21 @@ public class SideBySide2 extends Screen {
             : DiffTable.style.intralineBg();
         colorLines(cmA, color, origLineA, aLength);
         colorLines(cmB, color, origLineB, bLength);
-        mapper.appendCommon(Math.min(aLength, bLength));
+        int commonCnt = Math.min(aLength, bLength);
+        mapper.appendCommon(commonCnt);
         if (aLength < bLength) { // Edit with insertion
           int insertCnt = bLength - aLength;
-          insertEmptyLines(cmA, mapper.getLineA(), insertCnt);
+          insertEmptyLines(cmA, mapper.getLineA(), mapper.getLineB(),
+              insertCnt, false);
           mapper.appendInsert(insertCnt);
         } else if (aLength > bLength) { // Edit with deletion
           int deleteCnt = aLength - bLength;
-          insertEmptyLines(cmB, mapper.getLineB(), deleteCnt);
+          insertEmptyLines(cmB, mapper.getLineB(), mapper.getLineA(),
+              deleteCnt, false);
           mapper.appendDelete(deleteCnt);
         }
+        insertEmptyLines(cmA, mapper.getLineA(), origLineB, commonCnt, true);
+        insertEmptyLines(cmB, mapper.getLineB(), origLineA, commonCnt, true);
         markEdit(cmA, currentA, current.edit_a(), origLineA);
         markEdit(cmB, currentB, current.edit_b(), origLineB);
       }
@@ -420,7 +443,7 @@ public class SideBySide2 extends Screen {
   }
 
   private DraftBox addNewDraft(CodeMirror cm, int line) {
-    Side side = cm == cmA ? Side.PARENT : Side.REVISION;
+    Side side = getSideFromCm(cm);
     CommentInfo info = CommentInfo.create(
         path,
         side,
@@ -489,15 +512,17 @@ public class SideBySide2 extends Screen {
     LineWidget boxWidget = cm.addLineWidget(line, box.getElement(), config);
     box.setPaddingManager(manager);
     box.setSelfWidget(boxWidget);
+    allBoxes.add(box);
     return box;
   }
 
-  void removeDraft(Side side, int line) {
+  void removeDraft(DraftBox box, Side side, int line) {
     LineHandle handle = getCmFromSide(side).getLineHandle(line);
     lineActiveBoxMap.remove(handle);
     if (lineLastPublishedBoxMap.containsKey(handle)) {
       lineActiveBoxMap.put(handle, lineLastPublishedBoxMap.get(handle));
     }
+    allBoxes.remove(box);
   }
 
   private List<CommentInfo> sortComment(JsArray<CommentInfo> unsorted) {
@@ -521,7 +546,7 @@ public class SideBySide2 extends Screen {
       PublishedBox box =
           new PublishedBox(this, cm, revision, info, commentLinkProcessor);
       box.setOpen(false);
-      initialBoxes.add(box);
+      allBoxes.add(box);
       publishedMap.put(info.id(), box);
       int line = info.line() - 1;
       LineHandle handle = cm.getLineHandle(line);
@@ -539,7 +564,7 @@ public class SideBySide2 extends Screen {
               commentLinkProcessor, false, false);
       box.setOpen(false);
       box.setEdit(false);
-      initialBoxes.add(box);
+      allBoxes.add(box);
       if (published != null) {
         PublishedBox replyToBox = publishedMap.get(info.in_reply_to());
         if (replyToBox != null) {
@@ -644,6 +669,10 @@ public class SideBySide2 extends Screen {
     return side == Side.PARENT ? cmA : cmB;
   }
 
+  private Side getSideFromCm(CodeMirror cm) {
+    return cm == cmA ? Side.PARENT : Side.REVISION;
+  }
+
   private void markEdit(CodeMirror cm, JsArrayString lines,
       JsArray<Span> edits, int startLine) {
     if (edits == null) {
@@ -682,13 +711,24 @@ public class SideBySide2 extends Screen {
     }
   }
 
-  private void insertEmptyLines(CodeMirror cm, int nextLine, int cnt) {
-    // -1 to compensate for the line we went past when this method is called.
-    addPaddingWidget(cm, DiffTable.style.padding(), nextLine - 1,
-        1.1 * cnt, Unit.EM, null);
+  private void insertEmptyLines(CodeMirror cm, int nextLine, int lineOnOther,
+      int cnt, boolean common) {
+    for (int i = 0; i < cnt; i++, lineOnOther++) {
+      LineHandle handle = otherCm(cm).getLineHandle(lineOnOther);
+      /**
+       * Link a line with its padding widget on the other side. Note that we
+       * also add a collapsed padding for common lines, because they may
+       * linewrap differently due to intraline edits, in which case we detect
+       * the difference in line height and resize the padding widget.
+       */
+      linePaddingWidgetMap.put(handle, new LinePaddingWidgetWrapper(
+          // -1 to compensate for the line we went past when this method is called.
+          addPaddingWidget(cm, DiffTable.style.padding(), nextLine - 1,
+          common ? 0 : 1.1, Unit.EM, null), common));
+    }
   }
 
-  private LineWidgetElementPair addPaddingWidget(CodeMirror cm, String style,
+  private LineWidgetWrapper addPaddingWidget(CodeMirror cm, String style,
       int line, double height, Unit unit, Integer index) {
     Element div = DOM.createDiv();
     div.setClassName(style);
@@ -700,7 +740,7 @@ public class SideBySide2 extends Screen {
       config = config.set("insertAt", index);
     }
     LineWidget widget = cm.addLineWidget(line == -1 ? 0 : line, div, config);
-    return new LineWidgetElementPair(widget, div);
+    return new LineWidgetWrapper(widget, div);
   }
 
   private Runnable doScroll(final CodeMirror cm) {
@@ -749,7 +789,7 @@ public class SideBySide2 extends Screen {
         cm.addLineClass(line, LineClassWhere.WRAP, DiffTable.style.activeLine());
         cm.addLineClass(line, LineClassWhere.BACKGROUND, DiffTable.style.activeLineBg());
         LineOnOtherInfo info =
-            mapper.lineOnOther(cm == cmA ? Side.PARENT : Side.REVISION, line);
+            mapper.lineOnOther(getSideFromCm(cm), line);
         int oLine = info.getLine();
         if (info.isAligned()) {
           other.setActiveLine(other.getLineHandle(oLine));
@@ -814,6 +854,61 @@ public class SideBySide2 extends Screen {
        reviewedTop.setReviewed(!reviewedTop.isReviewed());
      }
     };
+  }
+
+  // TODO: Maybe integrate this with PaddingManager.
+  private RenderLineHandler resizeEmptyLine(final Side side) {
+    return new RenderLineHandler() {
+      @Override
+      public void handle(final CodeMirror instance, final LineHandle handle,
+          final Element element) {
+        if (linePaddingWidgetMap.containsKey(handle)) {
+          /**
+           * This needs to be deferred because CM fires "renderLine" **before**
+           * the line is actually added to the DOM.
+           */
+          Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+            @Override
+            public void execute() {
+              LinePaddingWidgetWrapper pair = linePaddingWidgetMap.get(handle);
+              int myLineHeight = element.getOffsetHeight();
+              Element otherPadding = pair.getElement();
+              if (!pair.isCommon()) {
+                setHeightInPx(otherPadding, myLineHeight);
+              } else {
+                /**
+                 * We have to pay the cost of keeping track of the actual DOM
+                 * elements ourselves, because CM doesn't provide an interface
+                 * to query for them, and the only place we can ever have legit
+                 * access to the line element is in this event handler.
+                 */
+                lineElementMap.put(handle, element);
+                // The lines are always aligned since they are in a common region.
+                int otherLine = mapper.lineOnOther(side,
+                    instance.getLineNumber(handle)).getLine();
+                LineHandle other = otherCm(instance).getLineHandle(otherLine);
+                if (lineElementMap.containsKey(other)) {
+                  Element otherElement = lineElementMap.get(other);
+                  Element myPadding = linePaddingWidgetMap.get(other).getElement();
+                  int delta = myLineHeight - otherElement.getOffsetHeight();
+                  if (delta >= 0) {
+                    setHeightInPx(otherPadding, delta);
+                    setHeightInPx(myPadding, 0);
+                  } else {
+                    setHeightInPx(otherPadding, 0);
+                    setHeightInPx(myPadding, -delta);
+                  }
+                }
+              }
+            }
+          });
+        }
+      }
+    };
+  }
+
+  static void setHeightInPx(Element ele, double height) {
+    ele.getStyle().setHeight(height, Unit.PX);
   }
 
   private static String getContentType(DiffInfo.FileMeta meta) {

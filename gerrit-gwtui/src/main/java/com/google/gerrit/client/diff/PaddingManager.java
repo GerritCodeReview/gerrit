@@ -15,7 +15,6 @@
 package com.google.gerrit.client.diff;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.Unit;
 
 import net.codemirror.lib.LineWidget;
 
@@ -37,10 +36,10 @@ import java.util.List;
  */
 class PaddingManager {
   private List<CommentBox> comments;
-  private LineWidgetElementPair padding;
+  private LineWidgetWrapper padding;
   private List<PaddingManager> others;
 
-  PaddingManager(LineWidgetElementPair padding) {
+  PaddingManager(LineWidgetWrapper padding) {
     comments = new ArrayList<CommentBox>();
     others = new ArrayList<PaddingManager>();
     this.padding = padding;
@@ -85,7 +84,7 @@ class PaddingManager {
   }
 
   private void setPaddingHeight(int height) {
-    padding.element.getStyle().setHeight(height, Unit.PX);
+    SideBySide2.setHeightInPx(padding.element, height);
     padding.widget.changed();
   }
 
@@ -126,13 +125,34 @@ class PaddingManager {
     comments.remove(box);
   }
 
-  static class LineWidgetElementPair {
+  static class LineWidgetWrapper {
     private LineWidget widget;
     private Element element;
 
-    LineWidgetElementPair(LineWidget w, Element e) {
+    LineWidgetWrapper(LineWidget w, Element e) {
       widget = w;
       element = e;
+    }
+
+    LineWidget getWidget() {
+      return widget;
+    }
+
+    Element getElement() {
+      return element;
+    }
+  }
+
+  static class LinePaddingWidgetWrapper extends LineWidgetWrapper {
+    private boolean common;
+
+    LinePaddingWidgetWrapper(LineWidgetWrapper pair, boolean common) {
+      super(pair.widget, pair.element);
+      this.common = common;
+    }
+
+    boolean isCommon() {
+      return common;
     }
   }
 }

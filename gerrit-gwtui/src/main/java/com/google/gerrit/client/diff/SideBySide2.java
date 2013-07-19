@@ -133,7 +133,7 @@ public class SideBySide2 extends Screen {
     // TODO: Re-implement necessary GlobalKey bindings.
     addDomHandler(GlobalKey.STOP_PROPAGATION, KeyPressEvent.getType());
     reviewed = new ReviewedPanel(revision, path);
-    add(diffTable = new DiffTable());
+    add(diffTable = new DiffTable(this, path));
     add(uiBinder.createAndBindUi(this));
   }
 
@@ -262,14 +262,9 @@ public class SideBySide2 extends Screen {
   }
 
   private void resizeBoxPaddings() {
-    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-      @Override
-      public void execute() {
-        for (CommentBox box : allBoxes) {
-          box.resizePaddingWidget();
-        }
-      }
-    });
+    for (CommentBox box : allBoxes) {
+      box.resizePaddingWidget();
+    }
   }
 
   private void registerCmEvents(CodeMirror cm) {
@@ -469,10 +464,11 @@ public class SideBySide2 extends Screen {
   }
 
   CommentInfo createReply(CommentInfo replyTo) {
+    Integer line = replyTo.has_line() ? replyTo.line() : null;
     return CommentInfo.create(
         path,
         replyTo.side(),
-        replyTo.line(),
+        line,
         replyTo.id(),
         null);
   }
@@ -480,11 +476,14 @@ public class SideBySide2 extends Screen {
   DraftBox addDraftBox(CommentInfo info) {
     CodeMirror cm = getCmFromSide(info.side());
     DraftBox box = new DraftBox(this, cm, commentLinkProcessor, revision, info);
-    addCommentBox(info, box);
     if (info.id() == null) {
       box.setOpen(true);
       box.setEdit(true);
     }
+    if (!info.has_line()) {
+      return box;
+    }
+    addCommentBox(info, box);
     LineHandle handle = cm.getLineHandle(info.line() - 1);
     lineActiveBoxMap.put(handle, box);
     return box;
@@ -537,6 +536,14 @@ public class SideBySide2 extends Screen {
     allBoxes.remove(box);
   }
 
+  void addFileCommentBox(CommentBox box, Side side) {
+    diffTable.addFileCommentBox(box, side);
+  }
+
+  void removeFileCommentBox(DraftBox box, Side side) {
+    diffTable.onRemoveDraftBox(box, side);
+  }
+
   private List<CommentInfo> sortComment(JsArray<CommentInfo> unsorted) {
     List<CommentInfo> sorted = new ArrayList<CommentInfo>();
     for (int i = 0; i < unsorted.length(); i++) {
@@ -554,11 +561,16 @@ public class SideBySide2 extends Screen {
   private void renderPublished() {
     List<CommentInfo> sorted = sortComment(published);
     for (CommentInfo info : sorted) {
-      CodeMirror cm = getCmFromSide(info.side());
+      Side side = info.side();
+      CodeMirror cm = getCmFromSide(side);
       PublishedBox box = new PublishedBox(this, commentLinkProcessor,
           revision, info);
-      allBoxes.add(box);
       publishedMap.put(info.id(), box);
+      if (!info.has_line()) {
+        diffTable.addFileCommentBox(box, side);
+        return;
+      }
+      allBoxes.add(box);
       int line = info.line() - 1;
       LineHandle handle = cm.getLineHandle(line);
       lineLastPublishedBoxMap.put(handle, box);
@@ -570,18 +582,23 @@ public class SideBySide2 extends Screen {
   private void renderDrafts() {
     List<CommentInfo> sorted = sortComment(drafts);
     for (CommentInfo info : sorted) {
+      Side side = info.side();
       DraftBox box = new DraftBox(
-          this, getCmFromSide(info.side()), commentLinkProcessor,
+          this, getCmFromSide(side), commentLinkProcessor,
           revision, info);
-      allBoxes.add(box);
       if (published != null) {
         PublishedBox replyToBox = publishedMap.get(info.in_reply_to());
         if (replyToBox != null) {
           replyToBox.registerReplyBox(box);
         }
       }
+      if (!info.has_line()) {
+        diffTable.addFileCommentBox(box, side);
+        return;
+      }
+      allBoxes.add(box);
       lineActiveBoxMap.put(
-          getCmFromSide(info.side()).getLineHandle(info.line() - 1), box);
+          getCmFromSide(side).getLineHandle(info.line() - 1), box);
       addCommentBox(info, box);
     }
   }
@@ -839,7 +856,7 @@ public class SideBySide2 extends Screen {
         if (box == null) {
           lineActiveBoxMap.put(handle, addNewDraft(cm, line));
         } else if (box instanceof DraftBox) {
-          ((DraftBox) lineActiveBoxMap.get(handle)).setEdit(true);
+          ((DraftBox) box).setEdit(true);
         } else {
           ((PublishedBox) box).onReply(null);
         }
@@ -898,10 +915,10 @@ public class SideBySide2 extends Screen {
           Scheduler.get().scheduleDeferred(new ScheduledCommand() {
             @Override
             public void execute() {
-              LinePaddingWidgetWrapper wrapper = linePaddingWidgetMap.get(handle);
+              LinePaddingWidgetWrapper otherWrapper = linePaddingWidgetMap.get(handle);
               int myLineHeight = element.getOffsetHeight();
-              Element otherPadding = wrapper.getElement();
-              if (!wrapper.isCommon()) {
+              Element otherPadding = otherWrapper.getElement();
+              if (!otherWrapper.isCommon() && myLineHeight > 0) {
                 setHeightInPx(otherPadding, myLineHeight);
               } else {
                 /**
@@ -911,14 +928,22 @@ public class SideBySide2 extends Screen {
                  * access to the line element is in this event handler.
                  */
                 lineElementMap.put(handle, element);
+                if (myLineHeight == 0) {
+                  return;
+                }
                 // The lines are always aligned since they are in a common region.
                 int otherLine = mapper.lineOnOther(side,
                     instance.getLineNumber(handle)).getLine();
                 LineHandle other = otherCm(instance).getLineHandle(otherLine);
+                LinePaddingWidgetWrapper myWrapper = linePaddingWidgetMap.get(other);
                 if (lineElementMap.containsKey(other)) {
                   Element otherElement = lineElementMap.get(other);
-                  Element myPadding = linePaddingWidgetMap.get(other).getElement();
-                  int delta = myLineHeight - otherElement.getOffsetHeight();
+                  int otherLineHeight = otherElement.getOffsetHeight();
+                  if (otherLineHeight == 0) {
+                    return;
+                  }
+                  Element myPadding = myWrapper.getElement();
+                  int delta = myLineHeight - otherLineHeight;
                   if (delta >= 0) {
                     setHeightInPx(otherPadding, delta);
                     setHeightInPx(myPadding, 0);
@@ -926,6 +951,8 @@ public class SideBySide2 extends Screen {
                     setHeightInPx(otherPadding, 0);
                     setHeightInPx(myPadding, -delta);
                   }
+                  myWrapper.getWidget().changed();
+                  otherWrapper.getWidget().changed();
                 }
               }
             }

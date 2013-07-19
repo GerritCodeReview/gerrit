@@ -21,6 +21,7 @@ import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.changes.CommentInput;
 import com.google.gerrit.client.changes.Util;
+import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -107,6 +108,11 @@ class PublishedBox extends CommentBox {
     return UIObject.isVisible(message);
   }
 
+  @Override
+  boolean isFileComment() {
+    return !comment.has_line();
+  }
+
   void setOpen(boolean open) {
     UIObject.setVisible(summary, !open);
     UIObject.setVisible(message, open);
@@ -133,13 +139,22 @@ class PublishedBox extends CommentBox {
     replyBox.setEdit(true);
   }
 
+  DraftBox addReplyBox() {
+    DraftBox box = parent.addDraftBox(parent.createReply(comment));
+    registerReplyBox(box);
+    return box;
+  }
+
   @UiHandler("reply")
   void onReply(ClickEvent e) {
     e.stopPropagation();
     if (!Gerrit.isSignedIn()) {
       Gerrit.doSignIn(parent.getToken());
     } else if (replyBox == null) {
-      registerReplyBox(parent.addDraftBox(parent.createReply(comment)));
+      DraftBox box = addReplyBox();
+      if (isFileComment()) {
+        parent.addFileCommentBox(box, comment.side());
+      }
     } else {
       openReplyBox();
     }
@@ -153,14 +168,18 @@ class PublishedBox extends CommentBox {
     } else if (replyBox == null) {
       done.setEnabled(false);
       CommentInput input = CommentInput.create(parent.createReply(comment));
-      input.setMessage("Done");
+      input.setMessage(PatchUtil.C.cannedReplyDone());
       CommentApi.createDraft(psId, input,
           new GerritCallback<CommentInfo>() {
             @Override
             public void onSuccess(CommentInfo result) {
               done.setEnabled(true);
               setOpen(false);
-              registerReplyBox(parent.addDraftBox(result));
+              DraftBox box = parent.addDraftBox(result);
+              registerReplyBox(box);
+              if (isFileComment()) {
+                parent.addFileCommentBox(box, comment.side());
+              }
             }
           });
     } else {

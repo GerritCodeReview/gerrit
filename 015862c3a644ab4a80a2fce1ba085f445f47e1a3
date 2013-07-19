@@ -16,6 +16,24 @@
       "revId": "015862c3a644ab4a80a2fce1ba085f445f47e1a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d37c1ba6_bb496f39",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeBatchIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-19T00:00:27Z",
+      "side": 1,
+      "message": "Yes, the idea was to close hidden projects. Apparently Qualcomm has a lot of those.",
+      "parentUuid": "d37c1ba6_fb3fe79a",
+      "revId": "015862c3a644ab4a80a2fce1ba085f445f47e1a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.restapi.RestResource;
+import com.google.gerrit.extensions.restapi.RestResource.HasETag;
 import com.google.gerrit.extensions.restapi.RestResource.HasLastModified;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Change;
@@ -23,7 +24,8 @@ import com.google.inject.TypeLiteral;
 
 import java.sql.Timestamp;
 
-public class ChangeResource implements RestResource, HasLastModified {
+public class ChangeResource implements RestResource,
+    HasLastModified, HasETag {
   public static final TypeLiteral<RestView<ChangeResource>> CHANGE_KIND =
       new TypeLiteral<RestView<ChangeResource>>() {};
 
@@ -48,5 +50,12 @@ public class ChangeResource implements RestResource, HasLastModified {
   @Override
   public Timestamp getLastModified() {
     return getChange().getLastUpdatedOn();
+  }
+
+  @Override
+  public String getETag() {
+    return String.format("%x-%x",
+        getChange().getLastUpdatedOn().getTime(),
+        getChange().getRowVersion());
   }
 }

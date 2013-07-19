@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d3edfbca_6d083539",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-19T23:07:44Z",
+      "side": 1,
+      "message": "This looks like it may suffer from the same bug as MergeOp when a commit is merged into branch A but open on branch B.",
+      "revId": "d0829c4bbf510c070437048958d0154b934aced3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

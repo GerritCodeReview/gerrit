@@ -26,8 +26,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -104,12 +102,6 @@ class DraftBox extends CommentBox {
     if (isNew) {
       addStyleName(draftStyle.newDraft());
     }
-    addDomHandler(new MouseMoveHandler() {
-      @Override
-      public void onMouseMove(MouseMoveEvent event) {
-        resizePaddingWidget();
-      }
-    }, MouseMoveEvent.getType());
   }
 
   private void expandText() {
@@ -155,14 +147,18 @@ class DraftBox extends CommentBox {
     if (replyToBox != null) {
       replyToBox.unregisterReplyBox();
     }
-    CommentInfo info = getOriginal();
-    getDiffView().removeDraft(this, info.side(), info.line() - 1);
     removeFromParent();
+    getCm().focus();
+    if (isFileComment()) {
+      getDiffTable().onRemoveDraftBox(this, getSide());
+      return;
+    }
+    CommentInfo info = getOriginal();
+    getDiffView().removeDraft(this, getSide(), info.line() - 1);
     getSelfWidget().clear();
     PaddingManager manager = getPaddingManager();
     manager.remove(this);
     manager.resizePaddingWidget();
-    getCm().focus();
   }
 
   @UiHandler("contentPanelMessage")

@@ -16,11 +16,14 @@ package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
+import com.google.gerrit.common.changes.Side;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -46,10 +49,13 @@ abstract class CommentBox extends Composite {
 
   private CommentLinkProcessor commentLinkProcessor;
   private CommentInfo original;
+  private Side side;
   private PatchSet.Id patchSetId;
   private PaddingManager widgetManager;
   private SideBySide2 diffView;
+  private DiffTable diffTable;
   private boolean draft;
+  private boolean fileComment;
   private LineWidget selfWidget;
   private CodeMirror cm;
   private HandlerRegistration regClick;
@@ -74,8 +80,10 @@ abstract class CommentBox extends Composite {
     cm = cmInstance;
     commentLinkProcessor = linkProcessor;
     original = info;
+    side = info.side();
     patchSetId = id;
     draft = isDraft;
+    fileComment = !info.has_line();
     header = new CommentBoxHeader(info.author(), info.updated(), isDraft);
     initWidget(binder.createAndBindUi(this));
     clickFocusHandler = new ClickHandler() {
@@ -85,11 +93,21 @@ abstract class CommentBox extends Composite {
       }
     };
     enableClickFocusHandler();
+    addDomHandler(new MouseMoveHandler() {
+      @Override
+      public void onMouseMove(MouseMoveEvent event) {
+        resizePaddingWidget();
+      }
+    }, MouseMoveEvent.getType());
     res.style().ensureInjected();
     setMessageText(info.message());
   }
 
   void resizePaddingWidget() {
+    if (fileComment) {
+      cm.refresh();
+      return;
+    }
     Scheduler.get().scheduleDeferred(new ScheduledCommand(){
       public void execute() {
         if (selfWidget == null || widgetManager == null) {
@@ -137,6 +155,14 @@ abstract class CommentBox extends Composite {
     return diffView;
   }
 
+  DiffTable getDiffTable() {
+    return diffTable;
+  }
+
+  void registerDiffTable(DiffTable table) {
+    diffTable = table;
+  }
+
   PatchSet.Id getPatchSetId() {
     return patchSetId;
   }
@@ -155,6 +181,14 @@ abstract class CommentBox extends Composite {
 
   boolean isDraft() {
     return draft;
+  }
+
+  boolean isFileComment() {
+    return fileComment;
+  }
+
+  Side getSide() {
+    return side;
   }
 
   void setPaddingManager(PaddingManager manager) {

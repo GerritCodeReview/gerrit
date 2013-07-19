@@ -15,6 +15,7 @@
 package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.changes.CommentInfo;
+import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
@@ -56,23 +57,30 @@ class PublishedBox extends CommentBox {
     replyBox.setEdit(true);
   }
 
-  @UiHandler("reply")
-  void onReply(ClickEvent e) {
+  DraftBox addReplyBox(String initMessage, boolean doSave) {
+    DraftBox box = getDiffView().addReply(getOriginal(), initMessage, doSave);
+    registerReplyBox(box);
+    return box;
+  }
+
+  private void checkAndAddReply(String initMessage, boolean doSave) {
     if (replyBox == null) {
-      DraftBox box = getDiffView().addReply(getOriginal(), "", false);
-      registerReplyBox(box);
+      DraftBox box = addReplyBox(initMessage, doSave);
+      if (isFileComment()) {
+        getDiffTable().addFileCommentBox(box, getSide());
+      }
     } else {
       openReplyBox();
     }
   }
 
+  @UiHandler("reply")
+  void onReply(ClickEvent e) {
+    checkAndAddReply("", false);
+  }
+
   @UiHandler("replyDone")
   void onReplyDone(ClickEvent e) {
-    if (replyBox == null) {
-      DraftBox box = getDiffView().addReply(getOriginal(), "Done", true);
-      registerReplyBox(box);
-    } else {
-      openReplyBox();
-    }
+    checkAndAddReply(PatchUtil.C.cannedReplyDone(), true);
   }
 }

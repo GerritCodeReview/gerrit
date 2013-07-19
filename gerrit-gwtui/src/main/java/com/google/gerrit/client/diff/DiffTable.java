@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.diff;
 
+import com.google.gerrit.common.changes.Side;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.resources.client.CssResource;
@@ -31,13 +32,14 @@ class DiffTable extends Composite {
   interface Binder extends UiBinder<HTMLPanel, DiffTable> {}
   private static Binder uiBinder = GWT.create(Binder.class);
 
-  interface LineStyle extends CssResource {
+  interface DiffTableStyle extends CssResource {
     String intralineBg();
     String diff();
     String padding();
     String activeLine();
     String activeLineBg();
     String hideNumber();
+    String noFileComment();
   }
 
   @UiField
@@ -47,10 +49,69 @@ class DiffTable extends Composite {
   Element cmB;
 
   @UiField
-  static LineStyle style;
+  Element patchsetNavCellA;
 
-  DiffTable() {
+  @UiField
+  Element patchsetNavCellB;
+
+  @UiField(provided = true)
+  PatchSelectBox2 patchSelectBoxA;
+
+  @UiField(provided = true)
+  PatchSelectBox2 patchSelectBoxB;
+
+  @UiField
+  Element fileCommentRow;
+
+  @UiField
+  Element fileCommentCellA;
+
+  @UiField
+  Element fileCommentCellB;
+
+  @UiField(provided = true)
+  FileCommentPanel fileCommentPanelA;
+
+  @UiField(provided = true)
+  FileCommentPanel fileCommentPanelB;
+
+  @UiField
+  static DiffTableStyle style;
+
+  DiffTable(SideBySide2 host, String path) {
+    patchSelectBoxA = new PatchSelectBox2(this, Side.PARENT);
+    patchSelectBoxB = new PatchSelectBox2(this, Side.REVISION);
+    PatchSelectBox2.link(patchSelectBoxA, patchSelectBoxB);
+    fileCommentPanelA = new FileCommentPanel(host, this, path, Side.PARENT);
+    fileCommentPanelB = new FileCommentPanel(host, this, path, Side.REVISION);
     initWidget(uiBinder.createAndBindUi(this));
+    updateVisibility(false);
+  }
+
+  void updateVisibility(boolean forceHide) {
+    if (forceHide || (fileCommentPanelA.getBoxCount() == 0 &&
+        fileCommentPanelB.getBoxCount() == 0)) {
+      fileCommentRow.addClassName(style.noFileComment());
+    } else {
+      fileCommentRow.removeClassName(style.noFileComment());
+    }
+  }
+
+  private FileCommentPanel getPanelFromSide(Side side) {
+    return side == Side.PARENT ? fileCommentPanelA : fileCommentPanelB;
+  }
+
+  void createOrEditFileComment(Side side) {
+    getPanelFromSide(side).createOrEditFileComment();
+    patchSelectBoxA.toggleVisible(true);
+  }
+
+  void addFileCommentBox(CommentBox box, Side side) {
+    getPanelFromSide(side).addFileComment(box);
+  }
+
+  void onRemoveDraftBox(DraftBox box, Side side) {
+    getPanelFromSide(side).onRemoveDraftBox(box);
   }
 
   void add(Widget widget) {

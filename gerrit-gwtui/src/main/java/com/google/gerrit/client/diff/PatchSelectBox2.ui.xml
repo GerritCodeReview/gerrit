@@ -15,35 +15,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-    xmlns:g='urn:import:com.google.gwt.user.client.ui'
-    xmlns:d='urn:import:com.google.gerrit.client.diff'>
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <ui:style>
-    .reviewedPanel, .table {
-      width: 100%;
-    }
-    .fileName {
-      font-size: larger;
-      font-weight: bold;
-    }
-    .reviewed {
-      width: 20%;
-      text-align: right;
-    }
     .anchor {
-      cursor: pointer;
       text-decoration: none;
+      cursor: pointer;
     }
   </ui:style>
-  <g:HTMLPanel styleName='{style.reviewedPanel}'>
-    <table class='{style.table}'>
-    <tr>
-      <td ui:field='fileName' class='{style.fileName}' />
-      <td class='{style.reviewed}'>
-        <g:CheckBox ui:field='checkBox' />
-        <span><ui:msg>Reviewed &amp; </ui:msg></span>
-        <g:Anchor ui:field='nextLink' styleName='{style.anchor}' />
-      </td>
-    </tr>
-    </table>
+  <g:HTMLPanel>
+  <g:Image ui:field='icon' />
+  <g:Anchor ui:field='hide' styleName='{style.anchor}'>
+    <ui:msg>Hide file comment</ui:msg>
+  </g:Anchor>
   </g:HTMLPanel>
 </ui:UiBinder>

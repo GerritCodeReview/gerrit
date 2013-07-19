@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d3edfbca_2de74d60",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/NavigationTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-19T20:10:57Z",
+      "side": 1,
+      "message": "This has turned out to be a bad change on Mac Chrome. Tables like in my dashboard jump immediately to the top of the browser window even if the row was already within the visible region. :-(",
+      "revId": "d0f531ec0b772b58b31aaaf42d7c848988fb2212",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

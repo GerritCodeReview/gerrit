@@ -360,9 +360,19 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
-  private boolean notModified(HttpServletRequest req, RestResource rsrc) {
-    if (rsrc instanceof RestResource.HasLastModified
-        && "GET".equals(req.getMethod())) {
+  private static boolean notModified(HttpServletRequest req, RestResource rsrc) {
+    if (!"GET".equals(req.getMethod())) {
+      return false;
+    }
+
+    if (rsrc instanceof RestResource.HasETag) {
+      String have = req.getHeader(HttpHeaders.IF_NONE_MATCH);
+      if (have != null) {
+        return have.equals(((RestResource.HasETag) rsrc).getETag());
+      }
+    }
+
+    if (rsrc instanceof RestResource.HasLastModified) {
       Timestamp m = ((RestResource.HasLastModified) rsrc).getLastModified();
       long d = req.getDateHeader(HttpHeaders.IF_MODIFIED_SINCE);
 
@@ -400,6 +410,11 @@ public class RestApiServlet extends HttpServlet {
 
   private static void addResourceStateHeaders(
       HttpServletResponse res, RestResource rsrc) {
+    if (rsrc instanceof RestResource.HasETag) {
+      res.setHeader(
+          HttpHeaders.ETAG,
+          ((RestResource.HasETag) rsrc).getETag());
+    }
     if (rsrc instanceof RestResource.HasLastModified) {
       res.setDateHeader(
           HttpHeaders.LAST_MODIFIED,

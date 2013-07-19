@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d37c1ba6_9bfa73a2",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPlugins.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-19T16:48:19Z",
+      "side": 1,
+      "message": "nit: Inner helper classes that are public should be above the instance fields but below the static fields, so at line 40 not 52.\n\nAlternatively they can sometimes go at the end of the class after the instance methods. But not wedged in the middle.",
+      "revId": "b20767dbee985d050b0a12d3d851a1e0812e2f06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

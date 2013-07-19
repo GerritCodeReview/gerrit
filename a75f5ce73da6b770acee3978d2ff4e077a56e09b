@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3fa4780_0cec1741",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-19T20:31:33Z",
+      "side": 1,
+      "message": "Objects.firstNonNull(installPlugins, Lists.\u003cString\u003e newArrayList());",
+      "revId": "a75f5ce73da6b770acee3978d2ff4e077a56e09b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3fa4780_6cf15b19",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-19T20:31:33Z",
+      "side": 1,
+      "message": "Line wrap at .annotatedWith?",
+      "revId": "a75f5ce73da6b770acee3978d2ff4e077a56e09b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3fa4780_4cf61f13",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-19T20:31:33Z",
+      "side": 1,
+      "message": "static",
+      "revId": "a75f5ce73da6b770acee3978d2ff4e077a56e09b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3edfbca_4df61913",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitFlags.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-19T20:31:33Z",
+      "side": 1,
+      "message": "nit: I think we put final before @ annotations in constructor parameters",
+      "revId": "a75f5ce73da6b770acee3978d2ff4e077a56e09b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3edfbca_adfa1df3",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InstallPlugins.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-19T20:31:33Z",
+      "side": 1,
+      "message": "nit: blank line not necessary",
+      "revId": "a75f5ce73da6b770acee3978d2ff4e077a56e09b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

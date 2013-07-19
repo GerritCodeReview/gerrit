@@ -59,7 +59,7 @@ class ReviewedPanel extends Composite {
   }
 
   void setReviewed(boolean reviewed) {
-    checkBox.setValue(true, true);
+    checkBox.setValue(reviewed, true);
   }
 
   boolean isReviewed() {

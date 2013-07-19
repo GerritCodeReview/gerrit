@@ -16,6 +16,24 @@
       "revId": "d0829c4bbf510c070437048958d0154b934aced3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3fa4780_2c3593f0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-19T23:17:00Z",
+      "side": 1,
+      "message": "Yes. The merge strategy code is still quite a mess. This stupid test is very conflated between review status, dependency information, branch head values, etc. Its almost more wrong than right. The original intent of the test was simply to check for file conflicts. Its not what it does.",
+      "parentUuid": "d3edfbca_6d083539",
+      "revId": "d0829c4bbf510c070437048958d0154b934aced3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

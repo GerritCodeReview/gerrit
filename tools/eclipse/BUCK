@@ -40,7 +40,7 @@ java_library(
 
 genrule(
   name = '_project',
-  cmd = '${:gen_project} $OUT',
+  cmd = '$(exe :gen_project) $OUT',
   srcs = [],
   deps = [':gen_project'],
   out = 'project',
@@ -48,7 +48,7 @@ genrule(
 
 genrule(
   name = '_classpath',
-  cmd = '${:gen_classpath} $OUT $DEPS',
+  cmd = '$(exe :gen_classpath) $OUT $DEPS',
   srcs = [],
   deps = [
     ':classpath',
@@ -59,7 +59,7 @@ genrule(
 
 genrule(
   name = '_classpath_nocompile',
-  cmd = '${:gen_classpath}',
+  cmd = '$(exe :gen_classpath)',
   srcs = [],
   deps = [':gen_classpath'],
   out = '__fake.eclipse__',

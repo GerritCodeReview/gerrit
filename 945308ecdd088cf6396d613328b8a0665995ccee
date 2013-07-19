@@ -34,6 +34,91 @@
       "revId": "945308ecdd088cf6396d613328b8a0665995ccee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d37c1ba6_7b299750",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-07-19T17:14:26Z",
+      "side": 1,
+      "message": "i would expect ignore to prevent all future notifications too.",
+      "revId": "945308ecdd088cf6396d613328b8a0665995ccee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b37967b7_343ed0a3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 620,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-07-19T17:14:26Z",
+      "side": 1,
+      "message": "why not keep the polling the same? That way you will update the status when the user returns.  \n\nOtherwise add a callback to the UserActivityMonitor for when activity changes.",
+      "revId": "945308ecdd088cf6396d613328b8a0665995ccee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b37967b7_d442fc15",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-07-19T17:14:26Z",
+      "side": 1,
+      "message": "you can also return early if the update bar is already showing, since you are already redoing the RPC",
+      "revId": "945308ecdd088cf6396d613328b8a0665995ccee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b37967b7_f43ff89a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-07-19T17:14:26Z",
+      "side": 1,
+      "message": "should you reset the scheduleRepeating here (just in case you had backoff)?",
+      "revId": "945308ecdd088cf6396d613328b8a0665995ccee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d37c1ba6_bbf72fb9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/UpdatedBar.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-07-19T17:14:26Z",
+      "side": 1,
+      "message": "Why not use an Anchor for the links instead of emulating the look and feel?",
+      "revId": "945308ecdd088cf6396d613328b8a0665995ccee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

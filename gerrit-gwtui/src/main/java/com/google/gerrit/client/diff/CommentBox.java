@@ -15,12 +15,10 @@
 package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.changes.CommentInfo;
-import com.google.gerrit.client.diff.SideBySide2.DiffChunkInfo;
+import com.google.gerrit.client.diff.PaddingManager.PaddingWidgetWrapper;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.Composite;
-
-import net.codemirror.lib.LineWidget;
 
 /** An HtmlPanel for displaying a comment */
 abstract class CommentBox extends Composite {
@@ -29,23 +27,19 @@ abstract class CommentBox extends Composite {
   }
 
   private PaddingManager widgetManager;
-  private LineWidget selfWidget;
-  private SideBySide2 parent;
-  private DiffChunkInfo diffChunkInfo;
+  private PaddingWidgetWrapper selfWidgetWrapper;
 
   void resizePaddingWidget() {
-    selfWidget.changed();
+    if (!getCommentInfo().has_line()) {
+      return;
+    }
     Scheduler.get().scheduleDeferred(new ScheduledCommand() {
       @Override
       public void execute() {
-        if (diffChunkInfo != null) {
-          parent.resizePaddingOnOtherSide(getCommentInfo().side(),
-              diffChunkInfo.getEnd());
-        } else {
-          assert selfWidget != null;
-          assert widgetManager != null;
-          widgetManager.resizePaddingWidget();
-        }
+        assert selfWidgetWrapper != null;
+        selfWidgetWrapper.getWidget().changed();
+        assert widgetManager != null;
+        widgetManager.resizePaddingWidget();
       }
     });
   }
@@ -61,23 +55,15 @@ abstract class CommentBox extends Composite {
     return widgetManager;
   }
 
-  void setDiffChunkInfo(DiffChunkInfo info) {
-    this.diffChunkInfo = info;
-  }
-
-  void setParent(SideBySide2 parent) {
-    this.parent = parent;
-  }
-
   void setPaddingManager(PaddingManager manager) {
     widgetManager = manager;
   }
 
-  void setSelfWidget(LineWidget widget) {
-    selfWidget = widget;
+  void setSelfWidgetWrapper(PaddingWidgetWrapper wrapper) {
+    selfWidgetWrapper = wrapper;
   }
 
-  LineWidget getSelfWidget() {
-    return selfWidget;
+  PaddingWidgetWrapper getSelfWidgetWrapper() {
+    return selfWidgetWrapper;
   }
 }

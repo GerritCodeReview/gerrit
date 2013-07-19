@@ -133,7 +133,7 @@ public class SideBySide2 extends Screen {
     // TODO: Re-implement necessary GlobalKey bindings.
     addDomHandler(GlobalKey.STOP_PROPAGATION, KeyPressEvent.getType());
     reviewed = new ReviewedPanel(revision, path);
-    add(diffTable = new DiffTable());
+    add(diffTable = new DiffTable(this, path));
     add(uiBinder.createAndBindUi(this));
   }
 
@@ -262,17 +262,12 @@ public class SideBySide2 extends Screen {
   }
 
   private void resizeBoxPaddings() {
-    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-      @Override
-      public void execute() {
-        for (CommentBox box : allBoxes) {
-          box.resizePaddingWidget();
-        }
-      }
-    });
+    for (CommentBox box : allBoxes) {
+      box.resizePaddingWidget();
+    }
   }
 
-  private void registerCmEvents(CodeMirror cm) {
+  private void registerCmEvents(final CodeMirror cm) {
     cm.on("cursorActivity", updateActiveLine(cm));
     cm.on("scroll", doScroll(cm));
     cm.on("renderLine", resizeEmptyLine(getSideFromCm(cm)));
@@ -453,7 +448,7 @@ public class SideBySide2 extends Screen {
   }
 
   private DraftBox addNewDraft(CodeMirror cm, int line) {
-    return addDraftBox(CommentInfo.create(
+    return addDraftBox(CommentInfo.createLine(
         path,
         getSideFromCm(cm),
         line + 1,
@@ -462,22 +457,25 @@ public class SideBySide2 extends Screen {
   }
 
   CommentInfo createReply(CommentInfo replyTo) {
-    return CommentInfo.create(
-        path,
-        replyTo.side(),
-        replyTo.line(),
-        replyTo.id(),
-        null);
+    if (!replyTo.has_line()) {
+      return CommentInfo.createFile(path, replyTo.side(), replyTo.id(), null);
+    } else {
+      return CommentInfo.createLine(path, replyTo.side(), replyTo.line(),
+          replyTo.id(), null);
+    }
   }
 
   DraftBox addDraftBox(CommentInfo info) {
     CodeMirror cm = getCmFromSide(info.side());
     DraftBox box = new DraftBox(this, cm, commentLinkProcessor, revision, info);
-    addCommentBox(info, box);
     if (info.id() == null) {
       box.setOpen(true);
       box.setEdit(true);
     }
+    if (!info.has_line()) {
+      return box;
+    }
+    addCommentBox(info, box);
     LineHandle handle = cm.getLineHandle(info.line() - 1);
     lineActiveBoxMap.put(handle, box);
     return box;
@@ -516,9 +514,7 @@ public class SideBySide2 extends Screen {
       .set("insertAt", index);
     LineWidget boxWidget = cm.addLineWidget(line, box.getElement(), config);
     box.setPaddingManager(manager);
-    box.setSelfWidget(boxWidget);
-    box.setParent(this);
-    box.setDiffChunkInfo(getDiffChunk(mySide, line));
+    box.setSelfWidgetWrapper(new PaddingWidgetWrapper(boxWidget, box.getElement()));
     allBoxes.add(box);
     return box;
   }
@@ -530,6 +526,14 @@ public class SideBySide2 extends Screen {
       lineActiveBoxMap.put(handle, lineLastPublishedBoxMap.get(handle));
     }
     allBoxes.remove(box);
+  }
+
+  void addFileCommentBox(CommentBox box, Side side) {
+    diffTable.addFileCommentBox(box, side);
+  }
+
+  void removeFileCommentBox(DraftBox box, Side side) {
+    diffTable.onRemoveDraftBox(box, side);
   }
 
   private List<CommentInfo> sortComment(JsArray<CommentInfo> unsorted) {
@@ -549,11 +553,16 @@ public class SideBySide2 extends Screen {
   private void renderPublished() {
     List<CommentInfo> sorted = sortComment(published);
     for (CommentInfo info : sorted) {
-      CodeMirror cm = getCmFromSide(info.side());
+      Side side = info.side();
+      CodeMirror cm = getCmFromSide(side);
       PublishedBox box = new PublishedBox(this, commentLinkProcessor,
           revision, info);
-      allBoxes.add(box);
       publishedMap.put(info.id(), box);
+      if (!info.has_line()) {
+        diffTable.addFileCommentBox(box, side);
+        return;
+      }
+      allBoxes.add(box);
       int line = info.line() - 1;
       LineHandle handle = cm.getLineHandle(line);
       lineLastPublishedBoxMap.put(handle, box);
@@ -565,18 +574,23 @@ public class SideBySide2 extends Screen {
   private void renderDrafts() {
     List<CommentInfo> sorted = sortComment(drafts);
     for (CommentInfo info : sorted) {
+      Side side = info.side();
       DraftBox box = new DraftBox(
-          this, getCmFromSide(info.side()), commentLinkProcessor,
+          this, getCmFromSide(side), commentLinkProcessor,
           revision, info);
-      allBoxes.add(box);
       if (published != null) {
         PublishedBox replyToBox = publishedMap.get(info.in_reply_to());
         if (replyToBox != null) {
           replyToBox.registerReplyBox(box);
         }
       }
+      if (!info.has_line()) {
+        diffTable.addFileCommentBox(box, side);
+        return;
+      }
+      allBoxes.add(box);
       lineActiveBoxMap.put(
-          getCmFromSide(info.side()).getLineHandle(info.line() - 1), box);
+          getCmFromSide(side).getLineHandle(info.line() - 1), box);
       addCommentBox(info, box);
     }
   }
@@ -752,18 +766,44 @@ public class SideBySide2 extends Screen {
         ScrollInfo si = cm.getScrollInfo();
         if (si.getTop() == 0 && !Gerrit.isHeaderVisible()) {
           Gerrit.setHeaderVisible(true);
+          diffTable.updateFileCommentVisibility(false);
           resizeCodeMirror();
         } else if (si.getTop() > 0.5 * si.getClientHeight()
             && Gerrit.isHeaderVisible()) {
           Gerrit.setHeaderVisible(false);
+          diffTable.updateFileCommentVisibility(true);
           resizeCodeMirror();
         }
 
+        /**
+         * Since CM doesn't always take the height of line widgets into
+         * account when calculating scrollInfo when scrolling too fast
+         * (e.g. throw-scrolling), simply setting scrollTop to be the same
+         * doesn't guarantee alignment, but should work in most cases. See the
+         * following hack in the repeating command.
+         */
         other.scrollToY(si.getTop());
         other.setScrollSetByOther(true);
         Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
           @Override
           public boolean execute() {
+            int line = cm.getViewport().getFrom();
+            LineOnOtherInfo info = mapper.lineOnOther(getSideFromCm(cm), line);
+            /**
+             * If the first line in the viewPort isn't part of an insertion /
+             * deletion gap, isAligned() will be true, and hopefully this will be
+             * the majority of cases. We then manually examine if the lines that
+             * should be aligned are roughly at the same height. If not, perform
+             * additional scrolling until the lines are aligned.
+             */
+            if (info.isAligned()) {
+              double myHeight = cm.heightAtLine(line);
+              double otherHeight = other.heightAtLine(info.getLine());
+              if (Math.abs(myHeight - otherHeight) > 10) { // Estimate
+                other.scrollToY(other.getScrollInfo().getTop() + otherHeight - myHeight);
+                return true;
+              }
+            }
             other.setScrollSetByOther(false);
             return false;
           }
@@ -827,9 +867,9 @@ public class SideBySide2 extends Screen {
         if (box == null) {
           lineActiveBoxMap.put(handle, addNewDraft(cm, line));
         } else if (box instanceof DraftBox) {
-          ((DraftBox) lineActiveBoxMap.get(handle)).setEdit(true);
+          ((DraftBox) box).setEdit(true);
         } else {
-          ((PublishedBox) box).onReply(null);
+          ((PublishedBox) box).doReply();
         }
       }
     };
@@ -870,16 +910,6 @@ public class SideBySide2 extends Screen {
        reviewed.setReviewed(!reviewed.isReviewed());
      }
     };
-  }
-
-  private DiffChunkInfo getDiffChunk(Side side, int line) {
-    for (DiffChunkInfo info : diffChunks) {
-      if (info.getSide() == side && info.getStart() <= line &&
-          line <= info.getEnd()) {
-        return info;
-      }
-    }
-    return null;
   }
 
   void resizePaddingOnOtherSide(Side mySide, int line) {
@@ -932,9 +962,10 @@ public class SideBySide2 extends Screen {
     };
   }
 
-  private void resizeCodeMirror() {
+  void resizeCodeMirror() {
     // TODO: Probably need horizontal resize
-    int h = Gerrit.getHeaderFooterHeight() + reviewed.getOffsetHeight();
+    int h = Gerrit.getHeaderFooterHeight() + reviewed.getOffsetHeight() +
+        diffTable.getHeaderHeight() + 5;
     if (cmA != null) {
       cmA.setHeight(Window.getClientHeight() - h);
       cmA.refresh();

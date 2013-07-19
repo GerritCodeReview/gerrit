@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -36,6 +37,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -46,7 +48,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
 
 public class Mergeable implements RestReadView<RevisionResource> {
   private static final Logger log = LoggerFactory.getLogger(Mergeable.class);
@@ -92,9 +97,11 @@ public class Mergeable implements RestReadView<RevisionResource> {
 
     Repository git = gitManager.openRepository(change.getProject());
     try {
-      Ref ref = git.getRef(change.getDest().get());
+      Map<String, Ref> refs = git.getAllRefs();
+      Ref ref = refs.get(change.getDest().get());
       if (isStale(change, ref)) {
-        result.mergeable = refresh(change, ps, result.submitType, git, ref);
+        result.mergeable =
+            refresh(change, ps, result.submitType, git, refs, ref);
       }
     } finally {
       git.close();
@@ -117,6 +124,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
       PatchSet ps,
       String submitType,
       Repository git,
+      Map<String, Ref> refs,
       Ref ref) throws IOException, OrmException {
     Project.SubmitType type;
     try {
@@ -156,6 +164,8 @@ public class Mergeable implements RestReadView<RevisionResource> {
         mergeable = true; // Assume yes on new branch.
       } else {
         CodeReviewCommit tip = parse(rw, ref.getObjectId());
+        Set<RevCommit> accepted = alreadyAccepted(rw, refs.values());
+        accepted.add(tip);
         mergeable = submitStrategyFactory.create(
             type,
             db.get(),
@@ -163,7 +173,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
             rw,
             null /*inserter*/,
             canMerge,
-            Collections.<RevCommit> emptySet(),
+            accepted,
             change.getDest()).dryRun(tip, rev);
       }
 
@@ -187,6 +197,22 @@ public class Mergeable implements RestReadView<RevisionResource> {
     } finally {
       rw.release();
     }
+  }
+
+  private static Set<RevCommit> alreadyAccepted(RevWalk rw, Collection<Ref> refs)
+      throws MissingObjectException, IOException {
+    Set<RevCommit> accepted = Sets.newHashSet();
+    for (Ref r : refs) {
+      if (r.getName().startsWith(Constants.R_HEADS)
+          || r.getName().startsWith(Constants.R_TAGS)) {
+        try {
+          accepted.add(rw.parseCommit(r.getObjectId()));
+        } catch (IncorrectObjectTypeException nonCommit) {
+          // Not a commit? Skip over it.
+        }
+      }
+    }
+    return accepted;
   }
 
   private static CodeReviewCommit parse(RevWalk rw, ObjectId id)

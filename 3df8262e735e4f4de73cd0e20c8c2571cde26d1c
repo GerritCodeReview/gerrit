@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3fa4780_cc016f18",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/restapi/RestResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-19T21:48:18Z",
+      "side": 1,
+      "message": "Would it make sense to add a comment here mentioning that this timestamp is truncated to the nearest second?",
+      "revId": "3df8262e735e4f4de73cd0e20c8c2571cde26d1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3fa4780_0c137770",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-19T21:48:18Z",
+      "side": 1,
+      "message": "Two trivial comments:\n-Why the leading \"d\"?\n-Why not %x instead of %d for the row version?",
+      "revId": "3df8262e735e4f4de73cd0e20c8c2571cde26d1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

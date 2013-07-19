@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d37c1ba6_fbeda7ea",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/restapi/RestResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-19T16:33:51Z",
+      "side": 1,
+      "message": "No, but its habit. When declaring an inner Foo I almost always mark it static. Its useless noise on an interface. *sigh*",
+      "parentUuid": "b37967b7_74bd28ff",
+      "revId": "b08d4a5803ecad1088ab5214970fabdb22ada5a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f36bdffb_f6324001",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-07-19T16:30:16Z",
       "side": 1,
       "message": "Why is this rounding necessary? Just a guess, clock skew?",
+      "revId": "b08d4a5803ecad1088ab5214970fabdb22ada5a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d37c1ba6_dbf0ebc5",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-19T16:33:51Z",
+      "side": 1,
+      "message": "The database may be storing timestamps in millisecond precision, e.g. on H2. HTTP only moves the Last-Modified field in seconds. So the database value truncates when we sent Last-Modified header and comes back in If-Modified-Since with no milliseconds component.\n\nIf we don\u0027t truncate down the values don\u0027t match and there is no cache hit.",
+      "parentUuid": "f36bdffb_f6324001",
       "revId": "b08d4a5803ecad1088ab5214970fabdb22ada5a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

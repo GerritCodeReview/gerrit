@@ -30,7 +30,7 @@ limitations under the License.
       text-align: right;
     }
     .anchor {
-      color: inherit;
+      cursor: pointer;
       text-decoration: none;
     }
   </ui:style>

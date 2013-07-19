@@ -31,10 +31,14 @@ abstract class CommentBox extends Composite {
   private LineWidget selfWidget;
 
   void resizePaddingWidget() {
+    if (isFileComment()) {
+      return;
+    }
     Scheduler.get().scheduleDeferred(new ScheduledCommand(){
       public void execute() {
         assert selfWidget != null;
         assert widgetManager != null;
+
         selfWidget.changed();
         widgetManager.resizePaddingWidget();
       }
@@ -43,6 +47,7 @@ abstract class CommentBox extends Composite {
 
   abstract CommentInfo getCommentInfo();
   abstract boolean isOpen();
+  abstract boolean isFileComment();
 
   void setOpen(boolean open) {
     resizePaddingWidget();

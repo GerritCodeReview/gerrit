@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.diff;
 
+import com.google.gerrit.common.changes.Side;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.resources.client.CssResource;
@@ -21,6 +22,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -31,7 +33,7 @@ class DiffTable extends Composite {
   interface Binder extends UiBinder<HTMLPanel, DiffTable> {}
   private static Binder uiBinder = GWT.create(Binder.class);
 
-  interface LineStyle extends CssResource {
+  interface DiffTableStyle extends CssResource {
     String intralineBg();
     String diff();
     String padding();
@@ -47,10 +49,84 @@ class DiffTable extends Composite {
   Element cmB;
 
   @UiField
-  static LineStyle style;
+  Element patchsetNavRow;
 
-  DiffTable() {
+  @UiField
+  Element patchsetNavCellA;
+
+  @UiField
+  Element patchsetNavCellB;
+
+  @UiField(provided = true)
+  PatchSelectBox2 patchSelectBoxA;
+
+  @UiField(provided = true)
+  PatchSelectBox2 patchSelectBoxB;
+
+  @UiField
+  Element fileCommentRow;
+
+  @UiField
+  Element fileCommentCellA;
+
+  @UiField
+  Element fileCommentCellB;
+
+  @UiField(provided = true)
+  FileCommentPanel fileCommentPanelA;
+
+  @UiField(provided = true)
+  FileCommentPanel fileCommentPanelB;
+
+  @UiField
+  static DiffTableStyle style;
+
+  private SideBySide2 host;
+
+  DiffTable(SideBySide2 host, String path) {
+    patchSelectBoxA = new PatchSelectBox2(this, Side.PARENT);
+    patchSelectBoxB = new PatchSelectBox2(this, Side.REVISION);
+    fileCommentPanelA = new FileCommentPanel(host, this, path, Side.PARENT);
+    fileCommentPanelB = new FileCommentPanel(host, this, path, Side.REVISION);
     initWidget(uiBinder.createAndBindUi(this));
+    this.host = host;
+  }
+
+  @Override
+  protected void onLoad() {
+    updateFileCommentVisibility(false);
+  }
+
+  void updateFileCommentVisibility(boolean forceHide) {
+    UIObject.setVisible(patchsetNavRow, !forceHide);
+    if (forceHide || (fileCommentPanelA.getBoxCount() == 0 &&
+        fileCommentPanelB.getBoxCount() == 0)) {
+      UIObject.setVisible(fileCommentRow, false);
+    } else {
+      UIObject.setVisible(fileCommentRow, true);
+    }
+    host.resizeCodeMirror();
+  }
+
+  private FileCommentPanel getPanelFromSide(Side side) {
+    return side == Side.PARENT ? fileCommentPanelA : fileCommentPanelB;
+  }
+
+  void createOrEditFileComment(Side side) {
+    getPanelFromSide(side).createOrEditFileComment();
+    updateFileCommentVisibility(false);
+  }
+
+  void addFileCommentBox(CommentBox box, Side side) {
+    getPanelFromSide(side).addFileComment(box);
+  }
+
+  void onRemoveDraftBox(DraftBox box, Side side) {
+    getPanelFromSide(side).onRemoveDraftBox(box);
+  }
+
+  int getHeaderHeight() {
+    return fileCommentRow.getOffsetHeight() + patchSelectBoxA.getOffsetHeight();
   }
 
   void add(Widget widget) {

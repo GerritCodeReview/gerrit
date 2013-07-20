@@ -338,7 +338,7 @@ public class ChangeScreen2 extends Screen {
       }));
   }
 
-  private void loadMergeable(final boolean canSubmit) {
+  private void loadMergeable(final Change.Status status, final boolean canSubmit) {
     if (Gerrit.getConfig().testChangeMerge()) {
       ChangeApi.revision(changeId.get(), revision)
         .view("mergeable")
@@ -347,9 +347,11 @@ public class ChangeScreen2 extends Screen {
           public void onSuccess(MergeableInfo result) {
             if (canSubmit) {
               actions.setSubmitEnabled(result.mergeable());
-              statusText.setInnerText(result.mergeable()
-                  ? Util.C.readyToSubmit()
-                  : Util.C.mergeConflict());
+              if (status == Change.Status.NEW) {
+                statusText.setInnerText(result.mergeable()
+                    ? Util.C.readyToSubmit()
+                    : Util.C.mergeConflict());
+              }
             }
             setVisible(notMergeable, !result.mergeable());
             renderSubmitType(result.submit_type());
@@ -357,18 +359,20 @@ public class ChangeScreen2 extends Screen {
 
           @Override
           public void onFailure(Throwable caught) {
-            loadSubmitType(canSubmit);
+            loadSubmitType(status, canSubmit);
           }
         });
     } else {
-      loadSubmitType(canSubmit);
+      loadSubmitType(status, canSubmit);
     }
   }
 
-  private void loadSubmitType(final boolean canSubmit) {
+  private void loadSubmitType(final Change.Status status, final boolean canSubmit) {
     if (canSubmit) {
       actions.setSubmitEnabled(true);
-      statusText.setInnerText(Util.C.readyToSubmit());
+      if (status == Change.Status.NEW) {
+        statusText.setInnerText(Util.C.readyToSubmit());
+      }
     }
     ChangeApi.revision(changeId.get(), revision)
       .view("submit_type")
@@ -437,7 +441,7 @@ public class ChangeScreen2 extends Screen {
       }
     }
     if (current) {
-      loadMergeable(canSubmit);
+      loadMergeable(info.status(), canSubmit);
     }
     reply.setVisible(replyAction != null);
 

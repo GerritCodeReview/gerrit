@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "73cb6f66_62f13619",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-07-20T10:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3fa4780_0cec1741",
+      "revId": "a75f5ce73da6b770acee3978d2ff4e077a56e09b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3fa4780_6cf15b19",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2013-07-19T20:31:33Z",
       "side": 1,
       "message": "Line wrap at .annotatedWith?",
+      "revId": "a75f5ce73da6b770acee3978d2ff4e077a56e09b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "53d02b0f_21e72e60",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-07-20T10:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3fa4780_6cf15b19",
       "revId": "a75f5ce73da6b770acee3978d2ff4e077a56e09b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "73cb6f66_42ec3242",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-07-20T10:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3fa4780_4cf61f13",
+      "revId": "a75f5ce73da6b770acee3978d2ff4e077a56e09b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d3edfbca_4df61913",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitFlags.java",
         "patchSetId": 9
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "53d02b0f_41ec3242",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitFlags.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-07-20T10:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3edfbca_4df61913",
+      "revId": "a75f5ce73da6b770acee3978d2ff4e077a56e09b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d3edfbca_adfa1df3",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InstallPlugins.java",
         "patchSetId": 9
@@ -81,6 +153,24 @@
       "writtenOn": "2013-07-19T20:31:33Z",
       "side": 1,
       "message": "nit: blank line not necessary",
+      "revId": "a75f5ce73da6b770acee3978d2ff4e077a56e09b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73cb6f66_82f63a10",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InstallPlugins.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-07-20T10:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3edfbca_adfa1df3",
       "revId": "a75f5ce73da6b770acee3978d2ff4e077a56e09b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

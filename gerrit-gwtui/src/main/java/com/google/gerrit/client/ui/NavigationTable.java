@@ -22,6 +22,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -231,12 +232,40 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
         }
       });
     } else {
-      scrollIntoView0(tr);
+      int rt = tr.getAbsoluteTop();
+      int rl = tr.getAbsoluteLeft();
+      int rb = tr.getAbsoluteBottom();
+
+      int wt = Window.getScrollTop();
+      int wl = Window.getScrollLeft();
+
+      int wh = Window.getClientHeight();
+      int ww = Window.getClientWidth();
+      int wb = wt + wh;
+
+      // If the row is partially or fully obscured, scroll:
+      //
+      // rl < wl: Row left edge is off screen to left.
+      // rt < wt: Row top is above top of window.
+      // wb < rt: Row top is below bottom of window.
+      // wb < rb: Row bottom is below bottom of window.
+      if (rl < wl || rt < wt || wb < rt || wb < rb) {
+        if (rl < wl) {
+          // Left edge needs to move to make it visible.
+          // If the row fully fits in the window, set 0.
+          if (tr.getAbsoluteRight() < ww) {
+            wl = 0;
+          } else {
+            wl = Math.max(tr.getAbsoluteLeft() - 5, 0);
+          }
+        }
+
+        // Vertically center the row in the window.
+        int h = (wh - (rb - rt)) / 2;
+        Window.scrollTo(wl, Math.max(rt - h, 0));
+      }
     }
   }
-
-  private static final native void scrollIntoView0(Element e)
-  /*-{ if (e.scrollIntoView) e.scrollIntoView() }-*/;
 
   protected void movePointerTo(final Object oldId) {
     final int row = findRow(oldId);

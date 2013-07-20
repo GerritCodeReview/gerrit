@@ -47,18 +47,21 @@ public class PluginSafeDialogBox extends DialogBox {
 
   @Override
   public void setVisible(final boolean show) {
+    UserAgent.fireDialogVisible(show);
     impl.visible(show);
     super.setVisible(show);
   }
 
   @Override
   public void show() {
+    UserAgent.fireDialogVisible(true);
     impl.visible(true);
     super.show();
   }
 
   @Override
   public void hide(final boolean autoClosed) {
+    UserAgent.fireDialogVisible(false);
     impl.visible(false);
     super.hide(autoClosed);
   }

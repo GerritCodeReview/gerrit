@@ -350,6 +350,9 @@ a:hover {
   margin-left: 2px;
   padding: 3px 6px;
 }
+.suggestBoxPopup {
+  z-index: 5;
+}
 
 /** RPC Status **/
 .rpcStatusPanel {

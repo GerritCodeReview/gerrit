@@ -14,7 +14,6 @@
 
 package com.google.gwtexpui.user.client;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.DialogBox;
 
 /**
@@ -30,9 +29,6 @@ import com.google.gwt.user.client.ui.DialogBox;
  * prior setting when the dialog is hidden.
  * */
 public class PluginSafeDialogBox extends DialogBox {
-  private final PluginSafeDialogBoxImpl impl =
-      GWT.create(PluginSafeDialogBoxImpl.class);
-
   public PluginSafeDialogBox() {
     this(false);
   }
@@ -48,21 +44,18 @@ public class PluginSafeDialogBox extends DialogBox {
   @Override
   public void setVisible(final boolean show) {
     UserAgent.fireDialogVisible(show);
-    impl.visible(show);
     super.setVisible(show);
   }
 
   @Override
   public void show() {
     UserAgent.fireDialogVisible(true);
-    impl.visible(true);
     super.show();
   }
 
   @Override
   public void hide(final boolean autoClosed) {
     UserAgent.fireDialogVisible(false);
-    impl.visible(false);
     super.hide(autoClosed);
   }
 }

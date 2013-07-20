@@ -705,6 +705,28 @@ link:cmd-flush-caches.html[gerrit flush-caches].
 +
 Default is 5 minutes.
 
+[[change]]Section change
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[change.updateDelay]]change.updateDelay::
++
+How often in seconds the web interface should poll for updates to the
+currently open change.  The poller relies on the client's browser
+cache to use If-Modified-Since and respect `304 Not Modified` HTTP
+reponses.  This allows for fast polls, often under 8 milliseconds.
++
+With a configured 30 second delay a server with 4900 active users will
+typically need to dedicate 1 CPU to the update check.  4900 users
+divided by an average delay of 30 seconds is 163 requests arriving per
+second.  If requests are served at ~6 ms response time, 1 CPU is
+necessary to keep up with the update request traffic.  On a smaller
+user base of 500 active users, the default 30 second delay is only 17
+requests per second and requires ~10% CPU.
++
+If 0 the update polling is disabled.
++
+Default is 30 seconds.
+
 [[changeMerge]]Section changeMerge
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

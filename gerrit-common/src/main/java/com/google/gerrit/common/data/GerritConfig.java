@@ -46,6 +46,7 @@ public class GerritConfig implements Cloneable {
   protected boolean testChangeMerge;
   protected String anonymousCowardName;
   protected int suggestFrom;
+  protected int changeUpdateDelay;
 
   public String getRegisterUrl() {
     return registerUrl;
@@ -224,5 +225,13 @@ public class GerritConfig implements Cloneable {
       return false;
     }
     return true;
+  }
+
+  public int getChangeUpdateDelay() {
+    return changeUpdateDelay;
+  }
+
+  public void setChangeUpdateDelay(int seconds) {
+    changeUpdateDelay = seconds;
   }
 }

@@ -110,6 +110,7 @@ public class Gerrit implements EntryPoint {
   private static LinkMenuBar projectsBar;
   private static RootPanel siteHeader;
   private static RootPanel siteFooter;
+  private static RootPanel gBottomMenu;
   private static SearchPanel searchPanel;
   private static final Dispatcher dispatcher = new Dispatcher();
   private static ViewSite<Screen> body;
@@ -328,6 +329,10 @@ public class Gerrit implements EntryPoint {
     return builder.buildString();
   }
 
+  public static RootPanel getBottomMenu() {
+    return gBottomMenu;
+  }
+
   static void deleteSessionCookie() {
     myAccount = null;
     myAccountDiffPref = null;
@@ -465,7 +470,7 @@ public class Gerrit implements EntryPoint {
     final RootPanel gTopMenu = RootPanel.get("gerrit_topmenu");
     final RootPanel gStarting = RootPanel.get("gerrit_startinggerrit");
     final RootPanel gBody = RootPanel.get("gerrit_body");
-    final RootPanel gBottomMenu = RootPanel.get("gerrit_btmmenu");
+    gBottomMenu = RootPanel.get("gerrit_btmmenu");
 
     gTopMenu.setStyleName(RESOURCES.css().gerritTopMenu());
     gBody.setStyleName(RESOURCES.css().gerritBody());

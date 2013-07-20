@@ -48,8 +48,9 @@ class ReplyAction {
     this.style = style;
     this.replyButton = replyButton;
 
+    boolean current = revision.equals(info.current_revision());
     allLabels = info.all_labels();
-    permittedLabels = info.has_permitted_labels()
+    permittedLabels = current && info.has_permitted_labels()
         ? info.permitted_labels()
         : NativeMap.<JsArrayString> create();
   }

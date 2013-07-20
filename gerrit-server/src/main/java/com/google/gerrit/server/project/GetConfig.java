@@ -19,15 +19,26 @@ import com.google.common.collect.Maps;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
+import com.google.gerrit.reviewdb.client.Project.SubmitType;
+import com.google.gerrit.server.git.TransferConfig;
+import com.google.inject.Inject;
 
 import java.util.Map;
 
 public class GetConfig implements RestReadView<ProjectResource> {
 
+  private final TransferConfig config;
+
+  @Inject
+  public GetConfig(TransferConfig config) {
+    this.config = config;
+  }
+
   @Override
   public ConfigInfo apply(ProjectResource resource) {
     ConfigInfo result = new ConfigInfo();
     ProjectState state = resource.getControl().getProjectState();
+    Project p = state.getProject();
     InheritedBooleanInfo useContributorAgreements = new InheritedBooleanInfo();
     InheritedBooleanInfo useSignedOffBy = new InheritedBooleanInfo();
     InheritedBooleanInfo useContentMerge = new InheritedBooleanInfo();
@@ -38,7 +49,6 @@ public class GetConfig implements RestReadView<ProjectResource> {
     useContentMerge.value = state.isUseContentMerge();
     requireChangeId.value = state.isRequireChangeID();
 
-    Project p = state.getProject();
     useContributorAgreements.configuredValue = p.getUseContributorAgreements();
     useSignedOffBy.configuredValue = p.getUseSignedOffBy();
     useContentMerge.configuredValue = p.getUseContentMerge();
@@ -57,6 +67,18 @@ public class GetConfig implements RestReadView<ProjectResource> {
     result.useContentMerge = useContentMerge;
     result.requireChangeId = requireChangeId;
 
+    MaxObjectSizeLimitInfo maxObjectSizeLimit = new MaxObjectSizeLimitInfo();
+    maxObjectSizeLimit.value =
+        config.getEffectiveMaxObjectSizeLimit(state) == config.getMaxObjectSizeLimit()
+            ? config.getFormattedMaxObjectSizeLimit()
+            : p.getMaxObjectSizeLimit();
+    maxObjectSizeLimit.configuredValue = p.getMaxObjectSizeLimit();
+    maxObjectSizeLimit.inheritedValue = config.getFormattedMaxObjectSizeLimit();
+    result.maxObjectSizeLimit = maxObjectSizeLimit;
+
+    result.submitType = p.getSubmitType();
+    result.state = p.getState() != Project.State.ACTIVE ? p.getState() : null;
+
     result.commentlinks = Maps.newLinkedHashMap();
     for (CommentLinkInfo cl : state.getCommentLinks()) {
       result.commentlinks.put(cl.name, cl);
@@ -73,6 +95,9 @@ public class GetConfig implements RestReadView<ProjectResource> {
     public InheritedBooleanInfo useContentMerge;
     public InheritedBooleanInfo useSignedOffBy;
     public InheritedBooleanInfo requireChangeId;
+    public MaxObjectSizeLimitInfo maxObjectSizeLimit;
+    public SubmitType submitType;
+    public Project.State state;
 
     public Map<String, CommentLinkInfo> commentlinks;
     public ThemeInfo theme;
@@ -82,5 +107,11 @@ public class GetConfig implements RestReadView<ProjectResource> {
     public Boolean value;
     public InheritableBoolean configuredValue;
     public Boolean inheritedValue;
+  }
+
+  public static class MaxObjectSizeLimitInfo {
+    public String value;
+    public String configuredValue;
+    public String inheritedValue;
   }
 }

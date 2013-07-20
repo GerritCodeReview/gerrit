@@ -21,6 +21,7 @@ import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.DownloadConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.contact.ContactStore;
@@ -35,6 +36,7 @@ import org.eclipse.jgit.lib.Config;
 import java.net.MalformedURLException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletContext;
 
@@ -115,6 +117,8 @@ class GerritConfigProvider implements Provider<GerritConfig> {
         "test", false));
     config.setAnonymousCowardName(anonymousCowardName);
     config.setSuggestFrom(cfg.getInt("suggest", "from", 0));
+    config.setChangeUpdateDelay((int) ConfigUtil.getTimeUnit(
+        cfg, "change", null, "updateDelay", 30, TimeUnit.SECONDS));
 
     config.setReportBugUrl(cfg.getString("gerrit", null, "reportBugUrl"));
     if (config.getReportBugUrl() == null) {

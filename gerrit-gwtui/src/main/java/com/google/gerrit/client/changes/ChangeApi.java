@@ -16,12 +16,9 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
-import com.google.gerrit.common.changes.ListChangesOption;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-
-import java.util.EnumSet;
 
 /**
  * A collection of static methods which work on the Gerrit REST API for specific
@@ -68,16 +65,7 @@ public class ChangeApi {
     detail(id).get(cb);
   }
 
-  public static void detail(int id, EnumSet<ListChangesOption> options,
-      AsyncCallback<ChangeInfo> cb) {
-    RestApi call = detail(id);
-    if (!options.isEmpty()) {
-      ChangeList.addOptions(call, options);
-    }
-    call.get(cb);
-  }
-
-  private static RestApi detail(int id) {
+  public static RestApi detail(int id) {
     return call(id, "detail");
   }
 

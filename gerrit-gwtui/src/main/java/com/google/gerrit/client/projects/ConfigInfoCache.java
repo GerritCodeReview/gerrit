@@ -94,7 +94,7 @@ public class ConfigInfoCache {
       cb.onSuccess(e);
       return;
     }
-    ProjectApi.config(new Project.NameKey(name)).get(
+    ProjectApi.getConfig(new Project.NameKey(name),
         new AsyncCallback<ConfigInfo>() {
           @Override
           public void onSuccess(ConfigInfo result) {

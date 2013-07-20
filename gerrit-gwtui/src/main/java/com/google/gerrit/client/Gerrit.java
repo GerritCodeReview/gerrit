@@ -261,6 +261,10 @@ public class Gerrit implements EntryPoint {
     return topMenu.isVisible();
   }
 
+  public static RootPanel getBottomMenu() {
+    return bottomMenu;
+  }
+
   /** Get the public configuration data used by this Gerrit instance. */
   public static GerritConfig getConfig() {
     return myConfig;

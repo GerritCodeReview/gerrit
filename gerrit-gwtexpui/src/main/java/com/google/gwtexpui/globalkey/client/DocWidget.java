@@ -18,16 +18,20 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
 import com.google.gwt.event.dom.client.HasKeyPressHandlers;
+import com.google.gwt.event.dom.client.HasMouseMoveHandlers;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-class DocWidget extends Widget implements HasKeyPressHandlers {
+public class DocWidget extends Widget
+    implements HasKeyPressHandlers, HasMouseMoveHandlers {
   private static DocWidget me;
 
-  static DocWidget get() {
+  public static DocWidget get() {
     if (me == null) {
       me = new DocWidget();
     }
@@ -43,6 +47,11 @@ class DocWidget extends Widget implements HasKeyPressHandlers {
   @Override
   public HandlerRegistration addKeyPressHandler(KeyPressHandler handler) {
     return addDomHandler(handler, KeyPressEvent.getType());
+  }
+
+  @Override
+  public HandlerRegistration addMouseMoveHandler(MouseMoveHandler handler) {
+    return addDomHandler(handler, MouseMoveEvent.getType());
   }
 
   private static Node docnode() {

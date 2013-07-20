@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3fa4780_ec326b01",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSelectBox2.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-20T00:40:51Z",
+      "side": 1,
+      "message": "nit: indent each level by two spaces.\n\nIcons can be referenced using a \u003cui:with\u003e e.g.:\n\n  \u003cui:with field\u003d\u0027res\u0027 type\u003d\u0027com.google.gerrit.client.change.Resources\u0027/\u003e\n  resource\u003d{res.icon}",
+      "revId": "6c898bce512908d01b57ce346daae2a5537b2d88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3fa4780_cc2faf97",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSelectBox2.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-20T00:40:51Z",
+      "side": 1,
+      "message": "Users shouldn\u0027t have to click to cause the widget to hide. How do they get it back?\n\nI was thinking about how to handle the page header. Maybe we can do the same thing Google+ does where the header collapses when the CodeMirror scroll position changes to hide more than 75% of a current screenful. E.g. if I can view 30 lines of code in this CM then we hide the header (and get more screen space) if I move the scrollbar so line 30*.75\u003d22 is at the top of the view, or scrolled off the top.",
+      "revId": "6c898bce512908d01b57ce346daae2a5537b2d88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

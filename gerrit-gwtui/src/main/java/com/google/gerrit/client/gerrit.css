@@ -337,6 +337,7 @@ a:hover {
   border: 1px solid black;
   background: white;
   box-shadow: 3px 3px 5px #888;
+  z-index: 5;
 }
 .searchPanel {
   white-space: nowrap;
@@ -349,6 +350,9 @@ a:hover {
   font-size: 9pt;
   margin-left: 2px;
   padding: 3px 6px;
+}
+.suggestBoxPopup {
+  z-index: 5;
 }
 
 /** RPC Status **/

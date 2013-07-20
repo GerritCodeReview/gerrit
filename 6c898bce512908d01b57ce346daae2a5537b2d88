@@ -33,6 +33,24 @@
       "revId": "6c898bce512908d01b57ce346daae2a5537b2d88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9310e396_63f16219",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSelectBox2.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-20T01:06:15Z",
+      "side": 1,
+      "message": "Right now if they click \"Hide\" it hides and turns into \"Show\"...\n\nYeah hiding the header would be reasonable. I will look into that.",
+      "parentUuid": "b3fa4780_cc2faf97",
+      "revId": "6c898bce512908d01b57ce346daae2a5537b2d88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

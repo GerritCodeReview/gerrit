@@ -194,6 +194,18 @@ General
 
 * Postpone check for first account until adding an account.
 
+* Mark `ALREADY_MERGED` changes as merged in the database.
++
+If a change was marked `ALREADY_MERGED`, likely due to a bug in
+merge code, it does not end up in the list of changes to be submitted
+and never gets marked as merged despite the branch head already
+having advanced.
++
+Works around (but does not fix)
+link:https://code.google.com/p/gerrit/issues/detail?id=1985[Issue 1985] and
+link:https://code.google.com/p/gerrit/issues/detail?id=600[Issue 600]
+to allow recovery from certain kind of bad state.
+
 
 Web UI
 ~~~~~~
@@ -229,6 +241,13 @@ Email
 
 * Log when appropriate if email delivery is skipped.
 
+
+ssh
+~~~
+
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2016[Issue 2016]:
+Flush caches after adding or deleting ssh keys via the `set-account` ssh command.
 
 Tools
 ~~~~~

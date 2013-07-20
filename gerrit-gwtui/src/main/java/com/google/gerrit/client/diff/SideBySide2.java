@@ -43,6 +43,7 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -58,6 +59,9 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
+import com.google.gwtexpui.user.client.DialogVisibleEvent;
+import com.google.gwtexpui.user.client.DialogVisibleHandler;
+import com.google.gwtexpui.user.client.UserAgent;
 
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.CodeMirror.LineClassWhere;
@@ -116,8 +120,7 @@ public class SideBySide2 extends Screen {
   private KeyCommandSet keysAction;
   private KeyCommandSet keysComment;
   private KeyCommandSet keysOpenByEnter;
-  private List<HandlerRegistration> keyHandlers;
-
+  private List<HandlerRegistration> handlers;
 
   public SideBySide2(
       PatchSet.Id base,
@@ -126,7 +129,7 @@ public class SideBySide2 extends Screen {
     this.base = base;
     this.revision = revision;
     this.path = path;
-    this.keyHandlers = new ArrayList<HandlerRegistration>(4);
+    this.handlers = new ArrayList<HandlerRegistration>(6);
     // TODO: Re-implement necessary GlobalKey bindings.
     addDomHandler(GlobalKey.STOP_PROPAGATION, KeyPressEvent.getType());
     reviewedTop = new ReviewedPanel(revision, path);
@@ -197,6 +200,15 @@ public class SideBySide2 extends Screen {
   public void onShowView() {
     super.onShowView();
 
+    handlers.add(UserAgent.addDialogVisibleHandler(new DialogVisibleHandler() {
+      @Override
+      public void onDialogVisible(DialogVisibleEvent event) {
+        diffTable.getElement().getStyle().setVisibility(
+          event.isVisible()
+              ? Style.Visibility.HIDDEN
+              : Style.Visibility.VISIBLE);
+      }
+    }));
     if (cmA != null) {
       cmA.refresh();
     }
@@ -240,10 +252,10 @@ public class SideBySide2 extends Screen {
   }
 
   private void removeKeyHandlerRegs() {
-    for (HandlerRegistration h : keyHandlers) {
+    for (HandlerRegistration h : handlers) {
       h.removeHandler();
     }
-    keyHandlers.clear();
+    handlers.clear();
   }
 
   private void resizeBoxPaddings() {
@@ -320,11 +332,11 @@ public class SideBySide2 extends Screen {
       keysComment = null;
     }
     removeKeyHandlerRegs();
-    keyHandlers.add(GlobalKey.add(this, keysNavigation));
-    keyHandlers.add(GlobalKey.add(this, keysAction));
-    keyHandlers.add(GlobalKey.add(this, keysOpenByEnter));
+    handlers.add(GlobalKey.add(this, keysNavigation));
+    handlers.add(GlobalKey.add(this, keysAction));
+    handlers.add(GlobalKey.add(this, keysOpenByEnter));
     if (keysComment != null) {
-      keyHandlers.add(GlobalKey.add(this, keysComment));
+      handlers.add(GlobalKey.add(this, keysComment));
     }
   }
 

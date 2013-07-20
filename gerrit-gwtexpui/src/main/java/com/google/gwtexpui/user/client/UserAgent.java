@@ -15,6 +15,9 @@
 package com.google.gwtexpui.user.client;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.user.client.Window;
 
 /**
@@ -29,6 +32,16 @@ import com.google.gwt.user.client.Window;
 public class UserAgent {
   /** Does the browser have ShockwaveFlash plugin enabled? */
   public static final boolean hasFlash = hasFlash();
+  private static final EventBus bus = new SimpleEventBus();
+
+  public static HandlerRegistration addDialogVisibleHandler(
+      DialogVisibleHandler handler) {
+    return bus.addHandler(DialogVisibleEvent.getType(), handler);
+  }
+
+  static void fireDialogVisible(boolean visible) {
+    bus.fireEvent(new DialogVisibleEvent(visible));
+  }
 
   private static native boolean hasFlash()
   /*-{

@@ -68,6 +68,7 @@ import net.codemirror.lib.KeyMap;
 import net.codemirror.lib.LineCharacter;
 import net.codemirror.lib.LineWidget;
 import net.codemirror.lib.ModeInjector;
+import net.codemirror.lib.ScrollInfo;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -207,15 +208,13 @@ public class SideBySide2 extends Screen {
     Scheduler.get().scheduleDeferred(new ScheduledCommand() {
       @Override
       public void execute() {
-        int h = Gerrit.getHeaderFooterHeight() + reviewed.getOffsetHeight();
         if (cmA != null) {
-          cmA.setHeight(Window.getClientHeight() - h);
           cmA.setOption("viewportMargin", 10);
         }
         if (cmB != null) {
-          cmB.setHeight(Window.getClientHeight() - h);
           cmB.setOption("viewportMargin", 10);
         }
+        resizeCodeMirror();
       }
     });
     resizeBoxPaddings();
@@ -240,6 +239,7 @@ public class SideBySide2 extends Screen {
       cmB = null;
     }
     Window.enableScrolling(true);
+    Gerrit.setHeaderVisible(true);
   }
 
   private void removeKeyHandlerRegs() {
@@ -354,19 +354,10 @@ public class SideBySide2 extends Screen {
     skips = null;
     registerCmEvents(cmA);
     registerCmEvents(cmB);
-    // TODO: Probably need horizontal resize
     resizeHandler = Window.addResizeHandler(new ResizeHandler() {
       @Override
       public void onResize(ResizeEvent event) {
-        int h = Gerrit.getHeaderFooterHeight() + reviewed.getOffsetHeight();
-        if (cmA != null) {
-          cmA.setHeight(event.getHeight() - h);
-          cmA.refresh();
-        }
-        if (cmB != null) {
-          cmB.setHeight(event.getHeight() - h);
-          cmB.refresh();
-        }
+        resizeCodeMirror();
         resizeBoxPaddings();
       }
     });
@@ -765,7 +756,18 @@ public class SideBySide2 extends Screen {
         if (cm.isScrollSetByOther()) {
           return;
         }
-        other.scrollToY(cm.getScrollInfo().getTop());
+
+        ScrollInfo si = cm.getScrollInfo();
+        if (si.getTop() == 0 && !Gerrit.isHeaderVisible()) {
+          Gerrit.setHeaderVisible(true);
+          resizeCodeMirror();
+        } else if (si.getTop() > 0.5 * si.getClientHeight()
+            && Gerrit.isHeaderVisible()) {
+          Gerrit.setHeaderVisible(false);
+          resizeCodeMirror();
+        }
+
+        other.scrollToY(si.getTop());
         other.setScrollSetByOther(true);
         Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
           @Override
@@ -927,6 +929,19 @@ public class SideBySide2 extends Screen {
         }
       }
     };
+  }
+
+  private void resizeCodeMirror() {
+    // TODO: Probably need horizontal resize
+    int h = Gerrit.getHeaderFooterHeight() + reviewed.getOffsetHeight();
+    if (cmA != null) {
+      cmA.setHeight(Window.getClientHeight() - h);
+      cmA.refresh();
+    }
+    if (cmB != null) {
+      cmB.setHeight(Window.getClientHeight() - h);
+      cmB.refresh();
+    }
   }
 
   static void setHeightInPx(Element ele, double height) {

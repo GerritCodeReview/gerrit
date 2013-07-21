@@ -262,17 +262,14 @@ public class SideBySide2 extends Screen {
     cm.on("scroll", doScroll(cm));
     cm.on("renderLine", resizeEmptyLine(getSideFromCm(cm)));
     // TODO: Prevent right click from updating the cursor.
-    KeyMap km = KeyMap.create()
+    cm.addKeyMap(KeyMap.create()
         .on("'j'", moveCursorDown(cm, 1))
         .on("'k'", moveCursorDown(cm, -1))
         .on("'u'", upToChange())
         .on("'r'", toggleReviewed())
         .on("'o'", toggleOpenBox(cm))
-        .on("Enter", toggleOpenBox(cm));
-    if (Gerrit.isSignedIn()) {
-      km.on("'c'", insertNewDraft(cm));
-    }
-    cm.addKeyMap(km);
+        .on("Enter", toggleOpenBox(cm))
+        .on("'c'", insertNewDraft(cm)));
 
     /**
      * TODO: Work on a better way for customizing keybindings and remove
@@ -455,6 +452,9 @@ public class SideBySide2 extends Screen {
   }
 
   private DraftBox addNewDraft(CodeMirror cm, int line) {
+    if (!Gerrit.isSignedIn()) {
+      Gerrit.doSignIn(getToken());
+    }
     Side side = getSideFromCm(cm);
     CommentInfo info = CommentInfo.create(
         path,

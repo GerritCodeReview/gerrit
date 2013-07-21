@@ -119,6 +119,12 @@ class SearchPanel extends Composite {
   private static class MySuggestionDisplay extends SuggestBox.DefaultSuggestionDisplay {
     private boolean isSuggestionSelected;
 
+    private MySuggestionDisplay() {
+      super();
+
+      getPopupPanel().addStyleName(Gerrit.RESOURCES.css().suggestBoxPopup());
+    }
+
     @Override
     protected Suggestion getCurrentSelection() {
       Suggestion currentSelection = super.getCurrentSelection();

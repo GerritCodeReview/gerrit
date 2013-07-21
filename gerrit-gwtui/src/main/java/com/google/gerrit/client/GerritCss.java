@@ -200,6 +200,7 @@ public interface GerritCss extends CssResource {
   String screenHeader();
   String screenNoHeader();
   String searchPanel();
+  String suggestBoxPopup();
   String sectionHeader();
   String selectPatchSetOldVersion();
   String sideBySideScreenLinkTable();

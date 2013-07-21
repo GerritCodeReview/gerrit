@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13da3333_1fe7e35f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-21T23:42:25Z",
+      "side": 1,
+      "message": "This version of the UI is now live on gerrit-review.",
+      "revId": "637ae7db3ce7742cd35584e86ad7ef1eb4dac8c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

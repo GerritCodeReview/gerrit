@@ -14,18 +14,58 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-    xmlns:g='urn:import:com.google.gwt.user.client.ui'
-    xmlns:d='urn:import:com.google.gerrit.client.diff'>
-  <ui:with field='res' type='com.google.gerrit.client.diff.CommentBoxResources' />
-  <g:HTMLPanel addStyleNames='{res.style.commentBox}'>
-    <d:CommentBoxHeader ui:field='header' />
-    <g:HTMLPanel addStyleNames='{res.style.contentPanel}'>
-      <g:HTML ui:field='contentPanelMessage' addStyleNames='{res.style.message}'></g:HTML>
-      <div class='{res.style.button}'>
-        <g:Button ui:field='reply'><ui:msg>Reply ...</ui:msg></g:Button>
-        <g:Button ui:field='replyDone'><ui:msg>Reply 'Done'</ui:msg></g:Button>
+<ui:UiBinder
+    xmlns:ui='urn:ui:com.google.gwt.uibinder'
+    xmlns:c='urn:import:com.google.gerrit.client'
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <ui:with field='res' type='com.google.gerrit.client.diff.Resources'/>
+  <ui:style type='com.google.gerrit.client.diff.PublishedBox.Style'>
+    .avatar {
+      position: absolute;
+      width: 26px;
+      height: 26px;
+    }
+    .closed .avatar {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+    }
+
+    .name {
+      white-space: nowrap;
+      font-weight: bold;
+    }
+    .closed .name {
+      width: 120px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-weight: normal;
+    }
+  </ui:style>
+
+  <g:HTMLPanel
+      styleName='{res.style.commentBox}'
+      addStyleNames='{style.closed}'>
+    <c:AvatarImage ui:field='avatar' styleName='{style.avatar}'/>
+    <div class='{res.style.contents}'>
+      <div class='{res.style.header}'>
+        <div ui:field='name' class='{style.name}'/>
+        <div ui:field='summary' class='{res.style.summary}'/>
+        <div ui:field='date' class='{res.style.date}'/>
       </div>
-    </g:HTMLPanel>
+      <div ui:field='message' aria-hidden='true' style='display: NONE'/>
+      <div ui:field='buttons' aria-hidden='true' style='display: NONE'>
+        <g:Button ui:field='reply' styleName=''
+            title='Reply to this comment'>
+          <ui:attribute name='title'/>
+          <div><ui:msg>Reply</ui:msg></div>
+        </g:Button>
+        <g:Button ui:field='done' styleName=''
+            title='Reply "Done" to this comment'>
+          <ui:attribute name='title'/>
+          <div><ui:msg>Done</ui:msg></div>
+        </g:Button>
+      </div>
+    </div>
   </g:HTMLPanel>
 </ui:UiBinder>

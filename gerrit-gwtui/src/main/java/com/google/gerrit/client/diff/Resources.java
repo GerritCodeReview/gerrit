@@ -14,24 +14,21 @@
 
 package com.google.gerrit.client.diff;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
 
-/**
- * Resources used by diff.
- */
-interface CommentBoxResources extends ClientBundle {
-  @Source("CommentBoxUi.css")
-  Style style();
+/** Resources used by diff. */
+interface Resources extends ClientBundle {
+  static final Resources I = GWT.create(Resources.class);
+
+  @Source("CommentBoxUi.css") Style style();
 
   interface Style extends CssResource {
-    String open();
-    String close();
     String commentBox();
-    String table();
-    String summaryText();
-    String contentPanel();
-    String message();
-    String button();
+    String contents();
+    String header();
+    String summary();
+    String date();
   }
 }

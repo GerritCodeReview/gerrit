@@ -448,34 +448,29 @@ public class SideBySide2 extends Screen {
   }
 
   private DraftBox addNewDraft(CodeMirror cm, int line) {
-    Side side = getSideFromCm(cm);
-    CommentInfo info = CommentInfo.create(
+    return addDraftBox(CommentInfo.create(
         path,
-        side,
+        getSideFromCm(cm),
         line + 1,
         null,
-        null);
-    return addDraftBox(info, false);
+        null));
   }
 
-  DraftBox addReply(CommentInfo replyTo, String initMessage, boolean doSave) {
-    Side side = replyTo.side();
-    int line = replyTo.line();
-    CommentInfo info = CommentInfo.create(
+  CommentInfo createReply(CommentInfo replyTo) {
+    return CommentInfo.create(
         path,
-        side,
-        line,
+        replyTo.side(),
+        replyTo.line(),
         replyTo.id(),
-        initMessage);
-    return addDraftBox(info, doSave);
+        null);
   }
 
-  private DraftBox addDraftBox(CommentInfo info, boolean doSave) {
+  DraftBox addDraftBox(CommentInfo info) {
     CodeMirror cm = getCmFromSide(info.side());
-    DraftBox box = new DraftBox(this, cm, revision, info, commentLinkProcessor,
-        true, doSave);
+    DraftBox box = new DraftBox(this, cm, commentLinkProcessor, revision, info);
     addCommentBox(info, box);
-    if (!doSave) {
+    if (info.id() == null) {
+      box.setOpen(true);
       box.setEdit(true);
     }
     LineHandle handle = cm.getLineHandle(info.line() - 1);
@@ -548,9 +543,8 @@ public class SideBySide2 extends Screen {
     List<CommentInfo> sorted = sortComment(published);
     for (CommentInfo info : sorted) {
       CodeMirror cm = getCmFromSide(info.side());
-      PublishedBox box =
-          new PublishedBox(this, cm, revision, info, commentLinkProcessor);
-      box.setOpen(false);
+      PublishedBox box = new PublishedBox(this, commentLinkProcessor,
+          revision, info);
       allBoxes.add(box);
       publishedMap.put(info.id(), box);
       int line = info.line() - 1;
@@ -564,11 +558,9 @@ public class SideBySide2 extends Screen {
   private void renderDrafts() {
     List<CommentInfo> sorted = sortComment(drafts);
     for (CommentInfo info : sorted) {
-      DraftBox box =
-          new DraftBox(this, getCmFromSide(info.side()), revision, info,
-              commentLinkProcessor, false, false);
-      box.setOpen(false);
-      box.setEdit(false);
+      DraftBox box = new DraftBox(
+          this, getCmFromSide(info.side()), commentLinkProcessor,
+          revision, info);
       allBoxes.add(box);
       if (published != null) {
         PublishedBox replyToBox = publishedMap.get(info.in_reply_to());
@@ -594,7 +586,7 @@ public class SideBySide2 extends Screen {
     for (CommentBox box : lineActiveBoxMap.values()) {
       List<SkippedLine> temp = new ArrayList<SkippedLine>();
       for (SkippedLine skip : skips) {
-        CommentInfo info = box.getOriginal();
+        CommentInfo info = box.getCommentInfo();
         int startLine = info.side() == Side.PARENT
             ? skip.getStartA()
             : skip.getStartB();
@@ -834,7 +826,7 @@ public class SideBySide2 extends Screen {
         CommentBox box = lineActiveBoxMap.get(handle);
         if (box == null) {
           lineActiveBoxMap.put(handle, addNewDraft(cm, line));
-        } else if (box.isDraft()) {
+        } else if (box instanceof DraftBox) {
           ((DraftBox) lineActiveBoxMap.get(handle)).setEdit(true);
         } else {
           ((PublishedBox) box).onReply(null);

@@ -80,12 +80,11 @@ public class SideBySide2 extends Screen {
   interface Binder extends UiBinder<HTMLPanel, SideBySide2> {}
   private static Binder uiBinder = GWT.create(Binder.class);
 
-  private static final int HEADER_FOOTER = 60 + 15 * 2 + 16 + 26;
   private static final JsArrayString EMPTY =
       JavaScriptObject.createArray().cast();
 
   @UiField(provided = true)
-  ReviewedPanel reviewedTop;
+  ReviewedPanel reviewed;
 
   @UiField(provided = true)
   DiffTable diffTable;
@@ -129,7 +128,7 @@ public class SideBySide2 extends Screen {
     this.keyHandlers = new ArrayList<HandlerRegistration>(4);
     // TODO: Re-implement necessary GlobalKey bindings.
     addDomHandler(GlobalKey.STOP_PROPAGATION, KeyPressEvent.getType());
-    reviewedTop = new ReviewedPanel(revision, path);
+    reviewed = new ReviewedPanel(revision, path);
     add(diffTable = new DiffTable());
     add(uiBinder.createAndBindUi(this));
   }
@@ -203,14 +202,18 @@ public class SideBySide2 extends Screen {
     if (cmB != null) {
       cmB.refresh();
     }
+
     Window.enableScrolling(false);
     Scheduler.get().scheduleDeferred(new ScheduledCommand() {
       @Override
       public void execute() {
+        int h = Gerrit.getHeaderFooterHeight() + reviewed.getOffsetHeight();
         if (cmA != null) {
+          cmA.setHeight(Window.getClientHeight() - h);
           cmA.setOption("viewportMargin", 10);
         }
         if (cmB != null) {
+          cmB.setHeight(Window.getClientHeight() - h);
           cmB.setOption("viewportMargin", 10);
         }
       }
@@ -355,12 +358,13 @@ public class SideBySide2 extends Screen {
     resizeHandler = Window.addResizeHandler(new ResizeHandler() {
       @Override
       public void onResize(ResizeEvent event) {
+        int h = Gerrit.getHeaderFooterHeight() + reviewed.getOffsetHeight();
         if (cmA != null) {
-          cmA.setHeight(event.getHeight() - HEADER_FOOTER);
+          cmA.setHeight(event.getHeight() - h);
           cmA.refresh();
         }
         if (cmB != null) {
-          cmB.setHeight(event.getHeight() - HEADER_FOOTER);
+          cmB.setHeight(event.getHeight() - h);
           cmB.refresh();
         }
         resizeBoxPaddings();
@@ -389,8 +393,9 @@ public class SideBySide2 extends Screen {
        * 10 (default) after initial rendering.
        */
       .setInfinity("viewportMargin");
-    final CodeMirror cm = CodeMirror.create(ele, cfg);
-    cm.setHeight(Window.getClientHeight() - HEADER_FOOTER);
+    int h = Gerrit.getHeaderFooterHeight() + 18 /* reviewed estimate */;
+    CodeMirror cm = CodeMirror.create(ele, cfg);
+    cm.setHeight(Window.getClientHeight() - h);
     return cm;
   }
 
@@ -863,7 +868,7 @@ public class SideBySide2 extends Screen {
   private Runnable toggleReviewed() {
     return new Runnable() {
      public void run() {
-       reviewedTop.setReviewed(!reviewedTop.isReviewed());
+       reviewed.setReviewed(!reviewed.isReviewed());
      }
     };
   }

@@ -33,6 +33,7 @@ limitations under the License.
     .table {
       width: 100%;
       table-layout: fixed;
+      border-spacing: 0;
     }
     .a, .b {
       width: 50%;

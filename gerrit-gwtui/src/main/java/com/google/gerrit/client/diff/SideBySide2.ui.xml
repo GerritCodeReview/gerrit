@@ -18,7 +18,7 @@ limitations under the License.
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
     xmlns:d='urn:import:com.google.gerrit.client.diff'>
   <g:HTMLPanel>
-    <d:ReviewedPanel ui:field='reviewedTop'/>
+    <d:ReviewedPanel ui:field='reviewed'/>
     <d:DiffTable ui:field='diffTable' />
   </g:HTMLPanel>
 </ui:UiBinder>

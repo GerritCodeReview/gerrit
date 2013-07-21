@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9310e396_83257ebb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 815,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-07-21T19:21:58Z",
+      "side": 1,
+      "message": "Maybe move this so clicking on \"Reply\" and \"Reply Done\" also trigger sign-in (See my patchset)?",
+      "revId": "3eb610db6e462089f70570707992c3eb4aab0005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

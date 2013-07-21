@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b31327a0_64568a08",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-21T21:50:58Z",
+      "side": 1,
+      "message": "I don\u0027t think this is the right way to handle doSignIn. I think the rest of the method still executes, but we don\u0027t want to make the CommentInfo or the DraftBox because the UI is about to unload.\n\nJust to keep the code easier to follow I would prefer for this to have a clean return out of the method. Which is ugly when the caller is probably expecting a DraftBox. So its maybe better to code the Reply and Reply Done buttons to also check this status and call doSignIn instead of trying to make the DraftBox.",
+      "revId": "1e177bce9e9904e09a2b8b329bb96166417eb98a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

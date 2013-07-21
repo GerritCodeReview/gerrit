@@ -23,6 +23,7 @@ import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 
 import java.io.IOException;
+import java.util.List;
 
 /** Global variables used by the 'init' command. */
 @Singleton
@@ -35,9 +36,13 @@ public class InitFlags {
 
   public final FileBasedConfig cfg;
   public final FileBasedConfig sec;
+  public final List<String> installPlugins;
 
   @Inject
-  InitFlags(final SitePaths site) throws IOException, ConfigInvalidException {
+  InitFlags(final SitePaths site,
+      final @InstallPlugins List<String> installPlugins) throws IOException,
+      ConfigInvalidException {
+    this.installPlugins = installPlugins;
     cfg = new FileBasedConfig(site.gerrit_config, FS.DETECTED);
     sec = new FileBasedConfig(site.secure_config, FS.DETECTED);
 

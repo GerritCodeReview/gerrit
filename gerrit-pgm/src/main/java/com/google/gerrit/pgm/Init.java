@@ -17,12 +17,17 @@ package com.google.gerrit.pgm;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.SINGLE_USER;
 import static com.google.inject.Stage.PRODUCTION;
 
+import com.google.common.base.Function;
+import com.google.common.base.Joiner;
+import com.google.common.base.Optional;
+import com.google.common.collect.Lists;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.pgm.init.Browser;
 import com.google.gerrit.pgm.init.InitFlags;
 import com.google.gerrit.pgm.init.InitModule;
 import com.google.gerrit.pgm.init.InitPlugins;
 import com.google.gerrit.pgm.init.InitPlugins.PluginData;
+import com.google.gerrit.pgm.init.InstallPlugins;
 import com.google.gerrit.pgm.init.SitePathInitializer;
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.pgm.util.Die;
@@ -36,6 +41,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.schema.SchemaUpdater;
 import com.google.gerrit.server.schema.UpdateUI;
 import com.google.gerrit.server.util.HostPlatform;
+import com.google.gwt.thirdparty.guava.common.base.Objects;
 import com.google.gwtorm.jdbc.JdbcExecutor;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
@@ -47,6 +53,7 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Module;
+import com.google.inject.TypeLiteral;
 import com.google.inject.spi.Message;
 
 import org.kohsuke.args4j.Option;
@@ -67,6 +74,9 @@ public class Init extends SiteProgram {
   @Option(name = "--list-plugins", usage = "List available plugins")
   private boolean listPlugins;
 
+  @Option(name = "--install-plugin", usage = "Install given plugin without asking", multiValued = true)
+  private List<String> installPlugins;
+
   public Init() {
   }
 
@@ -81,9 +91,10 @@ public class Init extends SiteProgram {
     ErrorLogFile.errorOnlyConsole();
 
     final SiteInit init = createSiteInit();
+    final List<PluginData> plugins = InitPlugins.listPlugins(init.site);
+    ConsoleUI ui = ConsoleUI.getInstance(false);
+    verifyInstallPluginList(ui, plugins);
     if (listPlugins) {
-      final ConsoleUI ui = ConsoleUI.getInstance();
-      final List<PluginData> plugins = InitPlugins.listPlugins(init.site);
       if (!plugins.isEmpty()) {
         ui.message("Available plugins:\n");
         for (PluginData plugin : plugins) {
@@ -148,6 +159,10 @@ public class Init extends SiteProgram {
       protected void configure() {
         bind(ConsoleUI.class).toInstance(ui);
         bind(File.class).annotatedWith(SitePath.class).toInstance(sitePath);
+        List<String> plugins =
+            Objects.firstNonNull(installPlugins, Lists.<String> newArrayList());
+        bind(new TypeLiteral<List<String>>() {}).annotatedWith(
+            InstallPlugins.class).toInstance(plugins);
       }
     });
 
@@ -333,5 +348,27 @@ public class Init extends SiteProgram {
     if (!path.delete() && path.exists()) {
       System.err.println("warn: Cannot remove " + path);
     }
+  }
+
+  private void verifyInstallPluginList(ConsoleUI ui, List<PluginData> plugins) {
+    if (nullOrEmpty(installPlugins) || nullOrEmpty(plugins)) {
+      return;
+    }
+    ArrayList<String> copy = Lists.newArrayList(installPlugins);
+    List<String> pluginNames = Lists.transform(plugins, new Function<PluginData, String>() {
+      @Override
+      public String apply(PluginData input) {
+        return input.name;
+      }
+    });
+    copy.removeAll(pluginNames);
+    if (!copy.isEmpty()) {
+      ui.message("Cannot find plugin(s): %s\n", Joiner.on(", ").join(copy));
+      listPlugins = true;
+    }
+  }
+
+  private static boolean nullOrEmpty(List<?> list) {
+    return list == null || list.isEmpty();
   }
 }

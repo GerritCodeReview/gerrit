@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.diff;
 
+import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.changes.CommentInput;
@@ -22,88 +23,99 @@ import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.RepeatingCommand;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
+import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import net.codemirror.lib.CodeMirror;
 
 /** An HtmlPanel for displaying and editing a draft */
 class DraftBox extends CommentBox {
   interface Binder extends UiBinder<HTMLPanel, DraftBox> {}
-  private static UiBinder<HTMLPanel, CommentBox> uiBinder =
-      GWT.create(Binder.class);
+  private static Binder uiBinder = GWT.create(Binder.class);
 
-  interface DraftBoxStyle extends CssResource {
-    String edit();
-    String view();
-    String newDraft();
-  }
-
-  @UiField
-  NpTextArea editArea;
-
-  @UiField
-  Button edit;
-
-  @UiField
-  Button save;
-
-  @UiField
-  Button cancel;
-
-  @UiField
-  Button discard;
-
-  @UiField
-  DraftBoxStyle draftStyle;
-
-  private static final int INITIAL_COLS = 60;
   private static final int INITIAL_LINES = 5;
   private static final int MAX_LINES = 30;
 
-  private boolean isNew;
+  private final SideBySide2 parent;
+  private final CodeMirror cm;
+  private final CommentLinkProcessor linkProcessor;
+  private final PatchSet.Id psId;
+  private CommentInfo comment;
   private PublishedBox replyToBox;
   private Timer expandTimer;
 
-  DraftBox(
-      SideBySide2 host,
-      CodeMirror cm,
-      PatchSet.Id id,
-      CommentInfo info,
-      CommentLinkProcessor linkProcessor,
-      boolean isNewDraft,
-      boolean saveOnInit) {
-    super(host, cm, uiBinder, id, info, linkProcessor, true);
+  @UiField Element summary;
+  @UiField Element date;
 
-    isNew = isNewDraft;
-    editArea.setText(info.message());
-    editArea.setCharacterWidth(INITIAL_COLS);
-    editArea.setVisibleLines(INITIAL_LINES);
-    editArea.setSpellCheck(true);
+  @UiField Element p_view;
+  @UiField HTML message;
+  @UiField Button edit;
+  @UiField Button discard1;
+
+  @UiField Element p_edit;
+  @UiField NpTextArea editArea;
+  @UiField Button save;
+  @UiField Button cancel;
+  @UiField Button discard2;
+
+  DraftBox(
+      SideBySide2 parent,
+      CodeMirror cm,
+      CommentLinkProcessor clp,
+      PatchSet.Id id,
+      CommentInfo info) {
+    this.parent = parent;
+    this.cm = cm;
+    this.linkProcessor = clp;
+    this.psId = id;
+    initWidget(uiBinder.createAndBindUi(this));
+
     expandTimer = new Timer() {
       @Override
       public void run() {
         expandText();
       }
     };
-    if (saveOnInit) {
-      onSave(null);
-    }
-    if (isNew) {
-      addStyleName(draftStyle.newDraft());
-    }
+    set(info);
+
+    addDomHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        if (!isEdit()) {
+          setOpen(!isOpen());
+        }
+      }
+    }, ClickEvent.getType());
+    addDomHandler(new DoubleClickHandler() {
+      @Override
+      public void onDoubleClick(DoubleClickEvent event) {
+        if (isEdit()) {
+          editArea.setFocus(true);
+        } else {
+          setOpen(true);
+          setEdit(true);
+        }
+      }
+    }, DoubleClickEvent.getType());
     addDomHandler(new MouseMoveHandler() {
       @Override
       public void onMouseMove(MouseMoveEvent event) {
@@ -112,10 +124,38 @@ class DraftBox extends CommentBox {
     }, MouseMoveEvent.getType());
   }
 
+  private void set(CommentInfo info) {
+    date.setInnerText(FormatUtil.shortFormatDayTime(info.updated()));
+    if (info.message() != null) {
+      String msg = info.message().trim();
+      summary.setInnerText(msg);
+      message.setHTML(linkProcessor.apply(
+          new SafeHtmlBuilder().append(msg).wikify()));
+    }
+    this.comment = info;
+  }
+
+  @Override
+  CommentInfo getCommentInfo() {
+    return comment;
+  }
+
+  @Override
+  boolean isOpen() {
+    return UIObject.isVisible(p_view);
+  }
+
+  @Override
+  void setOpen(boolean open) {
+    UIObject.setVisible(summary, !open);
+    UIObject.setVisible(p_view, open);
+    super.setOpen(open);
+  }
+
   private void expandText() {
     double cols = editArea.getCharacterWidth();
     int rows = 2;
-    for (String line : editArea.getText().split("\n")) {
+    for (String line : editArea.getValue().split("\n")) {
       rows += Math.ceil((1.0 + line.length()) / cols);
     }
     rows = Math.max(INITIAL_LINES, Math.min(rows, MAX_LINES));
@@ -125,22 +165,33 @@ class DraftBox extends CommentBox {
     resizePaddingWidget();
   }
 
+  private boolean isEdit() {
+    return UIObject.isVisible(p_edit);
+  }
+
   void setEdit(boolean edit) {
+    UIObject.setVisible(summary, false);
+    UIObject.setVisible(p_view, !edit);
+    UIObject.setVisible(p_edit, edit);
+
     if (edit) {
-      setOpen(true);
-      removeStyleName(draftStyle.view());
-      addStyleName(draftStyle.edit());
-      editArea.setText(getOriginal().message());
-      expandText();
-      editArea.setReadOnly(false);
+      final String msg = comment.message() != null
+          ? comment.message().trim()
+          : "";
+      editArea.setValue(msg);
       editArea.setFocus(true);
-      disableClickFocusHandler();
+      expandText();
+      if (msg.length() > 0) {
+        Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
+          @Override
+          public boolean execute() {
+            editArea.setCursorPos(msg.length());
+            return false;
+          }
+        }, 0);
+      }
     } else {
       expandTimer.cancel();
-      editArea.setReadOnly(true);
-      removeStyleName(draftStyle.edit());
-      addStyleName(draftStyle.view());
-      enableClickFocusHandler();
     }
     resizePaddingWidget();
   }
@@ -149,75 +200,113 @@ class DraftBox extends CommentBox {
     replyToBox = box;
   }
 
-  private void removeUI() {
-    setEdit(false);
+  @Override
+  protected void onUnload() {
     expandTimer.cancel();
+    super.onUnload();
+  }
+
+  private void removeUI() {
     if (replyToBox != null) {
       replyToBox.unregisterReplyBox();
     }
-    CommentInfo info = getOriginal();
-    getDiffView().removeDraft(this, info.side(), info.line() - 1);
+    parent.removeDraft(this, comment.side(), comment.line() - 1);
+
     removeFromParent();
     getSelfWidget().clear();
+
     PaddingManager manager = getPaddingManager();
     manager.remove(this);
     manager.resizePaddingWidget();
-    getCm().focus();
+    cm.focus();
   }
 
-  @UiHandler("contentPanelMessage")
-  void onDoubleClick(DoubleClickEvent e) {
+  @UiHandler("message")
+  void onMessageClick(ClickEvent e) {
+    e.stopPropagation();
+  }
+
+  @UiHandler("message")
+  void onMessageDoubleClick(DoubleClickEvent e) {
     setEdit(true);
   }
 
   @UiHandler("edit")
   void onEdit(ClickEvent e) {
+    e.stopPropagation();
     setEdit(true);
   }
 
   @UiHandler("save")
   void onSave(ClickEvent e) {
-    final String message = editArea.getText();
-    if (message.equals("")) {
+    e.stopPropagation();
+    onSave();
+  }
+
+  private void onSave() {
+    String message = editArea.getValue().trim();
+    if (message.length() == 0) {
       return;
     }
-    CommentInfo original = getOriginal();
+
+    CommentInfo original = comment;
     CommentInput input = CommentInput.create(original);
     input.setMessage(message);
-    setEdit(false);
+    enableEdit(false);
+
     GerritCallback<CommentInfo> cb = new GerritCallback<CommentInfo>() {
       @Override
       public void onSuccess(CommentInfo result) {
-        updateOriginal(result);
-        setMessageText(message);
-        setDate(result.updated());
-        if (isNew) {
-          removeStyleName(draftStyle.newDraft());
-          isNew = false;
+        enableEdit(true);
+        set(result);
+        if (result.message().length() < 70) {
+          UIObject.setVisible(p_edit, false);
+          setOpen(false);
+        } else {
+          setEdit(false);
         }
       }
+
+      @Override
+      public void onFailure(Throwable e) {
+        enableEdit(true);
+        super.onFailure(e);
+      }
     };
-    if (isNew) {
-      CommentApi.createDraft(getPatchSetId(), input, cb);
+    if (original.id() == null) {
+      CommentApi.createDraft(psId, input, cb);
     } else {
-      CommentApi.updateDraft(getPatchSetId(), original.id(), input, cb);
+      CommentApi.updateDraft(psId, original.id(), input, cb);
     }
-    getCm().focus();
+    cm.focus();
+  }
+
+  private void enableEdit(boolean on) {
+    editArea.setEnabled(on);
+    save.setEnabled(on);
+    cancel.setEnabled(on);
+    discard2.setEnabled(on);
   }
 
   @UiHandler("cancel")
   void onCancel(ClickEvent e) {
-    setEdit(false);
-    getCm().focus();
-  }
-
-  @UiHandler("discard")
-  void onDiscard(ClickEvent e) {
-    if (isNew) {
+    e.stopPropagation();
+    if (comment.id() == null && editArea.getValue().length() == 0) {
       removeUI();
     } else {
       setEdit(false);
-      CommentApi.deleteDraft(getPatchSetId(), getOriginal().id(),
+      cm.focus();
+    }
+  }
+
+  @UiHandler({"discard1", "discard2"})
+  void onDiscard(ClickEvent e) {
+    e.stopPropagation();
+    if (comment.id() == null) {
+      removeUI();
+    } else {
+      setEdit(false);
+      CommentApi.deleteDraft(psId, comment.id(),
           new GerritCallback<JavaScriptObject>() {
         @Override
         public void onSuccess(JavaScriptObject result) {
@@ -228,29 +317,21 @@ class DraftBox extends CommentBox {
   }
 
   @UiHandler("editArea")
-  void onCtrlS(KeyDownEvent e) {
+  void onKeyDown(KeyDownEvent e) {
     if ((e.isControlKeyDown() || e.isMetaKeyDown())
         && !e.isAltKeyDown() && !e.isShiftKeyDown()) {
       switch (e.getNativeKeyCode()) {
         case 's':
         case 'S':
           e.preventDefault();
-          onSave(null);
+          onSave();
           return;
       }
+    } else if (e.getNativeKeyCode() == KeyCodes.KEY_ESCAPE
+        && comment.id() == null && editArea.getValue().length() == 0) {
+      removeUI();
+      return;
     }
     expandTimer.schedule(250);
-  }
-
-  /** TODO: Unused now. Re-enable this after implementing auto-save */
-  void onEsc(KeyDownEvent e) {
-    if (e.getNativeKeyCode() == KeyCodes.KEY_ESCAPE) {
-      if (isNew) {
-        removeUI();
-      } else {
-        onCancel(null);
-      }
-      e.preventDefault();
-    }
   }
 }

@@ -262,15 +262,18 @@ public class SideBySide2 extends Screen {
     cm.on("scroll", doScroll(cm));
     cm.on("renderLine", resizeEmptyLine(getSideFromCm(cm)));
     // TODO: Prevent right click from updating the cursor.
-    cm.addKeyMap(KeyMap.create().on("'j'", moveCursorDown(cm, 1)));
-    cm.addKeyMap(KeyMap.create().on("'k'", moveCursorDown(cm, -1)));
-    cm.addKeyMap(KeyMap.create().on("'u'", upToChange()));
-    cm.addKeyMap(KeyMap.create().on("'r'", toggleReviewed()));
-    cm.addKeyMap(KeyMap.create().on("'o'", toggleOpenBox(cm)));
-    cm.addKeyMap(KeyMap.create().on("Enter", toggleOpenBox(cm)));
+    KeyMap km = KeyMap.create()
+        .on("'j'", moveCursorDown(cm, 1))
+        .on("'k'", moveCursorDown(cm, -1))
+        .on("'u'", upToChange())
+        .on("'r'", toggleReviewed())
+        .on("'o'", toggleOpenBox(cm))
+        .on("Enter", toggleOpenBox(cm));
     if (Gerrit.isSignedIn()) {
-      cm.addKeyMap(KeyMap.create().on("'c'", insertNewDraft(cm)));
+      km.on("'c'", insertNewDraft(cm));
     }
+    cm.addKeyMap(km);
+
     /**
      * TODO: Work on a better way for customizing keybindings and remove
      * temporary navigation hacks.

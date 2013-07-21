@@ -265,10 +265,9 @@ public class SideBySide2 extends Screen {
     cm.addKeyMap(KeyMap.create().on("'j'", moveCursorDown(cm, 1)));
     cm.addKeyMap(KeyMap.create().on("'k'", moveCursorDown(cm, -1)));
     cm.addKeyMap(KeyMap.create().on("'u'", upToChange()));
+    cm.addKeyMap(KeyMap.create().on("'r'", toggleReviewed()));
     cm.addKeyMap(KeyMap.create().on("'o'", toggleOpenBox(cm)));
     cm.addKeyMap(KeyMap.create().on("Enter", toggleOpenBox(cm)));
-    CodeMirror.defineVimEx("up", "u", upToChange());
-    CodeMirror.defineVimEx("mark", "m", toggleReviewed());
     if (Gerrit.isSignedIn()) {
       cm.addKeyMap(KeyMap.create().on("'c'", insertNewDraft(cm)));
     }
@@ -298,7 +297,7 @@ public class SideBySide2 extends Screen {
 
     keysAction = new KeyCommandSet(Gerrit.C.sectionActions());
     keysAction.add(new NoOpKeyCommand(0, 'o', PatchUtil.C.expandComment()));
-    keysAction.add(new KeyCommand(0, 'm', PatchUtil.C.toggleReviewed()) {
+    keysAction.add(new KeyCommand(0, 'r', PatchUtil.C.toggleReviewed()) {
       @Override
       public void onKeyPress(KeyPressEvent event) {
         toggleReviewed().run();

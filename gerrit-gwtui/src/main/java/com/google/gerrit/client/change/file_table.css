@@ -21,6 +21,20 @@
 
 .pathColumn {
   white-space: nowrap;
+  min-width: 600px;
+}
+
+.draftColumn,
+.newColumn,
+.commentColumn {
+  white-space: nowrap;
+}
+.draftColumn {
+  color: #d44;
+  font-weight: bold;
+}
+.newColumn {
+  font-weight: bold;
 }
 
 .deltaColumn1 {

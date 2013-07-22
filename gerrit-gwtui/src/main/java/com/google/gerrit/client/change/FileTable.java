@@ -16,6 +16,7 @@ package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeApi;
+import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.changes.ReviewInfo;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.diff.FileInfo;
@@ -51,6 +52,7 @@ import com.google.gwtexpui.progress.client.ProgressBar;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtorm.client.KeyUtil;
 
+import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -67,6 +69,9 @@ class FileTable extends FlowPanel {
     String pointer();
     String reviewed();
     String pathColumn();
+    String draftColumn();
+    String newColumn();
+    String commentColumn();
     String deltaColumn1();
     String deltaColumn2();
     String inserted();
@@ -140,7 +145,10 @@ class FileTable extends FlowPanel {
     this.curr = curr;
   }
 
-  void setValue(NativeMap<FileInfo> fileMap) {
+  void setValue(NativeMap<FileInfo> fileMap,
+      Timestamp myLastReply,
+      NativeMap<JsArray<CommentInfo>> comments,
+      NativeMap<JsArray<CommentInfo>> drafts) {
     JsArray<FileInfo> list = fileMap.values();
     Collections.sort(Natives.asList(list), new Comparator<FileInfo>() {
       @Override
@@ -154,7 +162,8 @@ class FileTable extends FlowPanel {
       }
     });
 
-    DisplayCommand cmd = new DisplayCommand(fileMap, list);
+    DisplayCommand cmd = new DisplayCommand(fileMap, list,
+        myLastReply, comments, drafts);
     if (cmd.execute()) {
       cmd.showProgressBar();
       Scheduler.get().scheduleIncremental(cmd);
@@ -319,6 +328,9 @@ class FileTable extends FlowPanel {
     private final SafeHtmlBuilder sb = new SafeHtmlBuilder();
     private final MyTable table;
     private final JsArray<FileInfo> list;
+    private final Timestamp myLastReply;
+    private final NativeMap<JsArray<CommentInfo>> comments;
+    private final NativeMap<JsArray<CommentInfo>> drafts;
     private final boolean hasUser;
     private boolean attached;
     private int row;
@@ -328,9 +340,16 @@ class FileTable extends FlowPanel {
     private int inserted;
     private int deleted;
 
-    private DisplayCommand(NativeMap<FileInfo> map, JsArray<FileInfo> list) {
+    private DisplayCommand(NativeMap<FileInfo> map,
+        JsArray<FileInfo> list,
+        Timestamp myLastReply,
+        NativeMap<JsArray<CommentInfo>> comments,
+        NativeMap<JsArray<CommentInfo>> drafts) {
       this.table = new MyTable(map, list);
       this.list = list;
+      this.myLastReply = myLastReply;
+      this.comments = comments;
+      this.drafts = drafts;
       this.hasUser = Gerrit.isSignedIn();
     }
 
@@ -405,6 +424,10 @@ class FileTable extends FlowPanel {
       sb.openTh().setStyleName(R.css().reviewed()).closeTh();
       sb.openTh().append(Util.C.patchTableColumnName()).closeTh();
       sb.openTh()
+        .setAttribute("colspan", 3)
+        .append(Util.C.patchTableColumnComments())
+        .closeTh();
+      sb.openTh()
         .setAttribute("colspan", 2)
         .append(Util.C.patchTableColumnSize())
         .closeTh();
@@ -416,6 +439,7 @@ class FileTable extends FlowPanel {
       sb.openTd().setStyleName(R.css().pointer()).closeTd();
       columnReviewed(sb, info);
       columnPath(sb, info);
+      columnComments(sb, info);
       columnDelta1(sb, info);
       columnDelta2(sb, info);
       sb.closeTr();
@@ -443,6 +467,50 @@ class FileTable extends FlowPanel {
             : info.path())
         .closeAnchor()
         .closeTd();
+    }
+
+    private void columnComments(SafeHtmlBuilder sb, FileInfo info) {
+      JsArray<CommentInfo> cList = get(info.path(), comments);
+      JsArray<CommentInfo> dList = get(info.path(), drafts);
+
+      sb.openTd().setStyleName(R.css().draftColumn());
+      if (dList.length() > 0) {
+        sb.append("drafts: ").append(dList.length());
+      }
+      sb.closeTd();
+
+      int cntAll = cList.length();
+      int cntNew = 0;
+      if (myLastReply != null) {
+        for (int i = cntAll - 1; i >= 0; i--) {
+          CommentInfo m = cList.get(i);
+          if (m.updated().compareTo(myLastReply) > 0) {
+            cntNew++;
+          } else {
+            break;
+          }
+        }
+      }
+
+      sb.openTd().setStyleName(R.css().newColumn());
+      if (cntNew > 0) {
+        sb.append("new: ").append(cntNew);
+      }
+      sb.closeTd();
+
+      sb.openTd().setStyleName(R.css().commentColumn());
+      if (cntAll - cntNew > 0) {
+        sb.append("comments: ").append(cntAll - cntNew);
+      }
+      sb.closeTd();
+    }
+
+    private JsArray<CommentInfo> get(String p, NativeMap<JsArray<CommentInfo>> m) {
+      JsArray<CommentInfo> r =  m.get(p);
+      if (r == null) {
+        r = JsArray.createArray().cast();
+      }
+      return r;
     }
 
     private void columnDelta1(SafeHtmlBuilder sb, FileInfo info) {
@@ -488,6 +556,7 @@ class FileTable extends FlowPanel {
       sb.openTh().setStyleName(R.css().pointer()).closeTh();
       sb.openTh().setStyleName(R.css().reviewed()).closeTh();
       sb.openTd().closeTd(); // path
+      sb.openTd().setAttribute("colspan", 3).closeTd(); // comments
 
       // delta1
       sb.openTh().setStyleName(R.css().deltaColumn1())

@@ -37,6 +37,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Collections;
 
 
 public class UpgradeFrom2_0_xTest extends InitTestCase {
@@ -68,7 +69,8 @@ public class UpgradeFrom2_0_xTest extends InitTestCase {
     old.setString("sendemail", null, "smtpPass", "email.s3kr3t");
     old.save();
 
-    final InitFlags flags = new InitFlags(site);
+    final InitFlags flags =
+        new InitFlags(site, Collections.<String> emptyList());
     final ConsoleUI ui = createStrictMock(ConsoleUI.class);
     Section.Factory sections = new Section.Factory() {
       @Override

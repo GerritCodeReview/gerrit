@@ -32,18 +32,27 @@ limitations under the License.
       width: auto;
       height: auto;
     }
-    .action {
+    a.action {
       color: #222;
+      text-decoration: underline;
       display: inline-block;
       margin-left: 0.5em;
     }
   </ui:style>
   <g:HTMLPanel styleName='{style.bar}'>
     <ui:msg>Update from <span ui:field='author'/></ui:msg>
-    <g:Anchor ui:field='show' styleName='{style.action}'>
+    <g:Anchor ui:field='show'
+        styleName='{style.action}'
+        href='javascript:;'
+        title='Refresh screen and display updates'>
+      <ui:attribute name='title'/>
       <ui:msg>Show</ui:msg>
     </g:Anchor>
-    <g:Anchor ui:field='ignore' styleName='{style.action}'>
+    <g:Anchor ui:field='ignore'
+        styleName='{style.action}'
+        href='javascript:;'
+        title='Ignore this update'>
+      <ui:attribute name='title'/>
       <ui:msg>Ignore</ui:msg>
     </g:Anchor>
   </g:HTMLPanel>

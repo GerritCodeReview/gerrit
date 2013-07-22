@@ -278,6 +278,32 @@ Even though, All changes on branch of 'refs/heads/Android/Audio-1.1/*'
 will not be blocked by 'Video-Qualify', and any member of 'reviewer' will
 not see 'Video-Qualify' on these Change's UI.
 
+In 'project.config' file each permission is based on branches, all
+branches refered to by a given label related permissions form a
+scope which is mostly the business scope of this label, this scope will be
+called as 'label access control scope' in below context.
+
+There is some cases where a customized label is not popular and always its
+'branch' is expected to keep pace with its 'label access control scope'
+precisely with some reasons, e.g. for making sure this label will never
+appear on any no business relevance branch to scare or block users there;
+or just for maintaining this label's 'branch' easily .
+
+There is a special value 'sameAsAccess' for these cases, E.g. on top
+parent project:
+
+====
+  [label "Video-Qualify"]
+      branch = sameAsAccess
+====
+
+Then in above case of only changes on branches 'refs/heads/Audio-1.1/*' of
+'Firefox' and its children projects will see or be blocked by 'Video-Qualify'.
+
+For Admin, 'sameAsAccess' get it easy to maintain the 'branch', especially
+when maintaining the 'branch' is a regular work. Updating 'access' via UI
+is enough, need not to update related 'project.config' file.
+
 [[label_example]]
 Example
 ~~~~~~~

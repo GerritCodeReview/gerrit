@@ -259,21 +259,29 @@ public class ChangeControl {
                 return in.getName();
               }
             }));
-
+    List<LabelType> permissionLabels =
+        getRefControl().getLabelTypes().getLabelTypes();
     String destBranch = getChange().getDest().get();
+
     for (LabelType l : getProjectControl().getLabelTypes().getLabelTypes()) {
       List<String> refs = l.getRefPatterns();
       if (refs == null) {
         r.add(l);
+      } else if (refs.size() == 1 && refs.get(0).equals("sameAsAccess")) {
+        if (permissionLabels.contains(l)) {
+          r.add(l);
+        }
       } else {
-        for (String b : refs) {
-          if (RefConfigSection.isValid(b) && match(destBranch, b)) {
+        for (String refPattern : refs) {
+          if (RefConfigSection.isValid(refPattern)
+              && match(destBranch, refPattern)) {
             r.add(l);
             break;
           }
         }
       }
     }
+
     return new LabelTypes(Lists.newArrayList(r));
   }
 

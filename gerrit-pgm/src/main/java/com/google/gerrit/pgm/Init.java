@@ -19,7 +19,6 @@ import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
-import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.pgm.init.Browser;

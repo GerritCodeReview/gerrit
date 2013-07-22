@@ -33,16 +33,6 @@ limitations under the License.
       height: HEADER_HEIGHT;
     }
 
-    .sectionHeader {
-      background-color: trimColor;
-      font-weight: bold;
-      color: textColor;
-      padding: 7px 10px;
-    }
-    .historyHeader {
-      width: 1150px;
-    }
-
     .idBlock {
       position: relative;
       width: INFO_WIDTH;
@@ -181,6 +171,23 @@ limitations under the License.
     }
     button.quickApprove div { color: #fff; }
 
+    .sectionHeader {
+      position: relative;
+      background-color: trimColor;
+      font-weight: bold;
+      color: textColor;
+      height: 18px;
+      padding: 5px 10px;
+    }
+    .sectionHeader .headerButtons {
+      top: 2px;
+      height: 18px;
+      border-left: 1px inset #fff;
+      padding-top: 3px;
+      padding-bottom: 3px;
+    }
+    .sectionHeader button { margin-top: 0; }
+
     .replyBox {
       background-color: trimColor;
     }
@@ -275,12 +282,29 @@ limitations under the License.
       </tr>
     </table>
 
-    <div class='{style.sectionHeader}'
-      ><ui:msg>Files</ui:msg></div>
+    <div class='{style.sectionHeader}'>
+      <ui:msg>Files</ui:msg>
+    </div>
     <c:FileTable ui:field='files'/>
 
-    <div class='{style.sectionHeader} {style.historyHeader}'
-      ><ui:msg>History</ui:msg></div>
+    <div class='{style.sectionHeader}'>
+      <ui:msg>History</ui:msg>
+      <div class='{style.headerButtons}'>
+        <g:Button ui:field='expandAll'
+            styleName=''
+            title='Expand all messages in the change history'>
+          <ui:attribute name='title'/>
+          <div><ui:msg>Expand All</ui:msg></div>
+        </g:Button>
+        <g:Button ui:field='collapseAll'
+            styleName=''
+            visible='false'
+            title='Collapse all messages in the change history'>
+          <ui:attribute name='title'/>
+          <div><ui:msg>Collapse All</ui:msg></div>
+        </g:Button>
+      </div>
+    </div>
     <g:FlowPanel ui:field='history'/>
   </g:HTMLPanel>
 </ui:UiBinder>

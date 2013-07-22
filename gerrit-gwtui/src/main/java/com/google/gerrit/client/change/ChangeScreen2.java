@@ -26,6 +26,7 @@ import com.google.gerrit.client.changes.ChangeInfo.MergeableInfo;
 import com.google.gerrit.client.changes.ChangeInfo.MessageInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.changes.ChangeList;
+import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.changes.StarredChanges;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.diff.DiffApi;
@@ -333,7 +334,7 @@ public class ChangeScreen2 extends Screen {
     final RevisionInfo rev = resolveRevisionToDisplay(info);
 
     CallbackGroup group = new CallbackGroup();
-    loadDiff(rev, group);
+    loadDiff(rev, myLastReply(info), group);
     loadCommit(rev, group);
     ConfigInfoCache.add(info);
     ConfigInfoCache.get(info.project_name_key(),
@@ -348,14 +349,30 @@ public class ChangeScreen2 extends Screen {
     group.done();
   }
 
-  private void loadDiff(final RevisionInfo rev, CallbackGroup group) {
+  private static Timestamp myLastReply(ChangeInfo info) {
+    if (Gerrit.isSignedIn() && info.messages() != null) {
+      int self = Gerrit.getUserAccountInfo()._account_id();
+      for (int i = info.messages().length() - 1; i >= 0; i--) {
+        MessageInfo m = info.messages().get(i);
+        if (m.author() != null && m.author()._account_id() == self) {
+          return m.date();
+        }
+      }
+    }
+    return null;
+  }
+
+  private void loadDiff(final RevisionInfo rev, final Timestamp myLastReply,
+      CallbackGroup group) {
+    final List<NativeMap<JsArray<CommentInfo>>> comments = loadComments(rev, group);
+    final List<NativeMap<JsArray<CommentInfo>>> drafts = loadDrafts(rev, group);
     DiffApi.list(changeId.get(),
       rev.name(),
       group.add(new AsyncCallback<NativeMap<FileInfo>>() {
         @Override
         public void onSuccess(NativeMap<FileInfo> m) {
           files.setRevisions(null, new PatchSet.Id(changeId, rev._number()));
-          files.setValue(m);
+          files.setValue(m, myLastReply, comments.get(0), drafts.get(0));
         }
 
         @Override
@@ -378,6 +395,48 @@ public class ChangeScreen2 extends Screen {
             }
           }));
     }
+  }
+
+  private List<NativeMap<JsArray<CommentInfo>>> loadComments(
+      RevisionInfo rev, CallbackGroup group) {
+    final List<NativeMap<JsArray<CommentInfo>>> r =
+        new ArrayList<NativeMap<JsArray<CommentInfo>>>(1);
+    ChangeApi.revision(changeId.get(), rev.name())
+      .view("comments")
+      .get(group.add(new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
+        @Override
+        public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
+          r.add(result);
+        }
+
+        @Override
+        public void onFailure(Throwable caught) {
+        }
+      }));
+    return r;
+  }
+
+  private List<NativeMap<JsArray<CommentInfo>>> loadDrafts(
+      RevisionInfo rev, CallbackGroup group) {
+    final List<NativeMap<JsArray<CommentInfo>>> r =
+        new ArrayList<NativeMap<JsArray<CommentInfo>>>(1);
+    if (Gerrit.isSignedIn()) {
+      ChangeApi.revision(changeId.get(), rev.name())
+        .view("drafts")
+        .get(group.add(new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
+          @Override
+          public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
+            r.add(result);
+          }
+
+          @Override
+          public void onFailure(Throwable caught) {
+          }
+        }));
+    } else {
+      r.add(NativeMap.<JsArray<CommentInfo>> create());
+    }
+    return r;
   }
 
   private void loadCommit(final RevisionInfo rev, CallbackGroup group) {

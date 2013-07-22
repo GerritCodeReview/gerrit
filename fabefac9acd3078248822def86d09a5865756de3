@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "93e543f5_9bfa2bf4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-22T19:59:34Z",
+      "side": 1,
+      "message": "So I find it fascinating that CellList can replace onclick on an Anchor element simply by catching all events on the table.\n\nI guess with CellList I would still have to use \"onclick\u003d\u0027return false\u0027\" in my built HTML to skip off the anchor.",
+      "parentUuid": "f3de7f26_fe46c14e",
+      "revId": "fabefac9acd3078248822def86d09a5865756de3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "13da3333_3f3ae7e0",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChanges.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-07-22T19:44:52Z",
       "side": 1,
       "message": "it would make more sense to call this \"setMaxHeight\" or \"setScrollHeight\", instead of passing in the peer.  You can still do the header deduction in this class.",
+      "revId": "fabefac9acd3078248822def86d09a5865756de3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3de7f26_be9359a2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-22T19:59:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13da3333_3f3ae7e0",
       "revId": "fabefac9acd3078248822def86d09a5865756de3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "f3de7f26_dea025ea",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChanges.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-22T19:59:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13da3333_ff187f87",
+      "revId": "fabefac9acd3078248822def86d09a5865756de3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "73b44fde_1ae7fd5f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2013-07-22T19:44:52Z",
       "side": 1,
       "message": "it seems to me any parent should always be visible, since you already have the data, especially if you fetch it. Furthermore, ChangeControl should probably enforce this behavior.",
+      "revId": "fabefac9acd3078248822def86d09a5865756de3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "53b90bd7_19e70b60",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-22T19:59:34Z",
+      "side": 1,
+      "message": "Done... well, parents of the ResourceRevision are assumed visible. I didn\u0027t push this logic into ChangeControl for the descendants because that is horrifically ugly and a major behavior change.",
+      "parentUuid": "73b44fde_1ae7fd5f",
       "revId": "fabefac9acd3078248822def86d09a5865756de3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

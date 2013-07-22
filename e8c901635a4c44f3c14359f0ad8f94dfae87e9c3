@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13da3333_7f5b8f2e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/FileCommentPanel.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-07-22T21:28:49Z",
+      "side": 1,
+      "message": "get rid of the ui.xml file and just make the HTMLPanel in the widget",
+      "revId": "e8c901635a4c44f3c14359f0ad8f94dfae87e9c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3de7f26_5e6415e0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSelectBox2.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-07-22T21:28:49Z",
+      "side": 1,
+      "message": "these styles shouldn\u0027t be needed.",
+      "revId": "e8c901635a4c44f3c14359f0ad8f94dfae87e9c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73b44fde_5af17518",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/ReviewedPanel.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-07-22T21:28:49Z",
+      "side": 1,
+      "message": "remove these styles, it should look like a link",
+      "revId": "e8c901635a4c44f3c14359f0ad8f94dfae87e9c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3de7f26_1e6a8daf",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/ReviewedPanel.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-07-22T21:28:49Z",
+      "side": 1,
+      "message": "this needs to be the text of the check box so that it is a label that also selects the check.\n\nalso:\nYou need an import at the top for html entities:\nhttp://www.gwtproject.org/doc/latest/DevGuideUiBinder.html#HTML_entities",
+      "revId": "e8c901635a4c44f3c14359f0ad8f94dfae87e9c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

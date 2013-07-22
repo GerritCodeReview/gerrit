@@ -244,6 +244,31 @@ If false, the label cannot be overridden by child projects. Any
 configuration for this label in child projects will be ignored. Defaults
 to true.
 
+[[label_isBranchBasis]]
+`label.Label-Name.applicableScope`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Label's applicable scope can be configured with one of below 3 options.
+
+Project scope. This is default value, it will affect all changes on
+all branches.
+
+Same as access control scope. Configure its value to be 'access',
+lable's applicable scope will be identified with its access control
+scope figured out by related 'access' sections in project.config file.
+
+Branch basis scope. Configure its value with a list of reference names
+separated by comma like
+
+====
+  [label "Copyright-Check"]
+	  applicableScope = refs/heads/ad/vidio/*,refs/heads/ub/vidio/Kino
+====
+
+Then any change in that scope will be affected by this label, please
+note it is independent from related access control scope, that
+means changes not in that scope will not be affected by this label
+even if their access control scope includes this label.
 
 [[label_example]]
 Example

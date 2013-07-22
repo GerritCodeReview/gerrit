@@ -14,8 +14,12 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.PermissionRange;
+import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.reviewdb.client.Account;
@@ -45,7 +49,9 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Nullable;
 
@@ -242,9 +248,39 @@ public class ChangeControl {
         && getRefControl().canUpload(); // as long as you can upload too
   }
 
-  /** All available label types for this project. */
+  /** All available label types for this change. */
   public LabelTypes getLabelTypes() {
-    return getProjectControl().getLabelTypes();
+    Set<LabelType> r = Sets.newTreeSet(new Comparator<LabelType>() {
+      @Override
+      public int compare(LabelType o1, LabelType o2) {
+        return o1.getName().compareTo(o2.getName());
+      }
+    });
+    r.addAll(getRefControl().getLabelTypes().getLabelTypes());
+
+    String destBranch = getChange().getDest().get();
+    for (LabelType l : getProjectControl().getLabelTypes().getLabelTypes()) {
+      List<String> as = l.getApplicableScope();
+      if (as.size() == 1 && as.get(0).equals("project")) {
+        r.add(l);
+      } else if (as.size() == 1 && as.get(0).equals("access")) {
+        continue;
+      } else {
+        // branch basis
+        boolean found = false;
+        for (String ref : as) {
+          if (RefConfigSection.isValid(ref) && destBranch.matches(ref)) {
+            r.add(l);
+            found = true;
+            break;
+          }
+        }
+        if (!found && r.contains(l)) {
+          r.remove(l);
+        }
+      }
+    }
+    return new LabelTypes(Lists.newArrayList(r));
   }
 
   /** All value ranges of any allowed label permission. */

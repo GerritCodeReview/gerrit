@@ -14,9 +14,12 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
@@ -54,6 +57,9 @@ public class RefControl {
 
   /** All permissions that apply to this reference. */
   private final PermissionCollection relevant;
+
+  /** All labels that apply to this reference. */
+  private LabelTypes labels;
 
   /** Cached set of permissions matching this user. */
   private final Map<String, List<PermissionRule>> effective;
@@ -370,6 +376,28 @@ public class RefControl {
   /** @return true if this user can force edit topic names. */
   public boolean canForceEditTopicName() {
     return canForcePerform(Permission.EDIT_TOPIC_NAME);
+  }
+
+  /** All labels that apply to this reference. */
+  public LabelTypes getLabelTypes() {
+    if (labels == null) {
+      final Set<String> lns = Sets.newHashSet();
+      for (Map.Entry<String, List<PermissionRule>> e : relevant
+          .getDeclaredPermissions()) {
+        if (Permission.isLabel(e.getKey())) {
+          lns.add(Permission.extractLabel(e.getKey()));
+        }
+      }
+
+      List<LabelType> r = Lists.newArrayList();
+      for (LabelType e : getProjectControl().getLabelTypes().getLabelTypes()) {
+        if (lns.contains(e.getName())) {
+          r.add(e);
+        }
+      }
+      labels = new LabelTypes(r);
+    }
+    return labels;
   }
 
   /** All value ranges of any allowed label permission. */

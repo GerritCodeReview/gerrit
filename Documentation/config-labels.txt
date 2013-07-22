@@ -271,6 +271,27 @@ That means from the UI a user can always assign permissions for that
 label on a branch, but this permission is then ignored if the label
 doesn't apply for that branch.
 
+In 'project.config' file each permission is based on branches, all
+branches refered to by a given label related permissions form a
+scope which is mostly the business scope of this label,
+
+this scope will be
+called as 'label access control scope' in below context.
+
+There is some cases where a customized label is not popular and always its
+'branch' is expected to keep pace with its 'label access control scope'
+precisely with some reasons.
+
+The special value 'sameAsAccess' is for these
+cases.
+
+E.g. on top parent project:
+
+====
+  [label "Video-Qualify"]
+      branch = sameAsAccess
+====
+
 [[label_example]]
 Example
 ~~~~~~~

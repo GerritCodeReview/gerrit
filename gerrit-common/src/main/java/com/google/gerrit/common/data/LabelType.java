@@ -18,6 +18,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -103,6 +104,7 @@ public class LabelType {
   protected short maxPositive;
 
   private transient boolean canOverride;
+  private transient List<String> branch;
   private transient List<Integer> intList;
   private transient Map<Short, LabelValue> byValue;
 
@@ -112,6 +114,7 @@ public class LabelType {
   public LabelType(String name, List<LabelValue> valueList) {
     this.name = checkName(name);
     canOverride = true;
+    branch = Arrays.asList("project");
     values = sortValues(valueList);
 
     abbreviation = defaultAbbreviation(name);
@@ -157,8 +160,16 @@ public class LabelType {
     return canOverride;
   }
 
+  public List<String> getBranch() {
+    return branch;
+  }
+
   public void setCanOverride(boolean canOverride) {
     this.canOverride = canOverride;
+  }
+
+  public void setBranch(List<String> branch) {
+    this.branch = branch;
   }
 
   public List<LabelValue> getValues() {

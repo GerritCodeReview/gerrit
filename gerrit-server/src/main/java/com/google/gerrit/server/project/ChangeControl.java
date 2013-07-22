@@ -14,8 +14,12 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.PermissionRange;
+import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.reviewdb.client.Account;
@@ -39,13 +43,18 @@ import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 
+import dk.brics.automaton.RegExp;
+import dk.brics.automaton.RunAutomaton;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Nullable;
 
@@ -242,9 +251,39 @@ public class ChangeControl {
         && getRefControl().canUpload(); // as long as you can upload too
   }
 
-  /** All available label types for this project. */
+  /** All available label types for this change. */
   public LabelTypes getLabelTypes() {
-    return getProjectControl().getLabelTypes();
+    Set<LabelType> r = Sets.newTreeSet(new Comparator<LabelType>() {
+      @Override
+      public int compare(LabelType o1, LabelType o2) {
+        return o1.getName().compareTo(o2.getName());
+      }
+    });
+    r.addAll(getRefControl().getLabelTypes().getLabelTypes());
+
+    String destBranch = getChange().getDest().get();
+    for (LabelType l : getProjectControl().getLabelTypes().getLabelTypes()) {
+      List<String> refs = l.getBranch();
+      if (refs.size() == 1 && refs.get(0).equals("project")) {
+        r.add(l);
+      } else if (refs.size() == 1 && refs.get(0).equals("sameAsAccess")) {
+        continue;
+      } else {
+        // branch basis
+        boolean found = false;
+        for (String b : refs) {
+          if (RefConfigSection.isValid(b)&& match(destBranch, b)) {
+              r.add(l);
+              found = true;
+              break;
+          }
+        }
+        if (!found && r.contains(l)) {
+          r.remove(l);
+        }
+      }
+    }
+    return new LabelTypes(Lists.newArrayList(r));
   }
 
   /** All value ranges of any allowed label permission. */
@@ -401,6 +440,18 @@ public class ChangeControl {
     }
 
     return resultsToSubmitRecord(evaluator.getSubmitRule(), results);
+  }
+
+  private boolean match(String destBranch, String ref){
+    if (ref.startsWith("^")) {
+      ref= ref.substring(1);
+    }
+    if (ref.endsWith("$") && !ref.endsWith("\\$")) {
+      ref = ref.substring(0, ref.length() - 1);
+    }
+    RunAutomaton pattern =
+        new RunAutomaton(new RegExp(ref).toAutomaton());
+    return pattern.run(destBranch)  ;
   }
 
   private List<SubmitRecord> cannotSubmitDraft(ReviewDb db, PatchSet patchSet,

@@ -244,6 +244,57 @@ If false, the label cannot be overridden by child projects. Any
 configuration for this label in child projects will be ignored. Defaults
 to true.
 
+[[label_branch]]
+`label.Label-Name.branch`
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+By default a given project's label applicable scope is all changes
+on all branches of this project and its children projects.
+
+Label's applicable scope can be branch specific via configuration.
+E.g. create a label 'Video-Qualify' on parent project and configure
+the 'branch' as:
+
+====
+  [label "Video-Qualify"]
+	  branch = ^refs/heads/video-1.0/.*$
+	  branch = refs/heads/video-1.1/Kino
+====
+
+Then ONLY changes in above branch scope of parent project and children
+projects ('Ubuntu', 'Android', ...) will be affected by 'Video-Qualify'.
+
+Please note the 'branch' is independent from the branch scope related to
+access control defined in 'access' parts in 'project.config' file.
+
+That means if there is an access control of children project
+'Firefox' like:
+
+====
+  [access "refs/heads/Audio-1.1/*"]
+	  label-Video-Qualify = -1..+1 group reviewer
+====
+Even though, All changes on branch of 'refs/heads/Android/Audio-1.1/*'
+will not be blocked by 'Video-Qualify', and any member of 'reviewer' will
+not see 'Video-Qualify' on these Change's UI.
+
+But there is some cases where the label is not popular and its 'branch'
+is always expected to keep pace with branch scope related to access control
+precisely to make sure it will never appear on any no business relevance
+branch to scare or block users there.
+
+There is a special value 'sameAsAccess' for these cases, E.g.:
+
+====
+  [label "Video-Qualify"]
+	  branch = sameAsAccess
+====
+
+Then in above case only changes on branches 'refs/heads/Audio-1.1/*' of
+'Firefox' and its children projects will see or be blocked by 'Video-Qualify'.
+
+Also the 'sameAsAccess' make it easy to maintenance the 'branch'.
+Updating 'access' via UI is enough, need not update 'project.config' file.
 
 [[label_example]]
 Example

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f3de7f26_9e213db8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/UpdateAvailableBar.ui.xml",
+        "patchSetId": 9
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-07-22T16:50:14Z",
+      "side": 1,
+      "message": "text-decoration and cursor are not needed.",
+      "revId": "1c3b6712d55cd526da705d0742eac328c8566530",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

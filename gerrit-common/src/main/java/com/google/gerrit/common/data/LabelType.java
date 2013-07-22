@@ -105,6 +105,7 @@ public class LabelType {
   protected short maxPositive;
 
   private transient boolean canOverride;
+  private transient boolean branchSameAsAccess;
   private transient List<String> refPatterns;
   private transient List<Integer> intList;
   private transient Map<Short, LabelValue> byValue;
@@ -115,6 +116,7 @@ public class LabelType {
   public LabelType(String name, List<LabelValue> valueList) {
     this.name = checkName(name);
     canOverride = true;
+    branchSameAsAccess = false;
     values = sortValues(valueList);
 
     abbreviation = defaultAbbreviation(name);
@@ -164,12 +166,20 @@ public class LabelType {
     return refPatterns;
   }
 
+  public boolean branchSameAsAccess() {
+    return branchSameAsAccess;
+  }
+
   public void setCanOverride(boolean canOverride) {
     this.canOverride = canOverride;
   }
 
   public void setRefPatterns(List<String> refPatterns) {
     this.refPatterns = refPatterns;
+  }
+
+  public void setBranchSameAsAccess(boolean branchSameAsAccess) {
+    this.branchSameAsAccess = branchSameAsAccess;
   }
 
   public List<LabelValue> getValues() {

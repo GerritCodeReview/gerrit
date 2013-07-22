@@ -209,6 +209,24 @@
       "revId": "945308ecdd088cf6396d613328b8a0665995ccee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13da3333_ff015f17",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/UpdatedBar.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-07-22T16:21:44Z",
+      "side": 1,
+      "message": "Generally you use Anchors for things that are clickable for two reasons:\n\n1) it has the consistent look and feel of something that is clickable\n\n2) the browser automatically treats it like a control, so it works better with keyboards and things like screen readers.",
+      "parentUuid": "b31327a0_84f7460b",
+      "revId": "945308ecdd088cf6396d613328b8a0665995ccee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -15,10 +15,7 @@
 package gerrit;
 
 import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.StoredValues;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
 
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
 import com.googlecode.prolog_cafe.lang.ListTerm;
@@ -53,14 +50,8 @@ class PRED_get_legacy_label_types_1 extends Predicate.P1 {
   public Operation exec(Prolog engine) throws PrologException {
     engine.setB0();
     Term a1 = arg1.dereference();
-
-    PrologEnvironment env = (PrologEnvironment) engine.control;
-    ProjectState state = env.getInjector().getInstance(ProjectCache.class)
-        .get(StoredValues.CHANGE.get(engine).getDest().getParentKey());
-    if (state == null) {
-      return engine.fail();
-    }
-    List<LabelType> list = state.getLabelTypes().getLabelTypes();
+    List<LabelType> list =
+        StoredValues.CHANGE_CONTROL.get(engine).getLabelTypes().getLabelTypes();
     Term head = Prolog.Nil;
     for (int idx = list.size() - 1; 0 <= idx; idx--) {
       head = new ListTerm(export(list.get(idx)), head);

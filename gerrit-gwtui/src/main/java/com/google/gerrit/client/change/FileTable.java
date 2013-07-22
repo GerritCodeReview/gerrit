@@ -231,7 +231,7 @@ class FileTable extends FlowPanel {
       keysNavigation.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER,
           Util.C.patchTableOpenDiff()));
 
-      keysNavigation.add(new KeyCommand(0, 'm', PatchUtil.C.toggleReviewed()) {
+      keysNavigation.add(new KeyCommand(0, 'r', PatchUtil.C.toggleReviewed()) {
         @Override
         public void onKeyPress(KeyPressEvent event) {
           int row = getCurrentRow();

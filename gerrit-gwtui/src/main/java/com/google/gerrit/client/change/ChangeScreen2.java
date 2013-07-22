@@ -215,7 +215,7 @@ public class ChangeScreen2 extends Screen {
 
     keysAction = new KeyCommandSet(Gerrit.C.sectionActions());
     if (Gerrit.isSignedIn()) {
-      keysAction.add(new KeyCommand(0, 'r', Util.C.keyPublishComments()) {
+      keysAction.add(new KeyCommand(0, 'a', Util.C.keyPublishComments()) {
         @Override
         public void onKeyPress(KeyPressEvent event) {
           onReply(null);

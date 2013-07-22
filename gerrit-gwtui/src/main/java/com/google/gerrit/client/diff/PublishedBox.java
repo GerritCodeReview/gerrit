@@ -14,33 +14,109 @@
 
 package com.google.gerrit.client.diff;
 
+import com.google.gerrit.client.AvatarImage;
+import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
+import com.google.gerrit.client.changes.CommentInput;
+import com.google.gerrit.client.changes.Util;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTMLPanel;
-
-import net.codemirror.lib.CodeMirror;
+import com.google.gwt.user.client.ui.UIObject;
+import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 /** An HtmlPanel for displaying a published comment */
 class PublishedBox extends CommentBox {
   interface Binder extends UiBinder<HTMLPanel, PublishedBox> {}
-  private static UiBinder<HTMLPanel, CommentBox> uiBinder =
-      GWT.create(Binder.class);
+  private static Binder uiBinder = GWT.create(Binder.class);
 
+  static interface Style extends CssResource {
+    String closed();
+  }
+
+  private final SideBySide2 parent;
+  private final PatchSet.Id psId;
+  private final CommentInfo comment;
   private DraftBox replyBox;
 
+  @UiField Style style;
+  @UiField Element name;
+  @UiField Element summary;
+  @UiField Element date;
+  @UiField Element message;
+  @UiField Element buttons;
+  @UiField Button reply;
+  @UiField Button done;
+
+  @UiField(provided = true)
+  AvatarImage avatar;
+
   PublishedBox(
-      SideBySide2 host,
-      CodeMirror cm,
-      PatchSet.Id id,
-      CommentInfo info,
-      CommentLinkProcessor linkProcessor) {
-    super(host, cm, uiBinder, id, info, linkProcessor, false);
+      SideBySide2 parent,
+      CommentLinkProcessor clp,
+      PatchSet.Id psId,
+      CommentInfo info) {
+    this.parent = parent;
+    this.psId = psId;
+    this.comment = info;
+
+    if (info.author() != null) {
+      avatar = new AvatarImage(info.author(), 26);
+      avatar.setSize("", "");
+    } else {
+      avatar = new AvatarImage();
+    }
+
+    initWidget(uiBinder.createAndBindUi(this));
+    addDomHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        setOpen(!isOpen());
+      }
+    }, ClickEvent.getType());
+
+    name.setInnerText(authorName(info));
+    date.setInnerText(FormatUtil.shortFormatDayTime(info.updated()));
+    if (info.message() != null) {
+      String msg = info.message().trim();
+      summary.setInnerText(msg);
+      message.setInnerSafeHtml(clp.apply(
+          new SafeHtmlBuilder().append(msg).wikify()));
+    }
+  }
+
+  @Override
+  CommentInfo getCommentInfo() {
+    return comment;
+  }
+
+  @Override
+  boolean isOpen() {
+    return UIObject.isVisible(message);
+  }
+
+  void setOpen(boolean open) {
+    UIObject.setVisible(summary, !open);
+    UIObject.setVisible(message, open);
+    UIObject.setVisible(buttons, open);
+    if (open) {
+      removeStyleName(style.closed());
+    } else {
+      addStyleName(style.closed());
+    }
+    super.setOpen(open);
   }
 
   void registerReplyBox(DraftBox box) {
@@ -59,25 +135,47 @@ class PublishedBox extends CommentBox {
 
   @UiHandler("reply")
   void onReply(ClickEvent e) {
+    e.stopPropagation();
     if (!Gerrit.isSignedIn()) {
-      Gerrit.doSignIn(getDiffView().getToken());
+      Gerrit.doSignIn(parent.getToken());
     } else if (replyBox == null) {
-      DraftBox box = getDiffView().addReply(getOriginal(), "", false);
-      registerReplyBox(box);
+      registerReplyBox(parent.addDraftBox(parent.createReply(comment)));
     } else {
       openReplyBox();
     }
   }
 
-  @UiHandler("replyDone")
+  @UiHandler("done")
   void onReplyDone(ClickEvent e) {
+    e.stopPropagation();
     if (!Gerrit.isSignedIn()) {
-      Gerrit.doSignIn(getDiffView().getToken());
+      Gerrit.doSignIn(parent.getToken());
     } else if (replyBox == null) {
-      DraftBox box = getDiffView().addReply(getOriginal(), "Done", true);
-      registerReplyBox(box);
+      done.setEnabled(false);
+      CommentInput input = CommentInput.create(parent.createReply(comment));
+      input.setMessage("Done");
+      CommentApi.createDraft(psId, input,
+          new GerritCallback<CommentInfo>() {
+            @Override
+            public void onSuccess(CommentInfo result) {
+              done.setEnabled(true);
+              setOpen(false);
+              registerReplyBox(parent.addDraftBox(result));
+            }
+          });
     } else {
       openReplyBox();
+      setOpen(false);
     }
+  }
+
+  private static String authorName(CommentInfo info) {
+    if (info.author() != null) {
+      if (info.author().name() != null) {
+        return info.author().name();
+      }
+      return Gerrit.getConfig().getAnonymousCowardName();
+    }
+    return Util.C.messageNoAuthor();
   }
 }

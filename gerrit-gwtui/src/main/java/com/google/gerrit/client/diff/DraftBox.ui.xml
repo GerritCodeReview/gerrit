@@ -14,49 +14,82 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-    xmlns:g='urn:import:com.google.gwt.user.client.ui'
-    xmlns:d='urn:import:com.google.gerrit.client.diff'
-    xmlns:c='urn:import:com.google.gwtexpui.globalkey.client'>
-  <ui:with field='res' type='com.google.gerrit.client.diff.CommentBoxResources' />
-  <ui:style field='draftStyle' type='com.google.gerrit.client.diff.DraftBox.DraftBoxStyle'>
-    .edit .messagePanel {
-      display: none;
+<ui:UiBinder
+    xmlns:ui='urn:ui:com.google.gwt.uibinder'
+    xmlns:c='urn:import:com.google.gerrit.client'
+    xmlns:e='urn:import:com.google.gwtexpui.globalkey.client'
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <ui:with field='res' type='com.google.gerrit.client.diff.Resources'/>
+  <ui:style>
+    .draft {
+      width: 45px;
+      text-align: center;
+      color: #fff;
+      background-color: #aaa;
     }
-    textarea.editArea {
-      margin-left: 5px;
-      margin-bottom: 2px;
+    .editArea { max-width: 637px; }
+    button.button div {
+      width: 35px;
     }
-    .view .editArea {
-      display: none;
-    }
-    .newDraft .cancel {
-      display: none;
+    button.discard {
+      color: #d14836;
+      background-color: #d14836;
+      background-image: -webkit-linear-gradient(top, #d14836, #d14836);
+      position: absolute;
+      left: 150px;
     }
   </ui:style>
-  <g:HTMLPanel addStyleNames='{res.style.commentBox}'>
-    <d:CommentBoxHeader ui:field='header' />
-    <div class='{res.style.contentPanel}'>
-      <c:NpTextArea ui:field='editArea' addStyleNames='{draftStyle.editArea}'/>
-      <div class='{res.style.button}'>
-        <g:Button ui:field='save' addStyleNames='{draftStyle.editArea}'>
-          <ui:msg>Save</ui:msg>
-        </g:Button>
-        <g:Button ui:field='cancel'
-            addStyleNames='{draftStyle.editArea} {draftStyle.cancel}'>
-          <ui:msg>Cancel</ui:msg>
-        </g:Button>
-        <g:Button ui:field='discard' addStyleNames='{draftStyle.editArea}'>
-          <ui:msg>Discard</ui:msg>
-        </g:Button>
+
+  <g:HTMLPanel styleName='{res.style.commentBox}'>
+    <div class='{res.style.contents}'>
+      <div class='{res.style.header}'>
+        <div class='{style.draft}'>Draft</div>
+        <div ui:field='summary' class='{res.style.summary}'/>
+        <div ui:field='date' class='{res.style.date}'/>
       </div>
-    </div>
-    <div class='{res.style.contentPanel}'>
-      <g:HTML ui:field='contentPanelMessage'
-          addStyleNames='{res.style.message} {draftStyle.messagePanel}'></g:HTML>
-      <g:Button ui:field='edit' addStyleNames='{draftStyle.messagePanel} {res.style.button}'>
-        <ui:msg>Edit</ui:msg>
-      </g:Button>
+      <div ui:field='p_view' aria-hidden='true' style='display: NONE'>
+        <g:HTML ui:field='message' styleName=''/>
+        <div style='position: relative'>
+          <g:Button ui:field='edit'
+              title='Edit this draft comment'
+              styleName='{style.button}'>
+            <ui:attribute name='title'/>
+            <div><ui:msg>Edit</ui:msg></div>
+          </g:Button>
+          <g:Button ui:field='discard1'
+              title='Discard this draft comment'
+              styleName='{style.button}'
+              addStyleNames='{style.discard}'>
+            <ui:attribute name='title'/>
+            <div><ui:msg>Discard</ui:msg></div>
+          </g:Button>
+        </div>
+      </div>
+      <div ui:field='p_edit' aria-hidden='true' style='display: NONE'>
+        <e:NpTextArea ui:field='editArea'
+            characterWidth='60'
+            visibleLines='5'
+            spellCheck='true'
+            styleName='{style.editArea}'/>
+        <div style='position: relative'>
+          <g:Button ui:field='save'
+              title='Save this draft comment'
+              styleName='{style.button}'>
+            <ui:attribute name='title'/>
+            <div><ui:msg>Save</ui:msg></div>
+          </g:Button>
+          <g:Button ui:field='cancel' styleName='{style.button}'>
+            <div><ui:msg>Cancel</ui:msg></div>
+          </g:Button>
+          <g:Button ui:field='discard2'
+              title='Discard this draft comment'
+              styleName='{style.button}'
+              addStyleNames='{style.discard}'>
+            <ui:attribute name='title'/>
+            <div><ui:msg>Discard</ui:msg></div>
+          </g:Button>
+        </div>
+      </div>
     </div>
   </g:HTMLPanel>
 </ui:UiBinder>

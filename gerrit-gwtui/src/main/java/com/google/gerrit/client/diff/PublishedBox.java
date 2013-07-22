@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.diff;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -58,7 +59,9 @@ class PublishedBox extends CommentBox {
 
   @UiHandler("reply")
   void onReply(ClickEvent e) {
-    if (replyBox == null) {
+    if (!Gerrit.isSignedIn()) {
+      Gerrit.doSignIn(getDiffView().getToken());
+    } else if (replyBox == null) {
       DraftBox box = getDiffView().addReply(getOriginal(), "", false);
       registerReplyBox(box);
     } else {
@@ -68,7 +71,9 @@ class PublishedBox extends CommentBox {
 
   @UiHandler("replyDone")
   void onReplyDone(ClickEvent e) {
-    if (replyBox == null) {
+    if (!Gerrit.isSignedIn()) {
+      Gerrit.doSignIn(getDiffView().getToken());
+    } else if (replyBox == null) {
       DraftBox box = getDiffView().addReply(getOriginal(), "Done", true);
       registerReplyBox(box);
     } else {

@@ -237,7 +237,10 @@ public class Gerrit implements EntryPoint {
   }
 
   public static int getHeaderFooterHeight() {
-    int h = topMenu.getOffsetHeight() + bottomMenu.getOffsetHeight();
+    int h = bottomMenu.getOffsetHeight();
+    if (topMenu.isVisible()) {
+      h += topMenu.getOffsetHeight();
+    }
     if (siteHeader.isVisible()) {
       h += siteHeader.getOffsetHeight();
     }
@@ -245,6 +248,17 @@ public class Gerrit implements EntryPoint {
       h += siteFooter.getOffsetHeight();
     }
     return h;
+  }
+
+  public static void setHeaderVisible(boolean visible) {
+    topMenu.setVisible(visible);
+    siteHeader.setVisible(visible && (myAccount != null
+        ? myAccount.getGeneralPreferences().isShowSiteHeader()
+        : true));
+  }
+
+  public static boolean isHeaderVisible() {
+    return topMenu.isVisible();
   }
 
   /** Get the public configuration data used by this Gerrit instance. */

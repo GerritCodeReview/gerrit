@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f3de7f26_3e13c970",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-07-22T11:52:43Z",
+      "side": 1,
+      "message": "I will add a patch here soon",
+      "revId": "38a4f9272e691e35f88f773fbb7fd65b40a842c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

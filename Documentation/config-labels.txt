@@ -288,10 +288,31 @@ the `branch` as:
 Then *only* changes in above branch scope of parent project and child
 projects will be affected by `Video-Qualify`.
 
-NOTE: The `branch` is independent from the branch scope defined in `access`
-parts in `project.config` file. That means from the UI a user can always
-assign permissions for that label on a branch, but this permission is then
-ignored if the label doesn't apply for that branch.
+NOTE: The `branch` is independent from the +_label access control scope_+
+which is defined below. That means from the UI a user can always assign
+permissions for that label on a branch, but this permission is then ignored
+if the label doesn't apply for that branch.
+
+[[label_branchSameAsAccess]]
+`label.Label-Name.branchSameAsAccess`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+label access control scope::
+In `project.config` a `permission` relating to a given label must
+be assigned on a certain reference, the name of a certain `access`
+section. All these certain references form a scope which is mostly the
+business scope of this label. This kind of scope is called the
++_label access control scope_+.
+
+There are some cases of customized label where the value of `branch` is
+always expected to keep pace with its +_label access control scope_+
+precisely with some reasons, `branchSameAsAccess` is used for these cases.
+Defaults to false. E.g.
+
+====
+  [label "Video-Qualify"]
+      branchSameAsAccess = true
+====
 
 [[label_example]]
 Example

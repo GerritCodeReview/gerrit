@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "13da3333_bf2517bb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-22T19:49:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3de7f26_9e285d94",
+      "revId": "7b162efce73aaf69f0eabfc45d4e8392fe5123b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f3de7f26_be2519bb",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-07-22T19:44:40Z",
       "side": 1,
       "message": "nit: you are using tabs here. it is not consistent with the rest of the file.",
+      "revId": "7b162efce73aaf69f0eabfc45d4e8392fe5123b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13da3333_df32db01",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-22T19:49:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3de7f26_be2519bb",
       "revId": "7b162efce73aaf69f0eabfc45d4e8392fe5123b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

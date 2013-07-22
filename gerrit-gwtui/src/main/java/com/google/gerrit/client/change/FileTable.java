@@ -57,7 +57,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 class FileTable extends FlowPanel {
-  private static final FileTableResources R = GWT
+  static final FileTableResources R = GWT
       .create(FileTableResources.class);
 
   interface FileTableResources extends ClientBundle {

@@ -131,10 +131,11 @@ limitations under the License.
       color: red;
     }
 
-    .commitColumn {
+    .commitColumn, .related {
       padding: 0;
       vertical-align: top;
     }
+    .commitColumn {width: 600px;}
 
     .labels {
       border-spacing: 0;
@@ -271,6 +272,10 @@ limitations under the License.
 
         <td class='{style.commitColumn}'>
           <c:CommitBox ui:field='commit'/>
+        </td>
+
+        <td class='{style.related}'>
+          <c:RelatedChanges ui:field='related'/>
         </td>
       </tr>
     </table>

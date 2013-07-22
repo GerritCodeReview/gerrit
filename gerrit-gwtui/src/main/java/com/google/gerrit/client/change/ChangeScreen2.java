@@ -127,6 +127,7 @@ public class ChangeScreen2 extends Screen {
   @UiField ListBox revisionList;
   @UiField Labels labels;
   @UiField CommitBox commit;
+  @UiField RelatedChanges related;
   @UiField FileTable files;
   @UiField FlowPanel history;
 
@@ -210,11 +211,14 @@ public class ChangeScreen2 extends Screen {
     keys.add(GlobalKey.add(this, keysNavigation));
     keys.add(GlobalKey.add(this, keysAction));
     files.registerKeys();
+    related.registerKeys();
   }
 
   @Override
   public void onShowView() {
     super.onShowView();
+
+    related.adjustHeight(commit.getElement().getParentElement());
 
     String prior = Gerrit.getPriorView();
     if (prior != null && prior.startsWith("/c/")) {
@@ -427,6 +431,7 @@ public class ChangeScreen2 extends Screen {
     reload.set(info);
     topic.set(info);
     commit.set(commentLinkProcessor, info, revision);
+    related.set(info, revision);
     quickApprove.set(info, revision);
 
     if (Gerrit.isSignedIn()) {

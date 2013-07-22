@@ -93,7 +93,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
       throws OrmException, IOException {
     Map<Change.Id, Change> changes = allOpenChanges(rsrc);
     Map<PatchSet.Id, PatchSet> patchSets = allPatchSets(changes.keySet());
-    List<ChangeAndCommit> graph = children(rsrc, rw, changes, patchSets);
+    List<ChangeAndCommit> list = children(rsrc, rw, changes, patchSets);
 
     Map<String, PatchSet> commits = Maps.newHashMap();
     for (PatchSet p : patchSets.values()) {
@@ -116,9 +116,18 @@ public class GetRelated implements RestReadView<RevisionResource> {
     for (RevCommit c; (c = rw.next()) != null;) {
       PatchSet p = commits.get(c.name());
       Change g = p != null ? changes.get(p.getId().getParentKey()) : null;
-      graph.add(new ChangeAndCommit(g, p, c));
+      list.add(new ChangeAndCommit(g, p, c));
     }
-    return graph;
+
+    if (list.size() == 1) {
+      ChangeAndCommit r = list.get(0);
+      if (r._changeNumber != null && r._revisionNumber != null
+          && r._changeNumber == rsrc.getChange().getChangeId()
+          && r._revisionNumber == rsrc.getPatchSet().getPatchSetId()) {
+        return Collections.emptyList();
+      }
+    }
+    return list;
   }
 
   private Map<Change.Id, Change> allOpenChanges(RevisionResource rsrc)

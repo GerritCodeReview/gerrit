@@ -37,5 +37,8 @@ limitations under the License.
     <g:ScrollPanel ui:field='scroll' visible='false'/>
     <x:ProgressBar ui:field='progress'/>
     <div ui:field='error' aria-hidden='true' style='display: NONE'/>
+    <div ui:field='none' aria-hidden='true' style='display: NONE'>
+      <ui:msg>No Related Changes</ui:msg>
+    </div>
   </g:HTMLPanel>
 </ui:UiBinder>

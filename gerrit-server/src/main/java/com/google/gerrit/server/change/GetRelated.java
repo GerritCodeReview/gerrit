@@ -167,7 +167,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
       for (PatchSet.Id psId : children.get(id)) {
         PatchSet.Id e = matches.get(psId.getParentKey());
         if ((e == null || e.get() < psId.get())
-            && isVisible(projectCtl, changes, patchSets, e))  {
+            && isVisible(projectCtl, changes, patchSets, psId))  {
           matches.put(psId.getParentKey(), psId);
         }
       }

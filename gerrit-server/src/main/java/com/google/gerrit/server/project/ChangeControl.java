@@ -249,12 +249,18 @@ public class ChangeControl {
   public LabelTypes getLabelTypes() {
     String destBranch = getChange().getDest().get();
     List<LabelType> all = getProjectControl().getLabelTypes().getLabelTypes();
+    List<LabelType> accessSectionsLabels =
+        getRefControl().getLabelTypes().getLabelTypes();
 
     List<LabelType> r = Lists.newArrayListWithCapacity(all.size());
     for (LabelType l : all) {
       List<String> refs = l.getRefPatterns();
       if (refs == null) {
         r.add(l);
+      } else if (refs.size() == 1 && refs.get(0).equals("sameAsAccess")) {
+        if (accessSectionsLabels.contains(l)) {
+          r.add(l);
+        }
       } else {
         for (String refPattern : refs) {
           if (RefConfigSection.isValid(refPattern)

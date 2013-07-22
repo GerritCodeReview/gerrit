@@ -59,6 +59,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -127,6 +128,7 @@ public class ProjectConfig extends VersionedMetaData {
   private static final String KEY_COPY_MAX_SCORE = "copyMaxScore";
   private static final String KEY_VALUE = "value";
   private static final String KEY_CAN_OVERRIDE = "canOverride";
+  private static final String KEY_APPLICABLE_SCOPE = "applicableScope";
   private static final Set<String> LABEL_FUNCTIONS = ImmutableSet.of(
       "MaxWithBlock", "AnyWithBlock", "MaxNoBlock", "NoBlock", "NoOp");
 
@@ -651,8 +653,17 @@ public class ProjectConfig extends VersionedMetaData {
           rc.getBoolean(LABEL, name, KEY_COPY_MAX_SCORE, false));
       label.setCanOverride(
           rc.getBoolean(LABEL, name, KEY_CAN_OVERRIDE, true));
+      label.setApplicableScope(getLabelApplicableScope(rc, LABEL, name,
+          KEY_APPLICABLE_SCOPE, Arrays.asList("project")));
+
       labelSections.put(name, label);
     }
+  }
+
+  private List<String> getLabelApplicableScope(Config rc, String section,
+      String subSection, String name, List<String> defaultValue) {
+    String[] ac = rc.getStringList(LABEL, name, KEY_APPLICABLE_SCOPE);
+    return ac.length == 0 ? defaultValue : Arrays.asList(ac);
   }
 
   private void loadCommentLinkSections(Config rc) {

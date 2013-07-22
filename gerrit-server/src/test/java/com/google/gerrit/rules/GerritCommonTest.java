@@ -66,6 +66,7 @@ public class GerritCommonTest extends PrologTestCase {
 
     local = new ProjectConfig(localKey);
     local.createInMemory();
+    V.setBranchSameAsAccess(true);
     Q.setRefPatterns(Arrays.asList("refs/heads/develop"));
 
     local.getLabelSections().put(V.getName(), V);

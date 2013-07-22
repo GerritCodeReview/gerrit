@@ -14,9 +14,12 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
@@ -370,6 +373,24 @@ public class RefControl {
   /** @return true if this user can force edit topic names. */
   public boolean canForceEditTopicName() {
     return canForcePerform(Permission.EDIT_TOPIC_NAME);
+  }
+
+  /** All available label types available on this ref. */
+  public LabelTypes getLabelTypes() {
+    final Set<String> labels = Sets.newHashSet();
+    for (Map.Entry<String, List<PermissionRule>> e : relevant.getDeclaredPermissions()) {
+      if (Permission.isLabel(e.getKey())) {
+        labels.add(Permission.extractLabel(e.getKey()));
+      }
+    }
+
+    List<LabelType> r = Lists.newArrayList();
+    for (LabelType e : getProjectControl().getLabelTypes().getLabelTypes()) {
+      if (labels.contains(e.getName())) {
+        r.add(e);
+      }
+    }
+    return new LabelTypes(r);
   }
 
   /** All value ranges of any allowed label permission. */

@@ -244,6 +244,12 @@ If false, the label cannot be overridden by child projects. Any
 configuration for this label in child projects will be ignored. Defaults
 to true.
 
+[[label_isBranchBasis]]
+`label.Label-Name.isBranchBasis`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If true, the label will not appear/affect branches it is not
+applied on. Defaults to false.
 
 [[label_example]]
 Example

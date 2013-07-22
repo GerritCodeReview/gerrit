@@ -103,6 +103,7 @@ public class LabelType {
   protected short maxPositive;
 
   private transient boolean canOverride;
+  private transient boolean isBranchBasis;
   private transient List<Integer> intList;
   private transient Map<Short, LabelValue> byValue;
 
@@ -112,6 +113,7 @@ public class LabelType {
   public LabelType(String name, List<LabelValue> valueList) {
     this.name = checkName(name);
     canOverride = true;
+    isBranchBasis = false;
     values = sortValues(valueList);
 
     abbreviation = defaultAbbreviation(name);
@@ -157,8 +159,16 @@ public class LabelType {
     return canOverride;
   }
 
+  public boolean isBranchBasis() {
+    return isBranchBasis;
+  }
+
   public void setCanOverride(boolean canOverride) {
     this.canOverride = canOverride;
+  }
+
+  public void setIsBranchBasis(boolean isBranchBasis) {
+    this.isBranchBasis = isBranchBasis;
   }
 
   public List<LabelValue> getValues() {

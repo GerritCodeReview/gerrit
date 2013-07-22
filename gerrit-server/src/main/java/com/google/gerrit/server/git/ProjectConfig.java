@@ -127,6 +127,7 @@ public class ProjectConfig extends VersionedMetaData {
   private static final String KEY_COPY_MAX_SCORE = "copyMaxScore";
   private static final String KEY_VALUE = "value";
   private static final String KEY_CAN_OVERRIDE = "canOverride";
+  private static final String KEY_IS_BRANCH_BASIS = "isBranchBasis";
   private static final Set<String> LABEL_FUNCTIONS = ImmutableSet.of(
       "MaxWithBlock", "AnyWithBlock", "MaxNoBlock", "NoBlock", "NoOp");
 
@@ -651,6 +652,8 @@ public class ProjectConfig extends VersionedMetaData {
           rc.getBoolean(LABEL, name, KEY_COPY_MAX_SCORE, false));
       label.setCanOverride(
           rc.getBoolean(LABEL, name, KEY_CAN_OVERRIDE, true));
+      label.setIsBranchBasis(
+          rc.getBoolean(LABEL, name, KEY_IS_BRANCH_BASIS, false));
       labelSections.put(name, label);
     }
   }

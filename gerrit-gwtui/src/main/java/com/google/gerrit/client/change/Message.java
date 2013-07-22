@@ -79,7 +79,7 @@ class Message extends Composite {
     return UIObject.isVisible(message);
   }
 
-  private void setOpen(boolean open) {
+  void setOpen(boolean open) {
     UIObject.setVisible(summary, !open);
     UIObject.setVisible(message, open);
     if (open) {

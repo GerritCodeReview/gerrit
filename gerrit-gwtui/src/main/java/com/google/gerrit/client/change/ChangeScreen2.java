@@ -142,6 +142,8 @@ public class ChangeScreen2 extends Screen {
   @UiField FlowPanel history;
 
   @UiField Button reply;
+  @UiField Button expandAll;
+  @UiField Button collapseAll;
   @UiField QuickApprove quickApprove;
   private ReplyAction replyAction;
 
@@ -296,6 +298,26 @@ public class ChangeScreen2 extends Screen {
   @UiHandler("reply")
   void onReply(ClickEvent e) {
     replyAction.onReply();
+  }
+
+  @UiHandler("expandAll")
+  void onExpandAll(ClickEvent e) {
+    int n = history.getWidgetCount();
+    for (int i = 0; i < n; i++) {
+      ((Message) history.getWidget(i)).setOpen(true);
+    }
+    expandAll.setVisible(false);
+    collapseAll.setVisible(true);
+  }
+
+  @UiHandler("collapseAll")
+  void onCollapseAll(ClickEvent e) {
+    int n = history.getWidgetCount();
+    for (int i = 0; i < n; i++) {
+      ((Message) history.getWidget(i)).setOpen(false);
+    }
+    expandAll.setVisible(true);
+    collapseAll.setVisible(false);
   }
 
   private void loadConfigInfo(final ChangeInfo info) {

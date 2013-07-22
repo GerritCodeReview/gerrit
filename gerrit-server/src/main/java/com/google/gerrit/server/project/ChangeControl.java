@@ -256,18 +256,26 @@ public class ChangeControl {
         return o1.getName().compareTo(o2.getName());
       }
     });
+    r.addAll(getRefControl().getLabelTypes().getLabelTypes());
 
     String destBranch = getChange().getDest().get();
     for (LabelType l : getProjectControl().getLabelTypes().getLabelTypes()) {
       List<String> refs = l.getBranches();
       if (refs == null) {
         r.add(l);
+      } else if (refs.size() == 1 && refs.get(0).equals("sameAsAccess")) {
+        continue;
       } else {
+        boolean found = false;
         for (String b : refs) {
           if (RefConfigSection.isValid(b) && match(destBranch, b)) {
             r.add(l);
+            found = true;
             break;
           }
+        }
+        if (!found && r.contains(l)) {
+          r.remove(l);
         }
       }
     }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13da3333_df1bbb81",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutTopic.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-22T19:19:16Z",
+      "side": 1,
+      "message": "I wonder if we could avoid this kind of bug Gerrit-wide by doing:\n\n  public abstract class ChangeUpdate extends AtomicUpdate\u003cChange\u003e {\n    @Override\n    public final Change update(Change change) {\n      ChangeUtil.updated(change);\n      return doUpdate(change);\n    }\n\n    protected abstract Change doUpdate(Change change);\n  }\n\nOr maybe this is too specific/rare a case where a change gets updated exactly once in a user request and is not using a higher-level abstraction (e.g. PatchSetInserter).",
+      "revId": "e18ccd8a858de232d60898c698b043186efdad75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f3de7f26_5e56d507",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSelectBox2.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-22T19:12:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3fa4780_ec326b01",
+      "revId": "6c898bce512908d01b57ce346daae2a5537b2d88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3fa4780_cc2faf97",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSelectBox2.ui.xml",
         "patchSetId": 1

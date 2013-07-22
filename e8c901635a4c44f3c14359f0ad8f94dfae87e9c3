@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f3de7f26_be7a797a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommentInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-22T22:24:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13da3333_bf4c3773",
+      "revId": "e8c901635a4c44f3c14359f0ad8f94dfae87e9c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "13da3333_df49fb61",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2013-07-22T21:44:01Z",
       "side": 1,
       "message": "can\u0027t this be determined from the getCommentInfo()?",
+      "revId": "e8c901635a4c44f3c14359f0ad8f94dfae87e9c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13da3333_1f836357",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-22T22:24:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13da3333_df49fb61",
       "revId": "e8c901635a4c44f3c14359f0ad8f94dfae87e9c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "f3de7f26_9e7dbd77",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/FileCommentPanel.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-22T22:24:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13da3333_7f5b8f2e",
+      "revId": "e8c901635a4c44f3c14359f0ad8f94dfae87e9c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f3de7f26_5e6415e0",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSelectBox2.ui.xml",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2013-07-22T21:28:49Z",
       "side": 1,
       "message": "these styles shouldn\u0027t be needed.",
+      "revId": "e8c901635a4c44f3c14359f0ad8f94dfae87e9c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3de7f26_1ed1ad47",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSelectBox2.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-22T22:24:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3de7f26_5e6415e0",
       "revId": "e8c901635a4c44f3c14359f0ad8f94dfae87e9c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "f3de7f26_fe74018f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/ReviewedPanel.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-22T22:24:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73b44fde_5af17518",
+      "revId": "e8c901635a4c44f3c14359f0ad8f94dfae87e9c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f3de7f26_1e6a8daf",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/ReviewedPanel.ui.xml",
         "patchSetId": 3
@@ -98,6 +188,24 @@
       "writtenOn": "2013-07-22T21:28:49Z",
       "side": 1,
       "message": "this needs to be the text of the check box so that it is a label that also selects the check.\n\nalso:\nYou need an import at the top for html entities:\nhttp://www.gwtproject.org/doc/latest/DevGuideUiBinder.html#HTML_entities",
+      "revId": "e8c901635a4c44f3c14359f0ad8f94dfae87e9c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3de7f26_de774591",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/ReviewedPanel.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-22T22:24:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3de7f26_1e6a8daf",
       "revId": "e8c901635a4c44f3c14359f0ad8f94dfae87e9c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

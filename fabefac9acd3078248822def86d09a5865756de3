@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f3de7f26_fe46c14e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-07-22T19:44:52Z",
+      "side": 1,
+      "message": "this file is OK but it is a lot of code for things that seem generic. It seems to me that I should just have to specify the List of data, how to render each row, and what actions I want to handle. Also, registering a global javascript method to handle clicks seems less than ideal, CellList just finds the row that created the event and allows you to register a handler for that row.",
+      "revId": "fabefac9acd3078248822def86d09a5865756de3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13da3333_3f3ae7e0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-07-22T19:44:52Z",
+      "side": 1,
+      "message": "it would make more sense to call this \"setMaxHeight\" or \"setScrollHeight\", instead of passing in the peer.  You can still do the header deduction in this class.",
+      "revId": "fabefac9acd3078248822def86d09a5865756de3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13da3333_ff187f87",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChanges.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-07-22T19:44:52Z",
+      "side": 1,
+      "message": "ui:msg",
+      "revId": "fabefac9acd3078248822def86d09a5865756de3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73b44fde_1ae7fd5f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-07-22T19:44:52Z",
+      "side": 1,
+      "message": "it seems to me any parent should always be visible, since you already have the data, especially if you fetch it. Furthermore, ChangeControl should probably enforce this behavior.",
+      "revId": "fabefac9acd3078248822def86d09a5865756de3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

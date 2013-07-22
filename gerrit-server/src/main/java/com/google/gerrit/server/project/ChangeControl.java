@@ -242,9 +242,9 @@ public class ChangeControl {
         && getRefControl().canUpload(); // as long as you can upload too
   }
 
-  /** All available label types for this project. */
+  /** All available label types for this change's branch. */
   public LabelTypes getLabelTypes() {
-    return getProjectControl().getLabelTypes();
+    return getRefControl().getLabelTypes();
   }
 
   /** All value ranges of any allowed label permission. */

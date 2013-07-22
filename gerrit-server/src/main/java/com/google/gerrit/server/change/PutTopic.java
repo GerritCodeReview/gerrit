@@ -103,6 +103,7 @@ class PutTopic implements RestModifyView<ChangeResource, Input>,
           @Override
           public Change update(Change change) {
             change.setTopic(Strings.emptyToNull(newTopicName));
+            ChangeUtil.updated(change);
             return change;
           }
         });

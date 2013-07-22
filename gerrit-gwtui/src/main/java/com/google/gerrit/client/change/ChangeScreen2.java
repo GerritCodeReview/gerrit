@@ -214,13 +214,17 @@ public class ChangeScreen2 extends Screen {
     });
 
     keysAction = new KeyCommandSet(Gerrit.C.sectionActions());
-    if (Gerrit.isSignedIn()) {
-      keysAction.add(new KeyCommand(0, 'a', Util.C.keyPublishComments()) {
-        @Override
-        public void onKeyPress(KeyPressEvent event) {
+    keysAction.add(new KeyCommand(0, 'a', Util.C.keyPublishComments()) {
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        if (Gerrit.isSignedIn()) {
           onReply(null);
+        } else {
+          Gerrit.doSignIn(getToken());
         }
-      });
+      }
+    });
+    if (Gerrit.isSignedIn()) {
       keysAction.add(new KeyCommand(0, 's', Util.C.changeTableStar()) {
         @Override
         public void onKeyPress(KeyPressEvent event) {
@@ -295,7 +299,11 @@ public class ChangeScreen2 extends Screen {
 
   @UiHandler("reply")
   void onReply(ClickEvent e) {
-    replyAction.onReply();
+    if (Gerrit.isSignedIn()) {
+      replyAction.onReply();
+    } else {
+      Gerrit.doSignIn(getToken());
+    }
   }
 
   private void loadConfigInfo(final ChangeInfo info) {
@@ -472,7 +480,6 @@ public class ChangeScreen2 extends Screen {
     if (current) {
       loadMergeable(info.status(), canSubmit);
     }
-    reply.setVisible(replyAction != null);
 
     StringBuilder sb = new StringBuilder();
     sb.append(Util.M.changeScreenTitleId(info.id_abbreviated()));

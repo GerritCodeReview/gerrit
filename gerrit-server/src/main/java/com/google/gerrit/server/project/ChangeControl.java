@@ -250,12 +250,18 @@ public class ChangeControl {
   /** All available label types for this change. */
   public LabelTypes getLabelTypes() {
     Set<LabelType> r = Sets.newHashSet();
+    List<LabelType> accessSectionsLabels =
+        getRefControl().getLabelTypes().getLabelTypes();
     String destBranch = getChange().getDest().get();
 
     for (LabelType l : getProjectControl().getLabelTypes().getLabelTypes()) {
       List<String> refs = l.getRefPatterns();
       if (refs == null) {
         r.add(l);
+      } else if (refs.size() == 1 && refs.get(0).equals("sameAsAccess")) {
+        if (accessSectionsLabels.contains(l)) {
+          r.add(l);
+        }
       } else {
         for (String refPattern : refs) {
           if (RefConfigSection.isValid(refPattern)

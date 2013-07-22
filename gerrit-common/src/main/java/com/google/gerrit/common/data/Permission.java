@@ -88,6 +88,13 @@ public class Permission implements Comparable<Permission> {
     return LABEL + labelName;
   }
 
+  public static String extractLabel(String varName) {
+    if (isLabel(varName)) {
+      return varName.substring(LABEL.length());
+    }
+    return null;
+  }
+
   public static boolean canBeOnAllProjects(String ref, String permissionName) {
     if (AccessSection.ALL.equals(ref)) {
       return !OWNER.equals(permissionName);

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -115,7 +116,11 @@ public class AccountInfo {
   public String username;
 
   private void fill(Account account, boolean detailed) {
-    name = account.getFullName();
+    name = Strings.emptyToNull(account.getFullName());
+    if (name == null) {
+      name = account.getUserName();
+    }
+
     if (detailed) {
       _account_id = account.getId().get();
       email = account.getPreferredEmail();

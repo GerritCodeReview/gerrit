@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b3c16754_54f14c18",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-23T19:14:21Z",
+      "side": 1,
+      "message": "SkipBar is accessing it without a DiffTable instance. I should probably use a separate CSS file?",
+      "parentUuid": "13da3333_9f969393",
+      "revId": "1af25f04d7255237a6a83adaec4b8eecf28a6008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f3de7f26_1eb8cd0f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2013-07-22T23:39:55Z",
       "side": 1,
       "message": "Let GWT do this for you:\n\n  UIObject.setVisibility(fileCommentRow, false);",
+      "revId": "1af25f04d7255237a6a83adaec4b8eecf28a6008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3c41b63_f5b178dd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-23T19:14:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3de7f26_1eb8cd0f",
       "revId": "1af25f04d7255237a6a83adaec4b8eecf28a6008",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "b3c16754_b44c6073",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-23T19:14:21Z",
+      "side": 1,
+      "message": "To change the link from \"Show file comment\" to \"Hide file comment\" or vice versa.",
+      "parentUuid": "13da3333_7f92afa2",
+      "revId": "1af25f04d7255237a6a83adaec4b8eecf28a6008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3c16754_14e7d45f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.ui.xml",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2013-07-22T23:39:55Z",
       "side": 1,
       "message": "I had hoped we could avoid putting this into the UI altogether and instead rely on the diff base selection in ChangeScreen2. If you want a different version pop up to the change and pick another view. But maybe I am being overly optimistic about how that flow would work.",
+      "revId": "1af25f04d7255237a6a83adaec4b8eecf28a6008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3c16754_d449dc61",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.ui.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-23T19:14:21Z",
+      "side": 1,
+      "message": "Yeah that will simplify things.. But people might miss patch selecting feature..",
+      "parentUuid": "b3c16754_14e7d45f",
       "revId": "1af25f04d7255237a6a83adaec4b8eecf28a6008",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "d3c41b63_75f64813",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DraftBox.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-23T19:14:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13da3333_bf9357a2",
+      "revId": "1af25f04d7255237a6a83adaec4b8eecf28a6008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f3de7f26_3ebd8900",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/FileCommentPanel.java",
         "patchSetId": 5
@@ -98,6 +188,24 @@
       "writtenOn": "2013-07-22T23:39:55Z",
       "side": 1,
       "message": "return after this.",
+      "revId": "1af25f04d7255237a6a83adaec4b8eecf28a6008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3c41b63_55f14c18",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/FileCommentPanel.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-23T19:14:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3de7f26_3ebd8900",
       "revId": "1af25f04d7255237a6a83adaec4b8eecf28a6008",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "b3c16754_34ecd041",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/FileCommentPanel.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-23T19:14:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3de7f26_5eb2552f",
+      "revId": "1af25f04d7255237a6a83adaec4b8eecf28a6008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d3c41b63_15e7d45f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSelectBox2.ui.xml",
         "patchSetId": 5
@@ -132,6 +258,24 @@
       "writtenOn": "2013-07-22T23:39:55Z",
       "side": 1,
       "message": "I think we should auto-hide/show similar to the way the gerrit header menus auto-hide/show based on the scroll position.",
+      "revId": "1af25f04d7255237a6a83adaec4b8eecf28a6008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3c16754_34885071",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSelectBox2.ui.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-23T19:14:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3c41b63_15e7d45f",
       "revId": "1af25f04d7255237a6a83adaec4b8eecf28a6008",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

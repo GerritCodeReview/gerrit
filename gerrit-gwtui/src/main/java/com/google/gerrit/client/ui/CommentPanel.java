@@ -128,7 +128,7 @@ public class CommentPanel extends Composite implements HasDoubleClickHandlers,
   }
 
   public void setAuthorNameText(final AccountInfo author, final String nameText) {
-    header.setWidget(0, 0, new AvatarImage(author, 26));
+    header.setWidget(0, 0, new AvatarImage(author));
     header.setText(0, 1, nameText);
     body.getElement().setAttribute("email", author.email());
     body.getElement().setAttribute("name", author.name());

@@ -20,8 +20,11 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -39,6 +42,8 @@ public class AccountInfo {
 
     private final Provider<ReviewDb> db;
     private final AccountCache accountCache;
+    private final DynamicItem<AvatarProvider> avatar;
+    private final IdentifiedUser.GenericFactory userFactory;
     private final boolean detailed;
     private final Map<Account.Id, AccountInfo> created;
     private final List<AccountInfo> provided;
@@ -46,9 +51,13 @@ public class AccountInfo {
     @Inject
     Loader(Provider<ReviewDb> db,
         AccountCache accountCache,
+        DynamicItem<AvatarProvider> avatar,
+        IdentifiedUser.GenericFactory userFactory,
         @Assisted boolean detailed) {
       this.db = db;
       this.accountCache = accountCache;
+      this.avatar = avatar;
+      this.userFactory = userFactory;
       this.detailed = detailed;
       created = Maps.newHashMap();
       provided = Lists.newArrayList();
@@ -75,7 +84,7 @@ public class AccountInfo {
       for (AccountInfo info : Iterables.concat(created.values(), provided)) {
         AccountState state = accountCache.getIfPresent(info._id);
         if (state != null) {
-          info.fill(state.getAccount(), detailed);
+          fill(info, state.getAccount());
         } else {
           missing.put(info._id, info);
         }
@@ -83,7 +92,7 @@ public class AccountInfo {
       if (!missing.isEmpty()) {
         for (Account account : db.get().accounts().get(missing.keySet())) {
           for (AccountInfo info : missing.get(account.getId())) {
-            info.fill(account, detailed);
+            fill(info, account);
           }
         }
       }
@@ -96,12 +105,28 @@ public class AccountInfo {
       }
       fill();
     }
-  }
 
-  public static AccountInfo parse(Account a, boolean detailed) {
-    AccountInfo ai = new AccountInfo(a.getId());
-    ai.fill(a, detailed);
-    return ai;
+    private void fill(AccountInfo info, Account account) {
+      info.name = Strings.emptyToNull(account.getFullName());
+      if (info.name == null) {
+        info.name = account.getUserName();
+      }
+
+      if (detailed) {
+        info._account_id = account.getId().get();
+        info.email = account.getPreferredEmail();
+        info.username = account.getUserName();
+      }
+
+      info.avatars = Lists.newArrayListWithCapacity(1);
+      AvatarProvider ap = avatar.get();
+      if (ap != null) {
+        String u = ap.getUrl(userFactory.create(account.getId()), 26);
+        if (u != null) {
+          info.avatars.add(new AvatarInfo(u, 26));
+        }
+      }
+    }
   }
 
   public transient Account.Id _id;
@@ -114,17 +139,15 @@ public class AccountInfo {
   public String name;
   public String email;
   public String username;
+  public List<AvatarInfo> avatars;
 
-  private void fill(Account account, boolean detailed) {
-    name = Strings.emptyToNull(account.getFullName());
-    if (name == null) {
-      name = account.getUserName();
-    }
+  public static class AvatarInfo {
+    String url;
+    int height;
 
-    if (detailed) {
-      _account_id = account.getId().get();
-      email = account.getPreferredEmail();
-      username = account.getUserName();
+    AvatarInfo(String url, int height) {
+      this.url = url;
+      this.height = height;
     }
   }
 }

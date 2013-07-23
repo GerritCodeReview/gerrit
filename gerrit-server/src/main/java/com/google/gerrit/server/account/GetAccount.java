@@ -15,10 +15,22 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 
 public class GetAccount implements RestReadView<AccountResource> {
+  private final AccountInfo.Loader.Factory infoFactory;
+
+  @Inject
+  GetAccount(AccountInfo.Loader.Factory infoFactory) {
+    this.infoFactory = infoFactory;
+  }
+
   @Override
-  public AccountInfo apply(AccountResource rsrc) {
-    return AccountInfo.parse(rsrc.getUser().getAccount(), true);
+  public AccountInfo apply(AccountResource rsrc) throws OrmException {
+    AccountInfo.Loader loader = infoFactory.create(true);
+    AccountInfo info = loader.get(rsrc.getUser().getAccountId());
+    loader.fill();
+    return info;
   }
 }

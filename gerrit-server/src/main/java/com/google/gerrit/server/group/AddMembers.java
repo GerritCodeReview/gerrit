@@ -77,6 +77,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
   private final Provider<AccountsCollection> accounts;
   private final AccountResolver accountResolver;
   private final AccountCache accountCache;
+  private final AccountInfo.Loader.Factory infoFactory;
   private final ReviewDb db;
 
   @Inject
@@ -85,12 +86,14 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
       Provider<AccountsCollection> accounts,
       AccountResolver accountResolver,
       AccountCache accountCache,
+      AccountInfo.Loader.Factory infoFactory,
       ReviewDb db) {
     this.accountManager = accountManager;
     this.authType = authConfig.getAuthType();
     this.accounts = accounts;
     this.accountResolver = accountResolver;
     this.accountCache = accountCache;
+    this.infoFactory = infoFactory;
     this.db = db;
   }
 
@@ -109,6 +112,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     List<AccountGroupMemberAudit> newAccountGroupMemberAudits = Lists.newLinkedList();
     List<AccountInfo> result = Lists.newLinkedList();
     Account.Id me = ((IdentifiedUser) control.getCurrentUser()).getAccountId();
+    AccountInfo.Loader loader = infoFactory.create(true);
 
     for (String nameOrEmail : input.members) {
       Account a = findAccount(nameOrEmail);
@@ -131,7 +135,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
           newAccountGroupMemberAudits.add(new AccountGroupMemberAudit(m, me));
         }
       }
-      result.add(AccountInfo.parse(a, true));
+      result.add(loader.get(a.getId()));
     }
 
     db.accountGroupMembersAudit().insert(newAccountGroupMemberAudits);
@@ -140,6 +144,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
       accountCache.evict(m.getAccountId());
     }
 
+    loader.fill();
     return result;
   }
 
@@ -218,7 +223,8 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     }
 
     @Override
-    public Object apply(MemberResource resource, PutMember.Input input) {
+    public Object apply(MemberResource resource, PutMember.Input input)
+        throws OrmException {
       // Do nothing, the user is already a member.
       return get.get().apply(resource);
     }

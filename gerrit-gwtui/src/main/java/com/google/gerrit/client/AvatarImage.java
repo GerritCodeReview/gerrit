@@ -15,6 +15,7 @@
 package com.google.gerrit.client;
 
 import com.google.gerrit.client.account.AccountInfo;
+import com.google.gerrit.client.account.AccountInfo.AvatarInfo;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gwt.event.dom.client.LoadEvent;
@@ -27,14 +28,15 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.UIObject;
 
-public class AvatarImage extends Image {
-
+public class AvatarImage extends Image implements LoadHandler {
   public AvatarImage() {
+    setVisible(false);
+    addLoadHandler(this);
   }
 
   /** A default sized avatar image. */
   public AvatarImage(AccountInfo account) {
-    this(account, 0);
+    this(account, 26, true);
   }
 
   /**
@@ -60,26 +62,46 @@ public class AvatarImage extends Image {
    *        avatar image
    */
   public AvatarImage(AccountInfo account, int size, boolean addPopup) {
+    addLoadHandler(this);
     setAccount(account, size, addPopup);
   }
 
   public void setAccount(AccountInfo account, int size, boolean addPopup) {
-    setUrl(isGerritServer(account) ? getGerritServerAvatarUrl() :
-      url(account.email(), size));
-    setVisible(false);
-
-    if (size > 0) {
-      // If the provider does not resize the image, force it in the browser.
-      setSize(size + "px", size + "px");
-    }
-
-    addLoadHandler(new LoadHandler() {
-      @Override
-      public void onLoad(LoadEvent event) {
-        setVisible(true);
+    if (account == null) {
+      setVisible(false);
+    } else if (isGerritServer(account)) {
+      setVisible(true);
+      setResource(Gerrit.RESOURCES.gerritAvatar());
+    } else if (account.has_avatar_info()) {
+      setVisible(false);
+      AvatarInfo info = account.avatar(size);
+      if (info != null) {
+        setWidth(info.width() > 0 ? info.width() + "px" : "");
+        setHeight(info.height() > 0 ? info.height() + "px" : "");
+        setUrl(info.url());
+        popup(account, addPopup);
       }
-    });
+    } else if (account.email() != null) {
+      // TODO Kill /accounts/*/avatar URL.
+      String u = account.email();
+      if (Gerrit.isSignedIn()
+          && u.equals(Gerrit.getUserAccount().getPreferredEmail())) {
+        u = "self";
+      }
+      RestApi api = new RestApi("/accounts/").id(u).view("avatar");
+      if (size > 0) {
+        api.addParameter("s", size);
+        setSize("", size + "px");
+      }
+      setVisible(false);
+      setUrl(api.url());
+      popup(account, addPopup);
+    } else {
+      setVisible(false);
+    }
+  }
 
+  private void popup(AccountInfo account, boolean addPopup) {
     if (addPopup) {
       PopupHandler popupHandler = new PopupHandler(account, this);
       addMouseOverHandler(popupHandler);
@@ -87,33 +109,17 @@ public class AvatarImage extends Image {
     }
   }
 
+  @Override
+  public void onLoad(LoadEvent event) {
+    setVisible(true);
+  }
+
   private static boolean isGerritServer(AccountInfo account) {
     return account._account_id() == 0
         && Util.C.messageNoAuthor().equals(account.name());
   }
 
-  private static String getGerritServerAvatarUrl() {
-    return Gerrit.RESOURCES.gerritAvatar().getSafeUri().asString();
-  }
-
-  private static String url(String email, int size) {
-    if (email == null) {
-      return "";
-    }
-    String u;
-    if (Gerrit.isSignedIn() && email.equals(Gerrit.getUserAccount().getPreferredEmail())) {
-      u = "self";
-    } else {
-      u = email;
-    }
-    RestApi api = new RestApi("/accounts/").id(u).view("avatar");
-    if (size > 0) {
-      api.addParameter("s", size);
-    }
-    return api.url();
-  }
-
-  private class PopupHandler implements MouseOverHandler, MouseOutHandler {
+  private static class PopupHandler implements MouseOverHandler, MouseOutHandler {
     private final AccountInfo account;
     private final UIObject target;
 

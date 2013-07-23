@@ -73,7 +73,7 @@ class PublishedBox extends CommentBox {
     this.comment = info;
 
     if (info.author() != null) {
-      avatar = new AvatarImage(info.author(), 26);
+      avatar = new AvatarImage(info.author());
       avatar.setSize("", "");
     } else {
       avatar = new AvatarImage();

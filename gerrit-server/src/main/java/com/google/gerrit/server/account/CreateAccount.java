@@ -68,12 +68,14 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
   private final SshKeyCache sshKeyCache;
   private final AccountCache accountCache;
   private final AccountByEmailCache byEmailCache;
+  private final AccountInfo.Loader.Factory infoLoader;
   private final String username;
 
   @Inject
   CreateAccount(ReviewDb db, IdentifiedUser currentUser,
       GroupsCollection groupsCollection, SshKeyCache sshKeyCache,
       AccountCache accountCache, AccountByEmailCache byEmailCache,
+      AccountInfo.Loader.Factory infoLoader,
       @Assisted String username) {
     this.db = db;
     this.currentUser = currentUser;
@@ -81,6 +83,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
     this.sshKeyCache = sshKeyCache;
     this.accountCache = accountCache;
     this.byEmailCache = byEmailCache;
+    this.infoLoader = infoLoader;
     this.username = username;
   }
 
@@ -167,7 +170,10 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
     accountCache.evictByUsername(username);
     byEmailCache.evict(input.email);
 
-    return Response.created(AccountInfo.parse(a, true));
+    AccountInfo.Loader loader = infoLoader.create(true);
+    AccountInfo info = loader.get(id);
+    loader.fill();
+    return Response.created(info);
   }
 
   private Set<AccountGroup.Id> parseGroups(List<String> groups)

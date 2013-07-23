@@ -25,6 +25,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -213,6 +214,12 @@ class DraftBox extends CommentBox {
     parent.removeDraft(this, comment.side(), comment.line() - 1);
 
     removeFromParent();
+    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+      @Override
+      public void execute() {
+        resizePaddingWidget();
+      }
+    });
     getSelfWidget().clear();
 
     PaddingManager manager = getPaddingManager();

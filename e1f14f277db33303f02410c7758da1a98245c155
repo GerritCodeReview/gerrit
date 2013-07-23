@@ -16,6 +16,24 @@
       "revId": "e1f14f277db33303f02410c7758da1a98245c155",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3c16754_346f70c0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-23T21:21:14Z",
+      "side": 1,
+      "message": "This is a hack to support a change that isn\u0027t recognized as a change. I don\u0027t want to encourage it by adding a method to ChangeUtil.",
+      "parentUuid": "539cab83_01e76a5f",
+      "revId": "e1f14f277db33303f02410c7758da1a98245c155",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

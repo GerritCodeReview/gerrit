@@ -88,6 +88,14 @@ public class SideBySide2 extends Screen {
   private static final JsArrayString EMPTY =
       JavaScriptObject.createArray().cast();
 
+  static {
+    // TODO: Better custom keybindings, remove temporary navigation hacks.
+    for (String s : new String[] {"C", "J", "K", "O", "R", "U", "Ctrl-C",
+        "Enter"}) {
+      CodeMirror.disableUnwantedKey("vim", s);
+    }
+  }
+
   @UiField(provided = true)
   ReviewedPanel reviewed;
 
@@ -285,15 +293,6 @@ public class SideBySide2 extends Screen {
         .on("'o'", toggleOpenBox(cm))
         .on("Enter", toggleOpenBox(cm))
         .on("'c'", insertNewDraft(cm)));
-
-    /**
-     * TODO: Work on a better way for customizing keybindings and remove
-     * temporary navigation hacks.
-     */
-    for (String s : new String[]{"C", "J", "K", "O", "R", "U", "Ctrl-C",
-        "Enter"}) {
-      CodeMirror.disableUnwantedKey("vim", s);
-    }
   }
 
   @Override

@@ -15,6 +15,7 @@
 package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.changes.CommentInfo;
+import com.google.gerrit.client.diff.SideBySide2.DiffChunkInfo;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.Composite;
@@ -29,14 +30,22 @@ abstract class CommentBox extends Composite {
 
   private PaddingManager widgetManager;
   private LineWidget selfWidget;
+  private SideBySide2 parent;
+  private DiffChunkInfo diffChunkInfo;
 
   void resizePaddingWidget() {
-    Scheduler.get().scheduleDeferred(new ScheduledCommand(){
+    selfWidget.changed();
+    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+      @Override
       public void execute() {
-        assert selfWidget != null;
-        assert widgetManager != null;
-        selfWidget.changed();
-        widgetManager.resizePaddingWidget();
+        if (diffChunkInfo != null) {
+          parent.resizePaddingOnOtherSide(getCommentInfo().side(),
+              diffChunkInfo.getEnd());
+        } else {
+          assert selfWidget != null;
+          assert widgetManager != null;
+          widgetManager.resizePaddingWidget();
+        }
       }
     });
   }
@@ -50,6 +59,14 @@ abstract class CommentBox extends Composite {
 
   PaddingManager getPaddingManager() {
     return widgetManager;
+  }
+
+  void setDiffChunkInfo(DiffChunkInfo info) {
+    this.diffChunkInfo = info;
+  }
+
+  void setParent(SideBySide2 parent) {
+    this.parent = parent;
   }
 
   void setPaddingManager(PaddingManager manager) {

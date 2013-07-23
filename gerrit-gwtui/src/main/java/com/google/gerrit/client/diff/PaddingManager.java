@@ -27,31 +27,22 @@ import java.util.List;
  * changes as necessary. PaddingManager calculates padding by taking the
  * difference of the sum of CommentBox heights on the two sides.
  *
- * Note that in the case of an insertion or deletion gap, A PaddingManager
- * can map to a list of managers on the other side. The padding needed is then
- * calculated from the sum of all their heights.
- *
  * TODO: Let PaddingManager also take care of the paddings introduced by
  * insertions and deletions.
  */
 class PaddingManager {
   private List<CommentBox> comments;
   private PaddingWidgetWrapper wrapper;
-  private List<PaddingManager> others;
+  private PaddingManager other;
 
   PaddingManager(PaddingWidgetWrapper padding) {
     comments = new ArrayList<CommentBox>();
-    others = new ArrayList<PaddingManager>();
     this.wrapper = padding;
   }
 
   static void link(PaddingManager a, PaddingManager b) {
-    if (!a.others.contains(b)) {
-      a.others.add(b);
-    }
-    if (!b.others.contains(a)) {
-      b.others.add(a);
-    }
+    a.other = b;
+    b.other = a;
   }
 
   private int getMyTotalHeight() {
@@ -62,49 +53,22 @@ class PaddingManager {
     return total;
   }
 
-  /**
-   * If this instance is on the insertion side, its counterpart on the other
-   * side will map to a group of PaddingManagers on this side, so we calculate
-   * the group's total height instead of an individual one's.
-   */
-  private int getGroupTotalHeight() {
-    if (others.size() > 1) {
-      return getMyTotalHeight();
-    } else {
-      return others.get(0).getOthersTotalHeight();
-    }
-  }
-
-  private int getOthersTotalHeight() {
-    int total = 0;
-    for (PaddingManager manager : others) {
-      total += manager.getMyTotalHeight();
-    }
-    return total;
-  }
-
   private void setPaddingHeight(int height) {
     SideBySide2.setHeightInPx(wrapper.element, height);
     wrapper.widget.changed();
   }
 
   void resizePaddingWidget() {
-    if (others.isEmpty()) {
-      throw new IllegalStateException("resizePaddingWidget() called before linking");
-    }
-    int myHeight = getGroupTotalHeight();
-    int othersHeight = getOthersTotalHeight();
+    assert other != null;
+    int myHeight = getMyTotalHeight();
+    int othersHeight = other.getMyTotalHeight();
     int paddingNeeded = othersHeight - myHeight;
     if (paddingNeeded < 0) {
-      for (PaddingManager manager : others.get(0).others) {
-        manager.setPaddingHeight(0);
-      }
-      others.get(others.size() - 1).setPaddingHeight(-paddingNeeded);
+      setPaddingHeight(0);
+      other.setPaddingHeight(-paddingNeeded);
     } else {
       setPaddingHeight(paddingNeeded);
-      for (PaddingManager other : others) {
-        other.setPaddingHeight(0);
-      }
+      other.setPaddingHeight(0);
     }
   }
 
@@ -144,15 +108,22 @@ class PaddingManager {
   }
 
   static class LinePaddingWidgetWrapper extends PaddingWidgetWrapper {
-    private boolean common;
+    private int chunkLength;
+    private int otherLine;
 
-    LinePaddingWidgetWrapper(PaddingWidgetWrapper pair, boolean common) {
+    LinePaddingWidgetWrapper(PaddingWidgetWrapper pair, int otherLine, int chunkLength) {
       super(pair.widget, pair.element);
-      this.common = common;
+
+      this.otherLine = otherLine;
+      this.chunkLength = chunkLength;
     }
 
-    boolean isCommon() {
-      return common;
+    int getChunkLength() {
+      return chunkLength;
+    }
+
+    int getOtherLine() {
+      return otherLine;
     }
   }
 }

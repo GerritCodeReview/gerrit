@@ -97,6 +97,7 @@ class RelatedChanges extends Composite {
 
   @UiField Style style;
   @UiField Element header;
+  @UiField Element none;
   @UiField ScrollPanel scroll;
   @UiField ProgressBar progress;
   @UiField Element error;
@@ -144,10 +145,16 @@ class RelatedChanges extends Composite {
     }
   }
 
-  private void render(String revision, JsArray<ChangeAndCommit> graph) {
-    DisplayCommand cmd = new DisplayCommand(revision, graph);
-    if (cmd.execute()) {
-      Scheduler.get().scheduleIncremental(cmd);
+  private void render(String revision, JsArray<ChangeAndCommit> list) {
+    if (0 < list.length()) {
+      DisplayCommand cmd = new DisplayCommand(revision, list);
+      if (cmd.execute()) {
+        Scheduler.get().scheduleIncremental(cmd);
+      }
+    } else {
+      progress.setVisible(false);
+      UIObject.setVisible(header, false);
+      UIObject.setVisible(none, true);
     }
   }
 

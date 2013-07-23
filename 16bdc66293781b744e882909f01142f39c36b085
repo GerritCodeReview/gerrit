@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3c16754_b4f7000b",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Account.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-23T00:37:20Z",
+      "side": 1,
+      "message": "nit: space after if before (.",
+      "revId": "16bdc66293781b744e882909f01142f39c36b085",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3c41b63_d5047c2a",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Account.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-23T00:37:20Z",
+      "side": 1,
+      "message": "We can write this method as:\n\n  return o instanceof Account\n    \u0026\u0026 ((Account) o).getId().equals(getId());",
+      "revId": "16bdc66293781b744e882909f01142f39c36b085",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

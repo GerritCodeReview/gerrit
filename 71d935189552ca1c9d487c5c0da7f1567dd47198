@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d3c41b63_353a10e1",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-23T17:57:42Z",
+      "side": 1,
+      "message": "Given what happened with UiAction this should be a class they can create and populate rather than an interface. It gives us more room to add optional features, e.g. a future link to documentation for the access editor.",
+      "revId": "71d935189552ca1c9d487c5c0da7f1567dd47198",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3c41b63_153514f0",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-23T17:57:42Z",
+      "side": 1,
+      "message": "Missing @ here",
+      "revId": "71d935189552ca1c9d487c5c0da7f1567dd47198",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3c41b63_553f8ccf",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/config/CapabilityDefinition.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-23T17:57:42Z",
+      "side": 1,
+      "message": "I think we should define this an abstract class.",
+      "revId": "71d935189552ca1c9d487c5c0da7f1567dd47198",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3c16754_942124b8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/Module.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-23T17:57:42Z",
+      "side": 1,
+      "message": "This sort of binding goes in GerritGlobalModule. See about line 244 in current master.",
+      "revId": "71d935189552ca1c9d487c5c0da7f1567dd47198",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3c16754_d41b9c81",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-23T17:57:42Z",
+      "side": 1,
+      "message": "I think its OK to omit this comment.",
+      "revId": "71d935189552ca1c9d487c5c0da7f1567dd47198",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3c16754_b41e2073",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 839,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-23T17:57:42Z",
+      "side": 1,
+      "message": "I think its OK to omit this comment.",
+      "revId": "71d935189552ca1c9d487c5c0da7f1567dd47198",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3c16754_d432bc01",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-23T17:57:42Z",
+      "side": 1,
+      "message": "I don\u0027t think we can use getName() in this context. With command aliasing the return from getName could be the alias and not the plugin. That causes capabilities to check incorrectly.",
+      "revId": "71d935189552ca1c9d487c5c0da7f1567dd47198",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3c41b63_b57aa07a",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-23T17:57:42Z",
+      "side": 1,
+      "message": "Anytime you mess with this logic in the SSH world you should do the same in RestApiServlet checkAccessAnnotations.",
+      "revId": "71d935189552ca1c9d487c5c0da7f1567dd47198",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3c41b63_356f70c0",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-23T17:57:42Z",
+      "side": 1,
+      "message": "If this is a plugin command (see below) we should always test getPluginName() + \"-\" + rc.value(). This avoids the risk that a plugin uses the same name as a core capability, but the admin assigns them to different groups.",
+      "revId": "71d935189552ca1c9d487c5c0da7f1567dd47198",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3c41b63_954f6467",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-23T17:57:42Z",
+      "side": 1,
+      "message": "I think we need to add this to BaseCommand:\n\n  private String pluginName;\n\n  @Inject(optional \u003d true)\n  void setPluginName(@PluginName String name) {\n    this.pluginName \u003d name;\n  }\n\n  String getPluginName() {\n    return pluginName;\n  }\n\nIIRC the Guice injector for the plugin will supply this name to the plugin commands, but not invoke setPluginName() for core commands.",
+      "revId": "71d935189552ca1c9d487c5c0da7f1567dd47198",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

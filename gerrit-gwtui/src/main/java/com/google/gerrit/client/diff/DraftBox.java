@@ -92,6 +92,9 @@ class DraftBox extends CommentBox {
     expandTimer = new Timer() {
       @Override
       public void run() {
+        if (isNew()) {
+          cancel.setVisible(!isDirty());
+        }
         expandText();
       }
     };
@@ -291,7 +294,7 @@ class DraftBox extends CommentBox {
   @UiHandler("cancel")
   void onCancel(ClickEvent e) {
     e.stopPropagation();
-    if (comment.id() == null && editArea.getValue().length() == 0) {
+    if (isNew() && !isDirty()) {
       removeUI();
     } else {
       setEdit(false);
@@ -302,7 +305,7 @@ class DraftBox extends CommentBox {
   @UiHandler({"discard1", "discard2"})
   void onDiscard(ClickEvent e) {
     e.stopPropagation();
-    if (comment.id() == null) {
+    if (isNew()) {
       removeUI();
     } else {
       setEdit(false);
@@ -327,11 +330,30 @@ class DraftBox extends CommentBox {
           onSave();
           return;
       }
-    } else if (e.getNativeKeyCode() == KeyCodes.KEY_ESCAPE
-        && comment.id() == null && editArea.getValue().length() == 0) {
-      removeUI();
-      return;
+    } else if (e.getNativeKeyCode() == KeyCodes.KEY_ESCAPE && !isDirty()) {
+      if (isNew()) {
+        removeUI();
+        return;
+      } else {
+        setEdit(false);
+        cm.focus();
+        return;
+      }
     }
     expandTimer.schedule(250);
+  }
+
+  private boolean isNew() {
+    return comment.id() == null;
+  }
+
+  private boolean isDirty() {
+    String msg = editArea.getValue().trim();
+    if (isNew()) {
+      return msg.length() > 0;
+    }
+    return msg.equals(comment.message() != null
+        ? comment.message().trim()
+        : "");
   }
 }

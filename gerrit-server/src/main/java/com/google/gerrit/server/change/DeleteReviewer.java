@@ -31,6 +31,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import java.util.Collections;
 import java.util.List;
 
 public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
@@ -62,6 +63,11 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
       }
       if (del.isEmpty()) {
         throw new ResourceNotFoundException();
+      }
+      // Empty update of Change to bump rowVersion, changing its ETag.
+      Change c = db.changes().get(rsrc.getChange().getId());
+      if (c != null) {
+        db.changes().update(Collections.singleton(c));
       }
       db.patchSetApprovals().delete(del);
       db.commit();

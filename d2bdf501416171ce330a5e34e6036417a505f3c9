@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "539e6b6d_d104842a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-07-23T11:05:37Z",
+      "side": 1,
+      "message": "About test :\nPrepare projects:\n      All-Project\n         |\n         p\n         |\n       pson\n        \n         \n\t\t\n\nDefine a label \"Satisfy\"  on project ‘p’ and apply it on branch ‘testbranch’ : \n \n$ cat project.config \n[project]\n[access \"refs/heads/*\"]\n\towner \u003d group Administrators\n\tcreate \u003d group Administrators\n\tlabel-Code-Review \u003d -2..+2 group Administrators\n\tlabel-Code-Review \u003d -2..+2 group reviewer\n\tlabel-Code-Review \u003d -1..-1 group developer\n\tlabel-Verified \u003d -1..+1 group Administrators\n\tlabel-Verified \u003d -1..+1 group developer\n\tlabel-Verified \u003d -1..+1 group reviewer\n\tsubmit \u003d group Administrators\n\tsubmit \u003d group reviewer\n\tread \u003d group Administrators\n[access \"refs/for/refs/heads/*\"]\n\tcreate \u003d group Administrators\n\tpushMerge \u003d group Administrators\n\tpush \u003d group Administrators\n[label \"Verified\"]\n        abbreviatedName \u003d V\n        function \u003d MaxWithBlock\n        value \u003d -1 Fails\n        value \u003d  0 No score\n        value \u003d +1 Verified\n        copyMaxScore \u003d true\n        canOverride \u003d false\n[label \"Satisfy\"]\n        abbreviatedName \u003d S\n        function \u003d MaxWithBlock\n        value \u003d -1 Not Satisfied\n        value \u003d  0 Not touch yet\n        value \u003d +1 Satisfied\n[access \"refs/heads/testbranch\"]\n\tlabel-Satisfy \u003d -1..+1 group Administrators\n\tlabel-Satisfy \u003d -1..+1 group reviewer\n\tlabel-Satisfy \u003d -1..+0 group developer\n----------------------------------------------------------------------\n  prepare  changes.   As    \n       \n        changes name           project          branch\n         -----------------------------------------------------\n         ‘p-testbranch’          ‘p’              ‘testbranch’\n         ‘p-master’              ‘p’               ‘master’\n          \n\nLogin as  developer \n    *review ‘p-testbranch’     \n     find: can give  +1 V; +1 CR;  0 S.  \n    *review ‘p-master’          \n      find: can   give  +1 V; +1 CR.  and new label \n     \"Satisfy” does not appear. right\n\nLogin as  reviewer or Administrators\n    *review ‘p-testbranch’      \n     find:  can give  +2 V; +2 CR;  +1 S.   and \n     publish and submit successfully. Merged.\n\n    *review ‘p-master’          \n     find:  can   give  +2 V; +2 CR,  publish and\n    submit successfully. Merged.    and new label \n   \"Satisfy” does not appear and not block submit.\n    right.",
+      "revId": "d2bdf501416171ce330a5e34e6036417a505f3c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,50 +14,41 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.ArrayListMultimap;
+import com.google.common.base.Throwables;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Multimap;
-import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.avatar.AvatarProvider;
+import com.google.gerrit.server.account.AccountDirectory.DirectoryException;
+import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 
 public class AccountInfo {
   public static class Loader {
+    private static EnumSet<FillOptions> DETAILED_OPTIONS = EnumSet.of(
+        FillOptions.NAME,
+        FillOptions.EMAIL,
+        FillOptions.AVATARS);
+
     public interface Factory {
       Loader create(boolean detailed);
     }
 
-    private final Provider<ReviewDb> db;
-    private final AccountCache accountCache;
-    private final DynamicItem<AvatarProvider> avatar;
-    private final IdentifiedUser.GenericFactory userFactory;
+    private final InternalAccountDirectory directory;
     private final boolean detailed;
     private final Map<Account.Id, AccountInfo> created;
     private final List<AccountInfo> provided;
 
     @Inject
-    Loader(Provider<ReviewDb> db,
-        AccountCache accountCache,
-        DynamicItem<AvatarProvider> avatar,
-        IdentifiedUser.GenericFactory userFactory,
-        @Assisted boolean detailed) {
-      this.db = db;
-      this.accountCache = accountCache;
-      this.avatar = avatar;
-      this.userFactory = userFactory;
+    Loader(InternalAccountDirectory directory, @Assisted boolean detailed) {
+      this.directory = directory;
       this.detailed = detailed;
       created = Maps.newHashMap();
       provided = Lists.newArrayList();
@@ -70,31 +61,29 @@ public class AccountInfo {
       AccountInfo info = created.get(id);
       if (info == null) {
         info = new AccountInfo(id);
+        if (detailed) {
+          info._account_id = id.get();
+        }
         created.put(id, info);
       }
       return info;
     }
 
     public void put(AccountInfo info) {
+      if (detailed) {
+        info._account_id = info._id.get();
+      }
       provided.add(info);
     }
 
     public void fill() throws OrmException {
-      Multimap<Account.Id, AccountInfo> missing = ArrayListMultimap.create();
-      for (AccountInfo info : Iterables.concat(created.values(), provided)) {
-        AccountState state = accountCache.getIfPresent(info._id);
-        if (state != null) {
-          fill(info, state.getAccount());
-        } else {
-          missing.put(info._id, info);
-        }
-      }
-      if (!missing.isEmpty()) {
-        for (Account account : db.get().accounts().get(missing.keySet())) {
-          for (AccountInfo info : missing.get(account.getId())) {
-            fill(info, account);
-          }
-        }
+      try {
+        directory.fillAccountInfo(
+            Iterables.concat(created.values(), provided),
+            DETAILED_OPTIONS);
+      } catch (DirectoryException e) {
+        Throwables.propagateIfPossible(e.getCause(), OrmException.class);
+        throw new OrmException(e);
       }
     }
 
@@ -104,28 +93,6 @@ public class AccountInfo {
         put(info);
       }
       fill();
-    }
-
-    private void fill(AccountInfo info, Account account) {
-      info.name = Strings.emptyToNull(account.getFullName());
-      if (info.name == null) {
-        info.name = account.getUserName();
-      }
-
-      if (detailed) {
-        info._account_id = account.getId().get();
-        info.email = account.getPreferredEmail();
-        info.username = account.getUserName();
-      }
-
-      info.avatars = Lists.newArrayListWithCapacity(1);
-      AvatarProvider ap = avatar.get();
-      if (ap != null) {
-        String u = ap.getUrl(userFactory.create(account.getId()), 26);
-        if (u != null) {
-          info.avatars.add(new AvatarInfo(u, 26));
-        }
-      }
     }
   }
 
@@ -142,8 +109,19 @@ public class AccountInfo {
   public List<AvatarInfo> avatars;
 
   public static class AvatarInfo {
-    String url;
-    int height;
+    /**
+     * Size in pixels the UI prefers an avatar image to be.
+     *
+     * The web UI prefers avatar images to be square, both
+     * the height and width of the image should be this size.
+     * The height is the more important dimension to match
+     * than the width.
+     */
+    public static final int DEFAULT_SIZE = 26;
+
+    public String url;
+    public Integer height;
+    public Integer width;
 
     AvatarInfo(String url, int height) {
       this.url = url;

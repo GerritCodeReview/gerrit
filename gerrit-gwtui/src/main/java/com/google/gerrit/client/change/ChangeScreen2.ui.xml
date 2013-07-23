@@ -86,7 +86,6 @@ limitations under the License.
 
     .headerTable {
       border-spacing: 0;
-      width: 100%;
     }
 
     .headerTable th {

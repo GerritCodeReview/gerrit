@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.DeleteReviewer.Input;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
@@ -63,6 +64,7 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
       if (del.isEmpty()) {
         throw new ResourceNotFoundException();
       }
+      ChangeUtil.bumpRowVersionNotLastUpdatedOn(rsrc.getChange().getId(), db);
       db.patchSetApprovals().delete(del);
       db.commit();
     } finally {

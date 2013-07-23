@@ -117,6 +117,15 @@ public class ChangeUtil {
     }
   }
 
+  public static void bumpRowVersionNotLastUpdatedOn(Change.Id id, ReviewDb db)
+      throws OrmException {
+    // Empty update of Change to bump rowVersion, changing its ETag.
+    Change c = db.changes().get(id);
+    if (c != null) {
+      db.changes().update(Collections.singleton(c));
+    }
+  }
+
   public static void updated(final Change c) {
     c.resetLastUpdatedOn();
     computeSortKey(c);

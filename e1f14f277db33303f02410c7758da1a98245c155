@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "539cab83_01e76a5f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-23T20:17:32Z",
+      "side": 1,
+      "message": "Feels like this belongs in ChangeUtil as a complement to ChangeUtil.updated (only operating on a different field)",
+      "revId": "e1f14f277db33303f02410c7758da1a98245c155",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

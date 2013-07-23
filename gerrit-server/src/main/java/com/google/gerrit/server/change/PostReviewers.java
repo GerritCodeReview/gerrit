@@ -58,6 +58,7 @@ import org.eclipse.jgit.lib.Config;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -81,7 +82,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
   private final Provider<GroupsCollection> groupsCollection;
   private final GroupMembers.Factory groupMembersFactory;
   private final AccountInfo.Loader.Factory accountLoaderFactory;
-  private final Provider<ReviewDb> db;
+  private final Provider<ReviewDb> dbProvider;
   private final IdentifiedUser currentUser;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final Config cfg;
@@ -109,7 +110,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
     this.groupsCollection = groupsCollection;
     this.groupMembersFactory = groupMembersFactory;
     this.accountLoaderFactory = accountLoaderFactory;
-    this.db = db;
+    this.dbProvider = db;
     this.currentUser = currentUser;
     this.identifiedUserFactory = identifiedUserFactory;
     this.cfg = cfg;
@@ -215,9 +216,10 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
       return;
     }
 
+    ReviewDb db = dbProvider.get();
     PatchSet.Id psid = rsrc.getChange().currentPatchSetId();
     Set<Account.Id> existing = Sets.newHashSet();
-    for (PatchSetApproval psa : db.get().patchSetApprovals().byPatchSet(psid)) {
+    for (PatchSetApproval psa : db.patchSetApprovals().byPatchSet(psid)) {
       existing.add(psa.getAccountId());
     }
 
@@ -235,7 +237,23 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
           new ReviewerInfo(id), control, ImmutableList.of(psa)));
       toInsert.add(psa);
     }
-    db.get().patchSetApprovals().insert(toInsert);
+    if (toInsert.isEmpty()) {
+      return;
+    }
+
+    db.changes().beginTransaction(rsrc.getChange().getId());
+    try {
+      // Empty update of Change to bump rowVersion, changing its ETag.
+      Change c = db.changes().get(rsrc.getChange().getId());
+      if (c != null) {
+        db.changes().update(Collections.singleton(c));
+      }
+      db.patchSetApprovals().insert(toInsert);
+      db.commit();
+    } finally {
+      db.rollback();
+    }
+
     accountLoaderFactory.create(true).fill(result.reviewers);
     postAdd(rsrc.getChange(), result);
   }
@@ -248,10 +266,10 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
 
     // Execute hook for added reviewers
     //
-    PatchSet patchSet = db.get().patchSets().get(change.currentPatchSetId());
+    PatchSet patchSet = dbProvider.get().patchSets().get(change.currentPatchSetId());
     for (AccountInfo info : result.reviewers) {
       Account account = accountCache.get(info._id).getAccount();
-      hooks.doReviewerAddedHook(change, account, patchSet, db.get());
+      hooks.doReviewerAddedHook(change, account, patchSet, dbProvider.get());
     }
 
     // Email the reviewers

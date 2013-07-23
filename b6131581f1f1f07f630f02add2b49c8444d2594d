@@ -16,6 +16,24 @@
       "revId": "b6131581f1f1f07f630f02add2b49c8444d2594d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3c16754_54086c38",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-23T17:24:38Z",
+      "side": 1,
+      "message": "Never mind, I was confused.",
+      "parentUuid": "d3c41b63_b51e2073",
+      "revId": "b6131581f1f1f07f630f02add2b49c8444d2594d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

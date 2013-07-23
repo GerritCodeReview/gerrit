@@ -16,6 +16,7 @@
 .commentBox {
   position: relative;
   width: 679px;
+  min-height: 16px;
   font-family: sans-serif;
   background-color: #fcfa96;
   border: 1px solid black;

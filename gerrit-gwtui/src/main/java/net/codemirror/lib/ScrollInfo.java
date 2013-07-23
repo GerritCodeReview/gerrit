@@ -23,12 +23,12 @@ public class ScrollInfo extends JavaScriptObject {
     return createObject().cast();
   }
 
-  public final native int getLeft() /*-{ return this.left; }-*/;
-  public final native int getTop() /*-{ return this.top; }-*/;
-  public final native int getWidth() /*-{ return this.width; }-*/;
-  public final native int getHeight() /*-{ return this.height; }-*/;
-  public final native int getClientWidth() /*-{ return this.clientWidth; }-*/;
-  public final native int getClientHeight() /*-{ return this.clientHeight; }-*/;
+  public final native double getLeft() /*-{ return this.left; }-*/;
+  public final native double getTop() /*-{ return this.top; }-*/;
+  public final native double getWidth() /*-{ return this.width; }-*/;
+  public final native double getHeight() /*-{ return this.height; }-*/;
+  public final native double getClientWidth() /*-{ return this.clientWidth; }-*/;
+  public final native double getClientHeight() /*-{ return this.clientHeight; }-*/;
 
 
   protected ScrollInfo() {

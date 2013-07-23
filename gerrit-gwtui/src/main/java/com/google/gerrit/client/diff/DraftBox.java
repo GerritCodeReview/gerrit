@@ -213,6 +213,7 @@ class DraftBox extends CommentBox {
     parent.removeDraft(this, comment.side(), comment.line() - 1);
 
     removeFromParent();
+    resizePaddingWidget();
     getSelfWidget().clear();
 
     PaddingManager manager = getPaddingManager();

@@ -16,6 +16,7 @@
 .commentBox {
   position: relative;
   width: 679px;
+  min-height: 16px;
   font-family: sans-serif;
   background-color: #fcfa96;
   border: 1px solid black;
@@ -31,7 +32,7 @@
 .summary {
   color: #777;
   position: absolute;
-  top: 0;
+  top: 2px;
   left: 120px;
   width: 408px;
   overflow: hidden;
@@ -42,12 +43,13 @@
 .date {
   white-space: nowrap;
   position: absolute;
-  top: 0;
+  top: 2px;
   right: 5px;
 }
 
 .contents {
   margin-left: 28px;
+  padding-top: 2px;
   position: relative;
 }
 .contents p,

@@ -98,16 +98,22 @@ class PutTopic implements RestModifyView<ChangeResource, Input>,
       }
       cmsg.setMessage(msgBuf.toString());
 
-      change = db.changes().atomicUpdate(change.getId(),
-        new AtomicUpdate<Change>() {
-          @Override
-          public Change update(Change change) {
-            change.setTopic(Strings.emptyToNull(newTopicName));
-            ChangeUtil.updated(change);
-            return change;
-          }
-        });
-      db.changeMessages().insert(Collections.singleton(cmsg));
+      db.changes().beginTransaction(change.getId());
+      try {
+        change = db.changes().atomicUpdate(change.getId(),
+          new AtomicUpdate<Change>() {
+            @Override
+            public Change update(Change change) {
+              change.setTopic(Strings.emptyToNull(newTopicName));
+              ChangeUtil.updated(change);
+              return change;
+            }
+          });
+        db.changeMessages().insert(Collections.singleton(cmsg));
+        db.commit();
+      } finally {
+        db.rollback();
+      }
       indexer.index(change);
       hooks.doTopicChangedHook(change, currentUser.getAccount(),
           oldTopicName, db);

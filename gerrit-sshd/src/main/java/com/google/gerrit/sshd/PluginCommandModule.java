@@ -26,7 +26,7 @@ public abstract class PluginCommandModule extends CommandModule {
   private CommandName command;
 
   @Inject
-  void setPluginName(@PluginName String name, final String descr) {
+  void setPluginName(@PluginName String name) {
     this.command = Commands.named(name);
   }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "539e6b6d_51f17418",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/UserActivityMonitor.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-07-23T02:22:20Z",
+      "side": 1,
+      "message": "why not user Gerrit.EVENT_BUS?",
+      "revId": "b9ebb668f6443dbdb3e4fce6ea13af89f3011619",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

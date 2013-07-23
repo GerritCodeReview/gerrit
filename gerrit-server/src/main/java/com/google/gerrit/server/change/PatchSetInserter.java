@@ -68,7 +68,7 @@ public class PatchSetInserter {
 
   public static interface Factory {
     PatchSetInserter create(Repository git, RevWalk revWalk, RefControl refControl,
-        Change change, RevCommit commit);
+        IdentifiedUser user, Change change, RevCommit commit);
   }
 
   private final ChangeHooks hooks;
@@ -101,7 +101,6 @@ public class PatchSetInserter {
       TrackingFooters trackingFooters,
       ReviewDb db,
       PatchSetInfoFactory patchSetInfoFactory,
-      IdentifiedUser user,
       GitReferenceUpdated gitRefUpdated,
       CommitValidators.Factory commitValidatorsFactory,
       ChangeIndexer indexer,
@@ -109,6 +108,7 @@ public class PatchSetInserter {
       @Assisted Repository git,
       @Assisted RevWalk revWalk,
       @Assisted RefControl refControl,
+      @Assisted IdentifiedUser user,
       @Assisted Change change,
       @Assisted RevCommit commit) {
     this.hooks = hooks;

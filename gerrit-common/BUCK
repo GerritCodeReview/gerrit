@@ -53,7 +53,6 @@ def git_describe():
 genrule(
   name = 'git_describe',
   cmd = 'mkdir -p $(dirname $OUT); echo "%s" >$OUT' % git_describe(),
-  srcs = [],
   out = VER,
 )
 

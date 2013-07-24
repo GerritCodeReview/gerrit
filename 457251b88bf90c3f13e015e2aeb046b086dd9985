@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7381af4b_12056c23",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-24T23:39:40Z",
+      "side": 1,
+      "message": "I don\u0027t think this is required in the factory method, it should go in a setter, since there is a default (GERRIT in the old implementation).",
+      "revId": "457251b88bf90c3f13e015e2aeb046b086dd9985",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

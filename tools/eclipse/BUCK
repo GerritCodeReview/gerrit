@@ -3,7 +3,6 @@ include_defs('//tools/build.defs')
 genrule(
   name = 'eclipse',
   cmd = '',
-  srcs = [],
   deps = [
     ':_classpath',
     ':_project',
@@ -15,7 +14,6 @@ genrule(
 genrule(
   name = 'eclipse_project',
   cmd = '',
-  srcs = [],
   deps = [
     ':_classpath_nocompile',
     ':_project',
@@ -40,16 +38,14 @@ java_library(
 
 genrule(
   name = '_project',
-  cmd = '${:gen_project} $OUT',
-  srcs = [],
+  cmd = '$(exe :gen_project) $OUT',
   deps = [':gen_project'],
   out = 'project',
 )
 
 genrule(
   name = '_classpath',
-  cmd = '${:gen_classpath} $OUT $DEPS',
-  srcs = [],
+  cmd = '$(exe :gen_classpath) $OUT $DEPS',
   deps = [
     ':classpath',
     ':gen_classpath',
@@ -59,8 +55,7 @@ genrule(
 
 genrule(
   name = '_classpath_nocompile',
-  cmd = '${:gen_classpath}',
-  srcs = [],
+  cmd = '$(exe :gen_classpath)',
   deps = [':gen_classpath'],
   out = '__fake.eclipse__',
 )

@@ -16,6 +16,24 @@
       "revId": "c6e8ab59f787b0565f35413545c1bb7022942ad2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "333d774d_2005aa23",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Loader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-24T18:14:27Z",
+      "side": 1,
+      "message": "\"O\" and \"R\" might be unnecessary. I think \"J\" and \"K\" was added for my vertical navigation hack.",
+      "parentUuid": "333d774d_60fbb2fa",
+      "revId": "c6e8ab59f787b0565f35413545c1bb7022942ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

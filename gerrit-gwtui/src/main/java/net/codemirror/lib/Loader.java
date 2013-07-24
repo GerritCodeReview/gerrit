@@ -48,7 +48,16 @@ class Loader {
         public void onSuccess(Void result) {
           CallbackGroup group = new CallbackGroup();
           injectScript(Keymap.I.vim().getSafeUri(),
-              group.add(CallbackGroup.<Void>emptyCallback()));
+              group.add(new AsyncCallback<Void>() {
+                @Override
+                public void onSuccess(Void result) {
+                  initDisableUnwantedKeys();
+                }
+
+                @Override
+                public void onFailure(Throwable caught) {
+                }
+              }));
           injectScript(Addons.I.dialog().getSafeUri(),
               group.add(CallbackGroup.<Void>emptyCallback()));
           injectScript(Addons.I.searchcursor().getSafeUri(),
@@ -101,6 +110,14 @@ class Loader {
        })
       .inject()
       .cast();
+  }
+
+  private static void initDisableUnwantedKeys() {
+    // TODO: Better custom keybindings, remove temporary navigation hacks.
+    for (String s : new String[] {"C", "J", "K", "O", "R", "U", "Ctrl-C",
+        "Enter"}) {
+      CodeMirror.disableUnwantedKey("vim", s);
+    }
   }
 
   private static void error(Exception e) {

@@ -88,14 +88,6 @@ public class SideBySide2 extends Screen {
   private static final JsArrayString EMPTY =
       JavaScriptObject.createArray().cast();
 
-  static {
-    // TODO: Better custom keybindings, remove temporary navigation hacks.
-    for (String s : new String[] {"C", "J", "K", "O", "R", "U", "Ctrl-C",
-        "Enter"}) {
-      CodeMirror.disableUnwantedKey("vim", s);
-    }
-  }
-
   @UiField(provided = true)
   ReviewedPanel reviewed;
 

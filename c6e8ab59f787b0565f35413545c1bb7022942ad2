@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "333d774d_60fbb2fa",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Loader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-24T14:06:41Z",
+      "side": 1,
+      "message": "Is this even required anymore? It seems to be unnecessary, O and R drop into edit modes in vi. The CM3 instance is readOnly and the vim key mode understands readOnly to not perform editing.",
+      "revId": "c6e8ab59f787b0565f35413545c1bb7022942ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

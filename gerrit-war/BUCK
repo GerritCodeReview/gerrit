@@ -37,7 +37,7 @@ genrule(
 
 genrule(
   name = 'log4j-config__jar',
-  cmd = 'jar cf $OUT -C $(dirname $SRCS) .',
+  cmd = 'jar cf $OUT -C $SRCDIR/src/main/resources .',
   srcs = ['src/main/resources/log4j.properties'],
   out = 'log4j-config.jar',
 )

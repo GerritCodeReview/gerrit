@@ -191,7 +191,7 @@ To run all tests including acceptance tests:
 To exclude slow tests:
 
 ----
-  buck test --all -e slow
+  buck test --all --exclude slow
 ----
 
 

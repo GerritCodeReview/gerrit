@@ -52,17 +52,19 @@ def gwt_user_agent_permutations(
       "<set-property name='locale' value='default'/>",
       "</module>",
     ])
-    gwt = 'resources/%s_%s.gwt.xml' % (module_target.replace('.', '/'), ua)
+    gwt = '%s_%s.gwt.xml' % (module_target.replace('.', '/'), ua)
+    jar = '%s_%s.gwtxml.jar' % (name, ua)
     genrule(
       name = '%s_%s_gwtxml_gen' % (name, ua),
-      cmd = 'mkdir -p $(dirname $OUT);echo "%s">$OUT' % xml,
-      srcs = [], 
-      deps = [],
-      out = gwt,
+      cmd = 'cd $TMP;' +
+        ('mkdir -p $(dirname %s);' % gwt) +
+        ('echo "%s">%s;' % (xml, gwt)) +
+        'zip -qr $OUT .',
+      out = jar,
     )
-    java_library(
+    prebuilt_jar(
       name = '%s_%s_gwtxml_lib' % (name, ua),
-      resources = [genfile(gwt)],
+      binary_jar = genfile(jar),
       deps = [':%s_%s_gwtxml_gen' % (name, ua)],
     )
     gwt_application(

@@ -100,5 +100,6 @@ java_test(
     '//lib/jgit:jgit',
   ],
   source_under_test = [':ui_module'],
+  vm_args = ['-Xmx512m'],
   visibility = ['//tools/eclipse:classpath'],
 )

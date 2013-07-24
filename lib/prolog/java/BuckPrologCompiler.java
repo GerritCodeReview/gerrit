@@ -20,18 +20,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
-
-import javax.tools.Diagnostic;
-import javax.tools.DiagnosticCollector;
-import javax.tools.JavaCompiler;
-import javax.tools.JavaFileObject;
-import javax.tools.StandardJavaFileManager;
-import javax.tools.ToolProvider;
 
 public class BuckPrologCompiler {
   public static void main(String[] argv) throws IOException, CompileException {
@@ -48,12 +39,10 @@ public class BuckPrologCompiler {
 
     File out = new File(argv[argv.length - 1]);
     File java = tmpdir("java");
-    File classes = tmpdir("classes");
     for (File src : srcs) {
       new Compiler().prologToJavaSource(src.getPath(), java.getPath());
     }
-    javac(jars, java, classes);
-    jar(out, classes);
+    jar(out, java);
   }
 
   private static File tmpdir(String name) throws IOException {
@@ -64,59 +53,11 @@ public class BuckPrologCompiler {
     return d;
   }
 
-  private static void javac(List<File> cp, File java, File classes)
-      throws IOException, CompileException {
-    JavaCompiler javac = ToolProvider.getSystemJavaCompiler();
-    if (javac == null) {
-      throw new CompileException("JDK required (running inside of JRE)");
-    }
-
-    DiagnosticCollector<JavaFileObject> d =
-        new DiagnosticCollector<JavaFileObject>();
-    StandardJavaFileManager fm = javac.getStandardFileManager(d, null, null);
-    try {
-      StringBuilder classpath = new StringBuilder();
-      for (File jar : cp) {
-        if (classpath.length() > 0) {
-          classpath.append(File.pathSeparatorChar);
-        }
-        classpath.append(jar.getPath());
-      }
-      ArrayList<String> args = new ArrayList<String>();
-      args.addAll(Arrays.asList(new String[]{
-          "-source", "6",
-          "-target", "6",
-          "-g:none",
-          "-nowarn",
-          "-d", classes.getPath()}));
-      if (classpath.length() > 0) {
-        args.add("-classpath");
-        args.add(classpath.toString());
-      }
-      if (!javac.getTask(null, fm, d, args, null,
-          fm.getJavaFileObjectsFromFiles(find(java, ".java"))).call()) {
-        StringBuilder msg = new StringBuilder();
-        for (Diagnostic<? extends JavaFileObject> err : d.getDiagnostics()) {
-          msg.append('\n').append(err.getKind()).append(": ");
-          if (err.getSource() != null) {
-            msg.append(err.getSource().getName());
-          }
-          msg.append(':').append(err.getLineNumber()).append(": ");
-          msg.append(err.getMessage(Locale.getDefault()));
-        }
-        throw new CompileException(msg.toString());
-      }
-    } finally {
-      fm.close();
-    }
-  }
-
   private static void jar(File jar, File classes) throws IOException {
     File tmp = File.createTempFile("prolog", ".jar", jar.getParentFile());
     try {
       JarOutputStream out = new JarOutputStream(new FileOutputStream(tmp));
       try {
-        out.setLevel(9);
         add(out, classes, "");
       } finally {
         out.close();
@@ -153,17 +94,5 @@ public class BuckPrologCompiler {
         out.closeEntry();
       }
     }
-  }
-
-  private static List<File> find(File dir, String extension) {
-    ArrayList<File> list = new ArrayList<File>();
-    for (File f : dir.listFiles()) {
-      if (f.getName().endsWith(extension)) {
-        list.add(f);
-      } else if (f.isDirectory()) {
-        list.addAll(find(f, extension));
-      }
-    }
-    return list;
   }
 }

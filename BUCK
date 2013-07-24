@@ -16,7 +16,6 @@ API_DEPS = [
 genrule(
   name = 'api',
   cmd = '',
-  srcs = [],
   deps = API_DEPS,
   out = '__fake.api__',
 )
@@ -38,8 +37,7 @@ java_library(
 )
 genrule(
   name = 'extension-api-src',
-  cmd = 'ln -s $DEPS $OUT',
-  srcs = [],
+  cmd = 'ln -s $(location //gerrit-extension-api:api-src) $OUT',
   deps = ['//gerrit-extension-api:api-src'],
   out = 'extension-api-src.jar',
 )
@@ -66,16 +64,14 @@ java_binary(
 
 genrule(
   name = 'download',
-  cmd = '${//tools:download_all}',
-  srcs = [],
+  cmd = '$(exe //tools:download_all)',
   deps = ['//tools:download_all'],
   out = '__fake.download__',
 )
 
 genrule(
   name = 'download_sources',
-  cmd = '${//tools:download_all} --src',
-  srcs = [],
+  cmd = '$(exe //tools:download_all) --src',
   deps = ['//tools:download_all'],
   out = '__fake.download__',
 )

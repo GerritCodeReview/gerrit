@@ -1,7 +1,3 @@
-ANTLR_OUTS = [
-  'QueryLexer.java',
-  'QueryParser.java',
-]
 PARSER_DEPS = [
   ':query_exception',
   '//lib/antlr:java_runtime',
@@ -16,24 +12,22 @@ java_library(
 genantlr(
   name = 'query_antlr',
   srcs = ['src/main/antlr3/com/google/gerrit/server/query/Query.g'],
-  outs = ANTLR_OUTS,
+  out = 'query_antlr.src.zip',
+)
+
+java_library(
+  name = 'lib',
+  srcs = [genfile('query_antlr.src.zip')],
+  deps = PARSER_DEPS + [':query_antlr'],
 )
 
 # Hack necessary to expose ANTLR generated code as JAR to Eclipse.
-java_library(
-  name = 'lib',
-  srcs = [genfile(f) for f in ANTLR_OUTS],
-  deps = PARSER_DEPS + [':' + f for f in ANTLR_OUTS],
-)
-
 genrule(
   name = 'query_link',
-  cmd = 'ln -s $SRCS $OUT',
-  srcs = [genfile('lib__lib__output/lib.jar')],
+  cmd = 'ln -s $(location :lib) $OUT',
   deps = [':lib'],
   out = 'query_parser.jar',
 )
-
 prebuilt_jar(
   name = 'query_parser',
   binary_jar = genfile('query_parser.jar'),

@@ -38,7 +38,7 @@ def war(
     context = [],
     visibility = []
     ):
-  cmd = ['${//tools:pack_war}', '-o', '$OUT']
+  cmd = ['$(exe //tools:pack_war)', '-o', '$OUT']
   for l in libs:
     cmd.extend(['--lib', l])
   for l in pgmlibs:
@@ -96,7 +96,7 @@ def _maven_util(
     deps
     ):
   cmd = [
-    '${//tools:maven_deploy}',
+    '$(exe //tools:maven_deploy)',
     '-a', name,
     '-v', GERRIT_VER,
     '-d', '"$DEPS"'
@@ -104,7 +104,6 @@ def _maven_util(
   genrule(
     name = 'api_%s' % name,
     cmd = ' '.join(cmd),
-    srcs = [],
     deps = deps + ['//tools:maven_deploy'],
     out = '__fake.api_%s__' % name
   )

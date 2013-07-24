@@ -15,26 +15,17 @@
 def genantlr(
     name,
     srcs,
-    outs):
-  tmp = name + '.srcjar'
+    out):
+  tmp = name + '.src.zip'
   genrule(
     name = name,
     srcs = srcs,
-    cmd = '${//lib/antlr:antlr-tool} -o $TMP $SRCS;' +
+    cmd = '$(exe //lib/antlr:antlr-tool) -o $TMP $SRCS;' +
       'cd $TMP;' +
       'zip -qr $OUT .',
     deps = ['//lib/antlr:antlr-tool'],
-    out = tmp,
+    out = out,
   )
-  for o in outs:
-    genrule(
-      name = o,
-      cmd = 'unzip -qp $SRCS %s >$OUT' % o,
-      srcs = [genfile(tmp)],
-      deps = [':' + name],
-      out = o,
-    )
-
 
 def gwt_module(
     name,
@@ -61,11 +52,10 @@ def gwt_application(
     compiler_jvm_flags = [],
     deps = [],
     visibility = []):
-  cmd = ['${//lib/gwt:compiler}', module_target, '$OUT']
+  cmd = ['$(exe //lib/gwt:compiler)', module_target, '$OUT']
   cmd += compiler_opts + ['--', '$DEPS']
   genrule(
     name = name,
-    srcs = [],
     cmd = ' '.join(cmd),
     deps = [
       '//lib/gwt:compiler',

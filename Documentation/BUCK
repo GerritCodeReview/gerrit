@@ -41,8 +41,7 @@ genasciidoc(
 
 genrule(
   name = 'licenses.txt',
-  cmd = '${:gen_licenses} >$OUT',
-  srcs = [],
+  cmd = '$(exe :gen_licenses) >$OUT',
   deps = [':gen_licenses'] + MAIN,
   out = 'licenses.txt',
 )

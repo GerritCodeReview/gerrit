@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "b37967b7_f4c13871",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1005956
+      },
+      "writtenOn": "2013-07-24T10:59:57Z",
+      "side": 1,
+      "message": "\u003efirefox browser let us copy the change urls by \u0027Ctrl\u0027 + select by mouse\n\nit just copies the strings(subject lines) visible, the widget added in this change copies the changes\u0027 links.\n\n\u003eanyway this is a good start point, I expect to much here, I hope the button (image) can download all columns of the query result in a file whose format can be configurable to be cvs, txt; zip or not.\n\nAgreed, but this is just what we are looking for right now, so probably will take that up later sometime as follow on changes to this one.",
+      "parentUuid": "e71a3802_171f9469",
+      "revId": "6edf6568d0db31e33609e52fbe77ed97c1481596",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e71a3802_9743a45b",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PagedSingleListScreen.java",
         "patchSetId": 4
@@ -47,6 +65,24 @@
       "writtenOn": "2013-07-10T07:58:23Z",
       "side": 1,
       "message": "is this the \u0027button\u0027 described in commit message? \n\ndo we really need this Label?",
+      "revId": "6edf6568d0db31e33609e52fbe77ed97c1481596",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b37967b7_d4c43c84",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PagedSingleListScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1005956
+      },
+      "writtenOn": "2013-07-24T10:59:57Z",
+      "side": 1,
+      "message": "without this I think its difficult for users to identify the use of the copyable label.",
+      "parentUuid": "e71a3802_9743a45b",
       "revId": "6edf6568d0db31e33609e52fbe77ed97c1481596",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

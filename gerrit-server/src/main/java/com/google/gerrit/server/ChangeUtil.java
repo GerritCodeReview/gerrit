@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server;
 
+import static com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy.RECEIVE_COMMITS;
+
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Change;
@@ -377,11 +379,10 @@ public class ChangeUtil {
               + ": Commit message was updated";
 
       change = patchSetInserterFactory
-          .create(git, revWalk, refControl, user, change, newCommit)
+          .create(git, revWalk, refControl, user, change, newCommit, RECEIVE_COMMITS)
           .setPatchSet(newPatchSet)
           .setMessage(msg)
           .setCopyLabels(true)
-          .setValidateForReceiveCommits(true)
           .insert();
 
       return change.getId();

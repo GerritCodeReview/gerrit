@@ -66,9 +66,13 @@ public class PatchSetInserter {
   private static final Logger log =
       LoggerFactory.getLogger(PatchSetInserter.class);
 
+  public static enum ValidatePolicy {
+    RECEIVE_COMMITS, GERRIT, NONE;
+  }
+
   public static interface Factory {
     PatchSetInserter create(Repository git, RevWalk revWalk, RefControl refControl,
-        IdentifiedUser user, Change change, RevCommit commit);
+        IdentifiedUser user, Change change, RevCommit commit, ValidatePolicy validate);
   }
 
   private final ChangeHooks hooks;
@@ -79,7 +83,7 @@ public class PatchSetInserter {
   private final GitReferenceUpdated gitRefUpdated;
   private final CommitValidators.Factory commitValidatorsFactory;
   private final ChangeIndexer indexer;
-  private boolean validateForReceiveCommits;
+  private final ValidatePolicy validatePolicy;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
 
   private final Repository git;
@@ -110,7 +114,8 @@ public class PatchSetInserter {
       @Assisted RefControl refControl,
       @Assisted IdentifiedUser user,
       @Assisted Change change,
-      @Assisted RevCommit commit) {
+      @Assisted RevCommit commit,
+      @Assisted ValidatePolicy validate) {
     this.hooks = hooks;
     this.trackingFooters = trackingFooters;
     this.db = db;
@@ -126,6 +131,7 @@ public class PatchSetInserter {
     this.refControl = refControl;
     this.change = change;
     this.commit = commit;
+    this.validatePolicy = validate;
     this.runHooks = true;
     this.sendMail = true;
   }
@@ -160,11 +166,6 @@ public class PatchSetInserter {
 
   public PatchSetInserter setSshInfo(SshInfo sshInfo) {
     this.sshInfo = sshInfo;
-    return this;
-  }
-
-  public PatchSetInserter setValidateForReceiveCommits(boolean validate) {
-    this.validateForReceiveCommits = validate;
     return this;
   }
 
@@ -316,10 +317,13 @@ public class PatchSetInserter {
         commit, user);
 
     try {
-      if (validateForReceiveCommits) {
+      switch (validatePolicy) {
+      case RECEIVE_COMMITS:
         cv.validateForReceiveCommits(event);
-      } else {
+        break;
+      case GERRIT:
         cv.validateForGerritCommits(event);
+        break;
       }
     } catch (CommitValidationException e) {
       throw new InvalidChangeOperationException(e.getMessage());

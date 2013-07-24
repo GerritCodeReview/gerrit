@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.changedetail;
 
+import static com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy.GERRIT;
+
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -131,7 +133,7 @@ public class RebaseChange {
       rebase(git, rw, inserter, patchSetId, change,
           uploader, baseCommit, mergeUtilFactory.create(
               changeControl.getProjectControl().getProjectState(), true),
-          committerIdent, true, true);
+          committerIdent, true, true, GERRIT);
     } catch (PathConflictException e) {
       throw new IOException(e.getMessage());
     } finally {
@@ -257,6 +259,7 @@ public class RebaseChange {
    * @param committerIdent the committer's identity
    * @param sendMail if a mail notification should be sent for the new patch set
    * @param runHooks if hooks should be run for the new patch set
+   * @param validate if commit validation should be run for the new patch set
    * @return the new patch set which is based on the given base commit
    * @throws NoSuchChangeException thrown if the change to which the patch set
    *         belongs does not exist or is not visible to the user
@@ -268,7 +271,7 @@ public class RebaseChange {
       final ObjectInserter inserter, final PatchSet.Id patchSetId,
       final Change change, final IdentifiedUser uploader, final RevCommit baseCommit,
       final MergeUtil mergeUtil, PersonIdent committerIdent,
-      boolean sendMail, boolean runHooks)
+      boolean sendMail, boolean runHooks, ValidatePolicy validate)
           throws NoSuchChangeException,
       OrmException, IOException, InvalidChangeOperationException,
       PathConflictException {
@@ -288,7 +291,7 @@ public class RebaseChange {
         changeControlFactory.validateFor(change.getId(), uploader);
 
     PatchSetInserter patchSetinserter = patchSetInserterFactory
-        .create(git, revWalk, changeControl.getRefControl(), uploader, change, rebasedCommit)
+        .create(git, revWalk, changeControl.getRefControl(), uploader, change, rebasedCommit, validate)
         .setCopyLabels(true)
         .setDraft(originalPatchSet.isDraft())
         .setSendMail(sendMail)

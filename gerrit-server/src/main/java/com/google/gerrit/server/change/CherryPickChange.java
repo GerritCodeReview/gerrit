@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy.GERRIT;
+
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -193,7 +195,7 @@ public class CherryPickChange {
       RefControl refControl) throws InvalidChangeOperationException,
       IOException, OrmException, NoSuchChangeException {
     patchSetInserterFactory
-        .create(git, revWalk, refControl, currentUser, change, cherryPickCommit)
+        .create(git, revWalk, refControl, currentUser, change, cherryPickCommit, GERRIT)
         .setMessage(buildChangeMessage(patchSetId, change))
         .insert();
     return change.getId();

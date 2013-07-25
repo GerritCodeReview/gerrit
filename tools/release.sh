@@ -15,7 +15,7 @@ do
 		;;
 	--no-tests|--without-tests)
 		flags="$flags -Dgerrit.acceptance-tests.skip=true"
-		flags="$flags -Dmaven.tests.skip=true"
+		flags="$flags -Dmaven.test.skip=true"
 		shift
 		;;
 	*)

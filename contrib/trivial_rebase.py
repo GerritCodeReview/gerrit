@@ -131,7 +131,7 @@ class TrivialRebase:
     Returns a list of approval dicts.
 
     """
-    sql_query = ("\"SELECT value,account_id,category_id FROM patch_set_approvals "
+    sql_query = ("\"SELECT value,account_id,category_id AS label FROM patch_set_approvals "
                  "WHERE change_id = %s AND patch_set_id = %s AND value != 0\""
                  % (self.changeId, (self.patchset - 1)))
     gsql_out = self.GsqlQuery(sql_query)
@@ -221,20 +221,20 @@ class TrivialRebase:
       # Note: Sites with different 'copy_min_score' values in the
       # approval_categories DB table might want different behavior here.
       # Additional categories should also be added if desired.
-      if approval["category_id"] == "Code-Review":
+      if approval["label"] == "Code-Review":
         if approval['value'] != '-2':
           self.AppendAcctApproval(approval['account_id'],
                                   '--label Code-Review=%s' % approval['value'])
-      elif approval["category_id"] == "Verified":
+      elif approval["label"] == "Verified":
         # Don't re-add verifies
         # self.AppendAcctApproval(approval['account_id'], '--label Verified=%s' % approval['value'])
         continue
-      elif approval["category_id"] == "SUBM":
+      elif approval["label"] == "SUBM":
         # We don't care about previous submit attempts
         continue
       else:
         self.AppendAcctApproval(approval['account_id'], '--label %s=%s' %
-                                (approval['category_id'], approval['value']))
+                                (approval['label'], approval['value']))
 
     gerrit_review_msg = ("\'Automatically re-added by Gerrit trivial rebase "
                           "detection script.\'")

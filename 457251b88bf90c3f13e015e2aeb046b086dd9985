@@ -16,6 +16,24 @@
       "revId": "457251b88bf90c3f13e015e2aeb046b086dd9985",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7381af4b_3202f01c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-07-25T00:06:32Z",
+      "side": 1,
+      "message": "Sure, that would cut down on the files touched. Done.",
+      "parentUuid": "7381af4b_12056c23",
+      "revId": "457251b88bf90c3f13e015e2aeb046b086dd9985",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

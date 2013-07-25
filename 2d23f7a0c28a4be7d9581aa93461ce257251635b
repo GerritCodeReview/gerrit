@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "333d774d_6022d2bc",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-25T17:30:41Z",
+      "side": 1,
+      "message": "Does this need to be a separate case? Looks like it would just be set by the else case below (regardless of approval[\u0027value\u0027] in fact).",
+      "revId": "2d23f7a0c28a4be7d9581aa93461ce257251635b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7381af4b_f239c8ec",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-25T17:30:41Z",
+      "side": 1,
+      "message": "Obviously not a functional issue but maybe change this one as well.",
+      "revId": "2d23f7a0c28a4be7d9581aa93461ce257251635b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

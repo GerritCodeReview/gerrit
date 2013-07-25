@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "333d774d_a0077a27",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-07-25T00:17:37Z",
+      "side": 1,
+      "message": "Sure, good idea.\n\nActually I suspect this would be easier to understand with a single method in the CommitValidators class taking the policy as a parameter, since the two methods are mostly identical.",
+      "parentUuid": "7381af4b_f212286b",
+      "revId": "23d411ab6d59020ae315bf71f14dcbd021387614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7381af4b_92071c28",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
         "patchSetId": 3

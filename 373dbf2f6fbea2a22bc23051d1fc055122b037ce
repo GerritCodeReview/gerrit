@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "333d774d_c00cfe4d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-25T00:19:30Z",
+      "side": 1,
+      "message": ":(\n\n(Not your fault, beyond the scope of this change)",
+      "revId": "373dbf2f6fbea2a22bc23051d1fc055122b037ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

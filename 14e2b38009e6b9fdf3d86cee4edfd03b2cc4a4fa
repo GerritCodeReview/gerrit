@@ -16,6 +16,24 @@
       "revId": "14e2b38009e6b9fdf3d86cee4edfd03b2cc4a4fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "333d774d_201cca79",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-25T17:32:28Z",
+      "side": 1,
+      "message": "Ugh, didn\u0027t even get it right on the second try, I should just change the regex for the project :)",
+      "parentUuid": "b37ec723_ef6ebdc1",
+      "revId": "14e2b38009e6b9fdf3d86cee4edfd03b2cc4a4fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

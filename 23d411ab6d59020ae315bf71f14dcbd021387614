@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7381af4b_f212286b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-25T00:09:46Z",
+      "side": 1,
+      "message": "Perhaps a reference to the relevant methods in CommitValidators?",
+      "revId": "23d411ab6d59020ae315bf71f14dcbd021387614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7381af4b_92071c28",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-25T00:09:46Z",
+      "side": 1,
+      "message": "checkNotNull",
+      "revId": "23d411ab6d59020ae315bf71f14dcbd021387614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

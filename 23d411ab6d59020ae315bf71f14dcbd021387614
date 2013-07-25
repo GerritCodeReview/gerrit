@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "7381af4b_522214bc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-25T00:20:13Z",
+      "side": 1,
+      "message": "There are better ways to fix CommitValidators, let\u0027s just hold off on that for now. I think the damage to this class has been contained.",
+      "parentUuid": "333d774d_a0077a27",
+      "revId": "23d411ab6d59020ae315bf71f14dcbd021387614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7381af4b_92071c28",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
         "patchSetId": 3

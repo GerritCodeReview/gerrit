@@ -71,6 +71,10 @@ public class PatchSetInserter {
         IdentifiedUser user, Change change, RevCommit commit);
   }
 
+  public static enum ValidatePolicy {
+    GERRIT, RECEIVE_COMMITS, NONE;
+  }
+
   private final ChangeHooks hooks;
   private final TrackingFooters trackingFooters;
   private final PatchSetInfoFactory patchSetInfoFactory;
@@ -79,7 +83,6 @@ public class PatchSetInserter {
   private final GitReferenceUpdated gitRefUpdated;
   private final CommitValidators.Factory commitValidatorsFactory;
   private final ChangeIndexer indexer;
-  private boolean validateForReceiveCommits;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
 
   private final Repository git;
@@ -92,6 +95,7 @@ public class PatchSetInserter {
   private ChangeMessage changeMessage;
   private boolean copyLabels;
   private SshInfo sshInfo;
+  private ValidatePolicy validatePolicy = ValidatePolicy.GERRIT;
   private boolean draft;
   private boolean runHooks;
   private boolean sendMail;
@@ -163,8 +167,8 @@ public class PatchSetInserter {
     return this;
   }
 
-  public PatchSetInserter setValidateForReceiveCommits(boolean validate) {
-    this.validateForReceiveCommits = validate;
+  public PatchSetInserter setValidatePolicy(ValidatePolicy validate) {
+    this.validatePolicy = validate;
     return this;
   }
 
@@ -316,10 +320,13 @@ public class PatchSetInserter {
         commit, user);
 
     try {
-      if (validateForReceiveCommits) {
+      switch (validatePolicy) {
+      case RECEIVE_COMMITS:
         cv.validateForReceiveCommits(event);
-      } else {
+        break;
+      case GERRIT:
         cv.validateForGerritCommits(event);
+        break;
       }
     } catch (CommitValidationException e) {
       throw new InvalidChangeOperationException(e.getMessage());

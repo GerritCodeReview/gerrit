@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy;
+
 import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -84,7 +86,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
                 rebaseChange.rebase(args.repo, args.rw, args.inserter,
                     n.patchsetId, n.change, uploader,
                     newMergeTip, args.mergeUtil, committerIdent,
-                    false, false);
+                    false, false, ValidatePolicy.NONE);
             List<PatchSetApproval> approvals = Lists.newArrayList();
             for (PatchSetApproval a : args.mergeUtil.getApprovalsForCommit(n)) {
               approvals.add(new PatchSetApproval(newPatchSet.getId(), a));

@@ -222,18 +222,17 @@ class TrivialRebase:
       # approval_categories DB table might want different behavior here.
       # Additional categories should also be added if desired.
       if approval["category_id"] == "Code-Review" and approval['value'] != '-2':
-        self.AppendAcctApproval(approval['account_id'], '--code-review %s' % approval['value'])
+        self.AppendAcctApproval(approval['account_id'], '--label Code-Review=%s' % approval['value'])
       elif approval["category_id"] == "Verified":
         # Don't re-add verifies
-        # self.AppendAcctApproval(approval['account_id'], '--verified %s' % approval['value'])
+        # self.AppendAcctApproval(approval['account_id'], '--label Verified=%s' % approval['value'])
         continue
       elif approval["category_id"] == "SUBM":
         # We don't care about previous submit attempts
         continue
       else:
-        self.AppendAcctApproval(approval['account_id'], '--%s %s' %
-                                (approval['category_id'].lower().replace(' ', '-'),
-                                 approval['value']))
+        self.AppendAcctApproval(approval['account_id'], '--label %s=%s' %
+                                (approval['category_id'], approval['value']))
 
     gerrit_review_msg = ("\'Automatically re-added by Gerrit trivial rebase "
                           "detection script.\'")

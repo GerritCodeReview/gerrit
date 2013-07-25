@@ -46,6 +46,7 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -65,6 +66,7 @@ import com.google.gwtexpui.user.client.UserAgent;
 
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.CodeMirror.FromTo;
+import net.codemirror.lib.CodeMirror.GutterClickHandler;
 import net.codemirror.lib.CodeMirror.LineClassWhere;
 import net.codemirror.lib.CodeMirror.LineHandle;
 import net.codemirror.lib.CodeMirror.RenderLineHandler;
@@ -271,6 +273,7 @@ public class SideBySide2 extends Screen {
 
   private void registerCmEvents(final CodeMirror cm) {
     cm.on("cursorActivity", updateActiveLine(cm));
+    cm.on("gutterClick", onGutterClick(cm));
     cm.on("scroll", doScroll(cm));
     scrollTimerA = new Timer() {
       @Override
@@ -896,6 +899,18 @@ public class SideBySide2 extends Screen {
           other.addLineClass(oLineHandle, LineClassWhere.BACKGROUND,
               DiffTable.style.activeLineBg());
         }
+      }
+    };
+  }
+
+  private GutterClickHandler onGutterClick(final CodeMirror cm) {
+    return new GutterClickHandler() {
+      @Override
+      public void handle(CodeMirror instance, int line, String gutter,
+          MouseDownEvent clickEvent) {
+        instance.setCursor(LineCharacter.create(line));
+        instance.setActiveLine(instance.getLineHandle(line));
+        insertNewDraft(instance).run();
       }
     };
   }

@@ -81,6 +81,7 @@ limitations under the License.
     }
     .difftable .CodeMirror-linenumber {
       height: 1.1em;
+      cursor: pointer;
     }
     .hideNumber .CodeMirror-linenumber {
       color: transparent;

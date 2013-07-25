@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f32f5f1f_16147c90",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2013-07-25T17:35:51Z",
+      "side": 1,
+      "message": "Usually code-review has copyMinValue, so to avoid superfluous comments it is tested separately",
+      "parentUuid": "333d774d_6022d2bc",
+      "revId": "2d23f7a0c28a4be7d9581aa93461ce257251635b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7381af4b_f239c8ec",
         "filename": "contrib/trivial_rebase.py",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-07-25T17:30:41Z",
       "side": 1,
       "message": "Obviously not a functional issue but maybe change this one as well.",
+      "revId": "2d23f7a0c28a4be7d9581aa93461ce257251635b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f32f5f1f_d6acc43c",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2013-07-25T17:35:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7381af4b_f239c8ec",
       "revId": "2d23f7a0c28a4be7d9581aa93461ce257251635b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -64,6 +100,24 @@
       "writtenOn": "2013-07-25T17:35:05Z",
       "side": 1,
       "message": "Well, the 4-char label IDs don\u0027t exist anymore (except SUBM, which was already a backwards-compatibility hack even before we removed them), so no.\n\nI wouldn\u0027t object to renaming some variables but it\u0027s somewhat beyond the scope of this change.",
+      "parentUuid": "f32f5f1f_7617f097",
+      "revId": "2d23f7a0c28a4be7d9581aa93461ce257251635b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f32f5f1f_361178a1",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2013-07-25T17:35:51Z",
+      "side": 1,
+      "message": "category_id is the full name with dashes. VRIF doesn\u0027t exist anymore since 2.6",
       "parentUuid": "f32f5f1f_7617f097",
       "revId": "2d23f7a0c28a4be7d9581aa93461ce257251635b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

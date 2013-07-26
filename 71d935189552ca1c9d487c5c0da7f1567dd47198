@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d39dfbd4_8deb612a",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-26T20:41:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3c41b63_353a10e1",
+      "revId": "71d935189552ca1c9d487c5c0da7f1567dd47198",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d3c41b63_153514f0",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2013-07-23T17:57:42Z",
       "side": 1,
       "message": "Missing @ here",
+      "revId": "71d935189552ca1c9d487c5c0da7f1567dd47198",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f32f5f1f_d6d364a7",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-26T20:41:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3c41b63_153514f0",
       "revId": "71d935189552ca1c9d487c5c0da7f1567dd47198",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "f31bdf25_b6e68860",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/config/CapabilityDefinition.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-26T20:41:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3c41b63_553f8ccf",
+      "revId": "71d935189552ca1c9d487c5c0da7f1567dd47198",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3c16754_942124b8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/Module.java",
         "patchSetId": 9
@@ -64,6 +118,24 @@
       "writtenOn": "2013-07-23T17:57:42Z",
       "side": 1,
       "message": "This sort of binding goes in GerritGlobalModule. See about line 244 in current master.",
+      "revId": "71d935189552ca1c9d487c5c0da7f1567dd47198",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f32f5f1f_f6d8e0c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/Module.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-26T20:41:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3c16754_942124b8",
       "revId": "71d935189552ca1c9d487c5c0da7f1567dd47198",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "f31bdf25_96eb8c2a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-26T20:41:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3c16754_d41b9c81",
+      "revId": "71d935189552ca1c9d487c5c0da7f1567dd47198",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3c16754_b41e2073",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
         "patchSetId": 9
@@ -98,6 +188,24 @@
       "writtenOn": "2013-07-23T17:57:42Z",
       "side": 1,
       "message": "I think its OK to omit this comment.",
+      "revId": "71d935189552ca1c9d487c5c0da7f1567dd47198",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f31bdf25_f6f00018",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 839,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-26T20:41:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3c16754_b41e2073",
       "revId": "71d935189552ca1c9d487c5c0da7f1567dd47198",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "b3aa47ea_ace62360",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-26T20:41:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3c16754_d432bc01",
+      "revId": "71d935189552ca1c9d487c5c0da7f1567dd47198",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d3c41b63_b57aa07a",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DispatchCommand.java",
         "patchSetId": 9
@@ -132,6 +258,24 @@
       "writtenOn": "2013-07-23T17:57:42Z",
       "side": 1,
       "message": "Anytime you mess with this logic in the SSH world you should do the same in RestApiServlet checkAccessAnnotations.",
+      "revId": "71d935189552ca1c9d487c5c0da7f1567dd47198",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f31bdf25_d6f50406",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-26T20:41:30Z",
+      "side": 1,
+      "message": "The question is how to derive the plugin name inside checkAccessAnnotations() to build\n\n String.format(\"%s-%s\", pluginName, rc.value())\n\nto check against?",
+      "parentUuid": "d3c41b63_b57aa07a",
       "revId": "71d935189552ca1c9d487c5c0da7f1567dd47198",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "d39dfbd4_ade61d60",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-26T20:41:30Z",
+      "side": 1,
+      "message": "yes, i sought about it, but the problem with this approach is that a plugin can still use a core capability to protect their SSH commands, but something like that:\n\n      final String capability \u003d getPluginName() !\u003d null\n          ? String.format(\"%s-%s\", getPluginName(), rc.value())\n          : rc.value();\n      if (!ctl.canPerform(capability) \u0026\u0026 !ctl.canAdministrateServer()) {\n        String msg \u003d String.format(\n            \"fatal: %s does not have \\\"%s\\\" capability.\",\n            user.getUserName(), rc.value());\n        throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, msg);\n      }\n\nwould not allow that any more. That why i used the approach to first check for the core capability and only if it is not found to fall back to plugin-owned with plugin prefix. But the problem you are describing still exists, that the capability `foo` might be exist in core and in plugin with different group members. But then it is a problem of its own. May be we can mark in RequireCapability annotation that a capability is plugin-owned (introduce new boolean attribute)?",
+      "parentUuid": "d3c41b63_356f70c0",
+      "revId": "71d935189552ca1c9d487c5c0da7f1567dd47198",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d3c41b63_954f6467",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DispatchCommand.java",
         "patchSetId": 9
@@ -166,6 +328,24 @@
       "writtenOn": "2013-07-23T17:57:42Z",
       "side": 1,
       "message": "I think we need to add this to BaseCommand:\n\n  private String pluginName;\n\n  @Inject(optional \u003d true)\n  void setPluginName(@PluginName String name) {\n    this.pluginName \u003d name;\n  }\n\n  String getPluginName() {\n    return pluginName;\n  }\n\nIIRC the Guice injector for the plugin will supply this name to the plugin commands, but not invoke setPluginName() for core commands.",
+      "revId": "71d935189552ca1c9d487c5c0da7f1567dd47198",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3aa47ea_8ceb672a",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-26T20:41:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3c41b63_954f6467",
       "revId": "71d935189552ca1c9d487c5c0da7f1567dd47198",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

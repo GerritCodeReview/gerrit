@@ -70,7 +70,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
         accounts.create("admin", "admin@example.com", "Administrator",
             "Administrators");
 
-    sshSession = new SshSession(admin);
+    sshSession = new SshSession(server, admin);
 
     project1 = new Project.NameKey("p1");
     createProject(sshSession, project1.get());
@@ -104,7 +104,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   @Test
   public void testGcWithoutCapability_Error() throws IOException, OrmException,
       JSchException {
-    SshSession s = new SshSession(accounts.create("user", "user@example.com", "User"));
+    SshSession s = new SshSession(server, accounts.create("user", "user@example.com", "User"));
     s.exec("gerrit gc --all");
     assertError("fatal: user does not have \"runGC\" capability.", s.getError());
   }

@@ -25,11 +25,13 @@ import com.jcraft.jsch.Session;
 
 public class SshSession {
 
+  private final int port;
   private final TestAccount account;
   private Session session;
   private String error;
 
-  public SshSession(TestAccount account) {
+  public SshSession(GerritServer server, TestAccount account) {
+    this.port = server.getSshdPort();
     this.account = account;
   }
 
@@ -72,7 +74,7 @@ public class SshSession {
       JSch jsch = new JSch();
       jsch.addIdentity("KeyPair",
           account.privateKey(), account.sshKey.getPublicKeyBlob(), null);
-      session = jsch.getSession(account.username, "localhost", 29418);
+      session = jsch.getSession(account.username, "localhost", port);
       session.setConfig("StrictHostKeyChecking", "no");
       session.connect();
     }

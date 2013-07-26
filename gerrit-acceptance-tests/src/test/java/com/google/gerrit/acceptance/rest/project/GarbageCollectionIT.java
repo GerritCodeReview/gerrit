@@ -63,7 +63,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
         accounts.create("admin", "admin@example.com", "Administrator",
             "Administrators");
 
-    SshSession sshSession = new SshSession(admin);
+    SshSession sshSession = new SshSession(server, admin);
 
     project1 = new Project.NameKey("p1");
     createProject(sshSession, project1.get());
@@ -71,7 +71,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
     project2 = new Project.NameKey("p2");
     createProject(sshSession, project2.get());
 
-    session = new RestSession(admin);
+    session = new RestSession(server, admin);
   }
 
   @Test
@@ -82,7 +82,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   @Test
   public void testGcNotAllowed_Forbidden() throws IOException, OrmException, JSchException {
     assertEquals(HttpStatus.SC_FORBIDDEN,
-        new RestSession(accounts.create("user", "user@example.com", "User"))
+        new RestSession(server, accounts.create("user", "user@example.com", "User"))
             .post("/projects/" + allProjects.get() + "/gc").getStatusCode());
   }
 

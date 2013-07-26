@@ -49,7 +49,7 @@ public class ListGroupMembersIT extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     TestAccount admin = accounts.create("admin", "Administrators");
-    session = new RestSession(admin);
+    session = new RestSession(server, admin);
   }
 
   @Test

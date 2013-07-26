@@ -87,11 +87,11 @@ public class ListBranchesIT extends AbstractDaemonTest {
   public void setUp() throws Exception {
     admin = accounts.create("admin", "admin@example.com", "Administrator",
             "Administrators");
-    session = new RestSession(admin);
+    session = new RestSession(server, admin);
 
     project = new Project.NameKey("p");
     initSsh(admin);
-    sshSession = new SshSession(admin);
+    sshSession = new SshSession(server, admin);
     createProject(sshSession, project.get());
     git = cloneProject(sshSession.getUrl() + "/" + project.get());
     db = reviewDbProvider.open();
@@ -113,7 +113,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
       OrmException, JSchException, ConfigInvalidException {
     blockRead(project, "refs/*");
     RestSession session =
-        new RestSession(accounts.create("user", "user@example.com", "User"));
+        new RestSession(server, accounts.create("user", "user@example.com", "User"));
     assertEquals(HttpStatus.SC_NOT_FOUND,
         session.get("/projects/" + project.get() + "/branches").getStatusCode());
   }
@@ -165,7 +165,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
       ConfigInvalidException, OrmException, JSchException {
     blockRead(project, "refs/heads/dev");
     RestSession session =
-        new RestSession(accounts.create("user", "user@example.com", "User"));
+        new RestSession(server, accounts.create("user", "user@example.com", "User"));
     pushTo("refs/heads/master");
     String masterCommit = git.getRepository().getRef("master").getTarget().getObjectId().getName();
     pushTo("refs/heads/dev");
@@ -187,7 +187,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
       ConfigInvalidException, OrmException, JSchException {
     blockRead(project, "refs/heads/master");
     RestSession session =
-        new RestSession(accounts.create("user", "user@example.com", "User"));
+        new RestSession(server, accounts.create("user", "user@example.com", "User"));
     pushTo("refs/heads/master");
     pushTo("refs/heads/dev");
     String devCommit = git.getRepository().getRef("master").getTarget().getObjectId().getName();

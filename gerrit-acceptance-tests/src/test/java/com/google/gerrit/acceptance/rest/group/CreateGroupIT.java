@@ -54,7 +54,7 @@ public class CreateGroupIT extends AbstractDaemonTest {
   public void setUp() throws Exception {
     admin = accounts.create("admin", "admin@example.com", "Administrator",
             "Administrators");
-    session = new RestSession(admin);
+    session = new RestSession(server, admin);
   }
 
   @Test
@@ -88,7 +88,7 @@ public class CreateGroupIT extends AbstractDaemonTest {
   public void testCreateGroupWithoutCapability_Forbidden() throws OrmException,
       JSchException, IOException {
     TestAccount user = accounts.create("user", "user@example.com", "User");
-    RestResponse r = (new RestSession(user)).put("/groups/newGroup");
+    RestResponse r = (new RestSession(server, user)).put("/groups/newGroup");
     assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
   }
 

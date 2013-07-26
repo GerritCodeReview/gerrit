@@ -72,7 +72,7 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     admin = accounts.create("admin", "Administrators");
-    session = new RestSession(admin);
+    session = new RestSession(server, admin);
     db = reviewDbProvider.open();
   }
 

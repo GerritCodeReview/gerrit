@@ -51,13 +51,13 @@ public class TestAccount {
     return new PersonIdent(username, email);
   }
 
-  public String getHttpUrl() {
+  public String getHttpUrl(GerritServer server) {
     StringBuilder b = new StringBuilder();
     b.append("http://");
     b.append(username);
     b.append(":");
     b.append(httpPassword);
-    b.append("@localhost:8080");
+    b.append("@localhost:" + server.getHttpPort());
     return b.toString();
   }
 }

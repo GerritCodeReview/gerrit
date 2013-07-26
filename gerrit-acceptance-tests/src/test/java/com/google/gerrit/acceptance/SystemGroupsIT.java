@@ -60,7 +60,7 @@ public class SystemGroupsIT extends AbstractDaemonTest {
 
   @Test
   public void systemGroupsCreated_ssh() throws JSchException, IOException {
-    SshSession session = new SshSession(admin);
+    SshSession session = new SshSession(server, admin);
     String result = session.exec("gerrit ls-groups");
     assertTrue(result.contains("Administrators"));
     assertTrue(result.contains("Anonymous Users"));
@@ -72,7 +72,7 @@ public class SystemGroupsIT extends AbstractDaemonTest {
 
   @Test
   public void systemGroupsCreated_rest() throws IOException {
-    RestSession session = new RestSession(admin);
+    RestSession session = new RestSession(server, admin);
     RestResponse r = session.get("/groups/");
     Gson gson = new Gson();
     Map<String, GroupInfo> result =

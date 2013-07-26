@@ -19,6 +19,8 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import net.codemirror.lib.TextMarker.FromTo;
+
 /**
  * Glue to connect CodeMirror to be callable from GWT.
  *
@@ -204,6 +206,10 @@ public class CodeMirror extends JavaScriptObject {
   public final native LineCharacter getCursor(String start) /*-{
     return this.getCursor(start);
   }-*/;
+
+  public final FromTo getSelectedRange() {
+    return FromTo.create(getCursor("start"), getCursor("end"));
+  };
 
   public final native void setCursor(LineCharacter lineCh) /*-{
     this.setCursor(lineCh);

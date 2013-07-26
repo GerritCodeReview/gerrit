@@ -57,8 +57,11 @@ limitations under the License.
     .b .diff .CodeMirror-linenumber {
       background-color: #9f9;
     }
-    .padding {
+    .padding, .fileCommentCell {
       background-color: #eee;
+    }
+    .fileCommentCell {
+      overflow-x: auto;
     }
     .a .CodeMirror-vscrollbar {
       display: none !important;
@@ -108,10 +111,10 @@ limitations under the License.
               </td>
             </tr>
             <tr ui:field='fileCommentRow'>
-              <td ui:field='fileCommentCellA' class='{style.padding}'>
+              <td ui:field='fileCommentCellA' class='{style.fileCommentCell}'>
                 <d:FileCommentPanel ui:field='fileCommentPanelA' />
               </td>
-              <td ui:field='fileCommentCellB' class='{style.padding}'>
+              <td ui:field='fileCommentCellB' class='{style.fileCommentCell}'>
                 <d:FileCommentPanel ui:field='fileCommentPanelB' />
               </td>
             </tr>

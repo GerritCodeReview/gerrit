@@ -108,7 +108,6 @@ public class SideBySide2 extends Screen {
   private HandlerRegistration resizeHandler;
   private JsArray<CommentInfo> published;
   private JsArray<CommentInfo> drafts;
-  private List<CommentBox> allBoxes;
   private DiffInfo diff;
   private LineMapper mapper;
   private CommentLinkProcessor commentLinkProcessor;
@@ -214,27 +213,13 @@ public class SideBySide2 extends Screen {
               : Style.Visibility.VISIBLE);
       }
     }));
-    if (cmA != null) {
-      cmA.refresh();
-    }
-    if (cmB != null) {
-      cmB.refresh();
-    }
+    cmA.refresh();
+    cmB.refresh();
 
     Window.enableScrolling(false);
-    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-      @Override
-      public void execute() {
-        if (cmA != null) {
-          cmA.setOption("viewportMargin", 10);
-        }
-        if (cmB != null) {
-          cmB.setOption("viewportMargin", 10);
-        }
-        resizeCodeMirror();
-      }
-    });
-    (cmB != null ? cmB : cmA).focus();
+    cmA.setOption("viewportMargin", 10);
+    cmB.setOption("viewportMargin", 10);
+    cmB.focus();
   }
 
   @Override
@@ -246,14 +231,8 @@ public class SideBySide2 extends Screen {
       resizeHandler.removeHandler();
       resizeHandler = null;
     }
-    if (cmA != null) {
-      cmA.getWrapperElement().removeFromParent();
-      cmA = null;
-    }
-    if (cmB != null) {
-      cmB.getWrapperElement().removeFromParent();
-      cmB = null;
-    }
+    cmA.getWrapperElement().removeFromParent();
+    cmB.getWrapperElement().removeFromParent();
     Window.enableScrolling(true);
     Gerrit.setHeaderVisible(true);
   }
@@ -263,12 +242,6 @@ public class SideBySide2 extends Screen {
       h.removeHandler();
     }
     handlers.clear();
-  }
-
-  private void resizeBoxPaddings() {
-    for (CommentBox box : allBoxes) {
-      box.resizePaddingWidget();
-    }
   }
 
   private void registerCmEvents(final CodeMirror cm) {
@@ -288,7 +261,7 @@ public class SideBySide2 extends Screen {
       }
     };
     cm.on("viewportChange", adjustGutters(cm));
-    cm.on("renderLine", resizeEmptyLine(getSideFromCm(cm)));
+    cm.on("renderLine", resizeLinePadding(getSideFromCm(cm)));
     // TODO: Prevent right click from updating the cursor.
     cm.addKeyMap(KeyMap.create()
         .on("'j'", moveCursorDown(cm, 1))
@@ -353,7 +326,6 @@ public class SideBySide2 extends Screen {
     linePaddingOnOtherSideMap = new HashMap<LineHandle, LinePaddingWidgetWrapper>();
     diffChunks = new ArrayList<DiffChunkInfo>();
     render(diffInfo);
-    allBoxes = new ArrayList<CommentBox>();
     lineActiveBoxMap = new HashMap<LineHandle, CommentBox>();
     lineLastPublishedBoxMap = new HashMap<LineHandle, PublishedBox>();
     linePaddingManagerMap = new HashMap<LineHandle, PaddingManager>();
@@ -374,7 +346,6 @@ public class SideBySide2 extends Screen {
       @Override
       public void onResize(ResizeEvent event) {
         resizeCodeMirror();
-        resizeBoxPaddings();
       }
     });
   }
@@ -549,7 +520,6 @@ public class SideBySide2 extends Screen {
     if (getDiffChunk(getSideFromCm(other), lineToPad) == null) {
       box.setDiffChunkInfo(getDiffChunk(mySide, line));
     }
-    allBoxes.add(box);
     box.setGutterWrapper(diffTable.sidePanel.addGutter(cm, info.line() - 1,
         box instanceof DraftBox ?
             SidePanel.GutterType.DRAFT
@@ -563,7 +533,6 @@ public class SideBySide2 extends Screen {
     if (lineLastPublishedBoxMap.containsKey(handle)) {
       lineActiveBoxMap.put(handle, lineLastPublishedBoxMap.get(handle));
     }
-    allBoxes.remove(box);
   }
 
   void addFileCommentBox(CommentBox box, Side side) {
@@ -598,9 +567,8 @@ public class SideBySide2 extends Screen {
       publishedMap.put(info.id(), box);
       if (!info.has_line()) {
         diffTable.addFileCommentBox(box, side);
-        return;
+        continue;
       }
-      allBoxes.add(box);
       int line = info.line() - 1;
       LineHandle handle = cm.getLineHandle(line);
       lineLastPublishedBoxMap.put(handle, box);
@@ -624,9 +592,8 @@ public class SideBySide2 extends Screen {
       }
       if (!info.has_line()) {
         diffTable.addFileCommentBox(box, side);
-        return;
+        continue;
       }
-      allBoxes.add(box);
       lineActiveBoxMap.put(
           getCmFromSide(side).getLineHandle(info.line() - 1), box);
       addCommentBox(info, box);
@@ -1020,11 +987,14 @@ public class SideBySide2 extends Screen {
   }
 
   // TODO: Maybe integrate this with PaddingManager.
-  private RenderLineHandler resizeEmptyLine(final Side side) {
+  private RenderLineHandler resizeLinePadding(final Side side) {
     return new RenderLineHandler() {
       @Override
       public void handle(final CodeMirror instance, final LineHandle handle,
           Element element) {
+        if (lineActiveBoxMap.containsKey(handle)) {
+          lineActiveBoxMap.get(handle).resizePaddingWidget();
+        }
         if (linePaddingOnOtherSideMap.containsKey(handle)) {
           Scheduler.get().scheduleDeferred(new ScheduledCommand() {
             @Override
@@ -1038,17 +1008,15 @@ public class SideBySide2 extends Screen {
   }
 
   void resizeCodeMirror() {
-    // TODO: Probably need horizontal resize
+    if (cmA == null) {
+      return;
+    }
     int h = Gerrit.getHeaderFooterHeight() + reviewed.getOffsetHeight() +
-        diffTable.getHeaderHeight() + 5; // Estimate
-    if (cmA != null) {
-      cmA.setHeight(Window.getClientHeight() - h);
-      cmA.refresh();
-    }
-    if (cmB != null) {
-      cmB.setHeight(Window.getClientHeight() - h);
-      cmB.refresh();
-    }
+        diffTable.getHeaderHeight() + 10; // Estimate
+    cmA.setHeight(Window.getClientHeight() - h);
+    cmA.refresh();
+    cmB.setHeight(Window.getClientHeight() - h);
+    cmB.refresh();
     diffTable.sidePanel.adjustGutters(cmB);
   }
 

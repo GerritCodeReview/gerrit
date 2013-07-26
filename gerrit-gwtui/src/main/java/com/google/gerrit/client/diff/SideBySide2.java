@@ -76,6 +76,7 @@ import net.codemirror.lib.LineCharacter;
 import net.codemirror.lib.LineWidget;
 import net.codemirror.lib.ModeInjector;
 import net.codemirror.lib.ScrollInfo;
+import net.codemirror.lib.TextMarker.FromTo;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -469,22 +470,23 @@ public class SideBySide2 extends Screen {
     }
   }
 
-  private DraftBox addNewDraft(CodeMirror cm, int line) {
+  private DraftBox addNewDraft(CodeMirror cm, int line, FromTo fromTo) {
+    DisplaySide side = getSideFromCm(cm);
     return addDraftBox(CommentInfo.createRange(
         path,
-        getStoredSideFromDisplaySide(getSideFromCm(cm)),
+        getStoredSideFromDisplaySide(side),
         line + 1,
         null,
         null,
-        null), getSideFromCm(cm));
+        CommentRange.create(fromTo)), side);
   }
 
   CommentInfo createReply(CommentInfo replyTo) {
-    if (!replyTo.has_line()) {
+    if (!replyTo.has_line() && replyTo.range() == null) {
       return CommentInfo.createFile(path, replyTo.side(), replyTo.id(), null);
     } else {
       return CommentInfo.createRange(path, replyTo.side(), replyTo.line(),
-          replyTo.id(), null, null);
+          replyTo.id(), null, replyTo.range());
     }
   }
 
@@ -603,7 +605,7 @@ public class SideBySide2 extends Screen {
         side = published == publishedBase ? DisplaySide.A : DisplaySide.B;
       }
       CodeMirror cm = getCmFromSide(side);
-      PublishedBox box = new PublishedBox(this, side, commentLinkProcessor,
+      PublishedBox box = new PublishedBox(this, cm, side, commentLinkProcessor,
           getPatchSetIdFromSide(side), info);
       publishedMap.put(info.id(), box);
       if (!info.has_line()) {
@@ -866,7 +868,7 @@ public class SideBySide2 extends Screen {
     if (info.isAligned()) {
       double myHeight = cm.heightAtLine(line);
       double otherHeight = other.heightAtLine(info.getLine());
-      if (myHeight !=  otherHeight) {
+      if (myHeight != otherHeight) {
         other.scrollToY(other.getScrollInfo().getTop() + otherHeight - myHeight);
         other.setScrollSetAt(System.currentTimeMillis());
       }
@@ -906,7 +908,7 @@ public class SideBySide2 extends Screen {
           other.removeLineClass(otherActiveLine,
               LineClassWhere.BACKGROUND, DiffTable.style.activeLineBg());
         }
-        LineHandle handle = cm.getLineHandleVisualStart(cm.getCursor().getLine());
+        LineHandle handle = cm.getLineHandleVisualStart(cm.getCursor("end").getLine());
         cm.setActiveLine(handle);
         if (cm.somethingSelected()) {
           return;
@@ -932,9 +934,12 @@ public class SideBySide2 extends Screen {
       @Override
       public void handle(CodeMirror instance, int line, String gutter,
           NativeEvent clickEvent) {
-        instance.setCursor(LineCharacter.create(line));
-        instance.setActiveLine(instance.getLineHandle(line));
-        insertNewDraft(instance).run();
+        if (!(cm.hasActiveLine() &&
+            instance.getLineNumber(cm.getActiveLine()) == line)) {
+          instance.setCursor(LineCharacter.create(line));
+          instance.setActiveLine(cm.getLineHandle(line));
+        }
+        insertNewDraft(cm).run();
       }
     };
   }
@@ -953,8 +958,12 @@ public class SideBySide2 extends Screen {
         LineHandle handle = cm.getActiveLine();
         int line = cm.getLineNumber(handle);
         CommentBox box = lineActiveBoxMap.get(handle);
-        if (box == null) {
-          lineActiveBoxMap.put(handle, addNewDraft(cm, line));
+        FromTo fromTo = cm.getSelectedRange();
+        if (cm.somethingSelected()) {
+          lineActiveBoxMap.put(handle,
+              addNewDraft(cm, line, fromTo.getTo().getLine() == line ? fromTo : null));
+        } else if (box == null) {
+          lineActiveBoxMap.put(handle, addNewDraft(cm, line, null));
         } else if (box instanceof DraftBox) {
           ((DraftBox) box).setEdit(true);
         } else {

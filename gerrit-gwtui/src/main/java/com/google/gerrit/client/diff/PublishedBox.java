@@ -40,6 +40,8 @@ import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
+import net.codemirror.lib.CodeMirror;
+
 /** An HtmlPanel for displaying a published comment */
 class PublishedBox extends CommentBox {
   interface Binder extends UiBinder<HTMLPanel, PublishedBox> {}
@@ -69,11 +71,12 @@ class PublishedBox extends CommentBox {
 
   PublishedBox(
       SideBySide2 parent,
+      CodeMirror cm,
       DisplaySide side,
       CommentLinkProcessor clp,
       PatchSet.Id psId,
       CommentInfo info) {
-    super(side);
+    super(cm, info, side);
 
     this.parent = parent;
     this.psId = psId;

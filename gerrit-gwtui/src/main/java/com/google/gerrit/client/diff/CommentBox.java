@@ -23,6 +23,11 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.Composite;
 
+import net.codemirror.lib.CodeMirror;
+import net.codemirror.lib.Configuration;
+import net.codemirror.lib.TextMarker;
+import net.codemirror.lib.TextMarker.FromTo;
+
 /** An HtmlPanel for displaying a comment */
 abstract class CommentBox extends Composite {
   static {
@@ -32,12 +37,26 @@ abstract class CommentBox extends Composite {
   private PaddingManager widgetManager;
   private PaddingWidgetWrapper selfWidgetWrapper;
   private SideBySide2 parent;
+  private CodeMirror cm;
+  private DisplaySide side;
   private DiffChunkInfo diffChunkInfo;
   private GutterWrapper gutterWrapper;
-  private DisplaySide side;
+  private FromTo fromTo;
+  private TextMarker rangeMarker;
+  private TextMarker rangeHighlightMarker;
 
-  CommentBox(DisplaySide side) {
+  CommentBox(CodeMirror cm, CommentInfo info, DisplaySide side) {
+    this.cm = cm;
     this.side = side;
+    CommentRange range = info.range();
+    if (range != null) {
+      fromTo = FromTo.create(range);
+      rangeMarker = cm.markText(
+          fromTo.getFrom(),
+          fromTo.getTo(),
+          Configuration.create()
+              .set("className", DiffTable.style.range()));
+    }
   }
 
   @Override
@@ -69,6 +88,7 @@ abstract class CommentBox extends Composite {
 
   void setOpen(boolean open) {
     resizePaddingWidget();
+    setRangeHighlight(open);
   }
 
   PaddingManager getPaddingManager() {
@@ -99,11 +119,36 @@ abstract class CommentBox extends Composite {
     gutterWrapper = wrapper;
   }
 
+  void setRangeHighlight(boolean highlight) {
+    if (fromTo != null) {
+      if (highlight && rangeHighlightMarker == null) {
+        rangeHighlightMarker = cm.markText(
+            fromTo.getFrom(),
+            fromTo.getTo(),
+            Configuration.create()
+                .set("className", DiffTable.style.rangeHighlight()));
+      } else if (!highlight && rangeHighlightMarker != null) {
+        rangeHighlightMarker.clear();
+        rangeHighlightMarker = null;
+      }
+    }
+  }
+
+  void clearRange() {
+    if (rangeMarker != null) {
+      rangeMarker.clear();
+    }
+  }
+
   GutterWrapper getGutterWrapper() {
     return gutterWrapper;
   }
 
   DisplaySide getSide() {
     return side;
+  }
+
+CodeMirror getCm() {
+    return cm;
   }
 }

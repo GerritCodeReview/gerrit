@@ -58,7 +58,7 @@ public class ListGroupsIT extends AbstractDaemonTest {
   public void setUp() throws Exception {
     admin = accounts.create("admin", "admin@example.com", "Administrator",
             "Administrators");
-    session = new RestSession(admin);
+    session = new RestSession(server, admin);
   }
 
   @Test
@@ -84,7 +84,7 @@ public class ListGroupsIT extends AbstractDaemonTest {
     expectedGroups.add("Anonymous Users");
     expectedGroups.add("Registered Users");
     TestAccount user = accounts.create("user", "user@example.com", "User");
-    RestResponse r = (new RestSession(user)).get("/groups/");
+    RestResponse r = new RestSession(server, user).get("/groups/");
     Map<String, GroupInfo> result =
         (new Gson()).fromJson(r.getReader(), new TypeToken<Map<String, GroupInfo>>() {}.getType());
     assertGroups(expectedGroups, result.keySet());

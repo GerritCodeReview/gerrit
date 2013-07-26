@@ -17,10 +17,8 @@ package com.google.gerrit.acceptance;
 import org.junit.After;
 import org.junit.Before;
 
-
 public abstract class AbstractDaemonTest {
-
-  private GerritServer server;
+  protected GerritServer server;
 
   @Before
   public final void beforeTest() throws Exception {

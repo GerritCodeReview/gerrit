@@ -97,7 +97,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
     project = new Project.NameKey("p");
     initSsh(admin);
-    SshSession sshSession = new SshSession(admin);
+    SshSession sshSession = new SshSession(server, admin);
     createProject(sshSession, project.get());
     git = cloneProject(sshSession.getUrl() + "/" + project.get());
     sshSession.close();

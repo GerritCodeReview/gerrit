@@ -79,7 +79,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   public void setUp() throws Exception {
     admin = accounts.create("admin", "admin@example.com", "Administrator",
             "Administrators");
-    session = new RestSession(admin);
+    session = new RestSession(server, admin);
   }
 
   @Test
@@ -210,7 +210,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   public void testCreateProjectWithoutCapability_Forbidden() throws OrmException,
       JSchException, IOException {
     TestAccount user = accounts.create("user", "user@example.com", "User");
-    RestResponse r = (new RestSession(user)).put("/projects/newProject");
+    RestResponse r = new RestSession(server, user).put("/projects/newProject");
     assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
   }
 

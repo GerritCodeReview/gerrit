@@ -47,7 +47,7 @@ public class GetGroupIT extends AbstractDaemonTest {
   public void setUp() throws Exception {
     admin = accounts.create("admin", "admin@example.com", "Administrator",
             "Administrators");
-    session = new RestSession(admin);
+    session = new RestSession(server, admin);
   }
 
   @Test

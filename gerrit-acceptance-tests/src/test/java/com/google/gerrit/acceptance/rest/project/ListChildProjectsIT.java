@@ -57,7 +57,7 @@ public class ListChildProjectsIT extends AbstractDaemonTest {
     admin =
         accounts.create("admin", "admin@example.com", "Administrator",
             "Administrators");
-    session = new RestSession(admin);
+    session = new RestSession(server, admin);
   }
 
   @Test
@@ -78,7 +78,7 @@ public class ListChildProjectsIT extends AbstractDaemonTest {
 
   @Test
   public void listChildren() throws IOException, JSchException {
-    SshSession sshSession = new SshSession(admin);
+    SshSession sshSession = new SshSession(server, admin);
     Project.NameKey child1 = new Project.NameKey("p1");
     createProject(sshSession, child1.get());
     Project.NameKey child2 = new Project.NameKey("p2");
@@ -95,7 +95,7 @@ public class ListChildProjectsIT extends AbstractDaemonTest {
 
   @Test
   public void listChildrenRecursively() throws IOException, JSchException {
-    SshSession sshSession = new SshSession(admin);
+    SshSession sshSession = new SshSession(server, admin);
     Project.NameKey child1 = new Project.NameKey("p1");
     createProject(sshSession, child1.get());
     createProject(sshSession, "p2");

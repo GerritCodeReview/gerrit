@@ -18,11 +18,21 @@ import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.Daemon;
 import com.google.gerrit.pgm.Init;
 import com.google.gerrit.server.config.FactoryModule;
+import com.google.gerrit.server.util.SocketUtil;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
+
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+import java.net.URI;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CyclicBarrier;
@@ -76,7 +86,23 @@ class GerritServer {
     if (rc != 0) {
       throw new RuntimeException("Couldn't initialize site");
     }
+
+    InetSocketAddress http = newPort();
+    InetSocketAddress sshd = newPort();
+    String url = "http://" + format(http) + "/";
+    FileBasedConfig cfg = new FileBasedConfig(
+        new File(new File(tmp, "etc"), "gerrit.config"),
+        FS.DETECTED);
+    cfg.load();
+    cfg.setString("gerrit", null, "canonicalWebUrl", url);
+    cfg.setString("httpd", null, "listenUrl", url);
+    cfg.setString("sshd", null, "listenAddress", format(sshd));
+    cfg.save();
     return tmp;
+  }
+
+  private static String format(InetSocketAddress s) {
+    return String.format("%s:%d", s.getAddress().getHostAddress(), s.getPort());
   }
 
   private static Injector createTestInjector(Daemon daemon) throws Exception {
@@ -98,17 +124,51 @@ class GerritServer {
     return (T) f.get(obj);
   }
 
+  private static final InetSocketAddress newPort() throws IOException {
+    ServerSocket s = new ServerSocket(0, 0, InetAddress.getLocalHost());
+    try {
+      return (InetSocketAddress) s.getLocalSocketAddress();
+    } finally {
+      s.close();
+    }
+  }
+
   private File sitePath;
   private Daemon daemon;
   private ExecutorService daemonService;
   private Injector testInjector;
+  private String url;
+  private int sshdPort;
+  private int httpPort;
 
-  private GerritServer(File sitePath, Injector testInjector,
-      Daemon daemon, ExecutorService daemonService) {
+  private GerritServer(File sitePath, Injector testInjector, Daemon daemon,
+      ExecutorService daemonService) throws IOException, ConfigInvalidException {
     this.sitePath = sitePath;
     this.testInjector = testInjector;
     this.daemon = daemon;
     this.daemonService = daemonService;
+
+    FileBasedConfig cfg = new FileBasedConfig(
+        new File(new File(sitePath, "etc"), "gerrit.config"),
+        FS.DETECTED);
+    cfg.load();
+    url = cfg.getString("gerrit", null, "canonicalWebUrl");
+    sshdPort = SocketUtil.parse(
+        cfg.getString("sshd", null, "listenAddress"),
+        0).getPort();
+    httpPort = URI.create(url).getPort();
+  }
+
+  String getUrl() {
+    return url;
+  }
+
+  int getSshdPort() {
+    return sshdPort;
+  }
+
+  int getHttpPort() {
+    return httpPort;
   }
 
   Injector getTestInjector() {

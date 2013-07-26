@@ -58,7 +58,7 @@ public class GetChildProjectIT extends AbstractDaemonTest {
     admin =
         accounts.create("admin", "admin@example.com", "Administrator",
             "Administrators");
-    session = new RestSession(admin);
+    session = new RestSession(server, admin);
   }
 
   @Test
@@ -69,7 +69,7 @@ public class GetChildProjectIT extends AbstractDaemonTest {
 
   @Test
   public void getNonChildProject_NotFound() throws IOException, JSchException {
-    SshSession sshSession = new SshSession(admin);
+    SshSession sshSession = new SshSession(server, admin);
     Project.NameKey p1 = new Project.NameKey("p1");
     createProject(sshSession, p1.get());
     Project.NameKey p2 = new Project.NameKey("p2");
@@ -80,7 +80,7 @@ public class GetChildProjectIT extends AbstractDaemonTest {
 
   @Test
   public void getChildProject() throws IOException, JSchException {
-    SshSession sshSession = new SshSession(admin);
+    SshSession sshSession = new SshSession(server, admin);
     Project.NameKey child = new Project.NameKey("p1");
     createProject(sshSession, child.get());
     RestResponse r = GET("/projects/" + allProjects.get() + "/children/" + child.get());
@@ -93,7 +93,7 @@ public class GetChildProjectIT extends AbstractDaemonTest {
 
   @Test
   public void getGrandChildProject_NotFound() throws IOException, JSchException {
-    SshSession sshSession = new SshSession(admin);
+    SshSession sshSession = new SshSession(server, admin);
     Project.NameKey child = new Project.NameKey("p1");
     createProject(sshSession, child.get());
     Project.NameKey grandChild = new Project.NameKey("p1.1");
@@ -106,7 +106,7 @@ public class GetChildProjectIT extends AbstractDaemonTest {
   @Test
   public void getGrandChildProjectWithRecursiveFlag() throws IOException,
       JSchException {
-    SshSession sshSession = new SshSession(admin);
+    SshSession sshSession = new SshSession(server, admin);
     Project.NameKey child = new Project.NameKey("p1");
     createProject(sshSession, child.get());
     Project.NameKey grandChild = new Project.NameKey("p1.1");

@@ -64,7 +64,7 @@ public class PushForReviewIT extends AbstractDaemonTest {
 
     project = new Project.NameKey("p");
     initSsh(admin);
-    SshSession sshSession = new SshSession(admin);
+    SshSession sshSession = new SshSession(server, admin);
     createProject(sshSession, project.get());
     sshUrl = sshSession.getUrl();
     sshSession.close();
@@ -79,7 +79,7 @@ public class PushForReviewIT extends AbstractDaemonTest {
         url = sshUrl;
         break;
       case HTTP:
-        url = admin.getHttpUrl();
+        url = admin.getHttpUrl(server);
         break;
       default:
         throw new IllegalArgumentException("unexpected protocol: " + p);

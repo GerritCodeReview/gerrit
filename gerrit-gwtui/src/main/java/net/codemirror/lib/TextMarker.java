@@ -14,6 +14,7 @@
 
 package net.codemirror.lib;
 
+import com.google.gerrit.client.diff.CommentRange;
 import com.google.gwt.core.client.JavaScriptObject;
 
 /** Object that represents a text marker within CodeMirror */
@@ -30,8 +31,24 @@ public class TextMarker extends JavaScriptObject {
   }
 
   public static class FromTo extends JavaScriptObject {
+    public static FromTo create(LineCharacter from, LineCharacter to) {
+      FromTo fromTo = createObject().cast();
+      fromTo.setFrom(from);
+      fromTo.setTo(to);
+      return fromTo;
+    }
+
+    public static FromTo fromCommentRange(CommentRange range) {
+      LineCharacter from = LineCharacter.create(range.start_line() - 1, range.start_character());
+      LineCharacter to = LineCharacter.create(range.end_line() - 1, range.end_character());
+      return create(from, to);
+    }
+
     public final native LineCharacter getFrom() /*-{ return this.from; }-*/;
     public final native LineCharacter getTo() /*-{ return this.to; }-*/;
+
+    public final native void setFrom(LineCharacter from) /*-{ this.from = from; }-*/;
+    public final native void setTo(LineCharacter to) /*-{ this.to = to; }-*/;
 
     protected FromTo() {
     }

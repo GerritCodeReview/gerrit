@@ -57,8 +57,11 @@ limitations under the License.
     .b .diff .CodeMirror-linenumber {
       background-color: #9f9;
     }
-    .padding {
+    .padding, .fileCommentCell {
       background-color: #eee;
+    }
+    .fileCommentCell {
+      overflow-x: auto;
     }
     .a .CodeMirror-vscrollbar {
       display: none !important;

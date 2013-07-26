@@ -16,6 +16,9 @@ package com.google.gerrit.client.diff;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
+import net.codemirror.lib.LineCharacter;
+import net.codemirror.lib.TextMarker.FromTo;
+
 public class CommentRange extends JavaScriptObject {
   public static CommentRange create(int sl, int sc, int el, int ec) {
     CommentRange r = createObject().cast();
@@ -24,6 +27,12 @@ public class CommentRange extends JavaScriptObject {
     r.setEndLine(el);
     r.setEndCh(ec);
     return r;
+  }
+
+  public static CommentRange fromFromTo(FromTo fromTo) {
+    LineCharacter from = fromTo.getFrom();
+    LineCharacter to = fromTo.getTo();
+    return create(from.getLine(), from.getCh(), to.getLine(), to.getCh());
   }
 
   public final native int start_line() /*-{

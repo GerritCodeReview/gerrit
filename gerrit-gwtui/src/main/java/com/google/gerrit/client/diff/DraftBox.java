@@ -58,7 +58,6 @@ class DraftBox extends CommentBox {
   private static final int MAX_LINES = 30;
 
   private final SideBySide2 parent;
-  private final CodeMirror cm;
   private final CommentLinkProcessor linkProcessor;
   private final PatchSet.Id psId;
   private CommentInfo comment;
@@ -80,15 +79,16 @@ class DraftBox extends CommentBox {
   @UiField Button discard2;
 
   DraftBox(
-      SideBySide2 parent,
-      CodeMirror cm,
+      SideBySide2 sideBySide,
+      CodeMirror mirror,
       CommentLinkProcessor clp,
       PatchSet.Id id,
       CommentInfo info) {
-    this.parent = parent;
-    this.cm = cm;
-    this.linkProcessor = clp;
-    this.psId = id;
+    super(mirror, info);
+
+    parent = sideBySide;
+    linkProcessor = clp;
+    psId = id;
     initWidget(uiBinder.createAndBindUi(this));
 
     expandTimer = new Timer() {
@@ -134,7 +134,7 @@ class DraftBox extends CommentBox {
       message.setHTML(linkProcessor.apply(
           new SafeHtmlBuilder().append(msg).wikify()));
     }
-    this.comment = info;
+    comment = info;
   }
 
   @Override
@@ -176,6 +176,7 @@ class DraftBox extends CommentBox {
     UIObject.setVisible(p_view, !edit);
     UIObject.setVisible(p_edit, edit);
 
+    setRangeHighlight(edit);
     if (edit) {
       final String msg = comment.message() != null
           ? comment.message().trim()
@@ -213,6 +214,8 @@ class DraftBox extends CommentBox {
     if (replyToBox != null) {
       replyToBox.unregisterReplyBox();
     }
+    clearRange();
+    setRangeHighlight(false);
     Side side = comment.side();
     removeFromParent();
     if (!getCommentInfo().has_line()) {
@@ -222,7 +225,7 @@ class DraftBox extends CommentBox {
     PaddingManager manager = getPaddingManager();
     manager.remove(this);
     parent.removeDraft(this, side, comment.line() - 1);
-    cm.focus();
+    getCm().focus();
     getSelfWidgetWrapper().getWidget().clear();
     getGutterWrapper().remove();
     Scheduler.get().scheduleDeferred(new ScheduledCommand() {
@@ -290,7 +293,7 @@ class DraftBox extends CommentBox {
     } else {
       CommentApi.updateDraft(psId, original.id(), input, cb);
     }
-    cm.focus();
+    getCm().focus();
   }
 
   private void enableEdit(boolean on) {
@@ -307,7 +310,7 @@ class DraftBox extends CommentBox {
       removeUI();
     } else {
       setEdit(false);
-      cm.focus();
+      getCm().focus();
     }
   }
 
@@ -345,7 +348,7 @@ class DraftBox extends CommentBox {
         return;
       } else {
         setEdit(false);
-        cm.focus();
+        getCm().focus();
         return;
       }
     }

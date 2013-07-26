@@ -76,6 +76,12 @@ limitations under the License.
     .activeLineBg {
       background-color: #E0FFFF !important;
     }
+    .range {
+      background-color: #ffd500 !important;
+    }
+    .rangeHighlight {
+      background-color: #ffff00 !important;
+    }
     .cm-searching {
       background-color: #ffa !important;
     }

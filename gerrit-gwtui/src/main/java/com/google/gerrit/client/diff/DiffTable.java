@@ -40,6 +40,8 @@ class DiffTable extends Composite {
     String activeLine();
     String activeLineBg();
     String hideNumber();
+    String range();
+    String rangeHighlight();
   }
 
   @UiField

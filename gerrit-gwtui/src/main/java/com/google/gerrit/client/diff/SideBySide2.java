@@ -465,16 +465,6 @@ public class SideBySide2 extends Screen {
     }
   }
 
-  private DraftBox addNewDraft(CodeMirror cm, int line) {
-    return addDraftBox(CommentInfo.createRange(
-        path,
-        getSideFromCm(cm),
-        line + 1,
-        null,
-        null,
-        null));
-  }
-
   CommentInfo createReply(CommentInfo replyTo) {
     if (!replyTo.has_line()) {
       return CommentInfo.createFile(path, replyTo.side(), replyTo.id(), null);
@@ -486,9 +476,8 @@ public class SideBySide2 extends Screen {
 
   DraftBox addDraftBox(CommentInfo info) {
     Side side = info.side();
-    CodeMirror cm = getCmFromSide(side);
-    final DraftBox box = new DraftBox(this, cm, commentLinkProcessor,
-        getPatchSetIdFromSide(side), info);
+    CodeMirror cm = getCmFromSide(info.side());
+    final DraftBox box = new DraftBox(this, cm, commentLinkProcessor, getPatchSetIdFromSide(side), info);
     if (info.id() == null) {
       Scheduler.get().scheduleDeferred(new ScheduledCommand() {
         @Override
@@ -592,7 +581,7 @@ public class SideBySide2 extends Screen {
     for (CommentInfo info : sorted) {
       Side side = info.side();
       CodeMirror cm = getCmFromSide(side);
-      PublishedBox box = new PublishedBox(this, commentLinkProcessor,
+      PublishedBox box = new PublishedBox(this, cm, commentLinkProcessor,
           getPatchSetIdFromSide(side), info);
       publishedMap.put(info.id(), box);
       if (!info.has_line()) {
@@ -843,7 +832,7 @@ public class SideBySide2 extends Screen {
     if (info.isAligned()) {
       double myHeight = cm.heightAtLine(line);
       double otherHeight = other.heightAtLine(info.getLine());
-      if (myHeight !=  otherHeight) {
+      if (myHeight != otherHeight) {
         other.scrollToY(other.getScrollInfo().getTop() + otherHeight - myHeight);
         other.setScrollSetAt(System.currentTimeMillis());
       }
@@ -883,7 +872,7 @@ public class SideBySide2 extends Screen {
           other.removeLineClass(otherActiveLine,
               LineClassWhere.BACKGROUND, DiffTable.style.activeLineBg());
         }
-        LineHandle handle = cm.getLineHandleVisualStart(cm.getCursor().getLine());
+        LineHandle handle = cm.getLineHandleVisualStart(cm.getCursor("end").getLine());
         cm.setActiveLine(handle);
         if (cm.somethingSelected()) {
           return;
@@ -931,7 +920,8 @@ public class SideBySide2 extends Screen {
         int line = cm.getLineNumber(handle);
         CommentBox box = lineActiveBoxMap.get(handle);
         if (box == null) {
-          lineActiveBoxMap.put(handle, addNewDraft(cm, line));
+          lineActiveBoxMap.put(handle, addDraftBox(CommentInfo.createRange(
+              path, getSideFromCm(cm), line + 1, null, null, CommentRange.fromFromTo(cm.getSelectedRange()))));
         } else if (box instanceof DraftBox) {
           ((DraftBox) box).setEdit(true);
         } else {

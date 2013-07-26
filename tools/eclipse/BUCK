@@ -25,7 +25,7 @@ genrule(
 java_library(
   name = 'classpath',
   deps = LIBS + PGMLIBS + [
-    '//gerrit-acceptance-tests:acceptance_tests',
+    '//gerrit-acceptance-tests:lib',
     '//gerrit-gwtdebug:gwtdebug',
     '//gerrit-gwtui:ui_module',
     '//gerrit-gwtui:ui_tests',

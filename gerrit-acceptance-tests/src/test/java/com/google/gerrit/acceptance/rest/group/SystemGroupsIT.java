@@ -12,12 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance;
+package com.google.gerrit.acceptance.rest.group;
 
 import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.Sets;
-import com.google.gerrit.acceptance.rest.group.GroupInfo;
+import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.AccountCreator;
+import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.RestSession;
+import com.google.gerrit.acceptance.SshSession;
+import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gson.Gson;

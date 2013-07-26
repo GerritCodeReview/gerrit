@@ -1,0 +1,16 @@
+def acceptance_tests(tests, deps = []):
+  for name in tests:
+    java_test(
+      name = name,
+      srcs = [name + '.java'],
+      deps = ['//gerrit-acceptance-tests:lib'] + deps,
+      source_under_test = [
+        '//gerrit-httpd:httpd',
+        '//gerrit-sshd:sshd',
+        '//gerrit-server:server',
+      ],
+      labels = [
+        'acceptance',
+        'slow',
+      ],
+    )

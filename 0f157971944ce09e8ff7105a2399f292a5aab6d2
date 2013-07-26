@@ -16,6 +16,24 @@
       "revId": "0f157971944ce09e8ff7105a2399f292a5aab6d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "53b2eb5c_11f82cfb",
+        "filename": "gerrit-gwtui/DEFS",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-26T20:01:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13eeb334_023f2cd0",
+      "revId": "0f157971944ce09e8ff7105a2399f292a5aab6d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

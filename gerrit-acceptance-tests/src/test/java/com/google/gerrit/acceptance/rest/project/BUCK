@@ -1,0 +1,38 @@
+include_defs('//gerrit-acceptance-tests/DEFS')
+
+acceptance_tests(
+  srcs = glob(['*IT.java']),
+  deps = [
+    ':branch',
+    ':project',
+    '//gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git:util',
+  ],
+)
+
+java_library(
+  name = 'branch',
+  srcs = [
+    'BranchAssert.java',
+    'BranchInfo.java',
+  ],
+  deps = [
+    '//lib:guava',
+    '//lib:junit',
+  ],
+)
+
+java_library(
+  name = 'project',
+  srcs = [
+    'ProjectAssert.java',
+    'ProjectInfo.java',
+  ],
+  deps = [
+    '//gerrit-extension-api:api',
+    '//gerrit-reviewdb:server',
+    '//gerrit-server:server',
+    '//lib:gwtorm',
+    '//lib:guava',
+    '//lib:junit',
+  ],
+)

@@ -1,0 +1,22 @@
+include_defs('//gerrit-acceptance-tests/DEFS')
+
+acceptance_tests(
+  srcs = glob(['*IT.java']),
+  deps = [':util'],
+  vm_args = ['-Xmx512m'],
+)
+
+java_library(
+  name = 'util',
+  srcs = ['GitUtil.java', 'PushOneCommit.java'],
+  deps = [
+    '//gerrit-acceptance-tests:lib',
+    '//gerrit-reviewdb:server',
+    '//lib:guava',
+    '//lib:gwtorm',
+    '//lib:jsch',
+    '//lib/jgit:jgit',
+    '//lib:junit',
+  ],
+  visibility = ['//gerrit-acceptance-tests/...'],
+)

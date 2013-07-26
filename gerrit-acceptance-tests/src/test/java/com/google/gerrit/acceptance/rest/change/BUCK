@@ -1,0 +1,14 @@
+include_defs('//gerrit-acceptance-tests/DEFS')
+
+acceptance_tests(
+  srcs = glob(['*IT.java']),
+  deps = [
+    ':util',
+    '//gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git:util',
+  ],
+)
+
+java_library(
+  name = 'util',
+  srcs = ['ChangeInfo.java', 'ChangeMessageInfo.java'],
+)

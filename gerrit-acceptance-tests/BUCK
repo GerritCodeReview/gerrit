@@ -1,18 +1,17 @@
-TEST = [
-  '//gerrit-httpd:httpd',
-  '//gerrit-sshd:sshd',
-  '//gerrit-server:server',
-]
+include_defs('//gerrit-acceptance-tests/DEFS')
 
-java_test(
-  name = 'acceptance_tests',
-  srcs = glob(['src/test/java/**/*.java']),
-  deps = TEST + [
+java_library(
+  name = 'lib',
+  srcs = glob(['src/test/java/com/google/gerrit/acceptance/*.java']),
+  deps = [
     '//gerrit-common:server',
     '//gerrit-extension-api:api',
     '//gerrit-launcher:launcher',
+    '//gerrit-httpd:httpd',
     '//gerrit-pgm:pgm',
     '//gerrit-reviewdb:server',
+    '//gerrit-server:server',
+    '//gerrit-sshd:sshd',
 
     '//lib:args4j',
     '//lib:gson',
@@ -32,7 +31,9 @@ java_test(
     '//lib/jgit:jgit',
     '//lib/jgit:junit',
   ],
-  source_under_test = TEST,
-  labels = ['slow'],
-  visibility = ['//tools/eclipse:classpath'],
+  export_deps = True,
+  visibility = [
+    '//tools/eclipse:classpath',
+    '//gerrit-acceptance-tests/...',
+  ],
 )

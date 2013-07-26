@@ -39,7 +39,7 @@ java_library2(
   compile_deps = ['//gerrit-launcher:launcher'],
   visibility = [
     '//:',
-    '//gerrit-acceptance-tests:',
+    '//gerrit-acceptance-tests/...',
     '//tools/eclipse:classpath',
     '//Documentation:licenses.txt',
   ],

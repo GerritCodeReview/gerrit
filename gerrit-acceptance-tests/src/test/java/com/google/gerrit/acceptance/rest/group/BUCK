@@ -1,0 +1,27 @@
+include_defs('//gerrit-acceptance-tests/DEFS')
+
+acceptance_tests(
+  srcs = glob(['*IT.java']),
+  deps = [
+    ':util',
+    '//gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account:util',
+  ],
+)
+
+java_library(
+  name = 'util',
+  srcs = [
+    'GroupAssert.java',
+    'GroupInfo.java',
+    'GroupInput.java',
+    'GroupOptionsInfo.java',
+    'GroupsInput.java',
+    'MembersInput.java',
+  ],
+  deps = [
+    '//gerrit-extension-api:api',
+    '//gerrit-reviewdb:server',
+    '//lib:gwtorm',
+    '//lib:junit',
+  ],
+)

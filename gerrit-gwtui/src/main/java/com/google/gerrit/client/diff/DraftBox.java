@@ -94,13 +94,9 @@ class DraftBox extends CommentBox {
     expandTimer = new Timer() {
       @Override
       public void run() {
-        if (!isNew()) {
-          cancel.setVisible(isDirty());
-        }
         expandText();
       }
     };
-    cancel.setVisible(false);
     set(info);
 
     addDomHandler(new ClickHandler() {
@@ -186,6 +182,7 @@ class DraftBox extends CommentBox {
           : "";
       editArea.setValue(msg);
       editArea.setFocus(true);
+      cancel.setVisible(!isNew());
       expandText();
       if (msg.length() > 0) {
         Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {

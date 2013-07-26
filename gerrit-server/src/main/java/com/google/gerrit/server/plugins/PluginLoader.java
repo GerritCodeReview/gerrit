@@ -213,7 +213,7 @@ public class PluginLoader implements LifecycleListener {
 
         log.info(String.format("Disabling plugin %s", name));
         File off = new File(pluginsDir, active.getName() + ".jar.disabled");
-        active.getSrcJar().renameTo(off);
+        active.getSrcFile().renameTo(off);
 
         unloadPlugin(active);
         try {
@@ -240,7 +240,7 @@ public class PluginLoader implements LifecycleListener {
 
         log.info(String.format("Enabling plugin %s", name));
         File on = new File(pluginsDir, off.getName() + ".jar");
-        off.getSrcJar().renameTo(on);
+        off.getSrcFile().renameTo(on);
 
         disabled.remove(name);
         runPlugin(name, on, null);
@@ -303,7 +303,7 @@ public class PluginLoader implements LifecycleListener {
         String name = active.getName();
         try {
           log.info(String.format("Reloading plugin %s", name));
-          runPlugin(name, active.getSrcJar(), active);
+          runPlugin(name, active.getSrcFile(), active);
         } catch (PluginInstallException e) {
           log.warn(String.format("Cannot reload plugin %s", name), e.getCause());
           throw e;
@@ -469,7 +469,7 @@ public class PluginLoader implements LifecycleListener {
       Class<? extends Module> sysModule = load(sysName, pluginLoader);
       Class<? extends Module> sshModule = load(sshName, pluginLoader);
       Class<? extends Module> httpModule = load(httpName, pluginLoader);
-      Plugin plugin = new Plugin(name, pluginUserFactory.create(name),
+      Plugin plugin = new JarPlugin(name, pluginUserFactory.create(name),
           srcJar, snapshot,
           jarFile, manifest,
           new File(dataDir, name), type, pluginLoader,

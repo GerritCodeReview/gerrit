@@ -1,0 +1,46 @@
+From cc167f66ace9d06679880fde7231ad54d9efa087 Mon Sep 17 00:00:00 2001
+From: David Ostrovsky <david@ostrovsky.org>
+Date: Sat, 27 Jul 2013 15:45:58 +0200
+Subject: [PATCH] Adapt GuiceFilter to inject the right pipeline
+
+Change-Id: If783c8c7ae82df7631d9d23cc4177b4224f58b09
+---
+ extensions/servlet/src/com/google/inject/servlet/GuiceFilter.java | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/extensions/servlet/src/com/google/inject/servlet/GuiceFilter.java b/extensions/servlet/src/com/google/inject/servlet/GuiceFilter.java
+index 7a3d6ea..9df5d6c 100644
+--- a/extensions/servlet/src/com/google/inject/servlet/GuiceFilter.java
++++ b/extensions/servlet/src/com/google/inject/servlet/GuiceFilter.java
+@@ -17,6 +17,7 @@
+ package com.google.inject.servlet;
+ 
+ import com.google.inject.Inject;
++import com.google.inject.Injector;
+ import com.google.inject.OutOfScopeException;
+ import java.io.IOException;
+ import java.lang.ref.WeakReference;
+@@ -63,7 +64,7 @@ public class GuiceFilter implements Filter {
+    * We allow both the static and dynamic versions of the pipeline to exist.
+    */
+   @Inject
+-  private final FilterPipeline injectedPipeline = null;
++  private FilterPipeline injectedPipeline = null;
+ 
+   /** Used to inject the servlets configured via {@link ServletModule} */
+   static volatile WeakReference<ServletContext> servletContext =
+@@ -165,6 +166,11 @@ public class GuiceFilter implements Filter {
+     // Store servlet context in a weakreference, for injection
+     GuiceFilter.servletContext = new WeakReference<ServletContext>(servletContext);
+ 
++    Injector injector = (Injector) servletContext.getAttribute(Injector.class.getName());
++    if (injector != null && injectedPipeline == null) {
++	injectedPipeline = injector.getInstance(FilterPipeline.class);
++    }
++
+     // In the default pipeline, this is a noop. However, if replaced
+     // by a managed pipeline, a lazy init will be triggered the first time
+     // dispatch occurs.
+-- 
+1.8.1.4
+

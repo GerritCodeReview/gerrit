@@ -1,0 +1,28 @@
+CM3_CSS = [
+  'lib/codemirror.css',
+  'addon/dialog/dialog.css',
+]
+
+CM3_JS = [
+  'lib/codemirror.js',
+  'keymap/vim.js',
+  'addon/dialog/dialog.js',
+  'addon/search/searchcursor.js',
+  'addon/search/search.js',
+  'addon/selection/mark-selection.js',
+  'addon/edit/trailingspace.js',
+]
+
+CM3_MODES = [
+  'clike/clike.js',
+  'css/css.js',
+  'go/go.js',
+  'htmlmixed/htmlmixed.js',
+  'javascript/javascript.js',
+  'properties/properties.js',
+  'python/python.js',
+  'shell/shell.js',
+  'sql/sql.js',
+  'velocity/velocity.js',
+  'xml/xml.js',
+]

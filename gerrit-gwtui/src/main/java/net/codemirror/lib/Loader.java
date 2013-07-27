@@ -14,7 +14,6 @@
 
 package net.codemirror.lib;
 
-import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.ScriptInjector;
@@ -26,9 +25,6 @@ import com.google.gwt.resources.client.ResourceException;
 import com.google.gwt.resources.client.TextResource;
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-
-import net.codemirror.addon.Addons;
-import net.codemirror.keymap.Keymap;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,32 +38,11 @@ class Loader {
       cb.onSuccess(null);
     } else {
       injectCss(Lib.I.css());
-      injectCss(Addons.I.dialogCss());
       injectScript(Lib.I.js().getSafeUri(), new GerritCallback<Void>(){
         @Override
         public void onSuccess(Void result) {
-          CallbackGroup group = new CallbackGroup();
-          injectScript(Keymap.I.vim().getSafeUri(),
-              group.add(new AsyncCallback<Void>() {
-                @Override
-                public void onSuccess(Void result) {
-                  initDisableUnwantedKeys();
-                }
-
-                @Override
-                public void onFailure(Throwable caught) {
-                }
-              }));
-          injectScript(Addons.I.dialog().getSafeUri(),
-              group.add(CallbackGroup.<Void>emptyCallback()));
-          injectScript(Addons.I.searchcursor().getSafeUri(),
-              group.add(CallbackGroup.<Void>emptyCallback()));
-          injectScript(Addons.I.search().getSafeUri(),
-              group.add(CallbackGroup.<Void>emptyCallback()));
-          injectScript(Addons.I.mark_selection().getSafeUri(),
-              group.add(CallbackGroup.<Void>emptyCallback()));
-          injectScript(Addons.I.trailingspace().getSafeUri(),
-              group.addFinal(cb));
+          initDisableUnwantedKeys();
+          cb.onSuccess(null);
         }
       });
     }

@@ -23,10 +23,10 @@ import com.google.gwt.resources.client.ExternalTextResource;
 interface Lib extends ClientBundle {
   static final Lib I = GWT.create(Lib.class);
 
-  @Source("codemirror.css")
+  @Source("cm3.css")
   ExternalTextResource css();
 
-  @Source("codemirror.js")
+  @Source("cm3.js")
   @DoNotEmbed
   DataResource js();
 }

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "b3aa47ea_ccf56f06",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-27T19:20:23Z",
+      "side": 1,
+      "message": "Thanks for clarification here. Still i would really appreciate if you or Michael would mention this (vim vs. emacs) and other 5 addons in some place.",
+      "parentUuid": "d3c6dbd8_05f8f2fa",
+      "revId": "41be367528885584285dfff2f39da2e6537a081b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d39dfbd4_2dfb4dfb",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "We did not include the prettify license in the JS code itself, this was slightly wrong. We do include the license in the documentation but not with the copy of the sources.\n\nGoogle standard is to package the license with the JS in this case, and I have been remiss about not doing it earlier with Gerrit.",
       "parentUuid": "d39dfbd4_2dfb4dfb",
+      "revId": "41be367528885584285dfff2f39da2e6537a081b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3aa47ea_2cfb53fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-27T19:20:23Z",
+      "side": 1,
+      "message": "i think we should be consequent here, shouldn\u0027t we? Either to add the license to all JS stuff we are using, or to add it only to documentation.",
+      "parentUuid": "9312a30c_53190489",
       "revId": "41be367528885584285dfff2f39da2e6537a081b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

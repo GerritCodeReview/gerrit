@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d3c6dbd8_05f8f2fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-27T18:53:24Z",
+      "side": 1,
+      "message": "When we add support for selecting between vim and emacs keybindings we can pull the vim bindings out of the combined file and treat it like a mode, where the bindings are loaded after the combined file loads and we know exactly what is needed to support the user.\n\nThis still doesn\u0027t change the fact that we have 5 other addons that we want enabled by default and should just be bundled into the combined file.",
+      "parentUuid": "d39dfbd4_cdf56906",
+      "revId": "41be367528885584285dfff2f39da2e6537a081b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d39dfbd4_2dfb4dfb",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-07-27T08:53:14Z",
       "side": 1,
       "message": "I fail to see why it is needed. Did we include prettify license or any other licenses as part of CSS?",
+      "revId": "41be367528885584285dfff2f39da2e6537a081b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9312a30c_53190489",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-27T18:53:24Z",
+      "side": 1,
+      "message": "We did not include the prettify license in the JS code itself, this was slightly wrong. We do include the license in the documentation but not with the copy of the sources.\n\nGoogle standard is to package the license with the JS in this case, and I have been remiss about not doing it earlier with Gerrit.",
+      "parentUuid": "d39dfbd4_2dfb4dfb",
       "revId": "41be367528885584285dfff2f39da2e6537a081b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

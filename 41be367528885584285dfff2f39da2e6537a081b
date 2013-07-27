@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d39dfbd4_cdf56906",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-27T08:53:14Z",
+      "side": 1,
+      "message": "That has some drawbacks: we omit some key bindings (emacs) and some language support. For Gerrit installations that want to support this, the Gerrit recompile is needed. It would be advantageous, if this can be (optionally) supported by user preferences or site configuration.\n\nMichael pointed out that CM3 integration is all POC and demo stuff, but it is not (any more). While i understand that we can not handle all wishes and nice to haves, at once, how about to file a TODO? Like switching key bindings per user preferences and adding additional language support (and what not) to CM3 stuff?",
+      "revId": "41be367528885584285dfff2f39da2e6537a081b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d39dfbd4_2dfb4dfb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-27T08:53:14Z",
+      "side": 1,
+      "message": "I fail to see why it is needed. Did we include prettify license or any other licenses as part of CSS?",
+      "revId": "41be367528885584285dfff2f39da2e6537a081b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

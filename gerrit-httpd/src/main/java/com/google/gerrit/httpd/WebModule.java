@@ -88,7 +88,7 @@ public class WebModule extends FactoryModule {
     switch (authConfig.getAuthType()) {
       case HTTP:
       case HTTP_LDAP:
-        install(new HttpAuthModule());
+        install(new HttpAuthModule(authConfig));
         break;
 
       case CLIENT_SSL_CERT_LDAP:

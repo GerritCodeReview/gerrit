@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd;
 
+import com.google.common.base.Objects;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.GitwebConfig;
 import com.google.gerrit.reviewdb.client.Account;
@@ -94,10 +95,14 @@ class GerritConfigProvider implements Provider<GerritConfig> {
         config.setHttpPasswordUrl(cfg.getString("auth", null, "httpPasswordUrl"));
         break;
 
-      case CLIENT_SSL_CERT_LDAP:
-      case DEVELOPMENT_BECOME_ANY_ACCOUNT:
       case HTTP:
       case HTTP_LDAP:
+        config.setLoginUrl(cfg.getString("auth", null, "loginurl"));
+        config.setLoginText(cfg.getString("auth", null, "logintext"));
+        break;
+
+      case CLIENT_SSL_CERT_LDAP:
+      case DEVELOPMENT_BECOME_ANY_ACCOUNT:
       case OPENID:
       case OPENID_SSO:
         break;

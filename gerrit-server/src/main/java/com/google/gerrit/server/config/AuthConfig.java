@@ -40,6 +40,7 @@ public class AuthConfig {
   private final boolean enableRunAs;
   private final boolean userNameToLowerCase;
   private final boolean gitBasicAuth;
+  private final String loginUrl;
   private final String logoutUrl;
   private final String openIdSsoUrl;
   private final List<String> openIdDomains;
@@ -57,6 +58,7 @@ public class AuthConfig {
       throws XsrfException {
     authType = toType(cfg);
     httpHeader = cfg.getString("auth", null, "httpheader");
+    loginUrl = cfg.getString("auth", null, "loginurl");
     logoutUrl = cfg.getString("auth", null, "logouturl");
     openIdSsoUrl = cfg.getString("auth", null, "openidssourl");
     openIdDomains = Arrays.asList(cfg.getStringList("auth", null, "openIdDomain"));
@@ -122,6 +124,10 @@ public class AuthConfig {
 
   public String getLoginHttpHeader() {
     return httpHeader;
+  }
+
+  public String getLoginUrl() {
+    return loginUrl;
   }
 
   public String getLogoutURL() {

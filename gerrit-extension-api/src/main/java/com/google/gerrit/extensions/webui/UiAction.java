@@ -14,10 +14,12 @@
 
 package com.google.gerrit.extensions.webui;
 
+import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.inject.Inject;
 
-public interface UiAction<R extends RestResource> extends RestView<R> {
+public abstract class UiAction<R extends RestResource> implements RestView<R> {
   /**
    * Get the description of the action customized for the resource.
    *
@@ -29,7 +31,18 @@ public interface UiAction<R extends RestResource> extends RestView<R> {
    *         assumed unavailable and not presented. This is usually the same as
    *         {@code setVisible(false)}.
    */
-  public Description getDescription(R resource);
+  public abstract Description getDescription(R resource);
+
+  private String pluginName;
+
+  @Inject(optional = true)
+  void setPluginName(@PluginName String name) {
+    this.pluginName = name;
+  }
+
+  public String getPluginName() {
+    return pluginName;
+  }
 
   /** Describes an action invokable through the web interface. */
   public static class Description {

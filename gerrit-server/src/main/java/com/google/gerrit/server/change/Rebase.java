@@ -36,8 +36,8 @@ import com.google.inject.Provider;
 
 import java.io.IOException;
 
-public class Rebase implements RestModifyView<RevisionResource, Input>,
-    UiAction<RevisionResource> {
+public class Rebase extends UiAction<RevisionResource> implements
+    RestModifyView<RevisionResource, Input> {
   public static class Input {
   }
 

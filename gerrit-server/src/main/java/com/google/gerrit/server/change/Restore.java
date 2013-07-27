@@ -43,8 +43,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 
-public class Restore implements RestModifyView<ChangeResource, Input>,
-    UiAction<ChangeResource> {
+public class Restore extends UiAction<ChangeResource> implements
+    RestModifyView<ChangeResource, Input> {
   private static final Logger log = LoggerFactory.getLogger(Restore.class);
 
   private final ChangeHooks hooks;

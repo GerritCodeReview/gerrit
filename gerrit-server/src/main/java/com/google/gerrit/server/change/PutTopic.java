@@ -37,8 +37,8 @@ import com.google.inject.Provider;
 
 import java.util.Collections;
 
-class PutTopic implements RestModifyView<ChangeResource, Input>,
-    UiAction<ChangeResource> {
+class PutTopic extends UiAction<ChangeResource> implements
+    RestModifyView<ChangeResource, Input> {
   private final Provider<ReviewDb> dbProvider;
   private final ChangeIndexer indexer;
   private final ChangeHooks hooks;

@@ -41,8 +41,8 @@ import com.google.inject.Provider;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 
-public class Revert implements RestModifyView<ChangeResource, Input>,
-    UiAction<ChangeResource> {
+public class Revert extends UiAction<ChangeResource> implements
+    RestModifyView<ChangeResource, Input> {
   private final ChangeHooks hooks;
   private final RevertedSender.Factory revertedSenderFactory;
   private final CommitValidators.Factory commitValidatorsFactory;

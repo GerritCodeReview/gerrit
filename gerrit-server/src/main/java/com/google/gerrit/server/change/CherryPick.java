@@ -30,8 +30,8 @@ import com.google.gerrit.server.project.RefControl;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-class CherryPick implements RestModifyView<RevisionResource, Input>,
-    UiAction<RevisionResource> {
+class CherryPick extends UiAction<RevisionResource>
+  implements RestModifyView<RevisionResource, Input> {
   private final Provider<ReviewDb> dbProvider;
   private final Provider<CherryPickChange> cherryPickChange;
   private final ChangeJson json;

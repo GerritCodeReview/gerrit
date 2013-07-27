@@ -43,8 +43,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 
-public class Abandon implements RestModifyView<ChangeResource, Input>,
-    UiAction<ChangeResource> {
+public class Abandon extends UiAction<ChangeResource> implements
+    RestModifyView<ChangeResource, Input> {
   private static final Logger log = LoggerFactory.getLogger(Abandon.class);
 
   private final ChangeHooks hooks;

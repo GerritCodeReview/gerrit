@@ -52,8 +52,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public class Submit implements RestModifyView<RevisionResource, Input>,
-    UiAction<RevisionResource> {
+public class Submit extends UiAction<RevisionResource> implements
+    RestModifyView<RevisionResource, Input> {
   public static class Input {
     public boolean waitForMerge;
   }

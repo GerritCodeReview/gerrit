@@ -103,8 +103,8 @@ public class UiActions {
               return null;
             }
 
-            UiAction.Description dsc =
-                ((UiAction<R>) view).getDescription(resource);
+            UiAction<R> a = (UiAction<R>) view;
+            UiAction.Description dsc = a.getDescription(resource);
             if (dsc == null || !dsc.isVisible()) {
               return null;
             }
@@ -115,9 +115,9 @@ public class UiActions {
                 e.getExportName().substring(0, d));
             PrivateInternals_UiActionDescription.setId(
                 dsc,
-                "gerrit".equals(e.getPluginName())
+                a.getPluginName() == null
                   ? name
-                  : e.getPluginName() + '~' + name);
+                  : a.getPluginName() + '~' + name);
             return dsc;
           }
         }),

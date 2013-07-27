@@ -1,8 +1,45 @@
 include_defs('//lib/maven.defs')
+include_defs('//lib/codemirror/cm3.defs')
 
 VERSION = 'b05b96e030'
 SHA1 = '42c541dfdeb877ad726d265e7b1e7da0d429af84'
 URL = GERRIT + 'net/codemirror/codemirror-%s.zip' % VERSION
+
+ZIP = 'codemirror-%s.zip' % VERSION
+TOP = 'codemirror-%s' % VERSION
+
+genrule(
+  name = 'css',
+  cmd = ';'.join([
+      ':>$OUT',
+      "echo '/** @license' >>$OUT",
+      'unzip -p $SRCDIR/%s %s/LICENSE >>$OUT' % (ZIP, TOP),
+      "echo '*/' >>$OUT",
+    ] +
+    ['unzip -p $SRCDIR/%s %s/%s >>$OUT' % (ZIP, TOP, n)
+     for n in CM3_CSS]
+  ),
+  srcs = [genfile(ZIP)],
+  deps = [':download'],
+  out = 'cm3.css',
+)
+
+# TODO(sop) Minify with Closure JavaScript compiler.
+genrule(
+  name = 'js',
+  cmd = ';'.join([
+      ':>$OUT',
+      "echo '/** @license' >>$OUT",
+      'unzip -p $SRCDIR/%s %s/LICENSE >>$OUT' % (ZIP, TOP),
+      "echo '*/' >>$OUT",
+    ] +
+    ['unzip -p $SRCDIR/%s %s/%s >>$OUT' % (ZIP, TOP, n)
+     for n in CM3_JS]
+  ),
+  srcs = [genfile(ZIP)],
+  deps = [':download'],
+  out = 'cm3.js',
+)
 
 prebuilt_jar(
   name = 'codemirror',
@@ -14,20 +51,30 @@ prebuilt_jar(
   visibility = ['PUBLIC'],
 )
 
-# TODO(sop) Repackage by license boundaries.
-# TODO(sop) Minify with Closure JS compiler.
 genrule(
   name = 'jar',
   cmd = ';'.join([
     'cd $TMP',
-    'mkdir net META-INF',
-    'unzip -d net $SRCS',
-    'mv net/codemirror-%s net/codemirror' % VERSION,
-    'echo "Manifest-Version: 1.0" >META-INF/MANIFEST.MF',
-    'zip -r $OUT *'
+    'unzip -q $SRCDIR/%s %s' % (
+      ZIP,
+      ' '.join(['%s/mode/%s' % (TOP, n) for n in CM3_MODES])),
+    'mkdir net',
+    'mv %s net/codemirror' % TOP,
+    'mkdir net/codemirror/lib',
+    'mv $SRCDIR/cm3.css net/codemirror/lib',
+    'mv $SRCDIR/cm3.js net/codemirror/lib',
+    'zip -qr $OUT *'
   ]),
-  srcs = [genfile('codemirror-' + VERSION + '.zip')],
-  deps = [':download'],
+  srcs = [
+    genfile(ZIP),
+    genfile('cm3.css'),
+    genfile('cm3.js'),
+  ],
+  deps = [
+    ':download',
+    ':css',
+    ':js',
+  ],
   out = 'codemirror.jar',
 )
 

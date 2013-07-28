@@ -31,7 +31,7 @@ public class Version {
   }
 
   private static String loadVersion() {
-    InputStream in = Version.class.getResourceAsStream("Version");
+    InputStream in = Version.class.getResourceAsStream("/gerrit-common/Version");
     if (in == null) {
       return null;
     }

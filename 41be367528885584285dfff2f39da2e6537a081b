@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "9312a30c_9339dcee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-28T03:59:15Z",
+      "side": 1,
+      "message": "We\u0027ve mentioned it repeatedly in a few code reviews. :-)",
+      "parentUuid": "b3aa47ea_ccf56f06",
+      "revId": "41be367528885584285dfff2f39da2e6537a081b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d39dfbd4_2dfb4dfb",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "i think we should be consequent here, shouldn\u0027t we? Either to add the license to all JS stuff we are using, or to add it only to documentation.",
       "parentUuid": "9312a30c_53190489",
+      "revId": "41be367528885584285dfff2f39da2e6537a081b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9312a30c_f33e50d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-28T03:59:15Z",
+      "side": 1,
+      "message": "The only JS we use is google-code-prettify and CodeMirror3. Since prettify is currently on its way out I don\u0027t think it is worth the effort to add the header there.",
+      "parentUuid": "b3aa47ea_2cfb53fb",
       "revId": "41be367528885584285dfff2f39da2e6537a081b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

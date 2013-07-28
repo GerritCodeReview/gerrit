@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "9312a30c_73336007",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarPlugin.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-07-28T06:17:28Z",
+      "side": 1,
+      "message": "this CacheKey is same with that in Plugin.",
+      "revId": "66036d3ffc3d8f8ef408a7b023b851de2327cfe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9312a30c_5330e4f8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarPlugin.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-07-28T06:17:28Z",
+      "side": 1,
+      "message": "it is same with that in Plugin.",
+      "revId": "66036d3ffc3d8f8ef408a7b023b851de2327cfe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d3c6dbd8_8512226a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarPlugin.java",
         "patchSetId": 5

@@ -72,17 +72,3 @@ java_binary(
   ] + [d + '-src' for d in PLUGIN_API],
   visibility = ['//tools/maven:'],
 )
-
-genrule(
-  name = 'download',
-  cmd = '$(exe //tools:download_all)',
-  deps = ['//tools:download_all'],
-  out = '__fake.download__',
-)
-
-genrule(
-  name = 'download_sources',
-  cmd = '$(exe //tools:download_all) --src',
-  deps = ['//tools:download_all'],
-  out = '__fake.download__',
-)

@@ -93,9 +93,6 @@ class DraftBox extends CommentBox {
     expandTimer = new Timer() {
       @Override
       public void run() {
-        if (isNew()) {
-          cancel.setVisible(!isDirty());
-        }
         expandText();
       }
     };
@@ -174,6 +171,7 @@ class DraftBox extends CommentBox {
   }
 
   void setEdit(boolean edit) {
+    cancel.setVisible(!isNew());
     UIObject.setVisible(summary, false);
     UIObject.setVisible(p_view, !edit);
     UIObject.setVisible(p_edit, edit);
@@ -359,7 +357,7 @@ class DraftBox extends CommentBox {
     if (isNew()) {
       return msg.length() > 0;
     }
-    return msg.equals(comment.message() != null
+    return !msg.equals(comment.message() != null
         ? comment.message().trim()
         : "");
   }

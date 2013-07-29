@@ -1,5 +1,4 @@
 SRC = 'src/main/java/com/google/gerrit/'
-VER = 'resources/com/google/gerrit/common/Version'
 
 gwt_module(
   name = 'client',
@@ -32,10 +31,10 @@ java_library(
   visibility = ['PUBLIC'],
 )
 
-java_library(
+prebuilt_jar(
   name = 'version',
-  resources = [genfile(VER)],
-  deps = [':git_describe'],
+  binary_jar = genfile('version.jar'),
+  deps = [':gen_version'],
   visibility = ['PUBLIC'],
 )
 
@@ -51,9 +50,14 @@ def git_describe():
   return v
 
 genrule(
-  name = 'git_describe',
-  cmd = 'mkdir -p $(dirname $OUT); echo "%s" >$OUT' % git_describe(),
-  out = VER,
+  name = 'gen_version',
+  cmd = ';'.join([
+    'cd $TMP',
+    'mkdir -p com/google/gerrit/common',
+    'echo "%s" >com/google/gerrit/common/Version' % git_describe(),
+    'zip -9Dqr $OUT .',
+  ]),
+  out = 'version.jar',
 )
 
 java_test(

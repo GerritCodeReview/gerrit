@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d3c6dbd8_052632c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-29T18:30:31Z",
+      "side": 1,
+      "message": "This is a very run-on change. Small fixes like this should be in their own commit.",
+      "revId": "6c4a2d4d4dd0951eb4d7e01e4b01ae57f2bb51ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9312a30c_93871c61",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-29T18:30:31Z",
+      "side": 1,
+      "message": "When scrolling this has the odd effect of hiding the comment but leaving the header where it says \"Hide file comment\". I think we should hide the link too.",
+      "revId": "6c4a2d4d4dd0951eb4d7e01e4b01ae57f2bb51ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9312a30c_5347444b",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirror.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-29T18:30:31Z",
+      "side": 1,
+      "message": "Viewport might be a better class name.",
+      "revId": "6c4a2d4d4dd0951eb4d7e01e4b01ae57f2bb51ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9312a30c_b3821851",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirror.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-29T18:30:31Z",
+      "side": 1,
+      "message": "blank line is not necessary here",
+      "revId": "6c4a2d4d4dd0951eb4d7e01e4b01ae57f2bb51ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3c6dbd8_6533a607",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirror.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-29T18:30:31Z",
+      "side": 1,
+      "message": "space after ) before {",
+      "revId": "6c4a2d4d4dd0951eb4d7e01e4b01ae57f2bb51ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

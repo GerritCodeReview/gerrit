@@ -15,9 +15,8 @@ include_defs('//VERSION')
 
 DOCS = ['//Documentation:html.zip']
 LIBS = [
-  '//gerrit-common:version',
-  '//gerrit-war:init',
   '//gerrit-war:log4j-config',
+  '//gerrit-war:init',
   '//lib:postgresql',
   '//lib/log:impl_log4j',
 ]
@@ -70,7 +69,7 @@ def war(
 def gerrit_war(name, ui = 'ui_optdbg', context = []):
   war(
     name = name,
-    libs = LIBS,
+    libs = LIBS + ['//gerrit-war:version'],
     pgmlibs = PGMLIBS,
     context = [
       '//gerrit-main:main_bin.jar',

@@ -31,35 +31,6 @@ java_library(
   visibility = ['PUBLIC'],
 )
 
-prebuilt_jar(
-  name = 'version',
-  binary_jar = genfile('version.jar'),
-  deps = [':gen_version'],
-  visibility = ['PUBLIC'],
-)
-
-# TODO(sop): Move git describe into an uncacheable genrule()
-def git_describe():
-  import subprocess
-  cmd = ['git', 'describe', '--match', 'v[0-9].*', '--dirty']
-  p = subprocess.Popen(cmd, stdout = subprocess.PIPE)
-  v = p.communicate()[0].strip()
-  r = p.returncode
-  if r != 0:
-    raise subprocess.CalledProcessError(r, ' '.join(cmd))
-  return v
-
-genrule(
-  name = 'gen_version',
-  cmd = ';'.join([
-    'cd $TMP',
-    'mkdir -p com/google/gerrit/common',
-    'echo "%s" >com/google/gerrit/common/Version' % git_describe(),
-    'zip -9Dqr $OUT .',
-  ]),
-  out = 'version.jar',
-)
-
 java_test(
   name = 'client_tests',
   srcs = glob(['src/test/java/**/*.java']),

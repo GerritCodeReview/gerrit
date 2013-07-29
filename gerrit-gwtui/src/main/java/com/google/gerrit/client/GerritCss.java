@@ -141,6 +141,7 @@ public interface GerritCss extends CssResource {
   String infoTable();
   String inputFieldTypeHint();
   String labelList();
+  String labelNotApplicable();
   String leftMostCell();
   String lineHeader();
   String lineNumber();

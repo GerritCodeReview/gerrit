@@ -595,6 +595,9 @@ a:hover {
 .changeTable .dataCell.singleLine {
   white-space: nowrap;
 }
+.changeTable .dataCell.labelNotApplicable {
+ background: #F5F5F5;
+}
 .changeTable .iconHeader {
   border-top: 1px solid backgroundColor;
   border-bottom: 1px solid backgroundColor;

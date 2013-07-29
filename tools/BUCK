@@ -1,7 +1,20 @@
+genrule(
+  name = 'download',
+  cmd = '$(exe :download_all)',
+  deps = [':download_all'],
+  out = '__fake.download__',
+)
+
+genrule(
+  name = 'download_sources',
+  cmd = '$(exe :download_all) --src',
+  deps = [':download_all'],
+  out = '__fake.download__',
+)
+
 python_binary(
   name = 'download_all',
   main = 'download_all.py',
-  visibility = ['PUBLIC'],
 )
 
 python_binary(

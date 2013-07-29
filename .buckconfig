@@ -2,8 +2,8 @@
   api = //:api
   api_deploy = //tools/maven:deploy
   api_install = //tools/maven:install
-  download = //:download
-  download_sources = //:download_sources
+  download = //tools:download
+  download_sources = //tools:download_sources
   gerrit = //:gerrit
   eclipse = //tools/eclipse:eclipse
   eclipse_project = //tools/eclipse:eclipse_project

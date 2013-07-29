@@ -218,7 +218,8 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
 
       LabelInfo label = c.label(name);
       if (label == null) {
-        table.clearCell(row, col);
+        fmt.getElement(row, col).setTitle(Gerrit.C.withoutThisLabel());
+        fmt.addStyleName(row, col, Gerrit.RESOURCES.css().withoutThisLabel());
         continue;
       }
 

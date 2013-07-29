@@ -1,4 +1,4 @@
-include_defs('//lib/prolog/DEFS')
+include_defs('//lib/prolog/prolog.defs')
 
 SRCS = glob(['src/main/java/**/*.java'])
 RESOURCES =  glob(['src/main/resources/**/*'])

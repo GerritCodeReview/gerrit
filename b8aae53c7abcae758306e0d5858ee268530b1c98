@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3aa47ea_0c1f7771",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPlugins.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2013-07-29T12:56:10Z",
+      "side": 1,
+      "message": "This seems to  fail if the tmp-folder does not exist in gerrit-site folder (happens on fresh install only). See https://groups.google.com/forum/#!topic/repo-discuss/S2EEtNLr-Ko",
+      "revId": "b8aae53c7abcae758306e0d5858ee268530b1c98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

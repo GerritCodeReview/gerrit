@@ -50,6 +50,8 @@ public interface GerritConstants extends Constants {
 
   String inactiveAccountBody();
 
+  String labelNotApplicable();
+
   String menuAll();
   String menuAllOpen();
   String menuAllMerged();

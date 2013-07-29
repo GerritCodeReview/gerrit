@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d3c6dbd8_c5437a4a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-07-29T17:02:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3aa47ea_ac0d834c",
+      "revId": "d3170c3b77f2ce81f5d85013dc436dbe9dac7ca8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3aa47ea_ec078b26",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-07-29T08:19:23Z",
       "side": 1,
       "message": "compile error: cannot find symbol extractLabel",
+      "revId": "d3170c3b77f2ce81f5d85013dc436dbe9dac7ca8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3c6dbd8_2529ae97",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-07-29T17:02:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3aa47ea_ec078b26",
       "revId": "d3170c3b77f2ce81f5d85013dc436dbe9dac7ca8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

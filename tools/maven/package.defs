@@ -1,0 +1,31 @@
+def maven_package(
+    version,
+    repository = None,
+    url = None,
+    jar = {},
+    src = {}):
+  cmd = ['$(exe :mvn)', '-v', version]
+  dep = []
+
+  for type,d in [('jar', jar), ('java-source', src)]:
+    for a,t in d.iteritems():
+      cmd.append('-s %s:%s:$(location %s)' % (a,type,t))
+      dep.append(t)
+
+  genrule(
+    name = 'install',
+    cmd = ' '.join(cmd + ['-a', 'install']),
+    deps = dep + [':mvn'],
+    out = '__fake.install__',
+  )
+
+  if repository and url:
+    genrule(
+      name = 'deploy',
+      cmd = ' '.join(cmd + [
+        '-a', 'deploy',
+        '--repository', repository,
+        '--url', url]),
+      deps = dep + [':mvn'],
+      out = '__fake.deploy__',
+    )

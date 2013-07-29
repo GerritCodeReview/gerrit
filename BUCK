@@ -20,8 +20,8 @@ genrule(
   out = '__fake.api__',
 )
 
-maven_install(deps = API_DEPS)
-maven_deploy(deps = API_DEPS)
+maven_install(name = 'api_install', deps = API_DEPS)
+maven_deploy(name = 'api_deploy', deps = API_DEPS)
 
 java_binary(name = 'extension-api', deps = [':extension-lib'])
 java_library(

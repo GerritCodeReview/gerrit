@@ -20,10 +20,12 @@ genrule(
   out = '__fake.api__',
 )
 
-maven_install(name = 'api_install', deps = API_DEPS)
-maven_deploy(name = 'api_deploy', deps = API_DEPS)
+java_binary(
+  name = 'extension-api',
+  deps = [':extension-lib'],
+  visibility = ['//tools/maven:'],
+)
 
-java_binary(name = 'extension-api', deps = [':extension-lib'])
 java_library(
   name = 'extension-lib',
   deps = [
@@ -35,11 +37,13 @@ java_library(
   export_deps = True,
   visibility = ['PUBLIC'],
 )
+
 genrule(
   name = 'extension-api-src',
   cmd = 'ln -s $(location //gerrit-extension-api:api-src) $OUT',
   deps = ['//gerrit-extension-api:api-src'],
   out = 'extension-api-src.jar',
+  visibility = ['//tools/maven:'],
 )
 
 PLUGIN_API = [
@@ -48,18 +52,25 @@ PLUGIN_API = [
   '//gerrit-httpd:httpd',
 ]
 
-java_binary(name = 'plugin-api', deps = [':plugin-lib'])
+java_binary(
+  name = 'plugin-api',
+  deps = [':plugin-lib'],
+  visibility = ['//tools/maven:'],
+)
+
 java_library(
   name = 'plugin-lib',
   deps = PLUGIN_API,
   export_deps = True,
   visibility = ['PUBLIC'],
 )
+
 java_binary(
   name = 'plugin-api-src',
   deps = [
     '//gerrit-extension-api:api-src',
   ] + [d + '-src' for d in PLUGIN_API],
+  visibility = ['//tools/maven:'],
 )
 
 genrule(

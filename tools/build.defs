@@ -15,9 +15,9 @@ include_defs('//VERSION')
 
 DOCS = ['//Documentation:html.zip']
 LIBS = [
-  '//gerrit-common:version',
   '//gerrit-war:init',
   '//gerrit-war:log4j-config',
+  '//gerrit-war:version',
   '//lib:postgresql',
   '//lib/log:impl_log4j',
 ]

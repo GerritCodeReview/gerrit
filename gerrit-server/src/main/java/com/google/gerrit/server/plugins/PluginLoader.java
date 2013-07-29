@@ -166,6 +166,9 @@ public class PluginLoader implements LifecycleListener {
 
   public static File storeInTemp(String pluginName, InputStream in,
       SitePaths sitePaths) throws IOException {
+    if (!sitePaths.tmp_dir.exists()) {
+      sitePaths.tmp_dir.mkdirs();
+    }
     return asTemp(in, tempNameFor(pluginName), ".jar", sitePaths.tmp_dir);
   }
 

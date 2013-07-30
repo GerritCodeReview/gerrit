@@ -138,8 +138,8 @@ class GerritServer {
   private ExecutorService daemonService;
   private Injector testInjector;
   private String url;
-  private int sshdPort;
-  private int httpPort;
+  private InetSocketAddress sshdAddress;
+  private InetSocketAddress httpAddress;
 
   private GerritServer(File sitePath, Injector testInjector, Daemon daemon,
       ExecutorService daemonService) throws IOException, ConfigInvalidException {
@@ -152,23 +152,26 @@ class GerritServer {
         new File(new File(sitePath, "etc"), "gerrit.config"),
         FS.DETECTED);
     cfg.load();
+
     url = cfg.getString("gerrit", null, "canonicalWebUrl");
-    sshdPort = SocketUtil.parse(
+    URI uri = URI.create(url);
+
+    sshdAddress = SocketUtil.parse(
         cfg.getString("sshd", null, "listenAddress"),
-        0).getPort();
-    httpPort = URI.create(url).getPort();
+        0);
+    httpAddress = new InetSocketAddress(uri.getHost(), uri.getPort());
   }
 
   String getUrl() {
     return url;
   }
 
-  int getSshdPort() {
-    return sshdPort;
+  InetSocketAddress getSshdAddress() {
+    return sshdAddress;
   }
 
-  int getHttpPort() {
-    return httpPort;
+  InetSocketAddress getHttpAddress() {
+    return httpAddress;
   }
 
   Injector getTestInjector() {

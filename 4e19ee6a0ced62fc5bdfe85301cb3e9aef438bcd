@@ -16,6 +16,24 @@
       "revId": "4e19ee6a0ced62fc5bdfe85301cb3e9aef438bcd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "53802b79_81023a1a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-07-30T01:33:39Z",
+      "side": 1,
+      "message": "Whoops that was careless.. Yeah I will just remove the link since it\u0027s complicating things a lot.",
+      "parentUuid": "3385778a_60fb72a8",
+      "revId": "4e19ee6a0ced62fc5bdfe85301cb3e9aef438bcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

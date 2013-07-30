@@ -110,6 +110,8 @@ class HttpLoginServlet extends HttpServlet {
     }
 
     final AuthRequest areq = AuthRequest.forUser(user);
+    areq.setDisplayName(authFilter.getRemoteDisplayname(req));
+    areq.setEmailAddress(authFilter.getRemoteEmail(req));
     final AuthResult arsp;
     try {
       arsp = accountManager.authenticate(areq);

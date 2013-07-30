@@ -255,6 +255,24 @@ The "Sign In" link will send users directly to this URL.
 HTTP header to trust the username from, or unset to select HTTP basic
 or digest authentication.  Only used if `auth.type` is set to `HTTP`.
 
+[[auth.httpDisplaynameHeader]]auth.httpDisplaynameHeader::
++
+HTTP header to retrieve the user's display name from.  Only used if `auth.type`
+is set to `HTTP`.
++
+If set, Gerrit trusts and enforces the user's full name using the HTTP header
+and disables the ability to manually modify the user's full name
+from the contact information page.
+
+[[auth.httpEmailHeader]]auth.httpEmailHeader::
++
+HTTP header to retrieve the user's e-mail from.  Only used if `auth.type`
+is set to `HTTP`.
++
+If set, Gerrit trusts and enforces the user's e-mail using the HTTP header
+and disables the ability to manually modify or register other e-mails
+from the contact information page.
+
 [[auth.loginUrl]]auth.loginUrl::
 +
 URL to redirect a browser to after the end-user has clicked on the

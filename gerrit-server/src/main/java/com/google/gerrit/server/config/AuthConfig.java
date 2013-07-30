@@ -36,6 +36,8 @@ import java.util.concurrent.TimeUnit;
 public class AuthConfig {
   private final AuthType authType;
   private final String httpHeader;
+  private final String httpDisplaynameHeader;
+  private final String httpEmailHeader;
   private final boolean trustContainerAuth;
   private final boolean enableRunAs;
   private final boolean userNameToLowerCase;
@@ -58,6 +60,8 @@ public class AuthConfig {
       throws XsrfException {
     authType = toType(cfg);
     httpHeader = cfg.getString("auth", null, "httpheader");
+    httpDisplaynameHeader = cfg.getString("auth", null, "httpdisplaynameheader");
+    httpEmailHeader = cfg.getString("auth", null, "httpemailheader");
     loginUrl = cfg.getString("auth", null, "loginurl");
     logoutUrl = cfg.getString("auth", null, "logouturl");
     openIdSsoUrl = cfg.getString("auth", null, "openidssourl");
@@ -124,6 +128,14 @@ public class AuthConfig {
 
   public String getLoginHttpHeader() {
     return httpHeader;
+  }
+
+  public String getHttpDisplaynameHeader() {
+    return httpDisplaynameHeader;
+  }
+
+  public String getHttpEmailHeader() {
+    return httpEmailHeader;
   }
 
   public String getLoginUrl() {

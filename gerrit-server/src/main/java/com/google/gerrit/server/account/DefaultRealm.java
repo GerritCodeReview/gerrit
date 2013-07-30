@@ -14,8 +14,11 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 
 import java.util.Set;
@@ -23,17 +26,32 @@ import java.util.Set;
 public class DefaultRealm implements Realm {
   private final EmailExpander emailExpander;
   private final AccountByEmailCache byEmail;
+  private final AuthConfig authConfig;
 
   @Inject
   DefaultRealm(final EmailExpander emailExpander,
-      final AccountByEmailCache byEmail) {
+      final AccountByEmailCache byEmail, final AuthConfig authConfig) {
     this.emailExpander = emailExpander;
     this.byEmail = byEmail;
+    this.authConfig = authConfig;
   }
 
   @Override
   public boolean allowsEdit(final Account.FieldName field) {
-    return true;
+    if (authConfig.getAuthType() == AuthType.HTTP) {
+      switch (field) {
+        case USER_NAME:
+          return false;
+        case FULL_NAME:
+          return Strings.emptyToNull(authConfig.getHttpDisplaynameHeader()) == null;
+        case REGISTER_NEW_EMAIL:
+          return Strings.emptyToNull(authConfig.getHttpEmailHeader()) == null;
+        default:
+          return true;
+      }
+    } else {
+      return true;
+    }
   }
 
   @Override

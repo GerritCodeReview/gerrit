@@ -23,6 +23,7 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 
@@ -98,6 +99,9 @@ class GerritServer {
     cfg.setString("gerrit", null, "canonicalWebUrl", url);
     cfg.setString("httpd", null, "listenUrl", url);
     cfg.setString("sshd", null, "listenAddress", format(sshd));
+    cfg.setString("cache", null, "directory", null);
+    cfg.setInt("cache", "projects", "checkFrequency", 0);
+    cfg.setInt("plugins", null, "checkFrequency", 0);
     cfg.save();
     return tmp;
   }
@@ -198,5 +202,6 @@ class GerritServer {
     daemonService.shutdownNow();
     daemonService.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);
     TempFileUtil.recursivelyDelete(sitePath);
+    RepositoryCache.clear();
   }
 }

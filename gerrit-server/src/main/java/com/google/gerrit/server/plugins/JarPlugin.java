@@ -42,21 +42,6 @@ import javax.annotation.Nullable;
 
 class JarPlugin extends Plugin {
 
-  /** Unique key that changes whenever a plugin reloads. */
-  public static final class CacheKey {
-    private final String name;
-
-    CacheKey(String name) {
-      this.name = name;
-    }
-
-    @Override
-    public String toString() {
-      int id = System.identityHashCode(this);
-      return String.format("Plugin[%s@%x]", name, id);
-    }
-  }
-
   static {
     // Guice logs warnings about multiple injectors being created.
     // Silence this in case HTTP plugins are used.

@@ -16,6 +16,24 @@
       "revId": "1e6c3639f742507dc4c96853680ac9ee3898cf68",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3385778a_00f62611",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DraftBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-07-30T00:40:52Z",
+      "side": 0,
+      "message": "Moved the logic into setEdit(). I don\u0027t think \"cancel\" should ever appear with a new comment?",
+      "parentUuid": "3385778a_c0eb5e29",
+      "revId": "1e6c3639f742507dc4c96853680ac9ee3898cf68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

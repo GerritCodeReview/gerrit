@@ -19,6 +19,7 @@ import static com.google.gerrit.client.ui.Hyperlink.impl;
 import com.google.gerrit.client.Gerrit;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
+import com.google.gwtexpui.safehtml.client.SafeHtml;
 
 /** Standard GWT hyperlink with late updating of the token. */
 public class InlineHyperlink extends
@@ -31,6 +32,16 @@ public class InlineHyperlink extends
    */
   public InlineHyperlink(final String text, final String token) {
     super(text, token);
+  }
+
+  /**
+   * Creates a link with its HTML and target history token specified.
+   *
+   * @param html the hyperlink's HTML
+   * @param token the history token to which it will link
+   */
+  public InlineHyperlink(final SafeHtml html, final String token) {
+    super(html, token);
   }
 
   @Override

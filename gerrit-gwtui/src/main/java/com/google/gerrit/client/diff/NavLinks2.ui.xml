@@ -14,12 +14,32 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+<ui:UiBinder
+    xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
-    xmlns:d='urn:import:com.google.gerrit.client.diff'>
+    xmlns:ge='urn:import:com.google.gerrit.client.ui'>
+  <ui:style>
+  .table {
+    table-layout: fixed;
+    width: 100%;
+  }
+  .prev {
+    text-align: left;
+  }
+  .up {
+    text-align: center;
+  }
+  .next {
+    text-align: right;
+  }
+  </ui:style>
   <g:HTMLPanel>
-    <d:ReviewedPanel ui:field='reviewed'/>
-    <d:NavLinks2 ui:field='navLinks'/>
-    <d:DiffTable ui:field='diffTable'/>
+    <table ui:field='table' class='{style.table}'>
+      <tr>
+        <td class='{style.prev}' ui:field='prevLinkCell'></td>
+        <td class='{style.up}' ui:field='upLinkCell'></td>
+        <td class='{style.next}' ui:field='nextLinkCell'></td>
+      </tr>
+    </table>
   </g:HTMLPanel>
 </ui:UiBinder>

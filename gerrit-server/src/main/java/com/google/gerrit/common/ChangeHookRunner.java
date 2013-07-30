@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
@@ -213,7 +214,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
     private final SitePaths sitePaths;
 
     /** Thread pool used to monitor sync hooks */
-    private final ExecutorService syncHookThreadPool = Executors.newCachedThreadPool();
+    private final ExecutorService syncHookThreadPool;
 
     /** Timeout value for synchronous hooks */
     private final int syncHookTimeout;
@@ -262,6 +263,10 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         claSignedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "claSignedHook", "cla-signed")).getPath());
         refUpdateHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "refUpdateHook", "ref-update")).getPath());
         syncHookTimeout = config.getInt("hooks", "syncHookTimeout", 30);
+        syncHookThreadPool = Executors.newCachedThreadPool(
+            new ThreadFactoryBuilder()
+              .setNameFormat("SyncHook-%d")
+              .build());
     }
 
     public void addChangeListener(ChangeListener listener, IdentifiedUser user) {

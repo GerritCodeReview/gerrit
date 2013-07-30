@@ -1,4 +1,4 @@
-include_defs('//gerrit-acceptance-tests/DEFS')
+include_defs('//gerrit-acceptance-tests/tests.defs')
 
 java_library(
   name = 'lib',

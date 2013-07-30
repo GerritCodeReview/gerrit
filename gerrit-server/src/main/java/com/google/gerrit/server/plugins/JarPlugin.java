@@ -57,34 +57,10 @@ class JarPlugin extends Plugin {
     }
   }
 
-  static {
-    // Guice logs warnings about multiple injectors being created.
-    // Silence this in case HTTP plugins are used.
-    java.util.logging.Logger.getLogger("com.google.inject.servlet.GuiceFilter")
-        .setLevel(java.util.logging.Level.OFF);
-  }
-
-  static ApiType getApiType(Manifest manifest) throws InvalidPluginException {
-    Attributes main = manifest.getMainAttributes();
-    String v = main.getValue("Gerrit-ApiType");
-    if (Strings.isNullOrEmpty(v)
-        || ApiType.EXTENSION.name().equalsIgnoreCase(v)) {
-      return ApiType.EXTENSION;
-    } else if (ApiType.PLUGIN.name().equalsIgnoreCase(v)) {
-      return ApiType.PLUGIN;
-    } else if (ApiType.JS.name().equalsIgnoreCase(v)) {
-      return ApiType.JS;
-    } else {
-      throw new InvalidPluginException("Invalid Gerrit-ApiType: " + v);
-    }
-  }
-
-  private final FileSnapshot snapshot;
   private final JarFile jarFile;
   private final Manifest manifest;
   private final File dataDir;
   private final ClassLoader classLoader;
-  private final boolean disabled;
   private Class<? extends Module> sysModule;
   private Class<? extends Module> sshModule;
   private Class<? extends Module> httpModule;
@@ -108,12 +84,10 @@ class JarPlugin extends Plugin {
       @Nullable Class<? extends Module> sshModule,
       @Nullable Class<? extends Module> httpModule) {
     super(name, srcJar, pluginUser, snapshot, apiType);
-    this.snapshot = snapshot;
     this.jarFile = jarFile;
     this.manifest = manifest;
     this.dataDir = dataDir;
     this.classLoader = classLoader;
-    this.disabled = srcJar.getName().endsWith(".disabled");
     this.sysModule = sysModule;
     this.sshModule = sshModule;
     this.httpModule = httpModule;
@@ -142,14 +116,6 @@ class JarPlugin extends Plugin {
           getName(), v));
       return false;
     }
-  }
-
-  boolean isModified(File jar) {
-    return snapshot.lastModified() != jar.lastModified();
-  }
-
-  public boolean isDisabled() {
-    return disabled;
   }
 
   void start(PluginGuiceEnvironment env) throws Exception {

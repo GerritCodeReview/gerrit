@@ -10,7 +10,7 @@
   release = //:release
 
 [buildfile]
-  includes = //tools/DEFS
+  includes = //tools/default.defs
 
 [java]
   src_roots = java, resources

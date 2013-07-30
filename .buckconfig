@@ -1,7 +1,7 @@
 [alias]
   api = //:api
-  api_deploy = //:api_deploy
-  api_install = //:api_install
+  api_deploy = //tools/maven:deploy
+  api_install = //tools/maven:install
   download = //:download
   download_sources = //:download_sources
   gerrit = //:gerrit

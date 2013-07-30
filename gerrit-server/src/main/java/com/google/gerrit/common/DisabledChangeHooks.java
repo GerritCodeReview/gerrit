@@ -18,11 +18,13 @@ import com.google.gerrit.common.ChangeHookRunner.HookResult;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch.NameKey;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.events.ChangeEvent;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -103,5 +105,13 @@ public final class DisabledChangeHooks implements ChangeHooks {
   public HookResult doRefUpdateHook(Project project, String refName,
       Account uploader, ObjectId oldId, ObjectId newId) {
     return null;
+  }
+
+  @Override
+  public void postEvent(Change change, ChangeEvent event, ReviewDb db) {
+  }
+
+  @Override
+  public void postEvent(Branch.NameKey branchName, ChangeEvent event) {
   }
 }

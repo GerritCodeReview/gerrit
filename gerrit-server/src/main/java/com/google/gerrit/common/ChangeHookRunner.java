@@ -600,6 +600,18 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
       }
     }
 
+    @Override
+    public void postEvent(final Change change, final ChangeEvent event,
+        final ReviewDb db) throws OrmException {
+      fireEvent(change, event, db);
+    }
+
+    @Override
+    public void postEvent(final Branch.NameKey branchName,
+        final ChangeEvent event) throws OrmException {
+      fireEvent(branchName, event);
+    }
+
     private void fireEventForUnrestrictedListeners(final ChangeEvent event) {
       for (ChangeListener listener : unrestrictedListeners) {
           listener.onChangeEvent(event);

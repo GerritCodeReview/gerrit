@@ -3,13 +3,11 @@ include_defs('//gerrit-acceptance-tests/tests.defs')
 acceptance_tests(
   srcs = ['SubmitOnPushIT.java'],
   deps = [':util'],
-  vm_args = ['-Xmx512m'],
 )
 
 acceptance_tests(
   srcs = ['HttpPushForReviewIT.java', 'SshPushForReviewIT.java'],
   deps = [':push_for_review'],
-  vm_args = ['-Xmx512m'],
 )
 
 java_library(

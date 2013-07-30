@@ -1,7 +1,7 @@
 def acceptance_tests(
     srcs,
     deps = [],
-    vm_args = []):
+    vm_args = ['-Xmx128m']):
   for j in srcs:
     java_test(
       name = j[:-len('.java')],

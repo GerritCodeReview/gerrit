@@ -52,12 +52,10 @@ public class TestAccount {
   }
 
   public String getHttpUrl(GerritServer server) {
-    StringBuilder b = new StringBuilder();
-    b.append("http://");
-    b.append(username);
-    b.append(":");
-    b.append(httpPassword);
-    b.append("@localhost:" + server.getHttpPort());
-    return b.toString();
+    return String.format("http://%s:%s@%s:%d",
+        username,
+        httpPassword,
+        server.getHttpAddress().getHostName(),
+        server.getHttpAddress().getPort());
   }
 }

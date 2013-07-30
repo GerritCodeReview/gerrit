@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetSocketAddress;
 import java.util.Scanner;
 
 import com.jcraft.jsch.ChannelExec;
@@ -25,13 +26,13 @@ import com.jcraft.jsch.Session;
 
 public class SshSession {
 
-  private final int port;
+  private final InetSocketAddress addr;
   private final TestAccount account;
   private Session session;
   private String error;
 
   public SshSession(GerritServer server, TestAccount account) {
-    this.port = server.getSshdPort();
+    this.addr = server.getSshdAddress();
     this.account = account;
   }
 
@@ -74,7 +75,10 @@ public class SshSession {
       JSch jsch = new JSch();
       jsch.addIdentity("KeyPair",
           account.privateKey(), account.sshKey.getPublicKeyBlob(), null);
-      session = jsch.getSession(account.username, "localhost", port);
+      session = jsch.getSession(
+          account.username,
+          addr.getHostName(),
+          addr.getPort());
       session.setConfig("StrictHostKeyChecking", "no");
       session.connect();
     }

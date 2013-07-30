@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53802b79_010d4a47",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.ui.xml",
+        "patchSetId": 19
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-30T02:34:46Z",
+      "side": 1,
+      "message": "I seem to see a single pixel gap between these new rows and the CodeMirror instances. Its pretty ugly to look at.",
+      "revId": "77d1a407c7ae564a33b217901e185fb8dff109fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

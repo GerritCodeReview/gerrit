@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3385778a_60fb72a8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-30T01:00:44Z",
+      "side": 1,
+      "message": "I like how the file comments hide when the file scrolls. But now when I click \"hide\" they disappear entirely and don\u0027t come back. Maybe we can drop the hide/show links altogether and rely on the scrolling?",
+      "revId": "4e19ee6a0ced62fc5bdfe85301cb3e9aef438bcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

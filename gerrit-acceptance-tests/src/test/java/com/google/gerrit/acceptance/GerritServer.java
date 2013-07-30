@@ -33,6 +33,7 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.URI;
+import java.net.UnknownHostException;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CyclicBarrier;
@@ -125,11 +126,23 @@ class GerritServer {
   }
 
   private static final InetSocketAddress newPort() throws IOException {
-    ServerSocket s = new ServerSocket(0, 0, InetAddress.getLocalHost());
+    ServerSocket s = new ServerSocket(0, 0, getLocalHost());
     try {
       return (InetSocketAddress) s.getLocalSocketAddress();
     } finally {
       s.close();
+    }
+  }
+
+  private static InetAddress getLocalHost() throws UnknownHostException {
+    try {
+      return InetAddress.getLocalHost();
+    } catch (UnknownHostException e1) {
+      try {
+        return InetAddress.getByName("localhost");
+      } catch (UnknownHostException e2) {
+        return InetAddress.getByName("127.0.0.1");
+      }
     }
   }
 

@@ -255,6 +255,26 @@ The "Sign In" link will send users directly to this URL.
 HTTP header to trust the username from, or unset to select HTTP basic
 or digest authentication.  Only used if `auth.type` is set to HTTP.
 
+[[auth.loginUrl]]auth.loginUrl::
++
+URL to redirect a browser to after the end-user has clicked on the
+login link in the upper right corner. Only used if 'auth.type' was set
+to HTTP or HTTP_LDAP.
+Organizations using an enterprise single-sign-on solution may want to
+redirect the browser to the SSO product's sign-in page for completing the
+login process and validate their credentials.
++
+If set, Gerrit allows to access anonymously until the end-user performs the login
+and then provides a trusted identity through the HTTP header.
+If not set, Gerrit requires the HTTP header with a trusted identity
+otherwise returns the error page LoginRedirect.html.
+
+[[auth.loginText]]auth.loginText::
++
+Text displayed in the loginUrl link. Only used if 'auth.loginUrl' was set.
++
+If not set, the 'Sign In' text is used.
+
 [[auth.logoutUrl]]auth.logoutUrl::
 +
 URL to redirect a browser to after the end-user has clicked on the

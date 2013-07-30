@@ -729,8 +729,6 @@ public class Gerrit implements EntryPoint {
       whoAmI(cfg.getAuthType() != AuthType.CLIENT_SSL_CERT_LDAP);
     } else {
       switch (cfg.getAuthType()) {
-        case HTTP:
-        case HTTP_LDAP:
         case CLIENT_SSL_CERT_LDAP:
           break;
 
@@ -757,6 +755,14 @@ public class Gerrit implements EntryPoint {
               doSignIn(History.getToken());
             }
           });
+          break;
+
+        case HTTP:
+        case HTTP_LDAP:
+          if (cfg.getLoginUrl() != null) {
+            final String signinText = cfg.getLoginText() == null ? C.menuSignIn() : cfg.getLoginText();
+            menuRight.add(anchor(signinText, cfg.getLoginUrl()));
+          }
           break;
 
         case LDAP:

@@ -14,13 +14,22 @@
 
 package com.google.gerrit.httpd.auth.container;
 
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.servlet.ServletModule;
 
 /** Servlets and support related to HTTP authentication. */
 public class HttpAuthModule extends ServletModule {
+  private final AuthConfig authConfig;
+
+  public HttpAuthModule(final AuthConfig authConfig) {
+    this.authConfig = authConfig;
+  }
+
   @Override
   protected void configureServlets() {
-    filter("/").through(HttpAuthFilter.class);
+    if (authConfig.getLoginUrl() == null) {
+      filter("/").through(HttpAuthFilter.class);
+    }
     serve("/login", "/login/*").with(HttpLoginServlet.class);
   }
 }

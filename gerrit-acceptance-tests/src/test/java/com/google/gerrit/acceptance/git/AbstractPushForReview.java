@@ -39,8 +39,8 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-public class PushForReviewIT extends AbstractDaemonTest {
-  private enum Protocol {
+public abstract class AbstractPushForReview extends AbstractDaemonTest {
+  protected enum Protocol {
     SSH, HTTP
   }
 
@@ -72,7 +72,7 @@ public class PushForReviewIT extends AbstractDaemonTest {
     db = reviewDbProvider.open();
   }
 
-  private void selectProtocol(Protocol p) throws GitAPIException, IOException {
+  protected void selectProtocol(Protocol p) throws GitAPIException, IOException {
     String url;
     switch (p) {
       case SSH:
@@ -93,40 +93,16 @@ public class PushForReviewIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testPushForMaster_HTTP() throws GitAPIException, OrmException,
+  public void testPushForMaster() throws GitAPIException, OrmException,
       IOException {
-    testPushForMaster(Protocol.HTTP);
-  }
-
-  @Test
-  public void testPushForMaster_SSH() throws GitAPIException, OrmException,
-      IOException {
-    testPushForMaster(Protocol.SSH);
-  }
-
-  private void testPushForMaster(Protocol p) throws GitAPIException,
-      OrmException, IOException {
-    selectProtocol(p);
     PushOneCommit.Result r = pushTo("refs/for/master");
     r.assertOkStatus();
     r.assertChange(Change.Status.NEW, null);
   }
 
   @Test
-  public void testPushForMasterWithTopic_HTTP()
-      throws GitAPIException, OrmException, IOException {
-    testPushForMasterWithTopic(Protocol.HTTP);
-  }
-
-  @Test
-  public void testPushForMasterWithTopic_SSH()
-      throws GitAPIException, OrmException, IOException {
-    testPushForMasterWithTopic(Protocol.SSH);
-  }
-
-  private void testPushForMasterWithTopic(Protocol p) throws GitAPIException,
+  public void testPushForMasterWithTopic() throws GitAPIException,
       OrmException, IOException {
-    selectProtocol(p);
     // specify topic in ref
     String topic = "my/topic";
     PushOneCommit.Result r = pushTo("refs/for/master/" + topic);
@@ -140,20 +116,8 @@ public class PushForReviewIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testPushForMasterWithCc_HTTP() throws GitAPIException,
-      OrmException, IOException, JSchException {
-    testPushForMasterWithCc(Protocol.HTTP);
-  }
-
-  @Test
-  public void testPushForMasterWithCc_SSH() throws GitAPIException,
-      OrmException, IOException, JSchException {
-    testPushForMasterWithCc(Protocol.SSH);
-  }
-
-  private void testPushForMasterWithCc(Protocol p) throws GitAPIException,
-      OrmException, IOException, JSchException {
-    selectProtocol(p);
+  public void testPushForMasterWithCc() throws GitAPIException, OrmException,
+      IOException, JSchException {
     // cc one user
     TestAccount user = accounts.create("user", "user@example.com", "User");
     String topic = "my/topic";
@@ -177,20 +141,8 @@ public class PushForReviewIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testPushForMasterWithReviewer_HTTP() throws GitAPIException,
+  public void testPushForMasterWithReviewer() throws GitAPIException,
       OrmException, IOException, JSchException {
-    testPushForMasterWithReviewer(Protocol.HTTP);
-  }
-
-  @Test
-  public void testPushForMasterWithReviewer_SSH() throws GitAPIException,
-      OrmException, IOException, JSchException {
-    testPushForMasterWithReviewer(Protocol.SSH);
-  }
-
-  private void testPushForMasterWithReviewer(Protocol p)
-      throws GitAPIException, OrmException, IOException, JSchException {
-    selectProtocol(p);
     // add one reviewer
     TestAccount user = accounts.create("user", "user@example.com", "User");
     String topic = "my/topic";
@@ -215,20 +167,8 @@ public class PushForReviewIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testPushForMasterAsDraft_HTTP() throws GitAPIException,
-      OrmException, IOException {
-    testPushForMasterAsDraft(Protocol.HTTP);
-  }
-
-  @Test
-  public void testPushForMasterAsDraft_SSH() throws GitAPIException,
-      OrmException, IOException {
-    testPushForMasterAsDraft(Protocol.SSH);
-  }
-
-  private void testPushForMasterAsDraft(Protocol p) throws GitAPIException,
-      OrmException, IOException {
-    selectProtocol(p);
+  public void testPushForMasterAsDraft() throws GitAPIException, OrmException,
+      IOException {
     // create draft by pushing to 'refs/drafts/'
     PushOneCommit.Result r = pushTo("refs/drafts/master");
     r.assertOkStatus();
@@ -241,20 +181,8 @@ public class PushForReviewIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testPushForNonExistingBranch_HTTP() throws GitAPIException,
+  public void testPushForNonExistingBranch() throws GitAPIException,
       OrmException, IOException {
-    testPushForNonExistingBranch(Protocol.HTTP);
-  }
-
-  @Test
-  public void testPushForNonExistingBranch_SSH() throws GitAPIException,
-      OrmException, IOException {
-    testPushForNonExistingBranch(Protocol.SSH);
-  }
-
-  private void testPushForNonExistingBranch(Protocol p) throws GitAPIException,
-      OrmException, IOException {
-    selectProtocol(p);
     String branchName = "non-existing";
     PushOneCommit.Result r = pushTo("refs/for/" + branchName);
     r.assertErrorStatus("branch " + branchName + " not found");

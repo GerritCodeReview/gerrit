@@ -1,14 +1,32 @@
 include_defs('//gerrit-acceptance-tests/tests.defs')
 
 acceptance_tests(
-  srcs = glob(['*IT.java']),
+  srcs = ['SubmitOnPushIT.java'],
   deps = [':util'],
   vm_args = ['-Xmx512m'],
 )
 
+acceptance_tests(
+  srcs = ['HttpPushForReviewIT.java', 'SshPushForReviewIT.java'],
+  deps = [':push_for_review'],
+  vm_args = ['-Xmx512m'],
+)
+
+java_library(
+  name = 'push_for_review',
+  srcs = ['AbstractPushForReview.java'],
+  deps = [
+    ':util',
+    '//gerrit-acceptance-tests:lib',
+  ],
+)
+
 java_library(
   name = 'util',
-  srcs = ['GitUtil.java', 'PushOneCommit.java'],
+  srcs = [
+    'GitUtil.java',
+    'PushOneCommit.java',
+  ],
   deps = [
     '//gerrit-acceptance-tests:lib',
     '//gerrit-reviewdb:server',

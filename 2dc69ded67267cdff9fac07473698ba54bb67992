@@ -16,6 +16,24 @@
       "revId": "2dc69ded67267cdff9fac07473698ba54bb67992",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3385778a_a632f276",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-30T17:31:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d39dfbd4_8d87e160",
+      "revId": "2dc69ded67267cdff9fac07473698ba54bb67992",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

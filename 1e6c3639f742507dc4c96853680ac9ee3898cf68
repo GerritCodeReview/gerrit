@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3385778a_c0eb5e29",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DraftBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-30T00:38:53Z",
+      "side": 0,
+      "message": "So we no longer remove the cancel button after there is text in a new comment? Why did you make this change?",
+      "revId": "1e6c3639f742507dc4c96853680ac9ee3898cf68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

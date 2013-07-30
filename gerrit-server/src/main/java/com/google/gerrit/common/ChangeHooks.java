@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.events.ChangeEvent;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -171,4 +172,25 @@ public interface ChangeHooks {
    */
   public HookResult doRefUpdateHook(Project project,  String refName,
        Account uploader, ObjectId oldId, ObjectId newId);
+
+  /**
+   * Post a stream event that is related to a change
+   *
+   * @param change The change that the event is related to
+   * @param event The event to post
+   * @param db The database
+   * @throws OrmException
+   */
+  public void postEvent(Change change, ChangeEvent event, ReviewDb db)
+      throws OrmException;
+
+  /**
+   * Post a stream event that is related to a branch
+   *
+   * @param branchName The branch that the event is related to
+   * @param event The event to post
+   * @throws OrmException
+   */
+  public void postEvent(Branch.NameKey branchName, ChangeEvent event)
+      throws OrmException;
 }

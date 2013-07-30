@@ -107,6 +107,7 @@ public class SshModule extends FactoryModule {
         listener().toInstance(registerInParentInjectors());
         listener().to(SshLog.class);
         listener().to(SshDaemon.class);
+        listener().to(CommandFactoryProvider.class);
       }
     });
   }

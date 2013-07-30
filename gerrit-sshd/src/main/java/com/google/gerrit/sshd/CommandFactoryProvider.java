@@ -16,6 +16,7 @@ package com.google.gerrit.sshd;
 
 import com.google.common.util.concurrent.Atomics;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
@@ -23,6 +24,7 @@ import com.google.gerrit.sshd.SshScope.Context;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import org.apache.sshd.server.Command;
 import org.apache.sshd.server.CommandFactory;
@@ -39,7 +41,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
@@ -49,7 +51,9 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * Creates a CommandFactory using commands registered by {@link CommandModule}.
  */
-class CommandFactoryProvider implements Provider<CommandFactory> {
+@Singleton
+class CommandFactoryProvider implements Provider<CommandFactory>,
+    LifecycleListener {
   private static final Logger logger = LoggerFactory
       .getLogger(CommandFactoryProvider.class);
 
@@ -57,7 +61,7 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
   private final SshLog log;
   private final SshScope sshScope;
   private final ScheduledExecutorService startExecutor;
-  private final Executor destroyExecutor;
+  private final ExecutorService destroyExecutor;
   private final SchemaFactory<ReviewDb> schemaFactory;
 
   @Inject
@@ -77,6 +81,15 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
           .setNameFormat("SshCommandDestroy-%s")
           .setDaemon(true)
           .build());
+  }
+
+  @Override
+  public void start() {
+  }
+
+  @Override
+  public void stop() {
+    destroyExecutor.shutdownNow();
   }
 
   @Override

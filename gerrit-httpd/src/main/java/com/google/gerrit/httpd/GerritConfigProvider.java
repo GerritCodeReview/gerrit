@@ -137,7 +137,8 @@ class GerritConfigProvider implements Provider<GerritConfig> {
         fields.add(n);
       }
     }
-    if (emailSender != null && emailSender.isEnabled()) {
+    if (emailSender != null && emailSender.isEnabled()
+        && realm.allowsEdit(Account.FieldName.REGISTER_NEW_EMAIL)) {
       fields.add(Account.FieldName.REGISTER_NEW_EMAIL);
     }
     config.setEditableAccountFields(fields);

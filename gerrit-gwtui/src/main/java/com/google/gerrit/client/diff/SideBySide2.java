@@ -95,6 +95,9 @@ public class SideBySide2 extends Screen {
   ReviewedPanel reviewed;
 
   @UiField(provided = true)
+  NavLinks2 navLinks;
+
+  @UiField(provided = true)
   DiffTable diffTable;
 
   private final PatchSet.Id base;
@@ -137,6 +140,8 @@ public class SideBySide2 extends Screen {
     // TODO: Re-implement necessary GlobalKey bindings.
     addDomHandler(GlobalKey.STOP_PROPAGATION, KeyPressEvent.getType());
     reviewed = new ReviewedPanel(revision, path);
+    add(navLinks = new NavLinks2(keysNavigation =
+        new KeyCommandSet(Gerrit.C.sectionNavigation()), revision, path));
     add(diffTable = new DiffTable(this, path));
     add(uiBinder.createAndBindUi(this));
   }
@@ -276,13 +281,7 @@ public class SideBySide2 extends Screen {
   public void registerKeys() {
     super.registerKeys();
 
-    keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
-    keysNavigation.add(new KeyCommand(0, 'u', PatchUtil.C.upToChange()) {
-      @Override
-      public void onKeyPress(KeyPressEvent event) {
-        upToChange().run();
-      }
-    });
+    keysNavigation.add(new UpToChangeCommand2(revision, 0, 'u'));
     keysNavigation.add(new NoOpKeyCommand(0, 'j', PatchUtil.C.lineNext()));
     keysNavigation.add(new NoOpKeyCommand(0, 'k', PatchUtil.C.linePrev()));
 

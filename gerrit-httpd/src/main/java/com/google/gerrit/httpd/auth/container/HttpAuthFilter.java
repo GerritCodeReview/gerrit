@@ -61,6 +61,8 @@ class HttpAuthFilter implements Filter {
   private final byte[] signInRaw;
   private final byte[] signInGzip;
   private final String loginHeader;
+  private final String displaynameHeader;
+  private final String emailHeader;
 
   @Inject
   HttpAuthFilter(final Provider<WebSession> webSession,
@@ -78,6 +80,8 @@ class HttpAuthFilter implements Filter {
     loginHeader = firstNonNull(
         emptyToNull(authConfig.getLoginHttpHeader()),
         AUTHORIZATION);
+    displaynameHeader = emptyToNull(authConfig.getHttpDisplaynameHeader());
+    emailHeader = emptyToNull(authConfig.getHttpEmailHeader());
   }
 
   @Override
@@ -171,6 +175,22 @@ class HttpAuthFilter implements Filter {
       // header blindly as-is.
       //
       return emptyToNull(req.getHeader(loginHeader));
+    }
+  }
+
+  String getRemoteDisplayname(HttpServletRequest req) {
+    if (displaynameHeader != null) {
+      return emptyToNull(req.getHeader(displaynameHeader));
+    } else {
+      return null;
+    }
+  }
+
+  String getRemoteEmail(HttpServletRequest req) {
+    if (emailHeader != null) {
+      return emptyToNull(req.getHeader(emailHeader));
+    } else {
+      return null;
     }
   }
 

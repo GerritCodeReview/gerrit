@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53802b79_e1f06618",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-30T00:51:15Z",
+      "side": 1,
+      "message": "Heh. American English would be customizable.",
+      "revId": "b17c8ba9fa953448161d1d2f21fd6f9cc0cdda96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3aa47ea_4c197f89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-30T00:51:15Z",
+      "side": 1,
+      "message": "\"not yet logged in\"",
+      "revId": "b17c8ba9fa953448161d1d2f21fd6f9cc0cdda96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d39dfbd4_ad345df4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-30T00:51:15Z",
+      "side": 1,
+      "message": "this last fragment is awkward. \", as allowed by other auth.type methods\" perhaps?",
+      "revId": "b17c8ba9fa953448161d1d2f21fd6f9cc0cdda96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3385778a_604a9257",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritConfigProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-30T00:51:15Z",
+      "side": 1,
+      "message": "Unused import?",
+      "revId": "b17c8ba9fa953448161d1d2f21fd6f9cc0cdda96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

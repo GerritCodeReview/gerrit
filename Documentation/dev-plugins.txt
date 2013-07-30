@@ -334,6 +334,17 @@ Project creation
 +
 Project deletion
 
+[[stream-events]]
+Sending Events to the Events Stream
+-----------------------------------
+
+Plugins may send events to the event stream where consumers of
+Gerrit's `stream-events` ssh command will receive them.
+
+To send an event, the plugin must invoke one of the `postevent`
+methods in the `ChangeHookRunner` class, passing an instance of
+its own custom event class derived from `ChangeEvent`.
+
 [[ssh]]
 SSH Commands
 ------------

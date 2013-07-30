@@ -19,6 +19,7 @@ limitations under the License.
     xmlns:d='urn:import:com.google.gerrit.client.diff'>
   <g:HTMLPanel>
     <d:ReviewedPanel ui:field='reviewed'/>
-    <d:DiffTable ui:field='diffTable' />
+    <d:NavLinks2 ui:field='navLinks'/>
+    <d:DiffTable ui:field='diffTable'/>
   </g:HTMLPanel>
 </ui:UiBinder>

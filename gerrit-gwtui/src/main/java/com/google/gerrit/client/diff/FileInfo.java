@@ -14,7 +14,13 @@
 
 package com.google.gerrit.client.diff;
 
+import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
+
+import java.util.Collections;
+import java.util.Comparator;
 
 public class FileInfo extends JavaScriptObject {
   public final native String path() /*-{ return this.path; }-*/;
@@ -25,6 +31,20 @@ public class FileInfo extends JavaScriptObject {
 
   public final native int _row() /*-{ return this._row }-*/;
   public final native void _row(int r) /*-{ this._row = r }-*/;
+
+  public static void sortFileInfoByPath(JsArray<FileInfo> list) {
+    Collections.sort(Natives.asList(list), new Comparator<FileInfo>() {
+      @Override
+      public int compare(FileInfo a, FileInfo b) {
+        if (Patch.COMMIT_MSG.equals(a.path())) {
+          return -1;
+        } else if (Patch.COMMIT_MSG.equals(b.path())) {
+          return 1;
+        }
+        return a.path().compareTo(b.path());
+      }
+    });
+  }
 
   protected FileInfo() {
   }

@@ -23,7 +23,6 @@ import com.google.gerrit.client.diff.FileInfo;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.NativeMap;
-import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.reviewdb.client.Change;
@@ -53,8 +52,6 @@ import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtorm.client.KeyUtil;
 
 import java.sql.Timestamp;
-import java.util.Collections;
-import java.util.Comparator;
 
 class FileTable extends FlowPanel {
   static final FileTableResources R = GWT
@@ -150,17 +147,7 @@ class FileTable extends FlowPanel {
       NativeMap<JsArray<CommentInfo>> comments,
       NativeMap<JsArray<CommentInfo>> drafts) {
     JsArray<FileInfo> list = fileMap.values();
-    Collections.sort(Natives.asList(list), new Comparator<FileInfo>() {
-      @Override
-      public int compare(FileInfo a, FileInfo b) {
-        if (Patch.COMMIT_MSG.equals(a.path())) {
-          return -1;
-        } else if (Patch.COMMIT_MSG.equals(b.path())) {
-          return 1;
-        }
-        return a.path().compareTo(b.path());
-      }
-    });
+    FileInfo.sortFileInfoByPath(list);
 
     DisplayCommand cmd = new DisplayCommand(fileMap, list,
         myLastReply, comments, drafts);

@@ -93,9 +93,6 @@ class DraftBox extends CommentBox {
     expandTimer = new Timer() {
       @Override
       public void run() {
-        if (isNew()) {
-          cancel.setVisible(!isDirty());
-        }
         expandText();
       }
     };
@@ -184,6 +181,7 @@ class DraftBox extends CommentBox {
           : "";
       editArea.setValue(msg);
       editArea.setFocus(true);
+      cancel.setVisible(!isNew());
       expandText();
       if (msg.length() > 0) {
         Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
@@ -359,7 +357,7 @@ class DraftBox extends CommentBox {
     if (isNew()) {
       return msg.length() > 0;
     }
-    return msg.equals(comment.message() != null
+    return !msg.equals(comment.message() != null
         ? comment.message().trim()
         : "");
   }

@@ -33,6 +33,13 @@ public class InlineHyperlink extends
     super(text, token);
   }
 
+  /**
+   * Creates an empty link.
+   */
+  public InlineHyperlink() {
+    super();
+  }
+
   @Override
   public void onBrowserEvent(final Event event) {
     if (DOM.eventGetType(event) == Event.ONCLICK && impl.handleAsClick(event)) {

@@ -115,7 +115,7 @@ public class ProjectConfig extends VersionedMetaData {
   private static final String KEY_VALUE = "value";
   private static final String KEY_CAN_OVERRIDE = "canOverride";
   private static final Set<String> LABEL_FUNCTIONS = ImmutableSet.of(
-      "MaxWithBlock", "MaxNoBlock", "NoBlock", "NoOp");
+      "MaxWithBlock", "AnyWithBlock", "MaxNoBlock", "NoBlock", "NoOp");
 
   private static final SubmitType defaultSubmitAction =
       SubmitType.MERGE_IF_NECESSARY;

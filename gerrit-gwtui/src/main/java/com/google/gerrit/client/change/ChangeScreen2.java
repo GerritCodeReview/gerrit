@@ -84,8 +84,6 @@ import com.google.gwtorm.client.KeyUtil;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
@@ -645,12 +643,7 @@ public class ChangeScreen2 extends Screen {
     }
 
     JsArray<RevisionInfo> list = info.revisions().values();
-    Collections.sort(Natives.asList(list), new Comparator<RevisionInfo>() {
-      @Override
-      public int compare(RevisionInfo a, RevisionInfo b) {
-        return a._number() - b._number();
-      }
-    });
+    RevisionInfo.sortRevisionInfoByNumber(list);
 
     int selected = -1;
     for (int i = 0; i < list.length(); i++) {

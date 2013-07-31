@@ -16,6 +16,10 @@ package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.change.ChangeScreen2;
+import com.google.gerrit.client.changes.ChangeApi;
+import com.google.gerrit.client.changes.ChangeInfo;
+import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
+import com.google.gerrit.client.changes.ChangeList;
 import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.diff.DiffInfo.Region;
@@ -29,10 +33,12 @@ import com.google.gerrit.client.projects.ConfigInfoCache;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeMap;
+import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.common.changes.ListChangesOption;
 import com.google.gerrit.common.changes.Side;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.Change;
@@ -85,6 +91,7 @@ import net.codemirror.lib.TextMarker.FromTo;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -106,6 +113,7 @@ public class SideBySide2 extends Screen {
   @UiField(provided = true)
   DiffTable diffTable;
 
+  private final Change.Id changeId;
   private final PatchSet.Id base;
   private final PatchSet.Id revision;
   private final String path;
@@ -145,6 +153,7 @@ public class SideBySide2 extends Screen {
       String path) {
     this.base = base;
     this.revision = revision;
+    this.changeId = revision.getParentKey();
     this.path = path;
 
     pref = Gerrit.getAccountDiffPreference();
@@ -158,7 +167,7 @@ public class SideBySide2 extends Screen {
     addDomHandler(GlobalKey.STOP_PROPAGATION, KeyPressEvent.getType());
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
     add(header = new Header(keysNavigation, revision, path));
-    add(diffTable = new DiffTable(this, path));
+    add(diffTable = new DiffTable(this, base, revision, path));
     add(uiBinder.createAndBindUi(this));
   }
 
@@ -206,7 +215,7 @@ public class SideBySide2 extends Screen {
       CommentApi.drafts(revision, group.add(getCommentCallback(DisplaySide.B, true)));
     }
 
-    ConfigInfoCache.get(revision.getParentKey(), group.addFinal(
+    ConfigInfoCache.get(changeId, group.addFinal(
         new ScreenLoadCallback<ConfigInfoCache.Entry>(SideBySide2.this) {
           @Override
           protected void preDisplay(ConfigInfoCache.Entry result) {
@@ -218,6 +227,18 @@ public class SideBySide2 extends Screen {
             display(diffInfo);
           }
         }));
+
+    RestApi call = ChangeApi.detail(changeId.get());
+    ChangeList.addOptions(call, EnumSet.of(
+        ListChangesOption.ALL_REVISIONS));
+    call.get(new GerritCallback<ChangeInfo>() {
+      @Override
+      public void onSuccess(ChangeInfo info) {
+        info.revisions().copyKeysIntoChildren("name");
+        JsArray<RevisionInfo> list = info.revisions().values();
+        RevisionInfo.sortRevisionInfoByNumber(list);
+        diffTable.setUpPatchSetNav(list);
+      }});
   }
 
   @Override
@@ -299,8 +320,8 @@ public class SideBySide2 extends Screen {
     cm.addKeyMap(KeyMap.create()
         .on("'j'", moveCursorDown(cm, 1))
         .on("'k'", moveCursorDown(cm, -1))
-        .on("'a'", openReplyBox())
-        .on("'u'", upToChange())
+        .on("'a'", upToChange(true))
+        .on("'u'", upToChange(false))
         .on("'r'", toggleReviewed())
         .on("'o'", toggleOpenBox(cm))
         .on("Enter", toggleOpenBox(cm))
@@ -356,7 +377,7 @@ public class SideBySide2 extends Screen {
     keysAction.add(new KeyCommand(0, 'a', PatchUtil.C.openReply()) {
       @Override
       public void onKeyPress(KeyPressEvent event) {
-        openReplyBox().run();
+        upToChange(true).run();
       }
     });
 
@@ -1081,14 +1102,13 @@ public class SideBySide2 extends Screen {
     };
   }
 
-  private Runnable openReplyBox() {
+  private Runnable upToChange(final boolean openReplyBox) {
     return new Runnable() {
       public void run() {
-        Change.Id id = revision.getParentKey();
         String rev = String.valueOf(revision.get());
         Gerrit.display(
-          PageLinks.toChange2(id, rev),
-          new ChangeScreen2(id, rev, true));
+          PageLinks.toChange2(changeId, rev),
+          new ChangeScreen2(changeId, rev, openReplyBox));
       }
     };
   }
@@ -1114,16 +1134,6 @@ public class SideBySide2 extends Screen {
             box.setOpen(open);
           }
         }
-      }
-    };
-  }
-
-  private Runnable upToChange() {
-    return new Runnable() {
-      public void run() {
-        Gerrit.display(PageLinks.toChange2(
-          revision.getParentKey(),
-          String.valueOf(revision.get())));
       }
     };
   }

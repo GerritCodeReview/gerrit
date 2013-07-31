@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2013 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ui:UiBinder
+    xmlns:ui='urn:ui:com.google.gwt.uibinder'
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <ui:with field='res' type='com.google.gerrit.client.GerritResources'/>
+  <ui:with field='patchConstants'
+      type='com.google.gerrit.client.patches.PatchConstants'/>
+  <ui:style type='com.google.gerrit.client.diff.PatchSetSelectBox2.BoxStyle'>
+    @eval selectionColor com.google.gerrit.client.Gerrit.getTheme().selectionColor;
+    .table {
+      width: 100%;
+    }
+    .linkCell {
+      text-align: center;
+      font-size: 12px;
+      white-space: normal;
+      font-family: sans-serif;
+      font-weight: bold;
+    }
+    .linkCell div {
+      padding-left: 3px;
+      padding-right: 3px;
+      vertical-align: middle;
+      display: inline-block;
+    }
+    .linkCell a {
+      padding-left: 3px;
+      padding-right: 3px;
+      text-decoration: none;
+      vertical-align: middle;
+      display: inline-block;
+    }
+    .selected {
+      font-weight: bold;
+      background-color: selectionColor;
+    }
+    .hidden {
+      visibility: hidden;
+    }
+    .iconCell {
+      width: 16px;
+    }
+  </ui:style>
+  <g:HTMLPanel>
+    <table class='{style.table}'>
+      <td class='{style.iconCell}'>
+        <g:Image ui:field='icon' resource='{res.addFileComment}'/>
+      </td>
+      <td class='{style.linkCell}'>
+        <g:HTMLPanel ui:field='linkPanel'>
+          <g:Label>
+            <ui:text from='{patchConstants.patchSet}'/>
+          </g:Label>
+        </g:HTMLPanel>
+      </td>
+    </table>
+  </g:HTMLPanel>
+</ui:UiBinder>

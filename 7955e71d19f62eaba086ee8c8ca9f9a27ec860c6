@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b371678e_d4f07c18",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/GerritConstants.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-31T23:43:28Z",
+      "side": 1,
+      "message": "\"Label not applicable\"",
+      "revId": "7955e71d19f62eaba086ee8c8ca9f9a27ec860c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -105,12 +105,12 @@ limitations under the License.
       <tr>
         <td>
           <table class='{style.table}'>
-            <tr ui:field='patchsetNavRow'>
-              <td ui:field='patchsetNavCellA' class='{style.padding}'>
-                <d:PatchSelectBox2 ui:field='patchSelectBoxA' />
+            <tr ui:field='patchSetNavRow'>
+              <td ui:field='patchSetNavCellA' class='{style.padding}'>
+                <d:PatchSetSelectBox2 ui:field='patchSetSelectBoxA' />
               </td>
-              <td ui:field='patchsetNavCellB' class='{style.padding}'>
-                <d:PatchSelectBox2 ui:field='patchSelectBoxB' />
+              <td ui:field='patchSetNavCellB' class='{style.padding}'>
+                <d:PatchSetSelectBox2 ui:field='patchSetSelectBoxB' />
               </td>
             </tr>
             <tr ui:field='fileCommentRow'>

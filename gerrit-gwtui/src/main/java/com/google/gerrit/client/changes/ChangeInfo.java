@@ -29,6 +29,8 @@ import com.google.gwt.core.client.JsArrayString;
 import com.google.gwtjsonrpc.client.impl.ser.JavaSqlTimestamp_JsonSerializer;
 
 import java.sql.Timestamp;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -208,6 +210,15 @@ public class ChangeInfo extends JavaScriptObject {
 
     public final native boolean has_actions() /*-{ return this.hasOwnProperty('actions') }-*/;
     public final native NativeMap<ActionInfo> actions() /*-{ return this.actions; }-*/;
+
+    public static void sortRevisionInfoByNumber(JsArray<RevisionInfo> list) {
+      Collections.sort(Natives.asList(list), new Comparator<RevisionInfo>() {
+        @Override
+        public int compare(RevisionInfo a, RevisionInfo b) {
+          return a._number() - b._number();
+        }
+      });
+    }
 
     protected RevisionInfo () {
     }

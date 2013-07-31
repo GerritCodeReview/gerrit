@@ -142,7 +142,7 @@ public class SideBySide2 extends Screen {
     reviewed = new ReviewedPanel(revision, path);
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
     add(navLinks = new NavLinks2(keysNavigation, revision, path));
-    add(diffTable = new DiffTable(this, path));
+    add(diffTable = new DiffTable(this, revision, path));
     add(uiBinder.createAndBindUi(this));
   }
 

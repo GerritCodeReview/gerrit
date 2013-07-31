@@ -15,6 +15,7 @@
 package com.google.gerrit.client.diff;
 
 import com.google.gerrit.common.changes.Side;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.resources.client.CssResource;
@@ -52,19 +53,19 @@ class DiffTable extends Composite {
   SidePanel sidePanel;
 
   @UiField
-  Element patchsetNavRow;
+  Element patchSetNavRow;
 
   @UiField
-  Element patchsetNavCellA;
+  Element patchSetNavCellA;
 
   @UiField
-  Element patchsetNavCellB;
+  Element patchSetNavCellB;
 
   @UiField(provided = true)
-  PatchSelectBox2 patchSelectBoxA;
+  PatchSetSelectBox2 patchSetSelectBoxA;
 
   @UiField(provided = true)
-  PatchSelectBox2 patchSelectBoxB;
+  PatchSetSelectBox2 patchSetSelectBoxB;
 
   @UiField
   Element fileCommentRow;
@@ -86,9 +87,9 @@ class DiffTable extends Composite {
 
   private SideBySide2 host;
 
-  DiffTable(SideBySide2 host, String path) {
-    patchSelectBoxA = new PatchSelectBox2(this, Side.PARENT);
-    patchSelectBoxB = new PatchSelectBox2(this, Side.REVISION);
+  DiffTable(SideBySide2 host, PatchSet.Id revision, String path) {
+    patchSetSelectBoxA = new PatchSetSelectBox2(this, Side.PARENT, revision, path);
+    patchSetSelectBoxB = new PatchSetSelectBox2(this, Side.REVISION, revision, path);
     fileCommentPanelA = new FileCommentPanel(host, this, path, Side.PARENT);
     fileCommentPanelB = new FileCommentPanel(host, this, path, Side.REVISION);
     initWidget(uiBinder.createAndBindUi(this));
@@ -101,7 +102,7 @@ class DiffTable extends Composite {
   }
 
   void updateFileCommentVisibility(boolean forceHide) {
-    UIObject.setVisible(patchsetNavRow, !forceHide);
+    UIObject.setVisible(patchSetNavRow, !forceHide);
     if (forceHide || (fileCommentPanelA.getBoxCount() == 0 &&
         fileCommentPanelB.getBoxCount() == 0)) {
       UIObject.setVisible(fileCommentRow, false);
@@ -129,7 +130,7 @@ class DiffTable extends Composite {
   }
 
   int getHeaderHeight() {
-    return fileCommentRow.getOffsetHeight() + patchSelectBoxA.getOffsetHeight();
+    return fileCommentRow.getOffsetHeight() + patchSetSelectBoxA.getOffsetHeight();
   }
 
   void add(Widget widget) {

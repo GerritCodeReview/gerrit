@@ -14,8 +14,11 @@
 
 package com.google.gerrit.client.diff;
 
+import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.diff.SideBySide2.DisplaySide;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -54,19 +57,19 @@ class DiffTable extends Composite {
   SidePanel sidePanel;
 
   @UiField
-  Element patchsetNavRow;
+  Element patchSetNavRow;
 
   @UiField
-  Element patchsetNavCellA;
+  Element patchSetNavCellA;
 
   @UiField
-  Element patchsetNavCellB;
+  Element patchSetNavCellB;
 
   @UiField(provided = true)
-  PatchSelectBox2 patchSelectBoxA;
+  PatchSetSelectBox2 patchSetSelectBoxA;
 
   @UiField(provided = true)
-  PatchSelectBox2 patchSelectBoxB;
+  PatchSetSelectBox2 patchSetSelectBoxB;
 
   @UiField
   Element fileCommentRow;
@@ -88,9 +91,12 @@ class DiffTable extends Composite {
 
   private SideBySide2 host;
 
-  DiffTable(SideBySide2 host, String path) {
-    patchSelectBoxA = new PatchSelectBox2(this, DisplaySide.A);
-    patchSelectBoxB = new PatchSelectBox2(this, DisplaySide.B);
+  DiffTable(SideBySide2 host, PatchSet.Id base, PatchSet.Id revision, String path) {
+    patchSetSelectBoxA = new PatchSetSelectBox2(
+        this, DisplaySide.A, revision.getParentKey(), base, path);
+    patchSetSelectBoxB = new PatchSetSelectBox2(
+        this, DisplaySide.B, revision.getParentKey(), revision, path);
+    PatchSetSelectBox2.link(patchSetSelectBoxA, patchSetSelectBoxB);
     fileCommentPanelA = new FileCommentPanel(host, this, path, DisplaySide.A);
     fileCommentPanelB = new FileCommentPanel(host, this, path, DisplaySide.B);
     initWidget(uiBinder.createAndBindUi(this));
@@ -103,7 +109,7 @@ class DiffTable extends Composite {
   }
 
   void updateFileCommentVisibility(boolean forceHide) {
-    UIObject.setVisible(patchsetNavRow, !forceHide);
+    UIObject.setVisible(patchSetNavRow, !forceHide);
     if (forceHide || (fileCommentPanelA.getBoxCount() == 0 &&
         fileCommentPanelB.getBoxCount() == 0)) {
       UIObject.setVisible(fileCommentRow, false);
@@ -131,7 +137,12 @@ class DiffTable extends Composite {
   }
 
   int getHeaderHeight() {
-    return fileCommentRow.getOffsetHeight() + patchSelectBoxA.getOffsetHeight();
+    return fileCommentRow.getOffsetHeight() + patchSetSelectBoxA.getOffsetHeight();
+  }
+
+  void setUpPatchSetNav(JsArray<RevisionInfo> list) {
+    patchSetSelectBoxA.setUpPatchSetNav(list);
+    patchSetSelectBoxB.setUpPatchSetNav(list);
   }
 
   void add(Widget widget) {

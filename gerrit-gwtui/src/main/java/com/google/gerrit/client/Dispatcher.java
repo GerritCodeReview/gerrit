@@ -102,6 +102,11 @@ public class Dispatcher {
     return toPatch("", diffBase, id);
   }
 
+  public static String toPatchSideBySide2(PatchSet.Id diffBase,
+      PatchSet.Id revision, String fileName) {
+    return toPatch("cm", diffBase, revision, fileName);
+  }
+
   public static String toPatchUnified(final Patch.Key id) {
     return toPatch("unified", null, id);
   }
@@ -111,14 +116,18 @@ public class Dispatcher {
   }
 
   private static String toPatch(String type, PatchSet.Id diffBase, Patch.Key id) {
-    PatchSet.Id ps = id.getParentKey();
-    Change.Id c = ps.getParentKey();
+    return toPatch(type, diffBase, id.getParentKey(), id.get());
+  }
+
+  private static String toPatch(String type, PatchSet.Id diffBase,
+      PatchSet.Id revision, String fileName) {
+    Change.Id c = revision.getParentKey();
     StringBuilder p = new StringBuilder();
     p.append("/c/").append(c).append("/");
     if (diffBase != null) {
       p.append(diffBase.get()).append("..");
     }
-    p.append(ps.get()).append("/").append(KeyUtil.encode(id.get()));
+    p.append(revision.get()).append("/").append(KeyUtil.encode(fileName));
     if (type != null && !type.isEmpty()) {
       p.append(",").append(type);
     }

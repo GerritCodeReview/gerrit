@@ -203,6 +203,12 @@ the highest possible positive value is required to enable submit. There
 must be at least one positive value, or else submit will never be
 enabled. To permit blocking submits, ensure a negative value is defined.
 
+* `AnyWithBlock`
++
+The lowest possible negative value, if present, blocks a submit, Any
+other value enables a submit. To permit blocking submits, ensure
+that a negative value is defined.
+
 * `MaxNoBlock`
 +
 The highest possible positive value is required to enable submit, but

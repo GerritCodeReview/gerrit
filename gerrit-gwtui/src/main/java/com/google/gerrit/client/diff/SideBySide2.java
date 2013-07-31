@@ -43,11 +43,11 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -817,7 +817,7 @@ public class SideBySide2 extends Screen {
     return new GutterClickHandler() {
       @Override
       public void handle(CodeMirror instance, int line, String gutter,
-          MouseDownEvent clickEvent) {
+          NativeEvent clickEvent) {
         instance.setCursor(LineCharacter.create(line));
         instance.setActiveLine(instance.getLineHandle(line));
         insertNewDraft(instance).run();

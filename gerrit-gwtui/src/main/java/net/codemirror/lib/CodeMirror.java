@@ -17,7 +17,6 @@ package net.codemirror.lib;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
@@ -174,7 +173,7 @@ public class CodeMirror extends JavaScriptObject {
 
   public final native void on(String event, GutterClickHandler handler) /*-{
     this.on(event, $entry(function(cm, l, g, e) {
-      handler.@net.codemirror.lib.CodeMirror.GutterClickHandler::handle(Lnet/codemirror/lib/CodeMirror;ILjava/lang/String;Lcom/google/gwt/event/dom/client/MouseDownEvent;)(cm, l, g, e);
+      handler.@net.codemirror.lib.CodeMirror.GutterClickHandler::handle(Lnet/codemirror/lib/CodeMirror;ILjava/lang/String;Lcom/google/gwt/dom/client/NativeEvent;)(cm, l, g, e);
     }));
   }-*/;
 
@@ -268,6 +267,6 @@ public class CodeMirror extends JavaScriptObject {
 
   public interface GutterClickHandler {
     public void handle(CodeMirror instance, int line, String gutter,
-        MouseDownEvent clickEvent);
+        NativeEvent clickEvent);
   }
 }

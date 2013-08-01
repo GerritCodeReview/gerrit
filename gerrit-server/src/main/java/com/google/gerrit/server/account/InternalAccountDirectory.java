@@ -108,7 +108,10 @@ public class InternalAccountDirectory extends AccountDirectory {
             userFactory.create(account.getId()),
             AvatarInfo.DEFAULT_SIZE);
         if (u != null) {
-          info.avatars.add(new AvatarInfo(u, AvatarInfo.DEFAULT_SIZE));
+          AvatarInfo a = new AvatarInfo();
+          a.url = u;
+          a.height = AvatarInfo.DEFAULT_SIZE;
+          info.avatars.add(a);
         }
       }
     }

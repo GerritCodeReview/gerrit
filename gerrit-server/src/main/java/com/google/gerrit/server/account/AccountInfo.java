@@ -122,10 +122,5 @@ public class AccountInfo {
     public String url;
     public Integer height;
     public Integer width;
-
-    AvatarInfo(String url, int height) {
-      this.url = url;
-      this.height = height;
-    }
   }
 }

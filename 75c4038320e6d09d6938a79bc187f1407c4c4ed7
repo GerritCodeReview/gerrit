@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f3259f90_860dea4c",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-01T23:49:06Z",
+      "side": 1,
+      "message": "\"ensure that\"",
+      "revId": "75c4038320e6d09d6938a79bc187f1407c4c4ed7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

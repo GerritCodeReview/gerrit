@@ -155,8 +155,8 @@ public class RefControl {
   }
 
   /** @return true if this user can rebase changes on this ref */
-  public boolean canRebase() {
-    return canPerform(Permission.REBASE)
+  public boolean canRebase(boolean isChangeOwner) {
+    return canPerform(Permission.REBASE, isChangeOwner)
         && canWrite();
   }
 
@@ -340,33 +340,33 @@ public class RefControl {
   }
 
   /** @return true if this user can abandon a change for this ref */
-  public boolean canAbandon() {
-    return canPerform(Permission.ABANDON);
+  public boolean canAbandon(boolean isChangeOwner) {
+    return canPerform(Permission.ABANDON, isChangeOwner);
   }
 
   /** @return true if this user can remove a reviewer for a change. */
-  public boolean canRemoveReviewer() {
-    return canPerform(Permission.REMOVE_REVIEWER);
+  public boolean canRemoveReviewer(boolean isChangeOwner) {
+    return canPerform(Permission.REMOVE_REVIEWER, isChangeOwner);
   }
 
   /** @return true if this user can view draft changes. */
-  public boolean canViewDrafts() {
-    return canPerform(Permission.VIEW_DRAFTS);
+  public boolean canViewDrafts(boolean isChangeOwner) {
+    return canPerform(Permission.VIEW_DRAFTS, isChangeOwner);
   }
 
   /** @return true if this user can publish draft changes. */
-  public boolean canPublishDrafts() {
-    return canPerform(Permission.PUBLISH_DRAFTS);
+  public boolean canPublishDrafts(boolean isChangeOwner) {
+    return canPerform(Permission.PUBLISH_DRAFTS, isChangeOwner);
   }
 
   /** @return true if this user can delete draft changes. */
-  public boolean canDeleteDrafts() {
-    return canPerform(Permission.DELETE_DRAFTS);
+  public boolean canDeleteDrafts(boolean isChangeOwner) {
+    return canPerform(Permission.DELETE_DRAFTS, isChangeOwner);
   }
 
   /** @return true if this user can edit topic names. */
-  public boolean canEditTopicName() {
-    return canPerform(Permission.EDIT_TOPIC_NAME);
+  public boolean canEditTopicName(boolean isChangeOwner) {
+    return canPerform(Permission.EDIT_TOPIC_NAME, isChangeOwner);
   }
 
   /** @return true if this user can force edit topic names. */
@@ -375,14 +375,14 @@ public class RefControl {
   }
 
   /** All value ranges of any allowed label permission. */
-  public List<PermissionRange> getLabelRanges() {
+  public List<PermissionRange> getLabelRanges(boolean isChangeOwner) {
     List<PermissionRange> r = new ArrayList<PermissionRange>();
     for (Map.Entry<String, List<PermissionRule>> e : relevant.getDeclaredPermissions()) {
       if (Permission.isLabel(e.getKey())) {
         int min = 0;
         int max = 0;
         for (PermissionRule rule : e.getValue()) {
-          if (projectControl.match(rule)) {
+          if (projectControl.match(rule, isChangeOwner)) {
             min = Math.min(min, rule.getMin());
             max = Math.max(max, rule.getMax());
           }
@@ -397,8 +397,13 @@ public class RefControl {
 
   /** The range of permitted values associated with a label permission. */
   public PermissionRange getRange(String permission) {
+    return getRange(permission, false);
+  }
+
+  /** The range of permitted values associated with a label permission. */
+  public PermissionRange getRange(String permission, boolean isChangeOwner) {
     if (Permission.hasRange(permission)) {
-      return toRange(permission, access(permission));
+      return toRange(permission, access(permission, isChangeOwner));
     }
     return null;
   }
@@ -466,7 +471,12 @@ public class RefControl {
 
   /** True if the user has this permission. Works only for non labels. */
   boolean canPerform(String permissionName) {
-    List<PermissionRule> access = access(permissionName);
+    return canPerform(permissionName, false);
+  }
+
+  /** True if the user has this permission. Works only for non labels. */
+  boolean canPerform(String permissionName, boolean isChangeOwner) {
+    List<PermissionRule> access = access(permissionName, isChangeOwner);
     Set<ProjectRef> allows = Sets.newHashSet();
     Set<ProjectRef> blocks = Sets.newHashSet();
     for (PermissionRule rule : access) {
@@ -498,6 +508,11 @@ public class RefControl {
 
   /** Rules for the given permission, or the empty list. */
   private List<PermissionRule> access(String permissionName) {
+    return access(permissionName, false);
+  }
+
+  /** Rules for the given permission, or the empty list. */
+  private List<PermissionRule> access(String permissionName, boolean isChangeOwner) {
     List<PermissionRule> rules = effective.get(permissionName);
     if (rules != null) {
       return rules;
@@ -511,7 +526,7 @@ public class RefControl {
     }
 
     if (rules.size() == 1) {
-      if (!projectControl.match(rules.get(0))) {
+      if (!projectControl.match(rules.get(0), isChangeOwner)) {
         rules = Collections.emptyList();
       }
       effective.put(permissionName, rules);
@@ -520,7 +535,7 @@ public class RefControl {
 
     List<PermissionRule> mine = new ArrayList<PermissionRule>(rules.size());
     for (PermissionRule rule : rules) {
-      if (projectControl.match(rule)) {
+      if (projectControl.match(rule, isChangeOwner)) {
         mine.add(rule);
       }
     }

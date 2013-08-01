@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9312a30c_d30b54eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-01T06:45:22Z",
+      "side": 1,
+      "message": "Why are the author and committer names different?",
+      "revId": "1f01cd9f05d415a8f53a4b4c47a3a48f32633da6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b371678e_54054c22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-01T06:45:22Z",
+      "side": 1,
+      "message": "Add this as a footer before Change-Id:\n\n Bug: Issue 1993",
+      "revId": "1f01cd9f05d415a8f53a4b4c47a3a48f32633da6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

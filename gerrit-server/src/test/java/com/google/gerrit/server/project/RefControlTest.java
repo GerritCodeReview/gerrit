@@ -20,59 +20,38 @@ import static com.google.gerrit.common.data.Permission.OWNER;
 import static com.google.gerrit.common.data.Permission.PUSH;
 import static com.google.gerrit.common.data.Permission.READ;
 import static com.google.gerrit.common.data.Permission.SUBMIT;
+import static com.google.gerrit.server.project.Util.ANONYMOUS;
+import static com.google.gerrit.server.project.Util.REGISTERED;
+import static com.google.gerrit.server.project.Util.ADMIN;
+import static com.google.gerrit.server.project.Util.DEVS;
+import static com.google.gerrit.server.project.Util.grantLabel;
+import static com.google.gerrit.server.project.Util.grant;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.Capable;
-import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.rules.PrologEnvironment;
-import com.google.gerrit.rules.RulesCache;
-import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.CapabilityControl;
-import com.google.gerrit.server.account.GroupMembership;
-import com.google.gerrit.server.account.ListGroupMembership;
-import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.config.FactoryModule;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 
 import junit.framework.TestCase;
 
-import org.eclipse.jgit.lib.Config;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
 public class RefControlTest extends TestCase {
   public void testOwnerProject() {
-    grant(local, OWNER, admin, "refs/*");
+    grant(local, OWNER, ADMIN, "refs/*");
 
-    ProjectControl uBlah = user(devs);
-    ProjectControl uAdmin = user(devs, admin);
+    ProjectControl uBlah = util.user(local, DEVS);
+    ProjectControl uAdmin = util.user(local, DEVS, ADMIN);
 
     assertFalse("not owner", uBlah.isOwner());
     assertTrue("is owner", uAdmin.isOwner());
   }
 
   public void testBranchDelegation1() {
-    grant(local, OWNER, admin, "refs/*");
-    grant(local, OWNER, devs, "refs/heads/x/*");
+    grant(local, OWNER, ADMIN, "refs/*");
+    grant(local, OWNER, DEVS, "refs/heads/x/*");
 
-    ProjectControl uDev = user(devs);
+    ProjectControl uDev = util.user(local, DEVS);
     assertFalse("not owner", uDev.isOwner());
     assertTrue("owns ref", uDev.isOwnerAnyRef());
 
@@ -85,12 +64,12 @@ public class RefControlTest extends TestCase {
   }
 
   public void testBranchDelegation2() {
-    grant(local, OWNER, admin, "refs/*");
-    grant(local, OWNER, devs, "refs/heads/x/*");
+    grant(local, OWNER, ADMIN, "refs/*");
+    grant(local, OWNER, DEVS, "refs/heads/x/*");
     grant(local, OWNER, fixers, "refs/heads/x/y/*");
     doNotInherit(local, OWNER, "refs/heads/x/y/*");
 
-    ProjectControl uDev = user(devs);
+    ProjectControl uDev = util.user(local, DEVS);
     assertFalse("not owner", uDev.isOwner());
     assertTrue("owns ref", uDev.isOwnerAnyRef());
 
@@ -100,7 +79,7 @@ public class RefControlTest extends TestCase {
     assertNotOwner("refs/*", uDev);
     assertNotOwner("refs/heads/master", uDev);
 
-    ProjectControl uFix = user(fixers);
+    ProjectControl uFix = util.user(local, fixers);
     assertFalse("not owner", uFix.isOwner());
     assertTrue("owns ref", uFix.isOwnerAnyRef());
 
@@ -113,13 +92,13 @@ public class RefControlTest extends TestCase {
   }
 
   public void testInheritRead_SingleBranchDeniesUpload() {
-    grant(parent, READ, registered, "refs/*");
-    grant(parent, PUSH, registered, "refs/for/refs/*");
-    grant(local, READ, registered, "refs/heads/foobar");
+    grant(util.getParentConfig(), READ, REGISTERED, "refs/*");
+    grant(util.getParentConfig(), PUSH, REGISTERED, "refs/for/refs/*");
+    grant(local, READ, REGISTERED, "refs/heads/foobar");
     doNotInherit(local, READ, "refs/heads/foobar");
     doNotInherit(local, PUSH, "refs/for/refs/heads/foobar");
 
-    ProjectControl u = user();
+    ProjectControl u = util.user(local);
     assertTrue("can upload", u.canPushToAtLeastOneRef() == Capable.OK);
 
     assertTrue("can upload refs/heads/master", //
@@ -130,11 +109,11 @@ public class RefControlTest extends TestCase {
   }
 
   public void testInheritRead_SingleBranchDoesNotOverrideInherited() {
-    grant(parent, READ, registered, "refs/*");
-    grant(parent, PUSH, registered, "refs/for/refs/*");
-    grant(local, READ, registered, "refs/heads/foobar");
+    grant(util.getParentConfig(), READ, REGISTERED, "refs/*");
+    grant(util.getParentConfig(), PUSH, REGISTERED, "refs/for/refs/*");
+    grant(local, READ, REGISTERED, "refs/heads/foobar");
 
-    ProjectControl u = user();
+    ProjectControl u = util.user(local);
     assertTrue("can upload", u.canPushToAtLeastOneRef() == Capable.OK);
 
     assertTrue("can upload refs/heads/master", //
@@ -145,30 +124,31 @@ public class RefControlTest extends TestCase {
   }
 
   public void testInheritDuplicateSections() {
-    grant(parent, READ, admin, "refs/*");
-    grant(local, READ, devs, "refs/heads/*");
-    local.getProject().setParentName(parent.getProject().getName());
-    assertTrue("a can read", user("a", admin).isVisible());
+    grant(util.getParentConfig(), READ, ADMIN, "refs/*");
+    grant(local, READ, DEVS, "refs/heads/*");
+    local.getProject().setParentName(
+        util.getParentConfig().getProject().getName());
+    assertTrue("a can read", util.user(local, "a", ADMIN).isVisible());
 
     local = new ProjectConfig(new Project.NameKey("local"));
     local.createInMemory();
-    grant(local, READ, devs, "refs/*");
-    assertTrue("d can read", user("d", devs).isVisible());
+    grant(local, READ, DEVS, "refs/*");
+    assertTrue("d can read", util.user(local, "d", DEVS).isVisible());
   }
 
   public void testInheritRead_OverrideWithDeny() {
-    grant(parent, READ, registered, "refs/*");
-    grant(local, READ, registered, "refs/*").setDeny();
+    grant(util.getParentConfig(), READ, REGISTERED, "refs/*");
+    grant(local, READ, REGISTERED, "refs/*").setDeny();
 
-    ProjectControl u = user();
+    ProjectControl u = util.user(local);
     assertFalse("can't read", u.isVisible());
   }
 
   public void testInheritRead_AppendWithDenyOfRef() {
-    grant(parent, READ, registered, "refs/*");
-    grant(local, READ, registered, "refs/heads/*").setDeny();
+    grant(util.getParentConfig(), READ, REGISTERED, "refs/*");
+    grant(local, READ, REGISTERED, "refs/heads/*").setDeny();
 
-    ProjectControl u = user();
+    ProjectControl u = util.user(local);
     assertTrue("can read", u.isVisible());
     assertTrue("can read", u.controlForRef("refs/master").isVisible());
     assertTrue("can read", u.controlForRef("refs/tags/foobar").isVisible());
@@ -176,11 +156,11 @@ public class RefControlTest extends TestCase {
   }
 
   public void testInheritRead_OverridesAndDeniesOfRef() {
-    grant(parent, READ, registered, "refs/*");
-    grant(local, READ, registered, "refs/*").setDeny();
-    grant(local, READ, registered, "refs/heads/*");
+    grant(util.getParentConfig(), READ, REGISTERED, "refs/*");
+    grant(local, READ, REGISTERED, "refs/*").setDeny();
+    grant(local, READ, REGISTERED, "refs/heads/*");
 
-    ProjectControl u = user();
+    ProjectControl u = util.user(local);
     assertTrue("can read", u.isVisible());
     assertFalse("can't read", u.controlForRef("refs/foobar").isVisible());
     assertFalse("can't read", u.controlForRef("refs/tags/foobar").isVisible());
@@ -188,67 +168,78 @@ public class RefControlTest extends TestCase {
   }
 
   public void testInheritSubmit_OverridesAndDeniesOfRef() {
-    grant(parent, SUBMIT, registered, "refs/*");
-    grant(local, SUBMIT, registered, "refs/*").setDeny();
-    grant(local, SUBMIT, registered, "refs/heads/*");
+    grant(util.getParentConfig(), SUBMIT, REGISTERED, "refs/*");
+    grant(local, SUBMIT, REGISTERED, "refs/*").setDeny();
+    grant(local, SUBMIT, REGISTERED, "refs/heads/*");
 
-    ProjectControl u = user();
+    ProjectControl u = util.user(local);
     assertFalse("can't submit", u.controlForRef("refs/foobar").canSubmit());
     assertFalse("can't submit", u.controlForRef("refs/tags/foobar").canSubmit());
     assertTrue("can submit", u.controlForRef("refs/heads/foobar").canSubmit());
   }
 
   public void testCannotUploadToAnyRef() {
-    grant(parent, READ, registered, "refs/*");
-    grant(local, READ, devs, "refs/heads/*");
-    grant(local, PUSH, devs, "refs/for/refs/heads/*");
+    grant(util.getParentConfig(), READ, REGISTERED, "refs/*");
+    grant(local, READ, DEVS, "refs/heads/*");
+    grant(local, PUSH, DEVS, "refs/for/refs/heads/*");
 
-    ProjectControl u = user();
+    ProjectControl u = util.user(local);
     assertFalse("cannot upload", u.canPushToAtLeastOneRef() == Capable.OK);
     assertFalse("cannot upload refs/heads/master", //
         u.controlForRef("refs/heads/master").canUpload());
   }
 
   public void testUsernamePatternNonRegex() {
-    grant(local, READ, devs, "refs/sb/${username}/heads/*");
+    grant(local, READ, DEVS, "refs/sb/${username}/heads/*");
 
-    ProjectControl u = user("u", devs), d = user("d", devs);
-    assertFalse("u can't read", u.controlForRef("refs/sb/d/heads/foobar").isVisible());
-    assertTrue("d can read", d.controlForRef("refs/sb/d/heads/foobar").isVisible());
+    ProjectControl u = util.user(local, "u", DEVS), d =
+        util.user(local, "d", DEVS);
+    assertFalse("u can't read", u.controlForRef("refs/sb/d/heads/foobar")
+        .isVisible());
+    assertTrue("d can read", d.controlForRef("refs/sb/d/heads/foobar")
+        .isVisible());
   }
 
   public void testUsernamePatternWithRegex() {
-    grant(local, READ, devs, "^refs/sb/${username}/heads/.*");
+    grant(local, READ, DEVS, "^refs/sb/${username}/heads/.*");
 
-    ProjectControl u = user("d.v", devs), d = user("dev", devs);
-    assertFalse("u can't read", u.controlForRef("refs/sb/dev/heads/foobar").isVisible());
-    assertTrue("d can read", d.controlForRef("refs/sb/dev/heads/foobar").isVisible());
+    ProjectControl u = util.user(local, "d.v", DEVS), d =
+        util.user(local, "dev", DEVS);
+    assertFalse("u can't read", u.controlForRef("refs/sb/dev/heads/foobar")
+        .isVisible());
+    assertTrue("d can read", d.controlForRef("refs/sb/dev/heads/foobar")
+        .isVisible());
   }
 
   public void testSortWithRegex() {
-    grant(local, READ, devs, "^refs/heads/.*");
-    grant(parent, READ, anonymous, "^refs/heads/.*-QA-.*");
+    grant(local, READ, DEVS, "^refs/heads/.*");
+    grant(util.getParentConfig(), READ, ANONYMOUS, "^refs/heads/.*-QA-.*");
 
-    ProjectControl u = user(devs), d = user(devs);
-    assertTrue("u can read", u.controlForRef("refs/heads/foo-QA-bar").isVisible());
-    assertTrue("d can read", d.controlForRef("refs/heads/foo-QA-bar").isVisible());
+    ProjectControl u = util.user(local, DEVS), d = util.user(local, DEVS);
+    assertTrue("u can read", u.controlForRef("refs/heads/foo-QA-bar")
+        .isVisible());
+    assertTrue("d can read", d.controlForRef("refs/heads/foo-QA-bar")
+        .isVisible());
   }
 
   public void testBlockRule_ParentBlocksChild() {
-    grant(local, PUSH, devs, "refs/tags/*");
-    grant(parent, PUSH, anonymous, "refs/tags/*").setBlock();
+    grant(local, PUSH, DEVS, "refs/tags/*");
+    grant(util.getParentConfig(), PUSH, ANONYMOUS, "refs/tags/*").setBlock();
 
-    ProjectControl u = user(devs);
-    assertFalse("u can't force update tag", u.controlForRef("refs/tags/V10").canForceUpdate());
+    ProjectControl u = util.user(local, DEVS);
+    assertFalse("u can't force update tag", u.controlForRef("refs/tags/V10")
+        .canForceUpdate());
   }
 
   public void testBlockLabelRange_ParentBlocksChild() {
-    grant(local, LABEL + "Code-Review", -2, +2, devs, "refs/heads/*");
-    grant(parent, LABEL + "Code-Review", -2, +2, devs, "refs/heads/*").setBlock();
+    grantLabel(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
+    grantLabel(util.getParentConfig(), LABEL + "Code-Review", -2, +2, DEVS,
+        "refs/heads/*").setBlock();
 
-    ProjectControl u = user(devs);
+    ProjectControl u = util.user(local, DEVS);
 
-    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    PermissionRange range =
+        u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
     assertTrue("u can vote -1", range.contains(-1));
     assertTrue("u can vote +1", range.contains(1));
     assertFalse("u can't vote -2", range.contains(-2));
@@ -256,224 +247,155 @@ public class RefControlTest extends TestCase {
   }
 
   public void testUnblockNoForce() {
-    grant(local, PUSH, anonymous, "refs/heads/*").setBlock();
-    grant(local, PUSH, devs, "refs/heads/*");
+    grant(local, PUSH, ANONYMOUS, "refs/heads/*").setBlock();
+    grant(local, PUSH, DEVS, "refs/heads/*");
 
-    ProjectControl u = user(devs);
+    ProjectControl u = util.user(local, DEVS);
     assertTrue("u can push", u.controlForRef("refs/heads/master").canUpdate());
   }
 
   public void testUnblockForce() {
-    PermissionRule r = grant(local, PUSH, anonymous, "refs/heads/*");
+    PermissionRule r = grant(local, PUSH, ANONYMOUS, "refs/heads/*");
     r.setBlock();
     r.setForce(true);
-    grant(local, PUSH, devs, "refs/heads/*").setForce(true);
+    grant(local, PUSH, DEVS, "refs/heads/*").setForce(true);
 
-    ProjectControl u = user(devs);
-    assertTrue("u can force push", u.controlForRef("refs/heads/master").canForceUpdate());
+    ProjectControl u = util.user(local, DEVS);
+    assertTrue("u can force push", u.controlForRef("refs/heads/master")
+        .canForceUpdate());
   }
 
   public void testUnblockForceWithAllowNoForce_NotPossible() {
-    PermissionRule r = grant(local, PUSH, anonymous, "refs/heads/*");
+    PermissionRule r = grant(local, PUSH, ANONYMOUS, "refs/heads/*");
     r.setBlock();
     r.setForce(true);
-    grant(local, PUSH, devs, "refs/heads/*");
+    grant(local, PUSH, DEVS, "refs/heads/*");
 
-    ProjectControl u = user(devs);
-    assertFalse("u can't force push", u.controlForRef("refs/heads/master").canForceUpdate());
+    ProjectControl u = util.user(local, DEVS);
+    assertFalse("u can't force push", u.controlForRef("refs/heads/master")
+        .canForceUpdate());
   }
 
   public void testUnblockMoreSpecificRef_Fails() {
-    grant(local, PUSH, anonymous, "refs/heads/*").setBlock();
-    grant(local, PUSH, devs, "refs/heads/master");
+    grant(local, PUSH, ANONYMOUS, "refs/heads/*").setBlock();
+    grant(local, PUSH, DEVS, "refs/heads/master");
 
-    ProjectControl u = user(devs);
-    assertFalse("u can't push", u.controlForRef("refs/heads/master").canUpdate());
+    ProjectControl u = util.user(local, DEVS);
+    assertFalse("u can't push", u.controlForRef("refs/heads/master")
+        .canUpdate());
   }
 
   public void testUnblockLargerScope_Fails() {
-    grant(local, PUSH, anonymous, "refs/heads/master").setBlock();
-    grant(local, PUSH, devs, "refs/heads/*");
+    grant(local, PUSH, ANONYMOUS, "refs/heads/master").setBlock();
+    grant(local, PUSH, DEVS, "refs/heads/*");
 
-    ProjectControl u = user(devs);
-    assertFalse("u can't push", u.controlForRef("refs/heads/master").canUpdate());
+    ProjectControl u = util.user(local, DEVS);
+    assertFalse("u can't push", u.controlForRef("refs/heads/master")
+        .canUpdate());
   }
 
   public void testUnblockInLocal_Fails() {
-    grant(parent, PUSH, anonymous, "refs/heads/*").setBlock();
+    grant(util.getParentConfig(), PUSH, ANONYMOUS, "refs/heads/*").setBlock();
     grant(local, PUSH, fixers, "refs/heads/*");
 
-    ProjectControl f = user(fixers);
-    assertFalse("u can't push", f.controlForRef("refs/heads/master").canUpdate());
+    ProjectControl f = util.user(local, fixers);
+    assertFalse("u can't push", f.controlForRef("refs/heads/master")
+        .canUpdate());
   }
 
   public void testUnblockInParentBlockInLocal() {
-    grant(parent, PUSH, anonymous, "refs/heads/*").setBlock();
-    grant(parent, PUSH, devs, "refs/heads/*");
-    grant(local, PUSH, devs, "refs/heads/*").setBlock();
+    grant(util.getParentConfig(), PUSH, ANONYMOUS, "refs/heads/*").setBlock();
+    grant(util.getParentConfig(), PUSH, DEVS, "refs/heads/*");
+    grant(local, PUSH, DEVS, "refs/heads/*").setBlock();
 
-    ProjectControl d = user(devs);
-    assertFalse("u can't push", d.controlForRef("refs/heads/master").canUpdate());
+    ProjectControl d = util.user(local, DEVS);
+    assertFalse("u can't push", d.controlForRef("refs/heads/master")
+        .canUpdate());
   }
 
-  public void testUnblockVisibilityByRegisteredUsers() {
-    grant(local, READ, anonymous, "refs/heads/*").setBlock();
-    grant(local, READ, registered, "refs/heads/*");
+  public void testUnblockVisibilityByREGISTEREDUsers() {
+    grant(local, READ, ANONYMOUS, "refs/heads/*").setBlock();
+    grant(local, READ, REGISTERED, "refs/heads/*");
 
-    ProjectControl u = user(registered);
-    assertTrue("u can read", u.controlForRef("refs/heads/master").isVisibleByRegisteredUsers());
+    ProjectControl u = util.user(local, REGISTERED);
+    assertTrue("u can read", u.controlForRef("refs/heads/master")
+        .isVisibleByRegisteredUsers());
   }
 
-  public void testUnblockInLocalVisibilityByRegisteredUsers_Fails() {
-    grant(parent, READ, anonymous, "refs/heads/*").setBlock();
-    grant(local, READ, registered, "refs/heads/*");
+  public void testUnblockInLocalVisibilityByREGISTEREDUsers_Fails() {
+    grant(util.getParentConfig(), READ, ANONYMOUS, "refs/heads/*").setBlock();
+    grant(local, READ, REGISTERED, "refs/heads/*");
 
-    ProjectControl u = user(registered);
-    assertFalse("u can't read", u.controlForRef("refs/heads/master").isVisibleByRegisteredUsers());
+    ProjectControl u = util.user(local, REGISTERED);
+    assertFalse("u can't read", u.controlForRef("refs/heads/master")
+        .isVisibleByRegisteredUsers());
   }
 
   public void testUnblockForceEditTopicName() {
-    grant(local, EDIT_TOPIC_NAME, anonymous, "refs/heads/*").setBlock();
-    grant(local, EDIT_TOPIC_NAME, devs, "refs/heads/*").setForce(true);
+    grant(local, EDIT_TOPIC_NAME, ANONYMOUS, "refs/heads/*").setBlock();
+    grant(local, EDIT_TOPIC_NAME, DEVS, "refs/heads/*").setForce(true);
 
-    ProjectControl u = user(devs);
-    assertTrue("u can edit topic name", u.controlForRef("refs/heads/master").canForceEditTopicName());
+    ProjectControl u = util.user(local, DEVS);
+    assertTrue("u can edit topic name", u.controlForRef("refs/heads/master")
+        .canForceEditTopicName());
   }
 
   public void testUnblockInLocalForceEditTopicName_Fails() {
-    grant(parent, EDIT_TOPIC_NAME, anonymous, "refs/heads/*").setBlock();
-    grant(local, EDIT_TOPIC_NAME, devs, "refs/heads/*").setForce(true);
+    grant(util.getParentConfig(), EDIT_TOPIC_NAME, ANONYMOUS, "refs/heads/*")
+        .setBlock();
+    grant(local, EDIT_TOPIC_NAME, DEVS, "refs/heads/*").setForce(true);
 
-    ProjectControl u = user(registered);
-    assertFalse("u can't edit topic name", u.controlForRef("refs/heads/master").canForceEditTopicName());
+    ProjectControl u = util.user(local, REGISTERED);
+    assertFalse("u can't edit topic name", u.controlForRef("refs/heads/master")
+        .canForceEditTopicName());
   }
 
   public void testUnblockRange() {
-    grant(local, LABEL + "Code-Review", -1, +1, anonymous, "refs/heads/*").setBlock();
-    grant(local, LABEL + "Code-Review", -2, +2, devs, "refs/heads/*");
+    grantLabel(local, LABEL + "Code-Review", -1, +1, ANONYMOUS, "refs/heads/*")
+        .setBlock();
+    grantLabel(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
 
-    ProjectControl u = user(devs);
-    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    ProjectControl u = util.user(local, DEVS);
+    PermissionRange range =
+        u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
     assertTrue("u can vote -2", range.contains(-2));
     assertTrue("u can vote +2", range.contains(2));
   }
 
   public void testUnblockRangeOnMoreSpecificRef_Fails() {
-    grant(local, LABEL + "Code-Review", -1, +1, anonymous, "refs/heads/*").setBlock();
-    grant(local, LABEL + "Code-Review", -2, +2, devs, "refs/heads/master");
+    grantLabel(local, LABEL + "Code-Review", -1, +1, ANONYMOUS, "refs/heads/*")
+        .setBlock();
+    grantLabel(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/master");
 
-    ProjectControl u = user(devs);
-    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    ProjectControl u = util.user(local, DEVS);
+    PermissionRange range =
+        u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
     assertFalse("u can't vote -2", range.contains(-2));
     assertFalse("u can't vote +2", range.contains(-2));
   }
 
   public void testUnblockRangeOnLargerScope_Fails() {
-    grant(local, LABEL + "Code-Review", -1, +1, anonymous, "refs/heads/master").setBlock();
-    grant(local, LABEL + "Code-Review", -2, +2, devs, "refs/heads/*");
+    grantLabel(local, LABEL + "Code-Review", -1, +1, ANONYMOUS,
+        "refs/heads/master").setBlock();
+    grantLabel(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
 
-    ProjectControl u = user(devs);
-    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    ProjectControl u = util.user(local, DEVS);
+    PermissionRange range =
+        u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
     assertFalse("u can't vote -2", range.contains(-2));
     assertFalse("u can't vote +2", range.contains(-2));
   }
 
   public void testUnblockInLocalRange_Fails() {
-    grant(parent, LABEL + "Code-Review", -1, 1, anonymous, "refs/heads/*").setBlock();
-    grant(local, LABEL + "Code-Review", -2, +2, devs, "refs/heads/*");
+    grantLabel(util.getParentConfig(), LABEL + "Code-Review", -1, 1, ANONYMOUS,
+        "refs/heads/*").setBlock();
+    grantLabel(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
 
-    ProjectControl u = user(devs);
-    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    ProjectControl u = util.user(local, DEVS);
+    PermissionRange range =
+        u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
     assertFalse("u can't vote -2", range.contains(-2));
     assertFalse("u can't vote 2", range.contains(2));
-  }
-  // -----------------------------------------------------------------------
-
-  private final Map<Project.NameKey, ProjectState> all;
-  private final AllProjectsName allProjectsName = new AllProjectsName("parent");
-  private final ProjectCache projectCache;
-
-  private ProjectConfig local;
-  private ProjectConfig parent;
-  private PermissionCollection.Factory sectionSorter;
-
-  private final AccountGroup.UUID admin = new AccountGroup.UUID("test.admin");
-  private final AccountGroup.UUID anonymous = AccountGroup.ANONYMOUS_USERS;
-  private final AccountGroup.UUID registered = AccountGroup.REGISTERED_USERS;
-
-  private final AccountGroup.UUID devs = new AccountGroup.UUID("test.devs");
-  private final AccountGroup.UUID fixers = new AccountGroup.UUID("test.fixers");
-
-  private final CapabilityControl.Factory capabilityControlFactory;
-
-  public RefControlTest() {
-    all = new HashMap<Project.NameKey, ProjectState>();
-    projectCache = new ProjectCache() {
-      @Override
-      public ProjectState getAllProjects() {
-        return get(allProjectsName);
-      }
-
-      @Override
-      public ProjectState get(Project.NameKey projectName) {
-        return all.get(projectName);
-      }
-
-      @Override
-      public void evict(Project p) {
-      }
-
-      @Override
-      public void remove(Project p) {
-      }
-
-      @Override
-      public Iterable<Project.NameKey> all() {
-        return Collections.emptySet();
-      }
-
-      @Override
-      public Iterable<Project.NameKey> byName(String prefix) {
-        return Collections.emptySet();
-      }
-
-      @Override
-      public void onCreateProject(Project.NameKey newProjectName) {
-      }
-
-      @Override
-      public Set<AccountGroup.UUID> guessRelevantGroupUUIDs() {
-        return Collections.emptySet();
-      }
-    };
-
-    Injector injector = Guice.createInjector(new FactoryModule() {
-      @Override
-      protected void configure() {
-        bind(Config.class)
-            .annotatedWith(GerritServerConfig.class)
-            .toInstance(new Config());
-
-        factory(CapabilityControl.Factory.class);
-        bind(ProjectCache.class).toInstance(projectCache);
-      }
-    });
-    capabilityControlFactory = injector.getInstance(CapabilityControl.Factory.class);
-  }
-
-  @Override
-  public void setUp() throws Exception {
-    super.setUp();
-
-    parent = new ProjectConfig(new Project.NameKey("parent"));
-    parent.createInMemory();
-
-    local = new ProjectConfig(new Project.NameKey("local"));
-    local.createInMemory();
-
-    Cache<SectionSortCache.EntryKey, SectionSortCache.EntryVal> c =
-        CacheBuilder.newBuilder().build();
-    sectionSorter = new PermissionCollection.Factory(new SectionSortCache(c));
   }
 
   private static void assertOwner(String ref, ProjectControl u) {
@@ -484,28 +406,6 @@ public class RefControlTest extends TestCase {
     assertFalse("NOT OWN " + ref, u.controlForRef(ref).isOwner());
   }
 
-  private PermissionRule grant(ProjectConfig project, String permissionName,
-      AccountGroup.UUID group, String ref) {
-    return grant(project, permissionName, newRule(project, group), ref);
-  }
-
-  private PermissionRule grant(ProjectConfig project, String permissionName,
-      int min, int max, AccountGroup.UUID group, String ref) {
-    PermissionRule rule = newRule(project, group);
-    rule.setMin(min);
-    rule.setMax(max);
-    return grant(project, permissionName, rule, ref);
-  }
-
-
-  private PermissionRule grant(ProjectConfig project, String permissionName,
-      PermissionRule rule, String ref) {
-    project.getAccessSection(ref, true) //
-        .getPermission(permissionName, true) //
-        .add(rule);
-    return rule;
-  }
-
   private void doNotInherit(ProjectConfig project, String permissionName,
       String ref) {
     project.getAccessSection(ref, true) //
@@ -513,72 +413,20 @@ public class RefControlTest extends TestCase {
         .setExclusiveGroup(true);
   }
 
-  private PermissionRule newRule(ProjectConfig project, AccountGroup.UUID groupUUID) {
-    GroupReference group = new GroupReference(groupUUID, groupUUID.get());
-    group = project.resolve(group);
+  private final AccountGroup.UUID fixers = new AccountGroup.UUID("test.fixers");
+  private Project.NameKey localKey = new Project.NameKey("local");
+  private ProjectConfig local;
+  private final Util util;
 
-    return new PermissionRule(group);
+  public RefControlTest() {
+    util = new Util();
   }
 
-  private ProjectControl user(AccountGroup.UUID... memberOf) {
-    return user(null, memberOf);
-  }
-
-  private ProjectControl user(String name, AccountGroup.UUID... memberOf) {
-    String canonicalWebUrl = "http://localhost";
-
-    return new ProjectControl(Collections.<AccountGroup.UUID> emptySet(),
-        Collections.<AccountGroup.UUID> emptySet(), projectCache,
-        sectionSorter,
-        canonicalWebUrl, new MockUser(name, memberOf),
-        newProjectState());
-  }
-
-  private ProjectState newProjectState() {
-    PrologEnvironment.Factory envFactory = null;
-    GitRepositoryManager mgr = null;
-    ProjectControl.AssistedFactory projectControlFactory = null;
-    RulesCache rulesCache = null;
-    all.put(local.getProject().getNameKey(), new ProjectState(
-        projectCache, allProjectsName, projectControlFactory,
-        envFactory, mgr, rulesCache, local));
-    all.put(parent.getProject().getNameKey(), new ProjectState(
-        projectCache, allProjectsName, projectControlFactory,
-        envFactory, mgr, rulesCache, parent));
-    return all.get(local.getProject().getNameKey());
-  }
-
-  private class MockUser extends CurrentUser {
-    private final String username;
-    private final GroupMembership groups;
-
-    MockUser(String name, AccountGroup.UUID[] groupId) {
-      super(RefControlTest.this.capabilityControlFactory);
-      username = name;
-      ArrayList<AccountGroup.UUID> groupIds = Lists.newArrayList(groupId);
-      groupIds.add(registered);
-      groupIds.add(anonymous);
-      groups = new ListGroupMembership(groupIds);
-    }
-
-    @Override
-    public GroupMembership getEffectiveGroups() {
-      return groups;
-    }
-
-    @Override
-    public String getUserName() {
-      return username;
-    }
-
-    @Override
-    public Set<Change.Id> getStarredChanges() {
-      return Collections.emptySet();
-    }
-
-    @Override
-    public Collection<AccountProjectWatch> getNotificationFilters() {
-      return Collections.emptySet();
-    }
+  @Override
+  public void setUp() throws Exception {
+    super.setUp();
+    local = new ProjectConfig(localKey);
+    local.createInMemory();
+    util.add(local);
   }
 }

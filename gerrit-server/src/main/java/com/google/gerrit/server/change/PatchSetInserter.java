@@ -333,6 +333,8 @@ public class PatchSetInserter {
       case GERRIT:
         cv.validateForGerritCommits(event);
         break;
+      case NONE:
+        break;
       }
     } catch (CommitValidationException e) {
       throw new InvalidChangeOperationException(e.getMessage());

@@ -85,6 +85,19 @@ avoid the need to initially configure access rights for
 newly created child projects.
 
 
+[[change_owners]]
+Change Owners
+~~~~~~~~~~~~~
+
+Access rights assigned to this group are always evaluated within the
+context of a change to which the access rights apply. These rights
+therefore apply to the user who is the owner of this change.
+
+It is typical to assign a label to this group, allowing the change
+owner to vote on his change, but not actually cause it to become
+approved or rejected.
+
+
 [[registered_users]]
 Registered Users
 ~~~~~~~~~~~~~~~~

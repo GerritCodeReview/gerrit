@@ -52,6 +52,7 @@ public class SchemaCreator {
   private AccountGroup registered;
   private AccountGroup owners;
   private AccountGroup batch;
+  private AccountGroup changeOwners;
 
   @Inject
   public SchemaCreator(SitePaths site,
@@ -148,6 +149,14 @@ public class SchemaCreator {
     c.accountGroups().insert(Collections.singleton(owners));
     c.accountGroupNames().insert(
         Collections.singleton(new AccountGroupName(owners)));
+
+    changeOwners = newGroup(c, "Change Owners", AccountGroup.CHANGE_OWNERS);
+    changeOwners.setDescription("The owners of a change");
+    changeOwners.setOwnerGroupUUID(admin.getGroupUUID());
+    changeOwners.setType(AccountGroup.Type.SYSTEM);
+    c.accountGroups().insert(Collections.singleton(changeOwners));
+    c.accountGroupNames().insert(
+        Collections.singleton(new AccountGroupName(changeOwners)));
 
     final SystemConfig s = SystemConfig.create();
     try {

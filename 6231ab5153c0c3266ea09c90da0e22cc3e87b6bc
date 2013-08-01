@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "f3775f7c_7602501d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-08-01T07:47:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9312a30c_13ee6ce6",
+      "revId": "6231ab5153c0c3266ea09c90da0e22cc3e87b6bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b371678e_f40c984d",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 2
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "f3775f7c_960d2c4d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-08-01T07:47:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b371678e_f40c984d",
+      "revId": "6231ab5153c0c3266ea09c90da0e22cc3e87b6bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b371678e_940d244d",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 2
@@ -64,6 +100,24 @@
       "writtenOn": "2013-08-01T06:54:49Z",
       "side": 1,
       "message": "s/disable/disables",
+      "revId": "6231ab5153c0c3266ea09c90da0e22cc3e87b6bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3775f7c_b612286a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-08-01T07:47:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b371678e_940d244d",
       "revId": "6231ab5153c0c3266ea09c90da0e22cc3e87b6bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -132,6 +186,24 @@
       "writtenOn": "2013-08-01T06:54:49Z",
       "side": 1,
       "message": "This line is too long.",
+      "revId": "6231ab5153c0c3266ea09c90da0e22cc3e87b6bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3775f7c_d607a426",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritConfigProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-08-01T07:47:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9312a30c_73fb60a8",
       "revId": "6231ab5153c0c3266ea09c90da0e22cc3e87b6bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "38f1d450_80e65662",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-08-01T23:24:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3259f90_a6ebc629",
+      "revId": "a1cd9ca3a5185a4a852447e27c3b88e2de0932f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "13587319_6f02911d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DefaultRealm.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2013-08-01T22:32:17Z",
       "side": 1,
       "message": "nit: indentation wrong here?",
+      "revId": "a1cd9ca3a5185a4a852447e27c3b88e2de0932f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18f6d049_7fe64f65",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DefaultRealm.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-08-01T23:24:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13587319_6f02911d",
       "revId": "a1cd9ca3a5185a4a852447e27c3b88e2de0932f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

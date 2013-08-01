@@ -140,7 +140,7 @@ it then verifies by performing a simple bind against the configured
 <<ldap.server,ldap.server>>.  In this configuration the web server
 is not involved in the user authentication process.
 +
-Unlike LDAP above, the username used to perform the LDAP simple bind
+Unlike `LDAP` above, the username used to perform the LDAP simple bind
 request is the exact string supplied by in the dialog by the user.
 The configured <<ldap.username,ldap.username>> identity is not used to obtain
 account information.
@@ -165,7 +165,7 @@ By default, OpenID.
 +
 List of permitted OpenID providers.  A user may only authenticate
 with an OpenID that matches this list.  Only used if `auth.type`
-is set to OpenID (the default).
+is set to `OpenID` (the default).
 +
 Patterns may be either a
 link:http://download.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html[standard
@@ -178,7 +178,7 @@ allowing users to authenticate with any OpenID provider.
 [[auth.trustedOpenID]]auth.trustedOpenID::
 +
 List of trusted OpenID providers.  Only used if `auth.type` is
-set to OpenID (the default).
+set to `OpenID` (the default).
 +
 In order for a user to take advantage of permissions beyond those
 granted to the `Anonymous Users` and `Registered Users` groups,
@@ -196,7 +196,7 @@ allowing Gerrit to trust any OpenID it receives.
 [[auth.openIdDomain]]auth.openIdDomain::
 +
 List of allowed OpenID email address domains. Only used if
-`auth.type` is set to "OPENID" or "OPENID_SSO".
+`auth.type` is set to `OPENID` or `OPENID_SSO`.
 +
 Domain is case insensitive and must be in the same form as it
 appears in the email address, for example, "example.com".
@@ -245,35 +245,36 @@ Default is 12 hours.
 
 [[auth.openIdSsoUrl]]auth.openIdSsoUrl::
 +
-The SSO entry point URL.  Only used if `auth.type` was set to
-OpenID_SSO.
+The SSO entry point URL.  Only used if `auth.type` is set to
+`OpenID_SSO`.
 +
 The "Sign In" link will send users directly to this URL.
 
 [[auth.httpHeader]]auth.httpHeader::
 +
 HTTP header to trust the username from, or unset to select HTTP basic
-or digest authentication.  Only used if `auth.type` is set to HTTP.
+or digest authentication.  Only used if `auth.type` is set to `HTTP`.
 
 [[auth.loginUrl]]auth.loginUrl::
 +
 URL to redirect a browser to after the end-user has clicked on the
-login link in the upper right corner. Only used if 'auth.type' was set
-to HTTP or HTTP_LDAP.
+login link in the upper right corner. Only used if `auth.type` is set
+to `HTTP` or `HTTP_LDAP`.
 Organizations using an enterprise single-sign-on solution may want to
 redirect the browser to the SSO product's sign-in page for completing the
 login process and validate their credentials.
 +
-If set, Gerrit allows to access anonymously until the end-user performs the login
-and then provides a trusted identity through the HTTP header.
+If set, Gerrit allows anonymous access until the end-user performs the login
+and provides a trusted identity through the HTTP header.
 If not set, Gerrit requires the HTTP header with a trusted identity
-otherwise returns the error page LoginRedirect.html.
+and returns the error page 'LoginRedirect.html' if such a header is not
+present.
 
 [[auth.loginText]]auth.loginText::
 +
-Text displayed in the loginUrl link. Only used if 'auth.loginUrl' was set.
+Text displayed in the loginUrl link. Only used if `auth.loginUrl` is set.
 +
-If not set, the 'Sign In' text is used.
+If not set, the "Sign In" text is used.
 
 [[auth.logoutUrl]]auth.logoutUrl::
 +
@@ -287,14 +288,14 @@ If not set, the redirect returns to the list of all open changes.
 [[auth.registerUrl]]auth.registerUrl::
 +
 Target for the "Register" link in the upper right corner.  Used only
-when auth.type is `LDAP`.
+when `auth.type` is `LDAP`.
 +
 If not set, no "Register" link is displayed.
 
 [[auth.registerText]]auth.registerText::
 +
 Text for the "Register" link in the upper right corner.  Used only
-when auth.type is `LDAP`.
+when `auth.type` is `LDAP`.
 +
 If not set, defaults to "Register".
 
@@ -305,7 +306,7 @@ full name.
 
 [[auth.httpPasswordUrl]]auth.httpPasswordUrl::
 +
-Target for the "Obtain Password" link.  Used only when auth.type is
+Target for the "Obtain Password" link.  Used only when `auth.type` is
 `LDAP`, `LDAP_BIND` or `CUSTOM_EXTENSION`.
 +
 
@@ -325,7 +326,7 @@ By default, false.
 [[auth.emailFormat]]auth.emailFormat::
 +
 Optional format string to construct user email addresses out of
-user login names.  Only used if auth.type is `HTTP`, `HTTP_LDAP`
+user login names.  Only used if `auth.type` is `HTTP`, `HTTP_LDAP`
 or `LDAP`.
 +
 This value can be set to a format string, where `{0}` is replaced
@@ -1711,7 +1712,7 @@ Failing to load the Filter class would result in a Gerrit start-up
 failure, as this class is supposed to provide mandatory filtering
 in front of Gerrit HTTP protocol.
 +
-Typical usage is in conjunction with the auth.type=HTTP as replacement
+Typical usage is in conjunction with the `auth.type=HTTP` as replacement
 of an Apache HTTP proxy layer as security enforcement on top of Gerrit
 by returning a trusted username as HTTP Header.
 +
@@ -1733,7 +1734,7 @@ a trusted username in the `TRUSTED_USER` HTTP Header:
 
 LDAP integration is only enabled if `auth.type` is set to
 `HTTP_LDAP`, `LDAP` or `CLIENT_SSL_CERT_LDAP`.  See above for a
-detailed description of the auth.type settings and their
+detailed description of the `auth.type` settings and their
 implications.
 
 An example LDAP configuration follows, and then discussion of
@@ -1762,7 +1763,7 @@ URL of the organization's LDAP server to query for user information
 and group membership from.  Must be of the form `ldap://host` or
 `ldaps://host` to bind with either a plaintext or SSL connection.
 +
-If auth.type is `LDAP` this setting should use `ldaps://` to
+If `auth.type` is `LDAP` this setting should use `ldaps://` to
 ensure the end user's plaintext password is transmitted only over
 an encrypted connection.
 
@@ -1824,9 +1825,9 @@ Default is `subtree` as many directories have several levels.
 +
 Query pattern to use when searching for a user account.  This may be
 any valid LDAP query expression, including the standard `(&...)` and
-`(|...)` operators.  If auth.type is `HTTP_LDAP` then the variable
+`(|...)` operators.  If `auth.type` is `HTTP_LDAP` then the variable
 `${username}` is replaced with a parameter set to the username
-that was supplied by the HTTP server.  If auth.type is `LDAP` then
+that was supplied by the HTTP server.  If `auth.type` is `LDAP` then
 the variable `${username}` is replaced by the string entered by
 the end user.
 +
@@ -1938,7 +1939,7 @@ Query pattern to use when searching for the groups that a user
 account is currently a member of.  This may be any valid LDAP query
 expression, including the standard `(&...)` and `(|...)` operators.
 +
-If auth.type is `HTTP_LDAP` then the variable `${username}` is
+If `auth.type` is `HTTP_LDAP` then the variable `${username}` is
 replaced with a parameter set to the username that was supplied
 by the HTTP server.  Other variables appearing in the pattern,
 such as `${fooBarAttribute}`, are replaced with the value of the

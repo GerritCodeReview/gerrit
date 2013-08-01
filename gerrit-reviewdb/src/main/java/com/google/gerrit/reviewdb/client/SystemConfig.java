@@ -89,6 +89,9 @@ public final class SystemConfig {
   /** DEPRECATED DO NOT USE */
   @Column(id = 11, notNull = false)
   public AccountGroup.UUID batchUsersGroupUUID;
+  /** DEPRECATED DO NOT USE */
+  @Column(id = 12, notNull = false)
+  public AccountGroup.UUID changeOwnerGroupId;
 
   protected SystemConfig() {
   }

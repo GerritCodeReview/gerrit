@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b371678e_7402481d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-01T06:54:49Z",
+      "side": 1,
+      "message": "s/a/an",
+      "revId": "6231ab5153c0c3266ea09c90da0e22cc3e87b6bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9312a30c_13ee6ce6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-01T06:54:49Z",
+      "side": 1,
+      "message": "Put backticks around HTTP.\n\n `HTTP`",
+      "revId": "6231ab5153c0c3266ea09c90da0e22cc3e87b6bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b371678e_f40c984d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-01T06:54:49Z",
+      "side": 1,
+      "message": "s/enforce/enforces",
+      "revId": "6231ab5153c0c3266ea09c90da0e22cc3e87b6bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b371678e_940d244d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-01T06:54:49Z",
+      "side": 1,
+      "message": "s/disable/disables",
+      "revId": "6231ab5153c0c3266ea09c90da0e22cc3e87b6bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b371678e_d4079c26",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-01T06:54:49Z",
+      "side": 1,
+      "message": "Put backticks around HTTP.\n\n `HTTP`",
+      "revId": "6231ab5153c0c3266ea09c90da0e22cc3e87b6bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b371678e_1422f4ba",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-01T06:54:49Z",
+      "side": 1,
+      "message": "s/enforce/enforces",
+      "revId": "6231ab5153c0c3266ea09c90da0e22cc3e87b6bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b371678e_b412206a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-01T06:54:49Z",
+      "side": 1,
+      "message": "s/disable/disables",
+      "revId": "6231ab5153c0c3266ea09c90da0e22cc3e87b6bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9312a30c_73fb60a8",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritConfigProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-01T06:54:49Z",
+      "side": 1,
+      "message": "This line is too long.",
+      "revId": "6231ab5153c0c3266ea09c90da0e22cc3e87b6bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

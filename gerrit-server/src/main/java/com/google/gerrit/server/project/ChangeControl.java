@@ -217,26 +217,26 @@ public class ChangeControl {
         || getRefControl().isOwner() // branch owner can abandon
         || getProjectControl().isOwner() // project owner can abandon
         || getCurrentUser().getCapabilities().canAdministrateServer() // site administers are god
-        || getRefControl().canAbandon() // user can abandon a specific ref
+        || getRefControl().canAbandon(isOwner()) // user can abandon a specific ref
     ;
   }
 
   /** Can this user publish this draft change or any draft patch set of this change? */
   public boolean canPublish(final ReviewDb db) throws OrmException {
-    return (isOwner() || getRefControl().canPublishDrafts())
+    return (isOwner() || getRefControl().canPublishDrafts(isOwner()))
         && isVisible(db);
   }
 
   /** Can this user delete this draft change or any draft patch set of this change? */
   public boolean canDeleteDraft(final ReviewDb db) throws OrmException {
-    return (isOwner() || getRefControl().canDeleteDrafts())
+    return (isOwner() || getRefControl().canDeleteDrafts(isOwner()))
         && isVisible(db);
   }
 
   /** Can this user rebase this change? */
   public boolean canRebase() {
     return isOwner() || getRefControl().canSubmit()
-        || getRefControl().canRebase();
+        || getRefControl().canRebase(isOwner());
   }
 
   /** Can this user restore this change? */
@@ -271,12 +271,12 @@ public class ChangeControl {
 
   /** All value ranges of any allowed label permission. */
   public List<PermissionRange> getLabelRanges() {
-    return getRefControl().getLabelRanges();
+    return getRefControl().getLabelRanges(isOwner());
   }
 
   /** The range of permitted values associated with a label permission. */
   public PermissionRange getRange(String permission) {
-    return getRefControl().getRange(permission);
+    return getRefControl().getRange(permission, isOwner());
   }
 
   /** Can this user add a patch set to this change? */
@@ -342,7 +342,7 @@ public class ChangeControl {
 
       // Users with the remove reviewer permission, the branch owner, project
       // owner and site admin can remove anyone
-      if (getRefControl().canRemoveReviewer() // has removal permissions
+      if (getRefControl().canRemoveReviewer(isOwner()) // has removal permissions
           || getRefControl().isOwner() // branch owner
           || getProjectControl().isOwner() // project owner
           || getCurrentUser().getCapabilities().canAdministrateServer()) {
@@ -360,7 +360,7 @@ public class ChangeControl {
           || getRefControl().isOwner() // branch owner can edit topic
           || getProjectControl().isOwner() // project owner can edit topic
           || getCurrentUser().getCapabilities().canAdministrateServer() // site administers are god
-          || getRefControl().canEditTopicName() // user can edit topic on a specific ref
+          || getRefControl().canEditTopicName(isOwner()) // user can edit topic on a specific ref
       ;
     } else {
       return getRefControl().canForceEditTopicName();
@@ -641,7 +641,7 @@ public class ChangeControl {
 
   private boolean isDraftVisible(ReviewDb db, ChangeData cd)
       throws OrmException {
-    return isOwner() || isReviewer(db, cd) || getRefControl().canViewDrafts();
+    return isOwner() || isReviewer(db, cd) || getRefControl().canViewDrafts(isOwner());
   }
 
   private static boolean isUser(Term who) {

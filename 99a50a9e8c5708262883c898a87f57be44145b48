@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b84b0473_24f0d215",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-02T22:56:30Z",
+      "side": 1,
+      "message": "final?",
+      "revId": "99a50a9e8c5708262883c898a87f57be44145b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3858f440_a8313b00",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-02T22:56:30Z",
+      "side": 1,
+      "message": "final on these fields",
+      "revId": "99a50a9e8c5708262883c898a87f57be44145b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b84b0473_04f5d605",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-02T22:56:30Z",
+      "side": 1,
+      "message": "final on patchSetId and keys?",
+      "revId": "99a50a9e8c5708262883c898a87f57be44145b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b84b0473_e4f99a00",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-02T22:56:30Z",
+      "side": 1,
+      "message": "Ick. Here your URL has the PatchSet.Id but ChangeScreen2 has the files cached under a SHA-1. I don\u0027t see any easy way to prevent needing to cache this list twice.",
+      "revId": "99a50a9e8c5708262883c898a87f57be44145b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b84b0473_c4f69e10",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-02T22:56:30Z",
+      "side": 1,
+      "message": "result.size() is not efficient. Use files.length().",
+      "revId": "99a50a9e8c5708262883c898a87f57be44145b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b84b0473_a403a220",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-02T22:56:30Z",
+      "side": 1,
+      "message": "Copy the text from the properties file into the ui.xml file so we don\u0027t have to do this in Java code.",
+      "revId": "99a50a9e8c5708262883c898a87f57be44145b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3858f440_882e779a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-02T22:56:30Z",
+      "side": 1,
+      "message": "nit: no blank line here",
+      "revId": "99a50a9e8c5708262883c898a87f57be44145b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3858f440_4862bfe7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-02T22:56:30Z",
+      "side": 1,
+      "message": "We should also do prevLink.setHref(url)",
+      "revId": "99a50a9e8c5708262883c898a87f57be44145b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3858f440_685d8323",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-02T22:56:30Z",
+      "side": 1,
+      "message": "This is bad. You are taking a user supplied/controlled string (fileName) and adding it into a raw HTML context.\n\nUse SafeHtml to concat these together.",
+      "revId": "99a50a9e8c5708262883c898a87f57be44145b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3858f440_28578b05",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-02T22:56:30Z",
+      "side": 1,
+      "message": "Same injection attack as above.",
+      "revId": "99a50a9e8c5708262883c898a87f57be44145b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b84b0473_640fea43",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-02T22:56:30Z",
+      "side": 1,
+      "message": "This is never true. setupNav is invoked exactly once for each button.",
+      "revId": "99a50a9e8c5708262883c898a87f57be44145b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b84b0473_4414ee57",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-02T22:56:30Z",
+      "side": 1,
+      "message": "So the key command goes up, but the anchor is visible and doesn\u0027t? Maybe it should go up.",
+      "revId": "99a50a9e8c5708262883c898a87f57be44145b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b84b0473_44ebce29",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/UpToChangeCommand2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-02T22:56:30Z",
+      "side": 1,
+      "message": "2013",
+      "revId": "99a50a9e8c5708262883c898a87f57be44145b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b84b0473_64e6ca65",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/UpToChangeCommand2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-02T22:56:30Z",
+      "side": 1,
+      "message": "final",
+      "revId": "99a50a9e8c5708262883c898a87f57be44145b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

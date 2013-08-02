@@ -14,115 +14,54 @@
 
 package com.google.gerrit.rules;
 
+import static com.google.gerrit.common.data.Permission.LABEL;
+import static com.google.gerrit.server.project.Util.value;
+import static com.google.gerrit.server.project.Util.category;
+import static com.google.gerrit.server.project.Util.CR;
+import static com.google.gerrit.server.project.Util.REGISTERED;
+import static com.google.gerrit.server.project.Util.grantLabel;
+
+import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.project.Util;
 import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
-import com.google.inject.AbstractModule;
-
-import java.util.Arrays;
-import java.util.Set;
 
 public class GerritCommonTest extends PrologTestCase {
-  private Projects projects;
+  private final LabelType V = category("Verified",
+      value(1, "Verified"),
+      value(0, "No score"),
+      value(-1, "Fails"));
+
+  private final Project.NameKey localKey = new Project.NameKey("local");
+  private ProjectConfig local;
+  private Util util;
 
   @Override
   public void setUp() throws Exception {
     super.setUp();
-    projects = new Projects(new LabelTypes(Arrays.asList(
-        category("Code-Review",
-            value(2, "Looks good to me, approved"),
-            value(1, "Looks good to me, but someone else must approve"),
-            value(0, "No score"),
-            value(-1, "I would prefer that you didn't submit this"),
-            value(-2, "Do not submit")),
-        category("Verified", value(1, "Verified"),
-            value(0, "No score"), value(-1, "Fails")))));
-    load("gerrit", "gerrit_common_test.pl", new AbstractModule() {
-      @Override
-      protected void configure() {
-        bind(ProjectCache.class).toInstance(projects);
-      }
-    });
+    load("gerrit", "gerrit_common_test.pl");
+    util = new Util();
+    final ProjectConfig parent = util.getParentConfig();
+
+    local = new ProjectConfig(localKey);
+    local.createInMemory();
+    local.getLabelSections().put(V.getName(), V);
+    util.add(local);
+
+    grantLabel(parent, LABEL + CR.getName(), -1, +1, REGISTERED, "refs/heads/*");
+    grantLabel(local, LABEL + V.getName(), -1, +1, REGISTERED, "refs/heads/*");
   }
 
   @Override
   protected void setUpEnvironment(PrologEnvironment env) {
-    env.set(StoredValues.CHANGE, new Change(
-        new Change.Key("Ibeef"), new Change.Id(1), new Account.Id(2),
-        new Branch.NameKey(projects.allProjectsName, "master")));
-  }
-
-  private static LabelValue value(int value, String text) {
-    return new LabelValue((short) value, text);
-  }
-
-  private static LabelType category(String name, LabelValue... values) {
-    return new LabelType(name, Arrays.asList(values));
-  }
-
-  private static class Projects implements ProjectCache {
-    private final AllProjectsName allProjectsName;
-    private final ProjectState allProjects;
-
-    private Projects(LabelTypes labelTypes) {
-      allProjectsName = new AllProjectsName("All-Projects");
-      ProjectConfig config = new ProjectConfig(allProjectsName);
-      config.createInMemory();
-      for (LabelType label : labelTypes.getLabelTypes()) {
-        config.getLabelSections().put(label.getName(), label);
-      }
-      allProjects = new ProjectState(this, allProjectsName, null,
-          null, null, null, config);
-    }
-
-    @Override
-    public ProjectState getAllProjects() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public ProjectState get(Project.NameKey projectName) {
-      assertEquals(allProjectsName, projectName);
-      return allProjects;
-    }
-
-    @Override
-    public void evict(Project p) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void remove(Project p) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Iterable<Project.NameKey> all() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Set<AccountGroup.UUID> guessRelevantGroupUUIDs() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Iterable<Project.NameKey> byName(String prefix) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void onCreateProject(Project.NameKey newProjectName) {
-      throw new UnsupportedOperationException();
-    }
+    Change change =
+        new Change(new Change.Key("Ibeef"), new Change.Id(1),
+            new Account.Id(2),
+            new Branch.NameKey(localKey, "refs/heads/master"));
+    env.set(StoredValues.CHANGE, change);
+    env.set(StoredValues.CHANGE_CONTROL, util.user(local).controlFor(change));
   }
 }

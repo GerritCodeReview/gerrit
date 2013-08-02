@@ -37,7 +37,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PushbackReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -52,11 +51,10 @@ public abstract class PrologTestCase extends TestCase {
   private PrologMachineCopy machine;
   private PrologEnvironment.Factory envFactory;
 
-  protected void load(String pkg, String prologResource, Module... modules)
+  protected void load(String pkg, String prologResource)
       throws CompileException, IOException {
     ArrayList<Module> moduleList = new ArrayList<Module>();
     moduleList.add(new PrologModule());
-    moduleList.addAll(Arrays.asList(modules));
 
     envFactory = Guice.createInjector(moduleList)
         .getInstance(PrologEnvironment.Factory.class);

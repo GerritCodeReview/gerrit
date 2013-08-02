@@ -26,16 +26,19 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class AccountInfo {
   public static class Loader {
-    private static EnumSet<FillOptions> DETAILED_OPTIONS = EnumSet.of(
-        FillOptions.NAME,
-        FillOptions.EMAIL,
-        FillOptions.AVATARS);
+    private static final Set<FillOptions> DETAILED_OPTIONS =
+        Collections.unmodifiableSet(EnumSet.of(
+            FillOptions.NAME,
+            FillOptions.EMAIL,
+            FillOptions.AVATARS));
 
     public interface Factory {
       Loader create(boolean detailed);

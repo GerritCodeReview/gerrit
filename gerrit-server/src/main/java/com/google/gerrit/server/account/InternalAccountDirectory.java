@@ -31,7 +31,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import java.util.EnumSet;
+import java.util.Set;
 
 @Singleton
 public class InternalAccountDirectory extends AccountDirectory {
@@ -61,7 +61,7 @@ public class InternalAccountDirectory extends AccountDirectory {
   @Override
   public void fillAccountInfo(
       Iterable<? extends AccountInfo> in,
-      EnumSet<FillOptions> options)
+      Set<FillOptions> options)
       throws DirectoryException {
     Multimap<Account.Id, AccountInfo> missing = ArrayListMultimap.create();
     for (AccountInfo info : in) {
@@ -87,7 +87,7 @@ public class InternalAccountDirectory extends AccountDirectory {
 
   private void fill(AccountInfo info,
       Account account,
-      EnumSet<FillOptions> options) {
+      Set<FillOptions> options) {
     if (options.contains(FillOptions.NAME)) {
       info.name = Strings.emptyToNull(account.getFullName());
       if (info.name == null) {

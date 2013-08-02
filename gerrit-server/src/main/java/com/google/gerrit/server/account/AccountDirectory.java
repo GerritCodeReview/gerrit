@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.account;
 
-import java.util.EnumSet;
+import java.util.Set;
 
 /**
  * Directory of user account information.
@@ -39,7 +39,7 @@ public abstract class AccountDirectory {
 
   public abstract void fillAccountInfo(
       Iterable<? extends AccountInfo> in,
-      EnumSet<FillOptions> options)
+      Set<FillOptions> options)
       throws DirectoryException;
 
   @SuppressWarnings("serial")

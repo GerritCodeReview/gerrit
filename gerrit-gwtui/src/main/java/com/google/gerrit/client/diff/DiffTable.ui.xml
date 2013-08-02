@@ -15,13 +15,16 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
-  <ui:style type='com.google.gerrit.client.diff.DiffTable.LineStyle'>
-    @external .CodeMirror, .CodeMirror-selectedtext;
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'
+    xmlns:d='urn:import:com.google.gerrit.client.diff'>
+  <ui:style type='com.google.gerrit.client.diff.DiffTable.DiffTableStyle'>
+    @external .CodeMirror, .CodeMirror-lines, .CodeMirror-selectedtext;
     @external .CodeMirror-linenumber, .CodeMirror-vscrollbar;
-    @external .CodeMirror-hscrollbar;
     @external .cm-keymap-fat-cursor, CodeMirror-cursor;
     @external .cm-searching, .cm-trailingspace;
+    .difftable .CodeMirror-lines {
+      padding: 0;
+    }
     .difftable .CodeMirror pre {
       padding: 0;
       padding-bottom: 0.1em;
@@ -56,9 +59,6 @@ limitations under the License.
     }
     .padding {
       background-color: #eee;
-    }
-    .CodeMirror-hscrollbar {
-      display: none !important;
     }
     .a .CodeMirror-vscrollbar {
       display: none !important;
@@ -96,6 +96,22 @@ limitations under the License.
   </ui:style>
   <g:HTMLPanel styleName='{style.difftable}'>
     <table class='{style.table}'>
+      <tr ui:field='patchsetNavRow'>
+        <td ui:field='patchsetNavCellA' class='{style.padding}'>
+          <d:PatchSelectBox2 ui:field='patchSelectBoxA' />
+        </td>
+        <td ui:field='patchsetNavCellB' class='{style.padding}'>
+          <d:PatchSelectBox2 ui:field='patchSelectBoxB' />
+        </td>
+      </tr>
+      <tr ui:field='fileCommentRow'>
+        <td ui:field='fileCommentCellA' class='{style.padding}'>
+          <d:FileCommentPanel ui:field='fileCommentPanelA' />
+        </td>
+        <td ui:field='fileCommentCellB' class='{style.padding}'>
+          <d:FileCommentPanel ui:field='fileCommentPanelB' />
+        </td>
+      </tr>
       <tr>
         <td ui:field='cmA' class='{style.a}'></td>
         <td ui:field='cmB' class='{style.b}'></td>

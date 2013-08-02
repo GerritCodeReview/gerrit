@@ -904,29 +904,42 @@ public class SideBySide2 extends Screen {
     double myChunkHeight = cm.heightAtLine(line + 1) -
         cm.heightAtLine(line - otherWrapper.getChunkLength() + 1);
     Element otherPadding = otherWrapper.getElement();
+    int otherPaddingHeight = otherPadding.getOffsetHeight();
     CodeMirror otherCm = otherCm(cm);
     int otherLine = otherWrapper.getOtherLine();
     LineHandle other = otherCm.getLineHandle(otherLine);
     if (linePaddingOnOtherSideMap.containsKey(other)) {
       LinePaddingWidgetWrapper myWrapper = linePaddingOnOtherSideMap.get(other);
       Element myPadding = linePaddingOnOtherSideMap.get(other).getElement();
-      myChunkHeight -= myPadding.getOffsetHeight();
+      int myPaddingHeight = myPadding.getOffsetHeight();
+      myChunkHeight -= myPaddingHeight;
       double otherChunkHeight = otherCm.heightAtLine(otherLine + 1) -
           otherCm.heightAtLine(otherLine - myWrapper.getChunkLength() + 1) -
-          otherPadding.getOffsetHeight();
+          otherPaddingHeight;
       double delta = myChunkHeight - otherChunkHeight;
       if (delta > 0) {
-        setHeightInPx(myPadding, 0);
-        setHeightInPx(otherPadding, delta);
+        if (myPaddingHeight != 0) {
+          setHeightInPx(myPadding, 0);
+          myWrapper.getWidget().changed();
+        }
+        if (otherPaddingHeight != delta) {
+          setHeightInPx(otherPadding, delta);
+          otherWrapper.getWidget().changed();
+        }
       } else {
-        setHeightInPx(myPadding, -delta);
-        setHeightInPx(otherPadding, 0);
+        if (myPaddingHeight != -delta) {
+          setHeightInPx(myPadding, -delta);
+          myWrapper.getWidget().changed();
+        }
+        if (otherPaddingHeight != 0) {
+          setHeightInPx(otherPadding, 0);
+          otherWrapper.getWidget().changed();
+        }
       }
-      myWrapper.getWidget().changed();
-    } else {
+    } else if (otherPaddingHeight != myChunkHeight) {
       setHeightInPx(otherPadding, myChunkHeight);
+      otherWrapper.getWidget().changed();
     }
-    otherWrapper.getWidget().changed();
   }
 
   // TODO: Maybe integrate this with PaddingManager.

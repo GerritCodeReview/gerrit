@@ -18,6 +18,8 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
@@ -40,6 +42,7 @@ import com.google.inject.Injector;
 import org.eclipse.jgit.lib.Config;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -51,6 +54,21 @@ public class Util {
   public static AccountGroup.UUID REGISTERED = AccountGroup.REGISTERED_USERS;
   public static AccountGroup.UUID ADMIN = new AccountGroup.UUID("test.admin");
   public static AccountGroup.UUID DEVS = new AccountGroup.UUID("test.devs");
+
+  public static LabelType CR = category("Code-Review",
+      value(2, "Looks good to me, approved"),
+      value(1, "Looks good to me, but someone else must approve"),
+      value(0, "No score"),
+      value(-1, "I would prefer that you didn't submit this"),
+      value(-2, "Do not submit"));
+
+  public static LabelValue value(int value, String text) {
+    return new LabelValue((short) value, text);
+  }
+
+  public static LabelType category(String name, LabelValue... values) {
+    return new LabelType(name, Arrays.asList(values));
+  }
 
   static public PermissionRule newRule(ProjectConfig project,
       AccountGroup.UUID groupUUID) {
@@ -93,6 +111,8 @@ public class Util {
   public Util() {
     all = new HashMap<Project.NameKey, ProjectState>();
     parent.createInMemory();
+    parent.getLabelSections().put(CR.getName(), CR);
+
     add(parent);
 
     projectCache = new ProjectCache() {

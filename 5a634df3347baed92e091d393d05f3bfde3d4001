@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "38f1d450_c0033e20",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2013-08-02T14:25:39Z",
+      "side": 1,
+      "message": "Label",
+      "revId": "5a634df3347baed92e091d393d05f3bfde3d4001",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18f6d049_fff93f00",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/GerritConstants.properties",
         "patchSetId": 4

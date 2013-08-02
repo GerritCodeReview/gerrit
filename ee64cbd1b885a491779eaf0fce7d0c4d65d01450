@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b84b0473_a41cc27a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.ui.xml",
+        "patchSetId": 9
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-02T23:29:43Z",
+      "side": 1,
+      "message": "nit: trailing whitespace",
+      "revId": "ee64cbd1b885a491779eaf0fce7d0c4d65d01450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

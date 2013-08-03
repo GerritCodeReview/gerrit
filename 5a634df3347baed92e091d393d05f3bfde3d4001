@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b84b0473_44398ee9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-08-03T02:47:06Z",
+      "side": 1,
+      "message": "My damn typo!  \n\nThank your pointing it out!",
+      "parentUuid": "38f1d450_c0033e20",
+      "revId": "5a634df3347baed92e091d393d05f3bfde3d4001",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18f6d049_fff93f00",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/GerritConstants.properties",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2013-08-02T14:25:24Z",
       "side": 1,
       "message": "maybe change the var name accordingly?",
+      "revId": "5a634df3347baed92e091d393d05f3bfde3d4001",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b84b0473_243e92d3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/GerritConstants.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-08-03T02:47:06Z",
+      "side": 1,
+      "message": "labelNotApplicable \u003d Label not applicable ?\n\nOK",
+      "parentUuid": "18f6d049_fff93f00",
       "revId": "5a634df3347baed92e091d393d05f3bfde3d4001",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

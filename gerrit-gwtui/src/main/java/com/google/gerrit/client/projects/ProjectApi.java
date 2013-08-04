@@ -70,6 +70,10 @@ public class ProjectApi {
     group.done();
   }
 
+  public static RestApi project(Project.NameKey name) {
+    return new RestApi("/projects/").id(name.get());
+  }
+
   public static void getConfig(Project.NameKey name,
       AsyncCallback<ConfigInfo> cb) {
     new RestApi("/projects/").id(name.get()).view("config").get(cb);

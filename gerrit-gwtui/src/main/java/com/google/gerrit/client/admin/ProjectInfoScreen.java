@@ -14,29 +14,41 @@
 
 package com.google.gerrit.client.admin;
 
+import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.download.DownloadPanel;
+import com.google.gerrit.client.projects.ProjectApi;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.NativeString;
+import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.SmallHeading;
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ProjectDetail;
+import com.google.gerrit.common.data.UiCommandDetail;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.client.InheritedBoolean;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
+
+import java.util.List;
 
 public class ProjectInfoScreen extends ProjectScreen {
   private String projectName;
@@ -286,6 +298,60 @@ public class ProjectInfoScreen extends ProjectScreen {
     return InheritableBoolean.INHERIT;
   }
 
+  private void initProjectCommands(final List<UiCommandDetail> commands) {
+    if (commands == null || commands.isEmpty()) {
+      return;
+    }
+    grid.addHeader(new SmallHeading(Util.C.headingProjectCommands()));
+    FlowPanel actionsPanel = new FlowPanel();
+    actionsPanel.setStyleName(Gerrit.RESOURCES.css().patchSetActions());
+    actionsPanel.setVisible(true);
+    populateCommands(commands, actionsPanel);
+    grid.add(Util.C.headingCommands(), actionsPanel);
+  }
+
+  private void populateCommands(final List<UiCommandDetail> commands,
+      final FlowPanel actionsPanel) {
+    for (final UiCommandDetail cmd : commands) {
+      final Button b = new Button();
+      b.setText(cmd.label);
+      b.setEnabled(cmd.enabled);
+      b.setTitle(cmd.title);
+      b.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(final ClickEvent event) {
+          b.setEnabled(false);
+          AsyncCallback<NativeString> cb = new AsyncCallback<NativeString>() {
+            @Override
+            public void onFailure(Throwable caught) {
+              b.setEnabled(true);
+              new ErrorDialog(caught).center();
+            }
+
+            @Override
+            public void onSuccess(NativeString msg) {
+              b.setEnabled(true);
+              if (msg != null && !msg.asString().isEmpty()) {
+                Window.alert(msg.asString());
+              }
+              // redirect hard coded to admin screen
+              Gerrit.display("/admin/projects/" + project.getName());
+            }
+          };
+          RestApi api = ProjectApi.project(project.getNameKey()).view(cmd.id);
+          if ("PUT".equalsIgnoreCase(cmd.method)) {
+            api.put(JavaScriptObject.createObject(), cb);
+          } else if ("DELETE".equalsIgnoreCase(cmd.method)) {
+            api.delete(cb);
+          } else {
+            api.post(JavaScriptObject.createObject(), cb);
+          }
+        }
+      });
+      actionsPanel.add(b);
+    }
+  }
+
   void display(final ProjectDetail result) {
     project = result.project;
 
@@ -298,6 +364,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     setState(project.getState());
     maxObjectSizeLimit.setText(project.getMaxObjectSizeLimit());
 
+    initProjectCommands(result.getCommands());
     saveProject.setEnabled(false);
 
     projectDetail = result;

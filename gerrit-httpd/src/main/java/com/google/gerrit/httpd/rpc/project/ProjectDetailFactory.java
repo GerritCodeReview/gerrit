@@ -14,15 +14,22 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
+import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.ProjectDetail;
+import com.google.gerrit.common.data.UiCommandDetail;
+import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.InheritedBoolean;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectsCollection;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -42,13 +49,16 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
   private final GitRepositoryManager gitRepositoryManager;
 
   private final Project.NameKey projectName;
+  private final ProjectsCollection projectCollection;
 
   @Inject
   ProjectDetailFactory(final ProjectControl.Factory projectControlFactory,
       final GitRepositoryManager gitRepositoryManager,
+      final ProjectsCollection projectCollection,
       @Assisted final Project.NameKey name) {
     this.projectControlFactory = projectControlFactory;
     this.gitRepositoryManager = gitRepositoryManager;
+    this.projectCollection = projectCollection;
     this.projectName = name;
   }
 
@@ -111,6 +121,21 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
     } finally {
       git.close();
     }
+
+    detail.setCommands(Lists.newArrayList(Iterables.transform(UiActions
+        .sorted(UiActions.from(projectCollection, new ProjectResource(pc))),
+        new Function<UiAction.Description, UiCommandDetail>() {
+          @Override
+          public UiCommandDetail apply(UiAction.Description in) {
+            UiCommandDetail r = new UiCommandDetail();
+            r.method = in.getMethod();
+            r.id = in.getId();
+            r.label = in.getLabel();
+            r.title = in.getTitle();
+            r.enabled = in.isEnabled();
+            return r;
+          }
+        })));
 
     return detail;
   }

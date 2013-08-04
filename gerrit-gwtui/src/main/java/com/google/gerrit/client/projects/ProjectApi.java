@@ -33,8 +33,7 @@ public class ProjectApi {
     input.setParent(parent);
     input.setPermissionsOnly(permissionsOnly);
     input.setCreateEmptyCommit(createEmptyCcommit);
-    new RestApi("/projects/").id(projectName).ifNoneMatch()
-        .put(input, cb);
+    project(projectName).ifNoneMatch().put(input, cb);
   }
 
   /** Create a new branch */
@@ -42,14 +41,13 @@ public class ProjectApi {
       String revision, AsyncCallback<BranchInfo> cb) {
     BranchInput input = BranchInput.create();
     input.setRevision(revision);
-    new RestApi("/projects/").id(projectName.get()).view("branches").id(ref)
-        .ifNoneMatch().put(input, cb);
+    view(projectName, "branches").id(ref).ifNoneMatch().put(input, cb);
   }
 
   /** Retrieve all visible branches of the project */
   public static void getBranches(Project.NameKey projectName,
       AsyncCallback<JsArray<BranchInfo>> cb) {
-    new RestApi("/projects/").id(projectName.get()).view("branches").get(cb);
+    view(projectName, "branches").get(cb);
   }
 
   /**
@@ -63,16 +61,27 @@ public class ProjectApi {
       Set<String> refs, AsyncCallback<VoidResult> cb) {
     CallbackGroup group = new CallbackGroup();
     for (String ref : refs) {
-      new RestApi("/projects/").id(projectName.get()).view("branches").id(ref)
-          .delete(group.add(cb));
+      view(projectName, "branches").id(ref).delete(group.add(cb));
       cb = CallbackGroup.emptyCallback();
     }
     group.done();
   }
 
+  public static RestApi view(Project.NameKey name, String view) {
+    return project(name).view(view);
+  }
+
+  private static RestApi project(Project.NameKey name) {
+    return project(name.get());
+  }
+
+  private static RestApi project(String name) {
+    return new RestApi("/projects/").id(name);
+  }
+
   public static void getConfig(Project.NameKey name,
       AsyncCallback<ConfigInfo> cb) {
-    new RestApi("/projects/").id(name.get()).view("config").get(cb);
+    project(name).view("config").get(cb);
   }
 
   private static class ProjectInput extends JavaScriptObject {

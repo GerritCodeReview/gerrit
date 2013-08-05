@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "186b30de_3a431d4e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-05T22:13:06Z",
+      "side": 1,
+      "message": "Done. Added a constructor in InlineHyperlink that takes a SafeHtml.",
+      "parentUuid": "b84b0473_44be2efd",
+      "revId": "244aa321ffb17ccf4479d680124374561225b1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3858f440_281f8b24",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2013-08-05T21:11:55Z",
       "side": 1,
       "message": "unnecessary test (see below)",
+      "revId": "244aa321ffb17ccf4479d680124374561225b1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3858f440_48cf5f72",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-05T22:13:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3858f440_281f8b24",
       "revId": "244aa321ffb17ccf4479d680124374561225b1fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "3858f440_68ca2364",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-05T22:13:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3858f440_0824c776",
+      "revId": "244aa321ffb17ccf4479d680124374561225b1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3858f440_68258376",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
         "patchSetId": 7
@@ -64,6 +118,24 @@
       "writtenOn": "2013-08-05T21:11:55Z",
       "side": 1,
       "message": "No. The fileName is not safe html. You cannot pass it to asis.",
+      "revId": "244aa321ffb17ccf4479d680124374561225b1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b84b0473_04b8360b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-05T22:13:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3858f440_68258376",
       "revId": "244aa321ffb17ccf4479d680124374561225b1fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "3858f440_880f97eb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-05T22:13:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b84b0473_84cae689",
+      "revId": "244aa321ffb17ccf4479d680124374561225b1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b84b0473_a4cde2a5",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
         "patchSetId": 7
@@ -98,6 +188,24 @@
       "writtenOn": "2013-08-05T21:11:55Z",
       "side": 1,
       "message": "Same as above.",
+      "revId": "244aa321ffb17ccf4479d680124374561225b1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3858f440_a8125b15",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-05T22:13:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b84b0473_a4cde2a5",
       "revId": "244aa321ffb17ccf4479d680124374561225b1fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "3858f440_c8158f01",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-05T22:13:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b84b0473_64b92a13",
+      "revId": "244aa321ffb17ccf4479d680124374561225b1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3858f440_482abf46",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
         "patchSetId": 7
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "b84b0473_e4acfacf",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-05T22:13:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3858f440_482abf46",
+      "revId": "244aa321ffb17ccf4479d680124374561225b1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b84b0473_c4c0de6f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
         "patchSetId": 7
@@ -149,6 +293,24 @@
       "writtenOn": "2013-08-05T21:11:55Z",
       "side": 1,
       "message": "Ick, I missed this assignment during prior reviews. Do not do this. Make the assignment happen on the prior line and pass the field to the constructor.",
+      "revId": "244aa321ffb17ccf4479d680124374561225b1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b84b0473_24b33235",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-05T22:13:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b84b0473_c4c0de6f",
       "revId": "244aa321ffb17ccf4479d680124374561225b1fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

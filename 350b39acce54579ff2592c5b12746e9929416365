@@ -16,6 +16,24 @@
       "revId": "350b39acce54579ff2592c5b12746e9929416365",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "58d688dc_d12204bb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_80.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-05T21:13:39Z",
+      "side": 1,
+      "message": "Right. Can you please build a new gwtorm version with needed changes merged, so that this change can be updated? I just submitted a change bumping gwtorm version to 1.8. i am not sure if it is needed, as current version is already 1.7 and in Gerrit gwtorm 1.6 is used:\n\n id \u003d \u0027gwtorm:gwtorm:1.6\u0027,",
+      "parentUuid": "b84b0473_44874e63",
+      "revId": "350b39acce54579ff2592c5b12746e9929416365",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

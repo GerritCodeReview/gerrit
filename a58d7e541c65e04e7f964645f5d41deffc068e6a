@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b84b0473_246572dd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-05T19:33:14Z",
+      "side": 1,
+      "message": "This can be removed.",
+      "revId": "a58d7e541c65e04e7f964645f5d41deffc068e6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3858f440_8861d7ad",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-05T19:33:14Z",
+      "side": 1,
+      "message": "Once setupNav is done you no longer need this field. Its usage is strictly local to the callback for the RPC, so move it there.",
+      "revId": "a58d7e541c65e04e7f964645f5d41deffc068e6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b84b0473_44706e9f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-05T19:33:14Z",
+      "side": 1,
+      "message": "Since we don\u0027t ever modify these commands I don\u0027t think you need to retain them in an array. Which means you can drop this array and also drop the \"cmd\" field.",
+      "revId": "a58d7e541c65e04e7f964645f5d41deffc068e6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b84b0473_a49f22a6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-05T19:33:14Z",
+      "side": 1,
+      "message": "Don\u0027t fire an RPC in the constructor. Use the onLoad() method.",
+      "revId": "a58d7e541c65e04e7f964645f5d41deffc068e6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3858f440_085607d7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-05T19:33:14Z",
+      "side": 1,
+      "message": "The JsArray order is... undefined and may not match what is in FileTable and thus what the user would expect given how ChangeScreen2 shows the order. You need to sort the list:\n\n    Collections.sort(Natives.asList(list), new Comparator\u003cFileInfo\u003e() {\n      @Override\n      public int compare(FileInfo a, FileInfo b) {\n        if (Patch.COMMIT_MSG.equals(a.path())) {\n          return -1;\n        } else if (Patch.COMMIT_MSG.equals(b.path())) {\n          return 1;\n        }\n        return a.path().compareTo(b.path());\n      }\n    });\n\nMaybe hoist this somewhere else so its reused between here and FileTable\u0027s setValue method (line 153).",
+      "revId": "a58d7e541c65e04e7f964645f5d41deffc068e6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b84b0473_046a76ab",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-05T19:33:14Z",
+      "side": 1,
+      "message": "This Nav enum is not worth it. Just pass the prevLink or nextLink widget and the key and help as arguments to setupNav.",
+      "revId": "a58d7e541c65e04e7f964645f5d41deffc068e6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3858f440_e86a9389",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-05T19:33:14Z",
+      "side": 1,
+      "message": "No leading / here in the URL.",
+      "revId": "a58d7e541c65e04e7f964645f5d41deffc068e6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b84b0473_849c26b2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-05T19:33:14Z",
+      "side": 1,
+      "message": "This is still subject to an injection attack. What you really need to say is:\n\n  prevLink.setHTML(new SafeHtmlBuilder()\n    .append(SafeHtml.asis(Util.C.prevPatchLinkIcon()))\n    .append(fileName));",
+      "revId": "a58d7e541c65e04e7f964645f5d41deffc068e6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b84b0473_646b6ab3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-05T19:33:14Z",
+      "side": 1,
+      "message": "No leading /",
+      "revId": "a58d7e541c65e04e7f964645f5d41deffc068e6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3858f440_c867cfc1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-05T19:33:14Z",
+      "side": 1,
+      "message": "Same injection attack as above. Please fix.",
+      "revId": "a58d7e541c65e04e7f964645f5d41deffc068e6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3858f440_a8649bbd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-05T19:33:14Z",
+      "side": 1,
+      "message": "Why would our caller not give us a KeyCommandSet? I think we can assume its always given and skip this test.",
+      "revId": "a58d7e541c65e04e7f964645f5d41deffc068e6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3858f440_68fc63a4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/UpToChangeCommand2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-05T19:33:14Z",
+      "side": 1,
+      "message": "nit: line wrap before revision.getParentKey()",
+      "revId": "a58d7e541c65e04e7f964645f5d41deffc068e6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

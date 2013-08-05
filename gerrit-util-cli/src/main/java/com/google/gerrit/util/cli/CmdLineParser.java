@@ -40,8 +40,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
-import com.google.inject.Key;
 import com.google.inject.assistedinject.Assisted;
 
 import org.kohsuke.args4j.Argument;
@@ -76,7 +74,7 @@ public class CmdLineParser {
     CmdLineParser create(Object bean);
   }
 
-  private final Injector injector;
+  private final OptionHandlers handlers;
   private final MyParser parser;
 
   @SuppressWarnings("rawtypes")
@@ -95,9 +93,9 @@ public class CmdLineParser {
    *         annotations incorrectly.
    */
   @Inject
-  public CmdLineParser(final Injector injector, @Assisted final Object bean)
+  public CmdLineParser(OptionHandlers handlers, @Assisted final Object bean)
       throws IllegalAnnotationError {
-    this.injector = injector;
+    this.handlers = handlers;
     this.parser = new MyParser(bean);
   }
 
@@ -334,16 +332,10 @@ public class CmdLineParser {
         return add(super.createOptionHandler(option, setter));
       }
 
-      final Key<OptionHandlerFactory<?>> key =
-          OptionHandlerUtil.keyFor(setter.getType());
-      Injector i = injector;
-      while (i != null) {
-        if (i.getBindings().containsKey(key)) {
-          return add(i.getInstance(key).create(this, option, setter));
-        }
-        i = i.getParent();
+      OptionHandlerFactory<?> factory = handlers.get(setter.getType());
+      if (factory != null) {
+        return factory.create(this, option, setter);
       }
-
       return add(super.createOptionHandler(option, setter));
     }
 

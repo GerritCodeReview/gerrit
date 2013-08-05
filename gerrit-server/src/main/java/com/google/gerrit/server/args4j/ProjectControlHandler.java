@@ -16,9 +16,11 @@ package com.google.gerrit.server.args4j;
 
 import com.google.gerrit.common.ProjectUtil;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.kohsuke.args4j.CmdLineException;
@@ -27,17 +29,26 @@ import org.kohsuke.args4j.OptionDef;
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 
 public class ProjectControlHandler extends OptionHandler<ProjectControl> {
-  private final ProjectControl.Factory projectControlFactory;
+  private static final Logger log = LoggerFactory
+      .getLogger(ProjectControlHandler.class);
+  private final ProjectControl.GenericFactory projectControlFactory;
+  private final Provider<CurrentUser> user;
 
   @Inject
   public ProjectControlHandler(
-      final ProjectControl.Factory projectControlFactory,
+      final ProjectControl.GenericFactory projectControlFactory,
+      Provider<CurrentUser> user,
       @Assisted final CmdLineParser parser, @Assisted final OptionDef option,
       @Assisted final Setter<ProjectControl> setter) {
     super(parser, option, setter);
     this.projectControlFactory = projectControlFactory;
+    this.user = user;
   }
 
   @Override
@@ -59,13 +70,21 @@ public class ProjectControlHandler extends OptionHandler<ProjectControl> {
     }
 
     String nameWithoutSuffix = ProjectUtil.stripGitSuffix(projectName);
+    Project.NameKey nameKey = new Project.NameKey(nameWithoutSuffix);
 
     final ProjectControl control;
     try {
-      Project.NameKey nameKey = new Project.NameKey(nameWithoutSuffix);
-      control = projectControlFactory.validateFor(nameKey, ProjectControl.OWNER | ProjectControl.VISIBLE);
+      control = projectControlFactory.validateFor(
+          nameKey,
+          ProjectControl.OWNER | ProjectControl.VISIBLE,
+          user.get());
     } catch (NoSuchProjectException e) {
       throw new CmdLineException(owner, e.getMessage());
+    } catch (IOException e) {
+      log.warn("Cannot load project " + nameWithoutSuffix, e);
+      throw new CmdLineException(
+          owner,
+          new NoSuchProjectException(nameKey).getMessage());
     }
 
     setter.addValue(control);

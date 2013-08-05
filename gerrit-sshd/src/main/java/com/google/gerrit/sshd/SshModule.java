@@ -14,12 +14,11 @@
 
 package com.google.gerrit.sshd;
 
-import static com.google.inject.Scopes.SINGLETON;
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.registerInParentInjectors;
+import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.collect.Maps;
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.server.CmdLineParserModule;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.FactoryModule;
@@ -68,7 +67,6 @@ public class SshModule extends FactoryModule {
 
     configureRequestScope();
     install(new AsyncReceiveCommits.Module());
-    install(new CmdLineParserModule());
     configureAliases();
 
     bind(SshLog.class);

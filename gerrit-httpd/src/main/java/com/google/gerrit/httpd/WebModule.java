@@ -27,7 +27,6 @@ import com.google.gerrit.httpd.auth.ldap.LdapAuthModule;
 import com.google.gerrit.httpd.gitweb.GitWebModule;
 import com.google.gerrit.httpd.rpc.UiRpcModule;
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.server.CmdLineParserModule;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -130,7 +129,6 @@ public class WebModule extends FactoryModule {
     DynamicSet.setOf(binder(), WebUiPlugin.class);
 
     install(new AsyncReceiveCommits.Module());
-    install(new CmdLineParserModule());
 
     bind(SocketAddress.class).annotatedWith(RemotePeer.class).toProvider(
         HttpRemotePeerProvider.class).in(RequestScoped.class);

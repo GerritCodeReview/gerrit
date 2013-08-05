@@ -16,15 +16,12 @@ package com.google.gerrit.pgm.util;
 
 
 import com.google.gerrit.util.cli.CmdLineParser;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.Module;
+import com.google.gerrit.util.cli.OptionHandlers;
 
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.Option;
 
 import java.io.StringWriter;
-import java.util.Collections;
 
 /** Base class for command line invocations of Gerrit Code Review. */
 public abstract class AbstractProgram {
@@ -44,8 +41,7 @@ public abstract class AbstractProgram {
   }
 
   public final int main(final String[] argv) throws Exception {
-    final Injector empty = emptyInjector();
-    final CmdLineParser clp = new CmdLineParser(empty, this);
+    final CmdLineParser clp = new CmdLineParser(OptionHandlers.empty(), this);
     try {
       clp.parseArgument(argv);
     } catch (CmdLineException err) {
@@ -79,10 +75,6 @@ public abstract class AbstractProgram {
       }
       return 128;
     }
-  }
-
-  private static Injector emptyInjector() {
-    return Guice.createInjector(Collections.<Module> emptyList());
   }
 
   /** Create a new exception to indicate we won't continue. */

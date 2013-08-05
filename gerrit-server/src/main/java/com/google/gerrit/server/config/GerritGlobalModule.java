@@ -29,6 +29,7 @@ import com.google.gerrit.rules.PrologModule;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.CmdLineParserModule;
 import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
@@ -163,6 +164,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(ChangeCache.module());
 
     install(new AccessControlModule());
+    install(new CmdLineParserModule());
     install(new EmailModule());
     install(new GitModule());
     install(new PrologModule());

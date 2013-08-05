@@ -18,8 +18,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.server.config.FactoryModule;
-import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.args4j.AccountGroupIdHandler;
 import com.google.gerrit.server.args4j.AccountGroupUUIDHandler;
 import com.google.gerrit.server.args4j.AccountIdHandler;
@@ -28,11 +26,12 @@ import com.google.gerrit.server.args4j.ObjectIdHandler;
 import com.google.gerrit.server.args4j.PatchSetIdHandler;
 import com.google.gerrit.server.args4j.ProjectControlHandler;
 import com.google.gerrit.server.args4j.SocketAddressHandler;
+import com.google.gerrit.server.config.FactoryModule;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gerrit.util.cli.OptionHandlerUtil;
-
+import com.google.gerrit.util.cli.OptionHandlers;
 import org.eclipse.jgit.lib.ObjectId;
-
 import org.kohsuke.args4j.spi.OptionHandler;
 
 import java.net.SocketAddress;
@@ -44,6 +43,7 @@ public class CmdLineParserModule extends FactoryModule {
   @Override
   protected void configure() {
     factory(CmdLineParser.Factory.class);
+    bind(OptionHandlers.class);
 
     registerOptionHandler(Account.Id.class, AccountIdHandler.class);
     registerOptionHandler(AccountGroup.Id.class, AccountGroupIdHandler.class);

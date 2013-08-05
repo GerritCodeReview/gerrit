@@ -16,6 +16,24 @@
       "revId": "e893e4858994cfa0ef2d73706689c96a0be72271",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8c49c29_6e148f58",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-05T23:32:19Z",
+      "side": 1,
+      "message": "Yes, I\u0027ll add this.\n\nI just wanted to check if you\u0027re OK with having this feature in Gerrit, before I spent any more time polishing the implementation.",
+      "parentUuid": "b84b0473_8447864c",
+      "revId": "e893e4858994cfa0ef2d73706689c96a0be72271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

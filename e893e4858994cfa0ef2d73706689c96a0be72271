@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b84b0473_8447864c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-05T19:03:13Z",
+      "side": 1,
+      "message": "These should at least be logged so an admin has something to investigate after seeing no commitMessage field in a stream.",
+      "revId": "e893e4858994cfa0ef2d73706689c96a0be72271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

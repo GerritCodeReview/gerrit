@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b84b0473_44874e63",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_80.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-05T19:10:35Z",
+      "side": 1,
+      "message": "This symbol is still not yet defined in the version of gwtorm used by gerrit. So we need to build a new rev of gwtorm and bump gerrit with that dependency before this can submit.",
+      "revId": "350b39acce54579ff2592c5b12746e9929416365",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

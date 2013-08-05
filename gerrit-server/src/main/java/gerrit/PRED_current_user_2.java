@@ -112,7 +112,6 @@ class PRED_current_user_2 extends Predicate.P2 {
   }
 
   private static IdentifiedUser.GenericFactory userFactory(Prolog engine) {
-    PrologEnvironment env = (PrologEnvironment) engine.control;
-    return env.getInjector().getInstance(IdentifiedUser.GenericFactory.class);
+    return ((PrologEnvironment) engine.control).getArgs().getUserFactory();
   }
 }

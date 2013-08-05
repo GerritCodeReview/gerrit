@@ -14,8 +14,15 @@
 
 package com.google.gerrit.rules;
 
+import com.google.gerrit.server.AnonymousUser;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 
 import com.googlecode.prolog_cafe.lang.BufferingPrologControl;
@@ -56,23 +63,22 @@ public class PrologEnvironment extends BufferingPrologControl {
     PrologEnvironment create(PrologMachineCopy src);
   }
 
-  private final Injector injector;
+  private final Args args;
   private final Map<StoredValue<Object>, Object> storedValues;
   private List<Runnable> cleanup;
 
   @Inject
-  PrologEnvironment(Injector i, @Assisted PrologMachineCopy src) {
+  PrologEnvironment(Args a, @Assisted PrologMachineCopy src) {
     super(src);
-    injector = i;
     setMaxArity(MAX_ARITY);
     setEnabled(EnumSet.allOf(Prolog.Feature.class), false);
+    args = a;
     storedValues = new HashMap<StoredValue<Object>, Object>();
     cleanup = new LinkedList<Runnable>();
   }
 
-  /** Get the global Guice Injector that configured the environment. */
-  public Injector getInjector() {
-    return injector;
+  public Args getArgs() {
+    return args;
   }
 
   /**
@@ -137,6 +143,55 @@ public class PrologEnvironment extends BufferingPrologControl {
         log.error("Failed to execute cleanup for PrologEnvironment", err);
       }
       i.remove();
+    }
+  }
+
+  @Singleton
+  public static class Args {
+    private final ProjectCache projectCache;
+    private final GitRepositoryManager repositoryManager;
+    private final PatchListCache patchListCache;
+    private final PatchSetInfoFactory patchSetInfoFactory;
+    private final IdentifiedUser.GenericFactory userFactory;
+    private final Provider<AnonymousUser> anonymousUser;
+
+    @Inject
+    Args(ProjectCache projectCache,
+        GitRepositoryManager repositoryManager,
+        PatchListCache patchListCache,
+        PatchSetInfoFactory patchSetInfoFactory,
+        IdentifiedUser.GenericFactory userFactory,
+        Provider<AnonymousUser> anonymousUser) {
+      this.projectCache = projectCache;
+      this.repositoryManager = repositoryManager;
+      this.patchListCache = patchListCache;
+      this.patchSetInfoFactory = patchSetInfoFactory;
+      this.userFactory = userFactory;
+      this.anonymousUser = anonymousUser;
+    }
+
+    public ProjectCache getProjectCache() {
+      return projectCache;
+    }
+
+    public GitRepositoryManager getGitRepositoryManager() {
+      return repositoryManager;
+    }
+
+    public PatchListCache getPatchListCache() {
+      return patchListCache;
+    }
+
+    public PatchSetInfoFactory getPatchSetInfoFactory() {
+      return patchSetInfoFactory;
+    }
+
+    public IdentifiedUser.GenericFactory getUserFactory() {
+      return userFactory;
+    }
+
+    public AnonymousUser getAnonymousUser() {
+      return anonymousUser.get();
     }
   }
 }

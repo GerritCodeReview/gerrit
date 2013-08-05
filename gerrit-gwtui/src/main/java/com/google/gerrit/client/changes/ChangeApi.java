@@ -74,7 +74,12 @@ public class ChangeApi {
   }
 
   public static RestApi revision(PatchSet.Id id) {
-    return change(id.getParentKey().get()).view("revisions").id(id.get());
+    int cn = id.getParentKey().get();
+    String revision = RevisionInfoCache.get(id);
+    if (revision != null) {
+      return revision(cn, revision);
+    }
+    return change(cn).view("revisions").id(id.get());
   }
 
   public static RestApi reviewers(int id) {

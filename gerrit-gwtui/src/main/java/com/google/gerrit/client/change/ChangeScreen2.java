@@ -27,6 +27,7 @@ import com.google.gerrit.client.changes.ChangeInfo.MessageInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.changes.ChangeList;
 import com.google.gerrit.client.changes.CommentInfo;
+import com.google.gerrit.client.changes.RevisionInfoCache;
 import com.google.gerrit.client.changes.StarredChanges;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.diff.DiffApi;
@@ -342,6 +343,7 @@ public class ChangeScreen2 extends Screen {
     CallbackGroup group = new CallbackGroup();
     loadDiff(rev, myLastReply(info), group);
     loadCommit(rev, group);
+    RevisionInfoCache.add(changeId, rev);
     ConfigInfoCache.add(info);
     ConfigInfoCache.get(info.project_name_key(),
       group.add(new ScreenLoadCallback<ConfigInfoCache.Entry>(this) {

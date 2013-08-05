@@ -172,17 +172,15 @@ public class SideBySide2 extends Screen {
             .inject(modeInjectorCb);
         }
       }));
-    CommentApi.comments(revision,
-        group.add(new GerritCallback<NativeMap<JsArray<CommentInfo>>>() {
-      @Override
-      public void onSuccess(NativeMap<JsArray<CommentInfo>> m) { published = m.get(path); }
-    }));
+    if (base != null) {
+      CommentApi.comments(base, group.add(getCommentCallback(false)));
+    }
+    CommentApi.comments(revision, group.add(getCommentCallback(false)));
     if (Gerrit.isSignedIn()) {
-      CommentApi.drafts(revision,
-          group.add(new GerritCallback<NativeMap<JsArray<CommentInfo>>>() {
-        @Override
-        public void onSuccess(NativeMap<JsArray<CommentInfo>> m) { drafts = m.get(path); }
-      }));
+      if (base != null) {
+        CommentApi.drafts(base, group.add(getCommentCallback(true)));
+      }
+      CommentApi.drafts(revision, group.add(getCommentCallback(true)));
     } else {
       drafts = JsArray.createArray().cast();
     }
@@ -315,6 +313,29 @@ public class SideBySide2 extends Screen {
     handlers.add(GlobalKey.add(this, keysOpenByEnter));
     if (keysComment != null) {
       handlers.add(GlobalKey.add(this, keysComment));
+    }
+  }
+
+  private GerritCallback<NativeMap<JsArray<CommentInfo>>> getCommentCallback(
+      final boolean toDrafts) {
+    return new GerritCallback<NativeMap<JsArray<CommentInfo>>>() {
+      @Override
+      public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
+        addAllToCommentList(result.get(path), toDrafts);
+      }
+    };
+  }
+
+  private void addAllToCommentList(JsArray<CommentInfo> in, boolean toDrafts) {
+    if (toDrafts && drafts == null) {
+      drafts = in;
+    } else if (!toDrafts && published == null) {
+      published = in;
+    } else {
+      JsArray<CommentInfo> dest = toDrafts ? drafts : published;
+      for (int i = 0; i < in.length(); i++) {
+        dest.push(in.get(i));
+      }
     }
   }
 
@@ -461,8 +482,10 @@ public class SideBySide2 extends Screen {
   }
 
   DraftBox addDraftBox(CommentInfo info) {
-    CodeMirror cm = getCmFromSide(info.side());
-    final DraftBox box = new DraftBox(this, cm, commentLinkProcessor, revision, info);
+    Side side = info.side();
+    CodeMirror cm = getCmFromSide(side);
+    final DraftBox box = new DraftBox(this, cm, commentLinkProcessor,
+        getPatchSetIdFromSide(side), info);
     if (info.id() == null) {
       Scheduler.get().scheduleDeferred(new ScheduledCommand() {
         @Override
@@ -567,7 +590,7 @@ public class SideBySide2 extends Screen {
       Side side = info.side();
       CodeMirror cm = getCmFromSide(side);
       PublishedBox box = new PublishedBox(this, commentLinkProcessor,
-          revision, info);
+          getPatchSetIdFromSide(side), info);
       publishedMap.put(info.id(), box);
       if (!info.has_line()) {
         diffTable.addFileCommentBox(box, side);
@@ -587,7 +610,7 @@ public class SideBySide2 extends Screen {
       Side side = info.side();
       DraftBox box = new DraftBox(
           this, getCmFromSide(side), commentLinkProcessor,
-          revision, info);
+          getPatchSetIdFromSide(side), info);
       if (published != null) {
         PublishedBox replyToBox = publishedMap.get(info.in_reply_to());
         if (replyToBox != null) {
@@ -690,6 +713,10 @@ public class SideBySide2 extends Screen {
 
   private CodeMirror otherCm(CodeMirror me) {
     return me == cmA ? cmB : cmA;
+  }
+
+  private PatchSet.Id getPatchSetIdFromSide(Side side) {
+    return side == Side.PARENT && base != null ? base : revision;
   }
 
   private CodeMirror getCmFromSide(Side side) {

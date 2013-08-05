@@ -60,7 +60,7 @@ public final class StoredValues {
       PatchSet ps = StoredValues.PATCH_SET.get(engine);
       PrologEnvironment env = (PrologEnvironment) engine.control;
       PatchSetInfoFactory patchInfoFactory =
-          env.getInjector().getInstance(PatchSetInfoFactory.class);
+              env.getArgs().getPatchSetInfoFactory();
       try {
         return patchInfoFactory.get(change, ps);
       } catch (PatchSetInfoNotAvailableException e) {
@@ -74,7 +74,7 @@ public final class StoredValues {
     public PatchList createValue(Prolog engine) {
       PrologEnvironment env = (PrologEnvironment) engine.control;
       PatchSetInfo psInfo = StoredValues.PATCH_SET_INFO.get(engine);
-      PatchListCache plCache = env.getInjector().getInstance(PatchListCache.class);
+      PatchListCache plCache = env.getArgs().getPatchListCache();
       Change change = StoredValues.CHANGE.get(engine);
       Project.NameKey projectKey = change.getProject();
       ObjectId a = null;
@@ -95,8 +95,7 @@ public final class StoredValues {
     @Override
     public Repository createValue(Prolog engine) {
       PrologEnvironment env = (PrologEnvironment) engine.control;
-      GitRepositoryManager gitMgr =
-        env.getInjector().getInstance(GitRepositoryManager.class);
+      GitRepositoryManager gitMgr = env.getArgs().getGitRepositoryManager();
       Change change = StoredValues.CHANGE.get(engine);
       Project.NameKey projectKey = change.getProject();
       final Repository repo;
@@ -122,7 +121,7 @@ public final class StoredValues {
         @Override
         protected AnonymousUser createValue(Prolog engine) {
           PrologEnvironment env = (PrologEnvironment) engine.control;
-          return env.getInjector().getInstance(AnonymousUser.class);
+          return env.getArgs().getAnonymousUser();
         }
       };
 

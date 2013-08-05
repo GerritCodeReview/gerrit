@@ -55,7 +55,7 @@ public abstract class PrologTestCase extends TestCase {
   protected void load(String pkg, String prologResource, Module... modules)
       throws CompileException, IOException {
     ArrayList<Module> moduleList = new ArrayList<Module>();
-    moduleList.add(new PrologModule());
+    moduleList.add(new PrologModule.EnviromentModule());
     moduleList.addAll(Arrays.asList(modules));
 
     envFactory = Guice.createInjector(moduleList)

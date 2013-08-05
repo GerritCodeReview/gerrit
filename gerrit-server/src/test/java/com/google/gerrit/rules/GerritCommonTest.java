@@ -49,7 +49,15 @@ public class GerritCommonTest extends PrologTestCase {
     load("gerrit", "gerrit_common_test.pl", new AbstractModule() {
       @Override
       protected void configure() {
-        bind(ProjectCache.class).toInstance(projects);
+        bind(PrologEnvironment.Args.class).toInstance(
+          new PrologEnvironment.Args(
+              projects,
+              null,
+              null,
+              null,
+              null,
+              null
+            ));
       }
     });
   }

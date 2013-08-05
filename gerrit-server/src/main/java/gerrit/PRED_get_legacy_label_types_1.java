@@ -17,7 +17,6 @@ package gerrit;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.StoredValues;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
@@ -55,7 +54,7 @@ class PRED_get_legacy_label_types_1 extends Predicate.P1 {
     Term a1 = arg1.dereference();
 
     PrologEnvironment env = (PrologEnvironment) engine.control;
-    ProjectState state = env.getInjector().getInstance(ProjectCache.class)
+    ProjectState state = env.getArgs().getProjectCache()
         .get(StoredValues.CHANGE.get(engine).getDest().getParentKey());
     if (state == null) {
       return engine.fail();

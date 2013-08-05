@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3858f440_e8ef33e1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-05T21:02:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b84b0473_246572dd",
+      "revId": "a58d7e541c65e04e7f964645f5d41deffc068e6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3858f440_8861d7ad",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2013-08-05T19:33:14Z",
       "side": 1,
       "message": "Once setupNav is done you no longer need this field. Its usage is strictly local to the callback for the RPC, so move it there.",
+      "revId": "a58d7e541c65e04e7f964645f5d41deffc068e6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b84b0473_64d00a45",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-05T21:02:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3858f440_8861d7ad",
       "revId": "a58d7e541c65e04e7f964645f5d41deffc068e6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "b84b0473_24da1263",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-05T21:02:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b84b0473_44706e9f",
+      "revId": "a58d7e541c65e04e7f964645f5d41deffc068e6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b84b0473_a49f22a6",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2013-08-05T19:33:14Z",
       "side": 1,
       "message": "Don\u0027t fire an RPC in the constructor. Use the onLoad() method.",
+      "revId": "a58d7e541c65e04e7f964645f5d41deffc068e6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b84b0473_44d50e33",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-05T21:02:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b84b0473_a49f22a6",
       "revId": "a58d7e541c65e04e7f964645f5d41deffc068e6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "3858f440_a8f93baf",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-05T21:02:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3858f440_085607d7",
+      "revId": "a58d7e541c65e04e7f964645f5d41deffc068e6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b84b0473_046a76ab",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
         "patchSetId": 4
@@ -98,6 +188,24 @@
       "writtenOn": "2013-08-05T19:33:14Z",
       "side": 1,
       "message": "This Nav enum is not worth it. Just pass the prevLink or nextLink widget and the key and help as arguments to setupNav.",
+      "revId": "a58d7e541c65e04e7f964645f5d41deffc068e6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3858f440_c8ec6fef",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-05T21:02:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b84b0473_046a76ab",
       "revId": "a58d7e541c65e04e7f964645f5d41deffc068e6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "3858f440_48019fcc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-05T21:02:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3858f440_e86a9389",
+      "revId": "a58d7e541c65e04e7f964645f5d41deffc068e6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b84b0473_849c26b2",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
         "patchSetId": 4
@@ -132,6 +258,24 @@
       "writtenOn": "2013-08-05T19:33:14Z",
       "side": 1,
       "message": "This is still subject to an injection attack. What you really need to say is:\n\n  prevLink.setHTML(new SafeHtmlBuilder()\n    .append(SafeHtml.asis(Util.C.prevPatchLinkIcon()))\n    .append(fileName));",
+      "revId": "a58d7e541c65e04e7f964645f5d41deffc068e6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3858f440_080ba7ec",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-05T21:02:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b84b0473_849c26b2",
       "revId": "a58d7e541c65e04e7f964645f5d41deffc068e6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "b84b0473_a4784282",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-05T21:02:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b84b0473_646b6ab3",
+      "revId": "a58d7e541c65e04e7f964645f5d41deffc068e6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3858f440_c867cfc1",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
         "patchSetId": 4
@@ -166,6 +328,24 @@
       "writtenOn": "2013-08-05T19:33:14Z",
       "side": 1,
       "message": "Same injection attack as above. Please fix.",
+      "revId": "a58d7e541c65e04e7f964645f5d41deffc068e6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3858f440_28066be6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-05T21:02:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3858f440_c867cfc1",
       "revId": "a58d7e541c65e04e7f964645f5d41deffc068e6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "b84b0473_c47b3e7e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-05T21:02:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3858f440_a8649bbd",
+      "revId": "a58d7e541c65e04e7f964645f5d41deffc068e6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3858f440_68fc63a4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/UpToChangeCommand2.java",
         "patchSetId": 4
@@ -200,6 +398,24 @@
       "writtenOn": "2013-08-05T19:33:14Z",
       "side": 1,
       "message": "nit: line wrap before revision.getParentKey()",
+      "revId": "a58d7e541c65e04e7f964645f5d41deffc068e6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3858f440_88f677bd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/UpToChangeCommand2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-05T21:02:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3858f440_68fc63a4",
       "revId": "a58d7e541c65e04e7f964645f5d41deffc068e6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

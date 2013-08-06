@@ -21,6 +21,7 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.httpd.raw.CatServlet;
 import com.google.gerrit.httpd.raw.HostPageServlet;
 import com.google.gerrit.httpd.raw.LegacyGerritServlet;
+import com.google.gerrit.httpd.raw.RobotsServlet;
 import com.google.gerrit.httpd.raw.SshInfoServlet;
 import com.google.gerrit.httpd.raw.StaticServlet;
 import com.google.gerrit.httpd.raw.ToolServlet;
@@ -112,6 +113,8 @@ class UrlModule extends ServletModule {
     if (cfg.deprecatedQuery) {
       serve("/query").with(DeprecatedChangeQueryServlet.class);
     }
+
+    serve("/robots.txt").with(RobotsServlet.class);
   }
 
   private Key<HttpServlet> notFound() {

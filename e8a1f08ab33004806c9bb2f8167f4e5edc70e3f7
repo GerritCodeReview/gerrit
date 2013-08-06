@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8cea449_0c571705",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 7
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-06T15:30:48Z",
+      "side": 1,
+      "message": "You want to exclude the code used by :init and use a dep to it instead. So:\n\n  glob([...], exclude \u003d INIT_SRCS)\n\nand add \":init\" to deps.",
+      "revId": "e8a1f08ab33004806c9bb2f8167f4e5edc70e3f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8c49c29_ae47d74b",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-06T15:30:48Z",
+      "side": 1,
+      "message": "Hoist this declaration to the top of the file. I would even put the init library at the top. See above for why.",
+      "revId": "e8a1f08ab33004806c9bb2f8167f4e5edc70e3f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

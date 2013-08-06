@@ -79,6 +79,7 @@ java_test(
   name = 'pgm_tests',
   srcs = glob(['src/test/java/**/*.java']),
   deps = [
+    ':init-api',
     ':pgm',
     '//gerrit-server:server',
     '//lib:junit',

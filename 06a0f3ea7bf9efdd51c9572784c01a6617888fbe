@@ -52,6 +52,24 @@
       "revId": "06a0f3ea7bf9efdd51c9572784c01a6617888fbe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38b474af_c8f9ef00",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-06T18:39:25Z",
+      "side": 1,
+      "message": "The code doesn\u0027t work if they are all nulls. Fixed in latest patch set.",
+      "parentUuid": "58bf688c_09f06915",
+      "revId": "06a0f3ea7bf9efdd51c9572784c01a6617888fbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

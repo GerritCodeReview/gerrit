@@ -16,6 +16,24 @@
       "revId": "11d27c8ee84e62231419b3583294b65a9260a970",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8c49c29_ee4ddf6d",
+        "filename": ".buckversion",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-06T15:25:55Z",
+      "side": 1,
+      "message": "0325c2db is available as the lightweight tag \"gerrit/0325c2db\" in https://gerrit.googlesource.com/buck. I verified it is there:\n\n  $ git ls-remote https://gerrit.googlesource.com/buck | grep 0325c2dbc195dcceb963181fd3683b7d20328734\n  0325c2dbc195dcceb963181fd3683b7d20328734\trefs/tags/gerrit/0325c2db\n  $ git cat-file -t  0325c2dbc195dcceb963181fd3683b7d20328734\n  commit\n\nSo I am confused about why this suddenly went away. Maybe Git did not bother to bring down the tags because they are lightweight?",
+      "parentUuid": "58bf688c_e91f156e",
+      "revId": "11d27c8ee84e62231419b3583294b65a9260a970",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

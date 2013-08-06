@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "38b474af_28f52b06",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/RobotsServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2013-08-06T17:43:37Z",
+      "side": 1,
+      "message": "[nit] doesn\u0027t\u0027 -\u003e doesn\u0027t\n\nThanks for writing such a detailed javadoc!",
+      "revId": "aad1d46d6c4dc6a7e75547aa82c9e564fd09cf3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b8cea449_ac47e34b",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/RobotsServlet.java",
         "patchSetId": 1

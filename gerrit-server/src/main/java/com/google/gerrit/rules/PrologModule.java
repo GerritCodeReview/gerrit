@@ -20,11 +20,11 @@ import com.google.gerrit.server.config.FactoryModule;
 public class PrologModule extends FactoryModule {
   @Override
   protected void configure() {
-    install(new EnviromentModule());
+    install(new EnvironmentModule());
     bind(PrologEnvironment.Args.class);
   }
 
-  static class EnviromentModule extends FactoryModule {
+  static class EnvironmentModule extends FactoryModule {
     @Override
     protected void configure() {
       DynamicSet.setOf(binder(), PredicateProvider.class);

@@ -17,7 +17,7 @@ from __future__ import print_function
 
 from hashlib import sha1
 from optparse import OptionParser
-from os import link, makedirs, path, remove, symlink
+from os import link, makedirs, path, remove
 import shutil
 from subprocess import check_call, CalledProcessError
 from sys import stderr
@@ -178,4 +178,4 @@ else:
   try:
     link(cache_ent, args.o)
   except OSError as err:
-    symlink(cache_ent, args.o)
+    shutil.copyfile(cache_ent, args.o)

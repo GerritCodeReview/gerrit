@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "58bf688c_a9191d8a",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/RobotsServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1013063
+      },
+      "writtenOn": "2013-08-06T19:46:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38b474af_28f52b06",
+      "revId": "aad1d46d6c4dc6a7e75547aa82c9e564fd09cf3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b8cea449_ac47e34b",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/RobotsServlet.java",
         "patchSetId": 1
@@ -64,6 +82,24 @@
       "writtenOn": "2013-08-06T17:39:59Z",
       "side": 1,
       "message": "Please make this final and assign to it exactly once in the constructor.",
+      "revId": "aad1d46d6c4dc6a7e75547aa82c9e564fd09cf3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "58bf688c_493421f5",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/RobotsServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1013063
+      },
+      "writtenOn": "2013-08-06T19:46:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8cea449_ac47e34b",
       "revId": "aad1d46d6c4dc6a7e75547aa82c9e564fd09cf3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "f8c49c29_6ebecffd",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/RobotsServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1013063
+      },
+      "writtenOn": "2013-08-06T19:46:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8cea449_8c4a2753",
+      "revId": "aad1d46d6c4dc6a7e75547aa82c9e564fd09cf3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8c49c29_ae9cb7b1",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/RobotsServlet.java",
         "patchSetId": 1
@@ -98,6 +152,24 @@
       "writtenOn": "2013-08-06T17:39:59Z",
       "side": 1,
       "message": "With SitePaths added you can say:\n\n  File file \u003d sitePaths.resolve(\n    config.getString(\"httpd\", null, \"robotsFile\"));\n  if (file !\u003d null \u0026\u0026 (!file.exists() || !file.canRead()) {\n    log.warn(\"Cannot read httpd.robotsFile, using default\");\n    file \u003d null;\n  }\n  robotsTxt \u003d file;\n\nThis allows an admin to say:\n\n  [httpd]\n    robotsTxt \u003d config/robots.txt\n\nand keep the configuration all in one place. Or use absolute paths such as to /etc/ as you suggest.",
+      "revId": "aad1d46d6c4dc6a7e75547aa82c9e564fd09cf3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "78ba6c9d_2a0e7f44",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/RobotsServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1013063
+      },
+      "writtenOn": "2013-08-06T19:46:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8c49c29_ae9cb7b1",
       "revId": "aad1d46d6c4dc6a7e75547aa82c9e564fd09cf3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +193,24 @@
     },
     {
       "key": {
+        "uuid": "58bf688c_6939e5e9",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/RobotsServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1013063
+      },
+      "writtenOn": "2013-08-06T19:46:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8c49c29_4e6bd3b2",
+      "revId": "aad1d46d6c4dc6a7e75547aa82c9e564fd09cf3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "78ba6c9d_6a147758",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/RobotsServlet.java",
         "patchSetId": 1
@@ -138,6 +228,24 @@
     },
     {
       "key": {
+        "uuid": "78ba6c9d_0a093b3b",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/RobotsServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1013063
+      },
+      "writtenOn": "2013-08-06T19:46:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78ba6c9d_6a147758",
+      "revId": "aad1d46d6c4dc6a7e75547aa82c9e564fd09cf3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8c49c29_6e700fa0",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/RobotsServlet.java",
         "patchSetId": 1
@@ -149,6 +257,24 @@
       "writtenOn": "2013-08-06T17:39:59Z",
       "side": 1,
       "message": "If this throws IOException we should log that as a warning and fall back to the internal file:\n\n  private InputStream openRobotsTxt() {\n    if (robotsTxt !\u003d null) {\n      try {\n        return new FileInputStream(robotsTxt);\n      } catch (IOException e) {\n        log.warning(\"Cannot read \" + robotsTxt + \"; using default\", e);\n      }\n    }\n    return getServletContext().getResourceAsStream(\"/robots.txt\");\n  }",
+      "revId": "aad1d46d6c4dc6a7e75547aa82c9e564fd09cf3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "58bf688c_093e29d3",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/RobotsServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1013063
+      },
+      "writtenOn": "2013-08-06T19:46:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8c49c29_6e700fa0",
       "revId": "aad1d46d6c4dc6a7e75547aa82c9e564fd09cf3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

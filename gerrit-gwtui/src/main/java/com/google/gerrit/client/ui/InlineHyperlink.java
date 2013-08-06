@@ -33,11 +33,8 @@ public class InlineHyperlink extends
     super(text, token);
   }
 
-  /**
-   * Creates an empty link.
-   */
+  /** Creates an empty link. */
   public InlineHyperlink() {
-    super();
   }
 
   @Override

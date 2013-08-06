@@ -32,7 +32,9 @@ OPTIONS
 
 ACCESS
 ------
-Caller must be a member of the privileged 'Administrators' group.
+Caller must have been granted the
+link:access-control.html#capability_accessDatabase[Access Database]
+global capability.
 
 SCRIPTING
 ---------

@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8c49c29_2eb8c70b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1741,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-06T21:09:04Z",
+      "side": 1,
+      "message": "Wrong location. You inserted this in the middle of the httpd.filterClass documentation.",
+      "revId": "ab45438e4034dc7e3ab18957dc774f988f6bf094",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8cea449_2cdf7353",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1746,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-06T21:09:04Z",
+      "side": 1,
+      "message": "\"If not absolute, the path is resolved relative to `$site_path`.\"\n\nThis matches the documentation for cache.directory (for example).",
+      "revId": "ab45438e4034dc7e3ab18957dc774f988f6bf094",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8cea449_0cdab762",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1761,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-06T21:09:04Z",
+      "side": 1,
+      "message": "Add your new variable here.",
+      "revId": "ab45438e4034dc7e3ab18957dc774f988f6bf094",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8cea449_ccc34f7a",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/RobotsServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-06T21:09:04Z",
+      "side": 1,
+      "message": "nit: blank line is not necessary here.",
+      "revId": "ab45438e4034dc7e3ab18957dc774f988f6bf094",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -765,10 +765,10 @@ as a link:#members-input[MembersInput] entity.
   Content-Type: application/json;charset=UTF-8
 
   {
-    "members": {
+    "members": [
       "jane.roe@example.com",
       "john.doe@example.com"
-    }
+    ]
   }
 ----
 
@@ -838,10 +838,10 @@ body as a link:#members-input[MembersInput] entity.
   Content-Type: application/json;charset=UTF-8
 
   {
-    "members": {
+    "members": [
       "jane.roe@example.com",
       "john.doe@example.com"
-    }
+    ]
   }
 ----
 

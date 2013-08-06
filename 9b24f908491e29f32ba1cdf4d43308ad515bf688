@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f8c49c29_ce2263bb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/PrologModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-06T00:30:05Z",
+      "side": 1,
+      "message": "More like recommended. Making an explicit binding makes it more clear to Guice where this should come from, vs. a just-in-time binding which can sometimes wind up in a different Injector with no warning. I try to make most objects explicit when possible.",
+      "parentUuid": "b8cea449_ccf90f01",
+      "revId": "9b24f908491e29f32ba1cdf4d43308ad515bf688",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8c49c29_2e0e8744",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/PrologModule.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-08-06T00:28:25Z",
       "side": 1,
       "message": "s/Enviroment/Environment/g",
+      "revId": "9b24f908491e29f32ba1cdf4d43308ad515bf688",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8c49c29_ee1f1f6e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/PrologModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-06T00:30:05Z",
+      "side": 1,
+      "message": "Dammit. New change coming.",
+      "parentUuid": "f8c49c29_2e0e8744",
       "revId": "9b24f908491e29f32ba1cdf4d43308ad515bf688",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

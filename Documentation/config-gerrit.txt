@@ -1738,6 +1738,18 @@ Example of using a security library secure.jar under $GERRIT_SITE/lib
 that provides a org.anyorg.MySecureFilter Servlet Filter that enforces
 a trusted username in the `TRUSTED_USER` HTTP Header:
 
+[[httpd.robotsFile]]httpd.robotsFile::
++
+Location of an external robots.txt file to be used instead of the one
+bundled with the .war of the application.
++
+If the value is a relative file name it will be resolved as a sub
+directory of the site directory, if it is absolute it will be used as
+is.
++
+If the file doesn't exist or can't be read the default robots.txt file
+bundled with the .war will be used instead.
+
 ----
 [auth]
 	type = HTTP

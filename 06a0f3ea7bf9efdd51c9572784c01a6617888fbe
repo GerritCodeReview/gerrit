@@ -16,6 +16,24 @@
       "revId": "06a0f3ea7bf9efdd51c9572784c01a6617888fbe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8c49c29_6e624fe8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-08-06T04:34:42Z",
+      "side": 1,
+      "message": "No. dest can only be either drafts or published. The intention is that if dest is drafts and if is null, point drafts to in, else point published to in. It is very ugly indeed :(",
+      "parentUuid": "58bf688c_49e66165",
+      "revId": "06a0f3ea7bf9efdd51c9572784c01a6617888fbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

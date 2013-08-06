@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58bf688c_e91f156e",
+        "filename": ".buckversion",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-06T13:53:13Z",
+      "side": 1,
+      "message": "Is there anything special I need to do to get buck running with this version?\n\n  [~/git/gerrit ((3cfb54b...))]$ buck build gerrit\n  Fetching origin\n  Buck is at 307f5f7155b8abf18097341d58864de1e1d3eb1c,\n  but should be 0325c2dbc195dcceb963181fd3683b7d20328734.\n  Buck is updating itself.\n  To disable this, add a \u0027.nobuckcheck\u0027 file to your project root.\n  In general, you should only disable this if you are developing Buck.\n  fatal: reference is not a tree: \n  0325c2dbc195dcceb963181fd3683b7d20328734\n\nI tried both buck from \n  https://gerrit.googlesource.com/buck\nand from\n  git@github.com:facebook/buck.git",
+      "revId": "11d27c8ee84e62231419b3583294b65a9260a970",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+This list is by no means complete, feel free to extend it.
+
+Easy hacks:
+
+* evict the entire stream-events mess into its own plugin
+* add "Discard" button for a patch set on revision screen (removing the entire patch set from database and git)
+* make it possible to delete groups and expose this feature on UI
+* expose core functionality on UI (as UiActions?), that currently only available as SSH commands, most notably gerrit gc, gerrit replicate, delete-project, ...
+* conditionally activate vim or emacs key binding in codemirror
+* make it possible to conditionally activate other 5 codemirror addons/extensions
+* add support for recently introduced UiActions related JS RPC on old ChangeScreen (only new ChangeScreen2 is supported atm, see https://gerrit-review.googlesource.com/47870)
+
+Involved hacks:
+
+* add "Download patch" link on revision screen
+* add verification-status per verification job base in its own table on revision screen, stopping to mix human reviews and bots notifications
+* implement missing features on Change Screen2 (see the list in the commit message https://gerrit-review.googlesource.com/46600)
+
+Hard hacks:
+
+* add Apache Cassandra/Hadoop binding for gwtorm
+* implement inline (in browser) editing of patch sets
+* move persistence from database to Git branches, make sure to first move "User Preferences" persistence from database to All-Users.git repo to scale, i. e. add "codemirror.keybinding = emacs" and what not, without immediately needing ReviewDB schema migration
+* add "symbol:foo" query for changed parts of code (finding all changes where variable or function `foo` was changed): that would need language specific parsing  (java & python for now?), building AST and indexing it in secondary index
+
+Very hard hacks:
+
+* add multi master support with dedicated backend

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b8cea449_cc226fbb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-06T01:04:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8cea449_0c09573b",
+      "revId": "8af9884ab15c6e702f6a9663ada552f3942a9f0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8c49c29_0e3e2bd3",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2013-08-06T00:44:46Z",
       "side": 1,
       "message": "Widgets should never be attached with a bare element.",
+      "revId": "8af9884ab15c6e702f6a9663ada552f3942a9f0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8c49c29_ee24ffbf",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/NavLinks2.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-06T01:04:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8c49c29_0e3e2bd3",
       "revId": "8af9884ab15c6e702f6a9663ada552f3942a9f0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

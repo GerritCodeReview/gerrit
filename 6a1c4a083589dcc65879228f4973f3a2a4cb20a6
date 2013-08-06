@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78ba6c9d_0af05b15",
+        "filename": "TODO",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-06T08:49:32Z",
+      "side": 1,
+      "message": "* Convert remaining old style RPCs to new and shiny REST APIs\n* Add plugin-cookbook with per use case samples (UiActions, JS API RPC, plugin-owned UI screens and core UI extensions)",
+      "revId": "6a1c4a083589dcc65879228f4973f3a2a4cb20a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

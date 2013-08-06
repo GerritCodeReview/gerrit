@@ -1747,6 +1747,16 @@ a trusted username in the `TRUSTED_USER` HTTP Header:
 	filterClass = org.anyorg.MySecureFilter
 ----
 
+[[httpd.robotsFile]]httpd.robotsFile::
++
+Location of an external robots.txt file to be used instead of the one
+bundled with the .war of the application.
++
+If not absolute, the path is resolved relative to `$site_path`.
++
+If the file doesn't exist or can't be read the default robots.txt file
+bundled with the .war will be used instead.
+
 [[ldap]]Section ldap
 ~~~~~~~~~~~~~~~~~~~~
 

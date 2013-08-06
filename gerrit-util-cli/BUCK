@@ -4,6 +4,7 @@ java_library(
   deps = [
     '//lib:args4j',
     '//lib:guava',
+    '//lib:jsr305',
     '//lib/guice:guice',
     '//lib/guice:guice-assistedinject',
   ],

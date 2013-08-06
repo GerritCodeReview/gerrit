@@ -34,6 +34,24 @@
       "revId": "11d27c8ee84e62231419b3583294b65a9260a970",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3839d401_40e6ce64",
+        "filename": ".buckversion",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-06T23:07:35Z",
+      "side": 1,
+      "message": "Works OK for me...",
+      "parentUuid": "f8c49c29_ee4ddf6d",
+      "revId": "11d27c8ee84e62231419b3583294b65a9260a970",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

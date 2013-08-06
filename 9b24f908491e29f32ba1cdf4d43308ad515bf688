@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8cea449_ccf90f01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/PrologModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-08-06T00:28:25Z",
+      "side": 1,
+      "message": "Is this bind() needed? (not complaining, just curious)",
+      "revId": "9b24f908491e29f32ba1cdf4d43308ad515bf688",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8c49c29_2e0e8744",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/PrologModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-08-06T00:28:25Z",
+      "side": 1,
+      "message": "s/Enviroment/Environment/g",
+      "revId": "9b24f908491e29f32ba1cdf4d43308ad515bf688",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

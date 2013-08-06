@@ -5,6 +5,8 @@ EXCLUDE = [
   'META-INF/DEPENDENCIES',
   'META-INF/LICENSE',
   'META-INF/NOTICE',
+  'META-INF/maven/com.google.guava/guava/pom.properties',
+  'META-INF/maven/com.google.guava/guava/pom.xml',
 ]
 
 java_library(

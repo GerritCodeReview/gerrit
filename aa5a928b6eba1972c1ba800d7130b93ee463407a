@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8cea449_2c91b39d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/InlineHyperlink.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-06T17:47:51Z",
+      "side": 1,
+      "message": "nit: this could be one line: /** Creates an empty link. */",
+      "revId": "aa5a928b6eba1972c1ba800d7130b93ee463407a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8c49c29_2e6a07ac",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/InlineHyperlink.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-06T17:47:51Z",
+      "side": 1,
+      "message": "nit: super is unnecessary. If you omit it the compiler will make the call anyway.",
+      "revId": "aa5a928b6eba1972c1ba800d7130b93ee463407a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

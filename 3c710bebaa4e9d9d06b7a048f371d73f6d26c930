@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8c49c29_ce27c3c2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-06T00:49:56Z",
+      "side": 1,
+      "message": "This is highly dependent on current behavior from CallbackGroup that I would prefer not to rely on.\n\nMaybe write this by having published and drafts be a new empty map at the start of this method and then in any RPC that gets data for them do a merge to fill the map? This slows down the common case where you didn\u0027t load the data from the parent revision because it was included in your own request.\n\nMaybe write a helper method that does the merge the way you do below on line 186 and use it in all 4 locations? Something like:\n\n  NativeMap\u003cJsArray\u003cCommentInfo\u003e\u003e merge(\n      NativeMap\u003cJsArray\u003cCommentInfo\u003e\u003e dest,\n      NativeMap\u003cJsArray\u003cCommentInfo\u003e\u003e in) {\n    if (dest \u003d\u003d null) {\n      return in;\n    } else {\n      ... copy data ...\n      return dest;\n    }\n\n  drafts \u003d merge(drafts, in);\n  published \u003d merge(published, in);",
+      "revId": "3c710bebaa4e9d9d06b7a048f371d73f6d26c930",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

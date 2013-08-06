@@ -16,6 +16,23 @@
       "revId": "67147b2dd91074f79e847704ed11168979a938bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8c49c29_2edf6753",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-06T18:52:16Z",
+      "side": 1,
+      "message": "Can\u0027t in be null if there are no comments on the file?",
+      "revId": "67147b2dd91074f79e847704ed11168979a938bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

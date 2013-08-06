@@ -33,12 +33,8 @@ public class InlineHyperlink extends
     super(text, token);
   }
 
-  /**
-   * Creates an empty link.
-   */
-  public InlineHyperlink() {
-    super();
-  }
+  /** Creates an empty link. */
+  public InlineHyperlink() {}
 
   @Override
   public void onBrowserEvent(final Event event) {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "180c1077_1286ea0e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-08-07T15:06:16Z",
+      "side": 1,
+      "message": "The repo should be another parameter to validatePreMerge since it needs to be used by validators.  Passing it in the constructor means it is not available to plugin validators.",
+      "revId": "37e47f1eb41d20eae40af469cbf4fffcbcc0f428",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

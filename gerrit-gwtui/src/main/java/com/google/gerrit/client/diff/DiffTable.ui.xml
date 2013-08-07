@@ -101,7 +101,7 @@ limitations under the License.
     }
   </ui:style>
   <g:HTMLPanel styleName='{style.difftable}'>
-    <table>
+    <table class='{style.table}'>
       <tr>
         <td>
           <table class='{style.table}'>

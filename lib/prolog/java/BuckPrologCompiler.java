@@ -19,27 +19,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
 
 public class BuckPrologCompiler {
   public static void main(String[] argv) throws IOException, CompileException {
-    List<File> srcs = new ArrayList<File>();
-    List<File> jars = new ArrayList<File>();
-    for (int i = 0; i < argv.length - 1; i++) {
-      String s = argv[i];
-      if (s.endsWith(".pl")) {
-        srcs.add(new File(s));
-      } else if (s.endsWith(".jar")) {
-        jars.add(new File(s));
-      }
-    }
-
     File out = new File(argv[argv.length - 1]);
     File java = tmpdir("java");
-    for (File src : srcs) {
+    for (int i = 0; i < argv.length - 1; i++) {
+      File src = new File(argv[i]);
       new Compiler().prologToJavaSource(src.getPath(), java.getPath());
     }
     jar(out, java);

@@ -70,6 +70,24 @@
       "revId": "11d27c8ee84e62231419b3583294b65a9260a970",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f842dc7b_de000516",
+        "filename": ".buckversion",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-08-07T10:11:40Z",
+      "side": 1,
+      "message": "I ever encountered this issue as you, however I did not trace down the root reason.  I just fixed it by\n \u0027git  ls-remote\u0027  //find it there\n \u0027git fetch  origin refs/tags/gerrit/0325c2db\u0027 \n \u0027git checkout -b ...\u0027\n \u0027ant \u0027  .",
+      "parentUuid": "58020843_71f01817",
+      "revId": "11d27c8ee84e62231419b3583294b65a9260a970",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

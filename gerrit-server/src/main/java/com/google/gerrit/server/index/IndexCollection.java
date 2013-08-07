@@ -57,15 +57,15 @@ public class IndexCollection implements LifecycleListener {
     return Collections.unmodifiableCollection(writeIndexes);
   }
 
-  public synchronized void addWriteIndex(ChangeIndex index) {
+  public synchronized ChangeIndex addWriteIndex(ChangeIndex index) {
     int version = index.getSchema().getVersion();
-    for (ChangeIndex i : writeIndexes) {
-      if (i.getSchema().getVersion() == version) {
-        throw new IllegalArgumentException(
-            "Write index version " + version + " already in list");
+    for (int i = 0; i < writeIndexes.size(); i++) {
+      if (writeIndexes.get(i).getSchema().getVersion() == version) {
+        return writeIndexes.set(i, index);
       }
     }
     writeIndexes.add(index);
+    return null;
   }
 
   public synchronized void removeWriteIndex(int version) {

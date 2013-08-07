@@ -16,6 +16,24 @@
       "revId": "75c4038320e6d09d6938a79bc187f1407c4c4ed7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f842dc7b_3e0f6944",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-08-07T13:44:36Z",
+      "side": 1,
+      "message": "fixed",
+      "parentUuid": "f3259f90_860dea4c",
+      "revId": "75c4038320e6d09d6938a79bc187f1407c4c4ed7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

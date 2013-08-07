@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "180c1077_d292a24d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-08-07T15:01:57Z",
+      "side": 1,
+      "message": "These parameters feel like they should be injected here if possible instead of to the outter class.",
+      "revId": "2f53694e2e9ade1b501a5edb0e935115e30f040f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

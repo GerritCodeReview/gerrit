@@ -19,7 +19,9 @@ def prolog_cafe_library(
     visibility = []):
   genrule(
     name = name + '__pl2j',
-    cmd = '$(exe //lib/prolog:compiler) $SRCS $DEPS $OUT',
+    cmd = 'cd $SRCDIR;$(exe //lib/prolog:compiler) $DEPS ' +
+      ' '.join(srcs) +
+      ' $OUT',
     srcs = srcs,
     deps = ['//lib/prolog:compiler'],
     out = name + '.src.zip',

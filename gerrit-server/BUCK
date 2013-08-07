@@ -1,5 +1,3 @@
-include_defs('//lib/prolog/prolog.defs')
-
 SRCS = glob(['src/main/java/**/*.java'])
 RESOURCES =  glob(['src/main/resources/**/*'])
 
@@ -60,20 +58,13 @@ java_sources(
   visibility = ['PUBLIC'],
 )
 
-prolog_cafe_library(
-  name = 'common_rules',
-  srcs = ['src/main/prolog/gerrit_common.pl'],
-  deps = [':server'],
-  visibility = ['PUBLIC'],
-)
-
 java_test(
   name = 'server_tests',
   srcs = glob(['src/test/java/**/*.java']),
   resources = glob(['src/test/resources/**/*']),
   deps = [
     ':server',
-    ':common_rules',
+    '//gerrit-server/src/main/prolog:common',
     '//gerrit-antlr:query_exception',
     '//gerrit-antlr:query_parser',
     '//gerrit-common:server',

@@ -52,6 +52,24 @@
       "revId": "11d27c8ee84e62231419b3583294b65a9260a970",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "58020843_71f01817",
+        "filename": ".buckversion",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-07T09:23:10Z",
+      "side": 1,
+      "message": "This is strange. I don\u0027t know why I was not getting this tag on a normal fetch.\nWhen I fetched today I got another tag (gerrit/902da647) but gerrit/0325c2db was still missing.\nHowever fetching the tag explicitely by \u0027git fetch origin refs/tags/gerrit/0325c2db\u0027 was successful. So the build is now again working for me :-)",
+      "parentUuid": "3839d401_40e6ce64",
+      "revId": "11d27c8ee84e62231419b3583294b65a9260a970",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

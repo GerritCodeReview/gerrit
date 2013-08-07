@@ -23,21 +23,22 @@ limitations under the License.
       width: 200px;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+    .header, .subject {
       white-space: nowrap;
     }
   </ui:style>
 
   <g:HTMLPanel>
-    <div ui:field='header'>
-      <div title='Same branch changes connected by Git history'>
-        <ui:attribute name='title'/>
-        <ui:msg>Related Changes</ui:msg>
-      </div>
+    <div ui:field='header' class='{style.header}'
+         title='Same branch changes connected by Git history'>
+      <ui:attribute name='title'/>
+      <ui:msg>Related Changes</ui:msg>
     </div>
     <g:ScrollPanel ui:field='scroll' visible='false'/>
     <x:ProgressBar ui:field='progress'/>
-    <div ui:field='error' aria-hidden='true' style='display: NONE'/>
-    <div ui:field='none' aria-hidden='true' style='display: NONE'>
+    <div ui:field='error' aria-hidden='true' style='display: NONE' class='{style.header}'/>
+    <div ui:field='none' aria-hidden='true' style='display: NONE' class='{style.header}'>
       <ui:msg>No Related Changes</ui:msg>
     </div>
   </g:HTMLPanel>

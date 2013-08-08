@@ -84,12 +84,18 @@ class SaveDraft extends Handler<PatchLineComment> {
             throw new IllegalStateException("Parent comment must be on same side");
           }
         }
+        if (comment.getRange() != null
+            && comment.getLine() != comment.getRange().getEndLine()) {
+            throw new IllegalStateException(
+              "Range endLine must be on the same line as the comment");
+        }
 
         final PatchLineComment nc =
             new PatchLineComment(new PatchLineComment.Key(patchKey, ChangeUtil
                 .messageUUID(db)), comment.getLine(), me, comment.getParentUuid());
         nc.setSide(comment.getSide());
         nc.setMessage(comment.getMessage());
+        nc.setRange(comment.getRange());
         db.patchComments().insert(Collections.singleton(nc));
         db.commit();
         return nc;

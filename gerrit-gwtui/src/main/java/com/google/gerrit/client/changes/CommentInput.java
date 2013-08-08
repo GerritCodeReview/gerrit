@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.diff.CommentRange;
 import com.google.gerrit.common.changes.Side;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwtjsonrpc.client.impl.ser.JavaSqlTimestamp_JsonSerializer;
@@ -29,6 +30,7 @@ public class CommentInput extends JavaScriptObject {
     if (original.has_line()) {
       input.setLine(original.line());
     }
+    input.setRange(original.range());
     input.setInReplyTo(original.in_reply_to());
     input.setMessage(original.message());
     return input;
@@ -70,6 +72,10 @@ public class CommentInput extends JavaScriptObject {
   private final native String updatedRaw() /*-{ return this.updated; }-*/;
 
   public final native boolean has_line() /*-{ return this.hasOwnProperty('line'); }-*/;
+
+  public final native CommentRange range() /*-{ return this.range; }-*/;
+
+  public final native void setRange(CommentRange range) /*-{ this.range = range; }-*/;
 
   protected CommentInput() {
   }

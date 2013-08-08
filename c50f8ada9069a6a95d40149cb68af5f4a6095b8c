@@ -16,6 +16,24 @@
       "revId": "c50f8ada9069a6a95d40149cb68af5f4a6095b8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38a394b4_10e60464",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-08T19:37:43Z",
+      "side": 1,
+      "message": "Is that one ready to go? Mine doesn\u0027t involve migrateData() so a rebase shouldn\u0027t be too hard.",
+      "parentUuid": "d8c43863_952204ba",
+      "revId": "c50f8ada9069a6a95d40149cb68af5f4a6095b8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

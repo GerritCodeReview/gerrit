@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.PutDraft.Input;
 import com.google.gwtorm.server.OrmException;
@@ -41,6 +42,7 @@ class PutDraft implements RestModifyView<DraftResource, Input> {
     Integer line;
     String inReplyTo;
     Timestamp updated; // Accepted but ignored.
+    CommentRange range;
 
     @DefaultInput
     String message;
@@ -92,13 +94,16 @@ class PutDraft implements RestModifyView<DraftResource, Input> {
     if (in.side != null) {
       e.setSide(in.side == Side.PARENT ? (short) 0 : (short) 1);
     }
-    if (in.line != null) {
-      e.setLine(in.line);
-    }
     if (in.inReplyTo != null) {
       e.setParentUuid(Url.decode(in.inReplyTo));
     }
     e.setMessage(in.message.trim());
+    Integer line = in.line;
+    CommentRange range = in.range;
+    if (range != null || line != null) {
+      e.setRange(range);
+      e.setLine(line == null ? range.getEndLine() : line);
+    }
     e.updated();
     return e;
   }

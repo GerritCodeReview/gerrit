@@ -34,6 +34,7 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.server.PatchLineCommentAccess;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountInfo;
@@ -111,13 +112,13 @@ public class CommentsTest extends TestCase {
     long timeBase = System.currentTimeMillis();
     plc1 = newPatchLineComment(psId1, "Comment1", null,
         "FileOne.txt", Side.REVISION, 1, account1, timeBase,
-        "First Comment");
+        "First Comment", new CommentRange(1, 2, 3, 4));
     plc2 = newPatchLineComment(psId1, "Comment2", "Comment1",
         "FileOne.txt", Side.REVISION, 1, account2, timeBase + 1000,
-        "Reply to First Comment");
+        "Reply to First Comment",  new CommentRange(1, 2, 3, 4));
     plc3 = newPatchLineComment(psId1, "Comment3", "Comment1",
         "FileOne.txt", Side.PARENT, 1, account1, timeBase + 2000,
-        "First Parent Comment");
+        "First Parent Comment",  new CommentRange(1, 2, 3, 4));
 
     expect(plca.publishedByPatchSet(psId1))
         .andAnswer(results(plc1, plc2, plc3)).anyTimes();
@@ -206,16 +207,18 @@ public class CommentsTest extends TestCase {
     assertEquals(plc.getSide() == 0 ? Side.PARENT : Side.REVISION,
         Objects.firstNonNull(ci.side, Side.REVISION));
     assertEquals(plc.getWrittenOn(), ci.updated);
+    assertEquals(plc.getRange(), ci.range);
   }
 
   private static PatchLineComment newPatchLineComment(PatchSet.Id psId,
       String uuid, String inReplyToUuid, String filename, Side side, int line,
-      Account.Id authorId, long millis, String message) {
+      Account.Id authorId, long millis, String message, CommentRange range) {
     Patch.Key p = new Patch.Key(psId, filename);
     PatchLineComment.Key id = new PatchLineComment.Key(p, uuid);
     PatchLineComment plc =
         new PatchLineComment(id, line, authorId, inReplyToUuid);
     plc.setMessage(message);
+    plc.setRange(range);
     plc.setSide(side == Side.PARENT ? (short) 0 : (short) 1);
     plc.setStatus(Status.PUBLISHED);
     plc.setWrittenOn(new Timestamp(millis));

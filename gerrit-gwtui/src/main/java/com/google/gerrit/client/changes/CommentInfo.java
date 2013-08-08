@@ -15,6 +15,7 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.account.AccountInfo;
+import com.google.gerrit.client.diff.CommentRange;
 import com.google.gerrit.common.changes.Side;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwtjsonrpc.client.impl.ser.JavaSqlTimestamp_JsonSerializer;
@@ -22,10 +23,11 @@ import com.google.gwtjsonrpc.client.impl.ser.JavaSqlTimestamp_JsonSerializer;
 import java.sql.Timestamp;
 
 public class CommentInfo extends JavaScriptObject {
-  public static CommentInfo createLine(String path, Side side, int line,
-      String in_reply_to, String message) {
+  public static CommentInfo createRange(String path, Side side, int line,
+      String in_reply_to, String message, CommentRange range) {
     CommentInfo info = createFile(path, side, in_reply_to, message);
-    info.setLine(line);
+    info.setRange(range);
+    info.setLine(range == null ? line : range.end_line());
     return info;
   }
 
@@ -81,6 +83,10 @@ public class CommentInfo extends JavaScriptObject {
   public final native AccountInfo author() /*-{ return this.author; }-*/;
 
   public final native boolean has_line() /*-{ return this.hasOwnProperty('line'); }-*/;
+
+  public final native CommentRange range() /*-{ return this.range; }-*/;
+
+  public final native void setRange(CommentRange range) /*-{ this.range = range; }-*/;
 
   protected CommentInfo() {
   }

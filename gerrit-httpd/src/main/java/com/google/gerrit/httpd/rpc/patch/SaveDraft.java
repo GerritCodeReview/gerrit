@@ -90,6 +90,7 @@ class SaveDraft extends Handler<PatchLineComment> {
                 .messageUUID(db)), comment.getLine(), me, comment.getParentUuid());
         nc.setSide(comment.getSide());
         nc.setMessage(comment.getMessage());
+        nc.setRange(comment.getRange());
         db.patchComments().insert(Collections.singleton(nc));
         db.commit();
         return nc;

@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.gerrit.common.changes.Side;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.server.account.AccountInfo;
 
 import java.sql.Timestamp;
@@ -33,6 +34,7 @@ public class CommentInfo {
   String message;
   Timestamp updated;
   AccountInfo author;
+  CommentRange range;
 
   CommentInfo(PatchLineComment c, AccountInfo.Loader accountLoader) {
     id = Url.encode(c.getKey().get());
@@ -46,6 +48,7 @@ public class CommentInfo {
     inReplyTo = Url.encode(c.getParentUuid());
     message = Strings.emptyToNull(c.getMessage());
     updated = c.getWrittenOn();
+    range = c.getRange();
     if (accountLoader != null) {
       author = accountLoader.get(c.getAuthor());
     }

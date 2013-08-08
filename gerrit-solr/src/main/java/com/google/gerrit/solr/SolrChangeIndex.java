@@ -194,7 +194,7 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
   }
 
   @Override
-  public ChangeDataSource getSource(Predicate<ChangeData> p)
+  public ChangeDataSource getSource(Predicate<ChangeData> p, int limit)
       throws QueryParseException {
     Set<Change.Status> statuses = IndexRewriteImpl.getPossibleStatus(p);
     List<SolrServer> indexes = Lists.newArrayListWithCapacity(2);
@@ -204,7 +204,7 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
     if (!Sets.intersection(statuses, CLOSED_STATUSES).isEmpty()) {
       indexes.add(closedIndex);
     }
-    return new QuerySource(indexes, QueryBuilder.toQuery(p));
+    return new QuerySource(indexes, QueryBuilder.toQuery(p), limit);
   }
 
   private void commit(SolrServer server) throws IOException {
@@ -219,11 +219,12 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
     private final List<SolrServer> indexes;
     private final SolrQuery query;
 
-    public QuerySource(List<SolrServer> indexes, Query q) {
+    public QuerySource(List<SolrServer> indexes, Query q, int limit) {
       this.indexes = indexes;
 
       query = new SolrQuery(q.toString());
       query.setParam("shards.tolerant", true);
+      query.setParam("rows", Integer.toString(limit));
       query.setFields(ID_FIELD);
       query.setSort(
           ChangeField.UPDATED.getName(),

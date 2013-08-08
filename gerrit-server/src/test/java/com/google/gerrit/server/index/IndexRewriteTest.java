@@ -79,7 +79,7 @@ public class IndexRewriteTest extends TestCase {
     }
 
     @Override
-    public ChangeDataSource getSource(Predicate<ChangeData> p)
+    public ChangeDataSource getSource(Predicate<ChangeData> p, int limit)
         throws QueryParseException {
       return new Source(p);
     }
@@ -269,6 +269,16 @@ public class IndexRewriteTest extends TestCase {
         out.getChildren());
   }
 
+  public void testLimit() throws Exception {
+    Predicate<ChangeData> in = parse("file:a limit:3");
+    Predicate<ChangeData> out = rewrite(in);
+    assertSame(AndSource.class, out.getClass());
+    assertEquals(ImmutableList.of(
+          query(in.getChild(0), 4),
+          in.getChild(1)),
+        out.getChildren());
+  }
+
   public void testGetPossibleStatus() throws Exception {
     assertEquals(EnumSet.allOf(Change.Status.class), status("file:a"));
     assertEquals(EnumSet.of(NEW), status("is:new"));
@@ -308,7 +318,12 @@ public class IndexRewriteTest extends TestCase {
 
   private IndexedChangeQuery query(Predicate<ChangeData> p)
       throws QueryParseException {
-    return new IndexedChangeQuery(index, p);
+    return query(p, IndexRewriteImpl.MAX_LIMIT);
+  }
+
+  private IndexedChangeQuery query(Predicate<ChangeData> p, int limit)
+      throws QueryParseException {
+    return new IndexedChangeQuery(index, p, limit);
   }
 
   private Set<Change.Status> status(String query) throws QueryParseException {

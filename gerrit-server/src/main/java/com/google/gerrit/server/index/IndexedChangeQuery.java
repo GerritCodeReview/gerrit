@@ -15,6 +15,8 @@
 package com.google.gerrit.server.index;
 
 import com.google.common.base.Function;
+
+import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.server.query.Predicate;
@@ -39,12 +41,14 @@ import java.util.List;
 public class IndexedChangeQuery extends Predicate<ChangeData>
     implements ChangeDataSource {
   private final Predicate<ChangeData> pred;
+  private final int limit;
   private final ChangeDataSource source;
 
-  public IndexedChangeQuery(ChangeIndex index, Predicate<ChangeData> pred)
+  public IndexedChangeQuery(ChangeIndex index, Predicate<ChangeData> pred, int limit)
       throws QueryParseException {
     this.pred = pred;
-    this.source = index.getSource(pred);
+    this.limit = limit;
+    this.source = index.getSource(pred, limit);
   }
 
   @Override
@@ -132,13 +136,19 @@ public class IndexedChangeQuery extends Predicate<ChangeData>
 
   @Override
   public boolean equals(Object other) {
-    return other != null
-        && getClass() == other.getClass()
-        && pred.equals(((IndexedChangeQuery) other).pred);
+    if (other == null || getClass() != other.getClass()) {
+      return false;
+    }
+    IndexedChangeQuery o = (IndexedChangeQuery) other;
+    return pred.equals(o.pred)
+        && limit == o.limit;
   }
 
   @Override
   public String toString() {
-    return "index(" + source + ")";
+    return Objects.toStringHelper("index")
+        .add("p", source)
+        .add("limit", limit)
+        .toString();
   }
 }

@@ -231,7 +231,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   @Override
-  public ChangeDataSource getSource(Predicate<ChangeData> p)
+  public ChangeDataSource getSource(Predicate<ChangeData> p, int limit)
       throws QueryParseException {
     Set<Change.Status> statuses = IndexRewriteImpl.getPossibleStatus(p);
     List<SubIndex> indexes = Lists.newArrayListWithCapacity(2);
@@ -241,7 +241,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     if (!Sets.intersection(statuses, CLOSED_STATUSES).isEmpty()) {
       indexes.add(closedIndex);
     }
-    return new QuerySource(indexes, QueryBuilder.toQuery(p));
+    return new QuerySource(indexes, QueryBuilder.toQuery(p), limit);
   }
 
   @Override
@@ -256,16 +256,16 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   private static class QuerySource implements ChangeDataSource {
-    // TODO(dborowitz): Push limit down from predicate tree.
-    private static final int LIMIT = 1000;
     private static final ImmutableSet<String> FIELDS = ImmutableSet.of(ID_FIELD);
 
     private final List<SubIndex> indexes;
     private final Query query;
+    private final int limit;
 
-    public QuerySource(List<SubIndex> indexes, Query query) {
+    public QuerySource(List<SubIndex> indexes, Query query, int limit) {
       this.indexes = indexes;
       this.query = query;
+      this.limit = limit;
     }
 
     @Override
@@ -295,9 +295,9 @@ public class LuceneChangeIndex implements ChangeIndex {
         TopDocs[] hits = new TopDocs[indexes.size()];
         for (int i = 0; i < indexes.size(); i++) {
           searchers[i] = indexes.get(i).acquire();
-          hits[i] = searchers[i].search(query, LIMIT, sort);
+          hits[i] = searchers[i].search(query, limit, sort);
         }
-        TopDocs docs = TopDocs.merge(sort, LIMIT, hits);
+        TopDocs docs = TopDocs.merge(sort, limit, hits);
 
         List<ChangeData> result =
             Lists.newArrayListWithCapacity(docs.scoreDocs.length);

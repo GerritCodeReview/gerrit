@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.index;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Change;
@@ -28,6 +29,7 @@ import com.google.gerrit.server.query.QueryRewriter;
 import com.google.gerrit.server.query.change.AndSource;
 import com.google.gerrit.server.query.change.BasicChangeRewrites;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryRewriter;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gerrit.server.query.change.OrSource;
@@ -61,6 +63,9 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
     OPEN_STATUSES = Sets.immutableEnumSet(open);
     CLOSED_STATUSES = Sets.immutableEnumSet(closed);
   }
+
+  @VisibleForTesting
+  static final int MAX_LIMIT = 1000;
 
   /**
    * Get the set of statuses that changes matching the given predicate may have.
@@ -134,11 +139,15 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
   @Override
   public Predicate<ChangeData> rewrite(Predicate<ChangeData> in) {
     in = basicRewrites.rewrite(in);
+    // Add 1 to specified limit to match behavior of QueryProcessor.
+    int limit = ChangeQueryBuilder.hasLimit(in)
+        ? ChangeQueryBuilder.getLimit(in) + 1
+        : MAX_LIMIT;
 
     ChangeIndex index = indexes.getSearchIndex();
-    Predicate<ChangeData> out = rewriteImpl(in, index);
+    Predicate<ChangeData> out = rewriteImpl(in, index, limit);
     if (in == out || out instanceof IndexPredicate) {
-      return query(out, index);
+      return query(out, index, limit);
     } else if (out == null /* cannot rewrite */) {
       return in;
     } else {
@@ -151,6 +160,7 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
    *
    * @param in predicate to rewrite.
    * @param index index whose schema determines which fields are indexed.
+   * @param limit maximum number of results to return.
    * @return {@code null} if no part of this subtree can be queried in the
    *     index directly. {@code in} if this subtree and all its children can be
    *     queried directly in the index. Otherwise, a predicate that is
@@ -158,7 +168,7 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
    *     index directly.
    */
   private Predicate<ChangeData> rewriteImpl(Predicate<ChangeData> in,
-      ChangeIndex index) {
+      ChangeIndex index, int limit) {
     if (isIndexPredicate(in, index)) {
       return in;
     } else if (!isRewritePossible(in)) {
@@ -172,7 +182,7 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
     List<Predicate<ChangeData>> newChildren = Lists.newArrayListWithCapacity(n);
     for (int i = 0; i < n; i++) {
       Predicate<ChangeData> c = in.getChild(i);
-      Predicate<ChangeData> nc = rewriteImpl(c, index);
+      Predicate<ChangeData> nc = rewriteImpl(c, index, limit);
       if (nc == c) {
         isIndexed.set(i);
         newChildren.add(c);
@@ -192,7 +202,7 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
     } else if (rewritten.cardinality() == n) {
       return in.copy(newChildren); // All children were rewritten.
     }
-    return partitionChildren(in, newChildren, isIndexed, index);
+    return partitionChildren(in, newChildren, isIndexed, index, limit);
   }
 
   private boolean isIndexPredicate(Predicate<ChangeData> in, ChangeIndex index) {
@@ -207,10 +217,11 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
       Predicate<ChangeData> in,
       List<Predicate<ChangeData>> newChildren,
       BitSet isIndexed,
-      ChangeIndex index) {
+      ChangeIndex index,
+      int limit) {
     if (isIndexed.cardinality() == 1) {
       int i = isIndexed.nextSetBit(0);
-      newChildren.add(0, query(newChildren.remove(i), index));
+      newChildren.add(0, query(newChildren.remove(i), index, limit));
       return copy(in, newChildren);
     }
 
@@ -230,7 +241,7 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
         all.add(c);
       }
     }
-    all.add(0, query(in.copy(indexed), index));
+    all.add(0, query(in.copy(indexed), index, limit));
     return copy(in, all);
   }
 
@@ -245,9 +256,10 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
     return in.copy(all);
   }
 
-  private IndexedChangeQuery query(Predicate<ChangeData> p, ChangeIndex index) {
+  private IndexedChangeQuery query(Predicate<ChangeData> p, ChangeIndex index,
+      int limit) {
     try {
-      return new IndexedChangeQuery(index, p);
+      return new IndexedChangeQuery(index, p, limit);
     } catch (QueryParseException e) {
       throw new IllegalStateException(
           "Failed to convert " + p + " to index predicate", e);

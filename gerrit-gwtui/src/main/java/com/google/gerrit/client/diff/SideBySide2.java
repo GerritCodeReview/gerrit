@@ -466,10 +466,11 @@ public class SideBySide2 extends Screen {
   }
 
   private DraftBox addNewDraft(CodeMirror cm, int line) {
-    return addDraftBox(CommentInfo.createLine(
+    return addDraftBox(CommentInfo.createRange(
         path,
         getSideFromCm(cm),
         line + 1,
+        null,
         null,
         null));
   }
@@ -478,8 +479,8 @@ public class SideBySide2 extends Screen {
     if (!replyTo.has_line()) {
       return CommentInfo.createFile(path, replyTo.side(), replyTo.id(), null);
     } else {
-      return CommentInfo.createLine(path, replyTo.side(), replyTo.line(),
-          replyTo.id(), null);
+      return CommentInfo.createRange(path, replyTo.side(), replyTo.line(),
+          replyTo.id(), null, null);
     }
   }
 

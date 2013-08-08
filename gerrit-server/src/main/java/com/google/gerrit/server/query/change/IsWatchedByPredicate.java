@@ -21,6 +21,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.Predicate;
+import com.google.gerrit.server.query.QueryBuilder;
 import com.google.gerrit.server.query.QueryParseException;
 
 import java.util.List;
@@ -53,7 +54,7 @@ class IsWatchedByPredicate extends AndPredicate<ChangeData> {
       if (w.getFilter() != null) {
         try {
           f = builder.parse(w.getFilter());
-          if (builder.find(f, IsWatchedByPredicate.class) != null) {
+          if (QueryBuilder.find(f, IsWatchedByPredicate.class) != null) {
             // If the query is going to infinite loop, assume it
             // will never match and return null. Yes this test
             // prevents you from having a filter that matches what

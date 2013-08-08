@@ -111,6 +111,21 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       new QueryBuilder.Definition<ChangeData, ChangeQueryBuilder>(
           ChangeQueryBuilder.class);
 
+  @SuppressWarnings("unchecked")
+  public static boolean hasLimit(Predicate<ChangeData> p) {
+    return find(p, IntPredicate.class, FIELD_LIMIT) != null;
+  }
+
+  @SuppressWarnings("unchecked")
+  public static int getLimit(Predicate<ChangeData> p) {
+    return ((IntPredicate<?>) find(p, IntPredicate.class, FIELD_LIMIT)).intValue();
+  }
+
+  public static boolean hasSortKey(Predicate<ChangeData> p) {
+    return find(p, SortKeyPredicate.class, "sortkey_after") != null
+        || find(p, SortKeyPredicate.class, "sortkey_before") != null;
+  }
+
   @VisibleForTesting
   public static class Arguments {
     final Provider<ReviewDb> dbProvider;
@@ -567,21 +582,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> resume_sortkey(String sortKey) {
     return sortkey_before(sortKey);
-  }
-
-  @SuppressWarnings("unchecked")
-  public boolean hasLimit(Predicate<ChangeData> p) {
-    return find(p, IntPredicate.class, FIELD_LIMIT) != null;
-  }
-
-  @SuppressWarnings("unchecked")
-  public int getLimit(Predicate<ChangeData> p) {
-    return ((IntPredicate<?>) find(p, IntPredicate.class, FIELD_LIMIT)).intValue();
-  }
-
-  public boolean hasSortKey(Predicate<ChangeData> p) {
-    return find(p, SortKeyPredicate.class, "sortkey_after") != null
-        || find(p, SortKeyPredicate.class, "sortkey_before") != null;
   }
 
   @SuppressWarnings("unchecked")

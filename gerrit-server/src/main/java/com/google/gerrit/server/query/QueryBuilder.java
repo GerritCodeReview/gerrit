@@ -109,6 +109,56 @@ public abstract class QueryBuilder<T> {
     }
   }
 
+  /**
+   * Locate a predicate in the predicate tree.
+   *
+   * @param p the predicate to find.
+   * @param clazz type of the predicate instance.
+   * @return the predicate, null if not found.
+   */
+  @SuppressWarnings("unchecked")
+  public static <T, P extends Predicate<T>> P find(Predicate<T> p, Class<P> clazz) {
+    if (clazz.isAssignableFrom(p.getClass())) {
+      return (P) p;
+    }
+
+    for (Predicate<T> c : p.getChildren()) {
+      P r = find(c, clazz);
+      if (r != null) {
+        return r;
+      }
+    }
+
+    return null;
+  }
+
+  /**
+   * Locate a predicate in the predicate tree.
+   *
+   * @param p the predicate to find.
+   * @param clazz type of the predicate instance.
+   * @param name name of the operator.
+   * @return the predicate, null if not found.
+   */
+  @SuppressWarnings("unchecked")
+  public static <T, P extends OperatorPredicate<T>> P find(Predicate<T> p,
+      Class<P> clazz, String name) {
+    if (p instanceof OperatorPredicate
+        && ((OperatorPredicate<?>) p).getOperator().equals(name)
+        && clazz.isAssignableFrom(p.getClass())) {
+      return (P) p;
+    }
+
+    for (Predicate<T> c : p.getChildren()) {
+      P r = find(c, clazz, name);
+      if (r != null) {
+        return r;
+      }
+    }
+
+    return null;
+  }
+
   @SuppressWarnings("rawtypes")
   private final Map<String, OperatorFactory> opFactories;
 
@@ -236,56 +286,6 @@ public abstract class QueryBuilder<T> {
   protected Predicate<T> defaultField(final String value)
       throws QueryParseException {
     throw error("Unsupported query:" + value);
-  }
-
-  /**
-   * Locate a predicate in the predicate tree.
-   *
-   * @param p the predicate to find.
-   * @param clazz type of the predicate instance.
-   * @return the predicate, null if not found.
-   */
-  @SuppressWarnings("unchecked")
-  public <P extends Predicate<T>> P find(Predicate<T> p, Class<P> clazz) {
-    if (clazz.isAssignableFrom(p.getClass())) {
-      return (P) p;
-    }
-
-    for (Predicate<T> c : p.getChildren()) {
-      P r = find(c, clazz);
-      if (r != null) {
-        return r;
-      }
-    }
-
-    return null;
-  }
-
-  /**
-   * Locate a predicate in the predicate tree.
-   *
-   * @param p the predicate to find.
-   * @param clazz type of the predicate instance.
-   * @param name name of the operator.
-   * @return the predicate, null if not found.
-   */
-  @SuppressWarnings("unchecked")
-  public <P extends OperatorPredicate<T>> P find(Predicate<T> p,
-      Class<P> clazz, String name) {
-    if (p instanceof OperatorPredicate
-        && ((OperatorPredicate<?>) p).getOperator().equals(name)
-        && clazz.isAssignableFrom(p.getClass())) {
-      return (P) p;
-    }
-
-    for (Predicate<T> c : p.getChildren()) {
-      P r = find(c, clazz, name);
-      if (r != null) {
-        return r;
-      }
-    }
-
-    return null;
   }
 
   @SuppressWarnings("unchecked")

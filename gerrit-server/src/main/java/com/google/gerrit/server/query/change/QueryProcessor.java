@@ -371,7 +371,9 @@ public class QueryProcessor {
   }
 
   private int limit(Predicate<ChangeData> s) {
-    int n = queryBuilder.hasLimit(s) ? queryBuilder.getLimit(s) : maxLimit;
+    int n = ChangeQueryBuilder.hasLimit(s)
+        ? ChangeQueryBuilder.getLimit(s)
+        : maxLimit;
     return limit > 0 ? Math.min(n, limit) + 1 : n + 1;
   }
 
@@ -380,7 +382,7 @@ public class QueryProcessor {
       final Predicate<ChangeData> visibleToMe) throws QueryParseException {
 
     Predicate<ChangeData> q = queryBuilder.parse(queryString);
-    if (!queryBuilder.hasSortKey(q)) {
+    if (!ChangeQueryBuilder.hasSortKey(q)) {
       if (sortkeyBefore != null) {
         q = Predicate.and(q, queryBuilder.sortkey_before(sortkeyBefore));
       } else if (sortkeyAfter != null) {

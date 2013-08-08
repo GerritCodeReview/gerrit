@@ -38,6 +38,7 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
@@ -116,6 +117,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
     int line;
     String inReplyTo;
     String message;
+    CommentRange range;
   }
 
   static class Output {
@@ -365,6 +367,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
         e.setWrittenOn(timestamp);
         e.setSide(c.side == Side.PARENT ? (short) 0 : (short) 1);
         e.setMessage(c.message);
+        e.setRange(c.range);
         (create ? ins : upd).add(e);
       }
     }

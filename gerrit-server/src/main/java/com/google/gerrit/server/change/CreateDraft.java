@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
-import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.PutDraft.Input;
@@ -60,9 +59,9 @@ class CreateDraft implements RestModifyView<RevisionResource, Input> {
         in.line != null ? in.line : 0,
         rsrc.getAccountId(),
         Url.decode(in.inReplyTo));
-    c.setStatus(Status.DRAFT);
     c.setSide(in.side == Side.PARENT ? (short) 0 : (short) 1);
     c.setMessage(in.message.trim());
+    c.setRange(in.range);
     db.get().patchComments().insert(Collections.singleton(c));
     return Response.created(new CommentInfo(c, null));
   }

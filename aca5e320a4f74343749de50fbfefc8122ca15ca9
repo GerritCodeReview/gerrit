@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38ae3494_f8197189",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-08T18:00:33Z",
+      "side": 1,
+      "message": "This can be skipped before we even test isGitRepository().",
+      "revId": "aca5e320a4f74343749de50fbfefc8122ca15ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

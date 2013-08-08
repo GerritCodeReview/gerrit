@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8c43863_d5039c1f",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-08T07:00:00Z",
+      "side": 1,
+      "message": "i think it would be helpful to add Say-hello UiAction in helloworld-plugin, and show a popup dialog with language selection (french | english) and say hello in alert in the language, that user has selected. And mention this show case here or in the line 274. Something like that, but stripped the Capability (or even let it there?) and extend with JS RPC machinery:\n\n https://gerrit-review.googlesource.com/48206\n\nI didn\u0027t implement it because i guess it is not going to be merged? In this case we should point here or on the line 274 to the very informative commit message of this change as a show case:\n\n https://gerrit-review.googlesource.com/47870",
+      "revId": "73907be0724edac6c52cc4b0409510c8f1ff23de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d8c43863_b5f6200f",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-08T07:00:00Z",
+      "side": 1,
+      "message": "only one place is currently supported - change screen:\n\n* change screen: RevisionResource- and ChangeResource-UiActions without JS RPC support\n* change screen 2: RevisionResource- and ChangeResource-UiActions with JS RPC support\n\nSecond place: Project Info Screen that is needed to support project deletion, or add a button for project replication, or gerrit gc command is pending for review:\n\n https://gerrit-review.googlesource.com/48381",
+      "revId": "73907be0724edac6c52cc4b0409510c8f1ff23de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

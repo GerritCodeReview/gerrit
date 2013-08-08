@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "78b42cde_3a14c157",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-08T09:34:29Z",
+      "side": 1,
+      "message": "+1 for new plugin name, and deprecating \"plugin for commit validation\".\n\nWe should call the new plugin cookbook-plugin or something like that and put show cases for everything that \"plugin API\" already supports ant even what is not yet supported.\n\nI already suggested somewhere to introduce this plugin show case concept, but Shawn rejected the idea with:\n\n\"I am not going to maintain that mess\"\n\nAs for examples of the JS API: check that commit message:\n\n https://gerrit-review.googlesource.com/47870\n\nNobody is aware this commit message even exists and because the topic is rather complex, and involves a lot Java, JS and plugin integration concepts, we meed a working show case here.",
+      "parentUuid": "58b928d7_5909833a",
+      "revId": "73907be0724edac6c52cc4b0409510c8f1ff23de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d8c43863_b5f6200f",
         "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
         "patchSetId": 1

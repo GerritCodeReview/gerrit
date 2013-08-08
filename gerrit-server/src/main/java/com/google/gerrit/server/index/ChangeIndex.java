@@ -62,7 +62,7 @@ public interface ChangeIndex {
     }
 
     @Override
-    public ChangeDataSource getSource(Predicate<ChangeData> p) {
+    public ChangeDataSource getSource(Predicate<ChangeData> p, int limit) {
       throw new UnsupportedOperationException();
     }
 
@@ -133,12 +133,13 @@ public interface ChangeIndex {
    * @param p the predicate to match. Must be a tree containing only AND, OR,
    *     or NOT predicates as internal nodes, and {@link IndexPredicate}s as
    *     leaves.
+   * @param limit maximum number of results to return.
    * @return a source of documents matching the predicate.
    *
    * @throws QueryParseException if the predicate could not be converted to an
    *     indexed data source.
    */
-  public ChangeDataSource getSource(Predicate<ChangeData> p)
+  public ChangeDataSource getSource(Predicate<ChangeData> p, int limit)
       throws QueryParseException;
 
   /**

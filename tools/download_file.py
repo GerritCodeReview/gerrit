@@ -174,6 +174,7 @@ if exclude:
     check_call(['zip', '-d', args.o] + exclude)
   except CalledProcessError as err:
     print('error removing files from zip: %s' % err, file=stderr)
+    exit(1)
 else:
   try:
     link(cache_ent, args.o)

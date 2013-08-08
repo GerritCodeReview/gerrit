@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "58b928d7_5909833a",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-08T07:10:36Z",
+      "side": 1,
+      "message": "I was also thinking that the HelloWorld plugin should be updated to demonstrate more of the features of the plugin API.  This is one case, the others I was thinking about are the commit validation and merge validation.\n\nThere\u0027s a sample plugin for commit validation but I think it would be better to deprecate that and move that functionality into HelloWorld.\n\nOr actually, \"Hello World\" is not really a good name.  Maybe create a new plugin for this.\n\nAs for examples of the JS API, I deliberately didn\u0027t include anything here because I thought the documentation in js-api.txt was enough.\n\nIf you think it needs to be more detailed, I would prefer to expand that documentation rather than putting it in the release note.",
+      "parentUuid": "d8c43863_d5039c1f",
+      "revId": "73907be0724edac6c52cc4b0409510c8f1ff23de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d8c43863_b5f6200f",
         "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
         "patchSetId": 1

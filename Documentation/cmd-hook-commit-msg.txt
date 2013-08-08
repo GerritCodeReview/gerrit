@@ -55,6 +55,9 @@ This permits amending an existing commit, or allows the user to
 insert the Change-Id manually after copying it from an existing
 change viewed on the web.
 
+The `Change-Id` will not be added if `gerrit.createChangeId` is set
+to `false` in the git config.
+
 OBTAINING
 ---------
 

@@ -117,6 +117,9 @@ public final class PatchLineComment {
   @Column(id = 8, length = 40, notNull = false)
   protected String parentUuid;
 
+  @Column(id = 9, notNull = false)
+  protected CommentRange range;
+
   protected PatchLineComment() {
   }
 
@@ -188,5 +191,13 @@ public final class PatchLineComment {
 
   public void setParentUuid(String inReplyTo) {
     parentUuid = inReplyTo;
+  }
+
+  public void setRange(CommentRange r) {
+    range = r;
+  }
+
+  public CommentRange getRange() {
+    return range;
   }
 }

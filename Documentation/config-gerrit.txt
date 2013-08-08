@@ -2723,6 +2723,20 @@ not specified in a section are inherited from the default theme.
   backgroundColor = 00FFFF
 ----
 
+As example, here is the theme configuration to have the old green look:
+
+----
+[theme]
+  backgroundColor = FCFEEF
+  textColor = 000000
+  trimColor = D4E9A9
+  selectionColor = FFFFCC
+  topMenuColor = D4E9A9
+  changeTableOutdatedColor = F08080
+[theme "signed-in"]
+  backgroundColor = FFFFFF
+----
+
 [[trackingid]] Section trackingid
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

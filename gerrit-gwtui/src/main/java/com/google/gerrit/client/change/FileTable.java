@@ -71,6 +71,7 @@ class FileTable extends FlowPanel {
     String commentColumn();
     String deltaColumn1();
     String deltaColumn2();
+    String commonPrefix();
     String inserted();
     String deleted();
   }
@@ -323,6 +324,7 @@ class FileTable extends FlowPanel {
     private int row;
     private double start;
     private ProgressBar meter;
+    private String lastPath = "";
 
     private int inserted;
     private int deleted;
@@ -448,12 +450,40 @@ class FileTable extends FlowPanel {
         .setStyleName(R.css().pathColumn())
         .openAnchor()
         .setAttribute("href", "#" + url(info))
-        .setAttribute("onclick", OPEN + "(event," + info._row() + ")")
-        .append(Patch.COMMIT_MSG.equals(info.path())
-            ? Util.C.commitMessage()
-            : info.path())
-        .closeAnchor()
+        .setAttribute("onclick", OPEN + "(event," + info._row() + ")");
+
+      String path = info.path();
+      if (Patch.COMMIT_MSG.equals(path)) {
+        sb.append(Util.C.commitMessage());
+      } else {
+        int commonPrefixLen = commonPrefix(path);
+        if (commonPrefixLen > 0) {
+          sb.openSpan().setStyleName(R.css().commonPrefix())
+            .append(path.substring(0, commonPrefixLen))
+            .closeSpan();
+        }
+        sb.append(path.substring(commonPrefixLen));
+        lastPath = path;
+      }
+
+      sb.closeAnchor()
         .closeTd();
+    }
+
+    private int commonPrefix(String path) {
+      for (int n = path.length(); n > 0;) {
+        int s = path.lastIndexOf('/', n);
+        if (s < 0) {
+          return 0;
+        }
+
+        String p = path.substring(0, s + 1);
+        if (lastPath.startsWith(p)) {
+          return s + 1;
+        }
+        n = s - 1;
+      }
+      return 0;
     }
 
     private void columnComments(SafeHtmlBuilder sb, FileInfo info) {

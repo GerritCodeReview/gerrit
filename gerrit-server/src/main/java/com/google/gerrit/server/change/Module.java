@@ -97,6 +97,8 @@ public class Module extends RestApiModule {
         factory(EmailReviewComments.Factory.class);
         factory(ChangeInserter.Factory.class);
         factory(PatchSetInserter.Factory.class);
+        factory(ReviewedFlagCopier.Factory.class);
+        bind(ReviewedFlagCopier.Queue.class);
       }
     });
   }

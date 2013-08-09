@@ -90,6 +90,7 @@ public class PatchSetInserter {
   private final CommitValidators.Factory commitValidatorsFactory;
   private final ChangeIndexer indexer;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
+  private final ReviewedFlagCopier.Queue reviewedFlagCopier;
 
   private final Repository git;
   private final RevWalk revWalk;
@@ -115,6 +116,7 @@ public class PatchSetInserter {
       CommitValidators.Factory commitValidatorsFactory,
       ChangeIndexer indexer,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
+      ReviewedFlagCopier.Queue reviewedFlagCopier,
       @Assisted Repository git,
       @Assisted RevWalk revWalk,
       @Assisted RefControl refControl,
@@ -130,6 +132,7 @@ public class PatchSetInserter {
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.indexer = indexer;
     this.replacePatchSetFactory = replacePatchSetFactory;
+    this.reviewedFlagCopier = reviewedFlagCopier;
 
     this.git = git;
     this.revWalk = revWalk;
@@ -290,6 +293,7 @@ public class PatchSetInserter {
       }
 
       indexer.index(updatedChange);
+      reviewedFlagCopier.copy(patchSet.getId());
       if (runHooks) {
         hooks.doPatchsetCreatedHook(updatedChange, patchSet, db);
       }

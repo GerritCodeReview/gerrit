@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "986c8049_c31cb67c",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 3
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T00:25:06Z",
+      "side": 1,
+      "message": "I think the way to write this is actually:\n\n  any_with_block(Label, Min, reject(Who)) :-\n    check_label_range_permission(Label, Min, ok(Who)),\n    !\n    .\n  any_with_block(Label, Min, may(_)).\n\nThis mirrors behavior with line 259 above where max_with_block implements the reject() rule that handles its \"block\" feature.",
+      "revId": "ff8f7bd124338cab0360403b67c04dfccfb4f80d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8b4e4fc_fc33090c",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 3
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T00:25:06Z",
+      "side": 1,
+      "message": "maximum",
+      "revId": "ff8f7bd124338cab0360403b67c04dfccfb4f80d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "986c8049_a31fba6e",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 3
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T00:25:06Z",
+      "side": 1,
+      "message": "space after \\+ operator",
+      "revId": "ff8f7bd124338cab0360403b67c04dfccfb4f80d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

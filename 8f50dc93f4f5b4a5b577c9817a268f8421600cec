@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8d51834_cdeac925",
+        "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-09T06:04:58Z",
+      "side": 1,
+      "message": "filter seems to be null here on Tomcat-7 (no plugins deployed):\n\n java.lang.NullPointerException\n        at com.google.gerrit.httpd.WebAppInitializer.doFilter(WebAppInitializer.java:108)\n        at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)\n        at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)\n        at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:222)\n        at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:123)\n        at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)\n        at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:171)\n        at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:99)\n        at org.apache.catalina.valves.AccessLogValve.invoke(AccessLogValve.java:953)\n        at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:118)\n        at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:408)\n        at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1023)\n        at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:589)\n        at org.apache.tomcat.util.net.JIoEndpoint$SocketProcessor.run(JIoEndpoint.java:312)\n        at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)\n        at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)\n        at java.lang.Thread.run(Thread.java:722)",
+      "revId": "8f50dc93f4f5b4a5b577c9817a268f8421600cec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -76,6 +76,7 @@ public class ProjectsTable extends NavigationTable<ProjectInfo> {
 
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
     fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().dataCell());
+    fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().projectNameColumn());
     fmt.addStyleName(row, 2, Gerrit.RESOURCES.css().dataCell());
 
     populate(row, k);

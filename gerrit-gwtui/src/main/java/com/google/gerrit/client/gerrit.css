@@ -1536,3 +1536,6 @@ a:hover.downloadLink {
 .projectFilterLabel {
   margin-right: 5px;
 }
+.projectNameColumn {
+  min-width: 300px;
+}

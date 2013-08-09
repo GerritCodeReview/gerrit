@@ -26,6 +26,7 @@ limitations under the License.
       text-align: center;
       color: #fff;
       background-color: #aaa;
+      -webkit-border-radius: 2px;
     }
     .editArea { max-width: 637px; }
     button.button div {

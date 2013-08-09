@@ -66,7 +66,7 @@ project. For each dashboard create a config file. The file path/name
 will be used as name (equivalent to a title in a custom dashboard) for
 the dashboard.
 
-Example dashboard config file `MyProject Dashboard`:
+Example of a dashboard config file:
 
 ----
 [dashboard]
@@ -79,6 +79,8 @@ Example dashboard config file `MyProject Dashboard`:
 
 Once defined, project dashboards are accessible using stable URLs by
 using the project name, refname and pathname of the dashboard via URLs
+, e.g. create a dashboard config file named `Main` and push it
+to `refs/meta/dashboards/Site` branch of All-Projects, then access it
 like:
 ----
   /#/projects/All-Projects,dashboards/Site:Main

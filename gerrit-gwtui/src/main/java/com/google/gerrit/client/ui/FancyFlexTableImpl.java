@@ -21,7 +21,7 @@ import com.google.gwtexpui.safehtml.client.SafeHtml;
 
 public class FancyFlexTableImpl {
   public void resetHtml(final MyFlexTable myTable, final SafeHtml body) {
-    SafeHtml.set(getBodyElement(myTable), body);
+    SafeHtml.setInnerHTML(getBodyElement(myTable), body);
   }
 
   protected static native Element getBodyElement(HTMLTable myTable)

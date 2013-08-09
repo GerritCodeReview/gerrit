@@ -213,7 +213,7 @@ limitations under the License.
       <div class='{style.headerButtons}'>
         <g:Button ui:field='reply'
             styleName=''
-            title='Reply and score (Shortcut: r)'>
+            title='Reply and score (Shortcut: a)'>
           <ui:attribute name='title'/>
           <div><ui:msg>Reply&#8230;</ui:msg></div>
         </g:Button>

@@ -44,6 +44,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.UIObject;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
@@ -65,6 +66,7 @@ class DraftBox extends CommentBox {
   private PublishedBox replyToBox;
   private Timer expandTimer;
 
+  @UiField Widget header;
   @UiField Element summary;
   @UiField Element date;
 
@@ -99,7 +101,7 @@ class DraftBox extends CommentBox {
     };
     set(info);
 
-    addDomHandler(new ClickHandler() {
+    header.addDomHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
         if (!isEdit()) {

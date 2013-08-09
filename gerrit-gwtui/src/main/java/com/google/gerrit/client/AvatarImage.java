@@ -71,7 +71,7 @@ public class AvatarImage extends Image implements LoadHandler {
       setVisible(false);
     } else if (isGerritServer(account)) {
       setVisible(true);
-      setResource(Gerrit.RESOURCES.gerritAvatar());
+      setResource(Gerrit.RESOURCES.gerritAvatar26());
     } else if (account.has_avatar_info()) {
       setVisible(false);
       AvatarInfo info = account.avatar(size);

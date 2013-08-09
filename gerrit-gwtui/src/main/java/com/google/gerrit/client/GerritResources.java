@@ -52,8 +52,8 @@ public interface GerritResources extends ClientBundle {
   @Source("addFileComment.png")
   public ImageResource addFileComment();
 
-  @Source("diffy.png")
-  public ImageResource gerritAvatar();
+  @Source("diffy26.png")
+  public ImageResource gerritAvatar26();
 
   @Source("draftComments.png")
   public ImageResource draftComments();

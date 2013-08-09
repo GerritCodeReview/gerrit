@@ -15,10 +15,10 @@
 package com.google.gwtexpui.safehtml.client;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.HasHTML;
@@ -86,13 +86,13 @@ public abstract class SafeHtml
   }
 
   /** @return the existing inner HTML of any element. */
-  public static SafeHtml get(final Element e) {
-    return new SafeHtmlString(DOM.getInnerHTML(e));
+  public static SafeHtml get(Element e) {
+    return new SafeHtmlString(e.getInnerHTML());
   }
 
   /** Set the inner HTML of any element. */
-  public static Element set(final Element e, final SafeHtml str) {
-    DOM.setInnerHTML(e, str.asString());
+  public static Element set(Element e, final SafeHtml str) {
+    e.setInnerHTML(str.asString());
     return e;
   }
 
@@ -109,8 +109,10 @@ public abstract class SafeHtml
   }
 
   /** Parse an HTML block and return the first (typically root) element. */
-  public static Element parse(final SafeHtml str) {
-    return DOM.getFirstChild(set(DOM.createDiv(), str));
+  public static com.google.gwt.user.client.Element parse(SafeHtml html) {
+    com.google.gwt.user.client.Element e = DOM.createDiv();
+    set(e, html);
+    return DOM.getFirstChild(e);
   }
 
   /** Convert bare http:// and https:// URLs into &lt;a href&gt; tags. */

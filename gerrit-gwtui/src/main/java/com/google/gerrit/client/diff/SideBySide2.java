@@ -56,7 +56,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
@@ -85,17 +85,14 @@ import java.util.List;
 import java.util.Map;
 
 public class SideBySide2 extends Screen {
-  interface Binder extends UiBinder<HTMLPanel, SideBySide2> {}
+  interface Binder extends UiBinder<FlowPanel, SideBySide2> {}
   private static Binder uiBinder = GWT.create(Binder.class);
 
   private static final JsArrayString EMPTY =
       JavaScriptObject.createArray().cast();
 
   @UiField(provided = true)
-  ReviewedPanel reviewed;
-
-  @UiField(provided = true)
-  NavLinks2 navLinks;
+  Header header;
 
   @UiField(provided = true)
   DiffTable diffTable;
@@ -139,9 +136,8 @@ public class SideBySide2 extends Screen {
     this.handlers = new ArrayList<HandlerRegistration>(6);
     // TODO: Re-implement necessary GlobalKey bindings.
     addDomHandler(GlobalKey.STOP_PROPAGATION, KeyPressEvent.getType());
-    reviewed = new ReviewedPanel(revision, path);
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
-    add(navLinks = new NavLinks2(keysNavigation, revision, path));
+    add(header = new Header(keysNavigation, revision, path));
     add(diffTable = new DiffTable(this, path));
     add(uiBinder.createAndBindUi(this));
   }
@@ -973,7 +969,7 @@ public class SideBySide2 extends Screen {
   private Runnable toggleReviewed() {
     return new Runnable() {
      public void run() {
-       reviewed.setReviewed(!reviewed.isReviewed());
+       header.setReviewed(!header.isReviewed());
      }
     };
   }
@@ -1058,8 +1054,10 @@ public class SideBySide2 extends Screen {
     if (cmA == null) {
       return;
     }
-    int h = Gerrit.getHeaderFooterHeight() + reviewed.getOffsetHeight() +
-        navLinks.getOffsetHeight() + diffTable.getHeaderHeight() + 10; // Estimate
+    int h = Gerrit.getHeaderFooterHeight()
+        + header.getOffsetHeight()
+        + diffTable.getHeaderHeight()
+        + 10; // Estimate
     cmA.setHeight(Window.getClientHeight() - h);
     cmA.refresh();
     cmB.setHeight(Window.getClientHeight() - h);

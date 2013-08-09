@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "986c8049_433e06d4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T00:29:15Z",
+      "side": 1,
+      "message": "Given this is arriving after the JS plugin work on ChangeScreen2 we really should use the same approach and API.",
+      "revId": "7a91b09b9dde0545c0a373036889d7c4c003cf70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8b4e4fc_bc3d81d7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T00:29:15Z",
+      "side": 1,
+      "message": "PageLinks.ADMIN_PROJECTS",
+      "revId": "7a91b09b9dde0545c0a373036889d7c4c003cf70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "986c8049_23390aeb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T00:29:15Z",
+      "side": 1,
+      "message": "project(projectName)",
+      "revId": "7a91b09b9dde0545c0a373036889d7c4c003cf70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "986c8049_03340ef4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T00:29:15Z",
+      "side": 1,
+      "message": "project(name)",
+      "revId": "7a91b09b9dde0545c0a373036889d7c4c003cf70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8b4e4fc_dc384de9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T00:29:15Z",
+      "side": 1,
+      "message": "replace this part with project(name)",
+      "revId": "7a91b09b9dde0545c0a373036889d7c4c003cf70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

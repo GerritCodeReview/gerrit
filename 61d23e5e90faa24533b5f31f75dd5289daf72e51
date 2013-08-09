@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8b4e4fc_3c04d127",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T00:07:44Z",
+      "side": 1,
+      "message": "This has a merge conflict on current master with the init-api.",
+      "revId": "61d23e5e90faa24533b5f31f75dd5289daf72e51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

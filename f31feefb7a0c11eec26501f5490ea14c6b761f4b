@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "18bfb0df_b756c805",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateDraft.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-09T21:36:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5813e8db_69c4e582",
+      "revId": "f31feefb7a0c11eec26501f5490ea14c6b761f4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5813e8db_29ceeda0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateDraft.java",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "5813e8db_e9b8d511",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateDraft.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-09T21:36:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5813e8db_29ceeda0",
+      "revId": "f31feefb7a0c11eec26501f5490ea14c6b761f4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5813e8db_49c12171",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDraft.java",
         "patchSetId": 4
@@ -47,6 +83,24 @@
       "writtenOn": "2013-08-09T21:22:14Z",
       "side": 1,
       "message": "I don\u0027t think these locals are worthwhile.",
+      "revId": "f31feefb7a0c11eec26501f5490ea14c6b761f4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5813e8db_09cb2991",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDraft.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-09T21:36:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5813e8db_49c12171",
       "revId": "f31feefb7a0c11eec26501f5490ea14c6b761f4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

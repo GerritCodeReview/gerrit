@@ -1,17 +1,21 @@
 commit-msg Hook
 ===============
 
+
 NAME
 ----
+
+
 commit-msg - Edit commit messages to insert a `Change-Id` tag.
 
 DESCRIPTION
 -----------
 
+
 A Git hook automatically invoked by `git commit`, and most other
 commit creation tools such as `git citool` or `git gui`.  The Gerrit
 Code Review supplied implementation of this hook is a short shell
-script which automatically inserts a globally unique Change-Id tag
+script which automatically inserts a globally unique `Change-Id` tag
 in the footer of a commit message.  When present, Gerrit uses this
 tag to track commits across cherry-picks and rebases.
 
@@ -40,21 +44,26 @@ by inserting a new `Change-Id: ` line in the footer:
 ----
 
 The hook implementation is reasonably intelligent at inserting the
-Change-Id line before any Signed-off-by or Acked-by lines placed
+`Change-Id` line before any `Signed-off-by` or `Acked-by` lines placed
 at the end of the commit message by the author, but if no such
 lines are present then it will just insert a blank line, and add
-the Change-Id at the bottom of the message.
+the `Change-Id` at the bottom of the message.
 
-If a Change-Id line is already present in the message footer, the
-script will do nothing, leaving the existing Change-Id unmodified.
+If a `Change-Id` line is already present in the message footer, the
+script will do nothing, leaving the existing `Change-Id` unmodified.
 This permits amending an existing commit, or allows the user to
 insert the Change-Id manually after copying it from an existing
 change viewed on the web.
 
+The `Change-Id` will not be added if `gerrit.createChangeId` is set
+to `false` in the git config.
+
 OBTAINING
 ---------
-To obtain the 'commit-msg' script use scp, wget or curl to download it
-to your local system from your Gerrit server.
+
+
+To obtain the `commit-msg` script use `scp`, `wget` or `curl` to download
+it to your local system from your Gerrit server.
 
 You can use either of the below commands:
 
@@ -82,6 +91,7 @@ Make sure the hook file is executable:
 SEE ALSO
 --------
 
+
 * link:user-changeid.html[Change-Id Lines]
 * link:http://www.kernel.org/pub/software/scm/git/docs/git-commit.html[git-commit(1)]
 * link:http://www.kernel.org/pub/software/scm/git/docs/githooks.html[githooks(5)]
@@ -89,7 +99,8 @@ SEE ALSO
 IMPLEMENTATION
 --------------
 
-The hook generates unique Change-Id lines by creating a virtual
+
+The hook generates unique `Change-Id` lines by creating a virtual
 commit object within the local Git repository, and obtaining the
 SHA-1 hash from it.  Like any other Git commit, the following
 properties are included in the computation:
@@ -98,12 +109,14 @@ properties are included in the computation:
 * SHA-1 of the parent commit
 * Name, email address, timestamp of the author
 * Name, email address, timestamp of the committer
-* Proposed commit message (before Change-Id was inserted)
+* Proposed commit message (before `Change-Id` was inserted)
 
 Because the names of the tree and parent commit, as well as the
 committer timestamp are included in the hash computation, the output
-Change-Id is sufficiently unique.
+`Change-Id` is sufficiently unique.
 
 GERRIT
 ------
+
+
 Part of link:index.html[Gerrit Code Review]

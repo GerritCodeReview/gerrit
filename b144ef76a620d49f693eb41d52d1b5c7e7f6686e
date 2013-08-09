@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8b4e4fc_9c0d2549",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/SystemConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T00:20:13Z",
+      "side": 1,
+      "message": "We should not be adding a new column like this to this table.",
+      "revId": "b144ef76a620d49f693eb41d52d1b5c7e7f6686e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8b4e4fc_5c20bdb1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T00:20:13Z",
+      "side": 1,
+      "message": "This could be static.",
+      "revId": "b144ef76a620d49f693eb41d52d1b5c7e7f6686e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8b4e4fc_7c2379c0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T00:20:13Z",
+      "side": 1,
+      "message": "Our coding style indents additional arguments only one additional level (two spaces). We do not attempt to align them with the opening ( from the prior line.",
+      "revId": "b144ef76a620d49f693eb41d52d1b5c7e7f6686e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "986c8049_4309a63a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T00:20:13Z",
+      "side": 1,
+      "message": "This special case feels very wrong to me.",
+      "revId": "b144ef76a620d49f693eb41d52d1b5c7e7f6686e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8b4e4fc_3c1df175",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T00:20:13Z",
+      "side": 1,
+      "message": "Change Owner shouldn\u0027t be limited to just label permissions. This change is harder than it seems because you really need to change most references to getRefControl() in this class to inform that if the CHANGE_OWNERS group is acceptable in this context.",
+      "revId": "b144ef76a620d49f693eb41d52d1b5c7e7f6686e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "986c8049_630ea245",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T00:20:13Z",
+      "side": 1,
+      "message": "You need a schema migration to create this group for existing sites.",
+      "revId": "b144ef76a620d49f693eb41d52d1b5c7e7f6686e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "986c8049_8322beb9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_53.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T00:20:13Z",
+      "side": 1,
+      "message": "This column can\u0027t happen, it never existed so it doesn\u0027t need to be handled here during the upgrade.",
+      "revId": "b144ef76a620d49f693eb41d52d1b5c7e7f6686e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

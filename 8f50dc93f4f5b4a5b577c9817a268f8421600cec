@@ -16,6 +16,24 @@
       "revId": "8f50dc93f4f5b4a5b577c9817a268f8421600cec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18bfb0df_f70e8045",
+        "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T15:39:16Z",
+      "side": 1,
+      "message": "Of course it can\u0027t be this simple. I suspect the problem is the ServletContextListener was run in a different instance of this object than the filter instance. So I probably can\u0027t combine these into the same class.",
+      "parentUuid": "d8d51834_cdeac925",
+      "revId": "8f50dc93f4f5b4a5b577c9817a268f8421600cec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

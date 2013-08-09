@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.PutDraft.Input;
 import com.google.gwtorm.server.OrmException;
@@ -41,6 +42,7 @@ class PutDraft implements RestModifyView<DraftResource, Input> {
     Integer line;
     String inReplyTo;
     Timestamp updated; // Accepted but ignored.
+    CommentRange range;
 
     @DefaultInput
     String message;
@@ -67,6 +69,8 @@ class PutDraft implements RestModifyView<DraftResource, Input> {
       throw new BadRequestException("id must match URL");
     } else if (in.line != null && in.line < 0) {
       throw new BadRequestException("line must be >= 0");
+    } else if (in.line != null && in.range != null && in.line != in.range.getEndLine()) {
+      throw new BadRequestException("range endLine must be on the same line as the comment");
     }
 
     if (in.path != null
@@ -92,13 +96,14 @@ class PutDraft implements RestModifyView<DraftResource, Input> {
     if (in.side != null) {
       e.setSide(in.side == Side.PARENT ? (short) 0 : (short) 1);
     }
-    if (in.line != null) {
-      e.setLine(in.line);
-    }
     if (in.inReplyTo != null) {
       e.setParentUuid(Url.decode(in.inReplyTo));
     }
     e.setMessage(in.message.trim());
+    if (in.range != null || in.line != null) {
+      e.setRange(in.range);
+      e.setLine(in.range != null ? in.range.getEndLine() : in.line);
+    }
     e.updated();
     return e;
   }

@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
-import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.PutDraft.Input;
@@ -51,18 +50,22 @@ class CreateDraft implements RestModifyView<RevisionResource, Input> {
       throw new BadRequestException("message must be non-empty");
     } else if (in.line != null && in.line <= 0) {
       throw new BadRequestException("line must be > 0");
+    } else if (in.line != null && in.range != null && in.line != in.range.getEndLine()) {
+      throw new BadRequestException("range endLine must be on the same line as the comment");
     }
+
+    int line = in.line != null
+        ? in.line
+        : in.range != null ? in.range.getEndLine() : 0;
 
     PatchLineComment c = new PatchLineComment(
         new PatchLineComment.Key(
             new Patch.Key(rsrc.getPatchSet().getId(), in.path),
             ChangeUtil.messageUUID(db.get())),
-        in.line != null ? in.line : 0,
-        rsrc.getAccountId(),
-        Url.decode(in.inReplyTo));
-    c.setStatus(Status.DRAFT);
+        line, rsrc.getAccountId(), Url.decode(in.inReplyTo));
     c.setSide(in.side == Side.PARENT ? (short) 0 : (short) 1);
     c.setMessage(in.message.trim());
+    c.setRange(in.range);
     db.get().patchComments().insert(Collections.singleton(c));
     return Response.created(new CommentInfo(c, null));
   }

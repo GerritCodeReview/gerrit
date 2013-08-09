@@ -2,6 +2,108 @@
   "comments": [
     {
       "key": {
+        "uuid": "986c8049_035dee23",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommentInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T00:59:19Z",
+      "side": 1,
+      "message": "Line should be range.startLine if range !\u003d null.",
+      "revId": "c50f8ada9069a6a95d40149cb68af5f4a6095b8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "986c8049_2362eae6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentRange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T00:59:19Z",
+      "side": 1,
+      "message": "Many of these methods could be declared on a single line.",
+      "revId": "c50f8ada9069a6a95d40149cb68af5f4a6095b8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8b4e4fc_3c329104",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/CommentRange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T00:59:19Z",
+      "side": 1,
+      "message": "IIRC we make database fields protected.",
+      "revId": "c50f8ada9069a6a95d40149cb68af5f4a6095b8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "986c8049_e32e129b",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/CommentRange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T00:59:19Z",
+      "side": 1,
+      "message": "This does make it short (\"range_start_ch\") in the database but I am not sure that is the best name to use on the JSON API long term. I guess I am on the fence about whether ch and line are OK together. If we abbreviate ch to be short why not ln for line?\n\n\"range_start_character\" is verbose but is only 21 characters, so still fits in database column name limits.",
+      "revId": "c50f8ada9069a6a95d40149cb68af5f4a6095b8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "986c8049_c3311600",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/CommentRange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T00:59:19Z",
+      "side": 1,
+      "message": "no space before [",
+      "revId": "c50f8ada9069a6a95d40149cb68af5f4a6095b8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "986c8049_a3241abf",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/CommentRange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T00:59:19Z",
+      "side": 1,
+      "message": "Declare this version before the other constructor you have.",
+      "revId": "c50f8ada9069a6a95d40149cb68af5f4a6095b8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d8c43863_952204ba",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
         "patchSetId": 1

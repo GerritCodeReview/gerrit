@@ -63,6 +63,7 @@ import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.name.Names;
+import com.google.inject.servlet.GuiceFilter;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.spi.Message;
 
@@ -71,16 +72,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
 import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 
 /** Configures the web application environment for Gerrit Code Review. */
-public class WebAppInitializer extends GuiceServletContextListener {
+public class WebAppInitializer extends GuiceServletContextListener
+    implements Filter {
   private static final Logger log =
       LoggerFactory.getLogger(WebAppInitializer.class);
 
@@ -91,6 +100,13 @@ public class WebAppInitializer extends GuiceServletContextListener {
   private Injector webInjector;
   private Injector sshInjector;
   private LifecycleManager manager;
+  private GuiceFilter filter;
+
+  @Override
+  public void doFilter(ServletRequest req, ServletResponse res,
+      FilterChain chain) throws IOException, ServletException {
+    filter.doFilter(req, res, chain);
+  }
 
   private synchronized void init() {
     if (manager == null) {
@@ -143,6 +159,7 @@ public class WebAppInitializer extends GuiceServletContextListener {
           .setHttpServletRequest(
               webInjector.getProvider(HttpServletRequest.class));
 
+      filter = webInjector.getInstance(GuiceFilter.class);
       manager = new LifecycleManager();
       manager.add(dbInjector);
       manager.add(cfgInjector);
@@ -303,18 +320,17 @@ public class WebAppInitializer extends GuiceServletContextListener {
   }
 
   @Override
-  public void contextInitialized(final ServletContextEvent event) {
-    super.contextInitialized(event);
+  public void init(FilterConfig cfg) throws ServletException {
+    contextInitialized(new ServletContextEvent(cfg.getServletContext()));
     init();
     manager.start();
   }
 
   @Override
-  public void contextDestroyed(final ServletContextEvent event) {
+  public void destroy() {
     if (manager != null) {
       manager.stop();
       manager = null;
     }
-    super.contextDestroyed(event);
   }
 }

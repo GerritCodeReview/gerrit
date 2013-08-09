@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "18bfb0df_777f106d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Header.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T23:18:24Z",
+      "side": 1,
+      "message": "No, I have removed it.",
+      "parentUuid": "18f410d0_2f04a927",
+      "revId": "4b6935bba6c41b92dc0a42b91c57b1d7492c56bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18bfb0df_f76a00ae",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Header.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-08-09T22:49:43Z",
       "side": 1,
       "message": "Is this still needed?",
+      "revId": "4b6935bba6c41b92dc0a42b91c57b1d7492c56bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8e22419_6cfabbf6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Header.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T23:18:24Z",
+      "side": 1,
+      "message": "No. Deleted.",
+      "parentUuid": "18bfb0df_f76a00ae",
       "revId": "4b6935bba6c41b92dc0a42b91c57b1d7492c56bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

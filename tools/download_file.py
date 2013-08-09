@@ -169,13 +169,22 @@ if args.exclude_java_sources:
 
 safe_mkdirs(path.dirname(args.o))
 if exclude:
-  shutil.copyfile(cache_ent, args.o)
+  try:
+    shutil.copyfile(cache_ent, args.o)
+  except (shutil.Error, IOError) as err:
+    print("error copying to %s: %s" % (args.o, err), file=stderr)
+    exit(1)
   try:
     check_call(['zip', '-d', args.o] + exclude)
   except CalledProcessError as err:
     print('error removing files from zip: %s' % err, file=stderr)
+    exit(1)
 else:
   try:
     link(cache_ent, args.o)
   except OSError as err:
-    shutil.copyfile(cache_ent, args.o)
+    try:
+      shutil.copyfile(cache_ent, args.o)
+    except (shutil.Error, IOError) as err:
+      print("error copying to %s: %s" % (args.o, err), file=stderr)
+      exit(1)

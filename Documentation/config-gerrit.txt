@@ -141,7 +141,7 @@ it then verifies by performing a simple bind against the configured
 is not involved in the user authentication process.
 +
 Unlike `LDAP` above, the username used to perform the LDAP simple bind
-request is the exact string supplied by in the dialog by the user.
+request is the exact string supplied in the dialog by the user.
 The configured <<ldap.username,ldap.username>> identity is not used to obtain
 account information.
 +

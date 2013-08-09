@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5813e8db_69c4e582",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateDraft.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T21:22:14Z",
+      "side": 1,
+      "message": "If in.line \u003d\u003d null or in.line \u003d\u003d 0 then in.range must be null.",
+      "revId": "f31feefb7a0c11eec26501f5490ea14c6b761f4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5813e8db_29ceeda0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateDraft.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T21:22:14Z",
+      "side": 1,
+      "message": "I think here you want to use in.range.getEndLine if in.line \u003d\u003d null and in.range !\u003d null. That matches the semantics of PutDraft.",
+      "revId": "f31feefb7a0c11eec26501f5490ea14c6b761f4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5813e8db_49c12171",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDraft.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T21:22:14Z",
+      "side": 1,
+      "message": "I don\u0027t think these locals are worthwhile.",
+      "revId": "f31feefb7a0c11eec26501f5490ea14c6b761f4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

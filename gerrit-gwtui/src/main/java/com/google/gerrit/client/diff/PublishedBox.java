@@ -36,6 +36,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.UIObject;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 /** An HtmlPanel for displaying a published comment */
@@ -53,6 +54,7 @@ class PublishedBox extends CommentBox {
   private DraftBox replyBox;
 
   @UiField Style style;
+  @UiField Widget header;
   @UiField Element name;
   @UiField Element summary;
   @UiField Element date;
@@ -81,7 +83,7 @@ class PublishedBox extends CommentBox {
     }
 
     initWidget(uiBinder.createAndBindUi(this));
-    addDomHandler(new ClickHandler() {
+    header.addDomHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
         setOpen(!isOpen());

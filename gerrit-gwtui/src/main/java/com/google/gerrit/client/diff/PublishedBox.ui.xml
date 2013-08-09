@@ -48,11 +48,11 @@ limitations under the License.
       addStyleNames='{style.closed}'>
     <c:AvatarImage ui:field='avatar' styleName='{style.avatar}'/>
     <div class='{res.style.contents}'>
-      <div class='{res.style.header}'>
+      <g:HTMLPanel ui:field='header' styleName='{res.style.header}'>
         <div ui:field='name' class='{style.name}'/>
         <div ui:field='summary' class='{res.style.summary}'/>
         <div ui:field='date' class='{res.style.date}'/>
-      </div>
+      </g:HTMLPanel>
       <div ui:field='message' aria-hidden='true' style='display: NONE'/>
       <div ui:field='buttons' aria-hidden='true' style='display: NONE'>
         <g:Button ui:field='reply' styleName=''

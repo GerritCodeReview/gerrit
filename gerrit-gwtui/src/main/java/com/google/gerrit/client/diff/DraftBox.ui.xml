@@ -42,11 +42,11 @@ limitations under the License.
 
   <g:HTMLPanel styleName='{res.style.commentBox}'>
     <div class='{res.style.contents}'>
-      <div class='{res.style.header}'>
+      <g:HTMLPanel ui:field='header' styleName='{res.style.header}'>
         <div class='{style.draft}'>Draft</div>
         <div ui:field='summary' class='{res.style.summary}'/>
         <div ui:field='date' class='{res.style.date}'/>
-      </div>
+      </g:HTMLPanel>
       <div ui:field='p_view' aria-hidden='true' style='display: NONE'>
         <g:HTML ui:field='message' styleName=''/>
         <div style='position: relative'>

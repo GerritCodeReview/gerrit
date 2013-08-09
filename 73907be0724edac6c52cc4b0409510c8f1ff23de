@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "986c8049_63f5c205",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T00:03:39Z",
+      "side": 1,
+      "message": "Well if people help... it might not be so bad.",
+      "parentUuid": "78b42cde_3a14c157",
+      "revId": "73907be0724edac6c52cc4b0409510c8f1ff23de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d8c43863_b5f6200f",
         "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
         "patchSetId": 1

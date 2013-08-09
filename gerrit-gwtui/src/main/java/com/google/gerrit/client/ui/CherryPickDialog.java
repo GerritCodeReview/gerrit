@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.ui;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.projects.BranchInfo;
 import com.google.gerrit.client.projects.ProjectApi;
@@ -21,6 +22,8 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
@@ -59,9 +62,15 @@ public abstract class CherryPickDialog extends ActionDialog {
       }
     });
 
-    newBranch.setWidth("70ex");
+    newBranch.setWidth("100%");
+    DOM.setStyleAttribute(newBranch.getElement(), "box-sizing", "border-box");
     message.setCharacterWidth(70);
-    panel.insert(newBranch, 0);
+
+    final FlowPanel mwrap = new FlowPanel();
+    mwrap.setStyleName(Gerrit.RESOURCES.css().commentedActionMessage());
+    mwrap.add(newBranch);
+
+    panel.insert(mwrap, 0);
     panel.insert(new SmallHeading(Util.C.headingCherryPickBranch()), 0);
   }
 

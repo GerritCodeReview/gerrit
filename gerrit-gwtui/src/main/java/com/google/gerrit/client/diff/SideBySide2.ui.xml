@@ -17,9 +17,8 @@ limitations under the License.
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
     xmlns:d='urn:import:com.google.gerrit.client.diff'>
-  <g:HTMLPanel>
-    <d:ReviewedPanel ui:field='reviewed'/>
-    <d:NavLinks2 ui:field='navLinks'/>
+  <g:FlowPanel>
+    <d:Header ui:field='header'/>
     <d:DiffTable ui:field='diffTable'/>
-  </g:HTMLPanel>
+  </g:FlowPanel>
 </ui:UiBinder>

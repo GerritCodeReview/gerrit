@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5813e8db_0901e917",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/annotations/RequiresCapability.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T17:39:43Z",
+      "side": 1,
+      "message": "I don\u0027t find this confusing at all. @RequiresCapability() requires the caller to have the capability declared within the scope of the @RequiresCapability use site. In the core server that is the core server; in a plugin that is the plugin.\n\nMaybe instead of core() being a boolean it should be an enum definition() of three states: CORE, PLUGIN, CONTEXT with the default value being CONTEXT.",
+      "parentUuid": "d8d0b83d_55f76c0c",
+      "revId": "32a595f1524da6254251dd13e4ef95d452a20456",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d8d51834_adef7d33",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
         "patchSetId": 19
@@ -30,6 +48,24 @@
       "writtenOn": "2013-08-09T09:11:34Z",
       "side": 1,
       "message": "So, all core capabilities are marked as non core now, (core \u003d false in RequireCapability annotation). May be we should add another condition here\n\n \u0026\u0026 !pluginName.equals(\"gerrit\")\n\nor add an assert, that if pluginName !\u003d null here, then it is not \"gerrit\"?",
+      "revId": "32a595f1524da6254251dd13e4ef95d452a20456",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18bfb0df_772390c0",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 879,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T17:39:43Z",
+      "side": 1,
+      "message": "Good point. We shouldn\u0027t use gerrit here.",
+      "parentUuid": "d8d51834_adef7d33",
       "revId": "32a595f1524da6254251dd13e4ef95d452a20456",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -64,6 +100,24 @@
       "writtenOn": "2013-08-09T09:11:34Z",
       "side": 1,
       "message": "... or add here additionally\n\n !pluginName.equals(\"gerrit\")\n\nadd an assert, that if pluginName !\u003d null here, then it is not \"gerrit\"?",
+      "revId": "32a595f1524da6254251dd13e4ef95d452a20456",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18bfb0df_57208cb1",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T17:39:43Z",
+      "side": 1,
+      "message": "I agree, we should check for !\"gerrit\" here.",
+      "parentUuid": "d8d51834_8df4c10a",
       "revId": "32a595f1524da6254251dd13e4ef95d452a20456",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

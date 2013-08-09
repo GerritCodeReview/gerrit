@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5813e8db_69ad05c9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateDraft.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-09T22:09:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5813e8db_a9b2dd2d",
+      "revId": "e909dfe859279358f7bd2655a023da2b66c81a25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18bfb0df_7751500c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateDraft.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2013-08-09T21:50:12Z",
       "side": 1,
       "message": "This is.. confusing?\n\n  int line \u003d in.line !\u003d null\n    ? in.line\n    : in.range !\u003d null ? in.range.getEndLine() : 0;",
+      "revId": "e909dfe859279358f7bd2655a023da2b66c81a25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d8d0b83d_f50e7845",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateDraft.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-09T22:09:41Z",
+      "side": 1,
+      "message": "Did that and couldn\u0027t decide which one was more confusing...",
+      "parentUuid": "18bfb0df_7751500c",
       "revId": "e909dfe859279358f7bd2655a023da2b66c81a25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "5813e8db_89b7191e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateDraft.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-09T22:09:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5813e8db_c9bd1100",
+      "revId": "e909dfe859279358f7bd2655a023da2b66c81a25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18bfb0df_574e4c6a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDraft.java",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2013-08-09T21:50:12Z",
       "side": 1,
       "message": "If both in.line!\u003dnull and in.range!\u003dnull we should verify in.line\u003d\u003din.range.getEndLine()",
+      "revId": "e909dfe859279358f7bd2655a023da2b66c81a25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18bfb0df_f781e04f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDraft.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-09T22:09:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18bfb0df_574e4c6a",
       "revId": "e909dfe859279358f7bd2655a023da2b66c81a25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

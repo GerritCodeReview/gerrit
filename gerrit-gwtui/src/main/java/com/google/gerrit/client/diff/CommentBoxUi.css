@@ -38,6 +38,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  padding-bottom: 0.1em;
 }
 
 .date {
@@ -50,6 +51,7 @@
 .contents {
   margin-left: 28px;
   padding-top: 2px;
+  padding-bottom: 2px;
   position: relative;
 }
 .contents p,

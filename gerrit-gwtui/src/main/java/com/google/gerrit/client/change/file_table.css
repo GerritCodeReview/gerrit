@@ -23,6 +23,12 @@
   white-space: nowrap;
   min-width: 600px;
 }
+.pathColumn a {
+  color: #000;
+}
+.commonPrefix {
+  color: #888;
+}
 
 .draftColumn,
 .newColumn,

@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5813e8db_6923c5c0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentRange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T18:58:10Z",
+      "side": 1,
+      "message": "(optional) Since these are all private you could instead write:\n\n  public static CommentRange create(int sl, int sc, int el, int ec) {\n    CommentRange r \u003d createObject().cast();\n    r.set(sl, sc, el, ec);\n    return r;\n  }\n\n  private final native void set(int sl, int sc, int el, int ec) /*-{\n    this.start_line \u003d sl;\n    this.start_character \u003d sc;\n    this.end_line \u003d el;\n    this.end_character \u003d ec;\n  }-*/;",
+      "revId": "7d251a255bcb7421f969e2e95a7029e4bb068217",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5813e8db_890dd948",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/SaveDraft.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T18:58:10Z",
+      "side": 1,
+      "message": "We should add an assertion:\n\n  if (comment.getRange() !\u003d null\n    \u0026\u0026 comment.getLine() !\u003d comment.getRange().getEndLine()) {\n    throw new IllegalStateException(\n      \"Range endLine must be on the same line as the comment\");\n  }",
+      "revId": "7d251a255bcb7421f969e2e95a7029e4bb068217",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5813e8db_a9089d38",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/CommentRange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T18:58:10Z",
+      "side": 1,
+      "message": "setEndCharacter",
+      "revId": "7d251a255bcb7421f969e2e95a7029e4bb068217",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18bfb0df_77283092",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateDraft.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T18:58:10Z",
+      "side": 1,
+      "message": "Assert in.range and in.line make sense.",
+      "revId": "7d251a255bcb7421f969e2e95a7029e4bb068217",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5813e8db_c9d4f139",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDraft.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T18:58:10Z",
+      "side": 1,
+      "message": "I think we should behave like in.line and only modify the range if the range or line is provided.\n\n  if (in.range !\u003d null || in.line !\u003d null) {\n    e.setRange(in.range);\n  }\n\nThis should also assert the line \u003d\u003d range.end_line. If in.line is not supplied but in.range is we should set e.steLine to range.end_line.",
+      "revId": "7d251a255bcb7421f969e2e95a7029e4bb068217",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

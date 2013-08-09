@@ -239,6 +239,7 @@ default_submit([Type | Types], Tmp, Out) :-
 %% Apply the old -2..+2 style logic.
 %%
 legacy_submit_rule('MaxWithBlock', Label, Min, Max, T) :- !, max_with_block(Label, Min, Max, T).
+legacy_submit_rule('AnyWithBlock', Label, Min, Max, T) :- !, any_with_block(Label, Min, T).
 legacy_submit_rule('MaxNoBlock', Label, Min, Max, T) :- !, max_no_block(Label, Max, T).
 legacy_submit_rule('NoBlock', Label, Min, Max, T) :- !, T = may(_).
 legacy_submit_rule('NoOp', Label, Min, Max, T) :- !, T = may(_).
@@ -267,6 +268,7 @@ max_with_block(Label, Min, Max, ok(Who)) :-
 max_with_block(Label, Min, Max, need(Max)) :-
   true
   .
+
 %TODO Uncomment this clause when group suggesting is possible.
 %max_with_block(Label, Min, Max, need(Max, Group)) :-
 %  \+ check_label_range_permission(Label, Max, ok(_)),
@@ -275,6 +277,16 @@ max_with_block(Label, Min, Max, need(Max)) :-
 %max_with_block(Label, Min, Max, impossible(no_access)) :-
 %  \+ check_label_range_permission(Label, Max, ask(Group))
 %  .
+
+%% any_with_block:
+%%
+%% - The maximum is never used.
+%%
+any_with_block(Label, Min, reject(Who)) :-
+  check_label_range_permission(Label, Min, ok(Who)),
+  !
+  .
+any_with_block(Label, Min, may(_)).
 
 
 %% max_no_block:

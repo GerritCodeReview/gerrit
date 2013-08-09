@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5813e8db_a9b2dd2d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateDraft.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T21:50:12Z",
+      "side": 1,
+      "message": "I disagree. It should be OK for in.line\u003d\u003dnull \u0026\u0026 in.range!\u003dnull. The line can come from in.range.getEndLine().\n\nThe problem is in.line\u003d\u003d0 and in.range!\u003dnull. This should have been caught on the line above.",
+      "revId": "e909dfe859279358f7bd2655a023da2b66c81a25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18bfb0df_7751500c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateDraft.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T21:50:12Z",
+      "side": 1,
+      "message": "This is.. confusing?\n\n  int line \u003d in.line !\u003d null\n    ? in.line\n    : in.range !\u003d null ? in.range.getEndLine() : 0;",
+      "revId": "e909dfe859279358f7bd2655a023da2b66c81a25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5813e8db_c9bd1100",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateDraft.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T21:50:12Z",
+      "side": 1,
+      "message": "nit: blank line after } before another statement.",
+      "revId": "e909dfe859279358f7bd2655a023da2b66c81a25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18bfb0df_574e4c6a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDraft.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-09T21:50:12Z",
+      "side": 1,
+      "message": "If both in.line!\u003dnull and in.range!\u003dnull we should verify in.line\u003d\u003din.range.getEndLine()",
+      "revId": "e909dfe859279358f7bd2655a023da2b66c81a25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

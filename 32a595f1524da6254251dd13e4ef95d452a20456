@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8d0b83d_55f76c0c",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/annotations/RequiresCapability.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-09T09:11:34Z",
+      "side": 1,
+      "message": "All core capabilities are marked as non core now. I find that at least confusing. In the checking code we must rely, that pluginName \u003d\u003d null or !\u003d \"gerrit\". May be it would be cleaner to split the annotations to:\n\n* RequiresCapability is used for core\n* RequirePluginCapability is used for plugin-owned capabilities\n\nand adjust the code correspondingly? \n\nAnother approach would be to change all occurrences of RequiresCapability in core and mark it as core\u003dtrue in this change.",
+      "revId": "32a595f1524da6254251dd13e4ef95d452a20456",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d8d51834_adef7d33",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 879,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-09T09:11:34Z",
+      "side": 1,
+      "message": "So, all core capabilities are marked as non core now, (core \u003d false in RequireCapability annotation). May be we should add another condition here\n\n \u0026\u0026 !pluginName.equals(\"gerrit\")\n\nor add an assert, that if pluginName !\u003d null here, then it is not \"gerrit\"?",
+      "revId": "32a595f1524da6254251dd13e4ef95d452a20456",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d8d0b83d_75fa68f6",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-09T09:11:34Z",
+      "side": 1,
+      "message": "All core capabilities are marked as non core now, (core \u003d false in RequireCapability annotation). We rely here on the fact, that pluginName is null for core SSH commands:\n\n[...]\n @Inject(optional \u003d true)\n @PluginName\n private String pluginName;\n[...]\n\nGuice feature for advanced users ;-) ... may be add a comment here explaining why that actually works?\n\nWell, at least i added this comment already ...",
+      "revId": "32a595f1524da6254251dd13e4ef95d452a20456",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d8d51834_8df4c10a",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-09T09:11:34Z",
+      "side": 1,
+      "message": "... or add here additionally\n\n !pluginName.equals(\"gerrit\")\n\nadd an assert, that if pluginName !\u003d null here, then it is not \"gerrit\"?",
+      "revId": "32a595f1524da6254251dd13e4ef95d452a20456",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18909098_4ffa6df6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Files.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-10T00:49:28Z",
+      "side": 1,
+      "message": "This could be List\u003cInteger\u003e and then sorted with Collections.sort() with a reversing comparator.",
+      "revId": "31ff2db24eee9060d4baa7a5e9605671423c6711",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

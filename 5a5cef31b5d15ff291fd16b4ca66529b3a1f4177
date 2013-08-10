@@ -16,6 +16,24 @@
       "revId": "5a5cef31b5d15ff291fd16b4ca66529b3a1f4177",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "586f6876_c9e5f157",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBoxUi.css",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-10T02:55:01Z",
+      "side": 1,
+      "message": "Look at this pair of comments on gerrit-review when signed in with your google.com account. You\u0027ll see the box collapsed is 2px too tall, if you disable this rule in your developer tools you\u0027ll see that disappear and the avatar is the same height as the box.\n\nEither we center the avatar or we remove the padding.",
+      "parentUuid": "786a6c67_cae5e357",
+      "revId": "5a5cef31b5d15ff291fd16b4ca66529b3a1f4177",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -15,7 +15,7 @@
 package com.google.gerrit.extensions.restapi;
 
 /** Root exception type for JSON API failures. */
-public abstract class RestApiException extends Exception {
+public class RestApiException extends Exception {
   private static final long serialVersionUID = 1L;
   private CacheControl caching = CacheControl.NONE;
 

@@ -53,5 +53,7 @@ public class GerritRequestModule extends FactoryModule {
     factory(RemoveReviewer.Factory.class);
     factory(SuggestParentCandidates.Factory.class);
     factory(BanCommit.Factory.class);
+
+    install(new com.google.gerrit.server.api.Module());
   }
 }

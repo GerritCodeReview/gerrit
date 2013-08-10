@@ -15,6 +15,8 @@
 package com.google.gerrit.server.config;
 
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.util.ServerRequestContext;
+import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
@@ -33,7 +35,9 @@ import org.eclipse.jgit.lib.Config;
 public class ProjectOwnerGroupsProvider extends GroupSetProvider {
   @Inject
   public ProjectOwnerGroupsProvider(GroupBackend gb,
-      @GerritServerConfig final Config config) {
-    super(gb, config, "repository", "*", "ownerGroup");
+      @GerritServerConfig final Config config,
+      ThreadLocalRequestContext context,
+      ServerRequestContext serverCtx) {
+    super(gb, config, context, serverCtx, "repository", "*", "ownerGroup");
   }
 }

@@ -34,6 +34,24 @@
       "revId": "5a5cef31b5d15ff291fd16b4ca66529b3a1f4177",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "786a6c67_8aefeb33",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBoxUi.css",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-08-10T03:30:45Z",
+      "side": 1,
+      "message": "Can\u0027t verify now since I\u0027m not on corp :( I added the padding because letters like \"g\" were getting cut off on the bottom. Should we center avatars then?",
+      "parentUuid": "586f6876_c9e5f157",
+      "revId": "5a5cef31b5d15ff291fd16b4ca66529b3a1f4177",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -30,7 +30,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.List;
 
@@ -65,8 +64,7 @@ public class ChangesCollection implements
 
   @Override
   public ChangeResource parse(TopLevelResource root, IdString id)
-      throws ResourceNotFoundException, OrmException,
-      UnsupportedEncodingException {
+      throws ResourceNotFoundException, OrmException {
     List<Change> changes = findChanges(id.encoded());
     if (changes.size() != 1) {
       throw new ResourceNotFoundException(id);

@@ -23,14 +23,17 @@ import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.common.util.concurrent.Futures;
 import com.google.gerrit.common.ChangeHooks;
-import com.google.gerrit.common.changes.Side;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput.Comment;
+import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
+import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.ReviewInput.Side;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
@@ -44,7 +47,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountsCollection;
-import com.google.gerrit.server.change.PostReview.Input;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.util.TimeUtil;
@@ -62,64 +64,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class PostReview implements RestModifyView<RevisionResource, Input> {
+public class PostReview implements RestModifyView<RevisionResource, ReviewInput> {
   private static final Logger log = LoggerFactory.getLogger(PostReview.class);
-
-  public static class Input {
-    @DefaultInput
-    public String message;
-
-    public Map<String, Short> labels;
-    public Map<String, List<Comment>> comments;
-
-    /**
-     * If true require all labels to be within the user's permitted ranges based
-     * on access controls, attempting to use a label not granted to the user
-     * will fail the entire modify operation early. If false the operation will
-     * execute anyway, but the proposed labels given by the user will be
-     * modified to be the "best" value allowed by the access controls, or
-     * ignored if the label does not exist.
-     */
-    public boolean strictLabels = true;
-
-    /**
-     * How to process draft comments already in the database that were not also
-     * described in this input request.
-     */
-    public DraftHandling drafts = DraftHandling.DELETE;
-
-    /** Who to send email notifications to after review is stored. */
-    public NotifyHandling notify = NotifyHandling.ALL;
-
-    /**
-     * Account ID, name, email address or username of another user. The review
-     * will be posted/updated on behalf of this named user instead of the
-     * caller. Caller must have the labelAs-$NAME permission granted for each
-     * label that appears in {@link #labels}. This is in addition to the named
-     * user also needing to have permission to use the labels.
-     * <p>
-     * {@link #strictLabels} impacts how labels is processed for the named user,
-     * not the caller.
-     */
-    public String onBehalfOf;
-  }
-
-  public static enum DraftHandling {
-    DELETE, PUBLISH, KEEP;
-  }
-
-  public static enum NotifyHandling {
-    NONE, OWNER, OWNER_REVIEWERS, ALL;
-  }
-
-  public static class Comment {
-    public String id;
-    public Side side;
-    public int line;
-    public String inReplyTo;
-    public String message;
-    public CommentRange range;
-  }
 
   static class Output {
     Map<String, Short> labels;
@@ -152,7 +98,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
   }
 
   @Override
-  public Object apply(RevisionResource revision, Input input)
+  public Object apply(RevisionResource revision, ReviewInput input)
       throws AuthException, BadRequestException, OrmException,
       UnprocessableEntityException, IOException {
     if (input.onBehalfOf != null) {
@@ -210,7 +156,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
     return output;
   }
 
-  private RevisionResource onBehalfOf(RevisionResource rev, Input in)
+  private RevisionResource onBehalfOf(RevisionResource rev, ReviewInput in)
       throws BadRequestException, AuthException, UnprocessableEntityException,
       OrmException {
     if (in.labels == null || in.labels.isEmpty()) {
@@ -370,7 +316,13 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
         e.setWrittenOn(timestamp);
         e.setSide(c.side == Side.PARENT ? (short) 0 : (short) 1);
         e.setMessage(c.message);
-        e.setRange(c.range);
+        if (c.range != null) {
+          e.setRange(new CommentRange(
+              c.range.startLine,
+              c.range.startCharacter,
+              c.range.endLine,
+              c.range.endCharacter));
+        }
         (create ? ins : upd).add(e);
       }
     }

@@ -16,6 +16,8 @@ package com.google.gerrit.server.config;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.util.ServerRequestContext;
+import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
@@ -25,8 +27,10 @@ import java.util.Collections;
 public class GitReceivePackGroupsProvider extends GroupSetProvider {
   @Inject
   public GitReceivePackGroupsProvider(GroupBackend gb,
-      @GerritServerConfig Config config) {
-    super(gb, config, "receive", null, "allowGroup");
+      @GerritServerConfig Config config,
+      ThreadLocalRequestContext threadContext,
+      ServerRequestContext serverCtx) {
+    super(gb, config, threadContext, serverCtx, "receive", null, "allowGroup");
 
     // If no group was set, default to "registered users"
     //

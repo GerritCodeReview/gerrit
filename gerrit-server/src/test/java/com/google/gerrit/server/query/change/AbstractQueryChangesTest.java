@@ -26,6 +26,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
@@ -359,7 +360,7 @@ public abstract class AbstractQueryChangesTest {
     Change change = ins.insert();
     ChangeControl ctl = changeControlFactory.controlFor(change, user);
 
-    PostReview.Input input = new PostReview.Input();
+    ReviewInput input = new ReviewInput();
     input.message = "toplevel";
     input.labels = ImmutableMap.<String, Short> of("Code-Review", (short) 1);
     postReview.apply(new RevisionResource(
@@ -476,7 +477,7 @@ public abstract class AbstractQueryChangesTest {
     assertResultEquals(change2, results.get(0));
     assertResultEquals(change1, results.get(1));
 
-    PostReview.Input input = new PostReview.Input();
+    ReviewInput input = new ReviewInput();
     input.message = "toplevel";
     postReview.apply(new RevisionResource(
         new ChangeResource(ctl1), ins1.getPatchSet()), input);
@@ -509,7 +510,7 @@ public abstract class AbstractQueryChangesTest {
     assertResultEquals(change2, results.get(0));
     assertResultEquals(change1, results.get(1));
 
-    PostReview.Input input = new PostReview.Input();
+    ReviewInput input = new ReviewInput();
     input.message = "toplevel";
     postReview.apply(new RevisionResource(
         new ChangeResource(ctl1), ins1.getPatchSet()), input);

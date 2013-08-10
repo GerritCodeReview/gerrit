@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "786a6c67_cae5e357",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBoxUi.css",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-10T02:53:00Z",
+      "side": 1,
+      "message": "I think this has caused comments with avatar images to be slightly taller than the 16px originally expected.",
+      "revId": "5a5cef31b5d15ff291fd16b4ca66529b3a1f4177",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

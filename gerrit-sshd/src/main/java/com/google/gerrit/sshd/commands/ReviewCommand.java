@@ -22,6 +22,8 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.ReviewResult;
 import com.google.gerrit.common.data.ReviewResult.Error.Type;
+import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -32,7 +34,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.Abandon;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.DeleteDraftPatchSet;
-import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.change.Restore;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
@@ -146,7 +147,7 @@ public class ReviewCommand extends SshCommand {
   private Provider<Abandon> abandonProvider;
 
   @Inject
-  private Provider<PostReview> reviewProvider;
+  private Provider<GerritApi> api;
 
   @Inject
   private PublishDraft.Factory publishDraftFactory;
@@ -213,9 +214,11 @@ public class ReviewCommand extends SshCommand {
   }
 
   private void applyReview(final ChangeControl ctl, final PatchSet patchSet,
-      final PostReview.Input review) throws Exception {
-    reviewProvider.get().apply(new RevisionResource(
-        new ChangeResource(ctl), patchSet), review);
+      final ReviewInput review) throws Exception {
+    api.get().changes()
+        .id(ctl.getChange().getChangeId())
+        .revision(patchSet.getRevision().get())
+        .review(review);
   }
 
   private void approveOne(final PatchSet patchSet) throws Exception {
@@ -224,10 +227,10 @@ public class ReviewCommand extends SshCommand {
       changeComment = "";
     }
 
-    PostReview.Input review = new PostReview.Input();
+    ReviewInput review = new ReviewInput();
     review.message = Strings.emptyToNull(changeComment);
     review.labels = Maps.newTreeMap();
-    review.drafts = PostReview.DraftHandling.PUBLISH;
+    review.drafts = ReviewInput.DraftHandling.PUBLISH;
     review.strictLabels = false;
     for (ApproveOption ao : optionList) {
       Short v = ao.value();

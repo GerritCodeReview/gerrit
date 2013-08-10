@@ -22,6 +22,7 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.ReviewResult;
 import com.google.gerrit.common.data.ReviewResult.Error.Type;
+import com.google.gerrit.extensions.api2.changes.ReviewInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -213,7 +214,7 @@ public class ReviewCommand extends SshCommand {
   }
 
   private void applyReview(final ChangeControl ctl, final PatchSet patchSet,
-      final PostReview.Input review) throws Exception {
+      final ReviewInput review) throws Exception {
     reviewProvider.get().apply(new RevisionResource(
         new ChangeResource(ctl), patchSet), review);
   }
@@ -224,10 +225,10 @@ public class ReviewCommand extends SshCommand {
       changeComment = "";
     }
 
-    PostReview.Input review = new PostReview.Input();
+    ReviewInput review = new ReviewInput();
     review.message = Strings.emptyToNull(changeComment);
     review.labels = Maps.newTreeMap();
-    review.drafts = PostReview.DraftHandling.PUBLISH;
+    review.drafts = ReviewInput.DraftHandling.PUBLISH;
     review.strictLabels = false;
     for (ApproveOption ao : optionList) {
       Short v = ao.value();

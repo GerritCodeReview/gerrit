@@ -18,10 +18,10 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.extensions.api2.changes.ReviewInput;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeResource;
-import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.project.ChangeControl;
 
@@ -70,13 +70,13 @@ public abstract class AbstractIndexQueryChangesTest
     Change change = ins.insert();
     ChangeControl ctl = changeControlFactory.controlFor(change, user);
 
-    PostReview.Input input = new PostReview.Input();
+    ReviewInput input = new ReviewInput();
     input.message = "toplevel";
-    PostReview.Comment comment = new PostReview.Comment();
+    ReviewInput.Comment comment = new ReviewInput.Comment();
     comment.line = 1;
     comment.message = "inline";
-    input.comments = ImmutableMap.<String, List<PostReview.Comment>> of(
-        "Foo.java", ImmutableList.<PostReview.Comment> of(comment));
+    input.comments = ImmutableMap.<String, List<ReviewInput.Comment>> of(
+        "Foo.java", ImmutableList.<ReviewInput.Comment> of(comment));
     postReview.apply(new RevisionResource(
         new ChangeResource(ctl), ins.getPatchSet()), input);
 

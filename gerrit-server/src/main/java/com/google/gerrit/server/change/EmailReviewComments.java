@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.collect.Lists;
+import com.google.gerrit.extensions.api2.changes.ReviewInput.NotifyHandling;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -22,7 +23,6 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.change.PostReview.NotifyHandling;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.mail.CommentSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -61,7 +61,7 @@ class EmailReviewComments implements Runnable, RequestContext {
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final ThreadLocalRequestContext requestContext;
 
-  private final PostReview.NotifyHandling notify;
+  private final NotifyHandling notify;
   private final Change change;
   private final PatchSet patchSet;
   private final Account.Id authorId;

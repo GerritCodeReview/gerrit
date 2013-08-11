@@ -197,13 +197,11 @@ import javax.security.auth.login.LoginException;
     if (!schema.groupMemberQueryList.isEmpty()) {
       final HashMap<String, String> params = new HashMap<String, String>();
 
-      if (schema.groupNeedsAccount) {
-        if (account == null) {
-          account = findAccount(schema, ctx, username);
-        }
-        for (String name : schema.groupMemberQueryList.get(0).getParameters()) {
-          params.put(name, account.get(name));
-        }
+      if (account == null) {
+        account = findAccount(schema, ctx, username);
+      }
+      for (String name : schema.groupMemberQueryList.get(0).getParameters()) {
+        params.put(name, account.get(name));
       }
 
       params.put(LdapRealm.USERNAME, username);
@@ -286,7 +284,6 @@ import javax.security.auth.login.LoginException;
     final String accountMemberField;
     final List<LdapQuery> accountQueryList;
 
-    boolean groupNeedsAccount;
     final List<String> groupBases;
     final SearchScope groupScope;
     final ParameterizedString groupPattern;
@@ -321,10 +318,7 @@ import javax.security.auth.login.LoginException;
           }
 
           for (final String name : groupMemberQuery.getParameters()) {
-            if (!LdapRealm.USERNAME.equals(name)) {
-              groupNeedsAccount = true;
-              accountAtts.add(name);
-            }
+            accountAtts.add(name);
           }
 
           groupMemberQueryList.add(groupMemberQuery);

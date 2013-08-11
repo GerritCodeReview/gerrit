@@ -1812,8 +1812,8 @@ corresponding attribute (in this case, `fooBarAttribute`) as read
 from the user's account object matched under `ldap.accountBase`.
 Attributes such as `${dn}` or `${uidNumber}` may be useful.
 +
-Default is `(memberUid=${username})` for RFC 2307,
-and unset (disabled) for Active Directory.
+Default is `(|(memberUid=${username})(gidNumber=${gidNumber}))` for
+RFC 2307, and unset (disabled) for Active Directory.
 
 [[ldap.groupName]]ldap.groupName::
 +

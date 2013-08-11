@@ -57,7 +57,7 @@ abstract class LdapType {
 
     @Override
     String groupMemberPattern() {
-      return "(memberUid=${username})";
+      return "(|(memberUid=${username})(gidNumber=${gidNumber}))";
     }
 
     @Override

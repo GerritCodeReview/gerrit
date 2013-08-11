@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8fce4ed_bce5c158",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/annotations/CapabilityScope.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-11T16:30:01Z",
+      "side": 1,
+      "message": "Do we really need this value? In fact the check code in DispatchCommand and RestApiServlet is exactly the same for CapabilityScope.CONTEXT and CapabilityScope.PLUGIN. And we can not use CapabilityScope.PLUGIN in core either, because the plugin name is not set in core.",
+      "revId": "7066cc064e2221e523f96f9146ce211925c8eefa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38647499_084c6746",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-11T16:30:01Z",
+      "side": 1,
+      "message": "The only question here is if a plugin can be named \"gerrit\"? Fortunately it is not possible. May be we can put an explicit check against plugin name \"gerrit\" in PluginLoader.rescan() and issue very clear error message and not just throw this exception?\n\n java.lang.IllegalArgumentException: gerrit exists\n\tat com.google.gerrit.sshd.DispatchCommandProvider.register(DispatchCommandProvider.java:57)\n\tat com.google.gerrit.sshd.SshPluginStarterCallback.onStartPlugin(SshPluginStarterCallback.java:48)\n\tat com.google.gerrit.server.plugins.PluginGuiceEnvironment.onStartPlugin(PluginGuiceEnvironment.java:206)\n\tat com.google.gerrit.server.plugins.PluginLoader.runPlugin(PluginLoader.java:376)\n\tat com.google.gerrit.server.plugins.PluginLoader.rescan(PluginLoader.java:346)\n\tat com.google.gerrit.server.plugins.PluginLoader.start(PluginLoader.java:259)\n\tat com.google.gerrit.lifecycle.LifecycleManager.start(LifecycleManager.java:74)\n\tat com.google.gerrit.pgm.Daemon.run(Daemon.java:194)\n\tat com.google.gerrit.pgm.util.AbstractProgram.main(AbstractProgram.java:63)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:601)\n\tat com.google.gerrit.launcher.GerritLauncher.invokeProgram(GerritLauncher.java:168)\n\tat com.google.gerrit.launcher.GerritLauncher.mainImpl(GerritLauncher.java:92)\n\tat com.google.gerrit.launcher.GerritLauncher.main(GerritLauncher.java:50)\n\tat Main.main(Main.java:25)",
+      "revId": "7066cc064e2221e523f96f9146ce211925c8eefa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38647499_28492b37",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-11T16:30:01Z",
+      "side": 1,
+      "message": "We wouldn\u0027t need this branch if we would drop PLUGIN occurrence from Capability Scope.",
+      "revId": "7066cc064e2221e523f96f9146ce211925c8eefa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

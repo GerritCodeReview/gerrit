@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "586f6876_895059dc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-12T21:10:17Z",
+      "side": 1,
+      "message": "This bug has existed since I created the automatic schema update system. I\u0027m trying to work on a change to fix the bug. :-)",
+      "parentUuid": "586f6876_693f259c",
+      "revId": "fd01e3da32891cbd33c8dd3a01961d69d1821f43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "586f6876_a93c3da9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_81.java",
         "patchSetId": 8

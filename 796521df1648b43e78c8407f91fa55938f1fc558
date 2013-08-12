@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "786a6c67_ea86a765",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_81.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-12T21:11:36Z",
+      "side": 1,
+      "message": "You need to point SchemaVersion.C at this class.",
+      "revId": "796521df1648b43e78c8407f91fa55938f1fc558",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "786a6c67_aade6f53",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-12T23:49:57Z",
+      "side": 1,
+      "message": "This same name is used above in line 1. Hoist this up to be line 1 and use the same string.",
+      "revId": "7f2b7f50ecae2de8aad1c6aca9ec249fbf333905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "786a6c67_4ac49382",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 8
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-12T23:49:57Z",
+      "side": 1,
+      "message": "This is incorrect usage of glob. glob should accept a pattern list. You passed it a list of already resolved file paths and asked it to re-resolve those. I think you just want to pass BASE_INIT_SRCS here and pass INIT_API_SRCS as part of the excludes above.",
+      "revId": "7f2b7f50ecae2de8aad1c6aca9ec249fbf333905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d818b82e_35fa70f5",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 8
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-12T23:49:57Z",
+      "side": 1,
+      "message": "nit: sort these alphabetically so base-init is before init-api.\n\nAlternatively name base-init init-base so it matches the name init-api.",
+      "revId": "7f2b7f50ecae2de8aad1c6aca9ec249fbf333905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "786a6c67_6ac15771",
+        "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/SiteInitializer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-12T23:49:57Z",
+      "side": 1,
+      "message": "This should probably be logged or rethrown. Not being able to talk to the database here is going to prevent futher init from working correctly isn\u0027t it?",
+      "revId": "7f2b7f50ecae2de8aad1c6aca9ec249fbf333905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

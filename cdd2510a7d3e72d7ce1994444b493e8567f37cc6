@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "786a6c67_4a7fb36c",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/LibraryDownloader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-12T23:18:43Z",
+      "side": 1,
+      "message": "Consider line breaking right after ( instead of inside the middle of the ?: operator.",
+      "revId": "cdd2510a7d3e72d7ce1994444b493e8567f37cc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "586f6876_096549b8",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/LibraryDownloader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-12T23:18:43Z",
+      "side": 1,
+      "message": "This can be static.",
+      "revId": "cdd2510a7d3e72d7ce1994444b493e8567f37cc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "786a6c67_aa698fb8",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/LibraryDownloader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-12T23:18:43Z",
+      "side": 1,
+      "message": "In these sorts of functions we try to do early return:\n\n  try {\n    return new File(url.toURI());\n  } catch (URISyntaxException e) {\n    return new File(url.getPath());\n  }",
+      "revId": "cdd2510a7d3e72d7ce1994444b493e8567f37cc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

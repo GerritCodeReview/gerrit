@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "786a6c67_8a8b6b6c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-12T21:17:37Z",
+      "side": 1,
+      "message": "It works fine if you are doing one schema version hop, e.g. 80 to 81. I only noticed it because one of my test instances was behind at 79. :-)",
+      "parentUuid": "b8fce4ed_dc5b6d2c",
+      "revId": "fd01e3da32891cbd33c8dd3a01961d69d1821f43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "586f6876_a93c3da9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_81.java",
         "patchSetId": 8

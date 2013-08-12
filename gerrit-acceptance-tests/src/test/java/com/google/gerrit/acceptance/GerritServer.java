@@ -100,6 +100,7 @@ class GerritServer {
     cfg.setString("httpd", null, "listenUrl", url);
     cfg.setString("sshd", null, "listenAddress", format(sshd));
     cfg.setString("cache", null, "directory", null);
+    cfg.setBoolean("sendemail", null, "enable", false);
     cfg.setInt("cache", "projects", "checkFrequency", 0);
     cfg.setInt("plugins", null, "checkFrequency", 0);
     cfg.save();

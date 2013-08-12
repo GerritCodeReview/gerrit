@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "586f6876_497fc16c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-12T16:03:16Z",
+      "side": 1,
+      "message": "I was more on the fence Saturday about automatic proxy vs. hand-coded implementation. I now think hand coded implementation is the best approach to take here. Its more typing but we can parallelize this work to some extent across the entire team.",
+      "parentUuid": "3802b4bb_1e22edca",
+      "revId": "a0dcdcb7e666d9b9e80aafd87d178a3bb639c7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b8fce4ed_3c2371c1",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api2/changes/ChangeApi.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-08-12T11:14:17Z",
       "side": 1,
       "message": "Can we expose here methods from existing UiActions for the ChangeResource and wire the implementation to the UiAction instances, i. e.\n\n* abandon();\n* restore();",
+      "revId": "a0dcdcb7e666d9b9e80aafd87d178a3bb639c7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "786a6c67_ca0e4346",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api2/changes/ChangeApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-12T16:03:16Z",
+      "side": 1,
+      "message": "Yes! I want to add any REST API endpoint. Unfortunately my fingers cannot type that fast. Some people think they do, but they don\u0027t. The point of this commit is to define the pattern and get a single endpoint working. Then we can parallelize the effort to expose all of the endpoints the server supports.",
+      "parentUuid": "b8fce4ed_3c2371c1",
       "revId": "a0dcdcb7e666d9b9e80aafd87d178a3bb639c7e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "786a6c67_ea13076f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api2/changes/RevisionApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-12T16:03:16Z",
+      "side": 1,
+      "message": "Yes. See my remarks in ChangeApi.",
+      "parentUuid": "3802b4bb_3e2531d3",
+      "revId": "a0dcdcb7e666d9b9e80aafd87d178a3bb639c7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3802b4bb_de2fd5b1",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2013-08-12T11:14:17Z",
       "side": 1,
       "message": "Why not to use here the new API?\n\n api2.change(id).revision(name).review(input);",
+      "revId": "a0dcdcb7e666d9b9e80aafd87d178a3bb639c7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "586f6876_697c0577",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-12T16:03:16Z",
+      "side": 1,
+      "message": "I agree this should be switched to api2 in this commit. I simply did not have time to do that on Saturday when I uploaded this RFC. I had a 30 minute window on Saturday to get some work done and this is the result. :-)",
+      "parentUuid": "3802b4bb_de2fd5b1",
       "revId": "a0dcdcb7e666d9b9e80aafd87d178a3bb639c7e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "586f6876_0979c985",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-08-12T18:20:25Z",
+      "side": 1,
+      "message": "Is this RevWalk used? The ObjectReader should be released by r.close(), so I don\u0027t think this inner try { } finally block is needed.",
+      "revId": "bda2cdb70c965974c7f6083d82f964e4866a5480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

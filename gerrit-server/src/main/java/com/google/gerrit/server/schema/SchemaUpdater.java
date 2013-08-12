@@ -61,7 +61,7 @@ public class SchemaUpdater {
 
       } else {
         try {
-          u.check(ui, version, db, true);
+          u.check(ui, version, db);
         } catch (SQLException e) {
           throw new OrmException("Cannot upgrade schema", e);
         }

@@ -276,7 +276,7 @@ public class ChangeBatchIndexer {
         }
 
         for (ObjectId id : byId.keySet()) {
-          getPathsAndIndex(walk.parseCommit(id));
+          getPathsAndIndex(id);
         }
       } finally {
         walk.release();
@@ -284,10 +284,11 @@ public class ChangeBatchIndexer {
       return null;
     }
 
-    private void getPathsAndIndex(RevCommit bCommit) throws Exception {
-      RevTree bTree = bCommit.getTree();
-      List<ChangeData> cds = Lists.newArrayList(byId.get(bCommit));
+    private void getPathsAndIndex(ObjectId b) throws Exception {
+      List<ChangeData> cds = Lists.newArrayList(byId.get(b));
       try {
+        RevCommit bCommit = walk.parseCommit(b);
+        RevTree bTree = bCommit.getTree();
         RevTree aTree = aFor(bCommit, walk);
         DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);
         try {
@@ -315,7 +316,7 @@ public class ChangeBatchIndexer {
           df.release();
         }
       } catch (Exception e) {
-        fail("Failed to index commit " + bCommit.name(), false, e);
+        fail("Failed to index commit " + b.name(), false, e);
         for (ChangeData cd : cds) {
           fail("Failed to index change " + cd.getId(), true, null);
         }

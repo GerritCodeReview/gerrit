@@ -33,6 +33,24 @@
       "revId": "6a1c4a083589dcc65879228f4973f3a2a4cb20a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f85d7cd3_26763697",
+        "filename": "TODO",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-08-12T13:43:01Z",
+      "side": 1,
+      "message": "There\u0027s already 700 commits from stable-2.7 to master. Trying to get ChangeScreen2 finished before releasing 2.8 seems like it would really add to that number. I don\u0027t see anything wrong with releasing 2.8 with an unfinished ChangeScreen2.",
+      "parentUuid": "3802b4bb_7e1fa97e",
+      "revId": "6a1c4a083589dcc65879228f4973f3a2a4cb20a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

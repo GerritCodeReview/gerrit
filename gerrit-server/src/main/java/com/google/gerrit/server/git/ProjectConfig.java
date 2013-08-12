@@ -533,15 +533,13 @@ public class ProjectConfig extends VersionedMetaData {
 
     AccessSection capability = null;
     for (String varName : rc.getNames(CAPABILITY)) {
-      if (GlobalCapability.isCapability(varName)) {
-        if (capability == null) {
-          capability = new AccessSection(AccessSection.GLOBAL_CAPABILITIES);
-          accessSections.put(AccessSection.GLOBAL_CAPABILITIES, capability);
-        }
-        Permission perm = capability.getPermission(varName, true);
-        loadPermissionRules(rc, CAPABILITY, null, varName, groupsByName, perm,
-            GlobalCapability.hasRange(varName));
+      if (capability == null) {
+        capability = new AccessSection(AccessSection.GLOBAL_CAPABILITIES);
+        accessSections.put(AccessSection.GLOBAL_CAPABILITIES, capability);
       }
+      Permission perm = capability.getPermission(varName, true);
+      loadPermissionRules(rc, CAPABILITY, null, varName, groupsByName, perm,
+          GlobalCapability.hasRange(varName));
     }
   }
 
@@ -879,8 +877,7 @@ public class ProjectConfig extends VersionedMetaData {
         rc.setStringList(CAPABILITY, null, permission.getName(), rules);
       }
       for (String varName : rc.getNames(CAPABILITY)) {
-        if (GlobalCapability.isCapability(varName)
-            && !have.contains(varName.toLowerCase())) {
+        if (!have.contains(varName.toLowerCase())) {
           rc.unset(CAPABILITY, null, varName);
         }
       }

@@ -19,6 +19,7 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.common.cache.Cache;
 import com.google.gerrit.audit.AuditModule;
 import com.google.gerrit.common.ChangeListener;
+import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -249,6 +250,7 @@ public class GerritGlobalModule extends FactoryModule {
     bind(GitReferenceUpdated.class);
     DynamicMap.mapOf(binder(), new TypeLiteral<Cache<?, ?>>() {});
     DynamicSet.setOf(binder(), CacheRemovalListener.class);
+    DynamicMap.mapOf(binder(), CapabilityDefinition.class);
     DynamicSet.setOf(binder(), GitReferenceUpdatedListener.class);
     DynamicSet.setOf(binder(), NewProjectCreatedListener.class);
     DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(ChangeCache.class);

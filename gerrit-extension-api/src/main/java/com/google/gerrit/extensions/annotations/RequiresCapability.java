@@ -27,5 +27,9 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE})
 @Retention(RUNTIME)
 public @interface RequiresCapability {
+  /**  Name of the capability required to invoke this action. */
   String value();
+
+  /** Scope of the named capability. */
+  CapabilityScope scope() default CapabilityScope.CONTEXT;
 }

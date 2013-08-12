@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "586f6876_693f259c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-12T20:35:43Z",
+      "side": 1,
+      "message": "This call is either too early or too late depending on the state of the schema.\n\nWhen going from 77/79 to 81 this call is too late. The prior.get().check() call on line 91 recurses into schema 80 and calls the s.updateSchema() on line 99, which in turn creates the missing tables and columns. When this is finally called for schema 81 its too late and we cannot rename the tables/columns.\n\nIf we later add a schema 82 and we are going from 77/79 to 82 then schema 82 needs to ensure schema 81\u0027s preUpdateSchema() is run first.",
+      "revId": "fd01e3da32891cbd33c8dd3a01961d69d1821f43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "586f6876_a93c3da9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_81.java",
         "patchSetId": 8

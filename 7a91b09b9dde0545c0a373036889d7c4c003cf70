@@ -54,6 +54,41 @@
     },
     {
       "key": {
+        "uuid": "b8fce4ed_dcf40d0c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-12T06:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8b4e4fc_bc3d81d7",
+      "revId": "7a91b09b9dde0545c0a373036889d7c4c003cf70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3802b4bb_1e714d18",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-12T06:31:22Z",
+      "side": 1,
+      "message": "done ;-)",
+      "revId": "7a91b09b9dde0545c0a373036889d7c4c003cf70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "986c8049_23390aeb",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
         "patchSetId": 2
@@ -65,6 +100,24 @@
       "writtenOn": "2013-08-09T00:29:15Z",
       "side": 1,
       "message": "project(projectName)",
+      "revId": "7a91b09b9dde0545c0a373036889d7c4c003cf70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8fce4ed_1cf7950d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-12T06:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "986c8049_23390aeb",
       "revId": "7a91b09b9dde0545c0a373036889d7c4c003cf70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -88,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "3802b4bb_de8eb5ea",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-12T06:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "986c8049_03340ef4",
+      "revId": "7a91b09b9dde0545c0a373036889d7c4c003cf70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b8b4e4fc_dc384de9",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
         "patchSetId": 2
@@ -99,6 +170,24 @@
       "writtenOn": "2013-08-09T00:29:15Z",
       "side": 1,
       "message": "replace this part with project(name)",
+      "revId": "7a91b09b9dde0545c0a373036889d7c4c003cf70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8fce4ed_3cfa51f5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-12T06:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8b4e4fc_dc384de9",
       "revId": "7a91b09b9dde0545c0a373036889d7c4c003cf70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

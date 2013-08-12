@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "586f6876_e9bd55ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GroupSetProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-12T19:08:37Z",
+      "side": 1,
+      "message": "You need to wrap the body in a try/finally to ensure we erase the context.",
+      "revId": "fefb42a3a7d5c7f89250d7af540ee06d6ef0aeb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

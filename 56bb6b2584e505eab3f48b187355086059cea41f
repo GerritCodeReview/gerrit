@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b8fce4ed_bc5ca128",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-12T21:06:38Z",
+      "side": 1,
+      "message": "Done, commit message updated",
+      "parentUuid": "786a6c67_0a4bfb59",
+      "revId": "56bb6b2584e505eab3f48b187355086059cea41f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d818b82e_d5f4dc0b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_81.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2013-08-12T20:44:08Z",
       "side": 1,
       "message": "Instead of looping:\n\n  Permission startReplication \u003d\n    capabilities.getPermission(\"startReplication\");\n\nThe method returns null if it is not found.",
+      "revId": "56bb6b2584e505eab3f48b187355086059cea41f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8fce4ed_9c61e5e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_81.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-12T21:06:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d818b82e_d5f4dc0b",
       "revId": "56bb6b2584e505eab3f48b187355086059cea41f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "3802b4bb_21f7d40d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_81.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-12T21:06:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "586f6876_29492d37",
+      "revId": "56bb6b2584e505eab3f48b187355086059cea41f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f85d7cd3_e6d49e39",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_81.java",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2013-08-12T20:44:08Z",
       "side": 1,
       "message": "Bad merge marker.",
+      "revId": "56bb6b2584e505eab3f48b187355086059cea41f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3802b4bb_8104e029",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_81.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-12T21:06:38Z",
+      "side": 1,
+      "message": "Done, noticed it myself ;-)",
+      "parentUuid": "f85d7cd3_e6d49e39",
       "revId": "56bb6b2584e505eab3f48b187355086059cea41f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

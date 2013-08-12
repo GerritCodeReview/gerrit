@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "586f6876_a93c3da9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_81.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-12T20:31:38Z",
+      "side": 1,
+      "message": "The problem shows up when going from e.g. 79 to 81. During the execution of Schema_80 gwtorm creates missing tables and columns before Schema_81\u0027s preUpdateSchema is even attempted. This causes the following call to _81 to fail because the table now exists.\n\nThis of course means an upgrade from e.g. 2.6 or 2.7 to 2.8 will fail with the same error as the server will be going from 77 or 79 and run into this failure mode.",
+      "revId": "fd01e3da32891cbd33c8dd3a01961d69d1821f43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

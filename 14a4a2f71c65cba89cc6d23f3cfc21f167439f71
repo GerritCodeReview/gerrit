@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "786a6c67_6a7cf776",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-12T23:29:15Z",
+      "side": 1,
+      "message": "Drop this part, we already have a sufficiently new enough gwtorm build in tree that this makes no sense in the history of the project.",
+      "revId": "14a4a2f71c65cba89cc6d23f3cfc21f167439f71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "586f6876_c9fbb1ab",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-12T23:29:15Z",
+      "side": 1,
+      "message": "This is pretty harsh to say about the database. Maybe we can rephrase this:\n\n  PostgreSQL or H2 is the recommended database for Gerrit Code Review.\n  Oracle is supported for environments where running on an existing Oracle\n  installation simplifies administrative overheads, such as database backups.",
+      "revId": "14a4a2f71c65cba89cc6d23f3cfc21f167439f71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "586f6876_e900f5cb",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-12T23:29:15Z",
+      "side": 1,
+      "message": "IIRC sqlplus doesn\u0027t use $ as a prompt. Can we put the real prompt character here?",
+      "revId": "14a4a2f71c65cba89cc6d23f3cfc21f167439f71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "586f6876_8905b9da",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-12T23:29:15Z",
+      "side": 1,
+      "message": "s/Jdbc/JDBC/",
+      "revId": "14a4a2f71c65cba89cc6d23f3cfc21f167439f71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8fce4ed_1c9315a6",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-12T23:29:15Z",
+      "side": 1,
+      "message": "s/some known/a known/\n\nWe should mention what the default copy source is from /u01/app/oracle/product/.",
+      "revId": "14a4a2f71c65cba89cc6d23f3cfc21f167439f71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "586f6876_a90afde5",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitDatabase.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-12T23:29:15Z",
+      "side": 1,
+      "message": "nit: Since we can\u0027t have both MySql and Oracle trigger you can cuddle this with the prior block:\n\n  } else if (dci instanceof OracleInitializer) {",
+      "revId": "14a4a2f71c65cba89cc6d23f3cfc21f167439f71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "786a6c67_cacf23a1",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/OracleInitializer.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-12T23:29:15Z",
+      "side": 1,
+      "message": "Would instance name be a better way to identify this to someone familiar with Oracle?",
+      "revId": "14a4a2f71c65cba89cc6d23f3cfc21f167439f71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "786a6c67_0a79bb85",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/libraries.config",
+        "patchSetId": 9
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-12T23:29:15Z",
+      "side": 1,
+      "message": "Do not indent this line.",
+      "revId": "14a4a2f71c65cba89cc6d23f3cfc21f167439f71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "786a6c67_2a76ff96",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/libraries.config",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-12T23:29:15Z",
+      "side": 1,
+      "message": "s/jdbc/JDBC/ ?",
+      "revId": "14a4a2f71c65cba89cc6d23f3cfc21f167439f71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

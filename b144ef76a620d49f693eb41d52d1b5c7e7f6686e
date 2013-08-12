@@ -87,6 +87,24 @@
     },
     {
       "key": {
+        "uuid": "d818b82e_95ea6424",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-08-12T17:19:32Z",
+      "side": 1,
+      "message": "I implement this feature from suggestions I got from mfick.  I think the intent is that this is a special group that only applies to labels.  It doesn\u0027t seem to make sense to apply it to any of the other available permissions.\n\nMaybe I\u0027m going down the wrong path here, if i am could you maybe provide some suggestions on what is the most appropriate way to implement this feature?",
+      "parentUuid": "b8b4e4fc_3c1df175",
+      "revId": "b144ef76a620d49f693eb41d52d1b5c7e7f6686e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "986c8049_630ea245",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaCreator.java",
         "patchSetId": 2

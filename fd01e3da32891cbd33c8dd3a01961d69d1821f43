@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "b8fce4ed_7c4b3959",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-12T21:21:31Z",
+      "side": 1,
+      "message": "Thank you! You saved my day ... of course i did only one migration: from 79 to 80, and that just worked. Okay, if it is your (old) bug, so it is fair that you fix it ;-)",
+      "parentUuid": "786a6c67_8a8b6b6c",
+      "revId": "fd01e3da32891cbd33c8dd3a01961d69d1821f43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "586f6876_a93c3da9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_81.java",
         "patchSetId": 8

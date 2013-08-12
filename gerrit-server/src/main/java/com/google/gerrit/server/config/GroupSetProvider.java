@@ -19,6 +19,9 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
+import com.google.gerrit.server.util.RequestContext;
+import com.google.gerrit.server.util.ServerRequestContext;
+import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -37,19 +40,26 @@ public abstract class GroupSetProvider implements
 
   @Inject
   protected GroupSetProvider(GroupBackend groupBackend,
-      @GerritServerConfig Config config, String section,
+      @GerritServerConfig Config config,
+      ThreadLocalRequestContext threadContext,
+      ServerRequestContext serverCtx, String section,
       String subsection, String name) {
-    String[] groupNames = config.getStringList(section, subsection, name);
-    ImmutableSet.Builder<AccountGroup.UUID> builder = ImmutableSet.builder();
-    for (String n : groupNames) {
-      GroupReference g = GroupBackends.findBestSuggestion(groupBackend, n);
-      if (g == null) {
-        log.warn("Group \"{0}\" not in database, skipping.", n);
-      } else {
-        builder.add(g.getUUID());
+    RequestContext ctx = threadContext.setContext(serverCtx);
+    try {
+      String[] groupNames = config.getStringList(section, subsection, name);
+      ImmutableSet.Builder<AccountGroup.UUID> builder = ImmutableSet.builder();
+      for (String n : groupNames) {
+        GroupReference g = GroupBackends.findBestSuggestion(groupBackend, n);
+        if (g == null) {
+          log.warn("Group \"{}\" not in database, skipping.", n);
+        } else {
+          builder.add(g.getUUID());
+        }
       }
+      groupIds = builder.build();
+    } finally {
+      threadContext.setContext(ctx);
     }
-    groupIds = builder.build();
   }
 
   @Override

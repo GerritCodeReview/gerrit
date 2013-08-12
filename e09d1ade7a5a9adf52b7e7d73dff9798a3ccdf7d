@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "586f6876_094c6946",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-12T20:38:04Z",
+      "side": 1,
+      "message": "This would also be replication-startReplication",
+      "revId": "e09d1ade7a5a9adf52b7e7d73dff9798a3ccdf7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "786a6c67_4a51f30b",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-12T20:38:04Z",
+      "side": 1,
+      "message": "You dropped this elsewhere. Why did you leave it here? Maybe we should just remove it?",
+      "revId": "e09d1ade7a5a9adf52b7e7d73dff9798a3ccdf7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

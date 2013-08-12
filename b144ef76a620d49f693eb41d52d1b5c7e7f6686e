@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "582be8c2_a9f97d01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-08-12T19:44:07Z",
+      "side": 1,
+      "message": "I think \"contains()\" would suffice (you don\u0027t generally need to mention the parameters in java method names)",
+      "revId": "b144ef76a620d49f693eb41d52d1b5c7e7f6686e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b8b4e4fc_7c2379c0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 2
@@ -99,6 +116,24 @@
       "side": 1,
       "message": "I implement this feature from suggestions I got from mfick.  I think the intent is that this is a special group that only applies to labels.  It doesn\u0027t seem to make sense to apply it to any of the other available permissions.\n\nMaybe I\u0027m going down the wrong path here, if i am could you maybe provide some suggestions on what is the most appropriate way to implement this feature?",
       "parentUuid": "b8b4e4fc_3c1df175",
+      "revId": "b144ef76a620d49f693eb41d52d1b5c7e7f6686e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "586f6876_c92df176",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-08-12T19:44:07Z",
+      "side": 1,
+      "message": "I don\u0027t believe that I suggested that this group only apply to labels.  That seems rather limiting and confusing to those setting up ACLs.  I think we would need this to work for all permissions or user support for this feature will be too difficult.\n\nAs for a suggested implementation, I think you need to override any methods which evaluate whether a user is in a group to take a isChangeOwner parameter that would be set to true when evaluating group memeberships in context of a change where the current user is the owner.",
+      "parentUuid": "d818b82e_95ea6424",
       "revId": "b144ef76a620d49f693eb41d52d1b5c7e7f6686e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

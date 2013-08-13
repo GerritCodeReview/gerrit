@@ -52,6 +52,24 @@
       "revId": "b7f8ed0634379c82dfc8cb817ea54fa3ce157419",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d818b82e_75cea8a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-08-13T19:09:45Z",
+      "side": 1,
+      "message": "I could see why you would want to be able to replace the entire websession implementation, but for simpler cases I don\u0027t see what we would gain?  I suspect that if were to take that approach, we would start by just copying all the current websession code to the plugin and then simply modify the caching portion as Ahaan has currently done already in his plugin changes, to share the cache.  That would be easiest and be less code to rewrite/test/prove since it would be basically using most of today\u0027s websession code. \n\nI guess I am not sure if you are saying it is \"wrong\" because you feel that others should be able to modify the entire websession implementation, or because you think that we would have technical problems, that it wouldn\u0027t work right to not do so?",
+      "parentUuid": "d818b82e_55760c97",
+      "revId": "b7f8ed0634379c82dfc8cb817ea54fa3ce157419",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -31,6 +31,7 @@ import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.PatchLink;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.PatchSetPublishDetail;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -317,9 +318,12 @@ public class PublishCommentScreen extends AccountScreen implements
   }
 
   private void display(final PatchSetPublishDetail r) {
+    ChangeDetail changeDetail = new ChangeDetail();
+    changeDetail.setChange(r.getChange());
+
     setPageTitle(Util.M.publishComments(r.getChange().getKey().abbreviate(),
         patchSetId.get()));
-    descBlock.display(r.getChange(), null, false, r.getPatchSetInfo(), r.getAccounts(),
+    descBlock.display(changeDetail, null, false, r.getPatchSetInfo(), r.getAccounts(),
        r.getSubmitTypeRecord(), commentLinkProcessor);
 
     if (r.getChange().getStatus().isOpen()) {

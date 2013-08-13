@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f85d7cd3_466b328f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-13T07:32:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f85d7cd3_e65b3efe",
+      "revId": "17e86fe48b0dcc558f7a49eb7cdc91a009052967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d818b82e_f5563806",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-08-13T07:27:39Z",
       "side": 1,
       "message": "Log this?",
+      "revId": "17e86fe48b0dcc558f7a49eb7cdc91a009052967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f85d7cd3_6668ae91",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-13T07:32:39Z",
+      "side": 1,
+      "message": "No. If the code guesses the character encoding of a file wrong some lines may not decode cleanly. We don\u0027t currently log these failures because we don\u0027t want to spam the log file. There is no way for an administrator to fix the problem other than to have the users re-encode the file. We don\u0027t have a way to hint at what the character encoding is on a per-file basis.\n\nIt might be good to know we are having bad guesses on some paths, but again I don\u0027t want to spam the log with all of those.",
+      "parentUuid": "d818b82e_f5563806",
       "revId": "17e86fe48b0dcc558f7a49eb7cdc91a009052967",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

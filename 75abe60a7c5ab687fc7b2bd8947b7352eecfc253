@@ -317,6 +317,24 @@
     },
     {
       "key": {
+        "uuid": "786a6c67_ca5643d9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-13T02:20:49Z",
+      "side": 1,
+      "message": "I think I agree with what you proposed. \u0027c\u0027 and gutter click create a new comment with the current range if there is a selection. If there is no selection but an existing comment they use the range of the existing comment. If there is no comment they create a new line comment.\n\n\u0027c\u0027 and gutter click should be no different in behavior. So user can select a range and then click gutter to get a comment box.",
+      "parentUuid": "586f6876_49c7c14f",
+      "revId": "75abe60a7c5ab687fc7b2bd8947b7352eecfc253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "586f6876_891e1925",
         "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/TextMarker.java",
         "patchSetId": 2

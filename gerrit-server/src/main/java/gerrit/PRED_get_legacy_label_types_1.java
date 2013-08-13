@@ -15,6 +15,7 @@
 package gerrit;
 
 import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.project.ProjectState;
@@ -43,6 +44,8 @@ import java.util.List;
  * </ul>
  */
 class PRED_get_legacy_label_types_1 extends Predicate.P1 {
+  private static final SymbolTerm NONE = SymbolTerm.intern("none");
+
   PRED_get_legacy_label_types_1(Term a1, Operation n) {
     arg1 = a1;
     cont = n;
@@ -75,10 +78,12 @@ class PRED_get_legacy_label_types_1 extends Predicate.P1 {
       "label_type", 4);
 
   static Term export(LabelType type) {
+    LabelValue min = type.getMin();
+    LabelValue max = type.getMax();
     return new StructureTerm(symLabelType,
         SymbolTerm.intern(type.getName()),
         SymbolTerm.intern(type.getFunctionName()),
-        new IntegerTerm(type.getMin().getValue()),
-        new IntegerTerm(type.getMax().getValue()));
+        min != null ? new IntegerTerm(min.getValue()) : NONE,
+        max != null ? new IntegerTerm(max.getValue()) : NONE);
   }
 }

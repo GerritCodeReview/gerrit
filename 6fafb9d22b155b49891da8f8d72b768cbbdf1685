@@ -69,6 +69,24 @@
       "revId": "6fafb9d22b155b49891da8f8d72b768cbbdf1685",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f85d7cd3_a6b7861d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-13T06:43:26Z",
+      "side": 1,
+      "message": "You can have gaps when the reference is created but the database update fails. On a future attempt we create a new reference but don\u0027t fill in the missing patch set so you see a gap.\n\nI think a gap is also possible if there is a draft patch set and the user can\u0027t see the draft but does a rebase of the prior patch set they can see.\n\nIn PatchSetInserter the init() method creates the PatchSet only if its not created yet. Maybe pull this logic into a new public method called getPatchSet() and use that to find out what number its going to attempt to create.",
+      "parentUuid": "d818b82e_d5421c48",
+      "revId": "6fafb9d22b155b49891da8f8d72b768cbbdf1685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -33,6 +33,24 @@
       "revId": "acf8e506059a7689dad265e531905273f96be7b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3802b4bb_6148ac5b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/LibraryDownloader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-13T09:48:18Z",
+      "side": 1,
+      "message": "In the method ui.readString(...) on the line 206.",
+      "parentUuid": "d818b82e_d5905c9c",
+      "revId": "acf8e506059a7689dad265e531905273f96be7b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

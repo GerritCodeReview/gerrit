@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b8fce4ed_7cce99a1",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-08-13T22:05:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "786a6c67_aade6f53",
+      "revId": "7f2b7f50ecae2de8aad1c6aca9ec249fbf333905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "786a6c67_4ac49382",
         "filename": "gerrit-pgm/BUCK",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2013-08-12T23:49:57Z",
       "side": 1,
       "message": "This is incorrect usage of glob. glob should accept a pattern list. You passed it a list of already resolved file paths and asked it to re-resolve those. I think you just want to pass BASE_INIT_SRCS here and pass INIT_API_SRCS as part of the excludes above.",
+      "revId": "7f2b7f50ecae2de8aad1c6aca9ec249fbf333905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3802b4bb_a1864464",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 8
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-08-13T22:05:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "786a6c67_4ac49382",
       "revId": "7f2b7f50ecae2de8aad1c6aca9ec249fbf333905",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "b8fce4ed_5ccbdd8f",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 8
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-08-13T22:05:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d818b82e_35fa70f5",
+      "revId": "7f2b7f50ecae2de8aad1c6aca9ec249fbf333905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "786a6c67_6ac15771",
         "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/SiteInitializer.java",
         "patchSetId": 8
@@ -64,6 +118,24 @@
       "writtenOn": "2013-08-12T23:49:57Z",
       "side": 1,
       "message": "This should probably be logged or rethrown. Not being able to talk to the database here is going to prevent futher init from working correctly isn\u0027t it?",
+      "revId": "7f2b7f50ecae2de8aad1c6aca9ec249fbf333905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8fce4ed_bcb82111",
+        "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/SiteInitializer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-08-13T22:05:21Z",
+      "side": 1,
+      "message": "I almost agreed that this was a mistake but then remembered that the intention here was to catch the \"table doesn\u0027t exist\" SQLException which indicates that the site doesn\u0027t exist yet and, therefore, we return null.\n\nIn case the database would be unavailable then the connectToDb would throw a SQLException and this method wouldn\u0027t be invoked.\n\nI agree that the error handling is loose here. I should probably make use\nof the SqlDialect in order have an explicit check for the table existence.\n\nPlease await with the code review until the next patch set.",
+      "parentUuid": "786a6c67_6ac15771",
       "revId": "7f2b7f50ecae2de8aad1c6aca9ec249fbf333905",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

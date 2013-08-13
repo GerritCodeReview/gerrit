@@ -38,6 +38,12 @@ Fix diff screens for files with CRLF line endings.
 
 * Allow label values to be configured with no text.
 
+* link:https://code.google.com/p/gerrit/issues/detail?id=1966[Issue 1966]:
+Fix Gerrit plugins under Tomcat by avoiding Guice static filter.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2054[Issue 2054]:
+Expand capabilities of `ldap.groupMemberPattern`.
+
 
 No other changes since 2.6.1.
 

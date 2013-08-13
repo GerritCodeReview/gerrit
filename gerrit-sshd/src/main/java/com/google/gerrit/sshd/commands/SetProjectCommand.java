@@ -38,7 +38,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
-@CommandMetaData(name = "set-project", descr = "Change a project's settings")
+@CommandMetaData(name = "set-project", description = "Change a project's settings")
 final class SetProjectCommand extends SshCommand {
   private static final Logger log = LoggerFactory
       .getLogger(SetProjectCommand.class);

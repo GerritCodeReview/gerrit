@@ -28,7 +28,7 @@ import org.kohsuke.args4j.Argument;
 import java.util.List;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
-@CommandMetaData(name = "enable", descr = "Enable plugins")
+@CommandMetaData(name = "enable", description = "Enable plugins")
 final class PluginEnableCommand extends SshCommand {
   @Argument(index = 0, metaVar = "NAME", required = true, usage = "plugin(s) to enable")
   List<String> names;

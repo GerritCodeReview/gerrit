@@ -40,7 +40,7 @@ import java.io.IOException;
 import java.util.Map;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
-@CommandMetaData(name = "ls-user-refs", descr = "List refs visible to a specific user")
+@CommandMetaData(name = "ls-user-refs", description = "List refs visible to a specific user")
 public class LsUserRefs extends SshCommand {
   @Inject
   private AccountResolver accountResolver;

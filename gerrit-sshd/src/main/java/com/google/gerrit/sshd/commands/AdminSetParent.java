@@ -50,7 +50,7 @@ import java.util.List;
 import java.util.Set;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
-@CommandMetaData(name = "set-project-parent", descr = "Change the project permissions are inherited from")
+@CommandMetaData(name = "set-project-parent", description = "Change the project permissions are inherited from")
 final class AdminSetParent extends SshCommand {
   private static final Logger log = LoggerFactory.getLogger(AdminSetParent.class);
 

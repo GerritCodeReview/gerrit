@@ -37,7 +37,7 @@ import org.kohsuke.args4j.Option;
 
 import java.io.PrintWriter;
 
-@CommandMetaData(name = "ls-groups", descr = "List groups visible to the caller")
+@CommandMetaData(name = "ls-groups", description = "List groups visible to the caller")
 public class ListGroupsCommand extends BaseCommand {
   @Inject
   private MyListGroups impl;

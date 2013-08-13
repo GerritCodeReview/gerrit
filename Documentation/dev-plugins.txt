@@ -357,7 +357,7 @@ this capability in the usual way, using the `RequiresCapability` annotation:
 
 ====
   @RequiresCapability("printHello")
-  @CommandMetaData(name="print", descr="Print greeting in different languages")
+  @CommandMetaData(name="print", description="Print greeting in different languages")
   public final class PrintHelloWorldCommand extends SshCommand {
   ...
 ====

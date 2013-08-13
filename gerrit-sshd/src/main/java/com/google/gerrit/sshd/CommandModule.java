@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.common.base.Objects;
+import com.google.common.base.Strings;
 import com.google.inject.AbstractModule;
 import com.google.inject.binder.LinkedBindingBuilder;
 
@@ -74,7 +76,7 @@ public abstract class CommandModule extends AbstractModule {
     if (meta == null) {
       throw new IllegalStateException("no CommandMetaData annotation found");
     }
-    bind(Commands.key(parent, meta.name(), meta.descr())).to(clazz);
+    bind(Commands.key(parent, meta.name(), description(meta))).to(clazz);
   }
 
   /**
@@ -93,7 +95,13 @@ public abstract class CommandModule extends AbstractModule {
     if (meta == null) {
       throw new IllegalStateException("no CommandMetaData annotation found");
     }
-    bind(Commands.key(parent, name, meta.descr())).to(clazz);
+    bind(Commands.key(parent, name, description(meta))).to(clazz);
+  }
+
+  private static String description(CommandMetaData meta) {
+    return Objects.firstNonNull(
+        Strings.emptyToNull(meta.description()),
+        meta.descr());
   }
 
   /**

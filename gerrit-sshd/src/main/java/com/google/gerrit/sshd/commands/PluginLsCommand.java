@@ -26,7 +26,7 @@ import org.apache.sshd.server.Environment;
 import java.io.IOException;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
-@CommandMetaData(name = "ls", descr = "List the installed plugins")
+@CommandMetaData(name = "ls", description = "List the installed plugins")
 final class PluginLsCommand extends BaseCommand {
   @Inject
   private ListPlugins impl;

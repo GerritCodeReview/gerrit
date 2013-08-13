@@ -45,7 +45,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@CommandMetaData(name = "set-reviewers", descr = "Add or remove reviewers on a change")
+@CommandMetaData(name = "set-reviewers", description = "Add or remove reviewers on a change")
 public class SetReviewersCommand extends SshCommand {
   private static final Logger log =
       LoggerFactory.getLogger(SetReviewersCommand.class);

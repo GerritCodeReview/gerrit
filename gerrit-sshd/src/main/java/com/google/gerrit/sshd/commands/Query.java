@@ -24,7 +24,7 @@ import org.kohsuke.args4j.Option;
 
 import java.util.List;
 
-@CommandMetaData(name = "query", descr = "Query the change database")
+@CommandMetaData(name = "query", description = "Query the change database")
 class Query extends SshCommand {
   @Inject
   private QueryProcessor processor;

@@ -36,7 +36,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
 
 @RequiresCapability(GlobalCapability.STREAM_EVENTS)
-@CommandMetaData(name = "stream-events", descr = "Monitor events occurring in real time")
+@CommandMetaData(name = "stream-events", description = "Monitor events occurring in real time")
 final class StreamEvents extends BaseCommand {
   /** Maximum number of events that may be queued up for each connection. */
   private static final int MAX_EVENTS = 128;

@@ -61,7 +61,7 @@ java_binary(
 
 java_library(
   name = 'plugin-lib',
-  deps = PLUGIN_API,
+  deps = PLUGIN_API + ['//lib:servlet-api-3_0'],
   export_deps = True,
   visibility = ['PUBLIC'],
 )

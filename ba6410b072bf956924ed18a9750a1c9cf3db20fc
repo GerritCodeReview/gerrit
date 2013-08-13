@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "786a6c67_ea5b07fe",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 928,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-13T02:21:14Z",
+      "side": 1,
+      "message": "This patch set looks good except for the behavior issues discussed on this line in patch set 2.",
+      "revId": "ba6410b072bf956924ed18a9750a1c9cf3db20fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

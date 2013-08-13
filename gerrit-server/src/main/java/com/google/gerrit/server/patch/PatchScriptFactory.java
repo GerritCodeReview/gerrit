@@ -126,8 +126,9 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     aId = psa != null ? toObjectId(db, psa) : null;
     bId = toObjectId(db, psb);
 
-    if ((psa != null && !control.isPatchVisible(db.patchSets().get(psa), db)) ||
-        (psb != null && !control.isPatchVisible(db.patchSets().get(psb), db))) {
+    if ((psa != null && !(psa instanceof PatchSet.CommonAncestorId) && !control
+        .isPatchVisible(db.patchSets().get(psa), db))
+        || (psb != null && !control.isPatchVisible(db.patchSets().get(psb), db))) {
       throw new NoSuchChangeException(changeId);
     }
 
@@ -184,6 +185,10 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
   private ObjectId toObjectId(final ReviewDb db, final PatchSet.Id psId)
       throws OrmException, NoSuchChangeException {
+    if (PatchSet.CommonAncestorId.isCommonAncestor(psId)) {
+      return new CommonAncestorObjectId();
+    }
+
     if (!changeId.equals(psId.getParentKey())) {
       throw new NoSuchChangeException(changeId);
     }
@@ -205,6 +210,8 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private void validatePatchSetId(final PatchSet.Id psId)
       throws NoSuchChangeException {
     if (psId == null) { // OK, means use base;
+    } else if (PatchSet.CommonAncestorId.isCommonAncestor(psId)) {
+      // OK, show diff with common ancestor
     } else if (changeId.equals(psId.getParentKey())) { // OK, same change;
     } else {
       throw new NoSuchChangeException(changeId);

@@ -99,6 +99,9 @@ public final class PatchSet {
 
     /** Parse a PatchSet.Id out of a string representation. */
     public static Id parse(final String str) {
+      if (str.endsWith("CA")) {
+        return new CommonAncestorId();
+      }
       final Id r = new Id();
       r.fromString(str);
       return r;
@@ -117,6 +120,19 @@ public final class PatchSet {
       final int changeId = Integer.parseInt(parts[n - 2]);
       final int patchSetId = Integer.parseInt(parts[n - 1]);
       return new PatchSet.Id(new Change.Id(changeId), patchSetId);
+    }
+  }
+
+  public static class CommonAncestorId extends Id {
+    private static final long serialVersionUID = 1L;
+
+    // This is a work around because GWT is de-serializing the item as a
+    // PatchSet.ID rather than a .CommonAncestorId.
+    public static boolean isCommonAncestor(PatchSet.Id psId) {
+      if(psId == null) {
+        return false;
+      }
+      return psId instanceof PatchSet.CommonAncestorId || psId.get() == 0;
     }
   }
 

@@ -156,6 +156,7 @@ public interface ChangeConstants extends Constants {
   String referenceVersion();
   String baseDiffItem();
   String autoMerge();
+  String commonAncestor();
 
   String buttonReview();
   String buttonPublishCommentsSend();

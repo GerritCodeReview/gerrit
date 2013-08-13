@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "3802b4bb_611a6c7f",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-13T04:17:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "586f6876_c9fbb1ab",
+      "revId": "14a4a2f71c65cba89cc6d23f3cfc21f167439f71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "586f6876_e900f5cb",
         "filename": "Documentation/database-setup.txt",
         "patchSetId": 9
@@ -47,6 +65,24 @@
       "writtenOn": "2013-08-12T23:29:15Z",
       "side": 1,
       "message": "IIRC sqlplus doesn\u0027t use $ as a prompt. Can we put the real prompt character here?",
+      "revId": "14a4a2f71c65cba89cc6d23f3cfc21f167439f71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8fce4ed_5c9d9dab",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-13T04:17:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "586f6876_e900f5cb",
       "revId": "14a4a2f71c65cba89cc6d23f3cfc21f167439f71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "3802b4bb_c133780c",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-13T04:17:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "586f6876_8905b9da",
+      "revId": "14a4a2f71c65cba89cc6d23f3cfc21f167439f71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b8fce4ed_1c9315a6",
         "filename": "Documentation/database-setup.txt",
         "patchSetId": 9
@@ -81,6 +135,41 @@
       "writtenOn": "2013-08-12T23:29:15Z",
       "side": 1,
       "message": "s/some known/a known/\n\nWe should mention what the default copy source is from /u01/app/oracle/product/.",
+      "revId": "14a4a2f71c65cba89cc6d23f3cfc21f167439f71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8fce4ed_bc6ae1ac",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-13T04:17:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8fce4ed_1c9315a6",
+      "revId": "14a4a2f71c65cba89cc6d23f3cfc21f167439f71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8fce4ed_9c6f25bd",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitDatabase.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-13T04:17:49Z",
+      "side": 1,
+      "message": "that line was wrong indented?",
       "revId": "14a4a2f71c65cba89cc6d23f3cfc21f167439f71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -104,6 +193,24 @@
     },
     {
       "key": {
+        "uuid": "3802b4bb_a13804e8",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitDatabase.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-13T04:17:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "586f6876_a90afde5",
+      "revId": "14a4a2f71c65cba89cc6d23f3cfc21f167439f71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "786a6c67_cacf23a1",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/OracleInitializer.java",
         "patchSetId": 9
@@ -115,6 +222,24 @@
       "writtenOn": "2013-08-12T23:29:15Z",
       "side": 1,
       "message": "Would instance name be a better way to identify this to someone familiar with Oracle?",
+      "revId": "14a4a2f71c65cba89cc6d23f3cfc21f167439f71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3802b4bb_013e10d2",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/OracleInitializer.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-13T04:17:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "786a6c67_cacf23a1",
       "revId": "14a4a2f71c65cba89cc6d23f3cfc21f167439f71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -138,6 +263,24 @@
     },
     {
       "key": {
+        "uuid": "3802b4bb_e142fc47",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/libraries.config",
+        "patchSetId": 9
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-13T04:17:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "786a6c67_0a79bb85",
+      "revId": "14a4a2f71c65cba89cc6d23f3cfc21f167439f71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "786a6c67_2a76ff96",
         "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/libraries.config",
         "patchSetId": 9
@@ -149,6 +292,24 @@
       "writtenOn": "2013-08-12T23:29:15Z",
       "side": 1,
       "message": "s/jdbc/JDBC/ ?",
+      "revId": "14a4a2f71c65cba89cc6d23f3cfc21f167439f71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3802b4bb_41280892",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/libraries.config",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-13T04:17:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "786a6c67_2a76ff96",
       "revId": "14a4a2f71c65cba89cc6d23f3cfc21f167439f71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

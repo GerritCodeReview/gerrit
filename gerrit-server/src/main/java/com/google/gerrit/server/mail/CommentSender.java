@@ -28,6 +28,8 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.lib.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -37,6 +39,9 @@ import java.util.Set;
 
 /** Send comments, after the author of them hit used Publish Comments in the UI. */
 public class CommentSender extends ReplyToChangeSender {
+  private static final Logger log = LoggerFactory
+      .getLogger(CommentSender.class);
+
   public static interface Factory {
     public CommentSender create(NotifyHandling notify, Change change);
   }
@@ -97,8 +102,7 @@ public class CommentSender extends ReplyToChangeSender {
   }
 
   public String getInlineComments(int lines) {
-    StringBuilder  cmts = new StringBuilder();
-
+    StringBuilder cmts = new StringBuilder();
     final Repository repo = getRepository();
     try {
       PatchList patchList = null;
@@ -122,21 +126,22 @@ public class CommentSender extends ReplyToChangeSender {
           if (Patch.COMMIT_MSG.equals(pk.get())) {
             cmts.append("Commit Message\n");
           } else {
-            cmts.append("File ");
-            cmts.append(pk.get());
-            cmts.append("\n");
+            cmts.append("File ").append(pk.get()).append('\n');
           }
           currentFileKey = pk;
 
           if (patchList != null) {
             try {
               currentFileData =
-                  new PatchFile(repo, patchList, pk.getFileName());
+                  new PatchFile(repo, patchList, pk.get());
             } catch (IOException e) {
-              // Don't quote the line if we can't load it.
+              log.warn(String.format(
+                  "Cannot load %s from %s in %s",
+                  pk.getFileName(),
+                  patchList.getNewId().name(),
+                  projectState.getProject().getName()), e);
+              currentFileData = null;
             }
-          } else {
-            currentFileData = null;
           }
         }
 
@@ -154,9 +159,7 @@ public class CommentSender extends ReplyToChangeSender {
           for (int line = startLine; line <= lineNbr; ++line) {
             appendFileLine(cmts, currentFileData, side, line);
           }
-
-          cmts.append(c.getMessage().trim());
-          cmts.append("\n");
+          cmts.append(c.getMessage().trim()).append('\n');
 
           for (int line = lineNbr + 1; line < stopLine; ++line) {
             appendFileLine(cmts, currentFileData, side, line);

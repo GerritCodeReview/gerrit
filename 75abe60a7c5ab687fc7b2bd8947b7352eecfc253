@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "786a6c67_8ab28b2e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-13T00:42:58Z",
+      "side": 1,
+      "message": "nit: line break after ( or before \".set\" here.",
+      "revId": "75abe60a7c5ab687fc7b2bd8947b7352eecfc253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "586f6876_a923dd6f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-13T00:42:58Z",
+      "side": 1,
+      "message": "nit: same as above, line break before .set or (",
+      "revId": "75abe60a7c5ab687fc7b2bd8947b7352eecfc253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "786a6c67_aab74f1d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentRange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-13T00:42:58Z",
+      "side": 1,
+      "message": "Use an overloaded form of create here.",
+      "revId": "75abe60a7c5ab687fc7b2bd8947b7352eecfc253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "586f6876_6916450e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentRange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-13T00:42:58Z",
+      "side": 1,
+      "message": "I think I would line break this on the pairs:\n\n  return create(\n    from.getLine() + 1, from.getCh(),\n    to.getLine() + 1, to.getCh());",
+      "revId": "75abe60a7c5ab687fc7b2bd8947b7352eecfc253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "786a6c67_eabd47ff",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DraftBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-13T00:42:58Z",
+      "side": 1,
+      "message": "cm, cm3 or codeMirror",
+      "revId": "75abe60a7c5ab687fc7b2bd8947b7352eecfc253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "786a6c67_cab88312",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PublishedBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-13T00:42:58Z",
+      "side": 1,
+      "message": "cm, cm3 or codeMirror are all better names than mirror.",
+      "revId": "75abe60a7c5ab687fc7b2bd8947b7352eecfc253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "586f6876_4919013b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PublishedBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-13T00:42:58Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this carry the range information with it? Opening a published comment that is a reply to a prior comment with a range should still highlight the text the original comment had put the range on, because the new reply comment should by default use the same range as its parent.\n\nNote I think the range should be copied only in the case of onReply() event handler below. If the user creates a new comment using their own range selection its still considered a reply but maybe we should track the new range as part of the reply rather than inferring the parent. This could be important in the case where a user is saying \"no I meant you should fix this part of the line not the part you touched!\".",
+      "revId": "75abe60a7c5ab687fc7b2bd8947b7352eecfc253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "586f6876_e929d551",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 922,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-13T00:42:58Z",
+      "side": 1,
+      "message": "This line is too long. Line break before ? and : and indent both one more level.",
+      "revId": "75abe60a7c5ab687fc7b2bd8947b7352eecfc253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "786a6c67_2acb5f91",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-13T00:42:58Z",
+      "side": 1,
+      "message": "This has an interesting effect of preventing a user from creating a comment for a different region of the same line. To reproduce select a word on a line, put a comment there, publish it. Then select a different word and try to add a comment. The region information is lost and the metadata on the new comment says it is in reply to the old comment.\n\nNot sure what we want to do here.",
+      "revId": "75abe60a7c5ab687fc7b2bd8947b7352eecfc253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "586f6876_891e1925",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/TextMarker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-13T00:42:58Z",
+      "side": 1,
+      "message": "We can call this create() and rely on argument overloading to select the correct implementation.",
+      "revId": "75abe60a7c5ab687fc7b2bd8947b7352eecfc253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "786a6c67_0ace9ba0",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/TextMarker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-13T00:42:58Z",
+      "side": 1,
+      "message": "Line wrap this, its too long.",
+      "revId": "75abe60a7c5ab687fc7b2bd8947b7352eecfc253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "586f6876_c924117d",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/TextMarker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-13T00:42:58Z",
+      "side": 1,
+      "message": "Maybe:\n\n  return create(\n    LineCharacter.create(\n      range.start_line() - 1,\n      range.start_character()),\n    LineCharacter.create(\n      range.end_line() - 1,\n      range.end_character()));",
+      "revId": "75abe60a7c5ab687fc7b2bd8947b7352eecfc253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -118,8 +118,6 @@ public class CommentSender extends ReplyToChangeSender {
       PatchFile currentFileData = null;
       for (final PatchLineComment c : inlineComments) {
         final Patch.Key pk = c.getKey().getParentKey();
-        final int lineNbr = c.getLine();
-        final short side = c.getSide();
 
         if (!pk.equals(currentFileKey)) {
           cmts.append("....................................................\n");
@@ -146,26 +144,8 @@ public class CommentSender extends ReplyToChangeSender {
         }
 
         if (currentFileData != null) {
-          int maxLines;
-          try {
-            maxLines = currentFileData.getLineCount(side);
-          } catch (Throwable e) {
-            maxLines = lineNbr;
-          }
-
-          final int startLine = Math.max(1, lineNbr - lines + 1);
-          final int stopLine = Math.min(maxLines, lineNbr + lines);
-
-          for (int line = startLine; line <= lineNbr; ++line) {
-            appendFileLine(cmts, currentFileData, side, line);
-          }
-          cmts.append(c.getMessage().trim()).append('\n');
-
-          for (int line = lineNbr + 1; line < stopLine; ++line) {
-            appendFileLine(cmts, currentFileData, side, line);
-          }
+          appendComment(cmts, lines, currentFileData, c);
         }
-
         cmts.append("\n\n");
       }
     } finally {
@@ -174,6 +154,30 @@ public class CommentSender extends ReplyToChangeSender {
       }
     }
     return cmts.toString();
+  }
+
+  private void appendComment(StringBuilder out, int contextLines,
+      PatchFile currentFileData, PatchLineComment comment) {
+    int lineNbr = comment.getLine();
+    short side = comment.getSide();
+    int maxLines;
+    try {
+      maxLines = currentFileData.getLineCount(side);
+    } catch (Throwable e) {
+      maxLines = lineNbr;
+    }
+
+    final int startLine = Math.max(1, lineNbr - contextLines + 1);
+    final int stopLine = Math.min(maxLines, lineNbr + contextLines);
+
+    for (int line = startLine; line <= lineNbr; ++line) {
+      appendFileLine(out, currentFileData, side, line);
+    }
+    out.append(comment.getMessage().trim()).append('\n');
+
+    for (int line = lineNbr + 1; line < stopLine; ++line) {
+      appendFileLine(out, currentFileData, side, line);
+    }
   }
 
   private void appendFileLine(StringBuilder cmts, PatchFile fileData, short side, int line) {

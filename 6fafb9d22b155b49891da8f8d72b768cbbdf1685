@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d818b82e_3528b091",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-13T06:33:29Z",
+      "side": 1,
+      "message": "I\u0027ll fix this in the next patch set.  If there is one; I\u0027m not yet sure how to solve the problem mentioned in the comment below.",
+      "parentUuid": "d818b82e_551a8c7e",
+      "revId": "6fafb9d22b155b49891da8f8d72b768cbbdf1685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d818b82e_751d0875",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-08-13T06:20:56Z",
       "side": 1,
       "message": "This doesn\u0027t always work. There can be gaps in the numbering. We really need to use the patch set returned by the patchSetInserter.",
+      "revId": "6fafb9d22b155b49891da8f8d72b768cbbdf1685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d818b82e_d5421c48",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-13T06:33:29Z",
+      "side": 1,
+      "message": "In which cases will there be gaps?\n\nWe can\u0027t get the ID of the new patch set until after the insert has finished.\n\nBut the patch set inserter adds the comment and sends the mail notification in the insert.",
+      "parentUuid": "d818b82e_751d0875",
       "revId": "6fafb9d22b155b49891da8f8d72b768cbbdf1685",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

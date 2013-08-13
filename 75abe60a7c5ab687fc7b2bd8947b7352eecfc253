@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "586f6876_89d3791f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-13T01:24:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "786a6c67_8ab28b2e",
+      "revId": "75abe60a7c5ab687fc7b2bd8947b7352eecfc253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "586f6876_a923dd6f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-08-13T00:42:58Z",
       "side": 1,
       "message": "nit: same as above, line break before .set or (",
+      "revId": "75abe60a7c5ab687fc7b2bd8947b7352eecfc253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "786a6c67_ca2de376",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-13T01:24:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "586f6876_a923dd6f",
       "revId": "75abe60a7c5ab687fc7b2bd8947b7352eecfc253",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "586f6876_a9d8bd39",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentRange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-13T01:24:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "786a6c67_aab74f1d",
+      "revId": "75abe60a7c5ab687fc7b2bd8947b7352eecfc253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "586f6876_6916450e",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentRange.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2013-08-13T00:42:58Z",
       "side": 1,
       "message": "I think I would line break this on the pairs:\n\n  return create(\n    from.getLine() + 1, from.getCh(),\n    to.getLine() + 1, to.getCh());",
+      "revId": "75abe60a7c5ab687fc7b2bd8947b7352eecfc253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "586f6876_49dee125",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentRange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-13T01:24:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "586f6876_6916450e",
       "revId": "75abe60a7c5ab687fc7b2bd8947b7352eecfc253",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "786a6c67_ea3227d8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DraftBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-13T01:24:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "786a6c67_eabd47ff",
+      "revId": "75abe60a7c5ab687fc7b2bd8947b7352eecfc253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "786a6c67_cab88312",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PublishedBox.java",
         "patchSetId": 2
@@ -98,6 +188,24 @@
       "writtenOn": "2013-08-13T00:42:58Z",
       "side": 1,
       "message": "cm, cm3 or codeMirror are all better names than mirror.",
+      "revId": "75abe60a7c5ab687fc7b2bd8947b7352eecfc253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "786a6c67_8a37ebc6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PublishedBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-13T01:24:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "786a6c67_cab88312",
       "revId": "75abe60a7c5ab687fc7b2bd8947b7352eecfc253",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "586f6876_69c4054a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PublishedBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-13T01:24:33Z",
+      "side": 1,
+      "message": "Please see my reply in SideBySide2.",
+      "parentUuid": "586f6876_4919013b",
+      "revId": "75abe60a7c5ab687fc7b2bd8947b7352eecfc253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "586f6876_e929d551",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
         "patchSetId": 2
@@ -132,6 +258,24 @@
       "writtenOn": "2013-08-13T00:42:58Z",
       "side": 1,
       "message": "This line is too long. Line break before ? and : and indent both one more level.",
+      "revId": "75abe60a7c5ab687fc7b2bd8947b7352eecfc253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "586f6876_c9b2d101",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 922,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-13T01:24:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "586f6876_e929d551",
       "revId": "75abe60a7c5ab687fc7b2bd8947b7352eecfc253",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "586f6876_49c7c14f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-13T01:24:33Z",
+      "side": 1,
+      "message": "I\u0027ve been thinking about the new way of interaction. Maybe we should let \u0027c\u0027 create a new comment when a new range is selected, and behave the old way if nothing is selected / the selected range is the same? Also, should comments created by clicking on the line number gutter include range info?",
+      "parentUuid": "786a6c67_2acb5f91",
+      "revId": "75abe60a7c5ab687fc7b2bd8947b7352eecfc253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "586f6876_891e1925",
         "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/TextMarker.java",
         "patchSetId": 2
@@ -166,6 +328,24 @@
       "writtenOn": "2013-08-13T00:42:58Z",
       "side": 1,
       "message": "We can call this create() and rely on argument overloading to select the correct implementation.",
+      "revId": "75abe60a7c5ab687fc7b2bd8947b7352eecfc253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "586f6876_29e5adef",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/TextMarker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-13T01:24:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "586f6876_891e1925",
       "revId": "75abe60a7c5ab687fc7b2bd8947b7352eecfc253",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "586f6876_09e8e9c6",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/TextMarker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-13T01:24:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "786a6c67_0ace9ba0",
+      "revId": "75abe60a7c5ab687fc7b2bd8947b7352eecfc253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "586f6876_c924117d",
         "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/TextMarker.java",
         "patchSetId": 2
@@ -200,6 +398,24 @@
       "writtenOn": "2013-08-13T00:42:58Z",
       "side": 1,
       "message": "Maybe:\n\n  return create(\n    LineCharacter.create(\n      range.start_line() - 1,\n      range.start_character()),\n    LineCharacter.create(\n      range.end_line() - 1,\n      range.end_character()));",
+      "revId": "75abe60a7c5ab687fc7b2bd8947b7352eecfc253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "786a6c67_aa3c2fa9",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/TextMarker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-13T01:24:33Z",
+      "side": 1,
+      "message": "What about\nreturn create(\n          LineCharacter.create(range.start_line() - 1, range.start_character()),\n          LineCharacter.create(range.end_line() - 1, range.end_character()));\n\n?",
+      "parentUuid": "586f6876_c924117d",
       "revId": "75abe60a7c5ab687fc7b2bd8947b7352eecfc253",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

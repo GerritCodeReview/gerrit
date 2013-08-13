@@ -10,6 +10,6 @@
 	path = plugins/commit-message-length-validator
 	url = https://gerrit.googlesource.com/plugins/commit-message-length-validator
 
-[submodule "plugins/helloworld"]
-	path = plugins/helloworld
-	url = https://gerrit.googlesource.com/plugins/helloworld
+[submodule "plugins/cookbook-plugin"]
+	path = plugins/cookbook-plugin
+	url = https://gerrit.googlesource.com/plugins/cookbook-plugin

@@ -301,11 +301,12 @@ public class RebaseChange {
         .setSendMail(sendMail)
         .setRunHooks(runHooks);
 
+    final int patchSetNumber = patchSetId.get();
     final ChangeMessage cmsg =
         new ChangeMessage(new ChangeMessage.Key(change.getId(),
             ChangeUtil.messageUUID(db)), uploader.getAccountId(), patchSetId);
-    cmsg.setMessage("Patch Set " + change.currentPatchSetId().get()
-        + ": Patch Set " + patchSetId.get() + " was rebased");
+    cmsg.setMessage("Patch Set " + (patchSetNumber + 1)
+        + ": Patch Set " + patchSetNumber + " was rebased");
 
     Change newChange = patchSetinserter
         .setMessage(cmsg)

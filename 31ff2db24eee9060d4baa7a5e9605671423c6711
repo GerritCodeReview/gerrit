@@ -16,6 +16,24 @@
       "revId": "31ff2db24eee9060d4baa7a5e9605671423c6711",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f85d7cd3_2610760d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Files.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-08-13T17:50:40Z",
+      "side": 1,
+      "message": "yes. that\u0027s the way I would have done it. or you can use a FluentIterable to filter and sort:\n\nhttp://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/collect/FluentIterable.html",
+      "parentUuid": "18909098_4ffa6df6",
+      "revId": "31ff2db24eee9060d4baa7a5e9605671423c6711",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -322,7 +322,7 @@ public class ChangeScreen extends Screen
 
     dependencies.setAccountInfoCache(detail.getAccounts());
 
-    descriptionBlock.display(detail.getChange(),
+    descriptionBlock.display(detail,
         detail.isStarred(),
         detail.canEditCommitMessage(),
         detail.getCurrentPatchSetDetail().getInfo(),

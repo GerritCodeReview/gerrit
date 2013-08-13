@@ -51,6 +51,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.TemporaryBuffer;
@@ -135,7 +136,15 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
         throw new IOException("Unexpected type: " + a.getClass());
       }
 
-      RevTree bTree = b.getTree();
+      final RevCommit newId;
+      if (b.getParentCount() > 1 && key.getOldId() instanceof CommonAncestorObjectId) {
+        newId = b.getParent(1);
+        aCommit = null;
+      } else {
+        newId = b;
+      }
+
+      final RevTree bTree = newId.getTree();
 
       final TreeWalk walk = new TreeWalk(reader);
       walk.reset();
@@ -158,7 +167,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
         FileHeader fh = df.toFileHeader(diffEntries.get(i));
         entries[1 + i] = newEntry(aTree, fh);
       }
-      return new PatchList(a, b, againstParent, entries);
+      return new PatchList(a, newId, againstParent, entries);
     } finally {
       reader.release();
     }
@@ -222,7 +231,8 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
   private static RevObject aFor(final PatchListKey key,
       final Repository repo, final RevWalk rw, final RevCommit b)
       throws IOException {
-    if (key.getOldId() != null) {
+    if (key.getOldId() != null
+        && !(key.getOldId() instanceof CommonAncestorObjectId)) {
       return rw.parseAny(key.getOldId());
     }
 
@@ -235,11 +245,23 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
         return r;
       }
       case 2:
-        return automerge(repo, rw, b);
+        if (key.getOldId() instanceof CommonAncestorObjectId) {
+          return commonAncestor(repo, rw, b);
+        } else {
+          return automerge(repo, rw, b);
+        }
       default:
         // TODO(sop) handle an octopus merge.
         return null;
     }
+  }
+
+  private static RevObject commonAncestor(Repository repo, RevWalk rw,
+      RevCommit b) throws IOException {
+    rw.setRevFilter(RevFilter.MERGE_BASE);
+    rw.markStart(b.getParent(0));
+    rw.markStart(b.getParent(1));
+    return rw.next();
   }
 
   public static RevTree automerge(Repository repo, RevWalk rw, RevCommit b)

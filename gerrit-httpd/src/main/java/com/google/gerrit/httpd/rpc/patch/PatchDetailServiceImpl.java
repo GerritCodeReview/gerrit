@@ -61,7 +61,10 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
         Change.Id changeId = patchKey.getParentKey().getParentKey();
         ChangeControl control = changeControlFactory.validateFor(changeId);
         return patchScriptFactoryFactory.create(
-            control, patchKey.getFileName(), psa, psb, dp).call();
+            control,
+            patchKey.getFileName(),
+            PatchSet.CommonAncestorId.isCommonAncestor(psa)
+                ? new PatchSet.CommonAncestorId() : psa, psb, dp).call();
       }
     }.to(callback);
   }

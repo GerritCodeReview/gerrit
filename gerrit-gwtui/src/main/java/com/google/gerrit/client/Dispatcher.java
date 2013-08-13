@@ -144,7 +144,11 @@ public class Dispatcher {
     StringBuilder p = new StringBuilder();
     p.append("/c/").append(c).append("/");
     if (diffBase != null) {
-      p.append(diffBase.get()).append("..");
+      if (diffBase instanceof PatchSet.CommonAncestorId) {
+        p.append("CA..");
+      } else {
+        p.append(diffBase.get()).append("..");
+      }
     }
     p.append(revision.get()).append("/").append(KeyUtil.encode(fileName));
     if (type != null && !type.isEmpty()) {
@@ -536,7 +540,12 @@ public class Dispatcher {
     PatchSet.Id ps;
     int dotdot = psIdStr.indexOf("..");
     if (1 <= dotdot) {
-      base = new PatchSet.Id(id, Integer.parseInt(psIdStr.substring(0, dotdot)));
+      String idStr = psIdStr.substring(0, dotdot);
+      if(idStr.equals("CA")) {
+        base = new PatchSet.CommonAncestorId();
+      } else {
+        base = new PatchSet.Id(id, Integer.parseInt(idStr));
+      }
       ps = new PatchSet.Id(id, Integer.parseInt(psIdStr.substring(dotdot + 2)));
     } else {
       base = null;

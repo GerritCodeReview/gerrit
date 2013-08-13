@@ -28,6 +28,7 @@ public interface PatchConstants extends Constants {
   String noDifference();
   String patchBase();
   String patchBaseAutoMerge();
+  String patchBaseCommonAncestor();
   String patchHeaderPatchSet();
   String patchHeaderOld();
   String patchHeaderNew();

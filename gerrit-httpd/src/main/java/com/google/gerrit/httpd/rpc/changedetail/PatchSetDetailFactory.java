@@ -38,6 +38,7 @@ import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Revisions;
 import com.google.gerrit.server.extensions.webui.UiActions;
+import com.google.gerrit.server.patch.CommonAncestorObjectId;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListKey;
@@ -201,6 +202,9 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
 
   private ObjectId toObjectId(final PatchSet.Id psId) throws OrmException,
       NoSuchEntityException {
+    if( PatchSet.CommonAncestorId.isCommonAncestor(psId)) {
+      return new CommonAncestorObjectId();
+    }
     final PatchSet ps = db.patchSets().get(psId);
     if (ps == null) {
       throw new NoSuchEntityException();

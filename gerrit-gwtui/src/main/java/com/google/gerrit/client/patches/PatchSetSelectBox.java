@@ -109,8 +109,11 @@ public class PatchSetSelectBox extends Composite {
     }
 
     Anchor baseLink;
+    Anchor commonAncestorLink = null;
     if (detail.getInfo().getParents().size() > 1) {
       baseLink = createLink(PatchUtil.C.patchBaseAutoMerge(), null);
+      commonAncestorLink = createLink(PatchUtil.C.patchBaseCommonAncestor(),
+              new PatchSet.CommonAncestorId());
     } else {
       baseLink = createLink(PatchUtil.C.patchBase(), null);
     }
@@ -118,10 +121,16 @@ public class PatchSetSelectBox extends Composite {
     links.put(0, baseLink);
     if (screenType == PatchScreen.Type.UNIFIED || side == Side.A) {
       linkPanel.add(baseLink);
+      if(commonAncestorLink != null) {
+        linkPanel.add(commonAncestorLink);
+      }
     }
 
     if (side == Side.B) {
       links.get(0).setStyleName(style.hidden());
+      if(commonAncestorLink != null) {
+        commonAncestorLink.setStyleName(style.hidden());
+      }
     }
 
     for (Patch patch : script.getHistory()) {
@@ -133,6 +142,8 @@ public class PatchSetSelectBox extends Composite {
 
     if (idActive == null && side == Side.A) {
       links.get(0).setStyleName(style.selected());
+    } else if (idActive instanceof PatchSet.CommonAncestorId && side == Side.A) {
+      commonAncestorLink.setStyleName(style.selected());
     } else if (idActive != null) {
       links.get(idActive.get()).setStyleName(style.selected());
     }

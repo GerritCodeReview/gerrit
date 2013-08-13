@@ -45,7 +45,11 @@ public class PatchListKey implements Serializable {
   public PatchListKey(final Project.NameKey pk, final AnyObjectId a,
       final AnyObjectId b, final Whitespace ws) {
     projectKey = pk;
-    oldId = a != null ? a.copy() : null;
+    if(a instanceof CommonAncestorObjectId) {
+      oldId = (ObjectId) a;
+    } else {
+      oldId = a != null ? a.copy() : null;
+    }
     newId = b.copy();
     whitespace = ws;
   }

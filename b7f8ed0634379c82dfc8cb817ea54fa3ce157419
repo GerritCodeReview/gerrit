@@ -34,6 +34,24 @@
       "revId": "b7f8ed0634379c82dfc8cb817ea54fa3ce157419",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d818b82e_55760c97",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-13T18:03:55Z",
+      "side": 1,
+      "message": "I understand the aim.\n\nBut I\u0027m telling you its the wrong way to implement it. The multi-master system behind gerrit-review replaces WebSession with its own backing implementation that knows how to handle replicated sessions across the cluster.",
+      "parentUuid": "f85d7cd3_c6c9626f",
+      "revId": "b7f8ed0634379c82dfc8cb817ea54fa3ce157419",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,24 @@
       "revId": "b7f8ed0634379c82dfc8cb817ea54fa3ce157419",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f85d7cd3_c6c9626f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012923
+      },
+      "writtenOn": "2013-08-13T17:53:18Z",
+      "side": 1,
+      "message": "The aim is to have the multi-master plugin register an implementation that will let the masters share one web session cache. With the current Cache implementation, sharing is not possible. All session data is stored in the cache only, so with a shared cache and a common hostname (using a load balancer), the masters will share web sessions.",
+      "parentUuid": "f85d7cd3_06fa1aa3",
+      "revId": "b7f8ed0634379c82dfc8cb817ea54fa3ce157419",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

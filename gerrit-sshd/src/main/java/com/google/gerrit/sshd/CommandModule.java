@@ -98,6 +98,7 @@ public abstract class CommandModule extends AbstractModule {
     bind(Commands.key(parent, name, description(meta))).to(clazz);
   }
 
+  @SuppressWarnings("deprecation")
   private static String description(CommandMetaData meta) {
     return Objects.firstNonNull(
         Strings.emptyToNull(meta.description()),

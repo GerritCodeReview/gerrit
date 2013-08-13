@@ -87,6 +87,24 @@
       "revId": "6fafb9d22b155b49891da8f8d72b768cbbdf1685",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f85d7cd3_a63c66a9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-13T06:57:03Z",
+      "side": 1,
+      "message": "OK, I see.\n\nI think if there\u0027s a draft patch set that the rebaser can\u0027t see, the rebase will fail.  But I haven\u0027t tested that.\n\nI\u0027ll have a go at fixing it like you suggest.",
+      "parentUuid": "f85d7cd3_a6b7861d",
+      "revId": "6fafb9d22b155b49891da8f8d72b768cbbdf1685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

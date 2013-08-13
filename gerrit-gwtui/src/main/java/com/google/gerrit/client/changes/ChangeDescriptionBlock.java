@@ -15,8 +15,8 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.common.data.AccountInfoCache;
+import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.SubmitTypeRecord;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -36,11 +36,11 @@ public class ChangeDescriptionBlock extends Composite {
     initWidget(hp);
   }
 
-  public void display(Change chg, Boolean starred, Boolean canEditCommitMessage,
+  public void display(ChangeDetail chg, Boolean starred, Boolean canEditCommitMessage,
       PatchSetInfo info,
       final AccountInfoCache acc, SubmitTypeRecord submitTypeRecord) {
     infoBlock.display(chg, acc, submitTypeRecord);
-    messageBlock.display(chg.currentPatchSetId(), starred,
+    messageBlock.display(chg.getChange().currentPatchSetId(), starred,
       canEditCommitMessage,  info.getMessage());
   }
 }

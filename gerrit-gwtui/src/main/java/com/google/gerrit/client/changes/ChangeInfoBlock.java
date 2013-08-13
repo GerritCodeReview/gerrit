@@ -95,8 +95,9 @@ public class ChangeInfoBlock extends Composite {
     table.getCellFormatter().addStyleName(row, 0, Gerrit.RESOURCES.css().header());
   }
 
-  public void display(final Change chg, final AccountInfoCache acc,
-      SubmitTypeRecord submitTypeRecord) {
+  public void display(final ChangeDetail changeDetail,
+      final AccountInfoCache acc, SubmitTypeRecord submitTypeRecord) {
+    final Change chg = changeDetail.getChange();
     final Branch.NameKey dst = chg.getDest();
 
     CopyableLabel changeIdLabel =
@@ -114,7 +115,7 @@ public class ChangeInfoBlock extends Composite {
 
     table.setWidget(R_BRANCH, 1, new BranchLink(dst.getShortName(), chg
         .getProject(), chg.getStatus(), dst.get(), null));
-    table.setWidget(R_TOPIC, 1, topic(chg));
+    table.setWidget(R_TOPIC, 1, topic(changeDetail));
     table.setText(R_UPLOADED, 1, mediumFormat(chg.getCreatedOn()));
     table.setText(R_UPDATED, 1, mediumFormat(chg.getLastUpdatedOn()));
     table.setText(R_STATUS, 1, Util.toLongString(chg.getStatus()));
@@ -146,16 +147,14 @@ public class ChangeInfoBlock extends Composite {
     }
   }
 
-  public Widget topic(final Change chg) {
+  public Widget topic(final ChangeDetail changeDetail) {
+    final Change chg = changeDetail.getChange();
     final Branch.NameKey dst = chg.getDest();
 
     FlowPanel fp = new FlowPanel();
     fp.addStyleName(Gerrit.RESOURCES.css().changeInfoTopicPanel());
     fp.add(new BranchLink(chg.getTopic(), chg.getProject(), chg.getStatus(),
            dst.get(), chg.getTopic()));
-
-    ChangeDetailCache detailCache = ChangeCache.get(chg.getId()).getChangeDetailCache();
-    ChangeDetail changeDetail = detailCache.get();
 
     if (changeDetail.canEditTopicName()) {
       final Image edit = new Image(Gerrit.RESOURCES.edit());

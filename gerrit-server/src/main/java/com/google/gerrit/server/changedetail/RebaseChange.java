@@ -293,7 +293,7 @@ public class RebaseChange {
     final ChangeControl changeControl =
         changeControlFactory.validateFor(change.getId(), uploader);
 
-    PatchSetInserter patchSetinserter = patchSetInserterFactory
+    PatchSetInserter patchSetInserter = patchSetInserterFactory
         .create(git, revWalk, changeControl.getRefControl(), uploader, change, rebasedCommit)
         .setCopyLabels(true)
         .setValidatePolicy(validate)
@@ -301,13 +301,15 @@ public class RebaseChange {
         .setSendMail(sendMail)
         .setRunHooks(runHooks);
 
+    final PatchSet.Id newPatchSetId = patchSetInserter.getPatchSetId();
     final ChangeMessage cmsg =
         new ChangeMessage(new ChangeMessage.Key(change.getId(),
             ChangeUtil.messageUUID(db)), uploader.getAccountId(), patchSetId);
-    cmsg.setMessage("Patch Set " + change.currentPatchSetId().get()
+
+    cmsg.setMessage("Patch Set " + newPatchSetId.get()
         + ": Patch Set " + patchSetId.get() + " was rebased");
 
-    Change newChange = patchSetinserter
+    Change newChange = patchSetInserter
         .setMessage(cmsg)
         .insert();
 

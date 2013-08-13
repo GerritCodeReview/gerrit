@@ -42,7 +42,7 @@ import java.util.Map;
 import java.util.Set;
 
 /** Receives change upload over SSH using the Git receive-pack protocol. */
-@CommandMetaData(name = "receive-pack", descr = "Standard Git server side command for client side git push")
+@CommandMetaData(name = "receive-pack", description = "Standard Git server side command for client side git push")
 final class Receive extends AbstractGitCommand {
   private static final Logger log = LoggerFactory.getLogger(Receive.class);
 

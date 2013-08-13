@@ -36,7 +36,7 @@ import java.util.List;
 
 /** Create a new project. **/
 @RequiresCapability(GlobalCapability.CREATE_PROJECT)
-@CommandMetaData(name = "create-project", descr = "Create a new project and associated Git repository")
+@CommandMetaData(name = "create-project", description = "Create a new project and associated Git repository")
 final class CreateProjectCommand extends SshCommand {
   @Option(name = "--name", aliases = {"-n"}, metaVar = "NAME", usage = "name of project to be created (deprecated option)")
   void setProjectNameFromOption(String name) {

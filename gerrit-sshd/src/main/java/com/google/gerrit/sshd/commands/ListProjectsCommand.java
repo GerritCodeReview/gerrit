@@ -23,7 +23,7 @@ import org.apache.sshd.server.Environment;
 
 import java.util.List;
 
-@CommandMetaData(name = "ls-projects", descr = "List projects visible to the caller")
+@CommandMetaData(name = "ls-projects", description = "List projects visible to the caller")
 final class ListProjectsCommand extends BaseCommand {
   @Inject
   private ListProjects impl;

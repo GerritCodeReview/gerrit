@@ -37,7 +37,7 @@ import java.util.List;
 
 /** Runs the Git garbage collection. */
 @RequiresCapability(GlobalCapability.RUN_GC)
-@CommandMetaData(name = "gc", descr = "Run Git garbage collection")
+@CommandMetaData(name = "gc", description = "Run Git garbage collection")
 public class GarbageCollectionCommand extends BaseCommand {
 
   @Option(name = "--all", usage = "runs the Git garbage collection for all projects")

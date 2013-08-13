@@ -52,7 +52,7 @@ import java.util.SortedMap;
 
 /** Show the current cache states. */
 @RequiresCapability(GlobalCapability.VIEW_CACHES)
-@CommandMetaData(name = "show-caches", descr = "Display current cache statistics")
+@CommandMetaData(name = "show-caches", description = "Display current cache statistics")
 final class ShowCaches extends CacheCommand {
   private static volatile long serverStarted;
 

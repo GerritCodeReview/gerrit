@@ -31,7 +31,7 @@ import java.util.SortedSet;
 
 /** Causes the caches to purge all entries and reload. */
 @RequiresCapability(GlobalCapability.FLUSH_CACHES)
-@CommandMetaData(name = "flush-caches", descr = "Flush some/all server caches from memory")
+@CommandMetaData(name = "flush-caches", description = "Flush some/all server caches from memory")
 final class FlushCaches extends CacheCommand {
   private static final String WEB_SESSIONS = "web_sessions";
 

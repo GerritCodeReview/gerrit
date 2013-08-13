@@ -55,7 +55,7 @@ import java.util.Collections;
 import java.util.List;
 
 /** Set a user's account settings. **/
-@CommandMetaData(name = "set-account", descr = "Change an account's settings")
+@CommandMetaData(name = "set-account", description = "Change an account's settings")
 final class SetAccountCommand extends BaseCommand {
 
   @Argument(index = 0, required = true, metaVar = "USER", usage = "full name, email-address, ssh username or account id")

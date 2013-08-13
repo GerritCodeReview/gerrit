@@ -33,7 +33,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-@CommandMetaData(name = "ban-commit", descr = "Ban a commit from a project's repository")
+@CommandMetaData(name = "ban-commit", description = "Ban a commit from a project's repository")
 public class BanCommitCommand extends SshCommand {
   @Option(name = "--reason", aliases = {"-r"}, metaVar = "REASON", usage = "reason for banning the commit")
   private String reason;

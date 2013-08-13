@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d818b82e_f5d9186f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidationListener.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-13T18:47:05Z",
+      "side": 1,
+      "message": "execuded?",
+      "revId": "ad15e091bc942d7d5cfa04255be6b9d2939ea333",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d818b82e_95d42439",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidationListener.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-13T18:47:05Z",
+      "side": 1,
+      "message": "Adding a new method to an interface is going to break binary compatibility with any existing plugin. Hopefully nobody cares?",
+      "revId": "ad15e091bc942d7d5cfa04255be6b9d2939ea333",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d818b82e_d5de9c54",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-13T18:47:05Z",
+      "side": 1,
+      "message": "optional: insert a blank line before this declaration",
+      "revId": "ad15e091bc942d7d5cfa04255be6b9d2939ea333",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d818b82e_35c43082",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-13T18:47:05Z",
+      "side": 1,
+      "message": "if (!fastPath || validator.shouldValidateAllCommits())\n\nthe body of both branches is identical so use a single if with || for the two tests.",
+      "revId": "ad15e091bc942d7d5cfa04255be6b9d2939ea333",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f85d7cd3_a6d8e639",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-13T18:47:05Z",
+      "side": 1,
+      "message": "How does this get invoked with hasAllCommitsValidator\u003dtrue.",
+      "revId": "ad15e091bc942d7d5cfa04255be6b9d2939ea333",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

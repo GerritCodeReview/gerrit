@@ -88,6 +88,10 @@ public class SideBySide2 extends Screen {
   interface Binder extends UiBinder<FlowPanel, SideBySide2> {}
   private static Binder uiBinder = GWT.create(Binder.class);
 
+  enum DisplaySide {
+    A, B;
+  }
+
   private static final JsArrayString EMPTY =
       JavaScriptObject.createArray().cast();
 
@@ -106,8 +110,10 @@ public class SideBySide2 extends Screen {
   private Timer scrollTimerA;
   private Timer scrollTimerB;
   private HandlerRegistration resizeHandler;
-  private JsArray<CommentInfo> published;
-  private JsArray<CommentInfo> drafts;
+  private JsArray<CommentInfo> publishedBase;
+  private JsArray<CommentInfo> publishedRevision;
+  private JsArray<CommentInfo> draftsBase;
+  private JsArray<CommentInfo> draftsRevision;
   private DiffInfo diff;
   private LineMapper mapper;
   private CommentLinkProcessor commentLinkProcessor;
@@ -174,16 +180,14 @@ public class SideBySide2 extends Screen {
         }
       }));
     if (base != null) {
-      CommentApi.comments(base, group.add(getCommentCallback(false)));
+      CommentApi.comments(base, group.add(getCommentCallback(DisplaySide.A, false)));
     }
-    CommentApi.comments(revision, group.add(getCommentCallback(false)));
+    CommentApi.comments(revision, group.add(getCommentCallback(DisplaySide.B, false)));
     if (Gerrit.isSignedIn()) {
       if (base != null) {
-        CommentApi.drafts(base, group.add(getCommentCallback(true)));
+        CommentApi.drafts(base, group.add(getCommentCallback(DisplaySide.A, true)));
       }
-      CommentApi.drafts(revision, group.add(getCommentCallback(true)));
-    } else {
-      drafts = JsArray.createArray().cast();
+      CommentApi.drafts(revision, group.add(getCommentCallback(DisplaySide.B, true)));
     }
     ConfigInfoCache.get(revision.getParentKey(), group.addFinal(
         new ScreenLoadCallback<ConfigInfoCache.Entry>(SideBySide2.this) {
@@ -312,29 +316,28 @@ public class SideBySide2 extends Screen {
   }
 
   private GerritCallback<NativeMap<JsArray<CommentInfo>>> getCommentCallback(
-      final boolean toDrafts) {
+      final DisplaySide side, final boolean toDrafts) {
     return new GerritCallback<NativeMap<JsArray<CommentInfo>>>() {
       @Override
       public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
         JsArray<CommentInfo> in = result.get(path);
         if (in != null) {
-          addAllToCommentList(in, toDrafts);
+          if (toDrafts) {
+            if (side == DisplaySide.A) {
+              draftsBase = in;
+            } else {
+              draftsRevision = in;
+            }
+          } else {
+            if (side == DisplaySide.A) {
+              publishedBase = in;
+            } else {
+              publishedRevision = in;
+            }
+          }
         }
       }
     };
-  }
-
-  private void addAllToCommentList(JsArray<CommentInfo> in, boolean toDrafts) {
-    if (toDrafts && drafts == null) {
-      drafts = in;
-    } else if (!toDrafts && published == null) {
-      published = in;
-    } else {
-      JsArray<CommentInfo> dest = toDrafts ? drafts : published;
-      for (int i = 0; i < in.length(); i++) {
-        dest.push(in.get(i));
-      }
-    }
   }
 
   private void display(DiffInfo diffInfo) {
@@ -347,17 +350,22 @@ public class SideBySide2 extends Screen {
     lineActiveBoxMap = new HashMap<LineHandle, CommentBox>();
     lineLastPublishedBoxMap = new HashMap<LineHandle, PublishedBox>();
     linePaddingManagerMap = new HashMap<LineHandle, PaddingManager>();
-    if (published != null) {
-      publishedMap = new HashMap<String, PublishedBox>(published.length());
-      renderPublished();
+    if (publishedBase != null || publishedRevision != null) {
+      publishedMap = new HashMap<String, PublishedBox>();
     }
-    if (drafts != null) {
-      renderDrafts();
+    if (publishedBase != null) {
+      renderPublished(publishedBase);
+    }
+    if (publishedRevision != null) {
+      renderPublished(publishedRevision);
+    }
+    if (draftsBase != null) {
+      renderDrafts(draftsBase);
+    }
+    if (draftsRevision != null) {
+      renderDrafts(draftsRevision);
     }
     renderSkips();
-    published = null;
-    drafts = null;
-    skips = null;
     registerCmEvents(cmA);
     registerCmEvents(cmB);
     resizeHandler = Window.addResizeHandler(new ResizeHandler() {
@@ -464,11 +472,11 @@ public class SideBySide2 extends Screen {
   private DraftBox addNewDraft(CodeMirror cm, int line) {
     return addDraftBox(CommentInfo.createRange(
         path,
-        getSideFromCm(cm),
+        getStoredSideFromDisplaySide(getSideFromCm(cm)),
         line + 1,
         null,
         null,
-        null));
+        null), getSideFromCm(cm));
   }
 
   CommentInfo createReply(CommentInfo replyTo) {
@@ -480,10 +488,9 @@ public class SideBySide2 extends Screen {
     }
   }
 
-  DraftBox addDraftBox(CommentInfo info) {
-    Side side = info.side();
+  DraftBox addDraftBox(CommentInfo info, DisplaySide side) {
     CodeMirror cm = getCmFromSide(side);
-    final DraftBox box = new DraftBox(this, cm, commentLinkProcessor,
+    final DraftBox box = new DraftBox(this, cm, side, commentLinkProcessor,
         getPatchSetIdFromSide(side), info);
     if (info.id() == null) {
       Scheduler.get().scheduleDeferred(new ScheduledCommand() {
@@ -505,8 +512,8 @@ public class SideBySide2 extends Screen {
 
   CommentBox addCommentBox(CommentInfo info, CommentBox box) {
     diffTable.add(box);
-    Side mySide = info.side();
-    CodeMirror cm = mySide == Side.PARENT ? cmA : cmB;
+    DisplaySide side = box.getSide();
+    CodeMirror cm = getCmFromSide(side);
     CodeMirror other = otherCm(cm);
     int line = info.line() - 1; // CommentInfo is 1-based, but CM is 0-based
     LineHandle handle = cm.getLineHandle(line);
@@ -519,9 +526,9 @@ public class SideBySide2 extends Screen {
           addPaddingWidget(cm, DiffTable.style.padding(), line, 0, Unit.PX, 0));
       linePaddingManagerMap.put(handle, manager);
     }
-    int lineToPad = mapper.lineOnOther(mySide, line).getLine();
+    int lineToPad = mapper.lineOnOther(side, line).getLine();
     LineHandle otherHandle = other.getLineHandle(lineToPad);
-    DiffChunkInfo myChunk = getDiffChunk(mySide, line);
+    DiffChunkInfo myChunk = getDiffChunk(side, line);
     DiffChunkInfo otherChunk = getDiffChunk(getSideFromCm(other), lineToPad);
     PaddingManager otherManager;
     if (linePaddingManagerMap.containsKey(otherHandle)) {
@@ -553,20 +560,20 @@ public class SideBySide2 extends Screen {
     return box;
   }
 
-  void removeDraft(DraftBox box, Side side, int line) {
-    LineHandle handle = getCmFromSide(side).getLineHandle(line);
+  void removeDraft(DraftBox box, int line) {
+    LineHandle handle = getCmFromSide(box.getSide()).getLineHandle(line);
     lineActiveBoxMap.remove(handle);
     if (lineLastPublishedBoxMap.containsKey(handle)) {
       lineActiveBoxMap.put(handle, lineLastPublishedBoxMap.get(handle));
     }
   }
 
-  void addFileCommentBox(CommentBox box, Side side) {
-    diffTable.addFileCommentBox(box, side);
+  void addFileCommentBox(CommentBox box) {
+    diffTable.addFileCommentBox(box);
   }
 
-  void removeFileCommentBox(DraftBox box, Side side) {
-    diffTable.onRemoveDraftBox(box, side);
+  void removeFileCommentBox(DraftBox box) {
+    diffTable.onRemoveDraftBox(box);
   }
 
   private List<CommentInfo> sortComment(JsArray<CommentInfo> unsorted) {
@@ -583,16 +590,24 @@ public class SideBySide2 extends Screen {
     return sorted;
   }
 
-  private void renderPublished() {
+  private void renderPublished(JsArray<CommentInfo> published) {
     List<CommentInfo> sorted = sortComment(published);
     for (CommentInfo info : sorted) {
-      Side side = info.side();
+      DisplaySide side;
+      if (info.side() == Side.PARENT) {
+        if (base != null) {
+          continue;
+        }
+        side = DisplaySide.A;
+      } else {
+        side = published == publishedBase ? DisplaySide.A : DisplaySide.B;
+      }
       CodeMirror cm = getCmFromSide(side);
-      PublishedBox box = new PublishedBox(this, commentLinkProcessor,
+      PublishedBox box = new PublishedBox(this, side, commentLinkProcessor,
           getPatchSetIdFromSide(side), info);
       publishedMap.put(info.id(), box);
       if (!info.has_line()) {
-        diffTable.addFileCommentBox(box, side);
+        diffTable.addFileCommentBox(box);
         continue;
       }
       int line = info.line() - 1;
@@ -603,21 +618,29 @@ public class SideBySide2 extends Screen {
     }
   }
 
-  private void renderDrafts() {
+  private void renderDrafts(JsArray<CommentInfo> drafts) {
     List<CommentInfo> sorted = sortComment(drafts);
     for (CommentInfo info : sorted) {
-      Side side = info.side();
+      DisplaySide side;
+      if (info.side() == Side.PARENT) {
+        if (base != null) {
+          continue;
+        }
+        side = DisplaySide.A;
+      } else {
+        side = drafts == draftsBase ? DisplaySide.A : DisplaySide.B;
+      }
       DraftBox box = new DraftBox(
-          this, getCmFromSide(side), commentLinkProcessor,
+          this, getCmFromSide(side), side, commentLinkProcessor,
           getPatchSetIdFromSide(side), info);
-      if (published != null) {
+      if (publishedBase != null || publishedRevision != null) {
         PublishedBox replyToBox = publishedMap.get(info.in_reply_to());
         if (replyToBox != null) {
           replyToBox.registerReplyBox(box);
         }
       }
       if (!info.has_line()) {
-        diffTable.addFileCommentBox(box, side);
+        diffTable.addFileCommentBox(box);
         continue;
       }
       lineActiveBoxMap.put(
@@ -714,16 +737,20 @@ public class SideBySide2 extends Screen {
     return me == cmA ? cmB : cmA;
   }
 
-  private PatchSet.Id getPatchSetIdFromSide(Side side) {
-    return side == Side.PARENT && base != null ? base : revision;
+  private PatchSet.Id getPatchSetIdFromSide(DisplaySide side) {
+    return side == DisplaySide.A && base != null ? base : revision;
   }
 
-  private CodeMirror getCmFromSide(Side side) {
-    return side == Side.PARENT ? cmA : cmB;
+  private CodeMirror getCmFromSide(DisplaySide side) {
+    return side == DisplaySide.A ? cmA : cmB;
   }
 
-  private Side getSideFromCm(CodeMirror cm) {
-    return cm == cmA ? Side.PARENT : Side.REVISION;
+  private DisplaySide getSideFromCm(CodeMirror cm) {
+    return cm == cmA ? DisplaySide.A : DisplaySide.B;
+  }
+
+  Side getStoredSideFromDisplaySide(DisplaySide side) {
+    return side == DisplaySide.A && base == null ? Side.PARENT : Side.REVISION;
   }
 
   private void markEdit(CodeMirror cm, JsArrayString lines,
@@ -974,7 +1001,7 @@ public class SideBySide2 extends Screen {
     };
   }
 
-  private DiffChunkInfo getDiffChunk(Side side, int line) {
+  private DiffChunkInfo getDiffChunk(DisplaySide side, int line) {
     for (DiffChunkInfo info : diffChunks) {
       if (info.getSide() == side && info.getStart() <= line &&
           line <= info.getEnd()) {
@@ -984,7 +1011,7 @@ public class SideBySide2 extends Screen {
     return null;
   }
 
-  void resizePaddingOnOtherSide(Side mySide, int line) {
+  void resizePaddingOnOtherSide(DisplaySide mySide, int line) {
     CodeMirror cm = getCmFromSide(mySide);
     LineHandle handle = cm.getLineHandle(line);
     final LinePaddingWidgetWrapper otherWrapper = linePaddingOnOtherSideMap.get(handle);
@@ -1030,7 +1057,7 @@ public class SideBySide2 extends Screen {
   }
 
   // TODO: Maybe integrate this with PaddingManager.
-  private RenderLineHandler resizeLinePadding(final Side side) {
+  private RenderLineHandler resizeLinePadding(final DisplaySide side) {
     return new RenderLineHandler() {
       @Override
       public void handle(final CodeMirror instance, final LineHandle handle,
@@ -1121,17 +1148,17 @@ public class SideBySide2 extends Screen {
   }
 
   static class DiffChunkInfo {
-    private Side side;
+    private DisplaySide side;
     private int start;
     private int end;
 
-    DiffChunkInfo(Side side, int start, int end) {
+    DiffChunkInfo(DisplaySide side, int start, int end) {
       this.side = side;
       this.start = start;
       this.end = end;
     }
 
-    Side getSide() {
+    DisplaySide getSide() {
       return side;
     }
 

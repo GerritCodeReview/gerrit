@@ -21,6 +21,7 @@ import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.changes.CommentInput;
 import com.google.gerrit.client.changes.Util;
+import com.google.gerrit.client.diff.SideBySide2.DisplaySide;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
@@ -68,9 +69,12 @@ class PublishedBox extends CommentBox {
 
   PublishedBox(
       SideBySide2 parent,
+      DisplaySide side,
       CommentLinkProcessor clp,
       PatchSet.Id psId,
       CommentInfo info) {
+    super(side);
+
     this.parent = parent;
     this.psId = psId;
     this.comment = info;
@@ -137,7 +141,7 @@ class PublishedBox extends CommentBox {
   }
 
   DraftBox addReplyBox() {
-    DraftBox box = parent.addDraftBox(parent.createReply(comment));
+    DraftBox box = parent.addDraftBox(parent.createReply(comment), getSide());
     registerReplyBox(box);
     return box;
   }
@@ -148,7 +152,7 @@ class PublishedBox extends CommentBox {
     } else if (replyBox == null) {
       DraftBox box = addReplyBox();
       if (!getCommentInfo().has_line()) {
-        parent.addFileCommentBox(box, comment.side());
+        parent.addFileCommentBox(box);
       }
     } else {
       openReplyBox();
@@ -176,10 +180,10 @@ class PublishedBox extends CommentBox {
             public void onSuccess(CommentInfo result) {
               done.setEnabled(true);
               setOpen(false);
-              DraftBox box = parent.addDraftBox(result);
+              DraftBox box = parent.addDraftBox(result, getSide());
               registerReplyBox(box);
               if (!getCommentInfo().has_line()) {
-                parent.addFileCommentBox(box, comment.side());
+                parent.addFileCommentBox(box);
               }
             }
           });

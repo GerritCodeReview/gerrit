@@ -18,9 +18,9 @@ import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.changes.CommentInput;
+import com.google.gerrit.client.diff.SideBySide2.DisplaySide;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
-import com.google.gerrit.common.changes.Side;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -84,9 +84,12 @@ class DraftBox extends CommentBox {
   DraftBox(
       SideBySide2 parent,
       CodeMirror cm,
+      DisplaySide side,
       CommentLinkProcessor clp,
       PatchSet.Id id,
       CommentInfo info) {
+    super(side);
+
     this.parent = parent;
     this.cm = cm;
     this.linkProcessor = clp;
@@ -215,15 +218,14 @@ class DraftBox extends CommentBox {
     if (replyToBox != null) {
       replyToBox.unregisterReplyBox();
     }
-    Side side = comment.side();
     removeFromParent();
     if (!getCommentInfo().has_line()) {
-      parent.removeFileCommentBox(this, side);
+      parent.removeFileCommentBox(this);
       return;
     }
     PaddingManager manager = getPaddingManager();
     manager.remove(this);
-    parent.removeDraft(this, side, comment.line() - 1);
+    parent.removeDraft(this, comment.line() - 1);
     cm.focus();
     getSelfWidgetWrapper().getWidget().clear();
     getGutterWrapper().remove();

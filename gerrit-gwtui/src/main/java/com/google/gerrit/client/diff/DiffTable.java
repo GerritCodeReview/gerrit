@@ -14,7 +14,7 @@
 
 package com.google.gerrit.client.diff;
 
-import com.google.gerrit.common.changes.Side;
+import com.google.gerrit.client.diff.SideBySide2.DisplaySide;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.resources.client.CssResource;
@@ -87,10 +87,10 @@ class DiffTable extends Composite {
   private SideBySide2 host;
 
   DiffTable(SideBySide2 host, String path) {
-    patchSelectBoxA = new PatchSelectBox2(this, Side.PARENT);
-    patchSelectBoxB = new PatchSelectBox2(this, Side.REVISION);
-    fileCommentPanelA = new FileCommentPanel(host, this, path, Side.PARENT);
-    fileCommentPanelB = new FileCommentPanel(host, this, path, Side.REVISION);
+    patchSelectBoxA = new PatchSelectBox2(this, DisplaySide.A);
+    patchSelectBoxB = new PatchSelectBox2(this, DisplaySide.B);
+    fileCommentPanelA = new FileCommentPanel(host, this, path, DisplaySide.A);
+    fileCommentPanelB = new FileCommentPanel(host, this, path, DisplaySide.B);
     initWidget(uiBinder.createAndBindUi(this));
     this.host = host;
   }
@@ -111,21 +111,21 @@ class DiffTable extends Composite {
     host.resizeCodeMirror();
   }
 
-  private FileCommentPanel getPanelFromSide(Side side) {
-    return side == Side.PARENT ? fileCommentPanelA : fileCommentPanelB;
+  private FileCommentPanel getPanelFromSide(DisplaySide side) {
+    return side == DisplaySide.A ? fileCommentPanelA : fileCommentPanelB;
   }
 
-  void createOrEditFileComment(Side side) {
+  void createOrEditFileComment(DisplaySide side) {
     getPanelFromSide(side).createOrEditFileComment();
     updateFileCommentVisibility(false);
   }
 
-  void addFileCommentBox(CommentBox box, Side side) {
-    getPanelFromSide(side).addFileComment(box);
+  void addFileCommentBox(CommentBox box) {
+    getPanelFromSide(box.getSide()).addFileComment(box);
   }
 
-  void onRemoveDraftBox(DraftBox box, Side side) {
-    getPanelFromSide(side).onRemoveDraftBox(box);
+  void onRemoveDraftBox(DraftBox box) {
+    getPanelFromSide(box.getSide()).onRemoveDraftBox(box);
   }
 
   int getHeaderHeight() {

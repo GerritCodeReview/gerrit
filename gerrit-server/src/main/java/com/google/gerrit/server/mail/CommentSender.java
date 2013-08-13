@@ -14,10 +14,12 @@
 
 package com.google.gerrit.server.mail;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.server.change.PostReview.NotifyHandling;
@@ -158,25 +160,53 @@ public class CommentSender extends ReplyToChangeSender {
 
   private void appendComment(StringBuilder out, int contextLines,
       PatchFile currentFileData, PatchLineComment comment) {
-    int lineNbr = comment.getLine();
     short side = comment.getSide();
-    int maxLines;
-    try {
-      maxLines = currentFileData.getLineCount(side);
-    } catch (Throwable e) {
-      maxLines = lineNbr;
-    }
+    CommentRange range = comment.getRange();
+    if (range != null) {
+      String prefix = String.format("Line %d: ", range.getStartLine());
+      out.append(prefix);
+      for (int n = range.getStartLine(); n <= range.getEndLine(); n++) {
+        out.append(n == range.getStartLine()
+            ? prefix
+            : Strings.padStart(": ", prefix.length(), ' '));
+        try {
+          String s = currentFileData.getLine(side, n);
+          if (n == range.getStartLine() && n == range.getEndLine()) {
+            s = s.substring(
+                Math.min(range.getStartCharacter(), s.length()),
+                Math.min(range.getEndCharacter(), s.length()));
+          } else if (n == range.getStartLine()) {
+            s = s.substring(Math.min(range.getStartCharacter(), s.length()));
+          } else if (n == range.getEndLine()) {
+            s = s.substring(Math.min(range.getEndCharacter(), s.length()));
+          }
+          out.append(s);
+        } catch (Throwable e) {
+          // Don't quote the line if we can't safely convert it.
+        }
+        out.append('\n');
+      }
+      out.append(comment.getMessage().trim()).append('\n');
+    } else {
+      int lineNbr = comment.getLine();
+      int maxLines;
+      try {
+        maxLines = currentFileData.getLineCount(side);
+      } catch (Throwable e) {
+        maxLines = lineNbr;
+      }
 
-    final int startLine = Math.max(1, lineNbr - contextLines + 1);
-    final int stopLine = Math.min(maxLines, lineNbr + contextLines);
+      final int startLine = Math.max(1, lineNbr - contextLines + 1);
+      final int stopLine = Math.min(maxLines, lineNbr + contextLines);
 
-    for (int line = startLine; line <= lineNbr; ++line) {
-      appendFileLine(out, currentFileData, side, line);
-    }
-    out.append(comment.getMessage().trim()).append('\n');
+      for (int line = startLine; line <= lineNbr; ++line) {
+        appendFileLine(out, currentFileData, side, line);
+      }
+      out.append(comment.getMessage().trim()).append('\n');
 
-    for (int line = lineNbr + 1; line < stopLine; ++line) {
-      appendFileLine(out, currentFileData, side, line);
+      for (int line = lineNbr + 1; line < stopLine; ++line) {
+        appendFileLine(out, currentFileData, side, line);
+      }
     }
   }
 

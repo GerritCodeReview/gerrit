@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d818b82e_551a8c7e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-13T06:20:56Z",
+      "side": 1,
+      "message": "The i in the variable name should be uppercase.",
+      "revId": "6fafb9d22b155b49891da8f8d72b768cbbdf1685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d818b82e_751d0875",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-13T06:20:56Z",
+      "side": 1,
+      "message": "This doesn\u0027t always work. There can be gaps in the numbering. We really need to use the patch set returned by the patchSetInserter.",
+      "revId": "6fafb9d22b155b49891da8f8d72b768cbbdf1685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

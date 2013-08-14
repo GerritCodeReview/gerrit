@@ -17,10 +17,9 @@
 
 from __future__ import print_function
 
-from os import path, symlink
+from os import path
 from sys import argv
 
-OUT = argv[1]
 ROOT = path.abspath(__file__)
 for _ in range(0, 3):
   ROOT = path.dirname(ROOT)
@@ -41,4 +40,3 @@ with open(p, 'w') as fd:
   </natures>
 </projectDescription>\
 """, file=fd)
-symlink(p, OUT)

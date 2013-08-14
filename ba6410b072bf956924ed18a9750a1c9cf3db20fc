@@ -16,6 +16,24 @@
       "revId": "ba6410b072bf956924ed18a9750a1c9cf3db20fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "586928a1_39f7ef0d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 928,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-14T20:31:42Z",
+      "side": 1,
+      "message": "Rebased and fixed behavior issues.",
+      "parentUuid": "786a6c67_ea5b07fe",
+      "revId": "ba6410b072bf956924ed18a9750a1c9cf3db20fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

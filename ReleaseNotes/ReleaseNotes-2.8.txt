@@ -95,6 +95,12 @@ Comment author's email address and name are included as attributes in comment
 panels.  This makes it easier to filter out CI-based comments using user
 scripts.
 
+* Copy reviewed flag to new patch sets for identical files.
++
+If a user has already seen and reviewed a file, the 'reviewed' flag is forwarded
+on to the next patch set when the content of the file in the next patch set is
+identical to the reviewed file.
+
 
 REST API
 ~~~~~~~~
@@ -280,6 +286,13 @@ JavaScript API].
 link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config-validation.html#pre-merge-validation[
 pre-merge validation steps].
 
+* Plugins may now provide
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/dev-plugins.html#capabilities[
+Global capabilities].
+
+* The "hello world" plugin is replaced with the "cookbook plugin" which has more
+examples of the plugin API's usage.
+
 
 Commit Message Length Checker
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -293,12 +306,20 @@ Replication
 * The `{$name}` placeholder is optional when replicating a single project,
 allowing a single project to be replicated under a different name.
 
-* Projects can be matched with wildcard or regex patterns in `replication.config`.
+* Project names can be matched with wildcard or regex patterns in `replication.config`.
 
 * The `replication start` command does not exit until replication is finished
 when the `--wait` option is used.
 
 * The `replication start` command displays a summary of the replication status.
+
+* Retry counts are added to replication task names, so they can be seen in the
+output of the `show-queue` command.
+
+* The `remoteNameStyle` option can be set to `basenameOnly` to replicate projects
+using only the basename on the target server.
+
+* The `startReplication` global capability is now provided by the plugin.
 
 ssh
 ~~~
@@ -320,6 +341,9 @@ and groups can be included or excluded in one specific group or number of groups
 * The full commit message is now included in the data sent by the
 link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/cmd-stream-events.html[
 `stream-events` command].
+
+* The link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/cmd-show-queue.html[
+`show-queue` command] now shows the time that a task was added to the queue.
 
 
 Daemon
@@ -358,6 +382,9 @@ Configuration
 * Honor the `gerrit.createChangeId` setting from the git config in the
 The link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/cmd-hook-commit-msg.html[
 `commit-msg` hook].
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2045[Issue 2045]:
+Define user scope when parsing server config.
 
 Web UI
 ~~~~~~
@@ -436,6 +463,8 @@ the event is related to a draft patch set.
 * Normalize the case of review labels submitted via the
 The link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/cmd-review.html[
 `review` command].
+
+* The `@CommandMetaData(descr)` annotation is deprecated in favor of `@CommandMetaData(description)`.
 
 
 Emails

@@ -26,6 +26,7 @@ from zipfile import ZipFile, BadZipfile, LargeZipFile
 REPO_ROOTS = {
   'GERRIT': 'http://gerrit-maven.storage.googleapis.com',
   'MAVEN_CENTRAL': 'http://repo1.maven.org/maven2',
+  'MAVEN_LOCAL': path.expanduser('~/.m2/repository'),
 }
 
 GERRIT_HOME = path.expanduser('~/.gerritcodereview')

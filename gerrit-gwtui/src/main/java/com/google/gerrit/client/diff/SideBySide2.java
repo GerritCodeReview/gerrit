@@ -15,6 +15,7 @@
 package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.change.ChangeScreen2;
 import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.diff.DiffInfo.Region;
@@ -34,6 +35,7 @@ import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.changes.Side;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -264,6 +266,7 @@ public class SideBySide2 extends Screen {
     cm.addKeyMap(KeyMap.create()
         .on("'j'", moveCursorDown(cm, 1))
         .on("'k'", moveCursorDown(cm, -1))
+        .on("'a'", openReplyBox())
         .on("'u'", upToChange())
         .on("'r'", toggleReviewed())
         .on("'o'", toggleOpenBox(cm))
@@ -285,6 +288,12 @@ public class SideBySide2 extends Screen {
       @Override
       public void onKeyPress(KeyPressEvent event) {
         toggleReviewed().run();
+      }
+    });
+    keysAction.add(new KeyCommand(0, 'a', PatchUtil.C.openReply()) {
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        openReplyBox().run();
       }
     });
 
@@ -952,6 +961,18 @@ public class SideBySide2 extends Screen {
     return new Runnable() {
       public void run() {
         cm.moveCursorDown(numLines);
+      }
+    };
+  }
+
+  private Runnable openReplyBox() {
+    return new Runnable() {
+      public void run() {
+        Change.Id id = revision.getParentKey();
+        String rev = String.valueOf(revision.get());
+        Gerrit.display(
+          PageLinks.toChange2(id, rev),
+          new ChangeScreen2(id, rev, true));
       }
     };
   }

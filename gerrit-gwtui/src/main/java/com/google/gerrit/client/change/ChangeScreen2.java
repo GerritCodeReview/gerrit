@@ -115,6 +115,7 @@ public class ChangeScreen2 extends Screen {
   private UpdateCheckTimer updateCheck;
   private Timestamp lastDisplayedUpdate;
   private UpdateAvailableBar updateAvailable;
+  private boolean openReplyBox;
 
   @UiField Style style;
   @UiField ToggleButton star;
@@ -150,9 +151,10 @@ public class ChangeScreen2 extends Screen {
   @UiField QuickApprove quickApprove;
   private ReplyAction replyAction;
 
-  public ChangeScreen2(Change.Id changeId, String revision) {
+  public ChangeScreen2(Change.Id changeId, String revision, boolean openReplyBox) {
     this.changeId = changeId;
     this.revision = revision != null && !revision.isEmpty() ? revision : null;
+    this.openReplyBox = openReplyBox;
     add(uiBinder.createAndBindUi(this));
   }
 
@@ -256,10 +258,15 @@ public class ChangeScreen2 extends Screen {
         .getParentElement()
         .getOffsetHeight());
 
-    String prior = Gerrit.getPriorView();
-    if (prior != null && prior.startsWith("/c/")) {
-      scrollToPath(prior.substring(3));
+    if (openReplyBox) {
+      onReply();
+    } else {
+      String prior = Gerrit.getPriorView();
+      if (prior != null && prior.startsWith("/c/")) {
+        scrollToPath(prior.substring(3));
+      }
     }
+
     startPoller();
   }
 
@@ -301,14 +308,16 @@ public class ChangeScreen2 extends Screen {
     if (0 <= idx) {
       String n = revisionList.getValue(idx);
       revisionList.setEnabled(false);
-      Gerrit.display(
-          PageLinks.toChange2(changeId, n),
-          new ChangeScreen2(changeId, n));
+      Gerrit.display(PageLinks.toChange2(changeId, n));
     }
   }
 
   @UiHandler("reply")
   void onReply(ClickEvent e) {
+    onReply();
+  }
+
+  private void onReply() {
     if (Gerrit.isSignedIn()) {
       replyAction.onReply();
     } else {

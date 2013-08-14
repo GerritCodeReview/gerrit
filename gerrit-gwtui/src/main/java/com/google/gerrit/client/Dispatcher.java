@@ -470,7 +470,9 @@ public class Dispatcher {
 
     if (rest.isEmpty()) {
       Gerrit.display(token, panel== null
-          ? (useChangeScreen2 ? new ChangeScreen2(id, null) : new ChangeScreen(id))
+          ? (useChangeScreen2
+              ? new ChangeScreen2(id, null, false)
+              : new ChangeScreen(id))
           : new NotFoundScreen());
       return;
     }
@@ -502,7 +504,7 @@ public class Dispatcher {
     } else {
       if (panel == null) {
         Gerrit.display(token, useChangeScreen2
-            ? new ChangeScreen2(id, String.valueOf(ps.get()))
+            ? new ChangeScreen2(id, String.valueOf(ps.get()), false)
             : new ChangeScreen(id));
       } else if ("publish".equals(panel)) {
         publish(ps);
@@ -524,7 +526,7 @@ public class Dispatcher {
       rest = "";
     }
     useChangeScreen2 = true;
-    Gerrit.display(token, new ChangeScreen2(id, rest));
+    Gerrit.display(token, new ChangeScreen2(id, rest, false));
   }
 
   private static void publish(final PatchSet.Id ps) {

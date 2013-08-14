@@ -40,6 +40,7 @@ public interface PatchConstants extends Constants {
   String illegalNumberOfColumns();
 
   String upToChange();
+  String openReply();
   String linePrev();
   String lineNext();
   String chunkPrev();

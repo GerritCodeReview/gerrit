@@ -34,6 +34,24 @@
       "revId": "adf540382be0bbfd0474c3aab7931340b1abfa98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "989560bf_dbefd332",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-14T19:44:52Z",
+      "side": 1,
+      "message": "I see, thanks for explaining. Option 1 looks good to me!",
+      "parentUuid": "586928a1_f9f4970b",
+      "revId": "adf540382be0bbfd0474c3aab7931340b1abfa98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

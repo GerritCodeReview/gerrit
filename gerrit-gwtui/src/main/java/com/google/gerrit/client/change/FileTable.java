@@ -438,6 +438,7 @@ class FileTable extends FlowPanel {
       sb.openTd().setStyleName(R.css().reviewed());
       if (hasUser) {
         sb.openElement("input")
+          .setAttribute("title", Resources.C.reviewedFileTitle())
           .setAttribute("type", "checkbox")
           .setAttribute("onclick", REVIEWED + "(event," + info._row() + ")")
           .closeSelf();

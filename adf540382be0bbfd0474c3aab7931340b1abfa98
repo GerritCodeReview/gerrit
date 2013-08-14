@@ -52,6 +52,24 @@
       "revId": "adf540382be0bbfd0474c3aab7931340b1abfa98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "989560bf_1bfa1bf5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-14T21:31:16Z",
+      "side": 1,
+      "message": "\"max 30\" change was updated to handle ancient Gerrit releases.\n\nWhen upgrading from an ancient release (2.4.4) the table that should be renamed ACCOUNT_GROUP_INCLUDES_BY_UUID_AUDIT hadn\u0027t exist yet. It was added in Schema_74. But in this Schema_82 it was already renamed in the ReviewDB class, hence it is going to be created already with the new name. So we can not rename something, that doesn\u0027t exist. Fortunately we can check it with dialect.listTables() and skip renaming, if it doesn\u0027t exist.\n\n      Set\u003cString\u003e existingTables \u003d dialect.listTables(s.getConnection());\n      // Does source table exist?\n      if (existingTables.contains(entry.getKey())) {\n        // Does target table exist?\n        if (!existingTables.contains(entry.getValue())) {\n          s.renameTable(e, entry.getKey(), entry.getValue());\n        }\n      }\n\nThe same holds true for column and index renaming. gwtorm doesn\u0027t expose listIndexes() method though. SQLException is get swallowed in this case.",
+      "parentUuid": "989560bf_dbefd332",
+      "revId": "adf540382be0bbfd0474c3aab7931340b1abfa98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

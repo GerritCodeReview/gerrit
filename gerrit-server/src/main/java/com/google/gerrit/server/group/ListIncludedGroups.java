@@ -20,7 +20,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
+import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.GroupJson.GroupInfo;
@@ -58,8 +58,8 @@ public class ListIncludedGroups implements RestReadView<GroupResource> {
 
     boolean ownerOfParent = rsrc.getControl().isOwner();
     List<GroupInfo> included = Lists.newArrayList();
-    for (AccountGroupIncludeByUuid u : dbProvider.get()
-        .accountGroupIncludesByUuid()
+    for (AccountGroupById u : dbProvider.get()
+        .accountGroupById()
         .byGroup(rsrc.toAccountGroup().getId())) {
       try {
         GroupControl i = controlFactory.controlFor(u.getIncludeUUID());

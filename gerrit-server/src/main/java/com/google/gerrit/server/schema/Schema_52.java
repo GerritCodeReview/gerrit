@@ -14,9 +14,6 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
@@ -29,13 +26,5 @@ public class Schema_52 extends SchemaVersion {
         throw new ProvisionException("Cannot upgrade from 51");
       }
     });
-  }
-
-  @Override
-  protected void upgradeFrom(UpdateUI ui, CurrentSchemaVersion curr,
-      ReviewDb db, boolean toTargetVersion) throws OrmException {
-    throw new OrmException("Cannot upgrade from schema " + curr.versionNbr
-        + "; manually run init from Gerrit Code Review 2.1.7"
-        + " and restart this version to continue.");
   }
 }

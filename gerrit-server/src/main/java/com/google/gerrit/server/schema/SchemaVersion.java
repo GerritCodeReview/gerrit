@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.jdbc.JdbcExecutor;
@@ -25,14 +26,13 @@ import com.google.inject.Provider;
 
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 /** A version of the database schema. */
 public abstract class SchemaVersion {
   /** The current schema version. */
-  public static final Class<Schema_81> C = Schema_81.class;
+  public static final Class<Schema_82> C = Schema_82.class;
 
   public static class Module extends AbstractModule {
     @Override
@@ -68,57 +68,81 @@ public abstract class SchemaVersion {
     return versionNbr;
   }
 
-  public final void check(UpdateUI ui, CurrentSchemaVersion curr, ReviewDb db, boolean toTargetVersion)
+  public final void check(UpdateUI ui, CurrentSchemaVersion curr, ReviewDb db)
       throws OrmException, SQLException {
     if (curr.versionNbr == versionNbr) {
       // Nothing to do, we are at the correct schema.
-      //
+    } else if (curr.versionNbr > versionNbr) {
+      throw new OrmException("Cannot downgrade database schema from version "
+          + curr.versionNbr + " to " + versionNbr + ".");
     } else {
-      upgradeFrom(ui, curr, db, toTargetVersion);
+      upgradeFrom(ui, curr, db);
     }
   }
 
   /** Runs check on the prior schema version, and then upgrades. */
-  protected void upgradeFrom(UpdateUI ui, CurrentSchemaVersion curr, ReviewDb db, boolean toTargetVersion)
+  private void upgradeFrom(UpdateUI ui, CurrentSchemaVersion curr, ReviewDb db)
       throws OrmException, SQLException {
-    final JdbcSchema s = (JdbcSchema) db;
+    List<SchemaVersion> pending = pending(curr.versionNbr);
+    updateSchema(pending, ui, db);
+    migrateData(pending, ui, curr, db);
 
-    if (curr.versionNbr > versionNbr) {
-      throw new OrmException("Cannot downgrade database schema from version " + curr.versionNbr
-          + " to " + versionNbr + ".");
-    }
-
-    prior.get().check(ui, curr, db, false);
-
-    ui.message("Upgrading database schema from version " + curr.versionNbr
-        + " to " + versionNbr + " ...");
-
-    preUpdateSchema(db);
-    final JdbcExecutor e = new JdbcExecutor(s);
+    JdbcSchema s = (JdbcSchema) db;
+    JdbcExecutor e = new JdbcExecutor(s);
     try {
-      s.updateSchema(e);
-      migrateData(db, ui);
-
-      if (toTargetVersion) {
-        final List<String> pruneList = new ArrayList<String>();
-        s.pruneSchema(new StatementExecutor() {
-          public void execute(String sql) {
-            pruneList.add(sql);
-          }
-        });
-
-        if (!pruneList.isEmpty()) {
-          ui.pruneSchema(e, pruneList);
+      final List<String> pruneList = Lists.newArrayList();
+      s.pruneSchema(new StatementExecutor() {
+        public void execute(String sql) {
+          pruneList.add(sql);
         }
+      });
+
+      if (!pruneList.isEmpty()) {
+        ui.pruneSchema(e, pruneList);
       }
     } finally {
       e.close();
     }
-    finish(curr, db);
+  }
+
+  private List<SchemaVersion> pending(int curr) {
+    List<SchemaVersion> r = Lists.newArrayListWithCapacity(versionNbr - curr);
+    for (SchemaVersion v = this; curr < v.getVersionNbr(); v = v.prior.get()) {
+      r.add(v);
+    }
+    Collections.reverse(r);
+    return r;
+  }
+
+  private void updateSchema(List<SchemaVersion> pending, UpdateUI ui,
+      ReviewDb db) throws OrmException, SQLException {
+    for (SchemaVersion v : pending) {
+      ui.message(String.format("Upgrading schema to %d ...", v.getVersionNbr()));
+      v.preUpdateSchema(db);
+    }
+
+    JdbcSchema s = (JdbcSchema) db;
+    JdbcExecutor e = new JdbcExecutor(s);
+    try {
+      s.updateSchema(e);
+    } finally {
+      e.close();
+    }
   }
 
   /** Invoke before updateSchema adds new columns/tables. */
   protected void preUpdateSchema(ReviewDb db) throws OrmException, SQLException {
+  }
+
+  private void migrateData(List<SchemaVersion> pending, UpdateUI ui,
+      CurrentSchemaVersion curr, ReviewDb db) throws OrmException, SQLException {
+    for (SchemaVersion v : pending) {
+      ui.message(String.format(
+          "Migrating data to schema %d ...",
+          v.getVersionNbr()));
+      v.migrateData(db, ui);
+      v.finish(curr, db);
+    }
   }
 
   /**
@@ -133,6 +157,18 @@ public abstract class SchemaVersion {
       throws OrmException {
     curr.versionNbr = versionNbr;
     db.schemaVersion().update(Collections.singleton(curr));
+  }
+
+  /** Rename an existing table. */
+  protected void renameTable(ReviewDb db, String from, String to)
+      throws OrmException {
+    final JdbcSchema s = (JdbcSchema) db;
+    final JdbcExecutor e = new JdbcExecutor(s);
+    try {
+      s.renameTable(e, from, to);
+    } finally {
+      e.close();
+    }
   }
 
   /** Rename an existing column. */

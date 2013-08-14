@@ -19,7 +19,7 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
+import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gwtorm.server.SchemaFactory;
@@ -152,7 +152,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
         }
 
         Set<AccountGroup.UUID> ids = Sets.newHashSet();
-        for (AccountGroupIncludeByUuid agi : db.accountGroupIncludesByUuid()
+        for (AccountGroupById agi : db.accountGroupById()
             .byGroup(group.get(0).getId())) {
           ids.add(agi.getIncludeUUID());
         }
@@ -177,7 +177,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
       final ReviewDb db = schema.open();
       try {
         Set<AccountGroup.Id> ids = Sets.newHashSet();
-        for (AccountGroupIncludeByUuid agi : db.accountGroupIncludesByUuid()
+        for (AccountGroupById agi : db.accountGroupById()
             .byIncludeUUID(key)) {
           ids.add(agi.getGroupId());
         }
@@ -207,7 +207,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
       final ReviewDb db = schema.open();
       try {
         Set<AccountGroup.UUID> ids = Sets.newHashSet();
-        for (AccountGroupIncludeByUuid agi : db.accountGroupIncludesByUuid().all()) {
+        for (AccountGroupById agi : db.accountGroupById().all()) {
           if (!AccountGroup.isInternalGroup(agi.getIncludeUUID())) {
             ids.add(agi.getIncludeUUID());
           }

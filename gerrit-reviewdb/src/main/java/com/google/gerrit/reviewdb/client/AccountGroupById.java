@@ -18,7 +18,7 @@ import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.CompoundKey;
 
 /** Membership of an {@link AccountGroup} in an {@link AccountGroup}. */
-public final class AccountGroupIncludeByUuid {
+public final class AccountGroupById {
   public static class Key extends CompoundKey<AccountGroup.Id> {
     private static final long serialVersionUID = 1L;
 
@@ -60,14 +60,14 @@ public final class AccountGroupIncludeByUuid {
   @Column(id = 1, name = Column.NONE)
   protected Key key;
 
-  protected AccountGroupIncludeByUuid() {
+  protected AccountGroupById() {
   }
 
-  public AccountGroupIncludeByUuid(final AccountGroupIncludeByUuid.Key k) {
+  public AccountGroupById(final AccountGroupById.Key k) {
     key = k;
   }
 
-  public AccountGroupIncludeByUuid.Key getKey() {
+  public AccountGroupById.Key getKey() {
     return key;
   }
 

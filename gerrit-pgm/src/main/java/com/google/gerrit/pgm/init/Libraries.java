@@ -39,6 +39,7 @@ class Libraries {
 
   /* final */LibraryDownloader bouncyCastle;
   /* final */LibraryDownloader mysqlDriver;
+  /* final */LibraryDownloader oracleDriver;
 
   @Inject
   Libraries(final Provider<LibraryDownloader> downloadProvider) {

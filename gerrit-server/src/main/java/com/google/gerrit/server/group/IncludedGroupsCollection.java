@@ -25,7 +25,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
+import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.group.AddIncludedGroups.PutIncludedGroup;
 import com.google.gwtorm.server.OrmException;
@@ -78,8 +78,8 @@ public class IncludedGroupsCollection implements
 
   private boolean isMember(AccountGroup parent, GroupDescription.Basic member)
       throws OrmException {
-    return dbProvider.get().accountGroupIncludesByUuid().get(
-        new AccountGroupIncludeByUuid.Key(
+    return dbProvider.get().accountGroupById().get(
+        new AccountGroupById.Key(
             parent.getId(),
             member.getGroupUUID())) != null;
   }

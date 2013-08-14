@@ -34,6 +34,24 @@
       "revId": "1fd2d00b5f754324e44338a506f35b9975c697c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3802b4bb_e1b79c1c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-14T16:25:40Z",
+      "side": 1,
+      "message": "Thanks, this makes sense to me. Let\u0027s start with it and see how it goes :-)",
+      "parentUuid": "f85d7cd3_a6a6a6b6",
+      "revId": "1fd2d00b5f754324e44338a506f35b9975c697c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

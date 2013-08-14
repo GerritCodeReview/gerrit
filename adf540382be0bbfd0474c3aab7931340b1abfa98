@@ -16,6 +16,24 @@
       "revId": "adf540382be0bbfd0474c3aab7931340b1abfa98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "586928a1_f9f4970b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-14T19:33:33Z",
+      "side": 1,
+      "message": "We can\u0027t do \"update schema to 80\" because the schema data is gone. It only exists in the version control history. A given binary only knows the most recent schema.\n\nA preUpdateSchema() method should never delete a column or table. Deletes of columns and tables are handled automatically by gwtorm after all migrateData methods are run, and may even be deferred for the admin to run at a later time.\n\nUnfortunately a column or table rename executed by preUpdateSchema() does look the same way as a delete+add from the perspective of any migrateData routines. There are only two sane strategies to move forward.\n\nOption 1) When a preUpdateSchema method is added to perform a column or table rename its author is responsible for also updating all prior Schema_* classes to make sure the new column/table name is used within migrateData. This allows the migrateData method to run after preUpdateSchema has shuffled the column.\n\nOption 2) We never rename columns or tables but instead allow gwtorm to make the new objects and delete the old. The corresponding migrateData will need to copy data from the old location to the new. This is horrible.\n\nOption 3) We refuse to support databases with column length limitations. This is also horrible.\n\nI think option 1 is what we are trying to do in this series.",
+      "parentUuid": "b8fce4ed_fc0589d9",
+      "revId": "adf540382be0bbfd0474c3aab7931340b1abfa98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

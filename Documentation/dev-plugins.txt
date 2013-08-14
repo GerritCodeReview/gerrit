@@ -533,6 +533,12 @@ exist, only the first discovered file will be used.
 If a discovered file name beings with `cmd-` it will be clustered
 into a 'Commands' section of the generated index page.
 
+If a discovered file name beings with `servlet-` it will be clustered
+into a 'Servlets' section of the generated index page.
+
+If a discovered file name beings with `rest-api-` it will be clustered
+into a 'REST APIs' section of the generated index page.
+
 All other files are clustered under a 'Documentation' section.
 
 Some optional information from the manifest is extracted and

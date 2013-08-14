@@ -9,7 +9,7 @@ SYNOPSIS
 --------
 [verse]
 'ssh' -p <port> <host> 'gerrit gsql'
-  [--format {PRETTY | JSON}]
+  [--format {PRETTY | JSON | JSON_SINGLE}]
   [-c QUERY]
 
 DESCRIPTION
@@ -26,6 +26,8 @@ OPTIONS
 	for reading by a human on a sufficiently wide terminal.
 	In JSON mode records are output as JSON objects using the
 	column names as the property names, one object per line.
+	In JSON_SINGLE mode the whole result set is output as a
+	single JSON object.
 
 -c::
 	Execute the single query statement supplied, and then exit.
@@ -38,7 +40,8 @@ global capability.
 
 SCRIPTING
 ---------
-Intended for interactive use only, unless format is JSON.
+Intended for interactive use only, unless format is JSON, or
+JSON_SINGLE.
 
 EXAMPLES
 --------

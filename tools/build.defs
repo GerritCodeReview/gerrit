@@ -78,23 +78,3 @@ def gerrit_war(name, ui = 'ui_optdbg', context = []):
       '//gerrit-gwtui:' + ui + '.zip',
     ] + context,
   )
-
-def maven_deploy(name, deps):
-  _maven_util(name, 'deploy', deps)
-
-def maven_install(name, deps):
-  _maven_util(name, 'install', deps)
-
-def _maven_util(name, action, deps):
-  cmd = [
-    '$(exe //tools:maven_deploy)',
-    '-a', action,
-    '-v', GERRIT_VERSION,
-    '-d', '"$DEPS"'
-  ]
-  genrule(
-    name = name,
-    cmd = ' '.join(cmd),
-    deps = deps + ['//tools:maven_deploy'],
-    out = '__fake.%s__' % name
-  )

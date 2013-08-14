@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ChangeAccess;
@@ -37,7 +38,8 @@ public class SqlRewriterImpl extends BasicChangeRewrites
           SqlRewriterImpl.class, BUILDER);
 
   @Inject
-  SqlRewriterImpl(Provider<ReviewDb> dbProvider) {
+  @VisibleForTesting
+  public SqlRewriterImpl(Provider<ReviewDb> dbProvider) {
     super(mydef, dbProvider);
   }
 

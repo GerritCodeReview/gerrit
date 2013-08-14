@@ -126,25 +126,31 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
   private final IndexCollection indexes;
   private final Provider<ReviewDb> db;
   private final BasicRewritesImpl basicRewrites;
+  private final SqlRewriterImpl sqlRewriter;
 
   @Inject
   IndexRewriteImpl(IndexCollection indexes,
       Provider<ReviewDb> db,
-      BasicRewritesImpl basicRewrites) {
+      BasicRewritesImpl basicRewrites,
+      SqlRewriterImpl sqlRewriter) {
     this.indexes = indexes;
     this.db = db;
     this.basicRewrites = basicRewrites;
+    this.sqlRewriter = sqlRewriter;
   }
 
   @Override
   public Predicate<ChangeData> rewrite(Predicate<ChangeData> in) {
+    ChangeIndex index = indexes.getSearchIndex();
+    if (index == null) {
+      return sqlRewriter.rewrite(in);
+    }
     in = basicRewrites.rewrite(in);
     // Add 1 to specified limit to match behavior of QueryProcessor.
     int limit = ChangeQueryBuilder.hasLimit(in)
         ? ChangeQueryBuilder.getLimit(in) + 1
         : MAX_LIMIT;
 
-    ChangeIndex index = indexes.getSearchIndex();
     Predicate<ChangeData> out = rewriteImpl(in, index, limit);
     if (in == out || out instanceof IndexPredicate) {
       return query(out, index, limit);

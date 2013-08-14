@@ -331,6 +331,8 @@ class HttpPluginServlet extends HttpServlet
       String prefix, String pluginName,
       ResourceKey cacheKey, HttpServletResponse res) throws IOException {
     List<JarEntry> cmds = Lists.newArrayList();
+    List<JarEntry> servlets = Lists.newArrayList();
+    List<JarEntry> restApis = Lists.newArrayList();
     List<JarEntry> docs = Lists.newArrayList();
     JarEntry about = null;
     Enumeration<JarEntry> entries = jar.entries();
@@ -345,6 +347,10 @@ class HttpPluginServlet extends HttpServlet
         name = name.substring(prefix.length());
         if (name.startsWith("cmd-")) {
           cmds.add(entry);
+        } else if (name.startsWith("servlet-")) {
+          servlets.add(entry);
+        } else if (name.startsWith("rest-api-")) {
+          restApis.add(entry);
         } else if (name.startsWith("about.")) {
           if (about == null) {
             about = entry;
@@ -395,6 +401,8 @@ class HttpPluginServlet extends HttpServlet
     }
 
     appendEntriesSection(jar, docs, "Documentation", md, prefix, 0);
+    appendEntriesSection(jar, servlets, "Servlets", md, prefix, "servlet-".length());
+    appendEntriesSection(jar, restApis, "REST APIs", md, prefix, "rest-api-".length());
     appendEntriesSection(jar, cmds, "Commands", md, prefix, "cmd-".length());
 
     sendMarkdownAsHtml(md.toString(), pluginName, cacheKey, res);

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d88b58a1_bd611fe4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-14T23:00:33Z",
+      "side": 1,
+      "message": "This should no longer be necessary.",
+      "revId": "90e7bb115151887866d6e667c93f3c95c3d440aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "586928a1_19230bc1",
+        "filename": "contrib/0001-BUCK-allow-to-build-against-custom-gwtorm-version.patch",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-14T23:00:33Z",
+      "side": 1,
+      "message": "Rebase on master, this is now defined.",
+      "revId": "90e7bb115151887866d6e667c93f3c95c3d440aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "586928a1_3920cfb1",
+        "filename": "contrib/0001-BUCK-allow-to-build-against-custom-gwtorm-version.patch",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-14T23:00:33Z",
+      "side": 1,
+      "message": "This is now automatically defined.",
+      "revId": "90e7bb115151887866d6e667c93f3c95c3d440aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

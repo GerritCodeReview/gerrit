@@ -228,9 +228,9 @@ public class QueryShell {
         if (outputFormat == OutputFormat.PRETTY) {
           println("                     List of relations");
         }
-        showResultSet(rs, false, //
-            Identity.create(rs, "TABLE_SCHEM"), //
-            Identity.create(rs, "TABLE_NAME"), //
+        showResultSet(rs, false,
+            Identity.create(rs, "TABLE_SCHEM"),
+            Identity.create(rs, "TABLE_NAME"),
             Identity.create(rs, "TABLE_TYPE"));
       } finally {
         rs.close();
@@ -267,8 +267,8 @@ public class QueryShell {
         if (outputFormat == OutputFormat.PRETTY) {
           println("                     Table " + tableName);
         }
-        showResultSet(rs, true, //
-            Identity.create(rs, "COLUMN_NAME"), //
+        showResultSet(rs, true,
+            Identity.create(rs, "COLUMN_NAME"),
             new Function("TYPE") {
               @Override
               String apply(final ResultSet rs) throws SQLException {
@@ -379,7 +379,7 @@ public class QueryShell {
 
             case PRETTY:
             default:
-              println("(" + rowCount + (rowCount == 1 ? " row" : " rows") //
+              println("(" + rowCount + (rowCount == 1 ? " row" : " rows")
                   + "; " + ms + " ms)");
               break;
           }

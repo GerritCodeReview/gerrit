@@ -229,6 +229,25 @@ The `local.properties` file may be placed in the root of the gerrit repository
 being built, or in `~/.gerritcodereview/`.  The file in the root of the gerrit
 repository has precedence.
 
+Building against unpublished Maven JARs
+---------------------------------------
+
+To build against unpublished Maven JARs, like gwtorm or PrologCafe, the custom
+JARs must be installed in the local Maven repository (mvn clean install) and
+maven_jar() must be updated to point to the MAVEN_LOCAL Maven repository for
+that artifact:
+
+----
+ maven_jar(
+   name = 'gwtorm',
+   id = 'gwtorm:gwtorm:42',
+   bin_sha1 = None,
+   src_sha1 = None,
+   license = 'Apache2.0',
+   repository = MAVEN_LOCAL,
+ )
+----
+
 
 Caching Build Results
 ~~~~~~~~~~~~~~~~~~~~~

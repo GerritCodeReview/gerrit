@@ -16,6 +16,24 @@
       "revId": "1fd2d00b5f754324e44338a506f35b9975c697c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f85d7cd3_a6a6a6b6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2013-08-14T15:19:41Z",
+      "side": 1,
+      "message": "Thanks for pointing this out - I\u0027m sorry I didn\u0027t reply to Sasa earlier.\n\nI actually talked about this issue with Shawn quite a lot before I implemented this initial feature (some 1.5 years ago?).  The consensus was that it is standard git practice to have the first parent be the branch you are merging into, and the second parent be the branch you are merging in.  There are other git tools which make the same assumption (git log --first-parent, etc).\n\nAlso we couldn\u0027t come up with any reason getParent(1) wouldn\u0027t be correct, other than the user making a mistake and merging backwards (merge B into A but push to B).  Note that if this does happen, the other git tools mentioned above will also be confused.\n\nIf there is an easy way to determine the correct parent, I\u0027d be happy to implement a solution here.  I can\u0027t think of anything elegant and small right off, so I\u0027d suggest we leave this as-is and see if it causes any issues or confusion.",
+      "parentUuid": "b8fce4ed_bcfb01ac",
+      "revId": "1fd2d00b5f754324e44338a506f35b9975c697c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

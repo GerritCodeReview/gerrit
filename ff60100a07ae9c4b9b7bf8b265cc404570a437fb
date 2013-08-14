@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f85d7cd3_c6972244",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/QueryShell.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-14T12:12:54Z",
+      "side": 1,
+      "message": "While you\u0027re here it might be worth removing the trailing //",
+      "revId": "ff60100a07ae9c4b9b7bf8b265cc404570a437fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d818b82e_953264d7",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/QueryShell.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-14T12:12:54Z",
+      "side": 1,
+      "message": "s/iff/if",
+      "revId": "ff60100a07ae9c4b9b7bf8b265cc404570a437fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d818b82e_f53758c5",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/QueryShell.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-14T12:12:54Z",
+      "side": 1,
+      "message": "s/millis/milliseconds",
+      "revId": "ff60100a07ae9c4b9b7bf8b265cc404570a437fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f85d7cd3_06c1ba38",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/QueryShell.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-14T12:12:54Z",
+      "side": 1,
+      "message": "s/iff/if",
+      "revId": "ff60100a07ae9c4b9b7bf8b265cc404570a437fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f85d7cd3_26be36c6",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/QueryShell.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-14T12:12:54Z",
+      "side": 1,
+      "message": "s/millis/milliseconds",
+      "revId": "ff60100a07ae9c4b9b7bf8b265cc404570a437fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

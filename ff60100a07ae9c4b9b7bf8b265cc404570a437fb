@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3802b4bb_61cb8c90",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/QueryShell.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-08-14T14:31:02Z",
+      "side": 1,
+      "message": "To avoid doing two different things in a single commit, I put this cleanup into\nhttps://gerrit-review.googlesource.com/#/c/48676/1\n\nDone.",
+      "parentUuid": "f85d7cd3_c6972244",
+      "revId": "ff60100a07ae9c4b9b7bf8b265cc404570a437fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d818b82e_953264d7",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/QueryShell.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-08-14T12:12:54Z",
       "side": 1,
       "message": "s/iff/if",
+      "revId": "ff60100a07ae9c4b9b7bf8b265cc404570a437fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d818b82e_d53cdcaa",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/QueryShell.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-08-14T14:31:02Z",
+      "side": 1,
+      "message": "Expressed the \"if and only if\" more explicitly.\nDone.",
+      "parentUuid": "d818b82e_953264d7",
       "revId": "ff60100a07ae9c4b9b7bf8b265cc404570a437fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "3802b4bb_c1b89812",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/QueryShell.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-08-14T14:31:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d818b82e_f53758c5",
+      "revId": "ff60100a07ae9c4b9b7bf8b265cc404570a437fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f85d7cd3_06c1ba38",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/QueryShell.java",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "b8fce4ed_3cf091c4",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/QueryShell.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-08-14T14:31:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f85d7cd3_06c1ba38",
+      "revId": "ff60100a07ae9c4b9b7bf8b265cc404570a437fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f85d7cd3_26be36c6",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/QueryShell.java",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2013-08-14T12:12:54Z",
       "side": 1,
       "message": "s/millis/milliseconds",
+      "revId": "ff60100a07ae9c4b9b7bf8b265cc404570a437fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3802b4bb_a1bda400",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/QueryShell.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-08-14T14:31:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f85d7cd3_26be36c6",
       "revId": "ff60100a07ae9c4b9b7bf8b265cc404570a437fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -69,6 +69,10 @@ public class GerritCommonTest extends PrologTestCase {
         new Branch.NameKey(projects.allProjectsName, "master")));
   }
 
+  public void testGerritCommon() {
+    runPrologBasedTests();
+  }
+
   private static LabelValue value(int value, String text) {
     return new LabelValue((short) value, text);
   }

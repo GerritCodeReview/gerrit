@@ -58,13 +58,44 @@ java_sources(
   visibility = ['PUBLIC'],
 )
 
-java_test(
-  name = 'server_tests',
-  srcs = glob(['src/test/java/**/*.java']),
-  resources = glob(['src/test/resources/**/*']),
+PROLOG_TEST_CASE = [
+  'src/test/java/com/google/gerrit/rules/PrologTestCase.java',
+]
+PROLOG_TESTS = glob(
+  ['src/test/java/com/google/gerrit/rules/**/*.java'],
+  excludes = PROLOG_TEST_CASE,
+)
+
+java_library(
+  name = 'prolog_test_case',
+  srcs = PROLOG_TEST_CASE,
   deps = [
     ':server',
+    '//lib:junit',
+    '//lib/guice:guice',
+    '//lib/prolog:prolog-cafe',
+  ],
+  export_deps = True,
+)
+
+java_test(
+  name = 'prolog_tests',
+  srcs = PROLOG_TESTS,
+  resources = glob(['src/test/resources/com/google/gerrit/rules/**/*']),
+  deps = [
+    ':prolog_test_case',
     '//gerrit-server/src/main/prolog:common',
+  ],
+)
+
+java_test(
+  name = 'server_tests',
+  srcs = glob(
+    ['src/test/java/**/*.java'],
+    excludes = PROLOG_TESTS + PROLOG_TEST_CASE
+  ),
+  deps = [
+    ':server',
     '//gerrit-antlr:query_exception',
     '//gerrit-antlr:query_parser',
     '//gerrit-common:server',

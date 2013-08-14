@@ -26,7 +26,7 @@ module, outzip = argv[1], argv[2]
 for a in argv[3:]:
   if end:
     if a.endswith('.jar'):
-      cp.append(a)
+      cp.append(path.expandvars(a))
   elif a == '--':
     end = True
   else:
@@ -36,7 +36,6 @@ if not outzip.endswith('.zip'):
   print("%s must end with .zip" % outzip, file=stderr)
   exit(1)
 
-rebuild = outzip[:-4] + '.rebuild'
 for d in ['deploy', 'unit_cache', 'work']:
   mkdir(path.join(TMP, d))
 if not path.exists(path.dirname(outzip)):

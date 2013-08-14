@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d88b58a1_9de54359",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-14T17:47:08Z",
+      "side": 1,
+      "message": "This is going to break everyone who currently parses the output of gsql. I hate to see a breaking change like this.\n\nAt a minimum Documentation/cmd-gsql.txt needs to be updated to describe this new output format. But ideally we hide this behind a new format flag so the existing --format\u003dJSON keeps the current one-line-per-object output style and a new --format flag can be used to get the output as a single JSON list.",
+      "revId": "53e522d078711fd0ed4d9bc8ef2cfb8326dd3d7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

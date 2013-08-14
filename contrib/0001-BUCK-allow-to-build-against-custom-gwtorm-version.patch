@@ -1,0 +1,59 @@
+From 08fab7189dc5ba5a6562b4efff70879887c88b9c Mon Sep 17 00:00:00 2001
+From: David Ostrovsky <david@ostrovsky.org>
+Date: Thu, 15 Aug 2013 00:05:10 +0200
+Subject: [PATCH] BUCK: allow to build against custom gwtorm version
+
+Change-Id: Iabd72efc06a97da5a2243cfaf9b23876362d3083
+---
+ lib/BUCK               | 8 ++++----
+ lib/maven.defs         | 1 +
+ tools/download_file.py | 1 +
+ 3 files changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/lib/BUCK b/lib/BUCK
+index 44193e7..2b047c4 100644
+--- a/lib/BUCK
++++ b/lib/BUCK
+@@ -22,11 +22,11 @@ define_license(name = 'DO_NOT_DISTRIBUTE')
+ 
+ maven_jar(
+   name = 'gwtorm',
+-  id = 'gwtorm:gwtorm:1.7',
+-  bin_sha1 = 'ee3b316a023f1422dd4b6654a3d51d0e5690809c',
+-  src_sha1 = 'a145bde4cc87a4ff4cec283880e2a03be32cc868',
++  id = 'gwtorm:gwtorm:1.8',
++  bin_sha1 = '85ab3f459f6ffec1783006c39c2ebd8bd7fc3a87',
++  src_sha1 = '0279b979cc95f0c90e1d3be8208de00d0b9967f3',
+   license = 'Apache2.0',
+-  repository = GERRIT,
++  repository = MAVEN_LOCAL,
+ )
+ 
+ maven_jar(
+diff --git a/lib/maven.defs b/lib/maven.defs
+index ac98652..1fe7b89 100644
+--- a/lib/maven.defs
++++ b/lib/maven.defs
+@@ -13,6 +13,7 @@
+ # limitations under the License.
+ 
+ GERRIT = 'GERRIT:'
++MAVEN_LOCAL = 'MAVEN_LOCAL:'
+ MAVEN_CENTRAL = 'MAVEN_CENTRAL:'
+ 
+ def define_license(name):
+diff --git a/tools/download_file.py b/tools/download_file.py
+index 2dbc8f5..c636bc5 100755
+--- a/tools/download_file.py
++++ b/tools/download_file.py
+@@ -24,6 +24,7 @@ from sys import stderr
+ from zipfile import ZipFile, BadZipfile, LargeZipFile
+ 
+ REPO_ROOTS = {
++  'MAVEN_LOCAL' : 'file:///home/davido/.m2/repository',
+   'GERRIT': 'http://gerrit-maven.storage.googleapis.com',
+   'MAVEN_CENTRAL': 'http://repo1.maven.org/maven2',
+ }
+-- 
+1.8.1.4
+

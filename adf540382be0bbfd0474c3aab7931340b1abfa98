@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8fce4ed_fc0589d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-14T14:11:20Z",
+      "side": 1,
+      "message": "Is it safe to do it like this?\n\nIf I understand it correctly for 79 -\u003e 81 we are now doing:\n  1. preUpdateSchema for 80\n  2. preUpdateSchema for 81\n  3. update schema to 81\n  4. migrateData for 80\n  5. migrateData for 81\n\nWhat if schema 81 deletes a table, but the data migration for schema 80 relies on this table to be there?\n\nShouldn\u0027t the 79 -\u003e 81 migration go like this?\n  1. preUpdateSchema for 80\n  2. update schema to 80\n  3. migrateData for 80\n  4. preUpdateSchema for 81\n  5. update schema to 81\n  6. migrateData for 81",
+      "revId": "adf540382be0bbfd0474c3aab7931340b1abfa98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -20,12 +20,15 @@ from os import environ, makedirs, mkdir, path
 from subprocess import Popen, PIPE
 from sys import argv, stderr
 
-cp, opt, end, TMP = [], [], False, environ['TMP']
+cp, opt, end = [], [], False
 module, outzip = argv[1], argv[2]
+TMP, GEN_DIR = environ['TMP'], environ['GEN_DIR']
 
 for a in argv[3:]:
   if end:
     if a.endswith('.jar'):
+      if a.startswith('$GEN_DIR/'):
+        a = GEN_DIR + a[8:]
       cp.append(a)
   elif a == '--':
     end = True
@@ -36,7 +39,6 @@ if not outzip.endswith('.zip'):
   print("%s must end with .zip" % outzip, file=stderr)
   exit(1)
 
-rebuild = outzip[:-4] + '.rebuild'
 for d in ['deploy', 'unit_cache', 'work']:
   mkdir(path.join(TMP, d))
 if not path.exists(path.dirname(outzip)):

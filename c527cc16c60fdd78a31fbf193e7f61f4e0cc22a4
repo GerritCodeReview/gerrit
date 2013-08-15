@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "586928a1_b96f7fbc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-08-15T18:07:24Z",
+      "side": 1,
+      "message": "This means that range comments only get a line number on the first line, unlike context lines for a line comment. I can see reasons to like either way, but the inconsistency is weird.",
+      "revId": "c527cc16c60fdd78a31fbf193e7f61f4e0cc22a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d88b58a1_bde83f9e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-08-15T18:07:24Z",
+      "side": 1,
+      "message": "s.substring(0, Math.min(...))?",
+      "revId": "c527cc16c60fdd78a31fbf193e7f61f4e0cc22a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

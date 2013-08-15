@@ -17,7 +17,7 @@ package com.google.gerrit.client.diff;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.client.diff.LineMapper.LineOnOtherInfo;
-import com.google.gerrit.common.changes.Side;
+import com.google.gerrit.client.diff.SideBySide2.DisplaySide;
 
 import org.junit.Test;
 
@@ -53,9 +53,9 @@ public class LineMapperTest {
     LineMapper mapper = new LineMapper();
     mapper.appendCommon(10);
     assertEquals(new LineOnOtherInfo(9, true),
-        mapper.lineOnOther(Side.PARENT, 9));
+        mapper.lineOnOther(DisplaySide.A, 9));
     assertEquals(new LineOnOtherInfo(9, true),
-        mapper.lineOnOther(Side.REVISION, 9));
+        mapper.lineOnOther(DisplaySide.B, 9));
   }
 
   @Test
@@ -63,9 +63,9 @@ public class LineMapperTest {
     LineMapper mapper = new LineMapper();
     mapper.appendCommon(10);
     assertEquals(new LineOnOtherInfo(10, true),
-        mapper.lineOnOther(Side.PARENT, 10));
+        mapper.lineOnOther(DisplaySide.A, 10));
     assertEquals(new LineOnOtherInfo(10, true),
-        mapper.lineOnOther(Side.REVISION, 10));
+        mapper.lineOnOther(DisplaySide.B, 10));
   }
 
   @Test
@@ -73,7 +73,7 @@ public class LineMapperTest {
     LineMapper mapper = new LineMapper();
     mapper.appendInsert(10);
     assertEquals(new LineOnOtherInfo(-1, false),
-        mapper.lineOnOther(Side.REVISION, 9));
+        mapper.lineOnOther(DisplaySide.B, 9));
   }
 
   @Test
@@ -81,9 +81,9 @@ public class LineMapperTest {
     LineMapper mapper = new LineMapper();
     mapper.appendInsert(10);
     assertEquals(new LineOnOtherInfo(0, true),
-        mapper.lineOnOther(Side.REVISION, 10));
+        mapper.lineOnOther(DisplaySide.B, 10));
     assertEquals(new LineOnOtherInfo(10, true),
-        mapper.lineOnOther(Side.PARENT, 0));
+        mapper.lineOnOther(DisplaySide.A, 0));
   }
 
   @Test
@@ -91,7 +91,7 @@ public class LineMapperTest {
     LineMapper mapper = new LineMapper();
     mapper.appendDelete(10);
     assertEquals(new LineOnOtherInfo(-1, false),
-        mapper.lineOnOther(Side.PARENT, 9));
+        mapper.lineOnOther(DisplaySide.A, 9));
   }
 
   @Test
@@ -99,8 +99,8 @@ public class LineMapperTest {
     LineMapper mapper = new LineMapper();
     mapper.appendDelete(10);
     assertEquals(new LineOnOtherInfo(0, true),
-        mapper.lineOnOther(Side.PARENT, 10));
+        mapper.lineOnOther(DisplaySide.A, 10));
     assertEquals(new LineOnOtherInfo(10, true),
-        mapper.lineOnOther(Side.REVISION, 0));
+        mapper.lineOnOther(DisplaySide.B, 0));
   }
 }

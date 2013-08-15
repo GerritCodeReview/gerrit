@@ -15,8 +15,8 @@
 package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.diff.SideBySide2.DisplaySide;
 import com.google.gerrit.client.patches.PatchUtil;
-import com.google.gerrit.common.changes.Side;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -38,9 +38,9 @@ class PatchSelectBox2 extends Composite {
   Image icon;
 
   private DiffTable table;
-  private Side side;
+  private DisplaySide side;
 
-  PatchSelectBox2(DiffTable table, Side side) {
+  PatchSelectBox2(DiffTable table, DisplaySide side) {
     initWidget(uiBinder.createAndBindUi(this));
     icon.setTitle(PatchUtil.C.addFileCommentToolTip());
     icon.addStyleName(Gerrit.RESOURCES.css().link());

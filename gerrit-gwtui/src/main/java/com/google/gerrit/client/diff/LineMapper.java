@@ -14,7 +14,7 @@
 
 package com.google.gerrit.client.diff;
 
-import com.google.gerrit.common.changes.Side;
+import com.google.gerrit.client.diff.SideBySide2.DisplaySide;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -98,8 +98,8 @@ class LineMapper {
    *   -   |   6
    *      ...
    */
-  LineOnOtherInfo lineOnOther(Side mySide, int line) {
-    List<LineGap> lineGaps = mySide == Side.PARENT ? lineMapAtoB : lineMapBtoA;
+  LineOnOtherInfo lineOnOther(DisplaySide mySide, int line) {
+    List<LineGap> lineGaps = mySide == DisplaySide.A ? lineMapAtoB : lineMapBtoA;
     // Create a dummy LineGap for the search.
     int ret = Collections.binarySearch(lineGaps, new LineGap(line));
     if (ret == -1) {

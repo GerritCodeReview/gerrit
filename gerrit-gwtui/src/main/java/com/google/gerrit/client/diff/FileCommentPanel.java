@@ -16,7 +16,7 @@ package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.CommentInfo;
-import com.google.gerrit.common.changes.Side;
+import com.google.gerrit.client.diff.SideBySide2.DisplaySide;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 
@@ -33,11 +33,11 @@ class FileCommentPanel extends Composite {
   private SideBySide2 parent;
   private DiffTable table;
   private String path;
-  private Side side;
+  private DisplaySide side;
   private List<CommentBox> boxes;
   private FlowPanel body;
 
-  FileCommentPanel(SideBySide2 host, DiffTable table, String path, Side side) {
+  FileCommentPanel(SideBySide2 host, DiffTable table, String path, DisplaySide side) {
     this.parent = host;
     this.table = table;
     this.path = path;
@@ -54,10 +54,10 @@ class FileCommentPanel extends Composite {
     if (boxes.isEmpty()) {
       CommentInfo info = CommentInfo.createFile(
           path,
-          side,
+          parent.getStoredSideFromDisplaySide(side),
           null,
           null);
-      addFileComment(parent.addDraftBox(info));
+      addFileComment(parent.addDraftBox(info, side));
     } else {
       CommentBox box = boxes.get(boxes.size() - 1);
       if (box instanceof DraftBox) {

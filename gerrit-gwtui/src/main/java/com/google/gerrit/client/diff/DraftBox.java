@@ -18,9 +18,9 @@ import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.changes.CommentInput;
+import com.google.gerrit.client.diff.SideBySide2.DisplaySide;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
-import com.google.gerrit.common.changes.Side;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -59,7 +59,6 @@ class DraftBox extends CommentBox {
   private static final int MAX_LINES = 30;
 
   private final SideBySide2 parent;
-  private final CodeMirror cm;
   private final CommentLinkProcessor linkProcessor;
   private final PatchSet.Id psId;
   private CommentInfo comment;
@@ -82,15 +81,17 @@ class DraftBox extends CommentBox {
   @UiField Button discard2;
 
   DraftBox(
-      SideBySide2 parent,
+      SideBySide2 sideBySide,
       CodeMirror cm,
+      DisplaySide side,
       CommentLinkProcessor clp,
       PatchSet.Id id,
       CommentInfo info) {
-    this.parent = parent;
-    this.cm = cm;
-    this.linkProcessor = clp;
-    this.psId = id;
+    super(cm, info, side);
+
+    parent = sideBySide;
+    linkProcessor = clp;
+    psId = id;
     initWidget(uiBinder.createAndBindUi(this));
 
     expandTimer = new Timer() {
@@ -136,7 +137,7 @@ class DraftBox extends CommentBox {
       message.setHTML(linkProcessor.apply(
           new SafeHtmlBuilder().append(msg).wikify()));
     }
-    this.comment = info;
+    comment = info;
   }
 
   @Override
@@ -178,6 +179,7 @@ class DraftBox extends CommentBox {
     UIObject.setVisible(p_view, !edit);
     UIObject.setVisible(p_edit, edit);
 
+    setRangeHighlight(edit);
     if (edit) {
       final String msg = comment.message() != null
           ? comment.message().trim()
@@ -215,16 +217,17 @@ class DraftBox extends CommentBox {
     if (replyToBox != null) {
       replyToBox.unregisterReplyBox();
     }
-    Side side = comment.side();
+    clearRange();
+    setRangeHighlight(false);
     removeFromParent();
     if (!getCommentInfo().has_line()) {
-      parent.removeFileCommentBox(this, side);
+      parent.removeFileCommentBox(this);
       return;
     }
     PaddingManager manager = getPaddingManager();
     manager.remove(this);
-    parent.removeDraft(this, side, comment.line() - 1);
-    cm.focus();
+    parent.removeDraft(this, comment.line() - 1);
+    getCm().focus();
     getSelfWidgetWrapper().getWidget().clear();
     getGutterWrapper().remove();
     Scheduler.get().scheduleDeferred(new ScheduledCommand() {
@@ -292,7 +295,7 @@ class DraftBox extends CommentBox {
     } else {
       CommentApi.updateDraft(psId, original.id(), input, cb);
     }
-    cm.focus();
+    getCm().focus();
   }
 
   private void enableEdit(boolean on) {
@@ -309,7 +312,7 @@ class DraftBox extends CommentBox {
       removeUI();
     } else {
       setEdit(false);
-      cm.focus();
+      getCm().focus();
     }
   }
 
@@ -347,7 +350,7 @@ class DraftBox extends CommentBox {
         return;
       } else {
         setEdit(false);
-        cm.focus();
+        getCm().focus();
         return;
       }
     }

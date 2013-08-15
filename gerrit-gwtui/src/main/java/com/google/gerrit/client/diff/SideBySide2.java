@@ -62,6 +62,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
+import com.google.gwtexpui.globalkey.client.ShowHelpCommand;
 import com.google.gwtexpui.user.client.DialogVisibleEvent;
 import com.google.gwtexpui.user.client.DialogVisibleHandler;
 import com.google.gwtexpui.user.client.UserAgent;
@@ -127,6 +128,8 @@ public class SideBySide2 extends Screen {
   private Map<LineHandle, LinePaddingWidgetWrapper> linePaddingOnOtherSideMap;
   private List<DiffChunkInfo> diffChunks;
   private List<SkippedLine> skips;
+  private List<Integer> chunkPositions;
+  private int currChunkIndex;
   private int context;
 
   private KeyCommandSet keysNavigation;
@@ -276,7 +279,34 @@ public class SideBySide2 extends Screen {
         .on("'r'", toggleReviewed())
         .on("'o'", toggleOpenBox(cm))
         .on("Enter", toggleOpenBox(cm))
-        .on("'c'", insertNewDraft(cm)));
+        .on("'c'", insertNewDraft(cm))
+        .on("Alt-U", new Runnable() {
+          public void run() {
+            cm.getInputField().blur();
+            removeActiveLineHighlight(cm);
+            removeActiveLineHighlight(otherCm(cm));
+          }
+        })
+        .on("Alt-[", new Runnable() {
+          @Override
+          public void run() {
+            header.prev.go();
+          }
+        })
+        .on("Alt-]", new Runnable() {
+          @Override
+          public void run() {
+            header.next.go();
+          }
+        })
+        .on("Shift-Alt-/", new Runnable() {
+          @Override
+          public void run() {
+            new ShowHelpCommand().onKeyPress(null);
+          }
+        })
+        .on("Alt-N", diffChunkNav(cm, false))
+        .on("Alt-P", diffChunkNav(cm, true)));
   }
 
   @Override
@@ -357,6 +387,29 @@ public class SideBySide2 extends Screen {
     linePaddingOnOtherSideMap = new HashMap<LineHandle, LinePaddingWidgetWrapper>();
     diffChunks = new ArrayList<DiffChunkInfo>();
     render(diffInfo);
+    Collections.sort(diffChunks, new Comparator<DiffChunkInfo>() {
+      @Override
+      public int compare(DiffChunkInfo o1, DiffChunkInfo o2) {
+        if (o1.side == o2.side) {
+          return o1.start - o2.start;
+        } else if (o1.side == DisplaySide.A) {
+          int comp = mapper.lineOnOther(o1.side, o1.start).getLine() - o2.start;
+          return comp == 0 ? 1 : comp;
+        } else {
+          int comp = o1.start - mapper.lineOnOther(o2.side, o2.start).getLine();
+          return comp == 0 ? -1 : comp;
+        }
+      }
+    });
+    chunkPositions = new ArrayList<Integer>();
+    for (int i = 0; i < diffChunks.size();) {
+      DiffChunkInfo info = diffChunks.get(i);
+      chunkPositions.add(
+          info.side == DisplaySide.B
+              ? info.start
+              : mapper.lineOnOther(DisplaySide.A, info.start).getLine());
+      i += info.edit ? 2 : 1;
+    }
     lineActiveBoxMap = new HashMap<LineHandle, CommentBox>();
     lineLastPublishedBoxMap = new HashMap<LineHandle, PublishedBox>();
     linePaddingManagerMap = new HashMap<LineHandle, PaddingManager>();
@@ -461,10 +514,10 @@ public class SideBySide2 extends Screen {
         int chunkEndA = mapper.getLineA() - 1;
         int chunkEndB = mapper.getLineB() - 1;
         if (bLength > 0) {
-          addDiffChunkAndPadding(cmA, chunkEndA, chunkEndB, bLength);
+          addDiffChunkAndPadding(cmA, chunkEndA, chunkEndB, bLength, aLength > 0);
         }
         if (aLength > 0) {
-          addDiffChunkAndPadding(cmB, chunkEndB, chunkEndA, aLength);
+          addDiffChunkAndPadding(cmB, chunkEndB, chunkEndA, aLength, bLength > 0);
         }
         markEdit(cmA, currentA, current.edit_a(), origLineA);
         markEdit(cmB, currentB, current.edit_b(), origLineB);
@@ -803,13 +856,13 @@ public class SideBySide2 extends Screen {
   }
 
   private void addDiffChunkAndPadding(CodeMirror cmToPad, int lineToPad,
-      int lineOnOther, int chunkSize) {
+      int lineOnOther, int chunkSize, boolean edit) {
     CodeMirror otherCm = otherCm(cmToPad);
     linePaddingOnOtherSideMap.put(otherCm.getLineHandle(lineOnOther),
         new LinePaddingWidgetWrapper(addPaddingWidget(cmToPad, DiffTable.style.padding(),
             lineToPad, 0, Unit.EM, null), lineToPad, chunkSize));
     diffChunks.add(new DiffChunkInfo(getSideFromCm(otherCm),
-        lineOnOther - chunkSize + 1, lineOnOther));
+        lineOnOther - chunkSize + 1, lineOnOther, edit));
   }
 
   private PaddingWidgetWrapper addPaddingWidget(CodeMirror cm, String style,
@@ -825,6 +878,16 @@ public class SideBySide2 extends Screen {
     }
     LineWidget widget = cm.addLineWidget(line == -1 ? 0 : line, div, config);
     return new PaddingWidgetWrapper(widget, div);
+  }
+
+  private void removeActiveLineHighlight(CodeMirror cm) {
+    if (cm.hasActiveLine()) {
+      LineHandle activeLine = cm.getActiveLine();
+      cm.removeLineClass(activeLine,
+          LineClassWhere.WRAP, DiffTable.style.activeLine());
+      cm.removeLineClass(activeLine,
+          LineClassWhere.BACKGROUND, DiffTable.style.activeLineBg());
+    }
   }
 
   private Runnable doScroll(final CodeMirror cm) {
@@ -903,20 +966,8 @@ public class SideBySide2 extends Screen {
     final CodeMirror other = otherCm(cm);
     return new Runnable() {
       public void run() {
-        if (cm.hasActiveLine()) {
-          LineHandle activeLine = cm.getActiveLine();
-          cm.removeLineClass(activeLine,
-              LineClassWhere.WRAP, DiffTable.style.activeLine());
-          cm.removeLineClass(activeLine,
-              LineClassWhere.BACKGROUND, DiffTable.style.activeLineBg());
-        }
-        if (other.hasActiveLine()) {
-          LineHandle otherActiveLine = other.getActiveLine();
-          other.removeLineClass(otherActiveLine,
-              LineClassWhere.WRAP, DiffTable.style.activeLine());
-          other.removeLineClass(otherActiveLine,
-              LineClassWhere.BACKGROUND, DiffTable.style.activeLineBg());
-        }
+        removeActiveLineHighlight(cm);
+        removeActiveLineHighlight(other);
         LineHandle handle = cm.getLineHandleVisualStart(cm.getCursor("end").getLine());
         cm.setActiveLine(handle);
         if (cm.somethingSelected()) {
@@ -1028,6 +1079,36 @@ public class SideBySide2 extends Screen {
      public void run() {
        header.setReviewed(!header.isReviewed());
      }
+    };
+  }
+
+  private Runnable diffChunkNav(final CodeMirror cm, final boolean prev) {
+    return new Runnable() {
+      @Override
+      public void run() {
+        int line = cm.hasActiveLine() ? cm.getLineNumber(cm.getActiveLine()) : 0;
+        if (cm == cmA) {
+          line = mapper.lineOnOther(DisplaySide.A, line).getLine();
+        }
+        int res = Collections.binarySearch(chunkPositions, line);
+        if (res < 0) {
+          res = -res - 2;
+        }
+        if (currChunkIndex == chunkPositions.size() - 1 && !prev) {
+          currChunkIndex = 0;
+        } else if (currChunkIndex == 0 && prev) {
+          currChunkIndex = chunkPositions.size() - 1;
+        } else {
+          currChunkIndex = res + (prev ? -1 : 1);
+        }
+        int target = chunkPositions.get(currChunkIndex);
+        if (cm == cmA) {
+          target = mapper.lineOnOther(DisplaySide.B, target).getLine();
+        }
+        cm.setCursor(LineCharacter.create(target));
+        cm.scrollToY(Math.max(0, cm.heightAtLine(target, "local") -
+            cm.getScrollbarV().getClientHeight() / 2));
+      }
     };
   }
 
@@ -1181,11 +1262,13 @@ public class SideBySide2 extends Screen {
     private DisplaySide side;
     private int start;
     private int end;
+    private boolean edit;
 
-    DiffChunkInfo(DisplaySide side, int start, int end) {
+    DiffChunkInfo(DisplaySide side, int start, int end, boolean edit) {
       this.side = side;
       this.start = start;
       this.end = end;
+      this.edit = edit;
     }
 
     DisplaySide getSide() {
@@ -1198,6 +1281,10 @@ public class SideBySide2 extends Screen {
 
     int getEnd() {
       return end;
+    }
+
+    boolean isEdit() {
+      return edit;
     }
   }
 

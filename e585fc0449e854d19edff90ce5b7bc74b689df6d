@@ -16,6 +16,24 @@
       "revId": "e585fc0449e854d19edff90ce5b7bc74b689df6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d88b58a1_fdde4754",
+        "filename": "lib/maven.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-15T07:16:16Z",
+      "side": 1,
+      "message": "They do seem redundant, but I think it makes the files easier to work with. By declaring the constant we get an error early at BUCK file parse time if a constant is mistyped in a maven_jar() rule, rather than waiting for a time when maven_jar() tries to invoke download_file.py.\n\nI also just find the repository\u003dGERRIT string easier to read than repository\u003d\u0027GERRIT:\u0027. These are logically the same value and could be used interchangeably. I would just prefer to read the constant version.\n\nSo we have them.. because I like them. They aren\u0027t actually required.",
+      "parentUuid": "989560bf_db08b33a",
+      "revId": "e585fc0449e854d19edff90ce5b7bc74b689df6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

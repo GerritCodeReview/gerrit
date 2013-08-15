@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d88b58a1_1dd3f3f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-08-15T17:20:18Z",
+      "side": 1,
+      "message": "I think instead of copying the commit message from that change it would be more helpful to explain what the bug is in that change (sorry about that BTW) and how this change fixes it.",
+      "revId": "20f53cd10dc756018802ca8a2a1006c5344c8aea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

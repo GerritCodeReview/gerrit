@@ -21,6 +21,10 @@ import com.google.gerrit.client.diff.SideBySide2.DiffChunkInfo;
 import com.google.gerrit.client.diff.SidePanel.GutterWrapper;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.Composite;
 
 import net.codemirror.lib.CodeMirror;
@@ -57,6 +61,18 @@ abstract class CommentBox extends Composite {
           Configuration.create()
               .set("className", DiffTable.style.range()));
     }
+    addDomHandler(new MouseOverHandler() {
+      @Override
+      public void onMouseOver(MouseOverEvent event) {
+        setRangeHighlight(true);
+      }
+    }, MouseOverEvent.getType());
+    addDomHandler(new MouseOutHandler() {
+      @Override
+      public void onMouseOut(MouseOutEvent event) {
+        setRangeHighlight(isOpen());
+      }
+    }, MouseOutEvent.getType());
   }
 
   @Override

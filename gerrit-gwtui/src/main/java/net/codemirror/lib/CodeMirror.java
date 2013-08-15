@@ -295,6 +295,11 @@ public class CodeMirror extends JavaScriptObject {
     return this.display.scrollbarV;
   }-*/;
 
+  public static final native void setObjectProperty(JavaScriptObject obj,
+      String name, boolean value) /*-{
+    obj[name] = value;
+  }-*/;
+
   protected CodeMirror() {
   }
 

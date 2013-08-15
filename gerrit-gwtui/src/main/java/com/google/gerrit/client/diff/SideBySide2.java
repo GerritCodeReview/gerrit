@@ -68,6 +68,7 @@ import com.google.gwtexpui.user.client.DialogVisibleHandler;
 import com.google.gwtexpui.user.client.UserAgent;
 
 import net.codemirror.lib.CodeMirror;
+import net.codemirror.lib.CodeMirror.EventHandler;
 import net.codemirror.lib.CodeMirror.GutterClickHandler;
 import net.codemirror.lib.CodeMirror.LineClassWhere;
 import net.codemirror.lib.CodeMirror.LineHandle;
@@ -111,6 +112,7 @@ public class SideBySide2 extends Screen {
 
   private CodeMirror cmA;
   private CodeMirror cmB;
+  private CodeMirror lastFocused;
   private Timer scrollTimerA;
   private Timer scrollTimerB;
   private HandlerRegistration resizeHandler;
@@ -270,7 +272,19 @@ public class SideBySide2 extends Screen {
     };
     cm.on("renderLine", resizeLinePadding(getSideFromCm(cm)));
     cm.on("viewportChange", adjustGutters(cm));
-    // TODO: Prevent right click from updating the cursor.
+    cm.on("focus", new Runnable() {
+      @Override
+      public void run() {
+        lastFocused = cm;
+      }
+    });
+    cm.on("contextmenu", new EventHandler() {
+      @Override
+      public void handle(CodeMirror instance, NativeEvent event) {
+        CodeMirror.setObjectProperty(event, "codemirrorIgnore", true);
+        lastFocused.focus();
+      }
+    });
     cm.addKeyMap(KeyMap.create()
         .on("'j'", moveCursorDown(cm, 1))
         .on("'k'", moveCursorDown(cm, -1))

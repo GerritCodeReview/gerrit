@@ -60,11 +60,14 @@ limitations under the License.
     .b .diff .CodeMirror-linenumber {
       background-color: #9f9;
     }
-    .padding, .fileComment {
+    .padding, .fileCommentRow {
       background-color: #eee;
     }
-    .fileComment {
+    .fileCommentRow {
       line-height: 1;
+    }
+    .fileCommentCell {
+      overflow-x: auto;
     }
     .a .CodeMirror-vscrollbar {
       display: none !important;
@@ -119,11 +122,11 @@ limitations under the License.
                 <d:PatchSelectBox2 ui:field='patchSelectBoxB' />
               </td>
             </tr>
-            <tr ui:field='fileCommentRow' class='{style.fileComment}'>
-              <td ui:field='fileCommentCellA'>
+            <tr ui:field='fileCommentRow' class='{style.fileCommentRow}'>
+              <td ui:field='fileCommentCellA' class='{style.fileCommentCell}'>
                 <d:FileCommentPanel ui:field='fileCommentPanelA' />
               </td>
-              <td ui:field='fileCommentCellB'>
+              <td ui:field='fileCommentCellB' class='{style.fileCommentCell}'>
                 <d:FileCommentPanel ui:field='fileCommentPanelB' />
               </td>
             </tr>

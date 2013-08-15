@@ -38,26 +38,26 @@ java_library(
 
 genrule(
   name = '_project',
-  cmd = '$(exe :gen_project) $OUT',
+  cmd = '$(exe :gen_project)',
   deps = [':gen_project'],
-  out = 'project',
+  out = '__fake.project__',
 )
 
 genrule(
   name = '_classpath',
-  cmd = '$(exe :gen_classpath) $OUT $DEPS',
+  cmd = '$(exe :gen_classpath)',
   deps = [
     ':classpath',
     ':gen_classpath',
   ],
-  out = 'classpath',
+  out = '__fake.classpath__',
 )
 
 genrule(
   name = '_classpath_nocompile',
   cmd = '$(exe :gen_classpath)',
   deps = [':gen_classpath'],
-  out = '__fake.eclipse__',
+  out = '__fake.classpath__',
 )
 
 python_binary(

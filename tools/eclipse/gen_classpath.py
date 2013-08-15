@@ -15,13 +15,12 @@
 #
 # TODO(sop): Remove hack after Buck supports Eclipse
 
-from os import path, symlink
+from os import path
 import re
 from subprocess import Popen, PIPE
 from sys import argv
 from xml.dom import minidom
 
-OUT = argv[1] if len(argv) >= 2 else None
 ROOT = path.abspath(__file__)
 for _ in range(0, 3):
   ROOT = path.dirname(ROOT)
@@ -117,5 +116,3 @@ classpathentry('output', 'buck-out/classes')
 p = path.join(ROOT, '.classpath')
 with open(p, 'w') as fd:
   doc.writexml(fd, addindent = '  ', newl = '\n', encoding='UTF-8')
-if OUT:
-  symlink(p, OUT)

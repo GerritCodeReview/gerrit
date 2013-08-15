@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d88b58a1_9d81c351",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-15T00:47:10Z",
+      "side": 1,
+      "message": "missing indent",
+      "revId": "5279fac44115c4f5b97d6a53084e26b6331d1cec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d88b58a1_bd867f64",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentRange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-15T00:47:10Z",
+      "side": 1,
+      "message": "nit: line break after a block before a list of statements.",
+      "revId": "5279fac44115c4f5b97d6a53084e26b6331d1cec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "989560bf_7b015f17",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-15T04:06:28Z",
+      "side": 1,
+      "message": "* The length of all database identifiers \u003c\u003d 30 now and the support for databases (most notably MAX DB) that have this requirement possible.",
+      "revId": "3a2cc708b9e3f4da2fbf37970c36c5c038434642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

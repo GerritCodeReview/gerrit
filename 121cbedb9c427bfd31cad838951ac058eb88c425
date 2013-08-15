@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d88b58a1_3d934fa6",
+        "filename": "lib/gwt/compiler.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-15T00:55:16Z",
+      "side": 1,
+      "message": "Use path.join?",
+      "revId": "121cbedb9c427bfd31cad838951ac058eb88c425",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

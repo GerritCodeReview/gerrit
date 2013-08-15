@@ -44,6 +44,8 @@ Fix Gerrit plugins under Tomcat by avoiding Guice static filter.
 * link:https://code.google.com/p/gerrit/issues/detail?id=2054[Issue 2054]:
 Expand capabilities of `ldap.groupMemberPattern`.
 
+* link:https://code.google.com/p/gerrit/issues/detail?id=2039[Issue 2039]:
+Fix browser NPE when ChangeCache is incomplete.
 
 No other changes since 2.6.1.
 

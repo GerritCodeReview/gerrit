@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.AccountPatchReview;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -42,9 +43,13 @@ class Reviewed {
       ReviewDb db = dbProvider.get();
       AccountPatchReview apr = getExisting(db, resource);
       if (apr == null) {
-        db.accountPatchReviews().insert(
-            Collections.singleton(new AccountPatchReview(resource.getPatchKey(),
-                resource.getAccountId())));
+        try {
+          db.accountPatchReviews().insert(
+              Collections.singleton(new AccountPatchReview(resource.getPatchKey(),
+                  resource.getAccountId())));
+        } catch (OrmDuplicateKeyException e) {
+          return Response.ok("");
+        }
         return Response.created("");
       } else {
         return Response.ok("");

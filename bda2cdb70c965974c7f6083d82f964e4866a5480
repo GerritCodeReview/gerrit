@@ -16,6 +16,24 @@
       "revId": "bda2cdb70c965974c7f6083d82f964e4866a5480",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "989560bf_7b1a3f7f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1012503
+      },
+      "writtenOn": "2013-08-15T10:08:06Z",
+      "side": 1,
+      "message": "Good call. Thanks!",
+      "parentUuid": "586f6876_0979c985",
+      "revId": "bda2cdb70c965974c7f6083d82f964e4866a5480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

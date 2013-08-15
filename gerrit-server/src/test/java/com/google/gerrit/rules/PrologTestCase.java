@@ -114,7 +114,7 @@ public abstract class PrologTestCase extends TestCase {
     return env.execute(Prolog.BUILTIN, "clause", head, new VariableTerm());
   }
 
-  public void testRunPrologTestCases() {
+  public void runPrologBasedTests() {
     int errors = 0;
     long start = System.currentTimeMillis();
 

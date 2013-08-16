@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "584e8857_31f7100e",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/QueryShell.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-16T00:16:09Z",
+      "side": 1,
+      "message": "Instead of putting everything in the collector and then looping through later when outputFormat\u003d\u003dJSON why not switch here on outputFormat and thus allow results to be printed immediately for JSON and collected only for JSON_SINGLE?",
+      "revId": "7deef72b4f7d93541cd9aea61b947ff0f2982a91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "584e8857_11fa0cf5",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/QueryShell.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-16T00:16:09Z",
+      "side": 1,
+      "message": "nit: no space here between 0 and )",
+      "range": {
+        "startLine": 478,
+        "startChar": 18,
+        "endLine": 478,
+        "endChar": 19
+      },
+      "revId": "7deef72b4f7d93541cd9aea61b947ff0f2982a91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

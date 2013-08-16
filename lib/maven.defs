@@ -91,13 +91,12 @@ def maven_jar(
       deps = ['//tools:download_file'],
       out = srcjar,
     )
-    if src_sha1:
-      prebuilt_jar(
-        name = name + '_src',
-        binary_jar = genfile(srcjar),
-        deps = license + [':' + name + '__download_src'],
-        visibility = visibility,
-      )
+    prebuilt_jar(
+      name = name + '_src',
+      binary_jar = genfile(srcjar),
+      deps = license + [':' + name + '__download_src'],
+      visibility = visibility,
+    )
   else:
     srcjar = None
     genrule(

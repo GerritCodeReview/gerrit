@@ -294,6 +294,13 @@ Text displayed in the loginUrl link. Only used if `auth.loginUrl` is set.
 +
 If not set, the "Sign In" text is used.
 
+[[auth.registerPageUrl]]auth.registerPageUrl::
++
+URL of the registration page when a new user logs in the first time
+to Gerrit. Used only when `auth.type` is set to `HTTP`.
++
+If not set, the standard Gerrit registration page `/#/register/` is displayed.
+
 [[auth.logoutUrl]]auth.logoutUrl::
 +
 URL to redirect a browser to after the end-user has clicked on the

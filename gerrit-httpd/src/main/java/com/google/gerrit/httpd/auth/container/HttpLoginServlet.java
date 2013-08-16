@@ -22,6 +22,7 @@ import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -59,16 +60,19 @@ class HttpLoginServlet extends HttpServlet {
   private final CanonicalWebUrl urlProvider;
   private final AccountManager accountManager;
   private final HttpAuthFilter authFilter;
+  private final AuthConfig authConfig;
 
   @Inject
   HttpLoginServlet(final Provider<WebSession> webSession,
       final CanonicalWebUrl urlProvider,
       final AccountManager accountManager,
-      final HttpAuthFilter authFilter) {
+      final HttpAuthFilter authFilter,
+      final AuthConfig authConfig) {
     this.webSession = webSession;
     this.urlProvider = urlProvider;
     this.accountManager = accountManager;
     this.authFilter = authFilter;
+    this.authConfig = authConfig;
   }
 
   @Override
@@ -122,12 +126,16 @@ class HttpLoginServlet extends HttpServlet {
     }
 
     final StringBuilder rdr = new StringBuilder();
-    rdr.append(urlProvider.get(req));
-    rdr.append('#');
-    if (arsp.isNew() && !token.startsWith(PageLinks.REGISTER + "/")) {
-      rdr.append(PageLinks.REGISTER);
+    if (arsp.isNew() && authConfig.getRegisterPageUrl() != null) {
+      rdr.append(authConfig.getRegisterPageUrl());
+    } else {
+      rdr.append(urlProvider.get(req));
+      rdr.append('#');
+      if (arsp.isNew() && !token.startsWith(PageLinks.REGISTER + "/")) {
+        rdr.append(PageLinks.REGISTER);
+      }
+      rdr.append(token);
     }
-    rdr.append(token);
 
     webSession.get().login(arsp, true /* persistent cookie */);
     rsp.sendRedirect(rdr.toString());

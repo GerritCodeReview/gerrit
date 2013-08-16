@@ -38,6 +38,7 @@ public class AuthConfig {
   private final String httpHeader;
   private final String httpDisplaynameHeader;
   private final String httpEmailHeader;
+  private final String registerPageUrl;
   private final boolean trustContainerAuth;
   private final boolean enableRunAs;
   private final boolean userNameToLowerCase;
@@ -64,6 +65,7 @@ public class AuthConfig {
     httpEmailHeader = cfg.getString("auth", null, "httpemailheader");
     loginUrl = cfg.getString("auth", null, "loginurl");
     logoutUrl = cfg.getString("auth", null, "logouturl");
+    registerPageUrl = cfg.getString("auth", null, "registerPageUrl");
     openIdSsoUrl = cfg.getString("auth", null, "openidssourl");
     openIdDomains = Arrays.asList(cfg.getStringList("auth", null, "openIdDomain"));
     trustedOpenIDs = toPatterns(cfg, "trustedOpenID");
@@ -270,5 +272,9 @@ public class AuthConfig {
       }
     }
     return false;
+  }
+
+  public String getRegisterPageUrl() {
+    return registerPageUrl;
   }
 }

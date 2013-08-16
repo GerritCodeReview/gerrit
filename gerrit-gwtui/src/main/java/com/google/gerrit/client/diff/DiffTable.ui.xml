@@ -27,11 +27,11 @@ limitations under the License.
     }
     .difftable .CodeMirror pre {
       padding: 0;
-      padding-bottom: 0.1em;
+      padding-bottom: 0.11em;
       overflow: hidden;
     }
     .difftable .CodeMirror pre span {
-      padding-bottom: 0.1em;
+      padding-bottom: 0.11em;
     }
     .sidePanelCell {
       width: 10px;
@@ -95,7 +95,7 @@ limitations under the License.
       background-color: inherit !important;
     }
     .difftable .CodeMirror-linenumber {
-      height: 1.1em;
+      height: 1.11em;
       cursor: pointer;
     }
     .hideNumber .CodeMirror-linenumber {

@@ -25,6 +25,9 @@ import java.util.List;
 import java.util.Map;
 
 public class LabelType {
+  public static enum Functions  {
+    MaxWithBlock, MaxNoBlock, NoBlock, NoOp, AnyWithBlock
+  }
   public static LabelType withDefaultValues(String name) {
     checkName(name);
     List<LabelValue> values = new ArrayList<LabelValue>(2);

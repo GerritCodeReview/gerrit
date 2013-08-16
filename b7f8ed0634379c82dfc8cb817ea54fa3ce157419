@@ -70,6 +70,24 @@
       "revId": "b7f8ed0634379c82dfc8cb817ea54fa3ce157419",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "385394fe_f0f4a00b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-16T00:49:29Z",
+      "side": 1,
+      "message": "In a multi-master configuration it can be safer to use signatures with no state to verify sessions. E.g. the servers have a private key they use to sign a token that identifies the user, and the WebSession just verifies the signature on each request rather than looking it up in a common cache. Fewer things to go wrong. You really only have to worry about key rotation, but this is also (easily) solved if you use something like KeyCzar where key hashes are part of the signature and multiple keys can be used for verification during the rotation window.\n\nIf you want to reuse the CacheBasedWebSession then I suggest a new change to first refactor it to be an abstract base class where the Cache implementation is supplied in the constructor by the concrete subclass, and then make WebSession pluggable. The single-server case can use CacheBasedWebSession but the multi-master would use a different subclass that uses a distributed cache.\n\nFWIW gerrit-review follows more of a signature based system than a cache based system. I can\u0027t get into all of the details because its also similar to what is used on other Google properties, but I can say we don\u0027t have a cache under our WebSession.",
+      "parentUuid": "d818b82e_75cea8a1",
+      "revId": "b7f8ed0634379c82dfc8cb817ea54fa3ce157419",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -117,7 +117,7 @@ public class InitPlugins implements InitStep {
           continue;
         }
 
-        final File p = new File(site.plugins_dir, plugin.pluginFile.getName());
+        final File p = new File(site.plugins_dir, plugin.name + ".jar");
         if (p.exists()) {
           final String installedPluginVersion = getVersion(p);
           if (!ui.yesno(false,

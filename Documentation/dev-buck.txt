@@ -241,8 +241,6 @@ that artifact:
  maven_jar(
    name = 'gwtorm',
    id = 'gwtorm:gwtorm:42',
-   bin_sha1 = None,
-   src_sha1 = None,
    license = 'Apache2.0',
    repository = MAVEN_LOCAL,
  )

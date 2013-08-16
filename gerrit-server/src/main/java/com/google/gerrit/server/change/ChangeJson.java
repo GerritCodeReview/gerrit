@@ -23,6 +23,8 @@ import static com.google.gerrit.common.changes.ListChangesOption.CURRENT_REVISIO
 import static com.google.gerrit.common.changes.ListChangesOption.DETAILED_ACCOUNTS;
 import static com.google.gerrit.common.changes.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.common.changes.ListChangesOption.LABELS;
+import static com.google.gerrit.common.data.LabelType.Functions.NoOp;
+import static com.google.gerrit.common.data.LabelType.Functions.NoBlock;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
@@ -585,10 +587,15 @@ public class ChangeJson {
         }
         if (val == type.getMax().getValue()) {
           li.approved = accountLoader.get(accountId);
-        } else if (val == type.getMin().getValue()
-            // A merged change can't have been rejected.
-            && cd.getChange().getStatus() != Status.MERGED) {
-          li.rejected = accountLoader.get(accountId);
+        } else if (val == type.getMin().getValue()) {
+          // A merged change can't have been rejected by a label whose function
+          // is not NoOp/NoBlock.
+          if (type.getFunctionName().equals(NoOp.name())
+              || type.getFunctionName().equals(NoBlock.name())) {
+            li.rejected = accountLoader.get(accountId);
+          } else if (cd.getChange().getStatus() != Status.MERGED) {
+            li.rejected = accountLoader.get(accountId);
+          }
         } else if (val > 0) {
           li.recommended = accountLoader.get(accountId);
           li.value = val;

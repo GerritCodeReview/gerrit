@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b89864f6_9c0e2545",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-16T00:44:04Z",
+      "side": 1,
+      "message": "Quotes should be consistent, either ` or \" but not both.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 14
+      },
+      "revId": "e4d2434733b043458d06f69f56b68b8c0a7169ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "584e8857_71019817",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-16T00:44:04Z",
+      "side": 1,
+      "message": "Quoting should be consistent.",
+      "range": {
+        "startLine": 302,
+        "startChar": 50,
+        "endLine": 302,
+        "endChar": 64
+      },
+      "revId": "e4d2434733b043458d06f69f56b68b8c0a7169ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "385394fe_b0ea1824",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpLoginServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-16T00:44:04Z",
+      "side": 1,
+      "message": "Despite what the documentation says this always routes every login to the register page URL, not just new accounts.",
+      "revId": "e4d2434733b043458d06f69f56b68b8c0a7169ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "385394fe_90e51459",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpLoginServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-16T00:44:04Z",
+      "side": 1,
+      "message": "Despite what the documentation says this always routes every login to the register page URL, not just new accounts.",
+      "revId": "e4d2434733b043458d06f69f56b68b8c0a7169ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

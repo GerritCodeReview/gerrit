@@ -16,7 +16,11 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.Version;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -49,7 +53,7 @@ public class QueryShell {
   }
 
   public static enum OutputFormat {
-    PRETTY, JSON;
+    PRETTY, JSON, JSON_SINGLE;
   }
 
   private final BufferedReader in;
@@ -178,6 +182,7 @@ public class QueryShell {
         } else {
           final String msg = "'\\" + line + "' not supported";
           switch (outputFormat) {
+            case JSON_SINGLE:
             case JSON: {
               final JsonObject err = new JsonObject();
               err.addProperty("type", "error");
@@ -228,7 +233,7 @@ public class QueryShell {
         if (outputFormat == OutputFormat.PRETTY) {
           println("                     List of relations");
         }
-        showResultSet(rs, false,
+        showResultSet(rs, false, 0,
             Identity.create(rs, "TABLE_SCHEM"),
             Identity.create(rs, "TABLE_NAME"),
             Identity.create(rs, "TABLE_TYPE"));
@@ -267,7 +272,7 @@ public class QueryShell {
         if (outputFormat == OutputFormat.PRETTY) {
           println("                     Table " + tableName);
         }
-        showResultSet(rs, true,
+        showResultSet(rs, true, 0,
             Identity.create(rs, "COLUMN_NAME"),
             new Function("TYPE") {
               @Override
@@ -365,24 +370,7 @@ public class QueryShell {
       if (hasResultSet) {
         final ResultSet rs = statement.getResultSet();
         try {
-          final int rowCount = showResultSet(rs, false);
-          final long ms = System.currentTimeMillis() - start;
-          switch (outputFormat) {
-            case JSON: {
-              final JsonObject tail = new JsonObject();
-              tail.addProperty("type", "query-stats");
-              tail.addProperty("rowCount", rowCount);
-              tail.addProperty("runTimeMilliseconds", ms);
-              println(tail.toString());
-              break;
-            }
-
-            case PRETTY:
-            default:
-              println("(" + rowCount + (rowCount == 1 ? " row" : " rows")
-                  + "; " + ms + " ms)");
-              break;
-          }
+          showResultSet(rs, false, start);
         } finally {
           rs.close();
         }
@@ -391,6 +379,7 @@ public class QueryShell {
         final int updateCount = statement.getUpdateCount();
         final long ms = System.currentTimeMillis() - start;
         switch (outputFormat) {
+          case JSON_SINGLE:
           case JSON: {
             final JsonObject tail = new JsonObject();
             tail.addProperty("type", "update-stats");
@@ -411,19 +400,47 @@ public class QueryShell {
     }
   }
 
-  private int showResultSet(final ResultSet rs, boolean alreadyOnRow,
-      Function... show) throws SQLException {
+  /**
+   * Outputs a result set to stdout.
+   *
+   * @param rs ResultSet to show.
+   * @param alreadyOnRow true if rs is already on the first row. false
+   *     otherwise.
+   * @param start Timestamp in milliseconds when executing the statement
+   *     started. This timestamp is used to compute statistics about the
+   *     statement. If no statistics should be shown, set it to 0.
+   * @param show Functions to map columns
+   * @throws SQLException
+   */
+  private void showResultSet(final ResultSet rs, boolean alreadyOnRow,
+      long start, Function... show) throws SQLException {
     switch (outputFormat) {
+      case JSON_SINGLE:
       case JSON:
-        return showResultSetJson(rs, alreadyOnRow, show);
+        showResultSetJson(rs, alreadyOnRow,  start, show);
+        break;
       case PRETTY:
       default:
-        return showResultSetPretty(rs, alreadyOnRow, show);
+        showResultSetPretty(rs, alreadyOnRow, start, show);
+        break;
     }
   }
 
-  private int showResultSetJson(final ResultSet rs, boolean alreadyOnRow,
-      Function... show) throws SQLException {
+  /**
+   * Outputs a result set to stdout in Json format.
+   *
+   * @param rs ResultSet to show.
+   * @param alreadyOnRow true if rs is already on the first row. false
+   *     otherwise.
+   * @param start Timestamp in milliseconds when executing the statement
+   *     started. This timestamp is used to compute statistics about the
+   *     statement. If no statistics should be shown, set it to 0.
+   * @param show Functions to map columns
+   * @throws SQLException
+   */
+  private void showResultSetJson(final ResultSet rs, boolean alreadyOnRow,
+      long start, Function... show) throws SQLException {
+    JsonArray collector = new JsonArray();
     final ResultSetMetaData meta = rs.getMetaData();
     final Function[] columnMap;
     if (show != null && 0 < show.length) {
@@ -453,15 +470,68 @@ public class QueryShell {
       }
       row.addProperty("type", "row");
       row.add("columns", cols);
-      println(row.toString());
+      switch (outputFormat) {
+        case JSON:
+          println(row.toString());
+          break;
+        case JSON_SINGLE:
+          collector.add(row);
+          break;
+        default:
+          final JsonObject obj = new JsonObject();
+          obj.addProperty("type", "error");
+          obj.addProperty("message", "Unsupported Json variant");
+          println(obj.toString());
+          return;
+      }
       alreadyOnRow = false;
       rowCnt++;
     }
-    return rowCnt;
+
+    JsonObject tail = null;
+    if (start != 0) {
+      tail = new JsonObject();
+      tail.addProperty("type", "query-stats");
+      tail.addProperty("rowCount", rowCnt);
+      final long ms = System.currentTimeMillis() - start;
+      tail.addProperty("runTimeMilliseconds", ms);
+    }
+
+    switch (outputFormat) {
+      case JSON:
+        if (tail != null) {
+          println(tail.toString());
+        }
+        break;
+      case JSON_SINGLE:
+        if (tail != null) {
+          collector.add(tail);
+        }
+        println(collector.toString());
+        break;
+      default:
+        final JsonObject obj = new JsonObject();
+        obj.addProperty("type", "error");
+        obj.addProperty("message", "Unsupported Json variant");
+        println(obj.toString());
+        return;
+    }
   }
 
-  private int showResultSetPretty(final ResultSet rs, boolean alreadyOnRow,
-      Function... show) throws SQLException {
+  /**
+   * Outputs a result set to stdout in plain text format.
+   *
+   * @param rs ResultSet to show.
+   * @param alreadyOnRow true if rs is already on the first row. false
+   *     otherwise.
+   * @param start Timestamp in milliseconds when executing the statement
+   *     started. This timestamp is used to compute statistics about the
+   *     statement. If no statistics should be shown, set it to 0.
+   * @param show Functions to map columns
+   * @throws SQLException
+   */
+  private void showResultSetPretty(final ResultSet rs, boolean alreadyOnRow,
+      long start, Function... show) throws SQLException {
     final ResultSetMetaData meta = rs.getMetaData();
 
     final Function[] columnMap;
@@ -559,11 +629,18 @@ public class QueryShell {
     if (dataTruncated) {
       warning("some column data was truncated");
     }
-    return rows.size();
+
+    if (start != 0) {
+      final int rowCount = rows.size();
+      final long ms = System.currentTimeMillis() - start;
+      println("(" + rowCount + (rowCount == 1 ? " row" : " rows")
+          + "; " + ms + " ms)");
+    }
   }
 
   private void warning(final String msg) {
     switch (outputFormat) {
+      case JSON_SINGLE:
       case JSON: {
         final JsonObject obj = new JsonObject();
         obj.addProperty("type", "warning");
@@ -581,6 +658,7 @@ public class QueryShell {
 
   private void error(final SQLException err) {
     switch (outputFormat) {
+      case JSON_SINGLE:
       case JSON: {
         final JsonObject obj = new JsonObject();
         obj.addProperty("type", "error");

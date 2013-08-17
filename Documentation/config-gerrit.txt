@@ -296,8 +296,8 @@ If not set, the "Sign In" text is used.
 
 [[auth.registerPageUrl]]auth.registerPageUrl::
 +
-URL of the registration page when a new user logs in the first time
-to Gerrit. Used only when `auth.type` is set to `HTTP`.
+URL of the registration page to use when a new user logs in to Gerrit for
+the first time. Used only when `auth.type` is set to `HTTP`.
 +
 If not set, the standard Gerrit registration page `/#/register/` is displayed.
 

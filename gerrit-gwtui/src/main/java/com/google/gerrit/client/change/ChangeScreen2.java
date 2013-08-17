@@ -19,6 +19,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
+import com.google.gerrit.client.changes.ChangeInfo.ActionInfo;
 import com.google.gerrit.client.changes.ChangeInfo.ApprovalInfo;
 import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
 import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
@@ -148,8 +149,10 @@ public class ChangeScreen2 extends Screen {
   @UiField Button reply;
   @UiField Button expandAll;
   @UiField Button collapseAll;
+  @UiField Button editCommitMessage;
   @UiField QuickApprove quickApprove;
   private ReplyAction replyAction;
+  private EditCommitMessageAction editCommitMessageAction;
 
   public ChangeScreen2(Change.Id changeId, String revision, boolean openReplyBox) {
     this.changeId = changeId;
@@ -241,6 +244,29 @@ public class ChangeScreen2 extends Screen {
     }
   }
 
+  private void initEditCommitMessageAction() {
+    if (Gerrit.isSignedIn()) {
+      RevisionInfo revisionInfo = changeInfo.revision(revision);
+      NativeMap<ActionInfo> actions = revisionInfo.has_actions()
+          ? revisionInfo.actions()
+          : NativeMap.<ActionInfo> create();
+      if (actions.containsKey("edit_commit_message")) {
+        editCommitMessage.setVisible(true);
+        editCommitMessageAction =
+            new EditCommitMessageAction(changeInfo, revision, style,
+                editCommitMessage);
+        keysAction.add(new KeyCommand(0, 'e', Util.C.keyEditCommitMessage()) {
+          @Override
+          public void onKeyPress(KeyPressEvent event) {
+            editCommitMessageAction.onEdit();
+          }
+        });
+        return;
+      }
+    }
+    editCommitMessage.setVisible(false);
+  }
+
   @Override
   public void registerKeys() {
     super.registerKeys();
@@ -320,6 +346,15 @@ public class ChangeScreen2 extends Screen {
   private void onReply() {
     if (Gerrit.isSignedIn()) {
       replyAction.onReply();
+    } else {
+      Gerrit.doSignIn(getToken());
+    }
+  }
+
+  @UiHandler("editCommitMessage")
+  void onEditMessage(ClickEvent e) {
+    if (Gerrit.isSignedIn()) {
+      editCommitMessageAction.onEdit();
     } else {
       Gerrit.doSignIn(getToken());
     }
@@ -587,6 +622,7 @@ public class ChangeScreen2 extends Screen {
       sb.append(info.subject());
     }
     setWindowTitle(sb.toString());
+    initEditCommitMessageAction();
   }
 
   private void renderReviewers(ChangeInfo info) {

@@ -905,11 +905,10 @@ public class SideBySide2 extends Screen {
   }
 
   private Runnable doScroll(final CodeMirror cm) {
-    final CodeMirror other = otherCm(cm);
     return new Runnable() {
       public void run() {
-        // Hack to prevent feedback loop, Chrome seems fine but Firefox chokes.
-        if (cm.getScrollSetAt() + 50 > System.currentTimeMillis()) {
+        // Hack to prevent feedback loop.
+        if (cm.getScrollSetAt() + 5 > System.currentTimeMillis()) {
           return;
         }
 
@@ -932,9 +931,10 @@ public class SideBySide2 extends Screen {
          * doesn't guarantee alignment, but should work in most cases. See the
          * hack in fixScroll();
          */
-        other.scrollToY(si.getTop());
-        other.setScrollSetAt(System.currentTimeMillis());
-        (cm == cmA ? scrollTimerA : scrollTimerB).schedule(50);
+        fixScroll(cm);
+        scrollTimerA.cancel();
+        scrollTimerB.cancel();
+        (cm == cmA ? scrollTimerA : scrollTimerB).schedule(10);
       }
     };
   }
@@ -958,6 +958,8 @@ public class SideBySide2 extends Screen {
         other.scrollToY(other.getScrollInfo().getTop() + otherHeight - myHeight);
         other.setScrollSetAt(System.currentTimeMillis());
       }
+    } else {
+      other.scrollToY(cm.getScrollInfo().getTop());
     }
   }
 

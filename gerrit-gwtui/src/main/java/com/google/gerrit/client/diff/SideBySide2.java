@@ -47,6 +47,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.dom.client.Style.Visibility;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.logical.shared.ResizeEvent;
@@ -301,16 +302,18 @@ public class SideBySide2 extends Screen {
             removeActiveLineHighlight(otherCm(cm));
           }
         })
-        .on("Alt-[", new Runnable() {
+        .on("[", new Runnable() {
           @Override
           public void run() {
-            header.prev.go();
+            (header.prev.getElement().getStyle().getVisibility()
+                .equals(Visibility.HIDDEN.getCssName()) ? header.up : header.prev).go();
           }
         })
-        .on("Alt-]", new Runnable() {
+        .on("]", new Runnable() {
           @Override
           public void run() {
-            header.next.go();
+            (header.next.getElement().getStyle().getVisibility()
+                .equals(Visibility.HIDDEN.getCssName()) ? header.up : header.next).go();
           }
         })
         .on("Shift-Alt-/", new Runnable() {

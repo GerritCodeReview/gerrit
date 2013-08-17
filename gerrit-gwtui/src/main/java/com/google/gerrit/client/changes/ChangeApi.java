@@ -102,6 +102,13 @@ public class ChangeApi {
     call(id, commit, "cherrypick").post(cherryPickInput, cb);
   }
 
+  /** Edit commit message for specific revision of a change. */
+  public static void edit(int id, String commit, String message, AsyncCallback<JavaScriptObject> cb) {
+    ChangeCommitMessageInput input = ChangeCommitMessageInput.create();
+    input.setMessage(message);
+    call(id, commit, "edit_commit_message").post(input, cb);
+  }
+
   /** Submit a specific revision of a change. */
   public static void submit(int id, String commit, AsyncCallback<SubmitInfo> cb) {
     SubmitInput in = SubmitInput.create();
@@ -126,6 +133,16 @@ public class ChangeApi {
     protected Input() {
     }
   }
+
+  private static class ChangeCommitMessageInput extends JavaScriptObject {
+    static ChangeCommitMessageInput create() {
+      return (ChangeCommitMessageInput) createObject();
+    }
+    final native void setMessage(String m) /*-{ this.message = m; }-*/;
+
+    protected ChangeCommitMessageInput() {
+    }
+  };
 
   private static class CherryPickInput extends JavaScriptObject {
     static CherryPickInput create() {

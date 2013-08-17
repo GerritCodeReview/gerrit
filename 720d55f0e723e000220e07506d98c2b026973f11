@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0d0f7025_3758f82f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-08-17T19:18:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d0a7414_58639deb",
+      "revId": "720d55f0e723e000220e07506d98c2b026973f11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d0a7414_3858e92f",
         "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Loader.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-08-17T18:37:08Z",
       "side": 1,
       "message": "We don\u0027t need to add [ or ] to this list?",
+      "revId": "720d55f0e723e000220e07506d98c2b026973f11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d0a7414_185d2520",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Loader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-08-17T19:18:09Z",
+      "side": 1,
+      "message": "Not if our keymap contains \"[\" and \"]\". Keymaps added later have higher precedence and will not fall through.",
+      "parentUuid": "2d0a7414_3858e92f",
       "revId": "720d55f0e723e000220e07506d98c2b026973f11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

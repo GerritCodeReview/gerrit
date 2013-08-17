@@ -19,6 +19,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
+import com.google.gerrit.client.changes.ChangeInfo.ActionInfo;
 import com.google.gerrit.client.changes.ChangeInfo.ApprovalInfo;
 import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
 import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
@@ -148,8 +149,10 @@ public class ChangeScreen2 extends Screen {
   @UiField Button reply;
   @UiField Button expandAll;
   @UiField Button collapseAll;
+  @UiField Button editMessage;
   @UiField QuickApprove quickApprove;
   private ReplyAction replyAction;
+  private EditMessageAction editMessageAction;
 
   public ChangeScreen2(Change.Id changeId, String revision, boolean openReplyBox) {
     this.changeId = changeId;
@@ -241,6 +244,26 @@ public class ChangeScreen2 extends Screen {
     }
   }
 
+  private void initEditMessageAction() {
+    NativeMap<ActionInfo> actions = changeInfo.revision(revision).actions();
+    if (actions != null && actions.containsKey("message")) {
+      editMessage.setVisible(true);
+      editMessageAction = new EditMessageAction(
+          changeInfo.legacy_id(),
+          revision,
+          changeInfo.revision(revision).commit().message(),
+          style,
+          editMessage,
+          reply);
+      keysAction.add(new KeyCommand(0, 'e', Util.C.keyEditMessage()) {
+        @Override
+        public void onKeyPress(KeyPressEvent event) {
+          editMessageAction.onEdit();
+        }
+      });
+    }
+  }
+
   @Override
   public void registerKeys() {
     super.registerKeys();
@@ -323,6 +346,11 @@ public class ChangeScreen2 extends Screen {
     } else {
       Gerrit.doSignIn(getToken());
     }
+  }
+
+  @UiHandler("editMessage")
+  void onEditMessage(ClickEvent e) {
+    editMessageAction.onEdit();
   }
 
   @UiHandler("expandAll")
@@ -566,6 +594,7 @@ public class ChangeScreen2 extends Screen {
     quickApprove.set(info, revision);
 
     if (Gerrit.isSignedIn()) {
+      initEditMessageAction();
       replyAction = new ReplyAction(info, revision, style, reply);
       if (topic.canEdit()) {
         keysAction.add(new KeyCommand(0, 't', Util.C.keyEditTopic()) {

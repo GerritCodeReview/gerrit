@@ -33,5 +33,6 @@ public interface Resources extends ClientBundle {
     String button();
     String popup();
     String popupContent();
+    String section();
   }
 }

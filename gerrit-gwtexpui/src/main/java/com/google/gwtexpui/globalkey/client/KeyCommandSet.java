@@ -121,7 +121,10 @@ public class KeyCommandSet implements KeyPressHandler {
   }
 
   static int toMask(final KeyPressEvent event) {
-    int mask = event.getCharCode();
+    int mask = event.getUnicodeCharCode();
+    if (mask == 0) {
+      mask = event.getNativeEvent().getKeyCode();
+    }
     if (event.isAltKeyDown()) {
       mask |= KeyCommand.M_ALT;
     }

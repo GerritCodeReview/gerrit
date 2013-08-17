@@ -16,11 +16,8 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.Version;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;

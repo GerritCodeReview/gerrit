@@ -58,6 +58,7 @@ public interface ChangeConstants extends Constants {
   String keyReload();
   String keyPublishComments();
   String keyEditTopic();
+  String keyEditCommitMessage();
 
   String patchTableColumnName();
   String patchTableColumnComments();

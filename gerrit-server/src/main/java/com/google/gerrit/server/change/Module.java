@@ -20,6 +20,7 @@ import static com.google.gerrit.server.change.DraftResource.DRAFT_KIND;
 import static com.google.gerrit.server.change.FileResource.FILE_KIND;
 import static com.google.gerrit.server.change.ReviewerResource.REVIEWER_KIND;
 import static com.google.gerrit.server.change.RevisionResource.REVISION_KIND;
+import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
@@ -27,6 +28,7 @@ import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.change.Reviewed.DeleteReviewed;
 import com.google.gerrit.server.change.Reviewed.PutReviewed;
 import com.google.gerrit.server.config.FactoryModule;
+import com.google.gerrit.server.project.ChangeControl;
 
 public class Module extends RestApiModule {
   @Override
@@ -69,6 +71,7 @@ public class Module extends RestApiModule {
     post(REVISION_KIND, "review").to(PostReview.class);
     post(REVISION_KIND, "submit").to(Submit.class);
     post(REVISION_KIND, "rebase").to(Rebase.class);
+    post(REVISION_KIND, "edit_commit_message").to(EditCommitMessage.class);
     get(REVISION_KIND, "patch").to(GetPatch.class);
     get(REVISION_KIND, "submit_type").to(TestSubmitType.Get.class);
     post(REVISION_KIND, "test.submit_rule").to(TestSubmitRule.class);

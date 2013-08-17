@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d0a7414_58639deb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-17T18:37:08Z",
+      "side": 1,
+      "message": "It would be cleaner to hide this as a method inside header, or use booleans in header to track the state.",
+      "revId": "720d55f0e723e000220e07506d98c2b026973f11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d0a7414_3858e92f",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Loader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-17T18:37:08Z",
+      "side": 1,
+      "message": "We don\u0027t need to add [ or ] to this list?",
+      "revId": "720d55f0e723e000220e07506d98c2b026973f11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

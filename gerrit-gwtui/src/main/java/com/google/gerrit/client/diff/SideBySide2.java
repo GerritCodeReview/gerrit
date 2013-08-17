@@ -905,11 +905,10 @@ public class SideBySide2 extends Screen {
   }
 
   private Runnable doScroll(final CodeMirror cm) {
-    final CodeMirror other = otherCm(cm);
     return new Runnable() {
       public void run() {
-        // Hack to prevent feedback loop, Chrome seems fine but Firefox chokes.
-        if (cm.getScrollSetAt() + 50 > System.currentTimeMillis()) {
+        // Hack to prevent feedback loop.
+        if (cm.getScrollSetAt() + 5 > System.currentTimeMillis()) {
           return;
         }
 
@@ -917,12 +916,10 @@ public class SideBySide2 extends Screen {
         if (si.getTop() == 0 && !Gerrit.isHeaderVisible()) {
           Gerrit.setHeaderVisible(true);
           diffTable.updateFileCommentVisibility(false);
-          resizeCodeMirror();
         } else if (si.getTop() > 0.5 * si.getClientHeight()
             && Gerrit.isHeaderVisible()) {
           Gerrit.setHeaderVisible(false);
           diffTable.updateFileCommentVisibility(true);
-          resizeCodeMirror();
         }
 
         /**
@@ -932,9 +929,10 @@ public class SideBySide2 extends Screen {
          * doesn't guarantee alignment, but should work in most cases. See the
          * hack in fixScroll();
          */
-        other.scrollToY(si.getTop());
-        other.setScrollSetAt(System.currentTimeMillis());
-        (cm == cmA ? scrollTimerA : scrollTimerB).schedule(50);
+        fixScroll(cm);
+        scrollTimerA.cancel();
+        scrollTimerB.cancel();
+        (cm == cmA ? scrollTimerA : scrollTimerB).schedule(10);
       }
     };
   }
@@ -958,6 +956,8 @@ public class SideBySide2 extends Screen {
         other.scrollToY(other.getScrollInfo().getTop() + otherHeight - myHeight);
         other.setScrollSetAt(System.currentTimeMillis());
       }
+    } else {
+      other.scrollToY(cm.getScrollInfo().getTop());
     }
   }
 
@@ -980,25 +980,45 @@ public class SideBySide2 extends Screen {
     final CodeMirror other = otherCm(cm);
     return new Runnable() {
       public void run() {
-        removeActiveLineHighlight(cm);
-        removeActiveLineHighlight(other);
-        LineHandle handle = cm.getLineHandleVisualStart(cm.getCursor("end").getLine());
-        cm.setActiveLine(handle);
-        if (cm.somethingSelected()) {
-          return;
-        }
-        cm.addLineClass(handle, LineClassWhere.WRAP, DiffTable.style.activeLine());
-        cm.addLineClass(handle, LineClassWhere.BACKGROUND, DiffTable.style.activeLineBg());
-        LineOnOtherInfo info =
-            mapper.lineOnOther(getSideFromCm(cm), cm.getLineNumber(handle));
-        if (info.isAligned()) {
-          LineHandle oLineHandle = other.getLineHandle(info.getLine());
-          other.setActiveLine(oLineHandle);
-          other.addLineClass(oLineHandle, LineClassWhere.WRAP,
-              DiffTable.style.activeLine());
-          other.addLineClass(oLineHandle, LineClassWhere.BACKGROUND,
-              DiffTable.style.activeLineBg());
-        }
+        /**
+         * The rendering of active lines has to be deferred. Reflow
+         * caused by adding and removing styles chokes Firefox when arrow
+         * key (or j/k) is held down. Performance on Chrome is fine
+         * without the deferral.
+         */
+        Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+          @Override
+          public void execute() {
+            LineHandle handle = cm.getLineHandleVisualStart(
+                cm.getCursor("end").getLine());
+            if (cm.hasActiveLine() && cm.getActiveLine().equals(handle) &&
+                !cm.somethingSelected()) {
+              return;
+            }
+
+            removeActiveLineHighlight(cm);
+            removeActiveLineHighlight(other);
+            cm.setActiveLine(handle);
+            if (cm.somethingSelected()) {
+              return;
+            }
+
+            cm.addLineClass(
+                handle, LineClassWhere.WRAP, DiffTable.style.activeLine());
+            cm.addLineClass(
+                handle, LineClassWhere.BACKGROUND, DiffTable.style.activeLineBg());
+            LineOnOtherInfo info =
+                mapper.lineOnOther(getSideFromCm(cm), cm.getLineNumber(handle));
+            if (info.isAligned()) {
+              LineHandle oLineHandle = other.getLineHandle(info.getLine());
+              other.setActiveLine(oLineHandle);
+              other.addLineClass(oLineHandle, LineClassWhere.WRAP,
+                  DiffTable.style.activeLine());
+              other.addLineClass(oLineHandle, LineClassWhere.BACKGROUND,
+                  DiffTable.style.activeLineBg());
+            }
+          }
+        });
       }
     };
   }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d0a7414_983135fd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Header.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-17T18:03:40Z",
+      "side": 1,
+      "message": "Use visibility because it keeps the object occupying space in the page. This means the left and up arrows are in the same position when the right arrow is hidden.",
+      "revId": "403f8d64973565f8fe0aeb10e3cf7234cc2f1239",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

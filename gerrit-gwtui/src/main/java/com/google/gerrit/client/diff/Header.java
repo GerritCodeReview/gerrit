@@ -31,7 +31,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.Visibility;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -152,7 +151,7 @@ class Header extends Composite {
         }
       });
     } else {
-      link.getElement().getStyle().setVisibility(Visibility.HIDDEN);
+      link.setVisible(false);
       keys.add(new UpToChangeCommand2(patchSetId, 0, key));
     }
   }

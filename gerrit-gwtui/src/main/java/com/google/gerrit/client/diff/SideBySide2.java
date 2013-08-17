@@ -301,16 +301,16 @@ public class SideBySide2 extends Screen {
             removeActiveLineHighlight(otherCm(cm));
           }
         })
-        .on("Alt-[", new Runnable() {
+        .on("[", new Runnable() {
           @Override
           public void run() {
-            header.prev.go();
+            (header.prev.isVisible() ? header.prev : header.up).go();
           }
         })
-        .on("Alt-]", new Runnable() {
+        .on("]", new Runnable() {
           @Override
           public void run() {
-            header.next.go();
+            (header.next.isVisible() ? header.next : header.up).go();
           }
         })
         .on("Shift-Alt-/", new Runnable() {

@@ -49,3 +49,8 @@
   height: 10px;
   line-height: 10px;
 }
+
+.section {
+  padding: 5px 5px;
+  border-bottom: 1px solid #b8b8b8;
+}

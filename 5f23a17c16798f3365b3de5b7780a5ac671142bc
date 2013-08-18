@@ -1,0 +1,163 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d0a7414_18b9a50f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-18T19:52:06Z",
+      "side": 1,
+      "message": "Gerrit says there are merge conflicts on this file. You probably are based on an older version and need to rebase your change.",
+      "revId": "5f23a17c16798f3365b3de5b7780a5ac671142bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d0a7414_98cdb5a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-18T19:52:06Z",
+      "side": 1,
+      "message": "Unnecessary. Use args.db to get the database handle.",
+      "revId": "5f23a17c16798f3365b3de5b7780a5ac671142bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d0f7025_86baf405",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-18T19:52:06Z",
+      "side": 1,
+      "message": "I would prefer you to declare this new method below getInlineComments(int). You are splitting up an overloaded pair of methods which makes the code harder to follow.",
+      "revId": "5f23a17c16798f3365b3de5b7780a5ac671142bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d0f7025_a6cdf8a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-18T19:52:06Z",
+      "side": 1,
+      "message": "This can return null. In such cases we don\u0027t include the hyperlink in the email. Here you should probably return null instead of making a string \"null/#/c/...\".",
+      "revId": "5f23a17c16798f3365b3de5b7780a5ac671142bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d0a7414_78bae108",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-18T19:52:06Z",
+      "side": 1,
+      "message": "The COMMIT_MSG file can also be hyperlinked to.",
+      "revId": "5f23a17c16798f3365b3de5b7780a5ac671142bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d0a7414_58bf1df7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-18T19:52:06Z",
+      "side": 1,
+      "message": "\u0027\\n\u0027",
+      "revId": "5f23a17c16798f3365b3de5b7780a5ac671142bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d0f7025_66bfe0f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-18T19:52:06Z",
+      "side": 1,
+      "message": "don\u0027t initialize here, set to null in the catch",
+      "revId": "5f23a17c16798f3365b3de5b7780a5ac671142bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d0a7414_38b46917",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-18T19:52:06Z",
+      "side": 1,
+      "message": "Don\u0027t pass the argument, just say args.db.get().patchComments().",
+      "range": {
+        "startLine": 225,
+        "startChar": 22,
+        "endLine": 225,
+        "endChar": 35
+      },
+      "revId": "5f23a17c16798f3365b3de5b7780a5ac671142bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d0f7025_46b4dc17",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-18T19:52:06Z",
+      "side": 1,
+      "message": "parentComment \u003d null is sufficient here. I don\u0027t think you need the comment.",
+      "revId": "5f23a17c16798f3365b3de5b7780a5ac671142bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

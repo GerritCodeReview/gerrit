@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8d9d2028_9b026b1d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T21:05:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d0a7414_186765e7",
+      "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d0f7025_86d3144e",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2013-08-18T17:48:16Z",
       "side": 1,
       "message": "Don\u0027t early return like this when an else would have been sufficient. I think you can say:\n\n  RevisionInfo rev \u003d changeInfo.revision(revision);\n  NativeMap\u003cActionInfo\u003e actions \u003d revisionInfo.actions();\n  if (actions !\u003d null \u0026\u0026 Gerrit.isSignedIn() \u0026\u0026 actions.contains(\"message\")) {\n    ...\n    editMessage.setVisible(true);\n  } else {\n    editMessage.setVisible(false);\n  }",
+      "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d48c079_2341ea45",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T21:05:39Z",
+      "side": 1,
+      "message": "Actually this method is called in the block below:\n\n if (Gerrit.isSignedIn()) {\n    initEditMessageAction();\n    [...]\n\nso that Gerrit.isSignedIn() is not needed here\n\nDone",
+      "parentUuid": "0d0f7025_86d3144e",
       "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "cd4e3882_eecf3348",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T21:05:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d8888e2_21ef6e39",
+      "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d0a7414_386229d7",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
         "patchSetId": 4
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "cd4e3882_cecc7756",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T21:05:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d0a7414_386229d7",
+      "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d0a7414_586dddc6",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
         "patchSetId": 4
@@ -81,6 +153,24 @@
       "writtenOn": "2013-08-18T17:48:16Z",
       "side": 1,
       "message": "Do this inside of the block above where replyAction is initialized.",
+      "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd4e3882_aec93b44",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T21:05:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d0a7414_586dddc6",
       "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -110,6 +200,24 @@
     },
     {
       "key": {
+        "uuid": "8d48c079_0346ee5d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T21:05:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d8888e2_81eafa26",
+      "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d0a7414_7868a1b8",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditCommitMessageAction.java",
         "patchSetId": 4
@@ -133,6 +241,24 @@
     },
     {
       "key": {
+        "uuid": "cd4e3882_8ec67f30",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditCommitMessageAction.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T21:05:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d0a7414_7868a1b8",
+      "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d9d2028_5be5c356",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditCommitMessageAction.java",
         "patchSetId": 4
@@ -144,6 +270,24 @@
       "writtenOn": "2013-08-18T17:48:16Z",
       "side": 1,
       "message": "Instead of holding onto the changeInfo just store the message. Maybe have the caller pass you Change.Id, revision, and message. That\u0027s all you need below.",
+      "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d48c079_e32ab28c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditCommitMessageAction.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T21:05:39Z",
+      "side": 1,
+      "message": "Additionally pass reply button to show the textarea relative to\n\nDone",
+      "parentUuid": "8d9d2028_5be5c356",
       "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -167,6 +311,24 @@
     },
     {
       "key": {
+        "uuid": "cd4e3882_6ee7c3d1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditCommitMessageAction.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T21:05:39Z",
+      "side": 1,
+      "message": "Actually i noticed it too and i wanted to pass here reply button from the ChangeScreen2 and pass it in showRelativeTo() ... and forgot to do that.\n\nDone",
+      "parentUuid": "2d0a7414_d878cd83",
+      "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d0f7025_46ddfc57",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditCommitMessageBox.java",
         "patchSetId": 4
@@ -178,6 +340,24 @@
       "writtenOn": "2013-08-18T17:48:16Z",
       "side": 1,
       "message": "final",
+      "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd4e3882_4eec07b4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditCommitMessageBox.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T21:05:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d0f7025_46ddfc57",
       "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -201,6 +381,24 @@
     },
     {
       "key": {
+        "uuid": "8d48c079_c327b6c2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditCommitMessageBox.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T21:05:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d9d2028_dbf8f3fc",
+      "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d0a7414_b875198a",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditCommitMessageBox.java",
         "patchSetId": 4
@@ -212,6 +410,24 @@
       "writtenOn": "2013-08-18T17:48:16Z",
       "side": 1,
       "message": "Do this outside of the scheduleDeferred.",
+      "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d48c079_a334baec",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditCommitMessageBox.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T21:05:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d0a7414_b875198a",
       "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -235,6 +451,24 @@
     },
     {
       "key": {
+        "uuid": "cd4e3882_eea85376",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditCommitMessageBox.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T21:05:39Z",
+      "side": 1,
+      "message": "Well it was also my expectation, but it was at the end of the buffer and it as ugly.",
+      "parentUuid": "8d48c079_23068a2f",
+      "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d0f7025_26e2081e",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditCommitMessageBox.java",
         "patchSetId": 4
@@ -246,6 +480,24 @@
       "writtenOn": "2013-08-18T17:48:16Z",
       "side": 1,
       "message": "Do this outside of the scheduleDeferred.",
+      "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d48c079_8331befc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditCommitMessageBox.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T21:05:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d0f7025_26e2081e",
       "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -269,6 +521,24 @@
     },
     {
       "key": {
+        "uuid": "8d48c079_635ec221",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditCommitMessageBox.ui.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T21:05:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d0a7414_f87b917d",
+      "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d0a7414_78d3014f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditCommitMessageBox.ui.xml",
         "patchSetId": 4
@@ -286,6 +556,24 @@
     },
     {
       "key": {
+        "uuid": "cd4e3882_2ef1cb87",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditCommitMessageBox.ui.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T21:05:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d0a7414_78d3014f",
+      "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d0a7414_9872559e",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditCommitMessageBox.ui.xml",
         "patchSetId": 4
@@ -297,6 +585,24 @@
       "writtenOn": "2013-08-18T17:48:16Z",
       "side": 1,
       "message": "This needs a monospace font applied to it.",
+      "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd4e3882_eeda93fe",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditCommitMessageBox.ui.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T21:05:39Z",
+      "side": 1,
+      "message": "... and white background.\n\nDone",
+      "parentUuid": "2d0a7414_9872559e",
       "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -326,6 +632,24 @@
     },
     {
       "key": {
+        "uuid": "8d48c079_4363c6eb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditCommitMessageBox.ui.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T21:05:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d9d2028_7beaff29",
+      "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d9d2028_1bef3b39",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditCommitMessageBox.ui.xml",
         "patchSetId": 4
@@ -349,6 +673,24 @@
     },
     {
       "key": {
+        "uuid": "cd4e3882_0ef60f80",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditCommitMessageBox.ui.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T21:05:39Z",
+      "side": 1,
+      "message": "I borrowed the name \"Submit\" from the old change screen.\n\nDone",
+      "parentUuid": "8d9d2028_1bef3b39",
+      "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d0a7414_b89e39a8",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
         "patchSetId": 4
@@ -360,6 +702,24 @@
       "writtenOn": "2013-08-18T17:48:16Z",
       "side": 1,
       "message": "This should be line wrapped. Its overly long.",
+      "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d48c079_2358ca2f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T21:05:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d0a7414_b89e39a8",
       "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -383,6 +743,24 @@
     },
     {
       "key": {
+        "uuid": "cd4e3882_ced7d7d4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T21:05:39Z",
+      "side": 1,
+      "message": "I thought about it, but was afraid, that you would say, this is an ugly hack ;-)",
+      "parentUuid": "2d0a7414_989b75b8",
+      "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d0a7414_5886fd68",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EditCommitMessage.java",
         "patchSetId": 4
@@ -394,6 +772,24 @@
       "writtenOn": "2013-08-18T17:48:16Z",
       "side": 1,
       "message": "Add @DefaultInput to this field so it can accept plain text POST too.",
+      "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd4e3882_aee49bc6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EditCommitMessage.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T21:05:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d0a7414_5886fd68",
       "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -423,6 +819,24 @@
     },
     {
       "key": {
+        "uuid": "cd4e3882_8ee1dfb6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EditCommitMessage.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T21:05:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d0f7025_067ca475",
+      "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d0a7414_388b4971",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EditCommitMessage.java",
         "patchSetId": 4
@@ -440,6 +854,24 @@
     },
     {
       "key": {
+        "uuid": "cd4e3882_6e0ea3bb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EditCommitMessage.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T21:05:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d0a7414_388b4971",
+      "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d0a7414_18908595",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EditCommitMessage.java",
         "patchSetId": 4
@@ -451,6 +883,24 @@
       "writtenOn": "2013-08-18T17:48:16Z",
       "side": 1,
       "message": "nit: declare this immediately before the try block since it is initialized by the try block.",
+      "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d48c079_035dce1f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EditCommitMessage.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T21:05:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d0a7414_18908595",
       "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -480,6 +930,24 @@
     },
     {
       "key": {
+        "uuid": "cd4e3882_0e0defb9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EditCommitMessage.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T21:05:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d0f7025_c6758c89",
+      "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d0f7025_a672989d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EditCommitMessage.java",
         "patchSetId": 4
@@ -497,6 +965,24 @@
         "endLine": 89,
         "endChar": 36
       },
+      "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd4e3882_4e13e7dd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EditCommitMessage.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T21:05:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d0f7025_a672989d",
       "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -526,6 +1012,24 @@
     },
     {
       "key": {
+        "uuid": "8d48c079_e351920a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EditCommitMessage.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T21:05:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d0f7025_e6789083",
+      "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d0a7414_f894b18b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EditCommitMessage.java",
         "patchSetId": 4
@@ -537,6 +1041,24 @@
       "writtenOn": "2013-08-18T17:48:16Z",
       "side": 1,
       "message": "nit: line break on , not on . especially when passing a truckload of arguments to a static utility method like ChangeUtil.",
+      "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd4e3882_2e08aba9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EditCommitMessage.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T21:05:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d0a7414_f894b18b",
       "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -566,6 +1088,24 @@
     },
     {
       "key": {
+        "uuid": "8d48c079_c34e966c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EditCommitMessage.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T21:05:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d0a7414_d891ed99",
+      "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d0a7414_9848155f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
         "patchSetId": 4
@@ -577,6 +1117,24 @@
       "writtenOn": "2013-08-18T17:48:16Z",
       "side": 1,
       "message": "Unused",
+      "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd4e3882_ee017384",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T21:05:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d0a7414_9848155f",
       "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -600,6 +1158,24 @@
     },
     {
       "key": {
+        "uuid": "cd4e3882_cefeb74e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T21:05:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d0a7414_7881c14e",
+      "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d0f7025_2667a8e7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
         "patchSetId": 4
@@ -611,6 +1187,24 @@
       "writtenOn": "2013-08-18T17:48:16Z",
       "side": 1,
       "message": "This is an awkward place to put edit commit message. To be honest one reason I haven\u0027t done this yet is because I don\u0027t know exactly what it should look like in a \"REST like\" API world.\n\nDoing \"PUT /changes/{id}/revisions/{commit}/message\" almost makes sense, but the message you put here doesn\u0027t go on this revision. No it makes a new revision with the message. Which is not the way a REST like API would behave.\n\nOn the other hand this is how both cherrypick and rebase works so I guess I lost the right to complain about this confusion.\n\nedit_commit_message is too verbose. I would prefer one of:\n\n* message\n* commit_message",
+      "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d48c079_a34b9a5a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T21:05:39Z",
+      "side": 1,
+      "message": "pick the short one\n\nDone",
+      "parentUuid": "0d0f7025_2667a8e7",
       "revId": "a23e5a7b1ec1d1f3fc5f95433545cdfbb3fc141b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

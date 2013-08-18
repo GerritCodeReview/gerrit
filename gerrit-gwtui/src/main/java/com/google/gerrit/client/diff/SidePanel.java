@@ -17,7 +17,6 @@ package com.google.gerrit.client.diff;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -68,7 +67,6 @@ class SidePanel extends Composite {
     Label gutter = new Label();
     GutterWrapper info = new GutterWrapper(this, gutter, cm, line, type);
     adjustGutter(info);
-    Element ele = gutter.getElement();
     gutter.addStyleName(style.gutter());
     switch (type) {
       case COMMENT:
@@ -90,7 +88,6 @@ class SidePanel extends Composite {
         labelLeft.addStyleName(style.halfGutter());
         gutter.getElement().appendChild(labelLeft.getElement());
     }
-    getElement().appendChild(ele);
     ((HTMLPanel) getWidget()).add(gutter);
     gutters.add(info);
     return info;
@@ -128,7 +125,7 @@ class SidePanel extends Composite {
       @Override
       public void onClick(ClickEvent event) {
         cm.setCursor(LineCharacter.create(line));
-        cm.scrollToY(Math.max(0, height - scrollbarHeight / 2));
+        cm.scrollToY(Math.max(0, 0.5 * height - scrollbarHeight));
         cm.focus();
       }
     });

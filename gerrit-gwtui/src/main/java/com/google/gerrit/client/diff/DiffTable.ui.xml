@@ -91,7 +91,7 @@ limitations under the License.
     .cm-trailingspace {
       background-color: red !important;
     }
-    .CodeMirror-selectedtext {
+    .difftable .CodeMirror-selectedtext {
       background-color: inherit !important;
     }
     .difftable .CodeMirror-linenumber {

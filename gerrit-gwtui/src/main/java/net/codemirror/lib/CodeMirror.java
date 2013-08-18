@@ -220,7 +220,7 @@ public class CodeMirror extends JavaScriptObject {
   }-*/;
 
   public final native boolean hasActiveLine() /*-{
-    return this.state.hasOwnProperty('activeLine');
+    return !!this.state.activeLine;
   }-*/;
 
   public final native LineHandle getActiveLine() /*-{

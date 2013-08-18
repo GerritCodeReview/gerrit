@@ -18,6 +18,7 @@ import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GitwebLink;
+import com.google.gerrit.client.download.ChangeDownloadPanel;
 import com.google.gerrit.client.download.DownloadPanel;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -210,48 +211,13 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
     }
   }
 
-  public class ChangeDownloadPanel extends DownloadPanel {
-    public ChangeDownloadPanel(String project, String ref, boolean allowAnonymous) {
-      super(project, ref, allowAnonymous);
-    }
-
-    @Override
-    public void populateDownloadCommandLinks() {
-      // This site prefers usage of the 'repo' tool, so suggest
-      // that for easy fetch.
-      //
-      if (allowedSchemes.contains(DownloadScheme.REPO_DOWNLOAD)) {
-        commands.add(cmdLinkfactory.new RepoCommandLink(projectName,
-            changeDetail.getChange().getChangeId() + "/"
-            + patchSet.getPatchSetId()));
-      }
-
-      if (!urls.isEmpty()) {
-        if (allowedCommands.contains(DownloadCommand.CHECKOUT)
-            || allowedCommands.contains(DownloadCommand.DEFAULT_DOWNLOADS)) {
-          commands.add(cmdLinkfactory.new CheckoutCommandLink());
-        }
-        if (allowedCommands.contains(DownloadCommand.PULL)
-            || allowedCommands.contains(DownloadCommand.DEFAULT_DOWNLOADS)) {
-          commands.add(cmdLinkfactory.new PullCommandLink());
-        }
-        if (allowedCommands.contains(DownloadCommand.CHERRY_PICK)
-            || allowedCommands.contains(DownloadCommand.DEFAULT_DOWNLOADS)) {
-          commands.add(cmdLinkfactory.new CherryPickCommandLink());
-        }
-        if (allowedCommands.contains(DownloadCommand.FORMAT_PATCH)
-            || allowedCommands.contains(DownloadCommand.DEFAULT_DOWNLOADS)) {
-          commands.add(cmdLinkfactory.new FormatPatchCommandLink());
-        }
-      }
-    }
-  }
-
   private void displayDownload() {
     ChangeDownloadPanel dp = new ChangeDownloadPanel(
       changeDetail.getChange().getProject().get(),
       patchSet.getRefName(),
-      changeDetail.isAllowsAnonymous());
+      changeDetail.isAllowsAnonymous(),
+      changeDetail.getChange().getChangeId(),
+      patchSet.getPatchSetId());
 
     infoTable.setWidget(R_DOWNLOAD, 1, dp);
   }

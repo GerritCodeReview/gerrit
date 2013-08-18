@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0d0f7025_06f384cf",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-18T23:24:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d0f7025_263c48a7",
+      "revId": "a66c9a979bae8bfd54de89386f58ae34c400d1df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d0f7025_06414413",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2013-08-18T21:26:08Z",
       "side": 1,
       "message": "This is visible if the user is not signed in. One way to fix that is to just make the button invisible in the ui.xml, and then the else clause isn\u0027t even necessary.",
+      "revId": "a66c9a979bae8bfd54de89386f58ae34c400d1df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d0f7025_e6ef70e3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-18T23:24:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d0f7025_06414413",
       "revId": "a66c9a979bae8bfd54de89386f58ae34c400d1df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "0d0f7025_c6fc6c9f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-18T23:24:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d0a7414_782d4178",
+      "revId": "a66c9a979bae8bfd54de89386f58ae34c400d1df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d0f7025_c64a2c2f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditMessageAction.java",
         "patchSetId": 6
@@ -64,6 +118,24 @@
       "writtenOn": "2013-08-18T21:26:08Z",
       "side": 1,
       "message": "nit: blank line after block",
+      "revId": "a66c9a979bae8bfd54de89386f58ae34c400d1df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d0a7414_b86199af",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditMessageAction.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-18T23:24:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d0f7025_c64a2c2f",
       "revId": "a66c9a979bae8bfd54de89386f58ae34c400d1df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "0d0f7025_a6f978ad",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditMessageAction.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-18T23:24:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d0f7025_e63d30a3",
+      "revId": "a66c9a979bae8bfd54de89386f58ae34c400d1df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d0a7414_58327dd6",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditMessageBox.java",
         "patchSetId": 6
@@ -98,6 +188,24 @@
       "writtenOn": "2013-08-18T21:26:08Z",
       "side": 1,
       "message": "nit: static then final is the order we prefer\n\n  $ git grep \u0027final static\u0027 | wc -l\n      19\n  $ git grep \u0027static final\u0027 | wc -l\n    1111\n\nApparently we have 19 places to clean up.",
+      "revId": "a66c9a979bae8bfd54de89386f58ae34c400d1df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d0a7414_985ed5e7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditMessageBox.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-18T23:24:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d0a7414_58327dd6",
       "revId": "a66c9a979bae8bfd54de89386f58ae34c400d1df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -138,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "0d0f7025_86267483",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EditMessage.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-18T23:24:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d0f7025_862d547b",
+      "revId": "a66c9a979bae8bfd54de89386f58ae34c400d1df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d0f7025_663240d7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EditMessage.java",
         "patchSetId": 6
@@ -149,6 +275,24 @@
       "writtenOn": "2013-08-18T21:26:08Z",
       "side": 1,
       "message": "I think we also need to add a condition to test for the resource being the current patch set. Submit does this:\n\n  PatchSet.Id current \u003d resource.getChange().currentPatchSetId();\n  ...\n    .setVisible(resource.getChange().getStatus().isOpen()\n          \u0026\u0026 resource.getPatchSet().getId().equals(current)\n\nSorry I missed this in the prior review.",
+      "revId": "a66c9a979bae8bfd54de89386f58ae34c400d1df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d0a7414_78ff8198",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EditMessage.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-18T23:24:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d0f7025_663240d7",
       "revId": "a66c9a979bae8bfd54de89386f58ae34c400d1df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

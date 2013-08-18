@@ -47,7 +47,11 @@ public class RevisionGlue {
   }
 
   private static final native JavaScriptObject get(String id) /*-{
-    return $wnd.Gerrit.revision_actions[id];
+    try {
+      return $wnd.Gerrit.revision_actions[id];
+    } catch (e) {
+      return null;
+    }
   }-*/;
 
   private RevisionGlue() {

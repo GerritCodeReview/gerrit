@@ -41,7 +41,7 @@ class Loader {
       injectScript(Lib.I.js().getSafeUri(), new GerritCallback<Void>(){
         @Override
         public void onSuccess(Void result) {
-          initDisableUnwantedKeys();
+          initVimKeys();
           cb.onSuccess(null);
         }
       });
@@ -87,11 +87,13 @@ class Loader {
       .cast();
   }
 
-  private static void initDisableUnwantedKeys() {
+  private static void initVimKeys() {
     // TODO: Better custom keybindings, remove temporary navigation hacks.
+    KeyMap km = CodeMirror.cloneKeyMap("vim");
     for (String s : new String[] {"A", "C", "J", "K", "O", "R", "U", "Ctrl-C"}) {
-      CodeMirror.disableUnwantedKey("vim", s);
+      km.remove(s);
     }
+    CodeMirror.addKeyMap("vim_ro", km);
   }
 
   private static void error(Exception e) {

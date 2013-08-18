@@ -466,7 +466,7 @@ public class SideBySide2 extends Screen {
       .set("lineWrapping", true)
       .set("styleSelectedText", true)
       .set("showTrailingSpace", true)
-      .set("keyMap", "vim")
+      .set("keyMap", "vim_ro")
       .set("value", contents)
       /**
        * Without this, CM won't put line widgets too far down in the right spot,

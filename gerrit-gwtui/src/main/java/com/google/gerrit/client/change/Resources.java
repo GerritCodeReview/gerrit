@@ -22,6 +22,7 @@ import com.google.gwt.resources.client.ImageResource;
 public interface Resources extends ClientBundle {
   public static final Resources I = GWT.create(Resources.class);
   static final Constants C = GWT.create(Constants.class);
+  static final Messages M = GWT.create(Messages.class);
 
   @Source("star_open.png") ImageResource star_open();
   @Source("star_filled.png") ImageResource star_filled();

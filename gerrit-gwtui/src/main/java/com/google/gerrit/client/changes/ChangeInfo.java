@@ -211,6 +211,9 @@ public class ChangeInfo extends JavaScriptObject {
     public final native boolean has_actions() /*-{ return this.hasOwnProperty('actions') }-*/;
     public final native NativeMap<ActionInfo> actions() /*-{ return this.actions; }-*/;
 
+    public final native boolean has_fetch() /*-{ return this.hasOwnProperty('fetch') }-*/;
+    public final native NativeMap<FetchInfo> fetch() /*-{ return this.fetch; }-*/;
+
     public static void sortRevisionInfoByNumber(JsArray<RevisionInfo> list) {
       Collections.sort(Natives.asList(list), new Comparator<RevisionInfo>() {
         @Override
@@ -221,6 +224,14 @@ public class ChangeInfo extends JavaScriptObject {
     }
 
     protected RevisionInfo () {
+    }
+  }
+
+  public static class FetchInfo extends JavaScriptObject {
+    public final native String url() /*-{ return this.url }-*/;
+    public final native String ref() /*-{ return this.ref }-*/;
+
+    protected FetchInfo () {
     }
   }
 

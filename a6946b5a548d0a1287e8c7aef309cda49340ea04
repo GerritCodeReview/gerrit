@@ -34,6 +34,24 @@
       "revId": "a6946b5a548d0a1287e8c7aef309cda49340ea04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd4e3882_8eaf9f7a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T19:26:47Z",
+      "side": 1,
+      "message": "You got me wrong, I meant not the try/catch part, but \n\n Window.alert(str.asString());\n\npart, will upload a new version of the change.",
+      "parentUuid": "8d9d2028_fbf5af01",
+      "revId": "a6946b5a548d0a1287e8c7aef309cda49340ea04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -27,6 +27,8 @@ public interface Resources extends ClientBundle {
   @Source("star_filled.png") ImageResource star_filled();
   @Source("reload_black.png") ImageResource reload_black();
   @Source("reload_white.png") ImageResource reload_white();
+  // shamelessly stolen from downloadIcon.png
+  @Source("download_icon.png") ImageResource download_icon();
   @Source("common.css") Style style();
 
   public interface Style extends CssResource {

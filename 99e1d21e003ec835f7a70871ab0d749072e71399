@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d0f7025_26256875",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditMessageBox.ui.xml",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-18T23:34:09Z",
+      "side": 1,
+      "message": "Instead of wrapping the textarea in a div, set the styleName.",
+      "revId": "99e1d21e003ec835f7a70871ab0d749072e71399",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

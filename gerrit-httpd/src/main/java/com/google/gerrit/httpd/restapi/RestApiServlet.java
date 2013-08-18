@@ -740,6 +740,10 @@ public class RestApiServlet extends HttpServlet {
     }
     res.setHeader("X-FYI-Content-Encoding", "base64");
     res.setHeader("X-FYI-Content-Type", src.getContentType());
+    if (src.getAttachmentName() != null) {
+      res.setHeader("Content-Disposition",
+          "attachment; filename=\"" + src.getAttachmentName() + "\"");
+    }
     return b64.setContentType("text/plain").setCharacterEncoding("ISO-8859-1");
   }
 

@@ -22,10 +22,13 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.change.PostReview.NotifyHandling;
 import com.google.gerrit.server.patch.PatchFile;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gwtorm.client.KeyUtil;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -122,11 +125,14 @@ public class CommentSender extends ReplyToChangeSender {
         final Patch.Key pk = c.getKey().getParentKey();
 
         if (!pk.equals(currentFileKey)) {
-          cmts.append("....................................................\n");
+          String link = makeLink(pk);
+          if (link != null) {
+            cmts.append(link).append('\n');
+          }
           if (Patch.COMMIT_MSG.equals(pk.get())) {
-            cmts.append("Commit Message\n");
+            cmts.append("Commit Message:\n\n");
           } else {
-            cmts.append("File ").append(pk.get()).append('\n');
+            cmts.append("File ").append(pk.get()).append(":\n\n");
           }
           currentFileKey = pk;
 
@@ -186,6 +192,7 @@ public class CommentSender extends ReplyToChangeSender {
         }
         out.append('\n');
       }
+      appendQuotedParent(out, comment);
       out.append(comment.getMessage().trim()).append('\n');
     } else {
       int lineNbr = comment.getLine();
@@ -202,6 +209,7 @@ public class CommentSender extends ReplyToChangeSender {
       for (int line = startLine; line <= lineNbr; ++line) {
         appendFileLine(out, currentFileData, side, line);
       }
+      appendQuotedParent(out, comment);
       out.append(comment.getMessage().trim()).append('\n');
 
       for (int line = lineNbr + 1; line < stopLine; ++line) {
@@ -220,6 +228,46 @@ public class CommentSender extends ReplyToChangeSender {
       // Don't quote the line if we can't safely convert it.
     }
     cmts.append("\n");
+  }
+
+  private void appendQuotedParent(StringBuilder out, PatchLineComment child) {
+    PatchLineComment parent;
+    try {
+      parent = args.db.get().patchComments().get(
+          new PatchLineComment.Key(
+              child.getKey().getParentKey(),
+              child.getParentUuid()));
+    } catch (OrmException e) {
+      parent = null;
+    }
+    if (parent != null) {
+      String msg = parent.getMessage().trim();
+      if (msg.length() > 75) {
+        msg = msg.substring(0, 75);
+      }
+      int lf = msg.indexOf('\n');
+      if (lf > 0) {
+        msg = msg.substring(0, lf);
+      }
+      out.append("> ").append(msg).append('\n');
+    }
+  }
+
+  // Makes a link back to the given patch set and file.
+  private String makeLink(Patch.Key patch) {
+    String url = getGerritUrl();
+    if (url == null) {
+      return null;
+    }
+
+    PatchSet.Id ps = patch.getParentKey();
+    Change.Id c = ps.getParentKey();
+    return new StringBuilder()
+      .append(url)
+      .append("#/c/").append(c)
+      .append('/').append(ps.get())
+      .append('/').append(KeyUtil.encode(patch.get()))
+      .toString();
   }
 
   private Repository getRepository() {

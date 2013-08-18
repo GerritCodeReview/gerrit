@@ -60,6 +60,8 @@ class Header extends Composite {
   private final KeyCommandSet keys;
   private final PatchSet.Id patchSetId;
   private final String path;
+  private boolean hasPrev;
+  private boolean hasNext;
 
   Header(KeyCommandSet keys, PatchSet.Id patchSetId, String path) {
     initWidget(uiBinder.createAndBindUi(this));
@@ -151,6 +153,11 @@ class Header extends Composite {
           Gerrit.display(url);
         }
       });
+      if (link == prev) {
+        hasPrev = true;
+      } else {
+        hasNext = true;
+      }
     } else {
       link.getElement().getStyle().setVisibility(Visibility.HIDDEN);
       keys.add(new UpToChangeCommand2(patchSetId, 0, key));
@@ -163,5 +170,13 @@ class Header extends Composite {
         : path;
     int s = fileName.lastIndexOf('/');
     return s >= 0 ? fileName.substring(s + 1) : fileName;
+  }
+
+  boolean hasPrev() {
+    return hasPrev;
+  }
+
+  boolean hasNext() {
+    return hasNext;
   }
 }

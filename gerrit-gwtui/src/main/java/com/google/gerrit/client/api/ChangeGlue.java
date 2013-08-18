@@ -40,7 +40,11 @@ public class ChangeGlue {
   }
 
   private static final native JavaScriptObject get(String id) /*-{
-    return $wnd.Gerrit.change_actions[id];
+    try {
+      return $wnd.Gerrit.change_actions[id];
+    } catch (e) {
+      return null;
+    }
   }-*/;
 
   private ChangeGlue() {

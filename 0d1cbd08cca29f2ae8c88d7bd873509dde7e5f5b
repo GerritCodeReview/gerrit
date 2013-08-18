@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "8d48c079_e31f526e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/api/DefaultActions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T18:37:40Z",
+      "side": 1,
+      "message": "TBH, I don\u0027t know why it is working, I see the message. How can I achieve it without instanceof/cast? All i want is that this guy shows alert, like it is the case on old change screen:\n\n https://gerrit-review.googlesource.com/48922",
+      "parentUuid": "0d0f7025_666da0c7",
+      "revId": "0d1cbd08cca29f2ae8c88d7bd873509dde7e5f5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d0a7414_b84bd95a",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/api/DefaultActions.java",
         "patchSetId": 3
@@ -64,6 +82,24 @@
       "writtenOn": "2013-08-18T16:59:37Z",
       "side": 1,
       "message": "Same comment as in ChangeGlue. My understanding is we don\u0027t need the try/catch. If we do we probably have more code subject to this same problem. :-(",
+      "revId": "0d1cbd08cca29f2ae8c88d7bd873509dde7e5f5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd4e3882_2e9f8b4b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/api/RevisionGlue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-18T18:37:40Z",
+      "side": 1,
+      "message": "$wnd.Gerrit seems to be null, and try/catch construct was my hackish way to not need to check for null.\n\n  Caused by: com.google.gwt.core.client.JavaScriptException:\n  (TypeError) @com.google.gerrit.client.api.RevisionGlue::get(Ljava/lang/String;)\n  ([string: \u0027cookbook~say-hello\u0027]): $wnd.Gerrit is undefined\n  at com.google.gwt.dev.shell.BrowserChannelServer.invokeJavascript(BrowserChannelServer.java:249)\n  at com.google.gwt.dev.shell.ModuleSpaceOOPHM.doInvoke(ModuleSpaceOOPHM.java:136)\n  at com.google.gwt.dev.shell.ModuleSpace.invokeNative(ModuleSpace.java:571)\n  at com.google.gwt.dev.shell.ModuleSpace.invokeNativeObject(ModuleSpace.java:279)\n  at com.google.gwt.dev.shell.JavaScriptHost.invokeNativeObject(JavaScriptHost.java:91)\n  at com.google.gerrit.client.api.RevisionGlue.get(RevisionGlue.java)\n  at com.google.gerrit.client.api.RevisionGlue.onAction(RevisionGlue.java:36)",
+      "parentUuid": "2d0a7414_d84e8d6c",
       "revId": "0d1cbd08cca29f2ae8c88d7bd873509dde7e5f5b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

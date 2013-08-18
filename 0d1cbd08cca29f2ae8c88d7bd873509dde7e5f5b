@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d0f7025_8668b4b9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/api/ChangeGlue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-18T16:59:37Z",
+      "side": 1,
+      "message": "This try/catch should not be necessary. If id is not defined in the change_actions object we should get back undefined which comes through as null, right?",
+      "revId": "0d1cbd08cca29f2ae8c88d7bd873509dde7e5f5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d0f7025_666da0c7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/api/DefaultActions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-18T16:59:37Z",
+      "side": 1,
+      "message": "Does this even work with JSNI overlay types? I thought the overlays are plain JavaScript with no type information. Thus instanceof would always fail as there is no Java level type information present in the object.",
+      "revId": "0d1cbd08cca29f2ae8c88d7bd873509dde7e5f5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d0a7414_b84bd95a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/api/DefaultActions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-18T16:59:37Z",
+      "side": 1,
+      "message": "nit: space after cast operator",
+      "revId": "0d1cbd08cca29f2ae8c88d7bd873509dde7e5f5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d0a7414_d84e8d6c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/api/RevisionGlue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-18T16:59:37Z",
+      "side": 1,
+      "message": "Same comment as in ChangeGlue. My understanding is we don\u0027t need the try/catch. If we do we probably have more code subject to this same problem. :-(",
+      "revId": "0d1cbd08cca29f2ae8c88d7bd873509dde7e5f5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

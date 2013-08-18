@@ -68,6 +68,7 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -151,6 +152,7 @@ public class ChangeScreen2 extends Screen {
   @UiField Button collapseAll;
   @UiField Button editMessage;
   @UiField QuickApprove quickApprove;
+  @UiField DownloadPatch downloadPatch;
   private ReplyAction replyAction;
   private EditMessageAction editMessageAction;
 
@@ -592,6 +594,7 @@ public class ChangeScreen2 extends Screen {
     commit.set(commentLinkProcessor, info, revision);
     related.set(info, revision);
     quickApprove.set(info, revision);
+    downloadPatch.set(info, revision);
 
     if (Gerrit.isSignedIn()) {
       initEditMessageAction();

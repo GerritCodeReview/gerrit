@@ -62,6 +62,15 @@ public abstract class BinaryResult implements Closeable {
   private long contentLength = -1;
   private boolean gzip = true;
   private boolean base64 = false;
+  private String attachment;
+
+  public void setAttachment(String attachment) {
+    this.attachment = attachment;
+  }
+
+  public String getAttachment() {
+    return attachment;
+  }
 
   /** @return the MIME type of the result, for HTTP clients. */
   public String getContentType() {

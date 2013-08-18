@@ -16,6 +16,24 @@
       "revId": "a6946b5a548d0a1287e8c7aef309cda49340ea04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d9d2028_fbf5af01",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-18T19:15:16Z",
+      "side": 1,
+      "message": "No, the try/catch is not necessary if the ApiGlue is initialized.",
+      "parentUuid": "cd4e3882_aeb25bde",
+      "revId": "a6946b5a548d0a1287e8c7aef309cda49340ea04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

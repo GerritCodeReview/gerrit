@@ -145,13 +145,16 @@ public class ChangeScreen2 extends Screen {
   @UiField FileTable files;
   @UiField FlowPanel history;
 
+  @UiField Button download;
   @UiField Button reply;
   @UiField Button expandAll;
   @UiField Button collapseAll;
   @UiField Button editMessage;
   @UiField QuickApprove quickApprove;
+  @UiField DownloadPatch downloadPatch;
   private ReplyAction replyAction;
   private EditMessageAction editMessageAction;
+  private DownloadAction downloadAction;
 
   public ChangeScreen2(Change.Id changeId, String revision, boolean openReplyBox) {
     this.changeId = changeId;
@@ -243,6 +246,14 @@ public class ChangeScreen2 extends Screen {
     }
   }
 
+  private void initDownloadAction() {
+    final PatchSet.Id psId = new PatchSet.Id(changeId,
+        changeInfo.revision(revision)._number());
+    downloadAction = new DownloadAction(changeInfo.project(),
+        psId,
+        download);
+  }
+
   private void initEditMessageAction() {
     NativeMap<ActionInfo> actions = changeInfo.revision(revision).actions();
     if (actions != null && actions.containsKey("message")) {
@@ -332,6 +343,15 @@ public class ChangeScreen2 extends Screen {
       revisionList.setEnabled(false);
       Gerrit.display(PageLinks.toChange2(changeId, n));
     }
+  }
+
+  @UiHandler("download")
+  void onDownload(ClickEvent e) {
+    onDownload();
+  }
+
+  private void onDownload() {
+    downloadAction.onDownload();
   }
 
   @UiHandler("reply")
@@ -596,6 +616,9 @@ public class ChangeScreen2 extends Screen {
     commit.set(commentLinkProcessor, info, revision);
     related.set(info, revision);
     quickApprove.set(info, revision);
+    downloadPatch.set(info, revision);
+
+    initDownloadAction();
 
     if (Gerrit.isSignedIn()) {
       initEditMessageAction();

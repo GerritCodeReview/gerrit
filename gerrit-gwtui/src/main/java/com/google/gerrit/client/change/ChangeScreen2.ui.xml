@@ -222,6 +222,13 @@ limitations under the License.
             title='Apply score with one click'>
           <ui:attribute name='title'/>
         </c:QuickApprove>
+        <g:Button ui:field='editMessage'
+            styleName=''
+            visible='false'
+            title='Edit commit message (Shortcut: e)'>
+          <ui:attribute name='title'/>
+          <div><ui:msg>Edit Message</ui:msg></div>
+        </g:Button>
       </div>
       <div class='{style.revisionList}' ui:field='revisionParent'>
         <ui:msg>Revision <g:ListBox ui:field='revisionList'/></ui:msg>

@@ -89,7 +89,7 @@ class Loader {
 
   private static void initDisableUnwantedKeys() {
     // TODO: Better custom keybindings, remove temporary navigation hacks.
-    for (String s : new String[] {"C", "J", "K", "O", "R", "U", "Ctrl-C"}) {
+    for (String s : new String[] {"A", "C", "J", "K", "O", "R", "U", "Ctrl-C"}) {
       CodeMirror.disableUnwantedKey("vim", s);
     }
   }

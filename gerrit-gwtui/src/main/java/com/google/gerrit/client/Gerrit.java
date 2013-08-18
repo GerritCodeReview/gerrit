@@ -596,8 +596,8 @@ public class Gerrit implements EntryPoint {
   }
 
   private void loadPlugins(HostPageData hpd, final String token) {
+    ApiGlue.init();
     if (hpd.plugins != null && !hpd.plugins.isEmpty()) {
-      ApiGlue.init();
       for (final String url : hpd.plugins) {
         ScriptInjector.fromUrl(url)
             .setWindow(ScriptInjector.TOP_WINDOW)

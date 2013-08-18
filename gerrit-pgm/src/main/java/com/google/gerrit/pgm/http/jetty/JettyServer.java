@@ -193,6 +193,12 @@ public class JettyServer {
 
         if (AuthType.CLIENT_SSL_CERT_LDAP.equals(authType)) {
           ssl.setNeedClientAuth(true);
+
+          File crl = getFile(cfg, "sslcrl", "etc/crl.pem");
+          if (crl.exists()) {
+            ssl.setCrlPath(crl.getAbsolutePath());
+            ssl.setValidatePeerCerts(true);
+          }
         }
 
         defaultPort = 443;

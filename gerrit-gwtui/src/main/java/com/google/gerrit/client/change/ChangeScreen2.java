@@ -117,6 +117,7 @@ public class ChangeScreen2 extends Screen {
   private UpdateAvailableBar updateAvailable;
   private boolean openReplyBox;
 
+  @UiField HTMLPanel headerLine;
   @UiField Style style;
   @UiField ToggleButton star;
   @UiField Reload reload;
@@ -145,6 +146,7 @@ public class ChangeScreen2 extends Screen {
   @UiField FileTable files;
   @UiField FlowPanel history;
 
+  @UiField Button download;
   @UiField Button reply;
   @UiField Button expandAll;
   @UiField Button collapseAll;
@@ -152,6 +154,7 @@ public class ChangeScreen2 extends Screen {
   @UiField QuickApprove quickApprove;
   private ReplyAction replyAction;
   private EditMessageAction editMessageAction;
+  private DownloadAction downloadAction;
 
   public ChangeScreen2(Change.Id changeId, String revision, boolean openReplyBox) {
     this.changeId = changeId;
@@ -243,14 +246,22 @@ public class ChangeScreen2 extends Screen {
     }
   }
 
-  private void initEditMessageAction() {
-    NativeMap<ActionInfo> actions = changeInfo.revision(revision).actions();
+  private void renderDownload(ChangeInfo info, String revision) {
+    downloadAction = new DownloadAction(
+        info.legacy_id(),
+        info.project(),
+        info.revision(revision),
+        style, headerLine, download);
+  }
+
+  private void initEditMessageAction(ChangeInfo info, String revision) {
+    NativeMap<ActionInfo> actions = info.revision(revision).actions();
     if (actions != null && actions.containsKey("message")) {
       editMessage.setVisible(true);
       editMessageAction = new EditMessageAction(
-          changeInfo.legacy_id(),
+          info.legacy_id(),
           revision,
-          changeInfo.revision(revision).commit().message(),
+          info.revision(revision).commit().message(),
           style,
           editMessage,
           reply);
@@ -322,6 +333,11 @@ public class ChangeScreen2 extends Screen {
   @UiHandler("star")
   void onToggleStar(ValueChangeEvent<Boolean> e) {
     StarredChanges.toggleStar(changeId, e.getValue());
+  }
+
+  @UiHandler("download")
+  void onDownload(ClickEvent e) {
+    downloadAction.show();
   }
 
   @UiHandler("revisionList")
@@ -580,6 +596,7 @@ public class ChangeScreen2 extends Screen {
     renderOwner(info);
     renderReviewers(info);
     renderActionTextDate(info);
+    renderDownload(info, revision);
     renderRevisions(info);
     renderHistory(info);
     actions.display(info, revision);
@@ -598,7 +615,7 @@ public class ChangeScreen2 extends Screen {
     quickApprove.set(info, revision);
 
     if (Gerrit.isSignedIn()) {
-      initEditMessageAction();
+      initEditMessageAction(info, revision);
       replyAction = new ReplyAction(info, revision, style, reply);
       if (topic.canEdit()) {
         keysAction.add(new KeyCommand(0, 't', Util.C.keyEditTopic()) {

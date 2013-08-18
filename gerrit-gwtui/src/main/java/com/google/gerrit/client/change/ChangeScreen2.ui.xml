@@ -83,10 +83,27 @@ limitations under the License.
       padding-left: 5px;
     }
 
-    .revisionList {
+    .popdown {
       position: absolute;
       top: 2px;
-      right: 10px;
+      right: 0;
+    }
+    .popdown button {
+      cursor: pointer;
+      height: 25px;
+      border: none;
+      border-left: 1px solid #fff;
+      background-color: trimColor;
+      margin-right: 0;
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .popdown button div {
+      padding-left: 6px;
+      padding-right: 6px;
+    }
+    .popdown button div:after {
+      content: " \25bc";
     }
 
     .headerTable {
@@ -201,7 +218,7 @@ limitations under the License.
   </ui:style>
 
   <g:HTMLPanel>
-    <div class='{style.headerLine}'>
+    <g:HTMLPanel styleName='{style.headerLine}' ui:field='headerLine'>
       <div class='{style.idBlock}'>
         <c:StarIcon ui:field='star' styleName='{style.star}'/>
         <div class='{style.idLine}'>
@@ -235,10 +252,16 @@ limitations under the License.
           <div><ui:msg>Edit Message</ui:msg></div>
         </g:Button>
       </div>
-      <div class='{style.revisionList}' ui:field='revisionParent'>
-        <ui:msg>Revision <g:ListBox ui:field='revisionList'/></ui:msg>
+
+      <div class='{style.popdown}'>
+        <div ui:field='revisionParent' style='display: inline-block;'>
+          <ui:msg>Revision <g:ListBox ui:field='revisionList'/></ui:msg>
+        </div>
+        <g:Button ui:field='download' styleName=''>
+          <div><ui:msg>Download</ui:msg></div>
+        </g:Button>
       </div>
-    </div>
+    </g:HTMLPanel>
 
     <table class='{style.headerTable}'>
       <tr>

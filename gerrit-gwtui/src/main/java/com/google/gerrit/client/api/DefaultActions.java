@@ -18,10 +18,12 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.ActionInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 class DefaultActions {
@@ -30,6 +32,12 @@ class DefaultActions {
     AsyncCallback<JavaScriptObject> cb = new GerritCallback<JavaScriptObject>() {
       @Override
       public void onSuccess(JavaScriptObject msg) {
+        if (NativeString.is(msg)) {
+          NativeString str = (NativeString) msg;
+          if (str != null && !str.asString().isEmpty()) {
+            Window.alert(str.asString());
+          }
+        }
         Gerrit.display(PageLinks.toChange2(id));
       }
     };

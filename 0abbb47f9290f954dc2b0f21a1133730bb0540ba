@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d0a7414_58595d04",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-18T22:49:41Z",
+      "side": 1,
+      "message": "Instead of saying what the problem is, describe what this change actually does:\n\n  Use container supplied auth.httpHeader to authenticate Git requests\n\n  If auth.httpHeader is configured authenticate the user with the container\n  supplied username rather than the internal password. This permits users\n  to rely on an external container or SSO system for Git operations.",
+      "revId": "0abbb47f9290f954dc2b0f21a1133730bb0540ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d0f7025_46097cf5",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ContainerAuthFilter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-18T22:49:41Z",
+      "side": 1,
+      "message": "nit: no blank line between a new variable and the block that initializes it.",
+      "revId": "0abbb47f9290f954dc2b0f21a1133730bb0540ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d0a7414_384ea940",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ContainerAuthFilter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-18T22:49:41Z",
+      "side": 1,
+      "message": "It may be easier to read if you pull this entire block into a new method:\n\n  private String extractUsername(HttpServletRequest req);",
+      "revId": "0abbb47f9290f954dc2b0f21a1133730bb0540ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d0f7025_86ff9497",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ContainerAuthFilter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-18T22:49:41Z",
+      "side": 1,
+      "message": "nit: indentation is wrong here",
+      "revId": "0abbb47f9290f954dc2b0f21a1133730bb0540ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d0f7025_260e88ff",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ContainerAuthFilter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-18T22:49:41Z",
+      "side": 1,
+      "message": "I think this actually an error, not an unauthorized credentials. Its thrown only when OrmException was tossed internally inside AccountManager. This should be a 500 error to the client, or sent with GitSmartHttpTools.sendError().",
+      "revId": "0abbb47f9290f954dc2b0f21a1133730bb0540ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

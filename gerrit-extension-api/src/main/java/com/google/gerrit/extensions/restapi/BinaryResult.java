@@ -62,6 +62,7 @@ public abstract class BinaryResult implements Closeable {
   private long contentLength = -1;
   private boolean gzip = true;
   private boolean base64 = false;
+  private String attachmentName;
 
   /** @return the MIME type of the result, for HTTP clients. */
   public String getContentType() {
@@ -86,6 +87,17 @@ public abstract class BinaryResult implements Closeable {
   /** Set the character set used to encode text data and return {@code this}. */
   public BinaryResult setCharacterEncoding(String encoding) {
     characterEncoding = encoding;
+    return this;
+  }
+
+  /** Get the attachment file name; null if not set. */
+  public String getAttachmentName() {
+    return attachmentName;
+  }
+
+  /** Set the attachment file name and return {@code this}. */
+  public BinaryResult setAttachmentName(String attachmentName) {
+    this.attachmentName = attachmentName;
     return this;
   }
 

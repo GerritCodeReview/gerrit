@@ -75,6 +75,14 @@ limitations under the License.
       cursor: pointer;
     }
 
+    .downloadPatch {
+      display: block;
+      position: absolute;
+      top: 5px;
+      right: 160px;
+      cursor: pointer;
+    }
+
     .headerButtons {
       position: absolute;
       top: 0;
@@ -216,6 +224,12 @@ limitations under the License.
         </a>
       </div>
       <div class='{style.headerButtons}'>
+        <g:Button ui:field='download'
+            styleName=''
+            title='Open download panel'>
+          <ui:attribute name='title'/>
+          <div><ui:msg>Download</ui:msg></div>
+        </g:Button>
         <g:Button ui:field='reply'
             styleName=''
             title='Reply and score (Shortcut: a)'>
@@ -235,6 +249,11 @@ limitations under the License.
           <div><ui:msg>Edit Message</ui:msg></div>
         </g:Button>
       </div>
+      <c:DownloadPatch styleName='{style.downloadPatch}'
+          ui:field='downloadPatch'
+          title='Download the patch'>
+        <ui:attribute name='title'/>
+      </c:DownloadPatch>
       <div class='{style.revisionList}' ui:field='revisionParent'>
         <ui:msg>Revision <g:ListBox ui:field='revisionList'/></ui:msg>
       </div>

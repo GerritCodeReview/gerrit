@@ -19,48 +19,33 @@ limitations under the License.
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
     xmlns:c='urn:import:com.google.gwtexpui.globalkey.client'>
   <ui:with field='res' type='com.google.gerrit.client.change.Resources'/>
-  <ui:style type='com.google.gerrit.client.change.ReplyBox.Styles'>
-    @eval trimColor com.google.gerrit.client.Gerrit.getTheme().trimColor;
-
-    .replyBox {
-      max-height: 260px;
+  <ui:style>
+    .commitMessage {
+      background-color: white;
+      font-family: monospace;
     }
-
-    .label_name {
-      font-weight: bold;
-      text-align: left;
-    }
-    .label_name input { margin-left: 0; }
-
-    .label_value {
-      text-align: center;
-    }
-    .email {
-      display: inline-block;
-      margin-left: 2em;
-    }
+    .cancel { float: right; }
   </ui:style>
-  <g:HTMLPanel styleName='{style.replyBox}'>
+  <g:HTMLPanel>
     <div class='{res.style.section}'>
       <c:NpTextArea
-         visibleLines='5'
-         characterWidth='70'
+         visibleLines='30'
+         characterWidth='72'
+         styleName='{style.commitMessage}'
          ui:field='message'/>
     </div>
-    <div class='{res.style.section}' ui:field='labelsParent'>
-      <g:Grid ui:field='labelsTable'/>
-    </div>
     <div class='{res.style.section}'>
-      <g:Button ui:field='send'
-          title='Send reply (Shortcut: Ctrl-Enter)'
+      <g:Button ui:field='save'
+          title='Create new patch set with updated commit message'
           styleName='{res.style.button}'>
         <ui:attribute name='title'/>
-        <div><ui:msg>Send</ui:msg></div>
+        <div><ui:msg>Save</ui:msg></div>
       </g:Button>
-
-      <div class='{style.email}'>
-        <ui:msg>and <g:CheckBox ui:field='email' value='true'>send email</g:CheckBox></ui:msg>
-      </div>
+      <g:Button ui:field='cancel'
+          styleName='{res.style.button}'
+          addStyleNames='{style.cancel}'>
+          <div>Cancel</div>
+      </g:Button>
     </div>
   </g:HTMLPanel>
 </ui:UiBinder>

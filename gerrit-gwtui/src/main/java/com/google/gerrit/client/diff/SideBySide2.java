@@ -130,8 +130,6 @@ public class SideBySide2 extends Screen {
   private Map<LineHandle, LinePaddingWidgetWrapper> linePaddingOnOtherSideMap;
   private List<DiffChunkInfo> diffChunks;
   private List<SkippedLine> skips;
-  private List<Integer> chunkPositions;
-  private int currChunkIndex;
   private int context;
 
   private KeyCommandSet keysNavigation;
@@ -229,6 +227,7 @@ public class SideBySide2 extends Screen {
     Window.enableScrolling(false);
     cmA.setOption("viewportMargin", 10);
     cmB.setOption("viewportMargin", 10);
+    cmB.setCursor(LineCharacter.create(0));
     cmB.focus();
   }
 
@@ -276,6 +275,7 @@ public class SideBySide2 extends Screen {
       @Override
       public void run() {
         lastFocused = cm;
+        updateActiveLine(cm).run();
       }
     });
     cm.on("contextmenu", new EventHandler() {
@@ -297,8 +297,8 @@ public class SideBySide2 extends Screen {
         .on("Alt-U", new Runnable() {
           public void run() {
             cm.getInputField().blur();
-            removeActiveLineHighlight(cm);
-            removeActiveLineHighlight(otherCm(cm));
+            clearActiveLine(cm);
+            clearActiveLine(otherCm(cm));
           }
         })
         .on("[", new Runnable() {
@@ -401,29 +401,7 @@ public class SideBySide2 extends Screen {
     linePaddingOnOtherSideMap = new HashMap<LineHandle, LinePaddingWidgetWrapper>();
     diffChunks = new ArrayList<DiffChunkInfo>();
     render(diffInfo);
-    Collections.sort(diffChunks, new Comparator<DiffChunkInfo>() {
-      @Override
-      public int compare(DiffChunkInfo o1, DiffChunkInfo o2) {
-        if (o1.side == o2.side) {
-          return o1.start - o2.start;
-        } else if (o1.side == DisplaySide.A) {
-          int comp = mapper.lineOnOther(o1.side, o1.start).getLine() - o2.start;
-          return comp == 0 ? 1 : comp;
-        } else {
-          int comp = o1.start - mapper.lineOnOther(o2.side, o2.start).getLine();
-          return comp == 0 ? -1 : comp;
-        }
-      }
-    });
-    chunkPositions = new ArrayList<Integer>();
-    for (int i = 0; i < diffChunks.size();) {
-      DiffChunkInfo info = diffChunks.get(i);
-      chunkPositions.add(
-          info.side == DisplaySide.B
-              ? info.start
-              : mapper.lineOnOther(DisplaySide.A, info.start).getLine());
-      i += info.edit ? 2 : 1;
-    }
+    Collections.sort(diffChunks, getDiffChunkComparator());
     lineActiveBoxMap = new HashMap<LineHandle, CommentBox>();
     lineLastPublishedBoxMap = new HashMap<LineHandle, PublishedBox>();
     linePaddingManagerMap = new HashMap<LineHandle, PaddingManager>();
@@ -535,10 +513,10 @@ public class SideBySide2 extends Screen {
         }
         markEdit(cmA, currentA, current.edit_a(), origLineA);
         markEdit(cmB, currentB, current.edit_b(), origLineB);
-        if (aLength == 0 || bLength == 0) {
-          diffTable.sidePanel.addGutter(cmB, origLineB, aLength == 0
-              ? SidePanel.GutterType.INSERT
-              : SidePanel.GutterType.DELETE);
+        if (aLength == 0) {
+          diffTable.sidePanel.addGutter(cmB, origLineB, SidePanel.GutterType.INSERT);
+        } else if (bLength == 0) {
+          diffTable.sidePanel.addGutter(cmA, origLineA, SidePanel.GutterType.DELETE);
         } else {
           diffTable.sidePanel.addGutter(cmB, origLineB, SidePanel.GutterType.EDIT);
         }
@@ -894,13 +872,14 @@ public class SideBySide2 extends Screen {
     return new PaddingWidgetWrapper(widget, div);
   }
 
-  private void removeActiveLineHighlight(CodeMirror cm) {
+  private void clearActiveLine(CodeMirror cm) {
     if (cm.hasActiveLine()) {
       LineHandle activeLine = cm.getActiveLine();
       cm.removeLineClass(activeLine,
           LineClassWhere.WRAP, DiffTable.style.activeLine());
       cm.removeLineClass(activeLine,
           LineClassWhere.BACKGROUND, DiffTable.style.activeLineBg());
+      cm.setActiveLine(null);
     }
   }
 
@@ -911,53 +890,53 @@ public class SideBySide2 extends Screen {
         if (cm.getScrollSetAt() + 5 > System.currentTimeMillis()) {
           return;
         }
-
-        ScrollInfo si = cm.getScrollInfo();
-        if (si.getTop() == 0 && !Gerrit.isHeaderVisible()) {
-          Gerrit.setHeaderVisible(true);
-          diffTable.updateFileCommentVisibility(false);
-        } else if (si.getTop() > 0.5 * si.getClientHeight()
-            && Gerrit.isHeaderVisible()) {
-          Gerrit.setHeaderVisible(false);
-          diffTable.updateFileCommentVisibility(true);
+        if (cm == cmA) {
+          scrollTimerB.cancel();
+          scrollTimerA.schedule(5);
+        } else {
+          scrollTimerA.cancel();
+          scrollTimerB.schedule(5);
         }
-
-        /**
-         * Since CM doesn't always take the height of line widgets into
-         * account when calculating scrollInfo when scrolling too fast
-         * (e.g. throw-scrolling), simply setting scrollTop to be the same
-         * doesn't guarantee alignment, but should work in most cases. See the
-         * hack in fixScroll();
-         */
-        fixScroll(cm);
-        scrollTimerA.cancel();
-        scrollTimerB.cancel();
-        (cm == cmA ? scrollTimerA : scrollTimerB).schedule(10);
       }
     };
   }
 
   private void fixScroll(CodeMirror cm) {
+    ScrollInfo si = cm.getScrollInfo();
+    if (si.getTop() == 0 && !Gerrit.isHeaderVisible()) {
+      Gerrit.setHeaderVisible(true);
+      diffTable.updateFileCommentVisibility(false);
+    } else if (si.getTop() > 0.5 * si.getClientHeight()
+        && Gerrit.isHeaderVisible()) {
+      Gerrit.setHeaderVisible(false);
+      diffTable.updateFileCommentVisibility(true);
+    }
     CodeMirror other = otherCm(cm);
     Viewport fromTo = cm.getViewport();
-    int line = (fromTo.getFrom() + fromTo.getTo()) / 2;
-    LineOnOtherInfo info = mapper.lineOnOther(getSideFromCm(cm), line);
-    /**
-     * If the line in the middle of the viewPort isn't part of an insertion /
-     * deletion gap, isAligned() will be true, and hopefully this will be
-     * the majority of cases. We then manually examine if the lines that
-     * should be aligned are at the same height. If not, perform additional
-     * scrolling until the lines are aligned.
-     */
-    if (info.isAligned()) {
-      double myHeight = cm.heightAtLine(line);
-      double otherHeight = other.heightAtLine(info.getLine());
-      if (myHeight != otherHeight) {
-        other.scrollToY(other.getScrollInfo().getTop() + otherHeight - myHeight);
-        other.setScrollSetAt(System.currentTimeMillis());
+    int line = fromTo.getFrom();
+    for (; line <= fromTo.getTo(); line++) {
+      LineOnOtherInfo info = mapper.lineOnOther(getSideFromCm(cm), line);
+      /**
+       * Since CM doesn't always take the height of line widgets into
+       * account when calculating scrollInfo when scrolling too fast
+       * (e.g. throw-scrolling), simply setting scrollTop to be the same
+       * doesn't guarantee alignment.
+       *
+       * Iterate over the viewport to find the first line that isn't part of an
+       * insertion or deletion gap, for which isAligned() will be true. We then
+       * manually examine if the lines that should be aligned are at the same
+       * height. If not, perform additional scrolling.
+       */
+      if (info.isAligned()) {
+        double myHeight = cm.heightAtLine(line);
+        double otherHeight = other.heightAtLine(info.getLine());
+        if (myHeight != otherHeight) {
+          other.scrollToY(
+              other.getScrollInfo().getTop() + otherHeight - myHeight);
+          other.setScrollSetAt(System.currentTimeMillis());
+        }
+        break;
       }
-    } else {
-      other.scrollToY(cm.getScrollInfo().getTop());
     }
   }
 
@@ -991,18 +970,13 @@ public class SideBySide2 extends Screen {
           public void execute() {
             LineHandle handle = cm.getLineHandleVisualStart(
                 cm.getCursor("end").getLine());
-            if (cm.hasActiveLine() && cm.getActiveLine().equals(handle) &&
-                !cm.somethingSelected()) {
+            if (cm.hasActiveLine() && cm.getActiveLine().equals(handle)) {
               return;
             }
 
-            removeActiveLineHighlight(cm);
-            removeActiveLineHighlight(other);
+            clearActiveLine(cm);
+            clearActiveLine(other);
             cm.setActiveLine(handle);
-            if (cm.somethingSelected()) {
-              return;
-            }
-
             cm.addLineClass(
                 handle, LineClassWhere.WRAP, DiffTable.style.activeLine());
             cm.addLineClass(
@@ -1029,11 +1003,16 @@ public class SideBySide2 extends Screen {
       public void handle(CodeMirror instance, int line, String gutter,
           NativeEvent clickEvent) {
         if (!(cm.hasActiveLine() &&
-            instance.getLineNumber(cm.getActiveLine()) == line)) {
-          instance.setCursor(LineCharacter.create(line));
-          instance.setActiveLine(cm.getLineHandle(line));
+            cm.getLineNumber(cm.getActiveLine()) == line)) {
+          cm.setCursor(LineCharacter.create(line));
+          updateActiveLine(cm).run();
         }
-        insertNewDraft(cm).run();
+        Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+          @Override
+          public void execute() {
+            insertNewDraft(cm).run();
+          }
+        });
       }
     };
   }
@@ -1121,39 +1100,65 @@ public class SideBySide2 extends Screen {
       @Override
       public void run() {
         int line = cm.hasActiveLine() ? cm.getLineNumber(cm.getActiveLine()) : 0;
-        if (cm == cmA) {
-          line = mapper.lineOnOther(DisplaySide.A, line).getLine();
-        }
-        int res = Collections.binarySearch(chunkPositions, line);
+        int res = Collections.binarySearch(
+                diffChunks,
+                new DiffChunkInfo(getSideFromCm(cm), line, 0, false),
+                getDiffChunkComparator());
         if (res < 0) {
-          res = -res - 2;
+          res = -res - (prev ? 1 : 2);
         }
-        if (currChunkIndex == chunkPositions.size() - 1 && !prev) {
-          currChunkIndex = 0;
-        } else if (currChunkIndex == 0 && prev) {
-          currChunkIndex = chunkPositions.size() - 1;
+
+        res = res + (prev ? -1 : 1);
+        DiffChunkInfo lookUp = diffChunks.get(getWrapAroundDiffChunkIndex(res));
+        // If edit, skip the deletion chunk and set focus on the insertion one.
+        if (lookUp.edit && lookUp.side == DisplaySide.A) {
+          res = res + (prev ? -1 : 1);
+        }
+        DiffChunkInfo target = diffChunks.get(getWrapAroundDiffChunkIndex(res));
+        CodeMirror targetCm = getCmFromSide(target.side);
+        targetCm.setCursor(LineCharacter.create(target.start));
+        targetCm.focus();
+        targetCm.scrollToY(Math.max(
+            0,
+            targetCm.heightAtLine(target.start, "local") -
+            0.5 * cmB.getScrollbarV().getClientHeight()));
+      }
+    };
+  }
+
+  /**
+   * Diff chunks are ordered by their starting lines. If it's a deletion,
+   * use its corresponding line on the revision side for comparison. In
+   * the edit case, put the deletion chunk right before the insertion chunk.
+   * This placement guarantees well-ordering.
+   */
+  private Comparator<DiffChunkInfo> getDiffChunkComparator() {
+    return new Comparator<DiffChunkInfo>() {
+      @Override
+      public int compare(DiffChunkInfo o1, DiffChunkInfo o2) {
+        if (o1.side == o2.side) {
+          return o1.start - o2.start;
+        } else if (o1.side == DisplaySide.A) {
+          int comp = mapper.lineOnOther(o1.side, o1.start).getLine() - o2.start;
+          return comp == 0 ? -1 : comp;
         } else {
-          currChunkIndex = res + (prev ? -1 : 1);
+          int comp = o1.start - mapper.lineOnOther(o2.side, o2.start).getLine();
+          return comp == 0 ? 1 : comp;
         }
-        int target = chunkPositions.get(currChunkIndex);
-        if (cm == cmA) {
-          target = mapper.lineOnOther(DisplaySide.B, target).getLine();
-        }
-        cm.setCursor(LineCharacter.create(target));
-        cm.scrollToY(Math.max(0, cm.heightAtLine(target, "local") -
-            cm.getScrollbarV().getClientHeight() / 2));
       }
     };
   }
 
   private DiffChunkInfo getDiffChunk(DisplaySide side, int line) {
-    for (DiffChunkInfo info : diffChunks) {
-      if (info.getSide() == side && info.getStart() <= line &&
-          line <= info.getEnd()) {
-        return info;
-      }
-    }
-    return null;
+    int res = Collections.binarySearch(
+        diffChunks,
+        new DiffChunkInfo(side, line, 0, false), // Dummy DiffChunkInfo
+        getDiffChunkComparator());
+    return res >= 0 ? diffChunks.get(res) : null;
+  }
+
+  private int getWrapAroundDiffChunkIndex(int index) {
+    return (index + diffChunks.size()) % diffChunks.size();
   }
 
   void resizePaddingOnOtherSide(DisplaySide mySide, int line) {

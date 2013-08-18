@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d0f7025_e66410c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DataSourceTypesLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-18T22:35:41Z",
+      "side": 1,
+      "message": "nit: I would have preferred:\n\n  if (!loaded) {\n    for (File jar : scanJarsInPluginsDirectory()) {\n      load(jar);\n    }\n    loaded \u003d true;\n  }",
+      "revId": "299453e28068ee8f501ea0d36110a29add6cef0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d0a7414_d83d6da3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DataSourceTypesLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-18T22:35:41Z",
+      "side": 1,
+      "message": "You probably already know this, but the plugin will be loaded twice by the server. Once here and again later when the server loads plugins. The two ClassLoaders are not related and thus the plugin classes will be duplicately defined inside of the JVM. This may be confusing to a plugin author if they attempt to implement both a SqlDialect and some other type of module and want to downcast the SqlDialect from the ReviewDb into their own dialect type. The downcast will fail because although they are from the same .class file, they are two different class instances inside of the JVM.\n\nHere be dragons and all that.\n\nMaybe instead of these being in plugins they should be in lib/ where the ClassLoader is setup only once? It might make sense to put the dialect support into lib/, the JDBC driver itself is probably going to be placed into lib/ too.",
+      "revId": "299453e28068ee8f501ea0d36110a29add6cef0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d0f7025_c6610caf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DataSourceTypesLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-18T22:35:41Z",
+      "side": 1,
+      "message": "This is functional, but a bit disappointing. I really don\u0027t like the 3 module attributes we need in a plugin, or these three attributes to name a database and its dialect. *sigh*\n\nI don\u0027t have a better solution for you so I guess I need to accept this.",
+      "revId": "299453e28068ee8f501ea0d36110a29add6cef0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

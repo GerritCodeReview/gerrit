@@ -151,6 +151,7 @@ public class ChangeScreen2 extends Screen {
   @UiField Button collapseAll;
   @UiField Button editMessage;
   @UiField QuickApprove quickApprove;
+  @UiField DownloadPatch downloadPatch;
   private ReplyAction replyAction;
   private EditMessageAction editMessageAction;
 
@@ -592,6 +593,7 @@ public class ChangeScreen2 extends Screen {
     commit.set(commentLinkProcessor, info, revision);
     related.set(info, revision);
     quickApprove.set(info, revision);
+    downloadPatch.set(info, revision);
 
     if (Gerrit.isSignedIn()) {
       initEditMessageAction();

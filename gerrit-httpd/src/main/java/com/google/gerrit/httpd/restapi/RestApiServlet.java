@@ -703,6 +703,10 @@ public class RestApiServlet extends HttpServlet {
       }
 
       res.setContentType(bin.getContentType());
+      if (bin.getAttachmentName() != null) {
+        res.setHeader("Content-Disposition",
+            "attachment; filename=\"" + bin.getAttachmentName() + "\"");
+      }
       long len = bin.getContentLength();
       if (0 <= len && len < Integer.MAX_VALUE) {
         res.setContentLength((int) len);

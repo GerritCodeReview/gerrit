@@ -83,8 +83,9 @@ public class GetPatch implements RestReadView<RevisionResource> {
               rw.release();
               repo.close();
             }
-          }.setContentType("application/mbox")
-           .base64();
+          };
+
+          prepareResult(bin);
           close = false;
           return bin;
         } finally {
@@ -100,6 +101,11 @@ public class GetPatch implements RestReadView<RevisionResource> {
     } catch (IOException e) {
       throw new ResourceNotFoundException();
     }
+  }
+
+  protected void prepareResult(BinaryResult bin) {
+    bin.setContentType("application/mbox");
+    bin.base64();
   }
 
   private static String formatEmailHeader(RevCommit commit) {

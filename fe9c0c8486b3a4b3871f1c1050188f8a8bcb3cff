@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cd4e3882_4e1d27d9",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2284,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-19T07:16:45Z",
+      "side": 1,
+      "message": "Yes, i was wondering about that hack, but we have a go from Shawn for that ;-) See his comment to the original change:\n\n https://gerrit-review.googlesource.com/#/c/48920/4/gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+      "parentUuid": "2d0a7414_b898796d",
+      "revId": "fe9c0c8486b3a4b3871f1c1050188f8a8bcb3cff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d0f7025_467cdc28",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-08-19T07:11:24Z",
       "side": 1,
       "message": "The ChangeInfo shown in the example below seems to only include the subject.",
+      "revId": "fe9c0c8486b3a4b3871f1c1050188f8a8bcb3cff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d0a7414_58871d0c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2296,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-19T07:16:45Z",
+      "side": 1,
+      "message": "I don\u0027t understand that comment. I copied that from cherry-pick documentation.",
+      "parentUuid": "0d0f7025_467cdc28",
       "revId": "fe9c0c8486b3a4b3871f1c1050188f8a8bcb3cff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "0d0f7025_0676e446",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditMessageBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-19T07:16:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d0f7025_2681e8f4",
+      "revId": "fe9c0c8486b3a4b3871f1c1050188f8a8bcb3cff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d0a7414_9895b535",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EditMessage.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2013-08-19T07:11:24Z",
       "side": 1,
       "message": "Unrelated change. Should be in a separate commit.",
+      "revId": "fe9c0c8486b3a4b3871f1c1050188f8a8bcb3cff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d48c079_43862669",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EditMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-19T07:16:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d0a7414_9895b535",
       "revId": "fe9c0c8486b3a4b3871f1c1050188f8a8bcb3cff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

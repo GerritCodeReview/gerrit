@@ -88,7 +88,7 @@ class EditMessage implements RestModifyView<RevisionResource, Input>,
     try {
       git = gitManager.openRepository(rsrc.getChange().getProject());
     } catch (RepositoryNotFoundException e) {
-      throw new ResourceNotFoundException(e.getMessage());
+      throw new ResourceNotFoundException();
     }
 
     try {

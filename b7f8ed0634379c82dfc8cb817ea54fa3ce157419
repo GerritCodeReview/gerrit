@@ -88,6 +88,24 @@
       "revId": "b7f8ed0634379c82dfc8cb817ea54fa3ce157419",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d0f7025_26bb28ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012923
+      },
+      "writtenOn": "2013-08-19T21:59:25Z",
+      "side": 1,
+      "message": "any idea how to fix this error I get when I bind a subclass of CacheBasedWebSession in the plugin: \"No scope is bound to com.google.inject.servlet.RequestScoped\" ? I tried \"bindScope(RequestScoped.class, PerThreadRequestScope.REQUEST)\", but then i get \"No implementation for javax.servlet.http.HttpServletResponse was bound\"",
+      "parentUuid": "385394fe_f0f4a00b",
+      "revId": "b7f8ed0634379c82dfc8cb817ea54fa3ce157419",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

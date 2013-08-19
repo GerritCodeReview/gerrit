@@ -17,6 +17,7 @@ package com.google.gerrit.client.diff;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.RestApi;
+import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -51,6 +52,20 @@ public class DiffApi {
     return this;
   }
 
+  public DiffApi ignoreWhitespace(AccountDiffPreference.Whitespace w) {
+    switch (w) {
+      default:
+      case IGNORE_NONE:
+        return ignoreWhitespace(IgnoreWhitespace.NONE);
+      case IGNORE_SPACE_AT_EOL:
+        return ignoreWhitespace(IgnoreWhitespace.TRAILING);
+      case IGNORE_SPACE_CHANGE:
+        return ignoreWhitespace(IgnoreWhitespace.CHANGED);
+      case IGNORE_ALL_SPACE:
+        return ignoreWhitespace(IgnoreWhitespace.ALL);
+    }
+  }
+
   public DiffApi ignoreWhitespace(IgnoreWhitespace w) {
     if (w != null && w != IgnoreWhitespace.NONE) {
       call.addParameter("ignore-whitespace", w);
@@ -58,8 +73,10 @@ public class DiffApi {
     return this;
   }
 
-  public DiffApi intraline() {
-    call.addParameterTrue("intraline");
+  public DiffApi intraline(boolean intraline) {
+    if (intraline) {
+      call.addParameterTrue("intraline");
+    }
     return this;
   }
 

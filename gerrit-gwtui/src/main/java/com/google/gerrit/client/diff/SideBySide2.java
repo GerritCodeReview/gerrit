@@ -109,6 +109,7 @@ public class SideBySide2 extends Screen {
   private final PatchSet.Id base;
   private final PatchSet.Id revision;
   private final String path;
+  private AccountDiffPreference pref;
 
   private CodeMirror cmA;
   private CodeMirror cmB;
@@ -145,6 +146,13 @@ public class SideBySide2 extends Screen {
     this.base = base;
     this.revision = revision;
     this.path = path;
+
+    pref = Gerrit.getAccountDiffPreference();
+    if (pref == null) {
+      pref = AccountDiffPreference.createDefault(null);
+    }
+    context = pref.getContext();
+
     this.handlers = new ArrayList<HandlerRegistration>(6);
     // TODO: Re-implement necessary GlobalKey bindings.
     addDomHandler(GlobalKey.STOP_PROPAGATION, KeyPressEvent.getType());
@@ -173,8 +181,8 @@ public class SideBySide2 extends Screen {
     DiffApi.diff(revision, path)
       .base(base)
       .wholeFile()
-      .intraline()
-      .ignoreWhitespace(DiffApi.IgnoreWhitespace.NONE)
+      .intraline(pref.isIntralineDifference())
+      .ignoreWhitespace(pref.getIgnoreWhitespace())
       .get(cmGroup.addFinal(new GerritCallback<DiffInfo>() {
         @Override
         public void onSuccess(DiffInfo diffInfo) {
@@ -442,12 +450,12 @@ public class SideBySide2 extends Screen {
     Configuration cfg = Configuration.create()
       .set("readOnly", true)
       .set("lineNumbers", true)
-      .set("tabSize", 2)
+      .set("tabSize", pref.getTabSize())
       .set("mode", getContentType(meta))
       .set("lineWrapping", true)
       .set("styleSelectedText", true)
-      .set("showTrailingSpace", true)
-      .set("keyMap", "vim")
+      .set("showTrailingSpace", pref.isShowWhitespaceErrors())
+      .set("keyMap", "vim_ro")
       .set("value", contents)
       /**
        * Without this, CM won't put line widgets too far down in the right spot,
@@ -462,10 +470,6 @@ public class SideBySide2 extends Screen {
   }
 
   private void render(DiffInfo diff) {
-    AccountDiffPreference pref = Gerrit.getAccountDiffPreference();
-    context = pref != null
-        ? pref.getContext()
-        : AccountDiffPreference.DEFAULT_CONTEXT;
     JsArray<Region> regions = diff.content();
     String diffColor = diff.meta_a() == null || diff.meta_b() == null
         ? DiffTable.style.intralineBg()
@@ -1249,8 +1253,10 @@ public class SideBySide2 extends Screen {
     ele.getStyle().setHeight(height, Unit.PX);
   }
 
-  private static String getContentType(DiffInfo.FileMeta meta) {
-    return meta != null && meta.content_type() != null
+  private String getContentType(DiffInfo.FileMeta meta) {
+    return pref.isSyntaxHighlighting()
+          && meta != null
+          && meta.content_type() != null
         ? ModeInjector.getContentType(meta.content_type())
         : null;
   }

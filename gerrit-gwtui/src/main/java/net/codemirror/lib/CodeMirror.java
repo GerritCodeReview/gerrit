@@ -265,12 +265,6 @@ public class CodeMirror extends JavaScriptObject {
     return this.lineCount();
   }-*/;
 
-  /** Hack into CodeMirror to disable unwanted keys */
-  public static final native void disableUnwantedKey(String category,
-      String name) /*-{
-    $wnd.CodeMirror.keyMap[category][name] = undefined;
-  }-*/;
-
   public final native void moveCursorDown(int numLines) /*-{
     this.moveV(numLines, "line");
   }-*/;
@@ -298,6 +292,19 @@ public class CodeMirror extends JavaScriptObject {
   public static final native void setObjectProperty(JavaScriptObject obj,
       String name, boolean value) /*-{
     obj[name] = value;
+  }-*/;
+
+  public static final native KeyMap cloneKeyMap(String name) /*-{
+    var i = $wnd.CodeMirror.keyMap[name];
+    var o = {};
+    for (n in i)
+      if (i.hasOwnProperty(n))
+        o[n] = i[n];
+    return o;
+  }-*/;
+
+  public static final native void addKeyMap(String name, KeyMap km) /*-{
+    $wnd.CodeMirror.keyMap[name] = km;
   }-*/;
 
   protected CodeMirror() {

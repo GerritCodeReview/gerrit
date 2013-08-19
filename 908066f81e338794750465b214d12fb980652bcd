@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d0a7414_78954129",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2284,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-19T10:09:35Z",
+      "side": 1,
+      "message": "This is correct, but seems a bit strange to me.  I\u0027d like to change this, but it can be done in a separate commit.",
+      "revId": "908066f81e338794750465b214d12fb980652bcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d0f7025_469f3c4a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2297,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-19T10:09:35Z",
+      "side": 1,
+      "message": "I think it\u0027s enough to just say \"describes the change\" here.",
+      "revId": "908066f81e338794750465b214d12fb980652bcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d9d2028_bbff27e0",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2312,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-19T10:09:35Z",
+      "side": 1,
+      "message": "I wonder if we should make ChangeInfo include the full commit message (in another commit).",
+      "revId": "908066f81e338794750465b214d12fb980652bcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

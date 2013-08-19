@@ -16,6 +16,24 @@
       "revId": "7bf661be5296e51432030dd4d1351c4bb3f19b8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d0a7414_d8c0cd38",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Header.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-19T04:46:19Z",
+      "side": 1,
+      "message": "The arrays returned by /files and /files?reviewed are very different lists. The location of the file in one list will not match the location in the other list. Since both are lists from the server the best we can do is iterate them once and break when we find our match, if it exists.",
+      "parentUuid": "0d0f7025_e6d9b03a",
+      "revId": "7bf661be5296e51432030dd4d1351c4bb3f19b8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

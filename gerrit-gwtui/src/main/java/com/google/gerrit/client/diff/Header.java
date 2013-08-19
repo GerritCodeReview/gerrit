@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Visibility;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -37,6 +38,7 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -111,6 +113,26 @@ class Header extends Composite {
             index == files.length() - 1 ? null : files.get(index + 1));
       }
     });
+
+    if (Gerrit.isSignedIn()) {
+      ChangeApi.revision(patchSetId).view("files")
+        .addParameterTrue("reviewed")
+        .get(new AsyncCallback<JsArrayString>() {
+            @Override
+            public void onSuccess(JsArrayString result) {
+              for (int i = 0; i < result.length(); i++) {
+                if (path.equals(result.get(i))) {
+                  reviewed.setValue(true, false);
+                  break;
+                }
+              }
+            }
+
+            @Override
+            public void onFailure(Throwable caught) {
+            }
+          });
+    }
   }
 
   void setReviewed(boolean r) {

@@ -16,6 +16,24 @@
       "revId": "60400e2bc11ed48641580ca35ba342c692580fae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d0a7414_f8c39142",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EditMessage.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-19T04:44:25Z",
+      "side": 1,
+      "message": "Ack, I missed this. It also be no-arg constructor.",
+      "parentUuid": "cd4e3882_ae4edbe1",
+      "revId": "60400e2bc11ed48641580ca35ba342c692580fae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

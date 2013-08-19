@@ -46,10 +46,10 @@ import java.util.Arrays;
 import java.util.Set;
 
 public class PushOneCommit {
-  public final static String SUBJECT = "test commit";
+  public static final String SUBJECT = "test commit";
 
-  private final static String FILE_NAME = "a.txt";
-  private final static String FILE_CONTENT = "some content";
+  private static final String FILE_NAME = "a.txt";
+  private static final String FILE_CONTENT = "some content";
 
   private final ReviewDb db;
   private final PersonIdent i;

@@ -26,7 +26,7 @@ public class AuthUser {
   /**
    * Globally unique identifier for the user.
    */
-  public final static class UUID {
+  public static final class UUID {
     private final String uuid;
 
     /**

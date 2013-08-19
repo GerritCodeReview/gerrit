@@ -22,7 +22,7 @@ public class CacheControl {
     NONE, PUBLIC, PRIVATE;
   }
 
-  public final static CacheControl NONE = new CacheControl(Type.NONE, 0, null);
+  public static final CacheControl NONE = new CacheControl(Type.NONE, 0, null);
 
   public static CacheControl PUBLIC(long age, TimeUnit unit) {
     return new CacheControl(Type.PUBLIC, age, unit);

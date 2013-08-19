@@ -35,8 +35,8 @@ import java.util.zip.ZipFile;
 
 @Singleton
 public class InitPlugins implements InitStep {
-  private final static String PLUGIN_DIR = "WEB-INF/plugins/";
-  private final static String JAR = ".jar";
+  private static final String PLUGIN_DIR = "WEB-INF/plugins/";
+  private static final String JAR = ".jar";
 
   public static class PluginData {
     public final String name;

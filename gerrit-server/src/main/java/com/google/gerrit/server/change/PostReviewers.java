@@ -63,8 +63,8 @@ import java.util.List;
 import java.util.Set;
 
 public class PostReviewers implements RestModifyView<ChangeResource, Input> {
-  public final static int DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK = 10;
-  public final static int DEFAULT_MAX_REVIEWERS = 20;
+  public static final int DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK = 10;
+  public static final int DEFAULT_MAX_REVIEWERS = 20;
 
   public static class Input {
     @DefaultInput

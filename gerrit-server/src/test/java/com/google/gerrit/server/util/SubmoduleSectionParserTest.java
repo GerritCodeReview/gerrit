@@ -41,7 +41,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
-  private final static String THIS_SERVER = "localhost";
+  private static final String THIS_SERVER = "localhost";
   private GitRepositoryManager repoManager;
   private BlobBasedConfig bbc;
 
@@ -245,7 +245,7 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
     assertEquals(expectedSubscriptions, returnedSubscriptions);
   }
 
-  private final static class SubmoduleSection {
+  private static final class SubmoduleSection {
     private final String url;
     private final String path;
     private final String branch;

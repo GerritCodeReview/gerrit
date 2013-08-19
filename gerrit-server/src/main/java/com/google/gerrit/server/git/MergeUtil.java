@@ -488,7 +488,7 @@ public class MergeUtil {
   public ObjectInserter createDryRunInserter() {
     return new ObjectInserter() {
       private final MutableObjectId buf = new MutableObjectId();
-      private final static int LAST_BYTE = Constants.OBJECT_ID_LENGTH - 1;
+      private static final int LAST_BYTE = Constants.OBJECT_ID_LENGTH - 1;
 
       @Override
       public ObjectId insert(int objectType, long length, InputStream in)

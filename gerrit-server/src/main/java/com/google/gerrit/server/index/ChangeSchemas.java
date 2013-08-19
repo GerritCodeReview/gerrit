@@ -29,7 +29,7 @@ import java.util.Map;
 
 /** Secondary index schemas for changes. */
 public class ChangeSchemas {
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked", "deprecation"})
   static final Schema<ChangeData> V1 = release(
         ChangeField.LEGACY_ID,
         ChangeField.ID,

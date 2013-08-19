@@ -167,10 +167,10 @@ public class SideBySide2 extends Screen {
     super.onLoad();
 
     CallbackGroup cmGroup = new CallbackGroup();
-    CodeMirror.initLibrary(cmGroup.add(CallbackGroup.<Void>emptyCallback()));
+    CodeMirror.initLibrary(cmGroup.add(CallbackGroup.<Void> emptyCallback()));
     final CallbackGroup group = new CallbackGroup();
     final AsyncCallback<Void> modeInjectorCb =
-        group.add(CallbackGroup.<Void>emptyCallback());
+        group.add(CallbackGroup.<Void> emptyCallback());
 
     DiffApi.diff(revision, path)
       .base(base)
@@ -187,16 +187,19 @@ public class SideBySide2 extends Screen {
             .inject(modeInjectorCb);
         }
       }));
+
     if (base != null) {
       CommentApi.comments(base, group.add(getCommentCallback(DisplaySide.A, false)));
     }
     CommentApi.comments(revision, group.add(getCommentCallback(DisplaySide.B, false)));
+
     if (Gerrit.isSignedIn()) {
       if (base != null) {
         CommentApi.drafts(base, group.add(getCommentCallback(DisplaySide.A, true)));
       }
       CommentApi.drafts(revision, group.add(getCommentCallback(DisplaySide.B, true)));
     }
+
     ConfigInfoCache.get(revision.getParentKey(), group.addFinal(
         new ScreenLoadCallback<ConfigInfoCache.Entry>(SideBySide2.this) {
           @Override

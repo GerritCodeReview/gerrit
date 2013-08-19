@@ -26,14 +26,14 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public class ChangeApi {
   /** Abandon the change, ending its review. */
-  public static void abandon(int id, String msg, AsyncCallback<ChangeInfo> cb) {
+  public static void abandon(int id, String msg, AsyncCallback<JavaScriptObject> cb) {
     Input input = Input.create();
     input.message(emptyToNull(msg));
     call(id, "abandon").post(input, cb);
   }
 
   /** Restore a previously abandoned change to be open again. */
-  public static void restore(int id, String msg, AsyncCallback<ChangeInfo> cb) {
+  public static void restore(int id, String msg, AsyncCallback<JavaScriptObject> cb) {
     Input input = Input.create();
     input.message(emptyToNull(msg));
     call(id, "restore").post(input, cb);

@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
@@ -50,7 +51,6 @@ public class Abandon implements RestModifyView<ChangeResource, Input>,
   private final ChangeHooks hooks;
   private final AbandonedSender.Factory abandonedSenderFactory;
   private final Provider<ReviewDb> dbProvider;
-  private final ChangeJson json;
   private final ChangeIndexer indexer;
 
   public static class Input {
@@ -62,12 +62,10 @@ public class Abandon implements RestModifyView<ChangeResource, Input>,
   Abandon(ChangeHooks hooks,
       AbandonedSender.Factory abandonedSenderFactory,
       Provider<ReviewDb> dbProvider,
-      ChangeJson json,
       ChangeIndexer indexer) {
     this.hooks = hooks;
     this.abandonedSenderFactory = abandonedSenderFactory;
     this.dbProvider = dbProvider;
-    this.json = json;
     this.indexer = indexer;
   }
 
@@ -127,7 +125,7 @@ public class Abandon implements RestModifyView<ChangeResource, Input>,
         db.patchSets().get(change.currentPatchSetId()),
         Strings.emptyToNull(input.message),
         db);
-    return json.format(change);
+    return Response.none();
   }
 
   @Override

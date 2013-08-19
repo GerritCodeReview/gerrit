@@ -41,7 +41,7 @@ class EditMessageBox extends Composite {
 
   private final Change.Id changeId;
   private final String revision;
-  private String originalMessage;
+  private final String originalMessage;
 
   @UiField NpTextArea message;
   @UiField Button save;

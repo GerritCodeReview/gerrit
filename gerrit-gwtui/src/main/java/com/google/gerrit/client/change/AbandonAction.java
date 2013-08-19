@@ -16,10 +16,10 @@ package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeApi;
-import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.ui.Button;
 
 class AbandonAction extends ActionMessageBox {
@@ -31,9 +31,9 @@ class AbandonAction extends ActionMessageBox {
   }
 
   void send(String message) {
-    ChangeApi.abandon(id.get(), message, new GerritCallback<ChangeInfo>() {
+    ChangeApi.abandon(id.get(), message, new GerritCallback<JavaScriptObject>() {
       @Override
-      public void onSuccess(ChangeInfo result) {
+      public void onSuccess(JavaScriptObject msg) {
         Gerrit.display(PageLinks.toChange2(id));
         hide();
       }

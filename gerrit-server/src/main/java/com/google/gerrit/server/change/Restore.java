@@ -19,6 +19,7 @@ import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
@@ -50,7 +51,6 @@ public class Restore implements RestModifyView<ChangeResource, Input>,
   private final ChangeHooks hooks;
   private final RestoredSender.Factory restoredSenderFactory;
   private final Provider<ReviewDb> dbProvider;
-  private final ChangeJson json;
   private final ChangeIndexer indexer;
 
   public static class Input {
@@ -62,12 +62,10 @@ public class Restore implements RestModifyView<ChangeResource, Input>,
   Restore(ChangeHooks hooks,
       RestoredSender.Factory restoredSenderFactory,
       Provider<ReviewDb> dbProvider,
-      ChangeJson json,
       ChangeIndexer indexer) {
     this.hooks = hooks;
     this.restoredSenderFactory = restoredSenderFactory;
     this.dbProvider = dbProvider;
-    this.json = json;
     this.indexer = indexer;
   }
 
@@ -126,7 +124,7 @@ public class Restore implements RestModifyView<ChangeResource, Input>,
         db.patchSets().get(change.currentPatchSetId()),
         Strings.emptyToNull(input.message),
         dbProvider.get());
-    return json.format(change);
+    return Response.none();
   }
 
   @Override

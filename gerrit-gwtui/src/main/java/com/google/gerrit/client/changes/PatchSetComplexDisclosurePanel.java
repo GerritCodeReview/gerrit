@@ -450,12 +450,12 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
               // REST APIs, we can use createCallback() rather than providing
               // them directly.
               ChangeApi.abandon(changeDetail.getChange().getChangeId(),
-                  getMessageText(), new GerritCallback<ChangeInfo>() {
+                  getMessageText(), new GerritCallback<JavaScriptObject>() {
                     @Override
-                    public void onSuccess(ChangeInfo result) {
+                    public void onSuccess(JavaScriptObject msg) {
                       sent = true;
-                      Gerrit.display(PageLinks.toChange(new Change.Id(result
-                          ._number())));
+                      Gerrit.display(PageLinks.toChange(changeDetail
+                          .getChange().getId()));
                       hide();
                     }
 
@@ -511,12 +511,12 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
             @Override
             public void onSend() {
               ChangeApi.restore(changeDetail.getChange().getChangeId(),
-                  getMessageText(), new GerritCallback<ChangeInfo>() {
+                  getMessageText(), new GerritCallback<JavaScriptObject>() {
                     @Override
-                    public void onSuccess(ChangeInfo result) {
+                    public void onSuccess(JavaScriptObject msg) {
                       sent = true;
-                      Gerrit.display(PageLinks.toChange(new Change.Id(result
-                          ._number())));
+                      Gerrit.display(PageLinks.toChange(changeDetail
+                          .getChange().getId()));
                       hide();
                     }
 

@@ -26,6 +26,15 @@ newer, you may ignore this warning and upgrade directly to 2.7.x.
 
 
 
+Gerrit Trigger Plugin in Jenkins
+--------------------------------
+
+
+*WARNING:* Upgrading to 2.7 may cause the Gerrit Trigger Plugin in Jenkins to
+stop working.  Please see the "New 'Stream Events' global capability" section
+below.
+
+
 Release Highlights
 ------------------
 
@@ -69,6 +78,10 @@ The link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.7/access
 Stream Events capability] controls access to the `stream-events` ssh command.
 +
 Only administrators and users having this capability are allowed to use `stream-events`.
++
+If you are using the Gerrit Trigger Plugin in Jenkins, you must make sure that the
+'Non-Interactive Users' group, or whichever group the Jenkins user belongs to, is
+given the 'Stream Events' capability.
 
 * Allow opening new changes on existing commits.
 +

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "0d0f7025_a66cd876",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2284,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-19T07:21:44Z",
+      "side": 1,
+      "message": "Hmm, OK.\n\nPerhaps we should rename that type if it\u0027s used in more than one place.",
+      "parentUuid": "cd4e3882_4e1d27d9",
+      "revId": "fe9c0c8486b3a4b3871f1c1050188f8a8bcb3cff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d0f7025_467cdc28",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "I don\u0027t understand that comment. I copied that from cherry-pick documentation.",
       "parentUuid": "0d0f7025_467cdc28",
+      "revId": "fe9c0c8486b3a4b3871f1c1050188f8a8bcb3cff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d0a7414_387c6928",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2296,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-19T07:21:44Z",
+      "side": 1,
+      "message": "The \"subject\" field is only the first line of the commit message.\n\nIn this example it\u0027s actually the whole commit message, because the message sent in the REST call is only one line.\n\nHowever, if the edit commit message is multi-line, which in most cases it will be, the \"subject\" will not be the complete message.\n\nDoesn\u0027t ChangeInfo include \"commitMessage\" now?",
+      "parentUuid": "2d0a7414_58871d0c",
       "revId": "fe9c0c8486b3a4b3871f1c1050188f8a8bcb3cff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

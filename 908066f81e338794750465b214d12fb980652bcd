@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "cd4e3882_ae801bb6",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2297,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-19T20:22:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d0f7025_469f3c4a",
+      "revId": "908066f81e338794750465b214d12fb980652bcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d9d2028_bbff27e0",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 2
@@ -65,6 +83,24 @@
       "side": 1,
       "message": "I have to check it (later).",
       "parentUuid": "8d9d2028_bbff27e0",
+      "revId": "908066f81e338794750465b214d12fb980652bcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d0a7414_58c15d1d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2312,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-19T20:22:12Z",
+      "side": 1,
+      "message": "So i checked it, and the result of that check is a pending change to not return ChangeInfo here (and for abandon and restore endpoints) at all, because web UI client doesn\u0027t need it:\n\n https://gerrit-review.googlesource.com/#/c/48944/",
+      "parentUuid": "cd4e3882_8e22ff17",
       "revId": "908066f81e338794750465b214d12fb980652bcd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

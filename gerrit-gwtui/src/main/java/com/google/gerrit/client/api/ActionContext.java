@@ -62,6 +62,12 @@ public class ActionContext extends JavaScriptObject {
         e.appendChild(doc.createTextNode(label));
         return e;
       },
+      label2: function(label,c) {
+        var e = doc.createElement('label');
+        e.appendChild(doc.createTextNode(label));
+        e.appendChild(c);
+        return e;
+      },
       span: function() {
         var e = doc.createElement('span');
         for (var i = 0; i < arguments.length; i++)

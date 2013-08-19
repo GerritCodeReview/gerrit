@@ -102,6 +102,7 @@ class Header extends Composite {
         for (int i = 0; i < files.length(); i++) {
           if (path.equals(files.get(i).path())) {
             index = i;
+            break;
           }
         }
         setupNav(prev, '[', PatchUtil.C.previousFileHelp(),

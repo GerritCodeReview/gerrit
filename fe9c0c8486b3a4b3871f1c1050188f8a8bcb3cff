@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d0a7414_b898796d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2284,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-19T07:11:24Z",
+      "side": 1,
+      "message": "CherryPickInput?",
+      "revId": "fe9c0c8486b3a4b3871f1c1050188f8a8bcb3cff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d0f7025_467cdc28",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2296,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-19T07:11:24Z",
+      "side": 1,
+      "message": "The ChangeInfo shown in the example below seems to only include the subject.",
+      "revId": "fe9c0c8486b3a4b3871f1c1050188f8a8bcb3cff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d0f7025_2681e8f4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditMessageBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-19T07:11:24Z",
+      "side": 1,
+      "message": "Unrelated change. Should be in a separate commit.",
+      "revId": "fe9c0c8486b3a4b3871f1c1050188f8a8bcb3cff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d0a7414_9895b535",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EditMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-19T07:11:24Z",
+      "side": 1,
+      "message": "Unrelated change. Should be in a separate commit.",
+      "revId": "fe9c0c8486b3a4b3871f1c1050188f8a8bcb3cff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

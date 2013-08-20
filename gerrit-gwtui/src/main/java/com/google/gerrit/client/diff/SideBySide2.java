@@ -1176,7 +1176,18 @@ public class SideBySide2 extends Screen {
         diffChunks,
         new DiffChunkInfo(side, line, 0, false), // Dummy DiffChunkInfo
         getDiffChunkComparator());
-    return res >= 0 ? diffChunks.get(res) : null;
+    if (res >= 0) {
+      return diffChunks.get(res);
+    } else { // The line might be within a DiffChunk
+      res = -res - 1;
+      if (res > 0) {
+        DiffChunkInfo info = diffChunks.get(res - 1);
+        if (info.side == side && info.start <= line && line <= info.end) {
+          return info;
+        }
+      }
+    }
+    return null;
   }
 
   private int getWrapAroundDiffChunkIndex(int index) {

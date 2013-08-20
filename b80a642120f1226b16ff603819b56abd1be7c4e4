@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "4dd6c8dc_d7cf5448",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-20T05:39:51Z",
+      "side": 1,
+      "message": "I think this was discussed back when we added the anchors. The ListBox falls down when you have 70 revisions because the list is huge and requires scrolling. The horizontal case also falls down on this case, but at least requires fewer clicks for \u003c26 revisions where they all fit across the top of the file.\n\nSo I don\u0027t think the list box is going to be a popular choice. I actually want to change the revision list box on ChangeScreen2 with a popup that shows one link per revision. Its still 2 clicks like the ListBox, but a proper anchor means you can right click and open it into a new tab. Which is also doable with the anchor list if the anchor hrefs were actually set to the URLs.",
+      "range": {
+        "startLine": 9,
+        "startChar": 13,
+        "endLine": 9,
+        "endChar": 48
+      },
+      "revId": "b80a642120f1226b16ff603819b56abd1be7c4e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6dd1cce1_f24e286c",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
         "patchSetId": 2

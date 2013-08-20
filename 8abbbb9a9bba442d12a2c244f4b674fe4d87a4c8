@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "adce6449_ccf82ffd",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/restapi/BinaryResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-20T06:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4dd6c8dc_f1f5c801",
+      "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6dd1cce1_12064c2f",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/restapi/BinaryResult.java",
         "patchSetId": 2
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "adce6449_ecf5eb01",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/restapi/BinaryResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-20T06:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6dd1cce1_12064c2f",
+      "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6dd1cce1_d21f646e",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
         "patchSetId": 2
@@ -59,6 +95,24 @@
       "writtenOn": "2013-08-20T00:49:15Z",
       "side": 1,
       "message": "Unused import.",
+      "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0de050ae_2ff44906",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-20T06:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6dd1cce1_d21f646e",
       "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -118,6 +172,24 @@
     },
     {
       "key": {
+        "uuid": "0de050ae_4f0c2d51",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-20T06:33:40Z",
+      "side": 1,
+      "message": "Does it make sense to merge first that version and later change it to pop out?",
+      "parentUuid": "4dd6c8dc_b495ee34",
+      "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "adce6449_2cf45306",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadPatch.java",
         "patchSetId": 2
@@ -141,6 +213,24 @@
     },
     {
       "key": {
+        "uuid": "0de050ae_eff5e101",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-20T06:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "adce6449_2cf45306",
+      "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4dd6c8dc_7111d863",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadPatch.java",
         "patchSetId": 2
@@ -152,6 +242,24 @@
       "writtenOn": "2013-08-20T00:49:15Z",
       "side": 1,
       "message": "Does this really need to open to _blank? I thought modern browsers saved the file when an attachment is named and doesn\u0027t navigate away from the current page.",
+      "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "adce6449_8c02271d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-20T06:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4dd6c8dc_7111d863",
       "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -211,6 +319,42 @@
     },
     {
       "key": {
+        "uuid": "adce6449_acffe3df",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Resources.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-20T06:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4dd6c8dc_771308de",
+      "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0de050ae_8f02151d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Resources.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-20T06:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6dd1cce1_320b5038",
+      "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6dd1cce1_12588c2f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/download_icon.png",
         "patchSetId": 2
@@ -239,6 +383,24 @@
       "writtenOn": "2013-08-20T05:48:51Z",
       "side": 1,
       "message": "Right, but i failed to use it in Resources.java, i dis something like that:\n\n @Source(\"downloadIcon.png\") ImageResource download_icon();\n\nbut it didn\u0027t work. That why i added the \"stolen\" comment.",
+      "parentUuid": "6dd1cce1_12588c2f",
+      "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "adce6449_4c0c3f51",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/download_icon.png",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-20T06:33:40Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "6dd1cce1_12588c2f",
       "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -293,6 +455,24 @@
       "side": 1,
       "message": "Ouch, this is fair Windows lacks base64 --decode. Unfortunately its MSIE that pioneered the idea of ignoring Content-Type and Content-Disposition headers from servers and just execute random JavaScript or applets or Flash or whatever. To be fair Chrome has followed in its footsteps apparently and also guesses intent in some cases.\n\nWe err on the side of paranoid. To serve this raw content without the base64 wrapping on gerrit-review.googlesource.com I need to actually run this on an entirely separate domain that has no cookies. This is possible, but a non-trivial amount of work for us. It also means we should make the same recommendation to most Gerrit server administrators, unless the server is running inside of a firewalled network where all of the users are well trusted.",
       "parentUuid": "cd4e3882_0e696f29",
+      "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "adce6449_6c11fb63",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DownloadPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-20T06:33:40Z",
+      "side": 1,
+      "message": "Let\u0027s then ignore Windows user, nobody actually cares ...",
+      "parentUuid": "4dd6c8dc_d4a8b276",
       "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -358,6 +538,24 @@
     },
     {
       "key": {
+        "uuid": "adce6449_0c06372f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DownloadPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-20T06:33:40Z",
+      "side": 1,
+      "message": "I suspect something is going wrong, because with gzip the file name is not honored in Chrome and Firefox.\n\nDone",
+      "parentUuid": "4dd6c8dc_94b22adf",
+      "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4dd6c8dc_b1ff40e0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
         "patchSetId": 2
@@ -369,6 +567,24 @@
       "writtenOn": "2013-08-20T00:49:15Z",
       "side": 1,
       "message": "Why can\u0027t we just use GetPatch but maybe allow the file name to be given as a query parameter and have the UI supply a query parameter in this case to name the file?",
+      "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0de050ae_afffd9df",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-20T06:33:40Z",
+      "side": 1,
+      "message": "Nice idea. How can i retrieve a query parameters in GetPatch.apply method then?\n\n public BinaryResult apply(RevisionResource rsrc) { ...",
+      "parentUuid": "4dd6c8dc_b1ff40e0",
       "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

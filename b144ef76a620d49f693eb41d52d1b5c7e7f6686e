@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6dd1cce1_52ba9408",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/SystemConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-08-20T19:51:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8b4e4fc_9c0d2549",
+      "revId": "b144ef76a620d49f693eb41d52d1b5c7e7f6686e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b8b4e4fc_5c20bdb1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 2
@@ -140,6 +158,42 @@
     },
     {
       "key": {
+        "uuid": "6dd1cce1_12b40c17",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-08-20T19:51:37Z",
+      "side": 1,
+      "message": "Sorry to have implicated you.  Your right, you did not suggest that.  I made that assumption on my own.  I\u0027ve updated to make it more compatible with gerrit flow.",
+      "parentUuid": "586f6876_c92df176",
+      "revId": "b144ef76a620d49f693eb41d52d1b5c7e7f6686e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6dd1cce1_32b91010",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-08-20T19:51:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8b4e4fc_3c1df175",
+      "revId": "b144ef76a620d49f693eb41d52d1b5c7e7f6686e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "986c8049_630ea245",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaCreator.java",
         "patchSetId": 2
@@ -157,6 +211,24 @@
     },
     {
       "key": {
+        "uuid": "6dd1cce1_72bf98f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-08-20T19:51:37Z",
+      "side": 1,
+      "message": "Could you please provide a pointer to the schema migration code?",
+      "parentUuid": "986c8049_630ea245",
+      "revId": "b144ef76a620d49f693eb41d52d1b5c7e7f6686e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "986c8049_8322beb9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_53.java",
         "patchSetId": 2
@@ -168,6 +240,24 @@
       "writtenOn": "2013-08-09T00:20:13Z",
       "side": 1,
       "message": "This column can\u0027t happen, it never existed so it doesn\u0027t need to be handled here during the upgrade.",
+      "revId": "b144ef76a620d49f693eb41d52d1b5c7e7f6686e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4dd6c8dc_571844ea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_53.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-08-20T19:51:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "986c8049_8322beb9",
       "revId": "b144ef76a620d49f693eb41d52d1b5c7e7f6686e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

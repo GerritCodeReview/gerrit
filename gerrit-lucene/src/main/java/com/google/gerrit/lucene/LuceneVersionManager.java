@@ -114,6 +114,13 @@ class LuceneVersionManager implements LifecycleListener {
       throw fail(e);
     }
 
+    if (!sitePaths.index_dir.exists()) {
+      throw new ProvisionException("No index versions ready; run Reindex");
+    } else if (!sitePaths.index_dir.isDirectory()) {
+      log.warn("Not a directory: %s", sitePaths.index_dir.getAbsolutePath());
+      throw new ProvisionException("No index versions ready; run Reindex");
+    }
+
     TreeMap<Integer, Version> versions = scanVersions(cfg);
     // Search from the most recent ready version.
     // Write to the most recent ready version and the most recent version.

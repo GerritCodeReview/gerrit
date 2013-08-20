@@ -106,6 +106,24 @@
       "revId": "b7f8ed0634379c82dfc8cb817ea54fa3ce157419",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6dd1cce1_12ef2c39",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-20T00:06:44Z",
+      "side": 1,
+      "message": "That is not easily fixable. The DynamicItem stuff is bound in the system injector where there is no request scope and no HttpServletRequest.\n\nMaybe you can declare your implementation in the Gerrit-HttpModule injector and use a LifecycleListener to push the Provider of your implementation into the DynamicItem, instead of relying on automatic binding from the system module?",
+      "parentUuid": "0d0f7025_26bb28ba",
+      "revId": "b7f8ed0634379c82dfc8cb817ea54fa3ce157419",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

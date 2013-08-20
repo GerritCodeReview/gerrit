@@ -126,7 +126,7 @@ public class SideBySide2 extends Screen {
   private CommentLinkProcessor commentLinkProcessor;
   private Map<String, PublishedBox> publishedMap;
   private Map<LineHandle, CommentBox> lineActiveBoxMap;
-  private Map<LineHandle, PublishedBox> lineLastPublishedBoxMap;
+  private Map<LineHandle, List<PublishedBox>> lineLastPublishedBoxMap;
   private Map<LineHandle, PaddingManager> linePaddingManagerMap;
   private Map<LineHandle, LinePaddingWidgetWrapper> linePaddingOnOtherSideMap;
   private List<DiffChunkInfo> diffChunks;
@@ -332,6 +332,25 @@ public class SideBySide2 extends Screen {
         })
         .on("Alt-N", diffChunkNav(cm, false))
         .on("Alt-P", diffChunkNav(cm, true))
+        .on("Alt-O", new Runnable() {
+          @Override
+          public void run() {
+            if (cm.hasActiveLine()) {
+              List<PublishedBox> list =
+                  lineLastPublishedBoxMap.get(cm.getActiveLine());
+              boolean open = false;
+              for (PublishedBox box : list) {
+                if (!box.isOpen()) {
+                  open = true;
+                  break;
+                }
+              }
+              for (PublishedBox box : list) {
+                box.setOpen(open);
+              }
+            }
+          }
+        })
         .on("Shift-Left", flipCursorSide(cm, true))
         .on("Shift-Right", flipCursorSide(cm, false)));
   }
@@ -416,7 +435,7 @@ public class SideBySide2 extends Screen {
     render(diffInfo);
     Collections.sort(diffChunks, getDiffChunkComparator());
     lineActiveBoxMap = new HashMap<LineHandle, CommentBox>();
-    lineLastPublishedBoxMap = new HashMap<LineHandle, PublishedBox>();
+    lineLastPublishedBoxMap = new HashMap<LineHandle, List<PublishedBox>>();
     linePaddingManagerMap = new HashMap<LineHandle, PaddingManager>();
     if (publishedBase != null || publishedRevision != null) {
       publishedMap = new HashMap<String, PublishedBox>();
@@ -629,7 +648,8 @@ public class SideBySide2 extends Screen {
     LineHandle handle = getCmFromSide(box.getSide()).getLineHandle(line);
     lineActiveBoxMap.remove(handle);
     if (lineLastPublishedBoxMap.containsKey(handle)) {
-      lineActiveBoxMap.put(handle, lineLastPublishedBoxMap.get(handle));
+      List<PublishedBox> list = lineLastPublishedBoxMap.get(handle);
+      lineActiveBoxMap.put(handle, list.get(list.size() - 1));
     }
   }
 
@@ -677,7 +697,13 @@ public class SideBySide2 extends Screen {
       }
       int line = info.line() - 1;
       LineHandle handle = cm.getLineHandle(line);
-      lineLastPublishedBoxMap.put(handle, box);
+      if (lineLastPublishedBoxMap.containsKey(handle)) {
+        lineLastPublishedBoxMap.get(handle).add(box);
+      } else {
+        List<PublishedBox> list = new ArrayList<PublishedBox>();
+        list.add(box);
+        lineLastPublishedBoxMap.put(handle, list);
+      }
       lineActiveBoxMap.put(handle, box);
       addCommentBox(info, box);
     }

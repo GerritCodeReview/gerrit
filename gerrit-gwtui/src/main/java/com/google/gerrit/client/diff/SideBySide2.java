@@ -331,7 +331,9 @@ public class SideBySide2 extends Screen {
           }
         })
         .on("Alt-N", diffChunkNav(cm, false))
-        .on("Alt-P", diffChunkNav(cm, true)));
+        .on("Alt-P", diffChunkNav(cm, true))
+        .on("Shift-Left", flipCursorSide(cm, true))
+        .on("Shift-Right", flipCursorSide(cm, false)));
   }
 
   @Override
@@ -1012,7 +1014,6 @@ public class SideBySide2 extends Screen {
         if (!(cm.hasActiveLine() &&
             cm.getLineNumber(cm.getActiveLine()) == line)) {
           cm.setCursor(LineCharacter.create(line));
-          updateActiveLine(cm).run();
         }
         Scheduler.get().scheduleDeferred(new ScheduledCommand() {
           @Override
@@ -1099,6 +1100,20 @@ public class SideBySide2 extends Screen {
      public void run() {
        header.setReviewed(!header.isReviewed());
      }
+    };
+  }
+
+  private Runnable flipCursorSide(final CodeMirror cm, final boolean toLeft) {
+    return new Runnable() {
+      public void run() {
+        if (cm.hasActiveLine() && (toLeft && cm == cmB || !toLeft && cm == cmA)) {
+          CodeMirror other = otherCm(cm);
+          other.setCursor(LineCharacter.create(
+              mapper.lineOnOther(
+                  getSideFromCm(cm), cm.getLineNumber(cm.getActiveLine())).getLine()));
+          other.focus();
+        }
+      }
     };
   }
 

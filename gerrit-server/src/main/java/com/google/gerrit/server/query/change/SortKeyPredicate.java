@@ -25,6 +25,7 @@ import com.google.inject.Provider;
 public abstract class SortKeyPredicate extends IndexPredicate<ChangeData> {
   protected final Provider<ReviewDb> dbProvider;
 
+  @SuppressWarnings("deprecation")
   SortKeyPredicate(Provider<ReviewDb> dbProvider, String name, String value) {
     super(ChangeField.SORTKEY, name, value);
     this.dbProvider = dbProvider;

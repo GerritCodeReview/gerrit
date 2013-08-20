@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4dd6c8dc_f1914899",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox2.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-08-20T02:53:49Z",
+      "side": 1,
+      "message": "Better if positioned to the left / right?",
+      "revId": "b80a642120f1226b16ff603819b56abd1be7c4e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

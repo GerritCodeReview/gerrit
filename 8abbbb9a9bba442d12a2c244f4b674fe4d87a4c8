@@ -152,6 +152,23 @@
     },
     {
       "key": {
+        "uuid": "6dd1cce1_12588c2f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/download_icon.png",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-08-20T04:33:35Z",
+      "side": 1,
+      "message": "Thought we have gerrit-gwtui/src/main/java/com/google/gerrit/client/downloadIcon.png?",
+      "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4dd6c8dc_510cd450",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DownloadPatch.java",
         "patchSetId": 2

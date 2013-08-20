@@ -2,6 +2,189 @@
   "comments": [
     {
       "key": {
+        "uuid": "6dd1cce1_f24e286c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-20T05:33:09Z",
+      "side": 1,
+      "message": "If we replace this with fileName you can write the new method here and then write a tiny wrapper that calls this fileName version with id.get().",
+      "range": {
+        "startLine": 126,
+        "startChar": 57,
+        "endLine": 126,
+        "endChar": 65
+      },
+      "revId": "b80a642120f1226b16ff603819b56abd1be7c4e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4dd6c8dc_d751940a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-20T05:33:09Z",
+      "side": 1,
+      "message": "This should be using KeyUtil.encode().",
+      "revId": "b80a642120f1226b16ff603819b56abd1be7c4e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4dd6c8dc_b772d09d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 883,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-20T05:33:09Z",
+      "side": 1,
+      "message": "I can get a scrolling bug here in this file. I had focus on the right side and just scrolled to the end of the file. The left side lost alignment and is showing the \"skipped 725 common lines\" as being about the same line as 883 on the right side. Wasn\u0027t even a \"throw scroll\", I just used the vi line down key. :-(",
+      "revId": "b80a642120f1226b16ff603819b56abd1be7c4e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4dd6c8dc_d740b411",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-20T05:33:09Z",
+      "side": 1,
+      "message": "final",
+      "revId": "b80a642120f1226b16ff603819b56abd1be7c4e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6dd1cce1_b248a05e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-20T05:33:09Z",
+      "side": 1,
+      "message": "This is a very expensive way to decide between the text \"patch base auto-merge\" and \"patch base\". Right now I would prefer to just not do this distinction.",
+      "range": {
+        "startLine": 85,
+        "startChar": 26,
+        "endLine": 85,
+        "endChar": 37
+      },
+      "revId": "b80a642120f1226b16ff603819b56abd1be7c4e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6dd1cce1_924b1c5b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-20T05:33:09Z",
+      "side": 1,
+      "message": "Starting an RPC should happen in onLoad() not the constructor. But really this should run only once for the screen not once per side. Fire it in the parent and pass the sorted list into each header widget.",
+      "revId": "b80a642120f1226b16ff603819b56abd1be7c4e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4dd6c8dc_57b044f5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-20T05:33:09Z",
+      "side": 1,
+      "message": "There can be gaps in the numbering. You can\u0027t assume the position in the list is also the actual PatchSet.Id.",
+      "range": {
+        "startLine": 110,
+        "startChar": 47,
+        "endLine": 110,
+        "endChar": 55
+      },
+      "revId": "b80a642120f1226b16ff603819b56abd1be7c4e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4dd6c8dc_9798ec6d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-20T05:33:09Z",
+      "side": 1,
+      "message": "The index in the list isn\u0027t the patch set id. You need to parse the value of the selected index to get the id. See above about gaps in the numbering.",
+      "range": {
+        "startLine": 138,
+        "startChar": 45,
+        "endLine": 138,
+        "endChar": 66
+      },
+      "revId": "b80a642120f1226b16ff603819b56abd1be7c4e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edc4dc29_4ee51357",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-20T05:33:09Z",
+      "side": 1,
+      "message": "This needs to be the full path, not the file name.",
+      "range": {
+        "startLine": 144,
+        "startChar": 10,
+        "endLine": 144,
+        "endChar": 36
+      },
+      "revId": "b80a642120f1226b16ff603819b56abd1be7c4e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4dd6c8dc_f1914899",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox2.ui.xml",
         "patchSetId": 2

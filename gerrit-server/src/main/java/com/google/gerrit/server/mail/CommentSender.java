@@ -231,25 +231,27 @@ public class CommentSender extends ReplyToChangeSender {
   }
 
   private void appendQuotedParent(StringBuilder out, PatchLineComment child) {
-    PatchLineComment parent;
-    try {
-      parent = args.db.get().patchComments().get(
-          new PatchLineComment.Key(
-              child.getKey().getParentKey(),
-              child.getParentUuid()));
-    } catch (OrmException e) {
-      parent = null;
-    }
-    if (parent != null) {
-      String msg = parent.getMessage().trim();
-      if (msg.length() > 75) {
-        msg = msg.substring(0, 75);
+    if (child.getParentUuid() != null) {
+      PatchLineComment parent;
+      try {
+        parent = args.db.get().patchComments().get(
+            new PatchLineComment.Key(
+                child.getKey().getParentKey(),
+                child.getParentUuid()));
+      } catch (OrmException e) {
+        parent = null;
       }
-      int lf = msg.indexOf('\n');
-      if (lf > 0) {
-        msg = msg.substring(0, lf);
+      if (parent != null) {
+        String msg = parent.getMessage().trim();
+        if (msg.length() > 75) {
+          msg = msg.substring(0, 75);
+        }
+        int lf = msg.indexOf('\n');
+        if (lf > 0) {
+          msg = msg.substring(0, lf);
+        }
+        out.append("> ").append(msg).append('\n');
       }
-      out.append("> ").append(msg).append('\n');
     }
   }
 

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6dd1cce1_32903096",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-20T06:20:48Z",
+      "side": 1,
+      "message": "Is O (upper case o) just not available? Alt on Chrome/Mac seems to not work even in CM bindings, e.g. Alt-N/P above don\u0027t work.",
+      "revId": "9c76a2b91add7ffc1d0df3d041a49f2807002b29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0de050ae_cff81dfd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-20T06:20:48Z",
+      "side": 1,
+      "message": "Pull this entire Runnable into a utility method? Its a lot of code to wedge into this string of bindings.",
+      "revId": "9c76a2b91add7ffc1d0df3d041a49f2807002b29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4dd6c8dc_17087ca9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-20T06:20:48Z",
+      "side": 1,
+      "message": "NPEs if there are no comments on this line.",
+      "revId": "9c76a2b91add7ffc1d0df3d041a49f2807002b29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

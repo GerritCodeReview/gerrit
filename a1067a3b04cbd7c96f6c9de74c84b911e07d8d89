@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4dd6c8dc_d1f8c4fc",
+        "filename": "Documentation/js-api.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-20T00:23:01Z",
+      "side": 1,
+      "message": "We could also do this by testing for the type of the arguments in label() and setting up the order based on which argument was the DOM element. But maybe that is too obtuse and magical.",
+      "revId": "a1067a3b04cbd7c96f6c9de74c84b911e07d8d89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

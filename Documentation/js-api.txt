@@ -385,6 +385,10 @@ functions to make working with DOM based widgets less painful.
   and the string `label`. Used to wrap a checkbox with its label,
   `label(checkbox(), 'Click Me')`.
 
+* `prependLabel(label, c)`: a new `<label>` element wrapping element `c`
+  and the string `label`. Used to wrap an input field with its label,
+  `prependLabel('Greeting message', textfield())`.
+
 * `textarea(options)`: new `<textarea>` element. The options
   object may optionally include `rows` and `cols`. The textarea
   comes with an onkeypress handler installed to play nicely with

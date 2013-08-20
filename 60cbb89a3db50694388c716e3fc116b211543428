@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6dd1cce1_b23180fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-20T01:15:19Z",
+      "side": 1,
+      "message": "What version were these APIs added in? If its 2.6 we may have a compatibility issue. If its 2.7 we might be able to squeeze this sort of change into 2.7 before it goes final. If its 2.8, no issue, we haven\u0027t even done a release candidate so these could be modified.",
+      "revId": "60cbb89a3db50694388c716e3fc116b211543428",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

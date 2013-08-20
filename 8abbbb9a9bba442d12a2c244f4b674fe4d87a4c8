@@ -118,6 +118,29 @@
     },
     {
       "key": {
+        "uuid": "adce6449_2cf45306",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-20T06:01:31Z",
+      "side": 1,
+      "message": "Use Gerrit.RESOURCES instead.",
+      "range": {
+        "startLine": 30,
+        "startChar": 16,
+        "endLine": 30,
+        "endChar": 27
+      },
+      "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4dd6c8dc_7111d863",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadPatch.java",
         "patchSetId": 2
@@ -164,6 +187,24 @@
       "side": 1,
       "message": "I was trying to say/ask if it possible not to copy it?\n\n @Source(\"downloadIcon.png\") ImageResource download_icon();\n\nthis didn\u0027t work though.",
       "parentUuid": "6dd1cce1_320b5038",
+      "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4dd6c8dc_771308de",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Resources.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-20T06:01:31Z",
+      "side": 1,
+      "message": "You can only reference things in the same directory as your class, or below it. But you can use the GerritResources object instead.",
+      "parentUuid": "adce6449_4ce51f57",
       "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

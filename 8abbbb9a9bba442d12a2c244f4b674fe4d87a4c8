@@ -82,6 +82,24 @@
     },
     {
       "key": {
+        "uuid": "cd4e3882_2e642b51",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-20T04:25:14Z",
+      "side": 1,
+      "message": "+1 for pop out, will do.\n\nThe author of the \"future commits\" would be /me ;-)",
+      "parentUuid": "6dd1cce1_b2166056",
+      "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4dd6c8dc_7111d863",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadPatch.java",
         "patchSetId": 2
@@ -133,6 +151,24 @@
     },
     {
       "key": {
+        "uuid": "cd4e3882_0e696f29",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DownloadPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-20T04:25:14Z",
+      "side": 1,
+      "message": "Because Windows user don\u0027t have\n\n base64 --decode\n\nBut who cares ...",
+      "parentUuid": "4dd6c8dc_510cd450",
+      "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6dd1cce1_f21ce87b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DownloadPatch.java",
         "patchSetId": 2
@@ -150,6 +186,24 @@
         "endLine": 28,
         "endChar": 19
       },
+      "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd4e3882_ee5df37f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DownloadPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-20T04:25:14Z",
+      "side": 1,
+      "message": "Because with enabled gzip the patch file name wasn\u0027t honored. It was always download_patch instead of patch.diff",
+      "parentUuid": "6dd1cce1_f21ce87b",
       "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

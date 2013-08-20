@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4dd6c8dc_f7fe184e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-08-20T07:40:21Z",
+      "side": 1,
+      "message": "Changed to Shift-O. Hmm... That sounds odd. Does it work on Safari or is it just Chrome? Probably another keyPress event madness..",
+      "parentUuid": "6dd1cce1_32903096",
+      "revId": "9c76a2b91add7ffc1d0df3d041a49f2807002b29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0de050ae_cff81dfd",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "4dd6c8dc_97fb0c5d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-08-20T07:40:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0de050ae_cff81dfd",
+      "revId": "9c76a2b91add7ffc1d0df3d041a49f2807002b29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4dd6c8dc_17087ca9",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2013-08-20T06:20:48Z",
       "side": 1,
       "message": "NPEs if there are no comments on this line.",
+      "revId": "9c76a2b91add7ffc1d0df3d041a49f2807002b29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6dd1cce1_1262ccd6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-08-20T07:40:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4dd6c8dc_17087ca9",
       "revId": "9c76a2b91add7ffc1d0df3d041a49f2807002b29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

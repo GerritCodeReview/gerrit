@@ -94,7 +94,7 @@ class PaddingManager {
 
   void resizePaddingWidget() {
     if (others.isEmpty()) {
-      throw new IllegalStateException("resizePaddingWidget() called before linking");
+      return;
     }
     int myHeight = getGroupTotalHeight();
     int othersHeight = getOthersTotalHeight();

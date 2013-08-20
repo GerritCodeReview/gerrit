@@ -1,0 +1,175 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4dd6c8dc_f1f5c801",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/restapi/BinaryResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-20T00:49:15Z",
+      "side": 1,
+      "message": "Other setters return BinaryResult to allow chaining.",
+      "range": {
+        "startLine": 67,
+        "startChar": 9,
+        "endLine": 67,
+        "endChar": 13
+      },
+      "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6dd1cce1_12064c2f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/restapi/BinaryResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-20T00:49:15Z",
+      "side": 1,
+      "message": "I think we want to call this AttachmentName?",
+      "range": {
+        "startLine": 71,
+        "startChar": 19,
+        "endLine": 71,
+        "endChar": 29
+      },
+      "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6dd1cce1_d21f646e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-20T00:49:15Z",
+      "side": 1,
+      "message": "Unused import.",
+      "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6dd1cce1_b2166056",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-20T00:49:15Z",
+      "side": 1,
+      "message": "We are still missing the commands for checkout, cherry-pick, etc. for the change. I was thinking about putting these into a pop-out menu that activates from roughly the location you put this widget in the header.\n\nMaybe we should make this a trigger for the pop-out as \"Download ▾\" and put the patch link inside of that pop-out. Then future commits can continue to add to this space with more commands.",
+      "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4dd6c8dc_7111d863",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-20T00:49:15Z",
+      "side": 1,
+      "message": "Does this really need to open to _blank? I thought modern browsers saved the file when an attachment is named and doesn\u0027t navigate away from the current page.",
+      "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6dd1cce1_320b5038",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Resources.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-20T00:49:15Z",
+      "side": 1,
+      "message": "Unnecessary comment?",
+      "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4dd6c8dc_510cd450",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DownloadPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-20T00:49:15Z",
+      "side": 1,
+      "message": "You disable the base64 wrapping. Which opens the site up to XSS injection attacks with certain stupid browsers. Not good.",
+      "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6dd1cce1_f21ce87b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DownloadPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-20T00:49:15Z",
+      "side": 1,
+      "message": "Why did you disable gzip?",
+      "range": {
+        "startLine": 28,
+        "startChar": 8,
+        "endLine": 28,
+        "endChar": 19
+      },
+      "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4dd6c8dc_b1ff40e0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-20T00:49:15Z",
+      "side": 1,
+      "message": "Why can\u0027t we just use GetPatch but maybe allow the file name to be given as a query parameter and have the UI supply a query parameter in this case to name the file?",
+      "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

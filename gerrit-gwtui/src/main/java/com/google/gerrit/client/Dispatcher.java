@@ -80,6 +80,7 @@ import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -603,6 +604,18 @@ public class Dispatcher {
                 baseId //
             );
           } else if ("cm".equals(panel)) {
+            if (Gerrit.isSignedIn()
+                && DiffView.UNIFIED_DIFF.equals(Gerrit.getUserAccount()
+                    .getGeneralPreferences().getDiffView())) {
+              return new PatchScreen.Unified( //
+                  id, //
+                  patchIndex, //
+                  patchSetDetail, //
+                  patchTable, //
+                  top, //
+                  baseId //
+              );
+            }
             return new SideBySide2(baseId, id.getParentKey(), id.get());
           }
         }

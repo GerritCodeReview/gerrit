@@ -32,7 +32,7 @@ import java.util.List;
 /** A version of the database schema. */
 public abstract class SchemaVersion {
   /** The current schema version. */
-  public static final Class<Schema_82> C = Schema_82.class;
+  public static final Class<Schema_83> C = Schema_83.class;
 
   public static class Module extends AbstractModule {
     @Override

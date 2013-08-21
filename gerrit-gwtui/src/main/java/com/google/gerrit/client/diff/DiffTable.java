@@ -42,6 +42,7 @@ class DiffTable extends Composite {
     String hideNumber();
     String range();
     String rangeHighlight();
+    String showtabs();
   }
 
   @UiField

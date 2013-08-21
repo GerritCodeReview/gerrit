@@ -443,6 +443,9 @@ public class SideBySide2 extends Screen {
         resizeCodeMirror();
       }
     });
+    if (pref.isShowTabs()) {
+      diffTable.addStyleName(DiffTable.style.showtabs());
+    }
   }
 
   private CodeMirror displaySide(DiffInfo.FileMeta meta, String contents,

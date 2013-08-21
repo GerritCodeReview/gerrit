@@ -14,9 +14,12 @@
 
 package com.google.gerrit.client.change;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -41,7 +44,7 @@ class Topic extends Composite {
   interface Binder extends UiBinder<HTMLPanel, Topic> {}
   private static Binder uiBinder = GWT.create(Binder.class);
 
-  private int changeId;
+  private PatchSet.Id psId;
   private boolean canEdit;
 
   @UiField FlowPanel show;
@@ -66,12 +69,15 @@ class Topic extends Composite {
       ClickEvent.getType());
   }
 
-  void set(ChangeInfo info) {
+  void set(ChangeInfo info, String revision) {
     canEdit = info.has_actions()
         && info.actions().containsKey("topic")
         && info.actions().get("topic").enabled();
 
-    changeId = info.legacy_id().get();
+    psId = new PatchSet.Id(
+        info.legacy_id(),
+        info.revisions().get(revision)._number());
+
     text.setText(info.topic());
     editIcon.setVisible(canEdit);
     if (!canEdit) {
@@ -122,18 +128,17 @@ class Topic extends Composite {
   @UiHandler("save")
   void onSave(ClickEvent e) {
     ChangeApi.topic(
-        changeId,
+        psId.getParentKey().get(),
         input.getValue().trim(),
         message.getValue().trim(),
         new GerritCallback<String>() {
           @Override
           public void onSuccess(String result) {
-            // Cheat and just patch the UI with the current topic.
-            // This saves a full redraw of the change screen but
-            // will cause the message to be missed in the History.
-            text.setText(result);
-            onCancel(null);
+            Gerrit.display(PageLinks.toChange2(
+                psId.getParentKey(),
+                String.valueOf(psId.get())));
           }
         });
+    onCancel(null);
   }
 }

@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.change.TestSubmitRule.Filters;
@@ -30,6 +31,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
+import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 
 import org.kohsuke.args4j.Option;
@@ -51,8 +53,8 @@ public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
   }
 
   @Override
-  public String apply(RevisionResource rsrc, Input input) throws OrmException,
-      BadRequestException, AuthException {
+  public SubmitType apply(RevisionResource rsrc, Input input)
+      throws OrmException, BadRequestException, AuthException {
     if (input == null) {
       input = new Input();
     }
@@ -96,7 +98,16 @@ public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
           evaluator.getSubmitRule().toString(),
           type));
     }
-    return type.toString();
+
+    String typeName = ((SymbolTerm) type).name();
+    try {
+      return SubmitType.valueOf(typeName.toUpperCase());
+    } catch (IllegalArgumentException e) {
+      throw new BadRequestException(String.format(
+          "rule %s produced invalid result: %s",
+          evaluator.getSubmitRule().toString(),
+          type));
+    }
   }
 
   static class Get implements RestReadView<RevisionResource> {
@@ -108,8 +119,8 @@ public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
     }
 
     @Override
-    public String apply(RevisionResource resource) throws BadRequestException,
-        OrmException, AuthException {
+    public SubmitType apply(RevisionResource resource)
+        throws BadRequestException, OrmException, AuthException {
       return test.apply(resource, null);
     }
   }

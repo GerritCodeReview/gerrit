@@ -1611,7 +1611,7 @@ a project-specific rule.
   Content-Type: application/json;charset=UTF-8
 
   )]}'
-  "cherry_pick"
+  "CHERRY_PICK"
 ----
 
 [[test-submit-rule]]

@@ -58,7 +58,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
   private static final Logger log = LoggerFactory.getLogger(Mergeable.class);
 
   public static class MergeableInfo {
-    public String submitType;
+    public Project.SubmitType submitType;
     public boolean mergeable;
   }
 
@@ -123,21 +123,10 @@ public class Mergeable implements RestReadView<RevisionResource> {
 
   private boolean refresh(Change change,
       PatchSet ps,
-      String submitType,
+      Project.SubmitType type,
       Repository git,
       Map<String, Ref> refs,
       Ref ref) throws IOException, OrmException {
-    Project.SubmitType type;
-    try {
-      type = Project.SubmitType.valueOf(submitType);
-    } catch (IllegalArgumentException unsupported) {
-      log.warn(String.format(
-          "Change %d uses unsupported submit_type \"%s\"",
-          change.getId().get(),
-          submitType));
-      return false;
-    }
-
     RevWalk rw = new RevWalk(git) {
       @Override
       protected CodeReviewCommit createCommit(AnyObjectId id) {

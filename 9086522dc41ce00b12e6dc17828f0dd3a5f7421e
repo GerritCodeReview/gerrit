@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d20b4dd_48f43f07",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-21T02:25:33Z",
+      "side": 1,
+      "message": "This can be done once in the Loader since its static.",
+      "revId": "9086522dc41ce00b12e6dc17828f0dd3a5f7421e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d10c096_23e5aa58",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Loader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-21T02:25:33Z",
+      "side": 1,
+      "message": "I suggest doing the mapping here.",
+      "revId": "9086522dc41ce00b12e6dc17828f0dd3a5f7421e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

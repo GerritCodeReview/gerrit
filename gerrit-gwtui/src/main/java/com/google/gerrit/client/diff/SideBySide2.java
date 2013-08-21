@@ -297,8 +297,6 @@ public class SideBySide2 extends Screen {
       }
     });
     cm.addKeyMap(KeyMap.create()
-        .on("'j'", moveCursorDown(cm, 1))
-        .on("'k'", moveCursorDown(cm, -1))
         .on("'a'", openReplyBox())
         .on("'u'", upToChange())
         .on("'r'", toggleReviewed())
@@ -335,6 +333,10 @@ public class SideBySide2 extends Screen {
         .on("Shift-O", openClosePublished(cm))
         .on("Shift-Left", flipCursorSide(cm, true))
         .on("Shift-Right", flipCursorSide(cm, false)));
+    CodeMirror.mapVimKey("j", "gj");
+    CodeMirror.mapVimKey("k", "gk");
+    CodeMirror.mapVimKey("Down", "gj");
+    CodeMirror.mapVimKey("Up", "gk");
   }
 
   @Override
@@ -1069,14 +1071,6 @@ public class SideBySide2 extends Screen {
         if (box != null) {
           box.setOpen(!box.isOpen());
         }
-      }
-    };
-  }
-
-  private Runnable moveCursorDown(final CodeMirror cm, final int numLines) {
-    return new Runnable() {
-      public void run() {
-        cm.moveCursorDown(numLines);
       }
     };
   }

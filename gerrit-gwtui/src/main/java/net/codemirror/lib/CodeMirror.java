@@ -265,10 +265,6 @@ public class CodeMirror extends JavaScriptObject {
     return this.lineCount();
   }-*/;
 
-  public final native void moveCursorDown(int numLines) /*-{
-    this.moveV(numLines, "line");
-  }-*/;
-
   public final native Element getGutterElement() /*-{
     return this.getGutterElement();
   }-*/;
@@ -309,6 +305,10 @@ public class CodeMirror extends JavaScriptObject {
 
   public static final native void handleVimKey(CodeMirror cm, String key) /*-{
     $wnd.CodeMirror.Vim.handleKey(cm, key);
+  }-*/;
+
+  public static final native void mapVimKey(String alias, String actual) /*-{
+    $wnd.CodeMirror.Vim.map(alias, actual);
   }-*/;
 
   public final native boolean hasVimSearchHighlight() /*-{

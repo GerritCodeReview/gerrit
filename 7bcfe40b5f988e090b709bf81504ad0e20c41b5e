@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d2b28c3_29e58d58",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-21T01:51:50Z",
+      "side": 1,
+      "message": "This should only happen if the user wants tabs visible with isShowTabs(). So we should setup a new CSS class that we can optionally apply to the overall panel and use a selector like:\n\n  .showtabs .cm-tab:before",
+      "range": {
+        "startLine": 111,
+        "startChar": 5,
+        "endLine": 111,
+        "endChar": 18
+      },
+      "revId": "7bcfe40b5f988e090b709bf81504ad0e20c41b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

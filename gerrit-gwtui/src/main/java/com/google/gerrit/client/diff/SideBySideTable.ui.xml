@@ -17,7 +17,7 @@ limitations under the License.
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
     xmlns:d='urn:import:com.google.gerrit.client.diff'>
-  <ui:style gss='false' type='com.google.gerrit.client.diff.DiffTable.DiffTableStyle'>
+  <ui:style gss='false' type='com.google.gerrit.client.diff.SideBySideTable.DiffTableStyle'>
     @external .CodeMirror, .CodeMirror-selectedtext;
     @external .CodeMirror-linenumber;
     @external .CodeMirror-overlayscroll-vertical, .CodeMirror-scroll;

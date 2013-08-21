@@ -18,47 +18,39 @@ import com.google.gerrit.client.account.DiffPreferences;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.resources.client.CssResource;
-import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 
 import net.codemirror.lib.CodeMirror;
 
 /**
- * A table with one row and two columns to hold the two CodeMirrors displaying
- * the files to be diffed.
+ * Base class for SideBySideTable2 and UnifiedTable2
  */
-class DiffTable extends Composite {
-  interface Binder extends UiBinder<HTMLPanel, DiffTable> {}
-  private static final Binder uiBinder = GWT.create(Binder.class);
+abstract class DiffTable extends Composite {
 
   interface DiffTableStyle extends CssResource {
+    String insertCommentIcon();
     String fullscreen();
     String intralineBg();
     String dark();
     String diff();
     String noIntraline();
+    String activeLine();
     String range();
     String rangeHighlight();
+    String showTabs();
     String showLineNumbers();
-    String hideA();
-    String hideB();
     String padding();
   }
 
-  @UiField Element cmA;
-  @UiField Element cmB;
-  Scrollbar scrollbar;
   @UiField Element patchSetNavRow;
   @UiField Element patchSetNavCellA;
   @UiField Element patchSetNavCellB;
@@ -73,12 +65,13 @@ class DiffTable extends Composite {
   @UiField(provided = true)
   PatchSetSelectBox patchSetSelectBoxB;
 
-  private SideBySide parent;
+  private DiffScreen parent;
   private boolean header;
   private boolean visibleA;
   private ChangeType changeType;
+  Scrollbar scrollbar;
 
-  DiffTable(SideBySide parent, PatchSet.Id base, PatchSet.Id revision,
+  DiffTable(DiffScreen parent, PatchSet.Id base, PatchSet.Id revision,
       String path) {
     patchSetSelectBoxA = new PatchSetSelectBox(
         parent, DisplaySide.A, revision.getParentKey(), base, path);
@@ -86,7 +79,6 @@ class DiffTable extends Composite {
         parent, DisplaySide.B, revision.getParentKey(), revision, path);
     PatchSetSelectBox.link(patchSetSelectBoxA, patchSetSelectBoxB);
 
-    initWidget(uiBinder.createAndBindUi(this));
     this.scrollbar = new Scrollbar(this);
     this.parent = parent;
     this.visibleA = true;
@@ -96,33 +88,7 @@ class DiffTable extends Composite {
     return visibleA;
   }
 
-  void setVisibleA(boolean show) {
-    visibleA = show;
-    if (show) {
-      removeStyleName(style.hideA());
-      parent.syncScroll(DisplaySide.B); // match B's viewport
-    } else {
-      addStyleName(style.hideA());
-    }
-  }
-
-  Runnable toggleA() {
-    return new Runnable() {
-      @Override
-      public void run() {
-        setVisibleA(!isVisibleA());
-      }
-    };
-  }
-
-  void setVisibleB(boolean show) {
-    if (show) {
-      removeStyleName(style.hideB());
-      parent.syncScroll(DisplaySide.A); // match A's viewport
-    } else {
-      addStyleName(style.hideB());
-    }
-  }
+  abstract Runnable toggleA();
 
   void setHeaderVisible(boolean show) {
     if (show != UIObject.isVisible(patchSetNavRow)) {
@@ -182,13 +148,7 @@ class DiffTable extends Composite {
     setHideEmptyPane(prefs.hideEmptyPane());
   }
 
-  void setHideEmptyPane(boolean hide) {
-    if (changeType == ChangeType.ADDED) {
-      setVisibleA(!hide);
-    } else if (changeType == ChangeType.DELETED) {
-      setVisibleB(!hide);
-    }
-  }
+  abstract void setHideEmptyPane(boolean hide);
 
   void refresh() {
     if (header) {
@@ -201,5 +161,9 @@ class DiffTable extends Composite {
 
   void add(Widget widget) {
     widgets.add(widget);
+  }
+
+  DiffScreen getDiffScreen() {
+    return parent;
   }
 }

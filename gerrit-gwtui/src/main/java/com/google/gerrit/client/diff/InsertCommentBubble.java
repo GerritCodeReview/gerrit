@@ -43,7 +43,7 @@ class InsertCommentBubble extends Composite {
       @Override
       public void onClick(ClickEvent event) {
         setVisible(false);
-        commentManager.insertNewDraft(cm).run();
+        commentManager.newDraftCallback(cm).run();
       }
     }, ClickEvent.getType());
   }

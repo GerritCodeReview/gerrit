@@ -307,6 +307,15 @@ public class CodeMirror extends JavaScriptObject {
     $wnd.CodeMirror.keyMap[name] = km;
   }-*/;
 
+  public static final native void handleVimKey(CodeMirror cm, String key) /*-{
+    $wnd.CodeMirror.Vim.handleKey(cm, key);
+  }-*/;
+
+  public final native boolean hasVimSearchHighlight() /*-{
+    return this.state.vim && this.state.vim.searchState_ &&
+        !!this.state.vim.searchState_.getOverlay();
+  }-*/;
+
   protected CodeMirror() {
   }
 

@@ -330,8 +330,8 @@ public class SideBySide2 extends Screen {
             new ShowHelpCommand().onKeyPress(null);
           }
         })
-        .on("Alt-N", diffChunkNav(cm, false))
-        .on("Alt-P", diffChunkNav(cm, true))
+        .on("N", maybeNextVimSearch(cm))
+        .on("P", diffChunkNav(cm, true))
         .on("Shift-O", openClosePublished(cm))
         .on("Shift-Left", flipCursorSide(cm, true))
         .on("Shift-Right", flipCursorSide(cm, false)));
@@ -1145,6 +1145,19 @@ public class SideBySide2 extends Screen {
               mapper.lineOnOther(
                   getSideFromCm(cm), cm.getLineNumber(cm.getActiveLine())).getLine()));
           other.focus();
+        }
+      }
+    };
+  }
+
+  private Runnable maybeNextVimSearch(final CodeMirror cm) {
+    return new Runnable() {
+      @Override
+      public void run() {
+        if (cm.hasVimSearchHighlight()) {
+          CodeMirror.handleVimKey(cm, "n");
+        } else {
+          diffChunkNav(cm, false).run();
         }
       }
     };

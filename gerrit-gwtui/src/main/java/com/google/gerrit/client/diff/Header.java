@@ -169,7 +169,7 @@ class Header extends Composite {
     if (info != null) {
       final String url = url(info);
       link.setTargetHistoryToken(url);
-      link.setTitle(getFileName(info.path()));
+      link.setTitle(FileInfo.getFileName(info.path()));
       keys.add(new KeyCommand(0, key, help) {
         @Override
         public void onKeyPress(KeyPressEvent event) {
@@ -185,14 +185,6 @@ class Header extends Composite {
       link.getElement().getStyle().setVisibility(Visibility.HIDDEN);
       keys.add(new UpToChangeCommand2(patchSetId, 0, key));
     }
-  }
-
-  private static String getFileName(String path) {
-    String fileName = Patch.COMMIT_MSG.equals(path)
-        ? Util.C.commitMessage()
-        : path;
-    int s = fileName.lastIndexOf('/');
-    return s >= 0 ? fileName.substring(s + 1) : fileName;
   }
 
   boolean hasPrev() {

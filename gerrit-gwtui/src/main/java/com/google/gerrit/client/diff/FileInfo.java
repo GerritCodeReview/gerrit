@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.diff;
 
+import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -44,6 +45,14 @@ public class FileInfo extends JavaScriptObject {
         return a.path().compareTo(b.path());
       }
     });
+  }
+
+  public static String getFileName(String path) {
+    String fileName = Patch.COMMIT_MSG.equals(path)
+        ? Util.C.commitMessage()
+        : path;
+    int s = fileName.lastIndexOf('/');
+    return s >= 0 ? fileName.substring(s + 1) : fileName;
   }
 
   protected FileInfo() {

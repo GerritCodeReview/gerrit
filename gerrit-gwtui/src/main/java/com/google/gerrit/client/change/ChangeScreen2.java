@@ -567,10 +567,15 @@ public class ChangeScreen2 extends Screen {
   private void renderChangeInfo(ChangeInfo info) {
     changeInfo = info;
     lastDisplayedUpdate = info.updated();
-    statusText.setInnerText(Util.toLongString(info.status()));
     boolean current = info.status().isOpen()
         && revision.equals(info.current_revision());
     boolean canSubmit = labels.set(info, current);
+
+    if (!current && info.status() == Change.Status.NEW) {
+      statusText.setInnerText(Util.C.notCurrent());
+    } else {
+      statusText.setInnerText(Util.toLongString(info.status()));
+    }
 
     renderOwner(info);
     renderReviewers(info);

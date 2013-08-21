@@ -24,6 +24,7 @@ public interface ChangeConstants extends Constants {
   String statusLongDraft();
   String readyToSubmit();
   String mergeConflict();
+  String notCurrent();
 
   String myDashboardTitle();
   String unknownDashboardTitle();

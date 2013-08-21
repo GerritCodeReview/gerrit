@@ -22,13 +22,13 @@ import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 import com.google.gwt.user.client.ui.Widget;
 
 class PreferencesAction {
-  private final SideBySide view;
+  private final DiffScreen view;
   private final DiffPreferences prefs;
   private PopupPanel popup;
   private PreferencesBox current;
   private Widget partner;
 
-  PreferencesAction(SideBySide view, DiffPreferences prefs) {
+  PreferencesAction(DiffScreen view, DiffPreferences prefs) {
     this.view = view;
     this.prefs = prefs;
   }

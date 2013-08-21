@@ -54,7 +54,7 @@ class PatchSetSelectBox extends Composite {
   @UiField HTMLPanel linkPanel;
   @UiField BoxStyle style;
 
-  private SideBySide parent;
+  private DiffScreen parent;
   private DisplaySide side;
   private boolean sideA;
   private String path;
@@ -63,7 +63,7 @@ class PatchSetSelectBox extends Composite {
   private PatchSet.Id idActive;
   private PatchSetSelectBox other;
 
-  PatchSetSelectBox(SideBySide parent,
+  PatchSetSelectBox(DiffScreen parent,
       DisplaySide side,
       Change.Id changeId,
       PatchSet.Id revision,
@@ -143,10 +143,12 @@ class PatchSetSelectBox extends Composite {
     if (sideA) {
       assert other.idActive != null;
     }
-    return new InlineHyperlink(label, Dispatcher.toSideBySide(
-        sideA ? id : other.idActive,
-        sideA ? other.idActive : id,
-        path));
+    PatchSet.Id diffBase = sideA ? id : other.idActive;
+    PatchSet.Id revision = sideA ? other.idActive : id;
+
+    return new InlineHyperlink(label, parent instanceof SideBySide
+        ? Dispatcher.toSideBySide(diffBase, revision, path)
+        : Dispatcher.toUnified(diffBase, revision, path));
   }
 
   private Anchor createDownloadLink() {

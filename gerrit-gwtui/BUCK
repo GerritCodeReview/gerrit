@@ -53,12 +53,15 @@ gwt_user_agent_permutations(
   visibility = ['//:'],
 )
 
+DIFFY = glob(['src/main/java/com/google/gerrit/client/diffy*.png'])
+
 gwt_module(
   name = 'ui_module',
   srcs = glob(['src/main/java/**/*.java']),
   gwtxml = 'src/main/java/%s.gwt.xml' % MODULE.replace('.', '/'),
-  resources = glob(['src/main/java/**/*']),
+  resources = glob(['src/main/java/**/*'], excludes = DIFFY),
   deps = [
+    ':diffy_logo',
     '//gerrit-gwtexpui:Clippy',
     '//gerrit-gwtexpui:CSS',
     '//gerrit-gwtexpui:GlobalKey',
@@ -82,6 +85,28 @@ gwt_module(
     '//tools/eclipse:classpath',
     '//Documentation:licenses.txt',
   ],
+)
+
+prebuilt_jar(
+  name = 'diffy_logo',
+  binary_jar = genfile('diffy_images.jar'),
+  deps = [
+    '//lib:LICENSE-diffy',
+    '//lib:LICENSE-CC-BY3.0',
+    ':diffy_image_files_ln',
+  ],
+)
+
+genrule(
+  name = 'diffy_image_files_ln',
+  cmd = 'ln -s $(location :diffy_image_files) $OUT',
+  deps = [':diffy_image_files'],
+  out = 'diffy_images.jar',
+)
+
+java_library(
+  name = 'diffy_image_files',
+  resources = DIFFY,
 )
 
 java_test(

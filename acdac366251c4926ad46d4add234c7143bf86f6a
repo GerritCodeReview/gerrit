@@ -16,6 +16,24 @@
       "revId": "acdac366251c4926ad46d4add234c7143bf86f6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "adfae47f_0c11b764",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneVersionManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-21T00:42:45Z",
+      "side": 1,
+      "message": "I\u0027m happy with the way this is reporting. The admin running reindex will get the not a directory error at that time. Or see it in their error_log.",
+      "parentUuid": "6dd1cce1_72d8f869",
+      "revId": "acdac366251c4926ad46d4add234c7143bf86f6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

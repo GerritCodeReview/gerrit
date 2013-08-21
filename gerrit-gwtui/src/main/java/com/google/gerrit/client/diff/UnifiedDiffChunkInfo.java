@@ -14,35 +14,17 @@
 
 package com.google.gerrit.client.diff;
 
-/** Object recording the position of a diff chunk and whether it's an edit */
-class DiffChunkInfo {
-  private DisplaySide side;
-  private int start;
-  private int end;
-  private boolean edit;
+public class UnifiedDiffChunkInfo extends DiffChunkInfo {
 
-  DiffChunkInfo(DisplaySide side, int start, int end, boolean edit) {
-    this.side = side;
-    this.start = start;
-    this.end = end;
-    this.edit = edit;
+  private int cmLine;
+
+  UnifiedDiffChunkInfo(DisplaySide side,
+      int start, int end, int cmLine, boolean edit) {
+    super(side, start, end, edit);
+    this.cmLine = cmLine;
   }
 
-  DiffChunkInfo() {}
-
-  DisplaySide getSide() {
-    return side;
-  }
-
-  int getStart() {
-    return start;
-  }
-
-  int getEnd() {
-    return end;
-  }
-
-  boolean isEdit() {
-    return edit;
+  int getCmLine() {
+    return cmLine;
   }
 }

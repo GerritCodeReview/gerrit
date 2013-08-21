@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+//Copyright (C) 2013 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,10 +16,8 @@ package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.WebLinkInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.patches.PatchUtil;
-import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -36,14 +34,11 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ImageResourceRenderer;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtorm.client.KeyUtil;
 
-import java.util.List;
-
 /** HTMLPanel to select among patch sets */
-class PatchSetSelectBox extends Composite {
-  interface Binder extends UiBinder<HTMLPanel, PatchSetSelectBox> {}
+class UnifiedPatchSetSelectBox extends Composite {
+  interface Binder extends UiBinder<HTMLPanel, UnifiedPatchSetSelectBox> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   interface BoxStyle extends CssResource {
@@ -54,16 +49,16 @@ class PatchSetSelectBox extends Composite {
   @UiField HTMLPanel linkPanel;
   @UiField BoxStyle style;
 
-  private DiffScreen parent;
+  private Unified parent;
   private DisplaySide side;
   private boolean sideA;
   private String path;
   private Change.Id changeId;
   private PatchSet.Id revision;
   private PatchSet.Id idActive;
-  private PatchSetSelectBox other;
+  private UnifiedPatchSetSelectBox other;
 
-  PatchSetSelectBox(DiffScreen parent,
+  UnifiedPatchSetSelectBox(Unified parent,
       DisplaySide side,
       Change.Id changeId,
       PatchSet.Id revision,
@@ -81,8 +76,7 @@ class PatchSetSelectBox extends Composite {
     this.path = path;
   }
 
-  void setUpPatchSetNav(JsArray<RevisionInfo> list, DiffInfo.FileMeta meta,
-      boolean editExists, int currentPatchSet, boolean open, boolean binary) {
+  void setUpPatchSetNav(JsArray<RevisionInfo> list, DiffInfo.FileMeta meta) {
     InlineHyperlink baseLink = null;
     InlineHyperlink selectedLink = null;
     if (sideA) {
@@ -91,10 +85,10 @@ class PatchSetSelectBox extends Composite {
     }
     for (int i = 0; i < list.length(); i++) {
       RevisionInfo r = list.get(i);
-      InlineHyperlink link = createLink(r.id(),
-          new PatchSet.Id(changeId, r._number()));
+      InlineHyperlink link = createLink(
+          String.valueOf(r._number()), new PatchSet.Id(changeId, r._number()));
       linkPanel.add(link);
-      if (revision != null && r.id().equals(revision.getId())) {
+      if (revision != null && r._number() == revision.get()) {
         selectedLink = link;
       }
     }
@@ -103,37 +97,12 @@ class PatchSetSelectBox extends Composite {
     } else if (sideA) {
       baseLink.setStyleName(style.selected());
     }
-
-    if (meta == null) {
-      return;
-    }
-    if (!Patch.COMMIT_MSG.equals(path)) {
+    if (meta != null && !Patch.COMMIT_MSG.equals(path)) {
       linkPanel.add(createDownloadLink());
     }
-    if (!binary && open && idActive != null && Gerrit.isSignedIn()) {
-      if ((editExists && idActive.get() == 0)
-          || (!editExists && idActive.get() == currentPatchSet)) {
-        linkPanel.add(createEditIcon());
-      }
-    }
-    List<WebLinkInfo> webLinks = Natives.asList(meta.webLinks());
-    if (webLinks != null) {
-      for (WebLinkInfo webLink : webLinks) {
-        linkPanel.add(webLink.toAnchor());
-      }
-    }
   }
 
-  private Widget createEditIcon() {
-    PatchSet.Id id = (idActive == null) ? other.idActive : idActive;
-    Anchor anchor = new Anchor(
-        new ImageResourceRenderer().render(Gerrit.RESOURCES.edit()),
-        "#" + Dispatcher.toEditScreen(id, path));
-    anchor.setTitle(PatchUtil.C.edit());
-    return anchor;
-  }
-
-  static void link(PatchSetSelectBox a, PatchSetSelectBox b) {
+  static void link(UnifiedPatchSetSelectBox a, UnifiedPatchSetSelectBox b) {
     a.other = b;
     b.other = a;
   }
@@ -161,8 +130,8 @@ class PatchSetSelectBox extends Composite {
   }
 
   @UiHandler("icon")
-  void onIconClick(@SuppressWarnings("unused") ClickEvent e) {
-    parent.getCmFromSide(side).scrollToY(0);
+  void onIconClick(ClickEvent e) {
+    parent.getCm().scrollToY(0);
     parent.getCommentManager().insertNewDraft(side, 0);
   }
 }

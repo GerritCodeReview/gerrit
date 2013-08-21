@@ -592,6 +592,24 @@
     },
     {
       "key": {
+        "uuid": "8de520f5_3b3cb7d9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DownloadPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-21T18:35:19Z",
+      "side": 1,
+      "message": "it does work.",
+      "parentUuid": "8d10c096_83f57e03",
+      "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4dd6c8dc_b1ff40e0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
         "patchSetId": 2
@@ -639,6 +657,24 @@
       "side": 1,
       "message": "Just add an @Option inside of GetPatch:\n\n  public class GetPatch ... {\n    @Option(name \u003d \"--download\")\n    private boolean download;\n\n    if (download) {\n      setAttachmentName(...);\n    }",
       "parentUuid": "0de050ae_afffd9df",
+      "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0db3f0fa_770bb036",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-21T18:35:19Z",
+      "side": 1,
+      "message": "Thanks for the hint. That worked.",
+      "parentUuid": "2d20b4dd_c8ff8fdf",
       "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

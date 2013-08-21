@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2013 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'
+    xmlns:d='urn:import:com.google.gerrit.client.diff'>
+  <ui:with field='res' type='com.google.gerrit.client.diff.Resources'/>       
+  <ui:style gss='false' type='com.google.gerrit.client.diff.SideBySideTable.DiffTableStyle'>
+    @external .CodeMirror, .CodeMirror-selectedtext;
+    @external .CodeMirror-linenumber;
+    @external .CodeMirror-overlayscroll-vertical, .CodeMirror-scroll;
+    @external .CodeMirror-dialog-bottom;
+    @external .CodeMirror-cursor;
+    
+    @external .dark, .noIntraline;
+
+    .difftable .patchSetNav,
+    .difftable .CodeMirror {
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+    }
+
+    .difftable .CodeMirror pre {
+      overflow: hidden;
+      border-right: 0;
+      width: auto;
+    }
+
+    /* Preserve space for underscores. If this changes
+     * see ChunkManager.addPadding() and adjust there.
+     */
+    .difftable .CodeMirror pre,
+    .difftable .CodeMirror pre span {
+      padding-bottom: 1px;
+    }
+
+    .hideA .psNavA,
+    .hideA .a {
+      display: none;
+    }
+
+    .hideB .psNavB,
+    .hideB .b {
+      display: none;
+    }
+
+    .table {
+      width: 100%;
+      table-layout: fixed;
+      border-spacing: 0;
+    }
+    .table td { padding: 0 }
+    .a, .b { width: 50% }
+    .hideA .psNavB, .hideA .b { width: 100% }
+    .hideB .psNavA, .hideB .a { width: 100% }
+
+    /* Hide scrollbars on A, B controls both views. */
+    .a .CodeMirror-scroll { margin-right: -36px; }
+    .a .CodeMirror-overlayscroll-vertical { display: none !important; }
+
+    .showLineNumbers .b { border-left: none; }
+    .b { border-left: 1px solid #ddd; }
+
+    .a .diff { background-color: #faa; }
+    .b .diff { background-color: #9f9; }
+    .a .intralineBg { background-color: #fee; }
+    .b .intralineBg { background-color: #dfd; }
+    .noIntraline .a .intralineBg { background-color: #faa; }
+    .noIntraline .b .intralineBg { background-color: #9f9; }
+
+    .dark .a .diff { background-color: #400; }
+    .dark .b .diff { background-color: #444; }
+
+    .dark .a .intralineBg { background-color: #888; }
+    .dark .b .intralineBg { background-color: #bbb; }
+    .dark .noIntraline .a .intralineBg { background-color: #400; }
+    .dark .noIntraline .b .intralineBg { background-color: #444; }
+
+    .patchSetNav, .diff_header {
+      background-color: #f7f7f7;
+      line-height: 1;
+    }
+
+    .difftable .CodeMirror-selectedtext {
+      background-color: inherit !important;
+    }
+    .difftable .CodeMirror-linenumber {
+      height: 1.11em;
+      cursor: pointer;
+    }
+    .difftable .CodeMirror div.CodeMirror-cursor {
+      border-left: 2px solid black;
+    }
+    .difftable .CodeMirror-dialog-bottom {
+      border-top: 0;
+      border-left: 1px solid #000;
+      border-bottom: 1px solid #000;
+      background-color: #f7f7f7;
+      top: 0;
+      right: 0;
+      bottom: auto;
+      left: auto;
+    }
+    .showLineNumbers .padding {
+      margin-left: 21px;
+      border-left: 2px solid #d64040;
+    }
+  </ui:style>
+  <g:HTMLPanel styleName='{style.difftable}'>
+    <table class='{style.table}'>
+      <tr ui:field='patchSetNavRow' class='{style.patchSetNav}'>
+        <td ui:field='patchSetNavCellA' class='{style.psNavA}'>
+          <d:PatchSetSelectBox ui:field='patchSetSelectBoxA' />
+        </td>
+        <td ui:field='patchSetNavCellB' class='{style.psNavB}'>
+          <d:PatchSetSelectBox ui:field='patchSetSelectBoxB' />
+        </td>
+      </tr>
+      <tr ui:field='diffHeaderRow' class='{res.diffTableStyle.diffHeader}'>
+        <td colspan='2'><pre ui:field='diffHeaderText' /></td>
+      </tr>
+      <tr>
+        <td ui:field='cmA' class='{style.a}' />
+        <td ui:field='cmB' class='{style.b}' />
+      </tr>
+    </table>
+    <g:FlowPanel ui:field='widgets' visible='false'/>
+  </g:HTMLPanel>
+</ui:UiBinder>

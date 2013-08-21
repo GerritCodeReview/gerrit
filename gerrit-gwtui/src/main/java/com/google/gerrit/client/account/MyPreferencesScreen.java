@@ -48,6 +48,7 @@ public class MyPreferencesScreen extends SettingsScreen {
   private ListBox dateFormat;
   private ListBox timeFormat;
   private ListBox commentVisibilityStrategy;
+  private ListBox diffView;
   private Button save;
 
   @Override
@@ -80,6 +81,16 @@ public class MyPreferencesScreen extends SettingsScreen {
     commentVisibilityStrategy.addItem(
         com.google.gerrit.client.changes.Util.C.messageExpandAll(),
         AccountGeneralPreferences.CommentVisibilityStrategy.EXPAND_ALL.name()
+    );
+
+    diffView = new ListBox();
+    diffView.addItem(
+        com.google.gerrit.client.changes.Util.C.sideBySide(),
+        AccountGeneralPreferences.DiffView.SIDE_BY_SIDE.name()
+    );
+    diffView.addItem(
+        com.google.gerrit.client.changes.Util.C.unifiedDiff(),
+        AccountGeneralPreferences.DiffView.UNIFIED_DIFF.name()
     );
 
     Date now = new Date();
@@ -118,7 +129,7 @@ public class MyPreferencesScreen extends SettingsScreen {
 
     relativeDateInChangeTable = new CheckBox(Util.C.showRelativeDateInChangeTable());
 
-    final Grid formGrid = new Grid(9, 2);
+    final Grid formGrid = new Grid(10, 2);
 
     int row = 0;
     formGrid.setText(row, labelIdx, "");
@@ -157,6 +168,10 @@ public class MyPreferencesScreen extends SettingsScreen {
     formGrid.setWidget(row, fieldIdx, commentVisibilityStrategy);
     row++;
 
+    formGrid.setText(row, labelIdx, Util.C.diffViewLabel());
+    formGrid.setWidget(row, fieldIdx, diffView);
+    row++;
+
     add(formGrid);
 
     save = new Button(Util.C.buttonSaveChanges());
@@ -180,6 +195,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     e.listenTo(timeFormat);
     e.listenTo(relativeDateInChangeTable);
     e.listenTo(commentVisibilityStrategy);
+    e.listenTo(diffView);
   }
 
   @Override
@@ -203,6 +219,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     timeFormat.setEnabled(on);
     relativeDateInChangeTable.setEnabled(on);
     commentVisibilityStrategy.setEnabled(on);
+    diffView.setEnabled(on);
   }
 
   private void display(final AccountGeneralPreferences p) {
@@ -220,6 +237,9 @@ public class MyPreferencesScreen extends SettingsScreen {
     setListBox(commentVisibilityStrategy,
         AccountGeneralPreferences.CommentVisibilityStrategy.EXPAND_RECENT,
         p.getCommentVisibilityStrategy());
+    setListBox(diffView,
+        AccountGeneralPreferences.DiffView.SIDE_BY_SIDE,
+        p.getDiffView());
   }
 
   private void setListBox(final ListBox f, final short defaultValue,
@@ -287,6 +307,9 @@ public class MyPreferencesScreen extends SettingsScreen {
     p.setCommentVisibilityStrategy(getListBox(commentVisibilityStrategy,
         CommentVisibilityStrategy.EXPAND_RECENT,
         CommentVisibilityStrategy.values()));
+    p.setDiffView(getListBox(diffView,
+        AccountGeneralPreferences.DiffView.SIDE_BY_SIDE,
+        AccountGeneralPreferences.DiffView.values()));
 
     enable(false);
     save.setEnabled(false);

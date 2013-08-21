@@ -127,6 +127,9 @@ public interface ChangeConstants extends Constants {
   String messageCollapseAll();
   String messageNeedsRebaseOrHasDependency();
 
+  String sideBySide();
+  String unifiedDiff();
+
   String patchSetInfoAuthor();
   String patchSetInfoCommitter();
   String patchSetInfoDownload();

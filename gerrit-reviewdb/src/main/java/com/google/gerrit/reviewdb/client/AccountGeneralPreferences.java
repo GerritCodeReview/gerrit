@@ -72,6 +72,11 @@ public final class AccountGeneralPreferences {
     EXPAND_ALL;
   }
 
+  public static enum DiffView {
+    SIDE_BY_SIDE,
+    UNIFIED_DIFF
+  }
+
   public static enum TimeFormat {
     /** 12-hour clock: 1:15 am, 2:13 pm */
     HHMM_12("h:mm a"),
@@ -135,6 +140,9 @@ public final class AccountGeneralPreferences {
 
   @Column(id = 13, length = 20, notNull = false)
   protected String commentVisibilityStrategy;
+
+  @Column(id = 14, length = 20, notNull = false)
+  protected String diffView;
 
   public AccountGeneralPreferences() {
   }
@@ -259,6 +267,17 @@ public final class AccountGeneralPreferences {
     commentVisibilityStrategy = strategy.name();
   }
 
+  public DiffView getDiffView() {
+    if (diffView == null) {
+      return DiffView.SIDE_BY_SIDE;
+    }
+    return DiffView.valueOf(diffView);
+  }
+
+  public void setDiffView(DiffView diffView) {
+    this.diffView = diffView.name();
+  }
+
   public void resetToDefaults() {
     maximumPageSize = DEFAULT_PAGESIZE;
     showSiteHeader = true;
@@ -271,5 +290,6 @@ public final class AccountGeneralPreferences {
     dateFormat = null;
     timeFormat = null;
     relativeDateInChangeTable = false;
+    diffView = null;
   }
 }

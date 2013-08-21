@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d20b4dd_88f59703",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/restapi/BinaryResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-21T02:39:06Z",
+      "side": 1,
+      "message": "Missing Javadoc.",
+      "revId": "87f2ab2f5b68602b29df59899ebae35bb094f2aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

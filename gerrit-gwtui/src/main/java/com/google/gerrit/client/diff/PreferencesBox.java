@@ -55,6 +55,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 
+import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.ModeInjector;
 
 import java.util.HashMap;
@@ -70,7 +71,7 @@ class PreferencesBox extends Composite {
     String dialog();
   }
 
-  private final SideBySide2 view;
+  private final DiffScreen view;
   private DiffPreferences prefs;
   private int contextLastValue;
   private Timer updateContextTimer;
@@ -98,7 +99,7 @@ class PreferencesBox extends Composite {
   @UiField Button apply;
   @UiField Button save;
 
-  PreferencesBox(SideBySide2 view) {
+  PreferencesBox(DiffScreen view) {
     this.view = view;
 
     initWidget(uiBinder.createAndBindUi(this));
@@ -152,10 +153,10 @@ class PreferencesBox extends Composite {
     whitespaceErrors.setValue(prefs.showWhitespaceErrors());
     showTabs.setValue(prefs.showTabs());
     lineNumbers.setValue(prefs.showLineNumbers());
-    leftSide.setValue(view.diffTable.isVisibleA());
+    leftSide.setValue(view.getDiffTable().isVisibleA());
     emptyPane.setValue(!prefs.hideEmptyPane());
     leftSide.setEnabled(!(prefs.hideEmptyPane()
-        && view.diffTable.getChangeType() == ChangeType.ADDED));
+        && view.getDiffTable().getChangeType() == ChangeType.ADDED));
     topMenu.setValue(!prefs.hideTopMenu());
     manualReview.setValue(prefs.manualReview());
     expandAllComments.setValue(prefs.expandAllComments());
@@ -165,7 +166,8 @@ class PreferencesBox extends Composite {
 
     mode.setEnabled(prefs.syntaxHighlighting());
     if (prefs.syntaxHighlighting()) {
-      setMode(view.getCmFromSide(DisplaySide.B).getStringOption("mode"));
+      CodeMirror[] cms = view.getCms();
+      setMode(cms[cms.length - 1].getStringOption("mode"));
     }
 
     switch (view.getIntraLineStatus()) {
@@ -257,8 +259,9 @@ class PreferencesBox extends Composite {
         @Override
         public void run() {
           int v = prefs.tabSize();
-          view.getCmFromSide(DisplaySide.A).setOption("tabSize", v);
-          view.getCmFromSide(DisplaySide.B).setOption("tabSize", v);
+          for (CodeMirror cm : view.getCms()) {
+            cm.setOption("tabSize", v);
+          }
         }
       });
     }
@@ -297,20 +300,22 @@ class PreferencesBox extends Composite {
 
   @UiHandler("leftSide")
   void onLeftSide(ValueChangeEvent<Boolean> e) {
-    view.diffTable.setVisibleA(e.getValue());
+    if (view.getDiffTable() instanceof SideBySideTable2) {
+      ((SideBySideTable2) view.getDiffTable()).setVisibleA(e.getValue());
+    }
   }
 
   @UiHandler("emptyPane")
   void onHideEmptyPane(ValueChangeEvent<Boolean> e) {
     prefs.hideEmptyPane(!e.getValue());
-    view.diffTable.setHideEmptyPane(prefs.hideEmptyPane());
+    view.getDiffTable().setHideEmptyPane(prefs.hideEmptyPane());
     if (prefs.hideEmptyPane()) {
-      if (view.diffTable.getChangeType() == ChangeType.ADDED) {
+      if (view.getDiffTable().getChangeType() == ChangeType.ADDED) {
         leftSide.setValue(false);
         leftSide.setEnabled(false);
       }
     } else {
-      leftSide.setValue(view.diffTable.isVisibleA());
+      leftSide.setValue(view.getDiffTable().isVisibleA());
       leftSide.setEnabled(true);
     }
   }
@@ -350,8 +355,9 @@ class PreferencesBox extends Composite {
             @Override
             public void run() {
               String mode = m != null && !m.isEmpty() ? m : null;
-              view.getCmFromSide(DisplaySide.A).setOption("mode", mode);
-              view.getCmFromSide(DisplaySide.B).setOption("mode", mode);
+              for (CodeMirror cm : view.getCms()) {
+                cm.setOption("mode", mode);
+              }
             }
           });
         }
@@ -367,8 +373,9 @@ class PreferencesBox extends Composite {
       @Override
       public void run() {
         boolean s = prefs.showWhitespaceErrors();
-        view.getCmFromSide(DisplaySide.A).setOption("showTrailingSpace", s);
-        view.getCmFromSide(DisplaySide.B).setOption("showTrailingSpace", s);
+        for (CodeMirror cm : view.getCms()) {
+          cm.setOption("showTrailingSpace", s);
+        }
       }
     });
   }
@@ -387,8 +394,9 @@ class PreferencesBox extends Composite {
       @Override
       public void run() {
         String t = prefs.theme().name().toLowerCase();
-        view.getCmFromSide(DisplaySide.A).setOption("theme", t);
-        view.getCmFromSide(DisplaySide.B).setOption("theme", t);
+        for (CodeMirror cm : view.getCms()) {
+          cm.setOption("theme", t);
+        }
       }
     });
   }

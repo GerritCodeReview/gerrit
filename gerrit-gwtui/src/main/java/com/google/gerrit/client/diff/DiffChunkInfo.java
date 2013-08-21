@@ -28,6 +28,8 @@ class DiffChunkInfo {
     this.edit = edit;
   }
 
+  DiffChunkInfo() {}
+
   DisplaySide getSide() {
     return side;
   }

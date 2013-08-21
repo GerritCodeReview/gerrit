@@ -27,19 +27,9 @@ import java.util.List;
 import java.util.Set;
 
 /** Collapses common regions with {@link SkipBar} for {@link SideBySide2}. */
-class SkipManager {
-  private final DiffScreen host;
-  private final CommentManager commentManager;
-  private Set<SkipBar> skipBars;
-  private SkipBar line0;
-
-  SkipManager(DiffScreen host, CommentManager commentManager) {
-    this.host = host;
-    this.commentManager = commentManager;
-  }
-
-  OverviewBar getOverviewBar() {
-    return host.getDiffTable().overview;
+class SideBySideSkipManager extends SkipManager {
+  SideBySideSkipManager(SideBySide2 host, SideBySideCommentManager commentManager) {
+    super(host, commentManager);
   }
 
   void render(int context, DiffInfo diff) {
@@ -72,13 +62,14 @@ class SkipManager {
         lineB += current.b() != null ? current.b().length() : 0;
       }
     }
-    skips = commentManager.splitSkips(context, skips);
+    skips = getCommentManager().splitSkips(context, skips);
 
     if (!skips.isEmpty()) {
-      CodeMirror cmA = host.getCmFromSide(DisplaySide.A);
-      CodeMirror cmB = host.getCmFromSide(DisplaySide.B);
+      CodeMirror cmA = getDiffScreen().getCmFromSide(DisplaySide.A);
+      CodeMirror cmB = getDiffScreen().getCmFromSide(DisplaySide.B);
 
-      skipBars = new HashSet<>();
+      Set<SkipBar> skipBars = new HashSet<>();
+      setSkipBars(skipBars);
       for (SkippedLine skip : skips) {
         SkipBar barA = newSkipBar(cmA, DisplaySide.A, skip);
         SkipBar barB = newSkipBar(cmB, DisplaySide.B, skip);
@@ -89,7 +80,7 @@ class SkipManager {
         if (skip.getStartA() == 0 || skip.getStartB() == 0) {
           barA.upArrow.setVisible(false);
           barB.upArrow.setVisible(false);
-          line0 = barB;
+          setLine0(barB);
         } else if (skip.getStartA() + skip.getSize() == lineA
             || skip.getStartB() + skip.getSize() == lineB) {
           barA.downArrow.setVisible(false);
@@ -99,32 +90,15 @@ class SkipManager {
     }
   }
 
-  void ensureFirstLineIsVisible() {
-    if (line0 != null) {
-      line0.expandBefore(1);
-      line0 = null;
-    }
-  }
-
-  void removeAll() {
-    if (skipBars != null) {
-      for (SkipBar bar : skipBars) {
-        bar.expandSideAll();
-      }
-      getOverviewBar().refresh();
-      skipBars = null;
-      line0 = null;
-    }
-  }
-
   void remove(SkipBar a, SkipBar b) {
+    Set<SkipBar> skipBars = getSkipBars();
     skipBars.remove(a);
     skipBars.remove(b);
-    if (line0 == a || line0 == b) {
-      line0 = null;
+    if (getLine0() == a || getLine0() == b) {
+      setLine0(null);
     }
     if (skipBars.isEmpty()) {
-      skipBars = null;
+      setSkipBars(null);
     }
   }
 
@@ -133,32 +107,8 @@ class SkipManager {
     int end = start + skip.getSize() - 1;
 
     SkipBar bar = new SkipBar(this, cm);
-    host.getDiffTable().add(bar);
+    getDiffScreen().getDiffTable().add(bar);
     bar.collapse(start, end, true);
     return bar;
-  }
-
-  CommentManager getCommentManager() {
-    return commentManager;
-  }
-
-  DiffScreen getDiffScreen() {
-    return host;
-  }
-
-  SkipBar getLine0() {
-    return line0;
-  }
-
-  void setLine0(SkipBar bar) {
-    line0 = bar;
-  }
-
-  Set<SkipBar> getSkipBars() {
-    return skipBars;
-  }
-
-  void setSkipBars(Set<SkipBar> bars) {
-    skipBars = bars;
   }
 }

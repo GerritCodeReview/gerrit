@@ -1,4 +1,4 @@
-//Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2013 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@ abstract class CommentBox extends Composite {
           fromTo.getFrom(),
           fromTo.getTo(),
           Configuration.create()
-              .set("className", DiffTable.style.range()));
+              .set("className", Resources.I.diffTableStyle().range()));
     }
     addDomHandler(new MouseOverHandler() {
       @Override
@@ -94,7 +94,7 @@ abstract class CommentBox extends Composite {
             fromTo.getFrom(),
             fromTo.getTo(),
             Configuration.create()
-                .set("className", DiffTable.style.rangeHighlight()));
+                .set("className", Resources.I.diffTableStyle().rangeHighlight()));
       } else if (!highlight && rangeHighlightMarker != null) {
         rangeHighlightMarker.clear();
         rangeHighlightMarker = null;

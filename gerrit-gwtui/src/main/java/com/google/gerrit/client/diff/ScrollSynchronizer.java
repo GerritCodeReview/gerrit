@@ -20,14 +20,14 @@ import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.ScrollInfo;
 
 class ScrollSynchronizer {
-  private DiffTable diffTable;
+  private SideBySideTable2 diffTable;
   private LineMapper mapper;
   private OverviewBar overview;
   private ScrollCallback active;
   private ScrollCallback callbackA;
   private ScrollCallback callbackB;
 
-  ScrollSynchronizer(DiffTable diffTable,
+  ScrollSynchronizer(SideBySideTable2 diffTable,
       CodeMirror cmA, CodeMirror cmB,
       LineMapper mapper) {
     this.diffTable = diffTable;

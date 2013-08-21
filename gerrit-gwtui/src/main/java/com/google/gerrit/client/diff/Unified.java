@@ -1,0 +1,397 @@
+// Copyright (C) 2013 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.client.diff;
+
+import static java.lang.Double.POSITIVE_INFINITY;
+
+import com.google.gerrit.client.Dispatcher;
+import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.account.DiffPreferences;
+import com.google.gerrit.client.diff.UnifiedChunkManager.LineSidePair;
+import com.google.gerrit.client.patches.PatchUtil;
+import com.google.gerrit.client.projects.ConfigInfoCache;
+import com.google.gerrit.client.rpc.ScreenLoadCallback;
+import com.google.gerrit.client.ui.InlineHyperlink;
+import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArrayString;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.ImageResourceRenderer;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwtexpui.globalkey.client.GlobalKey;
+
+import net.codemirror.lib.CodeMirror;
+import net.codemirror.lib.CodeMirror.GutterClickHandler;
+import net.codemirror.lib.CodeMirror.LineHandle;
+import net.codemirror.lib.Configuration;
+import net.codemirror.lib.Pos;
+
+import java.util.Collections;
+import java.util.List;
+
+public class Unified extends DiffScreen {
+  interface Binder extends UiBinder<FlowPanel, Unified> {}
+  private static final Binder uiBinder = GWT.create(Binder.class);
+
+  @UiField(provided = true)
+  UnifiedTable diffTable;
+
+  private CodeMirror cm;
+
+  private UnifiedChunkManager chunkManager;
+  private UnifiedCommentManager commentManager;
+  private UnifiedSkipManager skipManager;
+
+  public Unified(
+      PatchSet.Id base,
+      PatchSet.Id revision,
+      String path,
+      int startLine) {
+    super(base, revision, path, startLine);
+
+    diffTable = new UnifiedTable(this, base, revision, path);
+    add(uiBinder.createAndBindUi(this));
+    addDomHandler(GlobalKey.STOP_PROPAGATION, KeyPressEvent.getType());
+  }
+
+  @Override
+  ScreenLoadCallback<ConfigInfoCache.Entry> getScreenLoadCallback(
+      final CommentsCollections comments) {
+    return new ScreenLoadCallback<ConfigInfoCache.Entry>(Unified.this) {
+      @Override
+      protected void preDisplay(ConfigInfoCache.Entry result) {
+        commentManager = new UnifiedCommentManager(
+            Unified.this,
+            getBase(), getRevision(), getPath(),
+            result.getCommentLinkProcessor(),
+            getChangeStatus().isOpen());
+        setTheme(result.getTheme());
+        display(comments);
+      }
+    };
+  }
+
+  @Override
+  public void onShowView() {
+    super.onShowView();
+
+    operation(new Runnable() {
+      @Override
+      public void run() {
+        resizeCodeMirror();
+        cm.refresh();
+      }
+    });
+    setLineLength(Patch.COMMIT_MSG.equals(getPath()) ? 72 : getPrefs().lineLength());
+    diffTable.refresh();
+
+    if (getStartLine() == 0) {
+      DiffChunkInfo d = chunkManager.getFirst();
+      if (d != null) {
+        if (d.isEdit() && d.getSide() == DisplaySide.A) {
+          // startLine = lineOnOther(d.getSide(), d.getStart()).getLine() + 1;
+        } else {
+          setStartLine(d.getStart() + 1);
+        }
+      }
+    }
+    if (getStartLine() > 0) {
+      cm.setCursor(Pos.create(getStartLine() - 1));
+      cm.focus();
+    } else {
+      cm.setCursor(Pos.create(0));
+      cm.focus();
+    }
+    if (Gerrit.isSignedIn() && getPrefs().autoReview()) {
+      header.autoReview();
+    }
+    prefetchNextFile();
+  }
+
+  @Override
+  void registerCmEvents(final CodeMirror cm) {
+    super.registerCmEvents(cm);
+
+    maybeRegisterRenderEntireFileKeyMap(cm);
+  }
+
+  @Override
+  public void registerKeys() {
+    super.registerKeys();
+
+    registerHandlers();
+  }
+
+  @Override
+  FocusHandler getFocusHandler() {
+    return new FocusHandler() {
+      @Override
+      public void onFocus(FocusEvent event) {
+        cm.focus();
+      }
+    };
+  }
+
+  private void display(final CommentsCollections comments) {
+    final DiffPreferences prefs = getPrefs();
+    final DiffInfo diff = getDiff();
+    setThemeStyles(prefs.theme().isDark());
+    setShowIntraline(prefs.intralineDifference());
+    // TODO: Handle showLineNumbers preference
+
+    cm = newCm(
+        diff.metaA() == null ? diff.metaA() : diff.metaB(),
+        diff.textUnified(),
+        diffTable.cm);
+    setShowTabs(prefs.showTabs());
+
+    chunkManager = new UnifiedChunkManager(this, cm, diffTable.scrollbar);
+    skipManager = new UnifiedSkipManager(this, commentManager);
+
+    operation(new Runnable() {
+      @Override
+      public void run() {
+        // Estimate initial CM3 height, fixed up in onShowView.
+        int height = Window.getClientHeight()
+            - (Gerrit.getHeaderFooterHeight() + 18);
+        cm.setHeight(height);
+
+        render(diff);
+        commentManager.render(comments, prefs.expandAllComments());
+        skipManager.render(prefs.context(), diff);
+      }
+    });
+
+    registerCmEvents(cm);
+
+    setPrefsAction(new PreferencesAction(this, prefs));
+    header.init(getPrefsAction(), getSideBySideDiffLink(), diff.sideBySideWebLinks());
+
+    setupSyntaxHighlighting();
+  }
+
+  private List<InlineHyperlink> getSideBySideDiffLink() {
+    InlineHyperlink toSideBySideDiffLink = new InlineHyperlink();
+    toSideBySideDiffLink.setHTML(
+        new ImageResourceRenderer().render(Gerrit.RESOURCES.sideBySideDiff()));
+    toSideBySideDiffLink.setTargetHistoryToken(
+        Dispatcher.toSideBySide(getBase(), getRevision(), getPath()));
+    toSideBySideDiffLink.setTitle(PatchUtil.C.sideBySideDiff());
+    return Collections.singletonList(toSideBySideDiffLink);
+  }
+
+  @Override
+  CodeMirror newCm(
+      DiffInfo.FileMeta meta,
+      String contents,
+      Element parent) {
+    DiffPreferences prefs = getPrefs();
+    JsArrayString gutters = JavaScriptObject.createArray().cast();
+    gutters.push(UnifiedTable.style.lineNumbersLeft());
+    gutters.push(UnifiedTable.style.lineNumbersRight());
+
+    return CodeMirror.create(parent, Configuration.create()
+        .set("readOnly", true)
+        .set("cursorBlinkRate", 0)
+        .set("cursorHeight", 0.85)
+        .set("lineNumbers", false)
+        .set("gutters", gutters)
+        .set("tabSize", prefs.tabSize())
+        .set("mode", getFileSize() == FileSize.SMALL ? getContentType(meta) : null)
+        .set("lineWrapping", false)
+        .set("scrollbarStyle", "overlay")
+        .set("styleSelectedText", true)
+        .set("showTrailingSpace", prefs.showWhitespaceErrors())
+        .set("keyMap", "vim_ro")
+        .set("theme", prefs.theme().name().toLowerCase())
+        .set("value", meta != null ? contents : "")
+        .set("viewportMargin", renderEntireFile() ? POSITIVE_INFINITY : 10));
+  }
+
+  @Override
+  void setShowLineNumbers(boolean b) {
+    // TODO: Implement this
+  }
+
+  private GutterClickHandler onGutterClick(final int cmLine) {
+    return new GutterClickHandler() {
+      @Override
+      public void handle(CodeMirror instance, int line, String gutter,
+          NativeEvent clickEvent) {
+        if (clickEvent.getButton() == NativeEvent.BUTTON_LEFT
+            && !clickEvent.getMetaKey()
+            && !clickEvent.getAltKey()
+            && !clickEvent.getCtrlKey()
+            && !clickEvent.getShiftKey()) {
+          cm.setCursor(Pos.create(cmLine));
+          Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+            @Override
+            public void execute() {
+              commentManager.newDraftCallback(cm).run();
+            }
+          });
+        }
+      }
+    };
+  }
+
+  LineHandle setLineNumber(DisplaySide side, final int cmLine, int line) {
+    Label gutter = new Label(String.valueOf(line));
+    gutter.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        onGutterClick(cmLine);
+      }
+    });
+    diffTable.add(gutter);
+    gutter.setStyleName(UnifiedTable.style.lineNumber());
+    return cm.setGutterMarker(cmLine,
+        side == DisplaySide.A ? UnifiedTable.style.lineNumbersLeft()
+            : UnifiedTable.style.lineNumbersRight(), gutter.getElement());
+  }
+
+  @Override
+  void setSyntaxHighlighting(boolean b) {
+    final DiffInfo diff = getDiff();
+    final DiffPreferences prefs = getPrefs();
+    if (b) {
+      injectMode(diff, new AsyncCallback<Void>() {
+        @Override
+        public void onSuccess(Void result) {
+          if (prefs.syntaxHighlighting()) {
+            cm.setOption("mode", getContentType(diff.metaA() == null
+                ? diff.metaB()
+                : diff.metaA()));
+          }
+        }
+
+        @Override
+        public void onFailure(Throwable caught) {
+          prefs.syntaxHighlighting(false);
+        }
+      });
+    } else {
+      cm.setOption("mode", (String) null);
+    }
+  }
+
+  @Override
+  void setAutoHideDiffHeader(boolean hide) {
+    // TODO: Implement this
+  }
+
+  @Override
+  Runnable updateActiveLine(final CodeMirror cm) {
+    return new Runnable() {
+      @Override
+      public void run() {
+        // The rendering of active lines has to be deferred. Reflow
+        // caused by adding and removing styles chokes Firefox when arrow
+        // key (or j/k) is held down. Performance on Chrome is fine
+        // without the deferral.
+        //
+        Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+          @Override
+          public void execute() {
+            LineHandle handle =
+                cm.getLineHandleVisualStart(cm.getCursor("end").line());
+            cm.extras().activeLine(handle);
+          }
+        });
+      }
+    };
+  }
+
+  @Override
+  CodeMirror getCmFromSide(DisplaySide side) {
+    return cm;
+  }
+
+  int getCmLine(int line, DisplaySide side) {
+    return chunkManager.getCmLine(line, side);
+  }
+
+  LineSidePair getLineSidePairFromCmLine(int cmLine) {
+    return chunkManager.getLineSidePairFromCmLine(cmLine);
+  }
+
+  @Override
+  void resizeCodeMirror() {
+    int hdr = header.getOffsetHeight() + diffTable.getHeaderHeight();
+    cm.adjustHeight(hdr);
+  }
+
+  @Override
+  void operation(final Runnable apply) {
+    cm.operation(new Runnable() {
+      @Override
+      public void run() {
+        apply.run();
+      }
+    });
+  }
+
+  @Override
+  int getCodeMirrorHeight() {
+    int rest =
+        Gerrit.getHeaderFooterHeight() + header.getOffsetHeight()
+            + diffTable.getHeaderHeight() + 5; // Estimate
+    return Window.getClientHeight() - rest;
+  }
+
+  @Override
+  CodeMirror[] getCms() {
+    return new CodeMirror[] {cm};
+  }
+
+  CodeMirror getCm() {
+    return cm;
+  }
+
+  @Override
+  UnifiedTable getDiffTable() {
+    return diffTable;
+  }
+
+  @Override
+  UnifiedChunkManager getChunkManager() {
+    return chunkManager;
+  }
+
+  @Override
+  UnifiedCommentManager getCommentManager() {
+    return commentManager;
+  }
+
+  @Override
+  UnifiedSkipManager getSkipManager() {
+    return skipManager;
+  }
+}

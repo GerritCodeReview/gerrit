@@ -479,6 +479,24 @@
     },
     {
       "key": {
+        "uuid": "8d10c096_a3f87afb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DownloadPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-21T02:38:20Z",
+      "side": 1,
+      "message": "I didn\u0027t say nobody cares about Windows. I said I care more about security of the server for Windows users than I do about a Windows user who is supposedly a software developer not being able to install a base64 decoder utility.",
+      "parentUuid": "adce6449_6c11fb63",
+      "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6dd1cce1_f21ce87b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DownloadPatch.java",
         "patchSetId": 2
@@ -556,6 +574,24 @@
     },
     {
       "key": {
+        "uuid": "8d10c096_83f57e03",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DownloadPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-21T02:38:20Z",
+      "side": 1,
+      "message": "Interesting. I wonder why both of these popular browsers fail. Very strange.",
+      "parentUuid": "adce6449_0c06372f",
+      "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4dd6c8dc_b1ff40e0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
         "patchSetId": 2
@@ -585,6 +621,24 @@
       "side": 1,
       "message": "Nice idea. How can i retrieve a query parameters in GetPatch.apply method then?\n\n public BinaryResult apply(RevisionResource rsrc) { ...",
       "parentUuid": "4dd6c8dc_b1ff40e0",
+      "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d20b4dd_c8ff8fdf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-21T02:38:20Z",
+      "side": 1,
+      "message": "Just add an @Option inside of GetPatch:\n\n  public class GetPatch ... {\n    @Option(name \u003d \"--download\")\n    private boolean download;\n\n    if (download) {\n      setAttachmentName(...);\n    }",
+      "parentUuid": "0de050ae_afffd9df",
       "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

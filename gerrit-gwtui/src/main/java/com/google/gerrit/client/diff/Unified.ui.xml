@@ -17,14 +17,14 @@ limitations under the License.
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
     xmlns:d='urn:import:com.google.gerrit.client.diff'>
-  <ui:style gss='false'>
-    .sbs {
+  <ui:style>
+    .unified {
       margin-left: -5px;
       margin-right: -5px;
     }
   </ui:style>
-  <g:FlowPanel styleName='{style.sbs}'>
+  <g:FlowPanel styleName='{style.unified}'>
     <d:Header ui:field='header'/>
-    <d:SideBySideTable ui:field='diffTable'/>
+    <d:UnifiedTable ui:field='diffTable'/>
   </g:FlowPanel>
 </ui:UiBinder>

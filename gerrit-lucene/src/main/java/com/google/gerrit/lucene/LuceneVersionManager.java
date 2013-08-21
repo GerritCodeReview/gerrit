@@ -162,7 +162,7 @@ class LuceneVersionManager implements LifecycleListener {
     for (Schema<ChangeData> schema : ChangeSchemas.ALL.values()) {
       File f = getDir(sitePaths, schema);
       boolean exists = f.exists() && f.isDirectory();
-      if (exists && !f.isDirectory()) {
+      if (f.exists() && !f.isDirectory()) {
         log.warn("Not a directory: %s", f.getAbsolutePath());
       }
       int v = schema.getVersion();

@@ -229,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "2d20b4dd_a82a1b8b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-08-21T04:52:38Z",
+      "side": 1,
+      "message": "I\u0027m not quite sure how the migration mechanism works, but I believe i found what is needed and where it should go.  Patch has been updated.",
+      "parentUuid": "986c8049_630ea245",
+      "revId": "b144ef76a620d49f693eb41d52d1b5c7e7f6686e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "986c8049_8322beb9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_53.java",
         "patchSetId": 2

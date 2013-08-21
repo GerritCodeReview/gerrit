@@ -59,6 +59,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.UIObject;
 
+import net.codemirror.lib.CodeMirror;
 import net.codemirror.mode.ModeInfo;
 import net.codemirror.mode.ModeInjector;
 import net.codemirror.theme.ThemeLoader;
@@ -74,7 +75,7 @@ public class PreferencesBox extends Composite {
     String dialog();
   }
 
-  private final SideBySide view;
+  private final DiffScreen view;
   private DiffPreferences prefs;
   private int contextLastValue;
   private Timer updateContextTimer;
@@ -108,7 +109,7 @@ public class PreferencesBox extends Composite {
   @UiField Button apply;
   @UiField Button save;
 
-  public PreferencesBox(SideBySide view) {
+  public PreferencesBox(DiffScreen view) {
     this.view = view;
 
     initWidget(uiBinder.createAndBindUi(this));
@@ -182,9 +183,9 @@ public class PreferencesBox extends Composite {
     lineNumbers.setValue(prefs.showLineNumbers());
     emptyPane.setValue(!prefs.hideEmptyPane());
     if (view != null) {
-      leftSide.setValue(view.diffTable.isVisibleA());
+      leftSide.setValue(view.getDiffTable().isVisibleA());
       leftSide.setEnabled(!(prefs.hideEmptyPane()
-          && view.diffTable.getChangeType() == ChangeType.ADDED));
+          && view.getDiffTable().getChangeType() == ChangeType.ADDED));
     } else {
       UIObject.setVisible(leftSideLabel, false);
       leftSide.setVisible(false);
@@ -316,8 +317,9 @@ public class PreferencesBox extends Composite {
           @Override
           public void run() {
             int v = prefs.tabSize();
-            view.getCmFromSide(DisplaySide.A).setOption("tabSize", v);
-            view.getCmFromSide(DisplaySide.B).setOption("tabSize", v);
+            for (CodeMirror cm : view.getCms()) {
+              cm.setOption("tabSize", v);
+            }
           }
         });
       }
@@ -379,21 +381,23 @@ public class PreferencesBox extends Composite {
 
   @UiHandler("leftSide")
   void onLeftSide(ValueChangeEvent<Boolean> e) {
-    view.diffTable.setVisibleA(e.getValue());
+    if (view.getDiffTable() instanceof SideBySideTable) {
+      ((SideBySideTable) view.getDiffTable()).setVisibleA(e.getValue());
+    }
   }
 
   @UiHandler("emptyPane")
   void onHideEmptyPane(ValueChangeEvent<Boolean> e) {
     prefs.hideEmptyPane(!e.getValue());
     if (view != null) {
-      view.diffTable.setHideEmptyPane(prefs.hideEmptyPane());
+      view.getDiffTable().setHideEmptyPane(prefs.hideEmptyPane());
       if (prefs.hideEmptyPane()) {
-        if (view.diffTable.getChangeType() == ChangeType.ADDED) {
+        if (view.getDiffTable().getChangeType() == ChangeType.ADDED) {
           leftSide.setValue(false);
           leftSide.setEnabled(false);
         }
       } else {
-        leftSide.setValue(view.diffTable.isVisibleA());
+        leftSide.setValue(view.getDiffTable().isVisibleA());
         leftSide.setEnabled(true);
       }
     }
@@ -469,8 +473,9 @@ public class PreferencesBox extends Composite {
         @Override
         public void run() {
           boolean s = prefs.showWhitespaceErrors();
-          view.getCmFromSide(DisplaySide.A).setOption("showTrailingSpace", s);
-          view.getCmFromSide(DisplaySide.B).setOption("showTrailingSpace", s);
+          for (CodeMirror cm : view.getCms()) {
+            cm.setOption("showTrailingSpace", s);
+          }
         }
       });
     }

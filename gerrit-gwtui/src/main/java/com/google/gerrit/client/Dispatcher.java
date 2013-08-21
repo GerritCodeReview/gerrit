@@ -83,6 +83,7 @@ import com.google.gerrit.client.dashboards.DashboardInfo;
 import com.google.gerrit.client.dashboards.DashboardList;
 import com.google.gerrit.client.diff.DisplaySide;
 import com.google.gerrit.client.diff.SideBySide;
+import com.google.gerrit.client.diff.Unified;
 import com.google.gerrit.client.documentation.DocScreen;
 import com.google.gerrit.client.editor.EditScreen;
 import com.google.gerrit.client.groups.GroupApi;
@@ -126,6 +127,11 @@ public class Dispatcher {
 
   public static String toUnified(PatchSet.Id diffBase, Patch.Key id) {
     return toPatch("unified", diffBase, id);
+  }
+
+  public static String toUnified1(PatchSet.Id diffBase,
+      PatchSet.Id revision, String fileName) {
+    return toPatch("unified1", diffBase, revision, fileName, null, 0);
   }
 
   public static String toPatch(String type, PatchSet.Id diffBase, Patch.Key id) {
@@ -471,14 +477,16 @@ public class Dispatcher {
 
     if ("".equals(panel) || /* DEPRECATED URL */"cm".equals(panel)) {
       if (preferUnified()) {
-        unified(token, baseId, id);
+        unified(token, baseId, id, side, line);
       } else {
         codemirror(token, baseId, id, side, line, false);
       }
     } else if ("sidebyside".equals(panel)) {
       codemirror(token, null, id, side, line, false);
     } else if ("unified".equals(panel)) {
-      unified(token, baseId, id);
+      unified(token, baseId, id, side, line);
+    } else if ("unified1".equals(panel)) {
+      unified1(token, baseId, id);
     } else if ("edit".equals(panel)) {
       codemirror(token, null, id, side, line, true);
     } else {
@@ -490,7 +498,18 @@ public class Dispatcher {
     return DiffView.UNIFIED_DIFF.equals(Gerrit.getUserPreferences().diffView());
   }
 
-  private static void unified(final String token,
+  private static void unified(final String token, final PatchSet.Id baseId,
+      final Patch.Key id, final DisplaySide side, final int line) {
+    GWT.runAsync(new AsyncSplit(token) {
+      @Override
+      public void onSuccess() {
+        Gerrit.display(token,
+            new Unified(baseId, id.getParentKey(), id.get(), side, line));
+      }
+    });
+  }
+
+  private static void unified1(final String token,
       final PatchSet.Id baseId,
       final Patch.Key id) {
     GWT.runAsync(new AsyncSplit(token) {

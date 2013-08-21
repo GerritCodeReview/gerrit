@@ -22,6 +22,7 @@
 @external .cm-tab;
 @external .cm-searching;
 @external .cm-trailingspace;
+@external .unifiedLineNumber;
 
 /* Reduce margins around CodeMirror to save space. */
 .CodeMirror-lines {
@@ -61,7 +62,8 @@
 }
 
 /* Highlight current line number in the line gutter. */
-.activeLine .CodeMirror-linenumber {
+.activeLine .CodeMirror-linenumber,
+.activeLine .unifiedLineNumber {
   background-color: #bcf !important;
   color: #000;
 }

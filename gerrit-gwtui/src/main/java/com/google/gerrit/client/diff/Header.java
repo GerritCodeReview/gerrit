@@ -20,6 +20,7 @@ import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ReviewInfo;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.diff.DiffInfo.Region;
+import com.google.gerrit.client.diff.DiffScreen.DiffScreenType;
 import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.info.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.info.FileInfo;
@@ -89,6 +90,7 @@ public class Header extends Composite {
   private final PatchSet.Id base;
   private final PatchSet.Id patchSetId;
   private final String path;
+  private final DiffScreenType diffScreenType;
   private boolean hasPrev;
   private boolean hasNext;
   private String nextPath;
@@ -96,12 +98,13 @@ public class Header extends Composite {
   private ReviewedState reviewedState;
 
   Header(KeyCommandSet keys, PatchSet.Id base, PatchSet.Id patchSetId,
-      String path) {
+      String path, DiffScreenType diffSreenType) {
     initWidget(uiBinder.createAndBindUi(this));
     this.keys = keys;
     this.base = base;
     this.patchSetId = patchSetId;
     this.path = path;
+    this.diffScreenType = diffSreenType;
 
     if (!Gerrit.isSignedIn()) {
       reviewed.getElement().getStyle().setVisibility(Visibility.HIDDEN);
@@ -267,9 +270,13 @@ public class Header extends Composite {
   }
 
   private String url(FileInfo info) {
-    return info.binary()
-      ? Dispatcher.toUnified(base, patchSetId, info.path())
-      : Dispatcher.toSideBySide(base, patchSetId, info.path());
+    if (info.binary()) {
+      return Dispatcher.toUnified1(base, patchSetId, info.path());
+    } else {
+      return diffScreenType == DiffScreenType.UNIFIED
+          ? Dispatcher.toUnified(base, patchSetId, info.path())
+          : Dispatcher.toSideBySide(base, patchSetId, info.path());
+    }
   }
 
   private KeyCommand setupNav(InlineHyperlink link, char key, String help, FileInfo info) {

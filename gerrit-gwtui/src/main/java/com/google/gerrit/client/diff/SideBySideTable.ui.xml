@@ -17,17 +17,15 @@ limitations under the License.
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
     xmlns:d='urn:import:com.google.gerrit.client.diff'>
-  <ui:style gss='false' type='com.google.gerrit.client.diff.DiffTable.DiffTableStyle'>
+  <ui:with field='res' type='com.google.gerrit.client.diff.Resources'/>       
+  <ui:style gss='false' type='com.google.gerrit.client.diff.SideBySideTable.DiffTableStyle'>
     @external .CodeMirror, .CodeMirror-selectedtext;
     @external .CodeMirror-linenumber;
     @external .CodeMirror-overlayscroll-vertical, .CodeMirror-scroll;
     @external .CodeMirror-dialog-bottom;
     @external .CodeMirror-cursor;
-
-    .fullscreen {
-      background-color: #f7f7f7;
-      border-bottom: 1px solid #ddd;
-    }
+    
+    @external .dark, .noIntraline;
 
     .difftable .patchSetNav,
     .difftable .CodeMirror {
@@ -98,16 +96,7 @@ limitations under the License.
       background-color: #f7f7f7;
       line-height: 1;
     }
-    .fileCommentCell {
-      overflow-x: auto;
-    }
 
-    .range {
-      background-color: #ffd500 !important;
-    }
-    .rangeHighlight {
-      background-color: #ffff00 !important;
-    }
     .difftable .CodeMirror-selectedtext {
       background-color: inherit !important;
     }
@@ -132,15 +121,6 @@ limitations under the License.
       margin-left: 21px;
       border-left: 2px solid #d64040;
     }
-
-    .diff_header {
-      font-size: 12px;
-      font-weight: bold;
-      color: #5252ad;
-    }
-    .diff_header pre {
-      margin: 0 0 3px 0;
-    }
   </ui:style>
   <g:HTMLPanel styleName='{style.difftable}'>
     <table class='{style.table}'>
@@ -152,7 +132,7 @@ limitations under the License.
           <d:PatchSetSelectBox ui:field='patchSetSelectBoxB' />
         </td>
       </tr>
-      <tr ui:field='diffHeaderRow' class='{style.diff_header}'>
+      <tr ui:field='diffHeaderRow' class='{res.diffTableStyle.diffHeader}'>
         <td colspan='2'><pre ui:field='diffHeaderText' /></td>
       </tr>
       <tr>

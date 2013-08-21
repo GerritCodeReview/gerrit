@@ -118,6 +118,26 @@ public class DiffInfo extends JavaScriptObject {
     return s.toString();
   }
 
+  public final String textUnified() {
+    StringBuilder s = new StringBuilder();
+    JsArray<Region> c = content();
+    for (int i = 0; i < c.length(); i++) {
+      Region r = c.get(i);
+      if (r.ab() != null) {
+        append(s, r.ab());
+      } else {
+        if (r.a() != null) {
+          append(s, r.a());
+        }
+        if (r.b() != null) {
+          append(s, r.b());
+        }
+      }
+      // TODO skip may need to be handled
+    }
+    return s.toString();
+  }
+
   private static void append(StringBuilder s, JsArrayString lines) {
     for (int i = 0; i < lines.length(); i++) {
       s.append(lines.get(i)).append('\n');

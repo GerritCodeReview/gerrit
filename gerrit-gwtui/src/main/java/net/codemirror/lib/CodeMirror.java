@@ -376,6 +376,14 @@ public class CodeMirror extends JavaScriptObject {
     return Extras.get(this);
   }
 
+  public final native LineHandle setGutterMarker(int line, String gutterId, Element value) /*-{
+    return this.setGutterMarker(line, gutterId, value);
+  }-*/;
+
+  public final native LineHandle setGutterMarker(LineHandle line, String gutterId, Element value) /*-{
+    return this.setGutterMarker(line, gutterId, value);
+  }-*/;
+
   protected CodeMirror() {
   }
 

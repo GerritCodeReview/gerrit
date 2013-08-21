@@ -18,54 +18,42 @@ import com.google.gerrit.client.account.DiffPreferences;
 import com.google.gerrit.client.info.ChangeInfo.RevisionInfo;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.resources.client.CssResource;
-import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 
 import net.codemirror.lib.CodeMirror;
 
 /**
- * A table with one row and two columns to hold the two CodeMirrors displaying
- * the files to be diffed.
+ * Base class for SideBySideTable2 and UnifiedTable2
  */
-class DiffTable extends Composite {
-  interface Binder extends UiBinder<HTMLPanel, DiffTable> {}
-  private static final Binder uiBinder = GWT.create(Binder.class);
+abstract class DiffTable extends Composite {
+  static {
+    Resources.I.diffTableStyle().ensureInjected();
+  }
 
-  interface DiffTableStyle extends CssResource {
+  interface Style extends CssResource {
     String fullscreen();
-    String intralineBg();
     String dark();
-    String diff();
     String noIntraline();
     String range();
     String rangeHighlight();
-    String showLineNumbers();
-    String hideA();
-    String hideB();
-    String padding();
+    String diffHeader();
   }
 
-  @UiField Element cmA;
-  @UiField Element cmB;
-  Scrollbar scrollbar;
   @UiField Element patchSetNavRow;
   @UiField Element patchSetNavCellA;
   @UiField Element patchSetNavCellB;
   @UiField Element diffHeaderRow;
   @UiField Element diffHeaderText;
   @UiField FlowPanel widgets;
-  @UiField static DiffTableStyle style;
 
   @UiField(provided = true)
   PatchSetSelectBox patchSetSelectBoxA;
@@ -73,65 +61,31 @@ class DiffTable extends Composite {
   @UiField(provided = true)
   PatchSetSelectBox patchSetSelectBoxB;
 
-  private SideBySide parent;
   private boolean header;
-  private boolean visibleA;
   private ChangeType changeType;
+  Scrollbar scrollbar;
 
-  DiffTable(SideBySide parent, PatchSet.Id base, PatchSet.Id revision,
-      String path) {
+  DiffTable(DiffScreen parent, PatchSet.Id base, PatchSet.Id revision, String path) {
     patchSetSelectBoxA = new PatchSetSelectBox(
         parent, DisplaySide.A, revision.getParentKey(), base, path);
     patchSetSelectBoxB = new PatchSetSelectBox(
         parent, DisplaySide.B, revision.getParentKey(), revision, path);
     PatchSetSelectBox.link(patchSetSelectBoxA, patchSetSelectBoxB);
 
-    initWidget(uiBinder.createAndBindUi(this));
     this.scrollbar = new Scrollbar(this);
-    this.parent = parent;
-    this.visibleA = true;
   }
 
-  boolean isVisibleA() {
-    return visibleA;
-  }
-
-  void setVisibleA(boolean show) {
-    visibleA = show;
-    if (show) {
-      removeStyleName(style.hideA());
-      parent.syncScroll(DisplaySide.B); // match B's viewport
-    } else {
-      addStyleName(style.hideA());
-    }
-  }
-
-  Runnable toggleA() {
-    return new Runnable() {
-      @Override
-      public void run() {
-        setVisibleA(!isVisibleA());
-      }
-    };
-  }
-
-  void setVisibleB(boolean show) {
-    if (show) {
-      removeStyleName(style.hideB());
-      parent.syncScroll(DisplaySide.A); // match A's viewport
-    } else {
-      addStyleName(style.hideB());
-    }
-  }
+  abstract boolean isVisibleA();
 
   void setHeaderVisible(boolean show) {
+    DiffScreen parent = getDiffScreen();
     if (show != UIObject.isVisible(patchSetNavRow)) {
       UIObject.setVisible(patchSetNavRow, show);
       UIObject.setVisible(diffHeaderRow, show && header);
       if (show) {
-        parent.header.removeStyleName(style.fullscreen());
+        parent.header.removeStyleName(Resources.I.diffTableStyle().fullscreen());
       } else {
-        parent.header.addStyleName(style.fullscreen());
+        parent.header.addStyleName(Resources.I.diffTableStyle().fullscreen());
       }
       parent.resizeCodeMirror();
     }
@@ -182,17 +136,11 @@ class DiffTable extends Composite {
     setHideEmptyPane(prefs.hideEmptyPane());
   }
 
-  void setHideEmptyPane(boolean hide) {
-    if (changeType == ChangeType.ADDED) {
-      setVisibleA(!hide);
-    } else if (changeType == ChangeType.DELETED) {
-      setVisibleB(!hide);
-    }
-  }
+  abstract void setHideEmptyPane(boolean hide);
 
   void refresh() {
     if (header) {
-      CodeMirror cm = parent.getCmFromSide(DisplaySide.A);
+      CodeMirror cm = getDiffScreen().getCmFromSide(DisplaySide.A);
       diffHeaderText.getStyle().setMarginLeft(
           cm.getGutterElement().getOffsetWidth(),
           Unit.PX);
@@ -202,4 +150,6 @@ class DiffTable extends Composite {
   void add(Widget widget) {
     widgets.add(widget);
   }
+
+  abstract DiffScreen getDiffScreen();
 }

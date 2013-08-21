@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2013 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <ui:style gss='false' type='com.google.gerrit.client.diff.SideBySideSkipBar.SkipBarStyle'>
+    .skipBar {
+      background-color: #def;
+      height: 1.3em;
+      overflow: hidden;
+    }
+    .text {
+      display: table;
+      margin: 0 auto;
+      color: #777;
+      font-style: italic;
+      overflow: hidden;
+    }
+    .anchor {
+      color: inherit;
+      text-decoration: none;
+    }
+    .noExpand .arrow {
+      display: none;
+    }
+    .arrow {
+      font-family: Arial Unicode MS, sans-serif;
+    }
+  </ui:style>
+  <g:HTMLPanel addStyleNames='{style.skipBar}'>
+  <div class='{style.text}'>
+    <ui:msg>
+      <g:Anchor ui:field='upArrow' addStyleNames='{style.arrow} {style.anchor}' />
+      <g:Anchor ui:field='skipNum' addStyleNames='{style.anchor}' />
+      <g:Anchor ui:field='downArrow' addStyleNames=' {style.arrow} {style.anchor}' />
+    </ui:msg>
+  </div>
+  </g:HTMLPanel>
+</ui:UiBinder>

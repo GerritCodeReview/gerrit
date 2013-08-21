@@ -190,6 +190,24 @@
     },
     {
       "key": {
+        "uuid": "ad966456_0ce51758",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-21T21:26:30Z",
+      "side": 1,
+      "message": "I suggest to reuse the existing DownloadPanel that we are using in old change screen and not to change/extend that existing panel with new DownloadPatch icon.\n\nThis change adds both to change header: Download button to open a download panel with different download commands and Download icon to download a patch set as a file.\n\nWhat do you think?",
+      "parentUuid": "6dd1cce1_b2166056",
+      "revId": "8abbbb9a9bba442d12a2c244f4b674fe4d87a4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "adce6449_2cf45306",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadPatch.java",
         "patchSetId": 2

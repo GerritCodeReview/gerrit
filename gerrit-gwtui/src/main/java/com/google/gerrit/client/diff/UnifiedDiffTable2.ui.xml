@@ -17,9 +17,9 @@ limitations under the License.
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
     xmlns:d='urn:import:com.google.gerrit.client.diff'>
-  <ui:style type='com.google.gerrit.client.diff.DiffTable.DiffTableStyle'>
+  <ui:style type='com.google.gerrit.client.diff.UnifiedDiffTable2.DiffTableStyle'>
     @external .CodeMirror, .CodeMirror-lines, .CodeMirror-selectedtext;
-    @external .CodeMirror-linenumber, .CodeMirror-vscrollbar;
+    @external .CodeMirror-linenumber;
     @external .cm-keymap-fat-cursor, CodeMirror-cursor;
     @external .cm-searching, .cm-trailingspace, .cm-tab;
     .difftable .CodeMirror-lines {
@@ -41,23 +41,20 @@ limitations under the License.
       table-layout: fixed;
       border-spacing: 0;
     }
-    .a, .b {
-      width: 50%;
-    }
-    .a .intralineBg,
-    .a .intralineBg .CodeMirror-linenumber {
+    .intralineDelete,
+    .intralineDelete .CodeMirror-linenumber {
       background-color: #fee;
     }
-    .b .intralineBg,
-    .b .intralineBg .CodeMirror-linenumber {
+    .intralineInsert,
+    .intralineInsert .CodeMirror-linenumber {
       background-color: #dfd;
     }
-    .a .diff,
-    .a .diff .CodeMirror-linenumber {
+    .diffDelete,
+    .diffDelete .CodeMirror-linenumber {
       background-color: #faa;
     }
-    .b .diff,
-    .b .diff .CodeMirror-linenumber {
+    .diffInsert,
+    .diffInsert .CodeMirror-linenumber {
       background-color: #9f9;
     }
     .padding, .fileCommentRow {
@@ -69,15 +66,18 @@ limitations under the License.
     .fileCommentCell {
       overflow-x: auto;
     }
-    .a .CodeMirror-vscrollbar {
-      display: none !important;
-    }
     .activeLine .CodeMirror-linenumber,
     .activeLine .diff, .activeLine .intralineBg {
       background-color: #E0FFFF !important;
     }
     .activeLineBg {
       background-color: #E0FFFF !important;
+    }
+    .range {
+      background-color: #ffd500 !important;
+    }
+    .rangeHighlight {
+      background-color: #ffff00 !important;
     }
     .cm-searching {
       background-color: #ffa !important;
@@ -106,13 +106,27 @@ limitations under the License.
       content: "\00bb";
       color: #f00;
     }
+    .lineNumbersLeft, .lineNumbersRight {
+      min-width: 20px;
+      width: 26px; /* TODO: This needs to be set based on number of lines */
+    }
+    .lineNumbersLeft {
+      border-right: 1px solid #ddd;
+    }
+    .lineNumber {
+      cursor: pointer;
+      padding: 0 3px 0 5px;
+      min-width: 20px;
+      text-align: right;
+      color: #999;
+    }
   </ui:style>
   <g:HTMLPanel styleName='{style.difftable}'>
     <table class='{style.table}'>
       <tr>
         <td>
           <table class='{style.table}'>
-            <tr ui:field='patchSetNavRow' class='{style.padding}'>
+            <!--<tr ui:field='patchSetNavRow' class='{style.padding}'>
               <td ui:field='patchSetNavCellA'>
                 <d:PatchSetSelectBox2 ui:field='patchSetSelectBoxA' />
               </td>
@@ -127,14 +141,13 @@ limitations under the License.
               <td ui:field='fileCommentCellB' class='{style.fileCommentCell}'>
                 <d:FileCommentPanel ui:field='fileCommentPanelB' />
               </td>
-            </tr>
+            </tr>-->
             <tr>
-              <td ui:field='cmA' class='{style.a}'></td>
-              <td ui:field='cmB' class='{style.b}'></td>
+              <td ui:field='cm'></td>
             </tr>
           </table>
         </td>
-        <td class='{style.sidePanelCell}'><d:SidePanel ui:field='sidePanel'/></td>
+        <!--<td class='{style.sidePanelCell}'><d:SidePanel ui:field='sidePanel'/></td>-->
       </tr>
     </table>
   </g:HTMLPanel>

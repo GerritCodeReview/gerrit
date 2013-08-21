@@ -175,19 +175,25 @@ class SkipBar extends Composite {
 
   @UiHandler("skipNum")
   void onExpandAll(ClickEvent e) {
-    otherBar.expandAll();
+    if (otherBar != null) {
+      otherBar.expandAll();
+    }
     expandAll();
   }
 
   @UiHandler("upArrow")
   void onExpandBefore(ClickEvent e) {
-    otherBar.expandBefore();
+    if (otherBar != null) {
+      otherBar.expandBefore();
+    }
     expandBefore();
   }
 
   @UiHandler("downArrow")
   void onExpandAfter(ClickEvent e) {
-    otherBar.expandAfter();
+    if (otherBar != null) {
+      otherBar.expandAfter();
+    }
     expandAfter();
   }
 }

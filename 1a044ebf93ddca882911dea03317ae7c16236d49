@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4d9ec86d_11e52c58",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-08-21T19:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d20b4dd_c8314ffc",
+      "revId": "1a044ebf93ddca882911dea03317ae7c16236d49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d20b4dd_285e2b20",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2013-08-21T05:06:11Z",
       "side": 1,
       "message": "This change needs to be rebased.  We are already at Schema_82, so this needs to be Schema_83.",
+      "revId": "1a044ebf93ddca882911dea03317ae7c16236d49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d9ec86d_31ea3029",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-08-21T19:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d20b4dd_285e2b20",
       "revId": "1a044ebf93ddca882911dea03317ae7c16236d49",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

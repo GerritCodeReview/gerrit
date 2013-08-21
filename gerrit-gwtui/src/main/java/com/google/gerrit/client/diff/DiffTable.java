@@ -16,11 +16,8 @@ package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.resources.client.CssResource;
-import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -31,25 +28,10 @@ import com.google.gwt.user.client.ui.Widget;
  * A table with one row and two columns to hold the two CodeMirrors displaying
  * the files to be diffed.
  */
-class DiffTable extends Composite {
-  interface Binder extends UiBinder<HTMLPanel, DiffTable> {}
-  private static final Binder uiBinder = GWT.create(Binder.class);
-
-  interface DiffTableStyle extends CssResource {
-    String intralineBg();
-    String diff();
-    String activeLine();
-    String hideNumber();
-    String range();
-    String rangeHighlight();
-    String showtabs();
+abstract class DiffTable extends Composite {
+  static {
+    Resources.I.diffTableStyle().ensureInjected();
   }
-
-  @UiField
-  Element cmA;
-
-  @UiField
-  Element cmB;
 
   @UiField
   SidePanel sidePanel;
@@ -84,12 +66,9 @@ class DiffTable extends Composite {
   @UiField(provided = true)
   FileCommentPanel fileCommentPanelB;
 
-  @UiField
-  static DiffTableStyle style;
+  private DiffScreen host;
 
-  private SideBySide2 host;
-
-  DiffTable(SideBySide2 host, PatchSet.Id base, PatchSet.Id revision, String path) {
+  DiffTable(DiffScreen host, PatchSet.Id base, PatchSet.Id revision, String path) {
     patchSetSelectBoxA = new PatchSetSelectBox2(
         this, DisplaySide.A, revision.getParentKey(), base, path);
     patchSetSelectBoxB = new PatchSetSelectBox2(
@@ -97,7 +76,6 @@ class DiffTable extends Composite {
     PatchSetSelectBox2.link(patchSetSelectBoxA, patchSetSelectBoxB);
     fileCommentPanelA = new FileCommentPanel(host, this, path, DisplaySide.A);
     fileCommentPanelB = new FileCommentPanel(host, this, path, DisplaySide.B);
-    initWidget(uiBinder.createAndBindUi(this));
     this.host = host;
   }
 
@@ -129,13 +107,15 @@ class DiffTable extends Composite {
     getPanelFromSide(box.getSide()).onRemoveDraftBox(box);
   }
 
-  int getHeaderHeight() {
-    return fileCommentRow.getOffsetHeight() + patchSetSelectBoxA.getOffsetHeight();
-  }
+  abstract int getHeaderHeight();
 
   void setUpPatchSetNav(JsArray<RevisionInfo> list) {
     patchSetSelectBoxA.setUpPatchSetNav(list);
     patchSetSelectBoxB.setUpPatchSetNav(list);
+  }
+
+  DiffScreen getHost() {
+    return host;
   }
 
   void add(Widget widget) {

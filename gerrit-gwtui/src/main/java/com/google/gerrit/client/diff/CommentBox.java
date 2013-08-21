@@ -1,4 +1,4 @@
-//Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2013 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -38,16 +38,17 @@ abstract class CommentBox extends Composite {
 
   private PaddingManager widgetManager;
   private PaddingWidgetWrapper selfWidgetWrapper;
-  private SideBySide2 parent;
-  private CodeMirror cm;
-  private DisplaySide side;
+  private final DiffScreen parent;
+  private final CodeMirror cm;
+  private final DisplaySide side;
   private DiffChunkInfo diffChunkInfo;
   private GutterWrapper gutterWrapper;
   private FromTo fromTo;
   private TextMarker rangeMarker;
   private TextMarker rangeHighlightMarker;
 
-  CommentBox(CodeMirror cm, CommentInfo info, DisplaySide side) {
+  CommentBox(DiffScreen parent, CodeMirror cm, CommentInfo info, DisplaySide side) {
+    this.parent = parent;
     this.cm = cm;
     this.side = side;
     CommentRange range = info.range();
@@ -57,7 +58,7 @@ abstract class CommentBox extends Composite {
           fromTo.getFrom(),
           fromTo.getTo(),
           Configuration.create()
-              .set("className", DiffTable.style.range()));
+              .set("className", Resources.I.diffTableStyle().range()));
     }
     addDomHandler(new MouseOverHandler() {
       @Override
@@ -87,6 +88,9 @@ abstract class CommentBox extends Composite {
       public void execute() {
         assert selfWidgetWrapper != null;
         selfWidgetWrapper.getWidget().changed();
+        if (getDiffScreen() instanceof Unified2) {
+          return;
+        }
         if (diffChunkInfo != null) {
           parent.resizePaddingOnOtherSide(side, diffChunkInfo.getEnd());
         } else {
@@ -126,10 +130,6 @@ abstract class CommentBox extends Composite {
     this.diffChunkInfo = info;
   }
 
-  void setParent(SideBySide2 parent) {
-    this.parent = parent;
-  }
-
   void setGutterWrapper(GutterWrapper wrapper) {
     gutterWrapper = wrapper;
   }
@@ -141,7 +141,7 @@ abstract class CommentBox extends Composite {
             fromTo.getFrom(),
             fromTo.getTo(),
             Configuration.create()
-                .set("className", DiffTable.style.rangeHighlight()));
+                .set("className", Resources.I.diffTableStyle().rangeHighlight()));
       } else if (!highlight && rangeHighlightMarker != null) {
         rangeHighlightMarker.clear();
         rangeHighlightMarker = null;
@@ -157,6 +157,10 @@ abstract class CommentBox extends Composite {
 
   GutterWrapper getGutterWrapper() {
     return gutterWrapper;
+  }
+
+  DiffScreen getDiffScreen() {
+    return parent;
   }
 
   DisplaySide getSide() {

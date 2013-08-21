@@ -24,11 +24,19 @@ interface Resources extends ClientBundle {
 
   @Source("CommentBoxUi.css") Style style();
 
+  @Source("DiffTableStyle.css") DiffTableStyle diffTableStyle();
+
   interface Style extends CssResource {
     String commentBox();
     String contents();
     String header();
     String summary();
     String date();
+  }
+
+  interface DiffTableStyle extends CssResource {
+    String range();
+    String rangeHighlight();
+    String showtabs();
   }
 }

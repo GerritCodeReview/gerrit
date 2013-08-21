@@ -17,11 +17,10 @@ limitations under the License.
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
     xmlns:d='urn:import:com.google.gerrit.client.diff'>
-  <ui:style type='com.google.gerrit.client.diff.DiffTable.DiffTableStyle'>
+  <ui:style type='com.google.gerrit.client.diff.UnifiedTable2.DiffTableStyle'>
     @external .CodeMirror, .CodeMirror-lines, .CodeMirror-selectedtext;
-    @external .CodeMirror-linenumber, .CodeMirror-vscrollbar .CodeMirror-scroll;
+    @external .CodeMirror-linenumber;
     @external .cm-keymap-fat-cursor, CodeMirror-cursor;
-    @external .cm-searching, .cm-trailingspace, .cm-tab;
     .difftable .CodeMirror-lines {
       padding: 0;
     }
@@ -33,31 +32,30 @@ limitations under the License.
     .difftable .CodeMirror pre span {
       padding-bottom: 0.11em;
     }
-    .contentCell {
-      padding: 0;
-    }
     .sidePanelCell {
-      padding: 0;
       width: 10px;
     }
     .table {
+      width: 100%;
       table-layout: fixed;
       border-spacing: 0;
     }
-
-    .a, .b { padding: 0; }
-    .a { width: 702px; min-width: 702px; }
-    .b { width: 718px; min-width: 718px; }
-
-    /* Hide left side scrollbar, right side controls both views. */
-    .a .CodeMirror-scroll { padding-right: 0; }
-    .a .CodeMirror-vscrollbar { display: none !important; }
-
-    .a .diff { background-color: rgba(255, 170, 170, 0.3); }
-    .b .diff { background-color: rgba(153, 255, 153, 0.3); }
-    .a .intralineBg { background-color: rgba(255, 238, 238, 0.3); }
-    .b .intralineBg { background-color: rgba(221, 255, 221, 0.3); }
-
+    .intralineDelete,
+    .intralineDelete .CodeMirror-linenumber {
+      background-color: #fee;
+    }
+    .intralineInsert,
+    .intralineInsert .CodeMirror-linenumber {
+      background-color: #dfd;
+    }
+    .diffDelete,
+    .diffDelete .CodeMirror-linenumber {
+      background-color: #faa;
+    }
+    .diffInsert,
+    .diffInsert .CodeMirror-linenumber {
+      background-color: #9f9;
+    }
     .fileCommentRow {
       background-color: #eee;
       line-height: 1;
@@ -66,9 +64,14 @@ limitations under the License.
       overflow-x: auto;
     }
 
-    .activeLine .CodeMirror-linenumber {
-      background-color: #bcf !important;
-      color: #000;
+    .activeLine:before, .activeLine:after {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: #bcf;
+      content: "";
+      opacity: 0.6;
     }
 
     .range {
@@ -76,12 +79,6 @@ limitations under the License.
     }
     .rangeHighlight {
       background-color: #ffff00 !important;
-    }
-    .cm-searching {
-      background-color: #ffa !important;
-    }
-    .cm-trailingspace {
-      background-color: red !important;
     }
     .difftable .CodeMirror-selectedtext {
       background-color: inherit !important;
@@ -100,15 +97,25 @@ limitations under the License.
       opacity: 0.8;
       z-index: 2;
     }
-    .showtabs .cm-tab:before {
-      content: "\00bb";
-      color: #f00;
+    .lineNumbersLeft, .lineNumbersRight {
+      min-width: 20px;
+      width: 26px; /* TODO: This needs to be set based on number of lines */
+    }
+    .lineNumbersLeft {
+      border-right: 1px solid #ddd;
+    }
+    .lineNumber {
+      cursor: pointer;
+      padding: 0 3px 0 5px;
+      min-width: 20px;
+      text-align: right;
+      color: #999;
     }
   </ui:style>
   <g:HTMLPanel styleName='{style.difftable}'>
     <table class='{style.table}'>
       <tr>
-        <td class='{style.contentCell}'>
+        <td>
           <table class='{style.table}'>
             <tr ui:field='patchSetNavRow' class='{style.fileCommentRow}'>
               <td ui:field='patchSetNavCellA'>
@@ -127,8 +134,7 @@ limitations under the License.
               </td>
             </tr>
             <tr>
-              <td ui:field='cmA' class='{style.a}'></td>
-              <td ui:field='cmB' class='{style.b}'></td>
+              <td ui:field='cm'></td>
             </tr>
           </table>
         </td>

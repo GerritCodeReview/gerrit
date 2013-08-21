@@ -249,6 +249,14 @@ public class CodeMirror extends JavaScriptObject {
     return this.getLineNumber(handle);
   }-*/;
 
+  public final native LineInfo lineInfo(int line) /*-{
+    return this.lineInfo(line);
+  }-*/;
+
+  public final native LineInfo lineInfo(LineHandle line) /*-{
+    return this.lineInfo(line);
+  }-*/;
+
   public final native void focus() /*-{
     this.focus();
   }-*/;
@@ -306,6 +314,14 @@ public class CodeMirror extends JavaScriptObject {
   public final native boolean hasVimSearchHighlight() /*-{
     return this.state.vim && this.state.vim.searchState_ &&
         !!this.state.vim.searchState_.getOverlay();
+  }-*/;
+
+  public final native LineHandle setGutterMarker(int line, String gutterId, Element value) /*-{
+    return this.setGutterMarker(line, gutterId, value);
+  }-*/;
+
+  public final native LineHandle setGutterMarker(LineHandle line, String gutterId, Element value) /*-{
+    return this.setGutterMarker(line, gutterId, value);
   }-*/;
 
   protected CodeMirror() {

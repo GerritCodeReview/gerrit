@@ -19,6 +19,6 @@ limitations under the License.
     xmlns:d='urn:import:com.google.gerrit.client.diff'>
   <g:FlowPanel>
     <d:Header ui:field='header'/>
-    <d:SideBySideTable2 ui:field='diffTable'/>
+    <d:UnifiedTable2 ui:field='diffTable'/>
   </g:FlowPanel>
 </ui:UiBinder>

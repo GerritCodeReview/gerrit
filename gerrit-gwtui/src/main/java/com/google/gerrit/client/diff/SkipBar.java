@@ -127,7 +127,7 @@ class SkipBar extends Composite {
     if (widget != null) {
       widget.clear();
     } else {
-      cm.removeLineClass(0, LineClassWhere.WRAP, DiffTable.style.hideNumber());
+      cm.removeLineClass(0, LineClassWhere.WRAP, SideBySideTable2.style.hideNumber());
     }
   }
 
@@ -175,19 +175,25 @@ class SkipBar extends Composite {
 
   @UiHandler("skipNum")
   void onExpandAll(ClickEvent e) {
-    otherBar.expandAll();
+    if (otherBar != null) {
+      otherBar.expandAll();
+    }
     expandAll();
   }
 
   @UiHandler("upArrow")
   void onExpandBefore(ClickEvent e) {
-    otherBar.expandBefore();
+    if (otherBar != null) {
+      otherBar.expandBefore();
+    }
     expandBefore();
   }
 
   @UiHandler("downArrow")
   void onExpandAfter(ClickEvent e) {
-    otherBar.expandAfter();
+    if (otherBar != null) {
+      otherBar.expandAfter();
+    }
     expandAfter();
   }
 }

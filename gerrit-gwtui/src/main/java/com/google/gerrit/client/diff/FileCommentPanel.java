@@ -29,14 +29,14 @@ import java.util.List;
  */
 class FileCommentPanel extends Composite {
 
-  private SideBySide2 parent;
+  private DiffScreen parent;
   private DiffTable table;
   private String path;
   private DisplaySide side;
   private List<CommentBox> boxes;
   private FlowPanel body;
 
-  FileCommentPanel(SideBySide2 host, DiffTable table, String path, DisplaySide side) {
+  FileCommentPanel(DiffScreen host, DiffTable table, String path, DisplaySide side) {
     this.parent = host;
     this.table = table;
     this.path = path;

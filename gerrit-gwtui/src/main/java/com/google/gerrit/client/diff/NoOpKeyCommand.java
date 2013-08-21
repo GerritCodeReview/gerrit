@@ -17,7 +17,7 @@ package com.google.gerrit.client.diff;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 
-/** A KeyCommand that does nothing, used to display a help message */
+/** A KeyCommand that does nothing. Used for displaying a help message */
 class NoOpKeyCommand extends KeyCommand {
   NoOpKeyCommand(int mask, int key, String help) {
     super(mask, key, help);

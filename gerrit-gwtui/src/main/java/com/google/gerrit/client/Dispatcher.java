@@ -71,6 +71,7 @@ import com.google.gerrit.client.changes.QueryScreen;
 import com.google.gerrit.client.dashboards.DashboardInfo;
 import com.google.gerrit.client.dashboards.DashboardList;
 import com.google.gerrit.client.diff.SideBySide2;
+import com.google.gerrit.client.diff.Unified2;
 import com.google.gerrit.client.groups.GroupApi;
 import com.google.gerrit.client.groups.GroupInfo;
 import com.google.gerrit.client.patches.PatchScreen;
@@ -620,6 +621,8 @@ public class Dispatcher {
               );
             }
             return new SideBySide2(baseId, id.getParentKey(), id.get());
+          } else if ("unified2".equals(panel)) {
+            return new Unified2(baseId, id.getParentKey(), id.get());
           }
         }
 

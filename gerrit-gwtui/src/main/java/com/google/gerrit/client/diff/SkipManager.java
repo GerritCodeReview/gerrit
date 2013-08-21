@@ -19,34 +19,34 @@ import com.google.gerrit.client.patches.SkippedLine;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gwt.core.client.JsArray;
 
-import net.codemirror.lib.CodeMirror;
-
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/** Collapses common regions with {@link SkipBar} for {@link SideBySide}. */
-class SkipManager {
-  private final SideBySide host;
-  private final CommentManager commentManager;
+/** Collapses common regions with {@link SideBySideSkipBar} for {@link SideBySide}
+ *  and {@link Unified}. */
+abstract class SkipManager {
   private Set<SkipBar> skipBars;
   private SkipBar line0;
+  private CommentManager commentManager;
+  private int lineA;
+  private int lineB;
 
-  SkipManager(SideBySide host, CommentManager commentManager) {
-    this.host = host;
+  SkipManager(CommentManager commentManager) {
     this.commentManager = commentManager;
   }
 
-  void render(int context, DiffInfo diff) {
+  abstract void render(int context, DiffInfo diff);
+
+  List<SkippedLine> getSkippedLines(int context, DiffInfo diff) {
     if (context == DiffPreferencesInfo.WHOLE_FILE_CONTEXT) {
-      return;
+      return new ArrayList<>();
     }
 
+    lineA = 0;
+    lineB = 0;
     JsArray<Region> regions = diff.content();
     List<SkippedLine> skips = new ArrayList<>();
-    int lineA = 0;
-    int lineB = 0;
     for (int i = 0; i < regions.length(); i++) {
       Region current = regions.get(i);
       if (current.ab() != null || current.common() || current.skip() > 0) {
@@ -69,31 +69,7 @@ class SkipManager {
         lineB += current.b() != null ? current.b().length() : 0;
       }
     }
-    skips = commentManager.splitSkips(context, skips);
-
-    if (!skips.isEmpty()) {
-      CodeMirror cmA = host.getCmFromSide(DisplaySide.A);
-      CodeMirror cmB = host.getCmFromSide(DisplaySide.B);
-
-      skipBars = new HashSet<>();
-      for (SkippedLine skip : skips) {
-        SkipBar barA = newSkipBar(cmA, DisplaySide.A, skip);
-        SkipBar barB = newSkipBar(cmB, DisplaySide.B, skip);
-        SkipBar.link(barA, barB);
-        skipBars.add(barA);
-        skipBars.add(barB);
-
-        if (skip.getStartA() == 0 || skip.getStartB() == 0) {
-          barA.upArrow.setVisible(false);
-          barB.upArrow.setVisible(false);
-          line0 = barB;
-        } else if (skip.getStartA() + skip.getSize() == lineA
-            || skip.getStartB() + skip.getSize() == lineB) {
-          barA.downArrow.setVisible(false);
-          barB.downArrow.setVisible(false);
-        }
-      }
-    }
+    return commentManager.splitSkips(context, skips);
   }
 
   void ensureFirstLineIsVisible() {
@@ -113,24 +89,27 @@ class SkipManager {
     }
   }
 
-  void remove(SkipBar a, SkipBar b) {
-    skipBars.remove(a);
-    skipBars.remove(b);
-    if (line0 == a || line0 == b) {
-      line0 = null;
-    }
-    if (skipBars.isEmpty()) {
-      skipBars = null;
-    }
+  SkipBar getLine0() {
+    return line0;
   }
 
-  private SkipBar newSkipBar(CodeMirror cm, DisplaySide side, SkippedLine skip) {
-    int start = side == DisplaySide.A ? skip.getStartA() : skip.getStartB();
-    int end = start + skip.getSize() - 1;
+  int getLineA() {
+    return lineA;
+  }
 
-    SkipBar bar = new SkipBar(this, cm);
-    host.diffTable.add(bar);
-    bar.collapse(start, end, true);
-    return bar;
+  int getLineB() {
+    return lineB;
+  }
+
+  void setLine0(SkipBar bar) {
+    line0 = bar;
+  }
+
+  void setSkipBars(Set<SkipBar> bars) {
+    skipBars = bars;
+  }
+
+  Set<SkipBar> getSkipBars() {
+    return skipBars;
   }
 }

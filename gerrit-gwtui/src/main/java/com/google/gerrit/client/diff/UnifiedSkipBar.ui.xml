@@ -16,7 +16,7 @@ limitations under the License.
 -->
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
-  <ui:style gss='false' type='com.google.gerrit.client.diff.SkipBar.SkipBarStyle'>
+  <ui:style gss='false' type='com.google.gerrit.client.diff.UnifiedSkipBar.SkipBarStyle'>
     .skipBar {
       background-color: #def;
       height: 1.3em;

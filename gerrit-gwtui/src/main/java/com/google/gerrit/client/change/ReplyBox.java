@@ -23,7 +23,7 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.LabelValue;
-import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.client.Scheduler;
@@ -64,7 +64,7 @@ class ReplyBox extends Composite {
     String label_value();
   }
 
-  private final Change.Id changeId;
+  private final PatchSet.Id psId;
   private final String revision;
   private ReviewInput in = ReviewInput.create();
   private List<Runnable> lgtm;
@@ -77,11 +77,11 @@ class ReplyBox extends Composite {
   @UiField CheckBox email;
 
   ReplyBox(
-      Change.Id changeId,
+      PatchSet.Id psId,
       String revision,
       NativeMap<LabelInfo> all,
       NativeMap<JsArrayString> permitted) {
-    this.changeId = changeId;
+    this.psId = psId;
     this.revision = revision;
     initWidget(uiBinder.createAndBindUi(this));
 
@@ -139,12 +139,14 @@ class ReplyBox extends Composite {
   @UiHandler("send")
   void onSend(ClickEvent e) {
     in.message(message.getText().trim());
-    ChangeApi.revision(changeId.get(), revision)
+    ChangeApi.revision(psId.getParentKey().get(), revision)
       .view("review")
       .post(in, new GerritCallback<ReviewInput>() {
         @Override
         public void onSuccess(ReviewInput result) {
-          Gerrit.display(PageLinks.toChange2(changeId));
+          Gerrit.display(PageLinks.toChange2(
+              psId.getParentKey(),
+              String.valueOf(psId.get())));
         }
       });
     hide();

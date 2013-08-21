@@ -17,7 +17,7 @@ package com.google.gerrit.client.change;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
 import com.google.gerrit.client.rpc.NativeMap;
-import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
@@ -27,7 +27,7 @@ import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.user.client.PluginSafePopupPanel;
 
 class ReplyAction {
-  private final Change.Id changeId;
+  private final PatchSet.Id psId;
   private final String revision;
   private final ChangeScreen2.Style style;
   private final Widget replyButton;
@@ -43,7 +43,9 @@ class ReplyAction {
       String revision,
       ChangeScreen2.Style style,
       Widget replyButton) {
-    this.changeId = info.legacy_id();
+    this.psId = new PatchSet.Id(
+        info.legacy_id(),
+        info.revisions().get(revision)._number());
     this.revision = revision;
     this.style = style;
     this.replyButton = replyButton;
@@ -63,7 +65,7 @@ class ReplyAction {
 
     if (replyBox == null) {
       replyBox = new ReplyBox(
-          changeId,
+          psId,
           revision,
           allLabels,
           permittedLabels);

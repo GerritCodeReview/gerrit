@@ -156,7 +156,7 @@ class PublishedBox extends CommentBox {
 
   void doReply() {
     if (!Gerrit.isSignedIn()) {
-      Gerrit.doSignIn(getCommentManager().getSideBySide().getToken());
+      Gerrit.doSignIn(getCommentManager().getDiffScreen().getToken());
     } else if (replyBox == null) {
       addReplyBox(false);
     } else {
@@ -174,7 +174,7 @@ class PublishedBox extends CommentBox {
   void onQuote(ClickEvent e) {
     e.stopPropagation();
     if (!Gerrit.isSignedIn()) {
-      Gerrit.doSignIn(getCommentManager().getSideBySide().getToken());
+      Gerrit.doSignIn(getCommentManager().getDiffScreen().getToken());
     }
     addReplyBox(true);
   }
@@ -183,7 +183,7 @@ class PublishedBox extends CommentBox {
   void onReplyDone(ClickEvent e) {
     e.stopPropagation();
     if (!Gerrit.isSignedIn()) {
-      Gerrit.doSignIn(getCommentManager().getSideBySide().getToken());
+      Gerrit.doSignIn(getCommentManager().getDiffScreen().getToken());
     } else if (replyBox == null) {
       done.setEnabled(false);
       CommentInfo input = CommentInfo.createReply(comment);

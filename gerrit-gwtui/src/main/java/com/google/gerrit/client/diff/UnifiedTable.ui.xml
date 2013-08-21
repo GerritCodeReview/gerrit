@@ -17,17 +17,14 @@ limitations under the License.
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
     xmlns:d='urn:import:com.google.gerrit.client.diff'>
-  <ui:style gss='false' type='com.google.gerrit.client.diff.DiffTable.DiffTableStyle'>
+  <ui:with field='res' type='com.google.gerrit.client.diff.Resources'/>
+  <ui:style gss='false' type='com.google.gerrit.client.diff.UnifiedTable.DiffTableStyle'>
     @external .CodeMirror, .CodeMirror-selectedtext;
-    @external .CodeMirror-linenumber;
-    @external .CodeMirror-overlayscroll-vertical, .CodeMirror-scroll;
+    @external .CodeMirror-vscrollbar .CodeMirror-scroll;
     @external .CodeMirror-dialog-bottom;
     @external .CodeMirror-cursor;
 
-    .fullscreen {
-      background-color: #f7f7f7;
-      border-bottom: 1px solid #ddd;
-    }
+    @external .dark, .noIntraline;
 
     .difftable .patchSetNav,
     .difftable .CodeMirror {
@@ -51,69 +48,38 @@ limitations under the License.
     .difftable .CodeMirror pre span {
       padding-bottom: 1px;
     }
-
-    .hideA .psNavA,
-    .hideA .a {
-      display: none;
-    }
-
-    .hideB .psNavB,
-    .hideB .b {
-      display: none;
-    }
-
     .table {
       width: 100%;
       table-layout: fixed;
       border-spacing: 0;
     }
     .table td { padding: 0 }
-    .a, .b { width: 50% }
-    .hideA .psNavB, .hideA .b { width: 100% }
-    .hideB .psNavA, .hideB .a { width: 100% }
 
-    /* Hide scrollbars on A, B controls both views. */
-    .a .CodeMirror-scroll { margin-right: -36px; }
-    .a .CodeMirror-overlayscroll-vertical { display: none !important; }
+    /* Hide scrollbars. */
+    .difftable .CodeMirror-scroll { padding-right: 0; }
+    .difftable .CodeMirror-vscrollbar { display: none !important; } */
 
-    .showLineNumbers .b { border-left: none; }
-    .b { border-left: 1px solid #ddd; }
+    .diffDelete { background-color: #faa; }
+    .diffInsert { background-color: #9f9; }
+    .intralineDelete { background-color: #fee; }
+    .intralineInsert { background-color: #dfd; }
+    .noIntraline .intralineDelete { background-color: #faa; }
+    .noIntraline .intralineInsert { background-color: #9f9; }
 
-    .a .diff { background-color: #faa; }
-    .b .diff { background-color: #9f9; }
-    .a .intralineBg { background-color: #fee; }
-    .b .intralineBg { background-color: #dfd; }
-    .noIntraline .a .intralineBg { background-color: #faa; }
-    .noIntraline .b .intralineBg { background-color: #9f9; }
-
-    .dark .a .diff { background-color: #400; }
-    .dark .b .diff { background-color: #444; }
-
-    .dark .a .intralineBg { background-color: #888; }
-    .dark .b .intralineBg { background-color: #bbb; }
-    .dark .noIntraline .a .intralineBg { background-color: #400; }
-    .dark .noIntraline .b .intralineBg { background-color: #444; }
+    .dark .diffDelete { background-color: #400; }
+    .dark .diffInsert { background-color: #444; }
+    .dark .intralineDelete { background-color: #888; }
+    .dark .intralineInsert { background-color: #bbb; }
+    .dark .noIntraline .intralineDelete { background-color: #400; }
+    .dark .noIntraline .intralineInsert { background-color: #444; }
 
     .patchSetNav, .diff_header {
       background-color: #f7f7f7;
       line-height: 1;
     }
-    .fileCommentCell {
-      overflow-x: auto;
-    }
 
-    .range {
-      background-color: #ffd500 !important;
-    }
-    .rangeHighlight {
-      background-color: #ffff00 !important;
-    }
     .difftable .CodeMirror-selectedtext {
       background-color: inherit !important;
-    }
-    .difftable .CodeMirror-linenumber {
-      height: 1.11em;
-      cursor: pointer;
     }
     .difftable .CodeMirror div.CodeMirror-cursor {
       border-left: 2px solid black;
@@ -128,36 +94,39 @@ limitations under the License.
       bottom: auto;
       left: auto;
     }
-    .showLineNumbers .padding {
-      margin-left: 21px;
-      border-left: 2px solid #d64040;
-    }
 
-    .diff_header {
-      font-size: 12px;
-      font-weight: bold;
-      color: #5252ad;
+    .lineNumbersLeft, .lineNumbersRight {
+      min-width: 20px;
+      width: 3em; /* TODO: This needs to be set based on number of lines */
     }
-    .diff_header pre {
-      margin: 0 0 3px 0;
+    .lineNumbersLeft {
+      border-right: 1px solid #ddd;
+    }
+    .lineNumber {
+      cursor: pointer;
+      padding: 0 3px 0 5px;
+      min-width: 20px;
+      text-align: right;
+      color: #999;
     }
   </ui:style>
   <g:HTMLPanel styleName='{style.difftable}'>
     <table class='{style.table}'>
       <tr ui:field='patchSetNavRow' class='{style.patchSetNav}'>
-        <td ui:field='patchSetNavCellA' class='{style.psNavA}'>
+        <td ui:field='patchSetNavCellA'>
           <d:PatchSetSelectBox ui:field='patchSetSelectBoxA' />
         </td>
-        <td ui:field='patchSetNavCellB' class='{style.psNavB}'>
+      </tr>
+      <tr class='{style.patchSetNav}'>
+        <td ui:field='patchSetNavCellB'>
           <d:PatchSetSelectBox ui:field='patchSetSelectBoxB' />
         </td>
       </tr>
-      <tr ui:field='diffHeaderRow' class='{style.diff_header}'>
-        <td colspan='2'><pre ui:field='diffHeaderText' /></td>
+      <tr ui:field='diffHeaderRow' class='{res.diffTableStyle.diffHeader}'>
+        <td><pre ui:field='diffHeaderText' /></td>
       </tr>
       <tr>
-        <td ui:field='cmA' class='{style.a}' />
-        <td ui:field='cmB' class='{style.b}' />
+        <td ui:field='cm'/>
       </tr>
     </table>
     <g:FlowPanel ui:field='widgets' visible='false'/>

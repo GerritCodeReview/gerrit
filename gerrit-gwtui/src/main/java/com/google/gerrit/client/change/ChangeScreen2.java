@@ -586,7 +586,7 @@ public class ChangeScreen2 extends Screen {
     idText.setText("Change-Id: " + info.change_id());
     idText.setPreviewText(info.change_id());
     reload.set(info);
-    topic.set(info);
+    topic.set(info, revision);
     commit.set(commentLinkProcessor, info, revision);
     related.set(info, revision);
     quickApprove.set(info, revision);

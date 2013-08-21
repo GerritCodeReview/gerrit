@@ -14,9 +14,6 @@
 
 package com.google.gerrit.client.diff;
 
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -30,24 +27,16 @@ import net.codemirror.lib.TextMarker.FromTo;
 /**
  * LineWidget attached to a CodeMirror container.
  *
- * When a comment is placed on a line a CommentWidget is created on both sides.
- * The group tracks all comment boxes on that same line, and also includes an
- * empty padding element to keep subsequent lines vertically aligned.
+ * When a comment is placed on a line a CommentWidget is created.
  */
-class CommentGroup extends Composite {
-  static void pair(CommentGroup a, CommentGroup b) {
-    a.peer = b;
-    b.peer = a;
-  }
+abstract class CommentGroup extends Composite {
 
   private final CommentManager manager;
   private final CodeMirror cm;
   private final int line;
   private final FlowPanel comments;
-  private final Element padding;
   private LineWidget lineWidget;
   private Timer resizeTimer;
-  private CommentGroup peer;
 
   CommentGroup(CommentManager manager, CodeMirror cm, int line) {
     this.manager = manager;
@@ -58,11 +47,6 @@ class CommentGroup extends Composite {
     comments.setStyleName(Resources.I.style().commentWidgets());
     comments.setVisible(false);
     initWidget(new SimplePanel(comments));
-
-    padding = DOM.createDiv();
-    padding.setClassName(DiffTable.style.padding());
-    ChunkManager.focusOnClick(padding, cm.side());
-    getElement().appendChild(padding);
   }
 
   CommentManager getCommentManager() {
@@ -71,10 +55,6 @@ class CommentGroup extends Composite {
 
   CodeMirror getCm() {
     return cm;
-  }
-
-  CommentGroup getPeer() {
-    return peer;
   }
 
   int getLine() {
@@ -138,16 +118,9 @@ class CommentGroup extends Composite {
   void remove(DraftBox box) {
     comments.remove(box);
     comments.setVisible(0 < getBoxCount());
-
-    if (0 < getBoxCount() || 0 < peer.getBoxCount()) {
-      resize();
-    } else {
-      detach();
-      peer.detach();
-    }
   }
 
-  private void detach() {
+  void detach() {
     if (lineWidget != null) {
       lineWidget.clear();
       lineWidget = null;
@@ -157,14 +130,7 @@ class CommentGroup extends Composite {
     removeFromParent();
   }
 
-  void attachPair(DiffTable parent) {
-    if (lineWidget == null && peer.lineWidget == null) {
-      this.attach(parent);
-      peer.attach(parent);
-    }
-  }
-
-  private void attach(DiffTable parent) {
+  void attach(DiffTable parent) {
     parent.add(this);
     lineWidget = cm.addLineWidget(Math.max(0, line - 1), getElement(),
         Configuration.create()
@@ -172,33 +138,6 @@ class CommentGroup extends Composite {
           .set("noHScroll", true)
           .set("above", line <= 0)
           .set("insertAt", 0));
-  }
-
-  void handleRedraw() {
-    lineWidget.onRedraw(new Runnable() {
-      @Override
-      public void run() {
-        if (canComputeHeight() && peer.canComputeHeight()) {
-          if (resizeTimer != null) {
-            resizeTimer.cancel();
-            resizeTimer = null;
-          }
-          adjustPadding(CommentGroup.this, peer);
-        } else if (resizeTimer == null) {
-          resizeTimer = new Timer() {
-            @Override
-            public void run() {
-              if (canComputeHeight() && peer.canComputeHeight()) {
-                cancel();
-                resizeTimer = null;
-                adjustPadding(CommentGroup.this, peer);
-              }
-            }
-          };
-          resizeTimer.scheduleRepeating(5);
-        }
-      }
-    });
   }
 
   @Override
@@ -209,13 +148,7 @@ class CommentGroup extends Composite {
     }
   }
 
-  void resize() {
-    if (lineWidget != null) {
-      adjustPadding(this, peer);
-    }
-  }
-
-  private void updateSelection() {
+  void updateSelection() {
     if (cm.somethingSelected()) {
       FromTo r = cm.getSelectedRange();
       if (r.to().line() >= line) {
@@ -224,27 +157,35 @@ class CommentGroup extends Composite {
     }
   }
 
-  private boolean canComputeHeight() {
+  boolean canComputeHeight() {
     return !comments.isVisible() || comments.getOffsetHeight() > 0;
   }
 
-  private int computeHeight() {
-    if (comments.isVisible()) {
-      // Include margin-bottom: 5px from CSS class.
-      return comments.getOffsetHeight() + 5;
-    }
-    return 0;
+  LineWidget getLineWidget() {
+    return lineWidget;
   }
 
-  private static void adjustPadding(CommentGroup a, CommentGroup b) {
-    int apx = a.computeHeight();
-    int bpx = b.computeHeight();
-    int h = Math.max(apx, bpx);
-    a.padding.getStyle().setHeight(Math.max(0, h - apx), Unit.PX);
-    b.padding.getStyle().setHeight(Math.max(0, h - bpx), Unit.PX);
-    a.lineWidget.changed();
-    b.lineWidget.changed();
-    a.updateSelection();
-    b.updateSelection();
+  void setLineWidget(LineWidget widget) {
+    lineWidget = widget;
   }
+
+  Timer getResizeTimer() {
+    return resizeTimer;
+  }
+
+  void setResizeTimer(Timer timer) {
+    resizeTimer = timer;
+  }
+
+  FlowPanel getComments() {
+    return comments;
+  }
+
+  CommentManager getManager() {
+    return manager;
+  }
+
+  abstract void handleRedraw();
+
+  abstract void resize();
 }

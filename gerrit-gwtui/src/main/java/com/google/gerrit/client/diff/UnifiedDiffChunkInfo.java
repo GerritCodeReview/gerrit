@@ -14,9 +14,17 @@
 
 package com.google.gerrit.client.diff;
 
-import com.google.gwt.user.client.ui.Composite;
+public class UnifiedDiffChunkInfo extends DiffChunkInfo {
 
-abstract class SkipBar extends Composite {
-  abstract void expandSideAll();
-  abstract void expandBefore(int cnt);
+  private int cmLine;
+
+  UnifiedDiffChunkInfo(DisplaySide side,
+      int start, int end, int cmLine, boolean edit) {
+    super(side, start, end, edit);
+    this.cmLine = cmLine;
+  }
+
+  int getCmLine() {
+    return cmLine;
+  }
 }

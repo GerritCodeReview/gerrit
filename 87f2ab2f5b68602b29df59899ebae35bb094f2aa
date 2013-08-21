@@ -16,6 +16,24 @@
       "revId": "87f2ab2f5b68602b29df59899ebae35bb094f2aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0db3f0fa_b71c687b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/restapi/BinaryResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-21T18:35:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d20b4dd_88f59703",
+      "revId": "87f2ab2f5b68602b29df59899ebae35bb094f2aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

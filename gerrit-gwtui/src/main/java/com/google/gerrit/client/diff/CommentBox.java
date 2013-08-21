@@ -61,7 +61,7 @@ abstract class CommentBox extends Composite {
           fromTo.from(),
           fromTo.to(),
           Configuration.create()
-              .set("className", DiffTable.style.range()));
+              .set("className", Resources.I.diffTableStyle().range()));
     }
     addDomHandler(new MouseOverHandler() {
       @Override
@@ -109,7 +109,7 @@ abstract class CommentBox extends Composite {
             fromTo.from(),
             fromTo.to(),
             Configuration.create()
-                .set("className", DiffTable.style.rangeHighlight()));
+                .set("className", Resources.I.diffTableStyle().rangeHighlight()));
       } else if (!highlight && rangeHighlightMarker != null) {
         rangeHighlightMarker.clear();
         rangeHighlightMarker = null;

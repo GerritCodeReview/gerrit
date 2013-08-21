@@ -84,6 +84,7 @@ import com.google.gwtorm.client.KeyUtil;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
@@ -644,6 +645,11 @@ public class ChangeScreen2 extends Screen {
 
     JsArray<RevisionInfo> list = info.revisions().values();
     RevisionInfo.sortRevisionInfoByNumber(list);
+    if (Gerrit.isSignedIn()
+        && Gerrit.getUserAccount().getGeneralPreferences()
+            .isReversePatchSetOrder()) {
+      Collections.reverse(Natives.asList(list));
+    }
 
     int selected = -1;
     for (int i = 0; i < list.length(); i++) {

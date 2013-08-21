@@ -21,14 +21,16 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 import com.google.gwt.user.client.ui.Widget;
 
+import net.codemirror.lib.CodeMirror;
+
 class PreferencesAction {
-  private final SideBySide2 view;
+  private final DiffScreen view;
   private final DiffPreferences prefs;
   private PopupPanel popup;
   private PreferencesBox current;
   private Widget partner;
 
-  PreferencesAction(SideBySide2 view, DiffPreferences prefs) {
+  PreferencesAction(DiffScreen view, DiffPreferences prefs) {
     this.view = view;
     this.prefs = prefs;
   }
@@ -56,7 +58,8 @@ class PreferencesAction {
     popup.addCloseHandler(new CloseHandler<PopupPanel>() {
       @Override
       public void onClose(CloseEvent<PopupPanel> event) {
-        view.getCmFromSide(DisplaySide.B).focus();
+        CodeMirror[] cms = view.getCms();
+        cms[cms.length - 1].focus();
         popup = null;
         current = null;
       }

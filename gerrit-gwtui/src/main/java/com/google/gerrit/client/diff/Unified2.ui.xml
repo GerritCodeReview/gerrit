@@ -18,13 +18,13 @@ limitations under the License.
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
     xmlns:d='urn:import:com.google.gerrit.client.diff'>
   <ui:style>
-    .sbs2 {
+    .u2 {
       margin-left: -5px;
       margin-right: -5px;
     }
   </ui:style>
-  <g:FlowPanel styleName='{style.sbs2}'>
+  <g:FlowPanel styleName='{style.u2}'>
     <d:Header ui:field='header'/>
-    <d:SideBySideTable2 ui:field='diffTable'/>
+    <d:UnifiedTable2 ui:field='diffTable'/>
   </g:FlowPanel>
 </ui:UiBinder>

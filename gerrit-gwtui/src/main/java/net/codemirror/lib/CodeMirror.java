@@ -41,6 +41,12 @@ public class CodeMirror extends JavaScriptObject {
     return m;
   }-*/;
 
+  public static native CodeMirror create(
+      Element parent,
+      Configuration cfg) /*-{
+    return $wnd.CodeMirror(parent, cfg);
+  }-*/;
+
   public final native void setOption(String option, boolean value) /*-{
     this.setOption(option, value);
   }-*/;
@@ -275,6 +281,14 @@ public class CodeMirror extends JavaScriptObject {
     return this.getLineNumber(handle);
   }-*/;
 
+  public final native LineInfo lineInfo(int line) /*-{
+    return this.lineInfo(line);
+  }-*/;
+
+  public final native LineInfo lineInfo(LineHandle line) /*-{
+    return this.lineInfo(line);
+  }-*/;
+
   public final native void focus() /*-{
     this.focus();
   }-*/;
@@ -326,6 +340,14 @@ public class CodeMirror extends JavaScriptObject {
   }-*/;
 
   public final native DisplaySide side() /*-{ return this._sbs2_side }-*/;
+
+  public final native LineHandle setGutterMarker(int line, String gutterId, Element value) /*-{
+    return this.setGutterMarker(line, gutterId, value);
+  }-*/;
+
+  public final native LineHandle setGutterMarker(LineHandle line, String gutterId, Element value) /*-{
+    return this.setGutterMarker(line, gutterId, value);
+  }-*/;
 
   protected CodeMirror() {
   }

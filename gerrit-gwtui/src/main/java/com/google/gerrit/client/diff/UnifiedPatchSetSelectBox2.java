@@ -37,8 +37,8 @@ import com.google.gwt.user.client.ui.ImageResourceRenderer;
 import com.google.gwtorm.client.KeyUtil;
 
 /** HTMLPanel to select among patch sets */
-class PatchSetSelectBox2 extends Composite {
-  interface Binder extends UiBinder<HTMLPanel, PatchSetSelectBox2> {}
+class UnifiedPatchSetSelectBox2 extends Composite {
+  interface Binder extends UiBinder<HTMLPanel, UnifiedPatchSetSelectBox2> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   interface BoxStyle extends CssResource {
@@ -49,16 +49,16 @@ class PatchSetSelectBox2 extends Composite {
   @UiField HTMLPanel linkPanel;
   @UiField BoxStyle style;
 
-  private DiffScreen parent;
+  private Unified2 parent;
   private DisplaySide side;
   private boolean sideA;
   private String path;
   private Change.Id changeId;
   private PatchSet.Id revision;
   private PatchSet.Id idActive;
-  private PatchSetSelectBox2 other;
+  private UnifiedPatchSetSelectBox2 other;
 
-  PatchSetSelectBox2(DiffScreen parent,
+  UnifiedPatchSetSelectBox2(Unified2 parent,
       DisplaySide side,
       Change.Id changeId,
       PatchSet.Id revision,
@@ -102,7 +102,7 @@ class PatchSetSelectBox2 extends Composite {
     }
   }
 
-  static void link(PatchSetSelectBox2 a, PatchSetSelectBox2 b) {
+  static void link(UnifiedPatchSetSelectBox2 a, UnifiedPatchSetSelectBox2 b) {
     a.other = b;
     b.other = a;
   }
@@ -131,11 +131,7 @@ class PatchSetSelectBox2 extends Composite {
 
   @UiHandler("icon")
   void onIconClick(ClickEvent e) {
-    if (parent instanceof SideBySide2) {
-      ((SideBySide2) parent).getCmFromSide(side).scrollToY(0);
-    } else {
-      ((Unified2) parent).getCm().scrollToY(0);
-    }
+    parent.getCm().scrollToY(0);
     parent.getCommentManager().insertNewDraft(side, 0);
   }
 }

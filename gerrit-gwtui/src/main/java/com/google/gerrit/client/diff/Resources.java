@@ -29,6 +29,8 @@ interface Resources extends ClientBundle {
   @Source("go-up.png") ImageResource go_up();
   @Source("gear.png") ImageResource gear();
 
+  @Source("DiffTableStyle.css") DiffTableStyle diffTableStyle();
+
   interface Style extends CssResource {
     String commentWidgets();
     String commentBox();
@@ -41,5 +43,17 @@ interface Resources extends ClientBundle {
     String go_prev();
     String go_next();
     String go_up();
+  }
+
+  interface DiffTableStyle extends CssResource {
+    String fullscreen();
+    String activeLine();
+    String noIntraline();
+    String range();
+    String rangeHighlight();
+    String showTabs();
+    String showLineNumbers();
+    String dark();
+
   }
 }

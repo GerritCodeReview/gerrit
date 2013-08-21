@@ -34,8 +34,8 @@ import net.codemirror.lib.TextMarker;
 import net.codemirror.lib.TextMarker.FromTo;
 
 /** The Widget that handles expanding of skipped lines */
-class SkipBar extends Composite {
-  interface Binder extends UiBinder<HTMLPanel, SkipBar> {}
+class UnifiedSkipBar extends Composite {
+  interface Binder extends UiBinder<HTMLPanel, UnifiedSkipBar> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
   private static final int NUM_ROWS_TO_EXPAND = 10;
   private static final int UP_DOWN_THRESHOLD = 30;
@@ -49,14 +49,13 @@ class SkipBar extends Composite {
   @UiField(provided=true) Anchor downArrow;
   @UiField SkipBarStyle style;
 
-  private final SkipManager manager;
+  private final UnifiedSkipManager manager;
   private final CodeMirror cm;
 
   private LineWidget lineWidget;
   private TextMarker textMarker;
-  private SkipBar otherBar;
 
-  SkipBar(SkipManager manager, final CodeMirror cm) {
+  UnifiedSkipBar(UnifiedSkipManager manager, final CodeMirror cm) {
     this.manager = manager;
     this.cm = cm;
 
@@ -120,11 +119,6 @@ class SkipBar extends Composite {
         .toString(skipped)));
   }
 
-  static void link(SkipBar barA, SkipBar barB) {
-    barA.otherBar = barB;
-    barB.otherBar = barA;
-  }
-
   private void clearMarkerAndWidget() {
     textMarker.clear();
     lineWidget.clear();
@@ -132,9 +126,6 @@ class SkipBar extends Composite {
 
   void expandBefore(int cnt) {
     expandSideBefore(cnt);
-    if (otherBar != null) {
-      otherBar.expandSideBefore(cnt);
-    }
     manager.getOverviewBar().refresh();
   }
 
@@ -179,37 +170,23 @@ class SkipBar extends Composite {
   void onExpandAll(ClickEvent e) {
     expandAll();
     updateSelection();
-    if (otherBar != null) {
-      otherBar.expandAll();
-      otherBar.updateSelection();
-    }
     cm.focus();
   }
 
   private void expandAll() {
     expandSideAll();
-    if (otherBar != null) {
-      otherBar.expandSideAll();
-    }
-    manager.remove(this, otherBar);
     manager.getOverviewBar().refresh();
   }
 
   @UiHandler("upArrow")
   void onExpandBefore(ClickEvent e) {
     expandBefore(NUM_ROWS_TO_EXPAND);
-    if (otherBar != null) {
-      otherBar.expandBefore(NUM_ROWS_TO_EXPAND);
-    }
     cm.focus();
   }
 
   @UiHandler("downArrow")
   void onExpandAfter(ClickEvent e) {
     expandAfter();
-    if (otherBar != null) {
-      otherBar.expandAfter();
-    }
     manager.getOverviewBar().refresh();
     cm.focus();
   }

@@ -17,7 +17,7 @@ limitations under the License.
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
     xmlns:d='urn:import:com.google.gerrit.client.diff'>
-  <ui:style type='com.google.gerrit.client.diff.DiffTable.DiffTableStyle'>
+  <ui:style type='com.google.gerrit.client.diff.SideBySideTable2.DiffTableStyle'>
     @external .CodeMirror, .CodeMirror-lines, .CodeMirror-selectedtext;
     @external .CodeMirror-linenumber, .CodeMirror-vscrollbar .CodeMirror-scroll;
     @external .CodeMirror-dialog-bottom;
@@ -104,9 +104,6 @@ limitations under the License.
     .patchSetNav, .diff_header {
       background-color: #f7f7f7;
       line-height: 1;
-    }
-    .fileCommentCell {
-      overflow-x: auto;
     }
 
     .activeLine .CodeMirror-linenumber {

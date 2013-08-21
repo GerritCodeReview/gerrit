@@ -23,6 +23,7 @@ import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.changes.ChangeList;
 import com.google.gerrit.client.diff.LineMapper.LineOnOtherInfo;
+import com.google.gerrit.client.diff.UnifiedChunkManager.LinePair;
 import com.google.gerrit.client.projects.ConfigInfoCache;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -31,13 +32,17 @@ import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.extensions.common.ListChangesOption;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
@@ -47,11 +52,11 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.ShowHelpCommand;
 
 import net.codemirror.lib.CodeMirror;
-import net.codemirror.lib.CodeMirror.BeforeSelectionChangeHandler;
 import net.codemirror.lib.CodeMirror.GutterClickHandler;
 import net.codemirror.lib.CodeMirror.LineClassWhere;
 import net.codemirror.lib.CodeMirror.LineHandle;
@@ -61,34 +66,24 @@ import net.codemirror.lib.LineCharacter;
 
 import java.util.EnumSet;
 
-public class SideBySide2 extends DiffScreen {
-  interface Binder extends UiBinder<FlowPanel, SideBySide2> {}
+public class Unified2 extends DiffScreen {
+  interface Binder extends UiBinder<FlowPanel, Unified2> {}
+
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   @UiField(provided = true)
-  SideBySideTable2 diffTable;
+  UnifiedTable2 diffTable;
 
-  private CodeMirror cmA;
-  private CodeMirror cmB;
-  private Element columnMarginA;
-  private Element columnMarginB;
-  private ScrollSynchronizer scrollSynchronizer;
-  private SideBySideChunkManager chunkManager;
-  private SideBySideCommentManager commentManager;
-  private SideBySideSkipManager skipManager;
+  private CodeMirror cm;
+  private Element columnMargin;
+  private UnifiedChunkManager chunkManager;
+  private UnifiedCommentManager commentManager;
+  private UnifiedSkipManager skipManager;
 
-  private DisplaySide startSide;
-
-  public SideBySide2(
-      PatchSet.Id base,
-      PatchSet.Id revision,
-      String path,
-      DisplaySide startSide,
-      int startLine) {
+  public Unified2(PatchSet.Id base, PatchSet.Id revision, String path, int startLine) {
     super(base, revision, path, startLine);
 
-    this.startSide = startSide;
-    diffTable = new SideBySideTable2(this, base, revision, path);
+    diffTable = new UnifiedTable2(this, base, revision, path);
     add(uiBinder.createAndBindUi(this));
     addDomHandler(GlobalKey.STOP_PROPAGATION, KeyPressEvent.getType());
   }
@@ -103,34 +98,31 @@ public class SideBySide2 extends DiffScreen {
     final AsyncCallback<Void> modeInjectorCb =
         group.add(CallbackGroup.<Void> emptyCallback());
 
-    DiffApi.diff(revision, path)
-      .base(base)
-      .wholeFile()
-      .intraline(prefs.intralineDifference())
-      .ignoreWhitespace(prefs.ignoreWhitespace())
-      .get(cmGroup.addFinal(new GerritCallback<DiffInfo>() {
-        @Override
-        public void onSuccess(DiffInfo diffInfo) {
-          diff = diffInfo;
-          fileSize = bucketFileSize(diffInfo);
-          if (prefs.syntaxHighlighting()) {
-            if (fileSize.compareTo(FileSize.SMALL) > 0) {
-              modeInjectorCb.onSuccess(null);
+    DiffApi.diff(revision, path).base(base).wholeFile()
+        .intraline(prefs.intralineDifference())
+        .ignoreWhitespace(prefs.ignoreWhitespace())
+        .get(cmGroup.addFinal(new GerritCallback<DiffInfo>() {
+          @Override
+          public void onSuccess(DiffInfo diffInfo) {
+            diff = diffInfo;
+            fileSize = bucketFileSize(diffInfo);
+            if (prefs.syntaxHighlighting()) {
+              if (fileSize.compareTo(FileSize.SMALL) > 0) {
+                modeInjectorCb.onSuccess(null);
+              } else {
+                injectMode(diffInfo, modeInjectorCb);
+              }
             } else {
-              injectMode(diffInfo, modeInjectorCb);
+              modeInjectorCb.onSuccess(null);
             }
-          } else {
-            modeInjectorCb.onSuccess(null);
           }
-        }
-      }));
+        }));
 
     final CommentsCollections comments = new CommentsCollections();
     comments.load(base, revision, path, group);
 
     RestApi call = ChangeApi.detail(changeId.get());
-    ChangeList.addOptions(call, EnumSet.of(
-        ListChangesOption.ALL_REVISIONS));
+    ChangeList.addOptions(call, EnumSet.of(ListChangesOption.ALL_REVISIONS));
     call.get(group.add(new GerritCallback<ChangeInfo>() {
       @Override
       public void onSuccess(ChangeInfo info) {
@@ -139,14 +131,15 @@ public class SideBySide2 extends DiffScreen {
         RevisionInfo.sortRevisionInfoByNumber(list);
         diffTable.set(prefs, list, diff);
         header.setChangeInfo(info);
-      }}));
+      }
+    }));
 
     ConfigInfoCache.get(changeId, group.addFinal(
-        new ScreenLoadCallback<ConfigInfoCache.Entry>(SideBySide2.this) {
+        new ScreenLoadCallback<ConfigInfoCache.Entry>(Unified2.this) {
           @Override
           protected void preDisplay(ConfigInfoCache.Entry result) {
-            commentManager = new SideBySideCommentManager(
-                SideBySide2.this,
+            commentManager = new UnifiedCommentManager(
+                Unified2.this,
                 base, revision, path,
                 result.getCommentLinkProcessor());
             setTheme(result.getTheme());
@@ -174,10 +167,8 @@ public class SideBySide2 extends DiffScreen {
     operation(new Runnable() {
       @Override
       public void run() {
-        cmA.setHeight(height);
-        cmB.setHeight(height);
-        cmA.refresh();
-        cmB.refresh();
+        cm.setHeight(height);
+        cm.refresh();
       }
     });
     setLineLength(prefs.lineLength());
@@ -187,25 +178,22 @@ public class SideBySide2 extends DiffScreen {
       DiffChunkInfo d = chunkManager.getFirst();
       if (d != null) {
         if (d.isEdit() && d.getSide() == DisplaySide.A) {
-          startSide = DisplaySide.B;
-          startLine = lineOnOther(d.getSide(), d.getStart()).getLine() + 1;
+          // startLine = lineOnOther(d.getSide(), d.getStart()).getLine() + 1;
         } else {
-          startSide = d.getSide();
           startLine = d.getStart() + 1;
         }
       }
     }
-    if (startSide != null && startLine > 0) {
+    if (startLine > 0) {
       int line = startLine - 1;
-      CodeMirror cm = getCmFromSide(startSide);
       if (cm.lineAtHeight(height - 20) < line) {
         cm.scrollToY(cm.heightAtLine(line, "local") - 0.5 * height);
       }
       cm.setCursor(LineCharacter.create(line));
       cm.focus();
     } else {
-      cmA.setCursor(LineCharacter.create(0));
-      cmA.focus();
+      cm.setCursor(LineCharacter.create(0));
+      cm.focus();
     }
     if (Gerrit.isSignedIn() && prefs.autoReview()) {
       header.autoReview();
@@ -213,15 +201,39 @@ public class SideBySide2 extends DiffScreen {
     prefetchNextFile();
   }
 
+  @Override
+  protected void onUnload() {
+    super.onUnload();
+
+    removeKeyHandlerRegistrations();
+    if (commentManager != null) {
+      CallbackGroup group = new CallbackGroup();
+      commentManager.saveAllDrafts(group);
+      group.done();
+    }
+    if (resizeHandler != null) {
+      resizeHandler.removeHandler();
+      resizeHandler = null;
+    }
+    if (cm != null) {
+      cm.getWrapperElement().removeFromParent();
+    }
+    if (prefsAction != null) {
+      prefsAction.hide();
+    }
+
+    Window.enableScrolling(true);
+    Gerrit.setHeaderVisible(true);
+    JumpKeys.enable(true);
+  }
+
   private void registerCmEvents(final CodeMirror cm) {
-    cm.on("beforeSelectionChange", onSelectionChange(cm));
-    cm.on("cursorActivity", updateActiveLine(cm));
-    cm.on("gutterClick", onGutterClick(cm));
-    cm.on("focus", updateActiveLine(cm));
-    cm.addKeyMap(KeyMap.create()
-        .on("A", upToChange(true))
-        .on("U", upToChange(false))
-        .on("[", header.navigate(Direction.PREV))
+    // cm.on("beforeSelectionChange", onSelectionChange(cm));
+    cm.on("cursorActivity", updateActiveLine());
+    // cm.on("gutterClick", onGutterClick(cm));
+    cm.on("focus", updateActiveLine());
+    cm.addKeyMap(KeyMap.create().on("A", upToChange(true))
+        .on("U", upToChange(false)).on("[", header.navigate(Direction.PREV))
         .on("]", header.navigate(Direction.NEXT))
         .on("R", header.toggleReviewed())
         .on("O", commentManager.toggleOpenBox(cm))
@@ -229,14 +241,10 @@ public class SideBySide2 extends DiffScreen {
         .on("C", commentManager.insertNewDraft(cm))
         .on("N", maybeNextVimSearch(cm))
         .on("P", chunkManager.diffChunkNav(cm, Direction.PREV))
-        .on("Shift-A", ((SideBySideTable2) diffTable).toggleA())
         .on("Shift-M", header.reviewedAndNext())
         .on("Shift-N", maybePrevVimSearch(cm))
         .on("Shift-P", commentManager.commentNav(cm, Direction.PREV))
-        .on("Shift-O", commentManager.openCloseAll(cm))
-        .on("Shift-Left", moveCursorToSide(cm, DisplaySide.A))
-        .on("Shift-Right", moveCursorToSide(cm, DisplaySide.B))
-        .on("I", new Runnable() {
+        .on("Shift-O", commentManager.openCloseAll(cm)).on("I", new Runnable() {
           public void run() {
             switch (getIntraLineStatus()) {
               case OFF:
@@ -247,38 +255,32 @@ public class SideBySide2 extends DiffScreen {
                 break;
             }
           }
-        })
-        .on("','", new Runnable() {
+        }).on("','", new Runnable() {
           @Override
           public void run() {
             prefsAction.show();
           }
-        })
-        .on("Shift-/", new Runnable() {
+        }).on("Shift-/", new Runnable() {
           @Override
           public void run() {
             new ShowHelpCommand().onKeyPress(null);
           }
-        })
-        .on("Space", new Runnable() {
+        }).on("Space", new Runnable() {
           @Override
           public void run() {
             CodeMirror.handleVimKey(cm, "<C-d>");
           }
-        })
-        .on("Shift-Space", new Runnable() {
+        }).on("Shift-Space", new Runnable() {
           @Override
           public void run() {
             CodeMirror.handleVimKey(cm, "<C-u>");
           }
-        })
-        .on("Ctrl-F", new Runnable() {
+        }).on("Ctrl-F", new Runnable() {
           @Override
           public void run() {
             CodeMirror.handleVimKey(cm, "/");
           }
-        })
-        .on("Ctrl-A", new Runnable() {
+        }).on("Ctrl-A", new Runnable() {
           @Override
           public void run() {
             cm.execCommand("selectAll");
@@ -289,55 +291,40 @@ public class SideBySide2 extends DiffScreen {
     }
   }
 
-  private BeforeSelectionChangeHandler onSelectionChange(final CodeMirror cm) {
-    return new BeforeSelectionChangeHandler() {
-      private InsertCommentBubble bubble;
-
-      @Override
-      public void handle(CodeMirror cm, LineCharacter anchor, LineCharacter head) {
-        if (anchor == head
-            || (anchor.getLine() == head.getLine()
-             && anchor.getCh() == head.getCh())) {
-          if (bubble != null) {
-            bubble.setVisible(false);
-          }
-          return;
-        } else if (bubble == null) {
-          init(anchor);
-        } else {
-          bubble.setVisible(true);
-        }
-        bubble.position(cm.charCoords(head, "local"));
-      }
-
-      private void init(LineCharacter anchor) {
-        bubble = new InsertCommentBubble(commentManager, cm);
-        add(bubble);
-        cm.addWidget(anchor, bubble.getElement(), false);
-      }
-    };
-  }
+  /*
+   * private BeforeSelectionChangeHandler onSelectionChange(final CodeMirror cm)
+   * { return new BeforeSelectionChangeHandler() { private InsertCommentBubble
+   * bubble;
+   *
+   * @Override public void handle(CodeMirror cm, LineCharacter anchor,
+   * LineCharacter head) { if (anchor == head || (anchor.getLine() ==
+   * head.getLine() && anchor.getCh() == head.getCh())) { if (bubble != null) {
+   * bubble.setVisible(false); } return; } else if (bubble == null) {
+   * init(anchor); } else { bubble.setVisible(true); }
+   * bubble.position(cm.charCoords(head, "local")); }
+   *
+   * private void init(LineCharacter anchor) { bubble = new
+   * InsertCommentBubble(commentManager, cm); add(bubble); cm.addWidget(anchor,
+   * bubble.getElement(), false); } }; }
+   */
 
   private void display(final CommentsCollections comments) {
     setThemeStyles(prefs.theme().isDark());
     setShowTabs(prefs.showTabs());
     setShowIntraline(prefs.intralineDifference());
-    if (prefs.showLineNumbers()) {
-      diffTable.addStyleName(SideBySideTable2.style.showLineNumbers());
-    }
+    /*if (prefs.showLineNumbers()) {
+      diffTable.addStyleName(DiffTable.style.showLineNumbers());
+    }*/
 
-    cmA = newCm(diff.meta_a(), diff.text_a(), DisplaySide.A, ((SideBySideTable2) diffTable).cmA);
-    cmB = newCm(diff.meta_b(), diff.text_b(), DisplaySide.B, ((SideBySideTable2) diffTable).cmB);
-    diffTable.overview.init(cmB);
-    chunkManager = new SideBySideChunkManager(this, cmA, cmB, diffTable.overview);
-    skipManager = new SideBySideSkipManager(this, commentManager);
+    cm = newCm(diff.meta_a() == null ? diff.meta_a() : diff.meta_b(),
+        diff.text_unified(), DisplaySide.B, diffTable.cm);
+    diffTable.overview.init(cm);
+    chunkManager = new UnifiedChunkManager(this, cm, diffTable.overview);
+    skipManager = new UnifiedSkipManager(this, commentManager);
 
-    columnMarginA = DOM.createDiv();
-    columnMarginB = DOM.createDiv();
-    columnMarginA.setClassName(SideBySideTable2.style.columnMargin());
-    columnMarginB.setClassName(SideBySideTable2.style.columnMargin());
-    cmA.getMoverElement().appendChild(columnMarginA);
-    cmB.getMoverElement().appendChild(columnMarginB);
+    columnMargin = DOM.createDiv();
+    columnMargin.setClassName(UnifiedTable2.style.columnMargin());
+    cm.getMoverElement().appendChild(columnMargin);
 
     if (prefs.renderEntireFile() && !canEnableRenderEntireFile(prefs)) {
       // CodeMirror is too slow to layout an entire huge file.
@@ -349,18 +336,16 @@ public class SideBySide2 extends DiffScreen {
         // Estimate initial CM3 height, fixed up in onShowView.
         int height = Window.getClientHeight()
             - (Gerrit.getHeaderFooterHeight() + 18);
-        cmA.setHeight(height);
-        cmB.setHeight(height);
+        cm.setHeight(height);
+
         render(diff);
         commentManager.render(comments, prefs.expandAllComments());
         skipManager.render(prefs.context(), diff);
       }
     });
 
-    registerCmEvents(cmA);
-    registerCmEvents(cmB);
-    scrollSynchronizer = new ScrollSynchronizer((SideBySideTable2) diffTable, cmA, cmB,
-            chunkManager.getLineMapper());
+    registerCmEvents(cm);
+    // scrollSynchronizer
 
     prefsAction = new PreferencesAction(this, prefs);
     header.init(prefsAction);
@@ -387,43 +372,64 @@ public class SideBySide2 extends DiffScreen {
     String mode = fileSize == FileSize.SMALL
         ? getContentType(meta)
         : null;
-    return CodeMirror.create(side, parent, Configuration.create()
-      .set("readOnly", true)
-      .set("cursorBlinkRate", 0)
-      .set("cursorHeight", 0.85)
-      .set("lineNumbers", prefs.showLineNumbers())
-      .set("tabSize", prefs.tabSize())
-      .set("mode", mode)
-      .set("lineWrapping", false)
-      .set("styleSelectedText", true)
-      .set("showTrailingSpace", prefs.showWhitespaceErrors())
-      .set("keyMap", "vim_ro")
-      .set("theme", prefs.theme().name().toLowerCase())
-      .set("value", meta != null ? contents : "")
-      .set("viewportMargin", prefs.renderEntireFile() ? POSITIVE_INFINITY : 10));
-  }
-
-  @Override
-  void setLineLength(int columns) {
-    columnMarginA.getStyle().setMarginLeft(
-        columns * cmA.defaultCharWidth(),
-        Unit.PX);
-
-    columnMarginB.getStyle().setMarginLeft(
-        columns * cmB.defaultCharWidth(),
-        Unit.PX);
-  }
-
-  CodeMirror getCmFromSide(DisplaySide side) {
-    return side == DisplaySide.A ? cmA : cmB;
+    JsArrayString gutters = JavaScriptObject.createArray().cast();
+    gutters.push(UnifiedTable2.style.lineNumbersLeft());
+    gutters.push(UnifiedTable2.style.lineNumbersRight());
+    return CodeMirror.create(parent, Configuration.create()
+        .set("readOnly", true)
+        .set("cursorBlinkRate", 0)
+        .set("cursorHeight", 0.85)
+        .set("lineNumbers", false)
+        .set("gutters", gutters)
+        .set("tabSize", prefs.tabSize())
+        .set("mode", mode)
+        .set("lineWrapping", false)
+        .set("styleSelectedText", true)
+        .set("showTrailingSpace", prefs.showWhitespaceErrors())
+        .set("keyMap", "vim_ro")
+        .set("theme", prefs.theme().name().toLowerCase())
+        .set("value", meta != null ? contents : "")
+        .set("viewportMargin", prefs.renderEntireFile() ? POSITIVE_INFINITY : 10));
   }
 
   LineOnOtherInfo lineOnOther(DisplaySide side, int line) {
     return chunkManager.getLineMapper().lineOnOther(side, line);
   }
 
-  private Runnable updateActiveLine(final CodeMirror cm) {
-    final CodeMirror other = cm == cmA ? cmB : cmA;
+  LineHandle setLineNumber(DisplaySide side, final int cmLine, int line) {
+    Label gutter = new Label(String.valueOf(line));
+    gutter.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        onGutterClick(cmLine);
+      }
+    });
+    diffTable.add(gutter);
+    gutter.setStyleName(UnifiedTable2.style.lineNumber());
+    return cm.setGutterMarker(cmLine,
+        side == DisplaySide.A ? UnifiedTable2.style.lineNumbersLeft()
+            : UnifiedTable2.style.lineNumbersRight(), gutter.getElement());
+  }
+
+  /*void removeDraft(DraftBox box, int line) {
+    LineHandle handle = cm.getLineHandle(getCmLine(box.getSide(), line));
+    lineActiveBoxMap.remove(handle);
+    if (linePublishedBoxesMap.containsKey(handle)) {
+      List<PublishedBox> list = linePublishedBoxesMap.get(handle);
+      lineActiveBoxMap.put(handle, list.get(list.size() - 1));
+    }
+  }*/
+
+  /*
+   * private Runnable adjustGutters() { return new Runnable() {
+   *
+   * @Override public void run() { Viewport fromTo = cm.getViewport(); int size
+   * = fromTo.getTo() - fromTo.getFrom() + 1; if (cm.getOldViewportSize() ==
+   * size) { return; } cm.setOldViewportSize(size);
+   * diffTable.sidePanel.adjustGutters(cmB); } }; }
+   */
+
+  private Runnable updateActiveLine() {
     return new Runnable() {
       public void run() {
         // The rendering of active lines has to be deferred. Reflow
@@ -434,36 +440,23 @@ public class SideBySide2 extends DiffScreen {
         Scheduler.get().scheduleDeferred(new ScheduledCommand() {
           @Override
           public void execute() {
-            operation(new Runnable() {
-              public void run() {
-                LineHandle handle = cm.getLineHandleVisualStart(
-                    cm.getCursor("end").getLine());
-                if (cm.hasActiveLine() && cm.getActiveLine().equals(handle)) {
-                  return;
-                }
+            LineHandle handle =
+                cm.getLineHandleVisualStart(cm.getCursor("end").getLine());
+            if (cm.hasActiveLine() && cm.getActiveLine().equals(handle)) {
+              return;
+            }
 
-                clearActiveLine(cm);
-                clearActiveLine(other);
-                cm.setActiveLine(handle);
-                cm.addLineClass(
-                    handle, LineClassWhere.WRAP, SideBySideTable2.style.activeLine());
-                LineOnOtherInfo info =
-                    lineOnOther(cm.side(), cm.getLineNumber(handle));
-                if (info.isAligned()) {
-                  LineHandle oLineHandle = other.getLineHandle(info.getLine());
-                  other.setActiveLine(oLineHandle);
-                  other.addLineClass(oLineHandle, LineClassWhere.WRAP,
-                      SideBySideTable2.style.activeLine());
-                }
-              }
-            });
+            clearActiveLine(cm);
+            cm.setActiveLine(handle);
+            cm.addLineClass(handle, LineClassWhere.WRAP,
+                UnifiedTable2.style.activeLine());
           }
         });
       }
     };
   }
 
-  private GutterClickHandler onGutterClick(final CodeMirror cm) {
+  private GutterClickHandler onGutterClick(final int cmLine) {
     return new GutterClickHandler() {
       @Override
       public void handle(CodeMirror instance, int line, String gutter,
@@ -473,9 +466,8 @@ public class SideBySide2 extends DiffScreen {
             && !clickEvent.getAltKey()
             && !clickEvent.getCtrlKey()
             && !clickEvent.getShiftKey()) {
-          if (!(cm.hasActiveLine() &&
-              cm.getLineNumber(cm.getActiveLine()) == line)) {
-            cm.setCursor(LineCharacter.create(line));
+          if (!(cm.hasActiveLine() && cm.getLineNumber(cm.getActiveLine()) == cmLine)) {
+            cm.setCursor(LineCharacter.create(cmLine));
           }
           Scheduler.get().scheduleDeferred(new ScheduledCommand() {
             @Override
@@ -488,70 +480,59 @@ public class SideBySide2 extends DiffScreen {
     };
   }
 
-  private Runnable moveCursorToSide(final CodeMirror cmSrc, DisplaySide sideDst) {
-    final CodeMirror cmDst = getCmFromSide(sideDst);
-    if (cmDst == cmSrc) {
-      return new Runnable() {
-        @Override
-        public void run() {
-        }
-      };
-    }
+  void setLineLength(int columns) {
+    columnMargin.getStyle().setMarginLeft(columns * cm.defaultCharWidth(),
+        Unit.PX);
+  }
 
-    final DisplaySide sideSrc = cmSrc.side();
-    return new Runnable() {
-      public void run() {
-        if (cmSrc.hasActiveLine()) {
-          cmDst.setCursor(LineCharacter.create(lineOnOther(
-              sideSrc,
-              cmSrc.getLineNumber(cmSrc.getActiveLine())).getLine()));
-        }
-        cmDst.focus();
-      }
-    };
+  CodeMirror getCmFromSide(DisplaySide side) {
+    return cm;
   }
 
   @Override
   int getCodeMirrorHeight() {
-    int rest = Gerrit.getHeaderFooterHeight()
-        + header.getOffsetHeight()
-        + diffTable.getHeaderHeight()
-        + 5; // Estimate
+    int rest =
+        Gerrit.getHeaderFooterHeight() + header.getOffsetHeight()
+            + diffTable.getHeaderHeight() + 5; // Estimate
     return Window.getClientHeight() - rest;
   }
 
-  void syncScroll(DisplaySide masterSide) {
-    if (scrollSynchronizer != null) {
-      scrollSynchronizer.syncScroll(masterSide);
-    }
-  }
-
-  ChunkManager getChunkManager() {
+  UnifiedChunkManager getChunkManager() {
     return chunkManager;
   }
 
-  SideBySideSkipManager getSkipManager() {
-    return skipManager;
+  UnifiedCommentManager getCommentManager() {
+    return commentManager;
   }
 
-  @Override
+  int getCmLine(DisplaySide side, int line) {
+    return chunkManager.getCmLine(side, line);
+  }
+
+  int getCmLineFromLinePair(LinePair pair) {
+    return chunkManager.getCmLineFromLinePair(pair);
+  }
+
+  LinePair getLinePairFromCmLine(int cmLine) {
+    return chunkManager.getLinePairFromCmLine(cmLine);
+  }
+
   void operation(final Runnable apply) {
-    cmA.operation(new Runnable() {
+    cm.operation(new Runnable() {
       @Override
       public void run() {
-        cmB.operation(new Runnable() {
-          @Override
-          public void run() {
-            apply.run();
-          }
-        });
+        apply.run();
       }
     });
   }
 
   @Override
   CodeMirror[] getCms() {
-    return new CodeMirror[] {cmA, cmB};
+    return new CodeMirror[] {cm};
+  }
+
+  CodeMirror getCm() {
+    return cm;
   }
 
   @Override
@@ -560,7 +541,7 @@ public class SideBySide2 extends DiffScreen {
   }
 
   @Override
-  CommentManager getCommentManager() {
-    return commentManager;
+  SkipManager getSkipManager() {
+    return skipManager;
   }
 }

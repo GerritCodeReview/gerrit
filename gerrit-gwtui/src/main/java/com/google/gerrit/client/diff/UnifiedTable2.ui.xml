@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2013 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'
+    xmlns:d='urn:import:com.google.gerrit.client.diff'>
+  <ui:style type='com.google.gerrit.client.diff.UnifiedTable2.DiffTableStyle'>
+    @external .CodeMirror, .CodeMirror-lines, .CodeMirror-selectedtext;
+    @external .CodeMirror-vscrollbar .CodeMirror-scroll;
+    @external .CodeMirror-dialog-bottom;
+    @external .cm-keymap-fat-cursor, CodeMirror-cursor;
+    @external .cm-searching, .cm-trailingspace, .cm-tab;
+
+    .fullscreen {
+      background-color: #f7f7f7;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .difftable .patchSetNav,
+    .difftable .CodeMirror {
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+    }
+
+    .difftable .CodeMirror-lines { padding: 0; }
+    .difftable .CodeMirror pre {
+      padding: 0;
+      overflow: hidden;
+      border-right: 0;
+      width: auto;
+    }
+
+    /* Preserve space for underscores. If this changes
+     * see ChunkManager.addPadding() and adjust there.
+     */
+    .difftable .CodeMirror pre,
+    .difftable .CodeMirror pre span {
+      padding-bottom: 1px;
+    }
+    .table {
+      width: 100%;
+      table-layout: fixed;
+      border-spacing: 0;
+    }
+    .table td { padding: 0 }
+
+    .overview {
+      width: 10px;
+      vertical-align: top;
+    }
+    
+    /* Hide scrollbars, OverviewBar controls both views. */
+    .difftable .CodeMirror-scroll { padding-right: 0; }
+    .difftable .CodeMirror-vscrollbar { display: none !important; }
+
+    .diffDelete { background-color: #faa; }
+    .diffInsert { background-color: #9f9; }
+    .intralineDelete { background-color: #fee; }
+    .intralineInsert { background-color: #dfd; }
+    .noIntraline .intralineDelete { background-color: #faa; }
+    .noIntraline .intralineInsert { background-color: #9f9; }
+
+    .dark .diffDelete { background-color: #400; }
+    .dark .diffInsert { background-color: #444; }
+    .dark .intralineDelete { background-color: #888; }
+    .dark .intralineInsert { background-color: #bbb; }
+    .dark .noIntraline .intralineDelete { background-color: #400; }
+    .dark .noIntraline .intralineInsert { background-color: #444; }
+
+    .patchSetNav, .diff_header {
+      background-color: #f7f7f7;
+      line-height: 1;
+    }
+
+    .activeLine:before, .activeLine:after {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: #bcf;
+      content: "";
+      opacity: 0.6;
+    }
+
+    .range {
+      background-color: #ffd500 !important;
+    }
+    .rangeHighlight {
+      background-color: #ffff00 !important;
+    }
+    .cm-searching {
+      background-color: #ffa !important;
+    }
+    .cm-trailingspace {
+      background-color: red !important;
+    }
+    .difftable .CodeMirror-selectedtext {
+      background-color: inherit !important;
+    }
+    .difftable .CodeMirror.cm-keymap-fat-cursor div.CodeMirror-cursor {
+      background: transparent;
+      text-decoration: underline;
+      z-index: 2;
+    }
+    .difftable .CodeMirror-dialog-bottom {
+      border-top: 0;
+      border-left: 1px solid #000;
+      border-bottom: 1px solid #000;
+      background-color: #f7f7f7;
+      top: 0;
+      right: 0;
+      bottom: auto;
+      left: auto;
+    }
+    .showTabs .cm-tab:before {
+      position: absolute;
+      content: "\00bb";
+      color: #f00;
+    }
+    .columnMargin {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 0;
+      border-right: 1px dashed #ffa500;
+      z-index: 2;
+      cursor: text;
+    }
+
+    .diff_header {
+      font-size: 12px;
+      font-weight: bold;
+      color: #5252ad;
+    }
+    .diff_header pre {
+      margin: 0 0 3px 0;
+    }
+
+    .lineNumbersLeft, .lineNumbersRight {
+      min-width: 20px;
+      width: 26px; /* TODO: This needs to be set based on number of lines */
+    }
+    .lineNumbersLeft {
+      border-right: 1px solid #ddd;
+    }
+    .lineNumber {
+      cursor: pointer;
+      padding: 0 3px 0 5px;
+      min-width: 20px;
+      text-align: right;
+      color: #999;
+    }
+  </ui:style>
+  <g:HTMLPanel styleName='{style.difftable}'>
+    <table class='{style.table}'>
+      <tr ui:field='patchSetNavRow' class='{style.patchSetNav}'>
+        <td ui:field='patchSetNavCellA'>
+          <d:PatchSetSelectBox2 ui:field='patchSetSelectBoxA' />
+        </td>
+        <td class='{style.overview}' />
+      </tr>
+      <tr>
+        <td ui:field='patchSetNavCellB'>
+          <d:PatchSetSelectBox2 ui:field='patchSetSelectBoxB' />
+        </td>
+        <td class='{style.overview}' />
+      </tr>
+      <tr ui:field='diffHeaderRow' class='{style.diff_header}'>
+        <td><pre ui:field='diffHeaderText' /></td>
+        <td class='{style.overview}' />
+      </tr>
+      <tr>
+        <td ui:field='cm'/>
+        <td class='{style.overview}'><d:OverviewBar ui:field='overview'/></td>
+      </tr>
+    </table>
+    <g:FlowPanel ui:field='widgets' visible='false'/>
+  </g:HTMLPanel>
+</ui:UiBinder>

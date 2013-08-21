@@ -1,0 +1,245 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d82ac1a_4aeff337",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-21T23:27:38Z",
+      "side": 1,
+      "message": "final is not necessary here",
+      "range": {
+        "startLine": 250,
+        "startChar": 4,
+        "endLine": 250,
+        "endChar": 10
+      },
+      "revId": "2603b8d2dae3375100ad196b91971b32a24064bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd72b81f_05e5f257",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-21T23:27:38Z",
+      "side": 1,
+      "message": "This method is not necessary. Inline it into the onDownload ClickEvent handler.",
+      "range": {
+        "startLine": 353,
+        "startChar": 15,
+        "endLine": 353,
+        "endChar": 27
+      },
+      "revId": "2603b8d2dae3375100ad196b91971b32a24064bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d82ac1a_6af4b707",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-21T23:27:38Z",
+      "side": 1,
+      "message": "Elsewhere in this code we pass info into the function rather than relying on the field changeInfo to be initialized. I would prefer to keep that style.",
+      "range": {
+        "startLine": 621,
+        "startChar": 4,
+        "endLine": 621,
+        "endChar": 25
+      },
+      "revId": "2603b8d2dae3375100ad196b91971b32a24064bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d936069_6bf4c107",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 9
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-21T23:27:38Z",
+      "side": 1,
+      "message": "I don\u0027t want this to be a button on the left, I think it should be on the right and styled differently.",
+      "range": {
+        "startLine": 227,
+        "startChar": 8,
+        "endLine": 227,
+        "endChar": 37
+      },
+      "revId": "2603b8d2dae3375100ad196b91971b32a24064bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d936069_4bef0538",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadAction.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-21T23:27:38Z",
+      "side": 1,
+      "message": "downloadBox would be a better name",
+      "range": {
+        "startLine": 30,
+        "startChar": 22,
+        "endLine": 30,
+        "endChar": 29
+      },
+      "revId": "2603b8d2dae3375100ad196b91971b32a24064bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d936069_ebffd1de",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadPatch.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-21T23:27:38Z",
+      "side": 1,
+      "message": "Build a URL using RestApi and then call .url() to get the string.",
+      "range": {
+        "startLine": 42,
+        "startChar": 24,
+        "endLine": 42,
+        "endChar": 67
+      },
+      "revId": "2603b8d2dae3375100ad196b91971b32a24064bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d82ac1a_2aeabf28",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadPatch.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-21T23:27:38Z",
+      "side": 1,
+      "message": "Still unclear why this has to open to a new window. Window.Location.assign() should be sufficient when the server sends \"Content-Disposition: attachment\" the browser will save the file instead of navigating to the page. Just tested this behavior on Chrome/Linux and its correct.",
+      "revId": "2603b8d2dae3375100ad196b91971b32a24064bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d936069_8bf80dfc",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-21T23:27:38Z",
+      "side": 1,
+      "message": "Insert the src.getAttachmentName code before here.",
+      "revId": "2603b8d2dae3375100ad196b91971b32a24064bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d936069_2beab928",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-21T23:27:38Z",
+      "side": 1,
+      "message": "This should not be in stackBase64. If its here it only applies to the base64 encoded results. I\u0027d like to make it more general than that.",
+      "range": {
+        "startLine": 743,
+        "startChar": 0,
+        "endLine": 746,
+        "endChar": 5
+      },
+      "revId": "2603b8d2dae3375100ad196b91971b32a24064bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d936069_cb02151e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-21T23:27:38Z",
+      "side": 1,
+      "message": "We should name the download based on the commit or change.",
+      "range": {
+        "startLine": 93,
+        "startChar": 34,
+        "endLine": 93,
+        "endChar": 46
+      },
+      "revId": "2603b8d2dae3375100ad196b91971b32a24064bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d936069_abf5c902",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-21T23:27:38Z",
+      "side": 1,
+      "message": "Why did we drop the content type for downloads?",
+      "range": {
+        "startLine": 95,
+        "startChar": 16,
+        "endLine": 95,
+        "endChar": 50
+      },
+      "revId": "2603b8d2dae3375100ad196b91971b32a24064bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

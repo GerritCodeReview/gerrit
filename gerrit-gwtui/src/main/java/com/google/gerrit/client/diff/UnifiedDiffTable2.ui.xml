@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2013 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'
+    xmlns:d='urn:import:com.google.gerrit.client.diff'>
+  <ui:style type='com.google.gerrit.client.diff.UnifiedDiffTable2.UnifiedStyle'
+      import='com.google.gerrit.client.diff.Resources.DiffTableStyle'>
+    .intralineDelete,
+    .intralineDelete .CodeMirror-linenumber {
+      background-color: #fee;
+    }
+    .intralineInsert,
+    .intralineInsert .CodeMirror-linenumber {
+      background-color: #dfd;
+    }
+    .diffDelete,
+    .diffDelete .CodeMirror-linenumber {
+      background-color: #faa;
+    }
+    .diffInsert,
+    .diffInsert .CodeMirror-linenumber {
+      background-color: #9f9;
+    }
+    .DiffTableStyle-activeLine .CodeMirror-linenumber,
+    .DiffTableStyle-activeLine .diffInsert, .DiffTableStyle-activeLine .diffDelete,
+    .DiffTableStyle-activeLine .intralineInsert, .DiffTableStyle-activeLine .intralineDelete {
+      background-color: #E0FFFF !important;
+    }
+    /*.hideNumber .lineNumber {
+      color: transparent;
+      background-color: #def;
+      padding-right: 20px;
+      height: 1.3em;
+    }*/
+    .lineNumbersLeft, .lineNumbersRight {
+      min-width: 20px;
+      width: 26px; /* TODO: This needs to be set based on number of lines */
+    }
+    .lineNumbersLeft {
+      border-right: 1px solid #ddd;
+    }
+    .lineNumber {
+      cursor: pointer;
+      padding: 0 3px 0 5px;
+      min-width: 20px;
+      text-align: right;
+      color: #999;
+    }
+  </ui:style>
+  <ui:with field='res' type='com.google.gerrit.client.diff.Resources'/>
+  <g:HTMLPanel styleName='{res.diffTableStyle.difftable}'>
+    <table class='{res.diffTableStyle.table}'>
+      <tr>
+        <td>
+          <table class='{res.diffTableStyle.table}'>
+            <tr ui:field='patchSetNavRow' class='{res.diffTableStyle.padding}'>
+              <td>
+              <table>
+              <tr>
+                <td ui:field='patchSetNavCellA'>
+                  <d:PatchSetSelectBox2 ui:field='patchSetSelectBoxA' />
+                </td>
+              </tr>
+              <tr>
+                <td ui:field='patchSetNavCellB'>
+                  <d:PatchSetSelectBox2 ui:field='patchSetSelectBoxB' />
+                </td>
+              </tr>
+              </table>
+              </td>
+            </tr>
+            <tr ui:field='fileCommentRow' class='{res.diffTableStyle.fileCommentRow}'>
+              <td>
+              <table>
+              <tr>
+                <td ui:field='fileCommentCellA' class='{res.diffTableStyle.fileCommentCell}'>
+                  <d:FileCommentPanel ui:field='fileCommentPanelA' />
+                </td>
+              </tr>
+              <tr>
+                <td ui:field='fileCommentCellB' class='{res.diffTableStyle.fileCommentCell}'>
+                  <d:FileCommentPanel ui:field='fileCommentPanelB' />
+                </td>
+              </tr>
+              </table>
+              </td>
+            </tr>
+            <tr>
+              <td ui:field='cm'></td>
+            </tr>
+          </table>
+        </td>
+        <td class='{res.diffTableStyle.sidePanelCell}'><d:SidePanel ui:field='sidePanel'/></td>
+      </tr>
+    </table>
+  </g:HTMLPanel>
+</ui:UiBinder>

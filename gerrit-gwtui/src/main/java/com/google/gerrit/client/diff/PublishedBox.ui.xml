@@ -44,14 +44,14 @@ limitations under the License.
   </ui:style>
 
   <g:HTMLPanel
-      styleName='{res.style.commentBox}'
+      styleName='{res.commentBoxStyle.commentBox}'
       addStyleNames='{style.closed}'>
     <c:AvatarImage ui:field='avatar' styleName='{style.avatar}'/>
-    <div class='{res.style.contents}'>
-      <g:HTMLPanel ui:field='header' styleName='{res.style.header}'>
+    <div class='{res.commentBoxStyle.contents}'>
+      <g:HTMLPanel ui:field='header' styleName='{res.commentBoxStyle.header}'>
         <div ui:field='name' class='{style.name}'/>
-        <div ui:field='summary' class='{res.style.summary}'/>
-        <div ui:field='date' class='{res.style.date}'/>
+        <div ui:field='summary' class='{res.commentBoxStyle.summary}'/>
+        <div ui:field='date' class='{res.commentBoxStyle.date}'/>
       </g:HTMLPanel>
       <div ui:field='message' aria-hidden='true' style='display: NONE'/>
       <div ui:field='buttons' aria-hidden='true' style='display: NONE'>

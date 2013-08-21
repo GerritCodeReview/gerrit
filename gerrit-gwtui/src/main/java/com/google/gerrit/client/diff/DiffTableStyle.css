@@ -1,0 +1,94 @@
+/* Copyright (C) 2013 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+@external .CodeMirror, .CodeMirror-lines, .CodeMirror-selectedtext;
+@external .CodeMirror-linenumber, .CodeMirror-vscrollbar;
+@external .cm-keymap-fat-cursor, .CodeMirror-cursor;
+@external .cm-searching, .cm-trailingspace, .cm-tab;
+    
+.difftable .CodeMirror-lines {
+  padding: 0;
+}
+
+.difftable .CodeMirror pre {
+  padding: 0;
+  padding-bottom: 0.11em;
+  overflow: hidden;
+}
+
+.difftable .CodeMirror pre span {
+  padding-bottom: 0.11em;
+}
+
+.sidePanelCell {
+  width: 10px;
+}
+
+.table {
+  width: 100%;
+  table-layout: fixed;
+  border-spacing: 0;
+}
+
+.padding, .fileCommentRow {
+  background-color: #eee;
+}
+
+.fileCommentRow {
+  line-height: 1;
+}
+
+.fileCommentCell {
+  overflow-x: auto;
+}
+
+.activeLine .CodeMirror-linenumber {
+  background-color: #E0FFFF !important;
+}
+
+.activeLineBg {
+  background-color: #E0FFFF !important;
+}
+ 
+.cm-searching {
+  background-color: #ffa !important;
+}
+    
+.cm-trailingspace {
+  background-color: red !important;
+}
+    
+.difftable .CodeMirror-selectedtext {
+  background-color: inherit !important;
+}
+
+.difftable .CodeMirror.cm-keymap-fat-cursor div.CodeMirror-cursor {
+  opacity: 0.8;
+  z-index: 2;
+}
+
+.showtabs .cm-tab:before {
+  content: "\00bb";
+  color: #f00;
+}
+
+.range {
+  background-color: #ffd500 !important;
+}
+.rangeHighlight {
+  background-color: #ffff00 !important;
+}
+
+.hideNumber {
+}

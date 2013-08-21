@@ -57,7 +57,6 @@ class DraftBox extends CommentBox {
   private static final int INITIAL_LINES = 5;
   private static final int MAX_LINES = 30;
 
-  private final SideBySide2 parent;
   private final CommentLinkProcessor linkProcessor;
   private final PatchSet.Id psId;
   private CommentInfo comment;
@@ -80,15 +79,14 @@ class DraftBox extends CommentBox {
   @UiField Button discard2;
 
   DraftBox(
-      SideBySide2 sideBySide,
+      DiffScreen parent,
       CodeMirror cm,
       DisplaySide side,
       CommentLinkProcessor clp,
       PatchSet.Id id,
       CommentInfo info) {
-    super(cm, info, side);
+    super(parent, cm, info, side);
 
-    parent = sideBySide;
     linkProcessor = clp;
     psId = id;
     initWidget(uiBinder.createAndBindUi(this));
@@ -220,15 +218,14 @@ class DraftBox extends CommentBox {
     setRangeHighlight(false);
     removeFromParent();
     if (!getCommentInfo().has_line()) {
-      parent.removeFileCommentBox(this);
+      getDiffScreen().removeFileCommentBox(this);
       return;
     }
-    PaddingManager manager = getPaddingManager();
-    manager.remove(this);
-    parent.removeDraft(this, comment.line() - 1);
+    getDiffScreen().removeDraft(this, comment.line() - 1);
     getCm().focus();
     getSelfWidgetWrapper().getWidget().clear();
-    getGutterWrapper().remove();
+    if (getGutterWrapper() != null) getGutterWrapper().remove();
+    if (getPaddingManager() != null) getPaddingManager().remove(this);
     Scheduler.get().scheduleDeferred(new ScheduledCommand() {
       @Override
       public void execute() {

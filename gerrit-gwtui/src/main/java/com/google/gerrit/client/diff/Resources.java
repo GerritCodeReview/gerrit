@@ -17,18 +17,37 @@ package com.google.gerrit.client.diff;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
+import com.google.gwt.resources.client.CssResource.Shared;
 
 /** Resources used by diff. */
 interface Resources extends ClientBundle {
   static final Resources I = GWT.create(Resources.class);
 
-  @Source("CommentBoxUi.css") Style style();
+  @Source("CommentBoxUi.css") CommentBoxStyle commentBoxStyle();
 
-  interface Style extends CssResource {
+  @Source("DiffTableStyle.css") DiffTableStyle diffTableStyle();
+
+  interface CommentBoxStyle extends CssResource {
     String commentBox();
     String contents();
     String header();
     String summary();
     String date();
+  }
+
+  @Shared
+  interface DiffTableStyle extends CssResource {
+    String table();
+    String difftable();
+    String fileCommentRow();
+    String fileCommentCell();
+    String sidePanelCell();
+    String padding();
+    String activeLine();
+    String activeLineBg();
+    String hideNumber();
+    String showtabs();
+    String range();
+    String rangeHighlight();
   }
 }

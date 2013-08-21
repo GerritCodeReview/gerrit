@@ -50,7 +50,6 @@ class PublishedBox extends CommentBox {
     String closed();
   }
 
-  private final SideBySide2 parent;
   private final PatchSet.Id psId;
   private final CommentInfo comment;
   private DraftBox replyBox;
@@ -69,15 +68,14 @@ class PublishedBox extends CommentBox {
   AvatarImage avatar;
 
   PublishedBox(
-      SideBySide2 parent,
+      DiffScreen parent,
       CodeMirror cm,
       DisplaySide side,
       CommentLinkProcessor clp,
       PatchSet.Id psId,
       CommentInfo info) {
-    super(cm, info, side);
+    super(parent, cm, info, side);
 
-    this.parent = parent;
     this.psId = psId;
     this.comment = info;
 
@@ -143,18 +141,18 @@ class PublishedBox extends CommentBox {
   }
 
   DraftBox addReplyBox() {
-    DraftBox box = parent.addDraftBox(parent.createReply(comment), getSide());
+    DraftBox box = getDiffScreen().addDraftBox(getDiffScreen().createReply(comment), getSide());
     registerReplyBox(box);
     return box;
   }
 
   void doReply() {
     if (!Gerrit.isSignedIn()) {
-      Gerrit.doSignIn(parent.getToken());
+      Gerrit.doSignIn(getDiffScreen().getToken());
     } else if (replyBox == null) {
       DraftBox box = addReplyBox();
       if (!getCommentInfo().has_line()) {
-        parent.addFileCommentBox(box);
+        getDiffScreen().addFileCommentBox(box);
       }
     } else {
       openReplyBox();
@@ -171,10 +169,10 @@ class PublishedBox extends CommentBox {
   void onReplyDone(ClickEvent e) {
     e.stopPropagation();
     if (!Gerrit.isSignedIn()) {
-      Gerrit.doSignIn(parent.getToken());
+      Gerrit.doSignIn(getDiffScreen().getToken());
     } else if (replyBox == null) {
       done.setEnabled(false);
-      CommentInput input = CommentInput.create(parent.createReply(comment));
+      CommentInput input = CommentInput.create(getDiffScreen().createReply(comment));
       input.setMessage(PatchUtil.C.cannedReplyDone());
       CommentApi.createDraft(psId, input,
           new GerritCallback<CommentInfo>() {
@@ -182,10 +180,10 @@ class PublishedBox extends CommentBox {
             public void onSuccess(CommentInfo result) {
               done.setEnabled(true);
               setOpen(false);
-              DraftBox box = parent.addDraftBox(result, getSide());
+              DraftBox box = getDiffScreen().addDraftBox(result, getSide());
               registerReplyBox(box);
               if (!getCommentInfo().has_line()) {
-                parent.addFileCommentBox(box);
+                getDiffScreen().addFileCommentBox(box);
               }
             }
           });

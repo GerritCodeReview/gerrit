@@ -17,30 +17,8 @@ limitations under the License.
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
     xmlns:d='urn:import:com.google.gerrit.client.diff'>
-  <ui:style type='com.google.gerrit.client.diff.DiffTable.DiffTableStyle'>
-    @external .CodeMirror, .CodeMirror-lines, .CodeMirror-selectedtext;
-    @external .CodeMirror-linenumber, .CodeMirror-vscrollbar;
-    @external .cm-keymap-fat-cursor, CodeMirror-cursor;
-    @external .cm-searching, .cm-trailingspace, .cm-tab;
-    .difftable .CodeMirror-lines {
-      padding: 0;
-    }
-    .difftable .CodeMirror pre {
-      padding: 0;
-      padding-bottom: 0.11em;
-      overflow: hidden;
-    }
-    .difftable .CodeMirror pre span {
-      padding-bottom: 0.11em;
-    }
-    .sidePanelCell {
-      width: 10px;
-    }
-    .table {
-      width: 100%;
-      table-layout: fixed;
-      border-spacing: 0;
-    }
+  <ui:style type='com.google.gerrit.client.diff.SideBySideDiffTable.SideBySideStyle'
+      import='com.google.gerrit.client.diff.Resources.DiffTableStyle'>
     .a, .b {
       width: 50%;
     }
@@ -60,65 +38,31 @@ limitations under the License.
     .b .diff .CodeMirror-linenumber {
       background-color: #9f9;
     }
-    .padding, .fileCommentRow {
-      background-color: #eee;
-    }
-    .fileCommentRow {
-      line-height: 1;
-    }
-    .fileCommentCell {
-      overflow-x: auto;
-    }
     .a .CodeMirror-vscrollbar {
       display: none !important;
     }
-    .activeLine .CodeMirror-linenumber,
-    .activeLine .diff, .activeLine .intralineBg {
+    .DiffTableStyle-activeLine .CodeMirror-linenumber,
+    .DiffTableStyle-activeLine .diff, .DiffTableStyle-activeLine .intralineBg {
       background-color: #E0FFFF !important;
     }
-    .activeLineBg {
-      background-color: #E0FFFF !important;
-    }
-    .range {
-      background-color: #ffd500 !important;
-    }
-    .rangeHighlight {
-      background-color: #ffff00 !important;
-    }
-    .cm-searching {
-      background-color: #ffa !important;
-    }
-    .cm-trailingspace {
-      background-color: red !important;
-    }
-    .difftable .CodeMirror-selectedtext {
-      background-color: inherit !important;
-    }
-    .difftable .CodeMirror-linenumber {
+    .DiffTableStyle-difftable .CodeMirror-linenumber {
       height: 1.11em;
       cursor: pointer;
     }
-    .hideNumber .CodeMirror-linenumber {
+    .DiffTableStyle-hideNumber .CodeMirror-linenumber {
       color: transparent;
       background-color: #def;
       padding-right: 20px;
       height: 1.3em;
     }
-    .difftable .CodeMirror.cm-keymap-fat-cursor div.CodeMirror-cursor {
-      opacity: 0.8;
-      z-index: 2;
-    }
-    .showtabs .cm-tab:before {
-      content: "\00bb";
-      color: #f00;
-    }
   </ui:style>
-  <g:HTMLPanel styleName='{style.difftable}'>
-    <table class='{style.table}'>
+  <ui:with field='res' type='com.google.gerrit.client.diff.Resources'/>
+  <g:HTMLPanel styleName='{res.diffTableStyle.difftable}'>
+    <table class='{res.diffTableStyle.table}'>
       <tr>
         <td>
-          <table class='{style.table}'>
-            <tr ui:field='patchSetNavRow' class='{style.padding}'>
+          <table class='{res.diffTableStyle.table}'>
+            <tr ui:field='patchSetNavRow' class='{res.diffTableStyle.padding}'>
               <td ui:field='patchSetNavCellA'>
                 <d:PatchSetSelectBox2 ui:field='patchSetSelectBoxA' />
               </td>
@@ -126,11 +70,11 @@ limitations under the License.
                 <d:PatchSetSelectBox2 ui:field='patchSetSelectBoxB' />
               </td>
             </tr>
-            <tr ui:field='fileCommentRow' class='{style.fileCommentRow}'>
-              <td ui:field='fileCommentCellA' class='{style.fileCommentCell}'>
+            <tr ui:field='fileCommentRow' class='{res.diffTableStyle.fileCommentRow}'>
+              <td ui:field='fileCommentCellA' class='{res.diffTableStyle.fileCommentCell}'>
                 <d:FileCommentPanel ui:field='fileCommentPanelA' />
               </td>
-              <td ui:field='fileCommentCellB' class='{style.fileCommentCell}'>
+              <td ui:field='fileCommentCellB' class='{res.diffTableStyle.fileCommentCell}'>
                 <d:FileCommentPanel ui:field='fileCommentPanelB' />
               </td>
             </tr>
@@ -140,7 +84,7 @@ limitations under the License.
             </tr>
           </table>
         </td>
-        <td class='{style.sidePanelCell}'><d:SidePanel ui:field='sidePanel'/></td>
+        <td class='{res.diffTableStyle.sidePanelCell}'><d:SidePanel ui:field='sidePanel'/></td>
       </tr>
     </table>
   </g:HTMLPanel>

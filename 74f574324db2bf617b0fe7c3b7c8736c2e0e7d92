@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d936069_6be2011f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-08-22T18:02:16Z",
+      "side": 1,
+      "message": "Nit: s/bad/unused/, the way it\u0027s phrased now makes it sound like the build is currently broken.",
+      "revId": "74f574324db2bf617b0fe7c3b7c8736c2e0e7d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -147,6 +147,7 @@ public interface GerritCss extends CssResource {
   String link();
   String linkMenuBar();
   String linkMenuItemNotLast();
+  String maxObjectSizeLimitPanel();
   String menuBarUserName();
   String menuBarUserNameAvatar();
   String menuBarUserNameFocusPanel();

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6dc0ec68_5a1d5574",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-22T15:37:42Z",
+      "side": 1,
+      "message": "The suggestion of storing this in a local variable is a waste of time. The method has no overrides and returns the value of a field with nothing more complicated than that.\n\nA method call like this can be inlined by the JIT to be a direct field access, as though we had declared the field to be public and used the field name instead of a method to obtain its value. This assumes its called often enough to matter. Field reads are roughly similar to accessing a field in a pointer to a struct in C, the cost is pretty trivial on modern processors. Take the object address, add a small constant offset, read the word into a register. Not sure if x86 can do this in one instruction or two, but its so common to software its very optimized.\n\nThe other thing is the method will return null about 999 out of 1000 calls. So it is only for an incredibly tiny fraction of invocations that we enter into the block and have to call the method a second time.\n\nUsing a local variable to hold a value that is used once and discarded 999 out of 1000 iterations is wasteful. At worst the compiler and JIT will have to extend the stack frame one extra word to hold this variable. If we get unlucky that would cause the stack in this part of the code to fall off a dcache line or dcache altogether some higher percentage of the time because the stack frame is slightly larger. Ick. At best the JIT realizes its a dead variable 999 out of 1000 times and register allocates the variable for this short conditional, discarding the value if when its null. This is the ideal outcome because it fixes the stack growth issue the naive code generator would have, but we may have just cost ourselves some extra nanoseconds in the JIT trying to do data flow analysis for this variable.\n\ntl;dr: The code as written in its naive form is probably the best way to express this.",
+      "parentUuid": "6d82ac1a_aa278fc2",
+      "revId": "bf37c13240a630f84e5a106b267da337a956230c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6dc0ec68_fa0b0938",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
         "patchSetId": 1
@@ -30,6 +48,23 @@
       "writtenOn": "2013-08-22T10:48:03Z",
       "side": 1,
       "message": "This new option should be described in the REST documentation.",
+      "revId": "bf37c13240a630f84e5a106b267da337a956230c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6dc0ec68_3a1aa17e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-22T15:37:42Z",
+      "side": 1,
+      "message": "I was thinking about Windows support this morning. Windows systems apparently don\u0027t have base64 decoders so this is an impossible format for them to deal with.\n\nWhat if we offer two formats here and hyperlinks in the web UI for both of them.\n\nOne format is this existing base64 which is trivial to pipeline through a base64 decoder on Mac OS X and Linux and most UNIX systems.\n\nThe other format is a ZIP archive containing a single file named \"%s.diff\". This is not a valid Java classname so an attacker cannot use this to subvert a Java plugin into loading Java bytecode from our website. And Windows XP and newer have ZIP unpacking support built into the UI shell thing. Mac OS x also does. So do modern Linux systems. So the user could download the ZIP and unpack it easily with their GUI tools then deal with the patch.",
       "revId": "bf37c13240a630f84e5a106b267da337a956230c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

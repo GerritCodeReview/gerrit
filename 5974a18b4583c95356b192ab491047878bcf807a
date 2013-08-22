@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d82ac1a_ea3187fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-22T11:23:43Z",
+      "side": 1,
+      "message": "Is this change also relevant for issue 302?",
+      "revId": "5974a18b4583c95356b192ab491047878bcf807a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

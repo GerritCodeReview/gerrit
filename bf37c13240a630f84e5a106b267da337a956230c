@@ -68,6 +68,24 @@
       "revId": "bf37c13240a630f84e5a106b267da337a956230c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4dc5e877_19324b00",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-22T15:57:23Z",
+      "side": 1,
+      "message": "+1 for two formats! If we want to be really cool, could we retrieve the OS from the browser and only provide download non-encoded zip file if we are on Windows?",
+      "parentUuid": "6dc0ec68_3a1aa17e",
+      "revId": "bf37c13240a630f84e5a106b267da337a956230c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -139,7 +139,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
           }
           return changeDetailFactory.create(result.getChangeId()).call();
         } catch (NoSuchChangeException e) {
-          throw new Failure(new NoSuchChangeException(result.getChangeId()));
+          throw new Failure(new NoSuchChangeException(psid.getParentKey()));
         } catch (NoSuchProjectException e) {
           throw new Failure(e);
         } catch (NoSuchEntityException e) {

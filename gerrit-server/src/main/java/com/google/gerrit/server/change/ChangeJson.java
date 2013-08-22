@@ -74,13 +74,11 @@ import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.ssh.SshInfo;
+import com.google.gerrit.server.ssh.SshAdvertisedAddresses;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import com.jcraft.jsch.HostKey;
 
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
@@ -103,11 +101,16 @@ public class ChangeJson {
   static class Urls {
     final String git;
     final String http;
+    final String ssh;
 
     @Inject
-    Urls(@GerritServerConfig Config cfg) {
+    Urls(@GerritServerConfig Config cfg,
+        @SshAdvertisedAddresses List<String> sshAddresses) {
       this.git = ensureSlash(cfg.getString("gerrit", null, "canonicalGitUrl"));
       this.http = ensureSlash(cfg.getString("gerrit", null, "gitHttpUrl"));
+      this.ssh = !sshAddresses.isEmpty()
+          ? ensureSlash("ssh://" + sshAddresses.get(0))
+          : null;
     }
 
     private static String ensureSlash(String in) {
@@ -133,7 +136,6 @@ public class ChangeJson {
   private final Revisions revisions;
 
   private ChangeControl.Factory changeControlUserFactory;
-  private SshInfo sshInfo;
   private EnumSet<ListChangesOption> options;
   private AccountInfo.Loader accountLoader;
   private ChangeControl lastControl;
@@ -177,11 +179,6 @@ public class ChangeJson {
 
   public ChangeJson addOptions(Collection<ListChangesOption> o) {
     options.addAll(o);
-    return this;
-  }
-
-  public ChangeJson setSshInfo(SshInfo info) {
-    sshInfo = info;
     return this;
   }
 
@@ -826,11 +823,9 @@ public class ChangeJson {
             + cd.change(db).getProject().get(), refName));
       }
     }
-    if (sshInfo != null && !sshInfo.getHostKeys().isEmpty()) {
-      HostKey host = sshInfo.getHostKeys().get(0);
-      r.put("ssh", new FetchInfo(String.format(
-          "ssh://%s/%s",
-          host.getHost(), cd.change(db).getProject().get()),
+    if (urls.ssh != null) {
+      r.put("ssh", new FetchInfo(
+          urls.ssh + cd.change(db).getProject().get(),
           refName));
     }
 

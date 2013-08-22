@@ -140,7 +140,8 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
   }
 
   @Override
-  public Predicate<ChangeData> rewrite(Predicate<ChangeData> in) {
+  public Predicate<ChangeData> rewrite(Predicate<ChangeData> in)
+      throws QueryParseException {
     ChangeIndex index = indexes.getSearchIndex();
     if (index == null) {
       return sqlRewriter.rewrite(in);
@@ -153,7 +154,7 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
 
     Predicate<ChangeData> out = rewriteImpl(in, index, limit);
     if (in == out || out instanceof IndexPredicate) {
-      return query(out, index, limit);
+      return new IndexedChangeQuery(index, out, limit);
     } else if (out == null /* cannot rewrite */) {
       return in;
     } else {
@@ -172,9 +173,11 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
    *     queried directly in the index. Otherwise, a predicate that is
    *     semantically equivalent, with some of its subtrees wrapped to query the
    *     index directly.
+   * @throws QueryParseException if the underlying index implementation does not
+   *     support this predicate.
    */
   private Predicate<ChangeData> rewriteImpl(Predicate<ChangeData> in,
-      ChangeIndex index, int limit) {
+      ChangeIndex index, int limit) throws QueryParseException {
     if (isIndexPredicate(in, index)) {
       return in;
     } else if (!isRewritePossible(in)) {
@@ -224,10 +227,11 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
       List<Predicate<ChangeData>> newChildren,
       BitSet isIndexed,
       ChangeIndex index,
-      int limit) {
+      int limit) throws QueryParseException {
     if (isIndexed.cardinality() == 1) {
       int i = isIndexed.nextSetBit(0);
-      newChildren.add(0, query(newChildren.remove(i), index, limit));
+      newChildren.add(
+          0, new IndexedChangeQuery(index, newChildren.remove(i), limit));
       return copy(in, newChildren);
     }
 
@@ -247,7 +251,7 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
         all.add(c);
       }
     }
-    all.add(0, query(in.copy(indexed), index, limit));
+    all.add(0, new IndexedChangeQuery(index, in.copy(indexed), limit));
     return copy(in, all);
   }
 
@@ -260,16 +264,6 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
       return new OrSource(all);
     }
     return in.copy(all);
-  }
-
-  private IndexedChangeQuery query(Predicate<ChangeData> p, ChangeIndex index,
-      int limit) {
-    try {
-      return new IndexedChangeQuery(index, p, limit);
-    } catch (QueryParseException e) {
-      throw new IllegalStateException(
-          "Failed to convert " + p + " to index predicate", e);
-    }
   }
 
   private static boolean isRewritePossible(Predicate<ChangeData> p) {

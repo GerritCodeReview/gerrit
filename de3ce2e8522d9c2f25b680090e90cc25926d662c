@@ -16,6 +16,24 @@
       "revId": "de3ce2e8522d9c2f25b680090e90cc25926d662c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ddfe055_0b49dd61",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadBox.ui.xml",
+        "patchSetId": 11
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-22T21:37:47Z",
+      "side": 1,
+      "message": "Whoops, done.",
+      "parentUuid": "4dc5e877_f980b74d",
+      "revId": "de3ce2e8522d9c2f25b680090e90cc25926d662c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

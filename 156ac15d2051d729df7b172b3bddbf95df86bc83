@@ -16,6 +16,24 @@
       "revId": "156ac15d2051d729df7b172b3bddbf95df86bc83",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4dea48f0_71f978fe",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadBox.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-22T21:52:13Z",
+      "side": 1,
+      "message": "Fudge, I forgot. No we should really replace this call and not depend on a legacy API in ChangeScreen2 logic.\n\nYou can prototype with the ReviewerSuggestOracle but I don\u0027t want to submit on an old API.",
+      "parentUuid": "6dc0ec68_9a5c0d25",
+      "revId": "156ac15d2051d729df7b172b3bddbf95df86bc83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

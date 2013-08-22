@@ -418,7 +418,7 @@ public class ChangeUtil {
       final GitReferenceUpdated gitRefUpdated, final ReviewDb db)
       throws NoSuchChangeException, OrmException, IOException {
     final PatchSet.Id patchSetId = patch.getId();
-    if (patch == null || !patch.isDraft()) {
+    if (!patch.isDraft()) {
       throw new NoSuchChangeException(patchSetId.getParentKey());
     }
 

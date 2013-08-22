@@ -280,7 +280,7 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
       validRange = null;
     }
 
-    if (value != null && Permission.OWNER.equals(value.getName())) {
+    if (Permission.OWNER.equals(value.getName())) {
       exclusiveGroup.setEnabled(false);
     } else {
       exclusiveGroup.setEnabled(!readOnly);

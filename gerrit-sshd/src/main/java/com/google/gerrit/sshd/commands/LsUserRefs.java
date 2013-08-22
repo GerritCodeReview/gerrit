@@ -109,7 +109,9 @@ public class LsUserRefs extends SshCommand {
       throw new UnloggedFailure("fatal: Error opening: '"
           + projectControl.getProject().getNameKey());
     } finally {
-      repo.close();
+      if (repo != null) {
+        repo.close();
+      }
     }
   }
 }

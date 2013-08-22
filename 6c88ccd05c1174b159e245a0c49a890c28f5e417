@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8d936069_4b62a5d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Index.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-08-22T17:22:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d936069_ab91499a",
+      "revId": "6c88ccd05c1174b159e245a0c49a890c28f5e417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d82ac1a_ca4be359",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Index.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-08-22T16:56:32Z",
       "side": 1,
       "message": "@RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)",
+      "revId": "6c88ccd05c1174b159e245a0c49a890c28f5e417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d936069_6b6761e6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Index.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-08-22T17:22:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d82ac1a_ca4be359",
       "revId": "6c88ccd05c1174b159e245a0c49a890c28f5e417",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "8d936069_ab786982",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Index.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-08-22T17:22:12Z",
+      "side": 1,
+      "message": "My inclination recently has been to make views and their inputs public so they can be used from elsewhere (other packages in gerrit, plugins, etc.).",
+      "parentUuid": "8d936069_cb9e95a9",
+      "revId": "6c88ccd05c1174b159e245a0c49a890c28f5e417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d936069_eb9b51b6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Index.java",
         "patchSetId": 1
@@ -70,6 +124,24 @@
         "endLine": 30,
         "endChar": 5
       },
+      "revId": "6c88ccd05c1174b159e245a0c49a890c28f5e417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d936069_8b7bad7e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Index.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-08-22T17:22:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d936069_eb9b51b6",
       "revId": "6c88ccd05c1174b159e245a0c49a890c28f5e417",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

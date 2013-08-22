@@ -151,9 +151,9 @@ public class SmtpEmailSender implements EmailSender {
       setMissingHeader(hdrs, "Importance", importance);
     }
     if(expiryDays > 0) {
-      Date expiry = new Date(System.currentTimeMillis() + 
-        expiryDays * 24 * 60 * 60 * 1000 );
-      setMissingHeader(hdrs, "Expiry-Date", 
+      Date expiry = new Date(System.currentTimeMillis() +
+        expiryDays * 24 * 60 * 60 * 1000L );
+      setMissingHeader(hdrs, "Expiry-Date",
         new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z").format(expiry));
     }
 

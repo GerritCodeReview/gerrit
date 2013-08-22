@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d936069_0bba5d07",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1005956
+      },
+      "writtenOn": "2013-08-22T18:40:37Z",
+      "side": 1,
+      "message": "Why do you want this operator to input multiple changes instead of one change? Does gerrit support any other operator that can take multiple values at once?",
+      "revId": "b4be77011f0376c2d16955a2af8b1a2c56431c56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

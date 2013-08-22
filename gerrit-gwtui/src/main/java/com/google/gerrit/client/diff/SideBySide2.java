@@ -100,10 +100,6 @@ public class SideBySide2 extends Screen {
   interface Binder extends UiBinder<FlowPanel, SideBySide2> {}
   private static Binder uiBinder = GWT.create(Binder.class);
 
-  enum DisplaySide {
-    A, B;
-  }
-
   private static final JsArrayString EMPTY =
       JavaScriptObject.createArray().cast();
 
@@ -162,7 +158,7 @@ public class SideBySide2 extends Screen {
     }
     context = pref.getContext();
 
-    this.handlers = new ArrayList<HandlerRegistration>(6);
+    handlers = new ArrayList<HandlerRegistration>(6);
     // TODO: Re-implement necessary GlobalKey bindings.
     addDomHandler(GlobalKey.STOP_PROPAGATION, KeyPressEvent.getType());
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
@@ -434,7 +430,6 @@ public class SideBySide2 extends Screen {
     linePaddingOnOtherSideMap = new HashMap<LineHandle, LinePaddingWidgetWrapper>();
     diffChunks = new ArrayList<DiffChunkInfo>();
     render(diffInfo);
-    Collections.sort(diffChunks, getDiffChunkComparator());
     lineActiveBoxMap = new HashMap<LineHandle, CommentBox>();
     linePublishedBoxesMap = new HashMap<LineHandle, List<PublishedBox>>();
     linePaddingManagerMap = new HashMap<LineHandle, PaddingManager>();
@@ -537,11 +532,11 @@ public class SideBySide2 extends Screen {
         }
         int chunkEndA = mapper.getLineA() - 1;
         int chunkEndB = mapper.getLineB() - 1;
-        if (bLength > 0) {
-          addDiffChunkAndPadding(cmA, chunkEndA, chunkEndB, bLength, aLength > 0);
-        }
         if (aLength > 0) {
           addDiffChunkAndPadding(cmB, chunkEndB, chunkEndA, aLength, bLength > 0);
+        }
+        if (bLength > 0) {
+          addDiffChunkAndPadding(cmA, chunkEndA, chunkEndB, bLength, aLength > 0);
         }
         markEdit(cmA, currentA, current.edit_a(), origLineA);
         markEdit(cmB, currentB, current.edit_b(), origLineB);
@@ -757,7 +752,7 @@ public class SideBySide2 extends Screen {
       List<SkippedLine> temp = new ArrayList<SkippedLine>();
       for (SkippedLine skip : skips) {
         CommentInfo info = box.getCommentInfo();
-        int startLine = info.side() == Side.PARENT
+        int startLine = box.getSide() == DisplaySide.A
             ? skip.getStartA()
             : skip.getStartB();
         int boxLine = info.line();
@@ -792,8 +787,7 @@ public class SideBySide2 extends Screen {
     }
   }
 
-  private void checkAndAddSkip(List<SkippedLine> list,
-      SkippedLine toAdd) {
+  private void checkAndAddSkip(List<SkippedLine> list, SkippedLine toAdd) {
     if (toAdd.getSize() > 1) {
       list.add(toAdd);
     }
@@ -1182,16 +1176,16 @@ public class SideBySide2 extends Screen {
         res = res + (prev ? -1 : 1);
         DiffChunkInfo lookUp = diffChunks.get(getWrapAroundDiffChunkIndex(res));
         // If edit, skip the deletion chunk and set focus on the insertion one.
-        if (lookUp.edit && lookUp.side == DisplaySide.A) {
+        if (lookUp.isEdit() && lookUp.getSide() == DisplaySide.A) {
           res = res + (prev ? -1 : 1);
         }
         DiffChunkInfo target = diffChunks.get(getWrapAroundDiffChunkIndex(res));
-        CodeMirror targetCm = getCmFromSide(target.side);
-        targetCm.setCursor(LineCharacter.create(target.start));
+        CodeMirror targetCm = getCmFromSide(target.getSide());
+        targetCm.setCursor(LineCharacter.create(target.getStart()));
         targetCm.focus();
         targetCm.scrollToY(Math.max(
             0,
-            targetCm.heightAtLine(target.start, "local") -
+            targetCm.heightAtLine(target.getStart(), "local") -
             0.5 * cmB.getScrollbarV().getClientHeight()));
       }
     };
@@ -1207,13 +1201,15 @@ public class SideBySide2 extends Screen {
     return new Comparator<DiffChunkInfo>() {
       @Override
       public int compare(DiffChunkInfo o1, DiffChunkInfo o2) {
-        if (o1.side == o2.side) {
-          return o1.start - o2.start;
-        } else if (o1.side == DisplaySide.A) {
-          int comp = mapper.lineOnOther(o1.side, o1.start).getLine() - o2.start;
+        if (o1.getSide() == o2.getSide()) {
+          return o1.getStart() - o2.getStart();
+        } else if (o1.getSide() == DisplaySide.A) {
+          int comp = mapper.lineOnOther(o1.getSide(), o1.getStart())
+              .getLine() - o2.getStart();
           return comp == 0 ? -1 : comp;
         } else {
-          int comp = o1.start - mapper.lineOnOther(o2.side, o2.start).getLine();
+          int comp = o1.getStart() -
+              mapper.lineOnOther(o2.getSide(), o2.getStart()).getLine();
           return comp == 0 ? 1 : comp;
         }
       }
@@ -1231,7 +1227,8 @@ public class SideBySide2 extends Screen {
       res = -res - 1;
       if (res > 0) {
         DiffChunkInfo info = diffChunks.get(res - 1);
-        if (info.side == side && info.start <= line && line <= info.end) {
+        if (info.getSide() == side && info.getStart() <= line &&
+            line <= info.getEnd()) {
           return info;
         }
       }
@@ -1342,82 +1339,5 @@ public class SideBySide2 extends Screen {
 
   CodeMirror getCmB() {
     return cmB;
-  }
-
-  static class EditIterator {
-    private final JsArrayString lines;
-    private final int startLine;
-    private int currLineIndex;
-    private int currLineOffset;
-
-    EditIterator(JsArrayString lineArray, int start) {
-      lines = lineArray;
-      startLine = start;
-    }
-
-    LineCharacter advance(int numOfChar) {
-      while (currLineIndex < lines.length()) {
-        int lengthWithNewline =
-            lines.get(currLineIndex).length() - currLineOffset + 1;
-        if (numOfChar < lengthWithNewline) {
-          LineCharacter at = LineCharacter.create(
-              startLine + currLineIndex,
-              numOfChar + currLineOffset);
-          currLineOffset += numOfChar;
-          return at;
-        }
-        numOfChar -= lengthWithNewline;
-        advanceLine();
-        if (numOfChar == 0) {
-          return LineCharacter.create(startLine + currLineIndex, 0);
-        }
-      }
-      throw new IllegalStateException("EditIterator index out of bound");
-    }
-
-    private void advanceLine() {
-      currLineIndex++;
-      currLineOffset = 0;
-    }
-  }
-
-  static class DiffChunkInfo {
-    private DisplaySide side;
-    private int start;
-    private int end;
-    private boolean edit;
-
-    DiffChunkInfo(DisplaySide side, int start, int end, boolean edit) {
-      this.side = side;
-      this.start = start;
-      this.end = end;
-      this.edit = edit;
-    }
-
-    DisplaySide getSide() {
-      return side;
-    }
-
-    int getStart() {
-      return start;
-    }
-
-    int getEnd() {
-      return end;
-    }
-
-    boolean isEdit() {
-      return edit;
-    }
-  }
-
-  private static class NoOpKeyCommand extends KeyCommand {
-    private NoOpKeyCommand(int mask, int key, String help) {
-      super(mask, key, help);
-    }
-
-    @Override
-    public void onKeyPress(KeyPressEvent event) {
-    }
   }
 }

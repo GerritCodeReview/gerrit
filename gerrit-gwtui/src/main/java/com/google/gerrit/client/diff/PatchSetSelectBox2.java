@@ -17,7 +17,6 @@ package com.google.gerrit.client.diff;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
-import com.google.gerrit.client.diff.SideBySide2.DisplaySide;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.reviewdb.client.Change;

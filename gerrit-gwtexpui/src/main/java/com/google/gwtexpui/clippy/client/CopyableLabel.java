@@ -14,8 +14,10 @@
 
 package com.google.gwtexpui.clippy.client;
 
+import static com.google.gwt.dom.client.Style.Visibility.HIDDEN;
+import static com.google.gwt.dom.client.Style.Visibility.VISIBLE;
+
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -170,10 +172,15 @@ public class CopyableLabel extends Composite implements HasText {
           UserAgent.addDialogVisibleHandler(new DialogVisibleHandler() {
             @Override
             public void onDialogVisible(DialogVisibleEvent event) {
-              swf.getStyle().setVisibility(
-                  event.isVisible()
-                    ? Style.Visibility.HIDDEN
-                    : Style.Visibility.VISIBLE);
+              if (event.contains(CopyableLabel.this)) {
+                if (event.isVisible()) {
+                  swf.getStyle().setVisibility(VISIBLE);
+                }
+              } else {
+                swf.getStyle().setVisibility(event.isVisible()
+                    ? HIDDEN
+                    : VISIBLE);
+              }
             }
           });
     }

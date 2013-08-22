@@ -15,6 +15,7 @@
 package com.google.gwtexpui.user.client;
 
 import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.user.client.ui.Widget;
 
 public class DialogVisibleEvent extends GwtEvent<DialogVisibleHandler> {
   private static Type<DialogVisibleHandler> TYPE;
@@ -26,10 +27,21 @@ public class DialogVisibleEvent extends GwtEvent<DialogVisibleHandler> {
     return TYPE;
   }
 
+  private final Widget parent;
   private final boolean visible;
 
-  DialogVisibleEvent(boolean visible) {
+  DialogVisibleEvent(Widget w, boolean visible) {
+    this.parent = w;
     this.visible = visible;
+  }
+
+  public boolean contains(Widget c) {
+    for (; c != null; c = c.getParent()) {
+      if (c == parent) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public boolean isVisible() {

@@ -19,6 +19,7 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * User agent feature tests we don't create permutations for.
@@ -39,8 +40,8 @@ public class UserAgent {
     return bus.addHandler(DialogVisibleEvent.getType(), handler);
   }
 
-  static void fireDialogVisible(boolean visible) {
-    bus.fireEvent(new DialogVisibleEvent(visible));
+  static void fireDialogVisible(Widget w, boolean visible) {
+    bus.fireEvent(new DialogVisibleEvent(w, visible));
   }
 
   private static native boolean hasFlash()

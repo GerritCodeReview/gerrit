@@ -44,6 +44,10 @@
   background: transparent;
 }
 
+body, table td, select {
+  font-family: norm-font;
+}
+
 .gerritBody {
   font-size: small;
   padding-left: 5px;

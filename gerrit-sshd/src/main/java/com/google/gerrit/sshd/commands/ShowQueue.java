@@ -163,7 +163,7 @@ final class ShowQueue extends SshCommand {
         }
 
         stdout.print(String.format("%8s %-12s %-4s %s\n", //
-            id(task.getTaskId()), start, startTime, "", remoteName));
+            id(task.getTaskId()), start, startTime, remoteName));
       }
     }
     stdout.print("----------------------------------------------"

@@ -290,7 +290,7 @@ final class ShowCaches extends CacheCommand {
         runtimeBean.getVmVendor(),
         runtimeBean.getVmName(),
         runtimeBean.getVmVersion());
-    stdout.format("  on %s %s %s\n", "",
+    stdout.format("  on %s %s %s\n",
         osBean.getName(),
         osBean.getVersion(),
         osBean.getArch());

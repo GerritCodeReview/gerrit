@@ -170,6 +170,9 @@ public class CopyableLabel extends Composite implements HasText {
           UserAgent.addDialogVisibleHandler(new DialogVisibleHandler() {
             @Override
             public void onDialogVisible(DialogVisibleEvent event) {
+              if (event.isVisible() && event.contains(CopyableLabel.this)) {
+                return;
+              }
               swf.getStyle().setVisibility(
                   event.isVisible()
                     ? Style.Visibility.HIDDEN

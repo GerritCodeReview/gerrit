@@ -26,7 +26,6 @@ import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.git.GarbageCollectionQueue;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -45,9 +44,6 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
 
   @Inject
   private AllProjectsName allProjects;
-
-  @Inject
-  private GarbageCollectionQueue gcQueue;
 
   @Inject
   private GcAssert gcAssert;

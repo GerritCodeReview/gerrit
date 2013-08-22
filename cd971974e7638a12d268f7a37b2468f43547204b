@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d82ac1a_eaffc7de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_83.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-22T01:50:52Z",
+      "side": 1,
+      "message": "Wrong copyright year.",
+      "revId": "cd971974e7638a12d268f7a37b2468f43547204b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d82ac1a_ca02031e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_83.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-22T01:50:52Z",
+      "side": 1,
+      "message": "83 was merged in another change in the meantime.  This needs to be updated to 84.",
+      "revId": "cd971974e7638a12d268f7a37b2468f43547204b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

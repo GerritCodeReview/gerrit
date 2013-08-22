@@ -16,6 +16,24 @@
       "revId": "60cbb89a3db50694388c716e3fc116b211543428",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad966456_0c5437cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-22T04:54:45Z",
+      "side": 1,
+      "message": "I checked and it looks like it was added in 2.6. So going to abandon it.",
+      "parentUuid": "6dd1cce1_b23180fc",
+      "revId": "60cbb89a3db50694388c716e3fc116b211543428",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

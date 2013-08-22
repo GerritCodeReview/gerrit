@@ -16,6 +16,24 @@
       "revId": "27f3824133940c0af3b30bf111e1b1b501ab41d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d82ac1a_ea16e756",
+        "filename": "contrib/bash_completion",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-22T07:16:50Z",
+      "side": 1,
+      "message": "I\u0027m following the example of other files under contrib/ which have the copyright and license of the organisation that added them.\n\n $ git grep Copyright\n bash_completion:# Copyright 2013 Sony Mobile Communications. All rights reserved.\n git-exproll.sh:# Copyright (c) 2012, Code Aurora Forum. All rights reserved.\n themes/diffy/etc/GerritSite.css:/* Copyright (C) 2013 The Android Open Source Project\n trivial_rebase.py:# Copyright (c) 2010, Code Aurora Forum. All rights reserved.\n\nAlthough now I see I should probably use \"Copyright (c)\" instead of just \"Copyright\".",
+      "parentUuid": "4dc5e877_f9e4375d",
+      "revId": "27f3824133940c0af3b30bf111e1b1b501ab41d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

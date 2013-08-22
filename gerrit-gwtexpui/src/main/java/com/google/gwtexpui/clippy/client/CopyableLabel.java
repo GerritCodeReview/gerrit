@@ -130,7 +130,7 @@ public class CopyableLabel extends Composite implements HasText {
   }
 
   private void embedMovie() {
-    if (flashEnabled && UserAgent.hasFlash) {
+    if (flashEnabled && UserAgent.hasFlash && text.length() > 0) {
       final String flashVars = "text=" + URL.encodeQueryString(getText());
       final SafeHtmlBuilder h = new SafeHtmlBuilder();
 

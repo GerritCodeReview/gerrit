@@ -16,6 +16,24 @@
       "revId": "5974a18b4583c95356b192ab491047878bcf807a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4dc5e877_d96293e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-22T16:21:44Z",
+      "side": 1,
+      "message": "Good point, this change issue 302 too. We should reopen and mark it as fixed, one that change is merged.",
+      "parentUuid": "6d82ac1a_ea3187fb",
+      "revId": "5974a18b4583c95356b192ab491047878bcf807a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

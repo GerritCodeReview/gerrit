@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6dc0ec68_9a5c0d25",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadBox.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-22T21:47:18Z",
+      "side": 1,
+      "message": "So you are using old style RPC here. While unrelated here, can i reuse\n\n ReviewerSuggestOracle\n\nclass for add reviewer feature that also uses RPC internally? I would prefer to first implement the missing feature and later move it to REST API. Are you OK with this approach?",
+      "revId": "156ac15d2051d729df7b172b3bddbf95df86bc83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

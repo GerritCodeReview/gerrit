@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6dc0ec68_da104563",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-22T11:43:25Z",
+      "side": 1,
+      "message": "Does this work to go over the permissions here? What if there is a label for a branch but no permissions have been assigned for this label? Is this label then not returned by this method?",
+      "revId": "cb3ff2726d8efa1306357e0a77252444b2bfa8bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

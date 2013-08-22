@@ -25,20 +25,30 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.diff.DiffFormatter;
+import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 public class GetPatch implements RestReadView<RevisionResource> {
   private final GitRepositoryManager repoManager;
+
+  @Option(name = "--zip")
+  private boolean zip;
+
+  @Option(name = "--download")
+  private boolean download;
 
   @Inject
   GetPatch(GitRepositoryManager repoManager) {
@@ -71,6 +81,20 @@ public class GetPatch implements RestReadView<RevisionResource> {
           BinaryResult bin = new BinaryResult() {
             @Override
             public void writeTo(OutputStream out) throws IOException {
+              if (zip) {
+                ZipOutputStream zos = new ZipOutputStream(out);
+                ZipEntry e = new ZipEntry(fileName(rw, commit));
+                e.setTime(commit.getCommitTime() * 1000L);
+                zos.putNextEntry(e);
+                format(zos);
+                zos.closeEntry();
+                zos.finish();
+              } else {
+                format(out);
+              }
+            }
+
+            private void format(OutputStream out) throws IOException {
               out.write(formatEmailHeader(commit).getBytes(UTF_8));
               DiffFormatter fmt = new DiffFormatter(out);
               fmt.setRepository(repo);
@@ -83,8 +107,20 @@ public class GetPatch implements RestReadView<RevisionResource> {
               rw.release();
               repo.close();
             }
-          }.setContentType("application/mbox")
-           .base64();
+          };
+
+          if (zip) {
+            bin.disableGzip()
+               .setContentType("application/zip")
+               .setAttachmentName(fileName(rw, commit) + ".zip");
+          } else {
+            bin.base64()
+               .setContentType("application/mbox")
+               .setAttachmentName(download
+                   ? fileName(rw, commit) + ".base64"
+                   : null);
+          }
+
           close = false;
           return bin;
         } finally {
@@ -131,5 +167,11 @@ public class GetPatch implements RestReadView<RevisionResource> {
         Locale.US);
     df.setCalendar(Calendar.getInstance(author.getTimeZone(), Locale.US));
     return df.format(author.getWhen());
+  }
+
+  private static String fileName(RevWalk rw, RevCommit commit)
+      throws IOException {
+    AbbreviatedObjectId id = rw.getObjectReader().abbreviate(commit, 8);
+    return id.name() + ".diff";
   }
 }

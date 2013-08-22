@@ -16,6 +16,23 @@
       "revId": "bf37c13240a630f84e5a106b267da337a956230c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6dc0ec68_fa0b0938",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-22T10:48:03Z",
+      "side": 1,
+      "message": "This new option should be described in the REST documentation.",
+      "revId": "bf37c13240a630f84e5a106b267da337a956230c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

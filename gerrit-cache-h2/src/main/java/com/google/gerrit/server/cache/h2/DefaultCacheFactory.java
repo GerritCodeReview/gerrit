@@ -85,7 +85,7 @@ public class DefaultCacheFactory implements MemoryCacheFactory {
         "cache", def.name(), "memoryLimit",
         def.maximumWeight()));
 
-    builder.removalListener(forwardingRemovalListenerFactory.create(def.name()));
+    builder = builder.removalListener(forwardingRemovalListenerFactory.create(def.name()));
 
     Weigher<K, V> weigher = def.weigher();
     if (weigher != null && unwrapValueHolder) {

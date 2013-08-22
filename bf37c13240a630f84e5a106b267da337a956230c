@@ -86,6 +86,24 @@
       "revId": "bf37c13240a630f84e5a106b267da337a956230c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d936069_cbd0553e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-22T18:13:24Z",
+      "side": 1,
+      "message": "I would prefer to do the browser detection in the client UI code somehow, not the server.\n\nLatest revision has support for zip archive and base64 wrapping.",
+      "parentUuid": "4dc5e877_19324b00",
+      "revId": "bf37c13240a630f84e5a106b267da337a956230c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

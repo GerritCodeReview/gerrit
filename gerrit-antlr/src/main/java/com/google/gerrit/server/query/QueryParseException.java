@@ -14,6 +14,11 @@
 
 package com.google.gerrit.server.query;
 
+/**
+ * Exception thrown when a search query is invalid.
+ * <p>
+ * <b>NOTE:</b> the message is visible to end users.
+ */
 public class QueryParseException extends Exception {
   private static final long serialVersionUID = 1L;
 

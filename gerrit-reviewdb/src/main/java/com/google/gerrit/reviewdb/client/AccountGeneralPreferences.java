@@ -290,6 +290,7 @@ public final class AccountGeneralPreferences {
     dateFormat = null;
     timeFormat = null;
     relativeDateInChangeTable = false;
+    commentVisibilityStrategy = null;
     diffView = null;
   }
 }

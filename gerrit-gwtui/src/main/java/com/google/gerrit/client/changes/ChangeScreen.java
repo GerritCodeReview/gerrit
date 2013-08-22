@@ -339,13 +339,11 @@ public class ChangeScreen extends Screen
       patchesList.addItem(Util.C.baseDiffItem());
     }
     for (PatchSet pId : detail.getPatchSets()) {
-      if (patchesList != null) {
-        patchesList.addItem(Util.M.patchSetHeader(pId.getPatchSetId()), pId
-            .getId().toString());
-      }
+      patchesList.addItem(Util.M.patchSetHeader(pId.getPatchSetId()), pId
+          .getId().toString());
     }
 
-    if (diffBaseId != null && patchesList != null) {
+    if (diffBaseId != null) {
       patchesList.setSelectedIndex(diffBaseId.get());
     }
 

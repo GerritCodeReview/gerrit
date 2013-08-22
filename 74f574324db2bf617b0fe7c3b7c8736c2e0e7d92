@@ -16,6 +16,24 @@
       "revId": "74f574324db2bf617b0fe7c3b7c8736c2e0e7d92",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d936069_8bc64d8b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-22T18:05:14Z",
+      "side": 1,
+      "message": "The tests are. :-)",
+      "parentUuid": "8d936069_6be2011f",
+      "revId": "74f574324db2bf617b0fe7c3b7c8736c2e0e7d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

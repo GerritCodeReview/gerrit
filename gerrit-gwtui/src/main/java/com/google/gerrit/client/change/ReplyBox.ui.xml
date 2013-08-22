@@ -20,8 +20,6 @@ limitations under the License.
     xmlns:c='urn:import:com.google.gwtexpui.globalkey.client'>
   <ui:with field='res' type='com.google.gerrit.client.change.Resources'/>
   <ui:style type='com.google.gerrit.client.change.ReplyBox.Styles'>
-    @eval trimColor com.google.gerrit.client.Gerrit.getTheme().trimColor;
-
     .replyBox {
       max-height: 260px;
     }

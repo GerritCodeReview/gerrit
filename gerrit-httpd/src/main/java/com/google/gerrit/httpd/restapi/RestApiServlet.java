@@ -814,7 +814,7 @@ public class RestApiServlet extends HttpServlet {
       throw new ResourceNotFoundException(projection);
     } else {
       throw new AmbiguousViewException(String.format(
-        "Projection %s is ambiguous: ",
+        "Projection %s is ambiguous: %s",
         name,
         Joiner.on(", ").join(
           Iterables.transform(r.keySet(), new Function<String, String>() {

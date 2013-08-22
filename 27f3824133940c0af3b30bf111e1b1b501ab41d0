@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4dc5e877_f9e4375d",
+        "filename": "contrib/bash_completion",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-22T06:53:50Z",
+      "side": 1,
+      "message": "Should this rather be the The Android Open Source Project Copyright?",
+      "revId": "27f3824133940c0af3b30bf111e1b1b501ab41d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

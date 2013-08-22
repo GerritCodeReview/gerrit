@@ -14,8 +14,6 @@
 
 package com.google.gerrit.client.diff;
 
-import com.google.gerrit.client.diff.SideBySide2.DisplaySide;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

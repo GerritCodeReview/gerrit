@@ -15,7 +15,6 @@
 package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
-import com.google.gerrit.client.diff.SideBySide2.DisplaySide;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;

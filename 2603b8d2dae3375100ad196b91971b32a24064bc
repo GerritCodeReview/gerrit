@@ -117,6 +117,24 @@
     },
     {
       "key": {
+        "uuid": "ad966456_ec47eb23",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadAction.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-22T04:51:43Z",
+      "side": 1,
+      "message": "certainly ;-)",
+      "parentUuid": "8d936069_4bef0538",
+      "revId": "2603b8d2dae3375100ad196b91971b32a24064bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d936069_ebffd1de",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadPatch.java",
         "patchSetId": 9
@@ -174,6 +192,24 @@
     },
     {
       "key": {
+        "uuid": "ad966456_8c402711",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-22T04:51:43Z",
+      "side": 1,
+      "message": "Yes, because otherwise it is lost, as isBase64() creates a new instance of BinaryResult.",
+      "parentUuid": "8d936069_8bf80dfc",
+      "revId": "2603b8d2dae3375100ad196b91971b32a24064bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d936069_2beab928",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
         "patchSetId": 9
@@ -191,6 +227,24 @@
         "endLine": 746,
         "endChar": 5
       },
+      "revId": "2603b8d2dae3375100ad196b91971b32a24064bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad966456_ac3de3a3",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-22T04:51:43Z",
+      "side": 1,
+      "message": "I totally agree.",
+      "parentUuid": "8d936069_2beab928",
       "revId": "2603b8d2dae3375100ad196b91971b32a24064bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -220,6 +274,24 @@
     },
     {
       "key": {
+        "uuid": "4d87a829_49ef0138",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-22T04:51:43Z",
+      "side": 1,
+      "message": "revision-name.diff? In this case we need to turn download option from boolean to String.",
+      "parentUuid": "8d936069_cb02151e",
+      "revId": "2603b8d2dae3375100ad196b91971b32a24064bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d936069_abf5c902",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
         "patchSetId": 9
@@ -237,6 +309,24 @@
         "endLine": 95,
         "endChar": 50
       },
+      "revId": "2603b8d2dae3375100ad196b91971b32a24064bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad966456_cc4a2f2f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-22T04:51:43Z",
+      "side": 1,
+      "message": "Because the default content type is assigned? Well i didn\u0027t check it explicitly, but it does work.",
+      "parentUuid": "8d936069_abf5c902",
       "revId": "2603b8d2dae3375100ad196b91971b32a24064bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

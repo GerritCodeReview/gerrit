@@ -160,19 +160,22 @@ public class CopyableLabel extends Composite implements HasText {
         DOM.removeChild(getElement(), swf);
       }
       DOM.appendChild(getElement(), swf = SafeHtml.parse(h));
+      initHideHandler();
+    }
+  }
 
-      if (hideHandler == null) {
-        hideHandler =
-            UserAgent.addDialogVisibleHandler(new DialogVisibleHandler() {
-              @Override
-              public void onDialogVisible(DialogVisibleEvent event) {
-                swf.getStyle().setVisibility(
-                    event.isVisible()
-                      ? Style.Visibility.HIDDEN
-                      : Style.Visibility.VISIBLE);
-              }
-            });
-      }
+  private void initHideHandler() {
+    if (hideHandler == null && swf != null && isAttached()) {
+      hideHandler =
+          UserAgent.addDialogVisibleHandler(new DialogVisibleHandler() {
+            @Override
+            public void onDialogVisible(DialogVisibleEvent event) {
+              swf.getStyle().setVisibility(
+                  event.isVisible()
+                    ? Style.Visibility.HIDDEN
+                    : Style.Visibility.VISIBLE);
+            }
+          });
     }
   }
 
@@ -195,7 +198,12 @@ public class CopyableLabel extends Composite implements HasText {
   }
 
   @Override
-  public void onUnload() {
+  protected void onLoad() {
+    initHideHandler();
+  }
+
+  @Override
+  protected void onUnload() {
     if (hideHandler != null) {
       hideHandler.removeHandler();
       hideHandler = null;

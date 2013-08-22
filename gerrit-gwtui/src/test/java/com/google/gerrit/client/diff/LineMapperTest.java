@@ -17,7 +17,6 @@ package com.google.gerrit.client.diff;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.client.diff.LineMapper.LineOnOtherInfo;
-import com.google.gerrit.client.diff.SideBySide2.DisplaySide;
 
 import org.junit.Test;
 

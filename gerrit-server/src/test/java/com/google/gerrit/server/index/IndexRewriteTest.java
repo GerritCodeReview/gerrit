@@ -327,7 +327,8 @@ public class IndexRewriteTest extends TestCase {
     return queryBuilder.parse(query);
   }
 
-  private Predicate<ChangeData> rewrite(Predicate<ChangeData> in) {
+  private Predicate<ChangeData> rewrite(Predicate<ChangeData> in)
+      throws QueryParseException {
     return rewrite.rewrite(in);
   }
 

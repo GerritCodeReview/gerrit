@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6dc0ec68_9a452d53",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/CommentRange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-22T15:52:22Z",
+      "side": 1,
+      "message": "This is not a good way to compute the hash code. IIRC hashCode() for Integer returns the value itself. Adding hash codes is also not the best way to combine the values.\n\n  int h \u003d startLine;\n  h \u003d h * 31 + startCharacter;\n  h \u003d h * 31 + endLine;\n  h \u003d h * 31 + endCharacter;\n  return h;\n\nis probably a better hash function.",
+      "revId": "757685e1a2479f999d8d622209c0ab80321669d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

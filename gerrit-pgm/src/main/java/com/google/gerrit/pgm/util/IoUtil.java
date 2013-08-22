@@ -57,7 +57,6 @@ public final class IoUtil {
     if (!(cl instanceof URLClassLoader)) {
       throw noAddURL("Not loaded by URLClassLoader", null);
     }
-    @SuppressWarnings("resource")
     URLClassLoader urlClassLoader = (URLClassLoader) cl;
 
     Method addURL;

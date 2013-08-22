@@ -36,7 +36,6 @@ public class SshSession {
     this.account = account;
   }
 
-  @SuppressWarnings("resource")
   public String exec(String command) throws JSchException, IOException {
     ChannelExec channel = (ChannelExec) getSession().openChannel("exec");
     try {

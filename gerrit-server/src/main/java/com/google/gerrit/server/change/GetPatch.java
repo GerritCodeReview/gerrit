@@ -30,6 +30,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -39,6 +40,9 @@ import java.util.Locale;
 
 public class GetPatch implements RestReadView<RevisionResource> {
   private final GitRepositoryManager repoManager;
+
+  @Option(name = "--download")
+  private boolean download;
 
   @Inject
   GetPatch(GitRepositoryManager repoManager) {
@@ -85,6 +89,12 @@ public class GetPatch implements RestReadView<RevisionResource> {
             }
           }.setContentType("application/mbox")
            .base64();
+
+          if (download) {
+            bin.setAttachmentName(String.format(
+                "%s.diff.base64",
+                rw.getObjectReader().abbreviate(commit, 8).name()));
+          }
           close = false;
           return bin;
         } finally {

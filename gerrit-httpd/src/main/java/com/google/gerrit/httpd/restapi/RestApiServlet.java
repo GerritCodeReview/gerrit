@@ -695,6 +695,11 @@ public class RestApiServlet extends HttpServlet {
       BinaryResult bin) throws IOException {
     final BinaryResult appResult = bin;
     try {
+      if (bin.getAttachmentName() != null) {
+        res.setHeader(
+            "Content-Disposition",
+            "attachment; filename=\"" + bin.getAttachmentName() + "\"");
+      }
       if (bin.isBase64()) {
         bin = stackBase64(res, bin);
       }

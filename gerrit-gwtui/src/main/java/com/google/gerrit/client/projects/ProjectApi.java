@@ -15,8 +15,11 @@ package com.google.gerrit.client.projects;
 
 import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.rpc.CallbackGroup;
+import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
+import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -38,18 +41,17 @@ public class ProjectApi {
   }
 
   /** Create a new branch */
-  public static void createBranch(Project.NameKey projectName, String ref,
+  public static void createBranch(Project.NameKey name, String ref,
       String revision, AsyncCallback<BranchInfo> cb) {
     BranchInput input = BranchInput.create();
     input.setRevision(revision);
-    new RestApi("/projects/").id(projectName.get()).view("branches").id(ref)
-        .ifNoneMatch().put(input, cb);
+    project(name).view("branches").id(ref).ifNoneMatch().put(input, cb);
   }
 
   /** Retrieve all visible branches of the project */
-  public static void getBranches(Project.NameKey projectName,
+  public static void getBranches(Project.NameKey name,
       AsyncCallback<JsArray<BranchInfo>> cb) {
-    new RestApi("/projects/").id(projectName.get()).view("branches").get(cb);
+    project(name).view("branches").get(cb);
   }
 
   /**
@@ -59,11 +61,11 @@ public class ProjectApi {
    * callbacks' {@code onFailure} method is invoked. In a failure case it can be
    * that still some of the branches were successfully deleted.
    */
-  public static void deleteBranches(Project.NameKey projectName,
+  public static void deleteBranches(Project.NameKey name,
       Set<String> refs, AsyncCallback<VoidResult> cb) {
     CallbackGroup group = new CallbackGroup();
     for (String ref : refs) {
-      new RestApi("/projects/").id(projectName.get()).view("branches").id(ref)
+      project(name).view("branches").id(ref)
           .delete(group.add(cb));
       cb = CallbackGroup.emptyCallback();
     }
@@ -72,7 +74,61 @@ public class ProjectApi {
 
   public static void getConfig(Project.NameKey name,
       AsyncCallback<ConfigInfo> cb) {
-    new RestApi("/projects/").id(name.get()).view("config").get(cb);
+    project(name).view("config").get(cb);
+  }
+
+  public static void setConfig(Project.NameKey name, String description,
+      InheritableBoolean useContributorAgreements,
+      InheritableBoolean useContentMerge, InheritableBoolean useSignedOffBy,
+      InheritableBoolean requireChangeId, String maxObjectSizeLimit,
+      SubmitType submitType, Project.State state, AsyncCallback<ConfigInfo> cb) {
+    ConfigInput in = ConfigInput.create();
+    in.setDescription(description);
+    in.setUseContributorAgreements(useContributorAgreements);
+    in.setUseContentMerge(useContentMerge);
+    in.setUseSignedOffBy(useSignedOffBy);
+    in.setRequireChangeId(requireChangeId);
+    in.setMaxObjectSizeLimit(maxObjectSizeLimit);
+    in.setSubmitType(submitType);
+    in.setState(state);
+    project(name).view("config").put(in, cb);
+  }
+
+  public static void getParent(Project.NameKey name,
+      final AsyncCallback<Project.NameKey> cb) {
+    project(name).view("parent").get(
+        new AsyncCallback<NativeString>() {
+          @Override
+          public void onSuccess(NativeString result) {
+            cb.onSuccess(new Project.NameKey(result.asString()));
+          }
+
+          @Override
+          public void onFailure(Throwable caught) {
+            cb.onFailure(caught);
+          }
+        });
+  }
+
+  public static void getDescription(Project.NameKey name,
+      AsyncCallback<NativeString> cb) {
+    project(name).view("description").get(cb);
+  }
+
+  public static void setDescription(Project.NameKey name, String description,
+      AsyncCallback<NativeString> cb) {
+    RestApi call = project(name).view("description");
+    if (description != null && !description.isEmpty()) {
+      DescriptionInput input = DescriptionInput.create();
+      input.setDescription(description);
+      call.put(input, cb);
+    } else {
+      call.delete(cb);
+    }
+  }
+
+  private static RestApi project(Project.NameKey name) {
+    return new RestApi("/projects/").id(name.get());
   }
 
   private static class ProjectInput extends JavaScriptObject {
@@ -92,6 +148,57 @@ public class ProjectApi {
     final native void setCreateEmptyCommit(boolean cc) /*-{ if(cc)this.create_empty_commit=cc; }-*/;
   }
 
+  private static class ConfigInput extends JavaScriptObject {
+    static ConfigInput create() {
+      return (ConfigInput) createObject();
+    }
+
+    protected ConfigInput() {
+    }
+
+    final native void setDescription(String d)
+    /*-{ if(d)this.description=d; }-*/;
+
+    final void setUseContributorAgreements(InheritableBoolean v) {
+      setUseContributorAgreementsRaw(v.name());
+    }
+    private final native void setUseContributorAgreementsRaw(String v)
+    /*-{ if(v)this.use_contributor_agreements=v; }-*/;
+
+    final void setUseContentMerge(InheritableBoolean v) {
+      setUseContentMergeRaw(v.name());
+    }
+    private final native void setUseContentMergeRaw(String v)
+    /*-{ if(v)this.use_content_merge=v; }-*/;
+
+    final void setUseSignedOffBy(InheritableBoolean v) {
+      setUseSignedOffByRaw(v.name());
+    }
+    private final native void setUseSignedOffByRaw(String v)
+    /*-{ if(v)this.use_signed_off_by=v; }-*/;
+
+    final void setRequireChangeId(InheritableBoolean v) {
+      setRequireChangeIdRaw(v.name());
+    }
+    private final native void setRequireChangeIdRaw(String v)
+    /*-{ if(v)this.require_change_id=v; }-*/;
+
+    final native void setMaxObjectSizeLimit(String l)
+    /*-{ if(l)this.max_object_size_limit=l; }-*/;
+
+    final void setSubmitType(SubmitType t) {
+      setSubmitTypeRaw(t.name());
+    }
+    private final native void setSubmitTypeRaw(String t)
+    /*-{ if(t)this.submit_type=t; }-*/;
+
+    final void setState(Project.State s) {
+      setStateRaw(s.name());
+    }
+    private final native void setStateRaw(String s)
+    /*-{ if(s)this.state=s; }-*/;
+  }
+
   private static class BranchInput extends JavaScriptObject {
     static BranchInput create() {
       return (BranchInput) createObject();
@@ -101,5 +208,16 @@ public class ProjectApi {
     }
 
     final native void setRevision(String r) /*-{ if(r)this.revision=r; }-*/;
+  }
+
+  private static class DescriptionInput extends JavaScriptObject {
+    static DescriptionInput create() {
+      return (DescriptionInput) createObject();
+    }
+
+    protected DescriptionInput() {
+    }
+
+    final native void setDescription(String d) /*-{ if(d)this.description=d; }-*/;
   }
 }

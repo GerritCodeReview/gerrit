@@ -46,7 +46,6 @@ import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.client.ui.UserActivityMonitor;
-import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.changes.ListChangesOption;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -57,7 +56,6 @@ import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -72,10 +70,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
-import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
@@ -84,7 +80,6 @@ import com.google.gwtorm.client.KeyUtil;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
@@ -139,15 +134,14 @@ public class ChangeScreen2 extends Screen {
   @UiField Element actionDate;
 
   @UiField Actions actions;
-  @UiField Element revisionParent;
-  @UiField ListBox revisionList;
   @UiField Labels labels;
   @UiField CommitBox commit;
   @UiField RelatedChanges related;
   @UiField FileTable files;
   @UiField FlowPanel history;
 
-  @UiField Button download;
+  @UiField Button revisionPopdown;
+  @UiField Button downloadPopdown;
   @UiField Button reply;
   @UiField Button expandAll;
   @UiField Button collapseAll;
@@ -155,6 +149,7 @@ public class ChangeScreen2 extends Screen {
   @UiField QuickApprove quickApprove;
   private ReplyAction replyAction;
   private EditMessageAction editMessageAction;
+  private RevisionAction revisionAction;
   private DownloadAction downloadAction;
 
   public ChangeScreen2(Change.Id changeId, String revision, boolean openReplyBox) {
@@ -179,8 +174,10 @@ public class ChangeScreen2 extends Screen {
   void loadChangeInfo(boolean fg, AsyncCallback<ChangeInfo> cb) {
     RestApi call = ChangeApi.detail(changeId.get());
     ChangeList.addOptions(call, EnumSet.of(
-        ListChangesOption.ALL_REVISIONS,
-        ListChangesOption.CURRENT_ACTIONS));
+      ListChangesOption.CURRENT_ACTIONS,
+      fg && revision != null
+        ? ListChangesOption.ALL_REVISIONS
+        : ListChangesOption.CURRENT_REVISION));
     if (!fg) {
       call.background();
     }
@@ -247,12 +244,18 @@ public class ChangeScreen2 extends Screen {
     }
   }
 
+  private void renderRevisions(ChangeInfo info) {
+    revisionAction = new RevisionAction(
+        info.legacy_id(), revision,
+        style, headerLine, revisionPopdown);
+  }
+
   private void renderDownload(ChangeInfo info, String revision) {
     downloadAction = new DownloadAction(
         info.legacy_id(),
         info.project(),
         info.revision(revision),
-        style, headerLine, download);
+        style, headerLine, downloadPopdown);
   }
 
   private void initEditMessageAction(ChangeInfo info, String revision) {
@@ -336,19 +339,14 @@ public class ChangeScreen2 extends Screen {
     StarredChanges.toggleStar(changeId, e.getValue());
   }
 
-  @UiHandler("download")
+  @UiHandler("downloadPopdown")
   void onDownload(ClickEvent e) {
     downloadAction.show();
   }
 
-  @UiHandler("revisionList")
-  void onChangeRevision(ChangeEvent e) {
-    int idx = revisionList.getSelectedIndex();
-    if (0 <= idx) {
-      String n = revisionList.getValue(idx);
-      revisionList.setEnabled(false);
-      Gerrit.display(PageLinks.toChange2(changeId, n));
-    }
+  @UiHandler("revisionPopdown")
+  void onRevision(ClickEvent e) {
+    revisionAction.show();
   }
 
   @UiHandler("reply")
@@ -597,8 +595,8 @@ public class ChangeScreen2 extends Screen {
     renderOwner(info);
     renderReviewers(info);
     renderActionTextDate(info);
-    renderDownload(info, revision);
     renderRevisions(info);
+    renderDownload(info, revision);
     renderHistory(info);
     actions.display(info, revision);
 
@@ -658,35 +656,6 @@ public class ChangeScreen2 extends Screen {
     cc.remove(info.owner()._account_id());
     reviewersText.setInnerSafeHtml(labels.formatUserList(r.values()));
     ccText.setInnerSafeHtml(labels.formatUserList(cc.values()));
-  }
-
-  private void renderRevisions(ChangeInfo info) {
-    if (info.revisions().size() == 1) {
-      UIObject.setVisible(revisionParent, false);
-      return;
-    }
-
-    JsArray<RevisionInfo> list = info.revisions().values();
-    RevisionInfo.sortRevisionInfoByNumber(list);
-    if (Gerrit.isSignedIn()
-        && Gerrit.getUserAccount().getGeneralPreferences()
-            .isReversePatchSetOrder()) {
-      Collections.reverse(Natives.asList(list));
-    }
-
-    int selected = -1;
-    for (int i = 0; i < list.length(); i++) {
-      RevisionInfo r = list.get(i);
-      revisionList.addItem(
-          r._number() + ": " + r.name().substring(0, 6),
-          "" + r._number());
-      if (revision.equals(r.name())) {
-        selected = i;
-      }
-    }
-    if (0 <= selected) {
-      revisionList.setSelectedIndex(selected);
-    }
   }
 
   private void renderOwner(ChangeInfo info) {

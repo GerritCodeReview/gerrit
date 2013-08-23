@@ -256,14 +256,14 @@ limitations under the License.
         </g:Button>
       </div>
 
-      <div class='{style.popdown}'>
-        <div ui:field='revisionParent' style='display: inline-block;'>
-          <ui:msg>Revision <g:ListBox ui:field='revisionList'/></ui:msg>
-        </div>
+      <g:FlowPanel styleName='{style.popdown}'>
+        <g:Button ui:field='revisions' styleName=''>
+          <div><ui:msg>Revisions</ui:msg></div>
+        </g:Button>
         <g:Button ui:field='download' styleName=''>
           <div><ui:msg>Download</ui:msg></div>
         </g:Button>
-      </div>
+      </g:FlowPanel>
     </g:HTMLPanel>
 
     <table class='{style.headerTable}'>

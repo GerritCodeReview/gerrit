@@ -14,13 +14,24 @@
 
 package com.google.gerrit.client.change;
 
-interface Constants extends com.google.gwt.i18n.client.Constants {
-  String previousChange();
-  String nextChange();
-  String openChange();
-  String reviewedFileTitle();
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gwt.user.client.ui.UIObject;
+import com.google.gwt.user.client.ui.Widget;
 
-  String commit();
-  String date();
-  String author();
+class RevisionsAction extends RightSidePopdownAction {
+  private final RevisionsBox revisionBox;
+
+  RevisionsAction(
+      Change.Id changeId,
+      String revision,
+      ChangeScreen2.Style style,
+      UIObject relativeTo,
+      Widget downloadButton) {
+    super(style, relativeTo, downloadButton);
+    this.revisionBox = new RevisionsBox(changeId, revision);
+  }
+
+  Widget getWidget() {
+    return revisionBox;
+  }
 }

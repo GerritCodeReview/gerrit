@@ -59,6 +59,8 @@ public class Module extends RestApiModule {
     get(ACCOUNT_KIND, "avatar.change.url").to(GetAvatarChangeUrl.class);
     child(ACCOUNT_KIND, "capabilities").to(Capabilities.class);
     get(ACCOUNT_KIND, "groups").to(GetGroups.class);
+    get(ACCOUNT_KIND, "preferences").to(GetPreferences.class);
+    post(ACCOUNT_KIND, "preferences.diff").to(SetPreferences.class);
     get(ACCOUNT_KIND, "preferences.diff").to(GetDiffPreferences.class);
     put(ACCOUNT_KIND, "preferences.diff").to(SetDiffPreferences.class);
     get(CAPABILITY_KIND).to(GetCapabilities.CheckOne.class);

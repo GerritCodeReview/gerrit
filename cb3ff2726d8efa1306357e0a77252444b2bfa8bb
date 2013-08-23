@@ -109,6 +109,24 @@
     },
     {
       "key": {
+        "uuid": "cd4398e0_bd455f52",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-08-23T08:49:26Z",
+      "side": 1,
+      "message": "I accept my commit message is bad. I need improve my English level :)\n\nI expect the label to be per-branch basis. I think this of natural understanding. let me provide a case,  e.g.  a given NewLabel is configured with MaxWithBlock and is defined in the project.config of a high level parent project \u0027android\u0027, then apply this label on branch \u0027calendar\u0027.  \n\t[access \"refs/heads/calendar\"]\t \n            label-NewLabel \u003d -1..0 group developer\n\nhere the  NewLabel should be expected to only affect  the changes on \u0027calendar\u0027 of  \u0027android\u0027 and its son projects, \u0027edream-1\u0027, \u0027edream-2\u0027,...\n\nusers working on other branches, like \u0027video\u0027 ,\u0027redio\u0027 should not  be affected by this Label. (see it and be block by it).\n \nwe can find not all labels are needed in whole project scope.  label should not appear where it has not get configured access rights.    \n\nwe are in the progress of upgrading from 2.5 to 2.6, we want this feature in 2.6.2.",
+      "parentUuid": "ed469cef_9e409d43",
+      "revId": "cb3ff2726d8efa1306357e0a77252444b2bfa8bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6dc0ec68_da104563",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 9

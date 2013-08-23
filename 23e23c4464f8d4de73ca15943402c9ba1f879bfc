@@ -285,6 +285,30 @@
       "revId": "23e23c4464f8d4de73ca15943402c9ba1f879bfc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4dea48f0_712bb892",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Module.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-23T06:53:38Z",
+      "side": 1,
+      "message": "See commit message about how I don\u0027t want to document this yet because I\u0027m not sure about the contents. I\u0027d rather put this off a bit until we have a better idea about the fields.",
+      "parentUuid": "cd4398e0_5df9bbfd",
+      "range": {
+        "startLine": 62,
+        "startChar": 4,
+        "endLine": 63,
+        "endChar": 63
+      },
+      "revId": "23e23c4464f8d4de73ca15943402c9ba1f879bfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

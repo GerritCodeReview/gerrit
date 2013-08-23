@@ -131,6 +131,8 @@ class GerritConfigProvider implements Provider<GerritConfig> {
       config.setReportBugUrl(null);
     }
 
+    config.setGitBasicAuth(authConfig.isGitBasichAuth());
+
     final Set<Account.FieldName> fields = new HashSet<Account.FieldName>();
     for (final Account.FieldName n : Account.FieldName.values()) {
       if (realm.allowsEdit(n)) {

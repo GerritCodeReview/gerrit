@@ -29,6 +29,10 @@ import java.util.Set;
  * accounts.
  */
 public class AccountApi {
+  public static RestApi self() {
+    return new RestApi("/accounts/").view("self");
+  }
+
   /** Retrieve the username */
   public static void getUsername(String account, AsyncCallback<NativeString> cb) {
     new RestApi("/accounts/").id(account).view("username").get(cb);

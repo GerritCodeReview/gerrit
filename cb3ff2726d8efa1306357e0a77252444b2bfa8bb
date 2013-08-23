@@ -181,6 +181,24 @@
     },
     {
       "key": {
+        "uuid": "cd4398e0_1d3573e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-08-23T09:22:21Z",
+      "side": 1,
+      "message": "\u003ethere should be proper support for defining branch specific labels in project.config.\n\n\n\n Excuse me, do you mean to add some flag to project.config to mark a given label is branch level?\n\n \u003e  I thought there would be a possibility to define a custom label per branch, \n\u003ebut it\u0027s always for the complete project. But then I don\u0027t understand this change at all. \n\n  yes, currently the label is whole project scope by nature.\n if it is branch scope by nature, every thing will become simple.  \n\n\n\n\u003eIf I configure a custom label in project.config it is relevant for all branches and not only for those branches \n\u003ewhere access rights for this custom label have been assigned.\n\n by logic this case exists , however in real life, e.g.  in above case for \u0027video\u0027 ,\u0027redio\u0027  branches where NewLabel  has not been assigned. \nusers working on \u0027video\u0027 ,\u0027redio\u0027  branches will be block , stop there.  \nis this the meaning of relevant,  I do not think you want it.\nat least I cannot find the value if label\u0027s appearance is independent with his access right configuration.\nmaybe I am blind here.",
+      "parentUuid": "ed469cef_de5dc523",
+      "revId": "cb3ff2726d8efa1306357e0a77252444b2bfa8bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6dc0ec68_da104563",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 9

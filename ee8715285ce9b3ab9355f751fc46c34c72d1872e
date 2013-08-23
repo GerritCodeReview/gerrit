@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd4398e0_3d170f55",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1791,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-23T07:38:55Z",
+      "side": 1,
+      "message": "Does this parameter still exist?\n\nThere is now the \u0027index.type\u0027 parameter which needs to be set to either SQL, LUCENE or SOLR (default SQL). See getIndexType(...) method in IndexModule and its usages.",
+      "revId": "ee8715285ce9b3ab9355f751fc46c34c72d1872e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

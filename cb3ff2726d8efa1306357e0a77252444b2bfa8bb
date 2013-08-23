@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "ed469cef_3e170955",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-23T07:58:55Z",
+      "side": 1,
+      "message": "But this is indended, isn\u0027t it. If a NewLabel is configured with MaxWithBlock on a project then no change should be submittable that does not have the highest voting on this label. If nobody has access rights to vote on that label, well then the change cannot be submitted. I can\u0027t see anything wrong with this.\n\nIf you want to change this, then you should rather allow declaring custom labels in project.config on branch level, which would be a cool feature. But this should then rather be done in master.",
+      "revId": "cb3ff2726d8efa1306357e0a77252444b2bfa8bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6dc0ec68_da104563",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 9
@@ -31,6 +48,24 @@
       "side": 1,
       "message": "thanks reviewing! sorry, I am not sure I understand your question completely about \"What if there is a label for a branch but no permissions have been assigned for this label\"\n\nwill you please provide a case in a style like \n\n [access \"refs/heads/master\"]\n\tlabel-Verified \u003d -1..+1 group Administrators\n\nIf a label is just created and has not been applied to any branch, with this commit this label will not affect any branch.\nthus make the label to be really per-branch basis .",
       "parentUuid": "6dc0ec68_da104563",
+      "revId": "cb3ff2726d8efa1306357e0a77252444b2bfa8bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed469cef_1e1a4d7e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-23T07:58:55Z",
+      "side": 1,
+      "message": "Ok, I see that I had a wrong assumption of how customized labels can be configured in project.config, I thought there would be a possibility to define a custom label per branch, but it\u0027s always for the complete project. But then I don\u0027t understand this change at all. If I configure a custom label in project.config it is relevant for all branches and not only for those branches where access rights for this custom label have been assigned.",
+      "parentUuid": "0d4210dc_dfe4db5d",
       "revId": "cb3ff2726d8efa1306357e0a77252444b2bfa8bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

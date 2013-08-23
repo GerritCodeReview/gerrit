@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "ed469cef_9e409d43",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-23T08:37:50Z",
+      "side": 1,
+      "message": "But at the moment there is no possibility to define for a custom label that it should apply only to certain branches. This is a missing feature and should be implemented by supporting branch specific labels in project.config. Trying to add this functionality by interpreting a missing permission as \u0027this label is not relevant\u0027 looks like a weird hack to me.",
+      "parentUuid": "4dea48f0_5192f49e",
+      "revId": "cb3ff2726d8efa1306357e0a77252444b2bfa8bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6dc0ec68_da104563",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 9

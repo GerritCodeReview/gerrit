@@ -34,6 +34,24 @@
       "revId": "c34cf441e72f2f66edbf43bcf0659a5253d99bbc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4dea48f0_9145fc52",
+        "filename": "Documentation/pgm-reindex.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-23T06:49:46Z",
+      "side": 1,
+      "message": "Tabs are correct formatting here.",
+      "parentUuid": "8ddfe055_eb67b1e6",
+      "revId": "c34cf441e72f2f66edbf43bcf0659a5253d99bbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

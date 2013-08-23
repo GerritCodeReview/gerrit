@@ -16,6 +16,24 @@
       "revId": "cb3ff2726d8efa1306357e0a77252444b2bfa8bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d4210dc_dfe4db5d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-08-23T01:57:00Z",
+      "side": 1,
+      "message": "thanks reviewing! sorry, I am not sure I understand your question completely about \"What if there is a label for a branch but no permissions have been assigned for this label\"\n\nwill you please provide a case in a style like \n\n [access \"refs/heads/master\"]\n\tlabel-Verified \u003d -1..+1 group Administrators\n\nIf a label is just created and has not been applied to any branch, with this commit this label will not affect any branch.\nthus make the label to be really per-branch basis .",
+      "parentUuid": "6dc0ec68_da104563",
+      "revId": "cb3ff2726d8efa1306357e0a77252444b2bfa8bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

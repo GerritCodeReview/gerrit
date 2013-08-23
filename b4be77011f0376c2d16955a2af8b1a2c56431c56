@@ -16,6 +16,24 @@
       "revId": "b4be77011f0376c2d16955a2af8b1a2c56431c56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd4398e0_5d20dbb3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-23T07:07:51Z",
+      "side": 1,
+      "message": "Searching by Change-Id may return several changes since the Change-Id only needs to be unique for changes of the same branch. See also inline comment on patch set 2 [1].\n\n[1] https://gerrit-review.googlesource.com/#/c/47379/2/gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+      "parentUuid": "8d936069_0bba5d07",
+      "revId": "b4be77011f0376c2d16955a2af8b1a2c56431c56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -14,11 +14,16 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.hash.Hasher;
+import com.google.common.hash.Hashing;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestResource.HasETag;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.TypeLiteral;
 
 public class ChangeResource implements RestResource, HasETag {
@@ -45,8 +50,20 @@ public class ChangeResource implements RestResource, HasETag {
 
   @Override
   public String getETag() {
-    return String.format("%x-%x",
-        getChange().getLastUpdatedOn().getTime(),
-        getChange().getRowVersion());
+    CurrentUser user = control.getCurrentUser();
+    Hasher h = Hashing.md5().newHasher()
+      .putLong(getChange().getLastUpdatedOn().getTime())
+      .putInt(getChange().getRowVersion())
+      .putInt(user instanceof IdentifiedUser
+          ? ((IdentifiedUser) user).getAccountId().get()
+          : 0);
+
+    byte[] buf = new byte[20];
+    for (ProjectState p : control.getProjectControl().getProjectState().tree()) {
+      p.getConfig().getRevision().copyRawTo(buf, 0);
+      h.putBytes(buf);
+    }
+
+    return h.hash().toString();
   }
 }

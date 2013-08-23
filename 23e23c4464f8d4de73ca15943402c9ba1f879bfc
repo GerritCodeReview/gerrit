@@ -381,6 +381,24 @@
       "revId": "23e23c4464f8d4de73ca15943402c9ba1f879bfc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd4398e0_1d1a537e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Module.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-23T07:27:34Z",
+      "side": 1,
+      "message": "Works for me:\n  http://code.google.com/p/gerrit/issues/detail?id\u003d2084",
+      "parentUuid": "4dea48f0_313530e8",
+      "revId": "23e23c4464f8d4de73ca15943402c9ba1f879bfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

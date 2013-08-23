@@ -235,6 +235,24 @@
     },
     {
       "key": {
+        "uuid": "cd4398e0_1d4c9371",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-08-23T10:53:59Z",
+      "side": 1,
+      "message": "\u003eFor me defining a label and having permissions to vote    \n \u003eon it are two different things. If nobody has permissions to    \n \u003evote on the Code-Review label it doesn\u0027t mean that a   \n \u003echange can now be submitted without voting on this label.\n\n yes and by default in All-project we have  \u0027refs/heads/*\u0027 \n to apply Label Code-Review.\n\n \u003eIf I would like to enforce an IP review for all changes in    \n \u003emy company I could add a custom label \u0027IP Review\u0027 on the   \n \u003eroot project and disallow overwriting it in child projects. \n\n I accept if the Label is per-branch basis , for users like you   \n in this case you have to add \u0027access\u0027 section in \n project.config of root project.\n\n  let\u0027s see SOMC case where  we have more than one IP \n  reviewer with different checking logic for different \n  branches on different projects.  some of them use \u0027\u0027Verify\u0027, some use customized Label.\n  we define their scope  by \u0027access\u0027 section.\n\n  \n \u003eIf to follow your logic as a project owner of a child       \n \u003eproject I could simply remove permissions to vote on         \n \u003ethe \u0027IP Review\u0027 label and suddenly it doesn\u0027t apply anymore, but my intension was to enforce it for all changes.\n\n\n  hmm, I can find out case that some special project owner\n  have the power to override the label definition in \n  project.config of the child project, so I do not think you   \n  can always depend on the project scope label to guarantee \u0027 enforce it for all changes\u0027. so I do think this reason is enough to vote -1 to this commit. :)\n  but I can understand your concern here. \n  \n    \n \u003e If the intention is to enforce the \u0027IP Review\u0027 label only     \n \u003e for certain branches, e.g. \u0027refs/heads/rel/*\u0027 then I\n \u003e should be able to define this with the label definition in         \n \u003eproject.config.\n \u003e I haven\u0027t thought yet about how exactly  \n \u003ethe syntax for branch specific labels in project.config   \n \u003eshould be. \n\n  we are facing the case like I described above.  some \n customized label only have meaning for some special  \n branches. \n  we want the label only affect these special branches,\n but now the label appear on all changes UI and changes \n dashboards UI. it is annoyed and if this label is \n configured with MaxWithBlock it will block those innocent  \n changes and users.",
+      "parentUuid": "ed469cef_1e4c8d71",
+      "revId": "cb3ff2726d8efa1306357e0a77252444b2bfa8bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6dc0ec68_da104563",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 9

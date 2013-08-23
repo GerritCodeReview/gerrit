@@ -1,0 +1,40 @@
+reindex
+=======
+
+NAME
+----
+reindex - Rebuild the secondary index
+
+SYNOPSIS
+--------
+[verse]
+'java' -jar gerrit.war 'reindex' [<OPTIONS>]
+
+DESCRIPTION
+-----------
+Rebuilds the secondary index.
+
+OPTIONS
+-------
+--threads::
+	Number of threads to use for indexing.
+
+--schema-version::
+	Schema version to reindex; default is most recent version.
+
+--output::
+	Prefix for output; path for local disk index, or prefix for remote index.
+
+--verbose::
+	Output debug information for each change.
+
+--dry-run::
+	Dry run.  Don't write anything to index.
+
+CONTEXT
+-------
+The secondary index must be enabled.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

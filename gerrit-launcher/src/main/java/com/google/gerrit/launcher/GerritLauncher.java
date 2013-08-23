@@ -299,7 +299,7 @@ public final class GerritLauncher {
     return name;
   }
 
-  private static File myArchive;
+  private volatile static File myArchive;
 
   /**
    * Locate the JAR/WAR file we were launched from.

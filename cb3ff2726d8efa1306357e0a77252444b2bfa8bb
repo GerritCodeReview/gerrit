@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "cd4398e0_dd362bfa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-23T08:17:49Z",
+      "side": 1,
+      "message": "But these are access rights that decide who can vote on the label. Removing the access rights for a label doesn\u0027t mean that the label doesn\u0027t apply anymore, does it???",
+      "parentUuid": "4dea48f0_11490c62",
+      "revId": "cb3ff2726d8efa1306357e0a77252444b2bfa8bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6dc0ec68_da104563",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 9

@@ -253,6 +253,24 @@
     },
     {
       "key": {
+        "uuid": "ed469cef_de80654e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-23T11:10:57Z",
+      "side": 1,
+      "message": "\u003e so I do not think you can always depend on the project scope\n  \u003e label to guarantee \u0027 enforce it for all changes\u0027\n  I can by marking the label as not overrideable, see\n  https://gerrit-review.googlesource.com/Documentation/config-labels.html#label_canOverride\n\n  \u003e we are facing the case like I described above.  some\n  \u003e customized label only have meaning for some special\n  \u003e branches.\n  I already said that I agree to this use case and it would be very\n  valuable to be to able to define custom labels on branch level, however\n  I disagree with your implementation to solve this.",
+      "parentUuid": "cd4398e0_1d4c9371",
+      "revId": "cb3ff2726d8efa1306357e0a77252444b2bfa8bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6dc0ec68_da104563",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 9

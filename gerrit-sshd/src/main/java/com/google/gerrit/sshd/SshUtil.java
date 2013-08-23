@@ -79,7 +79,7 @@ public class SshUtil {
       final StringBuilder strBuf = new StringBuilder();
       final BufferedReader br = new BufferedReader(new StringReader(keyStr));
       String line = br.readLine(); // BEGIN SSH2 line...
-      if (!line.equals("---- BEGIN SSH2 PUBLIC KEY ----")) {
+      if (line == null || !line.equals("---- BEGIN SSH2 PUBLIC KEY ----")) {
         return keyStr;
       }
 

@@ -1783,6 +1783,17 @@ If not absolute, the path is resolved relative to `$site_path`.
 If the file doesn't exist or can't be read the default robots.txt file
 bundled with the .war will be used instead.
 
+[[index]]Section index
+~~~~~~~~~~~~~~~~~~~~~~
+
+The index section configures the secondary index.
+
+[[index.enabled]]index.enabled::
++
+Controls whether or not the secondary index is enabled.
++
+By default, false.
+
 [[ldap]]Section ldap
 ~~~~~~~~~~~~~~~~~~~~
 

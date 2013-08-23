@@ -345,6 +345,24 @@
       "revId": "23e23c4464f8d4de73ca15943402c9ba1f879bfc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd4398e0_9d050324",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Module.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-23T07:00:05Z",
+      "side": 1,
+      "message": "Can\u0027t be wrong to have an issue to remind about this.",
+      "parentUuid": "8ddfe055_2bd13940",
+      "revId": "23e23c4464f8d4de73ca15943402c9ba1f879bfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

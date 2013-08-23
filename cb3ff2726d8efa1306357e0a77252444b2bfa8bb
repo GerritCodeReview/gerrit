@@ -199,6 +199,24 @@
     },
     {
       "key": {
+        "uuid": "ed469cef_5e521510",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-08-23T09:43:47Z",
+      "side": 1,
+      "message": "if Label is per-branch basis by nature, \n we need not do any update on project.config\nto mark a give label to be branch specific. \n we can apply it to any branches including all branches\n(project scope) via defining \u0027access\u0027 section in\nproject.config just like we do before.  \n\n the only point here I think is label\u0027s appearance should be according to the\n \u0027access\u0027 section related to this label, the branches scope. \n\n will you please think it again. \n will you please let me know the places if  I am blind here.  \n really appreciate your cores reviewing and discussing on this commit. \n I dislike being lonely:)\n Thanks again!",
+      "parentUuid": "cd4398e0_1d3573e7",
+      "revId": "cb3ff2726d8efa1306357e0a77252444b2bfa8bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6dc0ec68_da104563",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 9

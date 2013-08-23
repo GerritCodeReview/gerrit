@@ -33,7 +33,8 @@ OPTIONS
 
 CONTEXT
 -------
-The secondary index must be enabled.
+The secondary index must be enabled. See
+link:config-gerrit.html#index.type[index.type].
 
 GERRIT
 ------

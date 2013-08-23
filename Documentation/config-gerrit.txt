@@ -1783,6 +1783,32 @@ If not absolute, the path is resolved relative to `$site_path`.
 If the file doesn't exist or can't be read the default robots.txt file
 bundled with the .war will be used instead.
 
+[[index]]Section index
+~~~~~~~~~~~~~~~~~~~~~~
+
+The index section configures the secondary index.
+
+[[index.type]]index.type::
++
+Type of secondary indexing employed by Gerrit.  The supported
+values are:
++
+* `LUCENE`
++
+A link:http://lucene.apache.org/[Lucene] index is used.
++
+* `SOLR`
++
+A link:http://lucene.apache.org/solr/[Solr] index is used.
++
+* `SQL`
++
+No secondary index.  Not all query operators are supported.  Other
+query operators are routed through the standard SQL query engine.
+
++
+By default, `SQL`.
+
 [[ldap]]Section ldap
 ~~~~~~~~~~~~~~~~~~~~
 

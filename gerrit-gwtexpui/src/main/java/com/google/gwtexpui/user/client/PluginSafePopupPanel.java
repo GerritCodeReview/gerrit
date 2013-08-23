@@ -43,19 +43,19 @@ public class PluginSafePopupPanel extends PopupPanel {
 
   @Override
   public void setVisible(final boolean show) {
-    UserAgent.fireDialogVisible(show);
+    UserAgent.fireDialogVisible(this, show);
     super.setVisible(show);
   }
 
   @Override
   public void show() {
-    UserAgent.fireDialogVisible(true);
+    UserAgent.fireDialogVisible(this, true);
     super.show();
   }
 
   @Override
   public void hide(final boolean autoClosed) {
-    UserAgent.fireDialogVisible(false);
+    UserAgent.fireDialogVisible(this, false);
     super.hide(autoClosed);
   }
 }

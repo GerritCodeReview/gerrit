@@ -96,7 +96,7 @@ public class Section {
       final boolean nullIfDefault) {
     final String ov = get(name);
     String nv = ui.readString(ov != null ? ov : dv, "%s", title);
-    if (nullIfDefault && nv == dv) {
+    if (nullIfDefault && nv.equals(dv)) {
       nv = null;
     }
     if (!eq(ov, nv)) {

@@ -108,7 +108,7 @@ public abstract class Screen extends View {
       headerText.setText(text);
       header.setVisible(true);
     }
-    if (windowTitle == null || windowTitle == old) {
+    if (windowTitle == null || windowTitle.equals(old)) {
       setWindowTitle(text);
     }
   }

@@ -306,7 +306,7 @@ public class PublishCommentScreen extends AccountScreen implements
 
       if (lastState != null && patchSetId.equals(lastState.patchSetId)
           && lastState.approvals.containsKey(label.name())) {
-        b.setValue(lastState.approvals.get(label.name()) == value);
+        b.setValue(lastState.approvals.get(label.name()).equals(value));
       } else {
         b.setValue(b.parseValue() == (prior != null ? prior : 0));
       }

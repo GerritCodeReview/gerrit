@@ -133,7 +133,7 @@ public class PatchSetSelectBox extends Composite {
 
     if (idActive == null && side == Side.A) {
       links.get(0).setStyleName(style.selected());
-    } else {
+    } else if (idActive != null) {
       links.get(idActive.get()).setStyleName(style.selected());
     }
 

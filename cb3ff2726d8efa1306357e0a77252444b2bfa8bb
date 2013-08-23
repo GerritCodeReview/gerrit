@@ -145,6 +145,24 @@
     },
     {
       "key": {
+        "uuid": "8ddfe055_0ba55de0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-23T08:56:38Z",
+      "side": 1,
+      "message": "Which would be a new feature, and unfortunately means we can\u0027t get it in 2.6.x :(",
+      "parentUuid": "cd4398e0_5d2bfb91",
+      "revId": "cb3ff2726d8efa1306357e0a77252444b2bfa8bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6dc0ec68_da104563",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 9

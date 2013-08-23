@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ed469cef_5ef9b5fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-23T06:20:52Z",
+      "side": 1,
+      "message": "I agree, as site admin i want always to be sure, that header and footer are shown.",
+      "parentUuid": "8ddfe055_2b76d994",
+      "revId": "23e23c4464f8d4de73ca15943402c9ba1f879bfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4dea48f0_712058b4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetPreferences.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-08-23T05:53:52Z",
       "side": 1,
       "message": "I have always hated this name, but its been with us forever.",
+      "revId": "23e23c4464f8d4de73ca15943402c9ba1f879bfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed469cef_bef3191f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-23T06:20:52Z",
+      "side": 1,
+      "message": "With last gwtorm changes we can always rename a column.",
+      "parentUuid": "4dea48f0_712058b4",
       "revId": "23e23c4464f8d4de73ca15943402c9ba1f879bfc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

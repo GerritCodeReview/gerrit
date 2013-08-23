@@ -163,6 +163,24 @@
     },
     {
       "key": {
+        "uuid": "ed469cef_de5dc523",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-23T09:00:23Z",
+      "side": 1,
+      "message": "Yes, but you could cherry-pick it and make your own 2.6.x build ;-)",
+      "parentUuid": "8ddfe055_0ba55de0",
+      "revId": "cb3ff2726d8efa1306357e0a77252444b2bfa8bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6dc0ec68_da104563",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 9

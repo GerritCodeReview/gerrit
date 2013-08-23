@@ -127,6 +127,24 @@
     },
     {
       "key": {
+        "uuid": "cd4398e0_5d2bfb91",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-23T08:53:40Z",
+      "side": 1,
+      "message": "I agree that having a possibility to define a custom label on branch level is a very valuable feature, but as I said I think there should be proper support for defining branch specific labels in project.config.",
+      "parentUuid": "cd4398e0_bd455f52",
+      "revId": "cb3ff2726d8efa1306357e0a77252444b2bfa8bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6dc0ec68_da104563",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 9

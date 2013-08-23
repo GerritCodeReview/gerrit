@@ -79,7 +79,7 @@ class LoginForm extends HttpServlet {
         "openid", "maxRedirectUrlLength",
         10);
 
-    if (Strings.isNullOrEmpty(urlProvider.get())) {
+    if (urlProvider == null || Strings.isNullOrEmpty(urlProvider.get())) {
       log.error("gerrit.canonicalWebUrl must be set in gerrit.config");
     }
 
@@ -229,7 +229,7 @@ class LoginForm extends HttpServlet {
   private void sendForm(HttpServletRequest req, HttpServletResponse res,
       boolean link, @Nullable String errorMessage) throws IOException {
     String self = req.getRequestURI();
-    String cancel = Objects.firstNonNull(urlProvider.get(), "/");
+    String cancel = Objects.firstNonNull(urlProvider != null ? urlProvider.get() : "/", "/");
     String token = getToken(req);
     if (!token.equals("/")) {
       cancel += "#" + token;

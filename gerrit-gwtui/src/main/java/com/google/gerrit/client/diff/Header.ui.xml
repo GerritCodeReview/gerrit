@@ -33,6 +33,7 @@ limitations under the License.
     position: absolute;
     top: 0;
     right: 15px;
+    font-family: Arial Unicode MS, sans-serif;
   }
   </ui:style>
   <g:HTMLPanel styleName='{style.header}'>

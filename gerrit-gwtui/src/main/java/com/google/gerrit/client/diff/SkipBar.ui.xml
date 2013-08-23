@@ -36,6 +36,9 @@ limitations under the License.
     .noExpand .arrow {
       display: none;
     }
+    .arrow {
+      font-family: Arial Unicode MS, sans-serif;
+    }
   </ui:style>
   <g:HTMLPanel addStyleNames='{style.skipBar}'>
   <div class='{style.text}'>

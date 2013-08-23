@@ -83,6 +83,15 @@ public class CommentRange {
   }
 
   @Override
+  public int hashCode() {
+    int h = startLine;
+    h = h * 31 + startCharacter;
+    h = h * 31 + endLine;
+    h = h * 31 + endCharacter;
+    return h;
+  }
+
+  @Override
   public String toString() {
     return "Range[startLine=" + startLine + ", startCharacter=" + startCharacter
         + ", endLine=" + endLine + ", endCharacter=" + endCharacter + "]";

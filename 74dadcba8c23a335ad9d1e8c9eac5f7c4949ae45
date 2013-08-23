@@ -16,6 +16,24 @@
       "revId": "74dadcba8c23a335ad9d1e8c9eac5f7c4949ae45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4dea48f0_91661ce8",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-23T09:53:01Z",
+      "side": 1,
+      "message": "Good catch.  Done.",
+      "parentUuid": "ed469cef_7e4fd168",
+      "revId": "74dadcba8c23a335ad9d1e8c9eac5f7c4949ae45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

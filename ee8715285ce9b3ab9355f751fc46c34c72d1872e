@@ -16,6 +16,24 @@
       "revId": "ee8715285ce9b3ab9355f751fc46c34c72d1872e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4dea48f0_915cdc24",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1791,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-23T07:45:38Z",
+      "side": 1,
+      "message": "Ah.  Yes, you\u0027re right.\n\nI did this based on the commit message from Dave B\u0027s original commit, rather than looking at the current implementation.",
+      "parentUuid": "cd4398e0_3d170f55",
+      "revId": "ee8715285ce9b3ab9355f751fc46c34c72d1872e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

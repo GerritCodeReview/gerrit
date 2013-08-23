@@ -811,23 +811,25 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         }
       }
 
-      final int exitValue = result.getExitValue();
-      if (exitValue == 0) {
-        log.debug("hook[" + getName() + "] exitValue:" + exitValue);
-      } else {
-        log.info("hook[" + getName() + "] exitValue:" + exitValue);
-      }
-
-      BufferedReader br =
-          new BufferedReader(new StringReader(result.getOutput()));
-      try {
-        String line;
-        while ((line = br.readLine()) != null) {
-          log.info("hook[" + getName() + "] output: " + line);
+      if (result != null) {
+        final int exitValue = result.getExitValue();
+        if (exitValue == 0) {
+          log.debug("hook[" + getName() + "] exitValue:" + exitValue);
+        } else {
+          log.info("hook[" + getName() + "] exitValue:" + exitValue);
         }
-      }
-      catch(IOException  iox) {
-        log.error("Error writing hook output", iox);
+
+        BufferedReader br =
+            new BufferedReader(new StringReader(result.getOutput()));
+        try {
+          String line;
+          while ((line = br.readLine()) != null) {
+            log.info("hook[" + getName() + "] output: " + line);
+          }
+        }
+        catch(IOException  iox) {
+          log.error("Error writing hook output", iox);
+        }
       }
 
       return result;
@@ -873,7 +875,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
     }
   }
 
-  /** Runable type used to run async hooks */
+  /** Runnable type used to run asynchronous hooks */
   private final class AsyncHookTask extends HookTask implements Runnable {
 
     private AsyncHookTask(Project.NameKey project, File hook, List<String> args) {

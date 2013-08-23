@@ -327,6 +327,24 @@
       "revId": "23e23c4464f8d4de73ca15943402c9ba1f879bfc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ddfe055_2bd13940",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Module.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-23T06:58:03Z",
+      "side": 1,
+      "message": "Is it worth putting a item in the tracker to make sure this doesn\u0027t get forgotten?",
+      "parentUuid": "ed469cef_9e05fd23",
+      "revId": "23e23c4464f8d4de73ca15943402c9ba1f879bfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

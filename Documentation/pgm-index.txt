@@ -23,6 +23,9 @@ link:pgm-gsql.html[gsql]::
 link:pgm-prolog-shell.html[prolog-shell]::
 	Simple interactive Prolog interpreter.
 
+link:pgm-reindex.html[reindex]::
+	Rebuild the secondary index.
+
 link:pgm-rulec.html[rulec]::
 	Compile project-specific Prolog rules to JARs.
 

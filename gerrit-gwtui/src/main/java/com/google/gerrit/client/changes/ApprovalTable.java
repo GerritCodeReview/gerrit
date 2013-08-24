@@ -254,8 +254,8 @@ public class ApprovalTable extends Composite {
     }
   }
 
-  private static class PostInput extends JavaScriptObject {
-    static PostInput create(String reviewer, boolean confirmed) {
+  public static class PostInput extends JavaScriptObject {
+    public static PostInput create(String reviewer, boolean confirmed) {
       PostInput input = createObject().cast();
       input.init(reviewer, confirmed);
       return input;
@@ -272,7 +272,7 @@ public class ApprovalTable extends Composite {
     }
   }
 
-  private static class ReviewerInfo extends AccountInfo {
+  public static class ReviewerInfo extends AccountInfo {
     final Set<String> approvals() {
       return Natives.keys(_approvals());
     }
@@ -283,10 +283,10 @@ public class ApprovalTable extends Composite {
     }
   }
 
-  private static class PostResult extends JavaScriptObject {
-    final native JsArray<ReviewerInfo> reviewers() /*-{ return this.reviewers; }-*/;
-    final native boolean confirm() /*-{ return this.confirm || false; }-*/;
-    final native String error() /*-{ return this.error; }-*/;
+  public static class PostResult extends JavaScriptObject {
+    public final native JsArray<ReviewerInfo> reviewers() /*-{ return this.reviewers; }-*/;
+    public final native boolean confirm() /*-{ return this.confirm || false; }-*/;
+    public final native String error() /*-{ return this.error; }-*/;
 
     protected PostResult() {
     }

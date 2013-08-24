@@ -281,7 +281,9 @@ limitations under the License.
             </tr>
             <tr>
               <th><ui:msg>CC</ui:msg></th>
-              <td ui:field='ccText'/>
+              <td>
+                <c:Reviewers ui:field='reviewers'/>
+              </td>
             </tr>
             <tr>
               <th><ui:msg>Project</ui:msg></th>

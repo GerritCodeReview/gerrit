@@ -51,7 +51,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class SuggestReviewers implements RestReadView<ChangeResource> {
+class SuggestReviewers implements RestReadView<ChangeResource> {
 
   private static final String MAX_SUFFIX = "\u9fa5";
 
@@ -275,7 +275,7 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
     AccountInfo account;
     String group;
 
-    public SuggestReviewerInfo(AccountInfo a, String g) {
+    SuggestReviewerInfo(AccountInfo a, String g) {
       this.account = a;
       this.group = g;
     }

@@ -86,6 +86,12 @@ public class ChangeApi {
     return change(id).view("reviewers");
   }
 
+  public static RestApi suggestReviewers(int id, String q, int n) {
+    return change(id).view("suggest_reviewers")
+        .addParameter("q", q)
+        .addParameter("n", n);
+  }
+
   public static RestApi reviewer(int id, int reviewer) {
     return change(id).view("reviewers").id(reviewer);
   }

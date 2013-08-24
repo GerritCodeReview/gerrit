@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad290421_d436fcf9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-24T15:31:48Z",
+      "side": 1,
+      "message": "This is not how I imagined it. I think it should be defined directly in project.config to which branches a label applies.",
+      "revId": "f6c907237d799a1836a2b504fa6688001dabc880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

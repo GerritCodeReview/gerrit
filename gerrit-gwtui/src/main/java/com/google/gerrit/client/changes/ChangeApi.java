@@ -18,7 +18,9 @@ import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwtorm.client.KeyUtil;
 
 /**
  * A collection of static methods which work on the Gerrit REST API for specific
@@ -84,6 +86,12 @@ public class ChangeApi {
 
   public static RestApi reviewers(int id) {
     return change(id).view("reviewers");
+  }
+
+  public static RestApi suggestReviewers(int id, String q, int l) {
+    return change(id).view("suggest_reviewers")
+        .addParameter("q", KeyUtil.encode(q))
+        .addParameter("limit", l);
   }
 
   public static RestApi reviewer(int id, int reviewer) {

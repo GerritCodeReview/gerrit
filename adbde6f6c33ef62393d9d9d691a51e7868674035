@@ -172,6 +172,23 @@
     },
     {
       "key": {
+        "uuid": "6d81cc4b_f210e862",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RevisionAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-24T13:32:28Z",
+      "side": 1,
+      "message": "RevisionsAction.java?",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad290421_54f98cfd",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RevisionAction.java",
         "patchSetId": 1
@@ -183,6 +200,40 @@
       "writtenOn": "2013-08-24T12:32:39Z",
       "side": 1,
       "message": "That\u0027s cool, to reuse the logic from RightSidePopdownAction here and in DownloadAction. May be we could do the same for ReplyBox and EditMessageBox, i. e. LeftSidePopdownAction?",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d81cc4b_9205dc23",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RevisionBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-24T13:32:28Z",
+      "side": 1,
+      "message": "RevisionsBox.java?",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d81cc4b_d20b6438",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RevisionBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-24T13:32:28Z",
+      "side": 1,
+      "message": "Missing here? O remove the field in ui.xml\n\n @UiField ScrollPanel scroll;",
       "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -206,6 +257,40 @@
     },
     {
       "key": {
+        "uuid": "ad290421_b40a6031",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RevisionBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-24T13:32:28Z",
+      "side": 1,
+      "message": "Why? I would rather preserve the whole name, especially if it is \"David\" ,-) And i do often collaborate with David P. So, nobody would know which David is actually meant. We really do have enough place. /me for example have 30\" display.\n\nAlternatively make it configurable, i have an suggestion how to call the preference option:\n\n showUnshortenNameInRevisionsList",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d81cc4b_b20a6031",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RevisionBox.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-24T13:32:28Z",
+      "side": 1,
+      "message": "RevisionsBox.ui.xml?",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad290421_b4f3401f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RevisionBox.ui.xml",
         "patchSetId": 1
@@ -217,6 +302,23 @@
       "writtenOn": "2013-08-24T12:32:39Z",
       "side": 1,
       "message": "Untabify, here and below.",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad290421_5420acb3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RevisionBox.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-24T13:32:28Z",
+      "side": 1,
+      "message": "You didn\u0027t create an instance var for this in RevisionBox.java. Either remove ui:field\u003d\u0027scroll\u0027 here or add in RevisionBox.java:\n\n   @UiField ScrollPanel scroll;",
       "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

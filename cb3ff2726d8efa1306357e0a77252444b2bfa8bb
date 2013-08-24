@@ -271,6 +271,24 @@
     },
     {
       "key": {
+        "uuid": "cd2c7830_15031424",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-08-24T15:07:40Z",
+      "side": 1,
+      "message": "a new patchset is ready for review now.  \n hope it would be very valuable :)\n \n https://gerrit-review.googlesource.com/#/c/48071/",
+      "parentUuid": "ed469cef_de80654e",
+      "revId": "cb3ff2726d8efa1306357e0a77252444b2bfa8bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6dc0ec68_da104563",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 9

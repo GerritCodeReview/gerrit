@@ -16,6 +16,24 @@
       "revId": "d8cbdde5b2bf2b40913d58d646f30bd58fed41aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad290421_141a347e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-24T13:43:32Z",
+      "side": 1,
+      "message": "If we don\u0027t want arrow, then at least \"...\" suffix should be appended to \"Edit message\", to be consistent with the \"Reply...\" label.",
+      "parentUuid": "6d81cc4b_12032c24",
+      "revId": "d8cbdde5b2bf2b40913d58d646f30bd58fed41aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

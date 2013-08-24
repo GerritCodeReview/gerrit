@@ -100,7 +100,7 @@ review.  See link:user-upload.html#push_create[Creating Changes].
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 link:cmd-create-account.html[gerrit create-account]::
-	Create a new batch/role account.
+	Create a new user account.
 
 link:cmd-set-account.html[gerrit set-account]::
 	Change an account's settings.

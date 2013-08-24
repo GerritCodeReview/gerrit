@@ -123,7 +123,7 @@ class Labels extends Grid {
         html.setStyleName(style.label_reject());
       }
       html.append(val).append(" ");
-      html.append(formatUserList(m.get(v)));
+      html.append(formatUserList(style, m.get(v)));
       html.closeSpan();
     }
     return html.toBlockWidget();
@@ -167,7 +167,8 @@ class Labels extends Grid {
     }
   }
 
-  SafeHtml formatUserList(Collection<? extends AccountInfo> in) {
+  static SafeHtml formatUserList(ChangeScreen2.Style style,
+      Collection<? extends AccountInfo> in) {
     List<AccountInfo> users = new ArrayList<AccountInfo>(in);
     Collections.sort(users, new Comparator<AccountInfo>() {
       @Override

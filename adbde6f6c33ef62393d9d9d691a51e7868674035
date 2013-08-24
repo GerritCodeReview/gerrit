@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d86c866_d1e4c45d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-24T12:32:39Z",
+      "side": 1,
+      "message": "revisionsPopdown?",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad290421_d40b5c38",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-24T12:32:39Z",
+      "side": 1,
+      "message": "Let\u0027s be consistent how we call the buttons that open popdowns: with or without \"Popdown\" suffix.",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d81cc4b_72f6380f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-24T12:32:39Z",
+      "side": 1,
+      "message": "replyPopdown?",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd2c7830_f5e9b834",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-24T12:32:39Z",
+      "side": 1,
+      "message": "editMessagePopdown?",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd2c7830_95ee443a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-24T12:32:39Z",
+      "side": 1,
+      "message": "revisionsAction?",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad290421_74f6080f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-24T12:32:39Z",
+      "side": 1,
+      "message": "Let\u0027s be consistent how we name the init actions functions: initRevisionAction()?",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad290421_14031424",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-24T12:32:39Z",
+      "side": 1,
+      "message": "Let\u0027s be consistent in all initFooAction/renderFoo methods: either we rely that this.changeInfo \u0026 this.revision are initialized or we don\u0027t. So either pass both here or remove them in the whole class, like on the line: 261 and other methods.",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad290421_34009014",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-24T12:32:39Z",
+      "side": 1,
+      "message": "We (optionally) already fetched ListChangesOption.ALL_REVISIONS on line 179 above. Pass it to the revisionsBox, so we don\u0027t need to fetch it there again?.",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d81cc4b_b2f3401f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-24T12:32:39Z",
+      "side": 1,
+      "message": "Inconsistent too: renderFoo or InitFooAction(), like on line 261?",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad290421_f410d862",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-24T12:32:39Z",
+      "side": 1,
+      "message": "ui:field\u003d\u0027revisionsPopdown\u0027? In all other places we call the field exact like the ui:msg.",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad290421_54f98cfd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RevisionAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-24T12:32:39Z",
+      "side": 1,
+      "message": "That\u0027s cool, to reuse the logic from RightSidePopdownAction here and in DownloadAction. May be we could do the same for ReplyBox and EditMessageBox, i. e. LeftSidePopdownAction?",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d81cc4b_92ee3c3a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RevisionBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-24T12:32:39Z",
+      "side": 1,
+      "message": "We fetch here ALL_REVISIONS second time. First time in ChangeScreen2. Why? If we need it in ChangeScreen2, then we could pass it here and not to fetch it here second time. Otherwise only fetch it here?",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad290421_b4f3401f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RevisionBox.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-24T12:32:39Z",
+      "side": 1,
+      "message": "Untabify, here and below.",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

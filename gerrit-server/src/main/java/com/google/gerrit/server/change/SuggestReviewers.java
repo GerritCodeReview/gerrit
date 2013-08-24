@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -33,9 +32,9 @@ import com.google.gerrit.server.account.AccountVisibility;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -51,9 +50,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class SuggestReviewers implements RestReadView<ChangeResource> {
+class SuggestReviewers implements RestReadView<ChangeResource> {
 
   private static final String MAX_SUFFIX = "\u9fa5";
+  private static final int MAX = 10;
 
   private final AccountInfo.Loader.Factory accountLoaderFactory;
   private final GroupMembers.Factory groupMembersFactory;
@@ -65,14 +65,16 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
   private final GroupBackend groupBackend;
   private final boolean suggestAccounts;
 
-  @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT", usage = "maximum number of reviewers to list")
-  public void setLimit(int limit) {
-    this.limit = limit;
+  @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT",
+      usage = "maximum number of reviewers to list")
+  public void setLimit(int l) {
+    this.limit = l <= 0 ? MAX : Math.min(l, MAX);
   }
 
-  @Option(name = "--query", aliases = {"-q"}, metaVar = "QUERY", usage = "match reviewers query")
+  @Option(name = "--query", aliases = {"-q"}, metaVar = "QUERY",
+      usage = "match reviewers query")
   public void setQuery(String query) {
-    this.query = query;
+    this.query = KeyUtil.decode(query);
   }
 
   private int limit;
@@ -117,25 +119,13 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
   }
 
   @Override
-  public List<SuggestReviewerInfo> apply(ChangeResource rsrc)
+  public List<SuggestReviewerInfo> apply(final ChangeResource rsrc)
       throws BadRequestException, OrmException, IOException {
     if (query == null) {
       throw new BadRequestException("missing query field");
     }
-    final int max = 10;
-    final int n = limit <= 0 ? max : Math.min(limit, max);
-    return suggestChangeReviewer(rsrc.getControl(),
-        rsrc.getChange().getId(),
-        query, n);
-  }
-
-  private List<SuggestReviewerInfo> suggestChangeReviewer(
-      final ChangeControl changeControl,
-      final Change.Id change,
-      final String query,
-      final int n) throws OrmException, IOException {
     VisibilityControl visibilityControl;
-    if (changeControl.getRefControl().isVisibleByRegisteredUsers()) {
+    if (rsrc.getControl().getRefControl().isVisibleByRegisteredUsers()) {
       visibilityControl = new VisibilityControl() {
         @Override
         public boolean isVisible(Account account) throws OrmException {
@@ -150,12 +140,12 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
               identifiedUserFactory.create(dbProvider, account.getId());
           // we can't use changeControl directly as it won't suggest reviewers
           // to drafts
-          return changeControl.forUser(who).isRefVisible();
+          return rsrc.getControl().forUser(who).isRefVisible();
         }
       };
     }
     final List<AccountInfo> suggestedAccounts =
-        suggestAccount(query, n, visibilityControl);
+        suggestAccount(visibilityControl);
     accountLoaderFactory.create(true).fill(suggestedAccounts);
 
     final List<SuggestReviewerInfo> reviewer =
@@ -165,10 +155,9 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
     }
 
     final List<GroupReference> suggestedAccountGroups =
-        suggestAccountGroup(changeControl.getProjectControl(),
-            query, limit);
+        suggestAccountGroup(rsrc.getControl().getProjectControl());
     for (final GroupReference g : suggestedAccountGroups) {
-      if (suggestGroupAsReviewer(changeControl.getProject(), g)) {
+      if (suggestGroupAsReviewer(rsrc.getControl().getProject(), g)) {
         reviewer.add(new SuggestReviewerInfo(null, g.getName()));
       }
     }
@@ -181,18 +170,12 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
     }
   }
 
-  private List<GroupReference> suggestAccountGroup(
-      final ProjectControl ctl, final String query,
-      final int limit) {
+  private List<GroupReference> suggestAccountGroup(ProjectControl ctl) {
     return Lists.newArrayList(
-        Iterables.limit(groupBackend.suggest(
-            query, ctl),
-            limit <= 0 ? 10 : Math.min(limit, 10)));
+        Iterables.limit(groupBackend.suggest(query, ctl), limit));
   }
 
-  private List<AccountInfo> suggestAccount(final String query,
-      final int n,
-      VisibilityControl visibilityControl)
+  private List<AccountInfo> suggestAccount(VisibilityControl visibilityControl)
       throws OrmException {
     if (!suggestAccounts) {
       return Collections.emptyList();
@@ -204,18 +187,20 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
     final LinkedHashMap<Account.Id, AccountInfo> r =
         new LinkedHashMap<Account.Id, AccountInfo>();
     for (final Account p : dbProvider.get().accounts()
-        .suggestByFullName(a, b, n)) {
+        .suggestByFullName(a, b, limit)) {
       addSuggestion(r, p, new AccountInfo(p.getId()), visibilityControl);
     }
-    if (r.size() < n) {
+
+    if (r.size() < limit) {
       for (final Account p : dbProvider.get().accounts()
-          .suggestByPreferredEmail(a, b, n - r.size())) {
+          .suggestByPreferredEmail(a, b, limit - r.size())) {
         addSuggestion(r, p, new AccountInfo(p.getId()), visibilityControl);
       }
     }
-    if (r.size() < n) {
+
+    if (r.size() < limit) {
       for (final AccountExternalId e : dbProvider.get().accountExternalIds()
-          .suggestByEmailAddress(a, b, n - r.size())) {
+          .suggestByEmailAddress(a, b, limit - r.size())) {
         if (!r.containsKey(e.getAccountId())) {
           final Account p = accountCache.get(e.getAccountId()).getAccount();
           final AccountInfo info = new AccountInfo(p.getId());
@@ -223,6 +208,7 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
         }
       }
     }
+
     return new ArrayList<AccountInfo>(r.values());
   }
 
@@ -275,7 +261,7 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
     AccountInfo account;
     String group;
 
-    public SuggestReviewerInfo(AccountInfo a, String g) {
+    SuggestReviewerInfo(AccountInfo a, String g) {
       this.account = a;
       this.group = g;
     }

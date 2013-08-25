@@ -34,7 +34,7 @@ import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 class CommitBox extends Composite {
   interface Binder extends UiBinder<HTMLPanel, CommitBox> {}
-  private static Binder uiBinder = GWT.create(Binder.class);
+  private static final Binder uiBinder = GWT.create(Binder.class);
 
   @UiField Element commitName;
   @UiField AnchorElement browserLink;

@@ -44,7 +44,7 @@ public class PatchSetSelectBox extends Composite {
   interface Binder extends UiBinder<HTMLPanel, PatchSetSelectBox> {
   }
 
-  private static Binder uiBinder = GWT.create(Binder.class);
+  private static final Binder uiBinder = GWT.create(Binder.class);
 
   interface BoxStyle extends CssResource {
     String selected();

@@ -98,7 +98,7 @@ import java.util.Map;
 
 public class SideBySide2 extends Screen {
   interface Binder extends UiBinder<FlowPanel, SideBySide2> {}
-  private static Binder uiBinder = GWT.create(Binder.class);
+  private static final Binder uiBinder = GWT.create(Binder.class);
 
   private static final JsArrayString EMPTY =
       JavaScriptObject.createArray().cast();

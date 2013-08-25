@@ -33,7 +33,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 class DiffTable extends Composite {
   interface Binder extends UiBinder<HTMLPanel, DiffTable> {}
-  private static Binder uiBinder = GWT.create(Binder.class);
+  private static final Binder uiBinder = GWT.create(Binder.class);
 
   interface DiffTableStyle extends CssResource {
     String intralineBg();

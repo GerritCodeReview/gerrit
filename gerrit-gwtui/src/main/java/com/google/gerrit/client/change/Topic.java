@@ -42,7 +42,7 @@ import com.google.gwtexpui.globalkey.client.NpTextBox;
 /** Displays (and edits) the change topic string. */
 class Topic extends Composite {
   interface Binder extends UiBinder<HTMLPanel, Topic> {}
-  private static Binder uiBinder = GWT.create(Binder.class);
+  private static final Binder uiBinder = GWT.create(Binder.class);
 
   private PatchSet.Id psId;
   private boolean canEdit;

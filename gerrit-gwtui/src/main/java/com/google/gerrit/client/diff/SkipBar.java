@@ -39,7 +39,7 @@ import net.codemirror.lib.TextMarker.FromTo;
 /** The Widget that handles expanding of skipped lines */
 class SkipBar extends Composite {
   interface Binder extends UiBinder<HTMLPanel, SkipBar> {}
-  private static Binder uiBinder = GWT.create(Binder.class);
+  private static final Binder uiBinder = GWT.create(Binder.class);
   private static final int NUM_ROWS_TO_EXPAND = 10;
   private static final int UP_DOWN_THRESHOLD = 30;
   private static final Configuration COLLAPSED =

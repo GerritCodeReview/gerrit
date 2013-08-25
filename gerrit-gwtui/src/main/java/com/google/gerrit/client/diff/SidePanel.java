@@ -37,7 +37,7 @@ import java.util.List;
 /** The Widget that handles the scrollbar gutters */
 class SidePanel extends Composite {
   interface Binder extends UiBinder<HTMLPanel, SidePanel> {}
-  private static Binder uiBinder = GWT.create(Binder.class);
+  private static final Binder uiBinder = GWT.create(Binder.class);
 
   interface SidePanelStyle extends CssResource {
     String gutter();

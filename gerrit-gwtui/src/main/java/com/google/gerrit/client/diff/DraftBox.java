@@ -52,7 +52,7 @@ import net.codemirror.lib.CodeMirror;
 /** An HtmlPanel for displaying and editing a draft */
 class DraftBox extends CommentBox {
   interface Binder extends UiBinder<HTMLPanel, DraftBox> {}
-  private static Binder uiBinder = GWT.create(Binder.class);
+  private static final Binder uiBinder = GWT.create(Binder.class);
 
   private static final int INITIAL_LINES = 5;
   private static final int MAX_LINES = 30;

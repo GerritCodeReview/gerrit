@@ -46,7 +46,7 @@ public class CommitMessageBlock extends Composite {
   interface Binder extends UiBinder<HTMLPanel, CommitMessageBlock> {
   }
 
-  private static Binder uiBinder = GWT.create(Binder.class);
+  private static final Binder uiBinder = GWT.create(Binder.class);
 
   private KeyCommandSet keysAction;
 

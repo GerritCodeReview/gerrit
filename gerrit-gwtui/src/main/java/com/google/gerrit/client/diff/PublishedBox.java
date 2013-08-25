@@ -44,7 +44,7 @@ import net.codemirror.lib.CodeMirror;
 /** An HtmlPanel for displaying a published comment */
 class PublishedBox extends CommentBox {
   interface Binder extends UiBinder<HTMLPanel, PublishedBox> {}
-  private static Binder uiBinder = GWT.create(Binder.class);
+  private static final Binder uiBinder = GWT.create(Binder.class);
 
   static interface Style extends CssResource {
     String closed();

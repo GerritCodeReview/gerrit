@@ -181,6 +181,7 @@ public interface GerritCss extends CssResource {
   String patchSizeCell();
   String pluginsTable();
   String posscore();
+  String projectActions();
   String projectAdminLabelRangeLine();
   String projectAdminLabelValue();
   String projectFilterLabel();

@@ -15,8 +15,9 @@
 package com.google.gerrit.client.api;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.actions.ActionInfo;
 import com.google.gerrit.client.changes.ChangeInfo;
-import com.google.gerrit.client.changes.ChangeInfo.ActionInfo;
+import com.google.gerrit.client.projects.ConfigInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
@@ -39,6 +40,28 @@ class DefaultActions {
           }
         }
         Gerrit.display(PageLinks.toChange2(id));
+      }
+    };
+    if ("PUT".equalsIgnoreCase(action.method())) {
+      api.put(JavaScriptObject.createObject(), cb);
+    } else if ("DELETE".equalsIgnoreCase(action.method())) {
+      api.delete(cb);
+    } else {
+      api.post(JavaScriptObject.createObject(), cb);
+    }
+  }
+
+  static void invoke(ConfigInfo project, ActionInfo action, RestApi api) {
+    AsyncCallback<JavaScriptObject> cb = new GerritCallback<JavaScriptObject>() {
+      @Override
+      public void onSuccess(JavaScriptObject msg) {
+        if (NativeString.is(msg)) {
+          NativeString str = (NativeString) msg;
+          if (!str.asString().isEmpty()) {
+            Window.alert(str.asString());
+          }
+        }
+        Gerrit.display(PageLinks.ADMIN_PROJECTS);
       }
     };
     if ("PUT".equalsIgnoreCase(action.method())) {

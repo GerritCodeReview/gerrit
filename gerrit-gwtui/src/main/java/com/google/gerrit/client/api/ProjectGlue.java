@@ -16,33 +16,33 @@ package com.google.gerrit.client.api;
 
 import com.google.gerrit.client.actions.ActionButton;
 import com.google.gerrit.client.actions.ActionInfo;
-import com.google.gerrit.client.changes.ChangeApi;
-import com.google.gerrit.client.changes.ChangeInfo;
+import com.google.gerrit.client.projects.ConfigInfo;
+import com.google.gerrit.client.projects.ProjectApi;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gwt.core.client.JavaScriptObject;
 
-public class ChangeGlue {
+public class ProjectGlue {
   public static void onAction(
-      ChangeInfo change,
+      ConfigInfo project,
       ActionInfo action,
       ActionButton button) {
-    RestApi api = ChangeApi.change(change.legacy_id().get()).view(action.id());
+    RestApi api = ProjectApi.project(project.name()).view(action.id());
     JavaScriptObject f = get(action.id());
     if (f != null) {
       ActionContext c = ActionContext.create(api);
       c.set(action);
-      c.set(change);
+      c.set(project);
       c.button(button);
       ApiGlue.invoke(f, c);
     } else {
-      DefaultActions.invoke(change, action, api);
+      DefaultActions.invoke(project, action, api);
     }
   }
 
   private static final native JavaScriptObject get(String id) /*-{
-    return $wnd.Gerrit.change_actions[id];
+    return $wnd.Gerrit.project_actions[id];
   }-*/;
 
-  private ChangeGlue() {
+  private ProjectGlue() {
   }
 }

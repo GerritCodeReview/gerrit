@@ -20,11 +20,13 @@ import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.auth.AuthException;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.SetHead.Input;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
@@ -40,12 +42,12 @@ public class SetHead implements RestModifyView<ProjectResource, Input> {
   }
 
   private final GitRepositoryManager repoManager;
-  private final IdentifiedUser identifiedUser;
+  private final Provider<CurrentUser> currentUser;
 
   @Inject
-  SetHead(GitRepositoryManager repoManager, IdentifiedUser identifiedUser) {
+  SetHead(GitRepositoryManager repoManager, Provider<CurrentUser> currentUser) {
     this.repoManager = repoManager;
-    this.identifiedUser = identifiedUser;
+    this.currentUser = currentUser;
   }
 
   @Override
@@ -73,7 +75,7 @@ public class SetHead implements RestModifyView<ProjectResource, Input> {
 
       if (!repo.getRef(Constants.HEAD).getTarget().getName().equals(ref)) {
         final RefUpdate u = repo.updateRef(Constants.HEAD, true);
-        u.setRefLogIdent(identifiedUser.newRefLogIdent());
+        u.setRefLogIdent(((IdentifiedUser)currentUser.get()).newRefLogIdent());
         RefUpdate.Result res = u.link(ref);
         switch(res) {
           case NO_CHANGE:

@@ -15,6 +15,7 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.account.AccountInfo;
+import com.google.gerrit.client.actions.ActionInfo;
 import com.google.gerrit.client.diff.FileInfo;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.NativeString;
@@ -257,17 +258,6 @@ public class ChangeInfo extends JavaScriptObject {
     }
 
     protected GitPerson() {
-    }
-  }
-
-  public static class ActionInfo extends JavaScriptObject {
-    public final native String id() /*-{ return this.id; }-*/;
-    public final native String method() /*-{ return this.method; }-*/;
-    public final native String label() /*-{ return this.label; }-*/;
-    public final native String title() /*-{ return this.title; }-*/;
-    public final native boolean enabled() /*-{ return this.enabled || false; }-*/;
-
-    protected ActionInfo() {
     }
   }
 

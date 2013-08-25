@@ -48,7 +48,7 @@ import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 class RelatedChanges extends Composite {
   interface Binder extends UiBinder<HTMLPanel, RelatedChanges> {}
-  private static Binder uiBinder = GWT.create(Binder.class);
+  private static final Binder uiBinder = GWT.create(Binder.class);
 
   private static final String OPEN;
   private static final HyperlinkImpl link = GWT.create(HyperlinkImpl.class);

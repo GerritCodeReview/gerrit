@@ -38,7 +38,7 @@ class Actions extends Composite {
     "cherrypick", "submit", "rebase", "message"};
 
   interface Binder extends UiBinder<FlowPanel, Actions> {}
-  private static Binder uiBinder = GWT.create(Binder.class);
+  private static final Binder uiBinder = GWT.create(Binder.class);
 
   @UiField Button cherrypick;
   @UiField Button rebase;

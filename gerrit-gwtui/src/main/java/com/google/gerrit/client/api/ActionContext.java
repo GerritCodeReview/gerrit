@@ -14,10 +14,11 @@
 
 package com.google.gerrit.client.api;
 
-import com.google.gerrit.client.change.ActionButton;
+import com.google.gerrit.client.actions.ActionButton;
+import com.google.gerrit.client.actions.ActionInfo;
 import com.google.gerrit.client.changes.ChangeInfo;
-import com.google.gerrit.client.changes.ChangeInfo.ActionInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
+import com.google.gerrit.client.projects.ConfigInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
@@ -116,6 +117,7 @@ public class ActionContext extends JavaScriptObject {
   }-*/;
 
   final native void set(ActionInfo a) /*-{ this.action=a; }-*/;
+  final native void set(ConfigInfo p) /*-{ this.project=p; }-*/;
   final native void set(ChangeInfo c) /*-{ this.change=c; }-*/;
   final native void set(RevisionInfo r) /*-{ this.revision=r; }-*/;
 

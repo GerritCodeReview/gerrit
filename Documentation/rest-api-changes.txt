@@ -2597,7 +2597,11 @@ Allowed values are `REVISION` and `PARENT`. +
 If not set, the default is `REVISION`.
 |`line`        |optional|
 The number of the line for which the comment was done. +
-If not set, it's a file comment.
+If range is set, this equals the end line of the range. +
+If neither line nor range is set, it's a file comment.
+|`range`       |optional|
+The range of the comment as a link:rest-api.html#comment-range[CommentRange]
+entity.
 |`in_reply_to` |optional|
 The URL encoded UUID of the comment to which this comment is a reply.
 |`message`     |optional|The comment message.
@@ -2635,7 +2639,11 @@ If not set, the default is `REVISION`.
 |`line`        |optional|
 The number of the line for which the comment should be added. +
 `0` if it is a file comment. +
-If not set, a file comment is added.
+If neither line nor range is set, a file comment is added. +
+If range is set, this should equal the end line of the range.
+|`range`       |optional|
+The range of the comment as a link:rest-api.html#comment-range[CommentRange]
+entity.
 |`in_reply_to` |optional|
 The URL encoded UUID of the comment to which this comment is a reply.
 |`updated`     |optional|
@@ -2645,6 +2653,20 @@ Accepted but ignored.
 The comment message. +
 If not set and an existing draft comment is updated, the existing draft
 comment is deleted.
+|===========================
+
+[[comment-range]]
+CommentRange
+~~~~~~~~~~~~
+The `CommentRange` entity describes the range of an inline comment.
+
+[options="header",width="50%",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`start_line`        ||The start line number of the range.
+|`start_character`   ||The character position in the start line.
+|`end_line`          ||The end line number of the range.
+|`end_character`     ||The character position in the end line.
 |===========================
 
 [[commit-info]]

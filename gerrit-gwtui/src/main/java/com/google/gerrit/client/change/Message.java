@@ -34,7 +34,7 @@ import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 class Message extends Composite {
   interface Binder extends UiBinder<HTMLPanel, Message> {}
-  private static Binder uiBinder = GWT.create(Binder.class);
+  private static final Binder uiBinder = GWT.create(Binder.class);
 
   static interface Style extends CssResource {
     String closed();

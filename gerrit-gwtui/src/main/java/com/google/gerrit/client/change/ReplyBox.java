@@ -57,7 +57,7 @@ import java.util.TreeSet;
 
 class ReplyBox extends Composite {
   interface Binder extends UiBinder<HTMLPanel, ReplyBox> {}
-  private static Binder uiBinder = GWT.create(Binder.class);
+  private static final Binder uiBinder = GWT.create(Binder.class);
 
   interface Styles extends CssResource {
     String label_name();

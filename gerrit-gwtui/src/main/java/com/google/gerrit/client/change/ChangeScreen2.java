@@ -92,7 +92,7 @@ import java.util.Map;
 
 public class ChangeScreen2 extends Screen {
   interface Binder extends UiBinder<HTMLPanel, ChangeScreen2> {}
-  private static Binder uiBinder = GWT.create(Binder.class);
+  private static final Binder uiBinder = GWT.create(Binder.class);
 
   interface Style extends CssResource {
     String labelName();

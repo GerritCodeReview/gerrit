@@ -41,7 +41,7 @@ import java.util.List;
 /** Displays the "New Message From ..." panel in bottom right on updates. */
 abstract class UpdateAvailableBar extends PopupPanel {
   interface Binder extends UiBinder<HTMLPanel, UpdateAvailableBar> {}
-  private static Binder uiBinder = GWT.create(Binder.class);
+  private static final Binder uiBinder = GWT.create(Binder.class);
 
   static interface Style extends CssResource {
     String popup();

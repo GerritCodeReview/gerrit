@@ -14,7 +14,7 @@
 
 package com.google.gerrit.client.api;
 
-import com.google.gerrit.client.change.ActionButton;
+import com.google.gerrit.client.actions.ActionButton;
 import com.google.gerrit.client.change.Resources;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.CloseEvent;

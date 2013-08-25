@@ -400,6 +400,8 @@ functions to make working with DOM based widgets less painful.
 
 * `span(...)`: a new `<span>` wrapping the (optional) arguments.
 
+* `msg(label)`: a new label.
+
 [[Gerrit]]
 Gerrit
 ------

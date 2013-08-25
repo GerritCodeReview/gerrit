@@ -274,6 +274,24 @@
     },
     {
       "key": {
+        "uuid": "0d905098_8fee153a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RevisionBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-08-25T09:18:11Z",
+      "side": 1,
+      "message": "Would something like David O. / David P. suffice? That configuration seems unnecessary... Even if we want it, could the name be showFullNameInRevisionList?",
+      "parentUuid": "ad290421_b40a6031",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d81cc4b_b20a6031",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RevisionBox.ui.xml",
         "patchSetId": 1

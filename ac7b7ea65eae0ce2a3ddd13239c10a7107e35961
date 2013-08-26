@@ -142,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "ed74dc43_0e1a2b7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-08-26T10:00:01Z",
+      "side": 1,
+      "message": "\u003e(which can be specified multiple times)\n\nI do not know Config support it or not by far.\ndid you ever meet this kind case  before. I like it too.",
+      "parentUuid": "ed74dc43_6e1def74",
+      "revId": "ac7b7ea65eae0ce2a3ddd13239c10a7107e35961",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d6aac67_4af9f3fd",
         "filename": "Documentation/config-labels.txt",
         "patchSetId": 11

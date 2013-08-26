@@ -15,6 +15,10 @@
 package com.google.gerrit.server.config;
 
 import com.google.common.collect.LinkedListMultimap;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -27,10 +31,12 @@ public class PluginConfigProvider {
   private static final String PLUGIN = "plugin";
 
   private final Config cfg;
+  private final ProjectCache projectCache;
 
   @Inject
-  PluginConfigProvider(@GerritServerConfig Config cfg) {
+  PluginConfigProvider(@GerritServerConfig Config cfg, ProjectCache projectCache) {
     this.cfg = cfg;
+    this.projectCache = projectCache;
   }
 
   public PluginConfig get(String pluginName) {
@@ -41,5 +47,14 @@ public class PluginConfigProvider {
           Arrays.asList(cfg.getStringList(PLUGIN, pluginName, name)));
     }
     return new PluginConfig(pluginName, pluginConfig);
+  }
+
+  public PluginConfig get(Project.NameKey projectName, String pluginName)
+      throws NoSuchProjectException {
+    ProjectState projectState = projectCache.get(projectName);
+    if (projectState == null) {
+      throw new NoSuchProjectException(projectName);
+    }
+    return projectState.getConfig().getPluginConfig(pluginName);
   }
 }

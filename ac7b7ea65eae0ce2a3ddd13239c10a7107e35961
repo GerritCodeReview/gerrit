@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cd71d854_ad451d52",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-08-26T09:54:10Z",
+      "side": 1,
+      "message": "thanks ! fine for me .\n \u0027access\u0027 type is a special case of  \u0027 branch \u0027type, just need not make extra definition.",
+      "parentUuid": "ed74dc43_ae0af730",
+      "revId": "ac7b7ea65eae0ce2a3ddd13239c10a7107e35961",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd71d854_4d2039b4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 11
@@ -30,6 +48,24 @@
       "writtenOn": "2013-08-26T09:06:06Z",
       "side": 1,
       "message": "I would prefer to start with only one option, the one that allows you to define a label for branches. Other options should be done and discussed in own changes (e.g. I disagree with the \u0027access\u0027 option, see below).",
+      "revId": "ac7b7ea65eae0ce2a3ddd13239c10a7107e35961",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd71d854_8d406143",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-08-26T09:54:10Z",
+      "side": 1,
+      "message": ":)   no problem to start  \u0027branch\u0027 type firstly then in another commit start \u0027access\u0027 type.",
+      "parentUuid": "cd71d854_4d2039b4",
       "revId": "ac7b7ea65eae0ce2a3ddd13239c10a7107e35961",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "cd71d854_2d17ed54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-08-26T09:54:10Z",
+      "side": 1,
+      "message": "Hi Edwin thanks a lot to keep tracing  this commit \n\nI agree [1] and [2] are two different things.\nbut they both are something can not be independent from \nbranches scope. the \u0027access\u0027 option is just to keep these 2\n kind branches scopes be same, thus we need not define \nthe label applicable scope anymore. things becomes \n simple.  that is why I like the \u0027access\u0027 type very much,  else\n I would abandoned it early to save us time to discuss it \nhere :) don\u0027t you thinks so?  I also do not like the name \n\u0027access\u0027 ,  I need to find a good word to name it. welcome any suggestion. \n\n its is a bit strange for me that you always think\n it is of interpreting a missing permission as \u0027this label \ndoesn\u0027t apply\u0027.  I never think it is something belongs to that. \n\n\n[1] define a label and specify its applicable scope,  not always let it be default project scope. \n\n[2]assigning access rights to some group to vote on a give label on some branches .",
+      "parentUuid": "ed74dc43_4e2033b4",
+      "revId": "ac7b7ea65eae0ce2a3ddd13239c10a7107e35961",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd71d854_6d1df574",
         "filename": "/COMMIT_MSG",
         "patchSetId": 11
@@ -64,6 +118,24 @@
       "writtenOn": "2013-08-26T09:06:06Z",
       "side": 1,
       "message": "I don\u0027t like \u0027applicableScope\u0027 as key here. Why not simply call it \u0027branch\u0027 (which can be specified multiple times)?\n  [label \"Copyright-Check\"]\t\n    branch \u003d refs/heads/ad/vidio/*\n    branch \u003d refs/heads/ub/vidio/Kino",
+      "revId": "ac7b7ea65eae0ce2a3ddd13239c10a7107e35961",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed74dc43_6e1def74",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-08-26T09:54:10Z",
+      "side": 1,
+      "message": "your idea here looks neat for me ! I like it.  just want further confirm: \ndo you mean:  \n\n ----------------------\n\nif there is not branch entry there, that would be the default \u0027project\u0027 scope; \nif it is \n  branch \u003d  access  \nthen it is  \u0027access\u0027 type (let me call it temporarily before find a good word here)\n\nelse we think it is \u0027branch\u0027  type. \n\n ---------------------\n\n\nanother important thing for me is I want to know do you agree with me on other logic about \u0027branch\u0027 type , the below part?",
+      "parentUuid": "cd71d854_6d1df574",
       "revId": "ac7b7ea65eae0ce2a3ddd13239c10a7107e35961",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

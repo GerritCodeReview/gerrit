@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.common.collect.LinkedListMultimap;
+
 import org.eclipse.jgit.lib.Config;
 
 public class PluginConfig {
@@ -25,6 +27,17 @@ public class PluginConfig {
   public PluginConfig(String pluginName, Config cfg) {
     this.pluginName = pluginName;
     this.cfg = cfg;
+  }
+
+  public PluginConfig(String pluginName,
+      LinkedListMultimap<String, String> pluginConfigValues) {
+    this.pluginName = pluginName;
+    this.cfg = new Config();
+
+    for (String name : pluginConfigValues.keySet()) {
+      cfg.setStringList(PLUGIN, pluginName, name,
+          pluginConfigValues.get(name));
+    }
   }
 
   public String getString(String name) {

@@ -24,6 +24,7 @@ import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -46,6 +47,7 @@ import com.google.gerrit.reviewdb.client.Project.State;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.ConfigUtil;
+import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.project.CommentLinkInfo;
 
@@ -59,6 +61,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -66,6 +69,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -130,6 +134,8 @@ public class ProjectConfig extends VersionedMetaData {
   private static final Set<String> LABEL_FUNCTIONS = ImmutableSet.of(
       "MaxWithBlock", "AnyWithBlock", "MaxNoBlock", "NoBlock", "NoOp");
 
+  private static final String PLUGIN = "plugin";
+
   private static final SubmitType defaultSubmitAction =
       SubmitType.MERGE_IF_NECESSARY;
   private static final State defaultStateValue =
@@ -147,6 +153,7 @@ public class ProjectConfig extends VersionedMetaData {
   private List<ValidationError> validationErrors;
   private ObjectId rulesId;
   private long maxObjectSizeLimit;
+  private Map<String, LinkedListMultimap<String, String>> pluginConfigs;
 
   public static ProjectConfig read(MetaDataUpdate update) throws IOException,
       ConfigInvalidException {
@@ -397,6 +404,7 @@ public class ProjectConfig extends VersionedMetaData {
     loadNotifySections(rc, groupsByName);
     loadLabelSections(rc);
     loadCommentLinkSections(rc);
+    loadPluginSections(rc);
 
     maxObjectSizeLimit = rc.getLong(RECEIVE, null, KEY_MAX_OBJECT_SIZE_LIMIT, 0);
   }
@@ -674,6 +682,26 @@ public class ProjectConfig extends VersionedMetaData {
     commentLinkSections = ImmutableList.copyOf(commentLinkSections);
   }
 
+  private void loadPluginSections(Config rc) {
+    pluginConfigs = Maps.newHashMap();
+    for (String plugin : rc.getSubsections(PLUGIN)) {
+      LinkedListMultimap<String, String> pluginConfig = LinkedListMultimap.create();
+      pluginConfigs.put(plugin, pluginConfig);
+      for (String name : rc.getNames(PLUGIN, plugin)) {
+        pluginConfig.putAll(name, Arrays.asList(rc.getStringList(PLUGIN, plugin, name)));
+      }
+    }
+  }
+
+  public PluginConfig getPluginConfig(String pluginName) {
+    LinkedListMultimap<String, String> pluginConfig = pluginConfigs.get(pluginName);
+    if (pluginConfig == null) {
+      pluginConfig = LinkedListMultimap.create();
+      pluginConfigs.put(pluginName, pluginConfig);
+    }
+    return new PluginConfig(pluginName, pluginConfig);
+  }
+
   private Map<String, GroupReference> readGroupList() throws IOException {
     groupsByUUID = new HashMap<AccountGroup.UUID, GroupReference>();
     Map<String, GroupReference> groupsByName =
@@ -739,6 +767,7 @@ public class ProjectConfig extends VersionedMetaData {
     saveNotifySections(rc, keepGroups);
     groupsByUUID.keySet().retainAll(keepGroups);
     saveLabelSections(rc);
+    savePluginSections(rc);
 
     saveConfig(PROJECT_CONFIG, rc);
     saveGroupList();
@@ -985,6 +1014,21 @@ public class ProjectConfig extends VersionedMetaData {
 
     for (String name : toUnset) {
       rc.unsetSection(LABEL, name);
+    }
+  }
+
+  private void savePluginSections(Config rc) {
+    List<String> existing = Lists.newArrayList(rc.getSubsections(PLUGIN));
+    for (String name : existing) {
+      rc.unsetSection(PLUGIN, name);
+    }
+
+    for (Entry<String, LinkedListMultimap<String, String>> e : pluginConfigs.entrySet()) {
+      String plugin = e.getKey();
+      LinkedListMultimap<String, String> pluginConfig = e.getValue();
+      for (String name : pluginConfig.keySet()) {
+        rc.setStringList(PLUGIN, plugin, name, pluginConfig.get(name));
+      }
     }
   }
 

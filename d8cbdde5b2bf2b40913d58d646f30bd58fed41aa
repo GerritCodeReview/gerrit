@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "8d5440b2_83eefe39",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-26T22:19:06Z",
+      "side": 1,
+      "message": "Thanks for the idea, I should make a follow-up change to address the \"reply\" and \"edit message\" buttons.",
+      "parentUuid": "ad290421_141a347e",
+      "revId": "d8cbdde5b2bf2b40913d58d646f30bd58fed41aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd71d854_cd3669fa",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
         "patchSetId": 1
@@ -48,6 +66,24 @@
       "writtenOn": "2013-08-26T09:28:19Z",
       "side": 1,
       "message": "I don\u0027t really like the red arrow on a grey background. Would it be better to simply make the text bold?\n\n    .popdown button.selected {\n      font-weight: bold;\n    }",
+      "revId": "d8cbdde5b2bf2b40913d58d646f30bd58fed41aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edf21c16_bee4995c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-26T22:19:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd71d854_cd3669fa",
       "revId": "d8cbdde5b2bf2b40913d58d646f30bd58fed41aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

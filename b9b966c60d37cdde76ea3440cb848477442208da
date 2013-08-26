@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed2f7c1f_56f994fd",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2600,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-26T01:09:44Z",
+      "side": 1,
+      "message": "\"If range is set. This\" -\u003e \"If range is set, this\"",
+      "revId": "b9b966c60d37cdde76ea3440cb848477442208da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

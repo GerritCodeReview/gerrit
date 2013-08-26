@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed74dc43_ce5d0324",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-26T15:16:21Z",
+      "side": 1,
+      "message": "The problem with this approach (like with plugin-owned capabilities) is that a plugin doesn\u0027t actually have a ... name.\n\nIt is currently induced from the plugin file name. Everything what stays before \".jar\" is considered to be the plugin name. But as it was already reported it sucks with the idea to store that dynamic per nature information (induced from file name, that is put in plugins-directory) in something static per nature: project.config.\n\nSupposed you put there something like:\n\n [plugin \"foo-42.1.2.3.4.5\"]\n\nConsider a new version of that plugin is deployed and its file name is directly derived from its Maven artifact id: \"foo-42.1.2.3.4.6.jar\"\n\nSo the name changed: foo-42.1.2.3.4.6 and doesn\u0027t match with the old definition. The situation is even worth with plugin owned capabilities: project.config is going to be corrupted, if plugin file name (i. e. plugin name) has invalid character for git config. That\u0027s because the plugin own capabilities are prefixed with plugin name, so in example above:\n\n foo-42.1.2.3.4.6-pluginOwnedCapabilitiy\n\nis invalid and can not be stored in project.config at all.\n\nOne approach to rectify it is to change how we induce plugin name: instead deriving it from plugin file names, we could put \n\n Gerrit-PluginName: foo\n\nin MANIFEST.MF.\n\nOne disadvantage of this approach is that we can not deploy multiple versions of the same plugin on Gerrit installation site. I fail to see a valid use case, where we would need something like that, though.\n\nMay be we could support both: if plugin doesn\u0027t define \"Gerrit-PluginName\" section above we would fallback and derive the name from the file.\n\nObviously, plugins that supposed to put some content in project.config (contributing plugin-owned capabilities, like replication-plugin or custom plugin configuration, like reviewers-by-blame plugin) would define \"Gerrit-PluginName\" section in MANIFEST.MF.",
+      "revId": "74cc05d819ad0d862f1aa8191a474fb9ac3cbb8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

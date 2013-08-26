@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d6aac67_4af9f3fd",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-26T02:09:48Z",
+      "side": 1,
+      "message": "Not enough ~ here",
+      "revId": "ac7b7ea65eae0ce2a3ddd13239c10a7107e35961",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d905098_aff3d91e",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-26T02:09:48Z",
+      "side": 1,
+      "message": "Use spaces instead of tab.",
+      "revId": "ac7b7ea65eae0ce2a3ddd13239c10a7107e35961",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

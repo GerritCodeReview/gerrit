@@ -313,6 +313,43 @@ by PrintHello class will be available to users as:
 $ ssh -p 29418 review.example.com helloworld print
 ----
 
+[[project-specific-configuration]]
+Project Specific Configuration
+------------------------------
+
+In Gerrit project specific configuration is stored in the project's
+`project.config` file on the `refs/meta/config` branch.  If a plugin
+needs configuration on project level (e.g. to enable its functionality
+only for certain projects) this configuration should be stored in a
+`plugin` section in the project's `project.config` file.  To avoid
+conflicts with other plugins a plugin should only use the
+`plugin`-subsection with the own name.  E.g. the a `hello-world` plugin
+should store its configuration in the `plugin.hello-world` subsection:
+
+----
+  [plugin "hello-world"]
+    enabled = true
+----
+
+Via the `com.google.gerrit.server.git.ProjectConfig` class a plugin
+can easily access its project specific configuration and there is no
+need for a plugin to parse the `project.config` file on its own:
+
+[source,java]
+----
+  @Inject
+  private com.google.gerrit.server.project.ProjectCache projectCache;
+
+  ...
+
+  boolean enabled = projectCache.get(project).getConfig()
+                        .getPluginBoolean("hello-world", "enabled");
+----
+
+Project owners can edit the project configuration by fetching the
+`refs/meta/config` branch, editing the `project.config` file and
+pushing the commit back.
+
 [[capabilities]]
 Plugin Owned Capabilities
 -------------------------

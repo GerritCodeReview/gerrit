@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "6d6aac67_4a2b3392",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-08-26T15:14:33Z",
+      "side": 1,
+      "message": "thinking again on why you understand the \u0027access\u0027 type as the idea of interpreting\n a missing permission as \u0027this label doesn\u0027t apply\u0027.\n\n according to the \u0027branch\u0027 type idea, let\u0027s see a case:  define a New-Label \n applicable scope as :\n\n on parent project \u0027android\u0027\n [label \u0027Qualify-Label\u0027]\n      branch \u003d refs/heads/video/*\n\n define this label related access control as:\n\n on parent project \u0027android\u0027\n [access \"refs/heads/video/version-1.0\"]\n      label-Qualify-Label \u003d -1..+1 group reviewer\n\n I think here for changes on branch \u0027refs/heads/video/version-2.0\u0027  is the case\n making you think of  \u0027\u0027interpreting a missing permission as  \u0027this label doesn\u0027t  \n apply\u0027\". then what we do to fix it is just add that permission. \n\n when branches of \u0027 refs/heads/music/*\u0027  want this label too, what admin need to do\n is:\n firstly a series of git commands to update the project.config of project \u0027android\u0027 to \n add:\n\n     branch \u003d refs/heads/music/*\n\n then update access part of project.config  via UI.\n\n  \n we (SOMC) have some parent projects,  like the \u0027android\u0027 project \n in the above case, used only for managing access control  for children projects,  \n and only admin group can access and update it, owners of children project( like \n \u0027android-1\u0027, \u0027android-2\u0027, ...)  can not access them. \n\n we have customize label which only used on some special branches. but\n  maintenance work is often, e.g. like above case, on the first time we use it only \n for all \u0027refs/heads/video/version-1\u0027 branches on children projects. with \u0027access\u0027 \n type what admin would need to is creating below on project.config via git \n commands\n\n [label \u0027Qualify-Label\u0027]\n   branch \u003d access\n\n and add below content via UI:\n\n [access \"refs/heads/video/version-1.0\"]\n   label-Qualify-Label \u003d -1..+1 group reviewer\n\n  but later admin need not using git commands to update the label definition, e.g. \n  some weeks later \u0027video/version-1.1\u0027 branches on all children projects are created\n  and need this label too, with  \u0027access\u0027 type updating the \n  access part of parent project via UI would be enough, need not updating the \n  project.config via git commands. later branches \u0027refs/heads/music/*\u0027 want this\n  label too, it is same to only update the the access part via UI, and never have\n  the issue of  \u0027\u0027...missing permission as  \u0027this label doesn\u0027t  apply\u0027\", easy to \n  maintenance. that is the reason I want the  \u0027access\u0027 type.   \n  maybe I should update its name to be \u0027sameAsAccessScope\u0027\n  to make it easy to read: \n\n    branch \u003d sameAsAccessScope",
+      "parentUuid": "cd71d854_2d17ed54",
+      "revId": "ac7b7ea65eae0ce2a3ddd13239c10a7107e35961",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd71d854_6d1df574",
         "filename": "/COMMIT_MSG",
         "patchSetId": 11

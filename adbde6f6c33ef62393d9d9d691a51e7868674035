@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ad5744b3_a4aea298",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-26T22:52:06Z",
+      "side": 1,
+      "message": "Changed to revisions",
+      "parentUuid": "4d86c866_d1e4c45d",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad290421_d40b5c38",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-08-24T12:32:39Z",
       "side": 1,
       "message": "Let\u0027s be consistent how we call the buttons that open popdowns: with or without \"Popdown\" suffix.",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d5440b2_0303ee23",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-26T22:52:06Z",
+      "side": 1,
+      "message": "Reverted to download",
+      "parentUuid": "ad290421_d40b5c38",
       "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "8d5440b2_23006a14",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-26T22:52:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd2c7830_95ee443a",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad290421_74f6080f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
         "patchSetId": 1
@@ -98,6 +152,24 @@
       "writtenOn": "2013-08-24T12:32:39Z",
       "side": 1,
       "message": "Let\u0027s be consistent how we name the init actions functions: initRevisionAction()?",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d5440b2_e3101263",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-26T22:52:06Z",
+      "side": 1,
+      "message": "Changed to initRevisionsAction",
+      "parentUuid": "ad290421_74f6080f",
       "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +193,24 @@
     },
     {
       "key": {
+        "uuid": "8d5440b2_83059e23",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-26T22:52:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad290421_14031424",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad290421_34009014",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
         "patchSetId": 1
@@ -132,6 +222,24 @@
       "writtenOn": "2013-08-24T12:32:39Z",
       "side": 1,
       "message": "We (optionally) already fetched ListChangesOption.ALL_REVISIONS on line 179 above. Pass it to the revisionsBox, so we don\u0027t need to fetch it there again?.",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d5440b2_a30a1a31",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-26T22:52:06Z",
+      "side": 1,
+      "message": "I actually considered this and aborted that version. The popdown needs ALL_COMMITS too, which isn\u0027t fetched here.",
+      "parentUuid": "ad290421_34009014",
       "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +263,24 @@
     },
     {
       "key": {
+        "uuid": "edf21c16_feee213a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-26T22:52:06Z",
+      "side": 1,
+      "message": "Changed to initDownloadAction",
+      "parentUuid": "6d81cc4b_b2f3401f",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad290421_f410d862",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
         "patchSetId": 1
@@ -166,6 +292,47 @@
       "writtenOn": "2013-08-24T12:32:39Z",
       "side": 1,
       "message": "ui:field\u003d\u0027revisionsPopdown\u0027? In all other places we call the field exact like the ui:msg.",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d5440b2_43f9e6fd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-26T22:52:06Z",
+      "side": 1,
+      "message": "Changed to ui:field\u003d\u0027revisions\u0027",
+      "parentUuid": "ad290421_f410d862",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d5440b2_63f6620f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-26T22:52:06Z",
+      "side": 1,
+      "message": "Reverted to \u0027download\u0027",
+      "range": {
+        "startLine": 263,
+        "startChar": 28,
+        "endLine": 263,
+        "endChar": 43
+      },
       "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +356,24 @@
     },
     {
       "key": {
+        "uuid": "8d5440b2_631d0275",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RevisionAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-26T22:52:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d81cc4b_f210e862",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad290421_54f98cfd",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RevisionAction.java",
         "patchSetId": 1
@@ -206,6 +391,24 @@
     },
     {
       "key": {
+        "uuid": "4d0de8e8_b9e4bf5c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RevisionAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-26T22:52:06Z",
+      "side": 1,
+      "message": "Good point, I will do another change to refactor for a LeftSidePopudownAction.",
+      "parentUuid": "ad290421_54f98cfd",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d81cc4b_9205dc23",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RevisionBox.java",
         "patchSetId": 1
@@ -217,6 +420,24 @@
       "writtenOn": "2013-08-24T13:32:28Z",
       "side": 1,
       "message": "RevisionsBox.java?",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd5ab8dc_25006e14",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RevisionBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-26T22:52:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d81cc4b_9205dc23",
       "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -251,6 +472,24 @@
       "writtenOn": "2013-08-24T12:32:39Z",
       "side": 1,
       "message": "We fetch here ALL_REVISIONS second time. First time in ChangeScreen2. Why? If we need it in ChangeScreen2, then we could pass it here and not to fetch it here second time. Otherwise only fetch it here?",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edf21c16_1ef66d0d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RevisionBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-26T22:52:06Z",
+      "side": 1,
+      "message": "We don\u0027t fetch ALL_COMMITS.",
+      "parentUuid": "6d81cc4b_92ee3c3a",
       "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -310,6 +549,24 @@
     },
     {
       "key": {
+        "uuid": "8d5440b2_23170a55",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RevisionBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-26T22:52:06Z",
+      "side": 1,
+      "message": "I\u0027ll try this without shortening the name. I also have a 30\" display for my desktop, but a 30\" display is still infeasible for my laptop.",
+      "parentUuid": "ad290421_b40a6031",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d81cc4b_b20a6031",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RevisionBox.ui.xml",
         "patchSetId": 1
@@ -321,6 +578,24 @@
       "writtenOn": "2013-08-24T13:32:28Z",
       "side": 1,
       "message": "RevisionsBox.ui.xml?",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d5440b2_031a0e7e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RevisionBox.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-26T22:52:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d81cc4b_b20a6031",
       "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -344,6 +619,24 @@
     },
     {
       "key": {
+        "uuid": "edf21c16_3ef9a9ff",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RevisionBox.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-26T22:52:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad290421_b4f3401f",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad290421_5420acb3",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RevisionBox.ui.xml",
         "patchSetId": 1
@@ -355,6 +648,24 @@
       "writtenOn": "2013-08-24T13:32:28Z",
       "side": 1,
       "message": "You didn\u0027t create an instance var for this in RevisionBox.java. Either remove ui:field\u003d\u0027scroll\u0027 here or add in RevisionBox.java:\n\n   @UiField ScrollPanel scroll;",
+      "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d0de8e8_99e9fb36",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RevisionBox.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-26T22:52:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad290421_5420acb3",
       "revId": "adbde6f6c33ef62393d9d9d691a51e7868674035",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

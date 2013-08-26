@@ -366,6 +366,45 @@ plugin to parse the `gerrit.config` file on its own:
                        .getString("language", "English");
 ----
 
+[[project-specific-configuration]]
+Project Specific Configuration
+------------------------------
+
+In Gerrit, project specific configuration is stored in the project's
+`project.config` file on the `refs/meta/config` branch.  If a plugin
+needs configuration on project level (e.g. to enable its functionality
+only for certain projects), this configuration should be stored in a
+`plugin` subsection in the project's `project.config` file.
+
+To avoid conflicts with other plugins, it is recommended that plugins
+only use the `plugin` subsection with their own name. For example the
+`helloworld` plugin should store its configuration in the
+`plugin.helloworld` subsection:
+
+----
+  [plugin "helloworld"]
+    enabled = true
+----
+
+Via the `com.google.gerrit.server.config.PluginConfigFactory` class a
+plugin can easily access its project specific configuration and there
+is no need for a plugin to parse the `project.config` file on its own:
+
+[source,java]
+----
+  @Inject
+  private com.google.gerrit.server.config.PluginConfigFactory cfg;
+
+  ...
+
+  boolean enabled = cfg.get(project, "helloworld")
+                       .getBoolean("enabled", false);
+----
+
+Project owners can edit the project configuration by fetching the
+`refs/meta/config` branch, editing the `project.config` file and
+pushing the commit back.
+
 [[capabilities]]
 Plugin Owned Capabilities
 -------------------------

@@ -57,5 +57,5 @@ for spec in args.s:
       '-Dfile=%s' % src,
     ])
   except Exception as e:
-    print('%s command failed: %s' % (action, e), file=stderr)
+    print('%s command failed: %s' % (args.a, e), file=stderr)
     exit(1)

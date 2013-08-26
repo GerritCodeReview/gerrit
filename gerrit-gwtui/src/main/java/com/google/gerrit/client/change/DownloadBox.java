@@ -150,19 +150,22 @@ class DownloadBox extends Composite {
       }
       scheme.addItem(u, id);
     }
-
-    int select = 0;
-    String find = getUserPreference();
-    if (find != null) {
-      for (int i = 0; i < scheme.getItemCount(); i++) {
-        if (find.equals(scheme.getValue(i))) {
-          select = i;
-          break;
+    if (scheme.getItemCount() == 1) {
+      scheme.setSelectedIndex(0);
+      scheme.setVisible(false);
+    } else {
+      int select = 0;
+      String find = getUserPreference();
+      if (find != null) {
+        for (int i = 0; i < scheme.getItemCount(); i++) {
+          if (find.equals(scheme.getValue(i))) {
+            select = i;
+            break;
+          }
         }
       }
+      scheme.setSelectedIndex(select);
     }
-
-    scheme.setSelectedIndex(select);
     renderCommands();
   }
 

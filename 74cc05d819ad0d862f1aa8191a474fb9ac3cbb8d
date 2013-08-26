@@ -16,6 +16,24 @@
       "revId": "74cc05d819ad0d862f1aa8191a474fb9ac3cbb8d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed74dc43_ae5c3724",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-26T16:49:55Z",
+      "side": 1,
+      "message": "I see this problem with programmatically getting the \"name\" of a plugin, but fortunately for this change there is no need to do this. Only the plugin itself needs to know its name when reading the configuration. This name can simply be hard-coded in the plugin. The plugin anyway needs to provide documentation for the configuration parameters, so it must have a fixed name for the config section. It\u0027s just suggested that you use the plugin name as section name but in principle you could also use another name (but this increases the chance to have conflicts with other plugins).",
+      "parentUuid": "ed74dc43_ce5d0324",
+      "revId": "74cc05d819ad0d862f1aa8191a474fb9ac3cbb8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

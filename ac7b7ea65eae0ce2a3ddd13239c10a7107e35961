@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "ed74dc43_ae0af730",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-26T09:06:06Z",
+      "side": 1,
+      "message": "better: Support branch specific labels",
+      "revId": "ac7b7ea65eae0ce2a3ddd13239c10a7107e35961",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd71d854_4d2039b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-26T09:06:06Z",
+      "side": 1,
+      "message": "I would prefer to start with only one option, the one that allows you to define a label for branches. Other options should be done and discussed in own changes (e.g. I disagree with the \u0027access\u0027 option, see below).",
+      "revId": "ac7b7ea65eae0ce2a3ddd13239c10a7107e35961",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed74dc43_4e2033b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-26T09:06:06Z",
+      "side": 1,
+      "message": "I really dislike the \u0027access\u0027 option. In my opinion defining a label and assigning access rights to vote on it are two different things that should stay seperated. I don\u0027t like the idea of interpreting a missing permission as \u0027this label doesn\u0027t apply\u0027.",
+      "revId": "ac7b7ea65eae0ce2a3ddd13239c10a7107e35961",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd71d854_6d1df574",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-26T09:06:06Z",
+      "side": 1,
+      "message": "I don\u0027t like \u0027applicableScope\u0027 as key here. Why not simply call it \u0027branch\u0027 (which can be specified multiple times)?\n  [label \"Copyright-Check\"]\t\n    branch \u003d refs/heads/ad/vidio/*\n    branch \u003d refs/heads/ub/vidio/Kino",
+      "revId": "ac7b7ea65eae0ce2a3ddd13239c10a7107e35961",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d6aac67_4af9f3fd",
         "filename": "Documentation/config-labels.txt",
         "patchSetId": 11

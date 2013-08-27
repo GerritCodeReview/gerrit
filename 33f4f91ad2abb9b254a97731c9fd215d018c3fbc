@@ -52,6 +52,24 @@
       "revId": "33f4f91ad2abb9b254a97731c9fd215d018c3fbc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "adaae4e9_ec614bd3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-27T14:06:04Z",
+      "side": 1,
+      "message": "I guess you are right, but I\u0027m still not fully convinced by this and it makes sense to first focus on the part where we have an agreement so that we can get this through without needing to agree on \"branch \u003d sameAsAccess\" immediately.",
+      "parentUuid": "adaae4e9_4c9cdfaf",
+      "revId": "33f4f91ad2abb9b254a97731c9fd215d018c3fbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

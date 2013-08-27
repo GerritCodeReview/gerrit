@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8da7e022_6b4c2173",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-27T13:55:46Z",
+      "side": 1,
+      "message": "I still think that the feature of setting \"branch \u003d sameAsAccess\" should be implemented and discussed in an own change that depends on this change. This change should only focus on adding support for branch specific labels. Can you please split this into two changes?",
+      "revId": "33f4f91ad2abb9b254a97731c9fd215d018c3fbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -49,6 +49,7 @@ class IsWatchedByPredicate extends AndPredicate<ChangeData> {
       boolean checkIsVisible) {
     List<Predicate<ChangeData>> r = Lists.newArrayList();
     ChangeQueryBuilder builder = new ChangeQueryBuilder(args, user);
+    builder.setAllowFileRegex(args.indexes.getSearchIndex() != null);
     for (AccountProjectWatch w : user.getNotificationFilters()) {
       Predicate<ChangeData> f = null;
       if (w.getFilter() != null) {

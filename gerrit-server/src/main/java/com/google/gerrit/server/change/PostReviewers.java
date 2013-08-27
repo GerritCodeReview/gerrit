@@ -56,6 +56,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -63,6 +65,9 @@ import java.util.List;
 import java.util.Set;
 
 public class PostReviewers implements RestModifyView<ChangeResource, Input> {
+  private static final Logger log = LoggerFactory
+      .getLogger(PostReviewers.class);
+
   public static final int DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK = 10;
   public static final int DEFAULT_MAX_REVIEWERS = 20;
 
@@ -279,12 +284,15 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
       }
     }
     if (!added.isEmpty()) {
-      AddReviewerSender cm;
-
-      cm = addReviewerSenderFactory.create(change);
-      cm.setFrom(currentUser.getAccountId());
-      cm.addReviewers(added);
-      cm.send();
+      try {
+        AddReviewerSender cm = addReviewerSenderFactory.create(change);
+        cm.setFrom(currentUser.getAccountId());
+        cm.addReviewers(added);
+        cm.send();
+      } catch (Exception err) {
+        log.error("Cannot send email to new reviewers of change "
+            + change.getId(), err);
+      }
     }
   }
 

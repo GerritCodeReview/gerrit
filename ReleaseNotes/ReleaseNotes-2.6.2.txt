@@ -47,5 +47,8 @@ Expand capabilities of `ldap.groupMemberPattern`.
 * link:https://code.google.com/p/gerrit/issues/detail?id=2039[Issue 2039]:
 Fix browser NPE when ChangeCache is incomplete.
 
+* link:https://code.google.com/p/gerrit/issues/detail?id=2056[Issue 2056]:
+Display custom NoOp label score for open changes.
+
 No other changes since 2.6.1.
 

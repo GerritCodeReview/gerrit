@@ -123,6 +123,23 @@
     },
     {
       "key": {
+        "uuid": "8d5440b2_a35c5a24",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api2/changes/Changes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-27T08:34:36Z",
+      "side": 1,
+      "message": "Is it possible to use ChangeTriplet here?",
+      "revId": "a0dcdcb7e666d9b9e80aafd87d178a3bb639c7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3802b4bb_3e2531d3",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api2/changes/RevisionApi.java",
         "patchSetId": 1
@@ -152,6 +169,23 @@
       "side": 1,
       "message": "Yes. See my remarks in ChangeApi.",
       "parentUuid": "3802b4bb_3e2531d3",
+      "revId": "a0dcdcb7e666d9b9e80aafd87d178a3bb639c7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d5440b2_43524610",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api2/Module.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-27T08:34:36Z",
+      "side": 1,
+      "message": "Missing copyright header.",
       "revId": "a0dcdcb7e666d9b9e80aafd87d178a3bb639c7e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

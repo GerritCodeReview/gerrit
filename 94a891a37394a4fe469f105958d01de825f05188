@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8da7e022_6b038123",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsWatchedByPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-27T05:50:03Z",
+      "side": 1,
+      "message": "you don\u0027t need. As i said above, once secondary index is enabled, then file:regex over IsWatched just work. That logic is in ChangeQueryBuilder:\n\n  @Operator\n  public Predicate\u003cChangeData\u003e file(String file) throws QueryParseException {\n    if (file.startsWith(\"^\")) {\n      if (allowFileRegex || args.indexes.getSearchIndex() !\u003d null) {\n        return new RegexFilePredicate(args.dbProvider, args.patchListCache, file);\n      } else {\n        throw error(\"secondary index must be enabled for file:\" + file);\n      }\n    } else {\n [...]",
+      "revId": "94a891a37394a4fe469f105958d01de825f05188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

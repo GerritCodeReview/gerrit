@@ -49,14 +49,13 @@ when Maven asks to confirm the properties configuration. It will then
 ask again for all properties including those with predefined default
 values.
 
-. clone the sample helloworld plugin:
+. clone the sample plugin:
 +
-This is a Maven project that adds an SSH command to Gerrit to print
-out a hello world message. It can be taken as an example to develop
-an own plugin.
+This is a project that demonstrates the various features of the
+plugin API. It can be taken as an example to develop an own plugin.
 +
 ----
-$ git clone https://gerrit.googlesource.com/plugins/helloworld
+$ git clone https://gerrit.googlesource.com/plugins/cookbook-plugin
 ----
 +
 When starting from this example one should take care to adapt the

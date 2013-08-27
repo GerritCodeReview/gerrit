@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8da7e022_0b28fd92",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-27T08:31:00Z",
+      "side": 1,
+      "message": "Does it make sense to continue with the else branch below if AccountGroup.CHANGE_OWNERS.equals(uuid) but isChangeOwner is false?\n\nI think the code should rather be like this:\n  } else if (AccountGroup.CHANGE_OWNERS.equals(uuid)) {\n    return isChangeOwner;\n  } else {\n  ...",
+      "revId": "300895a2ea82111d6862cdde0d3dedef8a162a94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

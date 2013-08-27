@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "adaae4e9_ac3623f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-27T07:05:08Z",
+      "side": 1,
+      "message": "I think this should be:\n  api.changes().id(12345).revision(\"c0ffee....\").review(input);\n\nAnd I guess \u0027api\u0027 needs to injected as\n  @Inject GerritApi api\n?",
+      "revId": "a0dcdcb7e666d9b9e80aafd87d178a3bb639c7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3802b4bb_1e22edca",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -31,6 +48,23 @@
       "side": 1,
       "message": "I was more on the fence Saturday about automatic proxy vs. hand-coded implementation. I now think hand coded implementation is the best approach to take here. Its more typing but we can parallelize this work to some extent across the entire team.",
       "parentUuid": "3802b4bb_1e22edca",
+      "revId": "a0dcdcb7e666d9b9e80aafd87d178a3bb639c7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed74dc43_2e328700",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api2/GerritApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-27T07:05:08Z",
+      "side": 1,
+      "message": "Why \u0027api2\u0027, and not \u0027api\u0027?",
       "revId": "a0dcdcb7e666d9b9e80aafd87d178a3bb639c7e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -101,6 +135,40 @@
       "side": 1,
       "message": "Yes. See my remarks in ChangeApi.",
       "parentUuid": "3802b4bb_3e2531d3",
+      "revId": "a0dcdcb7e666d9b9e80aafd87d178a3bb639c7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eda05c0a_eeee5f3a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api2/Module.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-27T07:05:08Z",
+      "side": 1,
+      "message": "This module is not used and hence trying to inject GerritApi in a plugin fails. Should it be installed in GerritGlobalModule?\n\nTrying to do this fails with a Guice error since no implementation for SshInfo is bound and no scope for RequestScope is bound. IIRC getting the Guice bindings right is the main challenge with this REST API for the plugins.",
+      "revId": "a0dcdcb7e666d9b9e80aafd87d178a3bb639c7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d6aac67_aa450f52",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api2/changes/RevisionApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-27T07:05:08Z",
+      "side": 1,
+      "message": "nit: blank line too much",
       "revId": "a0dcdcb7e666d9b9e80aafd87d178a3bb639c7e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

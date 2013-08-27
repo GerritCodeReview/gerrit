@@ -33,6 +33,24 @@
       "revId": "284043793acccbeabf7d7c6a6728a8ad9c512379",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "adaae4e9_ac0bc338",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsWatchedByPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-27T05:37:21Z",
+      "side": 1,
+      "message": "Oh, David O. was faster in commenting on this :-) Looks like it just works if secondary indexes are enabled?",
+      "parentUuid": "8da7e022_2bf979ff",
+      "revId": "284043793acccbeabf7d7c6a6728a8ad9c512379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

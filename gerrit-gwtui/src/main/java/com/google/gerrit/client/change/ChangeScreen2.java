@@ -102,6 +102,7 @@ public class ChangeScreen2 extends Screen {
     String label_may();
     String label_need();
     String replyBox();
+    String selected();
   }
 
   private final Change.Id changeId;

@@ -44,6 +44,7 @@ abstract class RightSidePopdownAction {
 
   void show() {
     if (popup != null) {
+      button.removeStyleName(style.selected());
       popup.hide();
       return;
     }
@@ -68,6 +69,7 @@ abstract class RightSidePopdownAction {
       @Override
       public void onClose(CloseEvent<PopupPanel> event) {
         if (popup == p) {
+          button.removeStyleName(style.selected());
           popup = null;
         }
       }
@@ -75,6 +77,7 @@ abstract class RightSidePopdownAction {
     p.add(getWidget());
     p.showRelativeTo(relativeTo);
     GlobalKey.dialog(p);
+    button.addStyleName(style.selected());
     popup = p;
   }
 }

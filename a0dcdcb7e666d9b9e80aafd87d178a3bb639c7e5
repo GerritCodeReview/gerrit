@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "adaae4e9_2c2b5393",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-27T08:22:45Z",
+      "side": 1,
+      "message": "It would be very cool, if we can have the same API as a library that external tools can use to integrate with Gerrit. For this use-case we need another implementation of GerritApi that actually triggers the REST calls over HTTP. This API could then probably also be used by the Gerrit client. Of course this is something for future changes.",
+      "revId": "a0dcdcb7e666d9b9e80aafd87d178a3bb639c7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "adaae4e9_ac3623f8",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

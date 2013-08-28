@@ -70,6 +70,24 @@
       "revId": "33f4f91ad2abb9b254a97731c9fd215d018c3fbc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2fafd2e_be1a997a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-08-28T10:52:20Z",
+      "side": 1,
+      "message": "cutting it into 2 parts would be better than in one.  :)\n\nDone",
+      "parentUuid": "adaae4e9_ec614bd3",
+      "revId": "33f4f91ad2abb9b254a97731c9fd215d018c3fbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

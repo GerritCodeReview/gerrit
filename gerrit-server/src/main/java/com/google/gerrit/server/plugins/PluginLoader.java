@@ -76,6 +76,7 @@ public class PluginLoader implements LifecycleListener {
   private final ConcurrentMap<String, Plugin> running;
   private final ConcurrentMap<String, Plugin> disabled;
   private final Map<String, FileSnapshot> broken;
+  private final ConcurrentMap<String, String> files;
   private final Map<Plugin, CleanupHandle> cleanupHandles;
   private final Queue<Plugin> toCleanup;
   private final Provider<PluginCleanerTask> cleaner;
@@ -97,6 +98,7 @@ public class PluginLoader implements LifecycleListener {
     running = Maps.newConcurrentMap();
     disabled = Maps.newConcurrentMap();
     broken = Maps.newHashMap();
+    files = Maps.newConcurrentMap();
     toCleanup = Queues.newArrayDeque();
     cleanupHandles = Maps.newConcurrentMap();
     cleaner = pct;
@@ -148,12 +150,15 @@ public class PluginLoader implements LifecycleListener {
         jar.renameTo(old);
       }
 
+      // TODO(davido): the name-owned plugins can be renamed here,
+      // do we care?
       new File(pluginsDir, name + ".jar.disabled").delete();
       tmp.renameTo(jar);
       try {
-        runPlugin(name, jar, active);
+        Plugin plugin = runPlugin(name, jar, active);
         if (active == null) {
-          log.info(String.format("Installed plugin %s", name));
+          log.info(String.format("Installed plugin %s, version %s",
+              plugin.getName(), plugin.getVersion()));
         }
       } catch (PluginInstallException e) {
         jar.delete();
@@ -204,6 +209,7 @@ public class PluginLoader implements LifecycleListener {
     running.remove(name);
     disabled.remove(name);
     toCleanup.add(plugin);
+    files.remove(name);
   }
 
   public void disablePlugins(Set<String> names) {
@@ -328,6 +334,10 @@ public class PluginLoader implements LifecycleListener {
       }
 
       String name = nameOf(jar);
+      if (files.containsKey(name)) {
+        name = files.get(name);
+      }
+
       FileSnapshot brokenTime = broken.get(name);
       if (brokenTime != null && !brokenTime.isModified(jar)) {
         continue;
@@ -345,7 +355,8 @@ public class PluginLoader implements LifecycleListener {
       try {
         Plugin loadedPlugin = runPlugin(name, jar, active);
         if (active == null && !loadedPlugin.isDisabled()) {
-          log.info(String.format("Loaded plugin %s", name));
+          log.info(String.format("Loaded plugin %s, version %s",
+              loadedPlugin.getName(), loadedPlugin.getVersion()));
         }
       } catch (PluginInstallException e) {
         log.warn(String.format("Cannot load plugin %s", name), e.getCause());
@@ -360,6 +371,9 @@ public class PluginLoader implements LifecycleListener {
     FileSnapshot snapshot = FileSnapshot.save(jar);
     try {
       Plugin newPlugin = loadPlugin(name, jar, snapshot);
+      if (!newPlugin.getName().equals(name)) {
+        files.put(name, newPlugin.getName());
+      }
       boolean reload = oldPlugin != null
           && oldPlugin.canReload()
           && newPlugin.canReload();
@@ -376,11 +390,11 @@ public class PluginLoader implements LifecycleListener {
         env.onStartPlugin(newPlugin);
       }
       if (!newPlugin.isDisabled()) {
-        running.put(name, newPlugin);
+        running.put(newPlugin.getName(), newPlugin);
       } else {
-        disabled.put(name, newPlugin);
+        disabled.put(newPlugin.getName(), newPlugin);
       }
-      broken.remove(name);
+      broken.remove(newPlugin.getName());
       return newPlugin;
     } catch (Throwable err) {
       broken.put(name, snapshot);
@@ -392,10 +406,13 @@ public class PluginLoader implements LifecycleListener {
     Set<String> unload = Sets.newHashSet(running.keySet());
     for (File jar : jars) {
       if (!jar.getName().endsWith(".disabled")) {
-        unload.remove(nameOf(jar));
+        String name = nameOf(jar);
+        unload.remove(files.containsKey(name)
+            ? files.get(name)
+            : name);
       }
     }
-    for (String name : unload){
+    for (String name : unload) {
       unloadPlugin(running.get(name));
     }
   }
@@ -456,6 +473,7 @@ public class PluginLoader implements LifecycleListener {
       Manifest manifest = jarFile.getManifest();
       Plugin.ApiType type = Plugin.getApiType(manifest);
       Attributes main = manifest.getMainAttributes();
+      String pluginName = main.getValue("Gerrit-PluginName");
       String sysName = main.getValue("Gerrit-Module");
       String sshName = main.getValue("Gerrit-SshModule");
       String httpName = main.getValue("Gerrit-HttpModule");
@@ -464,6 +482,10 @@ public class PluginLoader implements LifecycleListener {
         throw new InvalidPluginException(String.format(
             "Using Gerrit-SshModule requires Gerrit-ApiType: %s",
             Plugin.ApiType.PLUGIN));
+      }
+
+      if (!Strings.isNullOrEmpty(pluginName)) {
+        name = pluginName;
       }
 
       URL[] urls = {tmp.toURI().toURL()};

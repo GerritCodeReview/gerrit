@@ -33,15 +33,24 @@ Issues a DELETE REST API request to the Gerrit server.
 
 .Signature
 ----
-Gerrit.delete(url, callback)
+Gerrit.delete(url, input, callback)
 ----
 
 * url: URL relative to the plugin's URL space. The JavaScript
   library prefixes the supplied URL with `/plugins/{getPluginName}/`.
 
+* input: JavaScript object to serialize as the request payload.
+
 * callback: JavaScript function to be invoked with the parsed
   JSON result of the API call. DELETE methods often return
   `204 No Content`, which is passed as null.
+
+----
+self.delete(
+  '/delete-project',
+  {preserve_git_repository: true, force_even_if_open_changes_exist: false},
+  function (r) {});
+----
 
 [[self_get]]
 self.get()
@@ -184,7 +193,7 @@ context.call(input, callback)
 ----
 
 * input: JavaScript object to serialize as the request payload. This
-  parameter is ignored for GET and DELETE methods.
+  parameter is ignored for GET method.
 
 * callback: JavaScript function to be invoked with the parsed JSON
   result of the API call. If the API returns a string the result is
@@ -214,15 +223,19 @@ Issues a DELETE REST API call to the URL associated with the action.
 
 .Signature
 ----
-context.delete(callback)
+context.delete(input, callback)
 ----
+
+* input: JavaScript object to serialize as the request payload.
 
 * callback: JavaScript function to be invoked with the parsed
   JSON result of the API call. DELETE methods often return
   `204 No Content`, which is passed as null.
 
 ----
-context.delete(function () {});
+context.delete(
+   {force: true}
+   function () {});
 ----
 
 [[context_get]]
@@ -416,11 +429,13 @@ private REST API URLs see link:#self_delete[self.delete()].
 
 .Signature
 ----
-Gerrit.delete(url, callback)
+Gerrit.delete(url, input, callback)
 ----
 
 * url: URL relative to the Gerrit server. For example to access the
   link:rest-api-changes.html[changes REST API] use `'/changes/'`.
+
+* input: JavaScript object to serialize as the request payload.
 
 * callback: JavaScript function to be invoked with the parsed
   JSON result of the API call. DELETE methods often return
@@ -429,6 +444,7 @@ Gerrit.delete(url, callback)
 ----
 Gerrit.delete(
   '/changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/topic',
+  {force: true},
   function () {});
 ----
 

@@ -44,7 +44,7 @@ class DefaultActions {
     if ("PUT".equalsIgnoreCase(action.method())) {
       api.put(JavaScriptObject.createObject(), cb);
     } else if ("DELETE".equalsIgnoreCase(action.method())) {
-      api.delete(cb);
+      api.delete(JavaScriptObject.createObject(), cb);
     } else {
       api.post(JavaScriptObject.createObject(), cb);
     }

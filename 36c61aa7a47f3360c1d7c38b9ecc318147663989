@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2fafd2e_1e5e2d1c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-08-28T20:20:27Z",
+      "side": 1,
+      "message": "Previously the name contained the plugin version as well: now it would not be present anymore.\n\nCan we then log and enabled a version injection as well ? So that we don\u0027t loose that precious info :-).\n\nLuca.",
+      "revId": "36c61aa7a47f3360c1d7c38b9ecc318147663989",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

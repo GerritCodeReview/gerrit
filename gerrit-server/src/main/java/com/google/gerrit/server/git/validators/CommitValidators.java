@@ -355,11 +355,21 @@ public class CommitValidators {
     @Override
     public List<CommitValidationMessage> onCommitReceived(
         CommitReceivedEvent receiveEvent) throws CommitValidationException {
-      if (receiveEvent.commit.getParentCount() > 1
-          && !refControl.canUploadMerges()) {
-        throw new CommitValidationException("you are not allowed to upload merges");
+      boolean forReview =
+          MagicBranch.isMagicBranch(receiveEvent.command.getRefName());
+      boolean forPush = !forReview;
+      boolean isMerges = receiveEvent.commit.getParentCount() > 1;
+
+      if (isMerges && forReview && !refControl.canUploadMerges()) {
+        throw new CommitValidationException(
+            "you are not allowed to upload merges for reviw");
       }
-      return Collections.<CommitValidationMessage>emptyList();
+      if (isMerges && forPush && !refControl.canPushMerges()) {
+        throw new CommitValidationException(
+            "you are not allowed to push merges directly bypassing code review");
+      }
+
+      return Collections.<CommitValidationMessage> emptyList();
     }
   }
 

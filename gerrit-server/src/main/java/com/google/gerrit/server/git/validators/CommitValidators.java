@@ -356,7 +356,7 @@ public class CommitValidators {
     public List<CommitValidationMessage> onCommitReceived(
         CommitReceivedEvent receiveEvent) throws CommitValidationException {
       if (receiveEvent.commit.getParentCount() > 1
-          && !refControl.canUploadMerges()) {
+          && !refControl.canUploadMerges(receiveEvent.command)) {
         throw new CommitValidationException("you are not allowed to upload merges");
       }
       return Collections.<CommitValidationMessage>emptyList();

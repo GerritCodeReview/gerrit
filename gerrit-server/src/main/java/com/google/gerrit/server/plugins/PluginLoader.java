@@ -16,6 +16,8 @@ package com.google.gerrit.server.plugins;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Queues;
@@ -76,6 +78,7 @@ public class PluginLoader implements LifecycleListener {
   private final ConcurrentMap<String, Plugin> running;
   private final ConcurrentMap<String, Plugin> disabled;
   private final Map<String, FileSnapshot> broken;
+  private final BiMap<String, String> files;
   private final Map<Plugin, CleanupHandle> cleanupHandles;
   private final Queue<Plugin> toCleanup;
   private final Provider<PluginCleanerTask> cleaner;
@@ -97,6 +100,7 @@ public class PluginLoader implements LifecycleListener {
     running = Maps.newConcurrentMap();
     disabled = Maps.newConcurrentMap();
     broken = Maps.newHashMap();
+    files = Maps.synchronizedBiMap(HashBiMap.<String, String>create());
     toCleanup = Queues.newArrayDeque();
     cleanupHandles = Maps.newConcurrentMap();
     cleaner = pct;
@@ -151,9 +155,10 @@ public class PluginLoader implements LifecycleListener {
       new File(pluginsDir, name + ".jar.disabled").delete();
       tmp.renameTo(jar);
       try {
-        runPlugin(name, jar, active);
+        Plugin plugin = runPlugin(name, jar, active);
         if (active == null) {
-          log.info(String.format("Installed plugin %s", name));
+          log.info(String.format("Installed plugin %s, version %s",
+              plugin.getName(), plugin.getVersion()));
         }
       } catch (PluginInstallException e) {
         jar.delete();
@@ -204,6 +209,7 @@ public class PluginLoader implements LifecycleListener {
     running.remove(name);
     disabled.remove(name);
     toCleanup.add(plugin);
+    files.remove(name);
   }
 
   public void disablePlugins(Set<String> names) {
@@ -214,15 +220,18 @@ public class PluginLoader implements LifecycleListener {
           continue;
         }
 
-        log.info(String.format("Disabling plugin %s", name));
-        File off = new File(pluginsDir, active.getName() + ".jar.disabled");
+        log.info(String.format("Disabling plugin %s", active.getName()));
+        if (files.containsValue(name)) {
+          name = files.inverse().get(name);
+        }
+        File off = new File(pluginsDir, name + ".jar.disabled");
         active.getSrcFile().renameTo(off);
 
         unloadPlugin(active);
         try {
           FileSnapshot snapshot = FileSnapshot.save(off);
           Plugin offPlugin = loadPlugin(name, off, snapshot);
-          disabled.put(name, offPlugin);
+          disabled.put(offPlugin.getName(), offPlugin);
         } catch (Throwable e) {
           // This shouldn't happen, as the plugin was loaded earlier.
           log.warn(String.format("Cannot load disabled plugin %s", name),
@@ -328,6 +337,10 @@ public class PluginLoader implements LifecycleListener {
       }
 
       String name = nameOf(jar);
+      if (files.containsKey(name)) {
+        name = files.get(name);
+      }
+
       FileSnapshot brokenTime = broken.get(name);
       if (brokenTime != null && !brokenTime.isModified(jar)) {
         continue;
@@ -345,7 +358,8 @@ public class PluginLoader implements LifecycleListener {
       try {
         Plugin loadedPlugin = runPlugin(name, jar, active);
         if (active == null && !loadedPlugin.isDisabled()) {
-          log.info(String.format("Loaded plugin %s", name));
+          log.info(String.format("Loaded plugin %s, version %s",
+              loadedPlugin.getName(), loadedPlugin.getVersion()));
         }
       } catch (PluginInstallException e) {
         log.warn(String.format("Cannot load plugin %s", name), e.getCause());
@@ -360,6 +374,9 @@ public class PluginLoader implements LifecycleListener {
     FileSnapshot snapshot = FileSnapshot.save(jar);
     try {
       Plugin newPlugin = loadPlugin(name, jar, snapshot);
+      if (!newPlugin.getName().equals(name)) {
+        files.put(name, newPlugin.getName());
+      }
       boolean reload = oldPlugin != null
           && oldPlugin.canReload()
           && newPlugin.canReload();
@@ -376,11 +393,11 @@ public class PluginLoader implements LifecycleListener {
         env.onStartPlugin(newPlugin);
       }
       if (!newPlugin.isDisabled()) {
-        running.put(name, newPlugin);
+        running.put(newPlugin.getName(), newPlugin);
       } else {
-        disabled.put(name, newPlugin);
+        disabled.put(newPlugin.getName(), newPlugin);
       }
-      broken.remove(name);
+      broken.remove(newPlugin.getName());
       return newPlugin;
     } catch (Throwable err) {
       broken.put(name, snapshot);
@@ -392,10 +409,13 @@ public class PluginLoader implements LifecycleListener {
     Set<String> unload = Sets.newHashSet(running.keySet());
     for (File jar : jars) {
       if (!jar.getName().endsWith(".disabled")) {
-        unload.remove(nameOf(jar));
+        String name = nameOf(jar);
+        unload.remove(files.containsKey(name)
+            ? files.get(name)
+            : name);
       }
     }
-    for (String name : unload){
+    for (String name : unload) {
       unloadPlugin(running.get(name));
     }
   }
@@ -456,6 +476,7 @@ public class PluginLoader implements LifecycleListener {
       Manifest manifest = jarFile.getManifest();
       Plugin.ApiType type = Plugin.getApiType(manifest);
       Attributes main = manifest.getMainAttributes();
+      String pluginName = main.getValue("Gerrit-PluginName");
       String sysName = main.getValue("Gerrit-Module");
       String sshName = main.getValue("Gerrit-SshModule");
       String httpName = main.getValue("Gerrit-HttpModule");
@@ -464,6 +485,10 @@ public class PluginLoader implements LifecycleListener {
         throw new InvalidPluginException(String.format(
             "Using Gerrit-SshModule requires Gerrit-ApiType: %s",
             Plugin.ApiType.PLUGIN));
+      }
+
+      if (!Strings.isNullOrEmpty(pluginName)) {
+        name = pluginName;
       }
 
       URL[] urls = {tmp.toURI().toURL()};

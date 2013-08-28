@@ -52,6 +52,24 @@
       "revId": "131f2337bcc0dd90bf4938d15020e76e37c90f20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2fafd2e_9e30fdf8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-28T20:06:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "527109c6_59e4e35c",
+      "revId": "131f2337bcc0dd90bf4938d15020e76e37c90f20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

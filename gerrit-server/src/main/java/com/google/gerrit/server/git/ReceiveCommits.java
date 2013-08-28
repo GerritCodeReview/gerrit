@@ -1119,6 +1119,10 @@ public class ReceiveCommits {
 
     magicBranch.dest = new Branch.NameKey(project.getNameKey(), ref);
     magicBranch.ctl = projectControl.controlForRef(ref);
+    if (!magicBranch.ctl.canWrite()) {
+      reject(cmd, "project is read only");
+      return;
+    }
     if (!magicBranch.ctl.canUpload()) {
       errors.put(Error.CODE_REVIEW, ref);
       reject(cmd, "cannot upload review");

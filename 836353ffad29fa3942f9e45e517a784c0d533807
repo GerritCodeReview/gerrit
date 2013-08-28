@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52eca979_21f30e22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-08-28T01:09:59Z",
+      "side": 1,
+      "message": "Does this still only apply to lables?  If so, I think that this will make ACLs too confusing.  I think that the CHANGE_OWNER group should work just like other groups, on all ACLS.",
+      "revId": "836353ffad29fa3942f9e45e517a784c0d533807",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

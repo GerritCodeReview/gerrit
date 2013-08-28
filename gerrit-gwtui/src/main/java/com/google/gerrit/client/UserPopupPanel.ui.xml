@@ -17,7 +17,8 @@ limitations under the License.
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
   xmlns:g='urn:import:com.google.gwt.user.client.ui'
-  xmlns:gerrit='urn:import:com.google.gerrit.client'>
+  xmlns:gerrit='urn:import:com.google.gerrit.client'
+  xmlns:u='urn:import:com.google.gerrit.client.ui'>
   <ui:with field='constants' type='com.google.gerrit.client.GerritConstants'/>
 
   <ui:style>
@@ -51,9 +52,9 @@ limitations under the License.
       <g:Label ui:field='userName' styleName="{style.userName}" />
       <g:Label ui:field='userEmail' styleName="{style.email}" />
     </td></tr></table>
-    <g:Anchor ui:field='settings'>
-      <ui:text from='{constants.menuSettings}' />
-    </g:Anchor>
+    <u:InlineHyperlink ui:field='settings'>
+      <ui:msg>Settings</ui:msg>
+    </u:InlineHyperlink>
     <g:Anchor ui:field='logout' styleName="{style.logout}">
       <ui:text from='{constants.menuSignOut}' />
     </g:Anchor>

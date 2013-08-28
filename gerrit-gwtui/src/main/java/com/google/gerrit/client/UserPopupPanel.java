@@ -15,6 +15,7 @@
 package com.google.gerrit.client;
 
 import com.google.gerrit.client.account.AccountInfo;
+import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.common.PageLinks;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -39,7 +40,7 @@ public class UserPopupPanel extends PluginSafePopupPanel {
   @UiField
   Anchor logout;
   @UiField
-  Anchor settings;
+  InlineHyperlink settings;
 
   public UserPopupPanel(AccountInfo account, boolean canLogOut,
       boolean showSettingsLink) {
@@ -64,7 +65,7 @@ public class UserPopupPanel extends PluginSafePopupPanel {
       logout.setVisible(false);
     }
     if (showSettingsLink) {
-      settings.setHref(Gerrit.selfRedirect(PageLinks.SETTINGS));
+      settings.setTargetHistoryToken(PageLinks.SETTINGS);
     } else {
       settings.setVisible(false);
     }

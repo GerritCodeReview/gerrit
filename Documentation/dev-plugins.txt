@@ -132,6 +132,28 @@ will be performed by scanning all classes in the plugin JAR for
   Gerrit-HttpModule: tld.example.project.HttpModuleClassName
 ====
 
+[[plugin_name]]
+Plugin Name
+~~~~~~~~~~~~~
+
+Plugin can optionally provide its own plugin name.
+
+====
+  Gerrit-PluginName: replication
+====
+
+This is useful for plugins that contribute plugin-owned capabilities that
+are stored in project.config file. Other use case is to be able to put
+project specific plugin configuration section in project.config.
+In this case it is advantageously to reserve the plugin name to access the
+configuration section in project.config file.
+
+If plugin name is omitted, then the plugin name is induced from the
+plugin file name.
+
+If a plugin provides its own name, then that plugin can not be deployed
+multiple times under different file names on one Gerrit site.
+
 [[reload_method]]
 Reload Method
 ~~~~~~~~~~~~~

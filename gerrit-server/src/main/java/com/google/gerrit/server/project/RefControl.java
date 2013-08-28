@@ -28,6 +28,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.util.MagicBranch;
 
 import dk.brics.automaton.RegExp;
 
@@ -37,6 +38,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -148,8 +150,12 @@ public class RefControl {
   }
 
   /** @return true if this user can submit merge patch sets to this ref */
-  public boolean canUploadMerges() {
-    return projectControl.controlForRef("refs/for/" + getRefName())
+  public boolean canUploadMerges(ReceiveCommand c) {
+    String ref = getRefName();
+    if (MagicBranch.isMagicBranch(c.getRefName())) {
+      ref = "refs/for/" + ref;
+    }
+    return projectControl.controlForRef(ref)
         .canPerform(Permission.PUSH_MERGE)
         && canWrite();
   }

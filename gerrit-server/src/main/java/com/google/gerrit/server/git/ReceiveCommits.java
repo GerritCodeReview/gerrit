@@ -2054,7 +2054,7 @@ public class ReceiveCommits {
     if (ctl.canForgeAuthor()
         && ctl.canForgeCommitter()
         && ctl.canForgeGerritServerIdentity()
-        && ctl.canUploadMerges()
+        && ctl.canUploadMerges(cmd)
         && !projectControl.getProjectState().isUseSignedOffBy()
         && Iterables.isEmpty(rejectCommits)
         && !GitRepositoryManager.REF_CONFIG.equals(ctl.getRefName())

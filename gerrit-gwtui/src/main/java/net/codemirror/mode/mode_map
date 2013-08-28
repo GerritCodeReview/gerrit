@@ -51,4 +51,5 @@ xml:
 text/xml
 application/xml
 
+application/x-javascript = application/javascript
 text/x-java-source = text/x-java

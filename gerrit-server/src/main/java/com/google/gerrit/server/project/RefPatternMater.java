@@ -21,7 +21,7 @@ import java.util.Collections;
 import java.util.regex.Pattern;
 
 abstract class RefPatternMatcher {
-  static RefPatternMatcher getMatcher(String pattern) {
+  public static RefPatternMatcher getMatcher(String pattern) {
     if (pattern.contains("${")) {
       return new ExpandParameters(pattern);
     } else if (isRE(pattern)) {

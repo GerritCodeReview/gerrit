@@ -96,13 +96,13 @@ public class ActionContext extends JavaScriptObject {
 
       call: function(i,b) {
         var m = this.action.method.toLowerCase();
-        if (m == 'get' || m == 'delete' || i==null) this[m](b);
+        if (m == 'get' || i==null) this[m](b);
         else this[m](i,b);
       },
       get: function(b){@com.google.gerrit.client.api.ActionContext::get(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;)(this._u,b)},
       post: function(i,b){@com.google.gerrit.client.api.ActionContext::post(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(this._u,i,b)},
       put: function(i,b){@com.google.gerrit.client.api.ActionContext::put(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(this._u,i,b)},
-      'delete': function(b){@com.google.gerrit.client.api.ActionContext::delete(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;)(this._u,b)},
+      'delete': function(i,b){@com.google.gerrit.client.api.ActionContext::delete(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(this._u,i,b)},
     };
   }-*/;
 
@@ -135,8 +135,8 @@ public class ActionContext extends JavaScriptObject {
     api.put(in, wrap(cb));
   }
 
-  static final void delete(RestApi api, JavaScriptObject cb) {
-    api.delete(wrap(cb));
+  static final void delete(RestApi api, JavaScriptObject in, JavaScriptObject cb) {
+    api.delete(in, wrap(cb));
   }
 
   private static GerritCallback<JavaScriptObject> wrap(final JavaScriptObject cb) {

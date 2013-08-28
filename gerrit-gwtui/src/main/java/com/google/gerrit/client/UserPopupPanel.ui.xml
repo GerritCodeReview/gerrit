@@ -36,6 +36,9 @@ limitations under the License.
     .userName {
       font-weight: bold;
     }
+    .userLinks {
+      min-width: 175px;
+    }
     .email {
       padding-bottom: 6px;
     }
@@ -52,11 +55,13 @@ limitations under the License.
       <g:Label ui:field='userName' styleName="{style.userName}" />
       <g:Label ui:field='userEmail' styleName="{style.email}" />
     </td></tr></table>
-    <u:InlineHyperlink ui:field='settings'>
-      <ui:msg>Settings</ui:msg>
-    </u:InlineHyperlink>
-    <g:Anchor ui:field='logout' styleName="{style.logout}">
-      <ui:text from='{constants.menuSignOut}' />
-    </g:Anchor>
+    <div ui:field='userLinks' class='{style.userLinks}'>
+      <u:InlineHyperlink ui:field='settings' targetHistoryToken='/settings/'>
+        <ui:msg>Settings</ui:msg>
+      </u:InlineHyperlink>
+      <g:Anchor ui:field='logout' styleName="{style.logout}">
+        <ui:text from='{constants.menuSignOut}' />
+      </g:Anchor>
+    </div>
   </g:HTMLPanel>
 </ui:UiBinder>

@@ -147,10 +147,20 @@ public class RefControl {
         && canWrite();
   }
 
-  /** @return true if this user can submit merge patch sets to this ref */
+  /**
+   * @return true if this user can push merge commits directly bypassing code
+   *         review to this ref.
+   */
+  public boolean canPushMerges() {
+    return projectControl.controlForRef(getRefName()).canPerform(
+        Permission.PUSH_MERGE)
+        && canWrite();
+  }
+
+  /** @return true if this user can upload merge commits to this ref for review */
   public boolean canUploadMerges() {
-    return projectControl.controlForRef("refs/for/" + getRefName())
-        .canPerform(Permission.PUSH_MERGE)
+    return projectControl.controlForRef("refs/for/" + getRefName()).canPerform(
+        Permission.PUSH_MERGE)
         && canWrite();
   }
 

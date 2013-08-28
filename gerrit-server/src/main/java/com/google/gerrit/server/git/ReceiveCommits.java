@@ -1981,7 +1981,7 @@ public class ReceiveCommits {
     if (ctl.canForgeAuthor()
         && ctl.canForgeCommitter()
         && ctl.canForgeGerritServerIdentity()
-        && ctl.canUploadMerges()
+        && (MagicBranch.isMagicBranch(cmd.getRefName())?ctl.canUploadMerges():ctl.canPushMerges())
         && !projectControl.getProjectState().isUseSignedOffBy()
         && Iterables.isEmpty(rejectCommits)
         && !GitRepositoryManager.REF_CONFIG.equals(ctl.getRefName())

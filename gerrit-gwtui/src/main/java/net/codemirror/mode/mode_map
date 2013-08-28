@@ -22,6 +22,7 @@ javascript:
 text/javascript
 text/ecmascript
 application/javascript
+application/x-javascript
 application/ecmascript
 application/json
 application/x-json

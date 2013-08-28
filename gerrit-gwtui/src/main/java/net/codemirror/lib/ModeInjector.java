@@ -86,6 +86,10 @@ public class ModeInjector {
 
   public static String getContentType(String mode) {
     String real = mode != null ? mimeAlias.get(mode) : null;
+    if (real == null && mode != null) {
+      mode = mimeModes.get(mode);
+      real = mimeAlias.get(mode);
+    }
     return real != null ? real : mode;
   }
 

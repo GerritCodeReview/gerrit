@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12f6b149_fff7ff09",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-08-28T06:28:08Z",
+      "side": 1,
+      "message": "can I know the reason: why it is \u0027must always\u0027 here?",
+      "revId": "282c102ec4eb820769e7d78c90018f4992fa0fb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9201c1f5_7be41f5d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-08-28T06:28:08Z",
+      "side": 1,
+      "message": "when creating a new branch by a merge with command:\n   git push origin   \u003cmerge-sha1\u003e:refs/heads/\u003cnew-branch-name\u003e\nas this is not for review, the `Push Merge` is expected to exist on\n   \u0027refs/heads/\u003cnew-branch-name\u003e\u0027\nit should not on\n \u0027refs/for/refs/heads/\u003cnew-branch-name\u003e\u0027\n\nwhy the \u0027Push Merge\u0027 is special here \u0027the intention\u0027 always make me \nconfused. \n\nDoes it will make sense if I add a small patch.",
+      "revId": "282c102ec4eb820769e7d78c90018f4992fa0fb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

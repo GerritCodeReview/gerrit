@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "f2fafd2e_de1d6576",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-08-28T08:48:45Z",
+      "side": 1,
+      "message": "Thanks for your feedback! Edwin. \n\nI prepared a small patch \n\nhttps://gerrit-review.googlesource.com/#/c/49271/2 \n\nhope it make some sense :)",
+      "parentUuid": "12f6b149_bf01771c",
+      "revId": "282c102ec4eb820769e7d78c90018f4992fa0fb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9201c1f5_7be41f5d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 1

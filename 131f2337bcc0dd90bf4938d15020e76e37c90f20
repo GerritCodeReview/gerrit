@@ -34,6 +34,24 @@
       "revId": "131f2337bcc0dd90bf4938d15020e76e37c90f20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "527109c6_59e4e35c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-08-28T19:32:56Z",
+      "side": 1,
+      "message": "Could it be \u0027c\u0027 then \u0027c\u0027 for \"CC\" or simply \u0027c\u0027? \u0027f\u0027 doesn\u0027t seem intuitive..",
+      "parentUuid": "12f6b149_3fffa71e",
+      "revId": "131f2337bcc0dd90bf4938d15020e76e37c90f20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

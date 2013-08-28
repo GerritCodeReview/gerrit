@@ -149,6 +149,11 @@ public class RefControl {
 
   /** @return true if this user can submit merge patch sets to this ref */
   public boolean canUploadMerges() {
+    if (getRefName().startsWith("refs/heads")) {
+      return projectControl.controlForRef(getRefName()).canPerform(
+          Permission.PUSH_MERGE)
+          && canWrite();
+    }
     return projectControl.controlForRef("refs/for/" + getRefName())
         .canPerform(Permission.PUSH_MERGE)
         && canWrite();

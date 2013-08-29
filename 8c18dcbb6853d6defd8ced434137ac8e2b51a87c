@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32dbb507_70e9d031",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-29T22:13:57Z",
+      "side": 1,
+      "message": "Doesn\u0027t need to be plural.",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 18
+      },
+      "revId": "8c18dcbb6853d6defd8ced434137ac8e2b51a87c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

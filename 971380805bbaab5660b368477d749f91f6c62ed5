@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2fafd2e_3e8a096b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.ui.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-29T06:22:49Z",
+      "side": 1,
+      "message": "s/f/c\n\nThe key to edit reviewers is now \u0027c\u0027. I actually would prefer to remove the shortcut from the title. The user can simply press \u0027?\u0027 to learn about the shortcuts. On no other tooltip we show the shortcut.",
+      "revId": "971380805bbaab5660b368477d749f91f6c62ed5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

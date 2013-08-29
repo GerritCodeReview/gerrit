@@ -34,6 +34,24 @@
       "revId": "971380805bbaab5660b368477d749f91f6c62ed5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2fafd2e_9e9a3db2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.ui.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-29T06:32:14Z",
+      "side": 1,
+      "message": "Ah, ok. I wasn\u0027t aware of this.",
+      "parentUuid": "f2fafd2e_de90c597",
+      "revId": "971380805bbaab5660b368477d749f91f6c62ed5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

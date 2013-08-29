@@ -86,6 +86,24 @@
       "revId": "c076ca940e6f0bcc890152dbef484a8f7aab4721",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12f6b149_e873c754",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RevisionsBox.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-29T21:33:39Z",
+      "side": 1,
+      "message": "Yup! much better now. Horizontal scroll panel is activated now. Just curious, where is the code for it?\n\n http://imgur.com/ebSr6tC",
+      "parentUuid": "32f1f550_8669cebd",
+      "revId": "c076ca940e6f0bcc890152dbef484a8f7aab4721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,8 +16,8 @@ package com.google.gerrit.client;
 
 import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.ui.InlineHyperlink;
-import com.google.gerrit.common.PageLinks;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Anchor;
@@ -26,32 +26,21 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.user.client.PluginSafePopupPanel;
 
 public class UserPopupPanel extends PluginSafePopupPanel {
-  interface Binder extends UiBinder<Widget, UserPopupPanel> {
-  }
-
+  interface Binder extends UiBinder<Widget, UserPopupPanel> {}
   private static final Binder binder = GWT.create(Binder.class);
 
-  @UiField(provided = true)
-  AvatarImage avatar;
-  @UiField
-  Label userName;
-  @UiField
-  Label userEmail;
-  @UiField
-  Anchor logout;
-  @UiField
-  InlineHyperlink settings;
+  @UiField(provided = true) AvatarImage avatar;
+  @UiField Label userName;
+  @UiField Label userEmail;
+  @UiField Element userLinks;
+  @UiField Anchor logout;
+  @UiField InlineHyperlink settings;
 
   public UserPopupPanel(AccountInfo account, boolean canLogOut,
       boolean showSettingsLink) {
     super(/* auto hide */true, /* modal */false);
     avatar = new AvatarImage(account, 100, false);
     setWidget(binder.createAndBindUi(this));
-    // We must show and then hide this popup so that it is part of the DOM.
-    // Otherwise the image does not get any events.  Calling hide() would
-    // remove it from the DOM so we use setVisible(false) instead.
-    show();
-    setVisible(false);
     setStyleName(Gerrit.RESOURCES.css().userInfoPopup());
     if (account.name() != null) {
       userName.setText(account.name());
@@ -59,15 +48,24 @@ public class UserPopupPanel extends PluginSafePopupPanel {
     if (account.email() != null) {
       userEmail.setText(account.email());
     }
-    if (canLogOut) {
-      logout.setHref(Gerrit.selfRedirect("/logout"));
-    } else {
-      logout.setVisible(false);
-    }
     if (showSettingsLink) {
-      settings.setTargetHistoryToken(PageLinks.SETTINGS);
+      if (canLogOut) {
+        logout.setHref(Gerrit.selfRedirect("/logout"));
+      } else {
+        logout.setVisible(false);
+      }
     } else {
-      settings.setVisible(false);
+      settings.removeFromParent();
+      settings = null;
+      userLinks.removeFromParent();
+      userLinks = null;
+      logout = null;
     }
+
+    // We must show and then hide this popup so that it is part of the DOM.
+    // Otherwise the image does not get any events.  Calling hide() would
+    // remove it from the DOM so we use setVisible(false) instead.
+    show();
+    setVisible(false);
   }
 }

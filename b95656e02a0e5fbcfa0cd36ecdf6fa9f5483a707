@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "f2fafd2e_7e80914c",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/ModeInjector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-29T06:16:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32f1f550_e61d3a76",
+      "revId": "b95656e02a0e5fbcfa0cd36ecdf6fa9f5483a707",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "52eca979_01212ab8",
         "filename": "gerrit-gwtui/src/main/java/net/codemirror/mode/mode_map",
         "patchSetId": 1
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "f2fafd2e_5e85d55a",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/mode/mode_map",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-29T06:16:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52eca979_01212ab8",
+      "revId": "b95656e02a0e5fbcfa0cd36ecdf6fa9f5483a707",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32f1f550_c61a367c",
         "filename": "gerrit-gwtui/src/main/java/net/codemirror/mode/mode_map",
         "patchSetId": 1
@@ -65,6 +101,24 @@
         "endLine": 55,
         "endChar": 18
       },
+      "revId": "b95656e02a0e5fbcfa0cd36ecdf6fa9f5483a707",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12f6b149_a8a5bfe3",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/mode/mode_map",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-29T06:16:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32f1f550_c61a367c",
       "revId": "b95656e02a0e5fbcfa0cd36ecdf6fa9f5483a707",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

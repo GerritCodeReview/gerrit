@@ -86,7 +86,7 @@ public abstract class DownloadCommandLink extends Anchor implements ClickHandler
       String projectName;
       String ref;
       public RepoCommandLink(String project, String ref) {
-        super(DownloadCommand.REPO_DOWNLOAD, "checkout");
+        super(DownloadCommand.REPO_DOWNLOAD, "repo download");
         this.projectName = project;
         this.ref = ref;
       }

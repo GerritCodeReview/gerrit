@@ -356,7 +356,13 @@ public class ChangeJson {
         continue;
       }
       if (standard) {
-        setRecommendedAndDisliked(cd, type, e.getValue());
+        for (PatchSetApproval psa : cd.currentApprovals(db)) {
+          if (type.matches(psa)) {
+            short val = psa.getValue();
+            Account.Id accountId = psa.getAccountId();
+            setLabelScores(type, e.getValue(), val, accountId);
+          }
+        }
       }
       if (detailed) {
         setLabelValues(type, e.getValue());
@@ -400,36 +406,32 @@ public class ChangeJson {
     return labels;
   }
 
-  private void setRecommendedAndDisliked(ChangeData cd, LabelType type,
-      LabelInfo label) throws OrmException {
+  private void setLabelScores(LabelType type,
+      LabelInfo label, short score, Account.Id accountId)
+      throws OrmException {
     if (label.approved != null || label.rejected != null) {
       return;
     }
 
     if (type.getMin() == null || type.getMax() == null) {
-      // Unknown or misconfigured type can't have intermediate scores.
+      // Can't set score for unknown or misconfigured type.
       return;
     }
 
-    short min = type.getMin().getValue();
-    short max = type.getMax().getValue();
-    if (-1 <= min && max <= 1) {
-      // Types with a range of -1..+1 can't have intermediate scores.
-      return;
-    }
-
-    for (PatchSetApproval psa : cd.currentApprovals(db)) {
-      short val = psa.getValue();
-      if (val != 0 && min < val && val < max && type.matches(psa)) {
-        if (0 < val) {
-          label.recommended = accountLoader.get(psa.getAccountId());
-          label.value = val != 1 ? val : null;
-        } else {
-          label.disliked = accountLoader.get(psa.getAccountId());
-          label.value = val != -1 ? val : null;
-        }
+    if (score != 0) {
+      if (score == type.getMax().getValue()) {
+        label.approved = accountLoader.get(accountId);
+      } else if (score == type.getMin().getValue()) {
+        label.rejected = accountLoader.get(accountId);
+      } else if (score > 0) {
+        label.recommended = accountLoader.get(accountId);
+        label.value = score;
+      } else if (score < 0) {
+        label.disliked = accountLoader.get(accountId);
+        label.value = score;
       }
     }
+
     return;
   }
 
@@ -540,22 +542,11 @@ public class ChangeJson {
         }
 
         LabelInfo li = labels.get(type.getName());
-        if (!standard || li.approved != null || li.rejected != null) {
+        if (!standard) {
           continue;
         }
-        if (val == type.getMax().getValue()) {
-          li.approved = accountLoader.get(accountId);
-        } else if (val == type.getMin().getValue()
-            // A merged change can't have been rejected.
-            && cd.getChange().getStatus() != Status.MERGED) {
-          li.rejected = accountLoader.get(accountId);
-        } else if (val > 0) {
-          li.recommended = accountLoader.get(accountId);
-          li.value = val;
-        } else if (val < 0) {
-          li.disliked = accountLoader.get(accountId);
-          li.value = val;
-        }
+
+        setLabelScores(type, li, val, accountId);
       }
     }
     return labels;

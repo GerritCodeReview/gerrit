@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32dbb507_50e4cc5c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RevisionsBox.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-29T21:44:46Z",
+      "side": 1,
+      "message": "May be we can be more smart here to guess that the author and committer are the same? I. e. Author is \"David Ostrovsky\" and  committer is \"David Ostrovsky Admin\". I would expect, that only one name is shown in that case, may be:\n\n ... \u0026\u0026 (an.indexOf(cn) \u003d\u003d -1)) {\n sb.append(\" / \").append(cn);\n [...]",
+      "revId": "fdb43453bd7b77aeb69e16deae506106b25df9aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

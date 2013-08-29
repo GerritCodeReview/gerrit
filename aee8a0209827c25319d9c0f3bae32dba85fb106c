@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32f1f550_06213eb8",
+        "filename": "Documentation/js-api.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-29T02:23:02Z",
+      "side": 1,
+      "message": "\"for the GET method\"",
+      "revId": "aee8a0209827c25319d9c0f3bae32dba85fb106c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

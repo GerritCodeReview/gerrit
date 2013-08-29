@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12f6b149_28d76f0a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-29T09:39:36Z",
+      "side": 1,
+      "message": "Do these TODOs need to be done before we merge this?",
+      "revId": "43b35cca471a0dfc49120258339e148b7ac43da9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52eca979_a1303ef8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.ui.xml",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-29T09:39:36Z",
+      "side": 1,
+      "message": "In one of the earlier patch sets, this mentioned the shortcut key, but that was removed after Edwin said it should be in the screen that you get when pressing \u0027?\u0027\n\nWhere is the new shortcut added to that screen?",
+      "revId": "43b35cca471a0dfc49120258339e148b7ac43da9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

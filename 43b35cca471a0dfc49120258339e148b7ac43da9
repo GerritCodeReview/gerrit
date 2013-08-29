@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f2fafd2e_3e3689ca",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-29T10:00:23Z",
+      "side": 1,
+      "message": "Shawn doesn\u0027t want to merge it with RPC based ReviewersSuggestOracle. I am working on a new REST API based version.\n\nI am OK to replace it in follow-up change, if we reconsider to merge it how it is now.",
+      "parentUuid": "12f6b149_28d76f0a",
+      "revId": "43b35cca471a0dfc49120258339e148b7ac43da9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "52eca979_a1303ef8",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.ui.xml",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2013-08-29T09:39:36Z",
       "side": 1,
       "message": "In one of the earlier patch sets, this mentioned the shortcut key, but that was removed after Edwin said it should be in the screen that you get when pressing \u0027?\u0027\n\nWhere is the new shortcut added to that screen?",
+      "revId": "43b35cca471a0dfc49120258339e148b7ac43da9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12f6b149_e8d86736",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.ui.xml",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-29T10:00:23Z",
+      "side": 1,
+      "message": "It is added on the line 247 in ChangeScreen2.java:\n\n keysAction.add(new KeyCommand(0, \u0027c\u0027, Util.C.keyAddReviewers()) { ...\n\nActually we can reconsider to add the shortcut key hint here again, because \"Reply...\" and \"Edit Message\" have them too.\n\nEdwin was unaware of it...",
+      "parentUuid": "52eca979_a1303ef8",
       "revId": "43b35cca471a0dfc49120258339e148b7ac43da9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

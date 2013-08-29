@@ -74,6 +74,11 @@ public class ActionContext extends JavaScriptObject {
           e.appendChild(arguments[i]);
         return e;
       },
+      msg: function(label) {
+        var e = doc.createElement('span');
+        e.appendChild(doc.createTextNode(label));
+        return e;
+      },
       textarea: function(o) {
         var e = doc.createElement('textarea');
         e.onkeypress = stopPropagation;

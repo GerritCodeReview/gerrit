@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2fafd2e_fe7ca177",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-29T06:46:17Z",
+      "side": 1,
+      "message": "There are some proxies that prohibit request bodies for DELETE requests, which is way we should try to avoid using such requests from the WebUI. If we avoid them, we probably don\u0027t need this change?",
+      "revId": "65abf15fe3662ba6d39bec9dcc820de8bb382ab9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

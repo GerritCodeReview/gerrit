@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "32f1f550_666ecac5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RevisionsBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-29T21:15:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8da7e022_2b2059b3",
+      "revId": "c076ca940e6f0bcc890152dbef484a8f7aab4721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8da7e022_cb0a7532",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RevisionsBox.java",
         "patchSetId": 2
@@ -47,6 +65,24 @@
       "writtenOn": "2013-08-27T06:51:29Z",
       "side": 1,
       "message": "As Edwin pointed out, this seems to be too much for an average change. Even for change with 10 ps there is a lot of unused place, without scroll pane activated. I suggest to change it to 200px. Here is the picture with unchanged 400px:\n\n http://imgur.com/tpl2izp\n\nNext problem with scroll, is that when it is activated there is not enough place for the row and the columns are rendered as two rows. That picture is taken with 200px height:\n\n .scroll {\n      min-width: 300px;\n      height: 200px;\n }\n\nand with change with 10 ps:\n \n http://imgur.com/p8p4Gvb",
+      "revId": "c076ca940e6f0bcc890152dbef484a8f7aab4721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32f1f550_8669cebd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RevisionsBox.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-29T21:15:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8da7e022_0b1d9d75",
       "revId": "c076ca940e6f0bcc890152dbef484a8f7aab4721",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32f1f550_a6173254",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/mode/mode_map",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-29T06:18:12Z",
+      "side": 1,
+      "message": "blank line is not necessary and i would probably alphasort these two lines.",
+      "revId": "05d81372a73b336e0e4d6e2cf684aa3fe12de1f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

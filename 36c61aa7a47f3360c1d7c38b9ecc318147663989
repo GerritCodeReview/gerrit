@@ -16,6 +16,24 @@
       "revId": "36c61aa7a47f3360c1d7c38b9ecc318147663989",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2fafd2e_1e0d0d01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-29T21:22:13Z",
+      "side": 1,
+      "message": "Done\n\nGood point. With this fix you get:\n\n * Loaded plugin cookbook, version 0.1\n * Loaded plugin replication, version 1.4\n * Loaded plugin deleteproject, version 2.8-SNAPSHOT\n\nOh, why replication plugin has that strange version? Gerrit build bug? Buck bug? ... looking around. Ah, that\u0027s funny, fixed here:\n\n https://gerrit-review.googlesource.com/49305",
+      "parentUuid": "f2fafd2e_1e5e2d1c",
+      "revId": "36c61aa7a47f3360c1d7c38b9ecc318147663989",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

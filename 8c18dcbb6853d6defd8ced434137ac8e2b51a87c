@@ -22,6 +22,40 @@
       "revId": "8c18dcbb6853d6defd8ced434137ac8e2b51a87c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72ba8d9d_4ae4135d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-08-29T22:16:24Z",
+      "side": 1,
+      "message": "This line shows up as the commit description in shortlogs, so I\u0027d spell it out a little more. E.g.:\n\nMatch width of underline to title in documentation",
+      "revId": "8c18dcbb6853d6defd8ced434137ac8e2b51a87c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72ba8d9d_6ae9d731",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-08-29T22:16:24Z",
+      "side": 1,
+      "message": "\"While at it, add the missing \"Part of Gerrit Code Review\" footer to database-setup.txt and config-login-register.txt.\"",
+      "revId": "8c18dcbb6853d6defd8ced434137ac8e2b51a87c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32f1f550_e61d3a76",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/ModeInjector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-29T06:08:47Z",
+      "side": 1,
+      "message": "This is confusing and convoluted. And I think fixable if you use mimeAlias. See my comment in mime_map.",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 92,
+        "endChar": 5
+      },
+      "revId": "b95656e02a0e5fbcfa0cd36ecdf6fa9f5483a707",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52eca979_01212ab8",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/mode/mode_map",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-29T06:08:47Z",
+      "side": 1,
+      "message": "Instead of this statement add at the end of the file:\n\n  application/x-javascript \u003d application/javascript\n\nI think the bug you are trying to fix is identical to the problem of text/x-java-source.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 24
+      },
+      "revId": "b95656e02a0e5fbcfa0cd36ecdf6fa9f5483a707",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32f1f550_c61a367c",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/mode/mode_map",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-29T06:08:47Z",
+      "side": 1,
+      "message": "application/x-javascript is like this case.",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 18
+      },
+      "revId": "b95656e02a0e5fbcfa0cd36ecdf6fa9f5483a707",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

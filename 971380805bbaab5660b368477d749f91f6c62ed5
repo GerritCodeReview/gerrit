@@ -16,6 +16,24 @@
       "revId": "971380805bbaab5660b368477d749f91f6c62ed5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2fafd2e_de90c597",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.ui.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-29T06:30:46Z",
+      "side": 1,
+      "message": "Done.\n\nActually we do, check the tooltips for \"Reply...\" and \"Edit Message\" buttons. Where do you think i\u0027ve copied it from?\n\n;-)",
+      "parentUuid": "f2fafd2e_3e8a096b",
+      "revId": "971380805bbaab5660b368477d749f91f6c62ed5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

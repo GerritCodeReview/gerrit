@@ -16,6 +16,23 @@
       "revId": "04990448728e2d2aa933b65deee2a5bfe124fba7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32f1f550_865f8e1a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-29T07:39:10Z",
+      "side": 1,
+      "message": "I submitted an issue, so it\u0027ll be easier to refer to in release notes.  Please add the footer:\n\n  Bug: Issue 2093",
+      "revId": "04990448728e2d2aa933b65deee2a5bfe124fba7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

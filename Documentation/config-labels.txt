@@ -177,7 +177,7 @@ optional leading `+`.
 
 [[label_abbreviation]]
 `label.Label-Name.abbreviation`
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 An abbreviated name for a label shown as a compact column header, for
 example on project dashboards. Defaults to all the uppercase characters

@@ -83,7 +83,7 @@ the `gerrit-security-fixes` project be taken over into the public
 
 
 Create the Actual Release
----------------------------
+-------------------------
 
 To create a Gerrit release the following steps have to be done:
 

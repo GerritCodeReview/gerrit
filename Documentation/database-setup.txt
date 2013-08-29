@@ -108,3 +108,8 @@ Sample database section in $site_path/etc/secure.config:
 [database]
         password = secret_pasword
 ----
+
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

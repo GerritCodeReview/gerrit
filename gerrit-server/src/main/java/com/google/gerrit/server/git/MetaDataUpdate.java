@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -35,29 +36,32 @@ public class MetaDataUpdate {
     private final InternalFactory factory;
     private final GitRepositoryManager mgr;
     private final PersonIdent serverIdent;
-    private final PersonIdent userIdent;
+    private final CurrentUser currentUser;
 
     @Inject
     User(InternalFactory factory, GitRepositoryManager mgr,
-        @GerritPersonIdent PersonIdent serverIdent, IdentifiedUser currentUser) {
+        @GerritPersonIdent PersonIdent serverIdent, CurrentUser currentUser) {
       this.factory = factory;
       this.mgr = mgr;
       this.serverIdent = serverIdent;
-      this.userIdent = currentUser.newCommitterIdent( //
-          serverIdent.getWhen(), //
-          serverIdent.getTimeZone());
+      this.currentUser = currentUser;
     }
 
     public PersonIdent getUserPersonIdent() {
-      return userIdent;
+      return createPersonIdent();
     }
 
     public MetaDataUpdate create(Project.NameKey name)
         throws RepositoryNotFoundException, IOException {
       MetaDataUpdate md = factory.create(name, mgr.openRepository(name));
-      md.getCommitBuilder().setAuthor(userIdent);
+      md.getCommitBuilder().setAuthor(createPersonIdent());
       md.getCommitBuilder().setCommitter(serverIdent);
       return md;
+    }
+
+    private PersonIdent createPersonIdent() {
+      return ((IdentifiedUser)currentUser)
+          .newCommitterIdent(serverIdent.getWhen(), serverIdent.getTimeZone());
     }
   }
 

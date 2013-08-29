@@ -19,6 +19,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -35,29 +36,33 @@ public class MetaDataUpdate {
     private final InternalFactory factory;
     private final GitRepositoryManager mgr;
     private final PersonIdent serverIdent;
-    private final PersonIdent userIdent;
+    private final Provider<IdentifiedUser> identifiedUser;
 
     @Inject
     User(InternalFactory factory, GitRepositoryManager mgr,
-        @GerritPersonIdent PersonIdent serverIdent, IdentifiedUser currentUser) {
+        @GerritPersonIdent PersonIdent serverIdent,
+        Provider<IdentifiedUser> identifiedUser) {
       this.factory = factory;
       this.mgr = mgr;
       this.serverIdent = serverIdent;
-      this.userIdent = currentUser.newCommitterIdent( //
-          serverIdent.getWhen(), //
-          serverIdent.getTimeZone());
+      this.identifiedUser = identifiedUser;
     }
 
     public PersonIdent getUserPersonIdent() {
-      return userIdent;
+      return createPersonIdent();
     }
 
     public MetaDataUpdate create(Project.NameKey name)
         throws RepositoryNotFoundException, IOException {
       MetaDataUpdate md = factory.create(name, mgr.openRepository(name));
-      md.getCommitBuilder().setAuthor(userIdent);
+      md.getCommitBuilder().setAuthor(createPersonIdent());
       md.getCommitBuilder().setCommitter(serverIdent);
       return md;
+    }
+
+    private PersonIdent createPersonIdent() {
+      return identifiedUser.get().newCommitterIdent(
+          serverIdent.getWhen(), serverIdent.getTimeZone());
     }
   }
 

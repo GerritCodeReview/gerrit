@@ -600,7 +600,7 @@ The force option has no function when granted to a branch in the
 
 [[category_push_merge]]
 Push Merge Commits
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 
 The `Push Merge Commit` access right permits the user to upload merge
 commits.  It's an add-on to the <<category_push,Push>> access right, and

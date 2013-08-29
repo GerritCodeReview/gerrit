@@ -50,5 +50,8 @@ Fix browser NPE when ChangeCache is incomplete.
 * link:https://code.google.com/p/gerrit/issues/detail?id=2056[Issue 2056]:
 Display custom NoOp label score for open changes.
 
+* link:https://code.google.com/p/gerrit/issues/detail?id=2093[Issue 2093]:
+Fix incorrect title of "repo download" link on change screen.
+
 No other changes since 2.6.1.
 

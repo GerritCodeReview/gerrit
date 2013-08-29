@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32f1f550_468aa66b",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-29T12:39:27Z",
+      "side": 1,
+      "message": "This documentation needs some tweaking.  I\u0027ll update it after everyone is satisfied with the implementation code-wise.",
+      "revId": "1d1cba0c697f738d37f3c4add3b7bdd06557257e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

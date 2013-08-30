@@ -34,6 +34,24 @@
       "revId": "d69333006e488da9142d2be68a6a7c6f0acc0bab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32dbb507_f0f4e007",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-30T04:25:15Z",
+      "side": 1,
+      "message": "OK, so this fix prevents the commons-io version from overwriting the replication version.\n\nBut then what if replication, or one of the other plugins, adds a dependency on some other package?  Won\u0027t the same problem happen again unless that package\u0027s maven_jar definition is fixed like this?\n\nIs there a way to fix this so it applies to all, rather than explicitly fixing only for commons-io?",
+      "parentUuid": "123eb1ea_3fe4875c",
+      "revId": "d69333006e488da9142d2be68a6a7c6f0acc0bab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

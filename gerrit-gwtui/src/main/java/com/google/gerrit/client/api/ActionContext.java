@@ -21,6 +21,7 @@ import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JavaScriptObject;
 
 public class ActionContext extends JavaScriptObject {
@@ -117,6 +118,7 @@ public class ActionContext extends JavaScriptObject {
 
   final native void set(ActionInfo a) /*-{ this.action=a; }-*/;
   final native void set(ChangeInfo c) /*-{ this.change=c; }-*/;
+  final native void set(Project.NameKey p) /*-{ this.project=p; }-*/;
   final native void set(RevisionInfo r) /*-{ this.revision=r; }-*/;
 
   final native void button(ActionButton b) /*-{ this._b=b; }-*/;

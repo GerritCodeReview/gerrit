@@ -41,6 +41,27 @@ class DefaultActions {
         Gerrit.display(PageLinks.toChange(id));
       }
     };
+    invoke(action, api, cb);
+  }
+
+  static void invokeProjectAction(ActionInfo action, RestApi api) {
+    AsyncCallback<JavaScriptObject> cb = new GerritCallback<JavaScriptObject>() {
+      @Override
+      public void onSuccess(JavaScriptObject msg) {
+        if (NativeString.is(msg)) {
+          NativeString str = (NativeString) msg;
+          if (!str.asString().isEmpty()) {
+            Window.alert(str.asString());
+          }
+        }
+        Gerrit.display(PageLinks.ADMIN_PROJECTS);
+      }
+    };
+    invoke(action, api, cb);
+  }
+
+  private static void invoke(ActionInfo action, RestApi api,
+      AsyncCallback<JavaScriptObject> cb) {
     if ("PUT".equalsIgnoreCase(action.method())) {
       api.put(JavaScriptObject.createObject(), cb);
     } else if ("DELETE".equalsIgnoreCase(action.method())) {

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.projects;
 
+import com.google.gerrit.client.actions.ActionInfo;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConfigInfo extends JavaScriptObject {
+
   public final native String description()
   /*-{ return this.description }-*/;
 
@@ -46,6 +48,10 @@ public class ConfigInfo extends JavaScriptObject {
   public final SubmitType submit_type() {
     return SubmitType.valueOf(submit_typeRaw());
   }
+
+  public final native NativeMap<ActionInfo> actions()
+  /*-{ return this.actions; }-*/;
+
   private final native String submit_typeRaw()
   /*-{ return this.submit_type }-*/;
 

@@ -461,7 +461,15 @@ read access to `refs/meta/config`.
     },
     "submit_type": "MERGE_IF_NECESSARY",
     "state": "ACTIVE",
-    "commentlinks": {}
+    "commentlinks": {},
+    "actions": {
+      "cookbook~hello-project": {
+        "method": "POST",
+        "label": "Say hello",
+        "title": "Say hello in different languages",
+        "enabled": true
+      }
+    }
   }
 ----
 
@@ -1184,6 +1192,10 @@ commentlink section] of `gerrit.config`.
 |`theme`                     |optional|
 The theme that is configured for the project as a link:#theme-info[
 ThemeInfo] entity.
+|`actions`                   |optional|
+Actions the caller might be able to perform on this project. The
+information is a map of view names to
+link:rest-api-changes.html#action-info[ActionInfo] entities.
 |=========================================
 
 [[config-input]]

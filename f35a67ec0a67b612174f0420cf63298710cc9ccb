@@ -19,6 +19,47 @@
     },
     {
       "key": {
+        "uuid": "92cb813c_6b3b21e2",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-30T06:53:44Z",
+      "side": 1,
+      "message": "Because the URL on gerrit-review is /switch-account ... :-)\n\nIt actually works. Its worked for months. I just haven\u0027t had time to link it into the UI.",
+      "parentUuid": "123eb1ea_1fe9c332",
+      "revId": "f35a67ec0a67b612174f0420cf63298710cc9ccb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32dbb507_f01dc075",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-30T06:53:44Z",
+      "side": 1,
+      "message": "This is wrong I meant `OPENID` here.",
+      "range": {
+        "startLine": 344,
+        "startChar": 15,
+        "endLine": 344,
+        "endChar": 21
+      },
+      "revId": "f35a67ec0a67b612174f0420cf63298710cc9ccb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "123eb1ea_bff7f70a",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1
@@ -30,6 +71,24 @@
       "writtenOn": "2013-08-30T06:49:28Z",
       "side": 1,
       "message": "So may be we can put an example here? It was not obvious to me, that\n\n auth.switchAccountUrl \u003d $canonicalWebUrl/login\n\ni. e.:\n\n canonicalWebUrl \u003d http://localhost:8080/\n switchAccountUrl \u003d http://localhost:8080/login",
+      "revId": "f35a67ec0a67b612174f0420cf63298710cc9ccb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32dbb507_d020bcb6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-30T06:53:44Z",
+      "side": 1,
+      "message": "Given how our application URL is always \"/\" just \"login\" is probably correct. The browser will replace the current page with login and it comes out as $canonicalWebUrl/login. :-)",
+      "parentUuid": "123eb1ea_bff7f70a",
       "revId": "f35a67ec0a67b612174f0420cf63298710cc9ccb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

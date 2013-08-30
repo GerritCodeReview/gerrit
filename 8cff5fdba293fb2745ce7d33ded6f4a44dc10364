@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12e071ae_affef9e1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ConfigInfo.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-30T07:19:15Z",
+      "side": 1,
+      "message": "Can you please describe the new fields \u0027actions\u0027 and \u0027name\u0027 in rest-api-projects.html#config-info ?",
+      "revId": "8cff5fdba293fb2745ce7d33ded6f4a44dc10364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

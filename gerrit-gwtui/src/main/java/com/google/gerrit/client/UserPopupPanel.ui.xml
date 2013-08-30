@@ -19,8 +19,6 @@ limitations under the License.
   xmlns:g='urn:import:com.google.gwt.user.client.ui'
   xmlns:gerrit='urn:import:com.google.gerrit.client'
   xmlns:u='urn:import:com.google.gerrit.client.ui'>
-  <ui:with field='constants' type='com.google.gerrit.client.GerritConstants'/>
-
   <ui:style>
     .panel {
       padding: 8px;
@@ -36,15 +34,19 @@ limitations under the License.
     .userName {
       font-weight: bold;
     }
-    .userLinks {
-      min-width: 175px;
-    }
     .email {
       padding-bottom: 6px;
     }
-    .logout {
-      padding-left: 16px;
+    .userLinks {
+      min-width: 250px;
+    }
+    .userLinksRight {
       float: right;
+    }
+    .switchAccount {
+      border-right: 1px solid black;
+      padding-right: 0.5em;
+      margin-right: 0.5em;
     }
   </ui:style>
 
@@ -59,9 +61,10 @@ limitations under the License.
       <u:InlineHyperlink ui:field='settings' targetHistoryToken='/settings/'>
         <ui:msg>Settings</ui:msg>
       </u:InlineHyperlink>
-      <g:Anchor ui:field='logout' styleName="{style.logout}">
-        <ui:text from='{constants.menuSignOut}' />
-      </g:Anchor>
+      <span class='{style.userLinksRight}'>
+        <a ui:field='switchAccount' class='{style.switchAccount}'><ui:msg>Switch Account</ui:msg></a
+        ><a ui:field='logout'><ui:msg>Sign Out</ui:msg></a>
+      </span>
     </div>
   </g:HTMLPanel>
 </ui:UiBinder>

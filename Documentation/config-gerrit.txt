@@ -335,7 +335,17 @@ full name.
 +
 Target for the "Obtain Password" link.  Used only when `auth.type` is
 `LDAP`, `LDAP_BIND` or `CUSTOM_EXTENSION`.
+
+[[auth.switchAccountUrl]]auth.switchAccountUrl::
 +
+URL to switch user identities and login as a different account than
+the currently active account.  This is disabled by default except when
+`auth.type` is `OPENID` and `DEVELOPMENT_BECOME_ANY_ACCOUNT`.  If set
+the "Switch Account" link is displayed next to "Sign Out".
++
+When `auth.type` does not normally enable this URL administrators may
+set this to `login/` or `$canonicalWebUrl/login`, allowing users to
+begin a new web session.
 
 [[auth.cookiePath]]auth.cookiePath::
 +

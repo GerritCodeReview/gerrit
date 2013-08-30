@@ -16,11 +16,12 @@ package com.google.gerrit.client;
 
 import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.ui.InlineHyperlink;
+import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.user.client.PluginSafePopupPanel;
@@ -33,7 +34,8 @@ public class UserPopupPanel extends PluginSafePopupPanel {
   @UiField Label userName;
   @UiField Label userEmail;
   @UiField Element userLinks;
-  @UiField Anchor logout;
+  @UiField AnchorElement switchAccount;
+  @UiField AnchorElement logout;
   @UiField InlineHyperlink settings;
 
   public UserPopupPanel(AccountInfo account, boolean canLogOut,
@@ -49,11 +51,22 @@ public class UserPopupPanel extends PluginSafePopupPanel {
       userEmail.setText(account.email());
     }
     if (showSettingsLink) {
+      if (Gerrit.getConfig().getSwitchAccountUrl() != null) {
+        switchAccount.setHref(Gerrit.getConfig().getSwitchAccountUrl());
+      } else if (Gerrit.getConfig().getAuthType() == AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT
+          || Gerrit.getConfig().getAuthType() == AuthType.OPENID) {
+        switchAccount.setHref(Gerrit.selfRedirect("/login/"));
+      } else {
+        switchAccount.removeFromParent();
+        switchAccount = null;
+      }
       if (canLogOut) {
         logout.setHref(Gerrit.selfRedirect("/logout"));
       } else {
-        logout.setVisible(false);
+        logout.removeFromParent();
+        logout = null;
       }
+
     } else {
       settings.removeFromParent();
       settings = null;

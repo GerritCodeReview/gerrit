@@ -28,6 +28,7 @@ public class GerritConfig implements Cloneable {
   protected String registerText;
   protected String loginUrl;
   protected String loginText;
+  protected String switchAccountUrl;
   protected String httpPasswordUrl;
   protected String reportBugUrl;
   protected boolean gitBasicAuth;
@@ -73,6 +74,14 @@ public class GerritConfig implements Cloneable {
 
   public void setRegisterUrl(final String u) {
     registerUrl = u;
+  }
+
+  public String getSwitchAccountUrl() {
+    return switchAccountUrl;
+  }
+
+  public void setSwitchAccountUrl(String u) {
+    switchAccountUrl = u;
   }
 
   public String getRegisterText() {

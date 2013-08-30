@@ -14,10 +14,10 @@
 
 package com.google.gerrit.client.api;
 
-import com.google.gerrit.client.change.ActionButton;
+import com.google.gerrit.client.actions.ActionButton;
+import com.google.gerrit.client.actions.ActionInfo;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
-import com.google.gerrit.client.changes.ChangeInfo.ActionInfo;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gwt.core.client.JavaScriptObject;
 

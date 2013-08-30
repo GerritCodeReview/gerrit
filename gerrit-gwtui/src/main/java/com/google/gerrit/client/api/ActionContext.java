@@ -14,9 +14,9 @@
 
 package com.google.gerrit.client.api;
 
-import com.google.gerrit.client.change.ActionButton;
+import com.google.gerrit.client.actions.ActionButton;
+import com.google.gerrit.client.actions.ActionInfo;
 import com.google.gerrit.client.changes.ChangeInfo;
-import com.google.gerrit.client.changes.ChangeInfo.ActionInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeString;

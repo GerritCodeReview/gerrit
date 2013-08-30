@@ -121,7 +121,7 @@ final class DispatchCommand extends BaseCommand {
 
   private void checkRequiresCapability(Command cmd)
       throws UnloggedFailure {
-    RequiresCapability rc = cmd.getClass().getAnnotation(RequiresCapability.class);
+    RequiresCapability rc = getRequiresCapability(cmd.getClass());
     if (rc != null) {
       CurrentUser user = currentUser.get();
       CapabilityControl ctl = user.getCapabilities();
@@ -152,6 +152,19 @@ final class DispatchCommand extends BaseCommand {
         throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, msg);
       }
     }
+  }
+
+  private static RequiresCapability getRequiresCapability(Class<?> clazz) {
+    RequiresCapability rc = clazz.getAnnotation(RequiresCapability.class);
+    if (rc != null) {
+      return rc;
+    }
+
+    if (clazz.getSuperclass() != null) {
+      return getRequiresCapability(clazz.getSuperclass());
+    }
+
+    return null;
   }
 
   @Override

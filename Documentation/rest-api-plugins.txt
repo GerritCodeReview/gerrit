@@ -1,0 +1,106 @@
+Gerrit Code Review - /plugins/ REST API
+=======================================
+
+This page describes the plugin related REST endpoints.
+Please also take note of the general information on the
+link:rest-api.html[REST API].
+
+Endpoints
+---------
+
+[[plugin-endpoints]]
+Plugin Endpoints
+----------------
+
+[[install-plugin]]
+Install Plugin
+~~~~~~~~~~~~~~
+[verse]
+'PUT /plugins/link:#plugin-id[\{plugin-id\}]'
+
+Installs a new plugin on the Gerrit server. If a plugin with the
+specified name already exists it is overwritten.
+
+The plugin jar can either be sent as binary data in the request body
+or a URL to the plugin jar must be provided in the request body inside
+a link:#plugin-input[PluginInput] entity.
+
+.Request
+----
+  PUT /plugins/delete-project HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "url": "file:///gerrit/plugins/delete-project/delete-project-2.8.jar"
+  }
+----
+
+To provide the plugin jar as binary data in the request body the
+following curl command can be used:
+
+----
+  curl --digest --user admin:TNNuLkWsIV8w -X PUT --data-binary @delete-project-2.8.jar 'http://gerrit:8080/a/plugins/delete-project'
+----
+
+As response a link:#plugin-info[PluginInfo] entity is returned that
+describes the plugin.
+
+.Response
+----
+  HTTP/1.1 201 Created
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#plugin",
+    "id": "delete-project",
+    "version": "2.8"
+  }
+----
+
+If an existing plugin was overwritten the response is "`200 OK`".
+
+
+[[ids]]
+IDs
+---
+
+[[plugin-id]]
+\{plugin-id\}
+~~~~~~~~~~~~~
+The ID of the plugin.
+
+
+[[json-entities]]
+JSON Entities
+-------------
+
+[[plugin-info]]
+PluginInfo
+~~~~~~~~~~
+The `PluginInfo` entity describes a plugin.
+
+[options="header",width="50%",cols="1,6"]
+|======================
+|Field Name|Description
+|`kind`    |`gerritcodereview#plugin`
+|`id`      |The ID of the plugin.
+|`version` |The version of the plugin.
+|======================
+
+[[plugin-input]]
+PluginInput
+~~~~~~~~~~~
+The `PluginInput` entity describes a plugin that should be installed.
+
+[options="header",width="50%",cols="1,6"]
+|======================
+|Field Name|Description
+|`url`     |URL to the plugin jar.
+|======================
+
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "123eb1ea_1fe9c332",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-30T06:40:34Z",
+      "side": 1,
+      "message": "Wouldn\u0027t true be enough here? Why we need the URL?",
+      "revId": "f35a67ec0a67b612174f0420cf63298710cc9ccb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

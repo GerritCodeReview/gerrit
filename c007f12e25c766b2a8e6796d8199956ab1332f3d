@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12e071ae_cf29fd98",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 877,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-30T09:39:45Z",
+      "side": 1,
+      "message": "Every time we mess around with this method here, we should adjust the same logic in SSH DispatchCommand.checkRequiresCapability(Command cmd), line 122:\n\n https://gerrit.googlesource.com/gerrit/+/master/gerrit-sshd/src/main/java/com/google/gerrit/sshd/DispatchCommand.java",
+      "revId": "c007f12e25c766b2a8e6796d8199956ab1332f3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -128,7 +128,11 @@ public class ProjectApi {
   }
 
   private static RestApi project(Project.NameKey name) {
-    return new RestApi("/projects/").id(name.get());
+    return project(name.get());
+  }
+
+  public static RestApi project(String name) {
+    return new RestApi("/projects/").id(name);
   }
 
   private static class ProjectInput extends JavaScriptObject {

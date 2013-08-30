@@ -14,21 +14,29 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.inject.Inject;
 
 public class GetConfig implements RestReadView<ProjectResource> {
 
   private final TransferConfig config;
+  private final DynamicMap<RestView<ProjectResource>> views;
 
   @Inject
-  public GetConfig(TransferConfig config) {
+  public GetConfig(TransferConfig config,
+      DynamicMap<RestView<ProjectResource>> views) {
     this.config = config;
+    this.views = views;
   }
 
   @Override
   public ConfigInfo apply(ProjectResource resource) {
-    return new ConfigInfo(resource.getControl().getProjectState(), config);
+    return new ConfigInfo(resource.getControl(),
+        resource.getControl().getProjectState(),
+        config,
+        views);
   }
 }

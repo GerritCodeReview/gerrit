@@ -16,6 +16,23 @@
       "revId": "f35a67ec0a67b612174f0420cf63298710cc9ccb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "123eb1ea_bff7f70a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-30T06:49:28Z",
+      "side": 1,
+      "message": "So may be we can put an example here? It was not obvious to me, that\n\n auth.switchAccountUrl \u003d $canonicalWebUrl/login\n\ni. e.:\n\n canonicalWebUrl \u003d http://localhost:8080/\n switchAccountUrl \u003d http://localhost:8080/login",
+      "revId": "f35a67ec0a67b612174f0420cf63298710cc9ccb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

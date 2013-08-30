@@ -117,6 +117,7 @@ public class ActionContext extends JavaScriptObject {
 
   final native void set(ActionInfo a) /*-{ this.action=a; }-*/;
   final native void set(ChangeInfo c) /*-{ this.change=c; }-*/;
+  final native void set(String p) /*-{ this.project=p; }-*/;
   final native void set(RevisionInfo r) /*-{ this.revision=r; }-*/;
 
   final native void button(ActionButton b) /*-{ this._b=b; }-*/;

@@ -16,6 +16,7 @@ package com.google.gerrit.client.actions;
 
 import com.google.gerrit.client.api.ActionContext;
 import com.google.gerrit.client.api.ChangeGlue;
+import com.google.gerrit.client.api.ProjectGlue;
 import com.google.gerrit.client.api.RevisionGlue;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
@@ -25,16 +26,27 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 public class ActionButton extends Button implements ClickHandler {
+  private final String project;
   private final ChangeInfo change;
   private final RevisionInfo revision;
   private final ActionInfo action;
   private ActionContext ctx;
 
+  public ActionButton(String project, ActionInfo action) {
+    this(project, null, null, action);
+  }
+
   public ActionButton(ChangeInfo change, ActionInfo action) {
     this(change, null, action);
   }
 
-  public ActionButton(ChangeInfo change, RevisionInfo revision, ActionInfo action) {
+  public ActionButton(ChangeInfo change, RevisionInfo revision,
+      ActionInfo action) {
+    this(null, change, revision, action);
+  }
+
+  private ActionButton(String project, ChangeInfo change,
+      RevisionInfo revision, ActionInfo action) {
     super(new SafeHtmlBuilder()
       .openDiv()
       .append(action.label())
@@ -44,6 +56,7 @@ public class ActionButton extends Button implements ClickHandler {
     setEnabled(action.enabled());
     addClickHandler(this);
 
+    this.project = project;
     this.change = change;
     this.revision = revision;
     this.action = action;
@@ -59,8 +72,10 @@ public class ActionButton extends Button implements ClickHandler {
 
     if (revision != null) {
       RevisionGlue.onAction(change, revision, action, this);
-    } else {
+    } else if (change != null) {
       ChangeGlue.onAction(change, action, this);
+    } else if (project != null) {
+      ProjectGlue.onAction(project, action, this);
     }
   }
 

@@ -19,6 +19,8 @@ link:rest-api-config.html[/config/]::
   Config related REST endpoints
 link:rest-api-groups.html[/groups/]::
   Group related REST endpoints
+link:rest-api-plugins.html[/plugins/]::
+  Plugin related REST endpoints
 link:rest-api-projects.html[/projects/]::
   Project related REST endpoints
 

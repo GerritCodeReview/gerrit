@@ -876,7 +876,7 @@ public class RestApiServlet extends HttpServlet {
 
   private void checkAccessAnnotations(String pluginName, Class<?> clazz)
       throws AuthException {
-    RequiresCapability rc = clazz.getAnnotation(RequiresCapability.class);
+    RequiresCapability rc = getRequiresCapability(clazz);
     if (rc != null) {
       CurrentUser user = globals.currentUser.get();
       CapabilityControl ctl = user.getCapabilities();
@@ -901,6 +901,18 @@ public class RestApiServlet extends HttpServlet {
             capability));
       }
     }
+  }
+
+  private static RequiresCapability getRequiresCapability(Class<?> clazz) {
+    RequiresCapability rc = clazz.getAnnotation(RequiresCapability.class);
+    if (rc != null) {
+      return rc;
+    }
+
+    if (clazz.getSuperclass() != null) {
+      return getRequiresCapability(clazz.getSuperclass());
+    }
+    return null;
   }
 
   private static void handleException(Throwable err, HttpServletRequest req,

@@ -16,6 +16,24 @@
       "revId": "c007f12e25c766b2a8e6796d8199956ab1332f3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92cb813c_4b5f451b",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 877,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-30T10:28:44Z",
+      "side": 1,
+      "message": "Would it be possible to break out the logic into a common place?   Then it only needs to get updated in one place in future.",
+      "parentUuid": "12e071ae_cf29fd98",
+      "revId": "c007f12e25c766b2a8e6796d8199956ab1332f3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

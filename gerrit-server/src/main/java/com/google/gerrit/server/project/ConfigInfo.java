@@ -17,10 +17,17 @@ package com.google.gerrit.server.project;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
+import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.actions.ActionInfo;
+import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.TransferConfig;
+import com.google.inject.Provider;
 
 import java.util.Map;
 
@@ -35,12 +42,17 @@ public class ConfigInfo {
   public MaxObjectSizeLimitInfo maxObjectSizeLimit;
   public SubmitType submitType;
   public Project.State state;
+  public Map<String, ActionInfo> actions;
 
   public Map<String, CommentLinkInfo> commentlinks;
   public ThemeInfo theme;
 
-  public ConfigInfo(ProjectState state, TransferConfig config) {
-    Project p = state.getProject();
+  public ConfigInfo(ProjectControl control,
+      ProjectState projectState,
+      TransferConfig config,
+      DynamicMap<RestView<ProjectResource>> views,
+      Provider<CurrentUser> currentUser) {
+    Project p = control.getProject();
     this.description = Strings.emptyToNull(p.getDescription());
 
     InheritedBooleanInfo useContributorAgreements =
@@ -49,10 +61,10 @@ public class ConfigInfo {
     InheritedBooleanInfo useContentMerge = new InheritedBooleanInfo();
     InheritedBooleanInfo requireChangeId = new InheritedBooleanInfo();
 
-    useContributorAgreements.value = state.isUseContributorAgreements();
-    useSignedOffBy.value = state.isUseSignedOffBy();
-    useContentMerge.value = state.isUseContentMerge();
-    requireChangeId.value = state.isRequireChangeID();
+    useContributorAgreements.value = projectState.isUseContributorAgreements();
+    useSignedOffBy.value = projectState.isUseSignedOffBy();
+    useContentMerge.value = projectState.isUseContentMerge();
+    requireChangeId.value = projectState.isRequireChangeID();
 
     useContributorAgreements.configuredValue =
         p.getUseContributorAgreements();
@@ -60,7 +72,8 @@ public class ConfigInfo {
     useContentMerge.configuredValue = p.getUseContentMerge();
     requireChangeId.configuredValue = p.getRequireChangeID();
 
-    ProjectState parentState = Iterables.getFirst(state.parents(), null);
+    ProjectState parentState = Iterables.getFirst(projectState
+        .parents(), null);
     if (parentState != null) {
       useContributorAgreements.inheritedValue =
           parentState.isUseContributorAgreements();
@@ -76,7 +89,7 @@ public class ConfigInfo {
 
     MaxObjectSizeLimitInfo maxObjectSizeLimit = new MaxObjectSizeLimitInfo();
     maxObjectSizeLimit.value =
-        config.getEffectiveMaxObjectSizeLimit(state) == config
+        config.getEffectiveMaxObjectSizeLimit(projectState) == config
             .getMaxObjectSizeLimit() ? config
             .getFormattedMaxObjectSizeLimit() : p.getMaxObjectSizeLimit();
     maxObjectSizeLimit.configuredValue = p.getMaxObjectSizeLimit();
@@ -88,11 +101,17 @@ public class ConfigInfo {
     this.state = p.getState() != Project.State.ACTIVE ? p.getState() : null;
 
     this.commentlinks = Maps.newLinkedHashMap();
-    for (CommentLinkInfo cl : state.getCommentLinks()) {
+    for (CommentLinkInfo cl : projectState.getCommentLinks()) {
       this.commentlinks.put(cl.name, cl);
     }
 
-    this.theme = state.getTheme();
+    actions = Maps.newTreeMap();
+    for (UiAction.Description d : UiActions.from(
+        views, new ProjectResource(control),
+        currentUser)) {
+      actions.put(d.getId(), new ActionInfo(d));
+    }
+    this.theme = projectState.getTheme();
   }
 
   public static class InheritedBooleanInfo {

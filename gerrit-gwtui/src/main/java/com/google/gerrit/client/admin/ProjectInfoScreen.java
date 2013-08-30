@@ -17,12 +17,16 @@ package com.google.gerrit.client.admin;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.access.AccessMap;
 import com.google.gerrit.client.access.ProjectAccessInfo;
+import com.google.gerrit.client.actions.ActionButton;
+import com.google.gerrit.client.actions.ActionInfo;
+import com.google.gerrit.client.change.Resources;
 import com.google.gerrit.client.download.DownloadPanel;
 import com.google.gerrit.client.projects.ConfigInfo;
 import com.google.gerrit.client.projects.ConfigInfo.InheritedBooleanInfo;
 import com.google.gerrit.client.projects.ProjectApi;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.SmallHeading;
@@ -36,6 +40,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -49,6 +54,7 @@ public class ProjectInfoScreen extends ProjectScreen {
   private Project.NameKey parent;
 
   private LabeledWidgetsGrid grid;
+  private LabeledWidgetsGrid actionsGrid;
 
   // Section: Project Options
   private ListBox requireChangeID;
@@ -75,6 +81,7 @@ public class ProjectInfoScreen extends ProjectScreen {
   protected void onInitUI() {
     super.onInitUI();
 
+    Resources.I.style().ensureInjected();
     saveProject = new Button(Util.C.buttonSaveChanges());
     saveProject.addClickHandler(new ClickHandler() {
       @Override
@@ -87,10 +94,12 @@ public class ProjectInfoScreen extends ProjectScreen {
 
     initDescription();
     grid = new LabeledWidgetsGrid();
+    actionsGrid = new LabeledWidgetsGrid();
     initProjectOptions();
     initAgreements();
     add(grid);
     add(saveProject);
+    add(actionsGrid);
   }
 
   @Override
@@ -321,6 +330,24 @@ public class ProjectInfoScreen extends ProjectScreen {
     }
 
     saveProject.setEnabled(false);
+    initProjectActions(result);
+  }
+
+  private void initProjectActions(ConfigInfo info) {
+    NativeMap<ActionInfo> actions = info.actions();
+    if (actions == null || actions.isEmpty()) {
+      return;
+    }
+    actions.copyKeysIntoChildren("id");
+    actionsGrid.addHeader(new SmallHeading(Util.C.headingProjectCommands()));
+    FlowPanel actionsPanel = new FlowPanel();
+    actionsPanel.setStyleName(Gerrit.RESOURCES.css().projectActions());
+    actionsPanel.setVisible(true);
+    actionsGrid.add(Util.C.headingCommands(), actionsPanel);
+    for (String id : actions.keySet()) {
+      actionsPanel.add(new ActionButton(getProjectKey(),
+          actions.get(id)));
+    }
   }
 
   private void doSave() {

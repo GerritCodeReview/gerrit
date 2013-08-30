@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "123eb1ea_bf2097b5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MetaDataUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-30T07:15:12Z",
+      "side": 1,
+      "message": "Done (partially).\n\nNot completely, because the code currently access the identifiedUser in the constructor. So it is still need to b deferred even with usage of Provider.",
+      "parentUuid": "32dbb507_b0fe58e2",
+      "revId": "7e7ab3ae7a9220e089f57ecfe0dc42431d67c67e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32dbb507_9001d41c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetHead.java",
         "patchSetId": 3
@@ -42,6 +60,24 @@
         "endLine": 45,
         "endChar": 37
       },
+      "revId": "7e7ab3ae7a9220e089f57ecfe0dc42431d67c67e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "123eb1ea_5f0ceb4c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetHead.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-30T07:15:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32dbb507_9001d41c",
       "revId": "7e7ab3ae7a9220e089f57ecfe0dc42431d67c67e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

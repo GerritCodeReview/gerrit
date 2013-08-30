@@ -61,6 +61,10 @@ limitations under the License.
       position: absolute;
       top: 0;
       left: 29px;
+      width: 245px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .idStatus {
       position: absolute;

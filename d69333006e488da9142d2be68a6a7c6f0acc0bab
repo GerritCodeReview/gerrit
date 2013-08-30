@@ -52,6 +52,24 @@
       "revId": "d69333006e488da9142d2be68a6a7c6f0acc0bab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "123eb1ea_9ff4b307",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-30T06:54:56Z",
+      "side": 1,
+      "message": "Sure. It is a BUCK bug to rely on\n\n jar -cfm MANIFEST.MF build_artifact.jar additional_1_.jar ,..., additional_n_.jar\n\nfor assembling the java_binary file from different input jar with manifest file passed.\n\nI am not sure what would be the best way to report that bug?",
+      "parentUuid": "32dbb507_f0f4e007",
+      "revId": "d69333006e488da9142d2be68a6a7c6f0acc0bab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

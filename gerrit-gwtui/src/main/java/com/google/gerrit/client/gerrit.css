@@ -1383,7 +1383,9 @@ a:hover.downloadLink {
   font-family: mono-font;
   font-size: small;
 }
-
+.projectActions {
+  margin-bottom: 10px;
+}
 
 /** PublishCommentsScreen **/
 .publishCommentsScreen .smallHeading {

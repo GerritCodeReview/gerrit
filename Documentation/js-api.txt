@@ -141,8 +141,8 @@ on a button associated with a server side `UiAction`.
 Gerrit.onAction(type, view_name, callback);
 ----
 
-* type: `'change'` or `'revision'`, indicating what sort of resource
-  the `UiAction` was bound to in the server.
+* type: `'change'`, `'revision'` or `'project'`, indicating which type
+  of resource the `UiAction` was bound to in the server.
 
 * view_name: string appearing in URLs to name the view. This is the
   second argument of the `get()`, `post()`, `put()`, and `delete()`
@@ -385,6 +385,11 @@ object instance describing the revision. Available fields of the
 RevisionInfo may vary based on the options used by the UI when it
 loaded the change.
 
+[[context_project]]
+context.project
+~~~~~~~~~~~~~~~
+When the action is invoked on a specific project,
+the name of the project.
 
 Action Context HTML Helpers
 ---------------------------

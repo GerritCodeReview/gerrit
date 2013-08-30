@@ -42,11 +42,13 @@ public class ApiGlue {
 
       change_actions: {},
       revision_actions: {},
+      project_actions: {},
       onAction: function (t,n,c){this._onAction(this.getPluginName(),t,n,c)},
       _onAction: function (p,t,n,c) {
         var i = p+'~'+n;
         if ('change' == t) this.change_actions[i]=c;
         else if ('revision' == t) this.revision_actions[i]=c;
+        else if ('project' == t) this.project_actions[i]=c;
       },
 
       url: function (d) {

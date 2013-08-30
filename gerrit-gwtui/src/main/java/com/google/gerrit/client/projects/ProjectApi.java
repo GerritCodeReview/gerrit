@@ -127,7 +127,7 @@ public class ProjectApi {
     }
   }
 
-  private static RestApi project(Project.NameKey name) {
+  public static RestApi project(Project.NameKey name) {
     return new RestApi("/projects/").id(name.get());
   }
 

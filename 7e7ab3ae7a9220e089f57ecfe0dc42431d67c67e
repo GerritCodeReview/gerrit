@@ -43,6 +43,24 @@
     },
     {
       "key": {
+        "uuid": "92cb813c_cb29f598",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MetaDataUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-30T07:22:22Z",
+      "side": 1,
+      "message": "Of course, but I meant use the provider of the type we really want, allowing us to avoid the downcast later, and still permit deferred creation of that for the case where it isn\u0027t available and isn\u0027t needed.\n\nUnless you make the caller of this deferred by using a Provider there, you would obviously have to refactor that newCommitterIdent() invocation out of the constructor and do it later on demand.",
+      "parentUuid": "123eb1ea_bf2097b5",
+      "revId": "7e7ab3ae7a9220e089f57ecfe0dc42431d67c67e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32dbb507_9001d41c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetHead.java",
         "patchSetId": 3

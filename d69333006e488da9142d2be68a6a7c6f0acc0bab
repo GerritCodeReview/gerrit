@@ -70,6 +70,24 @@
       "revId": "d69333006e488da9142d2be68a6a7c6f0acc0bab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32dbb507_b0173854",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-30T06:59:36Z",
+      "side": 1,
+      "message": "On their issue tracker at github:\n\nhttps://github.com/facebook/buck/issues",
+      "parentUuid": "123eb1ea_9ff4b307",
+      "revId": "d69333006e488da9142d2be68a6a7c6f0acc0bab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

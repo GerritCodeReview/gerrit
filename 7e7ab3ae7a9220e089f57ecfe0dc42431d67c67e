@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32dbb507_b0fe58e2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MetaDataUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-30T06:37:01Z",
+      "side": 1,
+      "message": "Use Provider\u003cIdentifiedUser\u003e to defer construction?",
+      "range": {
+        "startLine": 43,
+        "startChar": 52,
+        "endLine": 43,
+        "endChar": 63
+      },
+      "revId": "7e7ab3ae7a9220e089f57ecfe0dc42431d67c67e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32dbb507_9001d41c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetHead.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-30T06:37:01Z",
+      "side": 1,
+      "message": "Provider\u003cIdentifiedUser\u003e doesn\u0027t work?",
+      "range": {
+        "startLine": 45,
+        "startChar": 16,
+        "endLine": 45,
+        "endChar": 37
+      },
+      "revId": "7e7ab3ae7a9220e089f57ecfe0dc42431d67c67e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

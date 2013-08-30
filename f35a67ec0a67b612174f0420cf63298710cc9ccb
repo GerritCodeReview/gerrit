@@ -92,6 +92,24 @@
       "revId": "f35a67ec0a67b612174f0420cf63298710cc9ccb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12e071ae_2ff3e921",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-30T06:57:48Z",
+      "side": 1,
+      "message": "I guess nobody would guess to put \"login\" it, without studing the source code and try/error approach ;-)\n\nIn that case we  need urgently an example here or may be to state, that for released and unchanged Gerrit version the correct link is:\n\n switchAccountUrl \u003d login",
+      "parentUuid": "32dbb507_d020bcb6",
+      "revId": "f35a67ec0a67b612174f0420cf63298710cc9ccb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

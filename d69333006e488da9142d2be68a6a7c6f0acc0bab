@@ -16,6 +16,24 @@
       "revId": "d69333006e488da9142d2be68a6a7c6f0acc0bab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "123eb1ea_3fe4875c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-30T04:17:25Z",
+      "side": 1,
+      "message": "Only replication plugin ships commons-io, replication/BUCK:\n\n [...]\n   deps \u003d [\n    \u0027//lib/commons:io\u0027,\n  ],\n [...]",
+      "parentUuid": "92cb813c_4b0d054b",
+      "revId": "d69333006e488da9142d2be68a6a7c6f0acc0bab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

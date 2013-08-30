@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "123eb1ea_1f3b83e2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-30T08:13:11Z",
+      "side": 1,
+      "message": "Why \u0027files\u0027? Isn\u0027t this used to store the names?",
+      "revId": "2b566d1df05ab04bce3b19900feef4c34b53bb51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12e071ae_ef1de175",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-30T08:13:11Z",
+      "side": 1,
+      "message": "\u0027Gerrit-PluginName\u0027 should be documented in dev-plugins.txt.",
+      "revId": "2b566d1df05ab04bce3b19900feef4c34b53bb51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

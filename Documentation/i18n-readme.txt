@@ -19,6 +19,12 @@ strings is supported.
 
 * The <noscript> tag is not translated.
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:index.html[Gerrit Code Review]

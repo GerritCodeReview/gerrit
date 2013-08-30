@@ -164,6 +164,12 @@ Preconditions] section.
 `422 Unprocessable Entity` is returned if the ID of a resource that is
 specified in the request body cannot be resolved.
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:index.html[Gerrit Code Review]

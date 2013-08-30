@@ -663,9 +663,15 @@ Administrator that has authenticated with digest authentication:
 ----
 
 .Get your own capabilities
-****
-get::/accounts/self/capabilities
-****
+
+++++
+<a id="/accounts/self/capabilities" onmousedown="javascript:
+  var i =  document.URL.lastIndexOf('/Documentation/');
+  var url = document.URL.substring(0, i) + '/accounts/self/capabilities';
+  document.getElementById('/accounts/self/capabilities').href = url;">
+    GET /accounts/self/capabilities HTTP/1.0
+</a>
+++++
 
 To filter the set of global capabilities the `q` parameter can be used.
 Filtering may decrease the response time by avoiding looking at every
@@ -691,9 +697,15 @@ possible alternative for the caller.
 ----
 
 .Check if you can create groups
-****
-get::/accounts/self/capabilities?q=createGroup
-****
+
+++++
+<a id="/accounts/self/capabilities?q=createGroup" onmousedown="javascript:
+  var i =  document.URL.lastIndexOf('/Documentation/');
+  var url = document.URL.substring(0, i) + '/accounts/self/capabilities?q=createGroup';
+  document.getElementById('/accounts/self/capabilities?q=createGroup').href = url;">
+    GET /accounts/self/capabilities?q=createGroup HTTP/1.0
+</a>
+++++
 
 [[check-account-capability]]
 Check Account Capability
@@ -721,9 +733,15 @@ If the user doesn't have the global capability the response is
 `404 Not Found`.
 
 .Check if you can create groups
-****
-get::/accounts/self/capabilities/createGroup
-****
+
+++++
+<a id="/accounts/self/capabilities/createGroup" onmousedown="javascript:
+  var i =  document.URL.lastIndexOf('/Documentation/');
+  var url = document.URL.substring(0, i) + '/accounts/self/capabilities/createGroup';
+  document.getElementById('/accounts/self/capabilities/createGroup').href = url;">
+    GET /accounts/self/capabilities/createGroup HTTP/1.0
+</a>
+++++
 
 [[list-groups]]
 List Groups
@@ -783,9 +801,15 @@ entries is returned.
 ----
 
 .List all groups that contain you as a member
-****
-get::/accounts/self/groups/
-****
+
+++++
+<a id="/accounts/self/groups/" onmousedown="javascript:
+  var i =  document.URL.lastIndexOf('/Documentation/');
+  var url = document.URL.substring(0, i) + '/accounts/self/groups/';
+  document.getElementById('/accounts/self/groups/').href = url;">
+    GET /accounts/self/groups/ HTTP/1.0
+</a>
+++++
 
 [[get-avatar]]
 Get Avatar
@@ -1243,6 +1267,12 @@ user.
 |=============================
 
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:index.html[Gerrit Code Review]

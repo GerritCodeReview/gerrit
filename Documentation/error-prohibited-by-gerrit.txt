@@ -36,6 +36,12 @@ refs/for/master). Details about how to push commits for code review
 are explained link:user-upload.html#push_create[here].
 
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:error-messages.html[Gerrit Error Messages]

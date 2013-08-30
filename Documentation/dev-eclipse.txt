@@ -99,6 +99,12 @@ link:http://dl.google.com/dl/gwt/plugins/ie/1.0.7263.20091208111100/gwt-dev-plug
 +
 https://dl.google.com/dl/gwt/plugins/safari/gwt-dev-plugin.dmg[Safari]
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:index.html[Gerrit Code Review]

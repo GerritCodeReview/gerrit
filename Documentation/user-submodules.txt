@@ -184,6 +184,12 @@ required to merge a commit updating the subscribed super
 project/branch to remove the gitlink and the submodule section
 of the .gitmodules file.
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:index.html[Gerrit Code Review]

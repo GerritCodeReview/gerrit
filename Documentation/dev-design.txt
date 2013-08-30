@@ -736,6 +736,12 @@ dashboard to keep track of any pending reviews, and some way to
 correlate updated revisions back to the comments written on prior
 revisions of the same logical change.
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:index.html[Gerrit Code Review]

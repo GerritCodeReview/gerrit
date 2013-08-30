@@ -77,6 +77,12 @@ List of groups that will be considered when verifying that a
 contributor agreement has been accepted. The groups' UUID must also
 appear in the `groups` file.
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:index.html[Gerrit Code Review]

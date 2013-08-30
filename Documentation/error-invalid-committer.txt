@@ -105,6 +105,12 @@ the access right '+2 Forge Committer or Tagger Identity' in the
 on the author's behalf.
 
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:error-messages.html[Gerrit Error Messages]

@@ -11,6 +11,12 @@ Gerrit you have to contact a Gerrit administrator and request
 permissions for project creation.
 
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:error-messages.html[Gerrit Error Messages]

@@ -455,6 +455,12 @@ of a query.  Including either value in a web query may lead to
 unpredictable results.
 
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:index.html[Gerrit Code Review]

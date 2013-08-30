@@ -29,6 +29,12 @@ existence of the project is to prevent users from probing the Gerrit
 server to see if a particular project exists.
 
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:error-messages.html[Gerrit Error Messages]

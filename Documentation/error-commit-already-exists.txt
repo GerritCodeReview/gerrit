@@ -9,6 +9,12 @@ new commit and consequently there is nothing for Gerrit to do.
 For further information about how to resolve this error, please
 refer to link:error-no-new-changes.html[no new changes].
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:error-messages.html[Gerrit Error Messages]

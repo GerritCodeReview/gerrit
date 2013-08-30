@@ -40,6 +40,12 @@ Disable a plugin:
 	ssh -p 29418 localhost gerrit plugin remove my-plugin
 ====
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:index.html[Gerrit Code Review]

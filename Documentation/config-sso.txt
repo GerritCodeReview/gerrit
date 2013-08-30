@@ -176,6 +176,12 @@ The user string obtained from Siteminder (e.g. the value in the
 `external_id` field.  For example, if a Siteminder username was "foo"
 then the external_id field would be populated with "gerrit:foo".
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:index.html[Gerrit Code Review]

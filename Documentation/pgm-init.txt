@@ -59,6 +59,12 @@ This command can only be run on a server which has direct
 connectivity to the metadata database, and local access to the
 managed Git repositories.
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:index.html[Gerrit Code Review]

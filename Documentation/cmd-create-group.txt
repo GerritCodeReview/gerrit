@@ -89,6 +89,12 @@ shell needs double quotes around the value to ensure the single quotes
 are passed through SSH as-is to the remote Gerrit server, which uses
 the single quotes to delimit the value.
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:index.html[Gerrit Code Review]

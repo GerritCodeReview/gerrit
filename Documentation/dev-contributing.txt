@@ -285,6 +285,12 @@ for review on that release's stable branch.  It will then be included in
 the master branch when the stable branch is merged back.
 
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:index.html[Gerrit Code Review]

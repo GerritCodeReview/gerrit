@@ -114,6 +114,12 @@ and if LDAP support was enabled, also include:
 Automatic cache coherency between master and slave systems is
 planned to be implemented in a future version.
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:index.html[Gerrit Code Review]

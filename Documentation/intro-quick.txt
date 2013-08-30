@@ -387,6 +387,12 @@ becomes an accepted part of the project. After this anyone fetching
 the git repository will receive this change as a part of the master
 branch.
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:index.html[Gerrit Code Review]

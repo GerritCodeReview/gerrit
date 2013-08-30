@@ -36,6 +36,12 @@ A change can be closed because it was submitted and merged, because it was aband
 or because the patchset to which you are submitting the review has been replaced
 by a newer patchset.
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:error-messages.html[Gerrit Error Messages]

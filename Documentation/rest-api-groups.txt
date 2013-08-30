@@ -106,9 +106,15 @@ by group name.
 ----
 
 .Get all groups
-****
-get::/groups/
-****
+
+++++
+<a id="/groups/" onmousedown="javascript:
+  var i =  document.URL.lastIndexOf('/Documentation/');
+  var url = document.URL.substring(0, i) + '/groups/';
+  document.getElementById('/groups/').href = url;">
+    GET /groups/ HTTP/1.0
+</a>
+++++
 
 [[group-options]]
 Group Options
@@ -635,9 +641,15 @@ full name, preferred email and id.
 ----
 
 .Get all members of the 'Administrators' group (normally group id = 1)
-****
-get::/groups/1/members/
-****
+
+++++
+<a id="/groups/1/members/" onmousedown="javascript:
+  var i =  document.URL.lastIndexOf('/Documentation/');
+  var url = document.URL.substring(0, i) + '/groups/1/members/';
+  document.getElementById('/groups/1/members/').href = url;">
+    GET /groups/1/members/ HTTP/1.0
+</a>
+++++
 
 To resolve the included groups of a group recursively and to list all
 members the parameter `recursive` can be set.
@@ -1236,6 +1248,12 @@ should be added or deleted.
 |==========================
 
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:index.html[Gerrit Code Review]

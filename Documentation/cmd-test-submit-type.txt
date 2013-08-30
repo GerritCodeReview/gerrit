@@ -48,6 +48,12 @@ SCRIPTING
 ---------
 Can be used either interactively for testing new prolog submit type, or from a script to check the submit type of a change.
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:index.html[Gerrit Code Review]

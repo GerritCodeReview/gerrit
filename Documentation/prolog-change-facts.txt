@@ -98,6 +98,12 @@ the following table.
 NOTE: for a complete list of built-in helpers read the `gerrit_common.pl` and
 all Java classes whose name matches `PRED_*.java` from Gerrit's source code.
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:index.html[Gerrit Code Review]

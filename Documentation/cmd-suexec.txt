@@ -64,6 +64,12 @@ Approve the change with commit c0ff33 as "Verified +1" as user bob@example.com
     gerrit approve --verified +1 c0ff33
 =====
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:index.html[Gerrit Code Review]

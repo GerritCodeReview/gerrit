@@ -264,6 +264,12 @@ The new column will appear at the end of the table, and `-1 Do not have
 copyright` will block submit, while `+1 Copyright clear` is required to
 enable submit.
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:index.html[Gerrit Code Review]

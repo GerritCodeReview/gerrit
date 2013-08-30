@@ -46,6 +46,12 @@ Change-Id (case 1. and 3. above), otherwise the push will fail with
 another error message.
 
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:error-messages.html[Gerrit Error Messages]

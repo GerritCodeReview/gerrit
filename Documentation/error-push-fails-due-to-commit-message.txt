@@ -36,6 +36,12 @@ commits and then confirming all the commit messages. Just picking a
 commit may not rewrite it.
 
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:error-messages.html[Gerrit Error Messages]

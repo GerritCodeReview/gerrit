@@ -83,7 +83,12 @@ To verify the headers returned from a REST API call, use `curl` in verbose mode:
 The headers on both the request and the response will be printed.
 
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:index.html[Gerrit Code Review]
-

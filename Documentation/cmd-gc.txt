@@ -67,6 +67,12 @@ Run the Git garbage collection for all projects:
 	$ ssh -p 29418 review.example.com gerrit gc --all
 =====
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:index.html[Gerrit Code Review]

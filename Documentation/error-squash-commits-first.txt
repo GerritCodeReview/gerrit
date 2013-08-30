@@ -103,6 +103,12 @@ of an existing commit do an interactive link:http://www.kernel.org/pub/software/
 affected commit messages.
 
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:error-messages.html[Gerrit Error Messages]

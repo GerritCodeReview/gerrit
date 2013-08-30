@@ -10,6 +10,12 @@ adding a new patch set to a change is deprecated as explained link:user-upload.h
 It is recommended to only rely on Change-IDs for link:user-upload.html#push_replace[replacing changes].
 
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:error-messages.html[Gerrit Error Messages]

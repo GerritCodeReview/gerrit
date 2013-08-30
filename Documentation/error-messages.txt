@@ -44,6 +44,12 @@ General Hints
 * link:error-push-fails-due-to-commit-message.html[push fails due to commit message]
 
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:index.html[Gerrit Code Review]

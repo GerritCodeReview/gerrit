@@ -36,7 +36,12 @@ If the commit fails the validation, the plugin can throw an exception
 which will cause the merge to fail.
 
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:index.html[Gerrit Code Review]
-

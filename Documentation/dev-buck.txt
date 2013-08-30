@@ -331,6 +331,12 @@ developed as macros in the Gerrit tree that plugins would want to use
 (e.g. gerrit_plugin rule).
 
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:index.html[Gerrit Code Review]

@@ -11,6 +11,12 @@ explained link:user-upload.html#manual_replacement_mapping[here]. It is recommen
 link:user-upload.html#push_replace[replacing changes].
 
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:error-messages.html[Gerrit Error Messages]

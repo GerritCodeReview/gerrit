@@ -80,6 +80,12 @@ SEE ALSO
 * link:config-gerrit.html#cache[Cache Configuration]
 * link:config-gerrit.html#cache_names[Standard Caches]
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:index.html[Gerrit Code Review]

@@ -26,6 +26,12 @@ is important that you only add a Signed-off-by if you understand the
 semantics of the link:user-signedoffby.html#Signed-off-by[Signed-off-by] and the commit applies to the rules
 that are connected with this footer.
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:error-messages.html[Gerrit Error Messages]

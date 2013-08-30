@@ -90,9 +90,15 @@ parameter multiple times. In this case the result is an array of
 arrays, one per query in the same order the queries were given in.
 
 .Query for the 25 most recent open changes of the projects that you watch
-****
-get::/changes/?q=status:open+is:watched&n=25
-****
+
+++++
+<a id="/changes/?q=status:open+is:watched&n=25" onmousedown="javascript:
+  var i =  document.URL.lastIndexOf('/Documentation/');
+  var url = document.URL.substring(0, i) + '/changes/?q=status:open+is:watched&n=25';
+  document.getElementById('/changes/?q=status:open+is:watched&n=25').href = url;">
+    GET /changes/?q=status:open+is:watched&n=25 HTTP/1.0
+</a>
+++++
 
 Query that retrieves changes for a user's dashboard:
 
@@ -139,9 +145,15 @@ Query that retrieves changes for a user's dashboard:
 ----
 
 .Query the changes for your user dashboard
-****
-get::/changes/?q=is:open+owner:self&q=is:open+reviewer:self+-owner:self&q=is:closed+owner:self+limit:5&o=LABELS
-****
+
+++++
+<a id="/changes/?q=is:open+owner:self&q=is:open+reviewer:self+-owner:self&q=is:closed+owner:self+limit:5&o=LABELS" onmousedown="javascript:
+  var i =  document.URL.lastIndexOf('/Documentation/');
+  var url = document.URL.substring(0, i) + '/changes/?q=is:open+owner:self&q=is:open+reviewer:self+-owner:self&q=is:closed+owner:self+limit:5&o=LABELS';
+  document.getElementById('/changes/?q=is:open+owner:self&q=is:open+reviewer:self+-owner:self&q=is:closed+owner:self+limit:5&o=LABELS').href = url;">
+    GET /changes/?q=is:open+owner:self&q=is:open+reviewer:self+-owner:self&q=is:closed+owner:self+limit:5&o=LABELS HTTP/1.0
+</a>
+++++
 
 Additional fields can be obtained by adding `o` parameters, each
 option requires more database lookups and slows down the query
@@ -3130,6 +3142,12 @@ topic.
 |===========================
 
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:index.html[Gerrit Code Review]

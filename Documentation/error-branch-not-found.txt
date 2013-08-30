@@ -29,6 +29,12 @@ Please note that you need to be granted the
 link:access-control.html#category_create['Create reference'] access to create new branches.
 
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:error-messages.html[Gerrit Error Messages]

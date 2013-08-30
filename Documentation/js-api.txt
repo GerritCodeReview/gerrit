@@ -594,6 +594,12 @@ Gerrit.url('/123');  // "https://gerrit-review.googlesource.com/123"
 
 For a plugin specific version see link:#self_url()[`self.url()`].
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:index.html[Gerrit Code Review]

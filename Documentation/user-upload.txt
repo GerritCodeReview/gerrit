@@ -442,6 +442,12 @@ connection before data is sent.  This ensures that project owners
 can be certain any object available in their repository has been
 supplied under at least one valid agreement.
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:index.html[Gerrit Code Review]

@@ -62,9 +62,15 @@ by project name.
 ----
 
 .Get all projects with their description
-****
-get::/projects/?d
-****
+
+++++
+<a id="/projects/?d" onmousedown="javascript:
+  var i =  document.URL.lastIndexOf('/Documentation/');
+  var url = document.URL.substring(0, i) + '/projects/?d';
+  document.getElementById('/projects/?d').href = url;">
+    GET /projects/?d HTTP/1.0
+</a>
+++++
 
 [[suggest-projects]]
 The `/projects/` URL also accepts a prefix string in the `p` parameter.
@@ -907,9 +913,15 @@ List all dashboards for the `work/my-project` project:
 ----
 
 .Get all dashboards of the 'All-Projects' project
-****
-get::/projects/All-Projects/dashboards/
-****
+
+++++
+<a id="/projects/All-Projects/dashboards/" onmousedown="javascript:
+  var i =  document.URL.lastIndexOf('/Documentation/');
+  var url = document.URL.substring(0, i) + '/projects/All-Projects/dashboards/';
+  document.getElementById('/projects/All-Projects/dashboards/').href = url;">
+    GET /projects/All-Projects/dashboards/ HTTP/1.0
+</a>
+++++
 
 [[get-dashboard]]
 Get Dashboard
@@ -1503,6 +1515,12 @@ The path to the `GerritSiteFooter.html` file.
 |=============================
 
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:index.html[Gerrit Code Review]

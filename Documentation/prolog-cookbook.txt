@@ -1059,6 +1059,12 @@ If all file names in the change end with `.txt`, then the
 `gerrit:commit_delta('(?<!\.txt)$')` will fail as no file name will match this
 regular expression.
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:index.html[Gerrit Code Review]

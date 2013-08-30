@@ -115,8 +115,13 @@ Because the names of the tree and parent commit, as well as the
 committer timestamp are included in the hash computation, the output
 `Change-Id` is sufficiently unique.
 
-GERRIT
-------
 
-
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:index.html[Gerrit Code Review]

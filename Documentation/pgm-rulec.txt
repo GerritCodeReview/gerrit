@@ -49,6 +49,12 @@ To compile a rule JAR file for test/project:
 	$ java -jar gerrit.war rulec -d site_path test/project
 ====
 
-GERRIT
-------
+++++
+<hr style="
+  height: 2px;
+  color: silver;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+">
+++++
 Part of link:index.html[Gerrit Code Review]

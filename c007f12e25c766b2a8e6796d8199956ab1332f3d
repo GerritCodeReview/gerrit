@@ -34,6 +34,24 @@
       "revId": "c007f12e25c766b2a8e6796d8199956ab1332f3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "123eb1ea_5f5eab1c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 877,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-08-30T11:44:08Z",
+      "side": 1,
+      "message": "Good catch!\n\nWould be nice to refactor this so that there is only one common place for this logic, however right now I don\u0027t see a good place for having this common logic so that it can be reused here and in DispatchCommand. Probably this refactoring should be done in another change.\n\nI\u0027ve now done the same change in DispatchCommand.",
+      "parentUuid": "92cb813c_4b5f451b",
+      "revId": "c007f12e25c766b2a8e6796d8199956ab1332f3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

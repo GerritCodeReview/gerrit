@@ -660,9 +660,11 @@ public class ChangeScreen2 extends Screen {
 
   private void renderOwner(ChangeInfo info) {
     // TODO info card hover
-    ownerText.setInnerText(info.owner().name() != null
+    String name = info.owner().name() != null
         ? info.owner().name()
-        : Gerrit.getConfig().getAnonymousCowardName());
+        : Gerrit.getConfig().getAnonymousCowardName();
+    ownerText.setInnerText(name);
+    ownerText.setTitle(name);
   }
 
   private void renderSubmitType(String action) {

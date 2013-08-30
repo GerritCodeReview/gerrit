@@ -15,10 +15,12 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
@@ -52,18 +54,24 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
   private final Provider<CurrentUser> self;
   private final ProjectState.Factory projectStateFactory;
   private final TransferConfig config;
+  private final DynamicMap<RestView<ProjectResource>> views;
+  private final Provider<CurrentUser> currentUser;
 
   @Inject
   PutConfig(MetaDataUpdate.User metaDataUpdateFactory,
       ProjectCache projectCache,
       Provider<CurrentUser> self,
       ProjectState.Factory projectStateFactory,
-      TransferConfig config) {
+      TransferConfig config,
+      DynamicMap<RestView<ProjectResource>> views,
+      Provider<CurrentUser> currentUser) {
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.projectCache = projectCache;
     this.self = self;
     this.projectStateFactory = projectStateFactory;
     this.config = config;
+    this.views = views;
+    this.currentUser = currentUser;
   }
 
   @Override
@@ -131,7 +139,9 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
           throw new ResourceConflictException("Cannot update " + projectName);
         }
       }
-      return new ConfigInfo(projectStateFactory.create(projectConfig), config);
+      return new ConfigInfo(rsrc.getControl(),
+          projectStateFactory.create(projectConfig),
+          config, views, currentUser);
     } catch (ConfigInvalidException err) {
       throw new ResourceConflictException("Cannot read project " + projectName, err);
     } catch (IOException err) {

@@ -106,6 +106,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
       case OPENID_SSO:
         break;
     }
+    config.setSwitchAccountUrl(cfg.getString("auth", null, "switchAccountUrl"));
     config.setUseContributorAgreements(cfg.getBoolean("auth",
         "contributoragreements", false));
     config.setGitDaemonUrl(cfg.getString("gerrit", null, "canonicalgiturl"));

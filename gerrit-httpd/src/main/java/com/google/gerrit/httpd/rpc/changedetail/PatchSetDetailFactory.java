@@ -48,6 +48,7 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.slf4j.Logger;
@@ -179,7 +180,8 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     detail.setCommands(Lists.newArrayList(Iterables.transform(
         UiActions.sorted(UiActions.plugins(UiActions.from(
           revisions,
-          new RevisionResource(new ChangeResource(control), patchSet)))),
+          new RevisionResource(new ChangeResource(control), patchSet),
+          Providers.of(user)))),
         new Function<UiAction.Description, UiCommandDetail>() {
           @Override
           public UiCommandDetail apply(UiAction.Description in) {

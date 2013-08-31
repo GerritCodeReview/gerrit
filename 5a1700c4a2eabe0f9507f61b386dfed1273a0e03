@@ -61,6 +61,24 @@
     },
     {
       "key": {
+        "uuid": "529ca983_81f81afb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-31T20:40:14Z",
+      "side": 1,
+      "message": "Done\n\n https://gerrit-review.googlesource.com/49372\n\nWe can even check it before we called UiAction.getDescription()\n\nAnd you\u0027ve defined sensible default in Description class:\n\n private boolean visible \u003d true;\n\nSo in a normal case we don\u0027t need to mess around with setVisible() at all ...\n\nAnother thought: if a UiAction is not annotated with RequiresCapability annotation, may be we should still check if the user is authenticated? I can\u0027t think of any UiAction for not authenticated user? So we can remove the tests like:\n\n UiAction.Description.setVisible(currentUser instanceof IdentifiedUser);\n\nfrom cookbook plugin.",
+      "parentUuid": "926c6149_63f30221",
+      "revId": "5a1700c4a2eabe0f9507f61b386dfed1273a0e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "926c6149_23e90a33",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityUtils.java",
         "patchSetId": 2

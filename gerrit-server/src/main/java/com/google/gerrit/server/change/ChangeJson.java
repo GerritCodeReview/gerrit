@@ -123,7 +123,7 @@ public class ChangeJson {
 
   private final Provider<ReviewDb> db;
   private final LabelNormalizer labelNormalizer;
-  private final CurrentUser user;
+  private final Provider<CurrentUser> user;
   private final AnonymousUser anonymous;
   private final IdentifiedUser.GenericFactory userFactory;
   private final ChangeControl.GenericFactory changeControlGenericFactory;
@@ -144,7 +144,7 @@ public class ChangeJson {
   ChangeJson(
       Provider<ReviewDb> db,
       LabelNormalizer ln,
-      CurrentUser u,
+      Provider<CurrentUser> userProvider,
       AnonymousUser au,
       IdentifiedUser.GenericFactory uf,
       ChangeControl.GenericFactory ccf,
@@ -157,7 +157,7 @@ public class ChangeJson {
       Revisions revisions) {
     this.db = db;
     this.labelNormalizer = ln;
-    this.user = u;
+    this.user = userProvider;
     this.anonymous = au;
     this.userFactory = uf;
     this.changeControlGenericFactory = ccf;
@@ -256,7 +256,9 @@ public class ChangeJson {
     out.updated = in.getLastUpdatedOn();
     out._number = in.getId().get();
     out._sortkey = in.getSortKey();
-    out.starred = user.getStarredChanges().contains(in.getId()) ? true : null;
+    out.starred = user.get().getStarredChanges().contains(in.getId())
+        ? true
+        : null;
     out.reviewed = in.getStatus().isOpen() && isChangeReviewed(cd) ? true : null;
     out.labels = labelsFor(cd, has(LABELS), has(DETAILED_LABELS));
 
@@ -290,7 +292,8 @@ public class ChangeJson {
       out.actions = Maps.newTreeMap();
       for (UiAction.Description d : UiActions.from(
           changes,
-          new ChangeResource(control(cd)))) {
+          new ChangeResource(control(cd)),
+          user)) {
         out.actions.put(d.getId(), new ActionInfo(d));
       }
     }
@@ -311,7 +314,8 @@ public class ChangeJson {
       if (changeControlUserFactory != null) {
         ctrl = changeControlUserFactory.controlFor(cd.change(db));
       } else {
-        ctrl = changeControlGenericFactory.controlFor(cd.change(db), user);
+        ctrl = changeControlGenericFactory.controlFor(cd.change(db),
+            user.get());
       }
     } catch (NoSuchChangeException e) {
       return null;
@@ -776,7 +780,8 @@ public class ChangeJson {
       out.actions = Maps.newTreeMap();
       for (UiAction.Description d : UiActions.from(
           revisions,
-          new RevisionResource(new ChangeResource(control(cd)), in))) {
+          new RevisionResource(new ChangeResource(control(cd)), in),
+          user)) {
         out.actions.put(d.getId(), new ActionInfo(d));
       }
     }

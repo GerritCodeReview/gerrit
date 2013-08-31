@@ -53,13 +53,17 @@ public class DispatchCommandProvider implements Provider<DispatchCommand> {
   public RegistrationHandle register(final CommandName name,
       final Provider<Command> cmd) {
     final ConcurrentMap<String, CommandProvider> m = getMap();
-    if (m.putIfAbsent(name.value(), new CommandProvider(cmd, null)) != null) {
+    final CommandProvider commandProvider = new CommandProvider(cmd, null);
+    if (m.putIfAbsent(name.value(), commandProvider) != null) {
       throw new IllegalArgumentException(name.value() + " exists");
     }
     return new RegistrationHandle() {
       @Override
       public void remove() {
-        m.remove(name.value(), cmd);
+        if (!m.remove(name.value(), commandProvider)) {
+          throw new IllegalStateException(String.format(
+              "can not unregister command: %s", name.value()));
+        }
       }
     };
   }

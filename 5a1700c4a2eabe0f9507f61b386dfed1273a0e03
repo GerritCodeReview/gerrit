@@ -43,6 +43,24 @@
     },
     {
       "key": {
+        "uuid": "12a6b1d3_7ff80ffa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-31T18:52:46Z",
+      "side": 1,
+      "message": "... and we need to know the plugin name if UiAction was contributed by a plugin to check the required capabilities by framework in some place that it is not RestApiServlet. Right now i don\u0027t know hot to do it. What i know is that this abandoned change did just that:\n\n https://gerrit-review.googlesource.com/48203",
+      "parentUuid": "32a1f5ba_e0e80231",
+      "revId": "5a1700c4a2eabe0f9507f61b386dfed1273a0e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "926c6149_23e90a33",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityUtils.java",
         "patchSetId": 2

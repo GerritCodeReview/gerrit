@@ -46,8 +46,7 @@ import com.google.common.math.IntMath;
 import com.google.common.net.HttpHeaders;
 import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.audit.HttpAuditEvent;
-import com.google.gerrit.extensions.annotations.CapabilityScope;
-import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.config.CapabilityUtils;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AcceptsPost;
@@ -76,7 +75,6 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OptionUtil;
 import com.google.gerrit.server.OutputFormat;
-import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.FieldNamingPolicy;
@@ -200,7 +198,8 @@ public class RestApiServlet extends HttpServlet {
 
       List<IdString> path = splitPath(req);
       RestCollection<RestResource, RestResource> rc = members.get();
-      checkAccessAnnotations(null, rc.getClass());
+      CapabilityUtils.checkRequiresCapability(globals.currentUser,
+          null, rc.getClass());
 
       RestResource rsrc = TopLevelResource.INSTANCE;
       ViewData viewData = new ViewData(null, null);
@@ -238,7 +237,7 @@ public class RestApiServlet extends HttpServlet {
           viewData = view(rc, req.getMethod(), path);
         }
       }
-      checkAccessAnnotations(viewData);
+      checkRequiresCapability(viewData);
 
       while (viewData.view instanceof RestCollection<?,?>) {
         @SuppressWarnings("unchecked")
@@ -279,7 +278,7 @@ public class RestApiServlet extends HttpServlet {
             viewData = view(c, req.getMethod(), path);
           }
         }
-        checkAccessAnnotations(viewData);
+        checkRequiresCapability(viewData);
       }
 
       if (notModified(req, rsrc)) {
@@ -870,50 +869,9 @@ public class RestApiServlet extends HttpServlet {
     return !("GET".equals(method) || "HEAD".equals(method));
   }
 
-  private void checkAccessAnnotations(ViewData viewData) throws AuthException {
-    checkAccessAnnotations(viewData.pluginName, viewData.view.getClass());
-  }
-
-  private void checkAccessAnnotations(String pluginName, Class<?> clazz)
-      throws AuthException {
-    RequiresCapability rc = getRequiresCapability(clazz);
-    if (rc != null) {
-      CurrentUser user = globals.currentUser.get();
-      CapabilityControl ctl = user.getCapabilities();
-      String capability = rc.value();
-
-     if (pluginName != null && !"gerrit".equals(pluginName)
-         && (rc.scope() == CapabilityScope.PLUGIN
-          || rc.scope() == CapabilityScope.CONTEXT)) {
-        capability = String.format("%s-%s", pluginName, rc.value());
-      } else if (rc.scope() == CapabilityScope.PLUGIN) {
-        log.error(String.format(
-            "Class %s uses @%s(scope=%s), but is not within a plugin",
-            clazz.getName(),
-            RequiresCapability.class.getSimpleName(),
-            CapabilityScope.PLUGIN.name()));
-        throw new AuthException("cannot check capability");
-      }
-
-      if (!ctl.canPerform(capability) && !ctl.canAdministrateServer()) {
-        throw new AuthException(String.format(
-            "Capability %s is required to access this resource",
-            capability));
-      }
-    }
-  }
-
-  private static RequiresCapability getRequiresCapability(Class<?> clazz) {
-    RequiresCapability rc = clazz.getAnnotation(RequiresCapability.class);
-    if (rc != null) {
-      return rc;
-    }
-
-    if (clazz.getSuperclass() != null) {
-      return getRequiresCapability(clazz.getSuperclass());
-    }
-
-    return null;
+  private void checkRequiresCapability(ViewData viewData) throws AuthException {
+    CapabilityUtils.checkRequiresCapability(globals.currentUser,
+        viewData.pluginName, viewData.view.getClass());
   }
 
   private static void handleException(Throwable err, HttpServletRequest req,

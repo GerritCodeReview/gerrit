@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "926c6149_63f30221",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-31T17:54:39Z",
+      "side": 1,
+      "message": "I wonder if we should do this automatically in the server when filtering UiActions. If the UiAction has a @RequiresCapability annotation maybe we should check that before we even call the isVisible method?",
+      "range": {
+        "startLine": 12,
+        "startChar": 21,
+        "endLine": 12,
+        "endChar": 44
+      },
+      "revId": "5a1700c4a2eabe0f9507f61b386dfed1273a0e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "926c6149_23e90a33",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-31T17:54:39Z",
+      "side": 1,
+      "message": "This can be written as a loop:\n\n  for (; clazz !\u003d null; clazz \u003d clazz.getSuperclass()) {\n    T t \u003d clazz.getAnnotation(annotationClass);\n    if (t !\u003d null) {\n      return t;\n    }\n  }\n  return null;",
+      "range": {
+        "startLine": 77,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 17
+      },
+      "revId": "5a1700c4a2eabe0f9507f61b386dfed1273a0e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "926c6149_43ee063c",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-08-31T17:54:39Z",
+      "side": 1,
+      "message": "e.getMessage()",
+      "range": {
+        "startLine": 127,
+        "startChar": 10,
+        "endLine": 127,
+        "endChar": 42
+      },
+      "revId": "5a1700c4a2eabe0f9507f61b386dfed1273a0e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

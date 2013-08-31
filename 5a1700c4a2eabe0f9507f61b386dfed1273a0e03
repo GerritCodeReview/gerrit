@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "32a1f5ba_e0e80231",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-31T18:34:36Z",
+      "side": 1,
+      "message": "Completely agreed with you! Here is a possible UiAction code where i did it manually:\n\n https://gerrit-review.googlesource.com/#/c/49250/18/src/main/java/com/googlesource/gerrit/plugins/deleteproject/DeleteAction.java\n\nTBH as i wrote it i\u0027ve felt very wrong: why do i need to do all that in actual UiAction isVisible() code and not rely on the framework to do it all for me.\n\nThe only question is, we need to retrieve IdentifiedUser on all places where the gathering of UiActions take place.",
+      "parentUuid": "926c6149_63f30221",
+      "revId": "5a1700c4a2eabe0f9507f61b386dfed1273a0e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "926c6149_23e90a33",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityUtils.java",
         "patchSetId": 2
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "529ca983_e1e80631",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-31T18:34:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "926c6149_23e90a33",
+      "revId": "5a1700c4a2eabe0f9507f61b386dfed1273a0e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "926c6149_43ee063c",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DispatchCommand.java",
         "patchSetId": 2
@@ -65,6 +101,24 @@
         "endLine": 127,
         "endChar": 42
       },
+      "revId": "5a1700c4a2eabe0f9507f61b386dfed1273a0e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "529ca983_c1ed023f",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-31T18:34:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "926c6149_43ee063c",
       "revId": "5a1700c4a2eabe0f9507f61b386dfed1273a0e03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

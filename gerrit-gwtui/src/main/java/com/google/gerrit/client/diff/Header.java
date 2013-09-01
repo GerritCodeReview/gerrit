@@ -64,6 +64,7 @@ class Header extends Composite {
   private final String path;
   private boolean hasPrev;
   private boolean hasNext;
+  private String nextPath;
 
   Header(KeyCommandSet keys, PatchSet.Id patchSetId, String path) {
     initWidget(uiBinder.createAndBindUi(this));
@@ -107,10 +108,13 @@ class Header extends Composite {
             break;
           }
         }
+        FileInfo nextInfo = index == files.length() - 1
+            ? null
+            : files.get(index + 1);
         setupNav(prev, '[', PatchUtil.C.previousFileHelp(),
             index == 0 ? null : files.get(index - 1));
-        setupNav(next, ']', PatchUtil.C.nextFileHelp(),
-            index == files.length() - 1 ? null : files.get(index + 1));
+        setupNav(next, ']', PatchUtil.C.nextFileHelp(), nextInfo);
+        nextPath = nextInfo != null ? nextInfo.path() : null;
       }
     });
 
@@ -193,5 +197,9 @@ class Header extends Composite {
 
   boolean hasNext() {
     return hasNext;
+  }
+
+  String getNextPath() {
+    return nextPath;
   }
 }

@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "32a1f5ba_20182a82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-01T10:12:35Z",
+      "side": 1,
+      "message": "Done\n\n https://gerrit-review.googlesource.com/49373",
+      "parentUuid": "926c6149_c31af67b",
+      "revId": "621f9d3e3a3e362be76b7af7db98d273d41c85a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12a6b1d3_bf06972d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5

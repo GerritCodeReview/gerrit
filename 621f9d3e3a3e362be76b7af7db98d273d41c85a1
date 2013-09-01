@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "926c6149_a31dfa76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-01T01:11:43Z",
+      "side": 1,
+      "message": "This is incorrect syntax for a manifest file, its what Maven wants but its not what Java sees in MANIFEST.MF. Instead you mean:\n\n  Gerrit-PluginName: replication\n\nin the manifest and:\n\n  \u003cGerrit-PluginName\u003ereplication\u003c/Gerrit-PluginName\u003e\n\nin pom.xml",
+      "range": {
+        "startLine": 26,
+        "startChar": 1,
+        "endLine": 26,
+        "endChar": 51
+      },
+      "revId": "621f9d3e3a3e362be76b7af7db98d273d41c85a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "926c6149_c31af67b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-01T01:11:43Z",
+      "side": 1,
+      "message": "Maybe we should fix this part of the UI and access editor server code to prevent writing out a corrupt project.config file.",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 10
+      },
+      "revId": "621f9d3e3a3e362be76b7af7db98d273d41c85a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12a6b1d3_bf06972d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-01T01:11:43Z",
+      "side": 1,
+      "message": "This has a namespace problem. What if I write my own \"replication\" plugin and want to install them both on the same server? Now I have to edit at least one JAR to modify the name inside to get both to load.\n\nWe tried to offload that problem to the site administrator with the name used in $site_path/plugins.\n\nMaybe its a non-problem.",
+      "range": {
+        "startLine": 38,
+        "startChar": 27,
+        "endLine": 39,
+        "endChar": 70
+      },
+      "revId": "621f9d3e3a3e362be76b7af7db98d273d41c85a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12a6b1d3_9f0bd335",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-01T01:11:43Z",
+      "side": 1,
+      "message": "What happens if we deploy two versions of the same plugin with this code? How does the server decide which registrations to make and which ones to reject? I think this should be described in the commit message.",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 77
+      },
+      "revId": "621f9d3e3a3e362be76b7af7db98d273d41c85a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12a6b1d3_7f212fb8",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-01T01:11:43Z",
+      "side": 1,
+      "message": "The length of the line below the title must be the same number of characters as the title itself. Make sure you are editing these with a fixed with font so you can get the line length correct.",
+      "range": {
+        "startLine": 136,
+        "startChar": 0,
+        "endLine": 137,
+        "endChar": 13
+      },
+      "revId": "621f9d3e3a3e362be76b7af7db98d273d41c85a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "926c6149_e317f252",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-01T01:11:43Z",
+      "side": 1,
+      "message": "guessed or determined might be a better word choice here.",
+      "range": {
+        "startLine": 151,
+        "startChar": 51,
+        "endLine": 151,
+        "endChar": 58
+      },
+      "revId": "621f9d3e3a3e362be76b7af7db98d273d41c85a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

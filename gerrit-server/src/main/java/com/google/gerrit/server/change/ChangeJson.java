@@ -64,6 +64,7 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountInfo;
+import com.google.gerrit.server.actions.ActionInfo;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.webui.UiActions;
@@ -958,19 +959,5 @@ public class ChangeJson {
     Timestamp date;
     String message;
     Integer _revisionNumber;
-  }
-
-  static class ActionInfo {
-    String method;
-    String label;
-    String title;
-    Boolean enabled;
-
-    ActionInfo(UiAction.Description d) {
-      method = d.getMethod();
-      label = d.getLabel();
-      title = d.getTitle();
-      enabled = d.isEnabled() ? true : null;
-    }
   }
 }

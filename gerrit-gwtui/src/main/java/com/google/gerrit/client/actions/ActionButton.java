@@ -12,13 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.change;
+package com.google.gerrit.client.actions;
 
 import com.google.gerrit.client.api.ActionContext;
 import com.google.gerrit.client.api.ChangeGlue;
 import com.google.gerrit.client.api.RevisionGlue;
 import com.google.gerrit.client.changes.ChangeInfo;
-import com.google.gerrit.client.changes.ChangeInfo.ActionInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -31,11 +30,11 @@ public class ActionButton extends Button implements ClickHandler {
   private final ActionInfo action;
   private ActionContext ctx;
 
-  ActionButton(ChangeInfo change, ActionInfo action) {
+  public ActionButton(ChangeInfo change, ActionInfo action) {
     this(change, null, action);
   }
 
-  ActionButton(ChangeInfo change, RevisionInfo revision, ActionInfo action) {
+  public ActionButton(ChangeInfo change, RevisionInfo revision, ActionInfo action) {
     super(new SafeHtmlBuilder()
       .openDiv()
       .append(action.label())

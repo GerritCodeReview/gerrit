@@ -15,8 +15,9 @@
 package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.actions.ActionButton;
+import com.google.gerrit.client.actions.ActionInfo;
 import com.google.gerrit.client.changes.ChangeInfo;
-import com.google.gerrit.client.changes.ChangeInfo.ActionInfo;
 import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.rpc.NativeMap;

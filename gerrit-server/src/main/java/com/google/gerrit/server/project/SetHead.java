@@ -25,6 +25,7 @@ import com.google.gerrit.server.auth.AuthException;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.SetHead.Input;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
@@ -40,10 +41,10 @@ public class SetHead implements RestModifyView<ProjectResource, Input> {
   }
 
   private final GitRepositoryManager repoManager;
-  private final IdentifiedUser identifiedUser;
+  private final Provider<IdentifiedUser> identifiedUser;
 
   @Inject
-  SetHead(GitRepositoryManager repoManager, IdentifiedUser identifiedUser) {
+  SetHead(GitRepositoryManager repoManager, Provider<IdentifiedUser> identifiedUser) {
     this.repoManager = repoManager;
     this.identifiedUser = identifiedUser;
   }
@@ -73,7 +74,7 @@ public class SetHead implements RestModifyView<ProjectResource, Input> {
 
       if (!repo.getRef(Constants.HEAD).getTarget().getName().equals(ref)) {
         final RefUpdate u = repo.updateRef(Constants.HEAD, true);
-        u.setRefLogIdent(identifiedUser.newRefLogIdent());
+        u.setRefLogIdent(identifiedUser.get().newRefLogIdent());
         RefUpdate.Result res = u.link(ref);
         switch(res) {
           case NO_CHANGE:

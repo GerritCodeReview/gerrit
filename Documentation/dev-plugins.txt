@@ -351,7 +351,7 @@ Otherwise the capability must be bound in a plugin module:
 ====
 
 With a plugin-owned capability defined in this way, it is possible to restrict
-usage of an SSH command or UiAction to members of the group that were granted
+usage of an SSH command or `UiAction` to members of the group that were granted
 this capability in the usual way, using the `RequiresCapability` annotation:
 
 ====
@@ -361,7 +361,7 @@ this capability in the usual way, using the `RequiresCapability` annotation:
   ...
 ====
 
-Or with UiAction:
+Or with `UiAction`:
 
 ====
   @RequiresCapability("printHello")
@@ -388,6 +388,94 @@ this can be specified by setting `scope = CapabilityScope.CORE`:
   @RequiresCapability(value = "administrateServer", scope =
       CapabilityScope.CORE)
   ...
+====
+
+[[ui_extension]]
+UI Extension
+~~~~~~~~~~~~
+
+Plugins can contribute their own UI commands on core Gerrit pages.
+This is useful for workflow customization or exposing plugin functionality
+through the UI in addition to SSH commands and the REST API.
+
+For instance a plugin to integrate Jira with Gerrit changes may contribute its
+own "File bug" button to allow filing a bug from the change page or plugins to
+integrate continuous integration systems may contribute a "Schedule" button to
+allow a CI build to be scheduled manually from the patch set panel.
+
+Three different places on core Gerrit pages are currently supported:
+
+* Change screen (without JS API support)
+* Change Screen 2
+* Project info screen
+
+Plugins contribute UI actions by implementing the `UiAction` interface:
+
+====
+  @RequiresCapability("printHello")
+  class HelloWorldAction implements UiAction<RevisionResource>,
+      RestModifyView<RevisionResource, HelloWorldAction.Input> {
+    static class Input {
+      boolean french;
+      String message;
+    }
+
+    private Provider<CurrentUser> cu;
+
+    @Inject
+    HelloWorldAction(Provider<CurrentUser> user) {
+      this.user = user;
+    }
+
+    @Override
+    public String apply(RevisionResource rev, Input input) {
+      final String greeting = input.french
+          ? "Bonjour"
+          : "Hello";
+      return String.format("%s %s from change %s, patch set %d!",
+          greeting,
+          Strings.isNullOrEmpty(input.message)
+              ? Objects.firstNonNull(user.get().getUserName(), "world")
+              : input.message,
+          rev.getChange().getId().toString(),
+          rev.getPatchSet().getPatchSetId());
+    }
+
+    @Override
+    public Description getDescription(
+        RevisionResource resource) {
+      return new Description()
+          .setLabel("Say hello")
+          .setTitle("Say hello in different languages");
+    }
+  }
+====
+
+If `UiAction` is annotated with `@RequiresCapability` annotation, then the
+capability check is done during the `UiAction` gathering, so the plugin author
+doesn't have to set `UiAction.Description.setVisible()` explicitly in this
+case.
+
+The following prerequisities must be met, to satisfy the capability check:
+
+* user has to be authenticated
+* user is a member of the Administrators group or
+* user is a member of a group, which has the required capability
+
+The `apply` method is called when the button is clicked. If `UiAction` is
+combined with JavaScript API (its own JavaScript function is provided),
+then a popup dialog is normally opened to gather additional user input.
+A new button is placed on the popup dialog to actiually send the request.
+
+Every `UiAction` exposes a REST API endpoint. The endpoint from the example above
+can be accessed from any REST client, i. e.:
+
+====
+  curl -X POST -H "Content-Type: application/json" \
+    -d '{message: "François", french: true}' \
+    --digest --user joe:secret \
+    http://host:port/a/changes/1/revisions/1/cookbook~say-hello
+  "Bonjour François from change 1, patch set 1!"
 ====
 
 [[http]]
@@ -572,6 +660,12 @@ command can be used.
 
 Disabled plugins can be re-enabled using the
 link:cmd-plugin-enable.html[plugin enable] command.
+
+SEE ALSO
+--------
+
+* link:js-api.html[JavaScript API]
+* link:dev-rest-api.html[REST API Developers' Notes]
 
 GERRIT
 ------

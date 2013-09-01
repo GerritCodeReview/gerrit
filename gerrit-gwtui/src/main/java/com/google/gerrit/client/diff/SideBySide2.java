@@ -257,6 +257,8 @@ public class SideBySide2 extends Screen {
     cmB.setOption("viewportMargin", 10);
     cmB.setCursor(LineCharacter.create(0));
     cmB.focus();
+
+    prefetchNextFile();
   }
 
   @Override
@@ -1339,5 +1341,29 @@ public class SideBySide2 extends Screen {
 
   CodeMirror getCmB() {
     return cmB;
+  }
+
+  private void prefetchNextFile() {
+    String nextPath = header.getNextPath();
+    if (nextPath != null) {
+      DiffApi.diff(revision, nextPath)
+        .base(base)
+        .wholeFile()
+        .intraline(pref.isIntralineDifference())
+        .ignoreWhitespace(pref.getIgnoreWhitespace())
+        .get(new AsyncCallback<DiffInfo>() {
+          @Override
+          public void onSuccess(DiffInfo info) {
+            new ModeInjector()
+              .add(getContentType(info.meta_a()))
+              .add(getContentType(info.meta_b()))
+              .inject(CallbackGroup.<Void> emptyCallback());
+          }
+
+          @Override
+          public void onFailure(Throwable caught) {
+          }
+        });
+    }
   }
 }

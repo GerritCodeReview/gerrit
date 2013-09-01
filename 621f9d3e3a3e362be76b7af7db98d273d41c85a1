@@ -48,6 +48,24 @@
     },
     {
       "key": {
+        "uuid": "12a6b1d3_1f18e381",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-01T03:49:27Z",
+      "side": 1,
+      "message": "certainly, will do.",
+      "parentUuid": "926c6149_c31af67b",
+      "revId": "621f9d3e3a3e362be76b7af7db98d273d41c85a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12a6b1d3_bf06972d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -71,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "32a1f5ba_60f51201",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-01T03:49:27Z",
+      "side": 1,
+      "message": "Maybe its a non-problem:\n\nI guess so: if i do that (second replication plugin) and i still need the original one, then i would better pick another name.",
+      "parentUuid": "12a6b1d3_bf06972d",
+      "revId": "621f9d3e3a3e362be76b7af7db98d273d41c85a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12a6b1d3_9f0bd335",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -88,6 +124,24 @@
         "endLine": 42,
         "endChar": 77
       },
+      "revId": "621f9d3e3a3e362be76b7af7db98d273d41c85a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "529ca983_21ff0ee1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-01T03:49:27Z",
+      "side": 1,
+      "message": "Plugins register SSH commands, Servlets and other stuff under their plugin name. Now, when second plugin with the diffent file name, but the same Gerrit-PluginName is trying to get deployed, that would fail, with IllegaArgumentException.\n\nWhich one is going to fail and which one is going to be successful deployed, is matter of the underling operating system (gathering of files) i guess.\n\nI think it is acceptable and expected behavior in such a case.",
+      "parentUuid": "12a6b1d3_9f0bd335",
       "revId": "621f9d3e3a3e362be76b7af7db98d273d41c85a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

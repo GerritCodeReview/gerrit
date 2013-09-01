@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12a6b1d3_3f028720",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-01T00:53:05Z",
+      "side": 1,
+      "message": "I don\u0027t find these javadoc comments incredibly worthwhile on private helper methods that are this short. But its a matter of personal preference I guess. I don\u0027t mind that you wrote doc here.",
+      "revId": "c54435161718fc294fa76260fce75f7aa18f1fbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

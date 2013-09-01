@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12a6b1d3_ff0c1f51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-01T00:56:00Z",
+      "side": 1,
+      "message": "group",
+      "range": {
+        "startLine": 15,
+        "startChar": 44,
+        "endLine": 15,
+        "endChar": 49
+      },
+      "revId": "950292768e76942b69685c673efd386a7b27a94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "926c6149_2312ea6a",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-01T00:56:00Z",
+      "side": 1,
+      "message": "Providers.of(user) is a shorter way to write this.",
+      "range": {
+        "startLine": 184,
+        "startChar": 10,
+        "endLine": 189,
+        "endChar": 11
+      },
+      "revId": "950292768e76942b69685c673efd386a7b27a94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

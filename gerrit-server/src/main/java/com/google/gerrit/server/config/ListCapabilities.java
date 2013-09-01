@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.common.base.CharMatcher;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
@@ -25,10 +26,14 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Map;
 
 /** List capabilities visible to the calling user. */
 public class ListCapabilities implements RestReadView<ConfigResource> {
+  static final Logger log = LoggerFactory.getLogger(ListCapabilities.class);
   private final DynamicMap<CapabilityDefinition> pluginCapabilities;
 
   @Inject
@@ -62,12 +67,27 @@ public class ListCapabilities implements RestReadView<ConfigResource> {
     for (String pluginName : pluginCapabilities.plugins()) {
       for (Map.Entry<String, Provider<CapabilityDefinition>> entry :
           pluginCapabilities.byPlugin(pluginName).entrySet()) {
-        String id = String.format("%s-%s", pluginName, entry.getKey());
-        output.put(id, new CapabilityInfo(
-            id,
-            entry.getValue().get().getDescription()));
+        if (isPluginNameIsSane(pluginName)) {
+          String id = String.format("%s-%s", pluginName, entry.getKey());
+          output.put(id, new CapabilityInfo(
+              id,
+              entry.getValue().get().getDescription()));
+        } else {
+          // May be put this warning in PluginLoader
+          // to warn as early as possible?
+          log.warn(String.format("Plugin name is not sane: <%s> "
+              + "dropping plugin owned capability %s; "
+              + "consider to change the plugin file name.", pluginName,
+              entry.getKey()));
+        }
       }
     }
+  }
+
+  // Where to put this? I guessed the characters that are not supported.
+  private static boolean isPluginNameIsSane(String pluginName) {
+    return CharMatcher.noneOf("._~*+=#%$!&§\"'?\\`´:;,#()[]{}@|^°²")
+        .matchesAllOf(pluginName);
   }
 
   public static class CapabilityInfo {

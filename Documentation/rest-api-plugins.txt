@@ -12,6 +12,53 @@ Endpoints
 Plugin Endpoints
 ----------------
 
+Gerrit REST endpoints for installed plugins are available under
+'/plugins/link:#plugin-id[\{plugin-id\}]/gerrit~<endpoint-id>'.
+The `gerrit~` prefix ensures that the Gerrit REST endpoints for plugins
+do not clash with any REST endpoint that a plugin may offer under its
+namespace.
+
+
+[[list-plugins]]
+List Plugins
+~~~~~~~~~~~~
+[verse]
+'GET /plugins/'
+
+Lists the plugins installed on the Gerrit server. Only the enabled
+plugins are returned unless the `all` option is specified.
+
+As result a map is returned that maps the plugin IDs to
+link:#plugin-info[PluginInfo] entries. The entries in the map are sorted
+by plugin ID.
+
+.Request
+----
+  GET /plugins/?all HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "delete-project": {
+      "kind": "gerritcodereview#plugin",
+      "id": "delete-project",
+      "version": "2.8-SNAPSHOT"
+    },
+    "reviewers-by-blame": {
+      "kind": "gerritcodereview#plugin",
+      "id": "reviewers-by-blame",
+      "version": "2.8-SNAPSHOT",
+      "disabled": true
+    }
+  }
+----
+
 [[install-plugin]]
 Install Plugin
 ~~~~~~~~~~~~~~
@@ -61,6 +108,133 @@ describes the plugin.
 
 If an existing plugin was overwritten the response is "`200 OK`".
 
+[[get-plugin-status]]
+Get Plugin Status
+~~~~~~~~~~~~~~~~~
+[verse]
+'GET /plugins/link:#plugin-id[\{plugin-id\}]/gerrit~status'
+
+Retrieves the status of a plugin on the Gerrit server.
+
+.Request
+----
+  GET /plugins/delete-project/gerrit~status HTTP/1.0
+----
+
+As response a link:#plugin-info[PluginInfo] entity is returned that
+describes the plugin.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#plugin",
+    "id": "delete-project",
+    "version": "2.8"
+  }
+----
+
+[[enable-plugin]]
+Enable Plugin
+~~~~~~~~~~~~~
+[verse]
+'POST /plugins/link:#plugin-id[\{plugin-id\}]/gerrit~enable'
+
+Enables a plugin on the Gerrit server.
+
+.Request
+----
+  POST /plugins/delete-project/gerrit~enable HTTP/1.0
+----
+
+As response a link:#plugin-info[PluginInfo] entity is returned that
+describes the plugin.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#plugin",
+    "id": "delete-project",
+    "version": "2.8"
+  }
+----
+
+[[disable-plugin]]
+Disable Plugin
+~~~~~~~~~~~~~~
+[verse]
+'POST /plugins/link:#plugin-id[\{plugin-id\}]/gerrit~disable'
+
+OR
+
+[verse]
+'DELETE /plugins/link:#plugin-id[\{plugin-id\}]'
+
+Disables a plugin on the Gerrit server.
+
+.Request
+----
+  POST /plugins/delete-project/gerrit~disable HTTP/1.0
+----
+
+As response a link:#plugin-info[PluginInfo] entity is returned that
+describes the plugin.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#plugin",
+    "id": "delete-project",
+    "version": "2.8",
+    "disabled": true
+  }
+----
+
+[[reload-plugin]]
+Reload Plugin
+~~~~~~~~~~~~~
+[verse]
+'POST /plugins/link:#plugin-id[\{plugin-id\}]/gerrit~reload'
+
+Reloads a plugin on the Gerrit server.
+
+.Request
+----
+  POST /plugins/delete-project/gerrit~reload HTTP/1.0
+----
+
+As response a link:#plugin-info[PluginInfo] entity is returned that
+describes the plugin.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#plugin",
+    "id": "delete-project",
+    "version": "2.8",
+    "disabled": true
+  }
+----
+
 
 [[ids]]
 IDs
@@ -81,13 +255,14 @@ PluginInfo
 ~~~~~~~~~~
 The `PluginInfo` entity describes a plugin.
 
-[options="header",width="50%",cols="1,6"]
-|======================
-|Field Name|Description
-|`kind`    |`gerritcodereview#plugin`
-|`id`      |The ID of the plugin.
-|`version` |The version of the plugin.
-|======================
+[options="header",width="50%",cols="1,^2,4"]
+|=======================
+|Field Name||Description
+|`kind`    ||`gerritcodereview#plugin`
+|`id`      ||The ID of the plugin.
+|`version` ||The version of the plugin.
+|`disabled`|not set if `false`|Whether the plugin is disabled.
+|=======================
 
 [[plugin-input]]
 PluginInput

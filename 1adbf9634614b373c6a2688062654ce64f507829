@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "529ca983_01364afb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-02T04:20:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "926c6149_c333d603",
+      "revId": "1adbf9634614b373c6a2688062654ce64f507829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "926c6149_a326dac6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListCapabilities.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2013-09-02T04:01:46Z",
       "side": 1,
       "message": "\"consider changing the plugin filename\"",
+      "revId": "1adbf9634614b373c6a2688062654ce64f507829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32a1f5ba_40344eec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListCapabilities.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-02T04:20:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "926c6149_a326dac6",
       "revId": "1adbf9634614b373c6a2688062654ce64f507829",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

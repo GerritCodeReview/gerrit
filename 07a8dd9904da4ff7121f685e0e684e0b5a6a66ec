@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "926c6149_436366db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListCapabilities.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-02T19:46:09Z",
+      "side": 1,
+      "message": "Missing private",
+      "revId": "07a8dd9904da4ff7121f685e0e684e0b5a6a66ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "926c6149_636862b5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListCapabilities.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-02T19:46:09Z",
+      "side": 1,
+      "message": "Maybe instead say:\n\n  log.warn(String.format(\n    \"Plugin name %s must match [A-Za-z0-9-]+ to use capabilities;\"\n    + \" rename the plugin\",\n    pluginName));",
+      "range": {
+        "startLine": 69,
+        "startChar": 10,
+        "endLine": 72,
+        "endChar": 27
+      },
+      "revId": "07a8dd9904da4ff7121f685e0e684e0b5a6a66ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12a6b1d3_df84bb61",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListCapabilities.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-02T19:46:09Z",
+      "side": 1,
+      "message": "Don\u0027t change indentation here.",
+      "revId": "07a8dd9904da4ff7121f685e0e684e0b5a6a66ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

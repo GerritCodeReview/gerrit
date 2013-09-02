@@ -20,19 +20,13 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.http.client.URL;
 
-public class GroupInfo extends JavaScriptObject {
+public class GroupInfo extends GroupBaseInfo {
   public final AccountGroup.Id getGroupId() {
     return new AccountGroup.Id(group_id());
   }
 
-  public final AccountGroup.UUID getGroupUUID() {
-    return new AccountGroup.UUID(URL.decodeQueryString(id()));
-  }
-
-  public final native String id() /*-{ return this.id; }-*/;
-  public final native String name() /*-{ return this.name; }-*/;
-  public final native GroupOptionsInfo options() /*-{ return this.options; }-*/;
   public final native String description() /*-{ return this.description; }-*/;
+  public final native GroupOptionsInfo options() /*-{ return this.options; }-*/;
   public final native String url() /*-{ return this.url; }-*/;
   public final native String owner() /*-{ return this.owner; }-*/;
   public final native void owner(String o) /*-{ if(o)this.owner=o; }-*/;

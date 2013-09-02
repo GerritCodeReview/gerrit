@@ -34,6 +34,24 @@
       "revId": "f3eecedf9709bff73a84936cbc24f35bc482bec5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32a1f5ba_404d6e6c",
+        "filename": "Documentation/rest-api-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-02T15:08:55Z",
+      "side": 1,
+      "message": "Oh, I wasn\u0027t aware of this. This means the documentation added in [1] needs be fixed like this [2]?\n\nStill for curiousity would it be possible to add the REST endpoint as\n  /plugins/delete-project/projects/\u003cproject-name\u003e \nand not having it as\n  /plugins/\u003cany-other-plugin\u003e/projects/\u003cproject-name\u003e\n?\n\n  [1] https://gerrit-review.googlesource.com/#/c/49148/23/src/main/resources/Documentation/rest-api-projects.md\n  [2] https://gerrit-review.googlesource.com/49378",
+      "parentUuid": "32a1f5ba_80537613",
+      "revId": "f3eecedf9709bff73a84936cbc24f35bc482bec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

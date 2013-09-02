@@ -52,6 +52,24 @@
       "revId": "f3eecedf9709bff73a84936cbc24f35bc482bec5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12a6b1d3_9f5d1321",
+        "filename": "Documentation/rest-api-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-02T18:09:21Z",
+      "side": 1,
+      "message": "Yes. A plugin can register their own subclass of RestApiServlet in their URL namespace and bind their own collection similar to what ProjectsRestApiServlet does. This is most useful for collections that are specific to the plugin and do not exist in the core server.\n\nUsing your own RestApiServlet is awkward for resource types that exist in the server, e.g. ProjectResource. A plugin would want to reuse ProjectsCollection.parse() and ProjectResource, but not the views map of ProjectsCollection. I think that is doable by wrapping ProjectsCollection with your own class that exports your own views map and hides the default ProjectsCollection view, but why? For existing resource types and collections its simpler to just register your view and let the server do the rest of the work.",
+      "parentUuid": "32a1f5ba_404d6e6c",
+      "revId": "f3eecedf9709bff73a84936cbc24f35bc482bec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

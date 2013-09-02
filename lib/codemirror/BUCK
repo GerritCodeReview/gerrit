@@ -1,8 +1,8 @@
 include_defs('//lib/maven.defs')
 include_defs('//lib/codemirror/cm3.defs')
 
-VERSION = '4b2b7bf5a2'
-SHA1 = '2463d16f012e019f4769de8fe78a80e1b3f3e187'
+VERSION = '2d51b31fa7'
+SHA1 = '459bc0b701f7550a7751ea43ae33672195c7d1e0'
 URL = GERRIT + 'net/codemirror/codemirror-%s.zip' % VERSION
 
 ZIP = 'codemirror-%s.zip' % VERSION

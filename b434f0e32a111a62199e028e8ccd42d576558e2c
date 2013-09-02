@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "926c6149_e330d2f9",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-02T04:06:27Z",
+      "side": 1,
+      "message": "I think before 2.8 is released there will be no distinction between \"change screen\" and \"change screen 2\".  ChangeScreen2 will be the only change screen.",
+      "revId": "b434f0e32a111a62199e028e8ccd42d576558e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "926c6149_035fae1b",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-02T04:06:27Z",
+      "side": 1,
+      "message": "\"or in the BUCK configuration file for Buck driven plugins\"",
+      "revId": "b434f0e32a111a62199e028e8ccd42d576558e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12a6b1d3_9f44f356",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-02T04:06:27Z",
+      "side": 1,
+      "message": "\"in the `static` folder within the plugin\u0027s directory\"",
+      "revId": "b434f0e32a111a62199e028e8ccd42d576558e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12a6b1d3_7f2a4f8e",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-02T04:06:27Z",
+      "side": 1,
+      "message": "\"an HTTP\"",
+      "revId": "b434f0e32a111a62199e028e8ccd42d576558e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12a6b1d3_5f278bc4",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-02T04:06:27Z",
+      "side": 1,
+      "message": "as above.",
+      "revId": "b434f0e32a111a62199e028e8ccd42d576558e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "926c6149_2364aaf3",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-02T04:06:27Z",
+      "side": 1,
+      "message": "\"with the\"",
+      "revId": "b434f0e32a111a62199e028e8ccd42d576558e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "926c6149_4359a632",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-02T04:06:27Z",
+      "side": 1,
+      "message": "\"user is authenticated\"",
+      "revId": "b434f0e32a111a62199e028e8ccd42d576558e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "926c6149_635ea21d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-02T04:06:27Z",
+      "side": 1,
+      "message": "Add a comma after \"group\"",
+      "revId": "b434f0e32a111a62199e028e8ccd42d576558e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12a6b1d3_3f34c7eb",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-02T04:06:27Z",
+      "side": 1,
+      "message": "Comma is not necessary here.",
+      "revId": "b434f0e32a111a62199e028e8ccd42d576558e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

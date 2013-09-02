@@ -131,32 +131,34 @@ public class PluginLoader implements LifecycleListener {
 
   public void installPluginFromStream(String name, InputStream in)
       throws IOException, PluginInstallException {
-    if (!name.endsWith(".jar")) {
-      name += ".jar";
+    String fileName = name;
+    if (!fileName.endsWith(".jar")) {
+      fileName += ".jar";
     }
 
-    File jar = new File(pluginsDir, name);
-    name = nameOf(jar);
+    File dst = new File(pluginsDir, fileName);
+    name = nameOf(dst);
 
-    File old = new File(pluginsDir, ".last_" + name + ".zip");
-    File tmp = asTemp(in, ".next_" + name, ".zip", pluginsDir);
+    File tmp = asTemp(in, ".next_" + fileName + "_", ".tmp", pluginsDir);
     synchronized (this) {
       Plugin active = running.get(name);
       if (active != null) {
-        log.info(String.format("Replacing plugin %s", name));
+        fileName = active.getSrcFile().getName();
+        log.info(String.format("Replacing plugin %s", active.getName()));
+        File old = new File(pluginsDir, ".last_" + fileName);
         old.delete();
-        jar.renameTo(old);
+        active.getSrcFile().renameTo(old);
       }
 
-      new File(pluginsDir, name + ".jar.disabled").delete();
-      tmp.renameTo(jar);
+      new File(pluginsDir, fileName + ".disabled").delete();
+      tmp.renameTo(dst);
       try {
-        runPlugin(name, jar, active);
+        Plugin plugin = runPlugin(name, dst, active);
         if (active == null) {
-          log.info(String.format("Installed plugin %s", name));
+          log.info(String.format("Installed plugin %s", plugin.getName()));
         }
       } catch (PluginInstallException e) {
-        jar.delete();
+        dst.delete();
         throw e;
       }
 
@@ -214,8 +216,8 @@ public class PluginLoader implements LifecycleListener {
           continue;
         }
 
-        log.info(String.format("Disabling plugin %s", name));
-        File off = new File(pluginsDir, active.getName() + ".jar.disabled");
+        log.info(String.format("Disabling plugin %s", active.getName()));
+        File off = new File(pluginsDir, active.getSrcFile() + ".disabled");
         active.getSrcFile().renameTo(off);
 
         unloadPlugin(active);
@@ -225,7 +227,8 @@ public class PluginLoader implements LifecycleListener {
           disabled.put(name, offPlugin);
         } catch (Throwable e) {
           // This shouldn't happen, as the plugin was loaded earlier.
-          log.warn(String.format("Cannot load disabled plugin %s", name),
+          log.warn(String.format(
+              "Cannot load disabled plugin %s", active.getName()),
               e.getCause());
         }
       }
@@ -242,7 +245,11 @@ public class PluginLoader implements LifecycleListener {
         }
 
         log.info(String.format("Enabling plugin %s", name));
-        File on = new File(pluginsDir, off.getName() + ".jar");
+        String n = off.getSrcFile().getName();
+        if (n.endsWith(".disabled")) {
+          n = n.substring(0, n.lastIndexOf('.'));
+        }
+        File on = new File(pluginsDir, n);
         off.getSrcFile().renameTo(on);
 
         disabled.remove(name);
@@ -339,13 +346,13 @@ public class PluginLoader implements LifecycleListener {
       }
 
       if (active != null) {
-        log.info(String.format("Reloading plugin %s", name));
+        log.info(String.format("Reloading plugin %s", active.getName()));
       }
 
       try {
         Plugin loadedPlugin = runPlugin(name, jar, active);
         if (active == null && !loadedPlugin.isDisabled()) {
-          log.info(String.format("Loaded plugin %s", name));
+          log.info(String.format("Loaded plugin %s", loadedPlugin.getName()));
         }
       } catch (PluginInstallException e) {
         log.warn(String.format("Cannot load plugin %s", name), e.getCause());
@@ -531,7 +538,9 @@ public class PluginLoader implements LifecycleListener {
       @Override
       public boolean accept(File pathname) {
         String n = pathname.getName();
-        return (n.endsWith(".jar") || n.endsWith(".jar.disabled"))
+        return (n.endsWith(".jar") || n.endsWith(".disabled"))
+            && !n.startsWith(".last_")
+            && !n.startsWith(".next_")
             && pathname.isFile();
       }
     });

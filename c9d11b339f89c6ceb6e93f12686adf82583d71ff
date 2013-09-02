@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "529ca983_c13f42cb",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-02T05:13:06Z",
+      "side": 1,
+      "message": "- \"in the `project.config` file\"\n\n- \"Another use case\"",
+      "revId": "c9d11b339f89c6ceb6e93f12686adf82583d71ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "926c6149_8352be0d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-02T05:13:06Z",
+      "side": 1,
+      "message": "s/advantageously/advantageous",
+      "revId": "c9d11b339f89c6ceb6e93f12686adf82583d71ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2aafd98_5ef55500",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-02T05:13:06Z",
+      "side": 1,
+      "message": "\"If `Gerrit-PluginName` is omitted, then the plugin\u0027s name ...\"",
+      "revId": "c9d11b339f89c6ceb6e93f12686adf82583d71ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2aafd98_7ef811fa",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-02T05:13:06Z",
+      "side": 1,
+      "message": "s/can not/cannot",
+      "revId": "c9d11b339f89c6ceb6e93f12686adf82583d71ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12a6b1d3_ff5e5f1d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-02T05:13:06Z",
+      "side": 1,
+      "message": "\"in the pom.xml file\"",
+      "revId": "c9d11b339f89c6ceb6e93f12686adf82583d71ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "926c6149_a34fba66",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-02T05:13:06Z",
+      "side": 1,
+      "message": "\"in the BUCK configuration file\"",
+      "revId": "c9d11b339f89c6ceb6e93f12686adf82583d71ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

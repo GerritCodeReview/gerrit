@@ -16,6 +16,24 @@
       "revId": "f3eecedf9709bff73a84936cbc24f35bc482bec5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32a1f5ba_80537613",
+        "filename": "Documentation/rest-api-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-02T14:58:34Z",
+      "side": 1,
+      "message": "The plugin namespace is already there: The `plugin-name~` prefix ensures that the plugin REST endpoints do not clash:\n\nGiven that the delete-project.jar plugin is deployed, you use the following endpoint for POST delete endpoint from the change [1] above:\n\n POST /projects/foo/delete-project~delete",
+      "parentUuid": "32a1f5ba_c0585e32",
+      "revId": "f3eecedf9709bff73a84936cbc24f35bc482bec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -94,10 +94,6 @@ class Loader {
       km.remove(s);
     }
     CodeMirror.addKeyMap("vim_ro", km);
-    CodeMirror.mapVimKey("j", "gj");
-    CodeMirror.mapVimKey("k", "gk");
-    CodeMirror.mapVimKey("Down", "gj");
-    CodeMirror.mapVimKey("Up", "gk");
   }
 
   private static void error(Exception e) {

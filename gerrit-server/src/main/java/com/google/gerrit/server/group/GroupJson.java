@@ -126,10 +126,8 @@ public class GroupJson {
     }
   }
 
-  public static class GroupInfo {
+  public static class GroupInfo extends GroupBaseInfo {
     final String kind = "gerritcodereview#group";
-    public String id;
-    public String name;
     public String url;
     public GroupOptionsInfo options;
 
@@ -142,5 +140,10 @@ public class GroupJson {
     // These fields are only supplied for internal groups, but only if requested
     public List<AccountInfo> members;
     public List<GroupInfo> includes;
+  }
+
+  public static class GroupBaseInfo {
+    public String id;
+    public String name;
   }
 }

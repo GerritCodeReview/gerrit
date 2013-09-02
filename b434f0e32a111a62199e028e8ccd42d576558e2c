@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "32a1f5ba_802a568b",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-02T04:16:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "926c6149_e330d2f9",
+      "revId": "b434f0e32a111a62199e028e8ccd42d576558e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "926c6149_035fae1b",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 16
@@ -30,6 +48,24 @@
       "writtenOn": "2013-09-02T04:06:27Z",
       "side": 1,
       "message": "\"or in the BUCK configuration file for Buck driven plugins\"",
+      "revId": "b434f0e32a111a62199e028e8ccd42d576558e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2aafd98_9ef2bd1b",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-02T04:16:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "926c6149_035fae1b",
       "revId": "b434f0e32a111a62199e028e8ccd42d576558e2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "529ca983_21182e82",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-02T04:16:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12a6b1d3_9f44f356",
+      "revId": "b434f0e32a111a62199e028e8ccd42d576558e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12a6b1d3_7f2a4f8e",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 16
@@ -64,6 +118,24 @@
       "writtenOn": "2013-09-02T04:06:27Z",
       "side": 1,
       "message": "\"an HTTP\"",
+      "revId": "b434f0e32a111a62199e028e8ccd42d576558e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "529ca983_411b3281",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-02T04:16:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12a6b1d3_7f2a4f8e",
       "revId": "b434f0e32a111a62199e028e8ccd42d576558e2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "32a1f5ba_a0443a56",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-02T04:16:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12a6b1d3_5f278bc4",
+      "revId": "b434f0e32a111a62199e028e8ccd42d576558e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "926c6149_2364aaf3",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 16
@@ -98,6 +188,24 @@
       "writtenOn": "2013-09-02T04:06:27Z",
       "side": 1,
       "message": "\"with the\"",
+      "revId": "b434f0e32a111a62199e028e8ccd42d576558e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32a1f5ba_c03f3ecb",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-02T04:16:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "926c6149_2364aaf3",
       "revId": "b434f0e32a111a62199e028e8ccd42d576558e2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "32a1f5ba_e03a42dd",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-02T04:16:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "926c6149_4359a632",
+      "revId": "b434f0e32a111a62199e028e8ccd42d576558e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "926c6149_635ea21d",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 16
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "529ca983_611e3673",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-02T04:16:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "926c6149_635ea21d",
+      "revId": "b434f0e32a111a62199e028e8ccd42d576558e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12a6b1d3_3f34c7eb",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 16
@@ -149,6 +293,24 @@
       "writtenOn": "2013-09-02T04:06:27Z",
       "side": 1,
       "message": "Comma is not necessary here.",
+      "revId": "b434f0e32a111a62199e028e8ccd42d576558e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "529ca983_81213abb",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-02T04:16:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12a6b1d3_3f34c7eb",
       "revId": "b434f0e32a111a62199e028e8ccd42d576558e2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

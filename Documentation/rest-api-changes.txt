@@ -984,6 +984,42 @@ As result a list of link:#reviewer-info[ReviewerInfo] entries is returned.
   ]
 ----
 
+[[suggest-reviewers]]
+Suggest Reviewers
+~~~~~~~~~~~~~~~~~
+[verse]
+'GET /changes/link:#change-id[\{change-id\}]/suggest_reviewers?q=J'
+
+Suggest the reviewers for the given query.
+
+As result a list of link:#suggest-reviewer-info[SuggestReviewerInfo] entries is returned.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/suggest_reviewers?q=J HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "kind": "gerritcodereview#reviewer",
+      "_account_id": 1000097,
+      "name": "Jane Roe",
+      "email": "jane.roe@example.com"
+    },
+    {
+      "kind": "gerritcodereview#suggestreviewers",
+      "group": "Joiner"
+    }
+  ]
+----
+
 [[get-reviewer]]
 Get Reviewer
 ~~~~~~~~~~~~
@@ -3023,6 +3059,15 @@ behavior matches how the rule will execute if installed. +
 If `SKIP` the parent filters are not called, allowing the test
 to return results from the input rule.
 |===========================
+
+[[suggest-reviewer-info]]
+SuggestReviewerInfo
+~~~~~~~~~~~~~~~~~~~
+The `SuggestReviewerInfo` entity contains information about a reviewer
+that can be added to the change (an account or a group).
+
+`SuggestReviewerInfo` has the same fields as
+link:rest-api-accounts.html#account-info[AccountInfo] or a group string.
 
 [[submit-info]]
 SubmitInfo

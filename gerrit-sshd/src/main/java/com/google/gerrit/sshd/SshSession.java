@@ -76,6 +76,7 @@ public class SshSession {
   void authenticationSuccess(String user, CurrentUser id) {
     username = user;
     identity = id;
+    identity.setAccessPath(AccessPath.SSH_COMMAND);
     authError = null;
   }
 

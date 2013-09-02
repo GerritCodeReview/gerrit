@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "529ca983_61507606",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListCapabilities.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-02T19:53:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "926c6149_436366db",
+      "revId": "07a8dd9904da4ff7121f685e0e684e0b5a6a66ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "926c6149_636862b5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListCapabilities.java",
         "patchSetId": 7
@@ -42,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "529ca983_414d726c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListCapabilities.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-02T19:53:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "926c6149_636862b5",
+      "revId": "07a8dd9904da4ff7121f685e0e684e0b5a6a66ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12a6b1d3_df84bb61",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListCapabilities.java",
         "patchSetId": 7
@@ -53,6 +89,24 @@
       "writtenOn": "2013-09-02T19:46:09Z",
       "side": 1,
       "message": "Don\u0027t change indentation here.",
+      "revId": "07a8dd9904da4ff7121f685e0e684e0b5a6a66ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32a1f5ba_209b8ab9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListCapabilities.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-02T19:53:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12a6b1d3_df84bb61",
       "revId": "07a8dd9904da4ff7121f685e0e684e0b5a6a66ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

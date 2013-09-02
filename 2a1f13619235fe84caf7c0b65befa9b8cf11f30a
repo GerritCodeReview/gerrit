@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "926c6149_c34cb674",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-02T05:52:17Z",
+      "side": 1,
+      "message": "s/withing/within the",
+      "revId": "2a1f13619235fe84caf7c0b65befa9b8cf11f30a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

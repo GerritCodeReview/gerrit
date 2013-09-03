@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32a1f5ba_e0bfe2f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2013-09-03T06:04:18Z",
+      "side": 1,
+      "message": "This doesn\u0027t make sense for an unmerged commit...",
+      "revId": "3554476bd1a265085243cc381ed1f2088f93787e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

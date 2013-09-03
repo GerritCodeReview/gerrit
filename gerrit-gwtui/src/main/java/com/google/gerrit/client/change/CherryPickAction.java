@@ -21,26 +21,29 @@ import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CherryPickDialog;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.user.client.ui.Button;
 
 class CherryPickAction {
-  static void call(Button b, final Change.Id id, final String revision,
+  static void call(Button b, final ChangeInfo info, final String revision,
       String project, final String commitMessage) {
     // TODO Replace CherryPickDialog with a nicer looking display.
     b.setEnabled(false);
     new CherryPickDialog(b, new Project.NameKey(project)) {
       {
         sendButton.setText(Util.C.buttonCherryPickChangeSend());
-        message.setText(Util.M.cherryPickedChangeDefaultMessage(
-            commitMessage.trim(),
-            revision));
+        if (info.status().isClosed()) {
+          message.setText(Util.M.cherryPickedChangeDefaultMessage(
+              commitMessage.trim(),
+              revision));
+        } else {
+          message.setText(commitMessage.trim());
+        }
       }
 
       @Override
       public void onSend() {
-        ChangeApi.cherrypick(id.get(), revision,
+        ChangeApi.cherrypick(info.legacy_id().get(), revision,
             getDestinationBranch(),
             getMessageText(),
             new GerritCallback<ChangeInfo>() {

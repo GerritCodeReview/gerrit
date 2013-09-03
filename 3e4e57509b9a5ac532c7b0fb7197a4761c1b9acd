@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "32a1f5ba_e00242d4",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 1202,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-03T09:55:46Z",
+      "side": 1,
+      "message": "Another question is where to place ActionInfo description? In rest-api-commons-entities.txt? At least not in this file, here in rest-api-projects.txt it would be wrong, because many screens can potentially add support fo UiActions. Currently already two REST endpoints retrieve ActionInfo and should link to this entity: project-config and change-details.\n\nConcerning the ActionInfo fields, you can find the description in js-api documentation:\n\n* id: id of UiAction, like it was bound in REST API module, prefixed with plugin name, i. e. \"cookbook-plugin~say-hello\"\n*  method: REST method: post, delete, put, get, like it was bound in REST API module, i. e.:\n\nIn this example, the first UiAction would have method\u003d\"delete\", while the second would have method\u003d\"post\"\n\n delete(PROJECT_KIND)\n            .to(DeleteProject.class);\n post(PROJECT_KIND, \"delete\")\n            .to(DeleteProject.class);\n\n* label: button\u0027s name, like it appears on the UI\n* title: buttton\u0027s tooltip, like it appears on the UI if you use mouseover\n* enabled: should the button be rendered as enabled or disabled.\n\nNote: visible: UiAction.Description has another attribute:\n\n* boolean visible\n\nIt is only used to figure out of for this resource and user if the UiAction should be rendered at all or not. So, for example, if user doesn\u0027t have the required capability, then the UiAction is not rendered at all. In this case ActionIfno list in REST response would not include this UiAction. That why client side ActionInfo doesn\u0027t need that attribute.",
+      "parentUuid": "32a1f5ba_20470a28",
+      "revId": "3e4e57509b9a5ac532c7b0fb7197a4761c1b9acd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "529ca983_a1e0be16",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
         "patchSetId": 16
@@ -66,6 +84,24 @@
       "writtenOn": "2013-09-03T08:21:02Z",
       "side": 1,
       "message": "Currently the order of sections on the ProjectInfoScreen is like this:\n\n  1. Project Options\n  2. Contributor Agreements\n  3. Project Commands\n  4. \u0027Save Changes\u0027 Button\n\nThe \u0027Save Changes\u0027 button only applies to 1. and 2., so I\u0027m wondering if the order should actually be:\n\n  1. Project Options\n  2. Contributor Agreements\n  3. \u0027Save Changes\u0027 Button\n  4. Project Commands",
+      "revId": "3e4e57509b9a5ac532c7b0fb7197a4761c1b9acd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "529ca983_01bbea0b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-03T09:55:46Z",
+      "side": 1,
+      "message": "Interesting thought. I will try to change the order.",
+      "parentUuid": "529ca983_a1e0be16",
       "revId": "3e4e57509b9a5ac532c7b0fb7197a4761c1b9acd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "32a1f5ba_c0d17e16",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-03T13:01:00Z",
+      "side": 1,
+      "message": "That\u0027s is a  good question, and i was waiting all the time and wondering, why you don\u0027t actually ask that question ;-)\n\nAnd the answer is, that\u0027s how the JavaScript API works: it needs to send REST API request from JSNI and therefore it needs the access to the endpoint, i. e. it has to know the resource: \"/projects/foo\" for project with name \"foo\". Check the code in ProjectGlue.java in this change, that\u0027s where it is used:\n\n RestApi api \u003d ProjectApi.project(project.name()).view(action.id());",
+      "parentUuid": "32a1f5ba_60187235",
+      "revId": "3e4e57509b9a5ac532c7b0fb7197a4761c1b9acd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32a1f5ba_801b7632",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 16

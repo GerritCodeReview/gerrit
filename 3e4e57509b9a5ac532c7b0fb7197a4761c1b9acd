@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "529ca983_01d2ca4b",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 1202,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-03T07:50:28Z",
+      "side": 1,
+      "message": "1. ActionInfo should be also documented in an own section and we should link here this documentation.\n\n2. s/wich/which",
+      "revId": "3e4e57509b9a5ac532c7b0fb7197a4761c1b9acd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "926c6149_23c02a6b",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-03T05:41:31Z",
+      "side": 1,
+      "message": "This needs to be indented 2 spaces, otherwise the entire block of text gets rendered on a single line.",
+      "revId": "ec1c60cb5ac1e2e0c10b0df7bdd095e64a054c48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

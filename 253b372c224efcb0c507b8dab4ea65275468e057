@@ -105,6 +105,24 @@
       "revId": "253b372c224efcb0c507b8dab4ea65275468e057",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "926c6149_c349163b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-03T09:45:02Z",
+      "side": 1,
+      "message": "Also, IIRC when we discussed this feature at the hackathon in London, it was decided not to add logic to prevent cherry-picking of open changes.  I don\u0027t remember if that was a face-to-face discussion or in review comments on the original change.",
+      "parentUuid": "12a6b1d3_ff99bf76",
+      "revId": "253b372c224efcb0c507b8dab4ea65275468e057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

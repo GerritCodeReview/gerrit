@@ -16,6 +16,24 @@
       "revId": "9de428cb3bbad4603e8e776d8a1eb0ac70855ccd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32a1f5ba_603d12a0",
+        "filename": "Documentation/rest-api-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-03T08:33:44Z",
+      "side": 1,
+      "message": "Actually it should, but this is wrong also in some other rest-api-* documentation files :-( Since this line is not touched by this change, I\u0027ll make a fix in a new change.",
+      "parentUuid": "926c6149_a3ab3ab6",
+      "revId": "9de428cb3bbad4603e8e776d8a1eb0ac70855ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

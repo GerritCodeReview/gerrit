@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32a1f5ba_40fc4e9b",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-03T11:00:18Z",
+      "side": 1,
+      "message": "May be change it so that the snippet can be compiled, i. e.\n\n private Provider\u003cCurrentUser\u003e user;\n\n ;-)",
+      "revId": "f86bae579dae2a506af303db4449ae4c448d0b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "32a1f5ba_60d99238",
+        "filename": "Documentation/config-auto-site-initialization.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-03T14:06:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12a6b1d3_5f8b0b1c",
+      "revId": "9aba1e660621f810ae8fd901049dba5737e1e4b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12a6b1d3_7f8ecf2d",
         "filename": "Documentation/config-auto-site-initialization.txt",
         "patchSetId": 12
@@ -30,6 +48,24 @@
       "writtenOn": "2013-09-03T13:20:17Z",
       "side": 1,
       "message": "Add a comma after \"used\"",
+      "revId": "9aba1e660621f810ae8fd901049dba5737e1e4b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32a1f5ba_40e68e00",
+        "filename": "Documentation/config-auto-site-initialization.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-03T14:06:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12a6b1d3_7f8ecf2d",
       "revId": "9aba1e660621f810ae8fd901049dba5737e1e4b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "529ca983_a1531ee4",
+        "filename": "Documentation/config-auto-site-initialization.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-03T14:06:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12a6b1d3_3f98476b",
+      "revId": "9aba1e660621f810ae8fd901049dba5737e1e4b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "926c6149_434fe63a",
         "filename": "Documentation/config-auto-site-initialization.txt",
         "patchSetId": 12
@@ -64,6 +118,24 @@
       "writtenOn": "2013-09-03T13:20:17Z",
       "side": 1,
       "message": "Add a comma after \"property\".",
+      "revId": "9aba1e660621f810ae8fd901049dba5737e1e4b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2aafd98_3e028920",
+        "filename": "Documentation/config-auto-site-initialization.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-03T14:06:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "926c6149_434fe63a",
       "revId": "9aba1e660621f810ae8fd901049dba5737e1e4b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -56,7 +56,22 @@ public class AccountResolver {
    */
   public Account find(final String nameOrEmail) throws OrmException {
     Set<Account.Id> r = findAll(nameOrEmail);
-    return r.size() == 1 ? byId.get(r.iterator().next()).getAccount() : null;
+    if (r.size() == 1) {
+      return byId.get(r.iterator().next()).getAccount();
+    }
+
+    Account match = null;
+    for (Account.Id id : r) {
+      Account account = byId.get(id).getAccount();
+      if (!account.isActive()) {
+        continue;
+      }
+      if (match != null) {
+        return null;
+      }
+      match = account;
+    }
+    return match;
   }
 
   /**

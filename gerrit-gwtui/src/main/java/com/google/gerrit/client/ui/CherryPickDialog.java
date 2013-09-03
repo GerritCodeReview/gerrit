@@ -63,7 +63,7 @@ public abstract class CherryPickDialog extends ActionDialog {
     });
 
     newBranch.setWidth("100%");
-    DOM.setStyleAttribute(newBranch.getElement(), "box-sizing", "border-box");
+    DOM.setStyleAttribute(newBranch.getElement(), "boxSizing", "border-box");
     message.setCharacterWidth(70);
 
     final FlowPanel mwrap = new FlowPanel();

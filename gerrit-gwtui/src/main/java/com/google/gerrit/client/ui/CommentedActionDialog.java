@@ -82,7 +82,7 @@ public abstract class CommentedActionDialog<T> extends AutoCenterDialogBox
     buttonPanel = new FlowPanel();
     buttonPanel.add(sendButton);
     buttonPanel.add(cancelButton);
-    DOM.setStyleAttribute(buttonPanel.getElement(), "margin-top", "4px");
+    DOM.setStyleAttribute(buttonPanel.getElement(), "marginTop", "4px");
 
     panel = new FlowPanel();
     panel.add(new SmallHeading(heading));

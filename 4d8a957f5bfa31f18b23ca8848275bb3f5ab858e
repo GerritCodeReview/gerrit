@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32a1f5ba_2074aa8a",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-03T04:26:50Z",
+      "side": 1,
+      "message": "Mention here UiActions and link to ui-extension documentation, like on the line 327 too?",
+      "revId": "4d8a957f5bfa31f18b23ca8848275bb3f5ab858e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

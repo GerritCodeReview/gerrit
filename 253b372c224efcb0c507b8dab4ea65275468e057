@@ -141,6 +141,24 @@
       "revId": "253b372c224efcb0c507b8dab4ea65275468e057",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12a6b1d3_bfa337ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-03T09:47:57Z",
+      "side": 1,
+      "message": "Found it.  See the comments on patch set 12 between Martin and Gustaf\n\nhttps://gerrit-review.googlesource.com/#/c/39491/",
+      "parentUuid": "12a6b1d3_df9efb5c",
+      "revId": "253b372c224efcb0c507b8dab4ea65275468e057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

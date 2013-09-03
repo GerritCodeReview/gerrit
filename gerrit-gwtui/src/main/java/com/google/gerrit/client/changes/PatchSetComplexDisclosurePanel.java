@@ -399,9 +399,13 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
           new CherryPickDialog(b, changeDetail.getChange().getProject()) {
             {
               sendButton.setText(Util.C.buttonCherryPickChangeSend());
-              message.setText(Util.M.cherryPickedChangeDefaultMessage(
-                  detail.getInfo().getMessage().trim(),
-                  detail.getPatchSet().getRevision().get()));
+              if (changeDetail.getChange().getStatus().isClosed()) {
+                message.setText(Util.M.cherryPickedChangeDefaultMessage(
+                    detail.getInfo().getMessage().trim(),
+                    detail.getPatchSet().getRevision().get()));
+              } else {
+                message.setText(detail.getInfo().getMessage().trim());
+              }
             }
 
             @Override

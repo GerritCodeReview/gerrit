@@ -26,11 +26,17 @@ Release Highlights
 ------------------
 
 
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config-gerrit.html#index[
+Secondary indexing with Lucene and Solr].
+
 * Lots of new link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api.html[
 REST API endpoints].
 
-* New link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/js-api.html[
-JavaScript API].
+* New
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/dev-plugins.html#ui_extension[
+UI extension] and
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/js-api.html[
+JavaScript API] for plugins.
 
 * New build system using link:http://facebook.github.io/buck/[Facebook Buck].
 
@@ -78,6 +84,8 @@ Configurable external `robots.txt` file].
 * Support for
 link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/database-setup.html#createdb_oracle[
 Oracle database].
+
+* New bash completion script for autocompletion of parameters to the gerrit.sh wrapper.
 
 Web UI
 ~~~~~~
@@ -256,6 +264,28 @@ Get child project]
 Set configuration]
 
 
+Plugins
+^^^^^^^
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-plugins.html#list-plugins[
+List plugins]
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-plugins.html#install-plugin[
+Install plugin]
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-plugins.html#get-plugin-status[
+Get plugin status]
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-plugins.html#enable-plugin[
+Enable plugin]
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-plugins.html#disable-plugin[
+Disable plugin]
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-plugins.html#reload-plugin[
+Reload plugin]
+
+
 Capabilities
 ~~~~~~~~~~~~
 
@@ -297,6 +327,8 @@ Global
 
 
 * Plugins may now contribute buttons to various parts of the UI using the
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/dev-plugins.html#ui_extension[
+UI extension] and
 link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/js-api.html[
 JavaScript API].
 
@@ -312,6 +344,10 @@ pre-merge validation steps].
 * Plugins may now provide
 link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/dev-plugins.html#capabilities[
 Global capabilities].
+
+* Plugins may now
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/dev-plugins.html#plugin_name[
+define their own name].
 
 * The "hello world" plugin is replaced with the "cookbook plugin" which has more
 examples of the plugin API's usage.
@@ -343,6 +379,13 @@ output of the `show-queue` command.
 using only the basename on the target server.
 
 * The `startReplication` global capability is now provided by the plugin.
+
+* Pushes to each destination URI are serialized.
++
+Scheduling a retry to avoid collision with an in-flight push is differentiated
+from a retry due to a transport error.  In the case of collision avoidance, the
+job is rescheduled according to the replication delay, rather than the retry
+delay.
 
 ssh
 ~~~
@@ -394,6 +437,10 @@ use the parent change on the same branch during rebase.
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=600[Issue 600]:
 Fix change stuck in SUBMITTED state but actually merged.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1699[Issue 1699]:
+Fix handling of projects with trailing ".git" suffix.
+
 
 Configuration
 ~~~~~~~~~~~~~
@@ -494,6 +541,8 @@ The link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/cmd-re
 `review` command].
 
 * The `@CommandMetaData(descr)` annotation is deprecated in favor of `@CommandMetaData(description)`.
+
+* Improve the error message when rejecting upload for review to a read-only project.
 
 
 Emails

@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "32a1f5ba_00276682",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 1202,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-03T11:06:16Z",
+      "side": 1,
+      "message": "Ah, but then it\u0027s easy :-) Since change-details is also using ActionInfo we of course already have a description of ActionInfo in rest-api-changes.txt. In this case I would simply link to this description from here:\n\n  Map of action names to link:rest-api-changes.html3action-info[ActionInfo] entity, which contains\n\nIf an entity is used for views under different root collections, I would say to just define the entity in one of the rest-api-*.txt file and then just link to this description from the other rest-api-*.txt files. Having it in rest-api-commons-entities.txt would maybe be more proper but at the moment I would see this as too much oberhead. We can reconsider this if we start to have more shared entities.",
+      "parentUuid": "32a1f5ba_e00242d4",
+      "revId": "3e4e57509b9a5ac532c7b0fb7197a4761c1b9acd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "529ca983_a1e0be16",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
         "patchSetId": 16

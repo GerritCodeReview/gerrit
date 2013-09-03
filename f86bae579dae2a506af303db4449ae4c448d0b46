@@ -16,6 +16,24 @@
       "revId": "f86bae579dae2a506af303db4449ae4c448d0b46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12a6b1d3_1f958333",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-03T13:23:47Z",
+      "side": 1,
+      "message": "Gah.  I actually considered copying all the snippets out and making sure they worked, but then went on the assumption that you\u0027d copy pasted them into here from working code.\n\n:(\n\nBTW I also noticed that asciidoc doesn\u0027t perfectly render this block.  All the lines following a blank line are outdented back to the left.\n\nMaybe adding whitespace on the blank lines will fix it.  Haven\u0027t checked though.",
+      "parentUuid": "32a1f5ba_40fc4e9b",
+      "revId": "f86bae579dae2a506af303db4449ae4c448d0b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

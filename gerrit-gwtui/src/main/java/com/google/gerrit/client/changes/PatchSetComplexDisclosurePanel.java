@@ -400,9 +400,16 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
             {
               sendButton.setText(Util.C.buttonCherryPickChangeSend());
               if (changeDetail.getChange().getStatus().isClosed()) {
+
+                String cm = detail.getInfo().getMessage().trim();
+                String cmBeforeChangeId =
+                    cm.substring(0, cm.lastIndexOf("Change-Id"));
+                String cmFromChangeId = cm.substring(cm.lastIndexOf("Change-Id"));
+
                 message.setText(Util.M.cherryPickedChangeDefaultMessage(
-                    detail.getInfo().getMessage().trim(),
-                    detail.getPatchSet().getRevision().get()));
+                    cmBeforeChangeId,
+                    detail.getPatchSet().getRevision().get(), cmFromChangeId));
+
               } else {
                 message.setText(detail.getInfo().getMessage().trim());
               }

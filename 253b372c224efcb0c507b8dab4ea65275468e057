@@ -159,6 +159,24 @@
       "revId": "253b372c224efcb0c507b8dab4ea65275468e057",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "529ca983_012c0a7a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2013-09-03T10:05:25Z",
+      "side": 1,
+      "message": "We discussed the same issue on Qt Creator: https://codereview.qt-project.org/59034",
+      "parentUuid": "12a6b1d3_bfa337ab",
+      "revId": "253b372c224efcb0c507b8dab4ea65275468e057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

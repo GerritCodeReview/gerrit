@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "926c6149_e3cc52ab",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-03T05:12:45Z",
+      "side": 1,
+      "message": "Use `-` here instead of `~`.\n\nAs it is now, the UI Extension section is rendered as a subsection of the \"Plugin Owned Capabilities\" section, which I don\u0027t think is what was intended.",
+      "revId": "ed5a0ad13c50210c4e62552fa056b0e319be8204",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

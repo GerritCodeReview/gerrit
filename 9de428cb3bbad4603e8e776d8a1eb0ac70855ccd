@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "926c6149_a3ab3ab6",
+        "filename": "Documentation/rest-api-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-03T07:45:54Z",
+      "side": 1,
+      "message": "Should this be a subsection of \"Endpoints\"?\n\nAs it is now, the Endpoints section is empty.",
+      "revId": "9de428cb3bbad4603e8e776d8a1eb0ac70855ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

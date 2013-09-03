@@ -53,5 +53,8 @@ Display custom NoOp label score for open changes.
 * link:https://code.google.com/p/gerrit/issues/detail?id=2093[Issue 2093]:
 Fix incorrect title of "repo download" link on change screen.
 
+* link:https://code.google.com/p/gerrit/issues/detail?id=2098[Issue 2098]:
+Fix re-enabling of disabled plugins.
+
 No other changes since 2.6.1.
 

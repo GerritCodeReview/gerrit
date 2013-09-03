@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "12a6b1d3_5f7aeb7a",
+        "filename": "Documentation/rest-api-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-03T05:23:14Z",
+      "side": 1,
+      "message": "The problem seems to be caused by the text being enclosed in backtick quotes (`).  After replacing them with regular quotes (\u0027) the link is rendered correctly.",
+      "parentUuid": "12a6b1d3_9f6753e6",
+      "revId": "f3eecedf9709bff73a84936cbc24f35bc482bec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32a1f5ba_c0585e32",
         "filename": "Documentation/rest-api-plugins.txt",
         "patchSetId": 2

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "529ca983_817dba73",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-03T07:04:28Z",
+      "side": 1,
+      "message": "That\u0027s wrong. The path is included twice now. What you want is:\n\n File off \u003d new File(active.getSrcFile() + \".disabled\");\n\nor\n\n File off \u003d new File(pluginsDir, active.getSrcFile().getName() + \".disabled\");",
+      "revId": "40384a1e5db70cc3e26e4b557e0581faf9562da3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

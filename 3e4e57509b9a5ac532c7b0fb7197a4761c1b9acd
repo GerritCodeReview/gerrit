@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "32a1f5ba_80dc962a",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-03T13:55:17Z",
+      "side": 1,
+      "message": "Ok, but wouldn\u0027t it be possible to add the project name as parameter to the onAction(...) method in ProjectGlue?\n\n  public static void onAction(Project.nameKey project, ConfigInfo config, ActionInfo action, ActionButton button) {\n\nThe contructor in ActionButton could just expect the project name to be provided to the constructor:\n\n  public ActionButton(Project.nameKey project, ConfigInfo config, ActionInfo action) {\n\nand at the only place where this constructor is used (in ProjectInfoScreen.initProjectActions(...)) we have the project name available:\n\n  actionsPanel.add(new ActionButton(getProjectKey(), info, actions.get(id)));",
+      "parentUuid": "32a1f5ba_c0d17e16",
+      "revId": "3e4e57509b9a5ac532c7b0fb7197a4761c1b9acd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32a1f5ba_801b7632",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 16

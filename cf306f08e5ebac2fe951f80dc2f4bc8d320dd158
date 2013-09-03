@@ -22,6 +22,24 @@
       "revId": "cf306f08e5ebac2fe951f80dc2f4bc8d320dd158",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "926c6149_a365fabd",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1337,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-03T17:36:06Z",
+      "side": 1,
+      "message": "You\u0027re right. I\u0027ll abandon this change and start a new one to do that.",
+      "parentUuid": "b24c05b4_1ce9d532",
+      "revId": "cf306f08e5ebac2fe951f80dc2f4bc8d320dd158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

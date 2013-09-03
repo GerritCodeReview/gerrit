@@ -33,6 +33,24 @@
       "revId": "253b372c224efcb0c507b8dab4ea65275468e057",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "529ca983_81affac3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-03T09:37:36Z",
+      "side": 1,
+      "message": "is it better to keep it before Change-Id line? \nIIRC  Change-Id or Signed-off-by should be the last line. \nnot sure what will happen if not.",
+      "parentUuid": "926c6149_433606cb",
+      "revId": "253b372c224efcb0c507b8dab4ea65275468e057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

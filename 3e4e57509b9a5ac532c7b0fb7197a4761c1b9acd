@@ -34,6 +34,23 @@
       "revId": "3e4e57509b9a5ac532c7b0fb7197a4761c1b9acd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "529ca983_a1e0be16",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-03T08:21:02Z",
+      "side": 1,
+      "message": "Currently the order of sections on the ProjectInfoScreen is like this:\n\n  1. Project Options\n  2. Contributor Agreements\n  3. Project Commands\n  4. \u0027Save Changes\u0027 Button\n\nThe \u0027Save Changes\u0027 button only applies to 1. and 2., so I\u0027m wondering if the order should actually be:\n\n  1. Project Options\n  2. Contributor Agreements\n  3. \u0027Save Changes\u0027 Button\n  4. Project Commands",
+      "revId": "3e4e57509b9a5ac532c7b0fb7197a4761c1b9acd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

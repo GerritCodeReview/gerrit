@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32a1f5ba_20126a15",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-03T11:41:19Z",
+      "side": 1,
+      "message": "We already have a REST endpoint for suggesting projects [1]. I think this REST endpoint to suggest reviewers should follow the same pattern:\n\n  GET /changes/{change-id}/reviewers/?p\u003dDav\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#suggest-projects",
+      "revId": "7ed6446e8b145ca3c12eab2dd8df133b4826cb3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -33,9 +33,13 @@ class CherryPickAction {
       {
         sendButton.setText(Util.C.buttonCherryPickChangeSend());
         if (info.status().isClosed()) {
+
+          String cm = commitMessage.trim();
+          String cmBeforeChangeId =
+              cm.substring(0, cm.lastIndexOf("Change-Id"));
+          String cmFromChangeId = cm.substring(cm.lastIndexOf("Change-Id"));
           message.setText(Util.M.cherryPickedChangeDefaultMessage(
-              commitMessage.trim(),
-              revision));
+              cmBeforeChangeId, revision, cmFromChangeId));
         } else {
           message.setText(commitMessage.trim());
         }

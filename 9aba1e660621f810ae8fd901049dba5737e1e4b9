@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12a6b1d3_5f8b0b1c",
+        "filename": "Documentation/config-auto-site-initialization.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-03T13:20:17Z",
+      "side": 1,
+      "message": "Put gerrit.init in backticks instead of normal quotes?  Same for other names quoted in the rest of the doc.",
+      "revId": "9aba1e660621f810ae8fd901049dba5737e1e4b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12a6b1d3_7f8ecf2d",
+        "filename": "Documentation/config-auto-site-initialization.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-03T13:20:17Z",
+      "side": 1,
+      "message": "Add a comma after \"used\"",
+      "revId": "9aba1e660621f810ae8fd901049dba5737e1e4b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12a6b1d3_3f98476b",
+        "filename": "Documentation/config-auto-site-initialization.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-03T13:20:17Z",
+      "side": 1,
+      "message": "I\u0027m not sure if \"exist\" should be \"exists\" here.",
+      "revId": "9aba1e660621f810ae8fd901049dba5737e1e4b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "926c6149_434fe63a",
+        "filename": "Documentation/config-auto-site-initialization.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-03T13:20:17Z",
+      "side": 1,
+      "message": "Add a comma after \"property\".",
+      "revId": "9aba1e660621f810ae8fd901049dba5737e1e4b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

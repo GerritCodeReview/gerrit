@@ -105,11 +105,11 @@ public class AccountsCollection implements
       }
     }
 
-    Set<Account.Id> matches = resolver.findAll(id);
-    if (matches.size() != 1) {
+    Account match = resolver.find(id);
+    if (match == null) {
       return null;
     }
-    return userFactory.create(Iterables.getOnlyElement(matches));
+    return userFactory.create(match.getId());
   }
 
   @Override

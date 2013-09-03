@@ -5,8 +5,9 @@ This page describes the account related REST endpoints.
 Please also take note of the general information on the
 link:rest-api.html[REST API].
 
-Endpoints
----------
+[[account-endpoints]]
+Account Endpoints
+-----------------
 
 [[get-account]]
 Get Account

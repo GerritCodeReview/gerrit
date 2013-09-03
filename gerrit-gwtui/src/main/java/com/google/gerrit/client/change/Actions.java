@@ -53,6 +53,7 @@ class Actions extends Composite {
   private RestoreAction restoreAction;
 
   private Change.Id changeId;
+  private ChangeInfo changeInfo;
   private String revision;
   private String project;
   private String subject;
@@ -74,6 +75,7 @@ class Actions extends Composite {
     project = info.project();
     subject = commit.subject();
     message = commit.message();
+    changeInfo = info;
 
     initChangeActions(info, hasUser);
     initRevisionActions(info, revInfo, hasUser);
@@ -162,7 +164,7 @@ class Actions extends Composite {
 
   @UiHandler("cherrypick")
   void onCherryPick(ClickEvent e) {
-    CherryPickAction.call(cherrypick, changeId, revision, project, message);
+    CherryPickAction.call(cherrypick, changeInfo, revision, project, message);
   }
 
   @UiHandler("revert")

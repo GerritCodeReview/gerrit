@@ -5,9 +5,6 @@ This page describes the project related REST endpoints.
 Please also take note of the general information on the
 link:rest-api.html[REST API].
 
-Endpoints
----------
-
 [[project-endpoints]]
 Project Endpoints
 -----------------

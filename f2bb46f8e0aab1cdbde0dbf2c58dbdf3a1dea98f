@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52210930_9962fbd6",
+        "filename": "Documentation/js-api.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-04T06:56:05Z",
+      "side": 1,
+      "message": "s/a name/the name",
+      "revId": "f2bb46f8e0aab1cdbde0dbf2c58dbdf3a1dea98f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "121b1108_379bb8b9",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 1200,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-04T06:56:05Z",
+      "side": 1,
+      "message": "s/name/names",
+      "revId": "f2bb46f8e0aab1cdbde0dbf2c58dbdf3a1dea98f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

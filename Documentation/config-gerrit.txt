@@ -807,6 +807,18 @@ the result.
 +
 By default this is false (test is not enabled).
 
+[[cherryPick]]Section cherryPick
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+cherryPick.X::
++
+Whether to include the '(cherry-picked from commit <sha1>)' line on the
+end of the commit message when cherry-picking a change via the Web UI.
++
+By default this is true, mimicking the behavior of running
+`git cherry-pick -x sha1` on the command line.
+
+
 [[commentlink]]Section commentlink
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Comment links are find/replace strings applied to change descriptions,

@@ -26,6 +26,8 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.user.client.ui.Button;
 
 class CherryPickAction {
+  private final static boolean cherryPickX = Gerrit.getConfig().getGitCherrypickX();
+
   static void call(Button b, final Change.Id id, final String revision,
       String project, final String commitMessage) {
     // TODO Replace CherryPickDialog with a nicer looking display.
@@ -33,9 +35,9 @@ class CherryPickAction {
     new CherryPickDialog(b, new Project.NameKey(project)) {
       {
         sendButton.setText(Util.C.buttonCherryPickChangeSend());
-        message.setText(Util.M.cherryPickedChangeDefaultMessage(
+        message.setText(cherryPickX ? Util.M.cherryPickedChangeDefaultMessage(
             commitMessage.trim(),
-            revision));
+            revision) : commitMessage.trim());
       }
 
       @Override

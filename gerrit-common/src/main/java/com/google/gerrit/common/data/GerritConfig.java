@@ -32,6 +32,7 @@ public class GerritConfig implements Cloneable {
   protected String httpPasswordUrl;
   protected String reportBugUrl;
   protected boolean gitBasicAuth;
+  protected boolean gitCherrypickX;
 
   protected GitwebConfig gitweb;
   protected boolean useContributorAgreements;
@@ -269,5 +270,13 @@ public class GerritConfig implements Cloneable {
 
   public void setChangeUpdateDelay(int seconds) {
     changeUpdateDelay = seconds;
+  }
+
+  public boolean getGitCherrypickX() {
+    return gitCherrypickX;
+  }
+
+  public void setGitCherrypickX(boolean gitCherrypickX) {
+    this.gitCherrypickX = gitCherrypickX;
   }
 }

@@ -133,6 +133,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     }
 
     config.setGitBasicAuth(authConfig.isGitBasichAuth());
+    config.setGitCherrypickX(cfg.getBoolean("cherryPick", "X", true));
 
     final Set<Account.FieldName> fields = new HashSet<Account.FieldName>();
     for (final Account.FieldName n : Account.FieldName.values()) {

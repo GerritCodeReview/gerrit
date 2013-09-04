@@ -227,6 +227,42 @@
       "revId": "bbadc469b65aab74e0fbfe1cb0b68bb81144ac41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5238295c_04dc38b3",
+        "filename": "Documentation/config-auto-site-initialization.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-04T07:37:25Z",
+      "side": 1,
+      "message": "@Edwin: Yup, but... That change introduces some magic. It is not clear from the commit message and not from this explanation to me what kind of magic i get if i enable that features and what i still have to do manually. I expect this to be clearly stated, without to study the code or setting breakpoints and tracing what is the code actually doing.\n\n\"It is a guide how you configure automatic site initialization for Gerrit IF you have your Gerrit server already running in a servlet container.\"\n\nDefinitely disagree. I know everything about Gerrit@Tomcat integration ;-) Still i want to know/understand from this description how the Tomcat@Gerrit integration would differ when that change get integrated. \n\nVery concrete question: it is not clear if in the Example 3 the following dependencies are copied $TOMCAT_HOME/lib for me or not IF i start Tomcat@Gerrit integration from scratch.\n\n * Bouncy Castle lib\n * H2, MySQL and PostgreSQL drivers\n * ...",
+      "parentUuid": "5238295c_24acdc34",
+      "revId": "bbadc469b65aab74e0fbfe1cb0b68bb81144ac41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "120dd1bb_0731d6fb",
+        "filename": "Documentation/config-auto-site-initialization.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-04T07:37:25Z",
+      "side": 1,
+      "message": "David: I am aware of this documentation and TBH i would like to see something like that, but very very shorter integrated...",
+      "parentUuid": "121b1108_d7683cba",
+      "revId": "bbadc469b65aab74e0fbfe1cb0b68bb81144ac41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

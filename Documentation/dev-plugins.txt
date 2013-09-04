@@ -419,7 +419,7 @@ Plugins contribute UI actions by implementing the `UiAction` interface:
       String message;
     }
 
-    private Provider<CurrentUser> cu;
+    private Provider<CurrentUser> user;
 
     @Inject
     HelloWorldAction(Provider<CurrentUser> user) {

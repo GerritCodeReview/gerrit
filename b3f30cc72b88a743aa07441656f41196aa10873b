@@ -34,6 +34,24 @@
       "revId": "b3f30cc72b88a743aa07441656f41196aa10873b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5238295c_e4ad9438",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2013-09-04T06:10:03Z",
+      "side": 1,
+      "message": "But since this is the default, unlike Git, it should be a sane one...",
+      "parentUuid": "121b1108_771e1073",
+      "revId": "b3f30cc72b88a743aa07441656f41196aa10873b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

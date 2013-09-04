@@ -34,6 +34,23 @@
       "revId": "c8b0009a1a18c728b4067651ec04996f8cc08f69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52210930_59c6a38e",
+        "filename": "Documentation/Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-04T18:36:12Z",
+      "side": 1,
+      "message": "Docs in master are built from Buck. This Makefile should have been removed when the pom.xmls were removed.",
+      "revId": "c8b0009a1a18c728b4067651ec04996f8cc08f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

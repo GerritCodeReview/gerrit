@@ -1,0 +1,170 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d25a59dc_e5e81631",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-04T21:32:05Z",
+      "side": 1,
+      "message": "Please declare a binary in the BUCK file and not the defs file.",
+      "revId": "07ef7ef8f79f8a9dfe0a069d141f408f525c0b07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d25a59dc_25ff0ee1",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-04T21:32:05Z",
+      "side": 1,
+      "message": "Instead of a prefix lets use a suffix, e.g. \".expanded\".",
+      "revId": "07ef7ef8f79f8a9dfe0a069d141f408f525c0b07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d25a59dc_65f50601",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-04T21:32:05Z",
+      "side": 1,
+      "message": "Move the git_describe() function in gerrit-war/BUCK to a new tools/git.defs file and include that in both gerrit-war/BUCK and Documentation/BUCK. Then you can call git_describe() here and get the same result as what shows in the web UI.",
+      "revId": "07ef7ef8f79f8a9dfe0a069d141f408f525c0b07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d25a59dc_05021220",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-04T21:32:05Z",
+      "side": 1,
+      "message": "\u0027revision\u003d\"%s\"\u0027 % revision",
+      "range": {
+        "startLine": 41,
+        "startChar": 20,
+        "endLine": 41,
+        "endChar": 49
+      },
+      "revId": "07ef7ef8f79f8a9dfe0a069d141f408f525c0b07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d25a59dc_a5f21e1b",
+        "filename": "Documentation/replace_macros.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-04T21:32:05Z",
+      "side": 1,
+      "message": "src_file?",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 9
+      },
+      "revId": "07ef7ef8f79f8a9dfe0a069d141f408f525c0b07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52e4a950_c1e38254",
+        "filename": "Documentation/replace_macros.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-04T21:32:05Z",
+      "side": 1,
+      "message": "This may be easier to write as a multiline constant using \"\"\" at the top of the module, e.g.:\n\n  FOOTER \u003d \"\"\"\n\n  ++++\n  \u003chr style\u003d\"\\n\"\n  \"\"\"\n\nAlternatively use a construct like:\n\n  \"\\n\".join([\n    \u0027\u0027,\n    \u0027++++\u0027,\n  ...",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 17
+      },
+      "revId": "07ef7ef8f79f8a9dfe0a069d141f408f525c0b07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72dfed7f_02ee0a3a",
+        "filename": "Documentation/replace_macros.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-04T21:32:05Z",
+      "side": 1,
+      "message": "Instead of a prefix, use a suffix.",
+      "range": {
+        "startLine": 51,
+        "startChar": 33,
+        "endLine": 51,
+        "endChar": 62
+      },
+      "revId": "07ef7ef8f79f8a9dfe0a069d141f408f525c0b07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d25a59dc_45f80afa",
+        "filename": "Documentation/replace_macros.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-04T21:32:05Z",
+      "side": 1,
+      "message": "Can you explain why you can\u0027t just output the current line but instead must defer each line\u0027s output by one line? Its not obvious to me reading the loop what case requires this buffering.",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 72,
+        "endChar": 20
+      },
+      "revId": "07ef7ef8f79f8a9dfe0a069d141f408f525c0b07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

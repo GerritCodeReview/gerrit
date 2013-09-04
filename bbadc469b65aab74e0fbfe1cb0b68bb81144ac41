@@ -299,6 +299,24 @@
       "revId": "bbadc469b65aab74e0fbfe1cb0b68bb81144ac41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "120dd1bb_4750ee05",
+        "filename": "Documentation/config-auto-site-initialization.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-04T08:22:32Z",
+      "side": 1,
+      "message": "With this feature you can skip the step to manually run init. Of course you then need to set the \u0027gerrit.init\u0027 system property:\n\n* download latest gerrit.war\n* install servlet container foo\n* copy dependent libraries to ServletContainerFoo/libs\n* define `jdbc/ReviewDb` JNDI property in ServletContainerFoo\n* Optionally (?) define system property GERRIT_SITE in container start up script\n* define system property \u0027gerrit.init\u0027, e.g. in container start up script\n* start container",
+      "parentUuid": "5238295c_84c848f0",
+      "revId": "bbadc469b65aab74e0fbfe1cb0b68bb81144ac41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

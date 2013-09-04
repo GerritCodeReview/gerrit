@@ -124,7 +124,7 @@ public class ChangeJson {
 
   private final Provider<ReviewDb> db;
   private final LabelNormalizer labelNormalizer;
-  private final Provider<CurrentUser> user;
+  private final Provider<CurrentUser> userProvider;
   private final AnonymousUser anonymous;
   private final IdentifiedUser.GenericFactory userFactory;
   private final ChangeControl.GenericFactory changeControlGenericFactory;
@@ -158,7 +158,7 @@ public class ChangeJson {
       Revisions revisions) {
     this.db = db;
     this.labelNormalizer = ln;
-    this.user = userProvider;
+    this.userProvider = userProvider;
     this.anonymous = au;
     this.userFactory = uf;
     this.changeControlGenericFactory = ccf;
@@ -257,7 +257,7 @@ public class ChangeJson {
     out.updated = in.getLastUpdatedOn();
     out._number = in.getId().get();
     out._sortkey = in.getSortKey();
-    out.starred = user.get().getStarredChanges().contains(in.getId())
+    out.starred = userProvider.get().getStarredChanges().contains(in.getId())
         ? true
         : null;
     out.reviewed = in.getStatus().isOpen() && isChangeReviewed(cd) ? true : null;
@@ -289,12 +289,12 @@ public class ChangeJson {
       }
     }
 
-    if (has(CURRENT_ACTIONS) && user instanceof IdentifiedUser) {
+    if (has(CURRENT_ACTIONS) && userProvider.get() instanceof IdentifiedUser) {
       out.actions = Maps.newTreeMap();
       for (UiAction.Description d : UiActions.from(
           changes,
           new ChangeResource(control(cd)),
-          user)) {
+          userProvider)) {
         out.actions.put(d.getId(), new ActionInfo(d));
       }
     }
@@ -304,7 +304,7 @@ public class ChangeJson {
 
   private ChangeControl control(ChangeData cd) throws OrmException {
     ChangeControl ctrl = cd.changeControl();
-    if (ctrl != null && ctrl.getCurrentUser() == user) {
+    if (ctrl != null && ctrl.getCurrentUser() == userProvider.get()) {
       return ctrl;
     } else if (lastControl != null
         && cd.getId().equals(lastControl.getChange().getId())) {
@@ -316,7 +316,7 @@ public class ChangeJson {
         ctrl = changeControlUserFactory.controlFor(cd.change(db));
       } else {
         ctrl = changeControlGenericFactory.controlFor(cd.change(db),
-            user.get());
+            userProvider.get());
       }
     } catch (NoSuchChangeException e) {
       return null;
@@ -697,6 +697,7 @@ public class ChangeJson {
   }
 
   private boolean isChangeReviewed(ChangeData cd) throws OrmException {
+    CurrentUser user = userProvider.get();
     if (user instanceof IdentifiedUser) {
       PatchSet currentPatchSet = cd.currentPatchSet(db);
       if (currentPatchSet == null) {
@@ -777,12 +778,13 @@ public class ChangeJson {
       }
     }
 
-    if (out.isCurrent && has(CURRENT_ACTIONS) && user instanceof IdentifiedUser) {
+    if (out.isCurrent && has(CURRENT_ACTIONS)
+        && userProvider.get() instanceof IdentifiedUser) {
       out.actions = Maps.newTreeMap();
       for (UiAction.Description d : UiActions.from(
           revisions,
           new RevisionResource(new ChangeResource(control(cd)), in),
-          user)) {
+          userProvider)) {
         out.actions.put(d.getId(), new ActionInfo(d));
       }
     }

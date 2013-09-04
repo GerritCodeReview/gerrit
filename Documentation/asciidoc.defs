@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+include_defs('//tools/git.defs')
+
 def genasciidoc(
     name,
     srcs = [],
@@ -19,28 +21,34 @@ def genasciidoc(
     deps = [],
     attributes = [],
     backend = None,
-    conf_file = None,
     visibility = []):
+  MACRO_SUFFIX = '.expanded'
+
   cmd = ['asciidoc', '-o', '$OUT']
   if backend:
     cmd.extend(['-b', backend])
   for attribute in attributes:
     cmd.extend(['-a', attribute])
-  if conf_file:
-    cmd.append('-f')
+  cmd.extend(['-a', 'revision="%s"' % git_describe()])
   cmd.append('$SRCS')
 
   for p in zip(srcs, outs):
     s, o = p
-    if conf_file:
-      src_list = [conf_file, s]
-    else:
-      src_list = [s]
+    filename = s
+    if filename.startswith('BUCKGEN:') :
+      filename = s[8:]
+    genrule(
+      name = filename + MACRO_SUFFIX,
+      cmd = '$(exe :replace_macros) -s $SRCS -o $OUT --suffix=' + MACRO_SUFFIX,
+      srcs = [s],
+      deps = deps + [':replace_macros'],
+      out = filename + MACRO_SUFFIX,
+    )
     genrule(
       name = o,
       cmd = ' '.join(cmd),
-      srcs = src_list,
-      deps = deps,
+      srcs = [genfile(filename + MACRO_SUFFIX)],
+      deps = deps + [':' + filename + MACRO_SUFFIX],
       out = o,
       visibility = visibility,
     )

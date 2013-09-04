@@ -281,6 +281,24 @@
       "revId": "bbadc469b65aab74e0fbfe1cb0b68bb81144ac41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5238295c_84c848f0",
+        "filename": "Documentation/config-auto-site-initialization.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-04T08:12:35Z",
+      "side": 1,
+      "message": "I think we are talking past each other. My question is not Tomcat specific at all. To set up Gerrit@ServletContainerFoo (not embedded Jetty)  WITHOUT that change FROM the scratch the following steps are needed \n\n * download latest gerrit.war\n * install servlet container foo\n * run MANUALLY java -jar gerrit.war -init d site_path\n * copy dependent libraries to ServletContainerFoo/libs\n * define `jdbc/ReviewDb` JNDI property in ServletContainerFoo\n * Optionally (?) define system property GERRIT_SITE in container start up script\n * start container\n\nIt is not clear to me from explanation and examples above how that change influences the steps listed above in that specific case: setting Gerrit from the scratch?",
+      "parentUuid": "120dd1bb_c763beeb",
+      "revId": "bbadc469b65aab74e0fbfe1cb0b68bb81144ac41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

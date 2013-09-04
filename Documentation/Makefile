@@ -13,6 +13,7 @@
 # limitations under the License.
 
 ASCIIDOC       ?= asciidoc
+HIGHLIGHTER    ?= source-highlight
 ASCIIDOC_EXTRA ?=
 ASCIIDOC_VER   ?= 8.6.3
 SVN            ?= svn
@@ -32,6 +33,11 @@ else
   ifeq ($(ASCIIDOC_OK),0)
     $(error $(ASCIIDOC) version $(ASCIIDOC_VER) or higher is required)
   endif
+endif
+
+HIGHLIGHTER_EXE := $(shell which $(HIGHLIGHTER))
+ifeq ($(wildcard $(HIGHLIGHTER_EXE)),)
+  $(error $(HIGHLIGHTER) must be available)
 endif
 
 ifeq ($(origin VERSION), undefined)

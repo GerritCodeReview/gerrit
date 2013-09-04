@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "121b1108_777a907b",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-04T08:32:02Z",
+      "side": 1,
+      "message": "Add backticks around project.config",
+      "revId": "e7fb7443b1c92a5f5149b7cebe4a1914954a75ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,3 +1,5 @@
+include_defs('//tools/git.defs')
+
 java_library2(
   name = 'init',
   srcs = glob(['src/main/java/**/*.java']),
@@ -58,17 +60,6 @@ prebuilt_jar(
   deps = [':gen_version'],
   visibility = ['//:'],
 )
-
-# TODO(sop): Move git describe into an uncacheable genrule()
-def git_describe():
-  import subprocess
-  cmd = ['git', 'describe', '--match', 'v[0-9].*', '--dirty']
-  p = subprocess.Popen(cmd, stdout = subprocess.PIPE)
-  v = p.communicate()[0].strip()
-  r = p.returncode
-  if r != 0:
-    raise subprocess.CalledProcessError(r, ' '.join(cmd))
-  return v
 
 genrule(
   name = 'gen_version',

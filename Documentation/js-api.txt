@@ -12,6 +12,7 @@ Plugins should protect the global namespace by defining their code
 within an anonymous function passed to `Gerrit.install()`. The plugin
 will be passed an object describing its registration with Gerrit:
 
+[source,javascript]
 ----
 Gerrit.install(function (self) {
   // ... plugin JavaScript code here ...
@@ -32,6 +33,7 @@ self.delete()
 Issues a DELETE REST API request to the Gerrit server.
 
 .Signature
+[source,javascript]
 ----
 Gerrit.delete(url, callback)
 ----
@@ -49,6 +51,7 @@ self.get()
 Issues a GET REST API request to the Gerrit server.
 
 .Signature
+[source,javascript]
 ----
 self.get(url, callback)
 ----
@@ -74,6 +77,7 @@ self.post()
 Issues a POST REST API request to the Gerrit server.
 
 .Signature
+[source,javascript]
 ----
 self.post(url, input, callback)
 ----
@@ -88,6 +92,7 @@ self.post(url, input, callback)
   a string, otherwise the result is a JavaScript object or array,
   as described in the relevant REST API documentation.
 
+[source,javascript]
 ----
 self.post(
   '/my-servlet',
@@ -101,6 +106,7 @@ self.put()
 Issues a PUT REST API request to the Gerrit server.
 
 .Signature
+[source,javascript]
 ----
 self.put(url, input, callback)
 ----
@@ -115,6 +121,7 @@ self.put(url, input, callback)
   a string, otherwise the result is a JavaScript object or array,
   as described in the relevant REST API documentation.
 
+[source,javascript]
 ----
 self.put(
   '/builds',
@@ -129,6 +136,7 @@ Register a JavaScript callback to be invoked when the user clicks
 on a button associated with a server side `UiAction`.
 
 .Signature
+[source,javascript]
 ----
 Gerrit.onAction(type, view_name, callback);
 ----
@@ -150,6 +158,7 @@ Returns a URL within the plugin's URL space. If invoked with no
 parameter the URL of the plugin is returned. If passed a string
 the argument is appended to the plugin URL.
 
+[source,javascript]
 ----
 self.url();                    // "https://gerrit-review.googlesource.com/plugins/demo/"
 self.url('/static/icon.png');  // "https://gerrit-review.googlesource.com/plugins/demo/static/icon.png"
@@ -167,7 +176,7 @@ REST API RPC.
 [[context_action]]
 context.action
 ~~~~~~~~~~~~~~
-A link:rest-api-changes.html#action-info[ActionInfo] object instance
+An link:rest-api-changes.html#action-info[ActionInfo] object instance
 supplied by the server describing the UI button the user used to
 invoke the action.
 
@@ -179,6 +188,7 @@ used comes from `context.action.method`, hiding the JavaScript from
 needing to care.
 
 .Signature
+[source,javascript]
 ----
 context.call(input, callback)
 ----
@@ -191,6 +201,7 @@ context.call(input, callback)
   a string, otherwise the result is a JavaScript object or array,
   as described in the relevant REST API documentation.
 
+[source,javascript]
 ----
 context.call(
   {message: "..."},
@@ -213,6 +224,7 @@ context.delete()
 Issues a DELETE REST API call to the URL associated with the action.
 
 .Signature
+[source,javascript]
 ----
 context.delete(callback)
 ----
@@ -221,6 +233,7 @@ context.delete(callback)
   JSON result of the API call. DELETE methods often return
   `204 No Content`, which is passed as null.
 
+[source,javascript]
 ----
 context.delete(function () {});
 ----
@@ -231,6 +244,7 @@ context.get()
 Issues a GET REST API call to the URL associated with the action.
 
 .Signature
+[source,javascript]
 ----
 context.get(callback)
 ----
@@ -240,6 +254,7 @@ context.get(callback)
   a string, otherwise the result is a JavaScript object or array,
   as described in the relevant REST API documentation.
 
+[source,javascript]
 ----
 context.get(function (result) {
   // ... use result here ...
@@ -263,6 +278,7 @@ context.post()
 Issues a POST REST API call to the URL associated with the action.
 
 .Signature
+[source,javascript]
 ----
 context.post(input, callback)
 ----
@@ -274,6 +290,7 @@ context.post(input, callback)
   a string, otherwise the result is a JavaScript object or array,
   as described in the relevant REST API documentation.
 
+[source,javascript]
 ----
 context.post(
   {message: "..."},
@@ -295,6 +312,7 @@ popup if the user presses `Escape` while keyboard focus is within
 the popup.
 
 .Signature
+[source,javascript]
 ----
 context.popup(element)
 ----
@@ -304,6 +322,8 @@ context.popup(element)
   element. CSS can be used to style the element beyond the defaults.
 
 A common usage is to gather more input:
+
+[source,javascript]
 ----
 self.onAction('revision', 'start-build', function (c) {
   var l = c.checkbox();
@@ -329,6 +349,7 @@ context.put()
 Issues a PUT REST API call to the URL associated with the action.
 
 .Signature
+[source,javascript]
 ----
 context.put(input, callback)
 ----
@@ -340,6 +361,7 @@ context.put(input, callback)
   a string, otherwise the result is a JavaScript object or array,
   as described in the relevant REST API documentation.
 
+[source,javascript]
 ----
 context.put(
   {message: "..."},
@@ -417,6 +439,7 @@ Issues a DELETE REST API request to the Gerrit server. For plugin
 private REST API URLs see link:#self_delete[self.delete()].
 
 .Signature
+[source,javascript]
 ----
 Gerrit.delete(url, callback)
 ----
@@ -428,6 +451,7 @@ Gerrit.delete(url, callback)
   JSON result of the API call. DELETE methods often return
   `204 No Content`, which is passed as null.
 
+[source,javascript]
 ----
 Gerrit.delete(
   '/changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/topic',
@@ -441,6 +465,7 @@ Issues a GET REST API request to the Gerrit server. For plugin
 private REST API URLs see link:#self_get[self.get()].
 
 .Signature
+[source,javascript]
 ----
 Gerrit.get(url, callback)
 ----
@@ -453,6 +478,7 @@ Gerrit.get(url, callback)
   a string, otherwise the result is a JavaScript object or array,
   as described in the relevant REST API documentation.
 
+[source,javascript]
 ----
 Gerrit.get('/changes/?q=status:open', function (open) {
   for (var i = 0; i < open.length; i++) {
@@ -478,6 +504,7 @@ Gerrit.go()
 Updates the web UI to display the view identified by the supplied
 URL token. The URL token is the text after `#` in the browser URL.
 
+[source,javascript]
 ----
 Gerrit.go('/admin/projects/');
 ----
@@ -492,6 +519,7 @@ Gerrit.install()
 Registers a new plugin by invoking the supplied initialization
 function. The function is passed the link:#self[plugin instance].
 
+[source,javascript]
 ----
 Gerrit.install(function (self) {
   // ... plugin JavaScript code here ...
@@ -505,6 +533,7 @@ Issues a POST REST API request to the Gerrit server. For plugin
 private REST API URLs see link:#self_post[self.post()].
 
 .Signature
+[source,javascript]
 ----
 Gerrit.post(url, input, callback)
 ----
@@ -519,6 +548,7 @@ Gerrit.post(url, input, callback)
   a string, otherwise the result is a JavaScript object or array,
   as described in the relevant REST API documentation.
 
+[source,javascript]
 ----
 Gerrit.post(
   '/changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/topic',
@@ -533,6 +563,7 @@ Issues a PUT REST API request to the Gerrit server. For plugin
 private REST API URLs see link:#self_put[self.put()].
 
 .Signature
+[source,javascript]
 ----
 Gerrit.put(url, input, callback)
 ----
@@ -547,6 +578,7 @@ Gerrit.put(url, input, callback)
   a string, otherwise the result is a JavaScript object or array,
   as described in the relevant REST API documentation.
 
+[source,javascript]
 ----
 Gerrit.put(
   '/changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/topic',
@@ -561,6 +593,7 @@ Register a JavaScript callback to be invoked when the user clicks
 on a button associated with a server side `UiAction`.
 
 .Signature
+[source,javascript]
 ----
 Gerrit.onAction(type, view_name, callback);
 ----
@@ -587,6 +620,7 @@ Returns the URL of the Gerrit Code Review server. If invoked with
 no parameter the URL of the site is returned. If passed a string
 the argument is appended to the site URL.
 
+[source,javascript]
 ----
 Gerrit.url();        // "https://gerrit-review.googlesource.com/"
 Gerrit.url('/123');  // "https://gerrit-review.googlesource.com/123"

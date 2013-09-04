@@ -16,6 +16,24 @@
       "revId": "c8b0009a1a18c728b4067651ec04996f8cc08f69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52210930_39740f8b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-04T08:39:28Z",
+      "side": 1,
+      "message": "If source-highlight is not installed, asciidoc prints a warning, but does not fail.\n\nHowever, rather than being generated without the highlighting, in the resulting HTML the source examples are not rendered at all.\n\nI think it\u0027s better to abort the build in this case.  In the past we\u0027ve already had cases where asciidoc formatting was wrong resulting in broken HTML, but this was not noticed because although asciidoc did output warnings, the build was still \"successful\".",
+      "parentUuid": "5238295c_44c240d0",
+      "revId": "c8b0009a1a18c728b4067651ec04996f8cc08f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

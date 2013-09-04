@@ -263,6 +263,24 @@
       "revId": "bbadc469b65aab74e0fbfe1cb0b68bb81144ac41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "120dd1bb_c763beeb",
+        "filename": "Documentation/config-auto-site-initialization.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-04T07:51:53Z",
+      "side": 1,
+      "message": "Not sure which \"magic\" is not clear to you.\n\nTo run Gerrit it is required that a review site in the filesystem is initialized. With this feature you can configure Gerrit to automatically initialize the site on deploment of Gerrit into a servlet container. That\u0027s the ONLY difference.\nAs explained above this is controlled by the \u0027gerrit.init\u0027 system property.\nFor running init the path to the review site needs to be known, this path needs either to be read from the database or be provided as another system property. This is nothing knew but existed already before this change.\n\n  \u003e Very concrete question: it is not clear if in the Example 3 the following\n  \u003e dependencies are copied $TOMCAT_HOME/lib for me or not IF i start\n  \u003e Tomcat@Gerrit integration from scratch.\n\nWhat has this question to do with auto initialization on startup feature? Don\u0027t you have the same question with setting up Gerrit on Tomcat without this feature? This really should be part of a Tomcat guide but it doesn\u0027t belong here.",
+      "parentUuid": "5238295c_04dc38b3",
+      "revId": "bbadc469b65aab74e0fbfe1cb0b68bb81144ac41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

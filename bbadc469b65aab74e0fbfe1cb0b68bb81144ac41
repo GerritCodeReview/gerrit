@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "121b1108_179eb4a8",
+        "filename": "Documentation/config-auto-site-initialization.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-04T06:56:43Z",
+      "side": 1,
+      "message": "This guide is not specific to Tomcat.\n\nExamples need to be concrete, otherwise they are not examples. I don\u0027t see what is wrong with having examples for Tomcat. \n\nIf an administrator uses another servlet container it is not expected too much that he should able to find out how to set a system property for this container. How to set system properties for any container should not be part of the Gerrit documentation.",
+      "parentUuid": "120dd1bb_c7117e67",
+      "revId": "bbadc469b65aab74e0fbfe1cb0b68bb81144ac41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5238295c_84160899",
         "filename": "Documentation/config-auto-site-initialization.txt",
         "patchSetId": 13
@@ -30,6 +48,24 @@
       "writtenOn": "2013-09-04T06:16:53Z",
       "side": 1,
       "message": "Here it starts to be Tomcat specific. Why? What about other servlet containers?",
+      "revId": "bbadc469b65aab74e0fbfe1cb0b68bb81144ac41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7281ad4b_f2e8e830",
+        "filename": "Documentation/config-auto-site-initialization.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-04T06:56:43Z",
+      "side": 1,
+      "message": "These are only examples and examples need to be concrete. So I don\u0027t see why it is wrong to provide examples for Tomcat.\n\nIf an administrator uses another servlet container it is not expected too much that he should able to find out how to set a system property for this container. How to set system properties for any container should not be part of the Gerrit documentation.",
+      "parentUuid": "5238295c_84160899",
       "revId": "bbadc469b65aab74e0fbfe1cb0b68bb81144ac41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "5238295c_64a2e447",
+        "filename": "Documentation/config-auto-site-initialization.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-04T06:56:43Z",
+      "side": 1,
+      "message": "same here",
+      "parentUuid": "5238295c_24137cab",
+      "revId": "bbadc469b65aab74e0fbfe1cb0b68bb81144ac41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5238295c_4410009c",
         "filename": "Documentation/config-auto-site-initialization.txt",
         "patchSetId": 13
@@ -64,6 +118,24 @@
       "writtenOn": "2013-09-04T06:16:53Z",
       "side": 1,
       "message": "Tomcat",
+      "revId": "bbadc469b65aab74e0fbfe1cb0b68bb81144ac41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "120dd1bb_4727cec4",
+        "filename": "Documentation/config-auto-site-initialization.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-04T06:56:43Z",
+      "side": 1,
+      "message": "same here",
+      "parentUuid": "5238295c_4410009c",
       "revId": "bbadc469b65aab74e0fbfe1cb0b68bb81144ac41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "5238295c_849fe8f4",
+        "filename": "Documentation/config-auto-site-initialization.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-04T06:56:43Z",
+      "side": 1,
+      "message": "Yes, for this documentation it is assumed that the reader is the Gerrit administrator who also administrates the servlet container. It\u0027s definitely not for an average Gerrit user.\n\nThe `jdbc/ReviewDb` JNDI property is not introduced by this change, so I don\u0027t see why it should be the responsibility of this change to explain this. If documentation for this property is missing and needed itthere should be an own change to document it.",
+      "parentUuid": "120dd1bb_e735a2ef",
+      "revId": "bbadc469b65aab74e0fbfe1cb0b68bb81144ac41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "120dd1bb_a73faacb",
         "filename": "Documentation/config-auto-site-initialization.txt",
         "patchSetId": 13
@@ -98,6 +188,24 @@
       "writtenOn": "2013-09-04T06:16:53Z",
       "side": 1,
       "message": "Why you don\u0027t tell us here, the prerequisites? How about to copy H2, MySQL drivers to $TOMCAT_HOME/libs directory? Do i have to do it on my own?",
+      "revId": "bbadc469b65aab74e0fbfe1cb0b68bb81144ac41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5238295c_24acdc34",
+        "filename": "Documentation/config-auto-site-initialization.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-04T06:56:43Z",
+      "side": 1,
+      "message": "This is not a guide to explain how to run Gerrit on Tomcat. It is a guide how you configure automatic site initialization for Gerrit IF you have your Gerrit server already running in a servlet container. How to run Gerrit in a servlet container is out-of-scope for this guide.",
+      "parentUuid": "120dd1bb_a73faacb",
       "revId": "bbadc469b65aab74e0fbfe1cb0b68bb81144ac41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

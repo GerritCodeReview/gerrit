@@ -426,6 +426,20 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
                     }
                   });
             }
+
+            @Override
+            public String getMessageText() {
+              String m = message.getText().trim();
+              String oldBranch = changeDetail.getChange().getDest().get();
+              String destBranch = getDestinationBranch();
+              int index = m.lastIndexOf("(cherry picked from commit");
+              if ((oldBranch.equals(destBranch) || oldBranch
+                  .equals("refs/heads/" + destBranch)) && index != -1) {
+                return m.substring(0, index);
+              }
+              return m;
+            }
+
           }.center();
         }
       });

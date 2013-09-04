@@ -243,6 +243,11 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
 
   public static RevTree automerge(Repository repo, RevWalk rw, RevCommit b)
       throws IOException {
+    return automerge(repo, rw, b, true);
+  }
+
+  public static RevTree automerge(Repository repo, RevWalk rw, RevCommit b,
+      boolean save) throws IOException {
     String hash = b.name();
     String refName = GitRepositoryManager.REFS_CACHE_AUTOMERGE
         + hash.substring(0, 2)
@@ -373,10 +378,12 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
       ins.release();
     }
 
-    RefUpdate update = repo.updateRef(refName);
-    update.setNewObjectId(treeId);
-    update.disableRefLog();
-    update.forceUpdate();
+    if (save) {
+      RefUpdate update = repo.updateRef(refName);
+      update.setNewObjectId(treeId);
+      update.disableRefLog();
+      update.forceUpdate();
+    }
     return rw.parseTree(treeId);
   }
 

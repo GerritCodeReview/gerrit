@@ -16,6 +16,24 @@
       "revId": "a3ac2c1e9977ebbfd2cc57640f8e3d48f4840487",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "120dd1bb_e70c8251",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-04T05:59:04Z",
+      "side": 1,
+      "message": "It cannot be \"reviewers\", because it is already bound on the line 61:\n\n 1) A binding to com.google.gerrit.extensions.restapi.RestView\u003ccom.google.gerrit.server.change.ChangeResource\u003e annotated with \n    @com.google.gerrit.extensions.annotations.Export(value\u003dGET.reviewers) was already configured at \n    com.google.gerrit.extensions.restapi.RestApiModule.view(RestApiModule.java:82).\n    at com.google.gerrit.extensions.restapi.RestApiModule.view(RestApiModule.java:82)",
+      "parentUuid": "52210930_f9e8d730",
+      "revId": "a3ac2c1e9977ebbfd2cc57640f8e3d48f4840487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

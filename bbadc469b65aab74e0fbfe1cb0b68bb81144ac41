@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "120dd1bb_c7117e67",
+        "filename": "Documentation/config-auto-site-initialization.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-04T06:16:53Z",
+      "side": 1,
+      "message": "If it all about Tomcat, then we should probably rename it to \n\n config-tomcat-for-auto-site-initialization.txt\n\nif it supposed to be a generic customization, that hold true for other servlet comtainer like JBoss, Glassfish, WAS, WebLogic, ... then i would expect that it is stated somewhere. May be we should move examples to tomcat-config,txt and encourage contributor to provide description for other container as well.",
+      "revId": "bbadc469b65aab74e0fbfe1cb0b68bb81144ac41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5238295c_84160899",
+        "filename": "Documentation/config-auto-site-initialization.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-04T06:16:53Z",
+      "side": 1,
+      "message": "Here it starts to be Tomcat specific. Why? What about other servlet containers?",
+      "revId": "bbadc469b65aab74e0fbfe1cb0b68bb81144ac41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5238295c_24137cab",
+        "filename": "Documentation/config-auto-site-initialization.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-04T06:16:53Z",
+      "side": 1,
+      "message": "Again: CATALINA_OPTS is Tomcat specific.",
+      "revId": "bbadc469b65aab74e0fbfe1cb0b68bb81144ac41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5238295c_4410009c",
+        "filename": "Documentation/config-auto-site-initialization.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-04T06:16:53Z",
+      "side": 1,
+      "message": "Tomcat",
+      "revId": "bbadc469b65aab74e0fbfe1cb0b68bb81144ac41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "120dd1bb_e735a2ef",
+        "filename": "Documentation/config-auto-site-initialization.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-04T06:16:53Z",
+      "side": 1,
+      "message": "Even for Tomcat it suddenly mentions `jdbc/ReviewDb` JNDI property. You assume that the reader is Tomcat admin? Or an average Gerrit user? Why don\u0027t you explain, what is `jdbc/ReviewDb` JNDI property all about, where and how it can/should be defined for Gerrit@Tomcat integration? For example you could say here or somewhere:\n\ndefine in $TOMCAT_HOME/conf/context.xml something like that\n\n \u003cResource\n    name\u003d\"jdbc/ReviewDb\"\n    type\u003d\"javax.sql.DataSource\"\n    username\u003d\"\"\n    driverClassName\u003d\"org.h2.Driver\"\n    password\u003d\"\"\n    url\u003d\"jdbc:h2:file:/home/gerrit/gerit_site/db/ReviewDB\"\n    maxActive\u003d\"100\"\n    maxIdle\u003d\"20\"/\u003e",
+      "revId": "bbadc469b65aab74e0fbfe1cb0b68bb81144ac41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "120dd1bb_a73faacb",
+        "filename": "Documentation/config-auto-site-initialization.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-04T06:16:53Z",
+      "side": 1,
+      "message": "Why you don\u0027t tell us here, the prerequisites? How about to copy H2, MySQL drivers to $TOMCAT_HOME/libs directory? Do i have to do it on my own?",
+      "revId": "bbadc469b65aab74e0fbfe1cb0b68bb81144ac41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

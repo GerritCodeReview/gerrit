@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "120dd1bb_c784de61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-04T13:31:41Z",
+      "side": 1,
+      "message": "s/children projects/child projects",
+      "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5238295c_648c24c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-04T13:31:41Z",
+      "side": 1,
+      "message": "For this case a regular expression is not needed, it could be simply a ref pattern:\n\n  branch \u003d refs/heads/video-1.0/*",
+      "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "120dd1bb_a789ea77",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-04T13:31:41Z",
+      "side": 1,
+      "message": "1. s/children projects/child projects\n\n2. Remove \"(\u0027Ubuntu\u0027, \u0027Android\u0027, ...)\" since the name of the child projects are not relevant.",
+      "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7281ad4b_92eddc3f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-04T13:31:41Z",
+      "side": 1,
+      "message": "s/children project/child project",
+      "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52210930_d9d15348",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-04T13:31:41Z",
+      "side": 1,
+      "message": "Remove \"\u0027Firefox\u0027\" since the name of the child project is not relevant for the example.",
+      "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5238295c_24961cd2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-04T13:31:41Z",
+      "side": 1,
+      "message": "I would expect that it is not be possible from the UI to assign permissions for the label \u0027Video-Quality\u0027 on \"refs/heads/Audio-1.1/*\" since the configuration of the \u0027Video-Quality\u0027 label doesn\u0027t apply to this branch. If such a permission exists it should simply be ignored.",
+      "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "120dd1bb_878ee67b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-04T13:31:41Z",
+      "side": 1,
+      "message": "Another branch name?",
+      "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "924d4112_fb3a0fdd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-04T13:31:41Z",
+      "side": 1,
+      "message": "Remove this paragraph? It is obvious that if a label is not configured for a branch, that it then doesn\u0027t apply for changes on this branch.",
+      "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -52,6 +52,24 @@
       "revId": "a3ac2c1e9977ebbfd2cc57640f8e3d48f4840487",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5238295c_64cbc4ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-04T07:48:16Z",
+      "side": 1,
+      "message": "I fail lto see, why we should marry\n\n GET /change/1/reviewers \n\nwith\n\n GET /change/1/suggest_reviewers?q\u003dJ\n\nThe former get existing reviewers, while the latest list potential users or even groups (!) that can be assigned to be reviewers or not. In fact the latest is completely differ from the former.\n\nThe former get you ReviewerInfo with their votes:\n\n {\n      \"kind\": \"gerritcodereview#reviewer\",\n      \"approvals\": {\n        \"Verified\": \"+1\",\n        \"Code-Review\": \"+2\"\n      },\n      \"_account_id\": 1000096,\n      \"name\": \"John Doe\",\n      \"email\": \"john.doe@example.com\"\n    },\n\n\nthe latest get you AccountInfo with id, name \u0026 preferred mail:\n\n {\n    \"_account_id\": 1000096,\n    \"name\": \"John Dow\",\n    \"email\": \"john.doe@example.com\",\n  },",
+      "parentUuid": "924d4112_3b187782",
+      "revId": "a3ac2c1e9977ebbfd2cc57640f8e3d48f4840487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

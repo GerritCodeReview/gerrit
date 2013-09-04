@@ -70,6 +70,24 @@
       "revId": "a3ac2c1e9977ebbfd2cc57640f8e3d48f4840487",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "120dd1bb_875dc620",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-04T07:53:54Z",
+      "side": 1,
+      "message": "Ok, I see your point and I agree with it.",
+      "parentUuid": "5238295c_64cbc4ed",
+      "revId": "a3ac2c1e9977ebbfd2cc57640f8e3d48f4840487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

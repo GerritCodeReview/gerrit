@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "120dd1bb_a7068a2d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-04T06:08:07Z",
+      "side": 1,
+      "message": "maybe issue 2099 is just want to delete that line in this case so I add a patch to https://gerrit-review.googlesource.com/#/c/49431/  too. nearly same time. but in different way.  I would like discard 49431 if this one is merged firstly.  :)",
+      "revId": "606303e6a4ddc388a48cdc6ed90cbeda85822e6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "121b1108_57218cb7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-04T06:08:07Z",
+      "side": 1,
+      "message": "I think we need not add any thing here just like user on master branch do \u0027git cherry-pick change3\u0027",
+      "revId": "606303e6a4ddc388a48cdc6ed90cbeda85822e6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -104,6 +104,24 @@
     },
     {
       "key": {
+        "uuid": "120dd1bb_47910e99",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-04T13:36:47Z",
+      "side": 1,
+      "message": "Ok, it might be very difficult in the UI to know whether a label applies for a ref/ref pattern or not, so it should be OK, if from the UI I can always assign permissions for that label, but this permission is then ust ignored if the label doesn\u0027t apply for a branch.",
+      "parentUuid": "5238295c_24961cd2",
+      "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "120dd1bb_878ee67b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 15

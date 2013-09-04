@@ -227,7 +227,7 @@ public class ProjectQoSFilter implements Filter {
       String userName = "";
 
       CurrentUser who = userProvider.get();
-      if (who instanceof IdentifiedUser) {
+      if (who.isIdentifiedUser()) {
         String name = ((IdentifiedUser) who).getUserName();
         if (name != null && !name.isEmpty()) {
           userName = " (" + name + ")";

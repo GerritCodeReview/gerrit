@@ -73,7 +73,7 @@ class Drafts implements ChildCollection<RevisionResource, DraftResource> {
   }
 
   private void checkIdentifiedUser() throws AuthException {
-    if (!(user.get() instanceof IdentifiedUser)) {
+    if (!(user.get().isIdentifiedUser())) {
       throw new AuthException("drafts only available to authenticated users");
     }
   }

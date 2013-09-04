@@ -189,7 +189,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     Set<PatchSet.Id> patchesWithDraftComments = new HashSet<PatchSet.Id>();
     final CurrentUser user = control.getCurrentUser();
     final Account.Id me =
-        user instanceof IdentifiedUser ? ((IdentifiedUser) user).getAccountId()
+        user.isIdentifiedUser() ? ((IdentifiedUser) user).getAccountId()
             : null;
     for (PatchSet ps : source) {
       final PatchSet.Id psId = ps.getId();
@@ -306,7 +306,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
 
     final CurrentUser currentUser = control.getCurrentUser();
     Account.Id currentUserId = null;
-    if (currentUser instanceof IdentifiedUser) {
+    if (currentUser.isIdentifiedUser()) {
         currentUserId = ((IdentifiedUser) currentUser).getAccountId();
     }
 

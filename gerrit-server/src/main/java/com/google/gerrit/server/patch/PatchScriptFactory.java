@@ -274,7 +274,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     }
 
     final CurrentUser user = control.getCurrentUser();
-    if (user instanceof IdentifiedUser) {
+    if (user.isIdentifiedUser()) {
       final Account.Id me = ((IdentifiedUser) user).getAccountId();
       switch (changeType) {
         case ADDED:

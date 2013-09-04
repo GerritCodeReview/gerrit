@@ -51,7 +51,7 @@ public class PRED_current_user_1 extends Predicate.P1 {
     CurrentUser curUser = cControl.getCurrentUser();
     Term resultTerm;
 
-    if (curUser instanceof IdentifiedUser) {
+    if (curUser.isIdentifiedUser()) {
       Account.Id id = ((IdentifiedUser)curUser).getAccountId();
       resultTerm = new IntegerTerm(id.get());
     } else if (curUser instanceof AnonymousUser) {

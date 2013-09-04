@@ -264,7 +264,7 @@ public class ChangeControl {
 
   /** Is this user the owner of the change? */
   public boolean isOwner() {
-    if (getCurrentUser() instanceof IdentifiedUser) {
+    if (getCurrentUser().isIdentifiedUser()) {
       final IdentifiedUser i = (IdentifiedUser) getCurrentUser();
       return i.getAccountId().equals(change.getOwner());
     }
@@ -279,7 +279,7 @@ public class ChangeControl {
   /** Is this user a reviewer for the change? */
   public boolean isReviewer(ReviewDb db, @Nullable ChangeData cd)
       throws OrmException {
-    if (getCurrentUser() instanceof IdentifiedUser) {
+    if (getCurrentUser().isIdentifiedUser()) {
       final IdentifiedUser user = (IdentifiedUser) getCurrentUser();
       Iterable<PatchSetApproval> results;
       if (cd != null) {
@@ -305,7 +305,7 @@ public class ChangeControl {
     if (getChange().getStatus().isOpen()) {
       // A user can always remove themselves.
       //
-      if (getCurrentUser() instanceof IdentifiedUser) {
+      if (getCurrentUser().isIdentifiedUser()) {
         final IdentifiedUser i = (IdentifiedUser) getCurrentUser();
         if (i.getAccountId().equals(reviewer)) {
           return true; // can remove self

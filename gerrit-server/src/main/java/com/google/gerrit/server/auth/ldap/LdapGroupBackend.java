@@ -126,7 +126,7 @@ public class LdapGroupBackend implements GroupBackend {
 
     String groupDn = uuid.get().substring(LDAP_UUID.length());
     CurrentUser user = userProvider.get();
-    if (!(user instanceof IdentifiedUser)
+    if (!(user.isIdentifiedUser())
         || !membershipsOf((IdentifiedUser) user).contains(uuid)) {
       try {
         if (!existsCache.get(groupDn)) {

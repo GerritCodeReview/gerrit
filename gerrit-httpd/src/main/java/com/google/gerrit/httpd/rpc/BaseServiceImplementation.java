@@ -42,7 +42,7 @@ public class BaseServiceImplementation {
 
   protected Account.Id getAccountId() {
     CurrentUser u = currentUser.get();
-    if (u instanceof IdentifiedUser) {
+    if (u.isIdentifiedUser()) {
       return ((IdentifiedUser) u).getAccountId();
     }
     return null;

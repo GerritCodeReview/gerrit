@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5238295c_44c240d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-04T08:31:02Z",
+      "side": 1,
+      "message": "I would prefer if the build is not failing if source-highlight is not installed, but that it is just printing out a warning. Having the documentation generated without source highlighting would be good in this case.",
+      "revId": "c8b0009a1a18c728b4067651ec04996f8cc08f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52210930_f9e8d730",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-04T01:33:58Z",
+      "side": 1,
+      "message": "Should this just be \"reviewers\" instead of \"suggest_reviewers\"?",
+      "revId": "a3ac2c1e9977ebbfd2cc57640f8e3d48f4840487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -175,7 +175,7 @@ public class HostPageServlet extends HttpServlet {
     final Page.Content page = select(req);
     final StringWriter w = new StringWriter();
     final CurrentUser user = currentUser.get();
-    if (user instanceof IdentifiedUser) {
+    if (user.isIdentifiedUser()) {
       w.write(HPD_ID + ".account=");
       json(((IdentifiedUser) user).getAccount(), w);
       w.write(";");

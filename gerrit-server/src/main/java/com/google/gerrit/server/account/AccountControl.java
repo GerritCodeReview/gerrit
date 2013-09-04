@@ -96,7 +96,7 @@ public class AccountControl {
    */
   public boolean canSee(final Account.Id otherUser) {
     // Special case: I can always see myself.
-    if (currentUser instanceof IdentifiedUser
+    if (currentUser.isIdentifiedUser()
         && ((IdentifiedUser) currentUser).getAccountId().equals(otherUser)) {
       return true;
     }

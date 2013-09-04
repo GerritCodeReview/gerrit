@@ -31,7 +31,7 @@ import java.util.Set;
 class IsStarredByPredicate extends OrPredicate<ChangeData> implements
     ChangeDataSource {
   private static String describe(CurrentUser user) {
-    if (user instanceof IdentifiedUser) {
+    if (user.isIdentifiedUser()) {
       return ((IdentifiedUser) user).getAccountId().toString();
     }
     return user.toString();

@@ -289,7 +289,7 @@ public class ChangeJson {
       }
     }
 
-    if (has(CURRENT_ACTIONS) && userProvider.get() instanceof IdentifiedUser) {
+    if (has(CURRENT_ACTIONS) && userProvider.get().isIdentifiedUser()) {
       out.actions = Maps.newTreeMap();
       for (UiAction.Description d : UiActions.from(
           changes,
@@ -698,7 +698,7 @@ public class ChangeJson {
 
   private boolean isChangeReviewed(ChangeData cd) throws OrmException {
     CurrentUser user = userProvider.get();
-    if (user instanceof IdentifiedUser) {
+    if (user.isIdentifiedUser()) {
       PatchSet currentPatchSet = cd.currentPatchSet(db);
       if (currentPatchSet == null) {
         return false;
@@ -779,7 +779,7 @@ public class ChangeJson {
     }
 
     if (out.isCurrent && has(CURRENT_ACTIONS)
-        && userProvider.get() instanceof IdentifiedUser) {
+        && userProvider.get().isIdentifiedUser()) {
       out.actions = Maps.newTreeMap();
       for (UiAction.Description d : UiActions.from(
           revisions,

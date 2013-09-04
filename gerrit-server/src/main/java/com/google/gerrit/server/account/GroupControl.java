@@ -159,7 +159,7 @@ public class GroupControl {
   }
 
   public boolean canSeeMember(Account.Id id) {
-    if (user instanceof IdentifiedUser
+    if (user.isIdentifiedUser()
         && ((IdentifiedUser) user).getAccountId().equals(id)) {
       return true;
     }

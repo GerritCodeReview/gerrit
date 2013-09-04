@@ -193,10 +193,12 @@ public class CherryPickChange {
       PatchSet.Id patchSetId, RevCommit cherryPickCommit,
       RefControl refControl) throws InvalidChangeOperationException,
       IOException, OrmException, NoSuchChangeException {
-    patchSetInserterFactory
-        .create(git, revWalk, refControl, currentUser, change, cherryPickCommit)
-        .setMessage(buildChangeMessage(patchSetId, change))
-        .insert();
+    final PatchSetInserter inserter = patchSetInserterFactory
+        .create(git, revWalk, refControl, currentUser, change, cherryPickCommit);
+    final PatchSet.Id newPatchSetId = inserter.getPatchSetId();
+    inserter
+      .setMessage("Uploaded patch set " + newPatchSetId.get() + ".")
+      .insert();
     return change.getId();
   }
 

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52210930_f9d6973d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CurrentUser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-04T16:52:06Z",
+      "side": 1,
+      "message": "I would prefer isIdentifiedUser.",
+      "range": {
+        "startLine": 100,
+        "startChar": 19,
+        "endLine": 100,
+        "endChar": 32
+      },
+      "revId": "ee881a7de6b8e8c3c990d70e030c8b4f8f2700ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52210930_99dbdb64",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CurrentUser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-04T16:52:06Z",
+      "side": 1,
+      "message": "return false in this class, and override inside of IdentifiedUser to return true.",
+      "range": {
+        "startLine": 100,
+        "startChar": 19,
+        "endLine": 101,
+        "endChar": 32
+      },
+      "revId": "ee881a7de6b8e8c3c990d70e030c8b4f8f2700ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

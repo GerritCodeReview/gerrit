@@ -238,6 +238,24 @@
       "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "120dd1bb_079b16b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-04T14:00:24Z",
+      "side": 1,
+      "message": "On a second thought, PermissionCollection.filter(...) can\u0027t be used here since it is based on AccessSection\u0027s, but it should be a good place to have a look how SectionMatcher is used there. I believe you would need some kind of SectionMatcher to match the ref/ref pattern/ref regexp from project.config with the destination branch name.",
+      "parentUuid": "5238295c_847288e1",
+      "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

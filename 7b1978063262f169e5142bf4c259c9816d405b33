@@ -170,6 +170,74 @@
       "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5238295c_647504ca",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/LabelType.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-04T13:50:57Z",
+      "side": 1,
+      "message": "s/branch/branches",
+      "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5238295c_c45f3046",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/LabelType.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-04T13:50:57Z",
+      "side": 1,
+      "message": "I think if the label applies to the complete project, the branch list should either be empty or it should contain \u0027refs/*\u0027 as the only entry.",
+      "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "120dd1bb_279e1aa9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-04T13:50:57Z",
+      "side": 1,
+      "message": "The default value should be \u0027null\u0027 so that no \u0027branch\u0027 entry for this label is written into project.config.",
+      "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5238295c_847288e1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-04T13:50:57Z",
+      "side": 1,
+      "message": "You should not reimplement this matching.\n\nI think you should use PermissionCollection.filter(...).\n\nYour code e.g. misses support for patterns (\u0027refs/heads/rel/*\u0027) and usernames in refs (\u0027refs/sandbox/${username}/*\u0027).",
+      "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -12,6 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+python_binary(
+  name = 'replace_macros',
+  main = 'replace_macros.py',
+)
+
 def genasciidoc(
     name,
     srcs = [],
@@ -19,28 +24,40 @@ def genasciidoc(
     deps = [],
     attributes = [],
     backend = None,
-    conf_file = None,
     visibility = []):
+  import subprocess
+
+  MACRO_PREFIX = 'macro_'
+
+  p = subprocess.Popen(['git', 'describe', 'HEAD'], stdout=subprocess.PIPE)
+  revision, _ = p.communicate()
+  revision = revision.strip()
+
   cmd = ['asciidoc', '-o', '$OUT']
   if backend:
     cmd.extend(['-b', backend])
   for attribute in attributes:
     cmd.extend(['-a', attribute])
-  if conf_file:
-    cmd.append('-f')
+  cmd.extend(['-a', 'revision="' + revision + '"'])
   cmd.append('$SRCS')
 
   for p in zip(srcs, outs):
     s, o = p
-    if conf_file:
-      src_list = [conf_file, s]
-    else:
-      src_list = [s]
+    filename = s
+    if filename.startswith('BUCKGEN:') :
+      filename = s[8:]
+    genrule(
+      name = MACRO_PREFIX + filename,
+      cmd = '$(exe :replace_macros) -s $SRCS -o $OUT -p ' + MACRO_PREFIX,
+      srcs = [s],
+      deps = deps + [':replace_macros'],
+      out = MACRO_PREFIX + filename,
+    )
     genrule(
       name = o,
       cmd = ' '.join(cmd),
-      srcs = src_list,
-      deps = deps,
+      srcs = [genfile(MACRO_PREFIX + filename)],
+      deps = deps + [':' + MACRO_PREFIX + filename],
       out = o,
       visibility = visibility,
     )

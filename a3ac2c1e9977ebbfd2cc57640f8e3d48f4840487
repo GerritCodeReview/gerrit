@@ -34,6 +34,24 @@
       "revId": "a3ac2c1e9977ebbfd2cc57640f8e3d48f4840487",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "924d4112_3b187782",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-04T06:42:23Z",
+      "side": 1,
+      "message": "I indeed wanted to suggest that the suggestion of reviewers should be under \u0027reviewers\u0027 and not under \u0027suggest_reviewers\u0027. ;-)\n\nThis should be possible. It of course means that you need to add your functionality in the existing \u0027ListReviewers\u0027 class that is used by the \u0027Reviewers\u0027 class that is already bound to the \u0027reviewers\u0027 name in the line below.",
+      "parentUuid": "120dd1bb_e70c8251",
+      "revId": "a3ac2c1e9977ebbfd2cc57640f8e3d48f4840487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

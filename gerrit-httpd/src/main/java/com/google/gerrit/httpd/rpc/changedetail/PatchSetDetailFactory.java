@@ -156,7 +156,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     detail.setPatches(patches);
 
     final CurrentUser user = control.getCurrentUser();
-    if (user instanceof IdentifiedUser) {
+    if (user.isIdentifiedUser()) {
       // If we are signed in, compute the number of draft comments by the
       // current user on each of these patch files. This way they can more
       // quickly locate where they have pending drafts, and review them.

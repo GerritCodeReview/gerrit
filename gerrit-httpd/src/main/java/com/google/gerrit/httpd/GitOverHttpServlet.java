@@ -256,7 +256,7 @@ public class GitOverHttpServlet extends GitServlet {
         throws ServiceNotAuthorizedException {
       final ProjectControl pc = (ProjectControl) req.getAttribute(ATT_CONTROL);
 
-      if (!(pc.getCurrentUser() instanceof IdentifiedUser)) {
+      if (!(pc.getCurrentUser().isIdentifiedUser())) {
         // Anonymous users are not permitted to push.
         throw new ServiceNotAuthorizedException();
       }
@@ -316,7 +316,7 @@ public class GitOverHttpServlet extends GitServlet {
         return;
       }
 
-      if (!(pc.getCurrentUser() instanceof IdentifiedUser)) {
+      if (!(pc.getCurrentUser().isIdentifiedUser())) {
         chain.doFilter(request, response);
         return;
       }

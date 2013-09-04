@@ -412,4 +412,10 @@ public class IdentifiedUser extends CurrentUser {
   public String toString() {
     return "IdentifiedUser[account " + getAccountId() + "]";
   }
+
+  /** Check if user is the IdentifiedUser */
+  @Override
+  public boolean isIdentifiedUser() {
+    return true;
+  }
 }

@@ -52,7 +52,7 @@ class RequireIdentifiedUserFilter implements Filter {
   public void doFilter(ServletRequest request,
       ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
-    if (user.get() instanceof IdentifiedUser) {
+    if (user.get().isIdentifiedUser()) {
       chain.doFilter(request, response);
     } else {
       HttpServletResponse res = (HttpServletResponse) response;

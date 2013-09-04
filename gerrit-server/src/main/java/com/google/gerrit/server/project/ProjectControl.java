@@ -296,7 +296,7 @@ public class ProjectControl {
   }
 
   private Capable verifyActiveContributorAgreement() {
-    if (! (user instanceof IdentifiedUser)) {
+    if (! (user.isIdentifiedUser())) {
       return new Capable("Must be logged in to verify Contributor Agreement");
     }
     final IdentifiedUser iUser = (IdentifiedUser) user;

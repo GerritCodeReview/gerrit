@@ -437,7 +437,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     Set<Account.Id> m = parseAccount(who);
     List<IsWatchedByPredicate> p = Lists.newArrayListWithCapacity(m.size());
     for (Account.Id id : m) {
-      if (currentUser instanceof IdentifiedUser
+      if (currentUser.isIdentifiedUser()
           && id.equals(((IdentifiedUser) currentUser).getAccountId())) {
         p.add(new IsWatchedByPredicate(args, currentUser, false));
       } else {
@@ -656,7 +656,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   private Account.Id self() {
-    if (currentUser instanceof IdentifiedUser) {
+    if (currentUser.isIdentifiedUser()) {
       return ((IdentifiedUser) currentUser).getAccountId();
     }
     throw new IllegalArgumentException();

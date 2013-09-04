@@ -262,7 +262,7 @@ public class RefControl {
       final PersonIdent tagger = tag.getTaggerIdent();
       if (tagger != null) {
         boolean valid;
-        if (getCurrentUser() instanceof IdentifiedUser) {
+        if (getCurrentUser().isIdentifiedUser()) {
           final IdentifiedUser user = (IdentifiedUser) getCurrentUser();
           final String addr = tagger.getEmailAddress();
           valid = user.getEmailAddresses().contains(addr);

@@ -339,7 +339,7 @@ public abstract class BaseCommand implements Command {
     } else {
       final StringBuilder m = new StringBuilder();
       m.append("Internal server error");
-      if (userProvider.get() instanceof IdentifiedUser) {
+      if (userProvider.get().isIdentifiedUser()) {
         final IdentifiedUser u = (IdentifiedUser) userProvider.get();
         m.append(" (user ");
         m.append(u.getAccount().getUserName());
@@ -403,7 +403,7 @@ public abstract class BaseCommand implements Command {
 
       StringBuilder m = new StringBuilder();
       m.append(context.getCommandLine());
-      if (userProvider.get() instanceof IdentifiedUser) {
+      if (userProvider.get().isIdentifiedUser()) {
         IdentifiedUser u = (IdentifiedUser) userProvider.get();
         m.append(" (" + u.getAccount().getUserName() + ")");
       }

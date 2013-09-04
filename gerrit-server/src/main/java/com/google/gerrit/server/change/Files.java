@@ -146,7 +146,7 @@ class Files implements ChildCollection<RevisionResource, FileResource> {
     private Object reviewed(RevisionResource resource)
         throws AuthException, OrmException {
       CurrentUser user = self.get();
-      if (!(user instanceof IdentifiedUser)) {
+      if (!(user.isIdentifiedUser())) {
         throw new AuthException("Authentication required");
       }
 

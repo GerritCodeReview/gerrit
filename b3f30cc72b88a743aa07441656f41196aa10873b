@@ -16,6 +16,24 @@
       "revId": "b3f30cc72b88a743aa07441656f41196aa10873b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "120dd1bb_6721b2b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-04T06:09:51Z",
+      "side": 1,
+      "message": "this commit is not for stop cherry-pick, it is just  for delete that line in some special case",
+      "parentUuid": "121b1108_771e1073",
+      "revId": "b3f30cc72b88a743aa07441656f41196aa10873b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

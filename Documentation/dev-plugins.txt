@@ -215,28 +215,29 @@ and before the DB Schema initialization or upgrade.
 Plugins InitStep cannot refer to Gerrit DB Schema or any other Gerrit runtime
 objects injected at startup.
 
-====
-  public class MyInitStep implements InitStep {
-    private final ConsoleUI ui;
-    private final Section.Factory sections;
-    private final String pluginName;
+[source,java]
+----
+public class MyInitStep implements InitStep {
+  private final ConsoleUI ui;
+  private final Section.Factory sections;
+  private final String pluginName;
 
-    @Inject
-    public GitBlitInitStep(final ConsoleUI ui, Section.Factory sections, @PluginName String pluginName) {
-      this.ui = ui;
-      this.sections = sections;
-      this.pluginName = pluginName;
-    }
-
-    @Override
-    public void run() throws Exception {
-      ui.header("\nMy plugin");
-
-      Section mySection = getSection("myplugin", null);
-      mySection.string("Link name", "linkname", "MyLink");
-    }
+  @Inject
+  public GitBlitInitStep(final ConsoleUI ui, Section.Factory sections, @PluginName String pluginName) {
+    this.ui = ui;
+    this.sections = sections;
+    this.pluginName = pluginName;
   }
-====
+
+  @Override
+  public void run() throws Exception {
+    ui.header("\nMy plugin");
+
+    Section mySection = getSection("myplugin", null);
+    mySection.string("Link name", "linkname", "MyLink");
+  }
+}
+----
 
 [[classpath]]
 Classpath
@@ -263,44 +264,47 @@ interface (extensions do not have this option).
 
 Command implementations must extend the base class SshCommand:
 
-====
-  import com.google.gerrit.sshd.SshCommand;
+[source,java]
+----
+import com.google.gerrit.sshd.SshCommand;
 
-  class PrintHello extends SshCommand {
-    protected abstract void run() {
-      stdout.print("Hello\n");
-    }
+class PrintHello extends SshCommand {
+  protected abstract void run() {
+    stdout.print("Hello\n");
   }
-====
+}
+----
 
 If no Guice modules are declared in the manifest, SSH commands may
 use auto-registration by providing an `@Export` annotation:
 
-====
-  import com.google.gerrit.extensions.annotations.Export;
-  import com.google.gerrit.sshd.SshCommand;
+[source,java]
+----
+import com.google.gerrit.extensions.annotations.Export;
+import com.google.gerrit.sshd.SshCommand;
 
-  @Export("print")
-  class PrintHello extends SshCommand {
-    protected abstract void run() {
-      stdout.print("Hello\n");
-    }
+@Export("print")
+class PrintHello extends SshCommand {
+  protected abstract void run() {
+    stdout.print("Hello\n");
   }
-====
+}
+----
 
 If explicit registration is being used, a Guice module must be
 supplied to register the SSH command and declared in the manifest
 with the `Gerrit-SshModule` attribute:
 
-====
-  import com.google.gerrit.sshd.PluginCommandModule;
+[source,java]
+----
+import com.google.gerrit.sshd.PluginCommandModule;
 
-  class MyCommands extends PluginCommandModule {
-    protected void configureCommands() {
-      command("print").to(PrintHello.class);
-    }
+class MyCommands extends PluginCommandModule {
+  protected void configureCommands() {
+    command("print").to(PrintHello.class);
   }
-====
+}
+----
 
 For a plugin installed as name `helloworld`, the command implemented
 by PrintHello class will be available to users as:
@@ -319,56 +323,64 @@ commands to the users who are granted those capabilities.
 Plugins define the capabilities by overriding the `CapabilityDefinition`
 abstract class:
 
-====
-  public class PrintHelloCapability extends CapabilityDefinition {
-    @Override
-    public String getDescription() {
-      return "Print Hello";
-    }
+[source,java]
+----
+public class PrintHelloCapability extends CapabilityDefinition {
+  @Override
+  public String getDescription() {
+    return "Print Hello";
   }
-====
+}
+----
 
 If no Guice modules are declared in the manifest, UI actions may
 use auto-registration by providing an `@Export` annotation:
 
-====
-  @Export("printHello")
-  public class PrintHelloCapability extends CapabilityDefinition {
+[source,java]
+----
+@Export("printHello")
+public class PrintHelloCapability extends CapabilityDefinition {
   ...
-====
+}
+----
 
 Otherwise the capability must be bound in a plugin module:
 
-====
-  public class HelloWorldModule extends AbstractModule {
-    @Override
-    protected void configure() {
-      bind(CapabilityDefinition.class)
-        .annotatedWith(Exports.named("printHello"))
-        .to(PrintHelloCapability.class);
-    }
+[source,java]
+----
+public class HelloWorldModule extends AbstractModule {
+  @Override
+  protected void configure() {
+    bind(CapabilityDefinition.class)
+      .annotatedWith(Exports.named("printHello"))
+      .to(PrintHelloCapability.class);
   }
-====
+}
+----
 
 With a plugin-owned capability defined in this way, it is possible to restrict
 usage of an SSH command or `UiAction` to members of the group that were granted
 this capability in the usual way, using the `RequiresCapability` annotation:
 
-====
-  @RequiresCapability("printHello")
-  @CommandMetaData(name="print", description="Print greeting in different languages")
-  public final class PrintHelloWorldCommand extends SshCommand {
+[source,java]
+----
+@RequiresCapability("printHello")
+@CommandMetaData(name="print", description="Print greeting in different languages")
+public final class PrintHelloWorldCommand extends SshCommand {
   ...
-====
+}
+----
 
 Or with `UiAction`:
 
-====
-  @RequiresCapability("printHello")
-  public class SayHelloAction extends UiAction<RevisionResource>
-    implements RestModifyView<RevisionResource, SayHelloAction.Input> {
+[source,java]
+----
+@RequiresCapability("printHello")
+public class SayHelloAction extends UiAction<RevisionResource>
+  implements RestModifyView<RevisionResource, SayHelloAction.Input> {
   ...
-====
+}
+----
 
 Capability scope was introduced to differentiate between plugin-owned
 capabilities and core capabilities. Per default the scope of the
@@ -384,11 +396,12 @@ the `GlobalCapability` known to Gerrit Code Review server.
 If a plugin needs to use a core capability name (e.g. "administrateServer")
 this can be specified by setting `scope = CapabilityScope.CORE`:
 
-====
-  @RequiresCapability(value = "administrateServer", scope =
-      CapabilityScope.CORE)
+[source,java]
+----
+@RequiresCapability(value = "administrateServer", scope =
+    CapabilityScope.CORE)
   ...
-====
+----
 
 [[ui_extension]]
 UI Extension
@@ -410,138 +423,146 @@ Two different places on core Gerrit pages are currently supported:
 
 Plugins contribute UI actions by implementing the `UiAction` interface:
 
-====
-  @RequiresCapability("printHello")
-  class HelloWorldAction implements UiAction<RevisionResource>,
-      RestModifyView<RevisionResource, HelloWorldAction.Input> {
-    static class Input {
-      boolean french;
-      String message;
-    }
-
-    private Provider<CurrentUser> user;
-
-    @Inject
-    HelloWorldAction(Provider<CurrentUser> user) {
-      this.user = user;
-    }
-
-    @Override
-    public String apply(RevisionResource rev, Input input) {
-      final String greeting = input.french
-          ? "Bonjour"
-          : "Hello";
-      return String.format("%s %s from change %s, patch set %d!",
-          greeting,
-          Strings.isNullOrEmpty(input.message)
-              ? Objects.firstNonNull(user.get().getUserName(), "world")
-              : input.message,
-          rev.getChange().getId().toString(),
-          rev.getPatchSet().getPatchSetId());
-    }
-
-    @Override
-    public Description getDescription(
-        RevisionResource resource) {
-      return new Description()
-          .setLabel("Say hello")
-          .setTitle("Say hello in different languages");
-    }
+[source,java]
+----
+@RequiresCapability("printHello")
+class HelloWorldAction implements UiAction<RevisionResource>,
+    RestModifyView<RevisionResource, HelloWorldAction.Input> {
+  static class Input {
+    boolean french;
+    String message;
   }
-====
+
+  private Provider<CurrentUser> user;
+
+  @Inject
+  HelloWorldAction(Provider<CurrentUser> user) {
+    this.user = user;
+  }
+
+  @Override
+  public String apply(RevisionResource rev, Input input) {
+    final String greeting = input.french
+        ? "Bonjour"
+        : "Hello";
+    return String.format("%s %s from change %s, patch set %d!",
+        greeting,
+        Strings.isNullOrEmpty(input.message)
+            ? Objects.firstNonNull(user.get().getUserName(), "world")
+            : input.message,
+        rev.getChange().getId().toString(),
+        rev.getPatchSet().getPatchSetId());
+  }
+
+  @Override
+  public Description getDescription(
+      RevisionResource resource) {
+    return new Description()
+        .setLabel("Say hello")
+        .setTitle("Say hello in different languages");
+  }
+}
+----
 
 `UiAction` must be bound in a plugin module:
 
-====
-  public class Module extends AbstractModule {
-    @Override
-    protected void configure() {
-      install(new RestApiModule() {
-        @Override
-        protected void configure() {
-          post(REVISION_KIND, "say-hello")
-              .to(HelloWorldAction.class);
-        }
-      });
-    }
+[source,java]
+----
+public class Module extends AbstractModule {
+  @Override
+  protected void configure() {
+    install(new RestApiModule() {
+      @Override
+      protected void configure() {
+        post(REVISION_KIND, "say-hello")
+            .to(HelloWorldAction.class);
+      }
+    });
   }
-====
+}
+----
 
 The module above must be declared in pom.xml for Maven driven plugins:
 
-====
-  <manifestEntries>
-    <Gerrit-Module>com.googlesource.gerrit.plugins.cookbook.Module</Gerrit-Module>
-  </manifestEntries>
-====
+[source,xml]
+----
+<manifestEntries>
+  <Gerrit-Module>com.googlesource.gerrit.plugins.cookbook.Module</Gerrit-Module>
+</manifestEntries>
+----
 
 or in the BUCK configuration file for Buck driven plugins:
 
-====
-  manifest_entries = [
-    'Gerrit-Module: com.googlesource.gerrit.plugins.cookbook.Module',
-  ]
-====
+[source,python]
+----
+manifest_entries = [
+  'Gerrit-Module: com.googlesource.gerrit.plugins.cookbook.Module',
+]
+----
 
 In some use cases more user input must be gathered, for that `UiAction` can be
 combined with the JavaScript API. This would display a small popup near the
 activation button to gather additional input from the user. The JS file is
 typically put in the `static` folder within the plugin's directory:
 
-====
-  Gerrit.install(function(self) {
-    function onSayHello(c) {
-      var f = c.textfield();
-      var t = c.checkbox();
-      var b = c.button('Say hello', {onclick: function(){
-        c.call(
-          {message: f.value, french: t.checked},
-          function(r) {
-            c.hide();
-            window.alert(r);
-            c.refresh();
-          });
-      }});
-      c.popup(c.div(
-        c.prependLabel('Greeting message', f),
-        c.br(),
-        c.label(t, 'french'),
-        c.br(),
-        b));
-      f.focus();
-    }
-    self.onAction('revision', 'say-hello', onSayHello);
-  });
-====
+[source,javascript]
+----
+Gerrit.install(function(self) {
+  function onSayHello(c) {
+    var f = c.textfield();
+    var t = c.checkbox();
+    var b = c.button('Say hello', {onclick: function(){
+      c.call(
+        {message: f.value, french: t.checked},
+        function(r) {
+          c.hide();
+          window.alert(r);
+          c.refresh();
+        });
+    }});
+    c.popup(c.div(
+      c.prependLabel('Greeting message', f),
+      c.br(),
+      c.label(t, 'french'),
+      c.br(),
+      b));
+    f.focus();
+  }
+  self.onAction('revision', 'say-hello', onSayHello);
+});
+----
 
 The JS module must be exposed as a `WebUiPlugin` and bound as
 an HTTP Module:
 
-====
-  public class HttpModule extends HttpPluginModule {
-    @Override
-    protected void configureServlets() {
-      DynamicSet.bind(binder(), WebUiPlugin.class)
-          .toInstance(new JavaScriptPlugin("hello.js"));
-    }
+[source,java]
+----
+public class HttpModule extends HttpPluginModule {
+  @Override
+  protected void configureServlets() {
+    DynamicSet.bind(binder(), WebUiPlugin.class)
+        .toInstance(new JavaScriptPlugin("hello.js"));
   }
-====
+}
+----
 
 The HTTP module above must be declared in pom.xml for Maven driven plugins:
 
-====
-  <manifestEntries>
-    <Gerrit-HttpModule>com.googlesource.gerrit.plugins.cookbook.HttpModule</Gerrit-HttpModule>
-  </manifestEntries>
-====
+[source,xml]
+----
+<manifestEntries>
+  <Gerrit-HttpModule>com.googlesource.gerrit.plugins.cookbook.HttpModule</Gerrit-HttpModule>
+</manifestEntries>
+----
 
 or in the BUCK configuration file for Buck driven plugins
 
-====
-  manifest_entries = [
-    'Gerrit-HttpModule: com.googlesource.gerrit.plugins.cookbook.HttpModule',
-  ]
-====
+[source,python]
+----
+manifest_entries = [
+  'Gerrit-HttpModule: com.googlesource.gerrit.plugins.cookbook.HttpModule',
+]
+----
 
 If `UiAction` is annotated with the `@RequiresCapability` annotation, then the
 capability check is done during the `UiAction` gathering, so the plugin author
@@ -579,38 +600,40 @@ wrap them with HTTP filters.
 
 Servlets may use auto-registration to declare the URL they handle:
 
-====
-  import com.google.gerrit.extensions.annotations.Export;
-  import com.google.inject.Singleton;
-  import javax.servlet.http.HttpServlet;
-  import javax.servlet.http.HttpServletRequest;
-  import javax.servlet.http.HttpServletResponse;
+[source,java]
+----
+import com.google.gerrit.extensions.annotations.Export;
+import com.google.inject.Singleton;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-  @Export("/print")
-  @Singleton
-  class HelloServlet extends HttpServlet {
-    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
-      res.setContentType("text/plain");
-      res.setCharacterEncoding("UTF-8");
-      res.getWriter().write("Hello");
-    }
+@Export("/print")
+@Singleton
+class HelloServlet extends HttpServlet {
+  protected void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
+    res.setContentType("text/plain");
+    res.setCharacterEncoding("UTF-8");
+    res.getWriter().write("Hello");
   }
-====
+}
+----
 
 The auto registration only works for standard servlet mappings like
 `/foo` or `/foo/*`. Regex style bindings must use a Guice ServletModule
 to register the HTTP servlets and declare it explicitly in the manifest
 with the `Gerrit-HttpModule` attribute:
 
-====
-  import com.google.inject.servlet.ServletModule;
+[source,java]
+----
+import com.google.inject.servlet.ServletModule;
 
-  class MyWebUrls extends ServletModule {
-    protected void configureServlets() {
-      serve("/print").with(HelloServlet.class);
-    }
+class MyWebUrls extends ServletModule {
+  protected void configureServlets() {
+    serve("/print").with(HelloServlet.class);
   }
-====
+}
+----
 
 For a plugin installed as name `helloworld`, the servlet implemented
 by HelloServlet class will be available to users as:
@@ -629,12 +652,13 @@ server in `$site_path/data/$plugin_name` and passed to the plugin.
 
 Plugins can use this to store any data they want.
 
-====
-  @Inject
-  MyType(@PluginData java.io.File myDir) {
-    new FileInputStream(new File(myDir, "my.config"));
-  }
-====
+[source,java]
+----
+@Inject
+MyType(@PluginData java.io.File myDir) {
+  new FileInputStream(new File(myDir, "my.config"));
+}
+----
 
 [[documentation]]
 Documentation

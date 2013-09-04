@@ -52,6 +52,24 @@
       "revId": "b3f30cc72b88a743aa07441656f41196aa10873b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5238295c_04b3d89b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-04T06:11:07Z",
+      "side": 1,
+      "message": "+ just as user not always   use  \u0027-x\u0027 option in the local workspace",
+      "parentUuid": "120dd1bb_6721b2b8",
+      "revId": "b3f30cc72b88a743aa07441656f41196aa10873b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

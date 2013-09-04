@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "121b1108_771e1073",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-04T06:06:57Z",
+      "side": 1,
+      "message": "The -x help information (below) is only a warning to the user.  It is still possible to cherry-pick an unmerged commit to somewhere else by fetching it and then running `git cherry-pick -x`.  The cherry-pick command will not stop the user from doing that, and nor should the implementation here.",
+      "revId": "b3f30cc72b88a743aa07441656f41196aa10873b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

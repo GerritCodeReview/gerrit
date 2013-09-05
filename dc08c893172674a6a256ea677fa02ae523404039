@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "92a70123_cb0b9534",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-05T22:12:29Z",
+      "side": 1,
+      "message": "I wonder if we should prefer here maxSize() driven Cache against maximumWeight(1048576)? If i understand it right we are caching raw images, right?",
+      "revId": "dc08c893172674a6a256ea677fa02ae523404039",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b2aa45ea_2c2193b9",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticServlet.java",
         "patchSetId": 1

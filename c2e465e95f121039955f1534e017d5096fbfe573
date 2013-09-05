@@ -152,6 +152,24 @@
       "revId": "c2e465e95f121039955f1534e017d5096fbfe573",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d29df9d4_0df5b101",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-05T17:47:01Z",
+      "side": 1,
+      "message": "if we have more labels using \"sameAsAccess\", we will run addAll() many times.\n\n and \n\n if we have \n Label-A using \"sameAsAccess\"\n Label-B not using \"sameAsAccess\" and not apply to this change\u0027s branch\n Label-C using \"sameAsAccess\"\n\n for Label-A we run \u0027addAll();\u0027\n for Label-B if we run  \u0027r.remove(l);\u0027\n for Label-C we run \u0027addAll();\u0027  so Label-B will jump in. that is wrong.",
+      "parentUuid": "f2f2fd15_3ec6c98d",
+      "revId": "c2e465e95f121039955f1534e017d5096fbfe573",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

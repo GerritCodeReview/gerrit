@@ -84,6 +84,24 @@
       "revId": "b443574c39bb4d62eba56e61639fbc78bc02a848",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "120791cc_171e5471",
+        "filename": "Documentation/cmd-plugin-enable.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-05T09:25:06Z",
+      "side": 1,
+      "message": "Agreed.",
+      "parentUuid": "f2f2fd15_de440558",
+      "revId": "b443574c39bb4d62eba56e61639fbc78bc02a848",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

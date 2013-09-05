@@ -51,6 +51,24 @@
       "revId": "c8b0009a1a18c728b4067651ec04996f8cc08f69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d25a59dc_e53a56dd",
+        "filename": "Documentation/Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-05T01:10:59Z",
+      "side": 1,
+      "message": "Done.  The makefile is removed with [1].\n\n[1] https://gerrit-review.googlesource.com/#/c/49501/",
+      "parentUuid": "52210930_59c6a38e",
+      "revId": "c8b0009a1a18c728b4067651ec04996f8cc08f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

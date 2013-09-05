@@ -16,6 +16,24 @@
       "revId": "462e5f3f8ad2e412c4f9e3f76ffc66b6df511ff7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2f2fd15_de67e5e4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/GarbageCollectionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-05T14:25:18Z",
+      "side": 1,
+      "message": "The functionality that is tested here is not from a plugin but from Gerrit core.\n\nIt\u0027s testing the garbadge collection and this has nothing to do with replication ;-)",
+      "parentUuid": "f2f2fd15_9e6d5dc9",
+      "revId": "462e5f3f8ad2e412c4f9e3f76ffc66b6df511ff7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

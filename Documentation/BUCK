@@ -20,6 +20,7 @@ genrule(
       'images/*.jpg',
       'images/*.png',
     ]) + [
+    genfile('doc.css'),
     genfile('licenses.html'),
     genfile('licenses.txt'),
   ],
@@ -31,12 +32,19 @@ genrule(
   visibility = ['PUBLIC'],
 )
 
+genrule(
+  name = 'doc.css',
+  cmd = 'ln -s $SRCDIR/doc.css $OUT',
+  srcs = ['doc.css'],
+  out = 'doc.css',
+)
+
 genasciidoc(
   srcs = SRCS + [genfile('licenses.txt')],
   outs = HTML + ['licenses.html'],
   deps = DOCUMENTATION_DEPS,
   attributes = documentation_attributes(git_describe()),
-  backend = 'xhtml11',
+  backend = 'html5',
 )
 
 genrule(

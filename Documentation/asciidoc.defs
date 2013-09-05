@@ -21,7 +21,7 @@ def genasciidoc(
     visibility = []):
   EXPN = '.expn'
 
-  asciidoc = ['asciidoc']
+  asciidoc = ['$(exe //lib/asciidoctor:asciidoc)']
   if backend:
     asciidoc.extend(['-b', backend])
   for attribute in attributes:
@@ -52,7 +52,10 @@ def genasciidoc(
       name = out,
       cmd = ' '.join(asciidoc + ['$SRCDIR/' + ex]),
       srcs = [genfile(ex)] + [genfile(n + EXPN) for n in dep],
-      deps = [':' + ex] + [':' + n + EXPN for n in dep],
+      deps = [':' + n + EXPN for n in dep] + [
+        ':' + ex,
+        '//lib/asciidoctor:asciidoc',
+      ],
       out = out,
       visibility = visibility,
     )

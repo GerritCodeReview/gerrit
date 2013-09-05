@@ -33,10 +33,18 @@ genasciidoc(
   name = 'generate_html',
   srcs = SRCS + [genfile('licenses.txt')],
   outs = HTML + ['licenses.html'],
-  deps = [':config', ':licenses.txt'],
-  attributes = ['toc', 'newline="\\n"'],
+  deps = [':licenses.txt'],
+  attributes = [
+    'toc',
+    'newline="\\n"',
+    'asterisk="&#42;"',
+    'plus="&#43;"',
+    'caret="&#94;"',
+    'startsb="&#91;"',
+    'endsb="&#93;"',
+    'tilde="&#126;"',
+  ],
   backend = 'xhtml11',
-  conf_file = genfile('asciidoc.conf'),
 )
 
 genrule(
@@ -46,16 +54,12 @@ genrule(
   out = 'licenses.txt',
 )
 
-genrule(
-  name = 'config',
-  cmd = 'cp $SRCS $OUT &&' +
-    'echo "[attributes]" >>$OUT &&' +
-    'echo "revision=`git describe HEAD`" >>$OUT',
-  srcs = ['asciidoc.conf'],
-  out = 'asciidoc.conf',
-)
-
 python_binary(
   name = 'gen_licenses',
   main = 'gen_licenses.py',
+)
+
+python_binary(
+  name = 'replace_macros',
+  main = 'replace_macros.py',
 )

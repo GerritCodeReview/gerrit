@@ -14,8 +14,14 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Ordering;
+import com.google.common.collect.Sets;
+import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.PermissionRange;
+import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.reviewdb.client.Account;
@@ -46,6 +52,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Nullable;
 
@@ -242,9 +249,32 @@ public class ChangeControl {
         && getRefControl().canUpload(); // as long as you can upload too
   }
 
-  /** All available label types for this project. */
+  /** All available label types for this change. */
   public LabelTypes getLabelTypes() {
-    return getProjectControl().getLabelTypes();
+    Set<LabelType> r =
+        Sets.newTreeSet(Ordering.natural().onResultOf(
+            new Function<LabelType, String>() {
+              @Override
+              public String apply(LabelType in) {
+                return in.getName();
+              }
+            }));
+
+    String destBranch = getChange().getDest().get();
+    for (LabelType l : getProjectControl().getLabelTypes().getLabelTypes()) {
+      List<String> refs = l.getRefPatterns();
+      if (refs == null) {
+        r.add(l);
+      } else {
+        for (String b : refs) {
+          if (RefConfigSection.isValid(b) && match(destBranch, b)) {
+            r.add(l);
+            break;
+          }
+        }
+      }
+    }
+    return new LabelTypes(Lists.newArrayList(r));
   }
 
   /** All value ranges of any allowed label permission. */
@@ -401,6 +431,11 @@ public class ChangeControl {
     }
 
     return resultsToSubmitRecord(evaluator.getSubmitRule(), results);
+  }
+
+  private boolean match(String destBranch, String refPattern) {
+    return RefPatternMatcher.getMatcher(refPattern).match(destBranch,
+        this.getRefControl().getCurrentUser().getUserName());
   }
 
   private List<SubmitRecord> cannotSubmitDraft(ReviewDb db, PatchSet patchSet,

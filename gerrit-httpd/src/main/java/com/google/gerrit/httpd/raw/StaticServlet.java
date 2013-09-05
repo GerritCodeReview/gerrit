@@ -14,37 +14,59 @@
 
 package com.google.gerrit.httpd.raw;
 
+import static com.google.common.net.HttpHeaders.CONTENT_ENCODING;
+import static com.google.common.net.HttpHeaders.ETAG;
+import static com.google.common.net.HttpHeaders.IF_NONE_MATCH;
+import static java.util.concurrent.TimeUnit.DAYS;
+import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+import static javax.servlet.http.HttpServletResponse.SC_NOT_MODIFIED;
+
+import com.google.common.base.CharMatcher;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import com.google.common.cache.Weigher;
 import com.google.common.collect.Maps;
+import com.google.common.hash.Hashing;
+import com.google.gerrit.httpd.HtmlDomUtil;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gwt.thirdparty.guava.common.io.ByteStreams;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtjsonrpc.server.RPCServletUtils;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import org.eclipse.jgit.util.IO;
+import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
-import java.util.zip.GZIPOutputStream;
+import java.util.concurrent.ExecutionException;
 
+import javax.annotation.Nullable;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 
 /** Sends static content from the site 's <code>static/</code> subdirectory. */
 @SuppressWarnings("serial")
 @Singleton
 public class StaticServlet extends HttpServlet {
+  private static final Logger log = LoggerFactory.getLogger(StaticServlet.class);
+  private static final String JS = "application/x-javascript";
   private static final Map<String, String> MIME_TYPES = Maps.newHashMap();
   static {
     MIME_TYPES.put("html", "text/html");
     MIME_TYPES.put("htm", "text/html");
-    MIME_TYPES.put("js", "application/x-javascript");
+    MIME_TYPES.put("js", JS);
     MIME_TYPES.put("css", "text/css");
     MIME_TYPES.put("rtf", "text/rtf");
     MIME_TYPES.put("txt", "text/plain");
@@ -66,31 +88,13 @@ public class StaticServlet extends HttpServlet {
     return type != null ? type : "application/octet-stream";
   }
 
-  private static byte[] readFile(final File p) throws IOException {
-    final FileInputStream in = new FileInputStream(p);
-    try {
-      final byte[] r = new byte[(int) in.getChannel().size()];
-      IO.readFully(in, r, 0, r.length);
-      return r;
-    } finally {
-      in.close();
-    }
-  }
-
-  private static byte[] compress(final byte[] raw) throws IOException {
-    final ByteArrayOutputStream out = new ByteArrayOutputStream();
-    final GZIPOutputStream gz = new GZIPOutputStream(out);
-    gz.write(raw);
-    gz.finish();
-    gz.flush();
-    return out.toByteArray();
-  }
-
   private final File staticBase;
   private final String staticBasePath;
+  private final boolean refresh;
+  private final LoadingCache<String, Resource> cache;
 
   @Inject
-  StaticServlet(final SitePaths site) {
+  StaticServlet(@GerritServerConfig Config cfg, SitePaths site) {
     File f;
     try {
       f = site.static_dir.getCanonicalFile();
@@ -99,76 +103,155 @@ public class StaticServlet extends HttpServlet {
     }
     staticBase = f;
     staticBasePath = staticBase.getPath() + File.separator;
+    refresh = cfg.getBoolean("site", "refreshHeaderFooter", true);
+    cache = CacheBuilder.newBuilder()
+        .maximumWeight(1 << 20)
+        .weigher(new Weigher<String, Resource>() {
+          @Override
+          public int weigh(String name, Resource r) {
+            return 2 * name.length() + r.raw.length;
+          }
+        })
+        .build(new CacheLoader<String, Resource>() {
+          @Override
+          public Resource load(String name) throws Exception {
+            return loadResource(name);
+          }
+        });
   }
 
-  private File local(final HttpServletRequest req) {
-    final String name = req.getPathInfo();
-    if (name.length() < 2 || !name.startsWith("/") || isUnreasonableName(name)) {
-      // Too short to be a valid file name, or doesn't start with
-      // the path info separator like we expected.
-      //
+  @Nullable
+  Resource getResource(String name) {
+    try {
+      return cache.get(name);
+    } catch (ExecutionException e) {
+      log.warn(String.format("Cannot load static resource %s", name), e);
       return null;
     }
+  }
 
-    final File p = new File(staticBase, name.substring(1));
-
-    // Ensure that the requested file is *actually* within the static dir base.
-    try {
-      if (!p.getCanonicalFile().getPath().startsWith(staticBasePath))
-        return null;
-    } catch (IOException e) {
-        return null;
+  private Resource getResource(HttpServletRequest req) throws ExecutionException {
+    String name = CharMatcher.is('/').trimFrom(req.getPathInfo());
+    if (isUnreasonableName(name)) {
+      return Resource.NOT_FOUND;
     }
 
-    return p.isFile() ? p : null;
+    Resource r = cache.get(name);
+    if (r == Resource.NOT_FOUND) {
+      return Resource.NOT_FOUND;
+    }
+
+    if (refresh && r.isStale()) {
+      cache.invalidate(name);
+      r = cache.get(name);
+    }
+    return r;
   }
 
   private static boolean isUnreasonableName(String name) {
-    if (name.charAt(name.length() -1) == '/') return true; // no suffix
+    if (name.length() < 1) return true;
     if (name.indexOf('\\') >= 0) return true; // no windows/dos stlye paths
     if (name.startsWith("../")) return true; // no "../etc/passwd"
     if (name.contains("/../")) return true; // no "foo/../etc/passwd"
     if (name.contains("/./")) return true; // "foo/./foo" is insane to ask
     if (name.contains("//")) return true; // windows UNC path can be "//..."
-
     return false; // is a reasonable name
-  }
-
-  @Override
-  protected long getLastModified(final HttpServletRequest req) {
-    final File p = local(req);
-    return p != null ? p.lastModified() : -1;
   }
 
   @Override
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
-    final File p = local(req);
-    if (p == null) {
+    Resource r;
+    try {
+      r = getResource(req);
+    } catch (ExecutionException e) {
+      log.warn(String.format(
+          "Cannot load static resource %s",
+          req.getPathInfo()), e);
       CacheHeaders.setNotCacheable(rsp);
-      rsp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+      rsp.setStatus(SC_INTERNAL_SERVER_ERROR);
       return;
     }
 
-    final String type = contentType(p.getName());
-    final byte[] tosend;
-    if (!type.equals("application/x-javascript")
-        && RPCServletUtils.acceptsGzipEncoding(req)) {
-      rsp.setHeader("Content-Encoding", "gzip");
-      tosend = compress(readFile(p));
-    } else {
-      tosend = readFile(p);
+    String e = req.getParameter("e");
+    if (r == Resource.NOT_FOUND || (e != null && !r.etag.equals(e))) {
+      CacheHeaders.setNotCacheable(rsp);
+      rsp.setStatus(SC_NOT_FOUND);
+      return;
+    } else if (r.etag.equals(req.getHeader(IF_NONE_MATCH))) {
+      rsp.setStatus(SC_NOT_MODIFIED);
+      return;
     }
 
-    CacheHeaders.setCacheable(req, rsp, 12, TimeUnit.HOURS);
-    rsp.setDateHeader("Last-Modified", p.lastModified());
-    rsp.setContentType(type);
+    byte[] tosend = r.raw;
+    if (!r.contentType.equals(JS) && RPCServletUtils.acceptsGzipEncoding(req)) {
+      byte[] gz = HtmlDomUtil.compress(tosend);
+      if ((gz.length + 24) < tosend.length) {
+        rsp.setHeader(CONTENT_ENCODING, "gzip");
+        tosend = gz;
+      }
+    }
+    if (e != null && r.etag.equals(e)) {
+      CacheHeaders.setCacheable(req, rsp, 360, DAYS, false);
+    }
+    rsp.setHeader(ETAG, r.etag);
+    rsp.setContentType(r.contentType);
     rsp.setContentLength(tosend.length);
     final OutputStream out = rsp.getOutputStream();
     try {
       out.write(tosend);
     } finally {
       out.close();
+    }
+  }
+
+  private Resource loadResource(String name) throws IOException {
+    File p = new File(staticBase, name);
+    try {
+      p = p.getCanonicalFile();
+    } catch (IOException e) {
+      return Resource.NOT_FOUND;
+    }
+    if (!p.getPath().startsWith(staticBasePath)) {
+      return Resource.NOT_FOUND;
+    }
+
+    long ts = p.lastModified();
+    FileInputStream in;
+    try {
+      in = new FileInputStream(p);
+    } catch (FileNotFoundException e) {
+      return Resource.NOT_FOUND;
+    }
+
+    byte[] raw;
+    try {
+      raw = ByteStreams.toByteArray(in);
+    } finally {
+      in.close();
+    }
+    return new Resource(p, ts, contentType(name), raw);
+  }
+
+  static class Resource {
+    static final Resource NOT_FOUND = new Resource(null, -1, "", new byte[] {});
+
+    final File src;
+    final long lastModified;
+    final String contentType;
+    final String etag;
+    final byte[] raw;
+
+    Resource(File src, long lastModified, String contentType, byte[] raw) {
+      this.src = src;
+      this.lastModified = lastModified;
+      this.contentType = contentType;
+      this.etag = Hashing.md5().hashBytes(raw).toString();
+      this.raw = raw;
+    }
+
+    boolean isStale() {
+      return lastModified != src.lastModified();
     }
   }
 }

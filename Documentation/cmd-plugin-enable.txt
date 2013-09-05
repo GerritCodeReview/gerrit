@@ -17,6 +17,14 @@ Enable plugins currently disabled. The plugins will be enabled by renaming
 the plugin jars in the site path's `plugins` directory from
 `<plugin-jar-name>.disabled` to `<plugin-jar-name>`.
 
+The re-enabling of plugins survives Gerrit restart, i. e.:
+
+====
+'ssh' -p <port> <host> 'gerrit plugin remove my-plugin'
+$site_path/bin/gerrit.sh restart
+'ssh' -p <port> <host> 'gerrit plugin enable my-plugin'
+====
+
 ACCESS
 ------
 Caller must be a member of the privileged 'Administrators' group.

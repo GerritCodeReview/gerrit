@@ -20,4 +20,8 @@ public class PluginInstallException extends Exception {
   public PluginInstallException(Throwable why) {
     super(why.getMessage(), why);
   }
+
+  public PluginInstallException(String message) {
+    super(message);
+  }
 }

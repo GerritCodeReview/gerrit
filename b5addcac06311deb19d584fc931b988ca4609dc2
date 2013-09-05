@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52e4a950_417db270",
+        "filename": "Documentation/cmd-plugin-enable.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-05T06:59:19Z",
+      "side": 1,
+      "message": "Not related to this change, but why is the command named \"remove\" if it only disables the plugin, but does not actually remove it?",
+      "revId": "b5addcac06311deb19d584fc931b988ca4609dc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

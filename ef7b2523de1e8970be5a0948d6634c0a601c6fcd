@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d25a59dc_85892278",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-05T04:33:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d25a59dc_c57f1a75",
+      "revId": "ef7b2523de1e8970be5a0948d6634c0a601c6fcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d25a59dc_e5849661",
         "filename": "Documentation/replace_macros.py",
         "patchSetId": 8
@@ -36,6 +54,24 @@
         "endLine": 69,
         "endChar": 66
       },
+      "revId": "ef7b2523de1e8970be5a0948d6634c0a601c6fcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d25a59dc_a58e9e7b",
+        "filename": "Documentation/replace_macros.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-05T04:33:30Z",
+      "side": 1,
+      "message": "No. Actually the line goes like:\n\ninclude::database-setup.txt[]\n\nand group(1) is \"include::database-setup.txt\", group(2) is \"[]\". We do need the suffix between them.",
+      "parentUuid": "d25a59dc_e5849661",
       "revId": "ef7b2523de1e8970be5a0948d6634c0a601c6fcd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

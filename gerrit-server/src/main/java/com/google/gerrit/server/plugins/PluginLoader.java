@@ -15,7 +15,9 @@
 package com.google.gerrit.server.plugins;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Queues;
@@ -54,6 +56,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
@@ -236,19 +239,35 @@ public class PluginLoader implements LifecycleListener {
   public void enablePlugins(Set<String> names) throws PluginInstallException {
     synchronized (this) {
       for (String name : names) {
-        Plugin off = disabled.get(name);
-        if (off == null) {
-          continue;
+        File found;
+        if (disabled.containsKey(name)) {
+          found = disabled.get(name).getSrcFile();
+          disabled.remove(name);
+        } else {
+          found = findDisabledPlugin(name);
         }
-
         log.info(String.format("Enabling plugin %s", name));
-        File on = new File(pluginsDir, off.getName() + ".jar");
-        off.getSrcFile().renameTo(on);
-
-        disabled.remove(name);
+        File on = new File(pluginsDir, name + ".jar");
+        found.renameTo(on);
         runPlugin(name, on, null);
       }
       cleanInBackground();
+    }
+  }
+
+  private File findDisabledPlugin(String name)
+      throws PluginInstallException {
+    final String disabledName = name + ".jar.disabled";
+    try {
+      return Iterables.find(scanJarsInPluginsDirectory(),
+          new Predicate<File>() {
+            public boolean apply(File f) {
+              return f.getName().equals(disabledName);
+            };
+          });
+    } catch (NoSuchElementException e) {
+      throw new PluginInstallException(String.format(
+          "Disabled plugin doesn't exist: %s", name));
     }
   }
 

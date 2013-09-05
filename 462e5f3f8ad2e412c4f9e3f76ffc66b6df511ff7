@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2f2fd15_9e6d5dc9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/GarbageCollectionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-05T14:22:47Z",
+      "side": 1,
+      "message": "Is it not plugin owned capability? I would expect that the capability name is prefixed with plugin name then:\n\n \"Capability \"replication-runGC ...\"\n\nThe code that builds the capability name explicitly prefixes plugin-name:\n\n capability \u003d String.format(\"%s-%s\", pluginName, rc.value());\n\nIsn\u0027t this if applies in that test?\n\n if (pluginName !\u003d null \u0026\u0026 !\"gerrit\".equals(pluginName)\n     \u0026\u0026 (rc.scope() \u003d\u003d CapabilityScope.PLUGIN\n     || rc.scope() \u003d\u003d CapabilityScope.CONTEXT)) {\n [...]",
+      "revId": "462e5f3f8ad2e412c4f9e3f76ffc66b6df511ff7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

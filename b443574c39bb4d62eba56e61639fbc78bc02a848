@@ -67,6 +67,23 @@
       "revId": "b443574c39bb4d62eba56e61639fbc78bc02a848",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2f2fd15_de440558",
+        "filename": "Documentation/cmd-plugin-enable.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-05T09:22:05Z",
+      "side": 1,
+      "message": "[optional] I wouldn\u0027t add this to the documentation. It was only bug that this was not working, now as it is fixed there is no need to mention this explicitely.",
+      "revId": "b443574c39bb4d62eba56e61639fbc78bc02a848",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

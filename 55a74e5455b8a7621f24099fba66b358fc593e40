@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52e4a950_412ad28d",
+        "filename": "Documentation/replace_macros.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-05T02:01:48Z",
+      "side": 1,
+      "message": "s/parse_options/parse_args",
+      "revId": "55a74e5455b8a7621f24099fba66b358fc593e40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d25a59dc_85584231",
+        "filename": "Documentation/replace_macros.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-05T02:01:48Z",
+      "side": 1,
+      "message": "I still think it\u0027s better to handle exceptions and print an error message, rather than letting it just dump a traceback.  See my comment on the previous ps.",
+      "revId": "55a74e5455b8a7621f24099fba66b358fc593e40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

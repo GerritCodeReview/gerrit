@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -31,8 +30,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import java.util.Set;
 
 public class AccountsCollection implements
     RestCollection<TopLevelResource, AccountResource>,

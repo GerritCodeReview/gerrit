@@ -106,7 +106,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
       JSchException {
     SshSession s = new SshSession(server, accounts.create("user", "user@example.com", "User"));
     s.exec("gerrit gc --all");
-    assertError("fatal: user does not have \"runGC\" capability.", s.getError());
+    assertError("Capability runGC is required to access this resource", s.getError());
   }
 
   @Test

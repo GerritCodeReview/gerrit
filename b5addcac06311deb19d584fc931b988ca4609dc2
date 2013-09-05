@@ -16,6 +16,24 @@
       "revId": "b5addcac06311deb19d584fc931b988ca4609dc2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "120791cc_77023021",
+        "filename": "Documentation/cmd-plugin-enable.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-05T07:03:14Z",
+      "side": 1,
+      "message": "I am asking the same question ALL the time ;-)\nIt must be of course called disable and not \"remove\" and aliased to \"rm\".\n\nThat\u0027s clearly a bug and should be fixed. In that case i would not even bother with backward compatibility.",
+      "parentUuid": "52e4a950_417db270",
+      "revId": "b5addcac06311deb19d584fc931b988ca4609dc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

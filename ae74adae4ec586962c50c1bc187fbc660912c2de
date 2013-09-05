@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f2f2fd15_7ed0513d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/actions/ActionButton.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-05T17:49:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "120791cc_37539815",
+      "revId": "ae74adae4ec586962c50c1bc187fbc660912c2de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "120791cc_f7580032",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/api/ProjectGlue.java",
         "patchSetId": 20
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "f2f2fd15_5ecd95a3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/api/ProjectGlue.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-05T17:49:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "120791cc_f7580032",
+      "revId": "ae74adae4ec586962c50c1bc187fbc660912c2de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "120791cc_d75dfc1f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
         "patchSetId": 20
@@ -47,6 +83,24 @@
       "writtenOn": "2013-09-05T11:45:09Z",
       "side": 1,
       "message": "[optional] This method is not needed if the type is changed in ProjectGlue as suggested by [1].\n\n[1] https://gerrit-review.googlesource.com/#/c/48381/20/gerrit-gwtui/src/main/java/com/google/gerrit/client/api/ProjectGlue.java",
+      "revId": "ae74adae4ec586962c50c1bc187fbc660912c2de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2f2fd15_bebad904",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-05T17:49:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "120791cc_d75dfc1f",
       "revId": "ae74adae4ec586962c50c1bc187fbc660912c2de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,3 +1,8 @@
+DOCUMENTATION_DEPS = {
+  "install-quick.txt": ["config-login-register.txt"],
+  "install.txt": ["database-setup.txt"],
+}
+
 def documentation_attributes(revision):
   return [
     'toc',

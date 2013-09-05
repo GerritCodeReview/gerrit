@@ -13,46 +13,46 @@
 # limitations under the License.
 
 def genasciidoc(
-    name,
     srcs = [],
     outs = [],
-    deps = [],
+    deps = {},
     attributes = [],
     backend = None,
     visibility = []):
-  MACRO_SUFFIX = '.expanded'
+  EXPN = '.expn'
 
-  cmd = ['asciidoc', '-o', '$OUT']
+  asciidoc = ['asciidoc']
   if backend:
-    cmd.extend(['-b', backend])
+    asciidoc.extend(['-b', backend])
   for attribute in attributes:
-    cmd.extend(['-a', attribute])
-  cmd.append('$SRCS')
+    asciidoc.extend(['-a', attribute])
+  asciidoc.extend(['-o', '$OUT'])
 
   for p in zip(srcs, outs):
-    s, o = p
-    filename = s
-    if filename.startswith('BUCKGEN:') :
-      filename = s[8:]
+    src, out = p
+    dep = deps.get(src) or []
+
+    tx = []
+    fn = src
+    if fn.startswith('BUCKGEN:') :
+      fn = src[8:]
+      tx = [':' + fn]
+    ex = fn + EXPN
+
     genrule(
-      name = filename + MACRO_SUFFIX,
-      cmd = '$(exe :replace_macros) -s $SRCS -o $OUT --suffix=' + MACRO_SUFFIX,
-      srcs = [s],
-      deps = deps + [':replace_macros'],
-      out = filename + MACRO_SUFFIX,
+      name = ex,
+      cmd = '$(exe :replace_macros) --suffix=' + EXPN +
+            ' -s $SRCDIR/%s' % fn +
+            ' -o $OUT',
+      srcs = [src],
+      deps = tx + [':replace_macros'],
+      out = ex,
     )
     genrule(
-      name = o,
-      cmd = ' '.join(cmd),
-      srcs = [genfile(filename + MACRO_SUFFIX)],
-      deps = deps + [':' + filename + MACRO_SUFFIX],
-      out = o,
+      name = out,
+      cmd = ' '.join(asciidoc + ['$SRCDIR/' + ex]),
+      srcs = [genfile(ex)] + [genfile(n + EXPN) for n in dep],
+      deps = [':' + ex] + [':' + n + EXPN for n in dep],
+      out = out,
       visibility = visibility,
     )
-  genrule(
-    name = name,
-    cmd = ':>$OUT',
-    deps = [':' + o for o in outs],
-    out = name + '__done',
-    visibility = visibility,
-  )

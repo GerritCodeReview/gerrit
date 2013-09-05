@@ -13,7 +13,7 @@ genrule(
     'for s in $SRCS;do ln -s $s Documentation;done;' +
     'mv Documentation/*.{jpg,png} Documentation/images;' +
     'rm Documentation/licenses.txt;' +
-    'ln -s $SRCDIR/licenses.txt LICENSES.txt;' +
+    'cp $SRCDIR/licenses.txt LICENSES.txt;' +
     'zip -qr $OUT *',
   srcs = [genfile(d) for d in HTML] +
     glob([
@@ -32,10 +32,9 @@ genrule(
 )
 
 genasciidoc(
-  name = 'generate_html',
   srcs = SRCS + [genfile('licenses.txt')],
   outs = HTML + ['licenses.html'],
-  deps = [':licenses.txt'],
+  deps = DOCUMENTATION_DEPS,
   attributes = documentation_attributes(git_describe()),
   backend = 'xhtml11',
 )

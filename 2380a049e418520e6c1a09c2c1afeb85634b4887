@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d25a59dc_a5445e56",
+        "filename": "Documentation/replace_macros.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-05T01:23:30Z",
+      "side": 1,
+      "message": "PEP-8: Put imports on separate lines.",
+      "revId": "2380a049e418520e6c1a09c2c1afeb85634b4887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d25a59dc_853fe2cb",
+        "filename": "Documentation/replace_macros.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-05T01:23:30Z",
+      "side": 1,
+      "message": "`parse_args` returns (options, args), so this should be:\n\n options, _ \u003d opts.parse_args()",
+      "revId": "2380a049e418520e6c1a09c2c1afeb85634b4887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52e4a950_e10b2634",
+        "filename": "Documentation/replace_macros.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-05T01:23:30Z",
+      "side": 1,
+      "message": "Add handling of exceptions on `open` calls.\n\nActually, the entire block from line 53 to 80 could be enclosed in a try...except block to handle exceptions from the `open`, `xreadlines` and `write` calls.",
+      "revId": "2380a049e418520e6c1a09c2c1afeb85634b4887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d25a59dc_452a4a8e",
+        "filename": "Documentation/replace_macros.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-05T01:23:30Z",
+      "side": 1,
+      "message": "PEP-8: Don\u0027t put whitespace before `:`\n\nSame on the `if`, `elif` and `else` lines below.",
+      "revId": "2380a049e418520e6c1a09c2c1afeb85634b4887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52e4a950_01072a2c",
+        "filename": "Documentation/replace_macros.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-05T01:23:30Z",
+      "side": 1,
+      "message": "s/GERRT/GERRIT",
+      "revId": "2380a049e418520e6c1a09c2c1afeb85634b4887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

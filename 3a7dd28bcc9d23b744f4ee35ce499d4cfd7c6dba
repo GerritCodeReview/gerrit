@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92a70123_ebedb13e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefPatternMather.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-05T18:16:03Z",
+      "side": 1,
+      "message": "The class name is still missing a \u0027c\u0027 :-) \n\nIt should be RefPatternMatcher",
+      "revId": "3a7dd28bcc9d23b744f4ee35ce499d4cfd7c6dba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

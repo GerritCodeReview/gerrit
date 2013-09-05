@@ -103,6 +103,7 @@ public class LabelType {
   protected short maxPositive;
 
   private transient boolean canOverride;
+  private transient List<String> refPatterns;
   private transient List<Integer> intList;
   private transient Map<Short, LabelValue> byValue;
 
@@ -157,8 +158,16 @@ public class LabelType {
     return canOverride;
   }
 
+  public List<String> getRefPatterns() {
+    return refPatterns;
+  }
+
   public void setCanOverride(boolean canOverride) {
     this.canOverride = canOverride;
+  }
+
+  public void setRefPatterns(List<String> refPatterns) {
+    this.refPatterns = refPatterns;
   }
 
   public List<LabelValue> getValues() {

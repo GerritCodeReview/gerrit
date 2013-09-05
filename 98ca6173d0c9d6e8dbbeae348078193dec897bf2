@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "d25a59dc_c532ba1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-05T14:41:55Z",
+      "side": 1,
+      "message": "extracted",
+      "revId": "98ca6173d0c9d6e8dbbeae348078193dec897bf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d25a59dc_e537b60c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-05T14:41:55Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s necessary to reference the other change like this.  Instead, just describe the use case in the previous paragraph.",
+      "revId": "98ca6173d0c9d6e8dbbeae348078193dec897bf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "120791cc_b7fde89f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefPatternMater.java",
         "patchSetId": 1

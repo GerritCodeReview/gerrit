@@ -21,6 +21,7 @@ import com.google.gerrit.audit.AuditModule;
 import com.google.gerrit.common.ChangeListener;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
+import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -258,6 +259,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), CommitValidationListener.class);
     DynamicSet.setOf(binder(), MergeValidationListener.class);
     DynamicItem.itemOf(binder(), AvatarProvider.class);
+    DynamicSet.setOf(binder(), LifecycleListener.class);
 
     bind(AnonymousUser.class);
 

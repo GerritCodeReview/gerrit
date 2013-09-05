@@ -18,6 +18,7 @@ import static com.google.common.net.HttpHeaders.CONTENT_ENCODING;
 import static com.google.common.net.HttpHeaders.ETAG;
 import static com.google.common.net.HttpHeaders.IF_NONE_MATCH;
 import static java.util.concurrent.TimeUnit.DAYS;
+import static java.util.concurrent.TimeUnit.MINUTES;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_MODIFIED;
@@ -193,6 +194,8 @@ public class StaticServlet extends HttpServlet {
     }
     if (e != null && r.etag.equals(e)) {
       CacheHeaders.setCacheable(req, rsp, 360, DAYS, false);
+    } else {
+      CacheHeaders.setCacheable(req, rsp, 15, MINUTES, refresh);
     }
     rsp.setHeader(ETAG, r.etag);
     rsp.setContentType(r.contentType);

@@ -1,0 +1,37 @@
+body {
+  margin: 1em;
+}
+
+#toctitle {
+  margin-top: 0.5em;
+  font-weight: bold;
+}
+
+h1, h2, h3, h4, h5, h6, #toctitle {
+  color: #527bbd;
+  font-family: sans-serif;
+}
+
+h1, h2, h3 {
+  border-bottom: 2px solid silver;
+}
+
+p {
+  margin: 0.5em 0 0.5em 0;
+}
+li p {
+  margin: 0.2em 0 0.2em 0;
+}
+
+pre {
+  border: 2px solid silver;
+  background: #ebebeb;
+  margin-left: 2em;
+  width: 100em;
+  color: darkgreen;
+  padding: 2px;
+}
+
+dl dt {
+  margin-top: 1em;
+}

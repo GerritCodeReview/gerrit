@@ -371,12 +371,12 @@ Or with `UiAction`:
 ====
 
 Capability scope was introduced to differentiate between plugin-owned
-capabilities and core capabilities. Per default the scope of
-@RequiresCapability annotation is `CapabilityScope.CONTEXT`, that means:
-+
+capabilities and core capabilities. Per default the scope of the
+`@RequiresCapability` annotation is `CapabilityScope.CONTEXT`, that means:
+
 * when `@RequiresCapability` is used within a plugin the scope of the
 capability is assumed to be that plugin.
-+
+
 * If `@RequiresCapability` is used within the core Gerrit Code Review server
 (and thus is outside of a plugin) the scope is the core server and will use
 the `GlobalCapability` known to Gerrit Code Review server.

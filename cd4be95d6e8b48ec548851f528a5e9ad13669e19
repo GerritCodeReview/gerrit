@@ -22,6 +22,24 @@
       "revId": "cd4be95d6e8b48ec548851f528a5e9ad13669e19",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52e4a950_a1847e60",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 701,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-05T04:39:47Z",
+      "side": 0,
+      "message": "Note:  this doesn\u0027t work as expected unless you add a space before \u0027instanceof\u0027 in the replace:\n\n git grep --name-only \u0027instanceof IdentifiedUser\u0027 |\n xargs perl -pi -e  \u0027s/ instanceof IdentifiedUser/.isIdentifiedUser()/g\u0027\n\nWithout the space you end up with code that looks like:\n\n if (user.get() .isIdentifiedUser())",
+      "parentUuid": "52e4a950_614a7657",
+      "revId": "cd4be95d6e8b48ec548851f528a5e9ad13669e19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

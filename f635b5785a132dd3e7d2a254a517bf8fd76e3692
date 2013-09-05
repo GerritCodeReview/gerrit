@@ -34,6 +34,24 @@
       "revId": "f635b5785a132dd3e7d2a254a517bf8fd76e3692",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2f2fd15_be5e591c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-05T11:26:00Z",
+      "side": 1,
+      "message": "Hmm, this doesn\u0027t seem to work for me.\n\n  1. buck build withdocs\n  BUILD FAILED: No directory withdocs when resolving target //withdocs:withdocs in context FULLY_QUALIFIED\n\n  2. buck build release\n  Builds succesful but documentation is not included in gerrit.war",
+      "parentUuid": "52e4a950_e167a6e4",
+      "revId": "f635b5785a132dd3e7d2a254a517bf8fd76e3692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

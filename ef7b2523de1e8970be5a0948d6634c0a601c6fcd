@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d25a59dc_c57f1a75",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-05T04:27:55Z",
+      "side": 1,
+      "message": "Unused because you invoke git_describe() directly on line 34.",
+      "revId": "ef7b2523de1e8970be5a0948d6634c0a601c6fcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d25a59dc_e5849661",
+        "filename": "Documentation/replace_macros.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-05T04:27:55Z",
+      "side": 1,
+      "message": "suffix goes after match.group(2) not before.",
+      "range": {
+        "startLine": 69,
+        "startChar": 35,
+        "endLine": 69,
+        "endChar": 66
+      },
+      "revId": "ef7b2523de1e8970be5a0948d6634c0a601c6fcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

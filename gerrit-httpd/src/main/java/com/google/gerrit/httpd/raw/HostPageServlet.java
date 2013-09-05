@@ -43,6 +43,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -80,6 +81,7 @@ public class HostPageServlet extends HttpServlet {
   private final String noCacheName;
   private final PermutationSelector selector;
   private final boolean refreshHeaderFooter;
+  private final StaticServlet staticServlet;
   private volatile Page page;
 
   @Inject
@@ -87,7 +89,8 @@ public class HostPageServlet extends HttpServlet {
       final SitePaths sp, final ThemeFactory themeFactory,
       final GerritConfig gc, final ServletContext servletContext,
       final DynamicSet<WebUiPlugin> webUiPlugins,
-      @GerritServerConfig final Config cfg)
+      @GerritServerConfig final Config cfg,
+      final StaticServlet ss)
       throws IOException, ServletException {
     currentUser = cu;
     session = w;
@@ -97,6 +100,7 @@ public class HostPageServlet extends HttpServlet {
     signedInTheme = themeFactory.getSignedInTheme();
     site = sp;
     refreshHeaderFooter = cfg.getBoolean("site", "refreshHeaderFooter", true);
+    staticServlet = ss;
     boolean checkUserAgent = cfg.getBoolean("site", "checkUserAgent", true);
 
     final String pageName = "HostPage.html";
@@ -247,6 +251,26 @@ public class HostPageServlet extends HttpServlet {
     return pg.get(selector.select(req));
   }
 
+  private void insertETags(Element e) {
+    if ("img".equalsIgnoreCase(e.getTagName())
+        || "script".equalsIgnoreCase(e.getTagName())) {
+      String src = e.getAttribute("src");
+      if (src != null && src.startsWith("static/")) {
+        String name = src.substring("static/".length());
+        StaticServlet.Resource r = staticServlet.getResource(name);
+        if (r != null) {
+          e.setAttribute("src", src + "?e=" + r.etag);
+        }
+      }
+    }
+
+    for (Node n = e.getFirstChild(); n != null; n = n.getNextSibling()) {
+      if (n instanceof Element) {
+        insertETags((Element) n);
+      }
+    }
+  }
+
   private static class FileInfo {
     private final File path;
     private final long time;
@@ -378,7 +402,8 @@ public class HostPageServlet extends HttpServlet {
         return info;
       }
 
-      final Element content = html.getDocumentElement();
+      Element content = html.getDocumentElement();
+      insertETags(content);
       banner.appendChild(hostDoc.importNode(content, true));
       return info;
     }

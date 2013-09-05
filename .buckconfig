@@ -2,6 +2,7 @@
   api = //:api
   api_deploy = //tools/maven:deploy
   api_install = //tools/maven:install
+  docs = //Documentation:html
   download = //tools:download
   download_sources = //tools:download_sources
   gerrit = //:gerrit

@@ -13,6 +13,7 @@ def documentation_attributes(revision):
     'startsb="&#91;"',
     'endsb="&#93;"',
     'tilde="&#126;"',
+    'last-update-label!',
     'source-highlighter=prettify',
     'stylesheet=doc.css',
     'revnumber="%s"' % revision,

@@ -16,6 +16,42 @@
       "revId": "3a7dd28bcc9d23b744f4ee35ce499d4cfd7c6dba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d29df9d4_0d2771c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefPatternMather.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-05T18:47:35Z",
+      "side": 1,
+      "message": "ahm this is really a dammit error :(\n\nDone",
+      "parentUuid": "92a70123_ebedb13e",
+      "revId": "3a7dd28bcc9d23b744f4ee35ce499d4cfd7c6dba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2aa45ea_ec066b2e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefPatternMather.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-05T18:47:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92a70123_ebedb13e",
+      "revId": "3a7dd28bcc9d23b744f4ee35ce499d4cfd7c6dba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

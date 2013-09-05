@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "52e4a950_21efcee4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-05T15:44:44Z",
+      "side": 1,
+      "message": "Nit: \"That\"",
+      "revId": "c09f3c27395877b871a66d645b101c0ba447ade1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d25a59dc_652426d8",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-05T15:44:44Z",
+      "side": 1,
+      "message": "In asciidoc you can use *bold* for emphasis rather than caps.",
+      "range": {
+        "startLine": 264,
+        "startChar": 5,
+        "endLine": 264,
+        "endChar": 9
+      },
+      "revId": "c09f3c27395877b871a66d645b101c0ba447ade1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2f2fd15_be6819b9",
         "filename": "Documentation/config-labels.txt",
         "patchSetId": 16
@@ -13,6 +53,121 @@
       "writtenOn": "2013-09-05T14:52:20Z",
       "side": 1,
       "message": "s/user/a user",
+      "revId": "c09f3c27395877b871a66d645b101c0ba447ade1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d25a59dc_0521b2c6",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/LabelType.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-05T15:44:44Z",
+      "side": 1,
+      "message": "I would prefer if these were named \"branch patterns\" to make clear they are not just exact matches of branch names.\n\nActually probably \"ref patterns\" might even be better since they\u0027re not just branches. But I would check what we do in the ACL code related to refs and be consistent with terminology there.",
+      "range": {
+        "startLine": 161,
+        "startChar": 22,
+        "endLine": 161,
+        "endChar": 33
+      },
+      "revId": "c09f3c27395877b871a66d645b101c0ba447ade1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d25a59dc_251e2e80",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-05T15:44:44Z",
+      "side": 1,
+      "message": "If you are going to give this method such a specific name, don\u0027t pass in section/subsection/name, just use the constants in the getStringList call below.\n\nThough I\u0027d also be fine if this just had a more generic name like getStringListOrNull",
+      "range": {
+        "startLine": 662,
+        "startChar": 23,
+        "endLine": 662,
+        "endChar": 42
+      },
+      "revId": "c09f3c27395877b871a66d645b101c0ba447ade1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d25a59dc_c8e3af54",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-05T15:44:44Z",
+      "side": 1,
+      "message": "Why do these need to be sorted by name? I considered it a feature that admins can control the order of labels by changing the order in project.config (though inheritance makes this more complicated).\n\nThat said ISTR there were some other discussions about this issue so maybe check what we do elsewhere?\n\nAlso, if you end up doing this, IMHO Guava\u0027s Ordering makes it more readable:\n\n  Sets.newTreeSet(Ordering.natural().onResultOf(new Function\u003cLabelType, String\u003e() {\n    @Override\n    public String apply(LabelType in) {\n      return in.getName();\n    }\n  });",
+      "range": {
+        "startLine": 253,
+        "startChar": 28,
+        "endLine": 253,
+        "endChar": 38
+      },
+      "revId": "c09f3c27395877b871a66d645b101c0ba447ade1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d25a59dc_e8e8eb30",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-05T15:44:44Z",
+      "side": 1,
+      "message": "Nit: the var name should match the noun in the method name.",
+      "range": {
+        "startLine": 262,
+        "startChar": 19,
+        "endLine": 262,
+        "endChar": 23
+      },
+      "revId": "c09f3c27395877b871a66d645b101c0ba447ade1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52e4a950_81fcda9c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefPatternMater.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-05T15:44:44Z",
+      "side": 1,
+      "message": "Probably needs to be fixed in a dependent change but class name does not match file name.",
+      "range": {
+        "startLine": 23,
+        "startChar": 15,
+        "endLine": 23,
+        "endChar": 32
+      },
       "revId": "c09f3c27395877b871a66d645b101c0ba447ade1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

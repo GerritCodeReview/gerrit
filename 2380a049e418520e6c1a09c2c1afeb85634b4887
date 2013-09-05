@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "52e4a950_0140ca41",
+        "filename": "Documentation/replace_macros.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-05T01:59:01Z",
+      "side": 1,
+      "message": "I wouldn\u0027t say that Buck \u0027handles the exceptions\u0027.  All it does is catches that the script exited with an error status, and dumps its output to stderr.  In this case the output is an ugly python traceback.\n\nIMHO it\u0027s nicer to catch the exception, print a nicely formatted error message, and exit with an error status.  (This is what we do in the other scripts.)",
+      "parentUuid": "52e4a950_c13542f0",
+      "revId": "2380a049e418520e6c1a09c2c1afeb85634b4887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d25a59dc_452a4a8e",
         "filename": "Documentation/replace_macros.py",
         "patchSetId": 5

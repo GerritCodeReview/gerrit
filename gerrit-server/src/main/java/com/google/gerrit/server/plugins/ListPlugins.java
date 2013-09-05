@@ -97,7 +97,7 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
     });
 
     if (!format.isJson()) {
-      stdout.format("%-30s %-10s %-8s\n", "Name", "Version", "Status");
+      stdout.format("%-30s %-10s %-8s %s\n", "Name", "Version", "Status", "File");
       stdout.print("-------------------------------------------------------------------------------\n");
     }
 
@@ -106,9 +106,10 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
       if (format.isJson()) {
         output.put(p.getName(), info);
       } else {
-        stdout.format("%-30s %-10s %-8s\n", p.getName(),
+        stdout.format("%-30s %-10s %-8s %s\n", p.getName(),
             Strings.nullToEmpty(info.version),
-            p.isDisabled() ? "DISABLED" : "ENABLED");
+            p.isDisabled() ? "DISABLED" : "ENABLED",
+            p.getSrcFile().getName());
       }
     }
 

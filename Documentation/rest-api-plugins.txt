@@ -63,7 +63,9 @@ Install Plugin
 'PUT /plugins/link:#plugin-id[\{plugin-id\}]'
 
 Installs a new plugin on the Gerrit server. If a plugin with the
-specified name already exists it is overwritten.
+specified name already exists it is overwritten. Note: if the plugin
+provides its own name in the MANIFEST file, then the plugin name from
+the MANIFEST file has precedence over the \{plugin-id\} above.
 
 The plugin jar can either be sent as binary data in the request body
 or a URL to the plugin jar must be provided in the request body inside
@@ -241,7 +243,6 @@ IDs
 \{plugin-id\}
 ~~~~~~~~~~~~~
 The ID of the plugin.
-
 
 [[json-entities]]
 JSON Entities

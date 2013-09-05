@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "52e4a950_41f2d2cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-05T17:31:24Z",
+      "side": 1,
+      "message": "Thanks! be more detail now.\nDone",
+      "parentUuid": "120791cc_17ef74e4",
+      "revId": "98ca6173d0c9d6e8dbbeae348078193dec897bf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d25a59dc_c532ba1f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-09-05T14:41:55Z",
       "side": 1,
       "message": "extracted",
+      "revId": "98ca6173d0c9d6e8dbbeae348078193dec897bf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52e4a950_0108caf0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-05T17:31:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d25a59dc_c532ba1f",
       "revId": "98ca6173d0c9d6e8dbbeae348078193dec897bf2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "52e4a950_e10cc606",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-05T17:31:24Z",
+      "side": 1,
+      "message": "Thanks. That would be fine!\nDone",
+      "parentUuid": "d25a59dc_e537b60c",
+      "revId": "98ca6173d0c9d6e8dbbeae348078193dec897bf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "120791cc_b7fde89f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefPatternMater.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2013-09-05T12:57:12Z",
       "side": 1,
       "message": "The file name is incorrect:\n\ns/RefPatternMater/RefPatternMatcher",
+      "revId": "98ca6173d0c9d6e8dbbeae348078193dec897bf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d25a59dc_a8f2f31a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefPatternMater.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-05T17:31:24Z",
+      "side": 1,
+      "message": "My damn error!\n\n\nThanks!\n\n\nDone",
+      "parentUuid": "120791cc_b7fde89f",
       "revId": "98ca6173d0c9d6e8dbbeae348078193dec897bf2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

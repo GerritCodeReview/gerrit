@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d29df9d4_0d501105",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-05T22:19:04Z",
+      "side": 1,
+      "message": "I looked at all of the servers we run and I think their combined footprint for all assets is \u003c1M. Per-server its all well below that. I doubt you would use a large high-resolution image in the header or footer, most images used in these places are going to be smaller than 100x100 to avoid overpowering the rest of the UI. And users will want them to load fast, so they are probably reasonably small files.\n\nWe do want to cap the memory consumed (roughly), as there is a finite amount of memory in the server to begin with.",
+      "parentUuid": "92a70123_cb0b9534",
+      "revId": "dc08c893172674a6a256ea677fa02ae523404039",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b2aa45ea_2c2193b9",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticServlet.java",
         "patchSetId": 1

@@ -15,9 +15,14 @@
 package com.google.gerrit.server.plugins;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Objects;
+import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
 import com.google.common.collect.Queues;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.annotations.PluginName;
@@ -49,6 +54,7 @@ import java.net.URLClassLoader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
@@ -129,17 +135,22 @@ public class PluginLoader implements LifecycleListener {
     }
   }
 
-  public void installPluginFromStream(String name, InputStream in)
+  public void installPluginFromStream(String originalName, InputStream in)
       throws IOException, PluginInstallException {
-    String fileName = name;
+    String fileName = originalName;
     if (!fileName.endsWith(".jar")) {
       fileName += ".jar";
     }
-
-    File dst = new File(pluginsDir, fileName);
-    name = nameOf(dst);
-
     File tmp = asTemp(in, ".next_" + fileName + "_", ".tmp", pluginsDir);
+    String name = Objects.firstNonNull(getGerritPluginName(tmp),
+        nameOf(fileName));
+    if (!originalName.equals(name)) {
+      log.warn(String.format("Plugin provides its own name: <%s>,"
+          + " use it instead of the input name: <%s>",
+          name, originalName));
+    }
+
+    File dst = new File(pluginsDir, name + ".jar");
     synchronized (this) {
       Plugin active = running.get(name);
       if (active != null) {
@@ -325,16 +336,16 @@ public class PluginLoader implements LifecycleListener {
   }
 
   public synchronized void rescan() {
-    List<File> jars = scanJarsInPluginsDirectory();
-    stopRemovedPlugins(jars);
-    dropRemovedDisabledPlugins(jars);
+    Multimap<String, File> jars = prunePlugins(pluginsDir);
+    if (jars.isEmpty()) {
+      return;
+    }
 
-    for (File jar : jars) {
-      if (jar.getName().endsWith(".disabled")) {
-        continue;
-      }
+    syncDisabledPlugins(jars);
 
-      String name = nameOf(jar);
+    Map<String, File> activePlugins = filterDisabled(jars);
+    for (String name : activePlugins.keySet()) {
+      File jar = activePlugins.get(name);
       FileSnapshot brokenTime = broken.get(name);
       if (brokenTime != null && !brokenTime.isModified(jar)) {
         continue;
@@ -346,13 +357,15 @@ public class PluginLoader implements LifecycleListener {
       }
 
       if (active != null) {
-        log.info(String.format("Reloading plugin %s", active.getName()));
+        log.info(String.format("Reloading plugin %s, version %s",
+            active.getName(), active.getVersion()));
       }
 
       try {
         Plugin loadedPlugin = runPlugin(name, jar, active);
         if (active == null && !loadedPlugin.isDisabled()) {
-          log.info(String.format("Loaded plugin %s", loadedPlugin.getName()));
+          log.info(String.format("Loaded plugin %s, version %s",
+              loadedPlugin.getName(), loadedPlugin.getVersion()));
         }
       } catch (PluginInstallException e) {
         log.warn(String.format("Cannot load plugin %s", name), e.getCause());
@@ -360,6 +373,11 @@ public class PluginLoader implements LifecycleListener {
     }
 
     cleanInBackground();
+  }
+
+  private void syncDisabledPlugins(Multimap<String, File> jars) {
+    stopRemovedPlugins(jars);
+    dropRemovedDisabledPlugins(jars);
   }
 
   private Plugin runPlugin(String name, File jar, Plugin oldPlugin)
@@ -395,23 +413,27 @@ public class PluginLoader implements LifecycleListener {
     }
   }
 
-  private void stopRemovedPlugins(List<File> jars) {
+  private void stopRemovedPlugins(Multimap<String, File> jars) {
     Set<String> unload = Sets.newHashSet(running.keySet());
-    for (File jar : jars) {
-      if (!jar.getName().endsWith(".disabled")) {
-        unload.remove(nameOf(jar));
+    for (Map.Entry<String, Collection<File>> entry : jars.asMap().entrySet()) {
+      for (File file : entry.getValue()) {
+        if (!file.getName().endsWith(".disabled")) {
+          unload.remove(entry.getKey());
+        }
       }
     }
-    for (String name : unload){
+    for (String name : unload) {
       unloadPlugin(running.get(name));
     }
   }
 
-  private void dropRemovedDisabledPlugins(List<File> jars) {
+  private void dropRemovedDisabledPlugins(Multimap<String, File> jars) {
     Set<String> unload = Sets.newHashSet(disabled.keySet());
-    for (File jar : jars) {
-      if (jar.getName().endsWith(".disabled")) {
-        unload.remove(nameOf(jar));
+    for (Map.Entry<String, Collection<File>> entry : jars.asMap().entrySet()) {
+      for (File file : entry.getValue()) {
+        if (file.getName().endsWith(".disabled")) {
+          unload.remove(entry.getKey());
+        }
       }
     }
     for (String name : unload) {
@@ -439,7 +461,10 @@ public class PluginLoader implements LifecycleListener {
   }
 
   private static String nameOf(File jar) {
-    String name = jar.getName();
+    return nameOf(jar.getName());
+  }
+
+  private static String nameOf(String name) {
     if (name.endsWith(".disabled")) {
       name = name.substring(0, name.lastIndexOf('.'));
     }
@@ -513,7 +538,7 @@ public class PluginLoader implements LifecycleListener {
     return PLUGIN_TMP_PREFIX + name + "_" + fmt.format(new Date()) + "_";
   }
 
-  private Class<? extends Module> load(String name, ClassLoader pluginLoader)
+  private static Class<? extends Module> load(String name, ClassLoader pluginLoader)
       throws ClassNotFoundException {
     if (Strings.isNullOrEmpty(name)) {
       return null;
@@ -530,7 +555,74 @@ public class PluginLoader implements LifecycleListener {
     return clazz;
   }
 
-  private List<File> scanJarsInPluginsDirectory() {
+  // Only one active plugin per plugin name can exist for each plugin name.
+  // Filter out disabled plugins and transform the multimap to a map
+  private static Map<String, File> filterDisabled(
+      Multimap<String, File> jars) {
+    Map<String, File> activePlugins = Maps.newHashMapWithExpectedSize(
+        jars.keys().size());
+    for (String name : jars.keys()) {
+      for (File jar : jars.asMap().get(name)) {
+        if (!jar.getName().endsWith(".disabled")) {
+          assert(!activePlugins.containsKey(name));
+          activePlugins.put(name, jar);
+        }
+      }
+    }
+    return activePlugins;
+  }
+
+  // Scan the $site_path/plugins directory and fetch all files that end
+  // with *.jar. The Key in returned multimap is the plugin name. Values are
+  // the files. Plugins can optionally provide their name in MANIFEST file.
+  // If multiple plugin files provide the same plugin name, then only
+  // the first plugin remains active and all other plugins with the same
+  // name are disabled.
+  private static Multimap<String, File> prunePlugins(File pluginsDir) {
+    List<File> jars = scanJarsInPluginsDirectory(pluginsDir);
+    Multimap<String, File> map;
+    try {
+      map = asMultimap(jars);
+      for (String plugin : map.keySet()) {
+        Collection<File> files = map.asMap().get(plugin);
+        if (files.size() == 1) {
+          continue;
+        }
+        // retrieve enabled plugins
+        Iterable<File> enabled = filterDisabledPlugins(
+            files);
+        // If we have only one (the winner) plugin, nothing to do
+        if (!Iterables.skip(enabled, 1).iterator().hasNext()) {
+          continue;
+        }
+        File winner = Iterables.getFirst(enabled, null);
+        assert(winner != null);
+        // Disable all loser plugins by renaming their file names to
+        // "file.disabled" and replace the disabled files in the multimap.
+        Collection<File> elementsToRemove = Lists.newArrayList();
+        Collection<File> elementsToAdd = Lists.newArrayList();
+        for (File loser : Iterables.skip(enabled, 1)) {
+          log.warn(String.format("Plugin <%s> was disabled, because"
+               + " another plugin <%s>"
+               + " with the same name <%s> already exists",
+               loser, winner, plugin));
+          File disabledPlugin = new File(loser + ".disabled");
+          elementsToAdd.add(disabledPlugin);
+          elementsToRemove.add(loser);
+          loser.renameTo(disabledPlugin);
+        }
+        Iterables.removeAll(files, elementsToRemove);
+        Iterables.addAll(files, elementsToAdd);
+      }
+    } catch (IOException e) {
+      log.warn("Cannot prune plugin list",
+          e.getCause());
+      return LinkedHashMultimap.create();
+    }
+    return map;
+  }
+
+  private static List<File> scanJarsInPluginsDirectory(File pluginsDir) {
     if (pluginsDir == null || !pluginsDir.exists()) {
       return Collections.emptyList();
     }
@@ -549,5 +641,35 @@ public class PluginLoader implements LifecycleListener {
       return Collections.emptyList();
     }
     return Arrays.asList(matches);
+  }
+
+  private static Iterable<File> filterDisabledPlugins(
+      Collection<File> files) {
+    return Iterables.filter(files, new Predicate<File>() {
+      @Override
+      public boolean apply(File file) {
+        return !file.getName().endsWith(".disabled");
+      }
+    });
+  }
+
+  private static String getGerritPluginName(File srcFile) throws IOException {
+    JarFile jarFile = new JarFile(srcFile);
+    try {
+      return jarFile.getManifest().getMainAttributes()
+          .getValue("Gerrit-PluginName");
+    } finally {
+      jarFile.close();
+    }
+  }
+
+  private static Multimap<String, File> asMultimap(List<File> plugins)
+      throws IOException {
+    Multimap<String, File> map = LinkedHashMultimap.create();
+    for (File srcFile : plugins) {
+      map.put(Objects.firstNonNull(getGerritPluginName(srcFile),
+          nameOf(srcFile)), srcFile);
+    }
+    return map;
   }
 }

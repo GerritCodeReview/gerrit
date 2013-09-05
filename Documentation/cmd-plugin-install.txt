@@ -41,7 +41,9 @@ OPTIONS
 
 --name::
 -n::
-	The name under which the plugin should be installed.
+	The name under which the plugin should be installed. Note: if the plugin
+	provides its own name in the MANIFEST file, then the plugin name from the
+	MANIFEST file has precedence over this option.
 
 EXAMPLES
 --------

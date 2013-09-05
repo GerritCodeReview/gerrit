@@ -36,7 +36,7 @@ genasciidoc(
   outs = HTML + ['licenses.html'],
   deps = DOCUMENTATION_DEPS,
   attributes = documentation_attributes(git_describe()),
-  backend = 'xhtml11',
+  backend = 'html5',
 )
 
 genrule(
@@ -54,4 +54,12 @@ python_binary(
 python_binary(
   name = 'replace_macros',
   main = 'replace_macros.py',
+)
+
+genrule(
+  name = 'extract_asciidoctor_jar',
+  cmd = 'unzip -q $(location //lib:asciidoctor) -d $OUT',
+  deps = ['//lib:asciidoctor'],
+  out = 'extract_asciidoctor_jar',
+  visibility = ['PUBLIC'],
 )

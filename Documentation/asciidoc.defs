@@ -21,7 +21,10 @@ def genasciidoc(
     visibility = []):
   EXPN = '.expn'
 
-  asciidoc = ['asciidoc']
+  # TODO(fishywang): currently we are using jruby from system. Change to maven
+  # jar version of jruby later.
+  asciidoc = ['cd', '$(location :extract_asciidoctor_jar)', ';', 'jruby',
+      'bin/asciidoctor']
   if backend:
     asciidoc.extend(['-b', backend])
   for attribute in attributes:
@@ -52,7 +55,8 @@ def genasciidoc(
       name = out,
       cmd = ' '.join(asciidoc + ['$SRCDIR/' + ex]),
       srcs = [genfile(ex)] + [genfile(n + EXPN) for n in dep],
-      deps = [':' + ex] + [':' + n + EXPN for n in dep],
+      deps = [':extract_asciidoctor_jar', ':' + ex]
+          + [':' + n + EXPN for n in dep],
       out = out,
       visibility = visibility,
     )

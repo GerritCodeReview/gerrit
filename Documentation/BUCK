@@ -36,7 +36,7 @@ genasciidoc(
   outs = HTML + ['licenses.html'],
   deps = DOCUMENTATION_DEPS,
   attributes = documentation_attributes(git_describe()),
-  backend = 'xhtml11',
+  backend = 'html5',
 )
 
 genrule(

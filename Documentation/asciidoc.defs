@@ -12,8 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_defs('//tools/git.defs')
-
 def genasciidoc(
     name,
     srcs = [],
@@ -29,7 +27,6 @@ def genasciidoc(
     cmd.extend(['-b', backend])
   for attribute in attributes:
     cmd.extend(['-a', attribute])
-  cmd.extend(['-a', 'revision="%s"' % git_describe()])
   cmd.append('$SRCS')
 
   for p in zip(srcs, outs):

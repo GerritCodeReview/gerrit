@@ -1,4 +1,6 @@
 include_defs('//Documentation/asciidoc.defs')
+include_defs('//Documentation/config.defs')
+include_defs('//tools/git.defs')
 
 MAIN = ['//gerrit-pgm:pgm', '//gerrit-gwtui:ui_module']
 SRCS = glob(['*.txt'], excludes = ['licenses.txt'])
@@ -34,16 +36,7 @@ genasciidoc(
   srcs = SRCS + [genfile('licenses.txt')],
   outs = HTML + ['licenses.html'],
   deps = [':licenses.txt'],
-  attributes = [
-    'toc',
-    'newline="\\n"',
-    'asterisk="&#42;"',
-    'plus="&#43;"',
-    'caret="&#94;"',
-    'startsb="&#91;"',
-    'endsb="&#93;"',
-    'tilde="&#126;"',
-  ],
+  attributes = documentation_attributes(git_describe()),
   backend = 'xhtml11',
 )
 

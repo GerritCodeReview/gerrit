@@ -77,7 +77,7 @@ public class PermissionCollection {
 
       boolean perUser = false;
       Map<AccessSection, Project.NameKey> sectionToProject = Maps.newLinkedHashMap();
-      for (SectionMatcher matcher : matcherList) {
+      for (SectionMatcher sm : matcherList) {
         // If the matcher has to expand parameters and its prefix matches the
         // reference there is a very good chance the reference is actually user
         // specific, even if the matcher does not match the reference. Since its
@@ -91,12 +91,12 @@ public class PermissionCollection {
         // references are usually less frequent than the non-user references.
         //
         if (username != null && !perUser
-            && matcher instanceof SectionMatcher.ExpandParameters) {
-          perUser = ((SectionMatcher.ExpandParameters) matcher).matchPrefix(ref);
+            && sm.matcher instanceof RefPatternMatcher.ExpandParameters) {
+          perUser = ((RefPatternMatcher.ExpandParameters) sm.matcher).matchPrefix(ref);
         }
 
-        if (matcher.match(ref, username)) {
-          sectionToProject.put(matcher.section, matcher.project);
+        if (sm.match(ref, username)) {
+          sectionToProject.put(sm.section, sm.project);
         }
       }
       List<AccessSection> sections = Lists.newArrayList(sectionToProject.keySet());

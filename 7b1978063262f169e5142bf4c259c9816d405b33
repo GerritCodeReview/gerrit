@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "120791cc_172774c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-05T12:37:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "120dd1bb_c784de61",
+      "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5238295c_648c24c4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 15
@@ -30,6 +48,24 @@
       "writtenOn": "2013-09-04T13:31:41Z",
       "side": 1,
       "message": "For this case a regular expression is not needed, it could be simply a ref pattern:\n\n  branch \u003d refs/heads/video-1.0/*",
+      "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2f2fd15_9e639dec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-05T12:37:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5238295c_648c24c4",
       "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "f2f2fd15_fe58e131",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-05T12:37:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "120dd1bb_a789ea77",
+      "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7281ad4b_92eddc3f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 15
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "f2f2fd15_de5d2520",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-05T12:37:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7281ad4b_92eddc3f",
+      "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "52210930_d9d15348",
         "filename": "/COMMIT_MSG",
         "patchSetId": 15
@@ -81,6 +153,24 @@
       "writtenOn": "2013-09-04T13:31:41Z",
       "side": 1,
       "message": "Remove \"\u0027Firefox\u0027\" since the name of the child project is not relevant for the example.",
+      "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2f2fd15_3e536915",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-05T12:37:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52210930_d9d15348",
       "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -122,6 +212,24 @@
     },
     {
       "key": {
+        "uuid": "d25a59dc_c554fad0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-05T12:37:38Z",
+      "side": 1,
+      "message": "\u003e it might be very difficult in the UI to know whether a label applies for a ref/ref pattern or not\n\nyes, that is why I like the \u0027sameAsAccess\u0027 value :)",
+      "parentUuid": "120dd1bb_47910e99",
+      "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "120dd1bb_878ee67b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 15
@@ -133,6 +241,24 @@
       "writtenOn": "2013-09-04T13:31:41Z",
       "side": 1,
       "message": "Another branch name?",
+      "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2f2fd15_7e4df16c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-05T12:37:38Z",
+      "side": 1,
+      "message": "removed this paragraph.",
+      "parentUuid": "120dd1bb_878ee67b",
       "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -156,6 +282,24 @@
     },
     {
       "key": {
+        "uuid": "f2f2fd15_1e502d05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-05T12:37:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "924d4112_fb3a0fdd",
+      "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5238295c_e4603413",
         "filename": "Documentation/config-labels.txt",
         "patchSetId": 15
@@ -167,6 +311,24 @@
       "writtenOn": "2013-09-04T13:33:34Z",
       "side": 1,
       "message": "To this section all comments apply which I have done on the commit message [1].\n\n[1] https://gerrit-review.googlesource.com/#/c/48071/15//COMMIT_MSG",
+      "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "120791cc_5731ecfa",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-05T12:37:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5238295c_e4603413",
       "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -190,6 +352,24 @@
     },
     {
       "key": {
+        "uuid": "120791cc_973a64dc",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/LabelType.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-05T12:37:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5238295c_647504ca",
+      "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5238295c_c45f3046",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/LabelType.java",
         "patchSetId": 15
@@ -207,6 +387,24 @@
     },
     {
       "key": {
+        "uuid": "f2f2fd15_5e3115fb",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/LabelType.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-05T12:37:38Z",
+      "side": 1,
+      "message": "prefer to empty :)\n\nDone",
+      "parentUuid": "5238295c_c45f3046",
+      "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "120dd1bb_279e1aa9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
         "patchSetId": 15
@@ -218,6 +416,24 @@
       "writtenOn": "2013-09-04T13:50:57Z",
       "side": 1,
       "message": "The default value should be \u0027null\u0027 so that no \u0027branch\u0027 entry for this label is written into project.config.",
+      "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "120791cc_f73f60ca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-05T12:37:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "120dd1bb_279e1aa9",
       "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -253,6 +469,42 @@
       "side": 1,
       "message": "On a second thought, PermissionCollection.filter(...) can\u0027t be used here since it is based on AccessSection\u0027s, but it should be a good place to have a look how SectionMatcher is used there. I believe you would need some kind of SectionMatcher to match the ref/ref pattern/ref regexp from project.config with the destination branch name.",
       "parentUuid": "5238295c_847288e1",
+      "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "120791cc_372a788d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-05T12:37:38Z",
+      "side": 1,
+      "message": "\u003esupport for patterns (\u0027refs/heads/rel/*\u0027) and usernames in refs (\u0027refs/sandbox/${username}/*\u0027).\n\nDone",
+      "parentUuid": "5238295c_847288e1",
+      "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "120791cc_d744dc57",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-05T12:37:38Z",
+      "side": 1,
+      "message": "really stirring idea to keep same logic of SectionMatcher.\n\nDone",
+      "parentUuid": "120dd1bb_079b16b9",
       "revId": "7b1978063262f169e5142bf4c259c9816d405b33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

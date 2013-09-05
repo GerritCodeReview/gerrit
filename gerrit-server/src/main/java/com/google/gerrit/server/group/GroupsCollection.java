@@ -68,7 +68,7 @@ public class GroupsCollection implements
     final CurrentUser user = self.get();
     if (user instanceof AnonymousUser) {
       throw new AuthException("Authentication required");
-    } else if(!(user instanceof IdentifiedUser)) {
+    } else if(!(user.isIdentifiedUser())) {
       throw new ResourceNotFoundException();
     }
 
@@ -81,7 +81,7 @@ public class GroupsCollection implements
     final CurrentUser user = self.get();
     if (user instanceof AnonymousUser) {
       throw new AuthException("Authentication required");
-    } else if(!(user instanceof IdentifiedUser)) {
+    } else if(!(user.isIdentifiedUser())) {
       throw new ResourceNotFoundException(id);
     }
 

@@ -95,4 +95,9 @@ public abstract class CurrentUser {
     }
     return capabilities;
   }
+
+  /** Check if user is the IdentifiedUser */
+  public boolean isIdentifiedUser() {
+    return false;
+  }
 }

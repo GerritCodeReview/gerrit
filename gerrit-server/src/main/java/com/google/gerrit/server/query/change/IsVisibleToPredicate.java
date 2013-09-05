@@ -26,7 +26,7 @@ import com.google.inject.Provider;
 
 class IsVisibleToPredicate extends OperatorPredicate<ChangeData> {
   private static String describe(CurrentUser user) {
-    if (user instanceof IdentifiedUser) {
+    if (user.isIdentifiedUser()) {
       return ((IdentifiedUser) user).getAccountId().toString();
     }
     if (user instanceof SingleGroupUser) {

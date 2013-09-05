@@ -142,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "92a70123_8b118d68",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-05T21:46:08Z",
+      "side": 1,
+      "message": "Done (partially).\n\n\u003efiles is a map of plugin file to plugin name?\n\u003eand its inverse is plugin name to plugin file?\n\u003eI find the resulting code somewhat confusing to follow. In a number of places you \u003etranslate the name from a file name to its plugin name or back.\n\nYes x 3, it was messy.\n\nReimplemented it from scratch like you suggested, on top of your change [1]. installPluginFromStream() is still open. I think i don\u0027t understand what you mean by\n\"... we should be writing the stream out to the name given by the admin, but we should be replacing the plugin instance defined within the manifest.\"\n\n[1] Ibdd0e2c44b0cafb35c1b6524807f5ded0ec9f017",
+      "parentUuid": "12a6b1d3_5f91cb98",
+      "revId": "03029b168eb7db1058e182402fa83b0144a064cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "926c6149_a3797a86",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 9

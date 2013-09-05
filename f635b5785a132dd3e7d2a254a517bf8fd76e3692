@@ -16,6 +16,24 @@
       "revId": "f635b5785a132dd3e7d2a254a517bf8fd76e3692",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52e4a950_e167a6e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-05T06:24:40Z",
+      "side": 1,
+      "message": "`buck build withdocs` or `buck build release`",
+      "parentUuid": "f2f2fd15_3e21a9b9",
+      "revId": "f635b5785a132dd3e7d2a254a517bf8fd76e3692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

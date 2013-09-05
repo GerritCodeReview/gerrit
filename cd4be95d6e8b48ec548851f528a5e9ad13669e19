@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52e4a950_614a7657",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 701,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-05T04:23:11Z",
+      "side": 0,
+      "message": "This pattern appears ~41 times in our source code. Maybe update all of them as part of this commit instead of just these handful?\n\nIts a pretty mechanical refactoring, something like:\n\n  git grep --name-only \u0027instanceof IdentifiedUser\u0027 |\n  xargs perl -pi -e  \u0027s/instanceof IdentifiedUser/.isIdentifiedUser()/g\u0027",
+      "range": {
+        "startLine": 701,
+        "startChar": 8,
+        "endLine": 701,
+        "endChar": 38
+      },
+      "revId": "cd4be95d6e8b48ec548851f528a5e9ad13669e19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

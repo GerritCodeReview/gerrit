@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "120791cc_b7fde89f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefPatternMater.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-05T12:57:12Z",
+      "side": 1,
+      "message": "The file name is incorrect:\n\ns/RefPatternMater/RefPatternMatcher",
+      "revId": "98ca6173d0c9d6e8dbbeae348078193dec897bf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

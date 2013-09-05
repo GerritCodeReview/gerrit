@@ -52,6 +52,24 @@
       "revId": "462e5f3f8ad2e412c4f9e3f76ffc66b6df511ff7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "120791cc_37f278cc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/GarbageCollectionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-05T14:47:47Z",
+      "side": 1,
+      "message": "I actually was just recently thinking about this.\n\nWith the acceptance test framework we already have much in place: automatic init of review-site, auto start/stop of Gerrit server, comfortable way of testing through APIs (SSH, REST) and access to all Gerrit internals via injection. It would be very cool if a plugin could write own integration tests using the same framework. I think the only thing that is missing is that the plugin would need to be able to reference gerrit-acceptence-tests. An acceptance for a plugin could easily install the plugin into the test site on its own (e.g. just by running the SSH command). Only when doing this, we should think which classes of gerrit-acceptance-tests are really necessary, as they would become API for the plugins and then must not be changed in incompatible ways.\n\nThe huge advantage from having such integration tests for plugins is that it becomes very easy for the plugin author to test his plugin against new Gerrit versions. This could even be automated, so that a plugin author is informed when a change in Gerrit core breaks the plugin test (ideally before that change in Gerrit core is merged so that the plugin author could give a negative vote on it).",
+      "parentUuid": "f2f2fd15_3e7d2972",
+      "revId": "462e5f3f8ad2e412c4f9e3f76ffc66b6df511ff7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

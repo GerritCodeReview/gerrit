@@ -70,6 +70,24 @@
       "revId": "462e5f3f8ad2e412c4f9e3f76ffc66b6df511ff7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92a70123_cbf2751c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/GarbageCollectionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-05T18:26:21Z",
+      "side": 1,
+      "message": "\"It would be very cool if a plugin could write own integration tests using the same framework.\"\n\nWe are doing only cool stuff here, aren\u0027t we? ;-)",
+      "parentUuid": "120791cc_37f278cc",
+      "revId": "462e5f3f8ad2e412c4f9e3f76ffc66b6df511ff7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

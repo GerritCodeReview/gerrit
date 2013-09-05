@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "120791cc_972b844b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-05T15:11:02Z",
+      "side": 1,
+      "message": "s/refered/referred",
+      "revId": "c2e465e95f121039955f1534e017d5096fbfe573",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "120791cc_f7200069",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-05T15:11:02Z",
+      "side": 1,
+      "message": "s/the this/this",
+      "revId": "c2e465e95f121039955f1534e017d5096fbfe573",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2f2fd15_bed13949",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-05T15:11:02Z",
+      "side": 1,
+      "message": "s/get it/makes it",
+      "revId": "c2e465e95f121039955f1534e017d5096fbfe573",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52e4a950_c1fd429f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-05T15:11:02Z",
+      "side": 1,
+      "message": "s/need not/no need",
+      "revId": "c2e465e95f121039955f1534e017d5096fbfe573",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "120791cc_d725fc76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-05T15:11:02Z",
+      "side": 1,
+      "message": "s/related/the related",
+      "revId": "c2e465e95f121039955f1534e017d5096fbfe573",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "120791cc_371b9834",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-05T15:11:02Z",
+      "side": 1,
+      "message": "s/refered/referred",
+      "revId": "c2e465e95f121039955f1534e017d5096fbfe573",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2f2fd15_9ed6fd3c",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-05T15:11:02Z",
+      "side": 1,
+      "message": "unneeded blank line",
+      "revId": "c2e465e95f121039955f1534e017d5096fbfe573",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2f2fd15_fedbc162",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-05T15:11:02Z",
+      "side": 1,
+      "message": "strange line break",
+      "revId": "c2e465e95f121039955f1534e017d5096fbfe573",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2f2fd15_3ec6c98d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-05T15:11:02Z",
+      "side": 1,
+      "message": "Move this into the new else if block? \n\n  } else if (refs.size() \u003d\u003d 1 \u0026\u0026 refs.get(0).equals(\"sameAsAccess\")) {\n    r.addAll(getRefControl().getLabelTypes().getLabelTypes());\n    continue;\n  }\n\nThen the else block can stay unchanged and is easier to read.",
+      "revId": "c2e465e95f121039955f1534e017d5096fbfe573",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2aa45ea_2c2193b9",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-05T21:54:12Z",
+      "side": 1,
+      "message": "Log exception?",
+      "revId": "dc08c893172674a6a256ea677fa02ae523404039",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

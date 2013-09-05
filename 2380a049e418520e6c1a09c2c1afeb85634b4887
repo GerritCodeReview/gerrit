@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "52e4a950_6118b683",
+        "filename": "Documentation/replace_macros.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-05T01:42:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d25a59dc_a5445e56",
+      "revId": "2380a049e418520e6c1a09c2c1afeb85634b4887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d25a59dc_853fe2cb",
         "filename": "Documentation/replace_macros.py",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2013-09-05T01:23:30Z",
       "side": 1,
       "message": "`parse_args` returns (options, args), so this should be:\n\n options, _ \u003d opts.parse_args()",
+      "revId": "2380a049e418520e6c1a09c2c1afeb85634b4887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72dfed7f_62ff16e0",
+        "filename": "Documentation/replace_macros.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-05T01:42:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d25a59dc_853fe2cb",
       "revId": "2380a049e418520e6c1a09c2c1afeb85634b4887",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "52e4a950_c13542f0",
+        "filename": "Documentation/replace_macros.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-05T01:42:49Z",
+      "side": 1,
+      "message": "Actually BUCK will handle the exceptions, and we don\u0027t really have anything to do with the exceptions except throw them, I think just let them throw should be fine.",
+      "parentUuid": "52e4a950_e10b2634",
+      "revId": "2380a049e418520e6c1a09c2c1afeb85634b4887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d25a59dc_452a4a8e",
         "filename": "Documentation/replace_macros.py",
         "patchSetId": 5
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "d25a59dc_c55e3a1e",
+        "filename": "Documentation/replace_macros.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-05T01:42:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d25a59dc_452a4a8e",
+      "revId": "2380a049e418520e6c1a09c2c1afeb85634b4887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "52e4a950_01072a2c",
         "filename": "Documentation/replace_macros.py",
         "patchSetId": 5
@@ -81,6 +153,24 @@
       "writtenOn": "2013-09-05T01:23:30Z",
       "side": 1,
       "message": "s/GERRT/GERRIT",
+      "revId": "2380a049e418520e6c1a09c2c1afeb85634b4887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d25a59dc_e56336eb",
+        "filename": "Documentation/replace_macros.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-05T01:42:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52e4a950_01072a2c",
       "revId": "2380a049e418520e6c1a09c2c1afeb85634b4887",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

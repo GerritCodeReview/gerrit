@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52802979_0191ca0b",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-06T14:05:02Z",
+      "side": 1,
+      "message": "Actually I\u0027ve meant this sentence only as explanantion why it should be \u0027must\u0027 and not \u0027should\u0027. I didn\u0027t mean to add this sentence to the documentation. Maybe it should be removed?",
+      "revId": "1fedf0fe88caf8e201e26412ec6888b948275902",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

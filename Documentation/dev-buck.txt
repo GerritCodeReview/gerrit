@@ -177,6 +177,26 @@ The output JAR file will be be placed in:
 Note that when building an individual plugin, the `core.zip` package
 is not regenerated.
 
+
+[[documentation]]
+Documentation
+~~~~~~~~~~~~~
+
+To build the documentation:
+
+----
+  buck build docs
+----
+
+The generated html files will be placed in:
+
+----
+  buck-out/gen/Documentation
+----
+
+The html files will also be bundled into `html.zip` in the same location.
+
+
 [[release]]
 Gerrit Release WAR File
 ~~~~~~~~~~~~~~~~~~~~~~~

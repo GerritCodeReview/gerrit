@@ -368,27 +368,15 @@ public class MergeOp {
       if (branchUpdate.getOldObjectId() != null) {
         branchTip =
             (CodeReviewCommit) rw.parseCommit(branchUpdate.getOldObjectId());
-      } else {
+      } else if (repo.getFullBranch().equals(destBranch.get())) {
         branchTip = null;
-      }
-
-      try {
-        final Ref destRef = repo.getRef(destBranch.get());
-        if (destRef != null) {
-          branchUpdate.setExpectedOldObjectId(destRef.getObjectId());
-        } else if (repo.getFullBranch().equals(destBranch.get())) {
-          branchUpdate.setExpectedOldObjectId(ObjectId.zeroId());
-        } else {
-          for (final Change c : db.changes().submitted(destBranch).toList()) {
-            setNew(c, message(c, "Your change could not be merged, "
-                + "because the destination branch does not exist anymore."));
-          }
+        branchUpdate.setExpectedOldObjectId(ObjectId.zeroId());
+      } else {
+        for (final Change c : db.changes().submitted(destBranch).toList()) {
+          setNew(c, message(c, "Your change could not be merged, "
+              + "because the destination branch does not exist anymore."));
         }
-      } catch (IOException e) {
-        throw new MergeException(
-            "Failed to check existence of destination branch", e);
       }
-
       return branchUpdate;
     } catch (IOException e) {
       throw new MergeException("Cannot open branch", e);

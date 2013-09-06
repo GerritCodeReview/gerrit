@@ -314,6 +314,24 @@
       "revId": "c2e465e95f121039955f1534e017d5096fbfe573",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52802979_81ff9ade",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-06T02:57:47Z",
+      "side": 1,
+      "message": "I add a new patchset to make it easier to read. :)",
+      "parentUuid": "d29df9d4_0df5b101",
+      "revId": "c2e465e95f121039955f1534e017d5096fbfe573",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

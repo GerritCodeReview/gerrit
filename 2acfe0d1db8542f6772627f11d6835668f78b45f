@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d29df9d4_0d91319a",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-06T07:12:59Z",
+      "side": 1,
+      "message": "\"of the Gerrit ...\"",
+      "revId": "2acfe0d1db8542f6772627f11d6835668f78b45f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

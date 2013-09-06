@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "b2aa45ea_ac5e231c",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-06T07:35:23Z",
+      "side": 0,
+      "message": "There are more people on Windows than only Edwin.  Although to be fair, not many (if any) are regular contributors, so it may be acceptable to not support.",
+      "parentUuid": "52802979_010c6a4b",
+      "revId": "eb952c1c805cc300641e4d262b8702c815f981cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d29df9d4_6d9ef5a9",
         "filename": "Documentation/dev-buck.txt",
         "patchSetId": 1
@@ -66,6 +84,41 @@
       "side": 0,
       "message": "Do we really care? Or to be more clear: do we really consider to switch back to Maven, if these 4 commits are never going to be merged upstream?",
       "parentUuid": "d29df9d4_6d9ef5a9",
+      "revId": "eb952c1c805cc300641e4d262b8702c815f981cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2aa45ea_8c6367ec",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-06T07:35:23Z",
+      "side": 0,
+      "message": "We\u0027re probably already too far down the buck road to switch back to maven now.\n\nFinal decision of whether we (meaning the gerrit project) care is up to Shawn, I guess.",
+      "parentUuid": "52802979_21216eb9",
+      "revId": "eb952c1c805cc300641e4d262b8702c815f981cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d29df9d4_8d6d21c9",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-06T07:35:23Z",
+      "side": 0,
+      "message": "It would be good if we can support this.  Maybe it doesn\u0027t need to be a blocker though; we could just raise a feature request in the gerrit issue tracker.",
       "revId": "eb952c1c805cc300641e4d262b8702c815f981cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

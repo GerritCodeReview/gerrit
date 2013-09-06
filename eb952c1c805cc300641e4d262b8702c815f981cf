@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "52802979_411e7272",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-06T08:01:57Z",
+      "side": 0,
+      "message": "Yeah, I\u0027m on Mac now :-)\n\nWhile still being on Windows I\u0027ve had some virtual Linux box running and could do Gerrit development in there. It\u0027s some work to set this up, but in the end this setup was still better than working with Maven on Windows.",
+      "parentUuid": "b2aa45ea_ac5e231c",
+      "revId": "eb952c1c805cc300641e4d262b8702c815f981cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d29df9d4_6d9ef5a9",
         "filename": "Documentation/dev-buck.txt",
         "patchSetId": 1
@@ -108,6 +126,24 @@
     },
     {
       "key": {
+        "uuid": "523749c3_e9f2f51b",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-06T08:01:57Z",
+      "side": 0,
+      "message": "I don\u0027t know how much work it is for Shawn to maintain his Buck fork, but for me the current situation works very well. It\u0027s no issue that you need to clone Shawns buck repository once and install buck. It\u0027s all well described in our documentation and it\u0027s a one time effort.",
+      "parentUuid": "b2aa45ea_8c6367ec",
+      "revId": "eb952c1c805cc300641e4d262b8702c815f981cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d29df9d4_8d6d21c9",
         "filename": "Documentation/dev-buck.txt",
         "patchSetId": 1
@@ -119,6 +155,24 @@
       "writtenOn": "2013-09-06T07:35:23Z",
       "side": 0,
       "message": "It would be good if we can support this.  Maybe it doesn\u0027t need to be a blocker though; we could just raise a feature request in the gerrit issue tracker.",
+      "revId": "eb952c1c805cc300641e4d262b8702c815f981cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b21fa544_84e32655",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-06T08:01:57Z",
+      "side": 0,
+      "message": "Yes, this would be nice to have, but it\u0027s definitely not a blocker.",
+      "parentUuid": "d29df9d4_8d6d21c9",
       "revId": "eb952c1c805cc300641e4d262b8702c815f981cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

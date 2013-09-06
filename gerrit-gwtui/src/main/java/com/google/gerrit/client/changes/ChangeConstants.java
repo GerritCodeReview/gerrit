@@ -56,7 +56,8 @@ public interface ChangeConstants extends Constants {
   String expandCollapseDependencies();
   String previousPatchSet();
   String nextPatchSet();
-  String keyReload();
+  String keyReloadChange();
+  String keyReloadSearch();
   String keyPublishComments();
   String keyEditTopic();
   String keyEditMessage();

@@ -89,8 +89,7 @@ public interface ChangeIndex {
    * Results may not be immediately visible to searchers, but should be visible
    * within a reasonable amount of time.
    *
-   * @param cd change document with all index fields prepopulated; see
-   *     {@link ChangeData#fillIndexFields}.
+   * @param cd change document
    *
    * @throws IOException if the change could not be inserted.
    */
@@ -103,8 +102,7 @@ public interface ChangeIndex {
    * new field values. Results may not be immediately visible to searchers, but
    * should be visible within a reasonable amount of time.
    *
-   * @param cd change document with all index fields prepopulated; see
-   *     {@link ChangeData#fillIndexFields}.
+   * @param cd change document
    *
    * @throws IOException
    */

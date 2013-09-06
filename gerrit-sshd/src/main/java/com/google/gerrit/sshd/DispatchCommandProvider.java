@@ -60,10 +60,7 @@ public class DispatchCommandProvider implements Provider<DispatchCommand> {
     return new RegistrationHandle() {
       @Override
       public void remove() {
-        if (!m.remove(name.value(), commandProvider)) {
-          throw new IllegalStateException(String.format(
-              "can not unregister command: %s", name.value()));
-        }
+        m.remove(name.value(), commandProvider);
       }
     };
   }

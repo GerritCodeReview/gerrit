@@ -21,6 +21,8 @@ import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwtexpui.globalkey.client.KeyCommand;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -41,7 +43,16 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    table = new ChangeTable2();
+    table = new ChangeTable2() {
+      {
+        keysNavigation.add(new KeyCommand(0, 'R', Util.C.keyReloadSearch()) {
+          @Override
+          public void onKeyPress(final KeyPressEvent event) {
+            Gerrit.display(getToken());
+          }
+        });
+      }
+    };
     table.addStyleName(Gerrit.RESOURCES.css().accountDashboard());
 
     outgoing = new ChangeTable2.Section();
@@ -63,6 +74,7 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
   @Override
   protected void onLoad() {
     super.onLoad();
+
     String who = mine ? "self" : ownerId.toString();
     ChangeList.query(
         new ScreenLoadCallback<JsArray<ChangeList>>(this) {

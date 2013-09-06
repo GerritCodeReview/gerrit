@@ -216,7 +216,7 @@ public class ChangeScreen2 extends Screen {
         Gerrit.displayLastChangeList();
       }
     });
-    keysNavigation.add(new KeyCommand(0, 'R', Util.C.keyReload()) {
+    keysNavigation.add(new KeyCommand(0, 'R', Util.C.keyReloadChange()) {
       @Override
       public void onKeyPress(final KeyPressEvent event) {
         reload.reload();

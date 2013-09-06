@@ -76,6 +76,13 @@ public abstract class PagedSingleListScreen extends Screen {
             .changeTablePagePrev(), prev));
         keysNavigation.add(new DoLinkCommand(0, ']', Util.C
             .changeTablePageNext(), next));
+
+        keysNavigation.add(new KeyCommand(0, 'R', Util.C.keyReloadSearch()) {
+          @Override
+          public void onKeyPress(final KeyPressEvent event) {
+            Gerrit.display(getToken());
+          }
+        });
       }
     };
     section = new ChangeTable2.Section();

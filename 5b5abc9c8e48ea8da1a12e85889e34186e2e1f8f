@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "921c6153_83e31e55",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-06T09:16:23Z",
+      "side": 1,
+      "message": "its my wrong :(\n\nThanks!\n\n Done",
+      "parentUuid": "523749c3_69ffe5df",
+      "revId": "5b5abc9c8e48ea8da1a12e85889e34186e2e1f8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "523749c3_49022121",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2013-09-06T08:36:05Z",
       "side": 1,
       "message": "Move everything from here up to the beginning of the class?",
+      "revId": "5b5abc9c8e48ea8da1a12e85889e34186e2e1f8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52802979_212a4e8d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-06T09:16:23Z",
+      "side": 1,
+      "message": "relocate content in the order of \n\n static \n private \n public \n\n\n Done",
+      "parentUuid": "523749c3_49022121",
       "revId": "5b5abc9c8e48ea8da1a12e85889e34186e2e1f8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
         "endLine": 209,
         "endChar": 50
       },
+      "revId": "5b5abc9c8e48ea8da1a12e85889e34186e2e1f8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52802979_412752c4",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/Util.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-06T09:16:23Z",
+      "side": 1,
+      "message": "that would be better! \n\nThanks!\n\nDone",
+      "parentUuid": "52802979_c13a82dd",
       "revId": "5b5abc9c8e48ea8da1a12e85889e34186e2e1f8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

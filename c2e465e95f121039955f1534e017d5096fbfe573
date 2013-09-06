@@ -332,6 +332,24 @@
       "revId": "c2e465e95f121039955f1534e017d5096fbfe573",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52802979_611b7681",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-06T08:08:23Z",
+      "side": 1,
+      "message": "Thanks, the new code looks much better :-)",
+      "parentUuid": "52802979_81ff9ade",
+      "revId": "c2e465e95f121039955f1534e017d5096fbfe573",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

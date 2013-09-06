@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2aa45ea_0c501705",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-06T10:11:30Z",
+      "side": 1,
+      "message": "This needs rewording a bit.  I\u0027ll do it next week.",
+      "revId": "691a97ba324ec39df2515e02d6233728a108a336",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -160,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "523749c3_2927adc5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-06T16:27:53Z",
+      "side": 1,
+      "message": "\" ... we should be writing the stream out to the name given by the admin, but we should be replacing the plugin instance defined within the manifest.\"\n\nNow i understand what you mean: That\u0027s all about how SSH command and REST endpoint install-plugin work: they accept --name option and pass it together with stream to installPluginFromStream() command.\n\nCurrently the code that handles the case that the plugin with the same name is already active exists. In this case the existing plugin is renamed to .last_\u003cplugin-name\u003e und unloaded. I wonder if it would be enough to just retrieve the Gerrit-PluginName from the new plugin (saved from the stream) and don\u0027t touch the rest of the code. Going to push a new ps.",
+      "parentUuid": "12a6b1d3_5f91cb98",
+      "revId": "03029b168eb7db1058e182402fa83b0144a064cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "926c6149_a3797a86",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 9

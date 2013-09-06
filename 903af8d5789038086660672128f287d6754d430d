@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d29df9d4_2d7d0d72",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-06T14:02:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "523749c3_a911dd67",
+      "revId": "903af8d5789038086660672128f287d6754d430d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "52802979_81315afe",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2013-09-06T09:26:16Z",
       "side": 1,
       "message": "s/to server side repository/into the repository",
+      "revId": "903af8d5789038086660672128f287d6754d430d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2aa45ea_8c840761",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-06T14:02:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52802979_81315afe",
       "revId": "903af8d5789038086660672128f287d6754d430d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -177,6 +177,22 @@ The output JAR file will be be placed in:
 Note that when building an individual plugin, the `core.zip` package
 is not regenerated.
 
+[[release]]
+Gerrit Release WAR File
+~~~~~~~~~~~~~~~~~~~~~~~
+
+To build the release of the Gerrit web application, including documentation and
+all core plugins:
+
+----
+  buck build release
+----
+
+The output release WAR will be placed in:
+
+----
+  buck-out/gen/release.war
+----
 
 [[tests]]
 Running Unit Tests

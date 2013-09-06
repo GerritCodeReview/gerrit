@@ -16,6 +16,24 @@
       "revId": "a53cf75758f34272d9094549a2a4bcb1e90fe6ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "523749c3_c906112f",
+        "filename": "gerrit-server/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-06T09:34:36Z",
+      "side": 1,
+      "message": "Util and RefControlTest are in the same package : \u0027src/test/java/com/google/gerrit/server/project\u0027 so buck running smothly without updating any BUCK file in the predecessor change.\n\nin this commit, GerritCommonTest.java need above Util which is not in the SRCS :  glob([\u0027src/main/java/**/*.java\u0027]).\nso I add it to SRCS.\n\nI am not sure this is the best way. welcome comments here",
+      "parentUuid": "52802979_e13f86ca",
+      "revId": "a53cf75758f34272d9094549a2a4bcb1e90fe6ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

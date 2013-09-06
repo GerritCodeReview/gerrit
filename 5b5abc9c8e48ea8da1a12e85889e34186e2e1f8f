@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "523749c3_69ffe5df",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-06T08:36:05Z",
+      "side": 1,
+      "message": "I would keep the old method name here.",
+      "revId": "5b5abc9c8e48ea8da1a12e85889e34186e2e1f8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "523749c3_49022121",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-06T08:36:05Z",
+      "side": 1,
+      "message": "Move everything from here up to the beginning of the class?",
+      "revId": "5b5abc9c8e48ea8da1a12e85889e34186e2e1f8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52802979_c13a82dd",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/Util.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-06T08:36:05Z",
+      "side": 1,
+      "message": "Use add(ProjectConfig) method here instead of repeating the same code?",
+      "range": {
+        "startLine": 200,
+        "startChar": 4,
+        "endLine": 209,
+        "endChar": 50
+      },
+      "revId": "5b5abc9c8e48ea8da1a12e85889e34186e2e1f8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

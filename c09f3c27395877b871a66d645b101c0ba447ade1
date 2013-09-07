@@ -236,6 +236,24 @@
     },
     {
       "key": {
+        "uuid": "67100d3f_7a2bf95f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-07T14:17:03Z",
+      "side": 1,
+      "message": "Hi, Dave\n\n I still like these code, but I delete them in patch-set 20 because a few minutes ago I  \n found \u0027admins can control the order of labels by changing the order in project.config\u0027 \n from LabelTypes.nameComparator(). I get your point here now :)  Thanks!\n\n (\n Hi, All cores\n The following 3 commits are updated too to keep them in a relative line by the  \n dependency which was broken by my push with \u0027refs/changes/xxxx\u0027.  I am sorry for  \n the noise.\n )\n\n Done",
+      "parentUuid": "d29df9d4_ade3bd54",
+      "revId": "c09f3c27395877b871a66d645b101c0ba447ade1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d25a59dc_e8e8eb30",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 16

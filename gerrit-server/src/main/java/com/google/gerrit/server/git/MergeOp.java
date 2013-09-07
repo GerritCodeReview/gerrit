@@ -216,10 +216,12 @@ public class MergeOp {
     try {
       openSchema();
       openRepository();
-      openBranch();
+
+      RefUpdate branchUpdate = openBranch();
+      boolean reopen = false;
+
       final ListMultimap<SubmitType, Change> toSubmit =
           validateChangeList(db.changes().submitted(destBranch).toList());
-
       final ListMultimap<SubmitType, CodeReviewCommit> toMergeNextTurn =
           ArrayListMultimap.create();
       final List<CodeReviewCommit> potentiallyStillSubmittableOnNextRun =
@@ -229,10 +231,14 @@ public class MergeOp {
         final Set<SubmitType> submitTypes =
             new HashSet<Project.SubmitType>(toMerge.keySet());
         for (final SubmitType submitType : submitTypes) {
-          final RefUpdate branchUpdate = openBranch();
+          if (reopen) {
+            branchUpdate = openBranch();
+          }
           final SubmitStrategy strategy = createStrategy(submitType);
           preMerge(strategy, toMerge.get(submitType));
           updateBranch(strategy, branchUpdate);
+          reopen = true;
+
           updateChangeStatus(toSubmit.get(submitType));
           updateSubscriptions(toSubmit.get(submitType));
 
@@ -368,27 +374,15 @@ public class MergeOp {
       if (branchUpdate.getOldObjectId() != null) {
         branchTip =
             (CodeReviewCommit) rw.parseCommit(branchUpdate.getOldObjectId());
-      } else {
+      } else if (repo.getFullBranch().equals(destBranch.get())) {
         branchTip = null;
-      }
-
-      try {
-        final Ref destRef = repo.getRef(destBranch.get());
-        if (destRef != null) {
-          branchUpdate.setExpectedOldObjectId(destRef.getObjectId());
-        } else if (repo.getFullBranch().equals(destBranch.get())) {
-          branchUpdate.setExpectedOldObjectId(ObjectId.zeroId());
-        } else {
-          for (final Change c : db.changes().submitted(destBranch).toList()) {
-            setNew(c, message(c, "Your change could not be merged, "
-                + "because the destination branch does not exist anymore."));
-          }
+        branchUpdate.setExpectedOldObjectId(ObjectId.zeroId());
+      } else {
+        for (final Change c : db.changes().submitted(destBranch).toList()) {
+          setNew(c, message(c, "Your change could not be merged, "
+              + "because the destination branch does not exist anymore."));
         }
-      } catch (IOException e) {
-        throw new MergeException(
-            "Failed to check existence of destination branch", e);
       }
-
       return branchUpdate;
     } catch (IOException e) {
       throw new MergeException("Cannot open branch", e);

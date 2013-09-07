@@ -87,14 +87,14 @@ public class ChangeData {
   }
 
   public static void ensureAllPatchSetsLoaded(Provider<ReviewDb> db,
-      List<ChangeData> changes) throws OrmException {
+      Iterable<ChangeData> changes) throws OrmException {
     for (ChangeData cd : changes) {
       cd.patches(db);
     }
   }
 
-  public static void ensureCurrentPatchSetLoaded(
-      Provider<ReviewDb> db, List<ChangeData> changes) throws OrmException {
+  public static void ensureCurrentPatchSetLoaded(Provider<ReviewDb> db,
+      Iterable<ChangeData> changes) throws OrmException {
     Map<PatchSet.Id, ChangeData> missing = Maps.newHashMap();
     for (ChangeData cd : changes) {
       if (cd.currentPatchSet == null && cd.patches == null) {
@@ -112,8 +112,8 @@ public class ChangeData {
     }
   }
 
-  public static void ensureCurrentApprovalsLoaded(
-      Provider<ReviewDb> db, List<ChangeData> changes) throws OrmException {
+  public static void ensureCurrentApprovalsLoaded(Provider<ReviewDb> db,
+      Iterable<ChangeData> changes) throws OrmException {
     List<ResultSet<PatchSetApproval>> pending = Lists.newArrayList();
     for (ChangeData cd : changes) {
       if (cd.currentApprovals == null && cd.limitedApprovals == null) {

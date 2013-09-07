@@ -33,6 +33,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
@@ -78,6 +79,7 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.ssh.SshAdvertisedAddresses;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -91,6 +93,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -98,6 +101,22 @@ import java.util.TreeMap;
 
 public class ChangeJson {
   private static final Logger log = LoggerFactory.getLogger(ChangeJson.class);
+  private static final ResultSet<ChangeMessage> NO_MESSAGES =
+      new ResultSet<ChangeMessage>() {
+        @Override
+        public Iterator<ChangeMessage> iterator() {
+          return toList().iterator();
+        }
+
+        @Override
+        public List<ChangeMessage> toList() {
+          return Collections.emptyList();
+        }
+
+        @Override
+        public void close() {
+        }
+      };
 
   @Singleton
   static class Urls {
@@ -141,6 +160,7 @@ public class ChangeJson {
   private EnumSet<ListChangesOption> options;
   private AccountInfo.Loader accountLoader;
   private ChangeControl lastControl;
+  private Set<Change.Id> reviewed;
 
   @Inject
   ChangeJson(
@@ -215,16 +235,22 @@ public class ChangeJson {
   public List<List<ChangeInfo>> formatList2(List<List<ChangeData>> in)
       throws OrmException {
     accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
+    Iterable<ChangeData> all = Iterables.concat(in);
+    ChangeData.ensureChangeLoaded(db, all);
+    if (has(ALL_REVISIONS)) {
+      ChangeData.ensureAllPatchSetsLoaded(db, all);
+    } else {
+      ChangeData.ensureCurrentPatchSetLoaded(db, all);
+    }
+    if (has(REVIEWED)) {
+      ensureReviewedLoaded(all);
+    }
+    ChangeData.ensureCurrentApprovalsLoaded(db, all);
+
     List<List<ChangeInfo>> res = Lists.newArrayListWithCapacity(in.size());
+    Map<Change.Id, ChangeInfo> out = Maps.newHashMap();
     for (List<ChangeData> changes : in) {
-      ChangeData.ensureChangeLoaded(db, changes);
-      if (has(ALL_REVISIONS)) {
-        ChangeData.ensureAllPatchSetsLoaded(db, changes);
-      } else {
-        ChangeData.ensureCurrentPatchSetLoaded(db, changes);
-      }
-      ChangeData.ensureCurrentApprovalsLoaded(db, changes);
-      res.add(toChangeInfo(changes));
+      res.add(toChangeInfo(out, changes));
     }
     accountLoader.fill();
     return res;
@@ -234,11 +260,16 @@ public class ChangeJson {
     return options.contains(option);
   }
 
-  private List<ChangeInfo> toChangeInfo(List<ChangeData> changes)
-      throws OrmException {
+  private List<ChangeInfo> toChangeInfo(Map<Change.Id, ChangeInfo> out,
+      List<ChangeData> changes) throws OrmException {
     List<ChangeInfo> info = Lists.newArrayListWithCapacity(changes.size());
     for (ChangeData cd : changes) {
-      info.add(toChangeInfo(cd));
+      ChangeInfo i = out.get(cd.getId());
+      if (i == null) {
+        i = toChangeInfo(cd);
+        out.put(cd.getId(), i);
+      }
+      info.add(i);
     }
     return info;
   }
@@ -262,8 +293,8 @@ public class ChangeJson {
         ? true
         : null;
     out.reviewed = in.getStatus().isOpen()
-        && options.contains(REVIEWED)
-        && isChangeReviewed(cd) ? true : null;
+        && has(REVIEWED)
+        && reviewed.contains(cd.getId()) ? true : null;
     out.labels = labelsFor(cd, has(LABELS), has(DETAILED_LABELS));
 
     Collection<PatchSet.Id> limited = cd.getLimitedPatchSets();
@@ -699,37 +730,47 @@ public class ChangeJson {
     return result;
   }
 
-  private boolean isChangeReviewed(ChangeData cd) throws OrmException {
-    CurrentUser user = userProvider.get();
-    if (user.isIdentifiedUser()) {
-      PatchSet currentPatchSet = cd.currentPatchSet(db);
-      if (currentPatchSet == null) {
-        return false;
-      }
-
-      List<ChangeMessage> messages =
-          db.get().changeMessages().byPatchSet(currentPatchSet.getId()).toList();
-
-      if (messages.isEmpty()) {
-        return false;
-      }
-
-      // Sort messages to let the most recent ones at the beginning.
-      Collections.sort(messages, new Comparator<ChangeMessage>() {
-        @Override
-        public int compare(ChangeMessage a, ChangeMessage b) {
-          return b.getWrittenOn().compareTo(a.getWrittenOn());
+  private void ensureReviewedLoaded(Iterable<ChangeData> all)
+      throws OrmException {
+    reviewed = Sets.newHashSet();
+    if (userProvider.get().isIdentifiedUser()) {
+      Account.Id self = ((IdentifiedUser) userProvider.get()).getAccountId();
+      int n = 50;
+      for (List<ChangeData> batch : Iterables.partition(all, n)) {
+        List<ResultSet<ChangeMessage>> m = Lists.newArrayListWithCapacity(n);
+        for (ChangeData cd : batch) {
+          PatchSet ps = cd.currentPatchSet(db);
+          if (ps != null && cd.change(db).getStatus().isOpen()) {
+            m.add(db.get().changeMessages().byPatchSet(ps.getId()));
+          } else {
+            m.add(NO_MESSAGES);
+          }
         }
-      });
-
-      Account.Id currentUserId = ((IdentifiedUser) user).getAccountId();
-      Account.Id changeOwnerId = cd.change(db).getOwner();
-      for (ChangeMessage cm : messages) {
-        if (currentUserId.equals(cm.getAuthor())) {
-          return true;
-        } else if (changeOwnerId.equals(cm.getAuthor())) {
-          return false;
+        for (int i = 0; i < m.size(); i++) {
+          if (isChangeReviewed(self, batch.get(i), m.get(i).toList())) {
+            reviewed.add(batch.get(i).getId());
+          }
         }
+      }
+    }
+  }
+
+  private boolean isChangeReviewed(Account.Id self, ChangeData cd,
+      List<ChangeMessage> msgs) throws OrmException {
+    // Sort messages to keep the most recent ones at the beginning.
+    Collections.sort(msgs, new Comparator<ChangeMessage>() {
+      @Override
+      public int compare(ChangeMessage a, ChangeMessage b) {
+        return b.getWrittenOn().compareTo(a.getWrittenOn());
+      }
+    });
+
+    Account.Id changeOwnerId = cd.change(db).getOwner();
+    for (ChangeMessage cm : msgs) {
+      if (self.equals(cm.getAuthor())) {
+        return true;
+      } else if (changeOwnerId.equals(cm.getAuthor())) {
+        return false;
       }
     }
     return false;

@@ -62,11 +62,9 @@ import com.google.gerrit.client.admin.ProjectListScreen;
 import com.google.gerrit.client.admin.ProjectScreen;
 import com.google.gerrit.client.change.ChangeScreen2;
 import com.google.gerrit.client.changes.AccountDashboardScreen;
-import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.changes.CustomDashboardScreen;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.ProjectDashboardScreen;
-import com.google.gerrit.client.changes.PublishCommentScreen;
 import com.google.gerrit.client.changes.QueryScreen;
 import com.google.gerrit.client.dashboards.DashboardInfo;
 import com.google.gerrit.client.dashboards.DashboardList;
@@ -93,8 +91,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwtorm.client.KeyUtil;
 
 public class Dispatcher {
-  private static boolean useChangeScreen2;
-
   public static String toPatchSideBySide(final Patch.Key id) {
     return toPatch("", null, id);
   }
@@ -202,9 +198,6 @@ public class Dispatcher {
 
     } else if (matchPrefix("/c/", token)) {
       change(token);
-
-    } else if (matchPrefix("/c2/", token)) {
-      change2(token);
 
     } else if (matchExact(MINE, token)) {
       Gerrit.display(token, mine(token));
@@ -461,13 +454,6 @@ public class Dispatcher {
 
   private static void change(final String token) {
     String rest = skip(token);
-    int c = rest.lastIndexOf(',');
-    String panel = null;
-    if (0 <= c) {
-      panel = rest.substring(c + 1);
-      rest = rest.substring(0, c);
-    }
-
     Change.Id id;
     int s = rest.indexOf('/');
     if (0 <= s) {
@@ -477,79 +463,7 @@ public class Dispatcher {
       id = Change.Id.parse(rest);
       rest = "";
     }
-
-    if (rest.isEmpty()) {
-      Gerrit.display(token, panel== null
-          ? (useChangeScreen2
-              ? new ChangeScreen2(id, null, false)
-              : new ChangeScreen(id))
-          : new NotFoundScreen());
-      return;
-    }
-
-    String psIdStr;
-    s = rest.indexOf('/');
-    if (0 <= s) {
-      psIdStr = rest.substring(0, s);
-      rest = rest.substring(s + 1);
-    } else {
-      psIdStr = rest;
-      rest = "";
-    }
-
-    PatchSet.Id base;
-    PatchSet.Id ps;
-    int dotdot = psIdStr.indexOf("..");
-    if (1 <= dotdot) {
-      base = new PatchSet.Id(id, Integer.parseInt(psIdStr.substring(0, dotdot)));
-      ps = new PatchSet.Id(id, Integer.parseInt(psIdStr.substring(dotdot + 2)));
-    } else {
-      base = null;
-      ps = new PatchSet.Id(id, Integer.parseInt(psIdStr));
-    }
-
-    if (!rest.isEmpty()) {
-      Patch.Key p = new Patch.Key(ps, KeyUtil.decode(rest));
-      patch(token, base, p, 0, null, null, panel);
-    } else {
-      if (panel == null) {
-        Gerrit.display(token, useChangeScreen2
-            ? new ChangeScreen2(id, String.valueOf(ps.get()), false)
-            : new ChangeScreen(id));
-      } else if ("publish".equals(panel)) {
-        publish(ps);
-      } else {
-        Gerrit.display(token, new NotFoundScreen());
-      }
-    }
-  }
-
-  private static void change2(final String token) {
-    String rest = skip(token);
-    Change.Id id;
-    int s = rest.indexOf('/');
-    if (0 <= s) {
-      id = Change.Id.parse(rest.substring(0, s));
-      rest = rest.substring(s + 1);
-    } else {
-      id = Change.Id.parse(rest);
-      rest = "";
-    }
-    useChangeScreen2 = true;
     Gerrit.display(token, new ChangeScreen2(id, rest, false));
-  }
-
-  private static void publish(final PatchSet.Id ps) {
-    String token = toPublish(ps);
-    new AsyncSplit(token) {
-      public void onSuccess() {
-        Gerrit.display(token, select());
-      }
-
-      private Screen select() {
-        return new PublishCommentScreen(ps);
-      }
-    }.onSuccess();
   }
 
   public static void patch(String token, PatchSet.Id base, Patch.Key id,

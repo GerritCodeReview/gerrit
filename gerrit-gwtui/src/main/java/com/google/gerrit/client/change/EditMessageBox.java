@@ -80,7 +80,7 @@ class EditMessageBox extends Composite {
         new GerritCallback<JavaScriptObject>() {
           @Override
           public void onSuccess(JavaScriptObject msg) {
-            Gerrit.display(PageLinks.toChange2(changeId));
+            Gerrit.display(PageLinks.toChange(changeId));
             hide();
           };
         });

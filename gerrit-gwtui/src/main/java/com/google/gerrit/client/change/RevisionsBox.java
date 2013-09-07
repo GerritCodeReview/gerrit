@@ -203,7 +203,7 @@ class RevisionsBox extends Composite {
   }
 
   private String url(RevisionInfo r) {
-    return PageLinks.toChange2(
+    return PageLinks.toChange(
         changeId,
         String.valueOf(r._number()));
   }

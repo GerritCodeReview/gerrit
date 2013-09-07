@@ -272,6 +272,10 @@ public class ChangeData {
     return change;
   }
 
+  void setChange(Change c) {
+    change = c;
+  }
+
   public PatchSet currentPatchSet(Provider<ReviewDb> db) throws OrmException {
     if (currentPatchSet == null) {
       Change c = change(db);

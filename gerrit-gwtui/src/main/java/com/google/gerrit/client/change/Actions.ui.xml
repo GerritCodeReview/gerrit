@@ -78,6 +78,15 @@ limitations under the License.
     <g:Button ui:field='revert' styleName=''>
       <div><ui:msg>Revert</ui:msg></div>
     </g:Button>
+    <g:Button ui:field='dropDraftChange' styleName=''>
+      <div><ui:msg>Delete Draft Change</ui:msg></div>
+    </g:Button>
+    <g:Button ui:field='dropDraftPatchSet' styleName=''>
+      <div><ui:msg>Delete Draft PS</ui:msg></div>
+    </g:Button>
+    <g:Button ui:field='publish' styleName=''>
+      <div><ui:msg>Publish</ui:msg></div>
+    </g:Button>
 
     <g:Button ui:field='abandon' styleName='{style.red}'>
       <div><ui:msg>Abandon</ui:msg></div>

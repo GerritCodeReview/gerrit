@@ -36,12 +36,16 @@ import java.util.TreeSet;
 class Actions extends Composite {
   private static final String[] CORE = {
     "abandon", "restore", "revert", "topic",
-    "cherrypick", "submit", "rebase", "message"};
+    "cherrypick", "submit", "publish", "rebase",
+    "message", "draft"};
 
   interface Binder extends UiBinder<FlowPanel, Actions> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   @UiField Button cherrypick;
+  @UiField Button dropDraftChange;
+  @UiField Button dropDraftPatchSet;
+  @UiField Button publish;
   @UiField Button rebase;
   @UiField Button revert;
   @UiField Button submit;
@@ -88,6 +92,7 @@ class Actions extends Composite {
     actions.copyKeysIntoChildren("id");
 
     abandon.setVisible(hasUser && actions.containsKey("abandon"));
+    dropDraftChange.setVisible(hasUser && actions.containsKey("draft"));
     restore.setVisible(hasUser && actions.containsKey("restore"));
     revert.setVisible(hasUser && actions.containsKey("revert"));
 
@@ -106,6 +111,8 @@ class Actions extends Composite {
     actions.copyKeysIntoChildren("id");
 
     cherrypick.setVisible(hasUser && actions.containsKey("cherrypick"));
+    dropDraftPatchSet.setVisible(hasUser && actions.containsKey("draft"));
+    publish.setVisible(hasUser && actions.containsKey("publish"));
     rebase.setVisible(hasUser && actions.containsKey("rebase"));
     canSubmit = hasUser && actions.containsKey("submit");
 
@@ -142,6 +149,21 @@ class Actions extends Composite {
       abandonAction = new AbandonAction(abandon, changeId);
     }
     abandonAction.show();
+  }
+
+  @UiHandler("publish")
+  void onPublish(ClickEvent e) {
+    DraftActions.publish(changeId, revision);
+  }
+
+  @UiHandler("dropDraftPatchSet")
+  void onDropDraftPatchSet(ClickEvent e) {
+    DraftActions.drop(changeId, revision);
+  }
+
+  @UiHandler("dropDraftChange")
+  void onDropDraftChange(ClickEvent e) {
+    DraftActions.drop(changeId);
   }
 
   @UiHandler("restore")

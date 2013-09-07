@@ -28,13 +28,17 @@ public class ChangeList extends JsArray<ChangeInfo> {
 
   /** Run 2 or more queries in a single remote invocation. */
   public static void query(
-      AsyncCallback<JsArray<ChangeList>> callback, String... queries) {
+      AsyncCallback<JsArray<ChangeList>> callback,
+      EnumSet<ListChangesOption> options,
+      String... queries) {
     assert queries.length >= 2; // At least 2 is required for correct result.
     RestApi call = new RestApi(URI);
     for (String q : queries) {
       call.addParameterRaw("q", KeyUtil.encode(q));
     }
-    addOptions(call, EnumSet.of(ListChangesOption.LABELS));
+    EnumSet<ListChangesOption> o = EnumSet.of(ListChangesOption.LABELS);
+    o.addAll(options);
+    addOptions(call, o);
     call.get(callback);
   }
 

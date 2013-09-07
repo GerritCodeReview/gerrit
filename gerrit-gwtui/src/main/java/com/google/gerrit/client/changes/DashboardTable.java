@@ -19,10 +19,12 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.common.changes.ListChangesOption;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.http.client.URL;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -103,6 +105,7 @@ public class DashboardTable extends ChangeTable2 {
               finishDisplay();
             }
           },
+          EnumSet.noneOf(ListChangesOption.class),
           queries.toArray(new String[queries.size()]));
     }
   }

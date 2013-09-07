@@ -19,6 +19,7 @@ import com.google.gerrit.client.NotFoundScreen;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Screen;
+import com.google.gerrit.common.changes.ListChangesOption;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -26,6 +27,7 @@ import com.google.gwtexpui.globalkey.client.KeyCommand;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.EnumSet;
 
 public class AccountDashboardScreen extends Screen implements ChangeListScreen {
   private final Account.Id ownerId;
@@ -61,7 +63,7 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
 
     outgoing.setTitleText(Util.C.outgoingReviews());
     incoming.setTitleText(Util.C.incomingReviews());
-    incoming.setHighlightUnreviewed(true);
+    incoming.setHighlightUnreviewed(mine);
     closed.setTitleText(Util.C.recentlyClosed());
 
     table.addSection(outgoing);
@@ -83,6 +85,7 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
             display(result);
           }
         },
+        EnumSet.of(ListChangesOption.REVIEWED),
         "is:open owner:" + who,
         "is:open reviewer:" + who + " -owner:" + who,
         "is:closed owner:" + who + " -age:4w limit:10");

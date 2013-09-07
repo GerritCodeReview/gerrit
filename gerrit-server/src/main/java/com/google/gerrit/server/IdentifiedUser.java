@@ -15,6 +15,7 @@
 package com.google.gerrit.server;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
@@ -34,6 +35,7 @@ import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
@@ -53,7 +55,6 @@ import java.net.URL;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
@@ -195,6 +196,7 @@ public class IdentifiedUser extends CurrentUser {
   private Set<String> emailAddresses;
   private GroupMembership effectiveGroups;
   private Set<Change.Id> starredChanges;
+  private ResultSet<StarredChange> starredQuery;
   private Collection<AccountProjectWatch> notificationFilters;
   private CurrentUser realUser;
 
@@ -296,11 +298,18 @@ public class IdentifiedUser extends CurrentUser {
       if (dbProvider == null) {
         throw new OutOfScopeException("Not in request scoped user");
       }
-      final Set<Change.Id> h = new HashSet<Change.Id>();
+      Set<Change.Id> h = Sets.newHashSet();
       try {
-        for (final StarredChange sc : dbProvider.get().starredChanges()
-            .byAccount(getAccountId())) {
-          h.add(sc.getChangeId());
+        if (starredQuery != null) {
+          for (StarredChange sc : starredQuery) {
+            h.add(sc.getChangeId());
+          }
+          starredQuery = null;
+        } else {
+          for (StarredChange sc : dbProvider.get().starredChanges()
+              .byAccount(getAccountId())) {
+            h.add(sc.getChangeId());
+          }
         }
       } catch (OrmException e) {
         log.warn("Cannot query starred by user changes", e);
@@ -308,6 +317,29 @@ public class IdentifiedUser extends CurrentUser {
       starredChanges = Collections.unmodifiableSet(h);
     }
     return starredChanges;
+  }
+
+  public void asyncStarredChanges() {
+    if (starredChanges == null && dbProvider != null) {
+      try {
+        starredQuery =
+            dbProvider.get().starredChanges().byAccount(getAccountId());
+      } catch (OrmException e) {
+        log.warn("Cannot query starred by user changes", e);
+        starredQuery = null;
+        starredChanges = Collections.emptySet();
+      }
+    }
+  }
+
+  public void abortStarredChanges() {
+    if (starredQuery != null) {
+      try {
+        starredQuery.close();
+      } finally {
+        starredQuery = null;
+      }
+    }
   }
 
   @Override

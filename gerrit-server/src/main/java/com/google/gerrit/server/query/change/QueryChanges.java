@@ -20,12 +20,15 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.kohsuke.args4j.Option;
 
@@ -39,6 +42,7 @@ import java.util.regex.Pattern;
 public class QueryChanges implements RestReadView<TopLevelResource> {
   private final ChangeJson json;
   private final QueryProcessor imp;
+  private final Provider<CurrentUser> user;
   private boolean reverse;
   private EnumSet<ListChangesOption> options;
 
@@ -80,9 +84,11 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
   @Inject
   QueryChanges(ChangeJson json,
       QueryProcessor qp,
-      ChangeControl.Factory cf) {
+      ChangeControl.Factory cf,
+      Provider<CurrentUser> user) {
     this.json = json;
     this.imp = qp;
+    this.user = user;
 
     options = EnumSet.noneOf(ListChangesOption.class);
     json.setChangeControlFactory(cf);
@@ -127,6 +133,22 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
       throw new QueryParseException("limit of 10 queries");
     }
 
+    IdentifiedUser self = null;
+    try {
+      if (user.get().isIdentifiedUser()) {
+        self = (IdentifiedUser) user.get();
+        self.asyncStarredChanges();
+      }
+      return query0();
+    } finally {
+      if (self != null) {
+        self.abortStarredChanges();
+      }
+    }
+  }
+
+  private List<List<ChangeInfo>> query0() throws OrmException,
+      QueryParseException {
     int cnt = queries.size();
     BitSet more = new BitSet(cnt);
     List<List<ChangeData>> data = Lists.newArrayListWithCapacity(cnt);

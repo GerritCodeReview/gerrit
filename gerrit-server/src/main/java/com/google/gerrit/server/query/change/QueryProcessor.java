@@ -14,10 +14,11 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.SubmitRecord;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -52,7 +53,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 
 public class QueryProcessor {
@@ -211,47 +211,64 @@ public class QueryProcessor {
    * there are more than {@code limit} matches and suggest to its own caller
    * that the query could be retried with {@link #setSortkeyBefore(String)}.
    */
-  public List<ChangeData> queryChanges(final String queryString)
+  public List<ChangeData> queryChanges(String queryString)
+      throws OrmException, QueryParseException {
+    return queryChanges(ImmutableList.of(queryString)).get(0);
+  }
+
+  /**
+   * Query for changes that match the query string.
+   * <p>
+   * If a limit was specified using {@link #setLimit(int)} this method may
+   * return up to {@code limit + 1} results, allowing the caller to determine if
+   * there are more than {@code limit} matches and suggest to its own caller
+   * that the query could be retried with {@link #setSortkeyBefore(String)}.
+   */
+  public List<List<ChangeData>> queryChanges(List<String> queries)
       throws OrmException, QueryParseException {
     final Predicate<ChangeData> visibleToMe = queryBuilder.is_visible();
-    Predicate<ChangeData> s = compileQuery(queryString, visibleToMe);
-    List<ChangeData> results = new ArrayList<ChangeData>();
-    HashSet<Change.Id> want = new HashSet<Change.Id>();
-    for (ChangeData d : ((ChangeDataSource) s).read()) {
-      if (d.hasChange()) {
-        // Checking visibleToMe here should be unnecessary, the
-        // query should have already performed it. But we don't
-        // want to trust the query rewriter that much yet.
-        //
-        if (visibleToMe.match(d)) {
-          results.add(d);
-        }
-      } else {
-        want.add(d.getId());
+    int cnt = queries.size();
+
+    // Begin all queries, possibly asynchronously.
+    List<Integer> limits = Lists.newArrayListWithCapacity(cnt);
+    List<ChangeDataSource> sources = Lists.newArrayListWithCapacity(cnt);
+    for (int i = 0; i < cnt; i++) {
+      Predicate<ChangeData> q = parseQuery(queries.get(i), visibleToMe);
+      Predicate<ChangeData> s = queryRewriter.rewrite(q);
+      if (!(s instanceof ChangeDataSource)) {
+        @SuppressWarnings("unchecked")
+        Predicate<ChangeData> o = Predicate.and(queryBuilder.status_open(), q);
+        q = o;
+        s = queryRewriter.rewrite(q);
       }
+      if (!(s instanceof ChangeDataSource)) {
+        throw new QueryParseException("invalid query: " + s);
+      }
+
+      // Don't trust QueryRewriter to have left the visible predicate.
+      @SuppressWarnings("unchecked")
+      Predicate<ChangeData> a = AndSource.and(s, visibleToMe);
+      limits.add(limit(q));
+      sources.add((ChangeDataSource) a);
     }
 
-    if (!want.isEmpty()) {
-      for (Change c : db.get().changes().get(want)) {
-        ChangeData d = new ChangeData(c);
-        if (visibleToMe.match(d)) {
-          results.add(d);
-        }
+    List<List<ChangeData>> out = Lists.newArrayListWithCapacity(cnt);
+    for (int i = 0; i < cnt; i++) {
+      List<ChangeData> results = Lists.newArrayList(sources.get(i).read());
+      Collections.sort(results, sortkeyAfter != null ? cmpAfter : cmpBefore);
+      if (results.size() > maxLimit) {
+        moreResults = true;
       }
+      int limit = limits.get(i);
+      if (limit < results.size()) {
+        results = results.subList(0, limit);
+      }
+      if (sortkeyAfter != null) {
+        Collections.reverse(results);
+      }
+      out.add(results);
     }
-
-    Collections.sort(results, sortkeyAfter != null ? cmpAfter : cmpBefore);
-    int limit = limit(s);
-    if (results.size() > maxLimit) {
-      moreResults = true;
-    }
-    if (limit < results.size()) {
-      results = results.subList(0, limit);
-    }
-    if (sortkeyAfter != null) {
-      Collections.reverse(results);
-    }
-    return results;
+    return out;
   }
 
   public void query(String queryString) throws IOException {
@@ -378,9 +395,8 @@ public class QueryProcessor {
   }
 
   @SuppressWarnings("unchecked")
-  private Predicate<ChangeData> compileQuery(String queryString,
+  private Predicate<ChangeData> parseQuery(String queryString,
       final Predicate<ChangeData> visibleToMe) throws QueryParseException {
-
     Predicate<ChangeData> q = queryBuilder.parse(queryString);
     if (!ChangeQueryBuilder.hasSortKey(q)) {
       if (sortkeyBefore != null) {
@@ -391,20 +407,9 @@ public class QueryProcessor {
         q = Predicate.and(q, queryBuilder.sortkey_before("z"));
       }
     }
-    q = Predicate.and(q,
+    return Predicate.and(q,
         queryBuilder.limit(limit > 0 ? Math.min(limit, maxLimit) + 1 : maxLimit),
         visibleToMe);
-
-    Predicate<ChangeData> s = queryRewriter.rewrite(q);
-    if (!(s instanceof ChangeDataSource)) {
-      s = queryRewriter.rewrite(Predicate.and(queryBuilder.status_open(), q));
-    }
-
-    if (!(s instanceof ChangeDataSource)) {
-      throw new QueryParseException("invalid query: " + s);
-    }
-
-    return s;
   }
 
   private void show(Object data) {

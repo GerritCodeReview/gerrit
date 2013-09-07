@@ -71,8 +71,8 @@ public class ChangeData {
     return SORT_APPROVALS.sortedCopy(approvals);
   }
 
-  public static void ensureChangeLoaded(
-      Provider<ReviewDb> db, List<ChangeData> changes) throws OrmException {
+  public static void ensureChangeLoaded(Provider<ReviewDb> db,
+      Iterable<ChangeData> changes) throws OrmException {
     Map<Change.Id, ChangeData> missing = Maps.newHashMap();
     for (ChangeData cd : changes) {
       if (cd.change == null) {
@@ -270,6 +270,10 @@ public class ChangeData {
       change = db.get().changes().get(legacyId);
     }
     return change;
+  }
+
+  void setChange(Change c) {
+    change = c;
   }
 
   public PatchSet currentPatchSet(Provider<ReviewDb> db) throws OrmException {

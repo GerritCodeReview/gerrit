@@ -40,7 +40,10 @@ public enum ListChangesOption {
   MESSAGES(9),
 
   /** Include allowed actions client could perform. */
-  CURRENT_ACTIONS(10);
+  CURRENT_ACTIONS(10),
+
+  /** Set the reviewed boolean for the caller. */
+  REVIEWED(11);
 
   private final int value;
 

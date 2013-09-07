@@ -25,6 +25,7 @@ import static com.google.gerrit.common.changes.ListChangesOption.DETAILED_ACCOUN
 import static com.google.gerrit.common.changes.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.common.changes.ListChangesOption.LABELS;
 import static com.google.gerrit.common.changes.ListChangesOption.MESSAGES;
+import static com.google.gerrit.common.changes.ListChangesOption.REVIEWED;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
@@ -260,7 +261,9 @@ public class ChangeJson {
     out.starred = userProvider.get().getStarredChanges().contains(in.getId())
         ? true
         : null;
-    out.reviewed = in.getStatus().isOpen() && isChangeReviewed(cd) ? true : null;
+    out.reviewed = in.getStatus().isOpen()
+        && has(REVIEWED)
+        && isChangeReviewed(cd) ? true : null;
     out.labels = labelsFor(cd, has(LABELS), has(DETAILED_LABELS));
 
     Collection<PatchSet.Id> limited = cd.getLimitedPatchSets();

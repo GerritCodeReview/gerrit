@@ -61,6 +61,10 @@ limitations under the License.
           <div>Cancel</div>
         </g:Button>
       </div>
+      <hr/>
+      <div>
+        <g:Grid ui:field='table'/>
+      </div>
     </div>
    </g:HTMLPanel>
   </ui:UiBinder>

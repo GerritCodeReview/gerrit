@@ -18,18 +18,20 @@ import com.google.gerrit.client.ConfirmationCallback;
 import com.google.gerrit.client.ConfirmationDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.AccountInfo;
-import com.google.gerrit.client.changes.ApprovalTable.PostInput;
-import com.google.gerrit.client.changes.ApprovalTable.PostResult;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.ApprovalInfo;
 import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.NativeMap;
+import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.HintTextBox;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -236,5 +238,43 @@ class Reviewers extends Composite {
 
     reviewersText.setInnerSafeHtml(rHtml);
     ccText.setInnerSafeHtml(ccHtml);
+  }
+
+  static class PostInput extends JavaScriptObject {
+    public static PostInput create(String reviewer, boolean confirmed) {
+      PostInput input = createObject().cast();
+      input.init(reviewer, confirmed);
+      return input;
+    }
+
+    private native void init(String reviewer, boolean confirmed) /*-{
+      this.reviewer = reviewer;
+      if (confirmed) {
+        this.confirmed = true;
+      }
+    }-*/;
+
+    protected PostInput() {
+    }
+  }
+
+  static class ReviewerInfo extends AccountInfo {
+    final Set<String> approvals() {
+      return Natives.keys(_approvals());
+    }
+    final native String approval(String l) /*-{ return this.approvals[l]; }-*/;
+    private final native NativeMap<NativeString> _approvals() /*-{ return this.approvals; }-*/;
+
+    protected ReviewerInfo() {
+    }
+  }
+
+  static class PostResult extends JavaScriptObject {
+    public final native JsArray<ReviewerInfo> reviewers() /*-{ return this.reviewers; }-*/;
+    public final native boolean confirm() /*-{ return this.confirm || false; }-*/;
+    public final native String error() /*-{ return this.error; }-*/;
+
+    protected PostResult() {
+    }
   }
 }

@@ -26,8 +26,6 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.TopMenu;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ChangeScreen;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.CommentVisibilityStrategy;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ReviewCategoryStrategy;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DateFormat;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
@@ -66,10 +64,8 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
     public Boolean relativeDateInChangeTable;
     public Boolean sizeBarInChangeTable;
     public Boolean legacycidInChangeTable;
-    public CommentVisibilityStrategy commentVisibilityStrategy;
     public ReviewCategoryStrategy reviewCategoryStrategy;
     public DiffView diffView;
-    public ChangeScreen changeScreen;
     public List<TopMenu.MenuItem> my;
   }
 
@@ -146,9 +142,6 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
       if (i.timeFormat != null) {
         p.setTimeFormat(i.timeFormat);
       }
-      if (i.reversePatchSetOrder != null) {
-        p.setReversePatchSetOrder(i.reversePatchSetOrder);
-      }
       if (i.relativeDateInChangeTable != null) {
         p.setRelativeDateInChangeTable(i.relativeDateInChangeTable);
       }
@@ -161,14 +154,8 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
       if (i.reviewCategoryStrategy != null) {
         p.setReviewCategoryStrategy(i.reviewCategoryStrategy);
       }
-      if (i.commentVisibilityStrategy != null) {
-        p.setCommentVisibilityStrategy(i.commentVisibilityStrategy);
-      }
       if (i.diffView != null) {
         p.setDiffView(i.diffView);
-      }
-      if (i.changeScreen != null) {
-        p.setChangeScreen(i.changeScreen);
       }
 
       db.get().accounts().update(Collections.singleton(a));

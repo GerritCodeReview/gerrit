@@ -864,7 +864,6 @@ link:#preferences-info[PreferencesInfo] entity.
     "time_format": "HHMM_12",
     "size_bar_in_change_table": true,
     "review_category_strategy": "ABBREV",
-    "comment_visibility_strategy": "EXPAND_RECENT",
     "diff_view": "SIDE_BY_SIDE",
     "my": [
       {
@@ -919,7 +918,6 @@ link:#preferences-input[PreferencesInput] entity.
     "time_format": "HHMM_12",
     "size_bar_in_change_table": true,
     "review_category_strategy": "NAME",
-    "comment_visibility_strategy": "EXPAND_RECENT",
     "diff_view": "SIDE_BY_SIDE",
     "my": [
       {
@@ -968,7 +966,6 @@ link:#preferences-info[PreferencesInfo] entity.
     "time_format": "HHMM_12",
     "size_bar_in_change_table": true,
     "review_category_strategy": "NAME",
-    "comment_visibility_strategy": "EXPAND_RECENT",
     "diff_view": "SIDE_BY_SIDE",
     "my": [
       {
@@ -1340,8 +1337,6 @@ Allowed values are `STD`, `US`, `ISO`, `EURO`, `UK`.
 |`time_format`     ||
 The format to display the time in.
 Allowed values are `HHMM_12`, `HHMM_24`.
-|`reverse_patch_set_order`     |not set if `false`|
-Whether to display the patch sets in reverse order.
 |`relative_date_in_change_table`  |not set if `false`|
 Whether to show relative dates in the changes table.
 |`size_bar_in_change_table`      |not set if `false`|
@@ -1351,9 +1346,6 @@ Whether to show change number in the change table.
 |`review_category_strategy`   ||
 The strategy used to displayed info in the review category column.
 Allowed values are `NONE`, `NAME`, `EMAIL`, `USERNAME`, `ABBREV`.
-|`comment_visibility_strategy`         ||
-The strategy used to display the comments.
-Allowed values are `COLLAPSE_ALL`, `EXPAND_MOST_RECENT`, `EXPAND_RECENT`, `EXPAND_ALL`.
 |`diff_view`     ||
 The type of diff view to show.
 Allowed values are `SIDE_BY_SIDE`, `UNIFIED_DIFF`.
@@ -1389,8 +1381,6 @@ Allowed values are `STD`, `US`, `ISO`, `EURO`, `UK`.
 |`time_format`     |optional|
 The format to display the time in.
 Allowed values are `HHMM_12`, `HHMM_24`.
-|`reverse_patch_set_order`     |optional|
-Whether to display the patch sets in reverse order.
 |`relative_date_in_change_table`  |optional|
 Whether to show relative dates in the changes table.
 |`size_bar_in_change_table`      |optional|
@@ -1400,9 +1390,6 @@ Whether to show change number in the change table.
 |`review_category_strategy`   |optional|
 The strategy used to displayed info in the review category column.
 Allowed values are `NONE`, `NAME`, `EMAIL`, `USERNAME`, `ABBREV`.
-|`comment_visibility_strategy`         |optional|
-The strategy used to display the comments.
-Allowed values are `COLLAPSE_ALL`, `EXPAND_MOST_RECENT`, `EXPAND_RECENT`, `EXPAND_ALL`.
 |`diff_view`     |optional|
 The type of diff view to show.
 Allowed values are `SIDE_BY_SIDE`, `UNIFIED_DIFF`.

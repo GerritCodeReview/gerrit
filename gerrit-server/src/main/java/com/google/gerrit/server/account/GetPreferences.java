@@ -19,7 +19,6 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ChangeScreen;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.CommentVisibilityStrategy;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DateFormat;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
@@ -67,13 +66,11 @@ public class GetPreferences implements RestReadView<AccountResource> {
     Boolean copySelfOnEmail;
     DateFormat dateFormat;
     TimeFormat timeFormat;
-    Boolean reversePatchSetOrder;
     Boolean showUsernameInReviewCategory;
     Boolean relativeDateInChangeTable;
     Boolean sizeBarInChangeTable;
     CommentVisibilityStrategy commentVisibilityStrategy;
     DiffView diffView;
-    ChangeScreen changeScreen;
 
     PreferenceInfo(AccountGeneralPreferences p) {
       changesPerPage = p.getMaximumPageSize();
@@ -84,13 +81,11 @@ public class GetPreferences implements RestReadView<AccountResource> {
       copySelfOnEmail = p.isCopySelfOnEmails() ? true : null;
       dateFormat = p.getDateFormat();
       timeFormat = p.getTimeFormat();
-      reversePatchSetOrder = p.isReversePatchSetOrder() ? true : null;
       showUsernameInReviewCategory = p.isShowUsernameInReviewCategory() ? true : null;
       relativeDateInChangeTable = p.isRelativeDateInChangeTable() ? true : null;
       sizeBarInChangeTable = p.isSizeBarInChangeTable() ? true : null;
       commentVisibilityStrategy = p.getCommentVisibilityStrategy();
       diffView = p.getDiffView();
-      changeScreen = p.getChangeScreen();
     }
   }
 }

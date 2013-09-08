@@ -17,7 +17,6 @@ package com.google.gerrit.client.account;
 import static com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DEFAULT_PAGESIZE;
 import static com.google.gerrit.reviewdb.client.AccountGeneralPreferences.PAGESIZE_CHOICES;
 
-import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
@@ -42,7 +41,6 @@ public class MyPreferencesScreen extends SettingsScreen {
   private CheckBox showSiteHeader;
   private CheckBox useFlashClipboard;
   private CheckBox copySelfOnEmails;
-  private CheckBox reversePatchSetOrder;
   private CheckBox showUsernameInReviewCategory;
   private CheckBox relativeDateInChangeTable;
   private CheckBox sizeBarInChangeTable;
@@ -50,7 +48,6 @@ public class MyPreferencesScreen extends SettingsScreen {
   private ListBox dateFormat;
   private ListBox timeFormat;
   private ListBox commentVisibilityStrategy;
-  private ListBox changeScreen;
   private ListBox diffView;
   private Button save;
 
@@ -61,7 +58,6 @@ public class MyPreferencesScreen extends SettingsScreen {
     showSiteHeader = new CheckBox(Util.C.showSiteHeader());
     useFlashClipboard = new CheckBox(Util.C.useFlashClipboard());
     copySelfOnEmails = new CheckBox(Util.C.copySelfOnEmails());
-    reversePatchSetOrder = new CheckBox(Util.C.reversePatchSetOrder());
     showUsernameInReviewCategory = new CheckBox(Util.C.showUsernameInReviewCategory());
     maximumPageSize = new ListBox();
     for (final short v : PAGESIZE_CHOICES) {
@@ -81,18 +77,6 @@ public class MyPreferencesScreen extends SettingsScreen {
     commentVisibilityStrategy.addItem(
         com.google.gerrit.client.changes.Util.C.messageExpandAll(),
         AccountGeneralPreferences.CommentVisibilityStrategy.EXPAND_ALL.name());
-
-    changeScreen = new ListBox();
-    changeScreen.addItem(
-        Util.M.changeScreenServerDefault(
-            getLabel(Gerrit.getConfig().getChangeScreen())),
-        "");
-    changeScreen.addItem(
-        Util.C.changeScreenOldUi(),
-        AccountGeneralPreferences.ChangeScreen.OLD_UI.name());
-    changeScreen.addItem(
-        Util.C.changeScreenNewUi(),
-        AccountGeneralPreferences.ChangeScreen.CHANGE_SCREEN2.name());
 
     diffView = new ListBox();
     diffView.addItem(
@@ -155,10 +139,6 @@ public class MyPreferencesScreen extends SettingsScreen {
     row++;
 
     formGrid.setText(row, labelIdx, "");
-    formGrid.setWidget(row, fieldIdx, reversePatchSetOrder);
-    row++;
-
-    formGrid.setText(row, labelIdx, "");
     formGrid.setWidget(row, fieldIdx, showUsernameInReviewCategory);
     row++;
 
@@ -170,28 +150,21 @@ public class MyPreferencesScreen extends SettingsScreen {
     formGrid.setWidget(row, fieldIdx, dateTimePanel);
     row++;
 
-    if (Gerrit.getConfig().getNewFeatures()) {
-      formGrid.setText(row, labelIdx, "");
-      formGrid.setWidget(row, fieldIdx, relativeDateInChangeTable);
-      row++;
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, relativeDateInChangeTable);
+    row++;
 
-      formGrid.setText(row, labelIdx, "");
-      formGrid.setWidget(row, fieldIdx, sizeBarInChangeTable);
-      row++;
-    }
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, sizeBarInChangeTable);
+    row++;
 
     formGrid.setText(row, labelIdx, Util.C.commentVisibilityLabel());
     formGrid.setWidget(row, fieldIdx, commentVisibilityStrategy);
     row++;
 
-    if (Gerrit.getConfig().getNewFeatures()) {
-      formGrid.setText(row, labelIdx, Util.C.changeScreenLabel());
-      formGrid.setWidget(row, fieldIdx, changeScreen);
-      row++;
+    formGrid.setText(row, labelIdx, Util.C.diffViewLabel());
+    formGrid.setWidget(row, fieldIdx, diffView);
 
-      formGrid.setText(row, labelIdx, Util.C.diffViewLabel());
-      formGrid.setWidget(row, fieldIdx, diffView);
-    }
     add(formGrid);
 
     save = new Button(Util.C.buttonSaveChanges());
@@ -208,7 +181,6 @@ public class MyPreferencesScreen extends SettingsScreen {
     e.listenTo(showSiteHeader);
     e.listenTo(useFlashClipboard);
     e.listenTo(copySelfOnEmails);
-    e.listenTo(reversePatchSetOrder);
     e.listenTo(showUsernameInReviewCategory);
     e.listenTo(maximumPageSize);
     e.listenTo(dateFormat);
@@ -216,7 +188,6 @@ public class MyPreferencesScreen extends SettingsScreen {
     e.listenTo(relativeDateInChangeTable);
     e.listenTo(sizeBarInChangeTable);
     e.listenTo(commentVisibilityStrategy);
-    e.listenTo(changeScreen);
     e.listenTo(diffView);
   }
 
@@ -234,7 +205,6 @@ public class MyPreferencesScreen extends SettingsScreen {
     showSiteHeader.setEnabled(on);
     useFlashClipboard.setEnabled(on);
     copySelfOnEmails.setEnabled(on);
-    reversePatchSetOrder.setEnabled(on);
     showUsernameInReviewCategory.setEnabled(on);
     maximumPageSize.setEnabled(on);
     dateFormat.setEnabled(on);
@@ -242,7 +212,6 @@ public class MyPreferencesScreen extends SettingsScreen {
     relativeDateInChangeTable.setEnabled(on);
     sizeBarInChangeTable.setEnabled(on);
     commentVisibilityStrategy.setEnabled(on);
-    changeScreen.setEnabled(on);
     diffView.setEnabled(on);
   }
 
@@ -250,7 +219,6 @@ public class MyPreferencesScreen extends SettingsScreen {
     showSiteHeader.setValue(p.isShowSiteHeader());
     useFlashClipboard.setValue(p.isUseFlashClipboard());
     copySelfOnEmails.setValue(p.isCopySelfOnEmails());
-    reversePatchSetOrder.setValue(p.isReversePatchSetOrder());
     showUsernameInReviewCategory.setValue(p.isShowUsernameInReviewCategory());
     setListBox(maximumPageSize, DEFAULT_PAGESIZE, p.getMaximumPageSize());
     setListBox(dateFormat, AccountGeneralPreferences.DateFormat.STD, //
@@ -262,9 +230,6 @@ public class MyPreferencesScreen extends SettingsScreen {
     setListBox(commentVisibilityStrategy,
         AccountGeneralPreferences.CommentVisibilityStrategy.EXPAND_RECENT,
         p.getCommentVisibilityStrategy());
-    setListBox(changeScreen,
-        null,
-        p.getChangeScreen());
     setListBox(diffView,
         AccountGeneralPreferences.DiffView.SIDE_BY_SIDE,
         p.getDiffView());
@@ -326,7 +291,6 @@ public class MyPreferencesScreen extends SettingsScreen {
     p.setShowSiteHeader(showSiteHeader.getValue());
     p.setUseFlashClipboard(useFlashClipboard.getValue());
     p.setCopySelfOnEmails(copySelfOnEmails.getValue());
-    p.setReversePatchSetOrder(reversePatchSetOrder.getValue());
     p.setShowUsernameInReviewCategory(showUsernameInReviewCategory.getValue());
     p.setMaximumPageSize(getListBox(maximumPageSize, DEFAULT_PAGESIZE));
     p.setDateFormat(getListBox(dateFormat,
@@ -343,9 +307,6 @@ public class MyPreferencesScreen extends SettingsScreen {
     p.setDiffView(getListBox(diffView,
         AccountGeneralPreferences.DiffView.SIDE_BY_SIDE,
         AccountGeneralPreferences.DiffView.values()));
-    p.setChangeScreen(getListBox(changeScreen,
-        null,
-        AccountGeneralPreferences.ChangeScreen.values()));
 
     enable(false);
     save.setEnabled(false);
@@ -355,7 +316,6 @@ public class MyPreferencesScreen extends SettingsScreen {
       public void onSuccess(final VoidResult result) {
         Gerrit.getUserAccount().setGeneralPreferences(p);
         Gerrit.applyUserPreferences();
-        Dispatcher.changeScreen2 = false;
         enable(true);
       }
 
@@ -366,19 +326,5 @@ public class MyPreferencesScreen extends SettingsScreen {
         super.onFailure(caught);
       }
     });
-  }
-
-  private static String getLabel(AccountGeneralPreferences.ChangeScreen ui) {
-    if (ui == null) {
-      return "";
-    }
-    switch (ui) {
-      case OLD_UI:
-        return Util.C.changeScreenOldUi();
-      case CHANGE_SCREEN2:
-        return Util.C.changeScreenNewUi();
-      default:
-        return ui.name();
-    }
   }
 }

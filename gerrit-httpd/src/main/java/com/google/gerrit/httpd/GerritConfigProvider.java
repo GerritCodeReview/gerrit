@@ -17,7 +17,6 @@ package com.google.gerrit.httpd;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.GitwebConfig;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AnonymousCowardName;
@@ -123,11 +122,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     config.setSuggestFrom(cfg.getInt("suggest", "from", 0));
     config.setChangeUpdateDelay((int) ConfigUtil.getTimeUnit(
         cfg, "change", null, "updateDelay", 30, TimeUnit.SECONDS));
-    config.setChangeScreen(cfg.getEnum(
-        "gerrit", null, "changeScreen",
-        AccountGeneralPreferences.ChangeScreen.CHANGE_SCREEN2));
     config.setLargeChangeSize(cfg.getInt("change", "largeChange", 500));
-    config.setNewFeatures(cfg.getBoolean("gerrit", "enableNewFeatures", true));
 
     final String reportBugUrl = cfg.getString("gerrit", null, "reportBugUrl");
     config.setReportBugUrl(reportBugUrl != null ?

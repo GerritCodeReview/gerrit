@@ -62,11 +62,9 @@ import com.google.gerrit.client.admin.ProjectListScreen;
 import com.google.gerrit.client.admin.ProjectScreen;
 import com.google.gerrit.client.change.ChangeScreen2;
 import com.google.gerrit.client.changes.AccountDashboardScreen;
-import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.changes.CustomDashboardScreen;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.ProjectDashboardScreen;
-import com.google.gerrit.client.changes.PublishCommentScreen;
 import com.google.gerrit.client.changes.QueryScreen;
 import com.google.gerrit.client.dashboards.DashboardInfo;
 import com.google.gerrit.client.dashboards.DashboardList;
@@ -93,7 +91,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwtorm.client.KeyUtil;
 
 public class Dispatcher {
-  private static boolean useChangeScreen2;
 
   public static String toPatchSideBySide(final Patch.Key id) {
     return toPatch("", null, id);
@@ -202,9 +199,6 @@ public class Dispatcher {
 
     } else if (matchPrefix("/c/", token)) {
       change(token);
-
-    } else if (matchPrefix("/c2/", token)) {
-      change2(token);
 
     } else if (matchExact(MINE, token)) {
       Gerrit.display(token, mine(token));
@@ -480,9 +474,7 @@ public class Dispatcher {
 
     if (rest.isEmpty()) {
       Gerrit.display(token, panel== null
-          ? (useChangeScreen2
-              ? new ChangeScreen2(id, null, false)
-              : new ChangeScreen(id))
+          ? new ChangeScreen2(id, null, false)
           : new NotFoundScreen());
       return;
     }
@@ -512,44 +504,9 @@ public class Dispatcher {
       Patch.Key p = new Patch.Key(ps, KeyUtil.decode(rest));
       patch(token, base, p, 0, null, null, panel);
     } else {
-      if (panel == null) {
-        Gerrit.display(token, useChangeScreen2
-            ? new ChangeScreen2(id, String.valueOf(ps.get()), false)
-            : new ChangeScreen(id));
-      } else if ("publish".equals(panel)) {
-        publish(ps);
-      } else {
-        Gerrit.display(token, new NotFoundScreen());
-      }
+      Gerrit.display(token,
+          new ChangeScreen2(id, String.valueOf(ps.get()), false));
     }
-  }
-
-  private static void change2(final String token) {
-    String rest = skip(token);
-    Change.Id id;
-    int s = rest.indexOf('/');
-    if (0 <= s) {
-      id = Change.Id.parse(rest.substring(0, s));
-      rest = rest.substring(s + 1);
-    } else {
-      id = Change.Id.parse(rest);
-      rest = "";
-    }
-    useChangeScreen2 = true;
-    Gerrit.display(token, new ChangeScreen2(id, rest, false));
-  }
-
-  private static void publish(final PatchSet.Id ps) {
-    String token = toPublish(ps);
-    new AsyncSplit(token) {
-      public void onSuccess() {
-        Gerrit.display(token, select());
-      }
-
-      private Screen select() {
-        return new PublishCommentScreen(ps);
-      }
-    }.onSuccess();
   }
 
   public static void patch(String token, PatchSet.Id base, Patch.Key id,
@@ -585,16 +542,7 @@ public class Dispatcher {
             panel = 0 <= c ? token.substring(c + 1) : "";
           }
 
-          if ("".equals(panel)) {
-            return new PatchScreen.SideBySide( //
-                id, //
-                patchIndex, //
-                patchSetDetail, //
-                patchTable, //
-                top, //
-                baseId //
-            );
-          } else if ("unified".equals(panel)) {
+          if ("unified".equals(panel)) {
             return new PatchScreen.Unified( //
                 id, //
                 patchIndex, //

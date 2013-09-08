@@ -21,8 +21,6 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.webui.TopMenu;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ChangeScreen;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.CommentVisibilityStrategy;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ReviewCategoryStrategy;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DateFormat;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
@@ -108,14 +106,11 @@ public class GetPreferences implements RestReadView<AccountResource> {
     Boolean copySelfOnEmail;
     DateFormat dateFormat;
     TimeFormat timeFormat;
-    Boolean reversePatchSetOrder;
     Boolean relativeDateInChangeTable;
     Boolean sizeBarInChangeTable;
     Boolean legacycidInChangeTable;
     ReviewCategoryStrategy reviewCategoryStrategy;
-    CommentVisibilityStrategy commentVisibilityStrategy;
     DiffView diffView;
-    ChangeScreen changeScreen;
     List<TopMenu.MenuItem> my;
 
     public PreferenceInfo(AccountGeneralPreferences p,
@@ -129,14 +124,11 @@ public class GetPreferences implements RestReadView<AccountResource> {
         copySelfOnEmail = p.isCopySelfOnEmails() ? true : null;
         dateFormat = p.getDateFormat();
         timeFormat = p.getTimeFormat();
-        reversePatchSetOrder = p.isReversePatchSetOrder() ? true : null;
         relativeDateInChangeTable = p.isRelativeDateInChangeTable() ? true : null;
         sizeBarInChangeTable = p.isSizeBarInChangeTable() ? true : null;
         legacycidInChangeTable = p.isLegacycidInChangeTable() ? true : null;
         reviewCategoryStrategy = p.getReviewCategoryStrategy();
-        commentVisibilityStrategy = p.getCommentVisibilityStrategy();
         diffView = p.getDiffView();
-        changeScreen = p.getChangeScreen();
       }
       my = my(v, allUsers);
     }

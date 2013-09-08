@@ -16,7 +16,6 @@ package com.google.gerrit.common.data;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.FieldName;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gerrit.reviewdb.client.AuthType;
@@ -53,8 +52,8 @@ public class GerritConfig implements Cloneable {
   protected String anonymousCowardName;
   protected int suggestFrom;
   protected int changeUpdateDelay;
-  protected AccountGeneralPreferences.ChangeScreen changeScreen;
   protected List<String> archiveFormats;
+  protected boolean index;
   protected int largeChangeSize;
   protected String replyLabel;
   protected String replyTitle;
@@ -278,12 +277,12 @@ public class GerritConfig implements Cloneable {
     changeUpdateDelay = seconds;
   }
 
-  public AccountGeneralPreferences.ChangeScreen getChangeScreen() {
-    return changeScreen;
+  public boolean hasIndex() {
+    return index;
   }
 
-  public void setChangeScreen(AccountGeneralPreferences.ChangeScreen ui) {
-    this.changeScreen = ui;
+  public void setIndex(boolean index) {
+    this.index = index;
   }
 
   public int getLargeChangeSize() {
@@ -293,7 +292,6 @@ public class GerritConfig implements Cloneable {
   public void setLargeChangeSize(int largeChangeSize) {
     this.largeChangeSize = largeChangeSize;
   }
-
   public List<String> getArchiveFormats() {
     return archiveFormats;
   }

@@ -68,11 +68,9 @@ import com.google.gerrit.client.api.ExtensionScreen;
 import com.google.gerrit.client.change.ChangeScreen2;
 import com.google.gerrit.client.change.FileTable;
 import com.google.gerrit.client.changes.AccountDashboardScreen;
-import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.changes.CustomDashboardScreen;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.ProjectDashboardScreen;
-import com.google.gerrit.client.changes.PublishCommentScreen;
 import com.google.gerrit.client.changes.QueryScreen;
 import com.google.gerrit.client.dashboards.DashboardInfo;
 import com.google.gerrit.client.dashboards.DashboardList;
@@ -89,7 +87,6 @@ import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
@@ -99,7 +96,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.http.client.URL;
-import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwtorm.client.KeyUtil;
 
@@ -177,11 +173,6 @@ public class Dispatcher {
     p.append(revision.getId()).append("/").append(KeyUtil.encode(fileName));
     p.append(",edit");
     return p.toString();
-  }
-
-  public static String toPublish(PatchSet.Id ps) {
-    Change.Id c = ps.getParentKey();
-    return "/c/" + c + "/" + ps.get() + ",publish";
   }
 
   public static String toGroup(final AccountGroup.Id id) {
@@ -553,9 +544,7 @@ public class Dispatcher {
         panel = null;
       }
       Gerrit.display(token, panel == null
-          ? (isChangeScreen2()
-              ? new ChangeScreen2(id, null, null, false, mode)
-              : new ChangeScreen(id))
+          ? new ChangeScreen2(id, null, null, false, mode)
           : new NotFoundScreen());
       return;
     }
@@ -597,15 +586,12 @@ public class Dispatcher {
           null, null, null, panel);
     } else {
       if (panel == null) {
-        Gerrit.display(token, isChangeScreen2()
-            ? new ChangeScreen2(id,
+        Gerrit.display(token,
+            new ChangeScreen2(id,
                 base != null
                     ? String.valueOf(base.get())
                     : null,
-                String.valueOf(ps.get()), false, FileTable.Mode.REVIEW)
-            : new ChangeScreen(id));
-      } else if ("publish".equals(panel)) {
-        publish(ps);
+                String.valueOf(ps.get()), false, FileTable.Mode.REVIEW));
       } else {
         Gerrit.display(token, new NotFoundScreen());
       }
@@ -625,42 +611,6 @@ public class Dispatcher {
     } else {
       Gerrit.display(token, new NotFoundScreen());
     }
-  }
-
-  public static boolean isChangeScreen2() {
-    if (changeScreen2) {
-      return true;
-    }
-
-    AccountGeneralPreferences.ChangeScreen ui = null;
-    if (Gerrit.isSignedIn()) {
-      ui = Gerrit.getUserAccount()
-          .getGeneralPreferences()
-          .getChangeScreen();
-    }
-    String v = Cookies.getCookie(Dispatcher.COOKIE_CS2);
-    if (v != null) {
-      changeScreen2 = "1".equals(v);
-      return changeScreen2;
-    }
-    if (ui == null) {
-      ui = Gerrit.getConfig().getChangeScreen();
-    }
-    return ui == AccountGeneralPreferences.ChangeScreen.CHANGE_SCREEN2;
-  }
-
-  private static void publish(final PatchSet.Id ps) {
-    String token = toPublish(ps);
-    new AsyncSplit(token) {
-      @Override
-      public void onSuccess() {
-        Gerrit.display(token, select());
-      }
-
-      private Screen select() {
-        return new PublishCommentScreen(ps);
-      }
-    }.onSuccess();
   }
 
   public static void patch(String token, PatchSet.Id base, Patch.Key id,
@@ -687,19 +637,14 @@ public class Dispatcher {
     }
 
     if ("".equals(panel)) {
-      if (isChangeScreen2()) {
-        if (Gerrit.isSignedIn()
-            && DiffView.UNIFIED_DIFF.equals(Gerrit.getUserAccount()
-                .getGeneralPreferences().getDiffView())) {
-          sbs1(token, baseId, id, patchIndex, patchSetDetail, patchTable,
-              topView, PatchScreen.Type.UNIFIED);
-          return;
-        }
-        sbs2(token, baseId, id, side, line, false);
+      if (Gerrit.isSignedIn()
+          && DiffView.UNIFIED_DIFF.equals(Gerrit.getUserAccount()
+              .getGeneralPreferences().getDiffView())) {
+        sbs1(token, baseId, id, patchIndex, patchSetDetail, patchTable,
+            topView, PatchScreen.Type.UNIFIED);
         return;
       }
-      sbs1(token, baseId, id, patchIndex, patchSetDetail, patchTable, topView,
-          PatchScreen.Type.SIDE_BY_SIDE);
+      sbs2(token, baseId, id, side, line, false);
       return;
     } else if ("unified".equals(panel)) {
       sbs1(token, baseId, id, patchIndex, patchSetDetail, patchTable, topView,
@@ -714,10 +659,6 @@ public class Dispatcher {
         return;
       }
       sbs2(token, baseId, id, side, line, false);
-      return;
-    } else if ("".equals(panel) || "sidebyside".equals(panel)) {
-      sbs1(token, baseId, id, patchIndex, patchSetDetail, patchTable, topView,
-          PatchScreen.Type.SIDE_BY_SIDE);
       return;
     } else if (panel.equals("edit")) {
       sbs2(token, null, id, null, 0, true);
@@ -738,9 +679,8 @@ public class Dispatcher {
             : topView;
         switch (type) {
           case SIDE_BY_SIDE:
-            Gerrit.display(token, new PatchScreen.SideBySide(id, patchIndex,
-                patchSetDetail, patchTable, top, baseId));
-            break;
+            throw new IllegalArgumentException(
+                "old side by side screen is removed");
           case UNIFIED:
             Gerrit.display(token, new PatchScreen.Unified(id, patchIndex,
                 patchSetDetail, patchTable, top, baseId));

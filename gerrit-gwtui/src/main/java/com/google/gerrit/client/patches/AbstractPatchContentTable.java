@@ -14,14 +14,12 @@
 
 package com.google.gerrit.client.patches;
 
-import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.changes.PatchTable;
-import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.CommentPanel;
@@ -110,8 +108,6 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     if (Gerrit.isSignedIn()) {
       keysAction.add(new InsertCommentCommand(0, 'c', PatchUtil.C
           .commentInsert()));
-      keysAction.add(new PublishCommentsKeyCommand(0, 'r', Util.C
-          .keyPublishComments()));
 
       // See CommentEditorPanel
       //
@@ -835,18 +831,6 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
           return;
         }
       }
-    }
-  }
-
-  public class PublishCommentsKeyCommand extends NeedsSignInKeyCommand {
-    public PublishCommentsKeyCommand(int mask, char key, String help) {
-      super(mask, key, help);
-    }
-
-    @Override
-    public void onKeyPress(final KeyPressEvent event) {
-      final PatchSet.Id id = patchKey.getParentKey();
-      Gerrit.display(Dispatcher.toPublish(id));
     }
   }
 

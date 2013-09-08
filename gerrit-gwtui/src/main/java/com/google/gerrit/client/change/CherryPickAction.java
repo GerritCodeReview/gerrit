@@ -30,7 +30,7 @@ class CherryPickAction {
       String project, final String commitMessage) {
     // TODO Replace CherryPickDialog with a nicer looking display.
     b.setEnabled(false);
-    new CherryPickDialog(b, new Project.NameKey(project)) {
+    new CherryPickDialog(new Project.NameKey(project)) {
       {
         sendButton.setText(Util.C.buttonCherryPickChangeSend());
         if (info.status() == Change.Status.MERGED) {

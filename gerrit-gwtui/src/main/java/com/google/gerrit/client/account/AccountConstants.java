@@ -25,8 +25,6 @@ public interface AccountConstants extends Constants {
   String registeredOn();
   String accountId();
 
-  String commentVisibilityLabel();
-  String changeScreenLabel();
   String diffViewLabel();
   String maximumPageSizeFieldLabel();
   String dateFormatLabel();
@@ -34,7 +32,6 @@ public interface AccountConstants extends Constants {
   String showSiteHeader();
   String useFlashClipboard();
   String copySelfOnEmails();
-  String reversePatchSetOrder();
   String reviewCategoryLabel();
   String messageShowInReviewCategoryNone();
   String messageShowInReviewCategoryName();
@@ -50,9 +47,6 @@ public interface AccountConstants extends Constants {
   String myMenuName();
   String myMenuUrl();
   String myMenuReset();
-
-  String changeScreenOldUi();
-  String changeScreenNewUi();
 
   String tabAccountSummary();
   String tabPreferences();

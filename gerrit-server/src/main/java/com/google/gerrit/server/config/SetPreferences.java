@@ -53,9 +53,7 @@ public class SetPreferences implements RestModifyView<ConfigResource, Input> {
         || i.relativeDateInChangeTable != null
         || i.sizeBarInChangeTable != null
         || i.legacycidInChangeTable != null
-        || i.reviewCategoryStrategy != null
-        || i.commentVisibilityStrategy != null || i.diffView != null
-        || i.changeScreen != null) {
+        || i.reviewCategoryStrategy != null) {
       throw new BadRequestException("unsupported option");
     }
 

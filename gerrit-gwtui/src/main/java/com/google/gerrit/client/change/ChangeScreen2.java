@@ -600,7 +600,7 @@ public class ChangeScreen2 extends Screen {
     }
 
     renderOwner(info);
-    renderReviewers(info);
+    renderReviewers(info, revision);
     renderActionTextDate(info);
     renderHistory(info);
     initRevisionsAction(info, revision);
@@ -645,7 +645,7 @@ public class ChangeScreen2 extends Screen {
     setWindowTitle(sb.toString());
   }
 
-  private void renderReviewers(ChangeInfo info) {
+  private void renderReviewers(ChangeInfo info, String revision) {
     // TODO Fix approximation of reviewers and CC list(s).
     Map<Integer, AccountInfo> r = new HashMap<Integer, AccountInfo>();
     Map<Integer, AccountInfo> cc = new HashMap<Integer, AccountInfo>();
@@ -662,7 +662,7 @@ public class ChangeScreen2 extends Screen {
     r.remove(info.owner()._account_id());
     cc.remove(info.owner()._account_id());
     reviewersText.setInnerSafeHtml(Labels.formatUserList(style, r.values()));
-    reviewers.set(info.legacy_id());
+    reviewers.set(info, revision, labels, reviewersText);
     reviewers.setReviewers(Labels.formatUserList(style, cc.values()));
   }
 

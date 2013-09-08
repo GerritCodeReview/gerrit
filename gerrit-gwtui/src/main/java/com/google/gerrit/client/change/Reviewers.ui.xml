@@ -50,7 +50,7 @@ limitations under the License.
          styleName='{style.openAdd}'
          visible='false'>
        <ui:attribute name='title'/>
-       <div>[+]</div>
+       <div>[+/-]</div>
       </g:Button>
     </div>
     <div ui:field='form' style='display: none' aria-hidden='true'>
@@ -67,6 +67,10 @@ limitations under the License.
             addStyleNames='{style.cancel}'>
           <div>Cancel</div>
         </g:Button>
+      </div>
+      <hr/>
+      <div>
+        <g:Grid ui:field='table'/>
       </div>
     </div>
    </g:HTMLPanel>

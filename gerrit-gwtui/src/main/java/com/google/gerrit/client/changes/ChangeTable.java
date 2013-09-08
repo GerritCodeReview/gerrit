@@ -106,7 +106,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   @Override
   protected void onOpenRow(final int row) {
     final ChangeInfo c = getRowItem(row);
-    Gerrit.display(PageLinks.toChange(c), new ChangeScreen(c));
+    Gerrit.display(PageLinks.toChange(c));
   }
 
   private void insertNoneRow(final int row) {

@@ -26,7 +26,7 @@ class RebaseAction {
     ChangeApi.rebase(id.get(), revision,
       new GerritCallback<ChangeInfo>() {
         public void onSuccess(ChangeInfo result) {
-          Gerrit.display(PageLinks.toChange2(id));
+          Gerrit.display(PageLinks.toChange(id));
         }
       });
   }

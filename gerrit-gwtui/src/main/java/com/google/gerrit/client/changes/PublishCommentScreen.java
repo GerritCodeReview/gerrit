@@ -456,7 +456,7 @@ public class PublishCommentScreen extends AccountScreen implements
 
   private void goChange() {
     final Change.Id ck = patchSetId.getParentKey();
-    Gerrit.display(PageLinks.toChange(ck), new ChangeScreen(ck));
+    Gerrit.display(PageLinks.toChange(ck));
   }
 
   private static class ValueRadioButton extends RadioButton {

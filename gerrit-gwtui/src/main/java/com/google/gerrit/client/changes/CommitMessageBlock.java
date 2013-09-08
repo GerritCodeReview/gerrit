@@ -40,7 +40,6 @@ import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
-import com.google.gwtjsonrpc.common.AsyncCallback;
 
 public class CommitMessageBlock extends Composite {
   interface Binder extends UiBinder<HTMLPanel, CommitMessageBlock> {
@@ -74,11 +73,11 @@ public class CommitMessageBlock extends Composite {
   }
 
   private abstract class CommitMessageEditDialog
-      extends CommentedActionDialog<JavaScriptObject> {
+      extends CommentedActionDialog {
     private final String originalMessage;
     public CommitMessageEditDialog(final String title, final String heading,
-        final String commitMessage, AsyncCallback<JavaScriptObject> callback) {
-      super(title, heading, callback);
+        final String commitMessage) {
+      super(title, heading);
       originalMessage = commitMessage.trim();
       message.setCharacterWidth(72);
       message.setVisibleLines(20);
@@ -134,11 +133,7 @@ public class CommitMessageBlock extends Composite {
           public void onClick(final ClickEvent event) {
             new CommitMessageEditDialog(Util.C.titleEditCommitMessage(),
                 Util.C.headingEditCommitMessage(),
-                commitMessage,
-                new GerritCallback<JavaScriptObject>() {
-                  @Override
-                  public void onSuccess(JavaScriptObject result) {}
-                }) {
+                commitMessage) {
               @Override
               public void onSend() {
                 ChangeApi.message(changeId.get(), revision, getMessageText(),

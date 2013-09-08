@@ -174,7 +174,7 @@ class RelatedChanges extends Composite {
   private String url(ChangeAndCommit c) {
     if (c.has_change_number() && c.has_revision_number()) {
       PatchSet.Id id = c.patch_set_id();
-      return "#" + PageLinks.toChange2(
+      return "#" + PageLinks.toChange(
           id.getParentKey(),
           String.valueOf(id.get()));
     }

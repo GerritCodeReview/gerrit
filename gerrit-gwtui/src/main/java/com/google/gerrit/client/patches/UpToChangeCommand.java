@@ -15,7 +15,6 @@
 package com.google.gerrit.client.patches;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -31,6 +30,6 @@ class UpToChangeCommand extends KeyCommand {
 
   @Override
   public void onKeyPress(final KeyPressEvent event) {
-    Gerrit.display(PageLinks.toChange(patchSetId), new ChangeScreen(patchSetId));
+    Gerrit.display(PageLinks.toChange(patchSetId));
   }
 }

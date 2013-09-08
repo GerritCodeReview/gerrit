@@ -40,7 +40,7 @@ class SubmitAction {
         }
 
         private void redisplay() {
-          Gerrit.display(PageLinks.toChange2(id));
+          Gerrit.display(PageLinks.toChange(id));
         }
       });
   }

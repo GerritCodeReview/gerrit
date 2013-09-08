@@ -44,7 +44,6 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
     Boolean copySelfOnEmail;
     DateFormat dateFormat;
     TimeFormat timeFormat;
-    Boolean reversePatchSetOrder;
     Boolean showUsernameInReviewCategory;
     Boolean relativeDateInChangeTable;
     CommentVisibilityStrategy commentVisibilityStrategy;
@@ -111,9 +110,6 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
       }
       if (i.timeFormat != null) {
         p.setTimeFormat(i.timeFormat);
-      }
-      if (i.reversePatchSetOrder != null) {
-        p.setReversePatchSetOrder(i.reversePatchSetOrder);
       }
       if (i.showUsernameInReviewCategory != null) {
         p.setShowUsernameInReviewCategory(i.showUsernameInReviewCategory);

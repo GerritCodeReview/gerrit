@@ -129,9 +129,6 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     config.setSuggestFrom(cfg.getInt("suggest", "from", 0));
     config.setChangeUpdateDelay((int) ConfigUtil.getTimeUnit(
         cfg, "change", null, "updateDelay", 30, TimeUnit.SECONDS));
-    config.setChangeScreen(cfg.getEnum(
-        "gerrit", null, "changeScreen",
-        AccountGeneralPreferences.ChangeScreen.CHANGE_SCREEN2));
     config.setIndex(indexCollection.getSearchIndex() != null);
     config.setLargeChangeSize(cfg.getInt("change", "largeChange", 500));
 

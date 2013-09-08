@@ -65,11 +65,9 @@ import com.google.gerrit.client.admin.ProjectScreen;
 import com.google.gerrit.client.api.ExtensionScreen;
 import com.google.gerrit.client.change.ChangeScreen2;
 import com.google.gerrit.client.changes.AccountDashboardScreen;
-import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.changes.CustomDashboardScreen;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.ProjectDashboardScreen;
-import com.google.gerrit.client.changes.PublishCommentScreen;
 import com.google.gerrit.client.changes.QueryScreen;
 import com.google.gerrit.client.dashboards.DashboardInfo;
 import com.google.gerrit.client.dashboards.DashboardList;
@@ -85,7 +83,6 @@ import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
@@ -95,13 +92,10 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.http.client.URL;
-import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwtorm.client.KeyUtil;
 
 public class Dispatcher {
-  public static final String COOKIE_CS2 = "gerrit_cs2";
-  public static boolean changeScreen2;
 
   public static String toPatchSideBySide(final Patch.Key id) {
     return toPatch("", null, id);
@@ -254,7 +248,6 @@ public class Dispatcher {
       admin(token);
 
     } else if (/* DEPRECATED URL */matchPrefix("/c2/", token)) {
-      changeScreen2 = true;
       change(token);
     } else if (/* LEGACY URL */matchPrefix("all,", token)) {
       redirectFromLegacyToken(token, legacyAll(token));
@@ -515,9 +508,7 @@ public class Dispatcher {
 
     if (rest.isEmpty()) {
       Gerrit.display(token, panel== null
-          ? (isChangeScreen2()
-              ? new ChangeScreen2(id, null, null, false)
-              : new ChangeScreen(id))
+          ? new ChangeScreen2(id, null, null, false)
           : new NotFoundScreen());
       return;
     }
@@ -560,19 +551,12 @@ public class Dispatcher {
       patch(token, base, p, side, line, 0,
           null, null, null, panel);
     } else {
-      if (panel == null) {
-        Gerrit.display(token, isChangeScreen2()
-            ? new ChangeScreen2(id,
-                base != null
-                    ? String.valueOf(base.get())
-                    : null,
-                String.valueOf(ps.get()), false)
-            : new ChangeScreen(id));
-      } else if ("publish".equals(panel)) {
-        publish(ps);
-      } else {
-        Gerrit.display(token, new NotFoundScreen());
-      }
+      Gerrit.display(token,
+          new ChangeScreen2(id,
+              base != null
+                  ? String.valueOf(base.get())
+                  : null,
+              String.valueOf(ps.get()), false));
     }
   }
 
@@ -583,43 +567,6 @@ public class Dispatcher {
     } else {
       Gerrit.display(token, new NotFoundScreen());
     }
-  }
-
-  private static boolean isChangeScreen2() {
-    if (!Gerrit.getConfig().getNewFeatures()) {
-      return false;
-    } else if (changeScreen2) {
-      return true;
-    }
-
-    AccountGeneralPreferences.ChangeScreen ui = null;
-    if (Gerrit.isSignedIn()) {
-      ui = Gerrit.getUserAccount()
-          .getGeneralPreferences()
-          .getChangeScreen();
-    }
-    String v = Cookies.getCookie(Dispatcher.COOKIE_CS2);
-    if (v != null) {
-      changeScreen2 = "1".equals(v);
-      return changeScreen2;
-    }
-    if (ui == null) {
-      ui = Gerrit.getConfig().getChangeScreen();
-    }
-    return ui == AccountGeneralPreferences.ChangeScreen.CHANGE_SCREEN2;
-  }
-
-  private static void publish(final PatchSet.Id ps) {
-    String token = toPublish(ps);
-    new AsyncSplit(token) {
-      public void onSuccess() {
-        Gerrit.display(token, select());
-      }
-
-      private Screen select() {
-        return new PublishCommentScreen(ps);
-      }
-    }.onSuccess();
   }
 
   public static void patch(String token, PatchSet.Id base, Patch.Key id,
@@ -659,8 +606,7 @@ public class Dispatcher {
                 top, //
                 baseId //
             );
-          } else if (("cm".equals(panel) && Gerrit.getConfig().getNewFeatures())
-              || ("".equals(panel) && isChangeScreen2())) {
+          } else if ("cm".equals(panel) || "".equals(panel)) {
             if (Gerrit.isSignedIn()
                 && DiffView.UNIFIED_DIFF.equals(Gerrit.getUserAccount()
                     .getGeneralPreferences().getDiffView())) {
@@ -673,16 +619,8 @@ public class Dispatcher {
                   baseId //
               );
             }
-            return new SideBySide2(baseId, id.getParentKey(), id.get(),
-                side, line);
-          } else if ("".equals(panel) || "sidebyside".equals(panel)) {
-            return new PatchScreen.SideBySide(//
-                id, //
-                patchIndex,//
-                patchSetDetail,//
-                patchTable,//
-                top,//
-                baseId);//
+            return new SideBySide2(baseId, id.getParentKey(),
+                id.get(), side, line);
           }
         }
 

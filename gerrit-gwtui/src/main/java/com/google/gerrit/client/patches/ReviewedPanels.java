@@ -52,11 +52,10 @@ public class ReviewedPanels {
     this.bottom.setStyleName(Gerrit.RESOURCES.css().reviewedPanelBottom());
   }
 
-  public void populate(Patch.Key pk, PatchTable pt, int patchIndex,
-      PatchScreen.Type patchScreenType) {
+  public void populate(Patch.Key pk, PatchTable pt, int patchIndex) {
     patchKey = pk;
     fileList = pt;
-    reviewedLink = createReviewedLink(patchIndex, patchScreenType);
+    reviewedLink = createReviewedLink(patchIndex);
 
     top.clear();
     checkBoxTop = createReviewedCheckbox();
@@ -132,8 +131,7 @@ public class ReviewedPanels {
     }
   }
 
-  private InlineHyperlink createReviewedLink(final int patchIndex,
-      final PatchScreen.Type patchScreenType) {
+  private InlineHyperlink createReviewedLink(final int patchIndex) {
     final PatchValidator unreviewedValidator = new PatchValidator() {
       @Override
       public boolean isValid(Patch patch) {
@@ -150,8 +148,7 @@ public class ReviewedPanels {
       if (nextUnreviewedPatchIndex > -1) {
         // Create invisible patch link to change page
         reviewedLink =
-            fileList.createLink(nextUnreviewedPatchIndex, patchScreenType,
-                null, null);
+            fileList.createLink(nextUnreviewedPatchIndex, null, null);
         reviewedLink.setText("");
       }
     }

@@ -68,11 +68,8 @@ import com.google.gerrit.client.api.ExtensionScreen;
 import com.google.gerrit.client.change.ChangeScreen2;
 import com.google.gerrit.client.change.FileTable;
 import com.google.gerrit.client.changes.AccountDashboardScreen;
-import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.changes.CustomDashboardScreen;
-import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.ProjectDashboardScreen;
-import com.google.gerrit.client.changes.PublishCommentScreen;
 import com.google.gerrit.client.changes.QueryScreen;
 import com.google.gerrit.client.dashboards.DashboardInfo;
 import com.google.gerrit.client.dashboards.DashboardList;
@@ -82,14 +79,12 @@ import com.google.gerrit.client.documentation.DocScreen;
 import com.google.gerrit.client.editor.EditScreen;
 import com.google.gerrit.client.groups.GroupApi;
 import com.google.gerrit.client.groups.GroupInfo;
-import com.google.gerrit.client.patches.PatchScreen;
+import com.google.gerrit.client.patches.UnifiedPatchScreen;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
@@ -99,14 +94,10 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.http.client.URL;
-import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwtorm.client.KeyUtil;
 
 public class Dispatcher {
-  public static final String COOKIE_CS2 = "gerrit_cs2";
-  public static boolean changeScreen2;
-
   public static String toPatchSideBySide(final Patch.Key id) {
     return toPatch("", null, id);
   }
@@ -138,7 +129,7 @@ public class Dispatcher {
     return toPatch("unified", diffBase, id);
   }
 
-  private static String toPatch(String type, PatchSet.Id diffBase, Patch.Key id) {
+  public static String toPatch(String type, PatchSet.Id diffBase, Patch.Key id) {
     return toPatch(type, diffBase, id.getParentKey(), id.get(), null, 0);
   }
 
@@ -162,14 +153,6 @@ public class Dispatcher {
     return p.toString();
   }
 
-  public static String toPatch(final PatchScreen.Type type, final Patch.Key id) {
-    if (type == PatchScreen.Type.SIDE_BY_SIDE) {
-      return toPatchSideBySide(id);
-    } else {
-      return toPatchUnified(id);
-    }
-  }
-
   public static String toEditScreen(PatchSet.Id revision, String fileName) {
     Change.Id c = revision.getParentKey();
     StringBuilder p = new StringBuilder();
@@ -177,11 +160,6 @@ public class Dispatcher {
     p.append(revision.getId()).append("/").append(KeyUtil.encode(fileName));
     p.append(",edit");
     return p.toString();
-  }
-
-  public static String toPublish(PatchSet.Id ps) {
-    Change.Id c = ps.getParentKey();
-    return "/c/" + c + "/" + ps.get() + ",publish";
   }
 
   public static String toGroup(final AccountGroup.Id id) {
@@ -275,7 +253,6 @@ public class Dispatcher {
       Gerrit.display(token, new MyGroupsListScreen());
 
     } else if (/* DEPRECATED URL */matchPrefix("/c2/", token)) {
-      changeScreen2 = true;
       change(token);
     } else if (/* LEGACY URL */matchPrefix("all,", token)) {
       redirectFromLegacyToken(token, legacyAll(token));
@@ -553,9 +530,7 @@ public class Dispatcher {
         panel = null;
       }
       Gerrit.display(token, panel == null
-          ? (isChangeScreen2()
-              ? new ChangeScreen2(id, null, null, false, mode)
-              : new ChangeScreen(id))
+          ? new ChangeScreen2(id, null, null, false, mode)
           : new NotFoundScreen());
       return;
     }
@@ -593,19 +568,15 @@ public class Dispatcher {
         rest = rest.substring(0, at);
       }
       Patch.Key p = new Patch.Key(ps, KeyUtil.decode(rest));
-      patch(token, base, p, side, line, 0,
-          null, null, null, panel);
+      patch(token, base, p, side, line, panel);
     } else {
       if (panel == null) {
-        Gerrit.display(token, isChangeScreen2()
-            ? new ChangeScreen2(id,
+        Gerrit.display(token,
+            new ChangeScreen2(id,
                 base != null
                     ? String.valueOf(base.get())
                     : null,
-                String.valueOf(ps.get()), false, FileTable.Mode.REVIEW)
-            : new ChangeScreen(id));
-      } else if ("publish".equals(panel)) {
-        publish(ps);
+                String.valueOf(ps.get()), false, FileTable.Mode.REVIEW));
       } else {
         Gerrit.display(token, new NotFoundScreen());
       }
@@ -627,125 +598,50 @@ public class Dispatcher {
     }
   }
 
-  public static boolean isChangeScreen2() {
-    if (changeScreen2) {
-      return true;
-    }
-
-    AccountGeneralPreferences.ChangeScreen ui = null;
-    if (Gerrit.isSignedIn()) {
-      ui = Gerrit.getUserAccount()
-          .getGeneralPreferences()
-          .getChangeScreen();
-    }
-    String v = Cookies.getCookie(Dispatcher.COOKIE_CS2);
-    if (v != null) {
-      changeScreen2 = "1".equals(v);
-      return changeScreen2;
-    }
-    if (ui == null) {
-      ui = Gerrit.getConfig().getChangeScreen();
-    }
-    return ui == AccountGeneralPreferences.ChangeScreen.CHANGE_SCREEN2;
-  }
-
-  private static void publish(final PatchSet.Id ps) {
-    String token = toPublish(ps);
-    new AsyncSplit(token) {
-      @Override
-      public void onSuccess() {
-        Gerrit.display(token, select());
-      }
-
-      private Screen select() {
-        return new PublishCommentScreen(ps);
-      }
-    }.onSuccess();
-  }
-
-  public static void patch(String token, PatchSet.Id base, Patch.Key id,
-      int patchIndex, PatchSetDetail patchSetDetail,
-      PatchTable patchTable, PatchScreen.TopView topView) {
-    patch(token, base, id, null, 0, patchIndex,
-        patchSetDetail, patchTable, topView, null);
-  }
-
-  public static void patch(String token, PatchSet.Id baseId,
-      Patch.Key id, DisplaySide side, int line,
-      int patchIndex, PatchSetDetail patchSetDetail,
-      PatchTable patchTable, PatchScreen.TopView topView,
+  private static void patch(String token,
+      PatchSet.Id baseId,
+      Patch.Key id,
+      DisplaySide side,
+      int line,
       String panelType) {
-    if (id == null) {
-      Gerrit.display(token, new NotFoundScreen());
-      return;
-    }
-
     String panel = panelType;
     if (panel == null) {
       int c = token.lastIndexOf(',');
       panel = 0 <= c ? token.substring(c + 1) : "";
     }
 
-    if ("".equals(panel)) {
-      if (isChangeScreen2()) {
-        if (Gerrit.isSignedIn()
-            && DiffView.UNIFIED_DIFF.equals(Gerrit.getUserAccount()
-                .getGeneralPreferences().getDiffView())) {
-          sbs1(token, baseId, id, patchIndex, patchSetDetail, patchTable,
-              topView, PatchScreen.Type.UNIFIED);
-          return;
-        }
+    if ("".equals(panel) || /* DEPRECATED URL */"cm".equals(panel)) {
+      if (preferUnified()) {
+        unified1(token, baseId, id);
+      } else {
         sbs2(token, baseId, id, side, line, false);
-        return;
       }
-      sbs1(token, baseId, id, patchIndex, patchSetDetail, patchTable, topView,
-          PatchScreen.Type.SIDE_BY_SIDE);
-      return;
+    } else if ("sidebyside".equals(panel)) {
+      sbs2(token, null, id, side, line, false);
     } else if ("unified".equals(panel)) {
-      sbs1(token, baseId, id, patchIndex, patchSetDetail, patchTable, topView,
-          PatchScreen.Type.UNIFIED);
-      return;
-    } else if ("cm".equals(panel)) {
-      if (Gerrit.isSignedIn()
-          && DiffView.UNIFIED_DIFF.equals(Gerrit.getUserAccount()
-              .getGeneralPreferences().getDiffView())) {
-        sbs1(token, baseId, id, patchIndex, patchSetDetail, patchTable,
-            topView, PatchScreen.Type.UNIFIED);
-        return;
-      }
-      sbs2(token, baseId, id, side, line, false);
-      return;
-    } else if ("".equals(panel) || "sidebyside".equals(panel)) {
-      sbs1(token, baseId, id, patchIndex, patchSetDetail, patchTable, topView,
-          PatchScreen.Type.SIDE_BY_SIDE);
-      return;
-    } else if (panel.equals("edit")) {
-      sbs2(token, null, id, null, 0, true);
-      return;
+      unified1(token, baseId, id);
+    } else if ("edit".equals(panel)) {
+      sbs2(token, null, id, side, line, true);
+    } else {
+      Gerrit.display(token, new NotFoundScreen());
     }
-    Gerrit.display(token, new NotFoundScreen());
   }
 
-  private static void sbs1(final String token, final PatchSet.Id baseId,
-      final Patch.Key id, final int patchIndex,
-      final PatchSetDetail patchSetDetail, final PatchTable patchTable,
-      final PatchScreen.TopView topView, final PatchScreen.Type type) {
+  private static boolean preferUnified() {
+    return Gerrit.isSignedIn()
+        && DiffView.UNIFIED_DIFF.equals(Gerrit.getUserAccount()
+            .getGeneralPreferences()
+            .getDiffView());
+  }
+
+  private static void unified1(final String token,
+      final PatchSet.Id baseId,
+      final Patch.Key id) {
     GWT.runAsync(new AsyncSplit(token) {
       @Override
       public void onSuccess() {
-        PatchScreen.TopView top =  topView == null
-            ? Gerrit.getPatchScreenTopView()
-            : topView;
-        switch (type) {
-          case SIDE_BY_SIDE:
-            Gerrit.display(token, new PatchScreen.SideBySide(id, patchIndex,
-                patchSetDetail, patchTable, top, baseId));
-            break;
-          case UNIFIED:
-            Gerrit.display(token, new PatchScreen.Unified(id, patchIndex,
-                patchSetDetail, patchTable, top, baseId));
-            break;
-        }
+        UnifiedPatchScreen.TopView top = Gerrit.getPatchScreenTopView();
+        Gerrit.display(token, new UnifiedPatchScreen(id, top, baseId));
       }
     });
   }

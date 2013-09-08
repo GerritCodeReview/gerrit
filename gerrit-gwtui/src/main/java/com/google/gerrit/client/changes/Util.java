@@ -14,26 +14,16 @@
 
 package com.google.gerrit.client.changes;
 
-import com.google.gerrit.common.data.ChangeDetailService;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.GWT;
-import com.google.gwtjsonrpc.client.JsonUtil;
 
 public class Util {
   public static final ChangeConstants C = GWT.create(ChangeConstants.class);
   public static final ChangeMessages M = GWT.create(ChangeMessages.class);
-  public static final ChangeResources R = GWT.create(ChangeResources.class);
-
-  public static final ChangeDetailService DETAIL_SVC;
 
   private static final int SUBJECT_MAX_LENGTH = 80;
   private static final String SUBJECT_CROP_APPENDIX = "...";
   private static final int SUBJECT_CROP_RANGE = 10;
-
-  static {
-    DETAIL_SVC = GWT.create(ChangeDetailService.class);
-    JsonUtil.bind(DETAIL_SVC, "rpc/ChangeDetailService");
-  }
 
   public static String toLongString(final Change.Status status) {
     if (status == null) {

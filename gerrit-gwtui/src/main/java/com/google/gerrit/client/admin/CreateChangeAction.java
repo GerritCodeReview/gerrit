@@ -27,7 +27,7 @@ class CreateChangeAction {
   static void call(Button b, final String project) {
     // TODO Replace CreateChangeDialog with a nicer looking display.
     b.setEnabled(false);
-    new CreateChangeDialog(b, new Project.NameKey(project)) {
+    new CreateChangeDialog(new Project.NameKey(project)) {
       {
         sendButton.setText(Util.C.buttonCreate());
         message.setText(Util.C.buttonCreateDescription());

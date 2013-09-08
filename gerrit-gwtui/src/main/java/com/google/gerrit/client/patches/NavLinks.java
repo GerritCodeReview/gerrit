@@ -75,11 +75,11 @@ class NavLinks extends Composite {
     table.setWidget(0, 1, up);
   }
 
-  void display(int patchIndex, PatchScreen.Type type, PatchTable fileList,
+  void display(int patchIndex, PatchTable fileList,
       List<InlineHyperlink> links, List<WebLinkInfo> webLinks) {
     if (fileList != null) {
-      setupNav(Nav.PREV, fileList.getPreviousPatchLink(patchIndex, type));
-      setupNav(Nav.NEXT, fileList.getNextPatchLink(patchIndex, type));
+      setupNav(Nav.PREV, fileList.getPreviousPatchLink(patchIndex));
+      setupNav(Nav.NEXT, fileList.getNextPatchLink(patchIndex));
     } else {
       setupNav(Nav.PREV, null);
       setupNav(Nav.NEXT, null);

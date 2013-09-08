@@ -47,7 +47,7 @@ class Reload extends Image implements ClickHandler,
   }
 
   void reload() {
-    Gerrit.display(PageLinks.toChange2(changeId));
+    Gerrit.display(PageLinks.toChange(changeId));
   }
 
   @Override

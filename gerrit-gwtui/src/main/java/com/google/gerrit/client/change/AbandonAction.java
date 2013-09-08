@@ -34,7 +34,7 @@ class AbandonAction extends ActionMessageBox {
     ChangeApi.abandon(id.get(), message, new GerritCallback<ChangeInfo>() {
       @Override
       public void onSuccess(ChangeInfo result) {
-        Gerrit.display(PageLinks.toChange2(id));
+        Gerrit.display(PageLinks.toChange(id));
         hide();
       }
     });

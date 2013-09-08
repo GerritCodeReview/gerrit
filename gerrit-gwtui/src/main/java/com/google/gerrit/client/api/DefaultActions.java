@@ -38,7 +38,7 @@ class DefaultActions {
             Window.alert(str.asString());
           }
         }
-        Gerrit.display(PageLinks.toChange2(id));
+        Gerrit.display(PageLinks.toChange(id));
       }
     };
     if ("PUT".equalsIgnoreCase(action.method())) {

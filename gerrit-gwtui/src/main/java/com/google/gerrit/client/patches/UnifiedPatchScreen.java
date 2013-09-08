@@ -21,7 +21,6 @@ import com.google.gerrit.client.RpcStatus;
 import com.google.gerrit.client.WebLinkInfo;
 import com.google.gerrit.client.changes.CommitMessageBlock;
 import com.google.gerrit.client.changes.PatchTable;
-import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.diff.DiffApi;
 import com.google.gerrit.client.diff.DiffInfo;
 import com.google.gerrit.client.projects.ConfigInfoCache;
@@ -55,46 +54,10 @@ import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class PatchScreen extends Screen implements
+public class UnifiedPatchScreen extends Screen implements
     CommentEditorContainer {
   static final PrettyFactory PRETTY = ClientSideFormatter.FACTORY;
   static final short LARGE_FILE_CONTEXT = 100;
-
-  public static class SideBySide extends PatchScreen {
-    public SideBySide(final Patch.Key id, final int patchIndex,
-        final PatchSetDetail patchSetDetail, final PatchTable patchTable,
-        final TopView topView, final PatchSet.Id baseId) {
-       super(id, patchIndex, patchSetDetail, patchTable, topView, baseId);
-    }
-
-    @Override
-    protected SideBySideTable createContentTable() {
-      return new SideBySideTable();
-    }
-
-    @Override
-    public PatchScreen.Type getPatchScreenType() {
-      return PatchScreen.Type.SIDE_BY_SIDE;
-    }
-  }
-
-  public static class Unified extends PatchScreen {
-    public Unified(final Patch.Key id, final int patchIndex,
-        final PatchSetDetail patchSetDetail, final PatchTable patchTable,
-        final TopView topView, final PatchSet.Id baseId) {
-      super(id, patchIndex, patchSetDetail, patchTable, topView, baseId);
-    }
-
-    @Override
-    protected UnifiedDiffTable createContentTable() {
-      return new UnifiedDiffTable();
-    }
-
-    @Override
-    public PatchScreen.Type getPatchScreenType() {
-      return PatchScreen.Type.UNIFIED;
-    }
-  }
 
   /**
    * What should be displayed in the top of the screen
@@ -137,24 +100,12 @@ public abstract class PatchScreen extends Screen implements
   private boolean intralineFailure;
   private boolean intralineTimeout;
 
-  /**
-   * How this patch should be displayed in the patch screen.
-   */
-  public static enum Type {
-    UNIFIED, SIDE_BY_SIDE
-  }
-
-  protected PatchScreen(final Patch.Key id, final int patchIndex,
-      final PatchSetDetail detail, final PatchTable patchTable,
-      final TopView top, final PatchSet.Id baseId) {
+  public UnifiedPatchScreen(Patch.Key id, TopView top, PatchSet.Id baseId) {
     patchKey = id;
-    patchSetDetail = detail;
-    fileList = patchTable;
     topView = top;
 
     idSideA = baseId; // null here means we're diff'ing from the Base
     idSideB = id.getParentKey();
-    this.patchIndex = patchIndex;
 
     prefs = fileList != null
         ? fileList.getPreferences()
@@ -256,7 +207,7 @@ public abstract class PatchScreen extends Screen implements
     topPanel = new FlowPanel();
     add(topPanel);
 
-    contentTable = createContentTable();
+    contentTable = new UnifiedDiffTable();
     contentTable.fileList = fileList;
 
     topNav = new NavLinks(keysNavigation, patchKey.getParentKey());
@@ -264,12 +215,7 @@ public abstract class PatchScreen extends Screen implements
 
     add(topNav);
     contentPanel = new FlowPanel();
-    if (getPatchScreenType() == PatchScreen.Type.SIDE_BY_SIDE) {
-      contentPanel.setStyleName(//
-          Gerrit.RESOURCES.css().sideBySideScreenSideBySideTable());
-    } else {
-      contentPanel.setStyleName(Gerrit.RESOURCES.css().unifiedTable());
-    }
+    contentPanel.setStyleName(Gerrit.RESOURCES.css().unifiedTable());
 
     contentPanel.add(contentTable);
     add(contentPanel);
@@ -290,22 +236,16 @@ public abstract class PatchScreen extends Screen implements
       .get(new GerritCallback<DiffInfo>() {
         @Override
         public void onSuccess(DiffInfo diffInfo) {
-          topNav.display(patchIndex, getPatchScreenType(), fileList,
+          topNav.display(patchIndex, fileList,
               getLinks(), getWebLinks(diffInfo));
-          bottomNav.display(patchIndex, getPatchScreenType(), fileList,
+          bottomNav.display(patchIndex, fileList,
               getLinks(), getWebLinks(diffInfo));
         }
       });
   }
 
   private List<InlineHyperlink> getLinks() {
-    if (contentTable instanceof SideBySideTable) {
-      InlineHyperlink toUnifiedDiffLink = new InlineHyperlink();
-      toUnifiedDiffLink.setHTML(new ImageResourceRenderer().render(Gerrit.RESOURCES.unifiedDiff()));
-      toUnifiedDiffLink.setTargetHistoryToken(getUnifiedDiffUrl());
-      toUnifiedDiffLink.setTitle(PatchUtil.C.unifiedDiff());
-      return Collections.singletonList(toUnifiedDiffLink);
-    } else if (contentTable instanceof UnifiedDiffTable) {
+    if (contentTable instanceof UnifiedDiffTable) {
       InlineHyperlink toSideBySideDiffLink = new InlineHyperlink();
       toSideBySideDiffLink.setHTML(new ImageResourceRenderer().render(Gerrit.RESOURCES.sideBySideDiff()));
       toSideBySideDiffLink.setTargetHistoryToken(getSideBySideDiffUrl());
@@ -318,9 +258,7 @@ public abstract class PatchScreen extends Screen implements
   }
 
   private List<WebLinkInfo> getWebLinks(DiffInfo diffInfo) {
-    if (contentTable instanceof SideBySideTable) {
-      return diffInfo.side_by_side_web_links();
-    } else if (contentTable instanceof UnifiedDiffTable) {
+    if (contentTable instanceof UnifiedDiffTable) {
       return diffInfo.unified_web_links();
     } else {
       throw new IllegalStateException("unknown table type: "
@@ -329,22 +267,8 @@ public abstract class PatchScreen extends Screen implements
   }
 
   private String getSideBySideDiffUrl() {
-    StringBuilder url = new StringBuilder();
-    url.append("/c/");
-    url.append(patchKey.getParentKey().getParentKey().get());
-    url.append("/");
-    if (idSideA != null) {
-      url.append(idSideA.get());
-      url.append("..");
-    }
-    url.append(idSideB.get());
-    url.append("/");
-    url.append(patchKey.getFileName());
-    return url.toString();
-  }
-
-  private String getUnifiedDiffUrl() {
-    return getSideBySideDiffUrl() + ",unified";
+    return Dispatcher.toPatch("sidebyside", idSideA,
+        new Patch.Key(idSideB, patchKey.getFileName()));
   }
 
   @Override
@@ -352,7 +276,7 @@ public abstract class PatchScreen extends Screen implements
     super.onLoad();
 
     if (patchSetDetail == null) {
-      Util.DETAIL_SVC.patchSetDetail(idSideB,
+      PatchUtil.CHANGE_SVC.patchSetDetail(idSideB,
           new GerritCallback<PatchSetDetail>() {
             @Override
             public void onSuccess(PatchSetDetail result) {
@@ -405,10 +329,6 @@ public abstract class PatchScreen extends Screen implements
     }
   }
 
-  protected abstract AbstractPatchContentTable createContentTable();
-
-  public abstract PatchScreen.Type getPatchScreenType();
-
   public PatchSet.Id getSideA() {
     return idSideA;
   }
@@ -437,7 +357,7 @@ public abstract class PatchScreen extends Screen implements
     final int rpcseq = ++rpcSequence;
     lastScript = null;
     settingsPanel.setEnabled(false);
-    reviewedPanels.populate(patchKey, fileList, patchIndex, getPatchScreenType());
+    reviewedPanels.populate(patchKey, fileList, patchIndex);
     if (isFirst && fileList != null && fileList.isLoaded()) {
       fileList.movePointerTo(patchKey);
     }
@@ -457,7 +377,7 @@ public abstract class PatchScreen extends Screen implements
             // Handled by ScreenLoadCallback.onFailure.
           }
         }));
-    PatchUtil.DETAIL_SVC.patchScript(patchKey, idSideA, idSideB,
+    PatchUtil.PATCH_SVC.patchScript(patchKey, idSideA, idSideB,
         settingsPanel.getValue(), cb.addFinal(
             new ScreenLoadCallback<PatchScript>(this) {
               @Override
@@ -494,7 +414,7 @@ public abstract class PatchScreen extends Screen implements
           commentLinkProcessor);
     } else {
       commitMessageBlock.setVisible(false);
-      Util.DETAIL_SVC.patchSetDetail(idSideB,
+      PatchUtil.CHANGE_SVC.patchSetDetail(idSideB,
           new GerritCallback<PatchSetDetail>() {
             @Override
             public void onSuccess(PatchSetDetail result) {
@@ -514,22 +434,6 @@ public abstract class PatchScreen extends Screen implements
         }
         break;
       }
-    }
-
-    if (contentTable instanceof SideBySideTable
-        && contentTable.isPureMetaChange(script)
-        && !contentTable.isDisplayBinary) {
-      // User asked for SideBySide (or a link guessed, wrong) and we can't
-      // show a pure-rename change there accurately. Switch to
-      // the unified view instead. User can set file comments on binary file
-      // in SideBySide view.
-      //
-      contentTable.removeFromParent();
-      contentTable = new UnifiedDiffTable();
-      contentTable.fileList = fileList;
-      contentTable.setCommentLinkProcessor(commentLinkProcessor);
-      contentPanel.add(contentTable);
-      setToken(Dispatcher.toPatchUnified(idSideA, patchKey));
     }
 
     if (script.isHugeFile()) {
@@ -632,7 +536,7 @@ public abstract class PatchScreen extends Screen implements
         final PatchSet.Id psid = patchKey.getParentKey();
         fileList = new PatchTable(prefs);
         fileList.setSavePointerId("PatchTable " + psid);
-        Util.DETAIL_SVC.patchSetDetail(psid,
+        PatchUtil.CHANGE_SVC.patchSetDetail(psid,
             new GerritCallback<PatchSetDetail>() {
               @Override
               public void onSuccess(final PatchSetDetail result) {

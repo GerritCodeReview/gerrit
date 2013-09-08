@@ -23,7 +23,6 @@ import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
@@ -32,12 +31,12 @@ import com.google.gwtexpui.safehtml.client.HighlightSuggestOracle;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class CherryPickDialog extends ActionDialog {
+public abstract class CherryPickDialog extends CommentedActionDialog {
   private SuggestBox newBranch;
   private List<BranchInfo> branches;
 
-  public CherryPickDialog(final FocusWidget enableOnFailure, Project.NameKey project) {
-    super(enableOnFailure, true, Util.C.cherryPickTitle(), Util.C
+  public CherryPickDialog(Project.NameKey project) {
+    super(Util.C.cherryPickTitle(), Util.C
         .cherryPickCommitMessage());
     ProjectApi.getBranches(project,
         new GerritCallback<JsArray<BranchInfo>>() {

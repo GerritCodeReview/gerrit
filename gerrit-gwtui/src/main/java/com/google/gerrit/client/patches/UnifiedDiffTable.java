@@ -420,11 +420,6 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     defaultStyle(row, fmt);
   }
 
-  @Override
-  protected PatchScreen.Type getPatchScreenType() {
-    return PatchScreen.Type.UNIFIED;
-  }
-
   private int insert(final List<PatchLineComment> in, int row) {
     for (Iterator<PatchLineComment> ci = in.iterator(); ci.hasNext();) {
       final PatchLineComment c = ci.next();

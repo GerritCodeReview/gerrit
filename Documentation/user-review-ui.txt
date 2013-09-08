@@ -698,20 +698,6 @@ controls below the change info block.
 
 image::images/user-review-ui-change-screen-plugin-extensions.png[width=800, link="images/user-review-ui-change-screen-plugin-extensions.png"]
 
-[[old-change-screen]]
-=== Old Change Screen
-
-In addition to the normal change screen, this Gerrit version still
-includes the old change screen that was used in earlier Gerrit
-versions. Users that want to continue using the old change screen can
-configure it in their preferences under
-`Settings` > `Preferences` > `Change View`:
-
-image::images/user-review-ui-change-view-preference.png[width=800, link="images/user-review-ui-change-view-preference.png"]
-
-[WARNING]
-The old change screen will be removed in a later version of Gerrit.
-
 [[side-by-side]]
 == Side-by-Side Diff Screen
 
@@ -1155,15 +1141,6 @@ Limitations of the new review UI:
 
 - The new side-by-side diff screen isn't able to highlight line
   endings.
-
-- Unified diff view is missing:
-+
-By setting `Diff View (New Change Screen)` in the user preferences to
-`Unified Diff` the new change screen can be configured to open the file
-diffs in the old unified diff view.
-
-Users preferring the old review UI can link:#old-change-screen[
-configure the change view] in their preferences.
 
 GERRIT
 ------

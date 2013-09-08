@@ -15,32 +15,23 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
-import com.google.gerrit.client.ui.CommentedActionDialog;
-import com.google.gerrit.client.ui.TextBoxChangeListener;
-import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.PreElement;
 import com.google.gwt.dom.client.Style.Display;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
-import com.google.gwtjsonrpc.common.AsyncCallback;
 
 public class CommitMessageBlock extends Composite {
   interface Binder extends UiBinder<HTMLPanel, CommitMessageBlock> {
@@ -70,44 +61,11 @@ public class CommitMessageBlock extends Composite {
 
   public void display(String commitMessage,
       CommentLinkProcessor commentLinkProcessor) {
-    display(null, null, null, false, commitMessage, commentLinkProcessor);
-  }
-
-  private abstract class CommitMessageEditDialog
-      extends CommentedActionDialog<JavaScriptObject> {
-    private final String originalMessage;
-    public CommitMessageEditDialog(final String title, final String heading,
-        final String commitMessage, AsyncCallback<JavaScriptObject> callback) {
-      super(title, heading, callback);
-      originalMessage = commitMessage.trim();
-      message.setCharacterWidth(72);
-      message.setVisibleLines(20);
-      message.setText(originalMessage);
-      message.addStyleName(Gerrit.RESOURCES.css().changeScreenDescription());
-      sendButton.setEnabled(false);
-
-      new TextBoxChangeListener(message) {
-        @Override
-        public void onTextChanged(String newText) {
-          // Trim the new text so we don't consider trailing
-          // newlines as changes
-          sendButton.setEnabled(!newText.trim().equals(originalMessage));
-        }
-      };
-    }
-
-    @Override
-    public String getMessageText() {
-      // As we rely on commit message lines ending in LF, we convert CRLF to
-      // LF. Additionally, the commit message should be trimmed to remove any
-      // excess newlines at the end, but we need to make sure it still has at
-      // least one trailing newline.
-      return message.getText().replaceAll("\r\n", "\n").trim() + '\n';
-    }
+    display(null, null, null, commitMessage, commentLinkProcessor);
   }
 
   public void display(final PatchSet.Id patchSetId, final String revision,
-      Boolean starred, Boolean canEditCommitMessage, final String commitMessage,
+      Boolean starred, final String commitMessage,
       CommentLinkProcessor commentLinkProcessor) {
     starPanel.clear();
     if (patchSetId != null && starred != null && Gerrit.isSignedIn()) {
@@ -127,37 +85,6 @@ public class CommitMessageBlock extends Composite {
       permalinkPanel.add(new ChangeLink(Util.C.changePermalink(), changeId));
       permalinkPanel.add(new CopyableLabel(ChangeLink.permalink(changeId),
           false));
-      if (canEditCommitMessage) {
-        final Image edit = new Image(Gerrit.RESOURCES.edit());
-        edit.setTitle(Util.C.editCommitMessageToolTip());
-        edit.addStyleName(Gerrit.RESOURCES.css().link());
-        edit.addClickHandler(new ClickHandler() {
-          @Override
-          public void onClick(final ClickEvent event) {
-            new CommitMessageEditDialog(Util.C.titleEditCommitMessage(),
-                Util.C.headingEditCommitMessage(),
-                commitMessage,
-                new GerritCallback<JavaScriptObject>() {
-                  @Override
-                  public void onSuccess(JavaScriptObject result) {}
-                }) {
-              @Override
-              public void onSend() {
-                ChangeApi.message(changeId.get(), revision, getMessageText(),
-                    new GerritCallback<JavaScriptObject>() {
-                      @Override
-                      public void onSuccess(JavaScriptObject msg) {
-                        Gerrit.display(PageLinks.toChange(changeId));
-                        hide();
-                      }
-                    });
-              }
-            }.center();
-          }
-        });
-
-        permalinkPanel.add(edit);
-      }
     }
 
     String[] splitCommitMessage = commitMessage.split("\n", 2);

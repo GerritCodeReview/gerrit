@@ -41,18 +41,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PatchSetSelectBox extends Composite {
-  interface Binder extends UiBinder<HTMLPanel, PatchSetSelectBox> {
-  }
-
+  interface Binder extends UiBinder<HTMLPanel, PatchSetSelectBox> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   interface BoxStyle extends CssResource {
     String selected();
-
     String hidden();
-
     String sideMarker();
-
     String patchSetLabel();
   }
 
@@ -66,7 +61,6 @@ public class PatchSetSelectBox extends Composite {
   PatchSet.Id idSideB;
   PatchSet.Id idActive;
   Side side;
-  PatchScreen.Type screenType;
   Map<Integer, Anchor> links;
   private Label patchSet;
 
@@ -76,9 +70,8 @@ public class PatchSetSelectBox extends Composite {
   @UiField
   BoxStyle style;
 
-  public PatchSetSelectBox(Side side, final PatchScreen.Type type) {
+  public PatchSetSelectBox(Side side) {
     this.side = side;
-    this.screenType = type;
 
     initWidget(uiBinder.createAndBindUi(this));
   }
@@ -102,11 +95,9 @@ public class PatchSetSelectBox extends Composite {
     patchSet.addStyleName(style.patchSetLabel());
     linkPanel.add(patchSet);
 
-    if (screenType == PatchScreen.Type.UNIFIED) {
-      Label sideMarker = new Label((side == Side.A) ? "(-)" : "(+)");
-      sideMarker.addStyleName(style.sideMarker());
-      linkPanel.add(sideMarker);
-    }
+    Label sideMarker = new Label((side == Side.A) ? "(-)" : "(+)");
+    sideMarker.addStyleName(style.sideMarker());
+    linkPanel.add(sideMarker);
 
     Anchor baseLink;
     if (detail.getInfo().getParents().size() > 1) {
@@ -116,9 +107,7 @@ public class PatchSetSelectBox extends Composite {
     }
 
     links.put(0, baseLink);
-    if (screenType == PatchScreen.Type.UNIFIED || side == Side.A) {
-      linkPanel.add(baseLink);
-    }
+    linkPanel.add(baseLink);
 
     if (side == Side.B) {
       links.get(0).setStyleName(style.hidden());
@@ -161,19 +150,9 @@ public class PatchSetSelectBox extends Composite {
         }
 
         Patch.Key keySideB = new Patch.Key(idSideB, patchKey.get());
-
-        switch (screenType) {
-          case SIDE_BY_SIDE:
-            Gerrit.display(Dispatcher.toPatchSideBySide(idSideA, keySideB));
-            break;
-          case UNIFIED:
-            Gerrit.display(Dispatcher.toPatchUnified(idSideA, keySideB));
-            break;
-        }
+        Gerrit.display(Dispatcher.toUnified(idSideA, keySideB));
       }
-
     });
-
     return anchor;
   }
 

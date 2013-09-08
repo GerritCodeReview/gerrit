@@ -14,14 +14,12 @@
 
 package com.google.gerrit.client.patches;
 
-import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.changes.PatchTable;
-import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.CommentPanel;
@@ -72,7 +70,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractPatchContentTable extends NavigationTable<Object>
+abstract class AbstractPatchContentTable extends NavigationTable<Object>
     implements CommentEditorContainer, FocusHandler, BlurHandler {
   public static final int R_HEAD = 0;
   static final short FILE_SIDE_A = (short) 0;
@@ -110,8 +108,6 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     if (Gerrit.isSignedIn()) {
       keysAction.add(new InsertCommentCommand(0, 'c', PatchUtil.C
           .commentInsert()));
-      keysAction.add(new PublishCommentsKeyCommand(0, 'r', Util.C
-          .keyPublishComments()));
 
       // See CommentEditorPanel
       //
@@ -131,11 +127,8 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
 
   abstract void createFileCommentEditorOnSideB();
 
-  abstract PatchScreen.Type getPatchScreenType();
-
   protected void initHeaders(PatchScript script, PatchSetDetail detail) {
-    PatchScreen.Type type = getPatchScreenType();
-    headerSideA = new PatchSetSelectBox(PatchSetSelectBox.Side.A, type);
+    headerSideA = new PatchSetSelectBox(PatchSetSelectBox.Side.A);
     headerSideA.display(detail, script, patchKey, idSideA, idSideB);
     headerSideA.addDoubleClickHandler(new DoubleClickHandler() {
       @Override
@@ -145,7 +138,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
         }
       }
     });
-    headerSideB = new PatchSetSelectBox(PatchSetSelectBox.Side.B, type);
+    headerSideB = new PatchSetSelectBox(PatchSetSelectBox.Side.B);
     headerSideB.display(detail, script, patchKey, idSideA, idSideB);
     headerSideB.addDoubleClickHandler(new DoubleClickHandler() {
       @Override
@@ -835,18 +828,6 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
           return;
         }
       }
-    }
-  }
-
-  public class PublishCommentsKeyCommand extends NeedsSignInKeyCommand {
-    public PublishCommentsKeyCommand(int mask, char key, String help) {
-      super(mask, key, help);
-    }
-
-    @Override
-    public void onKeyPress(final KeyPressEvent event) {
-      final PatchSet.Id id = patchKey.getParentKey();
-      Gerrit.display(Dispatcher.toPublish(id));
     }
   }
 

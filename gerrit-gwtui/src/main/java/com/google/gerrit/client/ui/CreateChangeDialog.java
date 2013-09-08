@@ -23,7 +23,6 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
@@ -32,12 +31,12 @@ import com.google.gwtexpui.safehtml.client.HighlightSuggestOracle;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class CreateChangeDialog extends ActionDialog {
+public abstract class CreateChangeDialog extends CommentedActionDialog {
   private SuggestBox newChange;
   private List<BranchInfo> branches;
 
-  public CreateChangeDialog(final FocusWidget enableOnFailure, Project.NameKey project) {
-    super(enableOnFailure, true, Util.C.dialogCreateChangeTitle(),
+  public CreateChangeDialog(Project.NameKey project) {
+    super(Util.C.dialogCreateChangeTitle(),
         Util.C.dialogCreateChangeHeading());
     ProjectApi.getBranches(project,
         new GerritCallback<JsArray<BranchInfo>>() {

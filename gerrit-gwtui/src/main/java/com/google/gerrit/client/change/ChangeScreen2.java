@@ -579,9 +579,6 @@ public class ChangeScreen2 extends Screen {
     ChangeGlue.fireShowChange(changeInfo, changeInfo.revision(revision));
     CodeMirror.preload();
     startPoller();
-    if (NewChangeScreenBar.show()) {
-      add(new NewChangeScreenBar(changeId));
-    }
   }
 
   private void scrollToPath(String token) {

@@ -33,10 +33,10 @@ import java.util.List;
  * A table used to specify which two patch sets should be diff'ed.
  */
 class HistoryTable extends FancyFlexTable<Patch> {
-  private final PatchScreen screen;
+  private final UnifiedPatchScreen screen;
   final List<HistoryRadio> all = new ArrayList<>();
 
-  HistoryTable(final PatchScreen parent) {
+  HistoryTable(final UnifiedPatchScreen parent) {
     setStyleName(Gerrit.RESOURCES.css().patchHistoryTable());
     screen = parent;
     table.setWidth("auto");
@@ -58,14 +58,7 @@ class HistoryTable extends FancyFlexTable<Patch> {
     }
     enableAll(false);
     Patch.Key k = new Patch.Key(sideB, screen.getPatchKey().get());
-    switch (screen.getPatchScreenType()) {
-      case SIDE_BY_SIDE:
-        Gerrit.display(Dispatcher.toPatchSideBySide(sideA, k));
-        break;
-      case UNIFIED:
-        Gerrit.display(Dispatcher.toPatchUnified(sideA, k));
-        break;
-    }
+    Gerrit.display(Dispatcher.toUnified(sideA, k));
   }
 
   void enableAll(final boolean on) {

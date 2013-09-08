@@ -1550,11 +1550,6 @@ Only used when `gerrit.reportBugUrl` is set.
 +
 Defaults to "Report Bug".
 
-[[gerrit.changeScreen]]gerrit.changeScreen::
-+
-Default change screen UI to direct users to. Valid values are
-`OLD_UI` and `CHANGE_SCREEN2`. Default is `CHANGE_SCREEN2`.
-
 [[gerrit.disableReverseDnsLookup]]gerrit.disableReverseDnsLookup::
 +
 Disables reverse DNS lookup during computing ref log entry for identified user.

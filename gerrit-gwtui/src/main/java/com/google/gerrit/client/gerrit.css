@@ -979,13 +979,6 @@ a:hover {
   border-right: 1px solid trimColor;
 }
 
-.sideBySideTableBinaryHeader {
-  border-left:  thin solid #b0bdcc;
-  width: 100%;
-  color: grey;
-  font-weight: bold;
-}
-
 .infoTable td.approvalrole {
   width: 5em;
   border-left: none;
@@ -1241,17 +1234,6 @@ a:hover.downloadLink {
   width: 100%;
   border: 1px solid #B0BDCC;
   display: table;
-}
-
-/** SideBySideScreen **/
-.sideBySideScreenSideBySideTable {
-  width: 100%;
-  border: 1px solid #B0BDCC;
-  display: table;
-}
-
-.sideBySideScreenSideBySideTable .fileLine {
-  width: 50%;
 }
 
 .sideBySideScreenLinkTable {

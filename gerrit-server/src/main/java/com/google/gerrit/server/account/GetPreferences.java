@@ -17,7 +17,6 @@ package com.google.gerrit.server.account;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ChangeScreen;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.CommentVisibilityStrategy;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DateFormat;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
@@ -62,7 +61,6 @@ public class GetPreferences implements RestReadView<AccountResource> {
     Boolean relativeDateInChangeTable;
     CommentVisibilityStrategy commentVisibilityStrategy;
     DiffView diffView;
-    ChangeScreen changeScreen;
 
     PreferenceInfo(AccountGeneralPreferences p) {
       changesPerPage = p.getMaximumPageSize();
@@ -78,7 +76,6 @@ public class GetPreferences implements RestReadView<AccountResource> {
       relativeDateInChangeTable = p.isRelativeDateInChangeTable() ? true : null;
       commentVisibilityStrategy = p.getCommentVisibilityStrategy();
       diffView = p.getDiffView();
-      changeScreen = p.getChangeScreen();
     }
   }
 }

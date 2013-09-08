@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8748a179_63e3624f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2013-09-08T05:20:42Z",
+      "side": 1,
+      "message": "Maybe join this line (and the next one)?",
+      "revId": "17bd3eee666563bd6cb2949682a16dce8aa2ce19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

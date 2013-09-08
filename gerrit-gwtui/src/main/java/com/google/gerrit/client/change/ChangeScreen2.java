@@ -439,9 +439,6 @@ public class ChangeScreen2 extends Screen {
 
     ChangeGlue.fireShowChange(changeInfo, changeInfo.revision(revision));
     startPoller();
-    if (NewChangeScreenBar.show()) {
-      add(new NewChangeScreenBar(changeId));
-    }
   }
 
   private void scrollToPath(String token) {

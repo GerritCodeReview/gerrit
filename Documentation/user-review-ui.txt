@@ -681,20 +681,6 @@ controls below the change info block.
 
 image::images/user-review-ui-change-screen-plugin-extensions.png[width=800, link="images/user-review-ui-change-screen-plugin-extensions.png"]
 
-[[old-change-screen]]
-=== Old Change Screen
-
-In addition to the normal change screen, this Gerrit version still
-includes the old change screen that was used in earlier Gerrit
-versions. Users that want to continue using the old change screen can
-configure it in their preferences under
-`Settings` > `Preferences` > `Change View`:
-
-image::images/user-review-ui-change-view-preference.png[width=800, link="images/user-review-ui-change-view-preference.png"]
-
-[WARNING]
-The old change screen will be removed in a later version of Gerrit.
-
 [[side-by-side]]
 == Side-by-Side Diff Screen
 
@@ -1090,37 +1076,6 @@ image::images/user-review-ui-side-by-side-diff-screen-keyboard-shortcuts.png[wid
 +
 In addition, Vim-like commands can be used to link:#key-navigation[
 navigate] and link:#search[search] within a patch file.
-
-[[new-vs-old]]
-== New Review UI vs. Old Review UI
-
-There are some important conceptual differences between the old and
-new review UIs:
-
-- The old change screen directly shows all patch sets of the change.
-  With the new change screen only a single patch set is displayed;
-  users can switch between the patch sets by choosing another patch
-  set from the link:#patch-sets[Patch Sets] drop down panel in the
-  screen header.
-- On the old side-by-side diff screen, new comments are inserted by
-  double-clicking on a line. With the new side-by-side diff screen
-  double-click is used to select a word for commenting on it; there
-  are link:#add-inline-comment[several ways to insert new comments],
-  e.g. by selecting a code block and clicking on the popup comment
-  icon.
-
-Limitations of the new review UI:
-
-- The new side-by-side diff screen cannot render images.
-
-- Unified diff view is missing:
-+
-By setting `Diff View (New Change Screen)` in the user preferences to
-`Unified Diff` the new change screen can be configured to open the file
-diffs in the old unified diff view.
-
-Users preferring the old review UI can link:#old-change-screen[
-configure the change view] in their preferences.
 
 GERRIT
 ------

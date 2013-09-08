@@ -250,7 +250,7 @@ public class PatchTable extends Composite {
     Key thisKey = patch.getKey();
     PatchLink link;
 
-    if (isUnifiedPatchLink(patch, screenType)) {
+    if (isUnifiedPatchLink(patch)) {
       link = new PatchLink.Unified("", base, thisKey, index, detail, this);
     } else {
       link = new PatchLink.SideBySide("", base, thisKey, index, detail, this);
@@ -264,14 +264,10 @@ public class PatchTable extends Composite {
     return link;
   }
 
-  private static boolean isUnifiedPatchLink(final Patch patch,
-      final PatchScreen.Type screenType) {
-    if (Dispatcher.isChangeScreen2()) {
-      return (patch.getPatchType().equals(PatchType.BINARY)
-          || Gerrit.getUserAccount().getGeneralPreferences().getDiffView()
-          .equals(DiffView.UNIFIED_DIFF));
-    }
-    return screenType == PatchScreen.Type.UNIFIED;
+  private static boolean isUnifiedPatchLink(final Patch patch) {
+    return (patch.getPatchType().equals(PatchType.BINARY)
+        || Gerrit.getUserAccount().getGeneralPreferences().getDiffView()
+        .equals(DiffView.UNIFIED_DIFF));
   }
 
   private static String getFileNameOnly(Patch patch) {

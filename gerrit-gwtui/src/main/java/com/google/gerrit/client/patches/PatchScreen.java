@@ -52,24 +52,6 @@ public abstract class PatchScreen extends Screen implements
   static final PrettyFactory PRETTY = ClientSideFormatter.FACTORY;
   static final short LARGE_FILE_CONTEXT = 100;
 
-  public static class SideBySide extends PatchScreen {
-    public SideBySide(final Patch.Key id, final int patchIndex,
-        final PatchSetDetail patchSetDetail, final PatchTable patchTable,
-        final TopView topView, final PatchSet.Id baseId) {
-       super(id, patchIndex, patchSetDetail, patchTable, topView, baseId);
-    }
-
-    @Override
-    protected SideBySideTable createContentTable() {
-      return new SideBySideTable();
-    }
-
-    @Override
-    public PatchScreen.Type getPatchScreenType() {
-      return PatchScreen.Type.SIDE_BY_SIDE;
-    }
-  }
-
   public static class Unified extends PatchScreen {
     public Unified(final Patch.Key id, final int patchIndex,
         final PatchSetDetail patchSetDetail, final PatchTable patchTable,

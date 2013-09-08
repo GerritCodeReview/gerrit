@@ -15,13 +15,10 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusWidget;
@@ -30,22 +27,19 @@ import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtexpui.user.client.AutoCenterDialogBox;
 
-public abstract class CommentedActionDialog<T> extends AutoCenterDialogBox
+public abstract class CommentedActionDialog extends AutoCenterDialogBox
     implements CloseHandler<PopupPanel> {
   protected final FlowPanel panel;
   protected final NpTextArea message;
   protected final Button sendButton;
   protected final Button cancelButton;
   protected final FlowPanel buttonPanel;
-  protected AsyncCallback<T> callback;
   protected FocusWidget focusOn;
 
   protected boolean sent = false;
 
-  public CommentedActionDialog(final String title, final String heading,
-      AsyncCallback<T> callback) {
+  public CommentedActionDialog(final String title, final String heading) {
     super(/* auto hide */false, /* modal */true);
-    this.callback = callback;
     setGlassEnabled(true);
     setText(title);
 
@@ -112,13 +106,6 @@ public abstract class CommentedActionDialog<T> extends AutoCenterDialogBox
 
   @Override
   public void onClose(CloseEvent<PopupPanel> event) {
-    if (!sent) {
-      // the dialog was closed without the send button being pressed
-      // e.g. the user pressed Cancel or ESC to close the dialog
-      if (callback != null) {
-        callback.onFailure(null);
-      }
-    }
     sent = false;
   }
 
@@ -126,24 +113,5 @@ public abstract class CommentedActionDialog<T> extends AutoCenterDialogBox
 
   public String getMessageText() {
     return message.getText().trim();
-  }
-
-  public AsyncCallback<T> createCallback() {
-    return new GerritCallback<T>(){
-      @Override
-      public void onSuccess(T result) {
-        sent = true;
-        if (callback != null) {
-          callback.onSuccess(result);
-        }
-        hide();
-      }
-
-      @Override
-      public void onFailure(Throwable caught) {
-        enableButtons(true);
-        super.onFailure(caught);
-      }
-    };
   }
 }

@@ -18,6 +18,7 @@ limitations under the License.
     xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:c='urn:import:com.google.gwtexpui.globalkey.client'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <ui:with field='ico' type='com.google.gerrit.client.GerritResources'/>
   <ui:with field='res' type='com.google.gerrit.client.change.Resources'/>
   <ui:style>
     .openAdd {
@@ -44,14 +45,12 @@ limitations under the License.
   </ui:style>
   <g:HTMLPanel>
     <div>
-      <span ui:field='reviewers'/>
-      <g:Button ui:field='openForm'
-         title='Add reviewers to this change'
+      <span ui:field='ccReviewers'/>
+      <g:Image ui:field='openForm'
+         title='Click to modify reviewers (Shortcut: c)'
+         resource='{ico.edit}'
          styleName='{style.openAdd}'
-         visible='false'>
-       <ui:attribute name='title'/>
-       <div>[+]</div>
-      </g:Button>
+         visible='false'/>
     </div>
     <div ui:field='form' style='display: none' aria-hidden='true'>
       <g:SuggestBox ui:field='suggestBox' styleName='{style.suggestBox}'/>
@@ -67,6 +66,10 @@ limitations under the License.
             addStyleNames='{style.cancel}'>
           <div>Cancel</div>
         </g:Button>
+      </div>
+      <hr/>
+      <div>
+        <g:Grid ui:field='table'/>
       </div>
     </div>
    </g:HTMLPanel>

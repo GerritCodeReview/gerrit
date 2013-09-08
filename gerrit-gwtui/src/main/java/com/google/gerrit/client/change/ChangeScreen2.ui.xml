@@ -277,12 +277,12 @@ limitations under the License.
           <table id='change_infoTable'>
             <tr>
               <th><ui:msg>Reviewers</ui:msg></th>
-              <td ui:field='reviewersText'/>
+              <td ui:field='reviewers'/>
             </tr>
             <tr>
               <th><ui:msg>CC</ui:msg></th>
               <td>
-                <c:Reviewers ui:field='reviewers'/>
+                <c:Reviewers ui:field='ccReviewers'/>
               </td>
             </tr>
             <tr>

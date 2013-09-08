@@ -16,8 +16,6 @@ package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.extensions.TopMenuItem;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ChangeScreen;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.CommentVisibilityStrategy;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DateFormat;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
@@ -42,14 +40,11 @@ public class Preferences extends JavaScriptObject {
     p.copySelfOnEmail(in.isCopySelfOnEmails());
     p.dateFormat(in.getDateFormat());
     p.timeFormat(in.getTimeFormat());
-    p.reversePatchSetOrder(in.isReversePatchSetOrder());
     p.showUsernameInReviewCategory(in.isShowUsernameInReviewCategory());
     p.relativeDateInChangeTable(in.isRelativeDateInChangeTable());
     p.sizeBarInChangeTable(in.isSizeBarInChangeTable());
     p.legacycidInChangeTable(in.isLegacycidInChangeTable());
-    p.commentVisibilityStrategy(in.getCommentVisibilityStrategy());
     p.diffView(in.getDiffView());
-    p.changeScreen(in.getChangeScreen());
     p.setMyMenus(myMenus);
     return p;
   }
@@ -112,26 +107,12 @@ public class Preferences extends JavaScriptObject {
   public final native boolean legacycidInChangeTable()
   /*-{ return this.legacycid_in_change_table || false }-*/;
 
-  public final CommentVisibilityStrategy commentVisibilityStrategy() {
-    String s = commentVisibilityStrategyRaw();
-    return s != null ? CommentVisibilityStrategy.valueOf(s) : null;
-  }
-  private final native String commentVisibilityStrategyRaw()
-  /*-{ return this.comment_visibility_strategy }-*/;
-
   public final DiffView diffView() {
     String s = diffViewRaw();
     return s != null ? DiffView.valueOf(s) : null;
   }
   private final native String diffViewRaw()
   /*-{ return this.diff_view }-*/;
-
-  public final ChangeScreen changeScreen() {
-    String s = changeScreenRaw();
-    return s != null ? ChangeScreen.valueOf(s) : null;
-  }
-  private final native String changeScreenRaw()
-  /*-{ return this.change_screen }-*/;
 
   public final native JsArray<TopMenuItem> my()
   /*-{ return this.my; }-*/;
@@ -187,23 +168,11 @@ public class Preferences extends JavaScriptObject {
   public final native void legacycidInChangeTable(boolean s)
   /*-{ this.legacycid_in_change_table = s }-*/;
 
-  public final void commentVisibilityStrategy(CommentVisibilityStrategy s) {
-    commentVisibilityStrategyRaw(s != null ? s.toString() : null);
-  }
-  private final native void commentVisibilityStrategyRaw(String s)
-  /*-{ this.comment_visibility_strategy = s }-*/;
-
   public final void diffView(DiffView d) {
     diffViewRaw(d != null ? d.toString() : null);
   }
   private final native void diffViewRaw(String d)
   /*-{ this.diff_view = d }-*/;
-
-  public final void changeScreen(ChangeScreen s) {
-    changeScreenRaw(s != null ? s.toString() : null);
-  }
-  private final native void changeScreenRaw(String s)
-  /*-{ this.change_screen = s }-*/;
 
   final void setMyMenus(List<TopMenuItem> myMenus) {
     initMy();

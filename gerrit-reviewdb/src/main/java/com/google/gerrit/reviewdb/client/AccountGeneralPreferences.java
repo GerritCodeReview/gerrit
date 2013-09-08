@@ -68,21 +68,9 @@ public final class AccountGeneralPreferences {
     }
   }
 
-  public static enum CommentVisibilityStrategy {
-    COLLAPSE_ALL,
-    EXPAND_MOST_RECENT,
-    EXPAND_RECENT,
-    EXPAND_ALL
-  }
-
   public static enum DiffView {
     SIDE_BY_SIDE,
     UNIFIED_DIFF
-  }
-
-  public static enum ChangeScreen {
-    OLD_UI,
-    CHANGE_SCREEN2
   }
 
   public static enum TimeFormat {
@@ -139,27 +127,14 @@ public final class AccountGeneralPreferences {
   @Column(id = 9, length = 10, notNull = false)
   protected String timeFormat;
 
-  /**
-   * If true display the patch sets in the ChangeScreen in reverse order
-   * (show latest patch set on top).
-   */
-  @Column(id = 10)
-  protected boolean reversePatchSetOrder;
-
   @Column(id = 11)
   protected boolean showUserInReview;
 
   @Column(id = 12)
   protected boolean relativeDateInChangeTable;
 
-  @Column(id = 13, length = 20, notNull = false)
-  protected String commentVisibilityStrategy;
-
   @Column(id = 14, length = 20, notNull = false)
   protected String diffView;
-
-  @Column(id = 15, length = 20, notNull = false)
-  protected String changeScreen;
 
   @Column(id = 16)
   protected boolean sizeBarInChangeTable;
@@ -232,14 +207,6 @@ public final class AccountGeneralPreferences {
     copySelfOnEmail = includeSelfOnEmail;
   }
 
-  public boolean isReversePatchSetOrder() {
-    return reversePatchSetOrder;
-  }
-
-  public void setReversePatchSetOrder(final boolean reversePatchSetOrder) {
-    this.reversePatchSetOrder = reversePatchSetOrder;
-  }
-
   public boolean isShowUsernameInReviewCategory() {
     return showUserInReview;
   }
@@ -278,18 +245,6 @@ public final class AccountGeneralPreferences {
     this.relativeDateInChangeTable = relativeDateInChangeTable;
   }
 
-  public CommentVisibilityStrategy getCommentVisibilityStrategy() {
-    if (commentVisibilityStrategy == null) {
-      return CommentVisibilityStrategy.EXPAND_RECENT;
-    }
-    return CommentVisibilityStrategy.valueOf(commentVisibilityStrategy);
-  }
-
-  public void setCommentVisibilityStrategy(
-      CommentVisibilityStrategy strategy) {
-    commentVisibilityStrategy = strategy.name();
-  }
-
   public DiffView getDiffView() {
     if (diffView == null) {
       return DiffView.SIDE_BY_SIDE;
@@ -299,14 +254,6 @@ public final class AccountGeneralPreferences {
 
   public void setDiffView(DiffView diffView) {
     this.diffView = diffView.name();
-  }
-
-  public ChangeScreen getChangeScreen() {
-    return changeScreen != null ? ChangeScreen.valueOf(changeScreen) : null;
-  }
-
-  public void setChangeScreen(ChangeScreen ui) {
-    changeScreen = ui != null ? ui.name() : null;
   }
 
   public boolean isSizeBarInChangeTable() {
@@ -330,16 +277,13 @@ public final class AccountGeneralPreferences {
     showSiteHeader = true;
     useFlashClipboard = true;
     copySelfOnEmail = false;
-    reversePatchSetOrder = false;
     showUserInReview = false;
     downloadUrl = null;
     downloadCommand = null;
     dateFormat = null;
     timeFormat = null;
     relativeDateInChangeTable = false;
-    commentVisibilityStrategy = null;
     diffView = null;
-    changeScreen = null;
     sizeBarInChangeTable = true;
     legacycidInChangeTable = false;
   }

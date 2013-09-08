@@ -31,14 +31,13 @@ import com.google.gerrit.client.config.ConfigServerApi;
 import com.google.gerrit.client.extensions.TopMenu;
 import com.google.gerrit.client.extensions.TopMenuItem;
 import com.google.gerrit.client.extensions.TopMenuList;
-import com.google.gerrit.client.patches.PatchScreen;
+import com.google.gerrit.client.patches.UnifiedPatchScreen;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.LinkMenuBar;
 import com.google.gerrit.client.ui.LinkMenuItem;
 import com.google.gerrit.client.ui.MorphingTabPanel;
-import com.google.gerrit.client.ui.PatchLink;
 import com.google.gerrit.client.ui.ProjectLinkMenuItem;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
@@ -125,7 +124,7 @@ public class Gerrit implements EntryPoint {
   private static SearchPanel searchPanel;
   private static final Dispatcher dispatcher = new Dispatcher();
   private static ViewSite<Screen> body;
-  private static PatchScreen patchScreen;
+  private static UnifiedPatchScreen patchScreen;
   private static String lastChangeListToken;
   private static String lastViewToken;
 
@@ -139,7 +138,7 @@ public class Gerrit implements EntryPoint {
     Window.Location.reload();
   }
 
-  public static PatchScreen.TopView getPatchScreenTopView() {
+  public static UnifiedPatchScreen.TopView getPatchScreenTopView() {
     if (patchScreen == null) {
       return null;
     }
@@ -205,8 +204,8 @@ public class Gerrit implements EntryPoint {
    */
   public static void updateMenus(Screen view) {
     LinkMenuBar diffBar = menuBars.get(GerritTopMenu.DIFFERENCES.menuName);
-    if (view instanceof PatchScreen) {
-      patchScreen = (PatchScreen) view;
+    if (view instanceof UnifiedPatchScreen) {
+      patchScreen = (UnifiedPatchScreen) view;
       menuLeft.setVisible(diffBar, true);
       menuLeft.selectTab(menuLeft.getWidgetIndex(diffBar));
     } else {
@@ -637,12 +636,10 @@ public class Gerrit implements EntryPoint {
     LinkMenuBar diffBar = new LinkMenuBar();
     menuBars.put(GerritTopMenu.DIFFERENCES.menuName, diffBar);
     menuLeft.addInvisible(diffBar, C.menuDiff());
-    addDiffLink(diffBar, CC.patchTableDiffSideBySide(), PatchScreen.Type.SIDE_BY_SIDE);
-    addDiffLink(diffBar, CC.patchTableDiffUnified(), PatchScreen.Type.UNIFIED);
-    addDiffLink(diffBar, C.menuDiffCommit(), PatchScreen.TopView.COMMIT);
-    addDiffLink(diffBar, C.menuDiffPreferences(), PatchScreen.TopView.PREFERENCES);
-    addDiffLink(diffBar, C.menuDiffPatchSets(), PatchScreen.TopView.PATCH_SETS);
-    addDiffLink(diffBar, C.menuDiffFiles(), PatchScreen.TopView.FILES);
+    addDiffLink(diffBar, C.menuDiffCommit(), UnifiedPatchScreen.TopView.COMMIT);
+    addDiffLink(diffBar, C.menuDiffPreferences(), UnifiedPatchScreen.TopView.PREFERENCES);
+    addDiffLink(diffBar, C.menuDiffPatchSets(), UnifiedPatchScreen.TopView.PATCH_SETS);
+    addDiffLink(diffBar, C.menuDiffFiles(), UnifiedPatchScreen.TopView.FILES);
 
     final LinkMenuBar projectsBar = new LinkMenuBar();
     menuBars.put(GerritTopMenu.PROJECTS.menuName, projectsBar);
@@ -890,7 +887,7 @@ public class Gerrit implements EntryPoint {
   }
 
   private static void addDiffLink(final LinkMenuBar m, final String text,
-      final PatchScreen.TopView tv) {
+      final UnifiedPatchScreen.TopView tv) {
     m.addItem(new LinkMenuItem(text, "") {
         @Override
         public void go() {
@@ -941,23 +938,6 @@ public class Gerrit implements EntryPoint {
     }
     m.addItem(i);
     return i;
-  }
-
-  private static void addDiffLink(final LinkMenuBar m, final String text,
-      final PatchScreen.Type type) {
-    m.addItem(new LinkMenuItem(text, "") {
-        @Override
-        public void go() {
-          if (patchScreen != null) {
-            patchScreen.setTopView(PatchScreen.TopView.MAIN);
-            if (type == patchScreen.getPatchScreenType()) {
-              AnchorElement.as(getElement()).blur();
-            } else {
-              new PatchLink("", type, patchScreen).go();
-            }
-          }
-        }
-      });
   }
 
   private static void addDocLink(final LinkMenuBar m, final String text,

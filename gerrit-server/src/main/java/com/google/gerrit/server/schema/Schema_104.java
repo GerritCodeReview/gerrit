@@ -1,4 +1,4 @@
-// Copyright (C) 2010 The Android Open Source Project
+// Copyright (C) 2015 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,15 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.changes;
+package com.google.gerrit.server.schema;
 
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.ImageResource;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
-public interface ChangeResources extends ClientBundle {
-  @Source("removeReviewerNormal.png")
-  public ImageResource removeReviewerNormal();
+public class Schema_104 extends SchemaVersion {
+  @Inject
+  Schema_104(Provider<Schema_103> prior) {
+    super(prior);
+  }
 
-  @Source("removeReviewerPressed.png")
-  public ImageResource removeReviewerPressed();
+  // Remove old change screen
 }

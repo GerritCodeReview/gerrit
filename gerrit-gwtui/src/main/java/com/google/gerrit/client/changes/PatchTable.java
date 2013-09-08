@@ -16,7 +16,6 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
 import com.google.gerrit.client.ui.NavigationTable;
@@ -213,46 +212,42 @@ public class PatchTable extends Composite {
   /**
    * @return a link to the previous file in this patch set, or null.
    */
-  public InlineHyperlink getPreviousPatchLink(int index,
-      PatchScreen.Type patchType) {
+  public InlineHyperlink getPreviousPatchLink(int index) {
     int previousPatchIndex = getPreviousPatch(index, PREFERENCE_VALIDATOR);
     if (previousPatchIndex < 0) {
       return null;
     }
-    return createLink(previousPatchIndex, patchType,
+    return createLink(previousPatchIndex,
         SafeHtml.asis(Util.C.prevPatchLinkIcon()), null);
   }
 
   /**
    * @return a link to the next file in this patch set, or null.
    */
-  public InlineHyperlink getNextPatchLink(int index, PatchScreen.Type patchType) {
+  public InlineHyperlink getNextPatchLink(int index) {
     int nextPatchIndex = getNextPatch(index, false, PREFERENCE_VALIDATOR);
     if (nextPatchIndex < 0) {
       return null;
     }
-    return createLink(nextPatchIndex, patchType, null,
+    return createLink(nextPatchIndex, null,
         SafeHtml.asis(Util.C.nextPatchLinkIcon()));
   }
 
   /**
    * @return a link to the the given patch.
    * @param index The patch to link to
-   * @param screenType The screen type of patch display
    * @param before A string to display at the beginning of the href text
    * @param after A string to display at the end of the href text
    */
-  public PatchLink createLink(int index, PatchScreen.Type screenType,
-      SafeHtml before, SafeHtml after) {
+  public PatchLink createLink(int index, SafeHtml before, SafeHtml after) {
     Patch patch = patchList.get(index);
-
     Patch.Key thisKey = patch.getKey();
     PatchLink link;
 
-    if (isUnifiedPatchLink(patch, screenType)) {
-      link = new PatchLink.Unified("", base, thisKey, index, detail, this);
+    if (isUnifiedPatchLink(patch)) {
+      link = new PatchLink.Unified("", base, thisKey);
     } else {
-      link = new PatchLink.SideBySide("", base, thisKey, index, detail, this);
+      link = new PatchLink.SideBySide("", base, thisKey);
     }
 
     SafeHtmlBuilder text = new SafeHtmlBuilder();
@@ -263,15 +258,10 @@ public class PatchTable extends Composite {
     return link;
   }
 
-  private static boolean isUnifiedPatchLink(final Patch patch,
-      final PatchScreen.Type screenType) {
-    if (Dispatcher.isChangeScreen2()) {
-      return (patch.getPatchType().equals(PatchType.BINARY)
-          || (Gerrit.isSignedIn()
-              && Gerrit.getUserAccount().getGeneralPreferences().getDiffView()
-                 .equals(DiffView.UNIFIED_DIFF)));
-    }
-    return screenType == PatchScreen.Type.UNIFIED;
+  private static boolean isUnifiedPatchLink(final Patch patch) {
+    return (patch.getPatchType().equals(PatchType.BINARY)
+        || Gerrit.getUserAccount().getGeneralPreferences().getDiffView()
+        .equals(DiffView.UNIFIED_DIFF));
   }
 
   private static String getFileNameOnly(Patch patch) {
@@ -403,9 +393,8 @@ public class PatchTable extends Composite {
       Patch patch = PatchTable.this.patchList.get(row - 1);
       setRowItem(row, patch);
 
-      Widget nameCol;
-      nameCol = new PatchLink.SideBySide(getDisplayFileName(patch), base,
-          patch.getKey(), row - 1, detail, PatchTable.this);
+      Widget nameCol = new PatchLink.SideBySide(getDisplayFileName(patch), base,
+          patch.getKey());
 
       if (patch.getSourceFileName() != null) {
         final String text;
@@ -427,14 +416,12 @@ public class PatchTable extends Composite {
 
       int C_UNIFIED = C_SIDEBYSIDE + 1;
 
-      PatchLink sideBySide =
-          new PatchLink.SideBySide(Util.C.patchTableDiffSideBySide(), base,
-              patch.getKey(), row - 1, detail, PatchTable.this);
+      PatchLink sideBySide = new PatchLink.SideBySide(
+          Util.C.patchTableDiffSideBySide(), base, patch.getKey());
       sideBySide.setStyleName("gwt-Anchor");
 
-      PatchLink unified =
-          new PatchLink.Unified(Util.C.patchTableDiffUnified(), base,
-              patch.getKey(), row - 1, detail, PatchTable.this);
+      PatchLink unified = new PatchLink.Unified(Util.C.patchTableDiffUnified(),
+          base, patch.getKey());
       unified.setStyleName("gwt-Anchor");
 
       table.setWidget(row, C_SIDEBYSIDE, sideBySide);
@@ -447,7 +434,7 @@ public class PatchTable extends Composite {
         @Override
         public void onClick(ClickEvent event) {
           for (Patch p : detail.getPatches()) {
-            openWindow(Dispatcher.toPatchSideBySide(base, p.getKey()));
+            openWindow(Dispatcher.toSideBySide(base, p.getKey()));
           }
         }
       });
@@ -459,7 +446,7 @@ public class PatchTable extends Composite {
         @Override
         public void onClick(ClickEvent event) {
           for (Patch p : detail.getPatches()) {
-            openWindow(Dispatcher.toPatchUnified(base, p.getKey()));
+            openWindow(Dispatcher.toUnified(base, p.getKey()));
           }
         }
       });

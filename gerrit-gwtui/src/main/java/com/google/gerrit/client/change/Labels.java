@@ -47,7 +47,9 @@ class Labels extends Grid {
     this.statusText = statusText;
   }
 
-  boolean set(ChangeInfo info, boolean current) {
+  boolean set(ChangeInfo info, String revision) {
+    boolean current = info.status().isOpen()
+        && revision.equals(info.current_revision());
     List<String> names = new ArrayList<String>(info.labels());
     Collections.sort(names);
 

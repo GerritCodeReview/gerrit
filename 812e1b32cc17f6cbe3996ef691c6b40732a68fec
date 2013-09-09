@@ -16,6 +16,81 @@
       "revId": "812e1b32cc17f6cbe3996ef691c6b40732a68fec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c77c59a6_15edd438",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2501,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-09T22:40:42Z",
+      "side": 1,
+      "message": "Elsewhere in this section we say \"Only set if link:#messages[messages] are requested.\" so modified to match that phrase.",
+      "parentUuid": "67100d3f_7ae1b9b4",
+      "revId": "812e1b32cc17f6cbe3996ef691c6b40732a68fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c77c59a6_35f2501a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2528,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-09T22:40:42Z",
+      "side": 1,
+      "message": "Trailing space here can be fixed.",
+      "revId": "812e1b32cc17f6cbe3996ef691c6b40732a68fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e77f9d95_b6fd08e8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/AccountDashboardScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-09T22:40:42Z",
+      "side": 1,
+      "message": "This should be used only if mine is true.",
+      "revId": "812e1b32cc17f6cbe3996ef691c6b40732a68fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c77c59a6_d5f67c0c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-09T22:40:42Z",
+      "side": 1,
+      "message": "has",
+      "range": {
+        "startLine": 265,
+        "startChar": 11,
+        "endLine": 265,
+        "endChar": 27
+      },
+      "revId": "812e1b32cc17f6cbe3996ef691c6b40732a68fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

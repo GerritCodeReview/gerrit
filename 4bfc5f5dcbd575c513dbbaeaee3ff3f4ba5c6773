@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c77c59a6_1504f426",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-09T23:08:19Z",
+      "side": 1,
+      "message": "This incorrectly uses a method from the base class of Predicate. Instead it should be new AndSource(db, ...).",
+      "range": {
+        "startLine": 250,
+        "startChar": 32,
+        "endLine": 250,
+        "endChar": 45
+      },
+      "revId": "4bfc5f5dcbd575c513dbbaeaee3ff3f4ba5c6773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

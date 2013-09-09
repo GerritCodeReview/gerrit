@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "278d35f3_40f2ae1a",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/HttpLog.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-09T11:27:11Z",
+      "side": 1,
+      "message": "\u0027user\u0027 may be null here and then we are getting a NullPointerException. With the old code this was not an issue since \u0027user instanceof IdentifiedUser\u0027 returns false in this case. It is easy to fix this case here, but I wonder if we have the same problem for the other places that were touched by this change?",
+      "revId": "a35f8a20ab623bcd07beac7840889e954438777e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

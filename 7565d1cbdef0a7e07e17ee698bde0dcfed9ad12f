@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "278d35f3_60e3324f",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-09T06:33:16Z",
+      "side": 1,
+      "message": "All the above plugin specific REST endpoint already exist since 2.6. The only news in this release is that the endpoints are documented now.",
+      "revId": "7565d1cbdef0a7e07e17ee698bde0dcfed9ad12f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

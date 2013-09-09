@@ -16,6 +16,24 @@
       "revId": "17bd3eee666563bd6cb2949682a16dce8aa2ce19",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "478869e2_61e3364f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-09T00:57:29Z",
+      "side": 1,
+      "message": "It\u0027s a common pattern in the Gerrit code-base to split lines in this way.",
+      "parentUuid": "8748a179_63e3624f",
+      "revId": "17bd3eee666563bd6cb2949682a16dce8aa2ce19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

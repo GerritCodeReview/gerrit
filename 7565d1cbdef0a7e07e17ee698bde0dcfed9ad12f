@@ -16,6 +16,24 @@
       "revId": "7565d1cbdef0a7e07e17ee698bde0dcfed9ad12f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67100d3f_dad1e5e7",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-09T06:54:51Z",
+      "side": 1,
+      "message": "Ah.  Thanks.\n\nI\u0027ll remove this section in the next patch set.  Still waiting for a few things to be merged before the next update...",
+      "parentUuid": "278d35f3_60e3324f",
+      "revId": "7565d1cbdef0a7e07e17ee698bde0dcfed9ad12f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

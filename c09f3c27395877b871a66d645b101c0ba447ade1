@@ -254,6 +254,24 @@
     },
     {
       "key": {
+        "uuid": "d23979b5_8de34155",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-09T18:44:05Z",
+      "side": 1,
+      "message": "There\u0027s still my original question about why we need to sort these by name in the first place?",
+      "parentUuid": "d29df9d4_ade3bd54",
+      "revId": "c09f3c27395877b871a66d645b101c0ba447ade1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d25a59dc_e8e8eb30",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 16

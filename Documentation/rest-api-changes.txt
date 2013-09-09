@@ -48,7 +48,6 @@ Query for open changes of watched projects:
       "status": "NEW",
       "created": "2012-07-17 07:18:30.854000000",
       "updated": "2012-07-17 07:19:27.766000000",
-      "reviewed": true,
       "mergeable": true,
       "_sortkey": "001e7057000006dc",
       "_number": 1756,
@@ -120,7 +119,6 @@ Query that retrieves changes for a user's dashboard:
         "status": "NEW",
         "created": "2012-07-17 07:18:30.854000000",
         "updated": "2012-07-17 07:19:27.766000000",
-        "reviewed": true,
         "mergeable": true,
         "_sortkey": "001e7057000006dc",
         "_number": 1756,
@@ -218,6 +216,12 @@ default. Optional fields are:
 * `CURRENT_ACTIONS`: include information on available actions
   for the change and its current revision. The caller must be
   authenticated to obtain the available actions.
+--
+
+[[reviewed]]
+--
+* `REVIEWED`: include the `reviewed` field if the caller is
+  authenticated and has commented on the current revision.
 --
 
 .Request
@@ -351,7 +355,6 @@ describes the change.
     "status": "NEW",
     "created": "2013-02-01 09:59:32.126000000",
     "updated": "2013-02-21 11:16:36.775000000",
-    "reviewed": true,
     "mergeable": true,
     "_sortkey": "0023412400000f7d",
     "_number": 3965,
@@ -401,7 +404,6 @@ describes the change.
     "status": "NEW",
     "created": "2013-02-01 09:59:32.126000000",
     "updated": "2013-02-21 11:16:36.775000000",
-    "reviewed": true,
     "mergeable": true,
     "_sortkey": "0023412400000f7d",
     "_number": 3965,
@@ -640,7 +642,6 @@ describes the abandoned change.
     "status": "ABANDONED",
     "created": "2013-02-01 09:59:32.126000000",
     "updated": "2013-02-21 11:16:36.775000000",
-    "reviewed": true,
     "mergeable": true,
     "_sortkey": "0023412400000f7d",
     "_number": 3965,
@@ -699,7 +700,6 @@ describes the restored change.
     "status": "NEW",
     "created": "2013-02-01 09:59:32.126000000",
     "updated": "2013-02-21 11:16:36.775000000",
-    "reviewed": true,
     "mergeable": true,
     "_sortkey": "0023412400000f7d",
     "_number": 3965,
@@ -847,7 +847,6 @@ describes the reverting change.
     "status": "NEW",
     "created": "2013-02-01 09:59:32.126000000",
     "updated": "2013-02-21 11:16:36.775000000",
-    "reviewed": true,
     "mergeable": true,
     "_sortkey": "0023412400000f7d",
     "_number": 3965,
@@ -912,7 +911,6 @@ describes the submitted/merged change.
     "status": "MERGED",
     "created": "2013-02-01 09:59:32.126000000",
     "updated": "2013-02-21 11:16:36.775000000",
-    "reviewed": true,
     "_sortkey": "0023412400000f7d",
     "_number": 3965,
     "owner": {
@@ -1220,7 +1218,6 @@ for the current patch set.
     "status": "NEW",
     "created": "2013-02-01 09:59:32.126000000",
     "updated": "2013-02-21 11:16:36.775000000",
-    "reviewed": true,
     "mergeable": true,
     "_sortkey": "0023412400000f7d",
     "_number": 3965,
@@ -2271,7 +2268,6 @@ describes the resulting cherry picked change.
     "status": "NEW",
     "created": "2013-02-01 09:59:32.126000000",
     "updated": "2013-02-21 11:16:36.775000000",
-    "reviewed": true,
     "mergeable": true,
     "_sortkey": "0023412400000f7d",
     "_number": 3965,
@@ -2322,7 +2318,6 @@ describes the change.
     "status": "NEW",
     "created": "2013-02-01 09:59:32.126000000",
     "updated": "2013-02-21 11:16:36.775000000",
-    "reviewed": true,
     "mergeable": true,
     "_sortkey": "0023412400000f7d",
     "_number": 3965,
@@ -2503,6 +2498,7 @@ updated.
 Whether the calling user has starred this change.
 |`reviewed`           |not set if `false`|
 Whether the change was reviewed by the calling user.
+Only set if link:#reviewed[reviewed] is requested.
 |`mergeable`          |optional|
 Whether the change is mergeable. +
 Not set for merged changes.
@@ -2529,7 +2525,7 @@ The reviewers that can be removed by the calling user as a list of
 link:rest-api-accounts.html#account-info[AccountInfo] entities. +
 Only set if link:#detailed-labels[detailed labels] are requested.
 |`messages`|optional|
-Messages associated with the change as a list of 
+Messages associated with the change as a list of
 link:#change-message-info[ChangeMessageInfo] entities. +
 Only set if link:#messages[messages] are requested.
 |`current_revision`   |optional|

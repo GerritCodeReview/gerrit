@@ -22,6 +22,53 @@
       "revId": "af78bde65b1bbe8b90a80086a61bce5793175d63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c77c59a6_f5f37819",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 740,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-09T22:49:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "478869e2_e1f6660c",
+      "range": {
+        "startLine": 740,
+        "startChar": 49,
+        "endLine": 740,
+        "endChar": 73
+      },
+      "revId": "af78bde65b1bbe8b90a80086a61bce5793175d63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e77f9d95_760f7047",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 742,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-09T22:49:14Z",
+      "side": 1,
+      "message": "Only the PatchSet.Id is required here. So cd.change(db).currentPatchSetId() is a better approach.",
+      "range": {
+        "startLine": 742,
+        "startChar": 27,
+        "endLine": 742,
+        "endChar": 42
+      },
+      "revId": "af78bde65b1bbe8b90a80086a61bce5793175d63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

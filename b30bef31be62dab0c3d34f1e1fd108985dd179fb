@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "478869e2_41f2b21a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-09T01:41:04Z",
+      "side": 1,
+      "message": "Is there already an assumption that IdentifiedUser is per-thread (i.e. because it comes from a request) and thus need not be threadsafe? If not, this change introduces some more threadunsafety.",
+      "revId": "b30bef31be62dab0c3d34f1e1fd108985dd179fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67100d3f_5ae6f5ce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-09T01:41:04Z",
+      "side": 1,
+      "message": "It looks like you never use the starred changes in the body of this method or query0, so isn\u0027t this just discarding the starred changes query before it\u0027s used?",
+      "revId": "b30bef31be62dab0c3d34f1e1fd108985dd179fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

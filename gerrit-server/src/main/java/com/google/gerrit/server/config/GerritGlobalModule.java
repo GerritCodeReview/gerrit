@@ -26,7 +26,6 @@ import com.google.gerrit.extensions.events.NewProjectCreatedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.rules.PrologModule;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.AnonymousUser;
@@ -47,7 +46,6 @@ import com.google.gerrit.server.account.AccountVisibility;
 import com.google.gerrit.server.account.AccountVisibilityProvider;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.ChangeUserName;
-import com.google.gerrit.server.account.DefaultRealm;
 import com.google.gerrit.server.account.EmailExpander;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCacheImpl;
@@ -60,12 +58,9 @@ import com.google.gerrit.server.account.IncludingGroupMembership;
 import com.google.gerrit.server.account.InternalGroupBackend;
 import com.google.gerrit.server.account.PerformCreateGroup;
 import com.google.gerrit.server.account.PerformRenameGroup;
-import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.account.UniversalGroupBackend;
 import com.google.gerrit.server.auth.AuthBackend;
-import com.google.gerrit.server.auth.InternalAuthBackend;
 import com.google.gerrit.server.auth.UniversalAuthBackend;
-import com.google.gerrit.server.auth.ldap.LdapModule;
 import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.events.EventFactory;
@@ -119,45 +114,27 @@ import com.google.inject.Inject;
 import com.google.inject.TypeLiteral;
 
 import org.apache.velocity.runtime.RuntimeInstance;
-import org.eclipse.jgit.lib.Config;
 
 import java.util.List;
 
 
 /** Starts global state with standard dependencies. */
 public class GerritGlobalModule extends FactoryModule {
-  private final AuthType loginType;
+  private final AuthModule authModule;
 
   @Inject
-  GerritGlobalModule(final AuthConfig authConfig,
-      @GerritServerConfig final Config config) {
-    loginType = authConfig.getAuthType();
+  GerritGlobalModule(AuthModule authModule) {
+    this.authModule = authModule;
   }
 
   @Override
   protected void configure() {
-    switch (loginType) {
-      case HTTP_LDAP:
-      case LDAP:
-      case LDAP_BIND:
-      case CLIENT_SSL_CERT_LDAP:
-        install(new LdapModule());
-        break;
-
-      case CUSTOM_EXTENSION:
-        break;
-
-      default:
-        bind(Realm.class).to(DefaultRealm.class);
-        DynamicSet.bind(binder(), AuthBackend.class).to(InternalAuthBackend.class);
-        break;
-    }
-
     bind(EmailExpander.class).toProvider(EmailExpanderProvider.class).in(
         SINGLETON);
 
     bind(IdGenerator.class);
     bind(RulesCache.class);
+    install(authModule);
     install(AccountByEmailCacheImpl.module());
     install(AccountCacheImpl.module());
     install(GroupCacheImpl.module());

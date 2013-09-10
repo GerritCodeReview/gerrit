@@ -14,21 +14,35 @@
 
 package com.google.gerrit.server.index;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.SubmitRecord;
 import com.google.gerrit.reviewdb.client.TrackingId;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
+import com.google.gwtorm.protobuf.CodecFactory;
+import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.gwtorm.server.OrmException;
+import com.google.protobuf.CodedOutputStream;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -233,6 +247,82 @@ public class ChangeField {
         }
       };
 
+  public static class ChangeProtoField extends FieldDef.Single<ChangeData, byte[]> {
+    public static final ProtobufCodec<Change> CODEC =
+        CodecFactory.encoder(Change.class);
+
+    private ChangeProtoField() {
+      super("_change", FieldType.STORED_ONLY, true);
+    }
+
+    @Override
+    public byte[] get(ChangeData input, FieldDef.FillArgs args)
+        throws OrmException {
+      return CODEC.encodeToByteArray(input.change(args.db));
+    }
+  }
+
+  /** Serialized change object, used for pre-populating results. */
+  public static final ChangeProtoField CHANGE = new ChangeProtoField();
+
+  public static class SubmitLabelProtoField
+      extends FieldDef.Repeatable<ChangeData, byte[]> {
+    public static final ProtobufCodec<SubmitRecord.Label> CODEC =
+        CodecFactory.encoder(SubmitRecord.Label.class);
+
+    private SubmitLabelProtoField() {
+      super("_label", FieldType.STORED_ONLY, true);
+    }
+
+    @Override
+    public Iterable<byte[]> get(ChangeData input, FillArgs args)
+        throws OrmException {
+      // Flatten the highest-valued labels to mimic the results from ChangeJson
+      // with standard labels.
+      Map<String, SubmitRecord.Label> labels = Maps.newLinkedHashMap();
+      for (SubmitRecord rec : getSubmitRecords(input, args)) {
+        if (rec.labels == null) {
+          continue;
+        }
+        for (SubmitRecord.Label r : rec.labels) {
+          SubmitRecord.Label p = labels.get(r.label);
+          if (p == null || p.status.compareTo(r.status) < 0) {
+            labels.put(r.label, r);
+          }
+        }
+      }
+      return toProtos(CODEC, labels.values());
+    }
+
+    private List<SubmitRecord> getSubmitRecords(ChangeData input,
+        FillArgs args) throws OrmException {
+      ChangeControl ctl;
+      try {
+        // Use the ChangeControl for InternalUser. This will give bogus
+        // results for whether or not the change is submittable, but does
+        // not affect label calculation.
+        ctl = args.changeControlFor(input.change(args.db));
+      } catch (NoSuchChangeException e) {
+        throw new OrmException(e);
+      }
+      if (ctl == null) {
+        return ImmutableList.of();
+      }
+      PatchSet ps = input.currentPatchSet(args.db);
+      if (ps == null) {
+        return ImmutableList.of();
+      }
+      return ctl.canSubmit(args.db.get(), ps, input, true, true, true);
+    }
+  }
+
+  /**
+   * Serialized labels from the submit rule evaluator, used for pre-populating
+   * results.
+   */
+  public static final SubmitLabelProtoField SUBMIT_RECORD_LABEL =
+      new SubmitLabelProtoField();
+
   public static String formatLabel(String label, int value) {
     return formatLabel(label, value, null);
   }
@@ -273,4 +363,22 @@ public class ChangeField {
           return r;
         }
       };
+
+  private static <T> List<byte[]> toProtos(ProtobufCodec<T> codec, Collection<T> objs)
+      throws OrmException {
+    List<byte[]> result = Lists.newArrayListWithCapacity(objs.size());
+    ByteArrayOutputStream out = new ByteArrayOutputStream(256);
+    try {
+      for (T obj : objs) {
+        out.reset();
+        CodedOutputStream cos = CodedOutputStream.newInstance(out);
+        codec.encode(obj, cos);
+        cos.flush();
+        result.add(out.toByteArray());
+      }
+    } catch (IOException e) {
+      throw new OrmException(e);
+    }
+    return result;
+  }
 }

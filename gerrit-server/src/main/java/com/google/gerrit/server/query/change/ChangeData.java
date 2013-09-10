@@ -148,6 +148,7 @@ public class ChangeData {
   private ChangeControl changeControl;
   private List<ChangeMessage> messages;
   private List<SubmitRecord> submitRecords;
+  private List<SubmitRecord.Label> submitRecordLabels;
   private boolean patchesLoaded;
 
   public ChangeData(final Change.Id id) {
@@ -458,5 +459,13 @@ public class ChangeData {
 
   public List<SubmitRecord> getSubmitRecords() {
     return submitRecords;
+  }
+
+  public void setSubmitRecordLabels(List<SubmitRecord.Label> labels) {
+    submitRecordLabels = labels;
+  }
+
+  public List<SubmitRecord.Label> getSubmitRecordLabels() {
+    return submitRecordLabels;
   }
 }

@@ -43,6 +43,10 @@ public class FieldType<T> {
   public static final FieldType<String> FULL_TEXT =
       new FieldType<String>("FULL_TEXT");
 
+  /** A field that is only stored as raw bytes and cannot be queried. */
+  public static final FieldType<byte[]> STORED_ONLY =
+      new FieldType<byte[]>("STORED_ONLY");
+
   private final String name;
 
   private FieldType(String name) {

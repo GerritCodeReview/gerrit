@@ -932,6 +932,46 @@ message is contained in the response body.
   blocked by Verified
 ----
 
+[[publish-draft-change]]
+Publish Draft Change
+~~~~~~~~~~~~~~~~~~~~
+[verse]
+'POST /changes/link:#change-id[\{change-id\}]/publish'
+
+Publishes a draft change.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/publish HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
+[[delete-draft-change]]
+Delete Draft Change
+~~~~~~~~~~~~~~~~~~~
+[verse]
+'DELETE /changes/link:#change-id[\{change-id\}]'
+or
+'POST /changes/link:#change-id[\{change-id\}]/delete'
+
+Deletes a draft change.
+
+.Request
+----
+  DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940 HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[reviewer-endpoints]]
 Reviewer Endpoints
 ------------------
@@ -1502,6 +1542,46 @@ message is contained in the response body.
   Content-Type: text/plain;charset=UTF-8
 
   "revision 674ac754f91e64a0efb8087e59a176484bd534d1 is not current revision"
+----
+
+[[publish-draft-revision]]
+Publish Draft Revision
+~~~~~~~~~~~~~~~~~~~~~~
+[verse]
+'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/publish'
+
+Publishes a draft revision.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/current/publish HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
+[[delete-draft-revision]]
+Delete Draft Revision
+~~~~~~~~~~~~~~~~~~~~~
+[verse]
+'DELETE /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]'
+or
+'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/delete'
+
+Deletes a draft revision.
+
+.Request
+----
+  DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1 HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
 ----
 
 [[get-patch]]

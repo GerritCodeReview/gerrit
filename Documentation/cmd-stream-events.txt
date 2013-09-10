@@ -70,7 +70,7 @@ type:: "draft-published"
 
 change:: link:json.html#change[change attribute]
 
-patchset:: link:json.html#patchSet[patchset attribute]
+patchSet:: link:json.html#patchSet[patchSet attribute]
 
 uploader:: link:json.html#account[account attribute]
 
@@ -148,7 +148,7 @@ type:: "reviewer-added"
 
 change:: link:json.html#change[change attribute]
 
-patchset:: link:json.html#patchSet[patchset attribute]
+patchSet:: link:json.html#patchSet[patchSet attribute]
 
 reviewer:: link:json.html#account[account attribute]
 

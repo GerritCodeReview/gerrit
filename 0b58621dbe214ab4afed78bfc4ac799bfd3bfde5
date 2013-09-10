@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c716198f_851aa282",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-10T23:13:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c716198f_050fd247",
+      "revId": "0b58621dbe214ab4afed78bfc4ac799bfd3bfde5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c716198f_65ede638",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "e7195dc0_c6fdc2e7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-10T23:13:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c716198f_65ede638",
+      "revId": "0b58621dbe214ab4afed78bfc4ac799bfd3bfde5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7195dc0_a6f6c60a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2013-09-10T23:04:49Z",
       "side": 1,
       "message": "Why not:\n\n  return codec.encodeToByteArray(obj)",
+      "revId": "0b58621dbe214ab4afed78bfc4ac799bfd3bfde5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7195dc0_260ad637",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-10T23:13:47Z",
+      "side": 1,
+      "message": "Done. Left toProtos as is so it can reuse the byte array.",
+      "parentUuid": "e7195dc0_a6f6c60a",
       "revId": "0b58621dbe214ab4afed78bfc4ac799bfd3bfde5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

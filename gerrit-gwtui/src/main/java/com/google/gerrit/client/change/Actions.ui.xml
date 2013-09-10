@@ -69,20 +69,29 @@ limitations under the License.
   </ui:style>
 
   <g:FlowPanel>
-    <g:Button ui:field='cherrypick' styleName=''>
+    <g:Button ui:field='cherrypick' styleName='' visible='false'>
       <div><ui:msg>Cherry Pick</ui:msg></div>
     </g:Button>
-    <g:Button ui:field='rebase' styleName=''>
+    <g:Button ui:field='rebase' styleName='' visible='false'>
       <div><ui:msg>Rebase</ui:msg></div>
     </g:Button>
-    <g:Button ui:field='revert' styleName=''>
+    <g:Button ui:field='revert' styleName='' visible='false'>
       <div><ui:msg>Revert</ui:msg></div>
     </g:Button>
+    <g:Button ui:field='deleteChange' styleName='' visible='false'>
+      <div><ui:msg>Delete Change</ui:msg></div>
+    </g:Button>
+    <g:Button ui:field='deleteRevision' styleName='' visible='false'>
+      <div><ui:msg>Delete Revision</ui:msg></div>
+    </g:Button>
+    <g:Button ui:field='publish' styleName='' visible='false'>
+      <div><ui:msg>Publish</ui:msg></div>
+    </g:Button>
 
-    <g:Button ui:field='abandon' styleName='{style.red}'>
+    <g:Button ui:field='abandon' styleName='{style.red}' visible='false'>
       <div><ui:msg>Abandon</ui:msg></div>
     </g:Button>
-    <g:Button ui:field='restore' styleName='{style.red}'>
+    <g:Button ui:field='restore' styleName='{style.red}' visible='false'>
       <div><ui:msg>Restore</ui:msg></div>
     </g:Button>
 

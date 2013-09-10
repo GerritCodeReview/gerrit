@@ -380,6 +380,11 @@ public class ChangeJson {
     if (!standard && !detailed) {
       return null;
     }
+    if (cd.getSubmitRecordLabels() != null && standard && !detailed) {
+      // If saved labels of the type needed for this request are available, use
+      // them.
+      return labelsFromSavedState(cd.getSubmitRecordLabels());
+    }
 
     ChangeControl ctl = control(cd);
     if (ctl == null) {
@@ -392,6 +397,15 @@ public class ChangeJson {
     } else {
       return labelsForClosedChange(cd, labelTypes, standard, detailed);
     }
+  }
+
+  private Map<String, LabelInfo> labelsFromSavedState(
+      List<SubmitRecord.Label> savedLabels) {
+    Map<String, LabelInfo> labels = Maps.newLinkedHashMap();
+    for (SubmitRecord.Label r : savedLabels) {
+      labels.put(r.label, newLabelFromSubmitRecord(r, true));
+    }
+    return labels;
   }
 
   private Map<String, LabelInfo> labelsForOpenChange(ChangeData cd,
@@ -434,27 +448,32 @@ public class ChangeJson {
       for (SubmitRecord.Label r : rec.labels) {
         LabelInfo p = labels.get(r.label);
         if (p == null || p._status.compareTo(r.status) < 0) {
-          LabelInfo n = new LabelInfo();
-          n._status = r.status;
-          if (standard) {
-            switch (r.status) {
-              case OK:
-                n.approved = accountLoader.get(r.appliedBy);
-                break;
-              case REJECT:
-                n.rejected = accountLoader.get(r.appliedBy);
-                break;
-              default:
-                break;
-            }
-          }
-
-          n.optional = n._status == SubmitRecord.Label.Status.MAY ? true : null;
-          labels.put(r.label, n);
+          labels.put(r.label, newLabelFromSubmitRecord(r, standard));
         }
       }
     }
     return labels;
+  }
+
+  private LabelInfo newLabelFromSubmitRecord(SubmitRecord.Label r,
+      boolean standard) {
+    LabelInfo n = new LabelInfo();
+    n._status = r.status;
+    if (standard) {
+      switch (r.status) {
+        case OK:
+          n.approved = accountLoader.get(r.appliedBy);
+          break;
+        case REJECT:
+          n.rejected = accountLoader.get(r.appliedBy);
+          break;
+        default:
+          break;
+      }
+    }
+
+    n.optional = n._status == SubmitRecord.Label.Status.MAY ? true : null;
+    return n;
   }
 
   private void setLabelScores(LabelType type,

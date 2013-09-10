@@ -32,6 +32,7 @@ java_library2(
     '//lib:ow2-asm-util',
     '//lib:parboiled-core',
     '//lib:pegdown',
+    '//lib:protobuf',
     '//lib:velocity',
     '//lib/antlr:java_runtime',
     '//lib/commons:codec',

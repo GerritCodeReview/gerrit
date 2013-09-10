@@ -14,9 +14,13 @@
 
 package com.google.gerrit.server.index;
 
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -60,14 +64,31 @@ public abstract class FieldDef<I, T> {
     final Provider<ReviewDb> db;
     final GitRepositoryManager repoManager;
     final PatchListCache patchListCache;
+    final ChangeControl.GenericFactory changeControlFactory;
+
+    private final InternalUser internalUser;
 
     @Inject
-    FillArgs(Provider<ReviewDb> db,
-        GitRepositoryManager repoManager,
-        PatchListCache patchListCache) {
+    FillArgs(Provider<ReviewDb> db, GitRepositoryManager repoManager,
+        PatchListCache patchListCache,
+        ChangeControl.GenericFactory changeControlFactory,
+        InternalUser internalUser) {
       this.db = db;
       this.repoManager = repoManager;
       this.patchListCache = patchListCache;
+      this.changeControlFactory = changeControlFactory;
+      this.internalUser = internalUser;
+    }
+
+    /**
+     * Create a change control.
+     *
+     * @param change change object.
+     * @return change control as seen by Gerrit's internal user; index fields
+     *     may not depend on any per-user state.
+     */
+    ChangeControl changeControlFor(Change change) throws NoSuchChangeException {
+      return changeControlFactory.controlFor(change, internalUser);
     }
   }
 

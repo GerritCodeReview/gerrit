@@ -29,6 +29,8 @@ import com.google.gerrit.reviewdb.client.SubmitRecord;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.ChangeField;
+import com.google.gerrit.server.index.ChangeField.ChangeProtoField;
+import com.google.gerrit.server.index.ChangeField.SubmitLabelProtoField;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
@@ -51,6 +53,7 @@ import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Store;
 import org.apache.lucene.document.IntField;
 import org.apache.lucene.document.LongField;
+import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
@@ -64,6 +67,7 @@ import org.apache.lucene.search.SearcherManager;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.util.BytesRef;
 import org.apache.lucene.util.Version;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
@@ -99,6 +103,9 @@ public class LuceneChangeIndex implements ChangeIndex {
   public static final String CHANGES_OPEN = "open";
   public static final String CHANGES_CLOSED = "closed";
   private static final String ID_FIELD = ChangeField.LEGACY_ID.getName();
+  private static final String CHANGE_FIELD = ChangeField.CHANGE.getName();
+  private static final String SUBMIT_LABEL_FIELD =
+      ChangeField.SUBMIT_RECORD_LABEL.getName();
 
   static interface Factory {
     LuceneChangeIndex create(Schema<ChangeData> schema, String base);
@@ -257,7 +264,8 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   private static class QuerySource implements ChangeDataSource {
-    private static final ImmutableSet<String> FIELDS = ImmutableSet.of(ID_FIELD);
+    private static final ImmutableSet<String> FIELDS =
+        ImmutableSet.of(ID_FIELD, CHANGE_FIELD, SUBMIT_LABEL_FIELD);
 
     private final List<SubIndex> indexes;
     private final Query query;
@@ -304,8 +312,7 @@ public class LuceneChangeIndex implements ChangeIndex {
             Lists.newArrayListWithCapacity(docs.scoreDocs.length);
         for (ScoreDoc sd : docs.scoreDocs) {
           Document doc = searchers[sd.shardIndex].doc(sd.doc, FIELDS);
-          Number v = doc.getField(ID_FIELD).numericValue();
-          result.add(new ChangeData(new Change.Id(v.intValue())));
+          result.add(toChangeData(doc));
         }
 
         final List<ChangeData> r = Collections.unmodifiableList(result);
@@ -339,6 +346,29 @@ public class LuceneChangeIndex implements ChangeIndex {
         }
       }
     }
+  }
+
+  private static ChangeData toChangeData(Document doc) {
+    BytesRef cb = doc.getBinaryValue(CHANGE_FIELD);
+    if (cb == null) {
+      int id = doc.getField(ID_FIELD).numericValue().intValue();
+      return new ChangeData(new Change.Id(id));
+    }
+    Change change = ChangeProtoField.CODEC.decode(
+        cb.bytes, cb.offset, cb.length);
+    ChangeData cd = new ChangeData(change);
+
+    BytesRef[] labelsBytes = doc.getBinaryValues(SUBMIT_LABEL_FIELD);
+    if (labelsBytes != null) {
+      List<SubmitRecord.Label> labels =
+          Lists.newArrayListWithCapacity(labelsBytes.length);
+      for (BytesRef lb : labelsBytes) {
+        labels.add(SubmitLabelProtoField.CODEC.decode(
+            lb.bytes, lb.offset, lb.length));
+      }
+      cd.setSubmitRecordLabels(labels);
+    }
+    return cd;
   }
 
   private Document toDocument(ChangeData cd) throws IOException {
@@ -386,6 +416,10 @@ public class LuceneChangeIndex implements ChangeIndex {
     } else if (f.getType() == FieldType.FULL_TEXT) {
       for (Object value : values) {
         doc.add(new TextField(name, (String) value, store));
+      }
+    } else if (f.getType() == FieldType.STORED_ONLY) {
+      for (Object value : values) {
+        doc.add(new StoredField(name, (byte[]) value));
       }
     } else {
       throw QueryBuilder.badFieldType(f.getType());

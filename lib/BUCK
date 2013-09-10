@@ -19,6 +19,7 @@ define_license(name = 'jsr305')
 define_license(name = 'ow2')
 define_license(name = 'postgresql')
 define_license(name = 'prologcafe')
+define_license(name = 'protobuf')
 define_license(name = 'slf4j')
 define_license(name = 'DO_NOT_DISTRIBUTE')
 
@@ -28,6 +29,7 @@ maven_jar(
   bin_sha1 = 'ee3b316a023f1422dd4b6654a3d51d0e5690809c',
   src_sha1 = 'a145bde4cc87a4ff4cec283880e2a03be32cc868',
   license = 'Apache2.0',
+  deps = [':protobuf'],
   repository = GERRIT,
 )
 
@@ -202,6 +204,15 @@ maven_jar(
   sha1 = '9bfabe48876ec38f6cbaa6931bad05c64a9ea942',
   license = 'postgresql',
   attach_source = False,
+)
+
+maven_jar(
+  name = 'protobuf',
+  # Must match version in gwtorm/pom.xml.
+  id = 'com.google.protobuf:protobuf-java:2.4.1',
+  bin_sha1 = '0c589509ec6fd86d5d2fda37e07c08538235d3b9',
+  src_sha1 = 'e406f69360f2a89cb4aa724ed996a1c5599af383',
+  license = 'protobuf',
 )
 
 maven_jar(

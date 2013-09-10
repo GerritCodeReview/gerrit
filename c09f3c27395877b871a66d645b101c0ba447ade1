@@ -272,6 +272,24 @@
     },
     {
       "key": {
+        "uuid": "27db7507_50e36c4e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-10T03:22:08Z",
+      "side": 1,
+      "message": "oh, sorry I had not reply your question directly. \n\nwe need not sort them.  in fact sorting is not my origin objective here.\nI ever just wanted the provided Comparator object to make sure that in the \u0027r\u0027 there were not more LabelType objects with a same name.\n\nlater I made a deep read and find I need not worry about it here. so I delete these code in PS 20. \n\ndid I make it clear :)",
+      "parentUuid": "d23979b5_8de34155",
+      "revId": "c09f3c27395877b871a66d645b101c0ba447ade1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d25a59dc_e8e8eb30",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 16

@@ -146,7 +146,7 @@ public class Submit implements RestModifyView<RevisionResource, Input>,
   public UiAction.Description getDescription(RevisionResource resource) {
     PatchSet.Id current = resource.getChange().currentPatchSetId();
     return new UiAction.Description()
-      .setLabel(String.format(
+      .setTitle(String.format(
           "Submit Revision %d",
           resource.getPatchSet().getPatchSetId()))
       .setVisible(resource.getChange().getStatus().isOpen()

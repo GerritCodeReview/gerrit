@@ -123,6 +123,22 @@ public class ChangeApi {
     call(id, commit, "submit").post(in, cb);
   }
 
+  /** Publish a specific revision of a draft change. */
+  public static void publish(int id, String commit, AsyncCallback<JavaScriptObject> cb) {
+    JavaScriptObject in = JavaScriptObject.createObject();
+    call(id, commit, "publish").post(in, cb);
+  }
+
+  /** Delete a specific draft change. */
+  public static void deleteChange(int id, AsyncCallback<JavaScriptObject> cb) {
+    change(id).delete(cb);
+  }
+
+  /** Delete a specific draft patch set. */
+  public static void deleteRevision(int id, String commit, AsyncCallback<JavaScriptObject> cb) {
+    revision(id, commit).delete(cb);
+  }
+
   /** Rebase a revision onto the branch tip. */
   public static void rebase(int id, String commit, AsyncCallback<ChangeInfo> cb) {
     JavaScriptObject in = JavaScriptObject.createObject();

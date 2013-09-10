@@ -44,7 +44,7 @@ import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.mail.SmtpEmailSender;
 import com.google.gerrit.server.patch.IntraLineWorkerPool;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
-import com.google.gerrit.server.plugins.PluginModule;
+import com.google.gerrit.server.plugins.PluginRestApiModule;
 import com.google.gerrit.server.schema.DataSourceModule;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DataSourceType;
@@ -257,7 +257,7 @@ public class WebAppInitializer extends GuiceServletContextListener
     modules.add(new DefaultCacheFactory.Module());
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
-    modules.add(new PluginModule());
+    modules.add(new PluginRestApiModule());
     AbstractModule changeIndexModule;
     switch (IndexModule.getIndexType(cfgInjector)) {
       case LUCENE:

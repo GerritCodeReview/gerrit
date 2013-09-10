@@ -31,11 +31,11 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.Abandon;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.DeleteDraftPatchSet;
 import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.change.Restore;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
-import com.google.gerrit.server.changedetail.DeleteDraftPatchSet;
 import com.google.gerrit.server.changedetail.PublishDraft;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.project.ChangeControl;
@@ -131,7 +131,7 @@ public class ReviewCommand extends SshCommand {
   private ReviewDb db;
 
   @Inject
-  private DeleteDraftPatchSet.Factory deleteDraftPatchSetFactory;
+  private DeleteDraftPatchSet deleteDraftPatchSetImpl;
 
   @Inject
   private ProjectControl.Factory projectControlFactory;
@@ -285,6 +285,16 @@ public class ReviewCommand extends SshCommand {
             new ChangeResource(ctl), patchSet),
           input);
       }
+
+      if (publishPatchSet) {
+        final ReviewResult result =
+            publishDraftFactory.create(patchSet.getId()).call();
+        handleReviewResultErrors(result);
+      } else if (deleteDraftPatchSet) {
+        deleteDraftPatchSetImpl.apply(new RevisionResource(
+            new ChangeResource(ctl), patchSet),
+            new DeleteDraftPatchSet.Input());
+      }
     } catch (InvalidChangeOperationException e) {
       throw error(e.getMessage());
     } catch (IllegalStateException e) {
@@ -295,16 +305,6 @@ public class ReviewCommand extends SshCommand {
       throw error(e.getMessage());
     } catch (ResourceConflictException e) {
       throw error(e.getMessage());
-    }
-
-    if (publishPatchSet) {
-      final ReviewResult result =
-          publishDraftFactory.create(patchSet.getId()).call();
-      handleReviewResultErrors(result);
-    } else if (deleteDraftPatchSet) {
-      final ReviewResult result =
-          deleteDraftPatchSetFactory.create(patchSet.getId()).call();
-      handleReviewResultErrors(result);
     }
   }
 

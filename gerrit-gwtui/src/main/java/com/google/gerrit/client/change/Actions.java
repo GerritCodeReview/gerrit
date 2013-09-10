@@ -36,12 +36,16 @@ import java.util.TreeSet;
 class Actions extends Composite {
   private static final String[] CORE = {
     "abandon", "restore", "revert", "topic",
-    "cherrypick", "submit", "rebase", "message"};
+    "cherrypick", "submit", "rebase", "message",
+    "publish", "/"};
 
   interface Binder extends UiBinder<FlowPanel, Actions> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   @UiField Button cherrypick;
+  @UiField Button deleteChange;
+  @UiField Button deleteRevision;
+  @UiField Button publish;
   @UiField Button rebase;
   @UiField Button revert;
   @UiField Button submit;
@@ -87,11 +91,11 @@ class Actions extends Composite {
         : NativeMap.<ActionInfo> create();
     actions.copyKeysIntoChildren("id");
 
-    abandon.setVisible(hasUser && actions.containsKey("abandon"));
-    restore.setVisible(hasUser && actions.containsKey("restore"));
-    revert.setVisible(hasUser && actions.containsKey("revert"));
-
     if (hasUser) {
+      a2b(actions, "/", deleteChange);
+      a2b(actions, "abandon", abandon);
+      a2b(actions, "restore", restore);
+      a2b(actions, "revert", revert);
       for (String id : filterNonCore(actions)) {
         add(new ActionButton(info, actions.get(id)));
       }
@@ -105,11 +109,16 @@ class Actions extends Composite {
         : NativeMap.<ActionInfo> create();
     actions.copyKeysIntoChildren("id");
 
-    cherrypick.setVisible(hasUser && actions.containsKey("cherrypick"));
-    rebase.setVisible(hasUser && actions.containsKey("rebase"));
-    canSubmit = hasUser && actions.containsKey("submit");
-
+    canSubmit = false;
     if (hasUser) {
+      canSubmit = actions.containsKey("submit");
+      if (canSubmit) {
+        submit.setTitle(actions.get("submit").title());
+      }
+      a2b(actions, "/", deleteRevision);
+      a2b(actions, "cherrypick", cherrypick);
+      a2b(actions, "publish", publish);
+      a2b(actions, "rebase", rebase);
       for (String id : filterNonCore(actions)) {
         add(new ActionButton(info, revInfo, actions.get(id)));
       }
@@ -144,6 +153,21 @@ class Actions extends Composite {
     abandonAction.show();
   }
 
+  @UiHandler("publish")
+  void onPublish(ClickEvent e) {
+    DraftActions.publish(changeId, revision);
+  }
+
+  @UiHandler("deleteRevision")
+  void onDeleteRevision(ClickEvent e) {
+    DraftActions.delete(changeId, revision);
+  }
+
+  @UiHandler("deleteChange")
+  void onDeleteChange(ClickEvent e) {
+    DraftActions.delete(changeId);
+  }
+
   @UiHandler("restore")
   void onRestore(ClickEvent e) {
     if (restoreAction == null) {
@@ -170,5 +194,12 @@ class Actions extends Composite {
   @UiHandler("revert")
   void onRevert(ClickEvent e) {
     RevertAction.call(cherrypick, changeId, revision, project, subject);
+  }
+
+  private static void a2b(NativeMap<ActionInfo> actions, String a, Button b) {
+    if (actions.containsKey(a)) {
+      b.setVisible(true);
+      b.setTitle(actions.get(a).title());
+    }
   }
 }

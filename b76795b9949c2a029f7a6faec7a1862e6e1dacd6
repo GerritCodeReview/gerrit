@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7195dc0_66edee38",
+        "filename": "lib/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-10T22:54:38Z",
+      "side": 1,
+      "message": "nit: elsewhere for a single dep we do it on one line",
+      "revId": "b76795b9949c2a029f7a6faec7a1862e6e1dacd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

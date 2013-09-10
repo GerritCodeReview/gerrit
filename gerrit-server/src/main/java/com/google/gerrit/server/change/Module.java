@@ -49,7 +49,10 @@ public class Module extends RestApiModule {
     get(CHANGE_KIND, "topic").to(GetTopic.class);
     put(CHANGE_KIND, "topic").to(PutTopic.class);
     delete(CHANGE_KIND, "topic").to(PutTopic.class);
+    delete(CHANGE_KIND).to(DeleteDraftChange.class);
+    post(CHANGE_KIND, "delete").to(DeleteDraftChange.Action.class);
     post(CHANGE_KIND, "abandon").to(Abandon.class);
+    post(CHANGE_KIND, "publish").to(Publish.CurrentRevision.class);
     post(CHANGE_KIND, "restore").to(Restore.class);
     post(CHANGE_KIND, "revert").to(Revert.class);
     post(CHANGE_KIND, "submit").to(Submit.CurrentRevision.class);
@@ -64,7 +67,10 @@ public class Module extends RestApiModule {
     child(CHANGE_KIND, "revisions").to(Revisions.class);
     post(REVISION_KIND, "cherrypick").to(CherryPick.class);
     get(REVISION_KIND, "commit").to(GetCommit.class);
+    delete(REVISION_KIND).to(DeleteDraftPatchSet.class);
+    post(REVISION_KIND, "delete").to(DeleteDraftPatchSet.Action.class);
     get(REVISION_KIND, "mergeable").to(Mergeable.class);
+    post(REVISION_KIND, "publish").to(Publish.class);
     get(REVISION_KIND, "related").to(GetRelated.class);
     get(REVISION_KIND, "review").to(GetReview.class);
     post(REVISION_KIND, "review").to(PostReview.class);

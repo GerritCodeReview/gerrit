@@ -27,7 +27,7 @@ public final class AccountGeneralPreferences {
 
   /** Preferred scheme type to download a change. */
   public static enum DownloadScheme {
-    ANON_GIT, ANON_HTTP, ANON_SSH, HTTP, SSH, REPO_DOWNLOAD, DEFAULT_DOWNLOADS;
+    ANON_GIT, ANON_HTTP, HTTP, SSH, REPO_DOWNLOAD, DEFAULT_DOWNLOADS;
   }
 
   /** Preferred method to download a change. */

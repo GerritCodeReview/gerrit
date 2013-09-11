@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07e031ae_0f8945b8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 941,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-11T06:15:39Z",
+      "side": 1,
+      "message": "I would prefer this to be:\n  POST /changes/\u003cchange-id\u003e/publish\n\nThis naming would be consistent with\n  POST /changes/\u003cchange-id\u003e/abandon\n  POST /changes/\u003cchange-id\u003e/restore\n  POST /changes/\u003cchange-id\u003e/rebase\netc.",
+      "revId": "970f2d77cbd6a04a5b508531f298ef78087b24c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27db7507_b0fdf8e7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 960,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-11T06:15:39Z",
+      "side": 1,
+      "message": "I would prefer this to be just:\n  DELETE /changes/\u003cchange-id\u003e\n\nIf we need a view for the UiAction I would propose to have in addition to the DELETE /changes/\u003cchange-id\u003e the same functionality under:\n\n  POST /changes/\u003cchange-id\u003e/delete",
+      "revId": "970f2d77cbd6a04a5b508531f298ef78087b24c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07e031ae_2f8e89c1",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1552,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-11T06:15:39Z",
+      "side": 1,
+      "message": "same as above\n  s/draft/publish",
+      "revId": "970f2d77cbd6a04a5b508531f298ef78087b24c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07e031ae_cf925de4",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1571,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-11T06:15:39Z",
+      "side": 1,
+      "message": "same as above\n  s|/draft|",
+      "revId": "970f2d77cbd6a04a5b508531f298ef78087b24c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "27db7507_500a8c38",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 941,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-11T07:00:03Z",
+      "side": 1,
+      "message": "Done\n\nIt was documentation bug. It was already publish.",
+      "parentUuid": "07e031ae_0f8945b8",
+      "revId": "970f2d77cbd6a04a5b508531f298ef78087b24c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27db7507_b0fdf8e7",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-09-11T06:15:39Z",
       "side": 1,
       "message": "I would prefer this to be just:\n  DELETE /changes/\u003cchange-id\u003e\n\nIf we need a view for the UiAction I would propose to have in addition to the DELETE /changes/\u003cchange-id\u003e the same functionality under:\n\n  POST /changes/\u003cchange-id\u003e/delete",
+      "revId": "970f2d77cbd6a04a5b508531f298ef78087b24c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07e031ae_8f9c55f8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 960,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-11T07:00:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27db7507_b0fdf8e7",
       "revId": "970f2d77cbd6a04a5b508531f298ef78087b24c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "07e031ae_af991907",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1552,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-11T07:00:03Z",
+      "side": 1,
+      "message": "Done\n\nIt was documentation bug.",
+      "parentUuid": "07e031ae_2f8e89c1",
+      "revId": "970f2d77cbd6a04a5b508531f298ef78087b24c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07e031ae_cf925de4",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2013-09-11T06:15:39Z",
       "side": 1,
       "message": "same as above\n  s|/draft|",
+      "revId": "970f2d77cbd6a04a5b508531f298ef78087b24c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27db7507_700f9047",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1571,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-11T07:00:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07e031ae_cf925de4",
       "revId": "970f2d77cbd6a04a5b508531f298ef78087b24c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

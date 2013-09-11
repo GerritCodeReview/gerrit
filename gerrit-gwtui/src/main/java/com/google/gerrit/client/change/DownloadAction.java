@@ -38,7 +38,6 @@ class DownloadAction extends RightSidePopdownAction {
             ? revision.fetch()
             : NativeMap.<FetchInfo> create(),
         revision.name(),
-        project,
         new PatchSet.Id(changeId, revision._number()));
   }
 

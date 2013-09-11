@@ -14,21 +14,31 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.extensions.config.DownloadCommand;
+import com.google.gerrit.extensions.config.DownloadScheme;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.inject.Inject;
 
 public class GetConfig implements RestReadView<ProjectResource> {
 
-  private final TransferConfig config;
+  private final TransferConfig transferConfig;
+  private final DynamicSet<DownloadScheme> downloadSchemes;
+  private final DynamicSet<DownloadCommand> downloadCommands;
 
   @Inject
-  public GetConfig(TransferConfig config) {
-    this.config = config;
+  public GetConfig(TransferConfig transferConfig,
+      DynamicSet<DownloadScheme> downloadSchemes,
+      DynamicSet<DownloadCommand> downloadCommands) {
+    this.transferConfig = transferConfig;
+    this.downloadSchemes = downloadSchemes;
+    this.downloadCommands = downloadCommands;
   }
 
   @Override
   public ConfigInfo apply(ProjectResource resource) {
-    return new ConfigInfo(resource.getControl().getProjectState(), config);
+    return new ConfigInfo(resource.getControl().getProjectState(),
+        transferConfig, downloadSchemes, downloadCommands);
   }
 }

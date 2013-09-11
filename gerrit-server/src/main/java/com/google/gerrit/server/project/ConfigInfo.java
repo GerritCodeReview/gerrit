@@ -16,12 +16,17 @@ package com.google.gerrit.server.project;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.gerrit.extensions.config.DownloadCommand;
+import com.google.gerrit.extensions.config.DownloadScheme;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.git.TransferConfig;
 
+import java.util.List;
 import java.util.Map;
 
 public class ConfigInfo {
@@ -38,8 +43,10 @@ public class ConfigInfo {
 
   public Map<String, CommentLinkInfo> commentlinks;
   public ThemeInfo theme;
+  public Map<String, List<DownloadCommandInfo>> downloadCommands;
 
-  public ConfigInfo(ProjectState state, TransferConfig config) {
+  public ConfigInfo(ProjectState state, TransferConfig transferConfig,
+      DynamicSet<DownloadScheme> downloadSchemes, DynamicSet<DownloadCommand> downloadCommands) {
     Project p = state.getProject();
     this.description = Strings.emptyToNull(p.getDescription());
 
@@ -76,12 +83,12 @@ public class ConfigInfo {
 
     MaxObjectSizeLimitInfo maxObjectSizeLimit = new MaxObjectSizeLimitInfo();
     maxObjectSizeLimit.value =
-        config.getEffectiveMaxObjectSizeLimit(state) == config
-            .getMaxObjectSizeLimit() ? config
+        transferConfig.getEffectiveMaxObjectSizeLimit(state) == transferConfig
+            .getMaxObjectSizeLimit() ? transferConfig
             .getFormattedMaxObjectSizeLimit() : p.getMaxObjectSizeLimit();
     maxObjectSizeLimit.configuredValue = p.getMaxObjectSizeLimit();
     maxObjectSizeLimit.inheritedValue =
-        config.getFormattedMaxObjectSizeLimit();
+        transferConfig.getFormattedMaxObjectSizeLimit();
     this.maxObjectSizeLimit = maxObjectSizeLimit;
 
     this.submitType = p.getSubmitType();
@@ -93,6 +100,25 @@ public class ConfigInfo {
     }
 
     this.theme = state.getTheme();
+
+    this.downloadCommands = Maps.newHashMap();
+    for (DownloadScheme scheme : downloadSchemes) {
+      if (!scheme.isEnabled()) {
+        continue;
+      }
+
+      List<DownloadCommandInfo> commands = Lists.newArrayList();
+      this.downloadCommands.put(scheme.getName(), commands);
+      for (DownloadCommand command : downloadCommands) {
+        String c = command.getCommand(scheme, state.getProject().getName());
+        if (c != null) {
+          DownloadCommandInfo info = new DownloadCommandInfo();
+          info.name = command.getName();
+          info.command = c;
+          commands.add(info);
+        }
+      }
+    }
   }
 
   public static class InheritedBooleanInfo {
@@ -105,5 +131,10 @@ public class ConfigInfo {
     public String value;
     public String configuredValue;
     public String inheritedValue;
+  }
+
+  public static class DownloadCommandInfo {
+    public String name;
+    public String command;
   }
 }

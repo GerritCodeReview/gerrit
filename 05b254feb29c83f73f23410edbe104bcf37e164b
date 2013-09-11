@@ -69,6 +69,24 @@
       "revId": "05b254feb29c83f73f23410edbe104bcf37e164b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c716198f_c55c9af8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-11T14:12:41Z",
+      "side": 1,
+      "message": "Ack, I agree we can change this entirely internally, so I\u0027ll go ahead and submit.",
+      "parentUuid": "c716198f_e55f16ea",
+      "revId": "05b254feb29c83f73f23410edbe104bcf37e164b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

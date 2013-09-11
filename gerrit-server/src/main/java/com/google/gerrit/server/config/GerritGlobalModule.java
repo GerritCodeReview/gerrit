@@ -20,6 +20,8 @@ import com.google.common.cache.Cache;
 import com.google.gerrit.audit.AuditModule;
 import com.google.gerrit.common.ChangeListener;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
+import com.google.gerrit.extensions.config.DownloadCommand;
+import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
@@ -239,6 +241,8 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), MergeValidationListener.class);
     DynamicItem.itemOf(binder(), AvatarProvider.class);
     DynamicSet.setOf(binder(), LifecycleListener.class);
+    DynamicSet.setOf(binder(), DownloadScheme.class);
+    DynamicSet.setOf(binder(), DownloadCommand.class);
 
     bind(AnonymousUser.class);
 

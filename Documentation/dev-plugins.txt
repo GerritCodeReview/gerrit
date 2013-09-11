@@ -843,6 +843,17 @@ MyType(@PluginData java.io.File myDir) {
 }
 ----
 
+[[download-commands]]
+Download Commands
+-----------------
+
+On the change screen Gerrit offers commands for downloading the change
+using different download schemes (e.g. for downloading via different
+network protocols). Plugins can contribute both, download schemes and
+download commands by implementing
+`com.google.gerrit.extensions.config.DownloadScheme` and
+`com.google.gerrit.extensions.config.DownloadCommand`.
+
 [[documentation]]
 Documentation
 -------------

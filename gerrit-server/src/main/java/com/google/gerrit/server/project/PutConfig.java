@@ -15,6 +15,9 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.extensions.config.DownloadCommand;
+import com.google.gerrit.extensions.config.DownloadScheme;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -51,19 +54,23 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
   private final ProjectCache projectCache;
   private final Provider<CurrentUser> self;
   private final ProjectState.Factory projectStateFactory;
-  private final TransferConfig config;
+  private final TransferConfig transferConfig;
+  private final DynamicSet<DownloadScheme> downloadSchemes;
+  private final DynamicSet<DownloadCommand> downloadCommands;
 
   @Inject
   PutConfig(MetaDataUpdate.User metaDataUpdateFactory,
-      ProjectCache projectCache,
-      Provider<CurrentUser> self,
-      ProjectState.Factory projectStateFactory,
-      TransferConfig config) {
+      ProjectCache projectCache, Provider<CurrentUser> self,
+      ProjectState.Factory projectStateFactory, TransferConfig transferConfig,
+      DynamicSet<DownloadScheme> downloadSchemes,
+      DynamicSet<DownloadCommand> downloadCommands) {
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.projectCache = projectCache;
     this.self = self;
     this.projectStateFactory = projectStateFactory;
-    this.config = config;
+    this.transferConfig = transferConfig;
+    this.downloadSchemes = downloadSchemes;
+    this.downloadCommands = downloadCommands;
   }
 
   @Override
@@ -131,7 +138,8 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
           throw new ResourceConflictException("Cannot update " + projectName);
         }
       }
-      return new ConfigInfo(projectStateFactory.create(projectConfig), config);
+      return new ConfigInfo(projectStateFactory.create(projectConfig),
+          transferConfig, downloadSchemes, downloadCommands);
     } catch (ConfigInvalidException err) {
       throw new ResourceConflictException("Cannot read project " + projectName, err);
     } catch (IOException err) {

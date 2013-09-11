@@ -274,7 +274,7 @@ public class ChangeScreen2 extends Screen {
   private void initDownloadAction(ChangeInfo info, String revision) {
     downloadAction = new DownloadAction(
         info.legacy_id(),
-        info.project(),
+        info.project_name_key(),
         info.revision(revision),
         style, headerLine, download);
   }

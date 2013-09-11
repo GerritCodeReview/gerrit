@@ -14,9 +14,7 @@
 
 package com.google.gerrit.client.change;
 
-import com.google.gerrit.client.changes.ChangeInfo.FetchInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
-import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.user.client.ui.UIObject;
@@ -34,11 +32,8 @@ class DownloadAction extends RightSidePopdownAction {
       Widget downloadButton) {
     super(style, relativeTo, downloadButton);
     this.downloadBox = new DownloadBox(
-        revision.has_fetch()
-            ? revision.fetch()
-            : NativeMap.<FetchInfo> create(),
+        changeId,
         revision.name(),
-        project,
         new PatchSet.Id(changeId, revision._number()));
   }
 

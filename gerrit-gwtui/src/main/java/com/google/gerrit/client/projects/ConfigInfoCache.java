@@ -50,6 +50,10 @@ public class ConfigInfoCache {
     public ThemeInfo getTheme() {
       return info.theme();
     }
+
+    public ConfigInfo getInfo() {
+      return info;
+    }
   }
 
   public static void get(Project.NameKey name, AsyncCallback<Entry> cb) {

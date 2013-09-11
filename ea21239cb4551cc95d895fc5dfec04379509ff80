@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c716198f_a5651eb8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 941,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-11T02:56:58Z",
+      "side": 1,
+      "message": "Do we need the /draft suffix?\n\nIf it\u0027s a draft, should we not be able to just POST or DELETE it with the change-id?  And if it\u0027s not a draft, return an error?",
+      "revId": "ea21239cb4551cc95d895fc5dfec04379509ff80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c716198f_4551cadf",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 966,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-11T02:56:58Z",
+      "side": 1,
+      "message": "s/POST/DELETE",
+      "revId": "ea21239cb4551cc95d895fc5dfec04379509ff80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c716198f_8562a2ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DropDraftChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-11T02:56:58Z",
+      "side": 1,
+      "message": "s/Drop/Delete",
+      "revId": "ea21239cb4551cc95d895fc5dfec04379509ff80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

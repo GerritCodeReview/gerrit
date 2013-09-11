@@ -13,49 +13,73 @@
 # limitations under the License.
 
 def genasciidoc(
+    name,
+    out,
     srcs = [],
-    outs = [],
-    deps = {},
+    deps = [],
     attributes = [],
     backend = None,
     visibility = []):
   EXPN = '.expn'
 
-  asciidoc = ['$(exe //lib/asciidoctor:asciidoc)']
+  asciidoc = [
+      '$(exe //lib/asciidoctor:asciidoc)',
+      '--in-ext', '".txt%s"' % EXPN,
+      '--out-ext', '".html"',
+  ]
   if backend:
     asciidoc.extend(['-b', backend])
   for attribute in attributes:
     asciidoc.extend(['-a', attribute])
-  asciidoc.extend(['-o', '$OUT'])
+  asciidoc.extend(['-D', '$TMP'])
+  newdeps = deps + ['//lib/asciidoctor:asciidoc']
+  newsrcs = [genfile('licenses.txt')]
+  ressrcs = []
 
-  for p in zip(srcs, outs):
-    src, out = p
-    dep = deps.get(src) or []
+  for src in srcs:
+    if (src.endswith(".txt")) :
+      tx = []
+      fn = src
+      if fn.startswith('BUCKGEN:') :
+        fn = src[8:]
+        tx = [':' + fn]
+      ex = fn + EXPN
 
-    tx = []
-    fn = src
-    if fn.startswith('BUCKGEN:') :
-      fn = src[8:]
-      tx = [':' + fn]
-    ex = fn + EXPN
+      genrule(
+        name = ex,
+        cmd = '$(exe :replace_macros) --suffix=' + EXPN +
+              ' -s $SRCDIR/%s' % fn +
+              ' -o $OUT',
+        srcs = [src],
+        deps = tx + [':replace_macros'],
+        out = ex,
+      )
+      newdeps.append(':' + ex)
+      asciidoc.append('$SRCDIR/' + ex)
+      newsrcs.append(genfile(ex))
+    else :
+      fn = src
+      if fn.startswith('BUCKGEN:') :
+        fn = src[8:]
+      ressrcs.append('$SRCDIR/' + fn)
+      newsrcs.append(src)
 
-    genrule(
-      name = ex,
-      cmd = '$(exe :replace_macros) --suffix=' + EXPN +
-            ' -s $SRCDIR/%s' % fn +
-            ' -o $OUT',
-      srcs = [src],
-      deps = tx + [':replace_macros'],
-      out = ex,
-    )
-    genrule(
-      name = out,
-      cmd = ' '.join(asciidoc + ['$SRCDIR/' + ex]),
-      srcs = [genfile(ex)] + [genfile(n + EXPN) for n in dep],
-      deps = [':' + n + EXPN for n in dep] + [
-        ':' + ex,
-        '//lib/asciidoctor:asciidoc',
-      ],
-      out = out,
-      visibility = visibility,
-    )
+  asciidoc.extend([
+      ";",
+      "cd $TMP;",
+      "mkdir -p Documentation/images;",
+      "mv *.html Documentation/;",
+      "for s in %s;do cp $s Documentation;done;" % ' '.join(ressrcs),
+      'mv Documentation/*.{jpg,png} Documentation/images;',
+      'cp $SRCDIR/licenses.txt LICENSES.txt;',
+      'zip -qr $OUT *;',
+  ])
+
+  genrule(
+    name = name,
+    cmd = ' '.join(asciidoc),
+    srcs = newsrcs,
+    deps = newdeps,
+    out = out,
+    visibility = visibility,
+  )

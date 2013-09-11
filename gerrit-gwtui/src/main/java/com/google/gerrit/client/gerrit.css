@@ -1095,6 +1095,50 @@ td.removeReviewerCell {
   padding-left: 4em;
   border-left: none;
 }
+.downloadBox {
+  min-width: 580px;
+  margin: 5px;
+}
+.downloadBoxTable {
+  border-spacing: 0;
+  width: 100%;
+}
+.downloadBoxTableCommandColumn {
+  text-align: left;
+  font-weight: normal;
+  white-space: nowrap;
+  max-height: 18px;
+  width: 80px;
+  padding-right: 5px;
+}
+.downloadBoxSpacer {
+  margin-left: 5px;
+	margin-right: 5px;
+}
+.downloadBoxScheme {
+  float: right;
+}
+.downloadBoxCopyLabel {
+  font-size: smaller;
+  font-family: monospace;
+}
+.downloadBoxCopyLabel span {
+  width: 500px;
+  white-space: nowrap;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.downloadBoxCopyLabel .gwt-TextBox {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  max-height: 18px;
+  width: 500px;
+}
+.downloadBoxCopyLabel div {
+  float: right;
+}
 td.downloadLinkListCell {
   padding: 0px;
 }

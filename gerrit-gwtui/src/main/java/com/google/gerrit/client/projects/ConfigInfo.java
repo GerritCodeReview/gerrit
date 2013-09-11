@@ -14,8 +14,10 @@
 
 package com.google.gerrit.client.projects;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.actions.ActionInfo;
 import com.google.gerrit.client.rpc.NativeMap;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
@@ -88,6 +90,39 @@ public class ConfigInfo extends JavaScriptObject {
 
   final native ThemeInfo theme() /*-{ return this.theme; }-*/;
 
+  public final NativeMap<JsArray<DownloadCommandInfo>> changeDownloadCommands() {
+    return filterDownloadCommands(true, "${ref}");
+  }
+
+  public final NativeMap<JsArray<DownloadCommandInfo>> projectDownloadCommands() {
+    return filterDownloadCommands(false, "${ref}");
+  }
+
+  private final NativeMap<JsArray<DownloadCommandInfo>> filterDownloadCommands(
+      boolean mustContain, String match) {
+    NativeMap<JsArray<DownloadCommandInfo>> changeCmds = NativeMap.create();
+    NativeMap<JsArray<DownloadCommandInfo>> cmds = download_commands();
+    for (String scheme : cmds.keySet()) {
+      int i = 0;
+      for (DownloadCommandInfo cmd : Natives.asList(cmds.get(scheme))) {
+        if ((mustContain && cmd.command().contains(match))
+            || (!mustContain && !cmd.command().contains(match))) {
+          JsArray<DownloadCommandInfo> list = changeCmds.get(scheme);
+          if (list == null) {
+            list = JsArray.createArray().cast();
+            changeCmds.put(scheme, list);
+          }
+          list.set(i++, cmd);
+        }
+      }
+    }
+    return changeCmds;
+  }
+
+  private final native NativeMap<JsArray<DownloadCommandInfo>> download_commands()
+  /*-{ return this.download_commands; }-*/;
+
+
   protected ConfigInfo() {
   }
 
@@ -136,6 +171,22 @@ public class ConfigInfo extends JavaScriptObject {
     public final native String configured_value() /*-{ return this.configured_value }-*/;
 
     protected MaxObjectSizeLimitInfo() {
+    }
+  }
+
+  public static class DownloadCommandInfo extends JavaScriptObject {
+    public final native String name() /*-{ return this.name; }-*/;
+
+    public final String command(String ref) {
+      String cmd = command();
+      cmd = cmd.replaceAll("\\$\\{username\\}", Gerrit.getUserAccount().getUserName());
+      cmd = cmd.replaceAll("\\$\\{ref\\}", ref);
+      return cmd;
+    }
+
+    private final native String command() /*-{ return this.command; }-*/;
+
+    protected DownloadCommandInfo() {
     }
   }
 }

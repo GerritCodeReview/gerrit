@@ -469,6 +469,74 @@ read access to `refs/meta/config`.
         "title": "Say hello in different languages",
         "enabled": true
       }
+    },
+    "download_commands": {
+      "SSH": [
+        {
+          "name": "clone",
+          "command": "git clone ssh://${username}@ssh://localhost:29418/test"
+        },
+        {
+          "name": "checkout",
+          "command": "git fetch ssh://${username}@ssh://localhost:29418/test ${ref} \u0026\u0026 git checkout FETCH_HEAD"
+        },
+        {
+          "name": "cherry-pick",
+          "command": "git fetch ssh://${username}@ssh://localhost:29418/test ${ref} \u0026\u0026 git cherry-pick FETCH_HEAD"
+        },
+        {
+          "name": "format-patch",
+          "command": "git fetch ssh://${username}@ssh://localhost:29418/test ${ref} \u0026\u0026 git format-patch -1 --stdout FETCH_HEAD"
+        },
+        {
+          "name": "pull",
+          "command": "git pull ssh://${username}@ssh://localhost:29418/test ${ref}"
+        }
+      ],
+      "HTTP": [
+        {
+          "name": "clone",
+          "command": "git clone http://${username}@localhost:8080/test"
+        },
+        {
+          "name": "checkout",
+          "command": "git fetch http://${username}@localhost:8080/test ${ref} \u0026\u0026 git checkout FETCH_HEAD"
+        },
+        {
+          "name": "cherry-pick",
+          "command": "git fetch http://${username}@localhost:8080/test ${ref} \u0026\u0026 git cherry-pick FETCH_HEAD"
+        },
+        {
+          "name": "format-patch",
+          "command": "git fetch http://${username}@localhost:8080/test ${ref} \u0026\u0026 git format-patch -1 --stdout FETCH_HEAD"
+        },
+        {
+          "name": "pull",
+          "command": "git pull http://${username}@localhost:8080/test ${ref}"
+        }
+      ],
+      "Anonymous HTTP": [
+        {
+          "name": "clone",
+          "command": "git clone http://localhost:8080/test"
+        },
+        {
+          "name": "checkout",
+          "command": "git fetch http://localhost:8080/test ${ref} \u0026\u0026 git checkout FETCH_HEAD"
+        },
+        {
+          "name": "cherry-pick",
+          "command": "git fetch http://localhost:8080/test ${ref} \u0026\u0026 git cherry-pick FETCH_HEAD"
+        },
+        {
+          "name": "format-patch",
+          "command": "git fetch http://localhost:8080/test ${ref} \u0026\u0026 git format-patch -1 --stdout FETCH_HEAD"
+        },
+        {
+          "name": "pull",
+          "command": "git pull http://localhost:8080/test ${ref}"
+        }
+      ]
     }
   }
 ----
@@ -1196,6 +1264,11 @@ ThemeInfo] entity.
 Actions the caller might be able to perform on this project. The
 information is a map of view names to
 link:rest-api-changes.html#action-info[ActionInfo] entities.
+|`download_commands`         ||
+The download commands that are configured for this project as a map,
+where a scheme name is mapped to a list of link:#download-command-info[
+DownloadCommandInfo] entities describing the download command in that
+scheme.
 |=========================================
 
 [[config-input]]
@@ -1316,6 +1389,22 @@ in a dashboard.
 |`query`       |The query of the section. +
 Tokens such as `${project}` are not resolved.
 |===========================
+
+[[download-command-info]]
+DownloadCommandInfo
+~~~~~~~~~~~~~~~~~~~
+The `DownloadCommandInfo` entity describes a download command for the
+project or a change of the project.
+
+[options="header",width="50%",cols="1,6"]
+|======================
+|Field Name|Description
+|`name`    |The name of the download command.
+|`command` |
+The download command. +
+It may contain placeholders for the username (`${username}`), for the
+change ref (`${ref}`) and the host name (`${hostname}`).
+|======================
 
 [[head-input]]
 HeadInput

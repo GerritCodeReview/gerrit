@@ -16,8 +16,12 @@ package com.google.gerrit.server.project;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.gerrit.extensions.config.DownloadCommand;
+import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Project;
@@ -29,6 +33,7 @@ import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.inject.Provider;
 
+import java.util.List;
 import java.util.Map;
 
 public class ConfigInfo {
@@ -46,12 +51,15 @@ public class ConfigInfo {
 
   public Map<String, CommentLinkInfo> commentlinks;
   public ThemeInfo theme;
+  public Map<String, List<DownloadCommandInfo>> downloadCommands;
 
   public ConfigInfo(ProjectControl control,
       ProjectState projectState,
       TransferConfig config,
       DynamicMap<RestView<ProjectResource>> views,
-      Provider<CurrentUser> currentUser) {
+      Provider<CurrentUser> currentUser,
+      DynamicSet<DownloadScheme> downloadSchemes,
+      DynamicSet<DownloadCommand> downloadCommands) {
     Project p = control.getProject();
     this.description = Strings.emptyToNull(p.getDescription());
 
@@ -112,6 +120,25 @@ public class ConfigInfo {
       actions.put(d.getId(), new ActionInfo(d));
     }
     this.theme = projectState.getTheme();
+
+    this.downloadCommands = Maps.newHashMap();
+    for (DownloadScheme scheme : downloadSchemes) {
+      if (!scheme.isEnabled()) {
+        continue;
+      }
+
+      List<DownloadCommandInfo> commands = Lists.newArrayList();
+      this.downloadCommands.put(scheme.getName(), commands);
+      for (DownloadCommand command : downloadCommands) {
+        String c = command.getCommand(scheme, projectState.getProject().getName());
+        if (c != null) {
+          DownloadCommandInfo info = new DownloadCommandInfo();
+          info.name = command.getName();
+          info.command = c;
+          commands.add(info);
+        }
+      }
+    }
   }
 
   public static class InheritedBooleanInfo {
@@ -124,5 +151,10 @@ public class ConfigInfo {
     public String value;
     public String configuredValue;
     public String inheritedValue;
+  }
+
+  public static class DownloadCommandInfo {
+    public String name;
+    public String command;
   }
 }

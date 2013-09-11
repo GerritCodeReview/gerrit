@@ -309,9 +309,6 @@ public class GitOverHttpServlet extends GitServlet {
       }
 
       if (!rp.isCheckReferencedObjectsAreReachable()) {
-        if (isGet) {
-          rc.advertiseHistory();
-        }
         chain.doFilter(request, response);
         return;
       }
@@ -326,7 +323,6 @@ public class GitOverHttpServlet extends GitServlet {
           projectName);
 
       if (isGet) {
-        rc.advertiseHistory();
         cache.invalidate(cacheKey);
       } else {
         Set<ObjectId> ids = cache.getIfPresent(cacheKey);

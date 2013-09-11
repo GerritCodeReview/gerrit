@@ -38,6 +38,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
@@ -211,7 +212,7 @@ public class MergeOp {
     }
   }
 
-  public void merge() throws MergeException, NoSuchProjectException {
+  public void merge() throws MergeException {
     setDestProject();
     try {
       openSchema();
@@ -270,6 +271,11 @@ public class MergeOp {
               message(commit.change, capable.getMessage()), false);
         }
       }
+    } catch (NoSuchProjectException noProject) {
+      log.warn(String.format(
+          "Project %s no longer exists, abandoning open changes",
+          destBranch.getParentKey().get()));
+      abandonAllOpenChanges();
     } catch (OrmException e) {
       throw new MergeException("Cannot query the database", e);
     } finally {
@@ -343,13 +349,12 @@ public class MergeOp {
         canMergeFlag, getAlreadyAccepted(branchTip), destBranch);
   }
 
-  private void openRepository() throws MergeException {
+  private void openRepository() throws MergeException, NoSuchProjectException {
     final Project.NameKey name = destBranch.getParentKey();
     try {
       repo = repoManager.openRepository(name);
-    } catch (RepositoryNotFoundException notGit) {
-      final String m = "Repository \"" + name.get() + "\" unknown.";
-      throw new MergeException(m, notGit);
+    } catch (RepositoryNotFoundException notFound) {
+      throw new NoSuchProjectException(name, notFound);
     } catch (IOException err) {
       final String m = "Error opening repository \"" + name.get() + '"';
       throw new MergeException(m, err);
@@ -1039,6 +1044,54 @@ public class MergeOp {
       } catch (OrmException ex) {
         log.error("Cannot run hook for merge failed " + c.getId(), ex);
       }
+    }
+  }
+
+  private void abandonAllOpenChanges() {
+    try {
+      openSchema();
+      for (Change c : db.changes().byProjectOpenAll(destBranch.getParentKey())) {
+        abandonOneChange(c);
+      }
+      db.close();
+      db = null;
+    } catch (OrmException e) {
+      log.warn(String.format(
+          "Cannot abandon changes for deleted project %s",
+          destBranch.getParentKey().get()), e);
+    }
+  }
+
+  private void abandonOneChange(Change change) throws OrmException {
+    ChangeMessage message = new ChangeMessage(
+        new ChangeMessage.Key(
+            change.getId(),
+            ChangeUtil.messageUUID(db)),
+        null,
+        change.getLastUpdatedOn(),
+        change.currentPatchSetId());
+    message.setMessage("Project was deleted.");
+
+    db.changes().beginTransaction(change.getId());
+    try {
+      change = db.changes().atomicUpdate(
+        change.getId(),
+        new AtomicUpdate<Change>() {
+          @Override
+          public Change update(Change change) {
+            if (change.getStatus().isOpen()) {
+              change.setStatus(Change.Status.ABANDONED);
+              ChangeUtil.updated(change);
+              return change;
+            }
+            return null;
+          }
+        });
+      db.changeMessages().insert(Collections.singleton(message));
+      new ApprovalsUtil(db).syncChangeStatus(change);
+      db.commit();
+    } finally {
+      db.rollback();
     }
   }
 }

@@ -4,48 +4,41 @@ include_defs('//tools/git.defs')
 
 MAIN = ['//gerrit-pgm:pgm', '//gerrit-gwtui:ui_module']
 SRCS = glob(['*.txt'], excludes = ['licenses.txt'])
-HTML = [txt[0:-4] + '.html' for txt in SRCS]
 
 genrule(
   name = 'html',
   cmd = 'cd $TMP;' +
     'mkdir -p Documentation/images;' +
+    'unzip -q $SRCDIR/only_html.zip -d Documentation/;' +
     'for s in $SRCS;do ln -s $s Documentation;done;' +
     'mv Documentation/*.{jpg,png} Documentation/images;' +
+    'rm Documentation/only_html.zip;' +
     'rm Documentation/licenses.txt;' +
     'cp $SRCDIR/licenses.txt LICENSES.txt;' +
     'zip -qr $OUT *',
-  srcs = [genfile(d) for d in HTML] +
+  srcs = [genfile('only_html.zip')] +
     glob([
       'images/*.jpg',
       'images/*.png',
     ]) + [
-    genfile('doc.css'),
-    genfile('licenses.html'),
+    'doc.css',
     genfile('licenses.txt'),
   ],
-  deps = [':' + d for d in HTML] + [
-    ':licenses.html',
+  deps = [
+    ':generate_html',
     ':licenses.txt',
-    ':doc.css',
   ],
   out = 'html.zip',
   visibility = ['PUBLIC'],
 )
 
-genrule(
-  name = 'doc.css',
-  cmd = 'ln -s $SRCDIR/doc.css $OUT',
-  srcs = ['doc.css'],
-  out = 'doc.css',
-)
-
 genasciidoc(
+  name = 'generate_html',
   srcs = SRCS + [genfile('licenses.txt')],
-  outs = HTML + ['licenses.html'],
-  deps = DOCUMENTATION_DEPS,
+  deps = [':licenses.txt'],
   attributes = documentation_attributes(git_describe()),
   backend = 'html5',
+  out = 'only_html.zip',
 )
 
 genrule(

@@ -2,9 +2,20 @@ include_defs('//lib/maven.defs')
 
 java_binary(
   name = 'asciidoc',
-  main_class = 'org.asciidoctor.cli.AsciidoctorInvoker',
-  deps = [':asciidoctor'],
+  main_class = 'Main',
+  deps = [':main_lib'],
   visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'main_lib',
+  srcs = ['src/main/java/Main.java'],
+  deps = [
+    ':asciidoctor',
+    ':jcommander',
+    ':jruby',
+  ],
+  visibility = [],
 )
 
 maven_jar(
@@ -14,10 +25,6 @@ maven_jar(
   license = 'Apache2.0',
   visibility = [],
   attach_source = False,
-  deps = [
-    ':jcommander',
-    ':jruby',
-  ],
 )
 
 maven_jar(

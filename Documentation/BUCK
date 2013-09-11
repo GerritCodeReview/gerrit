@@ -24,8 +24,8 @@ genrule(
     genfile('licenses.html'),
     genfile('licenses.txt'),
   ],
-  deps = [':' + d for d in HTML] + [
-    ':licenses.html',
+  deps = [
+    ':generate_html',
     ':licenses.txt',
     ':doc.css',
   ],
@@ -41,9 +41,9 @@ genrule(
 )
 
 genasciidoc(
+  name = 'generate_html',
   srcs = SRCS + [genfile('licenses.txt')],
   outs = HTML + ['licenses.html'],
-  deps = DOCUMENTATION_DEPS,
   attributes = documentation_attributes(git_describe()),
   backend = 'html5',
 )

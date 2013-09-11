@@ -13,24 +13,31 @@
 # limitations under the License.
 
 def genasciidoc(
+    name,
     srcs = [],
     outs = [],
-    deps = {},
+    deps = [],
     attributes = [],
     backend = None,
     visibility = []):
   EXPN = '.expn'
 
-  asciidoc = ['$(exe //lib/asciidoctor:asciidoc)']
+  asciidoc = [
+      '$(exe //lib/asciidoctor:asciidoc)',
+      '--multi-out',
+      '--in-ext', '".txt%s"' % EXPN,
+      '--out-ext', '".html"',
+  ]
   if backend:
     asciidoc.extend(['-b', backend])
   for attribute in attributes:
     asciidoc.extend(['-a', attribute])
   asciidoc.extend(['-o', '$OUT'])
+  newdeps = deps + ['//lib/asciidoctor:asciidoc']
+  newsrcs = []
 
   for p in zip(srcs, outs):
     src, out = p
-    dep = deps.get(src) or []
 
     tx = []
     fn = src
@@ -48,14 +55,15 @@ def genasciidoc(
       deps = tx + [':replace_macros'],
       out = ex,
     )
-    genrule(
-      name = out,
-      cmd = ' '.join(asciidoc + ['$SRCDIR/' + ex]),
-      srcs = [genfile(ex)] + [genfile(n + EXPN) for n in dep],
-      deps = [':' + n + EXPN for n in dep] + [
-        ':' + ex,
-        '//lib/asciidoctor:asciidoc',
-      ],
-      out = out,
-      visibility = visibility,
-    )
+    newdeps.append(':' + ex)
+    asciidoc.append('$SRCDIR/' + ex)
+    newsrcs.append(genfile(ex))
+
+  genrule(
+    name = name,
+    cmd = ' '.join(asciidoc),
+    srcs = newsrcs,
+    deps = newdeps,
+    out = name + '__done',
+    visibility = visibility,
+  )

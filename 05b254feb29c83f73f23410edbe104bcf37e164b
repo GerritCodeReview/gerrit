@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c716198f_e5171659",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-11T00:55:51Z",
+      "side": 1,
+      "message": "It occurs to me that this is now storing redundant data with the change field. If we wanted to remove this field from schema version two here\u0027s what we would do:\n-Add a new field named e.g. _id2 that is not stored.\n-Put _id2 in v2 and leave out _id\n-Everywhere we use _id, ensure we have a change schema version available, and instead use either _id2 or _id depending on which field the current schema has.\n\nI\u0027m inclined to skip this because of the complexity and the relatively small size of the data. Note that this is more complex than the typical case of modifying a field because _id is used in more places (e.g. creating the necessary search terms to insert/delete documents)",
+      "revId": "05b254feb29c83f73f23410edbe104bcf37e164b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c716198f_25312e00",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-11T00:55:51Z",
+      "side": 1,
+      "message": "I am not 100% sure yet our index backend supports storing repeatable fields, I will double-check before submitting. The obvious workaround is just to prefix the protos with their lengths and concatenate them all together in a single CodedOutputStream.",
+      "revId": "05b254feb29c83f73f23410edbe104bcf37e164b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

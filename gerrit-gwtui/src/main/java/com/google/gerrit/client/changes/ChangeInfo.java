@@ -232,6 +232,8 @@ public class ChangeInfo extends JavaScriptObject {
   public static class FetchInfo extends JavaScriptObject {
     public final native String url() /*-{ return this.url }-*/;
     public final native String ref() /*-{ return this.ref }-*/;
+    public final native NativeMap<NativeString> commands() /*-{ return this.commands }-*/;
+    public final native String command(String n) /*-{ return this.commands[n]; }-*/;
 
     protected FetchInfo () {
     }

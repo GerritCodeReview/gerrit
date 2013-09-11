@@ -1,6 +1,7 @@
 BASE = get_base_path()
 CORE = [
   'commit-message-length-validator',
+  'download-commands',
   'replication',
   'reviewnotes',
 ]

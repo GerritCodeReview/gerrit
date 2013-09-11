@@ -92,6 +92,12 @@ public interface GerritCss extends CssResource {
   String diffTextHunkHeader();
   String diffTextINSERT();
   String diffTextNoLF();
+  String downloadBox();
+  String downloadBoxTable();
+  String downloadBoxTableCommandColumn();
+  String downloadBoxSpacer();
+  String downloadBoxScheme();
+  String downloadBoxCopyLabel();
   String downloadLink();
   String downloadLinkCopyLabel();
   String downloadLinkHeader();

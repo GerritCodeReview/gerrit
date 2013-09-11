@@ -181,7 +181,6 @@ class DownloadBox extends Composite {
           case ANON_HTTP:
             return "http";
           case SSH:
-          case ANON_SSH:
             return "ssh";
           default:
             return null;

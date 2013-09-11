@@ -16,6 +16,24 @@
       "revId": "b895c533144dbae838072290a35a925868c30dfe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7195dc0_a69a46bb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-11T16:01:42Z",
+      "side": 1,
+      "message": "yes changing r to be a List would be better! Thanks!\n\nthe following 3 commit is rebased again.\n\nDone.",
+      "parentUuid": "c716198f_25f92eb1",
+      "revId": "b895c533144dbae838072290a35a925868c30dfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

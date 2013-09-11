@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27a375b4_50edec37",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-11T23:20:58Z",
+      "side": 1,
+      "message": "Nit: newArrayListWithCapacity(getProjectControl().getLabelTypes().getLabelTypes().size());\n\nProbably worth factoring out the List\u003cLabelType\u003e var.",
+      "revId": "cc8e5ff050b289b677f94f155130f9d52434716c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

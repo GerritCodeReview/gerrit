@@ -16,6 +16,9 @@ package com.google.gerrit.server.project;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.config.DownloadCommand;
+import com.google.gerrit.extensions.config.DownloadScheme;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -56,6 +59,8 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
   private final TransferConfig config;
   private final DynamicMap<RestView<ProjectResource>> views;
   private final Provider<CurrentUser> currentUser;
+  private final DynamicSet<DownloadScheme> downloadSchemes;
+  private final DynamicSet<DownloadCommand> downloadCommands;
 
   @Inject
   PutConfig(MetaDataUpdate.User metaDataUpdateFactory,
@@ -64,7 +69,9 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
       ProjectState.Factory projectStateFactory,
       TransferConfig config,
       DynamicMap<RestView<ProjectResource>> views,
-      Provider<CurrentUser> currentUser) {
+      Provider<CurrentUser> currentUser,
+      DynamicSet<DownloadScheme> downloadSchemes,
+      DynamicSet<DownloadCommand> downloadCommands) {
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.projectCache = projectCache;
     this.self = self;
@@ -72,6 +79,8 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
     this.config = config;
     this.views = views;
     this.currentUser = currentUser;
+    this.downloadSchemes = downloadSchemes;
+    this.downloadCommands = downloadCommands;
   }
 
   @Override
@@ -141,7 +150,8 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
       }
       return new ConfigInfo(rsrc.getControl(),
           projectStateFactory.create(projectConfig),
-          config, views, currentUser);
+          config, views, currentUser,
+          downloadSchemes, downloadCommands);
     } catch (ConfigInvalidException err) {
       throw new ResourceConflictException("Cannot read project " + projectName, err);
     } catch (IOException err) {

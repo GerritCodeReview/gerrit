@@ -97,7 +97,6 @@ final class Receive extends AbstractGitCommand {
     rp.setMaxObjectSizeLimit(config.getEffectiveMaxObjectSizeLimit(
         projectControl.getProjectState()));
     try {
-      receive.advertiseHistory();
       rp.receive(in, out, err);
     } catch (UnpackException badStream) {
       // In case this was caused by the user pushing an object whose size

@@ -15,6 +15,9 @@
 package com.google.gerrit.server.project;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.config.DownloadCommand;
+import com.google.gerrit.extensions.config.DownloadScheme;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.CurrentUser;
@@ -27,14 +30,20 @@ public class GetConfig implements RestReadView<ProjectResource> {
   private final TransferConfig config;
   private final DynamicMap<RestView<ProjectResource>> views;
   private final Provider<CurrentUser> currentUser;
+  private final DynamicSet<DownloadScheme> downloadSchemes;
+  private final DynamicSet<DownloadCommand> downloadCommands;
 
   @Inject
   public GetConfig(TransferConfig config,
       DynamicMap<RestView<ProjectResource>> views,
-      Provider<CurrentUser> currentUser) {
+      Provider<CurrentUser> currentUser,
+      DynamicSet<DownloadScheme> downloadSchemes,
+      DynamicSet<DownloadCommand> downloadCommands) {
     this.config = config;
     this.views = views;
     this.currentUser = currentUser;
+    this.downloadSchemes = downloadSchemes;
+    this.downloadCommands = downloadCommands;
   }
 
   @Override
@@ -43,6 +52,8 @@ public class GetConfig implements RestReadView<ProjectResource> {
         resource.getControl().getProjectState(),
         config,
         views,
-        currentUser);
+        currentUser,
+        downloadSchemes,
+        downloadCommands);
   }
 }

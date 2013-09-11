@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c716198f_25f92eb1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-11T14:26:15Z",
+      "side": 1,
+      "message": "Just make this a List. You\u0027re iterating over a single list of LabelTypes, there can\u0027t be any duplicates.",
+      "revId": "b895c533144dbae838072290a35a925868c30dfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

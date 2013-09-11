@@ -937,7 +937,11 @@ public class MergeOp {
     sendMergeFail(c, msg, true);
   }
 
-  private boolean isDuplicate(ChangeMessage msg) {
+  private enum RetryStatus {
+    UNSUBMIT, RETRY_NO_MESSAGE, RETRY_ADD_MESSAGE;
+  }
+
+  private RetryStatus getRetryStatus(ChangeMessage msg) {
     try {
       ChangeMessage last = Iterables.getLast(db.changeMessages().byChange(
           msg.getPatchSetId().getParentKey()), null);
@@ -945,51 +949,55 @@ public class MergeOp {
         long lastMs = last.getWrittenOn().getTime();
         long msgMs = msg.getWrittenOn().getTime();
         if (Objects.equal(last.getAuthor(), msg.getAuthor())
-            && Objects.equal(last.getMessage(), msg.getMessage())
-            && msgMs - lastMs < DUPLICATE_MESSAGE_INTERVAL) {
-          return true;
+            && Objects.equal(last.getMessage(), msg.getMessage())) {
+          return msgMs - lastMs > DUPLICATE_MESSAGE_INTERVAL
+              ? RetryStatus.UNSUBMIT
+              : RetryStatus.RETRY_NO_MESSAGE;
         }
       }
     } catch (OrmException err) {
       log.warn("Cannot check previous merge failure message", err);
     }
-    return false;
+    return RetryStatus.RETRY_ADD_MESSAGE;
   }
 
   private void sendMergeFail(final Change c, final ChangeMessage msg,
-      final boolean makeNew) {
-    if (isDuplicate(msg)) {
-      return;
+      boolean makeNew) {
+    if (!makeNew) {
+      RetryStatus retryStatus = getRetryStatus(msg);
+      if (retryStatus == RetryStatus.RETRY_NO_MESSAGE) {
+        return;
+      } else if (retryStatus == RetryStatus.UNSUBMIT) {
+        makeNew = true;
+      }
     }
 
+    final boolean setStatusNew = makeNew;
     try {
-      db.changeMessages().insert(Collections.singleton(msg));
-    } catch (OrmException err) {
-      log.warn("Cannot record merge failure message", err);
-    }
-
-    if (makeNew) {
+      db.changes().beginTransaction(c.getId());
       try {
-        db.changes().atomicUpdate(c.getId(), new AtomicUpdate<Change>() {
+        Change change = db.changes().atomicUpdate(
+            c.getId(),
+            new AtomicUpdate<Change>() {
           @Override
           public Change update(Change c) {
             if (c.getStatus().isOpen()) {
-              c.setStatus(Change.Status.NEW);
+              if (setStatusNew) {
+                c.setStatus(Change.Status.NEW);
+              }
               ChangeUtil.updated(c);
             }
             return c;
           }
         });
-      } catch (OrmConcurrencyException err) {
-      } catch (OrmException err) {
-        log.warn("Cannot update change status", err);
+        db.changeMessages().insert(Collections.singleton(msg));
+        db.commit();
+        indexer.index(change);
+      } finally {
+        db.rollback();
       }
-    } else {
-      try {
-        ChangeUtil.touch(c, db);
-      } catch (OrmException err) {
-        log.warn("Cannot update change timestamp", err);
-      }
+    } catch (OrmException err) {
+      log.warn("Cannot record merge failure message", err);
     }
 
     PatchSetApproval submitter = null;

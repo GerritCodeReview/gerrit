@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "07e031ae_4f7f4db6",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 941,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-11T06:03:11Z",
+      "side": 1,
+      "message": "The reason why we need draft suffix is because the detail implementation of UiActions. The are fetched by UI client in a map of id-\u003eto ActionInfo entity. If an action omit the id (bound to post() or delete() without a name, like you suggest), then there is no id in the map.\n\nWhat we can do is:\n\n1. to split REST endpoint from UiAction (let UiAction be derived from stock endpoint implementation) and bind delete to endpoint without the name and UiAction to post() with the name. We used that approach in these changes:\n\n* https://gerrit-review.googlesource.com/#/c/49148/\n* https://gerrit-review.googlesource.com/#/c/49250/\n\n2. enhance UiAction machinery to deal with the fact that the names can be omitted.\n\n3. let it as is (ind delete() with name).",
+      "parentUuid": "c716198f_a5651eb8",
+      "revId": "ea21239cb4551cc95d895fc5dfec04379509ff80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c716198f_4551cadf",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "07e031ae_afba795c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 966,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-11T06:03:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c716198f_4551cadf",
+      "revId": "ea21239cb4551cc95d895fc5dfec04379509ff80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c716198f_8562a2ab",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DropDraftChange.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2013-09-11T02:56:58Z",
       "side": 1,
       "message": "s/Drop/Delete",
+      "revId": "ea21239cb4551cc95d895fc5dfec04379509ff80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27db7507_10ede438",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DropDraftChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-11T06:03:11Z",
+      "side": 1,
+      "message": "Done\n\nThe reason why i called both new files with Drop Prefix and not with Delete is because the same files already exist (old RPC style services).\n\nThen i wanted to rename them, once CS2 migration is done, and the old files can be removed. But the package names are different, so ...",
+      "parentUuid": "c716198f_8562a2ab",
       "revId": "ea21239cb4551cc95d895fc5dfec04379509ff80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

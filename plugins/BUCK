@@ -3,6 +3,7 @@ CORE = [
   'commit-message-length-validator',
   'replication',
   'reviewnotes',
+  'download-commands'
 ]
 
 # buck audit parses and resolves all deps even if not reachable

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e7195dc0_c642e23e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-11T05:20:59Z",
+      "side": 1,
+      "message": "I agree, right now the migration path out of _id is pretty complex for the relatively small amount of data stored.",
+      "parentUuid": "c716198f_e5171659",
+      "revId": "05b254feb29c83f73f23410edbe104bcf37e164b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c716198f_25312e00",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-09-11T00:55:51Z",
       "side": 1,
       "message": "I am not 100% sure yet our index backend supports storing repeatable fields, I will double-check before submitting. The obvious workaround is just to prefix the protos with their lengths and concatenate them all together in a single CodedOutputStream.",
+      "revId": "05b254feb29c83f73f23410edbe104bcf37e164b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c716198f_e55f16ea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-11T05:20:59Z",
+      "side": 1,
+      "message": "If our internal index doesn\u0027t support this we should fix it in our glue code, in case someone else in Gerrit wants to make a repeated stored field for some other reason.\n\nAnd your obvious workaround would work in our case. Or define a tiny wrapper proto:\n\n  message RepeatedStoredField {\n    repeated bytes value \u003d 1;\n  }\n\nand let protobuf handle wrapping the inner payloads by prefixing the value with the size.",
+      "parentUuid": "c716198f_25312e00",
       "revId": "05b254feb29c83f73f23410edbe104bcf37e164b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

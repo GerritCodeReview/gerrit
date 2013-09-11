@@ -15,7 +15,7 @@
 package com.google.gerrit.server.git;
 
 import static com.google.gerrit.server.git.MergeUtil.getSubmitter;
-import static java.util.concurrent.TimeUnit.DAYS;
+import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -57,7 +57,6 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gwtorm.server.AtomicUpdate;
-import com.google.gwtorm.server.OrmConcurrencyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -118,8 +117,8 @@ public class MergeOp {
   private static final long LOCK_FAILURE_RETRY_DELAY =
       MILLISECONDS.convert(15, SECONDS);
 
-  private static final long DUPLICATE_MESSAGE_INTERVAL =
-      MILLISECONDS.convert(1, DAYS);
+  private static final long MAX_SUBMIT_WINDOW =
+      MILLISECONDS.convert(12, HOURS);
 
   private final GitRepositoryManager repoManager;
   private final SchemaFactory<ReviewDb> schemaFactory;
@@ -672,7 +671,6 @@ public class MergeOp {
       } catch (OrmException err) {
         log.warn("Error updating change status for " + c.getId(), err);
       }
-      indexer.index(c);
     }
   }
 
@@ -816,6 +814,7 @@ public class MergeOp {
     } finally {
       db.rollback();
     }
+    indexer.index(c);
   }
 
   private void setMergedPatchSet(Change.Id changeId, final PatchSet.Id merged)
@@ -937,66 +936,82 @@ public class MergeOp {
     sendMergeFail(c, msg, true);
   }
 
-  private boolean isDuplicate(ChangeMessage msg) {
+  private enum RetryStatus {
+    UNSUBMIT, RETRY_NO_MESSAGE, RETRY_ADD_MESSAGE;
+  }
+
+  private RetryStatus getRetryStatus(ChangeMessage msg) {
     try {
       ChangeMessage last = Iterables.getLast(db.changeMessages().byChange(
           msg.getPatchSetId().getParentKey()), null);
       if (last != null) {
-        long lastMs = last.getWrittenOn().getTime();
-        long msgMs = msg.getWrittenOn().getTime();
         if (Objects.equal(last.getAuthor(), msg.getAuthor())
-            && Objects.equal(last.getMessage(), msg.getMessage())
-            && msgMs - lastMs < DUPLICATE_MESSAGE_INTERVAL) {
-          return true;
+            && Objects.equal(last.getMessage(), msg.getMessage())) {
+          long lastMs = last.getWrittenOn().getTime();
+          long msgMs = msg.getWrittenOn().getTime();
+          return msgMs - lastMs > MAX_SUBMIT_WINDOW
+              ? RetryStatus.UNSUBMIT
+              : RetryStatus.RETRY_NO_MESSAGE;
         }
       }
+      return RetryStatus.RETRY_ADD_MESSAGE;
     } catch (OrmException err) {
-      log.warn("Cannot check previous merge failure message", err);
+      log.warn("Cannot check previous merge failure, unsubmitting", err);
+      return RetryStatus.UNSUBMIT;
     }
-    return false;
   }
 
   private void sendMergeFail(final Change c, final ChangeMessage msg,
-      final boolean makeNew) {
-    if (isDuplicate(msg)) {
-      return;
-    }
-
-    try {
-      db.changeMessages().insert(Collections.singleton(msg));
-    } catch (OrmException err) {
-      log.warn("Cannot record merge failure message", err);
-    }
-
-    if (makeNew) {
-      try {
-        db.changes().atomicUpdate(c.getId(), new AtomicUpdate<Change>() {
-          @Override
-          public Change update(Change c) {
-            if (c.getStatus().isOpen()) {
-              c.setStatus(Change.Status.NEW);
-              ChangeUtil.updated(c);
-            }
-            return c;
-          }
-        });
-      } catch (OrmConcurrencyException err) {
-      } catch (OrmException err) {
-        log.warn("Cannot update change status", err);
-      }
-    } else {
-      try {
-        ChangeUtil.touch(c, db);
-      } catch (OrmException err) {
-        log.warn("Cannot update change timestamp", err);
-      }
-    }
-
+      boolean makeNew) {
     PatchSetApproval submitter = null;
     try {
       submitter = getSubmitter(db, c.currentPatchSetId());
     } catch (Exception e) {
       log.error("Cannot get submitter", e);
+    }
+
+    if (!makeNew) {
+      RetryStatus retryStatus;
+      if (submitter != null
+          && System.currentTimeMillis() - submitter.getGranted().getTime()
+            > MAX_SUBMIT_WINDOW) {
+        retryStatus = RetryStatus.UNSUBMIT;
+      } else {
+        retryStatus = getRetryStatus(msg);
+      }
+      if (retryStatus == RetryStatus.RETRY_NO_MESSAGE) {
+        return;
+      } else if (retryStatus == RetryStatus.UNSUBMIT) {
+        makeNew = true;
+      }
+    }
+
+    final boolean setStatusNew = makeNew;
+    try {
+      db.changes().beginTransaction(c.getId());
+      try {
+        Change change = db.changes().atomicUpdate(
+            c.getId(),
+            new AtomicUpdate<Change>() {
+          @Override
+          public Change update(Change c) {
+            if (c.getStatus().isOpen()) {
+              if (setStatusNew) {
+                c.setStatus(Change.Status.NEW);
+              }
+              ChangeUtil.updated(c);
+            }
+            return c;
+          }
+        });
+        db.changeMessages().insert(Collections.singleton(msg));
+        db.commit();
+        indexer.index(change);
+      } finally {
+        db.rollback();
+      }
+    } catch (OrmException err) {
+      log.warn("Cannot record merge failure message", err);
     }
 
     final PatchSetApproval from = submitter;

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27a375b4_70f2f01a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-11T23:33:16Z",
+      "side": 1,
+      "message": "I think this constant needs to be renamed.",
+      "revId": "01b3e54d119bc2d45cdc7349a1553512c700f9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

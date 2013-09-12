@@ -40,6 +40,24 @@
       "revId": "940b6dd6d4a52ef33d82b6b0a93225de437206be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87934169_cb2e9599",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-12T16:54:11Z",
+      "side": 1,
+      "message": "Agreed, however this change was offered as a fix for stable-2.6, where 49300 won\u0027t apply. Are you suggesting we drop this and address this particular problem in 2.8?\n\nI think I am OK with that.",
+      "parentUuid": "27ba95ee_d88bad71",
+      "revId": "940b6dd6d4a52ef33d82b6b0a93225de437206be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

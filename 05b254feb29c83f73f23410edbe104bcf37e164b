@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "87b1810f_3b2f3797",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-12T13:28:58Z",
+      "side": 1,
+      "message": "I would like to add rule evaluation sample to our cookbook plugin to have a real test scenario for reindex program. I wonder if you already have something like that for cookbook plugin so that i don\u0027t need to reinvent a wheel here ...?",
+      "revId": "05b254feb29c83f73f23410edbe104bcf37e164b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c716198f_e5171659",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
         "patchSetId": 2

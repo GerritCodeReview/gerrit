@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.plugins;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.annotations.PluginData;
@@ -185,6 +186,7 @@ class JarPlugin extends Plugin {
   private Injector newRootInjector(final PluginGuiceEnvironment env) {
     List<Module> modules = Lists.newArrayListWithCapacity(4);
     if (getApiType() == ApiType.PLUGIN) {
+      Preconditions.checkNotNull(env.getSysModule());
       modules.add(env.getSysModule());
     }
     modules.add(new AbstractModule() {

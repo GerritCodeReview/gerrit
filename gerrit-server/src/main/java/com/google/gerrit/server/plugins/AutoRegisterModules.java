@@ -239,13 +239,21 @@ class AutoRegisterModules {
         if (env.hasDynamicItem(tl)) {
           sysSingletons.add(clazz);
           sysListen.put(tl, clazz);
-          httpGen.listen(tl, clazz);
-          sshGen.listen(tl, clazz);
+          if (httpGen != null) {
+            httpGen.listen(tl, clazz);
+          }
+          if (sshGen != null) {
+            sshGen.listen(tl, clazz);
+          }
         } else if (env.hasDynamicSet(tl)) {
           sysSingletons.add(clazz);
           sysListen.put(tl, clazz);
-          httpGen.listen(tl, clazz);
-          sshGen.listen(tl, clazz);
+          if (httpGen != null) {
+            httpGen.listen(tl, clazz);
+          }
+          if (sshGen != null) {
+            sshGen.listen(tl, clazz);
+          }
         } else if (env.hasDynamicMap(tl)) {
           if (clazz.getAnnotation(Export.class) == null) {
             throw new InvalidPluginException(String.format(

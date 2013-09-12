@@ -22,6 +22,7 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.DisabledChangeHooks;
 import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleManager;
@@ -53,6 +54,8 @@ import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.EmailExpanderProvider;
 import com.google.gerrit.server.config.FactoryModule;
+import com.google.gerrit.server.git.NotesBranchUtil;
+import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.index.ChangeBatchIndexer;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.ChangeSchemas;
@@ -65,6 +68,7 @@ import com.google.gerrit.server.mail.EmailHeader;
 import com.google.gerrit.server.mail.EmailSender;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
+import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginModule;
 import com.google.gerrit.server.project.AccessControlModule;
 import com.google.gerrit.server.project.CommentLinkInfo;
@@ -131,6 +135,10 @@ public class Reindex extends SiteProgram {
     dbManager.start();
 
     sysInjector = createSysInjector();
+
+    sysInjector.getInstance(PluginGuiceEnvironment.class)
+        .setCfgInjector(dbInjector);
+
     LifecycleManager sysManager = new LifecycleManager();
     sysManager.add(sysInjector);
     sysManager.start();
@@ -213,6 +221,7 @@ public class Reindex extends SiteProgram {
       factory(InternalUser.Factory.class);
       factory(PluginUser.Factory.class);
       factory(ProjectState.Factory.class);
+      factory(NotesBranchUtil.Factory.class);
 
       bind(GroupBackend.class).to(UniversalGroupBackend.class).in(SINGLETON);
       install(GroupIncludeCacheImpl.module());
@@ -221,6 +230,8 @@ public class Reindex extends SiteProgram {
       bind(InternalGroupBackend.class).in(SINGLETON);
       DynamicSet.setOf(binder(), GroupBackend.class);
       DynamicSet.bind(binder(), GroupBackend.class).to(InternalGroupBackend.class);
+      DynamicSet.setOf(binder(), GitReferenceUpdatedListener.class);
+      DynamicSet.setOf(binder(), CommitValidationListener.class);
 
       bind(EmailSender.class).toInstance(new EmailSender() {
         @Override

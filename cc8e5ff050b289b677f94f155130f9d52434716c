@@ -16,6 +16,24 @@
       "revId": "cc8e5ff050b289b677f94f155130f9d52434716c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87b1810f_db35f3eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-12T09:35:45Z",
+      "side": 1,
+      "message": "Thanks!  Dave \n  Nit is done. :)     \n ( the following 3 commits are rebased too.  sorry for the noisy)",
+      "parentUuid": "27a375b4_50edec37",
+      "revId": "cc8e5ff050b289b677f94f155130f9d52434716c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

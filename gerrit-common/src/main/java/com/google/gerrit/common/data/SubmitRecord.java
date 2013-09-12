@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.reviewdb.client;
+package com.google.gerrit.common.data;
 
-import com.google.gwtorm.client.Column;
+import com.google.gerrit.reviewdb.client.Account;
 
 import java.util.List;
 
@@ -46,9 +46,6 @@ public class SubmitRecord {
 
   public static class Label {
     public static enum Status {
-      // NOTE: These enum values are stored in the secondary index; reordering
-      // or removing values requires incrementing the index schema version.
-
       /**
        * This label provides what is necessary for submission.
        * <p>
@@ -84,13 +81,8 @@ public class SubmitRecord {
       IMPOSSIBLE;
     }
 
-    @Column(id = 1)
     public String label;
-
-    @Column(id = 2)
     public Status status;
-
-    @Column(id = 3)
     public Account.Id appliedBy;
 
     @Override

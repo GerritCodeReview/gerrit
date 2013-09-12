@@ -17,7 +17,6 @@ package com.google.gerrit.common.data;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
-import com.google.gerrit.reviewdb.client.SubmitRecord;
 
 import java.util.List;
 

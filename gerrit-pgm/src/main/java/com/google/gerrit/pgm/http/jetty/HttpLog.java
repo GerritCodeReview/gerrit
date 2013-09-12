@@ -111,7 +111,7 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
       uri = uri + "?" + qs;
     }
 
-    if (user.isIdentifiedUser()) {
+    if (user != null && user.isIdentifiedUser()) {
       IdentifiedUser who = (IdentifiedUser) user;
       if (who.getUserName() != null && !who.getUserName().isEmpty()) {
         event.setProperty(P_USER, who.getUserName());

@@ -233,7 +233,7 @@ class SshLog implements LifecycleListener {
 
     String userName = "-", accountId = "-";
 
-    if (user.isIdentifiedUser()) {
+    if (user != null && user.isIdentifiedUser()) {
       IdentifiedUser u = (IdentifiedUser) user;
       userName = u.getAccount().getUserName();
       accountId = "a/" + u.getAccountId().toString();

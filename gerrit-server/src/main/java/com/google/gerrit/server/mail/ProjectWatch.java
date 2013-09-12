@@ -90,7 +90,7 @@ public class ProjectWatch {
             log.warn(String.format(
                 "Project %s has invalid notify %s filter \"%s\": %s",
                 state.getProject().getName(), nc.getName(),
-                nc.getFilter(), e.getMessage()));
+                nc.getFilter()), e);
           }
         }
       }

@@ -22,11 +22,16 @@ import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.List;
 
 public class GitReferenceUpdated {
+  private static final Logger log = LoggerFactory
+      .getLogger(GitReferenceUpdated.class);
+
   public static final GitReferenceUpdated DISABLED = new GitReferenceUpdated(
       Collections.<GitReferenceUpdatedListener> emptyList());
 
@@ -52,7 +57,11 @@ public class GitReferenceUpdated {
     ObjectId n = newObjectId != null ? newObjectId : ObjectId.zeroId();
     Event event = new Event(project, ref, o.name(), n.name());
     for (GitReferenceUpdatedListener l : listeners) {
-      l.onGitReferenceUpdated(event);
+      try {
+        l.onGitReferenceUpdated(event);
+      } catch (RuntimeException e) {
+        log.warn("Failure in GitReferenceUpdatedListener", e);
+      }
     }
   }
 

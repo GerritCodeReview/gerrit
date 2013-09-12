@@ -131,6 +131,24 @@
     },
     {
       "key": {
+        "uuid": "87934169_8b4bad5e",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-12T19:31:39Z",
+      "side": 1,
+      "message": "Before we change to :filename.html rules, we use :generate_html rule which will also produce all the HTMLs along with touching the generate_html__done file, so that is also dangerous?\n\nIn that case \"produce the output to $TMP and use command line zip to package $TMP\" should be dangerous, too. And the only safe option is to do the zip in the Java.",
+      "parentUuid": "87934169_4b52a517",
+      "revId": "5958ddc0dfc0de87b81bafdd47f1beb655adccdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27a375b4_300f8848",
         "filename": "tools/asciidoctor/BUCK",
         "patchSetId": 3

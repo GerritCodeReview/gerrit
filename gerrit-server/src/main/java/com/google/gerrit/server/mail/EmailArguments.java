@@ -29,8 +29,8 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.query.change.BasicRewritesImpl;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
-import com.google.gerrit.server.query.change.ChangeQueryRewriter;
 import com.google.gerrit.server.ssh.SshAdvertisedAddresses;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -60,7 +60,7 @@ class EmailArguments {
   final List<String> sshAddresses;
 
   final ChangeQueryBuilder.Factory queryBuilder;
-  final Provider<ChangeQueryRewriter> queryRewriter;
+  final Provider<BasicRewritesImpl> queryRewriter;
   final Provider<ReviewDb> db;
   final RuntimeInstance velocityRuntime;
   final EmailSettings settings;
@@ -78,7 +78,7 @@ class EmailArguments {
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
       AllProjectsName allProjectsName,
       ChangeQueryBuilder.Factory queryBuilder,
-      Provider<ChangeQueryRewriter> queryRewriter, Provider<ReviewDb> db,
+      Provider<BasicRewritesImpl> queryRewriter, Provider<ReviewDb> db,
       RuntimeInstance velocityRuntime,
       EmailSettings settings,
       @SshAdvertisedAddresses List<String> sshAddresses) {

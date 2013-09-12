@@ -29,6 +29,7 @@ import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.RewritePredicate;
 import com.google.gerrit.server.query.change.AndSource;
+import com.google.gerrit.server.query.change.BasicRewritesImpl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
@@ -179,7 +180,7 @@ public class IndexRewriteTest extends TestCase {
     rewrite = new IndexRewriteImpl(
         indexes,
         null,
-        new IndexRewriteImpl.BasicRewritesImpl(null),
+        new BasicRewritesImpl(null),
         new SqlRewriterImpl(null));
   }
 

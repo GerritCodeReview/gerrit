@@ -25,9 +25,8 @@ import com.google.gerrit.server.query.NotPredicate;
 import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
-import com.google.gerrit.server.query.QueryRewriter;
 import com.google.gerrit.server.query.change.AndSource;
-import com.google.gerrit.server.query.change.BasicChangeRewrites;
+import com.google.gerrit.server.query.change.BasicRewritesImpl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryRewriter;
@@ -271,15 +270,5 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
            p instanceof AndPredicate
         || p instanceof OrPredicate
         || p instanceof NotPredicate);
-  }
-
-  static class BasicRewritesImpl extends BasicChangeRewrites {
-    private static final QueryRewriter.Definition<ChangeData, BasicRewritesImpl> mydef =
-        new QueryRewriter.Definition<ChangeData, BasicRewritesImpl>(
-            BasicRewritesImpl.class, SqlRewriterImpl.BUILDER);
-    @Inject
-    BasicRewritesImpl(Provider<ReviewDb> db) {
-      super(mydef, db);
-    }
   }
 }

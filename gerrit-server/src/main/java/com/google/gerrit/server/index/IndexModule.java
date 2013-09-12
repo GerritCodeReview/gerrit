@@ -64,7 +64,6 @@ public class IndexModule extends LifecycleModule {
   @Override
   protected void configure() {
     bind(ChangeQueryRewriter.class).to(IndexRewriteImpl.class);
-    bind(IndexRewriteImpl.BasicRewritesImpl.class);
     bind(IndexCollection.class);
     listener().to(IndexCollection.class);
     install(new FactoryModuleBuilder()

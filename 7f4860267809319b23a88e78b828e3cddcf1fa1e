@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27a375b4_d000fc19",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 978,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-12T00:02:46Z",
+      "side": 1,
+      "message": "Can\u0027t this just be folded into getRetryStatus?",
+      "revId": "7f4860267809319b23a88e78b828e3cddcf1fa1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

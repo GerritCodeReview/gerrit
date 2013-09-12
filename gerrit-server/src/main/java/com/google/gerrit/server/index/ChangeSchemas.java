@@ -69,7 +69,7 @@ public class ChangeSchemas {
         ChangeField.COMMIT_MESSAGE,
         ChangeField.COMMENT,
         ChangeField.CHANGE,
-        ChangeField.SUBMIT_RECORD_LABEL);
+        ChangeField.APPROVAL);
 
   private static Schema<ChangeData> release(FieldDef<ChangeData, ?>... fields) {
     return new Schema<ChangeData>(true, Arrays.asList(fields));

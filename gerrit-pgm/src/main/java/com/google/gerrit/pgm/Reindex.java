@@ -15,13 +15,9 @@
 package com.google.gerrit.pgm;
 
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
-import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.google.gerrit.common.ChangeHooks;
-import com.google.gerrit.common.DisabledChangeHooks;
-import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleManager;
@@ -31,28 +27,8 @@ import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.rules.PrologModule;
-import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.InternalUser;
-import com.google.gerrit.server.PluginUser;
-import com.google.gerrit.server.account.AccountByEmailCacheImpl;
-import com.google.gerrit.server.account.AccountCacheImpl;
-import com.google.gerrit.server.account.CapabilityControl;
-import com.google.gerrit.server.account.EmailExpander;
-import com.google.gerrit.server.account.GroupBackend;
-import com.google.gerrit.server.account.GroupCacheImpl;
-import com.google.gerrit.server.account.GroupControl;
-import com.google.gerrit.server.account.GroupIncludeCacheImpl;
-import com.google.gerrit.server.account.IncludingGroupMembership;
-import com.google.gerrit.server.account.InternalGroupBackend;
-import com.google.gerrit.server.account.UniversalGroupBackend;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
-import com.google.gerrit.server.config.AuthModule;
-import com.google.gerrit.server.config.CanonicalWebUrlModule;
-import com.google.gerrit.server.config.CanonicalWebUrlProvider;
-import com.google.gerrit.server.config.EmailExpanderProvider;
-import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.index.ChangeBatchIndexer;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.ChangeSchemas;
@@ -60,25 +36,14 @@ import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.index.NoIndexModule;
-import com.google.gerrit.server.mail.Address;
-import com.google.gerrit.server.mail.EmailHeader;
-import com.google.gerrit.server.mail.EmailSender;
-import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
-import com.google.gerrit.server.plugins.PluginModule;
-import com.google.gerrit.server.project.AccessControlModule;
-import com.google.gerrit.server.project.CommentLinkInfo;
-import com.google.gerrit.server.project.CommentLinkProvider;
-import com.google.gerrit.server.project.ProjectCacheImpl;
-import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.project.SectionSortCache;
-import com.google.gerrit.server.ssh.NoSshKeyCache;
 import com.google.gerrit.solr.SolrIndexModule;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
+import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
 import com.google.inject.Key;
+import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.TypeLiteral;
@@ -88,10 +53,8 @@ import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.util.io.NullOutputStream;
 import org.kohsuke.args4j.Option;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -147,99 +110,33 @@ public class Reindex extends SiteProgram {
   }
 
   private Injector createSysInjector() {
-    return dbInjector.createChildInjector(new GlobalModule());
-  }
-
-  /**
-   * Subset of GerritGlobalModule including just bindings needed for indexing.
-   *
-   * Does <b>not</b> include thread local request scoping behavior of ReviewDbs;
-   * uses a custom {@link ReviewDbModule} instead.
-   */
-  private class GlobalModule extends FactoryModule {
-    @SuppressWarnings("rawtypes")
-    @Override
-    protected void configure() {
-      install(PatchListCacheImpl.module());
-      install(dbInjector.getInstance(AuthModule.class));
-      install(AccountByEmailCacheImpl.module());
-      install(AccountCacheImpl.module());
-      install(new ReviewDbModule());
-      install(ProjectCacheImpl.module());
-      install(new PluginModule());
-      install(new PrologModule());
-      install(new DefaultCacheFactory.Module());
-      install(NoSshKeyCache.module());
-      install(new SignedTokenEmailTokenVerifier.Module());
-      install(GroupCacheImpl.module());
-      install(new AccessControlModule());
-      install(SectionSortCache.module());
-      install(new CanonicalWebUrlModule() {
-        @Override
-        protected Class<? extends Provider<String>> provider() {
-          return CanonicalWebUrlProvider.class;
-        }
-      });
-
-      switch (IndexModule.getIndexType(dbInjector)) {
-        case LUCENE:
-          install(new LuceneIndexModule(version, threads, outputBase));
-          break;
-        case SOLR:
-          install(new SolrIndexModule(false, threads, outputBase));
-          break;
-        default:
-          install(new NoIndexModule());
-      }
-
-      // No need to support live plugin removal or other live updates of
-      // caches behind our back, so don't worry about cache removal.
-      bind(new TypeLiteral<DynamicSet<CacheRemovalListener>>() {})
-          .toInstance(DynamicSet.<CacheRemovalListener> emptySet());
-
-      // Assume the current user is always the Gerrit internal user; no
-      // indexed data should depend on what user is doing the indexing.
-      bind(CurrentUser.class).to(InternalUser.class);
-
-      bind(ChangeHooks.class).to(DisabledChangeHooks.class);
-      bind(EmailExpander.class).toProvider(EmailExpanderProvider.class).in(
-          SINGLETON);
-      bind(new TypeLiteral<List<CommentLinkInfo>>() {})
-          .toProvider(CommentLinkProvider.class).in(SINGLETON);
-      bind(ProjectControl.GenericFactory.class);
-
-      factory(CapabilityControl.Factory.class);
-      factory(IncludingGroupMembership.Factory.class);
-      factory(InternalUser.Factory.class);
-      factory(PluginUser.Factory.class);
-      factory(ProjectState.Factory.class);
-
-      bind(GroupBackend.class).to(UniversalGroupBackend.class).in(SINGLETON);
-      install(GroupIncludeCacheImpl.module());
-      bind(GroupControl.Factory.class).in(SINGLETON);
-      bind(GroupControl.GenericFactory.class).in(SINGLETON);
-      bind(InternalGroupBackend.class).in(SINGLETON);
-      DynamicSet.setOf(binder(), GroupBackend.class);
-      DynamicSet.bind(binder(), GroupBackend.class).to(InternalGroupBackend.class);
-
-      bind(EmailSender.class).toInstance(new EmailSender() {
-        @Override
-        public boolean isEnabled() {
-          return false;
-        }
-
-        @Override
-        public boolean canEmail(String address) {
-          return false;
-        }
-
-        @Override
-        public void send(Address from, Collection<Address> rcpt,
-            Map<String, EmailHeader> headers, String body)
-            throws EmailException {
-        }
-      });
+    List<Module> modules = Lists.newArrayList();
+    modules.add(PatchListCacheImpl.module());
+    AbstractModule changeIndexModule;
+    switch (IndexModule.getIndexType(dbInjector)) {
+      case LUCENE:
+        changeIndexModule = new LuceneIndexModule(version, threads, outputBase);
+        break;
+      case SOLR:
+        changeIndexModule = new SolrIndexModule(false, threads, outputBase);
+        break;
+      default:
+        changeIndexModule = new NoIndexModule();
     }
+    modules.add(changeIndexModule);
+    modules.add(new ReviewDbModule());
+    modules.add(new AbstractModule() {
+      @SuppressWarnings("rawtypes")
+      @Override
+      protected void configure() {
+        // Plugins are not loaded and we're just running through each change
+        // once, so don't worry about cache removal.
+        bind(new TypeLiteral<DynamicSet<CacheRemovalListener>>() {})
+            .toInstance(DynamicSet.<CacheRemovalListener> emptySet());
+        install(new DefaultCacheFactory.Module());
+      }
+    });
+    return dbInjector.createChildInjector(modules);
   }
 
   private class ReviewDbModule extends LifecycleModule {

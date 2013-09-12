@@ -25,12 +25,12 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningScheduledExecutorService;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.SubmitRecord;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.ChangeField.ChangeProtoField;
-import com.google.gerrit.server.index.ChangeField.SubmitLabelProtoField;
+import com.google.gerrit.server.index.ChangeField.PatchSetApprovalProtoField;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
@@ -104,8 +104,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   public static final String CHANGES_CLOSED = "closed";
   private static final String ID_FIELD = ChangeField.LEGACY_ID.getName();
   private static final String CHANGE_FIELD = ChangeField.CHANGE.getName();
-  private static final String SUBMIT_LABEL_FIELD =
-      ChangeField.SUBMIT_RECORD_LABEL.getName();
+  private static final String APPROVAL_FIELD = ChangeField.APPROVAL.getName();
 
   static interface Factory {
     LuceneChangeIndex create(Schema<ChangeData> schema, String base);
@@ -265,7 +264,7 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   private static class QuerySource implements ChangeDataSource {
     private static final ImmutableSet<String> FIELDS =
-        ImmutableSet.of(ID_FIELD, CHANGE_FIELD, SUBMIT_LABEL_FIELD);
+        ImmutableSet.of(ID_FIELD, CHANGE_FIELD, APPROVAL_FIELD);
 
     private final List<SubIndex> indexes;
     private final Query query;
@@ -359,15 +358,15 @@ public class LuceneChangeIndex implements ChangeIndex {
         cb.bytes, cb.offset, cb.length);
     ChangeData cd = new ChangeData(change);
 
-    BytesRef[] labelsBytes = doc.getBinaryValues(SUBMIT_LABEL_FIELD);
-    if (labelsBytes != null) {
-      List<SubmitRecord.Label> labels =
-          Lists.newArrayListWithCapacity(labelsBytes.length);
-      for (BytesRef lb : labelsBytes) {
-        labels.add(SubmitLabelProtoField.CODEC.decode(
-            lb.bytes, lb.offset, lb.length));
+    BytesRef[] approvalsBytes = doc.getBinaryValues(APPROVAL_FIELD);
+    if (approvalsBytes != null) {
+      List<PatchSetApproval> approvals =
+          Lists.newArrayListWithCapacity(approvalsBytes.length);
+      for (BytesRef ab : approvalsBytes) {
+        approvals.add(PatchSetApprovalProtoField.CODEC.decode(
+            ab.bytes, ab.offset, ab.length));
       }
-      cd.setSubmitRecordLabels(labels);
+      cd.setCurrentApprovals(approvals);
     }
     return cd;
   }

@@ -21,7 +21,7 @@ import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.Config;
 
-public class EmailExpanderProvider implements Provider<EmailExpander> {
+class EmailExpanderProvider implements Provider<EmailExpander> {
   private final EmailExpander expander;
 
   @Inject

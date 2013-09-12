@@ -118,7 +118,11 @@ public class PerformCreateProject {
           }
         };
         for (NewProjectCreatedListener l : createdListener) {
-          l.onNewProjectCreated(event);
+          try {
+            l.onNewProjectCreated(event);
+          } catch (RuntimeException e) {
+            log.warn("Failure in NewProjectCreatedListener", e);
+          }
         }
 
         final RefUpdate u = repo.updateRef(Constants.HEAD);

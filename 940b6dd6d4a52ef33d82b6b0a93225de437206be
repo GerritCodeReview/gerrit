@@ -22,6 +22,24 @@
       "revId": "940b6dd6d4a52ef33d82b6b0a93225de437206be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27ba95ee_d88bad71",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-12T16:30:47Z",
+      "side": 1,
+      "message": "\"Why do a scan when you want a single specific member\":\n\nBecause as i wrote that fix I already had that change in my head [1].\n\nMeant, that for a plugin with its own name the physical file and actual plugin name may differ. And rescan already return us a (Multi)Map with plugin-name \u003d\u003e physical file name.\n\nTBH, the re-enabling of plugins after Gerrit restart make the code even more complex here. May be we should first review/merge the [1], instead of making the code more complex here by implementing features, that probably nobody need? \n\n[1] https://gerrit-review.googlesource.com/49300",
+      "parentUuid": "07bf51df_f709e043",
+      "revId": "940b6dd6d4a52ef33d82b6b0a93225de437206be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

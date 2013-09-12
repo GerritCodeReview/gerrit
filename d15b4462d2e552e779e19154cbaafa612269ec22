@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27ba95ee_f8579106",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ProjectDeletedListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-12T10:40:03Z",
+      "side": 1,
+      "message": "As mentioned in another change, it should be extended with \"cause\", or \"what\" or \"why\" variable, because deletion can mean:\n\n* Project was delete from DB \u0026 FS\n* Project was deleted only from DB but the GIT repository was preserved\n\nThe consumers of this event need this information to react correspondingly.\n\nIf this feature is not implemented, then it should be mentioned in the commit message, that the Event is currently only fired if the GIT repository was deleted and swallowed if the Project was only deleted from the DB.",
+      "revId": "d15b4462d2e552e779e19154cbaafa612269ec22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

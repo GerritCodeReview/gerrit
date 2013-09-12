@@ -209,7 +209,6 @@ public class ProjectWatch {
       } else {
         p = Predicate.and(filterPredicate, p);
       }
-      p = args.queryRewriter.get().rewrite(p);
     }
     return p == null ? true : p.match(changeData);
   }

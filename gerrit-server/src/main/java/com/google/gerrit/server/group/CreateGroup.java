@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.PerformCreateGroup;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -45,7 +46,7 @@ import org.eclipse.jgit.lib.Config;
 import java.util.Collections;
 
 @RequiresCapability(GlobalCapability.CREATE_GROUP)
-class CreateGroup implements RestModifyView<TopLevelResource, Input> {
+public class CreateGroup implements RestModifyView<TopLevelResource, Input> {
   static class Input {
     String name;
     String description;
@@ -53,11 +54,11 @@ class CreateGroup implements RestModifyView<TopLevelResource, Input> {
     String ownerId;
   }
 
-  static interface Factory {
+  public static interface Factory {
     CreateGroup create(@Assisted String name);
   }
 
-  private final Provider<IdentifiedUser> self;
+  private final Provider<CurrentUser> self;
   private final GroupsCollection groups;
   private final PerformCreateGroup.Factory op;
   private final GroupJson json;
@@ -65,7 +66,7 @@ class CreateGroup implements RestModifyView<TopLevelResource, Input> {
   private final String name;
 
   @Inject
-  CreateGroup(Provider<IdentifiedUser> self, GroupsCollection groups,
+  CreateGroup(Provider<CurrentUser> self, GroupsCollection groups,
       PerformCreateGroup.Factory performCreateGroupFactory, GroupJson json,
       @GerritServerConfig Config cfg, @Assisted String name) {
     this.self = self;
@@ -96,7 +97,8 @@ class CreateGroup implements RestModifyView<TopLevelResource, Input> {
           Objects.firstNonNull(input.visibleToAll, defaultVisibleToAll),
           ownerId,
           ownerId == null
-            ? Collections.singleton(self.get().getAccountId())
+            ? Collections.singleton(((IdentifiedUser)self.get())
+                .getAccountId())
             : Collections.<Account.Id> emptySet(),
           null);
     } catch (PermissionDeniedException e) {

@@ -38,6 +38,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountInfo;
@@ -88,7 +89,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
   private final GroupMembers.Factory groupMembersFactory;
   private final AccountInfo.Loader.Factory accountLoaderFactory;
   private final Provider<ReviewDb> dbProvider;
-  private final IdentifiedUser currentUser;
+  private final CurrentUser currentUser;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final Config cfg;
   private final ChangeHooks hooks;
@@ -103,7 +104,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
       GroupMembers.Factory groupMembersFactory,
       AccountInfo.Loader.Factory accountLoaderFactory,
       Provider<ReviewDb> db,
-      IdentifiedUser currentUser,
+      CurrentUser currentUser,
       IdentifiedUser.GenericFactory identifiedUserFactory,
       @GerritServerConfig Config cfg,
       ChangeHooks hooks,
@@ -279,14 +280,14 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
     List<Account.Id> added =
         Lists.newArrayListWithCapacity(result.reviewers.size());
     for (AccountInfo info : result.reviewers) {
-      if (!info._id.equals(currentUser.getAccountId())) {
+      if (!info._id.equals(((IdentifiedUser)currentUser).getAccountId())) {
         added.add(info._id);
       }
     }
     if (!added.isEmpty()) {
       try {
         AddReviewerSender cm = addReviewerSenderFactory.create(change);
-        cm.setFrom(currentUser.getAccountId());
+        cm.setFrom(((IdentifiedUser)currentUser).getAccountId());
         cm.addReviewers(added);
         cm.send();
       } catch (Exception err) {

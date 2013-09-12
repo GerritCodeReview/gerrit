@@ -33,6 +33,7 @@ import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.CreateAccount.Input;
 import com.google.gerrit.server.group.GroupsCollection;
@@ -40,6 +41,7 @@ import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import java.util.Collections;
@@ -63,7 +65,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
   }
 
   private final ReviewDb db;
-  private final IdentifiedUser currentUser;
+  private final Provider<CurrentUser> currentUser;
   private final GroupsCollection groupsCollection;
   private final SshKeyCache sshKeyCache;
   private final AccountCache accountCache;
@@ -72,7 +74,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
   private final String username;
 
   @Inject
-  CreateAccount(ReviewDb db, IdentifiedUser currentUser,
+  CreateAccount(ReviewDb db, Provider<CurrentUser> currentUser,
       GroupsCollection groupsCollection, SshKeyCache sshKeyCache,
       AccountCache accountCache, AccountByEmailCache byEmailCache,
       AccountInfo.Loader.Factory infoLoader,
@@ -162,7 +164,8 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
       AccountGroupMember m =
           new AccountGroupMember(new AccountGroupMember.Key(id, groupId));
       db.accountGroupMembersAudit().insert(Collections.singleton(
-          new AccountGroupMemberAudit(m, currentUser.getAccountId())));
+          new AccountGroupMemberAudit(m,
+              ((IdentifiedUser)currentUser.get()).getAccountId())));
       db.accountGroupMembers().insert(Collections.singleton(m));
     }
 

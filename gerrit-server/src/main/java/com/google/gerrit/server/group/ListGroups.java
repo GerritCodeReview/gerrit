@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.account.AccountResource;
@@ -62,7 +63,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
 
   private final GroupControl.Factory groupControlFactory;
   private final GroupControl.GenericFactory genericGroupControlFactory;
-  private final Provider<IdentifiedUser> identifiedUser;
+  private final Provider<CurrentUser> identifiedUser;
   private final IdentifiedUser.GenericFactory userFactory;
   private final Provider<GetGroups> accountGetGroups;
   private final GroupJson json;
@@ -110,7 +111,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   protected ListGroups(final GroupCache groupCache,
       final GroupControl.Factory groupControlFactory,
       final GroupControl.GenericFactory genericGroupControlFactory,
-      final Provider<IdentifiedUser> identifiedUser,
+      final Provider<CurrentUser> identifiedUser,
       final IdentifiedUser.GenericFactory userFactory,
       final Provider<GetGroups> accountGetGroups, GroupJson json) {
     this.groupCache = groupCache;
@@ -156,7 +157,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
       }
     } else {
       if (owned) {
-        groupInfos = getGroupsOwnedBy(identifiedUser.get());
+        groupInfos = getGroupsOwnedBy((IdentifiedUser)identifiedUser.get());
       } else {
         List<AccountGroup> groupList;
         if (!projects.isEmpty()) {

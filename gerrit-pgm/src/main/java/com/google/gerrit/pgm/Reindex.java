@@ -14,6 +14,8 @@
 
 package com.google.gerrit.pgm;
 
+import static com.google.gerrit.server.account.AccountResource.ACCOUNT_KIND;
+import static com.google.gerrit.server.group.GroupResource.GROUP_KIND;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
 import static com.google.inject.Scopes.SINGLETON;
 
@@ -24,6 +26,8 @@ import com.google.gerrit.common.DisabledChangeHooks;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -38,17 +42,28 @@ import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.account.AccountByEmailCacheImpl;
 import com.google.gerrit.server.account.AccountCacheImpl;
+import com.google.gerrit.server.account.AccountInfo;
+import com.google.gerrit.server.account.AccountInfoCacheFactory;
+import com.google.gerrit.server.account.AccountVisibility;
+import com.google.gerrit.server.account.AccountVisibilityProvider;
 import com.google.gerrit.server.account.CapabilityControl;
+import com.google.gerrit.server.account.CreateAccount;
 import com.google.gerrit.server.account.EmailExpander;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.account.GroupDetailFactory;
 import com.google.gerrit.server.account.GroupIncludeCacheImpl;
+import com.google.gerrit.server.account.GroupInfoCacheFactory;
+import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.account.IncludingGroupMembership;
 import com.google.gerrit.server.account.InternalGroupBackend;
+import com.google.gerrit.server.account.PerformCreateGroup;
 import com.google.gerrit.server.account.UniversalGroupBackend;
+import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
+import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.config.AuthModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
@@ -56,6 +71,7 @@ import com.google.gerrit.server.config.EmailExpanderProvider;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.git.NotesBranchUtil;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
+import com.google.gerrit.server.group.CreateGroup;
 import com.google.gerrit.server.index.ChangeBatchIndexer;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.ChangeSchemas;
@@ -63,9 +79,12 @@ import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.index.NoIndexModule;
+import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.mail.EmailHeader;
 import com.google.gerrit.server.mail.EmailSender;
+import com.google.gerrit.server.mail.FromAddressGenerator;
+import com.google.gerrit.server.mail.FromAddressGeneratorProvider;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
@@ -77,7 +96,9 @@ import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SectionSortCache;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.ssh.NoSshKeyCache;
+import com.google.gerrit.server.ssh.SshAddressesModule;
 import com.google.gerrit.solr.SolrIndexModule;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -86,6 +107,7 @@ import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.TypeLiteral;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.TextProgressMonitor;
@@ -182,6 +204,7 @@ public class Reindex extends SiteProgram {
       install(GroupCacheImpl.module());
       install(new AccessControlModule());
       install(SectionSortCache.module());
+      install(new SshAddressesModule());
       install(new CanonicalWebUrlModule() {
         @Override
         protected Class<? extends Provider<String>> provider() {
@@ -222,6 +245,18 @@ public class Reindex extends SiteProgram {
       factory(PluginUser.Factory.class);
       factory(ProjectState.Factory.class);
       factory(NotesBranchUtil.Factory.class);
+      factory(AccountInfo.Loader.Factory.class);
+      factory(AccountInfoCacheFactory.Factory.class);
+      factory(GroupDetailFactory.Factory.class);
+      factory(GroupInfoCacheFactory.Factory.class);
+      factory(CreateGroup.Factory.class);
+      factory(PerformCreateGroup.Factory.class);
+      factory(GroupMembers.Factory.class);
+      factory(ReviewerResource.Factory.class);
+      factory(AddReviewerSender.Factory.class);
+      factory(ChangeQueryBuilder.Factory.class);
+
+      install(new FactoryModuleBuilder().build(CreateAccount.Factory.class));
 
       bind(GroupBackend.class).to(UniversalGroupBackend.class).in(SINGLETON);
       install(GroupIncludeCacheImpl.module());
@@ -232,6 +267,17 @@ public class Reindex extends SiteProgram {
       DynamicSet.bind(binder(), GroupBackend.class).to(InternalGroupBackend.class);
       DynamicSet.setOf(binder(), GitReferenceUpdatedListener.class);
       DynamicSet.setOf(binder(), CommitValidationListener.class);
+      DynamicItem.itemOf(binder(), AvatarProvider.class);
+
+      DynamicMap.mapOf(binder(), ACCOUNT_KIND);
+      DynamicMap.mapOf(binder(), GROUP_KIND);
+
+      bind(AccountVisibility.class)
+          .toProvider(AccountVisibilityProvider.class)
+          .in(SINGLETON);
+
+      bind(FromAddressGenerator.class).toProvider(
+          FromAddressGeneratorProvider.class).in(SINGLETON);
 
       bind(EmailSender.class).toInstance(new EmailSender() {
         @Override

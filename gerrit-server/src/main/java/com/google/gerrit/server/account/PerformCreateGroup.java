@@ -24,11 +24,13 @@ import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.PersonIdent;
 
@@ -46,14 +48,14 @@ public class PerformCreateGroup {
   private final ReviewDb db;
   private final AccountCache accountCache;
   private final GroupIncludeCache groupIncludeCache;
-  private final IdentifiedUser currentUser;
+  private final Provider<CurrentUser> currentUser;
   private final PersonIdent serverIdent;
   private final GroupCache groupCache;
 
   @Inject
   PerformCreateGroup(final ReviewDb db, final AccountCache accountCache,
       final GroupIncludeCache groupIncludeCache,
-      final IdentifiedUser currentUser,
+      final Provider<CurrentUser> currentUser,
       @GerritPersonIdent final PersonIdent serverIdent,
       final GroupCache groupCache) {
     this.db = db;
@@ -90,17 +92,17 @@ public class PerformCreateGroup {
       final Collection<? extends Account.Id> initialMembers,
       final Collection<? extends AccountGroup.UUID> initialGroups)
       throws OrmException, NameAlreadyUsedException, PermissionDeniedException {
-    if (!currentUser.getCapabilities().canCreateGroup()) {
+    if (!currentUser.get().getCapabilities().canCreateGroup()) {
       throw new PermissionDeniedException(String.format(
         "%s does not have \"Create Group\" capability.",
-        currentUser.getUserName()));
+        currentUser.get().getUserName()));
     }
 
     final AccountGroup.Id groupId =
         new AccountGroup.Id(db.nextAccountGroupId());
     final AccountGroup.NameKey nameKey = new AccountGroup.NameKey(groupName);
     final AccountGroup.UUID uuid = GroupUUID.make(groupName,
-        currentUser.newCommitterIdent(
+        ((IdentifiedUser)currentUser.get()).newCommitterIdent(
             serverIdent.getWhen(),
             serverIdent.getTimeZone()));
     final AccountGroup group = new AccountGroup(nameKey, groupId, uuid);
@@ -148,7 +150,8 @@ public class PerformCreateGroup {
       memberships.add(membership);
 
       final AccountGroupMemberAudit audit =
-          new AccountGroupMemberAudit(membership, currentUser.getAccountId());
+          new AccountGroupMemberAudit(membership,
+              ((IdentifiedUser)currentUser.get()).getAccountId());
       membershipsAudit.add(audit);
     }
     db.accountGroupMembers().insert(memberships);
@@ -171,7 +174,8 @@ public class PerformCreateGroup {
       includeList.add(groupInclude);
 
       final AccountGroupByIdAud audit =
-        new AccountGroupByIdAud(groupInclude, currentUser.getAccountId());
+        new AccountGroupByIdAud(groupInclude,
+            ((IdentifiedUser)currentUser.get()).getAccountId());
       includesAudit.add(audit);
     }
     db.accountGroupById().insert(includeList);

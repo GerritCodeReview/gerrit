@@ -18,6 +18,7 @@ import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GetGroups;
 import com.google.gerrit.server.account.GroupCache;
@@ -72,7 +73,7 @@ public class ListGroupsCommand extends BaseCommand {
     MyListGroups(final GroupCache groupCache,
         final GroupControl.Factory groupControlFactory,
         final GroupControl.GenericFactory genericGroupControlFactory,
-        final Provider<IdentifiedUser> identifiedUser,
+        final Provider<CurrentUser> identifiedUser,
         final IdentifiedUser.GenericFactory userFactory,
         final Provider<GetGroups> accountGetGroups,
         final GroupJson json) {

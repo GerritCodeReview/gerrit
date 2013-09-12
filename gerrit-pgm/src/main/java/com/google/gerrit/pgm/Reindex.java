@@ -65,6 +65,7 @@ import com.google.gerrit.server.mail.EmailHeader;
 import com.google.gerrit.server.mail.EmailSender;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
+import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginModule;
 import com.google.gerrit.server.project.AccessControlModule;
 import com.google.gerrit.server.project.CommentLinkInfo;
@@ -131,6 +132,10 @@ public class Reindex extends SiteProgram {
     dbManager.start();
 
     sysInjector = createSysInjector();
+
+    sysInjector.getInstance(PluginGuiceEnvironment.class)
+        .setCfgInjector(dbInjector);
+
     LifecycleManager sysManager = new LifecycleManager();
     sysManager.add(sysInjector);
     sysManager.start();

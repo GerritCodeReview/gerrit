@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07bf51df_f709e043",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-12T15:40:14Z",
+      "side": 1,
+      "message": "Why do a scan when you want a single specific member? Why not:\n\n  File f\u003d new File(pluginsDir, name + \".jar.disabled\");\n  if (f.isFile()) {\n    return f;\n  }\n  throw new PluginInstallException(String.format(\n      \"Disabled plugin %s does not exist\",\n      name));",
+      "range": {
+        "startLine": 256,
+        "startChar": 13,
+        "endLine": 261,
+        "endChar": 12
+      },
+      "revId": "940b6dd6d4a52ef33d82b6b0a93225de437206be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

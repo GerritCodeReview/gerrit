@@ -149,6 +149,24 @@
     },
     {
       "key": {
+        "uuid": "87934169_ab486962",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-12T19:39:01Z",
+      "side": 1,
+      "message": "Currently the html target depends on the individual .html file rules to prevent the issue you mentioned.\n\nAnd you could produce the output to $TMP in the rule and have your cmd be \"$(exe :asciidoc) ... ;cd $TMP; zip -qr $OUT .\" so that the genrule() runs java and then packages $TMP before finishing.",
+      "parentUuid": "87934169_8b4bad5e",
+      "revId": "5958ddc0dfc0de87b81bafdd47f1beb655adccdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27a375b4_300f8848",
         "filename": "tools/asciidoctor/BUCK",
         "patchSetId": 3

@@ -113,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "87934169_4b52a517",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-12T18:33:42Z",
+      "side": 1,
+      "message": "No. Buck caching can reproduce your empty $OUT without running your command, and thus will not create your other HTMLs.",
+      "parentUuid": "e7aa3d99_9ef19d17",
+      "revId": "5958ddc0dfc0de87b81bafdd47f1beb655adccdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27a375b4_300f8848",
         "filename": "tools/asciidoctor/BUCK",
         "patchSetId": 3

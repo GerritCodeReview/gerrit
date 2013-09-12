@@ -88,9 +88,9 @@ public class ProjectWatch {
             add(matching, nc, state.getProject().getNameKey());
           } catch (QueryParseException e) {
             log.warn(String.format(
-                "Project %s has invalid notify %s filter \"%s\": %s",
+                "Project %s has invalid notify %s filter \"%s\"",
                 state.getProject().getName(), nc.getName(),
-                nc.getFilter(), e.getMessage()));
+                nc.getFilter()), e);
           }
         }
       }

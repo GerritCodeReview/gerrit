@@ -1,0 +1,365 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87934169_6b404143",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 991,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-12T16:49:30Z",
+      "side": 1,
+      "message": "n\u003d5 since the limit of 10 is also an upper limit?",
+      "range": {
+        "startLine": 991,
+        "startChar": 67,
+        "endLine": 991,
+        "endChar": 71
+      },
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07bf51df_b7036820",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-12T16:49:30Z",
+      "side": 1,
+      "message": "nit: i prefer these declared before the @Option setter methods, but I could live with the way this class is organized.",
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07bf51df_571bec88",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-12T16:49:30Z",
+      "side": 1,
+      "message": "equalsIgnoreCase?",
+      "range": {
+        "startLine": 101,
+        "startChar": 14,
+        "endLine": 101,
+        "endChar": 20
+      },
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87934169_4b046528",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-12T16:49:30Z",
+      "side": 1,
+      "message": "nit: don\u0027t use this. here, its OK to reference the parameter in the constructor.",
+      "range": {
+        "startLine": 101,
+        "startChar": 21,
+        "endLine": 101,
+        "endChar": 26
+      },
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87934169_cb177559",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-12T16:49:30Z",
+      "side": 1,
+      "message": "We have a provider for AccountVisibility in Guice, which leads me to believe its available by injection to your constructor as AccountVisibility. Why are you parsing this?",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 113,
+        "endChar": 5
+      },
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87934169_2b3639f8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-12T16:49:30Z",
+      "side": 1,
+      "message": "isVisibleTo is a better method name here. We are testing if the change is visible to an account, not that a particular account is visible to the caller.",
+      "range": {
+        "startLine": 117,
+        "startChar": 12,
+        "endLine": 117,
+        "endChar": 21
+      },
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87934169_8b248dbb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-12T16:49:30Z",
+      "side": 1,
+      "message": "You are missing the suggestfrom setting. If query.length() \u003c suggestfrom then return an empty collection",
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87934169_eb143157",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-12T16:49:30Z",
+      "side": 1,
+      "message": "Put this entire block into a helper method.",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 145,
+        "endChar": 5
+      },
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07bf51df_3718788a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-12T16:49:30Z",
+      "side": 1,
+      "message": "final is not necessary here",
+      "range": {
+        "startLine": 146,
+        "startChar": 4,
+        "endLine": 146,
+        "endChar": 9
+      },
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87934169_0b317dff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-12T16:49:30Z",
+      "side": 1,
+      "message": "Maps.newLinkedHashMap()",
+      "range": {
+        "startLine": 187,
+        "startChar": 8,
+        "endLine": 187,
+        "endChar": 52
+      },
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87934169_4b3b85df",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-12T16:49:30Z",
+      "side": 1,
+      "message": "This also needs to filter on AccountVisibility. You have two tests to apply:\n\n* Can the suggestion see the change?\n* Can the caller see the suggested user?",
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07bf51df_17157450",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-12T16:49:30Z",
+      "side": 1,
+      "message": "Maybe instead say:\n\n  if (!map.containsKey(account.getId())\n      \u0026\u0026 account.isActive()\n      \u0026\u0026 visibilityControl.isVisible(account)) {\n    map.put(account.getId(), info));\n  }",
+      "range": {
+        "startLine": 217,
+        "startChar": 4,
+        "endLine": 223,
+        "endChar": 47
+      },
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07bf51df_f730c0fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-12T16:49:30Z",
+      "side": 1,
+      "message": "Should we require that the group can see the change? Or that at least one member in the group can see the change?",
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87934169_6b09213f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-12T16:49:30Z",
+      "side": 1,
+      "message": "suggestedreviewer",
+      "range": {
+        "startLine": 259,
+        "startChar": 42,
+        "endLine": 259,
+        "endChar": 58
+      },
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07bf51df_9708643d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-12T16:49:30Z",
+      "side": 1,
+      "message": "I think this should be a micro GroupInfo structure holding the id and name, maybe even description.",
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87934169_8b1d6d7f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-12T16:49:30Z",
+      "side": 1,
+      "message": "This constructor format is confusing. We should only be able to create a suggestion with one property supplied not both, as each suggestion can only be for an account or for a group. If both an account and a group match those are two different suggestion results.\n\nEither use an overloaded constructor (one for each type) or don\u0027t declare a constructor and fill in the proper field after creation.",
+      "range": {
+        "startLine": 263,
+        "startChar": 0,
+        "endLine": 266,
+        "endChar": 5
+      },
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87934169_ab1a2982",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-12T16:49:30Z",
+      "side": 1,
+      "message": "name can be null, causing compareTo to NPE if its on the wrong side. In these cases maybe treat the name as though it was \"\".",
+      "range": {
+        "startLine": 278,
+        "startChar": 15,
+        "endLine": 278,
+        "endChar": 27
+      },
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

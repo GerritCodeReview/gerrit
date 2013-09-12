@@ -16,6 +16,24 @@
       "revId": "1b2b110545109a3b9093531ba71ef4be0d7b2f48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27ba95ee_38462955",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-12T14:48:20Z",
+      "side": 1,
+      "message": "That\u0027s strange. May be my replication-plugin was older? I am going to pull it again and recheck it.",
+      "parentUuid": "87b1810f_fb578f06",
+      "revId": "1b2b110545109a3b9093531ba71ef4be0d7b2f48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

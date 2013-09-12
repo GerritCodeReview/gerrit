@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "87b1810f_bb90e79e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraftChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-12T19:46:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87b1810f_bb510714",
+      "revId": "29dd974b6981a1e7d895c0aff43a9c52bbf2d2a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87b1810f_9b564b08",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraftChange.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2013-09-12T14:46:26Z",
       "side": 1,
       "message": "Where is the permission check that the user is actually allowed to delete the draft change?",
+      "revId": "29dd974b6981a1e7d895c0aff43a9c52bbf2d2a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87b1810f_9b952b8f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraftChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-12T19:46:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87b1810f_9b564b08",
       "revId": "29dd974b6981a1e7d895c0aff43a9c52bbf2d2a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "87b1810f_7b9b7fc2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraftPatchSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-12T19:46:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27ba95ee_5849dd64",
+      "revId": "29dd974b6981a1e7d895c0aff43a9c52bbf2d2a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87b1810f_7b4c9f76",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraftPatchSet.java",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2013-09-12T14:46:26Z",
       "side": 1,
       "message": "remove this comment?",
+      "revId": "29dd974b6981a1e7d895c0aff43a9c52bbf2d2a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87b1810f_5b98c3c3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraftPatchSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-12T19:46:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87b1810f_7b4c9f76",
       "revId": "29dd974b6981a1e7d895c0aff43a9c52bbf2d2a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "87b1810f_3ba5f7f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraftPatchSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-12T19:46:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87b1810f_5b49e364",
+      "revId": "29dd974b6981a1e7d895c0aff43a9c52bbf2d2a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87b1810f_3b461755",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Publish.java",
         "patchSetId": 3
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "87b1810f_1ba23bec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Publish.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-12T19:46:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87b1810f_3b461755",
+      "revId": "29dd974b6981a1e7d895c0aff43a9c52bbf2d2a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87b1810f_1b435b45",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Publish.java",
         "patchSetId": 3
@@ -115,6 +223,24 @@
       "writtenOn": "2013-09-12T14:46:26Z",
       "side": 1,
       "message": "Where is the permission check that the user is allwoed to publish the patch set?",
+      "revId": "29dd974b6981a1e7d895c0aff43a9c52bbf2d2a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87b1810f_fb6d4fc3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Publish.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-12T19:46:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87b1810f_1b435b45",
       "revId": "29dd974b6981a1e7d895c0aff43a9c52bbf2d2a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27a375b4_50040c28",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-12T00:08:12Z",
+      "side": 1,
+      "message": "nit: put the value of the option on the same line as the option.",
+      "range": {
+        "startLine": 28,
+        "startChar": 6,
+        "endLine": 29,
+        "endChar": 24
+      },
+      "revId": "5958ddc0dfc0de87b81bafdd47f1beb655adccdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27a375b4_7009103f",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-12T00:08:12Z",
+      "side": 1,
+      "message": "Do not modify the argument deps. Make a copy of the list to prevent mutating the callers argument. We have been bitten by this before in our BUCK files.",
+      "revId": "5958ddc0dfc0de87b81bafdd47f1beb655adccdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07a8318f_cf005d1a",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-12T00:08:12Z",
+      "side": 1,
+      "message": "A genrule() can only produce a single output file, and it must be named whatever the out argument is. This is how caching works in buck.\n\nTo create multiple output files your cmd must zip them together into a common archive. Which is what the caller does anyway when you are done with this rule. So move that zip activity down into the Java program you execute and have it do the zip.\n\nOr produce the output to your $TMP directory and use command line zip to package $TMP.",
+      "revId": "5958ddc0dfc0de87b81bafdd47f1beb655adccdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27a375b4_300f8848",
+        "filename": "tools/asciidoctor/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-12T00:08:12Z",
+      "side": 1,
+      "message": "This should stay in lib/asciidoctor.",
+      "revId": "5958ddc0dfc0de87b81bafdd47f1beb655adccdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27a375b4_b0f3781a",
+        "filename": "tools/asciidoctor/src/main/java/Main.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-12T00:08:12Z",
+      "side": 1,
+      "message": "This file does not need to be in src/main/java. That is a Mavenism that we no longer need to be burned with. Just put it in lib/asciidoctor/java similar to lib/prolog/java/BuckPrologCompiler.java.\n\nYou are also missing a copyright header on this file. If it originated from the asciidoctor-java-integration project then their notice should appear here.",
+      "revId": "5958ddc0dfc0de87b81bafdd47f1beb655adccdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27a375b4_100a8437",
+        "filename": "tools/asciidoctor/src/main/java/Main.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-12T00:08:12Z",
+      "side": 1,
+      "message": "Maybe you can drop the jcommander dependency and use our args4j standard for the options you really need to pass?",
+      "revId": "5958ddc0dfc0de87b81bafdd47f1beb655adccdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -509,6 +509,7 @@ public class MergeOp {
             commit.statusCode = CommitMergeStatus.ALREADY_MERGED;
             try {
               setMerged(chg, null);
+              indexer.index(chg);
             } catch (OrmException e) {
               log.error("Cannot mark change " + chg.getId() + " merged", e);
             }

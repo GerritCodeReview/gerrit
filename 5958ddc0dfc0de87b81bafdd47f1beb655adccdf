@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "87ca618f_f3e2104a",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-12T18:25:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27a375b4_50040c28",
+      "revId": "5958ddc0dfc0de87b81bafdd47f1beb655adccdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27a375b4_7009103f",
         "filename": "Documentation/asciidoc.defs",
         "patchSetId": 3
@@ -36,6 +54,24 @@
       "writtenOn": "2013-09-12T00:08:12Z",
       "side": 1,
       "message": "Do not modify the argument deps. Make a copy of the list to prevent mutating the callers argument. We have been bitten by this before in our BUCK files.",
+      "revId": "5958ddc0dfc0de87b81bafdd47f1beb655adccdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7aa3d99_beec593d",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-12T18:25:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27a375b4_7009103f",
       "revId": "5958ddc0dfc0de87b81bafdd47f1beb655adccdf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +95,24 @@
     },
     {
       "key": {
+        "uuid": "e7aa3d99_9ef19d17",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-12T18:25:14Z",
+      "side": 1,
+      "message": "Actually the java wrapper will produce an empty file of $OUT (or touch it if already exists, along with all other htmls). Is that OK?",
+      "parentUuid": "07a8318f_cf005d1a",
+      "revId": "5958ddc0dfc0de87b81bafdd47f1beb655adccdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27a375b4_300f8848",
         "filename": "tools/asciidoctor/BUCK",
         "patchSetId": 3
@@ -70,6 +124,24 @@
       "writtenOn": "2013-09-12T00:08:12Z",
       "side": 1,
       "message": "This should stay in lib/asciidoctor.",
+      "revId": "5958ddc0dfc0de87b81bafdd47f1beb655adccdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87934169_0b589d37",
+        "filename": "tools/asciidoctor/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-12T18:25:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27a375b4_300f8848",
       "revId": "5958ddc0dfc0de87b81bafdd47f1beb655adccdf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -93,6 +165,24 @@
     },
     {
       "key": {
+        "uuid": "07bf51df_b73a48da",
+        "filename": "tools/asciidoctor/src/main/java/Main.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-12T18:25:14Z",
+      "side": 1,
+      "message": "Moved. It did originate from the asciidoctor-java-integration project, but they don\u0027t have a header notice. Do we have a standard one for the 3rd party code? Or just add a comment says that it comes from asciidoctor-java-integration?",
+      "parentUuid": "27a375b4_b0f3781a",
+      "revId": "5958ddc0dfc0de87b81bafdd47f1beb655adccdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27a375b4_100a8437",
         "filename": "tools/asciidoctor/src/main/java/Main.java",
         "patchSetId": 3
@@ -104,6 +194,24 @@
       "writtenOn": "2013-09-12T00:08:12Z",
       "side": 1,
       "message": "Maybe you can drop the jcommander dependency and use our args4j standard for the options you really need to pass?",
+      "revId": "5958ddc0dfc0de87b81bafdd47f1beb655adccdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07bf51df_973f44ca",
+        "filename": "tools/asciidoctor/src/main/java/Main.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-12T18:25:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27a375b4_100a8437",
       "revId": "5958ddc0dfc0de87b81bafdd47f1beb655adccdf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

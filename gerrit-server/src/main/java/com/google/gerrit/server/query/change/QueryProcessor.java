@@ -33,6 +33,7 @@ import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -229,7 +230,7 @@ public class QueryProcessor {
     final Predicate<ChangeData> visibleToMe = queryBuilder.is_visible();
     int cnt = queries.size();
 
-    // Begin all queries, possibly asynchronously.
+    // Parse and rewrite all queries.
     List<Integer> limits = Lists.newArrayListWithCapacity(cnt);
     List<ChangeDataSource> sources = Lists.newArrayListWithCapacity(cnt);
     for (int i = 0; i < cnt; i++) {
@@ -251,9 +252,16 @@ public class QueryProcessor {
       sources.add(a);
     }
 
+    // Run each query asynchronously, if supported.
+    List<ResultSet<ChangeData>> matches = Lists.newArrayListWithCapacity(cnt);
+    for (ChangeDataSource s : sources) {
+      matches.add(s.read());
+    }
+    sources = null;
+
     List<List<ChangeData>> out = Lists.newArrayListWithCapacity(cnt);
     for (int i = 0; i < cnt; i++) {
-      List<ChangeData> results = Lists.newArrayList(sources.get(i).read());
+      List<ChangeData> results = Lists.newArrayList(matches.get(i).toList());
       Collections.sort(results, sortkeyAfter != null ? cmpAfter : cmpBefore);
       if (results.size() > maxLimit) {
         moreResults = true;

@@ -70,6 +70,24 @@
       "revId": "67aebb9381e66e98cf8cd2dcabee2d4191318f72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a75045a5_dc862d6a",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitModule.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-13T11:47:05Z",
+      "side": 1,
+      "message": "\u003eAs said, jdbc/ReviewDb should be a DataSource, not a file path.\n\nNow i understand the problem: i meant H2 DataSource, that is file based, and need a path inside DataSource definition. That path doesn\u0027t exist. Just to make it clear.\n\n\u003eMaybe comment directly on that part of the commit message?\n\nGood suggestion. Actually commit message is duplicated in config-auto-site-initialization.txt. So i am going to comment it there.",
+      "parentUuid": "a75045a5_1c46d554",
+      "revId": "67aebb9381e66e98cf8cd2dcabee2d4191318f72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

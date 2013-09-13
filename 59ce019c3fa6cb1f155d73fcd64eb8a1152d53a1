@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a75045a5_bc95618e",
+        "filename": "Documentation/config-auto-site-initialization.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-13T11:48:57Z",
+      "side": 1,
+      "message": "So we have two different use cases:\n\n* creation of a new site\n* upgrade of an existing site\n\nI would expect that these two use cases explained how *exactly* that change supports them compare to doing it manually with\n\n java -jar gerrit.war init -d $site_path --batch --install-plugin commit-message-length-validator --install-plugin replication\n\nUse Case 1: creation of a new site from the scratch: \"/home/gerrit/test_site_auto\" (site_path doesn\u0027t exist yet):\n\nOn Tomcat, to set up a Gerrit site from the scratch (site_path doesn\u0027t exist yet) and with H2 database, that doesn\u0027t exist yet, the following steps must be done:\n\n* install apache-tomcat-7.XXX\n* define `jdbc/ReviewDb` dara source, by adding this to the $TOMCAT_HOME/conf/context.xml file:\n\n \u003cResource\n    name\u003d\"jdbc/ReviewDb\"\n    type\u003d\"javax.sql.DataSource\"\n    username\u003d\"\"\n    driverClassName\u003d\"org.h2.Driver\"\n    password\u003d\"\"\n    url\u003d\"jdbc:h2:file:/home/gerrit/test_site_auto/db/ReviewDB\"\n    maxActive\u003d\"100\"\n    maxIdle\u003d\"20\"/\u003e\n\n* copy gerrit.war to $TOMCAT_HOME/webapps\n* add export CATALINA_OPTS\u003d\"-Dgerrit.init -Dgerrit.init_path\u003d/home/gerrit/test_site_auto\" in custom start script\n*start container via custom script\n\nQuestions to this use case:\n\n* How to deploy the plugins?\n* How that change supports --install-plugin commit-message-length-validator --install-plugin replication options from the init call in the example above?\n* How configure the plugins, if plugin `foo` needs `foo.config`, placed in $site_path/etc?\n\nWhy not to include all the information above here or somewhere else?",
+      "revId": "59ce019c3fa6cb1f155d73fcd64eb8a1152d53a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

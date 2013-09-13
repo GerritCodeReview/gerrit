@@ -34,6 +34,24 @@
       "revId": "67aebb9381e66e98cf8cd2dcabee2d4191318f72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "874d0112_7b491f65",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitModule.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-13T09:50:50Z",
+      "side": 1,
+      "message": "\"This was wrong\":\n\nI quoted your \"Example 3\". If it is wrong, why not to fix the commit message? I think it is misleading formulated and i proposed to explain it in more details, in this comment:\n\n https://gerrit-review.googlesource.com/#/c/46171/13/Documentation/config-auto-site-initialization.txt\n\nAgain my test case is:\n\n* get the last ps from that change \u0026 build gerrit.war\n* install apache-tomcat-7.0.42\n* copy dependent library (h2-1.3.168.jar) to $TOMCAT_HOME/lib\n* define `jdbc/ReviewDb` dara source and point it to the non existent site_path: /home/davido/projects/test_site_auto:\n\nAdd to $TOMCAT_HOME/conf/context.xml something like that\n \u003cResource\n    name\u003d\"jdbc/ReviewDb\"\n    type\u003d\"javax.sql.DataSource\"\n    username\u003d\"\"\n    driverClassName\u003d\"org.h2.Driver\"\n    password\u003d\"\"\n    url\u003d\"jdbc:h2:file:/home/davido/projects/test_site_auto/db/ReviewDB\"\n    maxActive\u003d\"100\"\n    maxIdle\u003d\"20\"/\u003e\n\n* copy gerrit.war to $TOMCAT_HOME/webapps\n* add export CATALINA_OPTS\u003d\"-Dgerrit.init -Dgerrit.init_path\u003d/home/davido/projects/test_site_auto\" in custom start script\n* start container via custom script",
+      "parentUuid": "a75045a5_fc5c492d",
+      "revId": "67aebb9381e66e98cf8cd2dcabee2d4191318f72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

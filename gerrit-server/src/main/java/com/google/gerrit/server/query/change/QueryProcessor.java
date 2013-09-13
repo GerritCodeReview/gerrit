@@ -261,7 +261,7 @@ public class QueryProcessor {
 
     List<List<ChangeData>> out = Lists.newArrayListWithCapacity(cnt);
     for (int i = 0; i < cnt; i++) {
-      List<ChangeData> results = Lists.newArrayList(matches.get(i).toList());
+      List<ChangeData> results = matches.get(i).toList();
       Collections.sort(results, sortkeyAfter != null ? cmpAfter : cmpBefore);
       if (results.size() > maxLimit) {
         moreResults = true;

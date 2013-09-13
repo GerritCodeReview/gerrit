@@ -16,6 +16,24 @@
       "revId": "67aebb9381e66e98cf8cd2dcabee2d4191318f72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a75045a5_fc5c492d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitModule.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-09-13T08:59:31Z",
+      "side": 1,
+      "message": "The patch-set was broken at several places. All issues should be fixed in the PS-17.\n\nNow about your test:\n\n\u003e defined `jdbc/ReviewDb` JNDI property and point to the non existent site_path: /home/davido/projects/test_site_auto\n\nThis was wrong. The jdbc/ReviewDb JNDI should define a DataSource that provides connection to a database. An example from my Tomcat test instance:\n\n  $ cat conf/context.xml\n  \u003cContext\u003e\n    ...\n    \u003cResource name\u003d\"jdbc/ReviewDb\" auth\u003d\"Container\" type\u003d\"javax.sql.DataSource\"\n        maxActive\u003d\"100\" maxIdle\u003d\"30\" maxWait\u003d\"10000\"\n        username\u003d\"postgres\" password\u003d\"postgres\" driverClassName\u003d\"org.postgresql.Driver\"\n        url\u003d\"jdbc:postgresql://localhost/reviewdb\"/\u003e\n    ...\n  \u003c/Context\u003e",
+      "parentUuid": "72dfed7f_a2e8fe2f",
+      "revId": "67aebb9381e66e98cf8cd2dcabee2d4191318f72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

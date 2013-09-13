@@ -34,6 +34,24 @@
       "revId": "d15b4462d2e552e779e19154cbaafa612269ec22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "271615dd_b8f1f916",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ProjectDeletedListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-13T07:48:49Z",
+      "side": 1,
+      "message": "I think it would be better to explicitly mention.  Either in the commit message, or in the comment at line 19.",
+      "parentUuid": "27ba95ee_b8511914",
+      "revId": "d15b4462d2e552e779e19154cbaafa612269ec22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

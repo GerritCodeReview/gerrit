@@ -64,6 +64,24 @@
       "revId": "569f8dca84dcfd469244a0983ba07d6ee381d814",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e71b1d26_f603e01e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-09-13T22:48:05Z",
+      "side": 0,
+      "message": "More precisely, this changed in https://gerrit-review.googlesource.com/#/c2/30301/. So your memory is right --- toList() just has changed since then.",
+      "parentUuid": "e71b1d26_960eec48",
+      "revId": "569f8dca84dcfd469244a0983ba07d6ee381d814",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -255,6 +255,24 @@
     },
     {
       "key": {
+        "uuid": "271615dd_581e9d7a",
+        "filename": "tools/asciidoctor/src/main/java/Main.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-13T16:35:27Z",
+      "side": 1,
+      "message": "OK since I rewrote the jCommender part to args4j, I think it\u0027s fair to put our copyright header on this file. Done.",
+      "parentUuid": "07bf51df_b73a48da",
+      "revId": "5958ddc0dfc0de87b81bafdd47f1beb655adccdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27a375b4_100a8437",
         "filename": "tools/asciidoctor/src/main/java/Main.java",
         "patchSetId": 3

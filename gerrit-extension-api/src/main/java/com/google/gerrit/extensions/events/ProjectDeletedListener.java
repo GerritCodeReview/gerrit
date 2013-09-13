@@ -16,7 +16,8 @@ package com.google.gerrit.extensions.events;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 
-/** Notified whenever a project is deleted on the master. */
+/** Notified whenever a project is deleted (both from the database
+ * and disk) on the master. */
 @ExtensionPoint
 public interface ProjectDeletedListener {
   public interface Event {

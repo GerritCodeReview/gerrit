@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "a75045a5_3c439145",
+        "filename": "Documentation/config-auto-site-initialization.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-09-13T11:19:10Z",
+      "side": 1,
+      "message": "I agree with Edwin. The examples are concrete but they also show the concept. An admin should know how to set system property for his servlet container.",
+      "parentUuid": "121b1108_179eb4a8",
+      "revId": "bbadc469b65aab74e0fbfe1cb0b68bb81144ac41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5238295c_84160899",
         "filename": "Documentation/config-auto-site-initialization.txt",
         "patchSetId": 13
@@ -332,6 +350,24 @@
       "side": 1,
       "message": "Thanks for the clarification. Why not to state it clearly in the description then? May be just quote that example above with and without that change?",
       "parentUuid": "120dd1bb_4750ee05",
+      "revId": "bbadc469b65aab74e0fbfe1cb0b68bb81144ac41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a75045a5_fc8be970",
+        "filename": "Documentation/config-auto-site-initialization.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-09-13T11:19:10Z",
+      "side": 1,
+      "message": "\u003e That change introduces some magic\n\nThere is not much magic in this change. For example using the jdbc/ReviewDb JNDI resource to connect to the database is an already existing concept in Gerrit and is mentioned in Documentation/install-j2ee.txt since year 2009.\n\nAlso the usage of gerrit.site_path is an old concept.\n\nThis change only introduces only two new system properties:\ngerrit.init and gerrit.init_path",
+      "parentUuid": "5238295c_04dc38b3",
       "revId": "bbadc469b65aab74e0fbfe1cb0b68bb81144ac41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

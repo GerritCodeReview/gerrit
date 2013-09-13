@@ -48,6 +48,7 @@ import com.google.gerrit.server.change.ReviewerJson.PostResult;
 import com.google.gerrit.server.change.ReviewerJson.ReviewerInfo;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.GroupsCollection;
+import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -94,6 +95,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
   private final ChangeHooks hooks;
   private final AccountCache accountCache;
   private final ReviewerJson json;
+  private final ChangeIndexer indexer;
 
   @Inject
   PostReviewers(AccountsCollection accounts,
@@ -108,7 +110,8 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
       @GerritServerConfig Config cfg,
       ChangeHooks hooks,
       AccountCache accountCache,
-      ReviewerJson json) {
+      ReviewerJson json,
+      ChangeIndexer indexer) {
     this.accounts = accounts;
     this.reviewerFactory = reviewerFactory;
     this.addReviewerSenderFactory = addReviewerSenderFactory;
@@ -122,6 +125,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
     this.hooks = hooks;
     this.accountCache = accountCache;
     this.json = json;
+    this.indexer = indexer;
   }
 
   @Override
@@ -255,6 +259,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
       db.rollback();
     }
 
+    indexer.index(rsrc.getChange());
     accountLoaderFactory.create(true).fill(result.reviewers);
     postAdd(rsrc.getChange(), result);
   }

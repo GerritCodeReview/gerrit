@@ -52,6 +52,24 @@
       "revId": "67aebb9381e66e98cf8cd2dcabee2d4191318f72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a75045a5_1c46d554",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitModule.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-09-13T11:10:48Z",
+      "side": 1,
+      "message": "\u003e I quoted your \"Example 3\". If it is wrong, why not to fix the commit message? I think it is misleading formulated and i proposed to explain it in more details, in this comment:\n...\n\nThere are a lot of comments from you in that file. Which one did you refer to?\nWhich exactly part of the commit message should be fixed? Maybe comment directly on that part of the commit message?\n\n\u003e copy dependent library (h2-1.3.168.jar) to $TOMCAT_HOME/lib\n\nI don\u0027t think you need to do that as h2 jdbc driver is packed in the gerrit.war.\n\n\u003e define `jdbc/ReviewDb` dara source and point it to the non existent site_path: /home/davido/projects/test_site_auto\n\nAs said, jdbc/ReviewDb should be a DataSource, not a file path.\n\nThe rest of your test case looks OK.",
+      "parentUuid": "874d0112_7b491f65",
+      "revId": "67aebb9381e66e98cf8cd2dcabee2d4191318f72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

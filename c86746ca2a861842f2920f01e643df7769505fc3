@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "271615dd_584c5d76",
+        "filename": "Documentation/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-13T21:35:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67df2d80_e208463e",
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67df2d80_221b4e8a",
         "filename": "Documentation/BUCK",
         "patchSetId": 6
@@ -36,6 +54,24 @@
         "endLine": 11,
         "endChar": 27
       },
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67df2d80_023baae0",
+        "filename": "Documentation/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-13T21:35:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67df2d80_221b4e8a",
       "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "271615dd_b856d907",
+        "filename": "Documentation/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-13T21:35:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67df2d80_02044a26",
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67df2d80_421e527a",
         "filename": "Documentation/asciidoc.defs",
         "patchSetId": 6
@@ -82,6 +136,24 @@
         "endLine": 34,
         "endChar": 32
       },
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "070751cc_f7ec803e",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-13T21:35:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67df2d80_421e527a",
       "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -111,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "e71b1d26_f6ec803e",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-13T21:35:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "271615dd_d8570d07",
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "271615dd_f85c512d",
         "filename": "Documentation/asciidoc.defs",
         "patchSetId": 6
@@ -128,6 +218,24 @@
         "endLine": 68,
         "endChar": 9
       },
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e71b1d26_16f49c01",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-13T21:35:12Z",
+      "side": 1,
+      "message": "Not relevant now.",
+      "parentUuid": "271615dd_f85c512d",
       "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -157,6 +265,24 @@
     },
     {
       "key": {
+        "uuid": "e71b1d26_96e70c59",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-13T21:35:12Z",
+      "side": 1,
+      "message": "This sounds weird, but OK",
+      "parentUuid": "67df2d80_62155650",
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67df2d80_c2e2624a",
         "filename": "lib/asciidoctor/BUCK",
         "patchSetId": 6
@@ -168,6 +294,24 @@
       "writtenOn": "2013-09-13T18:53:58Z",
       "side": 1,
       "message": "Unnecessary, this is the default for java_library().",
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e71b1d26_36f7180a",
+        "filename": "lib/asciidoctor/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-13T21:35:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67df2d80_c2e2624a",
       "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -197,6 +341,24 @@
     },
     {
       "key": {
+        "uuid": "271615dd_1846e554",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-13T21:35:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "271615dd_d8306dfe",
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67df2d80_a2e75e58",
         "filename": "lib/asciidoctor/java/Main.java",
         "patchSetId": 6
@@ -214,6 +376,24 @@
         "endLine": 72,
         "endChar": 0
       },
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "271615dd_78492165",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-13T21:35:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67df2d80_a2e75e58",
       "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -266,6 +446,42 @@
     },
     {
       "key": {
+        "uuid": "67df2d80_e23fa6c8",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-13T21:35:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67df2d80_c209c244",
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "271615dd_3843a945",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-13T21:35:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "271615dd_782281af",
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "271615dd_182fc596",
         "filename": "lib/asciidoctor/java/Main.java",
         "patchSetId": 6
@@ -283,6 +499,24 @@
         "endLine": 76,
         "endChar": 31
       },
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "070751cc_17f49401",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-13T21:35:12Z",
+      "side": 1,
+      "message": "Not relevant now.",
+      "parentUuid": "271615dd_182fc596",
       "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -312,6 +546,24 @@
     },
     {
       "key": {
+        "uuid": "271615dd_f88bf170",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-13T21:35:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "271615dd_382c099f",
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67df2d80_22f4ee01",
         "filename": "lib/asciidoctor/java/Main.java",
         "patchSetId": 6
@@ -323,6 +575,24 @@
       "writtenOn": "2013-09-13T18:53:58Z",
       "side": 1,
       "message": "nit: put this closer to its first use",
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "271615dd_9890b59f",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-13T21:35:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67df2d80_22f4ee01",
       "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -352,6 +622,24 @@
     },
     {
       "key": {
+        "uuid": "67df2d80_4225b2b4",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-13T21:35:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67df2d80_42f77208",
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "271615dd_983af5da",
         "filename": "lib/asciidoctor/java/Main.java",
         "patchSetId": 6
@@ -363,6 +651,24 @@
       "writtenOn": "2013-09-13T18:53:58Z",
       "side": 1,
       "message": "nit: no blank line",
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67df2d80_22222eae",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-13T21:35:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "271615dd_983af5da",
       "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -392,6 +698,24 @@
     },
     {
       "key": {
+        "uuid": "67df2d80_822fba94",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-13T21:35:12Z",
+      "side": 1,
+      "message": "This is the parameter used in AttributesBuilder.attributes(), which is out of my control.",
+      "parentUuid": "271615dd_b83fb9c9",
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "271615dd_58253db4",
         "filename": "lib/asciidoctor/java/Main.java",
         "patchSetId": 6
@@ -409,6 +733,24 @@
         "endLine": 109,
         "endChar": 33
       },
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "271615dd_b895798e",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-13T21:35:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "271615dd_58253db4",
       "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -438,6 +780,24 @@
     },
     {
       "key": {
+        "uuid": "271615dd_589bfdc1",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-13T21:35:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67df2d80_82017a1e",
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67df2d80_62fef6e3",
         "filename": "lib/asciidoctor/java/Main.java",
         "patchSetId": 6
@@ -461,6 +821,24 @@
     },
     {
       "key": {
+        "uuid": "271615dd_789841c4",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-13T21:35:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67df2d80_62fef6e3",
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "271615dd_3815e950",
         "filename": "lib/asciidoctor/java/Main.java",
         "patchSetId": 6
@@ -472,6 +850,24 @@
       "writtenOn": "2013-09-13T18:53:58Z",
       "side": 1,
       "message": "nit: no blank here, or the line below",
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "271615dd_18a585f3",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-13T21:35:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "271615dd_3815e950",
       "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -495,6 +891,24 @@
     },
     {
       "key": {
+        "uuid": "67df2d80_622c36a0",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-13T21:35:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "271615dd_f83531eb",
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67df2d80_e2f16616",
         "filename": "lib/asciidoctor/java/Main.java",
         "patchSetId": 6
@@ -506,6 +920,24 @@
       "writtenOn": "2013-09-13T18:53:58Z",
       "side": 1,
       "message": "why would we want to print to stdout?",
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "070751cc_b7e20849",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-13T21:35:12Z",
+      "side": 1,
+      "message": "This is from asciidoctor-java-integration to output to stdout while output file is \"-\". Removed.",
+      "parentUuid": "67df2d80_e2f16616",
       "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -535,6 +967,24 @@
     },
     {
       "key": {
+        "uuid": "e71b1d26_b6e20849",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-13T21:35:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67df2d80_02ed6a38",
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "271615dd_1818258a",
         "filename": "lib/asciidoctor/java/Main.java",
         "patchSetId": 6
@@ -546,6 +996,24 @@
       "writtenOn": "2013-09-13T18:53:58Z",
       "side": 1,
       "message": "nit: no blank line.",
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "070751cc_97e70459",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-13T21:35:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "271615dd_1818258a",
       "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

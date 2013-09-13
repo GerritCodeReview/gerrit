@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a75045a5_5c253db4",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ProjectDeletedListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-13T08:31:28Z",
+      "side": 1,
+      "message": "I\u0027m not convinced that this needs to be added here. It is specific to the delete-project plugin that a partial deletion of a project (delete only from database but not from disk) is possible. Actually I think this option in the delete-project plugin is a poor workaround for not being able to archive Git repositories on project deletion. If there would be proper support for archiving Git repositories (e.g. move the Git repository to another folder) there wouldn\u0027t be a need to differenciate in the event between \u0027deletion from database and disk\u0027 and \u0027deletion from database but not from disk\u0027. I would rather like to see this fixed in the delete-projects plugin.",
+      "revId": "61d643c8391c3908b04c13eb8f2b2e86b2d52243",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

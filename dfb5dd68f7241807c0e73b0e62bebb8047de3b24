@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a75045a5_dc094d44",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-13T07:04:19Z",
+      "side": 1,
+      "message": "I\u0027m actually not liking to pass ReceiveCommand into this method. All the other can...() methods have no parameter, so if possible I would avoid a parameter here too. I\u0027m not sure what would be best to do, but maybe it would be cleaner to have two methods here:\n\n1. boolean canPushMerges()\n    to check whether the user can push merge commits directly bypassing code review\n\n2. boolean canUploadMerges()\n    to check whether the user can upload merge commits for review\n\nIt would then be the responsibility of the caller to invike the one or the orther method. What do you think?",
+      "revId": "dfb5dd68f7241807c0e73b0e62bebb8047de3b24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

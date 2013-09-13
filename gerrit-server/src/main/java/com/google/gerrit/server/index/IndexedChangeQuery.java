@@ -126,7 +126,10 @@ public class IndexedChangeQuery extends Predicate<ChangeData>
 
   @Override
   public int getCost() {
-    return pred.getCost();
+    // Index queries are assumed to be cheaper than any other type of query, so
+    // so try to make sure they get picked. Note that pred's cost may be higher
+    // because it doesn't know whether it's being used in an index query or not.
+    return 0;
   }
 
   @Override

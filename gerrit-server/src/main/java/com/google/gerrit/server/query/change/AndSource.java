@@ -162,12 +162,15 @@ public class AndSource extends AndPredicate<ChangeData>
   }
 
   private ChangeDataSource source() {
+    int minCost = Integer.MAX_VALUE;
+    Predicate<ChangeData> s = null;
     for (Predicate<ChangeData> p : getChildren()) {
-      if (p instanceof ChangeDataSource) {
-        return (ChangeDataSource) p;
+      if (p instanceof ChangeDataSource && p.getCost() < minCost) {
+        s = p;
+        minCost = p.getCost();
       }
     }
-    return null;
+    return (ChangeDataSource) s;
   }
 
   @Override

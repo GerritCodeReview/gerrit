@@ -1,0 +1,554 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67df2d80_e208463e",
+        "filename": "Documentation/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-13T18:53:58Z",
+      "side": 1,
+      "message": "nit: put the out between backend and visibility.",
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67df2d80_221b4e8a",
+        "filename": "Documentation/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-13T18:53:58Z",
+      "side": 1,
+      "message": "Also include genfile(\u0027licenses.txt\u0027)",
+      "range": {
+        "startLine": 11,
+        "startChar": 2,
+        "endLine": 11,
+        "endChar": 27
+      },
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67df2d80_02044a26",
+        "filename": "Documentation/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-13T18:53:58Z",
+      "side": 1,
+      "message": "I think this dep should be hidden within genasciidoc().",
+      "range": {
+        "startLine": 16,
+        "startChar": 5,
+        "endLine": 16,
+        "endChar": 20
+      },
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67df2d80_421e527a",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-13T18:53:58Z",
+      "side": 1,
+      "message": "Put this earlier with the --in-ext and --out-ext grouping.",
+      "range": {
+        "startLine": 34,
+        "startChar": 19,
+        "endLine": 34,
+        "endChar": 32
+      },
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "271615dd_d8570d07",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-13T18:53:58Z",
+      "side": 1,
+      "message": "This usage of genfile() should be in the caller.",
+      "range": {
+        "startLine": 36,
+        "startChar": 13,
+        "endLine": 36,
+        "endChar": 36
+      },
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "271615dd_f85c512d",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-13T18:53:58Z",
+      "side": 1,
+      "message": "We use \u0027\u0027 in our Python snippets.",
+      "range": {
+        "startLine": 68,
+        "startChar": 6,
+        "endLine": 68,
+        "endChar": 9
+      },
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67df2d80_62155650",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-13T18:53:58Z",
+      "side": 1,
+      "message": "This sort of magic should be in the caller, not inside of this rule.\n\nMaybe genasciidoc() should produce only a zip of the HTML output and the caller uses its existing genrule() to unpack the zip, overlay with the other resources, and rezip?",
+      "range": {
+        "startLine": 70,
+        "startChar": 6,
+        "endLine": 74,
+        "endChar": 45
+      },
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67df2d80_c2e2624a",
+        "filename": "lib/asciidoctor/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-13T18:53:58Z",
+      "side": 1,
+      "message": "Unnecessary, this is the default for java_library().",
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "271615dd_d8306dfe",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-13T18:53:58Z",
+      "side": 1,
+      "message": "inputFiles is a better name for this field.",
+      "range": {
+        "startLine": 55,
+        "startChar": 23,
+        "endLine": 55,
+        "endChar": 33
+      },
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67df2d80_a2e75e58",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-13T18:53:58Z",
+      "side": 1,
+      "message": "These getter methods are unnecessary. Just reference the field.",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 0
+      },
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67df2d80_c209c244",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-13T18:53:58Z",
+      "side": 1,
+      "message": "private",
+      "range": {
+        "startLine": 73,
+        "startChar": 2,
+        "endLine": 73,
+        "endChar": 8
+      },
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "271615dd_782281af",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-13T18:53:58Z",
+      "side": 1,
+      "message": "mapInFileToOutFile",
+      "range": {
+        "startLine": 73,
+        "startChar": 16,
+        "endLine": 73,
+        "endChar": 26
+      },
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "271615dd_182fc596",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-13T18:53:58Z",
+      "side": 1,
+      "message": "Just use separator here and not separatorChar. There isn\u0027t a useful difference in this context and the code is easier to read.",
+      "range": {
+        "startLine": 76,
+        "startChar": 18,
+        "endLine": 76,
+        "endChar": 31
+      },
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "271615dd_382c099f",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-13T18:53:58Z",
+      "side": 1,
+      "message": "Use \u0027.\u0027 instead of \".\" since its only one character.",
+      "range": {
+        "startLine": 83,
+        "startChar": 37,
+        "endLine": 83,
+        "endChar": 40
+      },
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67df2d80_22f4ee01",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-13T18:53:58Z",
+      "side": 1,
+      "message": "nit: put this closer to its first use",
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67df2d80_42f77208",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-13T18:53:58Z",
+      "side": 1,
+      "message": "nit: this. is unnecessary here",
+      "range": {
+        "startLine": 95,
+        "startChar": 27,
+        "endLine": 95,
+        "endChar": 32
+      },
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "271615dd_983af5da",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-13T18:53:58Z",
+      "side": 1,
+      "message": "nit: no blank line",
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "271615dd_b83fb9c9",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-13T18:53:58Z",
+      "side": 1,
+      "message": "You only produce String values here so the map can be using String.",
+      "range": {
+        "startLine": 107,
+        "startChar": 16,
+        "endLine": 107,
+        "endChar": 22
+      },
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "271615dd_58253db4",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-13T18:53:58Z",
+      "side": 1,
+      "message": "no this.",
+      "range": {
+        "startLine": 109,
+        "startChar": 28,
+        "endLine": 109,
+        "endChar": 33
+      },
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67df2d80_82017a1e",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-13T18:53:58Z",
+      "side": 1,
+      "message": "do not assign inside if an if conditional.  Instead say the more clear:\n\n  int eq \u003d v.indexOf(\u0027\u003d\u0027);\n  if (eq \u003e 0) {\n    attributes.put(v.substring(0, eq), v.substring(eq + 1));\n  } else {\n    attributes.put(v, \"\");\n  }",
+      "range": {
+        "startLine": 111,
+        "startChar": 10,
+        "endLine": 111,
+        "endChar": 62
+      },
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67df2d80_62fef6e3",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-13T18:53:58Z",
+      "side": 1,
+      "message": "This method name and signature and body is horribly long for what is a very simple operation.",
+      "range": {
+        "startLine": 121,
+        "startChar": 15,
+        "endLine": 121,
+        "endChar": 117
+      },
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "271615dd_3815e950",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-13T18:53:58Z",
+      "side": 1,
+      "message": "nit: no blank here, or the line below",
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "271615dd_f83531eb",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-13T18:53:58Z",
+      "side": 1,
+      "message": "unnecessary if the field is named inputFiles and you drop the getter.",
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67df2d80_e2f16616",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-13T18:53:58Z",
+      "side": 1,
+      "message": "why would we want to print to stdout?",
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67df2d80_02ed6a38",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-13T18:53:58Z",
+      "side": 1,
+      "message": "nit: We say String[] args",
+      "range": {
+        "startLine": 161,
+        "startChar": 26,
+        "endLine": 161,
+        "endChar": 39
+      },
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "271615dd_1818258a",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-13T18:53:58Z",
+      "side": 1,
+      "message": "nit: no blank line.",
+      "revId": "c86746ca2a861842f2920f01e643df7769505fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

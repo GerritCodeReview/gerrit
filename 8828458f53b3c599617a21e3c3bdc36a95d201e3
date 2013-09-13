@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a75045a5_7c3cb9a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexedChangeQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-13T19:15:06Z",
+      "side": 1,
+      "message": "I think one \"so\" is enough.",
+      "revId": "8828458f53b3c599617a21e3c3bdc36a95d201e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

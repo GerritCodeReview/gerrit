@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "070751cc_970ee448",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-13T22:33:01Z",
+      "side": 0,
+      "message": "This copy is intentional. IIRC implementations can provide an immutable list as a result from toList(), but on the very next line we sort the list in place. Ergo, copy.",
+      "range": {
+        "startLine": 264,
+        "startChar": 33,
+        "endLine": 264,
+        "endChar": 76
+      },
+      "revId": "569f8dca84dcfd469244a0983ba07d6ee381d814",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

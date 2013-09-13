@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "874d0112_db095344",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 991,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-13T06:50:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87934169_6b404143",
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07bf51df_b7036820",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
         "patchSetId": 7
@@ -36,6 +54,24 @@
       "writtenOn": "2013-09-12T16:49:30Z",
       "side": 1,
       "message": "nit: i prefer these declared before the @Option setter methods, but I could live with the way this class is organized.",
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a75045a5_dce2ad4a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-13T06:50:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07bf51df_b7036820",
       "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -88,6 +124,42 @@
     },
     {
       "key": {
+        "uuid": "a75045a5_fce76957",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-13T06:50:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87934169_4b046528",
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "874d0112_dbe2b34a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-13T06:50:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07bf51df_571bec88",
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87934169_cb177559",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
         "patchSetId": 7
@@ -105,6 +177,24 @@
         "endLine": 113,
         "endChar": 5
       },
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "874d0112_fbe76f57",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-13T06:50:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87934169_cb177559",
       "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -134,6 +224,24 @@
     },
     {
       "key": {
+        "uuid": "874d0112_9bec2b3e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-13T06:50:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87934169_2b3639f8",
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87934169_8b248dbb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
         "patchSetId": 7
@@ -145,6 +253,24 @@
       "writtenOn": "2013-09-12T16:49:30Z",
       "side": 1,
       "message": "You are missing the suggestfrom setting. If query.length() \u003c suggestfrom then return an empty collection",
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "874d0112_bbf1e716",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-13T06:50:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87934169_8b248dbb",
       "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -174,6 +300,24 @@
     },
     {
       "key": {
+        "uuid": "874d0112_1b01fb1b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-13T06:50:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87934169_eb143157",
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07bf51df_3718788a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
         "patchSetId": 7
@@ -191,6 +335,24 @@
         "endLine": 146,
         "endChar": 9
       },
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a75045a5_5cf77d08",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-13T06:50:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07bf51df_3718788a",
       "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -220,6 +382,24 @@
     },
     {
       "key": {
+        "uuid": "874d0112_5bf78308",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-13T06:50:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87934169_0b317dff",
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87934169_4b3b85df",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
         "patchSetId": 7
@@ -231,6 +411,24 @@
       "writtenOn": "2013-09-12T16:49:30Z",
       "side": 1,
       "message": "This also needs to filter on AccountVisibility. You have two tests to apply:\n\n* Can the suggestion see the change?\n* Can the caller see the suggested user?",
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a75045a5_3cfe31e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-13T06:50:35Z",
+      "side": 1,
+      "message": "I wonder why the old RPC code didn\u0027t check it. Is it a known bug?",
+      "parentUuid": "87934169_4b3b85df",
       "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -260,6 +458,24 @@
     },
     {
       "key": {
+        "uuid": "874d0112_7bf4bf02",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-13T06:50:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07bf51df_17157450",
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07bf51df_f730c0fd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
         "patchSetId": 7
@@ -271,6 +487,24 @@
       "writtenOn": "2013-09-12T16:49:30Z",
       "side": 1,
       "message": "Should we require that the group can see the change? Or that at least one member in the group can see the change?",
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a75045a5_1c01f51b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-13T06:50:35Z",
+      "side": 1,
+      "message": "The old RPC code didn\u0027t check that. Can we add it later?",
+      "parentUuid": "07bf51df_f730c0fd",
       "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -300,6 +534,24 @@
     },
     {
       "key": {
+        "uuid": "a75045a5_9cec253e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-13T06:50:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87934169_6b09213f",
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07bf51df_9708643d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
         "patchSetId": 7
@@ -311,6 +563,24 @@
       "writtenOn": "2013-09-12T16:49:30Z",
       "side": 1,
       "message": "I think this should be a micro GroupInfo structure holding the id and name, maybe even description.",
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "874d0112_3bfe37e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-13T06:50:35Z",
+      "side": 1,
+      "message": "Actually i have already implemented that, by extracting BaseGroupInfo from existing GroupInfo class, but back out that later. It turns out that for the UI code it is sufficient to get only the group name. And i don\u0027t expect that other REST clients actually are going to use that endpoint. But i would re-implement it if you insist.",
+      "parentUuid": "07bf51df_9708643d",
       "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -340,6 +610,24 @@
     },
     {
       "key": {
+        "uuid": "a75045a5_7cf4b902",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-13T06:50:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87934169_8b1d6d7f",
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87934169_ab1a2982",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
         "patchSetId": 7
@@ -357,6 +645,24 @@
         "endLine": 278,
         "endChar": 27
       },
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a75045a5_bcf1e116",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-13T06:50:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87934169_ab1a2982",
       "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

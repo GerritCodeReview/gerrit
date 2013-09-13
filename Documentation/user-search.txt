@@ -168,6 +168,11 @@ message:'MESSAGE'::
 +
 Changes that match 'MESSAGE' arbitrary string in the commit message body.
 
+[[comment]]
+comment:'TEXT'::
++
+Changes that match 'TEXT' string in any comment left by a reviewer.
+
 [[file]]
 file:^'REGEX'::
 +

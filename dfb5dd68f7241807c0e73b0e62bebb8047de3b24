@@ -16,6 +16,24 @@
       "revId": "dfb5dd68f7241807c0e73b0e62bebb8047de3b24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a75045a5_9c03c520",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-13T08:04:58Z",
+      "side": 1,
+      "message": "I like this idea！ that would be more clear.\nThanks!\n\nDone.",
+      "parentUuid": "a75045a5_dc094d44",
+      "revId": "dfb5dd68f7241807c0e73b0e62bebb8047de3b24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

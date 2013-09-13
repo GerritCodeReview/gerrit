@@ -16,6 +16,24 @@
       "revId": "59ce019c3fa6cb1f155d73fcd64eb8a1152d53a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "874d0112_5b9b03c2",
+        "filename": "Documentation/config-auto-site-initialization.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-09-13T12:22:30Z",
+      "side": 1,
+      "message": "\u003e I would expect that these two use cases explained how *exactly* that change supports them compare to doing it manually with\n java -jar gerrit.war init -d $site_path --batch --install-plugin commit-message-length-validator --install-plugin replication\n\nInstallation of plugins as part of site creation is currently not supported. I should write that in the documentation.\n\nRight now one can use the SSH plugin command [1] or the REST API [2] to install plugins once the site is initialized and Gerrit is up and running.\n\n\u003e On Tomcat, to set up a Gerrit site from the scratch (site_path doesn\u0027t exist yet) and with H2 database, that doesn\u0027t exist yet, the following steps must be done:\n\n\u003e install apache-tomcat-7.XXX\n\nI guess that someone named \"admin\" should know that :-)\n\n\u003e How to deploy the plugins?\n\nSee above.\n\n\u003e How that change supports --install-plugin commit-message-length-validator --install-plugin replication options from the init call in the example above?\n\nDoesn\u0027t support it (yet). It may be supported in the future.\n\n\u003e How configure the plugins, if plugin `foo` needs `foo.config`, placed in $site_path/etc?\n\nThe topic of plugin configuration is really unrelated to this change. Plugins are configured in the same way as they were configured before this change... The fact that we don\u0027t yet have an agreement on how plugins should be configured doesn\u0027t mean that this change has to solve this issue.\n\nThe server-config plugin [3] is an attempt to make it possible to change config files on the server without needing direct access to the file system.\n\n[1] https://gerrit-review.googlesource.com/Documentation/cmd-plugin-install.html\n\n[2] https://gerrit-review.googlesource.com/Documentation/rest-api-plugins.html\n\n[3] https://gerrit-review.googlesource.com/#/admin/projects/plugins/server-config",
+      "parentUuid": "a75045a5_bc95618e",
+      "revId": "59ce019c3fa6cb1f155d73fcd64eb8a1152d53a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

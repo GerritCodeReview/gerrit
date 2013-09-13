@@ -123,6 +123,29 @@
       "revId": "ad3ace092613112ca8800d49df2d20f60150c78e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "874d0112_dbd4f33d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 761,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-09-13T14:02:29Z",
+      "side": 1,
+      "message": "Shouldn\u0027t the getPluginConfig(pluginName), which returns a Config object, be enough?\n\nHaving a Config object I can call:\n\n  config.getLong(\"property\")\n  config.getBoolean(\"property\")\n\nand, I think, this is preferable to\n\n  projectConfig.getPluginLong(\"pluginName\", \"property\")\n  projectConfig.getPluginBoolean(\"pluginName\", \"property\")",
+      "range": {
+        "startLine": 705,
+        "startChar": 2,
+        "endLine": 761,
+        "endChar": 3
+      },
+      "revId": "ad3ace092613112ca8800d49df2d20f60150c78e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

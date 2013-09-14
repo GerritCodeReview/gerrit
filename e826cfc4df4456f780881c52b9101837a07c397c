@@ -435,6 +435,24 @@
     },
     {
       "key": {
+        "uuid": "c78b79a1_9de2a349",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-14T08:34:50Z",
+      "side": 1,
+      "message": "Done\n\n* Can the suggestion see the change?\n\nwas already implemented on line 223 below\n\n* Can the caller see the suggested user?\n\nAdded in new ps with:\n\n        // Can the account see the current user?\n        \u0026\u0026 accountControlFactory.get().canSee(account)) {",
+      "parentUuid": "87934169_4b3b85df",
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07bf51df_17157450",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
         "patchSetId": 7
@@ -504,6 +522,24 @@
       "writtenOn": "2013-09-13T06:50:35Z",
       "side": 1,
       "message": "The old RPC code didn\u0027t check that. Can we add it later?",
+      "parentUuid": "07bf51df_f730c0fd",
+      "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e78ebdb0_bee75958",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-14T08:34:50Z",
+      "side": 1,
+      "message": "Done\n\nin the new ps with:\n\n      // require that at least one member in the group can see the change\n      for (Account account : members) {\n        if (visibilityControl.isVisibleTo(account)) {\n          return true;\n        }\n      }",
       "parentUuid": "07bf51df_f730c0fd",
       "revId": "e826cfc4df4456f780881c52b9101837a07c397c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

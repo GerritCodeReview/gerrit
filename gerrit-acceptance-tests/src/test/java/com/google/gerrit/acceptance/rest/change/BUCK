@@ -10,5 +10,11 @@ acceptance_tests(
 
 java_library(
   name = 'util',
-  srcs = ['ChangeInfo.java', 'ChangeMessageInfo.java'],
+  srcs = [
+    'AccountInfo.java',
+    'ChangeInfo.java',
+    'ChangeMessageInfo.java',
+    'GroupInfo.java',
+    'SuggestReviewerInfo.java'
+  ],
 )

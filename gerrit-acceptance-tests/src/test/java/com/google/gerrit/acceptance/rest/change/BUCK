@@ -30,8 +30,9 @@ java_library(
 
 java_library(
   name = 'util',
-  srcs = ['ChangeInfo.java', 'ChangeMessageInfo.java', 'ProjectConfigInput.java',
-          'ReviewInput.java', 'SubmitInput.java'],
+  srcs = ['AccountInfo.java', 'ChangeInfo.java', 'ChangeMessageInfo.java',
+          'GroupInfo.java', 'ProjectConfigInput.java', 'ReviewInput.java',
+          'SubmitInput.java', 'SuggestReviewerInfo.java'],
   deps = [
     '//lib:guava',
     '//gerrit-reviewdb:server',

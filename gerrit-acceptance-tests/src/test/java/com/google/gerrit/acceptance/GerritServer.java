@@ -84,7 +84,8 @@ class GerritServer {
     File tmp = TempFileUtil.createTempDirectory();
     Init init = new Init();
     int rc = init.main(new String[] {
-        "-d", tmp.getPath(), "--batch", "--no-auto-start"});
+        "-d", tmp.getPath(), "--batch", "--no-auto-start",
+        "--skip-plugins"});
     if (rc != 0) {
       throw new RuntimeException("Couldn't initialize site");
     }

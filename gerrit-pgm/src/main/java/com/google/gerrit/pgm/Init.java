@@ -70,6 +70,9 @@ public class Init extends SiteProgram {
   @Option(name = "--no-auto-start", usage = "Don't automatically start daemon after init")
   private boolean noAutoStart;
 
+  @Option(name = "--skip-plugins", usage = "Don't install plugin")
+  private boolean skipPlugins = false;
+
   @Option(name = "--list-plugins", usage = "List available plugins")
   private boolean listPlugins;
 
@@ -90,22 +93,25 @@ public class Init extends SiteProgram {
     ErrorLogFile.errorOnlyConsole();
 
     final SiteInit init = createSiteInit();
-    final List<PluginData> plugins = InitPlugins.listPlugins(init.site);
-    ConsoleUI ui = ConsoleUI.getInstance(false);
-    verifyInstallPluginList(ui, plugins);
-    if (listPlugins) {
-      if (!plugins.isEmpty()) {
-        ui.message("Available plugins:\n");
-        for (PluginData plugin : plugins) {
-          ui.message(" * %s version %s\n", plugin.name, plugin.version);
+    if (!skipPlugins) {
+      final List<PluginData> plugins = InitPlugins.listPlugins(init.site);
+      ConsoleUI ui = ConsoleUI.getInstance(false);
+      verifyInstallPluginList(ui, plugins);
+      if (listPlugins) {
+        if (!plugins.isEmpty()) {
+          ui.message("Available plugins:\n");
+          for (PluginData plugin : plugins) {
+            ui.message(" * %s version %s\n", plugin.name, plugin.version);
+          }
+        } else {
+          ui.message("No plugins found.\n");
         }
-      } else {
-        ui.message("No plugins found.\n");
+        return 0;
       }
-      return 0;
     }
 
     init.flags.autoStart = !noAutoStart && init.site.isNew;
+    init.flags.skipPlugins = skipPlugins;
 
     final SiteRun run;
     try {

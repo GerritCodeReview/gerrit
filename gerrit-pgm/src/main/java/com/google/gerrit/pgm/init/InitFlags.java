@@ -34,9 +34,13 @@ public class InitFlags {
   /** Run the daemon (and open the web UI in a browser) after initialization. */
   public boolean autoStart;
 
+  /** Skip plugins */
+  public boolean skipPlugins;
+
   public final FileBasedConfig cfg;
   public final FileBasedConfig sec;
   public final List<String> installPlugins;
+
 
   @Inject
   InitFlags(final SitePaths site,

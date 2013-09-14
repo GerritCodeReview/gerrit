@@ -75,6 +75,10 @@ public class SitePathInitializer {
     mkdir(site.data_dir);
 
     for (InitStep step : steps) {
+      if (step instanceof InitPlugins
+          && flags.skipPlugins) {
+        continue;
+      }
       step.run();
     }
 

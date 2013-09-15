@@ -17,6 +17,9 @@ package com.google.gerrit.acceptance.rest.change;
 import java.util.List;
 
 public class ChangeInfo {
+  String id;
+  String project;
+  String branch;
   List<ChangeMessageInfo> messages;
   String status;
 }

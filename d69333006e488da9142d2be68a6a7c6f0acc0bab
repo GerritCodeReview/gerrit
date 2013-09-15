@@ -106,6 +106,24 @@
       "revId": "d69333006e488da9142d2be68a6a7c6f0acc0bab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e78ebdb0_fef1e115",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-15T21:43:58Z",
+      "side": 1,
+      "message": "FYI: I created a reproducer for this issue:\n\n https://github.com/davido/buck_test\n\nWe may want to use this project for additional tests.",
+      "parentUuid": "123eb1ea_ff1a1f7b",
+      "revId": "d69333006e488da9142d2be68a6a7c6f0acc0bab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

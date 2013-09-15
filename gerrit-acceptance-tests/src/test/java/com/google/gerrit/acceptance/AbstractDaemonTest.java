@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance;
 
+import org.eclipse.jgit.lib.Config;
 import org.junit.After;
 import org.junit.Before;
 
@@ -22,12 +23,16 @@ public abstract class AbstractDaemonTest {
 
   @Before
   public final void beforeTest() throws Exception {
-    server = GerritServer.start();
+    server = GerritServer.start(getBaseConfig());
     server.getTestInjector().injectMembers(this);
   }
 
   @After
   public final void afterTest() throws Exception {
     server.stop();
+  }
+
+  protected Config getBaseConfig() {
+    return null;
   }
 }

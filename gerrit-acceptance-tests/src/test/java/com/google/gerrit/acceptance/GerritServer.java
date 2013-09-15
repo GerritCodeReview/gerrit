@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance;
 
+import com.google.common.base.Preconditions;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.Daemon;
 import com.google.gerrit.pgm.Init;
@@ -23,6 +24,7 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
@@ -46,7 +48,19 @@ class GerritServer {
 
   /** Returns fully started Gerrit server */
   static GerritServer start() throws Exception {
-    final File site = initSite();
+    return startImpl(null);
+  }
+
+  /** Returns fully started Gerrit server */
+  static GerritServer start(Config base) throws Exception {
+    Preconditions.checkNotNull(base);
+    return startImpl(base);
+  }
+
+  private static GerritServer startImpl(Config base) throws Exception,
+      InterruptedException, BrokenBarrierException, IOException,
+      ConfigInvalidException {
+    final File site = initSite(base);
     final CyclicBarrier serverStarted = new CyclicBarrier(2);
     final Daemon daemon = new Daemon(new Runnable() {
       public void run() {
@@ -80,7 +94,7 @@ class GerritServer {
     return new GerritServer(site, i, daemon, daemonService);
   }
 
-  private static File initSite() throws Exception {
+  private static File initSite(Config base) throws Exception {
     File tmp = TempFileUtil.createTempDirectory();
     Init init = new Init();
     int rc = init.main(new String[] {
@@ -97,6 +111,12 @@ class GerritServer {
         new File(new File(tmp, "etc"), "gerrit.config"),
         FS.DETECTED);
     cfg.load();
+    if (base != null) {
+      // I didn't find the right way merging two config files.
+      // Passing baseConfig to constructor of FileBasedConfig()
+      // didn't work either.
+      cfg.fromText(cfg.toText() + "\n" + base.toText());
+    }
     cfg.setString("gerrit", null, "canonicalWebUrl", url);
     cfg.setString("httpd", null, "listenUrl", url);
     cfg.setString("sshd", null, "listenAddress", format(sshd));

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance;
 
+import com.google.common.collect.Lists;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.Daemon;
 import com.google.gerrit.pgm.Init;
@@ -23,6 +24,7 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
@@ -42,11 +44,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-class GerritServer {
+public class GerritServer {
 
   /** Returns fully started Gerrit server */
-  static GerritServer start() throws Exception {
-    final File site = initSite();
+  static GerritServer start(Config base) throws Exception {
+    final File site = initSite(base);
     final CyclicBarrier serverStarted = new CyclicBarrier(2);
     final Daemon daemon = new Daemon(new Runnable() {
       public void run() {
@@ -80,7 +82,7 @@ class GerritServer {
     return new GerritServer(site, i, daemon, daemonService);
   }
 
-  private static File initSite() throws Exception {
+  private static File initSite(Config base) throws Exception {
     File tmp = TempFileUtil.createTempDirectory();
     Init init = new Init();
     int rc = init.main(new String[] {
@@ -97,6 +99,9 @@ class GerritServer {
         new File(new File(tmp, "etc"), "gerrit.config"),
         FS.DETECTED);
     cfg.load();
+    if (base != null) {
+      override(base, cfg);
+    }
     cfg.setString("gerrit", null, "canonicalWebUrl", url);
     cfg.setString("httpd", null, "listenUrl", url);
     cfg.setString("sshd", null, "listenAddress", format(sshd));
@@ -106,6 +111,22 @@ class GerritServer {
     cfg.setInt("plugins", null, "checkFrequency", 0);
     cfg.save();
     return tmp;
+  }
+
+  private static void override(Config source, Config target) {
+    for (String section : source.getSections()) {
+      for (String subsection : source.getSubsections(section)) {
+        for (String name : source.getNames(section, subsection)) {
+          target.setStringList(section, subsection, name,
+              Lists.newArrayList(source.getStringList(section, subsection, name)));
+        }
+      }
+
+      for (String name : source.getNames(section)) {
+        target.setStringList(section, null, name,
+            Lists.newArrayList(source.getStringList(section, null, name)));
+      }
+    }
   }
 
   private static String format(InetSocketAddress s) {

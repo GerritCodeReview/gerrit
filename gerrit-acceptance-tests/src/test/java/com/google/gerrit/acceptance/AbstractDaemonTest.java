@@ -14,20 +14,51 @@
 
 package com.google.gerrit.acceptance;
 
-import org.junit.After;
-import org.junit.Before;
+import org.eclipse.jgit.lib.Config;
+import org.junit.Rule;
+import org.junit.rules.TestRule;
+import org.junit.runner.Description;
+import org.junit.runners.model.Statement;
 
 public abstract class AbstractDaemonTest {
   protected GerritServer server;
 
-  @Before
-  public final void beforeTest() throws Exception {
-    server = GerritServer.start();
+  @Rule
+  public TestRule testRunner = new TestRule() {
+    @Override
+    public Statement apply(final Statement base, final Description description) {
+      return new Statement() {
+        @Override
+        public void evaluate() throws Throwable {
+          beforeTest(config(description));
+          base.evaluate();
+          afterTest();
+        }
+      };
+    }
+  };
+
+  private static Config config(Description description) {
+    GerritConfigs cfgs = description.getAnnotation(GerritConfigs.class);
+    GerritConfig cfg = description.getAnnotation(GerritConfig.class);
+    if (cfgs != null && cfg != null) {
+      throw new IllegalStateException("Use either @GerritConfigs or @GerritConfig not both");
+    }
+    if (cfgs != null) {
+      return ConfigAnnotationParser.parse(cfgs);
+    } else if (cfg != null) {
+      return ConfigAnnotationParser.parse(cfg);
+    } else {
+      return null;
+    }
+  }
+
+  private void beforeTest(Config cfg) throws Exception {
+    server = GerritServer.start(cfg);
     server.getTestInjector().injectMembers(this);
   }
 
-  @After
-  public final void afterTest() throws Exception {
+  private void afterTest() throws Exception {
     server.stop();
   }
 }

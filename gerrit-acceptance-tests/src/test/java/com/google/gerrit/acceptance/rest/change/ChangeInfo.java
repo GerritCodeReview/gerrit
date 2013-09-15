@@ -19,6 +19,9 @@ import com.google.gerrit.reviewdb.client.Change;
 import java.util.List;
 
 public class ChangeInfo {
+  String id;
+  String project;
+  String branch;
   List<ChangeMessageInfo> messages;
   Change.Status status;
 }

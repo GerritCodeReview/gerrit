@@ -114,6 +114,12 @@ public class AccountCreator {
     return create(username, null, username, (String[]) null);
   }
 
+  public TestAccount admin()
+      throws UnsupportedEncodingException, OrmException, JSchException {
+    return create("admin", "admin@example.com", "Administrator",
+      "Administrators");
+  }
+
   private AccountExternalId.Key getEmailKey(String email) {
     return new AccountExternalId.Key(AccountExternalId.SCHEME_MAILTO, email);
   }

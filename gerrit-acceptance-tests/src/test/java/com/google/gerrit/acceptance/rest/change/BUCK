@@ -11,7 +11,8 @@ acceptance_tests(
 acceptance_tests(
   srcs = ['SubmitByCherryPickIT.java', 'SubmitByFastForwardIT.java',
           'SubmitByMergeAlwaysIT.java', 'SubmitByMergeIfNecessaryIT.java',
-          'SubmitByRebaseIfNecessaryIT.java'],
+          'SubmitByRebaseIfNecessaryIT.java', 'DeleteDraftChangeIT.java',
+          'DeleteDraftPatchSetIT.java'],
   deps = [
     ':submit',
     '//gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git:util',

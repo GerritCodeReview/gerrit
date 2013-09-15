@@ -1,0 +1,417 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "876ee1ae_d3ec143f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-15T22:43:09Z",
+      "side": 1,
+      "message": "\"false\". In tests like this I prefer to explicitly supply the constant string vs. obtaining it from a well known constant in a relatively odd way. Especially if there are other potential values (e.g. \"OFF\") and there is no enum that wraps up all of the alternatives.",
+      "range": {
+        "startLine": 110,
+        "startChar": 11,
+        "endLine": 110,
+        "endChar": 35
+      },
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7c619d9_25f7ee09",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-15T22:43:09Z",
+      "side": 1,
+      "message": "1? Below you use query.length() \u003c suggestFrom to bail if the caller supplies too short of a query string. We don\u0027t want to query the database for an empty query string. Using a default of 1 would allow an empty list to be returned.",
+      "range": {
+        "startLine": 116,
+        "startChar": 59,
+        "endLine": 116,
+        "endChar": 60
+      },
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7c619d9_05f47201",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-15T22:43:09Z",
+      "side": 1,
+      "message": "When I said final was unnecessary, I meant it for most of these locals. Most code these days tries to use final only for values that need to go into an anonymous inner class, and sometimes as parameters to methods/constructors where it could be ambiguous if a field vs. parameter is assigned. final on the parameter at least makes the compiler complain about an assignment to the parameter and not the field.",
+      "range": {
+        "startLine": 140,
+        "startChar": 4,
+        "endLine": 140,
+        "endChar": 9
+      },
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "876ee1ae_5301e41a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-15T22:43:09Z",
+      "side": 1,
+      "message": "Consider Lists.newArrayListWithCapacity(suggestedAccounts.size()), especially if it fits on one line at \u003c80 columns without line wrapping (I didn\u0027t check).\n\nYou can probably do:\n\n  List\u003cSuggestReviewerInfo\u003e reviewer \u003d Lists.newArrayList(Iterables.transform(\n    suggestedAccounts,\n    new Function\u003cAccountInfo, SuggestReviewerInfo\u003e() {\n      @Override\n      public SuggestReviewerInfo apply(AccountInfo in) {\n        return new SuggestReviewerInfo(in);\n      }\n    }));\n\nBut I think this is longer than the naive loop you wrote, and the final array won\u0027t be sized exactly to the input. It will be the default of 16 elements, which in the grand scheme of things is fine. The MAX above is 10 so we over-allocate by 6 elements, or 48 bytes on a JVM using 64 bit object references. Meh.\n\nSo maybe Lists.newArrayList() and don\u0027t worry about the exact size, and use the naive loop since its shorter than the Iterables.transform() version?",
+      "range": {
+        "startLine": 141,
+        "startChar": 8,
+        "endLine": 141,
+        "endChar": 68
+      },
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "876ee1ae_9309bc45",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-15T22:43:09Z",
+      "side": 1,
+      "message": "This temporary list object may not be necessary. I bet you could drop the final from the loop variable and inline the method call into the for loop and have the code be slightly shorter and easier to read through.\n\nI usually try to avoid these temporary collections that are used only for a loop traversal when possible. Having the variable present in scope makes my head hurt because then I try to keep track of it looking for how its used after the loop. Only its never used after the loop, which then has me wondering why its a variable at all.\n\nI sometimes do use the temporary collection when the invocation of the collection factory is really long and complex, but even then I sometimes still try to inline it into the for loop as multiple lines.",
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "876ee1ae_73fee0e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-15T22:43:09Z",
+      "side": 1,
+      "message": "This line wrapping is sort of hideous. In situations like this I prefer to pull a complex argument into a new local variable, e.g.:\n\n  Project project \u003d rsrc.getControl().getProject();\n\nbefore the loop, e.g. at line 145 in this revision. This should allow you to fit the entire (now simpler) condition on a single line.",
+      "range": {
+        "startLine": 149,
+        "startChar": 10,
+        "endLine": 150,
+        "endChar": 28
+      },
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "876ee1ae_f3f11016",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-15T22:43:09Z",
+      "side": 1,
+      "message": "Unnecessary local variable; just return the created object.",
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "876ee1ae_13f76c09",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-15T22:43:09Z",
+      "side": 1,
+      "message": "return new VisibilityControl",
+      "range": {
+        "startLine": 169,
+        "startChar": 6,
+        "endLine": 169,
+        "endChar": 47
+      },
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "876ee1ae_33f46802",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-15T22:43:09Z",
+      "side": 1,
+      "message": "return new VisibilityControl",
+      "range": {
+        "startLine": 176,
+        "startChar": 6,
+        "endLine": 176,
+        "endChar": 47
+      },
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "876ee1ae_331b888a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-15T22:43:09Z",
+      "side": 1,
+      "message": "final is unnecessary here",
+      "range": {
+        "startLine": 200,
+        "startChar": 4,
+        "endLine": 200,
+        "endChar": 9
+      },
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7c619d9_a5091e45",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-15T22:43:09Z",
+      "side": 1,
+      "message": "final is unnecessary here",
+      "range": {
+        "startLine": 201,
+        "startChar": 9,
+        "endLine": 201,
+        "endChar": 14
+      },
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7c619d9_850ea248",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-15T22:43:09Z",
+      "side": 1,
+      "message": "final is unnecessary here",
+      "range": {
+        "startLine": 214,
+        "startChar": 11,
+        "endLine": 214,
+        "endChar": 16
+      },
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7c619d9_e503161f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-15T22:43:09Z",
+      "side": 1,
+      "message": "final is unnecessary here",
+      "range": {
+        "startLine": 217,
+        "startChar": 10,
+        "endLine": 217,
+        "endChar": 15
+      },
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "876ee1ae_131e8c79",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-15T22:43:09Z",
+      "side": 1,
+      "message": "final is unnecessary here",
+      "range": {
+        "startLine": 218,
+        "startChar": 10,
+        "endLine": 218,
+        "endChar": 15
+      },
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "876ee1ae_f308303e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-15T22:43:09Z",
+      "side": 1,
+      "message": "Lists.newArrayList",
+      "range": {
+        "startLine": 224,
+        "startChar": 11,
+        "endLine": 224,
+        "endChar": 37
+      },
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7c619d9_6501e61b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-15T22:43:09Z",
+      "side": 1,
+      "message": "Setting group null was already done by the JVM when the object was created.",
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7c619d9_45fe6ae3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-15T22:43:09Z",
+      "side": 1,
+      "message": "Setting account null was already done by the JVM when the object was created.",
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "876ee1ae_b30eb848",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-15T22:43:09Z",
+      "side": 1,
+      "message": "final is unnecessary here",
+      "range": {
+        "startLine": 291,
+        "startChar": 25,
+        "endLine": 291,
+        "endChar": 30
+      },
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "876ee1ae_d303341f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-15T22:43:09Z",
+      "side": 1,
+      "message": "I think you can do this shorter:\n\n  return account !\u003d null\n    ? Objects.firstNonNull(account.email, Strings.nullToEmpty(account.name))\n    : Strings.nullToEmpty(group.name);",
+      "range": {
+        "startLine": 296,
+        "startChar": 6,
+        "endLine": 302,
+        "endChar": 45
+      },
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

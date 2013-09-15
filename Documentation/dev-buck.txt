@@ -289,7 +289,6 @@ that artifact:
  )
 ----
 
-
 Caching Build Results
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -304,6 +303,28 @@ The trivial case using a local directory is:
     mode = dir
     dir = buck-cache
   EOF
+----
+
+Using Buck daemon
+~~~~~~~~~~~~~~~~~
+
+Buck ships with daemon command `buckd`, which uses
+link:https://github.com/martylamb/nailgun[Nailgun] protocol for running
+Java programs from the command line without incurring the JVM startup
+overhead. Using a Buck daemon can save significant amounts of time as it
+avoids the overhead of starting a Java virtual machine, loading the buck class
+files and parsing the build files for each command. It is safe to run several
+buck daemons started from different project directories and they will not
+interfere with each other. Buck's documentation covers daemon in
+http://facebook.github.io/buck/command/buckd.html[buckd]. The trivial case is
+to run `buckd` from the project's root directory and use `buck` as usually:
+
+----
+$>buckd
+$>buck build gerrit
+Using buckd.
+[-] PARSING BUILD FILES...FINISHED 0.6s
+[-] BUILDING...FINISHED 0.2s
 ----
 
 GERRIT

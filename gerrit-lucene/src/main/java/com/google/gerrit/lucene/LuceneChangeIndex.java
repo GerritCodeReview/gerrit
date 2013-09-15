@@ -48,6 +48,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Store;
@@ -112,7 +113,7 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   private static IndexWriterConfig getIndexWriterConfig(Config cfg, String name) {
     IndexWriterConfig writerConfig = new IndexWriterConfig(LUCENE_VERSION,
-        new StandardAnalyzer(LUCENE_VERSION));
+        new StandardAnalyzer(LUCENE_VERSION, CharArraySet.EMPTY_SET));
     writerConfig.setOpenMode(OpenMode.CREATE_OR_APPEND);
     double m = 1 << 20;
     writerConfig.setRAMBufferSizeMB(cfg.getLong("index", name, "ramBufferSize",

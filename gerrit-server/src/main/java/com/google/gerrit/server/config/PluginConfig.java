@@ -15,18 +15,52 @@
 package com.google.gerrit.server.config;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.Iterables;
+import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.project.ProjectState;
 
 import org.eclipse.jgit.lib.Config;
+
+import java.util.Arrays;
+import java.util.Set;
 
 public class PluginConfig {
   private static final String PLUGIN = "plugin";
 
   private final String pluginName;
   private final Config cfg;
+  private final ProjectConfig projectConfig;
 
   public PluginConfig(String pluginName, Config cfg) {
+    this(pluginName, cfg, null);
+  }
+
+  public PluginConfig(String pluginName, Config cfg, ProjectConfig projectConfig) {
     this.pluginName = pluginName;
     this.cfg = cfg;
+    this.projectConfig = projectConfig;
+  }
+
+  PluginConfig withInheritance(ProjectState.Factory projectStateFactory) {
+    if (projectConfig == null) {
+      return this;
+    }
+
+    ProjectState state = projectStateFactory.create(projectConfig);
+    ProjectState parent = Iterables.getFirst(state.parents(), null);
+    if (parent != null) {
+      PluginConfig parentPluginConfig =
+          parent.getConfig().getPluginConfig(pluginName)
+              .withInheritance(projectStateFactory);
+      Set<String> allNames = cfg.getNames(PLUGIN, pluginName);
+      for (String name : parentPluginConfig.cfg.getNames(PLUGIN, pluginName)) {
+        if (!allNames.contains(name)) {
+          cfg.setStringList(PLUGIN, pluginName, name, Arrays
+              .asList(parentPluginConfig.cfg.getStringList(PLUGIN, pluginName, name)));
+        }
+      }
+    }
+    return this;
   }
 
   public String getString(String name) {

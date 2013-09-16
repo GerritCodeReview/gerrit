@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "c78b79a1_dd3a6bdb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-16T07:38:19Z",
+      "side": 1,
+      "message": "Can we provide a support for optional project specific configuration and fall back to \"All-Projects\"\u0027s configuration seamlessly?\n\nSo say in your example above:\n\nA site may initialize in All-Projects\u0027s project.config file:\n\n[plugin \"reviewers-by-blame\"]\n  maxReviewers \u003d 6\n\nSo, if the project \"foo\" doesn\u0027t define it in its project.config\n\nthen the call to\n\n  int maxReviewers \u003d projectCache.get(\"foo\").getConfigOrDefault()\n\t\t.getPluginConfig(\"reviewers-by-blame\")\n                .getInt(\"maxReviewers\", 0);\n\nwould return 6 and not 0?",
+      "revId": "5c423fed161cbb5c6dc39e9f2d336fcbecbf275b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c78b79a1_ddec2b3f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
         "patchSetId": 6

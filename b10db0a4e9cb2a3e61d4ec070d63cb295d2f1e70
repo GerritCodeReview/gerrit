@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "c78b79a1_1df77309",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-16T05:43:07Z",
+      "side": 1,
+      "message": "Done\n\nusing apache-commons\n\n http://commons.apache.org/proper/commons-lang/javadocs/api-3.1/src-html/org/apache/commons/lang3/BooleanUtils.html#line.122\n org.apache.commons.lang.BooleanUtils.toBoolanObject(String s)\n\nit can be done shortly:\n\n Boolean b \u003d BooleanUtils.toBooleanObject(suggest);\n if (b !\u003d null \u0026\u0026 !b) { ...\n\nBut somehow Gerit prefers guava over apache-commons?",
+      "parentUuid": "876ee1ae_d3ec143f",
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7c619d9_25f7ee09",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
         "patchSetId": 12
@@ -42,6 +60,24 @@
         "endLine": 116,
         "endChar": 60
       },
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c78b79a1_3df42f02",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-16T05:43:07Z",
+      "side": 1,
+      "message": "Done (indirectly)\n\nI extended the check in apply() method to bail if a query is empty:\n\n if (Strings.isNullOrEmpty(query)) {\n      throw new BadRequestException(\"missing query field\");\n }\n\nI found magic numbers \u003e 0 hard to read and follow.",
+      "parentUuid": "c7c619d9_25f7ee09",
       "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "c78b79a1_5d01fb1a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-16T05:43:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7c619d9_05f47201",
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "876ee1ae_5301e41a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
         "patchSetId": 12
@@ -94,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "e78ebdb0_3ef42902",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-16T05:43:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "876ee1ae_5301e41a",
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "876ee1ae_9309bc45",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
         "patchSetId": 12
@@ -105,6 +177,24 @@
       "writtenOn": "2013-09-15T22:43:09Z",
       "side": 1,
       "message": "This temporary list object may not be necessary. I bet you could drop the final from the loop variable and inline the method call into the for loop and have the code be slightly shorter and easier to read through.\n\nI usually try to avoid these temporary collections that are used only for a loop traversal when possible. Having the variable present in scope makes my head hurt because then I try to keep track of it looking for how its used after the loop. Only its never used after the loop, which then has me wondering why its a variable at all.\n\nI sometimes do use the temporary collection when the invocation of the collection factory is really long and complex, but even then I sometimes still try to inline it into the for loop as multiple lines.",
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e78ebdb0_5e01f51a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-16T05:43:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "876ee1ae_9309bc45",
       "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -134,6 +224,24 @@
     },
     {
       "key": {
+        "uuid": "c78b79a1_7dfeb7e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-16T05:43:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "876ee1ae_73fee0e3",
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "876ee1ae_f3f11016",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
         "patchSetId": 12
@@ -145,6 +253,24 @@
       "writtenOn": "2013-09-15T22:43:09Z",
       "side": 1,
       "message": "Unnecessary local variable; just return the created object.",
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c78b79a1_bd0e7f48",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-16T05:43:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "876ee1ae_f3f11016",
       "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -174,6 +300,24 @@
     },
     {
       "key": {
+        "uuid": "c78b79a1_dd034b1f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-16T05:43:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "876ee1ae_13f76c09",
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "876ee1ae_33f46802",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
         "patchSetId": 12
@@ -191,6 +335,24 @@
         "endLine": 176,
         "endChar": 47
       },
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c78b79a1_fd08073e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-16T05:43:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "876ee1ae_33f46802",
       "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -220,6 +382,24 @@
     },
     {
       "key": {
+        "uuid": "e78ebdb0_7efeb1e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-16T05:43:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "876ee1ae_331b888a",
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7c619d9_a5091e45",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
         "patchSetId": 12
@@ -237,6 +417,24 @@
         "endLine": 201,
         "endChar": 14
       },
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e78ebdb0_9e09bd45",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-16T05:43:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7c619d9_a5091e45",
       "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -266,6 +464,24 @@
     },
     {
       "key": {
+        "uuid": "e78ebdb0_be0e7948",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-16T05:43:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7c619d9_850ea248",
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7c619d9_e503161f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
         "patchSetId": 12
@@ -283,6 +499,24 @@
         "endLine": 217,
         "endChar": 15
       },
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c78b79a1_1d1e9379",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-16T05:43:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7c619d9_e503161f",
       "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -312,6 +546,24 @@
     },
     {
       "key": {
+        "uuid": "c78b79a1_3d1b4f8a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-16T05:43:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "876ee1ae_131e8c79",
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "876ee1ae_f308303e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
         "patchSetId": 12
@@ -335,6 +587,24 @@
     },
     {
       "key": {
+        "uuid": "c78b79a1_5d181b8b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-16T05:43:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "876ee1ae_f308303e",
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7c619d9_6501e61b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
         "patchSetId": 12
@@ -352,6 +622,24 @@
     },
     {
       "key": {
+        "uuid": "e78ebdb0_3e1b498a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-16T05:43:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7c619d9_6501e61b",
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7c619d9_45fe6ae3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
         "patchSetId": 12
@@ -363,6 +651,24 @@
       "writtenOn": "2013-09-15T22:43:09Z",
       "side": 1,
       "message": "Setting account null was already done by the JVM when the object was created.",
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e78ebdb0_de03451f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-16T05:43:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7c619d9_45fe6ae3",
       "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -392,6 +698,24 @@
     },
     {
       "key": {
+        "uuid": "e78ebdb0_fe08013e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-16T05:43:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "876ee1ae_b30eb848",
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "876ee1ae_d303341f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
         "patchSetId": 12
@@ -409,6 +733,24 @@
         "endLine": 302,
         "endChar": 45
       },
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e78ebdb0_1e1e8d79",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-16T05:43:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "876ee1ae_d303341f",
       "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

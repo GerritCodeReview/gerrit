@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "e78ebdb0_7e15d14f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-16T06:40:18Z",
+      "side": 1,
+      "message": "I extended Acceptance test framework to make tests with custom Gerrit configuration possible:\n\n https://gerrit-review.googlesource.com/49829\n\nSo the test in\n\n https://gerrit-review.googlesource.com/49823\n\ncan say now:\n\n @Override\n  protected Config getBaseConfig() {\n    Config config \u003d new Config();\n    config.setInt(\"suggest\", null, \"from\", 5);\n    return config;\n  }\n\nUnfortunately, with this approach it is not possible to repeat the tests with different Gerrit configuration in the same file. Multiple different test files are needed.\n\nIdeally in a test function one can say:\n\n getGerritConfig().setInt(...);\n getDaemon().refreshConfig();\n restendpoint.post(...)\n\nand the new value has effect in the endpoint\u0027s apply method.",
+      "parentUuid": "c7c619d9_25f7ee09",
+      "revId": "b10db0a4e9cb2a3e61d4ec070d63cb295d2f1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7c619d9_05f47201",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
         "patchSetId": 12

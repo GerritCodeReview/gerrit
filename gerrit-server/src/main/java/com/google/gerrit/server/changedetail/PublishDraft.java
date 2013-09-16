@@ -15,18 +15,11 @@
 
 package com.google.gerrit.server.changedetail;
 
-import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromApprovals;
-import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
-
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.ReviewResult;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
@@ -35,7 +28,7 @@ import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.CreateChangeSender;
-import com.google.gerrit.server.mail.MailUtil.MailRecipients;
+import com.google.gerrit.server.mail.PatchSetNotificationSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
@@ -46,23 +39,10 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.FooterLine;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
 import java.util.concurrent.Callable;
 
 public class PublishDraft implements Callable<ReviewResult> {
-  private static final Logger log =
-      LoggerFactory.getLogger(PublishDraft.class);
-
   public interface Factory {
     PublishDraft create(PatchSet.Id patchSetId);
   }
@@ -70,13 +50,8 @@ public class PublishDraft implements Callable<ReviewResult> {
   private final ChangeControl.Factory changeControlFactory;
   private final ReviewDb db;
   private final ChangeHooks hooks;
-  private final GitRepositoryManager repoManager;
-  private final PatchSetInfoFactory patchSetInfoFactory;
-  private final ApprovalsUtil approvalsUtil;
-  private final AccountResolver accountResolver;
-  private final CreateChangeSender.Factory createChangeSenderFactory;
-  private final ReplacePatchSetSender.Factory replacePatchSetFactory;
   private final ChangeIndexer indexer;
+  private final PatchSetNotificationSender sender;
 
   private final PatchSet.Id patchSetId;
 
@@ -90,17 +65,13 @@ public class PublishDraft implements Callable<ReviewResult> {
       final CreateChangeSender.Factory createChangeSenderFactory,
       final ReplacePatchSetSender.Factory replacePatchSetFactory,
       final ChangeIndexer indexer,
+      final PatchSetNotificationSender sender,
       @Assisted final PatchSet.Id patchSetId) {
     this.changeControlFactory = changeControlFactory;
     this.db = db;
     this.hooks = hooks;
-    this.repoManager = repoManager;
-    this.patchSetInfoFactory = patchSetInfoFactory;
-    this.approvalsUtil = approvalsUtil;
-    this.accountResolver = accountResolver;
-    this.createChangeSenderFactory = createChangeSenderFactory;
-    this.replacePatchSetFactory = replacePatchSetFactory;
     this.indexer = indexer;
+    this.sender = sender;
 
     this.patchSetId = patchSetId;
   }
@@ -153,74 +124,12 @@ public class PublishDraft implements Callable<ReviewResult> {
         indexer.index(updatedChange);
         hooks.doDraftPublishedHook(updatedChange, updatedPatchSet, db);
 
-        sendNotifications(control.getChange().getStatus() == Change.Status.DRAFT,
+        sender.send(control.getChange().getStatus() == Change.Status.DRAFT,
             (IdentifiedUser) control.getCurrentUser(), updatedChange, updatedPatchSet,
             labelTypes);
       }
     }
 
     return result;
-  }
-
-  private void sendNotifications(final boolean newChange,
-      final IdentifiedUser currentUser, final Change updatedChange,
-      final PatchSet updatedPatchSet, final LabelTypes labelTypes)
-      throws OrmException, IOException, PatchSetInfoNotAvailableException {
-    final Repository git = repoManager.openRepository(updatedChange.getProject());
-    try {
-      final RevWalk revWalk = new RevWalk(git);
-      final RevCommit commit;
-      try {
-        commit = revWalk.parseCommit(ObjectId.fromString(updatedPatchSet.getRevision().get()));
-      } finally {
-        revWalk.release();
-      }
-      final PatchSetInfo info = patchSetInfoFactory.get(commit, updatedPatchSet.getId());
-      final List<FooterLine> footerLines = commit.getFooterLines();
-      final Account.Id me = currentUser.getAccountId();
-      final MailRecipients recipients =
-          getRecipientsFromFooters(accountResolver, updatedPatchSet, footerLines);
-      recipients.remove(me);
-
-      if (newChange) {
-        approvalsUtil.addReviewers(db, labelTypes, updatedChange, updatedPatchSet, info,
-            recipients.getReviewers(), Collections.<Account.Id> emptySet());
-        try {
-          CreateChangeSender cm = createChangeSenderFactory.create(updatedChange);
-          cm.setFrom(me);
-          cm.setPatchSet(updatedPatchSet, info);
-          cm.addReviewers(recipients.getReviewers());
-          cm.addExtraCC(recipients.getCcOnly());
-          cm.send();
-        } catch (Exception e) {
-          log.error("Cannot send email for new change " + updatedChange.getId(), e);
-        }
-      } else {
-        final List<PatchSetApproval> patchSetApprovals =
-            db.patchSetApprovals().byChange(updatedChange.getId()).toList();
-        final MailRecipients oldRecipients =
-            getRecipientsFromApprovals(patchSetApprovals);
-        approvalsUtil.addReviewers(db, labelTypes, updatedChange, updatedPatchSet, info,
-            recipients.getReviewers(), oldRecipients.getAll());
-        final ChangeMessage msg =
-            new ChangeMessage(new ChangeMessage.Key(updatedChange.getId(),
-                ChangeUtil.messageUUID(db)), me,
-                updatedPatchSet.getCreatedOn(), updatedPatchSet.getId());
-        msg.setMessage("Uploaded patch set " + updatedPatchSet.getPatchSetId() + ".");
-        try {
-          ReplacePatchSetSender cm = replacePatchSetFactory.create(updatedChange);
-          cm.setFrom(me);
-          cm.setPatchSet(updatedPatchSet, info);
-          cm.setChangeMessage(msg);
-          cm.addReviewers(recipients.getReviewers());
-          cm.addExtraCC(recipients.getCcOnly());
-          cm.send();
-        } catch (Exception e) {
-          log.error("Cannot send email for new patch set " + updatedPatchSet.getId(), e);
-        }
-      }
-    } finally {
-      git.close();
-    }
   }
 }

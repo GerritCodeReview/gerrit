@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "c78b79a1_5da57bf2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-16T23:00:36Z",
+      "side": 1,
+      "message": "Done\n\nWith the new ps you can say:\n\n @Test\n @GerritConfig(\"[suggest]\\nfrom \u003d 1\")\n public void test1() {\n ...\n }\n\n @Test\n @GerritConfig(\"[suggest]\\nfrom \u003d 2\")\n public void test2() {\n ...\n }",
+      "parentUuid": "c78b79a1_fd95678d",
+      "revId": "8ea31ad882f048d147d31af360290c229e779982",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e78ebdb0_5ea575f2",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
         "patchSetId": 1
@@ -72,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "e78ebdb0_fee3a119",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-16T23:00:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e78ebdb0_5ea575f2",
+      "revId": "8ea31ad882f048d147d31af360290c229e779982",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c78b79a1_1d4cd375",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
         "patchSetId": 1
@@ -83,6 +119,24 @@
       "writtenOn": "2013-09-16T11:02:22Z",
       "side": 1,
       "message": "It will not work if you want to override an existing property. For example:\n\n  baseConig.setString(\"user\", null, \"name\", \"Name from Base\");\n  cfg \u003d new Config(baseConfig);\n  cfg.setString(\"user\", null, \"name\", \"Name from this\");\n  cfg.getString(\"user\", null, \"name\")\n\nwill return \"Name from this\". The baseConfig is used when as a defaultValue when the cfg doesn\u0027t provide a value for a key.\n\nYou would either need to let baseConfig wrap cfg or let the test modify the cfg directly. Maybe, in the AbstractDaemonTest define a method like:\n\n  protected void overrideServerConfig(Config config) {\n  }\n\nand pass the cfg to it. This would require exposing of the cfg before the daemon is started which shouldn\u0027t be a problem.",
+      "revId": "8ea31ad882f048d147d31af360290c229e779982",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c78b79a1_7da237ed",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-16T23:00:36Z",
+      "side": 1,
+      "message": "Actually i didn\u0027t want to override the existing property.\n\n suggest.from\n\nwasn\u0027t set in acceptance framework. But i agree with you, that the Config setting code should be more robust. I concentrated on finding a way to contribute to the Gerrit configuration in test method annotation. See my comment to Edwin remark in\n\n https://gerrit-review.googlesource.com/#/c/49829/1//COMMIT_MSG",
+      "parentUuid": "c78b79a1_1d4cd375",
       "revId": "8ea31ad882f048d147d31af360290c229e779982",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

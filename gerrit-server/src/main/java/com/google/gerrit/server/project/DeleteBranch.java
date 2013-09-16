@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 public class DeleteBranch implements RestModifyView<BranchResource, Input>{
-  private static final Logger log = LoggerFactory.getLogger(CreateBranch.class);
+  private static final Logger log = LoggerFactory.getLogger(DeleteBranch.class);
 
   static class Input {
   }

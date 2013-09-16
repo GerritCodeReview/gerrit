@@ -9,7 +9,7 @@
 *.sublime-*
 /gerrit-package-plugins
 /.buckconfig.local
-/.buckd
+*.buckd
 /buck-cache
 /buck-out
 /local.properties

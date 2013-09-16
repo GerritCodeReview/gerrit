@@ -244,6 +244,30 @@ If false, the label cannot be overridden by child projects. Any
 configuration for this label in child projects will be ignored. Defaults
 to true.
 
+[[label_branch]]
+`label.Label-Name.branch`
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+By default a given project's label applicable scope is all changes
+on all branches of this project and its child projects.
+
+Label's applicable scope can be branch specific via configuration.
+E.g. create a label `Video-Qualify` on parent project and configure
+the `branch` as:
+
+====
+  [label "Video-Qualify"]
+      branch = refs/heads/video-1.0/*
+      branch = refs/heads/video-1.1/Kino
+====
+
+Then *only* changes in above branch scope of parent project and child
+projects will be affected by `Video-Qualify`.
+
+NOTE: The `branch` is independent from the branch scope defined in `access`
+parts in `project.config` file. That means from the UI a user can always
+assign permissions for that label on a branch, but this permission is then
+ignored if the label doesn't apply for that branch.
 
 [[label_example]]
 Example

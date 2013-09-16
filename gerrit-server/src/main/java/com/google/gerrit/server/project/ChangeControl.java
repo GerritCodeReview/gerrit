@@ -14,8 +14,11 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.collect.Lists;
+import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.PermissionRange;
+import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.reviewdb.client.Account;
@@ -242,9 +245,28 @@ public class ChangeControl {
         && getRefControl().canUpload(); // as long as you can upload too
   }
 
-  /** All available label types for this project. */
+  /** All available label types for this change. */
   public LabelTypes getLabelTypes() {
-    return getProjectControl().getLabelTypes();
+    String destBranch = getChange().getDest().get();
+    List<LabelType> all = getProjectControl().getLabelTypes().getLabelTypes();
+
+    List<LabelType> r = Lists.newArrayListWithCapacity(all.size());
+    for (LabelType l : all) {
+      List<String> refs = l.getRefPatterns();
+      if (refs == null) {
+        r.add(l);
+      } else {
+        for (String refPattern : refs) {
+          if (RefConfigSection.isValid(refPattern)
+              && match(destBranch, refPattern)) {
+            r.add(l);
+            break;
+          }
+        }
+      }
+    }
+
+    return new LabelTypes(r);
   }
 
   /** All value ranges of any allowed label permission. */
@@ -401,6 +423,11 @@ public class ChangeControl {
     }
 
     return resultsToSubmitRecord(evaluator.getSubmitRule(), results);
+  }
+
+  private boolean match(String destBranch, String refPattern) {
+    return RefPatternMatcher.getMatcher(refPattern).match(destBranch,
+        this.getRefControl().getCurrentUser().getUserName());
   }
 
   private List<SubmitRecord> cannotSubmitDraft(ReviewDb db, PatchSet patchSet,

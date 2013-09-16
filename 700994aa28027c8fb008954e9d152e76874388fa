@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e78ebdb0_fe6c81c5",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-16T14:51:57Z",
+      "side": 1,
+      "message": "I\u0027m not liking that the projectStateFactory has to be passed in here, but not sure yet how to avoid it.",
+      "revId": "700994aa28027c8fb008954e9d152e76874388fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -15,18 +15,60 @@
 package com.google.gerrit.server.config;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.Lists;
+import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.project.ProjectState;
 
 import org.eclipse.jgit.lib.Config;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class PluginConfig {
   private static final String PLUGIN = "plugin";
 
   private final String pluginName;
-  private final Config cfg;
+  private Config cfg;
+  private final ProjectConfig projectConfig;
 
   public PluginConfig(String pluginName, Config cfg) {
+    this(pluginName, cfg, null);
+  }
+
+  public PluginConfig(String pluginName, Config cfg, ProjectConfig projectConfig) {
     this.pluginName = pluginName;
     this.cfg = cfg;
+    this.projectConfig = projectConfig;
+  }
+
+  PluginConfig withInheritance(ProjectState.Factory projectStateFactory) {
+    if (projectConfig == null) {
+      return this;
+    }
+
+    List<ProjectState> tree =
+        Lists.newArrayList(projectStateFactory.create(projectConfig).tree());
+    Collections.reverse(tree);
+
+    Config c = new Config();
+    copy(c, tree.get(0));
+
+    for (int i = 1; i < tree.size(); i++) {
+      c = new Config(c);
+      copy(c, tree.get(i));
+    }
+    cfg = c;
+
+    return this;
+  }
+
+  private void copy(Config dst, ProjectState state) {
+    Config src = state.getConfig().getPluginConfig(pluginName).cfg;
+    for (String name : src.getNames(PLUGIN, pluginName)) {
+      dst.setStringList(PLUGIN, pluginName, name,
+          Arrays.asList(src.getStringList(PLUGIN, pluginName, name)));
+    }
   }
 
   public String getString(String name) {

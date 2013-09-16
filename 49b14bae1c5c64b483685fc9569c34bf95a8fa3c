@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c78b79a1_bd359fec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchSetNotificationSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-16T07:30:46Z",
+      "side": 1,
+      "message": "Should this better be in package \u0027com.google.gerrit.server.mail\u0027?",
+      "revId": "49b14bae1c5c64b483685fc9569c34bf95a8fa3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e78ebdb0_de67c5de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-16T14:51:09Z",
+      "side": 1,
+      "message": "Yes, I actually want to support something like this. There should be a possibility to inherit configuration values from the parent projects that are not defined in the configuration of that project. If a parameter is also not defined in the direct parent it would go up the parent line until it is found or the All-Projects project is reached. I\u0027ve made a first RFC implementation and pushed it [1].\n\n[1] https://gerrit-review.googlesource.com/49831",
+      "parentUuid": "c78b79a1_dd3a6bdb",
+      "revId": "5c423fed161cbb5c6dc39e9f2d336fcbecbf275b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c78b79a1_ddec2b3f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
         "patchSetId": 6

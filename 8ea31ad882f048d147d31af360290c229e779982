@@ -16,6 +16,24 @@
       "revId": "8ea31ad882f048d147d31af360290c229e779982",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e78ebdb0_7e431144",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-16T08:58:32Z",
+      "side": 1,
+      "message": "Yes, setting the configuration differently in different @Test methods is exactly what we need here!\n\nActually i saw the limitation of the approach above and documented it in this comment (8:40 AM):\n\n https://gerrit-review.googlesource.com/#/c/49392/12/gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java\n\nI think that restarting the daemon is a very expensive option. Unless we support (partilal) configuration refresh it might be the only option we have.",
+      "parentUuid": "e78ebdb0_3e498966",
+      "revId": "8ea31ad882f048d147d31af360290c229e779982",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

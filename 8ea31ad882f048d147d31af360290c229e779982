@@ -34,6 +34,40 @@
       "revId": "8ea31ad882f048d147d31af360290c229e779982",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e78ebdb0_5ea575f2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-09-16T11:02:22Z",
+      "side": 1,
+      "message": "I would like a better name as the intention is to override the (existing) server properties. See my other comment in the GerritServer class.",
+      "revId": "8ea31ad882f048d147d31af360290c229e779982",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c78b79a1_1d4cd375",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-09-16T11:02:22Z",
+      "side": 1,
+      "message": "It will not work if you want to override an existing property. For example:\n\n  baseConig.setString(\"user\", null, \"name\", \"Name from Base\");\n  cfg \u003d new Config(baseConfig);\n  cfg.setString(\"user\", null, \"name\", \"Name from this\");\n  cfg.getString(\"user\", null, \"name\")\n\nwill return \"Name from this\". The baseConfig is used when as a defaultValue when the cfg doesn\u0027t provide a value for a key.\n\nYou would either need to let baseConfig wrap cfg or let the test modify the cfg directly. Maybe, in the AbstractDaemonTest define a method like:\n\n  protected void overrideServerConfig(Config config) {\n  }\n\nand pass the cfg to it. This would require exposing of the cfg before the daemon is started which shouldn\u0027t be a problem.",
+      "revId": "8ea31ad882f048d147d31af360290c229e779982",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

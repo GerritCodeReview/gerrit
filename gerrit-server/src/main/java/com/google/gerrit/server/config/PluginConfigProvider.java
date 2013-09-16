@@ -27,11 +27,14 @@ import org.eclipse.jgit.lib.Config;
 public class PluginConfigProvider {
   private final Config cfg;
   private final ProjectCache projectCache;
+  private final ProjectState.Factory projectStateFactory;
 
   @Inject
-  PluginConfigProvider(@GerritServerConfig Config cfg, ProjectCache projectCache) {
+  PluginConfigProvider(@GerritServerConfig Config cfg,
+      ProjectCache projectCache, ProjectState.Factory projectStateFactory) {
     this.cfg = cfg;
     this.projectCache = projectCache;
+    this.projectStateFactory = projectStateFactory;
   }
 
   public PluginConfig get(String pluginName) {
@@ -45,5 +48,10 @@ public class PluginConfigProvider {
       throw new NoSuchProjectException(projectName);
     }
     return projectState.getConfig().getPluginConfig(pluginName);
+  }
+
+  public PluginConfig getWithInheritance(Project.NameKey projectName,
+      String pluginName) throws NoSuchProjectException {
+    return get(projectName, pluginName).withInheritance(projectStateFactory);
   }
 }

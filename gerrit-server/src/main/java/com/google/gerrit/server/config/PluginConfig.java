@@ -16,7 +16,10 @@ package com.google.gerrit.server.config;
 
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
+import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.project.ProjectState;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,12 +30,39 @@ public class PluginConfig {
   private static final Logger log = LoggerFactory.getLogger(PluginConfig.class);
 
   private final String pluginName;
-  private final LinkedListMultimap<String, String> pluginConfig;
+  private LinkedListMultimap<String, String> pluginConfig;
+  private final ProjectConfig config;
 
   public PluginConfig(String pluginName,
       LinkedListMultimap<String, String> pluginConfig) {
+    this(pluginName, pluginConfig, null);
+  }
+
+  public PluginConfig(String pluginName,
+      LinkedListMultimap<String, String> pluginConfig,
+      ProjectConfig config) {
     this.pluginName = pluginName;
     this.pluginConfig = pluginConfig;
+    this.config = config;
+  }
+
+  PluginConfig withInheritance(
+      ProjectState.Factory projectStateFactory) {
+    ProjectState state = projectStateFactory.create(config);
+    ProjectState parent = Iterables.getFirst(state.parents(), null);
+    if (parent != null) {
+      PluginConfig parentPluginConfig =
+          parent.getConfig().getPluginConfig(pluginName)
+              .withInheritance(projectStateFactory);
+      pluginConfig =
+          LinkedListMultimap.create(pluginConfig);
+      for (String key : parentPluginConfig.getAll().keySet()) {
+        if (!pluginConfig.containsKey(key)) {
+          pluginConfig.putAll(key, parentPluginConfig.getAll().get(key));
+        }
+      }
+    }
+    return this;
   }
 
   public LinkedListMultimap<String, String> getAll() {

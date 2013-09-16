@@ -24,10 +24,13 @@ import com.google.inject.Singleton;
 @Singleton
 public class PluginProjectConfigProvider {
   private final ProjectCache projectCache;
+  private final ProjectState.Factory projectStateFactory;
 
   @Inject
-  public PluginProjectConfigProvider(ProjectCache projectCache) {
+  PluginProjectConfigProvider(ProjectCache projectCache,
+      ProjectState.Factory projectStateFactory) {
     this.projectCache = projectCache;
+    this.projectStateFactory = projectStateFactory;
   }
 
   public PluginProjectConfig get(Project.NameKey projectName, String pluginName)
@@ -37,5 +40,10 @@ public class PluginProjectConfigProvider {
       throw new NoSuchProjectException(projectName);
     }
     return projectState.getConfig().getPluginConfig(pluginName);
+  }
+
+  public PluginProjectConfig getWithInheritance(Project.NameKey projectName,
+      String pluginName) throws NoSuchProjectException {
+    return get(projectName, pluginName).withInheritance(projectStateFactory);
   }
 }

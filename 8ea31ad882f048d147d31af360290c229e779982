@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e78ebdb0_3e498966",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-16T08:39:34Z",
+      "side": 1,
+      "message": "Needing to overwrite this method seems not very comfortable to me. From a users point of view, I would prefer to be able to simply set config parameters, e.g. in the setUp() method I would like to be able to do:\n\n  getConfig().setInt(\"suggest\", null, \"from\", 5);\n\nAlso I would like to be able to have different server configurations per test method, which is not possible by overwriting this method. E.g. for one test method I would like to set \"suggest.from\" to 5 and in another test method to 3. I\u0027m aware that setting config parameters after the server has been started have no effect but maybe we could simply restart the server after the configuration has been changed? In a test method I would then do:\n\n  getConfig().setInt(\"suggest\", null, \"from\", 5);\n  getConfig().setString(...);\n  restart();\n\nWhat do you think about this idea?",
+      "revId": "8ea31ad882f048d147d31af360290c229e779982",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

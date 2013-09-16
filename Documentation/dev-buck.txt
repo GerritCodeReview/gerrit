@@ -37,6 +37,13 @@ Verify that `buck` is accessible:
   which buck
 ----
 
+If you plan to use the link:#buck-daemon[Buck daemon] add a symbolic
+link in `~/bin` to the buckd executable:
+
+----
+  ln -s `pwd`/bin/buckd ~/bin/
+----
+
 
 [[eclipse]]
 Eclipse Integration
@@ -305,6 +312,7 @@ The trivial case using a local directory is:
   EOF
 ----
 
+[[buck-daemon]]
 Using Buck daemon
 ~~~~~~~~~~~~~~~~~
 

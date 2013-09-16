@@ -699,7 +699,7 @@ public class ProjectConfig extends VersionedMetaData {
       pluginConfig = LinkedListMultimap.create();
       pluginConfigs.put(pluginName, pluginConfig);
     }
-    return new PluginProjectConfig(pluginName, pluginConfig);
+    return new PluginProjectConfig(pluginName, this, pluginConfig);
   }
 
   private Map<String, GroupReference> readGroupList() throws IOException {

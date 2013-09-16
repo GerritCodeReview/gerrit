@@ -347,6 +347,23 @@ need for a plugin to parse the `project.config` file on its own:
                         .getBoolean("enabled", false);
 ----
 
+It is also possible to get missing configuration parameters inherited
+from the parent projects:
+
+[source,java]
+----
+  @Inject
+  private com.google.gerrit.server.project.ProjectCache projectCache;
+  private com.google.gerrit.server.project.ProjectState.Factory projectStateFactory;
+
+  ...
+
+  boolean enabled = projectCache.get(project).getConfig()
+                        .getPluginConfig("hello-world")
+                        .withInheritance(projectStateFactory)
+                        .getBoolean("enabled", false);
+----
+
 Project owners can edit the project configuration by fetching the
 `refs/meta/config` branch, editing the `project.config` file and
 pushing the commit back.

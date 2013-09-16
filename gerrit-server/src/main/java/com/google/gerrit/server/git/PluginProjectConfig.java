@@ -16,7 +16,9 @@ package com.google.gerrit.server.git;
 
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
+import com.google.gerrit.server.project.ProjectState;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
@@ -25,12 +27,33 @@ import java.util.List;
 public class PluginProjectConfig {
 
   private final String pluginName;
-  private final LinkedListMultimap<String, String> pluginConfig;
+  private final ProjectConfig config;
+  private LinkedListMultimap<String, String> pluginConfig;
 
-  public PluginProjectConfig(String pluginName,
+  public PluginProjectConfig(String pluginName, ProjectConfig config,
       LinkedListMultimap<String, String> pluginConfig) {
     this.pluginName = pluginName;
+    this.config = config;
     this.pluginConfig = pluginConfig;
+  }
+
+  public PluginProjectConfig withInheritance(
+      ProjectState.Factory projectStateFactory) {
+    ProjectState state = projectStateFactory.create(config);
+    ProjectState parent = Iterables.getFirst(state.parents(), null);
+    if (parent != null) {
+      PluginProjectConfig parentPluginConfig =
+          parent.getConfig().getPluginConfig(pluginName)
+              .withInheritance(projectStateFactory);
+      pluginConfig =
+          LinkedListMultimap.create(pluginConfig);
+      for (String key : parentPluginConfig.getAll().keySet()) {
+        if (!pluginConfig.containsKey(key)) {
+          pluginConfig.putAll(key, parentPluginConfig.getAll().get(key));
+        }
+      }
+    }
+    return this;
   }
 
   public LinkedListMultimap<String, String> getAll() {

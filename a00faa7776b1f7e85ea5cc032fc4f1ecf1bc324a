@@ -69,6 +69,24 @@
       "revId": "a00faa7776b1f7e85ea5cc032fc4f1ecf1bc324a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "871c2153_83307efd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/GerritConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-17T08:29:18Z",
+      "side": 1,
+      "message": "Right, we need to be able to specifiy section and subsections too. If possible I also prefer the dot-based notation that Sasa proposed.",
+      "parentUuid": "871c2153_231b4a8a",
+      "revId": "a00faa7776b1f7e85ea5cc032fc4f1ecf1bc324a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

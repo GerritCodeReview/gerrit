@@ -15,3 +15,6 @@
 
 [java]
   src_roots = java, resources
+
+[project]
+  ignore = .git

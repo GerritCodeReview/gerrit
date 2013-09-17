@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64e72b95_a2439e43",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-09-17T14:43:59Z",
+      "side": 1,
+      "message": "pluginsSubsections could be inlined",
+      "revId": "8150556e5c1919657abcf74df3cf0b8572ed4d50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64e72b95_82865a6a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1030,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-09-17T14:43:59Z",
+      "side": 1,
+      "message": "optional: like in the outer loop you could also here iterate over the pluginsConfig.entrySet()",
+      "revId": "8150556e5c1919657abcf74df3cf0b8572ed4d50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

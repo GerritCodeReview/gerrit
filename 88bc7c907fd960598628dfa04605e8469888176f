@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "871c2153_63fe22e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-17T02:41:56Z",
+      "side": 1,
+      "message": "this is a good question\n I test again \n ---------------------------------------\n  $ ps -ef|grep buckd\n 28850272   884 16868  0 10:22 pts/3    00:00:00 grep --  color\u003dauto buckd\n $ buck clean; date; buck build eclipse; date\n Tue Sep 17 10:22:38 CST 2013\n [-] PARSING BUILD FILES...FINISHED 1.1s\n [+] BUILDING...17.4s\n  |\u003d\u003e IDLE\n  |\u003d\u003e IDLE\n  |\u003d\u003e IDLE\n  |\u003d\u003e //tools/eclipse:_classpath...  2.1s (running genrule[2.1s])\n  |\u003d\u003e IDLE\n [-] PARSING BUILD FILES...FINISHED 0.1s\n [-] PARSING BUILD FILES...FINISHED 0.0s\n Tue Sep 17 10:23:00 CST 2013\n $ buckd \n $ buck clean; date; buck build eclipse; date\n Using buckd.\n Tue Sep 17 10:23:18 CST 2013\n Using buckd.\n [-] PARSING BUILD FILES...FINISHED 1.3s\n [-] PARSING BUILD FILES...FINISHED 0.1s\n [-] PARSING BUILD FILES...FINISHED 0.0s\n [-] BUILDING...FINISHED 19.9s\n Tue Sep 17 10:23:41 CST 2013\n $ for i in $(find -name BUCK); do  o\u003d`pwd`; cd ${i/BUCK} ; buckd; cd $o; done\n Killing existing buckd process\n $ buck  clean; date; buck build eclipse; date\n Using buckd.\n Tue Sep 17 10:26:20 CST 2013\n Using buckd.\n [-] PARSING BUILD FILES...FINISHED 1.4s\n [-] PARSING BUILD FILES...FINISHED 0.1s\n [-] PARSING BUILD FILES...FINISHED 0.0s\n [-] BUILDING...FINISHED 20.4s\n Tue Sep 17 10:26:44 CST 2013\n ---------------------------------------\n\nI ever expect the test will show   \"save significant amounts time\". but the fact show it cannot save significant amounts time with buckd or not, with one buckd or more. I do not know how Buck recognize project, but as there is not significant benefit \nto run buckd (one or more). I prefer to discard it.\na bit strange, yesterday I felt it was very fast  to have more buckds than that with one.",
+      "parentUuid": "c7229989_c5ec3a3f",
+      "revId": "88bc7c907fd960598628dfa04605e8469888176f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7229989_85e24249",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

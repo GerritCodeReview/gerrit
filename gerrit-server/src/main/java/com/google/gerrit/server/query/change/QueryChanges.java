@@ -160,6 +160,7 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
         } else {
           changes = changes.subList(0, imp.getLimit());
         }
+        data.set(n, changes);
         more.set(n, true);
       }
     }

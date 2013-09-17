@@ -1,11 +1,11 @@
 include_defs('//lib/maven.defs')
 
-VERSION = '2.5.0'
+VERSION = '2.5.1'
 
 maven_jar(
   name = 'user',
   id = 'com.google.gwt:gwt-user:' + VERSION,
-  sha1 = 'bbec0cc2ba81a2601aac55e3783ad0d0ff7d45ac',
+  sha1 = 'a8afe9b0222db730f4ebd02a1aa329a5395473c5',
   license = 'Apache2.0',
   attach_source = False,
 )
@@ -13,7 +13,7 @@ maven_jar(
 maven_jar(
   name = 'dev',
   id = 'com.google.gwt:gwt-dev:' + VERSION,
-  sha1 = '3c227524e0978036e76e73e125ac8535a9e8fd7c',
+  sha1 = 'ba1f05ddd23b51c0d9c813956ca0ea72cb2e7a92',
   license = 'Apache2.0',
   deps = [
     ':javax-validation',

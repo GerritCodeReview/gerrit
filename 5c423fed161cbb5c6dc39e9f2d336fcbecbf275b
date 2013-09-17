@@ -69,6 +69,24 @@
       "revId": "5c423fed161cbb5c6dc39e9f2d336fcbecbf275b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64e72b95_82309afd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-09-17T08:28:00Z",
+      "side": 1,
+      "message": "Ah, I see :-)\n\nThen it is OK to have that class. I would just propose another name for this class... but will do that in the latest PS.",
+      "parentUuid": "e78ebdb0_be3599ec",
+      "revId": "5c423fed161cbb5c6dc39e9f2d336fcbecbf275b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64e72b95_628b5672",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-09-17T14:50:40Z",
+      "side": 1,
+      "message": "s/getPluginStringList/getStringList ?",
+      "revId": "f31fba377b3285654809e9810e3f321641afdbab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64e72b95_4290529e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-09-17T14:50:40Z",
+      "side": 1,
+      "message": "This will not support all formats like JGit\u0027s Config class does. For example\n2GiB, 3KiB, etc...\n\nSame applies for other methods that perform conversion from string.\n\nWhy not wrap a Config instance and delegate to it? Then we can use all supported formats for the values of plugin config parameters.",
+      "revId": "f31fba377b3285654809e9810e3f321641afdbab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

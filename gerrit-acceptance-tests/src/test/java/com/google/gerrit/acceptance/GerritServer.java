@@ -21,6 +21,7 @@ import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.util.SocketUtil;
 import com.google.inject.Injector;
 import com.google.inject.Module;
+import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.RepositoryCache;
@@ -46,7 +47,8 @@ class GerritServer {
 
   /** Returns fully started Gerrit server */
   static GerritServer start() throws Exception {
-    final File site = initSite();
+    final InetSocketAddress httpd = newPort();
+    final File site = initSite(httpd);
     final CyclicBarrier serverStarted = new CyclicBarrier(2);
     final Daemon daemon = new Daemon(new Runnable() {
       public void run() {
@@ -76,11 +78,12 @@ class GerritServer {
     serverStarted.await();
     System.out.println("Gerrit Server Started");
 
-    Injector i = createTestInjector(daemon);
+    Injector i = createTestInjector(daemon, httpd);
     return new GerritServer(site, i, daemon, daemonService);
   }
 
-  private static File initSite() throws Exception {
+  private static File initSite(InetSocketAddress http)
+      throws Exception {
     File tmp = TempFileUtil.createTempDirectory();
     Init init = new Init();
     int rc = init.main(new String[] {
@@ -90,8 +93,6 @@ class GerritServer {
       throw new RuntimeException("Couldn't initialize site");
     }
 
-    InetSocketAddress http = newPort();
-    InetSocketAddress sshd = newPort();
     String url = "http://" + format(http) + "/";
     FileBasedConfig cfg = new FileBasedConfig(
         new File(new File(tmp, "etc"), "gerrit.config"),
@@ -99,7 +100,7 @@ class GerritServer {
     cfg.load();
     cfg.setString("gerrit", null, "canonicalWebUrl", url);
     cfg.setString("httpd", null, "listenUrl", url);
-    cfg.setString("sshd", null, "listenAddress", format(sshd));
+    cfg.setString("sshd", null, "listenAddress", format(newPort()));
     cfg.setString("cache", null, "directory", null);
     cfg.setBoolean("sendemail", null, "enable", false);
     cfg.setInt("cache", "projects", "checkFrequency", 0);
@@ -112,12 +113,16 @@ class GerritServer {
     return String.format("%s:%d", s.getAddress().getHostAddress(), s.getPort());
   }
 
-  private static Injector createTestInjector(Daemon daemon) throws Exception {
+  private static Injector createTestInjector(Daemon daemon,
+      final InetSocketAddress http) throws Exception {
     Injector sysInjector = get(daemon, "sysInjector");
     Module module = new FactoryModule() {
       @Override
       protected void configure() {
         bind(AccountCreator.class);
+        bind(InetSocketAddress.class)
+            .annotatedWith(HttpListenAddress.class)
+            .toProvider(Providers.of(http));
       }
     };
     return sysInjector.createChildInjector(module);

@@ -20,11 +20,13 @@ import static com.google.gerrit.acceptance.git.GitUtil.initSsh;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
+import com.google.gerrit.acceptance.HttpListenAddress;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ssh.SshListenAddresses;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -38,6 +40,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.SocketAddress;
+import java.util.List;
 
 public abstract class AbstractPushForReview extends AbstractDaemonTest {
   protected enum Protocol {
@@ -49,6 +54,14 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Inject
   private SchemaFactory<ReviewDb> reviewDbProvider;
+
+  @Inject
+  @SshListenAddresses
+  List<SocketAddress> sshListenAddress;
+
+  @Inject
+  @HttpListenAddress
+  InetSocketAddress httpListenAddress;
 
   private TestAccount admin;
   private Project.NameKey project;
@@ -64,7 +77,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     project = new Project.NameKey("p");
     initSsh(admin);
-    SshSession sshSession = new SshSession(server, admin);
+    SshSession sshSession = new SshSession(sshListenAddress, admin);
     createProject(sshSession, project.get());
     sshUrl = sshSession.getUrl();
     sshSession.close();
@@ -79,7 +92,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         url = sshUrl;
         break;
       case HTTP:
-        url = admin.getHttpUrl(server);
+        url = admin.getHttpUrl(httpListenAddress);
         break;
       default:
         throw new IllegalArgumentException("unexpected protocol: " + p);

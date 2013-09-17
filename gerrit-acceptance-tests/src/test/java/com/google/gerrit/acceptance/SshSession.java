@@ -17,6 +17,8 @@ package com.google.gerrit.acceptance;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
+import java.net.SocketAddress;
+import java.util.List;
 import java.util.Scanner;
 
 import com.jcraft.jsch.ChannelExec;
@@ -33,6 +35,11 @@ public class SshSession {
 
   public SshSession(GerritServer server, TestAccount account) {
     this.addr = server.getSshdAddress();
+    this.account = account;
+  }
+
+  public SshSession(List<SocketAddress> sshListenAddress, TestAccount account) {
+    this.addr = (InetSocketAddress)sshListenAddress.get(0);
     this.account = account;
   }
 

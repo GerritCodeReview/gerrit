@@ -16,11 +16,12 @@ package com.google.gerrit.acceptance;
 
 import com.google.gerrit.reviewdb.client.Account;
 
-import java.io.ByteArrayOutputStream;
-
 import com.jcraft.jsch.KeyPair;
 
 import org.eclipse.jgit.lib.PersonIdent;
+
+import java.io.ByteArrayOutputStream;
+import java.net.InetSocketAddress;
 
 
 public class TestAccount {
@@ -51,11 +52,11 @@ public class TestAccount {
     return new PersonIdent(username, email);
   }
 
-  public String getHttpUrl(GerritServer server) {
+  public String getHttpUrl(InetSocketAddress httpAddress) {
     return String.format("http://%s:%s@%s:%d",
         username,
         httpPassword,
-        server.getHttpAddress().getAddress().getHostAddress(),
-        server.getHttpAddress().getPort());
+        httpAddress.getAddress().getHostAddress(),
+        httpAddress.getPort());
   }
 }

@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.rest.group;
 
 import static com.google.gerrit.acceptance.rest.group.GroupAssert.assertGroupInfo;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -26,10 +25,12 @@ import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import com.jcraft.jsch.JSchException;
 
@@ -47,6 +48,10 @@ public class CreateGroupIT extends AbstractDaemonTest {
   @Inject
   private GroupCache groupCache;
 
+  @Inject
+  @CanonicalWebUrl
+  private Provider<String> urlProvider;
+
   private TestAccount admin;
   private RestSession session;
 
@@ -54,7 +59,7 @@ public class CreateGroupIT extends AbstractDaemonTest {
   public void setUp() throws Exception {
     admin = accounts.create("admin", "admin@example.com", "Administrator",
             "Administrators");
-    session = new RestSession(server, admin);
+    session = new RestSession(urlProvider.get(), admin);
   }
 
   @Test

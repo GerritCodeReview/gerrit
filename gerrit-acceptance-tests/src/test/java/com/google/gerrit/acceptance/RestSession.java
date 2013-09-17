@@ -38,7 +38,11 @@ public class RestSession {
   DefaultHttpClient client;
 
   public RestSession(GerritServer server, TestAccount account) {
-    this.url = CharMatcher.is('/').trimTrailingFrom(server.getUrl());
+    this(server.getUrl(), account);
+  }
+
+  public RestSession(String url, TestAccount account) {
+    this.url = CharMatcher.is('/').trimTrailingFrom(url);
     this.account = account;
   }
 

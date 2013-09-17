@@ -38,18 +38,27 @@ public class ClientSideFormatter extends PrettyFormatter {
 
     prettify.compile(Resources.I.core());
     prettify.compile(Resources.I.lang_apollo());
+    prettify.compile(Resources.I.lang_basic());
     prettify.compile(Resources.I.lang_clj());
     prettify.compile(Resources.I.lang_css());
     prettify.compile(Resources.I.lang_dart());
+    prettify.compile(Resources.I.lang_erlang());
     prettify.compile(Resources.I.lang_go());
     prettify.compile(Resources.I.lang_hs());
     prettify.compile(Resources.I.lang_lisp());
+    prettify.compile(Resources.I.lang_llvm());
     prettify.compile(Resources.I.lang_lua());
+    prettify.compile(Resources.I.lang_matlab());
     prettify.compile(Resources.I.lang_ml());
+    prettify.compile(Resources.I.lang_mumps());
     prettify.compile(Resources.I.lang_n());
+    prettify.compile(Resources.I.lang_pascal());
     prettify.compile(Resources.I.lang_proto());
+    prettify.compile(Resources.I.lang_r());
+    prettify.compile(Resources.I.lang_rd());
     prettify.compile(Resources.I.lang_scala());
     prettify.compile(Resources.I.lang_sql());
+    prettify.compile(Resources.I.lang_tcl());
     prettify.compile(Resources.I.lang_tex());
     prettify.compile(Resources.I.lang_vb());
     prettify.compile(Resources.I.lang_vhdl());

@@ -16,6 +16,24 @@
       "revId": "55e186e3fc80d2ed2b9e511da0678e1f5b10fd0c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c739b9b5_ad5c7d2c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-09-17T20:29:56Z",
+      "side": 1,
+      "message": "Done. Change Owner will now apply to the following permissions:\n1. abandon\n2. rebase\n3. remove reviewer\n4. review labels\n5. view drafts\n6. publish drafts\n7. edit topic name\n8. delete drafts",
+      "parentUuid": "c739b9b5_6d153550",
+      "revId": "55e186e3fc80d2ed2b9e511da0678e1f5b10fd0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

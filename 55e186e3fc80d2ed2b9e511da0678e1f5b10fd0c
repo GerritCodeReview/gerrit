@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c739b9b5_6d153550",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-09-17T16:41:32Z",
+      "side": 1,
+      "message": "I think this method needs to be modified to take a isChangeOwner to make this CHANGE_OWNER concept apply to non-labels?",
+      "revId": "55e186e3fc80d2ed2b9e511da0678e1f5b10fd0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

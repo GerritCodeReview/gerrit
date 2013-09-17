@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a71f6544_84e24649",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-17T01:03:22Z",
+      "side": 1,
+      "message": "It is necessary to do this?  Is it not enough to run one buckd in the root project?",
+      "revId": "88bc7c907fd960598628dfa04605e8469888176f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7229989_85e24249",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-17T01:03:22Z",
+      "side": 1,
+      "message": "s/Ingnore/Ignore",
+      "revId": "88bc7c907fd960598628dfa04605e8469888176f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

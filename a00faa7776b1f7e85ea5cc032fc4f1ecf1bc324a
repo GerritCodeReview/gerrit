@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "871c2153_63154250",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-09-17T08:24:14Z",
+      "side": 1,
+      "message": "+1\n\nHaving to implement such a rule for every test class would significantly reduce the comfort of specifying the server configuration using the @GerritConfig annotation.",
+      "parentUuid": "64e72b95_021fea75",
+      "revId": "a00faa7776b1f7e85ea5cc032fc4f1ecf1bc324a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "64e72b95_220aee33",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/GerritConfig.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2013-09-17T08:00:24Z",
       "side": 1,
       "message": "I like the idea of being able to define configuration parameters by adding an annotation to the test method.\n\nDo you think it would be feasible to specify the parameter name and value seperately?\n\n  public @interface Config {\n    String name();\n    String value();\n  }\n\nSo an actual annotation could look like this:\n\n  @Test\n  @Config(name\u003d\"max-reviewers\", value\u003d\"5\")\n  public void testSomething() {\n     ...\n  }\n\nFor supporting multiple configuration parameters we could then have something like this:\n\n  public @interface Configs {\n    Config[] value();\n  }\n\nWith an actual usage looking like this:\n\n  @Test\n  @Configs({\n    @Config(name\u003d\"max-reviewers\", value\u003d\"5\"), \n    @Config(name\u003d\"auto-add-reviewers\", value\u003d\"false\")\n  })\n  public void testSomething() {\n     ...\n  }\n\nI haven\u0027t tested this, but I got the idea from [1].\n\n[1] http://stackoverflow.com/questions/1554112/multiple-annotations-of-the-same-type-on-one-element",
+      "revId": "a00faa7776b1f7e85ea5cc032fc4f1ecf1bc324a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "871c2153_231b4a8a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/GerritConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-09-17T08:24:14Z",
+      "side": 1,
+      "message": "Normally, we also need to specify a section too, for example:\n\n  [cache]\n    directory \u003d /tmp\n\nand sometimes also a subsection:\n\n  [cache \"web_sessions\"]\n    maxAge \u003d 2w\n\nHow would @Config annotation look in that case? Basically we have 2 possibilities:\n\n  @Test\n  @Config(section\u003d\"cache\", name\u003d\"directory\", value\u003d\"/tmp\")\n  public void test...\n\n  @Test\n  @Config(section\u003d\"cache\", subsection\u003d\"web_sessions\", name\u003d\"maxAge\", value\u003d\"2w\")\n  public void test...\n\nor use a dot to separate section/subsection and name:\n\n  @Test\n  @Config(name\u003d\"cache.directory\", value\u003d\"/tmp\")\n  public void test...\n\n  @Test\n  @Config(name\u003d\"cache.web_sessions.maxAge\", value\u003d\"2w\")\n  public void test...\n\nI like the latter alternative more as it is more concise and better readable. Since we don\u0027t allow dots in config section/subsection/parameter name (it that true?) it should be no problem to parse such a string.\nThis format also resembles the format we use to document the server configuration [1]\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-gerrit.html",
+      "parentUuid": "64e72b95_220aee33",
       "revId": "a00faa7776b1f7e85ea5cc032fc4f1ecf1bc324a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

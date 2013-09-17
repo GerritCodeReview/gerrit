@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64e72b95_021fea75",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-17T08:00:24Z",
+      "side": 1,
+      "message": "Can we somehow avoid that every test class that wants to modify the server configuration needs to implement such a rule?\n\nI would also be careful with relying on advanced junit features. I once used parameterized tests, but Shanw had to removed this, see [1].\n\n[1] https://gerrit-review.googlesource.com/45113",
+      "revId": "a00faa7776b1f7e85ea5cc032fc4f1ecf1bc324a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64e72b95_220aee33",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/GerritConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-17T08:00:24Z",
+      "side": 1,
+      "message": "I like the idea of being able to define configuration parameters by adding an annotation to the test method.\n\nDo you think it would be feasible to specify the parameter name and value seperately?\n\n  public @interface Config {\n    String name();\n    String value();\n  }\n\nSo an actual annotation could look like this:\n\n  @Test\n  @Config(name\u003d\"max-reviewers\", value\u003d\"5\")\n  public void testSomething() {\n     ...\n  }\n\nFor supporting multiple configuration parameters we could then have something like this:\n\n  public @interface Configs {\n    Config[] value();\n  }\n\nWith an actual usage looking like this:\n\n  @Test\n  @Configs({\n    @Config(name\u003d\"max-reviewers\", value\u003d\"5\"), \n    @Config(name\u003d\"auto-add-reviewers\", value\u003d\"false\")\n  })\n  public void testSomething() {\n     ...\n  }\n\nI haven\u0027t tested this, but I got the idea from [1].\n\n[1] http://stackoverflow.com/questions/1554112/multiple-annotations-of-the-same-type-on-one-element",
+      "revId": "a00faa7776b1f7e85ea5cc032fc4f1ecf1bc324a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

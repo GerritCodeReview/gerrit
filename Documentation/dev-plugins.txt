@@ -313,6 +313,39 @@ by PrintHello class will be available to users as:
 $ ssh -p 29418 review.example.com helloworld print
 ----
 
+[[configuration]]
+Configuration
+-------------
+
+In Gerrit, global configuration is stored in the `gerrit.config` file.
+If a plugin needs global configuration, this configuration should be
+stored in a `plugin` subsection in the `gerrit.config` file.
+
+To avoid conflicts with other plugins, it is recommended that plugins
+only use the `plugin` subsection with their own name. For example the
+`helloworld` plugin should store its configuration in the
+`plugin.helloworld` subsection:
+
+----
+[plugin "helloworld"]
+  language = Latin
+----
+
+Via the `com.google.gerrit.server.config.PluginConfigProvider` class a
+plugin can easily access its configuration and there is no need for a
+plugin to parse the `gerrit.config` file on its own:
+
+[source,java]
+----
+  @Inject
+  private com.google.gerrit.server.config.PluginConfigProvider cfg;
+
+  ...
+
+  String language = cfg.get("helloworld")
+                       .getString("language", "English");
+----
+
 [[capabilities]]
 Plugin Owned Capabilities
 -------------------------

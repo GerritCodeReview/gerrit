@@ -16,6 +16,24 @@
       "revId": "16dda8eb2b10e6005b3990551df2150fa8f58120",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e73cfda4_8e57bb07",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AdminConstants.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011722
+      },
+      "writtenOn": "2013-09-17T16:58:18Z",
+      "side": 1,
+      "message": "Yes, this would require the administrator to include the documentation at the normal path.\n\nThe problem I see is that an inexperienced user might click on this link (to 2.5) and then start clicking around receiving outdated information that is only going to get more outdated over time.\n\nWe could ask that whomever does releases increment this to match the version number in the link to the release version. That seems like it would make release management, something that should be very simple, suck.\n\nIs it possible in a properties file to read a variable like the current version number?",
+      "parentUuid": "a71f6544_c4ec3e3f",
+      "revId": "16dda8eb2b10e6005b3990551df2150fa8f58120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

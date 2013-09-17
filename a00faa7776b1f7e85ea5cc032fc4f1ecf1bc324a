@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "871c2153_4318468b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-17T08:29:33Z",
+      "side": 1,
+      "message": "No you can\u0027t. In such a rule you just define the same what you did in @Before and @After methods before.\n\n\u003eI would also be careful with relying on advanced junit features.\n\nDon\u0027t worry, @Rule is years old, supported by bucks, and parameterized tests totally suck and it was right decision to kill it.\n\nI introduced really new JUnit feature \"Assume\" in this change [1] and it was merged. That makes me believe that this project is open to use new technologies:\n\n[1] https://gerrit-review.googlesource.com/#/c/48520/",
+      "parentUuid": "64e72b95_021fea75",
+      "revId": "a00faa7776b1f7e85ea5cc032fc4f1ecf1bc324a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "64e72b95_220aee33",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/GerritConfig.java",
         "patchSetId": 3
@@ -83,6 +101,24 @@
       "writtenOn": "2013-09-17T08:29:18Z",
       "side": 1,
       "message": "Right, we need to be able to specifiy section and subsections too. If possible I also prefer the dot-based notation that Sasa proposed.",
+      "parentUuid": "871c2153_231b4a8a",
+      "revId": "a00faa7776b1f7e85ea5cc032fc4f1ecf1bc324a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64e72b95_02248ab9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/GerritConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-17T08:29:33Z",
+      "side": 1,
+      "message": "You are both right, that\u0027s the way to go, we are going to support all the above and even more... Just didn\u0027t have time to type it yet.\n\nYou are welcome to contribute a new ps, though ;-)",
       "parentUuid": "871c2153_231b4a8a",
       "revId": "a00faa7776b1f7e85ea5cc032fc4f1ecf1bc324a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

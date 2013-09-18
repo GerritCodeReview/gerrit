@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "871c2153_e3569208",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-18T02:01:00Z",
+      "side": 1,
+      "message": "\"maybe MagicBranch needs some extra methods, like maybe isForReview() to make this clearer?\"  is really good idea !\n\nDone",
+      "parentUuid": "e73cfda4_ee567f08",
+      "revId": "91ceb19fa2c9f8ce327070bddb4e92befc6fadef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c739b9b5_8d57c107",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 11
@@ -30,6 +48,24 @@
       "writtenOn": "2013-09-17T18:39:01Z",
       "side": 1,
       "message": "The use of extra variables here seems to make this overly complicated.  This layout feels simpler to me:\n\n  if (receiveEvent.commit.getParentCount() \u003e 1) {\n\n    if (MagicBranch.isMagicBranch(receiveEvent.command.getRefName()) {\n    } else {\n    }\n\n  }",
+      "revId": "91ceb19fa2c9f8ce327070bddb4e92befc6fadef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "871c2153_034c8e75",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-18T02:01:00Z",
+      "side": 1,
+      "message": "no problem for me to switch to the style of  your provided code here, in fact  it was my first try and I ever did not think it was easy to read.\n\nDone",
+      "parentUuid": "c739b9b5_8d57c107",
       "revId": "91ceb19fa2c9f8ce327070bddb4e92befc6fadef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

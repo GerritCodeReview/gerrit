@@ -34,6 +34,24 @@
       "revId": "bec3b481e62330f24106dbc1847e305fa1e66d03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a71f6544_8457a607",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2013-09-18T14:23:40Z",
+      "side": 1,
+      "message": "We\u0027re using the trivial rebase hook today and we currently have it configured to only carry along positive votes. However, we don\u0027t carry along the votes when the commit message changes (but perhaps we should carry along Verified votes).\n\nWe also have a long standing change (hack) in our environment that makes Code-Review -1 always sticky.\n\nIdeally our hack and our desired trivial rebase behavior would all be customizable as a plugin or config. Will this change help get us in that direction?",
+      "parentUuid": "871c2153_03c9ee9e",
+      "revId": "bec3b481e62330f24106dbc1847e305fa1e66d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

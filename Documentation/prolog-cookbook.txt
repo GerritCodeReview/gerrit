@@ -303,11 +303,11 @@ Testing submit rules
 The prolog environment running the `submit_rule` is loaded with state describing the
 change that is being evaluated. The easiest way to load this state is to test your
 `submit_rule` against a real change on a running gerrit instance. The command
-link:cmd-test-submit-rule.html[test-submit-rule] loads a specific change and executes
+link:cmd-test-submit-rule.html[test-submit rule] loads a specific change and executes
 the `submit_rule`. It optionally reads the rule from from `stdin` to facilitate easy testing.
 
 ====
-  cat rules.pl | ssh gerrit_srv gerrit test-submit-rule I45e080b105a50a625cc8e1fb5b357c0bfabe6d68 -s
+  cat rules.pl | ssh gerrit_srv gerrit test-submit rule I45e080b105a50a625cc8e1fb5b357c0bfabe6d68 -s
 ====
 
 Prolog vs Gerrit plugin for project specific submit rules

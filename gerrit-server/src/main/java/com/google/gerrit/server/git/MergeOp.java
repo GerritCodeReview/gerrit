@@ -509,7 +509,7 @@ public class MergeOp {
           if (rw.isMergedInto(commit, branchTip)) {
             commit.statusCode = CommitMergeStatus.ALREADY_MERGED;
             try {
-              setMergedPatchSet(chg.getId(), ps.getId());
+              setMerged(chg, null);
             } catch (OrmException e) {
               log.error("Cannot mark change " + chg.getId() + " merged", e);
             }

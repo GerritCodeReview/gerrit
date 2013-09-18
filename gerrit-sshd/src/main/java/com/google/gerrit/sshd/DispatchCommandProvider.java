@@ -60,10 +60,7 @@ public class DispatchCommandProvider implements Provider<DispatchCommand> {
     return new RegistrationHandle() {
       @Override
       public void remove() {
-        if (!m.remove(name.value(), commandProvider)) {
-          throw new IllegalStateException(String.format(
-              "can not unregister command: %s", name.value()));
-        }
+        m.remove(name.value(), commandProvider);
       }
     };
   }
@@ -71,11 +68,12 @@ public class DispatchCommandProvider implements Provider<DispatchCommand> {
   public RegistrationHandle replace(final CommandName name,
       final Provider<Command> cmd) {
     final ConcurrentMap<String, CommandProvider> m = getMap();
-    m.put(name.value(), new CommandProvider(cmd, null));
+    final CommandProvider commandProvider = new CommandProvider(cmd, null);
+    m.put(name.value(), commandProvider);
     return new RegistrationHandle() {
       @Override
       public void remove() {
-        m.remove(name.value(), cmd);
+        m.remove(name.value(), commandProvider);
       }
     };
   }

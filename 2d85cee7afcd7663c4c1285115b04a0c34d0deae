@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "64e72b95_42de125c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/MergeableFileBasedConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-09-18T08:51:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "871c2153_039baec2",
+      "revId": "2d85cee7afcd7663c4c1285115b04a0c34d0deae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "871c2153_43a5a6f2",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/MergeableFileBasedConfig.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2013-09-18T08:30:10Z",
       "side": 1,
       "message": "s/Lists.newArrayList/Arrays.asList",
+      "revId": "2d85cee7afcd7663c4c1285115b04a0c34d0deae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "871c2153_c367d6de",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/MergeableFileBasedConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-09-18T08:51:48Z",
+      "side": 1,
+      "message": "I couldn\u0027t find a convincing reason to do that.",
+      "parentUuid": "871c2153_43a5a6f2",
       "revId": "2d85cee7afcd7663c4c1285115b04a0c34d0deae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

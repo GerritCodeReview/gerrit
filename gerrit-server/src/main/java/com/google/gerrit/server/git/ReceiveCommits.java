@@ -1253,6 +1253,8 @@ public class ReceiveCommits {
       walk.markStart(walk.parseCommit(magicBranch.cmd.getNewId()));
       if (magicBranch.baseCommit != null) {
         walk.markUninteresting(magicBranch.baseCommit);
+        walk.markUninteresting(walk.parseCommit(
+            allRefs.get(magicBranch.ctl.getRefName()).getObjectId()));
       } else {
         markHeadsAsUninteresting(
             walk,

@@ -65,6 +65,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -1597,6 +1598,7 @@ public class ReceiveCommits {
     ChangeMessage msg;
     String mergedIntoRef;
     boolean skip;
+    boolean trivialRebase;
     private PatchSet.Id priorPatchSet;
 
     ReplaceRequest(final Change.Id toChange, final RevCommit newCommit,
@@ -1605,6 +1607,7 @@ public class ReceiveCommits {
       this.newCommit = newCommit;
       this.inputCommand = cmd;
       this.checkMergedInto = checkMergedInto;
+      this.trivialRebase = false;
 
       revisions = HashBiMap.create();
       for (Ref ref : refs(toChange)) {
@@ -1705,6 +1708,10 @@ public class ReceiveCommits {
         }
       }
 
+      trivialRebase =
+          PatchSetInserter.isTrivialRebase(project.getNameKey(), repo,
+              priorCommit, newCommit);
+
       PatchSet.Id id =
           ChangeUtil.nextPatchSetId(allRefs, change.currentPatchSetId());
       newPatchSet = new PatchSet(id);
@@ -1783,7 +1790,7 @@ public class ReceiveCommits {
         final MailRecipients oldRecipients = getRecipientsFromApprovals(
             oldChangeApprovals);
         ApprovalsUtil.copyLabels(db, labelTypes, oldChangeApprovals,
-            priorPatchSet, newPatchSet.getId());
+            priorPatchSet, newPatchSet, trivialRebase);
         approvalsUtil.addReviewers(db, labelTypes, change, newPatchSet, info,
             recipients.getReviewers(), oldRecipients.getAll());
         recipients.add(oldRecipients);

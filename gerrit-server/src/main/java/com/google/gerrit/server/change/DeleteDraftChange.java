@@ -34,7 +34,8 @@ import com.google.inject.Provider;
 
 import java.io.IOException;
 
-public class DeleteDraftChange implements RestModifyView<ChangeResource, Input> {
+public class DeleteDraftChange implements
+    RestModifyView<ChangeResource, Input>, UiAction<ChangeResource> {
   public static class Input {
   }
 
@@ -74,26 +75,16 @@ public class DeleteDraftChange implements RestModifyView<ChangeResource, Input> 
     return Response.none();
   }
 
-  static class Action extends DeleteDraftChange implements UiAction<ChangeResource> {
-    @Inject
-    public Action(Provider<ReviewDb> dbProvider,
-        GitRepositoryManager gitManager,
-        GitReferenceUpdated gitRefUpdated,
-        PatchSetInfoFactory patchSetInfoFactory) {
-      super(dbProvider, gitManager, gitRefUpdated, patchSetInfoFactory);
-    }
-
-    @Override
-    public UiAction.Description getDescription(ChangeResource rsrc) {
-      try {
-        return new UiAction.Description()
-          .setTitle(String.format("Delete Draft Change %d",
-              rsrc.getChange().getChangeId()))
-          .setVisible(rsrc.getChange().getStatus() == Status.DRAFT
-              && rsrc.getControl().canDeleteDraft(dbProvider.get()));
-      } catch (OrmException e) {
-        throw new IllegalStateException(e);
-      }
+  @Override
+  public UiAction.Description getDescription(ChangeResource rsrc) {
+    try {
+      return new UiAction.Description()
+        .setTitle(String.format("Delete Draft Change %d",
+            rsrc.getChange().getChangeId()))
+        .setVisible(rsrc.getChange().getStatus() == Status.DRAFT
+            && rsrc.getControl().canDeleteDraft(dbProvider.get()));
+    } catch (OrmException e) {
+      throw new IllegalStateException(e);
     }
   }
 }

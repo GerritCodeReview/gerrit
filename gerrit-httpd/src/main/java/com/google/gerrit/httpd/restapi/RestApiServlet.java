@@ -788,8 +788,12 @@ public class RestApiServlet extends HttpServlet {
 
     List<String> p = splitProjection(projection);
     if (p.size() == 2) {
+      String viewname = p.get(1);
+      if (Strings.isNullOrEmpty(viewname)) {
+        viewname = "/";
+      }
       RestView<RestResource> view =
-          views.get(p.get(0), method + "." + p.get(1));
+          views.get(p.get(0), method + "." + viewname);
       if (view != null) {
         return new ViewData(p.get(0), view);
       }

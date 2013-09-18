@@ -956,8 +956,6 @@ Delete Draft Change
 ~~~~~~~~~~~~~~~~~~~
 [verse]
 'DELETE /changes/link:#change-id[\{change-id\}]'
-or
-'POST /changes/link:#change-id[\{change-id\}]/delete'
 
 Deletes a draft change.
 
@@ -1568,8 +1566,6 @@ Delete Draft Revision
 ~~~~~~~~~~~~~~~~~~~~~
 [verse]
 'DELETE /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]'
-or
-'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/delete'
 
 Deletes a draft revision.
 

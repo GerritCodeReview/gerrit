@@ -38,7 +38,8 @@ import com.google.inject.Provider;
 
 import java.io.IOException;
 
-public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Input> {
+public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Input>,
+    UiAction<RevisionResource> {
   public static class Input {
   }
 
@@ -78,6 +79,24 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
     deleteOrUpdateDraftChange(patchSetId, change);
 
     return Response.none();
+  }
+
+  @Override
+  public UiAction.Description getDescription(RevisionResource rsrc) {
+    PatchSet.Id current = rsrc.getChange().currentPatchSetId();
+    try {
+      int psCount = dbProvider.get().patchSets()
+          .byChange(rsrc.getChange().getId()).toList().size();
+      return new UiAction.Description()
+        .setTitle(String.format("Delete Draft Revision %d",
+            rsrc.getPatchSet().getPatchSetId()))
+        .setVisible(rsrc.getPatchSet().isDraft()
+            && rsrc.getPatchSet().getId().equals(current)
+            && rsrc.getControl().canDeleteDraft(dbProvider.get())
+            && psCount > 1);
+    } catch (OrmException e) {
+      throw new IllegalStateException(e);
+    }
   }
 
   private void deleteDraftPatchSet(PatchSet patchSet, Change change)
@@ -138,33 +157,5 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
         return c;
       }
     });
-  }
-
-  static class Action extends DeleteDraftPatchSet implements UiAction<RevisionResource> {
-    @Inject
-    public Action(Provider<ReviewDb> dbProvider,
-        GitRepositoryManager gitManager,
-        GitReferenceUpdated gitRefUpdated,
-        PatchSetInfoFactory patchSetInfoFactory) {
-      super(dbProvider, gitManager, gitRefUpdated, patchSetInfoFactory);
-    }
-
-    @Override
-    public UiAction.Description getDescription(RevisionResource rsrc) {
-      PatchSet.Id current = rsrc.getChange().currentPatchSetId();
-      try {
-        int psCount = dbProvider.get().patchSets()
-            .byChange(rsrc.getChange().getId()).toList().size();
-        return new UiAction.Description()
-          .setTitle(String.format("Delete Draft Revision %d",
-              rsrc.getPatchSet().getPatchSetId()))
-          .setVisible(rsrc.getPatchSet().isDraft()
-              && rsrc.getPatchSet().getId().equals(current)
-              && rsrc.getControl().canDeleteDraft(dbProvider.get())
-              && psCount > 1);
-      } catch (OrmException e) {
-        throw new IllegalStateException(e);
-      }
-    }
   }
 }

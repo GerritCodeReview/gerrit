@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7229989_853082fd",
+        "filename": "Documentation/rest-api-plugins.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-18T06:32:54Z",
+      "side": 1,
+      "message": "Remove the tab.",
+      "revId": "6342e23ce0be48db8fba523cd5777e48829f1a4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

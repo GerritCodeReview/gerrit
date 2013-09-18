@@ -21,6 +21,7 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
@@ -29,6 +30,9 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
+import org.eclipse.jgit.util.StringUtils;
+
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -69,10 +73,10 @@ public class ApprovalsUtil {
    * @throws OrmException
    */
   public static void copyLabels(ReviewDb db, LabelTypes labelTypes,
-      PatchSet.Id source, PatchSet.Id dest) throws OrmException {
+      PatchSet.Id source, PatchSet dest, boolean trivialRebase) throws OrmException {
     Iterable<PatchSetApproval> sourceApprovals =
         db.patchSetApprovals().byPatchSet(source);
-    copyLabels(db, labelTypes, sourceApprovals, source, dest);
+    copyLabels(db, labelTypes, sourceApprovals, source, dest, trivialRebase);
   }
 
   /**
@@ -82,19 +86,35 @@ public class ApprovalsUtil {
    */
   public static void copyLabels(ReviewDb db, LabelTypes labelTypes,
       Iterable<PatchSetApproval> sourceApprovals, PatchSet.Id source,
-      PatchSet.Id dest) throws OrmException {
+      PatchSet dest, boolean trivialRebase) throws OrmException {
     List<PatchSetApproval> copied = Lists.newArrayList();
+    List<String> labelsCopiedForTrivialRebase = Lists.newArrayList();
     for (PatchSetApproval a : sourceApprovals) {
       if (source.equals(a.getPatchSetId())) {
         LabelType type = labelTypes.byLabel(a.getLabelId());
         if (type == null) {
           continue;
         } else if (type.isCopyMinScore() && type.isMaxNegative(a)) {
-          copied.add(new PatchSetApproval(dest, a));
+          copied.add(new PatchSetApproval(dest.getId(), a));
         } else if (type.isCopyMaxScore() && type.isMaxPositive(a)) {
-          copied.add(new PatchSetApproval(dest, a));
+          copied.add(new PatchSetApproval(dest.getId(), a));
+        } else if (type.isCopyAllScoresOnTrivialRebase() && trivialRebase) {
+          labelsCopiedForTrivialRebase.add(type.getName());
+          copied.add(new PatchSetApproval(dest.getId(), a));
         }
       }
+    }
+    if (!labelsCopiedForTrivialRebase.isEmpty()) {
+      // Inject a message to tell users why we copied their reviews
+      ChangeMessage cmsg =
+          new ChangeMessage(new ChangeMessage.Key(dest.getId().getParentKey(),
+              ChangeUtil.messageUUID(db)), dest.getUploader(), dest.getId());
+      cmsg.setMessage("Patch Set " + dest + ": Label"
+          + (labelsCopiedForTrivialRebase.size() > 1 ? "s" : "") + " "
+          + StringUtils.join(labelsCopiedForTrivialRebase, ", ")
+          + " copied for trivial rebase");
+      db.changeMessages().beginTransaction(cmsg.getKey());
+      db.changeMessages().insert(Collections.singleton(cmsg));
     }
     db.patchSetApprovals().insert(copied);
   }

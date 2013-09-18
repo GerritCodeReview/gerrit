@@ -16,6 +16,24 @@
       "revId": "679ea05b848512510cd1a6bc3df054227eda86e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64e72b95_c2d10248",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/rules/GerritCommonTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-18T09:14:26Z",
+      "side": 1,
+      "message": "sorry I am wrong here! \nThanks a lot! Edwin.\n\nDone",
+      "parentUuid": "871c2153_836ddec4",
+      "revId": "679ea05b848512510cd1a6bc3df054227eda86e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

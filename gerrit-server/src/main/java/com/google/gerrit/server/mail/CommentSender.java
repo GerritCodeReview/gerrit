@@ -170,7 +170,6 @@ public class CommentSender extends ReplyToChangeSender {
     CommentRange range = comment.getRange();
     if (range != null) {
       String prefix = String.format("Line %d: ", range.getStartLine());
-      out.append(prefix);
       for (int n = range.getStartLine(); n <= range.getEndLine(); n++) {
         out.append(n == range.getStartLine()
             ? prefix

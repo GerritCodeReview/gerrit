@@ -52,6 +52,24 @@
       "revId": "bec3b481e62330f24106dbc1847e305fa1e66d03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "871c2153_a32f3a69",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-18T14:31:04Z",
+      "side": 1,
+      "message": "No, it will not help to make it completely customizable. For this we would need to add an extension point that plugins can implement to add the custom logic. If this is wanted this change should probably not be merged, however I\u0027m afraid that at the moment I have no time to work on the extension point idea.",
+      "parentUuid": "a71f6544_8457a607",
+      "revId": "bec3b481e62330f24106dbc1847e305fa1e66d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

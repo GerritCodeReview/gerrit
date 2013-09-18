@@ -16,6 +16,24 @@
       "revId": "cbacb2597955fa05dcfec6997196d81d9a2bfc4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64e72b95_e23ac6a6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfigProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-18T14:17:19Z",
+      "side": 1,
+      "message": "The idea is good and I\u0027m sure it would work with this change, but it will not with the follow-up changes that add support for project specific plugin configuration. There we need ProjectConfig to instanciate PluginConfig.",
+      "parentUuid": "64e72b95_2239ceb4",
+      "revId": "cbacb2597955fa05dcfec6997196d81d9a2bfc4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

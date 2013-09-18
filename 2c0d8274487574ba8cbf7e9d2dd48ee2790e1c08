@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64e72b95_0267eac0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfig.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-09-18T14:50:26Z",
+      "side": 1,
+      "message": "Related to the comment in the ProjectConfig, if there we would store Config object in the pluginConfigs map then we could also pass a Config instance here and this conversion from LinkedListMultimap into Config wouldn\u0027t be necessary.",
+      "revId": "2c0d8274487574ba8cbf7e9d2dd48ee2790e1c08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "871c2153_c33436c0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-09-18T14:50:26Z",
+      "side": 1,
+      "message": "Does it make more sense to store Config objects in the map:\n\n  private Map\u003cString, Config\u003e pluginsConfigs;\n\nThis would simplify the rest of the code I think.",
+      "revId": "2c0d8274487574ba8cbf7e9d2dd48ee2790e1c08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

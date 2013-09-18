@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.change.PatchSetInserter.ChangeKind;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -73,10 +74,10 @@ public class ApprovalsUtil {
    * @throws OrmException
    */
   public static void copyLabels(ReviewDb db, LabelTypes labelTypes,
-      PatchSet.Id source, PatchSet dest, boolean trivialRebase) throws OrmException {
+      PatchSet.Id source, PatchSet dest, ChangeKind changeKind) throws OrmException {
     Iterable<PatchSetApproval> sourceApprovals =
         db.patchSetApprovals().byPatchSet(source);
-    copyLabels(db, labelTypes, sourceApprovals, source, dest, trivialRebase);
+    copyLabels(db, labelTypes, sourceApprovals, source, dest, changeKind);
   }
 
   /**
@@ -86,9 +87,10 @@ public class ApprovalsUtil {
    */
   public static void copyLabels(ReviewDb db, LabelTypes labelTypes,
       Iterable<PatchSetApproval> sourceApprovals, PatchSet.Id source,
-      PatchSet dest, boolean trivialRebase) throws OrmException {
+      PatchSet dest, ChangeKind changeKind) throws OrmException {
     List<PatchSetApproval> copied = Lists.newArrayList();
     List<String> labelsCopiedForTrivialRebase = Lists.newArrayList();
+    List<String> labelsCopiedForNoCodeChange = Lists.newArrayList();
     for (PatchSetApproval a : sourceApprovals) {
       if (source.equals(a.getPatchSetId())) {
         LabelType type = labelTypes.byLabel(a.getLabelId());
@@ -98,25 +100,37 @@ public class ApprovalsUtil {
           copied.add(new PatchSetApproval(dest.getId(), a));
         } else if (type.isCopyMaxScore() && type.isMaxPositive(a)) {
           copied.add(new PatchSetApproval(dest.getId(), a));
-        } else if (type.isCopyAllScoresOnTrivialRebase() && trivialRebase) {
+        } else if (type.isCopyAllScoresOnTrivialRebase()
+            && ChangeKind.TRIVIAL_REBASE.equals(changeKind)) {
           labelsCopiedForTrivialRebase.add(type.getName());
+          copied.add(new PatchSetApproval(dest.getId(), a));
+        } else if (type.isCopyAllScoresIfNoCodeChange()
+            && ChangeKind.NO_CODE_CHANGE.equals(changeKind)) {
+          labelsCopiedForNoCodeChange.add(type.getName());
           copied.add(new PatchSetApproval(dest.getId(), a));
         }
       }
     }
-    if (!labelsCopiedForTrivialRebase.isEmpty()) {
+    addMessageForCopiedLabels(db, labelsCopiedForTrivialRebase, dest,
+        "trivial rebase");
+    addMessageForCopiedLabels(db, labelsCopiedForNoCodeChange, dest,
+        "change with same code");
+    db.patchSetApprovals().insert(copied);
+  }
+
+  private static void addMessageForCopiedLabels(ReviewDb db,
+      List<String> labels, PatchSet dest, String reason) throws OrmException {
+    if (!labels.isEmpty()) {
       // Inject a message to tell users why we copied their reviews
       ChangeMessage cmsg =
           new ChangeMessage(new ChangeMessage.Key(dest.getId().getParentKey(),
               ChangeUtil.messageUUID(db)), dest.getUploader(), dest.getId());
       cmsg.setMessage("Patch Set " + dest + ": Label"
-          + (labelsCopiedForTrivialRebase.size() > 1 ? "s" : "") + " "
-          + StringUtils.join(labelsCopiedForTrivialRebase, ", ")
-          + " copied for trivial rebase");
+          + (labels.size() > 1 ? "s" : "") + " "
+          + StringUtils.join(labels, ", ") + " copied for " + reason);
       db.changeMessages().beginTransaction(cmsg.getKey());
       db.changeMessages().insert(Collections.singleton(cmsg));
     }
-    db.patchSetApprovals().insert(copied);
   }
 
   public void addReviewers(ReviewDb db, LabelTypes labelTypes, Change change,

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "871c2153_6346222d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-09-18T15:04:21Z",
+      "side": 1,
+      "message": "For me, this definition of trivial rebase wasn\u0027t as clear as the comment in the PatchSetInserter.\nEither use the same wording here or change the text to something like:\ns/and if it has no code delta from the prior patch set/and if it has the same code delta as the previous patch set has",
+      "revId": "bec3b481e62330f24106dbc1847e305fa1e66d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "871c2153_237fca69",
         "filename": "Documentation/config-labels.txt",
         "patchSetId": 1
@@ -67,6 +84,23 @@
       "side": 1,
       "message": "No, it will not help to make it completely customizable. For this we would need to add an extension point that plugins can implement to add the custom logic. If this is wanted this change should probably not be merged, however I\u0027m afraid that at the moment I have no time to work on the extension point idea.",
       "parentUuid": "a71f6544_8457a607",
+      "revId": "bec3b481e62330f24106dbc1847e305fa1e66d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "871c2153_4349263c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-09-18T15:04:21Z",
+      "side": 1,
+      "message": "I find this definition of trivial rebase easier to understand than what is written in the commit message and in the documentation.",
       "revId": "bec3b481e62330f24106dbc1847e305fa1e66d03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

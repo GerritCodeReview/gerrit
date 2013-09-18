@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a41da35e_b4ff60de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1257,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-09-18T17:43:32Z",
+      "side": 1,
+      "message": "What should happen if the destination branch does not yet exist (which would make allRefs.get(...) null)?",
+      "range": {
+        "startLine": 1257,
+        "startChar": 0,
+        "endLine": 1257,
+        "endChar": 70
+      },
+      "revId": "270cbc8608f065b6c6eebc4d474c60aa4206ad52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a41da35e_f4f5d801",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1257,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-09-18T17:43:32Z",
+      "side": 1,
+      "message": "Since magicBranch !\u003d null and magicBranch.cmd.getResult() !\u003d REJECTED_OTHER_REASON, we know that parseMagicBranch() succeeded, so assuming magicBranch.ctl is non-null is safe.\n\nBut this is a bit subtle given that the same assumptions hold in the \"else\" block, which checks magicBranch.ctl !\u003d null. Maybe for now an assertion would make reading easier?\n\n  assert magicBranch.ctl !\u003d null;\n\nLonger term, I think more of parseMagicBranch() should be moved into the MagicBranchInput constructor instead of leaving behind a partially initialized MagicBranchInput, which would simplify things.",
+      "range": {
+        "startLine": 1256,
+        "startChar": 0,
+        "endLine": 1257,
+        "endChar": 70
+      },
+      "revId": "270cbc8608f065b6c6eebc4d474c60aa4206ad52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

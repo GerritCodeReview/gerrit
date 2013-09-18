@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a41da35e_3490f09d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-18T23:56:12Z",
+      "side": 1,
+      "message": "This is incorrect usage, you can\u0027t begin if you are already in a transaction (which this may be), and if you begin you must commit or rollback.",
+      "revId": "ae6e4723b7f7479a27c64b5ba14a079336a3f0df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_d149c465",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-18T23:56:12Z",
+      "side": 1,
+      "message": "I think this is pretty verbose. Do we really need a new message on the change to indicate labels were copied?\n\nRemember that we are here because a new patch set was created, and that already creates a message. If we need these message text I think it should be part of message already noting a new revision exists.",
+      "revId": "ae6e4723b7f7479a27c64b5ba14a079336a3f0df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_b1464054",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-18T23:56:12Z",
+      "side": 1,
+      "message": "Did I suggest this in my abandoned change? Seems to me we shouldn\u0027t have trees identical on a trivial rebase. Such cases would mean any delta introduced by the new parent was deleted by this new commit, which is not the same delta as what was reviewed, and is not the delta that `git rebase` would probably have created.",
+      "range": {
+        "startLine": 363,
+        "startChar": 4,
+        "endLine": 365,
+        "endChar": 5
+      },
+      "revId": "ae6e4723b7f7479a27c64b5ba14a079336a3f0df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a41da35e_1495f48d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-18T23:56:12Z",
+      "side": 1,
+      "message": "nit: blank before here, I find it hard to read } followed by //",
+      "revId": "ae6e4723b7f7479a27c64b5ba14a079336a3f0df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_91433c44",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-18T23:56:12Z",
+      "side": 1,
+      "message": "Configure a MergeUtil.createDryRunInserter() here.",
+      "revId": "ae6e4723b7f7479a27c64b5ba14a079336a3f0df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

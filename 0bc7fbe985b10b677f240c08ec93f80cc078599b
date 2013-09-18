@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "871c2153_832a3e5a",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-18T14:21:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7229989_65438644",
+      "revId": "0bc7fbe985b10b677f240c08ec93f80cc078599b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a71f6544_242272ae",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-09-18T14:14:35Z",
       "side": 1,
       "message": "Maybe it\u0027s enough to just say \"Gerrit server startup and shutdown\", which would avoid repeating \"By implementing this listener ...\" on all of the bullets.",
+      "revId": "0bc7fbe985b10b677f240c08ec93f80cc078599b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64e72b95_a244be24",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-18T14:21:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a71f6544_242272ae",
       "revId": "0bc7fbe985b10b677f240c08ec93f80cc078599b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

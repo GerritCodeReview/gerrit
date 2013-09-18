@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.change.PatchSetInserter.ChangeKind;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -69,10 +70,10 @@ public class ApprovalsUtil {
    * @throws OrmException
    */
   public static void copyLabels(ReviewDb db, LabelTypes labelTypes,
-      PatchSet.Id source, PatchSet dest, boolean trivialRebase) throws OrmException {
+      PatchSet.Id source, PatchSet dest, ChangeKind changeKind) throws OrmException {
     Iterable<PatchSetApproval> sourceApprovals =
         db.patchSetApprovals().byPatchSet(source);
-    copyLabels(db, labelTypes, sourceApprovals, source, dest, trivialRebase);
+    copyLabels(db, labelTypes, sourceApprovals, source, dest, changeKind);
   }
 
   /**
@@ -82,7 +83,7 @@ public class ApprovalsUtil {
    */
   public static void copyLabels(ReviewDb db, LabelTypes labelTypes,
       Iterable<PatchSetApproval> sourceApprovals, PatchSet.Id source,
-      PatchSet dest, boolean trivialRebase) throws OrmException {
+      PatchSet dest, ChangeKind changeKind) throws OrmException {
     List<PatchSetApproval> copied = Lists.newArrayList();
     for (PatchSetApproval a : sourceApprovals) {
       if (source.equals(a.getPatchSetId())) {
@@ -93,7 +94,11 @@ public class ApprovalsUtil {
           copied.add(new PatchSetApproval(dest.getId(), a));
         } else if (type.isCopyMaxScore() && type.isMaxPositive(a)) {
           copied.add(new PatchSetApproval(dest.getId(), a));
-        } else if (type.isCopyAllScoresOnTrivialRebase() && trivialRebase) {
+        } else if (type.isCopyAllScoresOnTrivialRebase()
+            && ChangeKind.TRIVIAL_REBASE.equals(changeKind)) {
+          copied.add(new PatchSetApproval(dest.getId(), a));
+        } else if (type.isCopyAllScoresIfNoCodeChange()
+            && ChangeKind.NO_CODE_CHANGE.equals(changeKind)) {
           copied.add(new PatchSetApproval(dest.getId(), a));
         }
       }

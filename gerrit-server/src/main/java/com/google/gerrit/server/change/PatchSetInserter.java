@@ -25,7 +25,6 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
@@ -53,7 +52,6 @@ import com.google.inject.assistedinject.Assisted;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -84,6 +82,10 @@ public class PatchSetInserter {
    */
   public static enum ValidatePolicy {
     GERRIT, RECEIVE_COMMITS, NONE;
+  }
+
+  public static enum ChangeKind {
+    REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE;
   }
 
   private final ChangeHooks hooks;
@@ -278,11 +280,11 @@ public class PatchSetInserter {
         RevCommit priorCommit = revWalk.parseCommit(priorCommitId);
         ProjectState projectState =
             refControl.getProjectControl().getProjectState();
-        boolean trivialRebase =
-            isTrivialRebase(mergeUtilFactory, projectState, git, priorCommit, commit);
+        ChangeKind changeKind =
+            getChangeKind(mergeUtilFactory, projectState, git, priorCommit, commit);
 
         ApprovalsUtil.copyLabels(db, refControl.getProjectControl()
-            .getLabelTypes(), currentPatchSetId, patchSet, trivialRebase);
+            .getLabelTypes(), currentPatchSetId, patchSet, changeKind);
       }
 
       final List<FooterLine> footerLines = commit.getFooterLines();
@@ -362,20 +364,25 @@ public class PatchSetInserter {
     }
   }
 
-  public static boolean isTrivialRebase(MergeUtil.Factory mergeUtilFactory, ProjectState project,
+  public static ChangeKind getChangeKind(MergeUtil.Factory mergeUtilFactory, ProjectState project,
       Repository git, RevCommit prior, RevCommit next) {
     if (!next.getFullMessage().equals(prior.getFullMessage())) {
-      return false;
+      if (next.getTree() == prior.getTree()
+          && prior.getParent(0).equals(next.getParent(0))) {
+        return ChangeKind.NO_CODE_CHANGE;
+      } else {
+        return ChangeKind.REWORK;
+      }
     }
 
     if (prior.getParentCount() != 1 || next.getParentCount() != 1) {
       // Trivial rebases done by machine only work well on 1 parent.
-      return false;
+      return ChangeKind.REWORK;
     }
 
     if (next.getTree() == prior.getTree() &&
        prior.getParent(0).equals(next.getParent(0))) {
-      return true;
+      return ChangeKind.TRIVIAL_REBASE;
     }
 
     // A trivial rebase can be detected by looking for the next commit
@@ -386,12 +393,16 @@ public class PatchSetInserter {
       ThreeWayMerger merger =
           mergeUtil.newThreeWayMerger(git, mergeUtil.createDryRunInserter());
       merger.setBase(prior.getParent(0));
-      return merger.merge(next.getParent(0), prior)
-          && merger.getResultTreeId().equals(next.getTree());
+      if (merger.merge(next.getParent(0), prior)
+          && merger.getResultTreeId().equals(next.getTree())) {
+        return ChangeKind.TRIVIAL_REBASE;
+      } else {
+        return ChangeKind.REWORK;
+      }
     } catch (IOException err) {
       log.warn("Cannot check trivial rebase of new patch set " + next.name()
           + " in " + project.getProject().getName(), err);
-      return false;
+      return ChangeKind.REWORK;
     }
   }
 

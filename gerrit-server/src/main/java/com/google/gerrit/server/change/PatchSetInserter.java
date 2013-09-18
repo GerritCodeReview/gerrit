@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
@@ -33,12 +34,14 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.ssh.SshInfo;
@@ -50,6 +53,8 @@ import com.google.inject.assistedinject.Assisted;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.merge.MergeStrategy;
+import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -90,6 +95,7 @@ public class PatchSetInserter {
   private final CommitValidators.Factory commitValidatorsFactory;
   private final ChangeIndexer indexer;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
+  private final MergeUtil.Factory mergeUtilFactory;
 
   private final Repository git;
   private final RevWalk revWalk;
@@ -115,6 +121,7 @@ public class PatchSetInserter {
       CommitValidators.Factory commitValidatorsFactory,
       ChangeIndexer indexer,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
+      MergeUtil.Factory mergeUtilFactory,
       @Assisted Repository git,
       @Assisted RevWalk revWalk,
       @Assisted RefControl refControl,
@@ -130,6 +137,7 @@ public class PatchSetInserter {
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.indexer = indexer;
     this.replacePatchSetFactory = replacePatchSetFactory;
+    this.mergeUtilFactory = mergeUtilFactory;
 
     this.git = git;
     this.revWalk = revWalk;
@@ -265,8 +273,16 @@ public class PatchSetInserter {
       }
 
       if (copyLabels) {
+        PatchSet priorPatchSet = db.patchSets().get(currentPatchSetId);
+        ObjectId priorCommitId = ObjectId.fromString(priorPatchSet.getRevision().get());
+        RevCommit priorCommit = revWalk.parseCommit(priorCommitId);
+        ProjectState projectState =
+            refControl.getProjectControl().getProjectState();
+        boolean trivialRebase =
+            isTrivialRebase(mergeUtilFactory, projectState, git, priorCommit, commit);
+
         ApprovalsUtil.copyLabels(db, refControl.getProjectControl()
-            .getLabelTypes(), currentPatchSetId, updatedChange.currentPatchSetId());
+            .getLabelTypes(), currentPatchSetId, patchSet, trivialRebase);
       }
 
       final List<FooterLine> footerLines = commit.getFooterLines();
@@ -343,6 +359,39 @@ public class PatchSetInserter {
       }
     } catch (CommitValidationException e) {
       throw new InvalidChangeOperationException(e.getMessage());
+    }
+  }
+
+  public static boolean isTrivialRebase(MergeUtil.Factory mergeUtilFactory, ProjectState project,
+      Repository git, RevCommit prior, RevCommit next) {
+    if (!next.getFullMessage().equals(prior.getFullMessage())) {
+      return false;
+    }
+
+    if (prior.getParentCount() != 1 || next.getParentCount() != 1) {
+      // Trivial rebases done by machine only work well on 1 parent.
+      return false;
+    }
+
+    if (next.getTree() == prior.getTree() &&
+       prior.getParent(0).equals(next.getParent(0))) {
+      return true;
+    }
+
+    // A trivial rebase can be detected by looking for the next commit
+    // having the same tree as would exist when the prior commit is
+    // cherry-picked onto the next commit's new first parent.
+    try {
+      MergeUtil mergeUtil = mergeUtilFactory.create(project);
+      ThreeWayMerger merger =
+          mergeUtil.newThreeWayMerger(git, mergeUtil.createDryRunInserter());
+      merger.setBase(prior.getParent(0));
+      return merger.merge(next.getParent(0), prior)
+          && merger.getResultTreeId().equals(next.getTree());
+    } catch (IOException err) {
+      log.warn("Cannot check trivial rebase of new patch set " + next.name()
+          + " in " + project.getProject().getName(), err);
+      return false;
     }
   }
 

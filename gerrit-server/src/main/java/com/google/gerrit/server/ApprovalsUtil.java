@@ -69,10 +69,10 @@ public class ApprovalsUtil {
    * @throws OrmException
    */
   public static void copyLabels(ReviewDb db, LabelTypes labelTypes,
-      PatchSet.Id source, PatchSet.Id dest) throws OrmException {
+      PatchSet.Id source, PatchSet dest, boolean trivialRebase) throws OrmException {
     Iterable<PatchSetApproval> sourceApprovals =
         db.patchSetApprovals().byPatchSet(source);
-    copyLabels(db, labelTypes, sourceApprovals, source, dest);
+    copyLabels(db, labelTypes, sourceApprovals, source, dest, trivialRebase);
   }
 
   /**
@@ -82,7 +82,7 @@ public class ApprovalsUtil {
    */
   public static void copyLabels(ReviewDb db, LabelTypes labelTypes,
       Iterable<PatchSetApproval> sourceApprovals, PatchSet.Id source,
-      PatchSet.Id dest) throws OrmException {
+      PatchSet dest, boolean trivialRebase) throws OrmException {
     List<PatchSetApproval> copied = Lists.newArrayList();
     for (PatchSetApproval a : sourceApprovals) {
       if (source.equals(a.getPatchSetId())) {
@@ -90,9 +90,11 @@ public class ApprovalsUtil {
         if (type == null) {
           continue;
         } else if (type.isCopyMinScore() && type.isMaxNegative(a)) {
-          copied.add(new PatchSetApproval(dest, a));
+          copied.add(new PatchSetApproval(dest.getId(), a));
         } else if (type.isCopyMaxScore() && type.isMaxPositive(a)) {
-          copied.add(new PatchSetApproval(dest, a));
+          copied.add(new PatchSetApproval(dest.getId(), a));
+        } else if (type.isCopyAllScoresOnTrivialRebase() && trivialRebase) {
+          copied.add(new PatchSetApproval(dest.getId(), a));
         }
       }
     }

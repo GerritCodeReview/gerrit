@@ -487,15 +487,10 @@ public class MergeUtil {
 
   public ObjectInserter createDryRunInserter() {
     return new ObjectInserter() {
-      private final MutableObjectId buf = new MutableObjectId();
-      private static final int LAST_BYTE = Constants.OBJECT_ID_LENGTH - 1;
-
       @Override
       public ObjectId insert(int objectType, long length, InputStream in)
           throws IOException {
-        // create non-existing dummy ID
-        buf.setByte(LAST_BYTE, buf.getByte(LAST_BYTE) + 1);
-        return buf.copy();
+        return idFor(objectType, length, in);
       }
 
       @Override

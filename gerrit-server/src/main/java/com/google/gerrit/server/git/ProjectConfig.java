@@ -126,6 +126,7 @@ public class ProjectConfig extends VersionedMetaData {
   private static final String KEY_FUNCTION = "function";
   private static final String KEY_COPY_MIN_SCORE = "copyMinScore";
   private static final String KEY_COPY_MAX_SCORE = "copyMaxScore";
+  private static final String KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE = "copyAllScoresOnTrivialRebase";
   private static final String KEY_VALUE = "value";
   private static final String KEY_CAN_OVERRIDE = "canOverride";
   private static final String KEY_Branch = "branch";
@@ -651,6 +652,8 @@ public class ProjectConfig extends VersionedMetaData {
           rc.getBoolean(LABEL, name, KEY_COPY_MIN_SCORE, false));
       label.setCopyMaxScore(
           rc.getBoolean(LABEL, name, KEY_COPY_MAX_SCORE, false));
+      label.setCopyAllScoresOnTrivialRebase(
+          rc.getBoolean(LABEL, name, KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE, false));
       label.setCanOverride(
           rc.getBoolean(LABEL, name, KEY_CAN_OVERRIDE, true));
       label.setRefPatterns(getStringListOrNull(rc, LABEL, name, KEY_Branch));
@@ -977,6 +980,11 @@ public class ProjectConfig extends VersionedMetaData {
         rc.setBoolean(LABEL, name, KEY_COPY_MAX_SCORE, true);
       } else {
         rc.unset(LABEL, name, KEY_COPY_MAX_SCORE);
+      }
+      if (label.isCopyAllScoresOnTrivialRebase()) {
+        rc.setBoolean(LABEL, name, KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE, true);
+      } else {
+        rc.unset(LABEL, name, KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE);
       }
       if (!label.canOverride()) {
         rc.setBoolean(LABEL, name, KEY_CAN_OVERRIDE, false);

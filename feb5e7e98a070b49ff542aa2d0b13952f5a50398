@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "871c2153_437cc672",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/MergeableFileBasedConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-18T09:58:29Z",
+      "side": 1,
+      "message": "What is the best way to ask JGit guys to include that merge() function into org.eclipse.jgit.lib.Config? I was surprised that something like that is missing. In fact they have\n\n FileBasedConfig(Config base, ...\n\n\nbut this didn\u0027t work with our usage idiom:\n \n cfg \u003d new FileBasedConfig(base, ...);\n cfg.load();\n cfg.setString(\"foo\", null, \"bar\");\n cfg.save();\n\nWith the effect that base setting were lost. I am not sure if it is bug or not, but if it is the expected behavior in this case, then merge() method is missing and should be implemented upstream and this file can be removed then.",
+      "revId": "feb5e7e98a070b49ff542aa2d0b13952f5a50398",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

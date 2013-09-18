@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "871c2153_237fca69",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-18T09:44:03Z",
+      "side": 1,
+      "message": "Would it make sense to extend this setting to:\n\n `label.Label-Name.copyAllScoresOnTrivialRebaseOrChangedCommitMessageOnly`\n\nor split it to an extra setting:\n\n* `label.Label-Name.copyAllScoresOnTrivialRebase`\n* `label.Label-Name.copyAllScoresIfOnlyCommitMessageWasChanged`\n\n?",
+      "revId": "bec3b481e62330f24106dbc1847e305fa1e66d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

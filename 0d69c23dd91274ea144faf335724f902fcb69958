@@ -52,6 +52,24 @@
       "revId": "0d69c23dd91274ea144faf335724f902fcb69958",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "842fbf8b_cb1b5586",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-18T22:56:59Z",
+      "side": 1,
+      "message": "Done: REST API bug was fixed and the POST duplication of DELETE method hack was reverted:\n\n* https://gerrit-review.googlesource.com/49950\n* https://gerrit-review.googlesource.com/49951",
+      "parentUuid": "a71f6544_c4519e13",
+      "revId": "0d69c23dd91274ea144faf335724f902fcb69958",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

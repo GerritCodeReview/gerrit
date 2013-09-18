@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "443a27c6_518b9471",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-18T23:58:18Z",
+      "side": 1,
+      "message": "This seems to me like it should be some sort of enum with copyAllScoresOnTrivialRebase. Is this really a 4 state system, or are only 3 states useful to be configured?\n\nMy brain hurts trying to figure out how these two variables are related and what I should set them to. And I know Git. Or at least claim to on the Internet.",
+      "range": {
+        "startLine": 255,
+        "startChar": 0,
+        "endLine": 257,
+        "endChar": 37
+      },
+      "revId": "2d5836a7185dbfd54b08828e441fdfce0914a982",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

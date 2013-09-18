@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "842fbf8b_4be7655b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-18T18:11:26Z",
+      "side": 1,
+      "message": "I have done the suggested substitution.",
+      "parentUuid": "871c2153_6346222d",
+      "revId": "bec3b481e62330f24106dbc1847e305fa1e66d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "871c2153_237fca69",
         "filename": "Documentation/config-labels.txt",
         "patchSetId": 1
@@ -101,6 +119,24 @@
       "writtenOn": "2013-09-18T15:04:21Z",
       "side": 1,
       "message": "I find this definition of trivial rebase easier to understand than what is written in the commit message and in the documentation.",
+      "revId": "bec3b481e62330f24106dbc1847e305fa1e66d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "842fbf8b_6be2214d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-18T18:11:26Z",
+      "side": 1,
+      "message": "Hmm, I agree that this technical explanation is more precise, but I doubt that an average project owner would find it easier to understand too.",
+      "parentUuid": "871c2153_4349263c",
       "revId": "bec3b481e62330f24106dbc1847e305fa1e66d03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

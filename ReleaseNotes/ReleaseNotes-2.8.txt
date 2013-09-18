@@ -21,22 +21,43 @@ Schema Change
 a later 2.1.x version), and then to 2.8.x.  If you are upgrading from 2.2.x.x or
 later, you may ignore this warning and upgrade directly to 2.8.x.
 
+*WARNING:* The replication plugin now automatically creates missing repositories
+on the destination if during the replication of a ref the target repository is
+found to be missing. This is a change in behavior of the replication plugin. To go
+back to the old behavior, set the parameter `remote.NAME.createMissingRepositories`
+in the `replication.config` file to `false`.
+
 
 Release Highlights
 ------------------
 
 
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config-gerrit.html#index[
+Secondary indexing with Lucene and Solr].
+
 * Lots of new link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api.html[
 REST API endpoints].
 
-* New link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/js-api.html[
-JavaScript API].
+* New
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/dev-plugins.html#ui_extension[
+UI extension] and
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/js-api.html[
+JavaScript API] for plugins.
 
-* New build system using link:http://facebook.github.io/buck/[Facebook Buck].
+* New build system using Facebook's link:http://facebook.github.io/buck/[Buck].
 
 
 New Features
 ------------
+
+Build
+~~~~~
+
+* Gerrit is now built with
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/dev-buck.html[
+Buck].
+
+* Documentation is now built with Buck and link:http://asciidoctor.org[Asciidoctor].
 
 
 Configuration
@@ -78,6 +99,12 @@ Configurable external `robots.txt` file].
 * Support for
 link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/database-setup.html#createdb_oracle[
 Oracle database].
+
+* New bash completion script for autocompletion of parameters to the gerrit.sh wrapper.
+
+* The site can be
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config-auto-site-initialization.html[
+auto-initialized on server startup].
 
 Web UI
 ~~~~~~
@@ -219,6 +246,12 @@ Get diff of a file in a revision]
 * link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-changes.html#get-commit[
 Get parsed commit of a revision]
 
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-changes.html#publish-draft-change[
+Publish draft change]
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-changes.html#delete-draft-change[
+Delete draft change]
+
 
 Config
 ^^^^^^
@@ -297,6 +330,8 @@ Global
 
 
 * Plugins may now contribute buttons to various parts of the UI using the
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/dev-plugins.html#ui_extension[
+UI extension] and
 link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/js-api.html[
 JavaScript API].
 
@@ -313,8 +348,21 @@ pre-merge validation steps].
 link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/dev-plugins.html#capabilities[
 Global capabilities].
 
+* Plugins may now
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/dev-plugins.html#plugin_name[
+define their own name].
+
 * The "hello world" plugin is replaced with the "cookbook plugin" which has more
 examples of the plugin API's usage.
+
+* Plugins may now trigger and listen to a "project deleted"
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/dev-plugins.html#events[
+event].
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2101[Issue 2101]:
+Plugins implementing LifecycleListener can use auto registration.
+
+* Plugins may bind REST endpoints with empty view names.
 
 
 Commit Message Length Checker
@@ -325,6 +373,21 @@ Commit Message Length Checker
 
 Replication
 ^^^^^^^^^^^
+
+* Automatically create missing repositories on the destination.
++
+If during the replication of a ref the target repository is found to be missing,
+the repository is automatically created.
++
+This is a change in behavior of the replication plugin. To go back to the old
+behavior, set the parameter `remote.NAME.createMissingRepositories` in the
+`replication.config` file to `false`.
+
+* Support for replication of project deletions.
++
+The replication plugin can now be configured to listen to project deletion events
+and to replicate the project deletions. By default project deletions are *not*
+replicated.
 
 * The `{$name}` placeholder is optional when replicating a single project,
 allowing a single project to be replicated under a different name.
@@ -343,6 +406,19 @@ output of the `show-queue` command.
 using only the basename on the target server.
 
 * The `startReplication` global capability is now provided by the plugin.
+
+* Pushes to each destination URI are serialized.
++
+Scheduling a retry to avoid collision with an in-flight push is differentiated
+from a retry due to a transport error.  In the case of collision avoidance, the
+job is rescheduled according to the replication delay, rather than the retry
+delay.
+
+Review Notes
+^^^^^^^^^^^^
+
+* Do not try to create review notes for ref deletion events.
+
 
 ssh
 ~~~
@@ -394,6 +470,12 @@ use the parent change on the same branch during rebase.
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=600[Issue 600]:
 Fix change stuck in SUBMITTED state but actually merged.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1699[Issue 1699]:
+Fix handling of projects with trailing ".git" suffix.
+
+* Limit retrying of submitted changes to 12 hours.
+
 
 Configuration
 ~~~~~~~~~~~~~
@@ -494,6 +576,8 @@ The link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/cmd-re
 `review` command].
 
 * The `@CommandMetaData(descr)` annotation is deprecated in favor of `@CommandMetaData(description)`.
+
+* Improve the error message when rejecting upload for review to a read-only project.
 
 
 Emails

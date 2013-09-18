@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64e72b95_2239ceb4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfigProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-18T13:50:33Z",
+      "side": 1,
+      "message": "In second thought: I wonder if this class can be entirely eliminated? Instead use Guice Factory pattern with @Assisted plugin name parameter and let @GerritServerConfig be inject by Guice:\n\n PluginConfig config \u003d PluginConfig.Factory.create(pluginName);",
+      "revId": "cbacb2597955fa05dcfec6997196d81d9a2bfc4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "0d69c23dd91274ea144faf335724f902fcb69958",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "871c2153_233c2aa3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-18T15:03:18Z",
+      "side": 1,
+      "message": "Requiring the POST in addition to DELETE for pure delete action is only required, because UiAction (currently) can not handle binding without view name. So i came up with the suggestion to bind DELTE to a view, i. e.\n\n delete(CHANGE_KIND, \"delete\").to(DeleteDraftChange.class);\n\nA reviewer suggested to use POST in this case, if we need view name on delete.",
+      "parentUuid": "a71f6544_c4519e13",
+      "revId": "0d69c23dd91274ea144faf335724f902fcb69958",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

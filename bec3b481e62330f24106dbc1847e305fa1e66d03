@@ -16,6 +16,24 @@
       "revId": "bec3b481e62330f24106dbc1847e305fa1e66d03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "871c2153_03c9ee9e",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-18T10:53:37Z",
+      "side": 1,
+      "message": "I think it makes sense to support sticky approvals if only the commit message was changed, e.g. for the Verified label if it is only used from automated tools that look at the code only. I will implement it in another change.\n\nI\u0027m not sure about supporting \"trivial rebase AND/OR commit message only change\". I don\u0027t see a real use-case for this, but if there is any, this can be added in another change. E.g. if I give -1 in Code-Review it could be due to an issue in the code or due to a comment about the commit message. If now a trivial rebase is done and the commit message is edited, it would be wrong to keep the -1 if it was due to the commit message.",
+      "parentUuid": "871c2153_237fca69",
+      "revId": "bec3b481e62330f24106dbc1847e305fa1e66d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

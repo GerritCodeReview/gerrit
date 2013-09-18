@@ -34,6 +34,24 @@
       "revId": "0d69c23dd91274ea144faf335724f902fcb69958",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84489f79_630b623b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-18T20:20:41Z",
+      "side": 1,
+      "message": "I am working on a fix in UiAction code to handle UiActions without view name and going to partially revert that change and fix DeleteProject change corsepondingly:\n\n https://gerrit-review.googlesource.com/49250",
+      "parentUuid": "a71f6544_c4519e13",
+      "revId": "0d69c23dd91274ea144faf335724f902fcb69958",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

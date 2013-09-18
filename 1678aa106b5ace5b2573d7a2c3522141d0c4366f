@@ -1,0 +1,486 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a41da35e_14585433",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-18T23:34:05Z",
+      "side": 1,
+      "message": "I wonder if we should also check that the matching ActionInfo.method is DELETE.",
+      "range": {
+        "startLine": 40,
+        "startChar": 15,
+        "endLine": 40,
+        "endChar": 18
+      },
+      "revId": "1678aa106b5ace5b2573d7a2c3522141d0c4366f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_7130d8fc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-18T23:34:05Z",
+      "side": 1,
+      "message": "deleteChange",
+      "range": {
+        "startLine": 46,
+        "startChar": 18,
+        "endLine": 46,
+        "endChar": 35
+      },
+      "revId": "1678aa106b5ace5b2573d7a2c3522141d0c4366f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_3105b025",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-18T23:34:05Z",
+      "side": 1,
+      "message": "deleteRevision",
+      "range": {
+        "startLine": 47,
+        "startChar": 18,
+        "endLine": 47,
+        "endChar": 37
+      },
+      "revId": "1678aa106b5ace5b2573d7a2c3522141d0c4366f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_f11e0878",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-18T23:34:05Z",
+      "side": 1,
+      "message": "I think this should go first, I find it hard to read with \"/\" in the middle of a list of operations. Since the a2b() calls do not influence the UI presentation, it may be better to sort them a bit less random looking.",
+      "revId": "1678aa106b5ace5b2573d7a2c3522141d0c4366f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a41da35e_548b6c71",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-18T23:34:05Z",
+      "side": 1,
+      "message": "Thanks for finding and fixing this bug.",
+      "revId": "1678aa106b5ace5b2573d7a2c3522141d0c4366f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_d11b0486",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-18T23:34:05Z",
+      "side": 1,
+      "message": "Same as above about ordering.",
+      "revId": "1678aa106b5ace5b2573d7a2c3522141d0c4366f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a41da35e_3453501d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-18T23:34:05Z",
+      "side": 1,
+      "message": "deleteRevision",
+      "range": {
+        "startLine": 161,
+        "startChar": 14,
+        "endLine": 161,
+        "endChar": 33
+      },
+      "revId": "1678aa106b5ace5b2573d7a2c3522141d0c4366f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_110aac33",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-18T23:34:05Z",
+      "side": 1,
+      "message": "onDeleteRevision",
+      "range": {
+        "startLine": 162,
+        "startChar": 7,
+        "endLine": 162,
+        "endChar": 28
+      },
+      "revId": "1678aa106b5ace5b2573d7a2c3522141d0c4366f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_313a50db",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-18T23:34:05Z",
+      "side": 1,
+      "message": "deleteChange",
+      "range": {
+        "startLine": 166,
+        "startChar": 14,
+        "endLine": 166,
+        "endChar": 31
+      },
+      "revId": "1678aa106b5ace5b2573d7a2c3522141d0c4366f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_5135d4ea",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-18T23:34:05Z",
+      "side": 1,
+      "message": "onDeleteChange",
+      "range": {
+        "startLine": 167,
+        "startChar": 7,
+        "endLine": 167,
+        "endChar": 26
+      },
+      "revId": "1678aa106b5ace5b2573d7a2c3522141d0c4366f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_91157c54",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.ui.xml",
+        "patchSetId": 10
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-18T23:34:05Z",
+      "side": 1,
+      "message": "deleteChange",
+      "range": {
+        "startLine": 81,
+        "startChar": 24,
+        "endLine": 81,
+        "endChar": 41
+      },
+      "revId": "1678aa106b5ace5b2573d7a2c3522141d0c4366f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_b118808a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.ui.xml",
+        "patchSetId": 10
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-18T23:34:05Z",
+      "side": 1,
+      "message": "Delete Change",
+      "range": {
+        "startLine": 82,
+        "startChar": 19,
+        "endLine": 82,
+        "endChar": 38
+      },
+      "revId": "1678aa106b5ace5b2573d7a2c3522141d0c4366f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a41da35e_f44cb877",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.ui.xml",
+        "patchSetId": 10
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-18T23:34:05Z",
+      "side": 1,
+      "message": "deleteRevision",
+      "range": {
+        "startLine": 84,
+        "startChar": 24,
+        "endLine": 84,
+        "endChar": 43
+      },
+      "revId": "1678aa106b5ace5b2573d7a2c3522141d0c4366f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a41da35e_d449bc65",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.ui.xml",
+        "patchSetId": 10
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-18T23:34:05Z",
+      "side": 1,
+      "message": "Delete Revision",
+      "range": {
+        "startLine": 85,
+        "startChar": 19,
+        "endLine": 85,
+        "endChar": 34
+      },
+      "revId": "1678aa106b5ace5b2573d7a2c3522141d0c4366f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_113f4ccb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DraftActions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-18T23:34:05Z",
+      "side": 1,
+      "message": "final is unnecessary",
+      "range": {
+        "startLine": 28,
+        "startChar": 22,
+        "endLine": 28,
+        "endChar": 27
+      },
+      "revId": "1678aa106b5ace5b2573d7a2c3522141d0c4366f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_f123a8b1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DraftActions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-18T23:34:05Z",
+      "side": 1,
+      "message": "final is unnecessary",
+      "range": {
+        "startLine": 32,
+        "startChar": 21,
+        "endLine": 32,
+        "endChar": 26
+      },
+      "revId": "1678aa106b5ace5b2573d7a2c3522141d0c4366f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_d120a4a7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DraftActions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-18T23:34:05Z",
+      "side": 1,
+      "message": "final is unnecessary",
+      "range": {
+        "startLine": 36,
+        "startChar": 21,
+        "endLine": 36,
+        "endChar": 26
+      },
+      "revId": "1678aa106b5ace5b2573d7a2c3522141d0c4366f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a41da35e_b4464054",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DraftActions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-18T23:34:05Z",
+      "side": 1,
+      "message": "Its probably shorter to just inline this method.",
+      "range": {
+        "startLine": 56,
+        "startChar": 6,
+        "endLine": 58,
+        "endChar": 7
+      },
+      "revId": "1678aa106b5ace5b2573d7a2c3522141d0c4366f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_b12d209e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DraftActions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-18T23:34:05Z",
+      "side": 1,
+      "message": "Probably shorter to just line this.",
+      "range": {
+        "startLine": 77,
+        "startChar": 6,
+        "endLine": 79,
+        "endChar": 7
+      },
+      "revId": "1678aa106b5ace5b2573d7a2c3522141d0c4366f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a41da35e_94434444",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DraftActions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-18T23:34:05Z",
+      "side": 1,
+      "message": "Unnecesary blank line. We put lines between members, not after.",
+      "revId": "1678aa106b5ace5b2573d7a2c3522141d0c4366f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a41da35e_7486686d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-18T23:34:05Z",
+      "side": 1,
+      "message": "deleteChange",
+      "range": {
+        "startLine": 127,
+        "startChar": 21,
+        "endLine": 127,
+        "endChar": 38
+      },
+      "revId": "1678aa106b5ace5b2573d7a2c3522141d0c4366f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_912a1c82",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-18T23:34:05Z",
+      "side": 1,
+      "message": "deleteRevision",
+      "range": {
+        "startLine": 132,
+        "startChar": 21,
+        "endLine": 132,
+        "endChar": 40
+      },
+      "revId": "1678aa106b5ace5b2573d7a2c3522141d0c4366f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

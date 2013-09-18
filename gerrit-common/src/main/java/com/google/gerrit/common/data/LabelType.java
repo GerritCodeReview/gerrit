@@ -98,6 +98,7 @@ public class LabelType {
   protected boolean copyMinScore;
   protected boolean copyMaxScore;
   protected boolean copyAllScoresOnTrivialRebase;
+  protected boolean copyAllScoresOnCommitMessageOnlyChange;
 
   protected List<LabelValue> values;
   protected short maxNegative;
@@ -212,6 +213,16 @@ public class LabelType {
 
   public void setCopyAllScoresOnTrivialRebase(boolean copyAllScoresOnTrivialRebase) {
     this.copyAllScoresOnTrivialRebase = copyAllScoresOnTrivialRebase;
+  }
+
+  public boolean isCopyAllScoresOnCommitMessageOnlyChange() {
+    return copyAllScoresOnCommitMessageOnlyChange;
+  }
+
+  public void setCopyAllScoresOnCommitMessageOnlyChange(
+      boolean copyAllScoresOnCommitMessageOnlyChange) {
+    this.copyAllScoresOnCommitMessageOnlyChange =
+        copyAllScoresOnCommitMessageOnlyChange;
   }
 
   public boolean isMaxNegative(PatchSetApproval ca) {

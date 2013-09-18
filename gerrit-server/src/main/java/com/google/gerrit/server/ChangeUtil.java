@@ -397,6 +397,13 @@ public class ChangeUtil {
       final GitReferenceUpdated gitRefUpdated, final ReviewDb db)
       throws NoSuchChangeException, OrmException, IOException {
     final Change.Id changeId = patchSetId.getParentKey();
+    deleteDraftChange(changeId, gitManager, gitRefUpdated, db);
+  }
+
+  public static void deleteDraftChange(final Change.Id changeId,
+      GitRepositoryManager gitManager,
+      final GitReferenceUpdated gitRefUpdated, final ReviewDb db)
+      throws NoSuchChangeException, OrmException, IOException {
     final Change change = db.changes().get(changeId);
     if (change == null || change.getStatus() != Change.Status.DRAFT) {
       throw new NoSuchChangeException(changeId);

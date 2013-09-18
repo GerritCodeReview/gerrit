@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "871c2153_63d0e241",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-18T13:14:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64e72b95_a2439e43",
+      "revId": "8150556e5c1919657abcf74df3cf0b8572ed4d50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "64e72b95_82865a6a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
         "patchSetId": 11
@@ -30,6 +48,24 @@
       "writtenOn": "2013-09-17T14:43:59Z",
       "side": 1,
       "message": "optional: like in the outer loop you could also here iterate over the pluginsConfig.entrySet()",
+      "revId": "8150556e5c1919657abcf74df3cf0b8572ed4d50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "871c2153_83bb1e09",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1030,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-18T13:14:27Z",
+      "side": 1,
+      "message": "No, pluginConfig is a Multimap and it has no \u0027entrySet()\u0027 method. It only has an \u0027entries()\u0027 method but this returns a list of \u0027Entry\u003cString, String\u003e\u0027 where different entries can have the same key. But what I would need here is a list of \u0027Entry\u003cString, List\u003cString\u003e\u003e\u0027 so taht I have only one entry per key. This is why I\u0027m keeping the code as it is now.",
+      "parentUuid": "64e72b95_82865a6a",
       "revId": "8150556e5c1919657abcf74df3cf0b8572ed4d50",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

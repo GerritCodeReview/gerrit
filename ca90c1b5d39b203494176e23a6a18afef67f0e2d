@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "443a27c6_91a0dce4",
+        "filename": "ReleaseNotes/ReleaseNotes-2.7.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-19T15:03:09Z",
+      "side": 1,
+      "message": "If we\u0027re fixing links this one is broken too.",
+      "revId": "ca90c1b5d39b203494176e23a6a18afef67f0e2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "b0533452430e2f76f922c65c1371a8daffae5f86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_11950c8e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-19T09:05:19Z",
+      "side": 1,
+      "message": "No.  In that case the validation is different.  It\u0027s not considered as a \"gerrit commit\", so the Change-Id validation will run and result in an error being shown to the user.",
+      "parentUuid": "84489f79_83a09ee4",
+      "revId": "b0533452430e2f76f922c65c1371a8daffae5f86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

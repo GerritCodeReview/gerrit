@@ -478,11 +478,7 @@ public class ChangeUtil {
     if ("z".equals(sortKey)) {
       return Long.MAX_VALUE;
     }
-    String ts = sortKey.substring(0, 8);
-    int i = 0;
-    while (i < 8 && ts.charAt(i) == '0')
-      i++;
-    return Long.parseLong(ts.substring(i), 16);
+    return Long.parseLong(sortKey.substring(0, 8), 16);
   }
 
   public static void computeSortKey(final Change c) {

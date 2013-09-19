@@ -45,6 +45,42 @@
       "revId": "270cbc8608f065b6c6eebc4d474c60aa4206ad52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84489f79_03e38e1d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1257,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-09-19T14:43:38Z",
+      "side": 1,
+      "message": "I agree and will add the assert.",
+      "parentUuid": "a41da35e_f4f5d801",
+      "revId": "270cbc8608f065b6c6eebc4d474c60aa4206ad52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84489f79_23de8a5b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1257,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-09-19T14:43:38Z",
+      "side": 1,
+      "message": "Good question. In that case there is nothing (besides the magicBranc.baseCommit) to mark as uninteresting.\n\nDone",
+      "parentUuid": "a41da35e_b4ff60de",
+      "revId": "270cbc8608f065b6c6eebc4d474c60aa4206ad52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

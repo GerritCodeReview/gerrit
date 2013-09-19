@@ -22,6 +22,24 @@
       "revId": "2d5836a7185dbfd54b08828e441fdfce0914a982",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "842fbf8b_8b154d54",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-19T03:59:22Z",
+      "side": 1,
+      "message": "Sorry, maybe this is just badly described. I think this option has nothing to do with trivial rebase. It means copy the approvals if the new patch set has the same parent commit as the previous patch set and the same code delta as the previous patch set. Only the commit message was changed. This means all code verifications that were done on the code are still valid. Does this make sense?",
+      "parentUuid": "443a27c6_518b9471",
+      "revId": "2d5836a7185dbfd54b08828e441fdfce0914a982",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

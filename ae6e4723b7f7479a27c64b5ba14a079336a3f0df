@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "84489f79_433506eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-19T04:12:09Z",
+      "side": 1,
+      "message": "Ups, copy-paste mistake :-(",
+      "parentUuid": "a41da35e_3490f09d",
+      "revId": "ae6e4723b7f7479a27c64b5ba14a079336a3f0df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "443a27c6_d149c465",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-09-18T23:56:12Z",
       "side": 1,
       "message": "I think this is pretty verbose. Do we really need a new message on the change to indicate labels were copied?\n\nRemember that we are here because a new patch set was created, and that already creates a message. If we need these message text I think it should be part of message already noting a new revision exists.",
+      "revId": "ae6e4723b7f7479a27c64b5ba14a079336a3f0df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84489f79_233a0adb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-19T04:12:09Z",
+      "side": 1,
+      "message": "I got the idea for adding such a message from your change (only you had it even more verbose adding a message per approval that was copied). I can try to incorporate this into the patch set created message, but not sure if this is easily possible.",
+      "parentUuid": "443a27c6_d149c465",
       "revId": "ae6e4723b7f7479a27c64b5ba14a079336a3f0df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
         "endLine": 365,
         "endChar": 5
       },
+      "revId": "ae6e4723b7f7479a27c64b5ba14a079336a3f0df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84489f79_033f0ecb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-19T04:12:09Z",
+      "side": 1,
+      "message": "Yes, this comes from your change. You\u0027ve had it as:\n\n  trivialRebase \u003d newCommit.getTree() \u003d\u003d prior.getTree()\t1589\n                || isTrivialRebase(prior, newCommit)\n\nSee https://gerrit-review.googlesource.com/#/c/34801/2/gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java\n\nI thought it means that the parent wasn\u0027t changed.",
+      "parentUuid": "443a27c6_b1464054",
       "revId": "ae6e4723b7f7479a27c64b5ba14a079336a3f0df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

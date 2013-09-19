@@ -255,6 +255,26 @@ link:http://maven.apache.org/plugins/maven-shade-plugin/[shade plugin]
 to package additional dependencies. Relocating (or renaming) classes
 should not be necessary due to the ClassLoader isolation.
 
+[[events]]
+Listening to Events
+-------------------
+
+Certain operations in Gerrit trigger events. Plugins may receive
+notifications of these events by implementing the corresponding
+listeners.
+
+* `com.google.gerrit.extensions.events.LifecycleListener`:
++
+Gerrit server startup and shutdown
+
+* `com.google.gerrit.extensions.events.NewProjectCreatedListener`:
++
+Project creation
+
+* `com.google.gerrit.extensions.events.ProjectDeletedListener`:
++
+Project deletion
+
 [[ssh]]
 SSH Commands
 ------------

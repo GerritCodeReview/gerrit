@@ -129,13 +129,19 @@ public class CherryPickChange {
             currentUser.newCommitterIdent(myIdent.getWhen(),
                 myIdent.getTimeZone());
 
+        final ObjectId computedChangeId =
+            ChangeIdUtil
+                .computeChangeId(commitToCherryPick.getTree(), mergeTip,
+                    commitToCherryPick.getAuthorIdent(), myIdent, message);
+        String commitMessage = ChangeIdUtil.insertId(message, computedChangeId);
+
         RevCommit cherryPickCommit;
         ObjectInserter oi = git.newObjectInserter();
         try {
           ProjectState projectState = refControl.getProjectControl().getProjectState();
           cherryPickCommit =
               mergeUtilFactory.create(projectState).createCherryPickFromCommit(git, oi, mergeTip,
-                  commitToCherryPick, committerIdent, message, revWalk);
+                  commitToCherryPick, committerIdent, commitMessage, revWalk);
         } finally {
           oi.release();
         }
@@ -151,11 +157,6 @@ public class CherryPickChange {
           final String idStr = idList.get(idList.size() - 1).trim();
           changeKey = new Change.Key(idStr);
         } else {
-          final ObjectId computedChangeId =
-              ChangeIdUtil
-                  .computeChangeId(cherryPickCommit.getTree(), mergeTip,
-                      cherryPickCommit.getAuthorIdent(), myIdent, message);
-
           changeKey = new Change.Key("I" + computedChangeId.name());
         }
 

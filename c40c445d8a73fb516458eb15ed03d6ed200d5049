@@ -1,0 +1,290 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "443a27c6_314db044",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-19T21:24:29Z",
+      "side": 1,
+      "message": "Add \u0027$SRCS\u0027 to the command and Buck will fill in the srcs list for you.",
+      "revId": "c40c445d8a73fb516458eb15ed03d6ed200d5049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "849dff27_9b46eb54",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 7
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-19T21:24:29Z",
+      "side": 1,
+      "message": "You can skip this, buck will automatically put them into $SRCS.",
+      "revId": "c40c445d8a73fb516458eb15ed03d6ed200d5049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_1152ace6",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-19T21:24:29Z",
+      "side": 1,
+      "message": "I think you can now move the entire command setup from line 25 here and inline it, avoiding the variable and maybe even the \u0027 \u0027.join().",
+      "revId": "c40c445d8a73fb516458eb15ed03d6ed200d5049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_d13ae4a6",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-19T21:24:29Z",
+      "side": 1,
+      "message": "line wrap usage onto the next line, the @Option is overly long.",
+      "revId": "c40c445d8a73fb516458eb15ed03d6ed200d5049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "849dff27_3b58f733",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-19T21:24:29Z",
+      "side": 1,
+      "message": "createOptions is a better name than parse.",
+      "range": {
+        "startLine": 74,
+        "startChar": 17,
+        "endLine": 74,
+        "endChar": 22
+      },
+      "revId": "c40c445d8a73fb516458eb15ed03d6ed200d5049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "849dff27_5b59433a",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-19T21:24:29Z",
+      "side": 1,
+      "message": "Just inline \u0027\u003d\u0027. Its much easier to read.",
+      "range": {
+        "startLine": 90,
+        "startChar": 42,
+        "endLine": 90,
+        "endChar": 61
+      },
+      "revId": "c40c445d8a73fb516458eb15ed03d6ed200d5049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "849dff27_1b53bb1c",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-19T21:24:29Z",
+      "side": 1,
+      "message": "name and value is sufficient here for these variables, we don\u0027t need to say attribute.",
+      "range": {
+        "startLine": 92,
+        "startChar": 15,
+        "endLine": 92,
+        "endChar": 28
+      },
+      "revId": "c40c445d8a73fb516458eb15ed03d6ed200d5049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "849dff27_7b5e7f25",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-19T21:24:29Z",
+      "side": 1,
+      "message": "nit: space around +",
+      "range": {
+        "startLine": 93,
+        "startChar": 52,
+        "endLine": 93,
+        "endChar": 65
+      },
+      "revId": "c40c445d8a73fb516458eb15ed03d6ed200d5049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "849dff27_bb2ac781",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-19T21:24:29Z",
+      "side": 1,
+      "message": "private, only the main below calls it",
+      "range": {
+        "startLine": 104,
+        "startChar": 2,
+        "endLine": 104,
+        "endChar": 8
+      },
+      "revId": "c40c445d8a73fb516458eb15ed03d6ed200d5049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_b1476029",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-19T21:24:29Z",
+      "side": 1,
+      "message": "System.exit(1) before return. We need a non-zero return code here.",
+      "range": {
+        "startLine": 115,
+        "startChar": 8,
+        "endLine": 115,
+        "endChar": 14
+      },
+      "revId": "c40c445d8a73fb516458eb15ed03d6ed200d5049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_f13de8a0",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-19T21:24:29Z",
+      "side": 1,
+      "message": "insert blank line after } before declaring a variable",
+      "revId": "c40c445d8a73fb516458eb15ed03d6ed200d5049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "849dff27_db4c7378",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-19T21:24:29Z",
+      "side": 1,
+      "message": "Don\u0027t assume character encoding. Force it to be UTF-8:\n\n  getBytes(\"UTF-8\")",
+      "range": {
+        "startLine": 123,
+        "startChar": 25,
+        "endLine": 123,
+        "endChar": 35
+      },
+      "revId": "c40c445d8a73fb516458eb15ed03d6ed200d5049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_91445c25",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-19T21:24:29Z",
+      "side": 1,
+      "message": "System.exit(1) after the println(). We need a non-zero return code on failure.",
+      "range": {
+        "startLine": 128,
+        "startChar": 13,
+        "endLine": 128,
+        "endChar": 16
+      },
+      "revId": "c40c445d8a73fb516458eb15ed03d6ed200d5049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_11398cb4",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-19T21:24:29Z",
+      "side": 1,
+      "message": "unnecessary blank line",
+      "revId": "c40c445d8a73fb516458eb15ed03d6ed200d5049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "443a27c6_b1aac0aa",
+        "filename": "gerrit-solr/src/main/java/com/google/gerrit/solr/IndexVersionCheck.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-19T18:28:41Z",
+      "side": 1,
+      "message": "Nit: space before %s",
+      "range": {
+        "startLine": 49,
+        "startChar": 39,
+        "endLine": 49,
+        "endChar": 41
+      },
+      "revId": "bba2e378cd8f74afa28978e6f9061fff4d32c779",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "849dff27_3b3f97cb",
+        "filename": "gerrit-solr/src/main/java/com/google/gerrit/solr/IndexVersionCheck.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-19T18:28:41Z",
+      "side": 1,
+      "message": "Why this change?",
+      "revId": "bba2e378cd8f74afa28978e6f9061fff4d32c779",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "849dff27_db2313b2",
+        "filename": "gerrit-solr/src/main/java/com/google/gerrit/solr/SolrChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-19T18:28:41Z",
+      "side": 1,
+      "message": "Why here and not in start()? I tend to avoid real work in constructors.",
+      "revId": "bba2e378cd8f74afa28978e6f9061fff4d32c779",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_712a185c",
+        "filename": "gerrit-solr/src/main/java/com/google/gerrit/solr/SolrChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-19T18:28:41Z",
+      "side": 1,
+      "message": "Why not isReady?",
+      "range": {
+        "startLine": 261,
+        "startChar": 17,
+        "endLine": 261,
+        "endChar": 26
+      },
+      "revId": "bba2e378cd8f74afa28978e6f9061fff4d32c779",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_91a7bce4",
+        "filename": "gerrit-solr/src/main/java/com/google/gerrit/solr/SolrChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-19T18:28:41Z",
+      "side": 1,
+      "message": "Should you check for READY_FIELD in the result?",
+      "revId": "bba2e378cd8f74afa28978e6f9061fff4d32c779",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

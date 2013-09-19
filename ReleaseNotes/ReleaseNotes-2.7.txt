@@ -100,7 +100,7 @@ draft patch sets.
 +
 Teams that want to use Gerrit's submit strategies to handle contention on busy
 branches can use `%submit` to create a change and have it
-link:link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.7/user-upload.html#auto_merge[
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.7/user-upload.html#auto_merge[
 immediately submitted], if the caller has Submit permission on `refs/for/<ref>`.
 
 * Allow administrators to see all groups.

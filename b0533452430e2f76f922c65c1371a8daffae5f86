@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84489f79_83a09ee4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-19T09:00:49Z",
+      "side": 1,
+      "message": "The same problem can arise while editing the commit message from UI, right?",
+      "revId": "b0533452430e2f76f922c65c1371a8daffae5f86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

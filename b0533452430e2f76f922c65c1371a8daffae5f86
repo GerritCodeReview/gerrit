@@ -34,6 +34,24 @@
       "revId": "b0533452430e2f76f922c65c1371a8daffae5f86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "842fbf8b_eb4cd177",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-19T09:15:12Z",
+      "side": 1,
+      "message": "So why not to behave in the same way when cherry-picking from the UI then?",
+      "parentUuid": "443a27c6_11950c8e",
+      "revId": "b0533452430e2f76f922c65c1371a8daffae5f86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

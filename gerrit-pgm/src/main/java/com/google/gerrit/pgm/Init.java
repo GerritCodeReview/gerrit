@@ -126,6 +126,11 @@ public class Init extends BaseInit {
     return !noAutoStart;
   }
 
+  @Override
+  protected boolean isSkipPlugin() {
+    return skipPlugins;
+  }
+
   void start(SiteRun run) throws Exception {
     if (run.flags.autoStart) {
       if (HostPlatform.isWin32()) {

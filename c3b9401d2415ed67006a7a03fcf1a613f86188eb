@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "849dff27_1bec1b3b",
+        "filename": "ReleaseNotes/ReleaseNotes-2.7.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-19T16:44:13Z",
+      "side": 1,
+      "message": "s/-rc2// here and below",
+      "revId": "c3b9401d2415ed67006a7a03fcf1a613f86188eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

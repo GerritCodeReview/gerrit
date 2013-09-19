@@ -16,6 +16,24 @@
       "revId": "ca90c1b5d39b203494176e23a6a18afef67f0e2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_716fb8bb",
+        "filename": "ReleaseNotes/ReleaseNotes-2.7.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-19T16:44:46Z",
+      "side": 1,
+      "message": "Actually looks like David got this in I6117d31ef0ac00c03d1c59839476efc05b98bb30",
+      "parentUuid": "443a27c6_91a0dce4",
+      "revId": "ca90c1b5d39b203494176e23a6a18afef67f0e2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

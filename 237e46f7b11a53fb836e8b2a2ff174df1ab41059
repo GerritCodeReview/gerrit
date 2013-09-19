@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "849dff27_dbf55302",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-19T17:09:27Z",
+      "side": 1,
+      "message": "This should be a boolean value on the label itself, not a string comparison in the ref patterns.\n\nIt is also unclear what your intended behavior is when sameAsAccess is applied along with other refs. From this code it appears it applies if sameAsAccess matches _or_ any of the other refs match. But then it\u0027s no longer the \"same\" as the access controls allow.",
+      "range": {
+        "startLine": 260,
+        "startChar": 57,
+        "endLine": 260,
+        "endChar": 69
+      },
+      "revId": "237e46f7b11a53fb836e8b2a2ff174df1ab41059",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "849dff27_fbf28f17",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-19T17:09:27Z",
+      "side": 1,
+      "message": "Unnecessary final",
+      "range": {
+        "startLine": 387,
+        "startChar": 6,
+        "endLine": 387,
+        "endChar": 11
+      },
+      "revId": "237e46f7b11a53fb836e8b2a2ff174df1ab41059",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

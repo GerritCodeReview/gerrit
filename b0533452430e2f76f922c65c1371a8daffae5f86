@@ -52,6 +52,24 @@
       "revId": "b0533452430e2f76f922c65c1371a8daffae5f86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_d1966498",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-19T09:29:07Z",
+      "side": 1,
+      "message": "I\u0027m not sure.  Gustaf might know more about this.",
+      "parentUuid": "842fbf8b_eb4cd177",
+      "revId": "b0533452430e2f76f922c65c1371a8daffae5f86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

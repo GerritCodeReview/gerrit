@@ -40,6 +40,23 @@
       "revId": "2d5836a7185dbfd54b08828e441fdfce0914a982",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84489f79_c3969698",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-09-19T07:41:23Z",
+      "side": 1,
+      "message": "You could also document what is the default.",
+      "revId": "2d5836a7185dbfd54b08828e441fdfce0914a982",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

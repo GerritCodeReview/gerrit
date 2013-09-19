@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "443a27c6_71bd78fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-19T18:04:16Z",
+      "side": 1,
+      "message": "Nit: arise",
+      "range": {
+        "startLine": 11,
+        "startChar": 52,
+        "endLine": 11,
+        "endChar": 58
+      },
+      "revId": "c5a8535b0ff5d6264567f45195c45cf10c71a0df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UPIbuiug",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10
@@ -47,6 +70,40 @@
       "writtenOn": "2013-05-05T18:49:26Z",
       "side": 1,
       "message": "Does this mean both measurements are for warm caches, or only the second one?",
+      "revId": "c5a8535b0ff5d6264567f45195c45cf10c71a0df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "849dff27_fb1b6f85",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-19T18:04:16Z",
+      "side": 1,
+      "message": "This number still seems absurdly high. Is this still all due to JGit\u0027s pqueue implementation? Would it be feasible/worth it to just trim the list of additional haves?",
+      "revId": "c5a8535b0ff5d6264567f45195c45cf10c71a0df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_51c27477",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-19T18:04:16Z",
+      "side": 1,
+      "message": "This is a bit of a gray area but I don\u0027t think it\u0027s an issue. According to the protocol (even before allow-tip-sha1-in-want, which Gerrit doesn\u0027t yet support), the client is allowed to ask for any advertised ref, so yes, this would might cause a client to ask for an object it otherwise shouldn\u0027t. But the server can and should still reject the request in that case. It is arguably a violation of the protocol but in practice it\u0027s not an issue.",
       "revId": "c5a8535b0ff5d6264567f45195c45cf10c71a0df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

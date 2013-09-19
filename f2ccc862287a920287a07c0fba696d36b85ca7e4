@@ -1,0 +1,198 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "849dff27_9bffcbde",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-19T17:45:31Z",
+      "side": 1,
+      "message": "Why the commit message body too? We already have message:. Cf. the difference between --grep and -S to git log (though obviously this operator is not exactly equivalent to -S).",
+      "revId": "f2ccc862287a920287a07c0fba696d36b85ca7e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_d17f8466",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-19T17:45:31Z",
+      "side": 1,
+      "message": "Can you add a comment explaining why this is necessary? I didn\u0027t think analyzers had any effect on exact match searches.",
+      "range": {
+        "startLine": 124,
+        "startChar": 46,
+        "endLine": 124,
+        "endChar": 60
+      },
+      "revId": "f2ccc862287a920287a07c0fba696d36b85ca7e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_f182884a",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-19T17:45:31Z",
+      "side": 1,
+      "message": "long line",
+      "range": {
+        "startLine": 128,
+        "startChar": 74,
+        "endLine": 128,
+        "endChar": 90
+      },
+      "revId": "f2ccc862287a920287a07c0fba696d36b85ca7e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "849dff27_bbfc07ea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/FieldType.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-19T17:45:31Z",
+      "side": 1,
+      "message": "\"Exact\" seems incompatible with \"fuzzy-match\". Can you elaborate on the difference? (Not necessarily in the javadoc, but if I understand it better perhaps we can come up with a clearer one-liner.)",
+      "range": {
+        "startLine": 50,
+        "startChar": 61,
+        "endLine": 50,
+        "endChar": 72
+      },
+      "revId": "f2ccc862287a920287a07c0fba696d36b85ca7e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "849dff27_5b0b833a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-19T17:45:31Z",
+      "side": 1,
+      "message": "This might be better as a method on key, key.getRevWalk(reader), to avoid this ternary everywhere it\u0027s used. Not a big deal now because this is exactly once.",
+      "revId": "f2ccc862287a920287a07c0fba696d36b85ca7e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_9179fc82",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-19T17:45:31Z",
+      "side": 1,
+      "message": "Why not add the new name here? Oh, I see this is moved from below. Doesn\u0027t answer my question though.",
+      "revId": "f2ccc862287a920287a07c0fba696d36b85ca7e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_71d4583d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-19T17:45:31Z",
+      "side": 1,
+      "message": "Makes me wonder if we should also make a defensive copy in the other setCurrentFilePaths.",
+      "range": {
+        "startLine": 226,
+        "startChar": 31,
+        "endLine": 226,
+        "endChar": 47
+      },
+      "revId": "f2ccc862287a920287a07c0fba696d36b85ca7e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_51d95471",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-19T17:45:31Z",
+      "side": 1,
+      "message": "This signature feels messy to me. I understand the reasons for all the args to currentDiffContent; they\u0027re required to compute the content. But the pattern of the other setFoo methods is to pass something more direct. How hard would it be to pass a Map\u003cString, DiffContent\u003e or even just a List\u003cDiffContent\u003e to this method? Obviously that would complicate the body of currentDiffContent but that seems ok (this part into a private method).",
+      "revId": "f2ccc862287a920287a07c0fba696d36b85ca7e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_31ded05b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-19T17:45:31Z",
+      "side": 1,
+      "message": "Remind me to clean this up. I\u0027m thinking:\n\n  ChangeIndex requireIndex(String field, String value) {\n    ChangeIndex idx \u003d args.indexes.getSearchIndex();\n    if (idx \u003d\u003d null) {\n      throw error(\"secondary index must be enabled for \" + field + \":\" + value);\n    }\n    return idx;\n  }\n\n\nThis is also more atomic in the face of a live index swap.",
+      "revId": "f2ccc862287a920287a07c0fba696d36b85ca7e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_11e3cc1d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/DiffPredicate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-19T17:45:31Z",
+      "side": 1,
+      "message": "Different indentation here?",
+      "revId": "f2ccc862287a920287a07c0fba696d36b85ca7e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

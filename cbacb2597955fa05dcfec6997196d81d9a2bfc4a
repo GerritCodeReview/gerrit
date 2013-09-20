@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "c4c1b71a_8d46a154",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-20T08:48:48Z",
+      "side": 1,
+      "message": "Add a comma after \"Gerrit\"",
+      "revId": "cbacb2597955fa05dcfec6997196d81d9a2bfc4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04e02fae_6f5ed125",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-20T08:48:48Z",
+      "side": 1,
+      "message": "Add a comma after the first \"configuration\".",
+      "revId": "cbacb2597955fa05dcfec6997196d81d9a2bfc4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04e02fae_4f598d3a",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-20T08:48:48Z",
+      "side": 1,
+      "message": "s/section/subsection\n\n?",
+      "revId": "cbacb2597955fa05dcfec6997196d81d9a2bfc4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4c1b71a_cd4ca978",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 3
@@ -31,6 +82,24 @@
       "side": 1,
       "message": "It is only a recommandation and this way to access the configuration is only for convinience.\n\nIn the end plugins can always have access to the full configuration and can read whatever values they want.",
       "parentUuid": "c4c1b71a_cd4ca978",
+      "revId": "cbacb2597955fa05dcfec6997196d81d9a2bfc4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4c1b71a_ed496565",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-20T08:48:48Z",
+      "side": 1,
+      "message": "OK, then maybe it\u0027s better to reword this a bit.\n\n To avoid conflicts with other plugins, it is recommended that plugins only\n use `plugin` subsections with their own name.  For example the `helloworld`\n plugin should store its configuration in the `plugin.helloworld` subsection.",
+      "parentUuid": "e4addb69_c61ec278",
       "revId": "cbacb2597955fa05dcfec6997196d81d9a2bfc4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

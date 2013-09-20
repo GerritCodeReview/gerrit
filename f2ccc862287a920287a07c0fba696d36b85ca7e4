@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e4addb69_260a3634",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1011298
+      },
+      "writtenOn": "2013-09-20T08:36:23Z",
+      "side": 1,
+      "message": "The commit message appears in the list of patch files and is reviewable just like any other file - so to me it would probably be slightly surprising that it wasn\u0027t included.\n\nIt\u0027s not clear from this doc but does \u0027message\u0027 just match the commit message for the latest patchset or all previous patchsets as well? In fact the same question applies for this query as well - is it searching all patche sets or just the current patchset?\n\nI\u0027d probably expect message to only match on the current commit message where as patch possibly matches all patches - in which case including the commit message makes sense",
+      "parentUuid": "849dff27_9bffcbde",
+      "revId": "f2ccc862287a920287a07c0fba696d36b85ca7e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "443a27c6_d17f8466",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
         "patchSetId": 9

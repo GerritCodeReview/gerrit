@@ -21,6 +21,13 @@ Schema Change
 a later 2.1.x version), and then to 2.8.x.  If you are upgrading from 2.2.x.x or
 later, you may ignore this warning and upgrade directly to 2.8.x.
 
+*WARNING:* The replication plugin is now automatically creating missing
+repositories in the destination if during the replication of a ref the
+target repository is found to be missing. This is a change in behavior
+of the replication plugin. To go back to the old behavior, set the
+parameter `remote.NAME.createMissingRepositories` in the
+`replication.config` file to `false`.
+
 
 Release Highlights
 ------------------
@@ -325,6 +332,21 @@ Commit Message Length Checker
 
 Replication
 ^^^^^^^^^^^
+
+* Automatically create missing repositories on the remote site
++
+The replication plugin is now automatically creating missing
+repositories in the destination if during the replication of a ref the
+target repository is found to be missing. This is a change in behavior
+of the replication plugin. To go back to the old behavior, set the
+parameter `remote.NAME.createMissingRepositories` in the
+`replication.config` file to `false`.
+
+* Support for replication of project deletions
++
+The replication plugin can now be configured to listen to project
+deletion events and to replicate the project deletions. By default
+project deletions are *not* replicated.
 
 * The `{$name}` placeholder is optional when replicating a single project,
 allowing a single project to be replicated under a different name.

@@ -42,6 +42,7 @@ limitations under the License.
           </includes>
           <archive>
             <manifestEntries>
+              <Gerrit-PluginName>${pluginName}</Gerrit-PluginName>
               <Implementation-Vendor>${Implementation-Vendor}</Implementation-Vendor>
               <Implementation-URL>${Implementation-Url}</Implementation-URL>
 

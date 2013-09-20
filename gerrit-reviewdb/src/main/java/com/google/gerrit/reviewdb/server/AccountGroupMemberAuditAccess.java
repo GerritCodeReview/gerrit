@@ -32,4 +32,7 @@ public interface AccountGroupMemberAuditAccess extends
   @Query("WHERE key.groupId = ? AND key.accountId = ?")
   ResultSet<AccountGroupMemberAudit> byGroupAccount(AccountGroup.Id groupId,
       Account.Id accountId) throws OrmException;
+
+  @Query("WHERE key.groupId = ?")
+  ResultSet<AccountGroupMemberAudit> byGroupId(AccountGroup.Id groupId);
 }

@@ -38,6 +38,7 @@ limitations under the License.
         <configuration>
           <archive>
             <manifestEntries>
+              <Gerrit-PluginName>${pluginName}</Gerrit-PluginName>
 #if ($Gerrit-Module.equalsIgnoreCase("Y"))
               <Gerrit-Module>${package}.Module</Gerrit-Module>
 #end

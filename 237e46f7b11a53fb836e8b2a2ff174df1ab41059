@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "c4c1b71a_ed964598",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-20T13:28:41Z",
+      "side": 1,
+      "message": "currently it does not support \"when sameAsAccess is applied along with other refs\"\n the behavior is expected to be [1] or [2]. there is not [3]\n\n [1] \n branch \u003d sameAsAccess  \n  (refs.size() \u003d\u003d 1 \u0026\u0026 refs.get(0).equals(\"sameAsAccess\"))\n\n \u0027sameAsAccess\u0027 is a special value of \u0027branch\u0027, Gerrit understand it as: branch scope  \n is defined by \"label access control scope\".\n\n [2] \n like\n branch \u003d refs/heads/branch1/*\n branch \u003d refs/heads/branch2/*\n     ...\n branch scope is defined directly by refs patterns.\n\n [3]  \n \u0027[1] union [2]\u0027 like\n\n branch \u003d refs/heads/branch1/*\n branch \u003d sameAsAccess  \n branch \u003d refs/heads/branch2/*\n  \n\n -----------------------------------------------------------------------------------\n your comment here let me find 2 excited things! :)\n  \n  a.  [3] is useful and should be carried out.\n  b.  use \u0027branchSameAsAccess \u003d true\u0027 replace \u0027 branch \u003d sameAsAccess \u0027\n       default value of \u0027branchSameAsAccess\u0027 is false.\n  \n a and b are supported in next patchset",
+      "parentUuid": "849dff27_dbf55302",
+      "revId": "237e46f7b11a53fb836e8b2a2ff174df1ab41059",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "849dff27_fbf28f17",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 13
@@ -42,6 +60,24 @@
         "endLine": 387,
         "endChar": 11
       },
+      "revId": "237e46f7b11a53fb836e8b2a2ff174df1ab41059",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04e02fae_4f866d6d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-20T13:28:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "849dff27_fbf28f17",
       "revId": "237e46f7b11a53fb836e8b2a2ff174df1ab41059",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

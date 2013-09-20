@@ -15,9 +15,12 @@ API_DEPS = [
 
 genrule(
   name = 'api',
-  cmd = '',
+  cmd = ';'.join(
+    ['cd $TMP'] +
+    ['ln -s $(location %s) .' % n for n in API_DEPS] +
+    ['zip -q0 $OUT *']),
   deps = API_DEPS,
-  out = '__fake.api__',
+  out = 'api.zip',
 )
 
 java_binary(

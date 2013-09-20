@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "04b90faa_673592eb",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-20T09:04:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4c1b71a_8d46a154",
+      "revId": "cbacb2597955fa05dcfec6997196d81d9a2bfc4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04e02fae_6f5ed125",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "04b90faa_073a96da",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-20T09:04:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04e02fae_6f5ed125",
+      "revId": "cbacb2597955fa05dcfec6997196d81d9a2bfc4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04e02fae_4f598d3a",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2013-09-20T08:48:48Z",
       "side": 1,
       "message": "s/section/subsection\n\n?",
+      "revId": "cbacb2597955fa05dcfec6997196d81d9a2bfc4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4addb69_e61bbe85",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-20T09:04:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04e02fae_4f598d3a",
       "revId": "cbacb2597955fa05dcfec6997196d81d9a2bfc4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -100,6 +154,24 @@
       "side": 1,
       "message": "OK, then maybe it\u0027s better to reword this a bit.\n\n To avoid conflicts with other plugins, it is recommended that plugins only\n use `plugin` subsections with their own name.  For example the `helloworld`\n plugin should store its configuration in the `plugin.helloworld` subsection.",
       "parentUuid": "e4addb69_c61ec278",
+      "revId": "cbacb2597955fa05dcfec6997196d81d9a2bfc4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04b90faa_273f9acb",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-20T09:04:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4c1b71a_ed496565",
       "revId": "cbacb2597955fa05dcfec6997196d81d9a2bfc4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

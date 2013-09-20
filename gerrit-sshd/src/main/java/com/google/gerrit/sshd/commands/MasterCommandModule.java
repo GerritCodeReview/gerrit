@@ -29,6 +29,7 @@ public class MasterCommandModule extends CommandModule {
 
     command(gerrit, CreateAccountCommand.class);
     command(gerrit, CreateGroupCommand.class);
+    command(gerrit, DeleteGroupCommand.class);
     command(gerrit, RenameGroupCommand.class);
     command(gerrit, CreateProjectCommand.class);
     command(gerrit, AdminQueryShell.class);

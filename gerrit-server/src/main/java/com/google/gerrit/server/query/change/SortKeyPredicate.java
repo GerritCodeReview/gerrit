@@ -18,14 +18,25 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.index.ChangeField;
+import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.IndexPredicate;
+import com.google.gerrit.server.index.Schema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
 public abstract class SortKeyPredicate extends IndexPredicate<ChangeData> {
+  @SuppressWarnings("deprecation")
+  private static long parseSortKey(Schema<ChangeData> schema, String value) {
+    FieldDef<ChangeData, ?> field = schema.getFields().get(ChangeField.SORTKEY.getName());
+    if (field == ChangeField.SORTKEY) {
+      return ChangeUtil.parseSortKey(value);
+    } else {
+      return ChangeField.legacyParseSortKey(value);
+    }
+  }
+
   protected final Provider<ReviewDb> dbProvider;
 
-  @SuppressWarnings("deprecation")
   SortKeyPredicate(Provider<ReviewDb> dbProvider, String name, String value) {
     super(ChangeField.SORTKEY, name, value);
     this.dbProvider = dbProvider;
@@ -36,8 +47,8 @@ public abstract class SortKeyPredicate extends IndexPredicate<ChangeData> {
     return 1;
   }
 
-  public abstract long getMinValue();
-  public abstract long getMaxValue();
+  public abstract long getMinValue(Schema<ChangeData> schema);
+  public abstract long getMaxValue(Schema<ChangeData> schema);
   public abstract SortKeyPredicate copy(String newValue);
 
   public static class Before extends SortKeyPredicate {
@@ -46,13 +57,13 @@ public abstract class SortKeyPredicate extends IndexPredicate<ChangeData> {
     }
 
     @Override
-    public long getMinValue() {
+    public long getMinValue(Schema<ChangeData> schema) {
       return 0;
     }
 
     @Override
-    public long getMaxValue() {
-      return ChangeUtil.parseSortKey(getValue());
+    public long getMaxValue(Schema<ChangeData> schema) {
+      return parseSortKey(schema, getValue());
     }
 
     @Override
@@ -73,12 +84,12 @@ public abstract class SortKeyPredicate extends IndexPredicate<ChangeData> {
     }
 
     @Override
-    public long getMinValue() {
-      return ChangeUtil.parseSortKey(getValue());
+    public long getMinValue(Schema<ChangeData> schema) {
+      return parseSortKey(schema, getValue());
     }
 
     @Override
-    public long getMaxValue() {
+    public long getMaxValue(Schema<ChangeData> schema) {
       return Long.MAX_VALUE;
     }
 

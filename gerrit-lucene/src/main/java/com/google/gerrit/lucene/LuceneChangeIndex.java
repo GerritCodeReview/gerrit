@@ -250,8 +250,8 @@ public class LuceneChangeIndex implements ChangeIndex {
     if (!Sets.intersection(statuses, CLOSED_STATUSES).isEmpty()) {
       indexes.add(closedIndex);
     }
-    return new QuerySource(indexes, QueryBuilder.toQuery(p), limit,
-        ChangeQueryBuilder.hasNonTrivialSortKeyAfter(p));
+    return new QuerySource(indexes, QueryBuilder.toQuery(schema, p), limit,
+        ChangeQueryBuilder.hasNonTrivialSortKeyAfter(schema, p));
   }
 
   @Override
@@ -267,7 +267,9 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   private static class QuerySource implements ChangeDataSource {
     private static final ImmutableSet<String> FIELDS =
-        ImmutableSet.of(ID_FIELD, CHANGE_FIELD, APPROVAL_FIELD);
+        ImmutableSet.of(ID_FIELD, CHANGE_FIELD, APPROVAL_FIELD,
+            // DO NOT SUBMIT
+            "sortkey");
 
     private final List<SubIndex> indexes;
     private final Query query;
@@ -300,7 +302,6 @@ public class LuceneChangeIndex implements ChangeIndex {
     @Override
     public ResultSet<ChangeData> read() throws OrmException {
       IndexSearcher[] searchers = new IndexSearcher[indexes.size()];
-      @SuppressWarnings("deprecation")
       Sort sort = new Sort(
           new SortField(
               ChangeField.SORTKEY.getName(),
@@ -366,6 +367,12 @@ public class LuceneChangeIndex implements ChangeIndex {
     Change change = ChangeProtoField.CODEC.decode(
         cb.bytes, cb.offset, cb.length);
     ChangeData cd = new ChangeData(change);
+
+    System.out.format("Change %d has sortkey %016x/%d (%s)\n",
+        change.getId().get(),
+        doc.getField("sortkey").numericValue().longValue(),
+        doc.getField("sortkey").numericValue().longValue(),
+        change.getSubject());
 
     BytesRef[] approvalsBytes = doc.getBinaryValues(APPROVAL_FIELD);
     if (approvalsBytes != null) {

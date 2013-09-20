@@ -125,8 +125,32 @@ public class ChangeField {
         }
       };
 
-  /** Sort key field, duplicates {@link #UPDATED}. */
   @Deprecated
+  public static long legacyParseSortKey(String sortKey) {
+    if ("z".equals(sortKey)) {
+      return Long.MAX_VALUE;
+    }
+    return Long.parseLong(sortKey.substring(0, 8), 16);
+  }
+
+  /** Legacy sort key field. */
+  @Deprecated
+  public static final FieldDef<ChangeData, Long> LEGACY_SORTKEY =
+      new FieldDef.Single<ChangeData, Long>(
+          "sortkey", FieldType.LONG, true) {
+        @Override
+        public Long get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return legacyParseSortKey(input.change(args.db).getSortKey());
+        }
+      };
+
+  /**
+   * Sort key field.
+   * <p>
+   * Redundant with {@link #UPDATED} and {@link #LEGACY_ID}, but secondary index
+   * implementations may not be able to search over tuples of values.
+   */
   public static final FieldDef<ChangeData, Long> SORTKEY =
       new FieldDef.Single<ChangeData, Long>(
           "sortkey", FieldType.LONG, true) {

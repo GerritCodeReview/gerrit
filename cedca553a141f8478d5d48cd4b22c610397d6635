@@ -34,6 +34,24 @@
       "revId": "cedca553a141f8478d5d48cd4b22c610397d6635",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4addb69_06537a1c",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/BaseInit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-20T11:51:47Z",
+      "side": 1,
+      "message": "\"... intention of this change is not to fix wrong method names.\"\n\nSure? You really meant, that\u0027s OK to introduce different naming conventions to the same thing in the same file? And to name three different bollean getter functions in one class with:\n\n boolean foo();\n boolean isBar();\n boolean getBaz();\n\nAFAICT intention of each change is to be inline with the existing code or to fix it if needed correspondingly.\n\nIf you insist, i would upload two changes: One with renaming the name of getAutoStart() to autoStart()/isAutoStart() and this change a follow-up change.",
+      "parentUuid": "e4addb69_a62aa681",
+      "revId": "cedca553a141f8478d5d48cd4b22c610397d6635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

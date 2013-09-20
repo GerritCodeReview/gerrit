@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4addb69_86468a54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-09-20T13:09:59Z",
+      "side": 1,
+      "message": "reword: Support to inherit project level plugin configuration",
+      "revId": "c6af540d171570f28d5f80fd3e3647154a536f9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4addb69_a6438643",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-09-20T13:09:59Z",
+      "side": 1,
+      "message": "reword: When reading the project level plugin configuration",
+      "revId": "c6af540d171570f28d5f80fd3e3647154a536f9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

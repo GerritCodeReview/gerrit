@@ -20,11 +20,11 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
-public class PluginConfigProvider {
+public class PluginConfigFactory {
   private final Config cfg;
 
   @Inject
-  PluginConfigProvider(@GerritServerConfig Config cfg) {
+  PluginConfigFactory(@GerritServerConfig Config cfg) {
     this.cfg = cfg;
   }
 

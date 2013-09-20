@@ -331,14 +331,14 @@ only use the `plugin` subsection with their own name. For example the
   language = Latin
 ----
 
-Via the `com.google.gerrit.server.config.PluginConfigProvider` class a
+Via the `com.google.gerrit.server.config.PluginConfigFactory` class a
 plugin can easily access its configuration and there is no need for a
 plugin to parse the `gerrit.config` file on its own:
 
 [source,java]
 ----
   @Inject
-  private com.google.gerrit.server.config.PluginConfigProvider cfg;
+  private com.google.gerrit.server.config.PluginConfigFactory cfg;
 
   ...
 

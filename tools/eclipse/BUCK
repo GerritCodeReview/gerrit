@@ -1,27 +1,5 @@
 include_defs('//tools/build.defs')
 
-genrule(
-  name = 'eclipse',
-  cmd = '',
-  deps = [
-    ':_classpath',
-    ':_project',
-    '//tools:buck.properties',
-  ],
-  out = '__fake.eclipse__',
-)
-
-genrule(
-  name = 'eclipse_project',
-  cmd = '',
-  deps = [
-    ':_classpath_nocompile',
-    ':_project',
-    '//tools:buck.properties',
-  ],
-  out = '__fake.eclipse__',
-)
-
 java_library(
   name = 'classpath',
   deps = LIBS + PGMLIBS + [
@@ -34,38 +12,4 @@ java_library(
     '//gerrit-server:server__compile',
     '//lib/prolog:compiler_lib',
   ] + scan_plugins(),
-)
-
-genrule(
-  name = '_project',
-  cmd = '$(exe :gen_project)',
-  deps = [':gen_project'],
-  out = '__fake.project__',
-)
-
-genrule(
-  name = '_classpath',
-  cmd = '$(exe :gen_classpath)',
-  deps = [
-    ':classpath',
-    ':gen_classpath',
-  ],
-  out = '__fake.classpath__',
-)
-
-genrule(
-  name = '_classpath_nocompile',
-  cmd = '$(exe :gen_classpath)',
-  deps = [':gen_classpath'],
-  out = '__fake.classpath__',
-)
-
-python_binary(
-  name = 'gen_classpath',
-  main = 'gen_classpath.py',
-)
-
-python_binary(
-  name = 'gen_project',
-  main = 'gen_project.py',
 )

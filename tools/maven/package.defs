@@ -18,7 +18,7 @@ def maven_package(
     url = None,
     jar = {},
     src = {}):
-  cmd = ['$(exe //tools/maven:mvn)', '-v', version]
+  cmd = ['$(exe //tools/maven:mvn)', '-v', version, '-o', '$OUT']
   dep = []
 
   for type,d in [('jar', jar), ('java-source', src)]:
@@ -30,7 +30,7 @@ def maven_package(
     name = 'install',
     cmd = ' '.join(cmd + ['-a', 'install']),
     deps = dep + ['//tools/maven:mvn'],
-    out = '__fake.install__',
+    out = 'install.info',
   )
 
   if repository and url:
@@ -41,5 +41,5 @@ def maven_package(
         '--repository', repository,
         '--url', url]),
       deps = dep + ['//tools/maven:mvn'],
-      out = '__fake.deploy__',
+      out = 'deploy.info',
     )

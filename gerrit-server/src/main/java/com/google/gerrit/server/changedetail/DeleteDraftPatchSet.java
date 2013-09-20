@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -46,6 +47,7 @@ public class DeleteDraftPatchSet implements Callable<ReviewResult> {
   private final GitRepositoryManager gitManager;
   private final GitReferenceUpdated gitRefUpdated;
   private final PatchSetInfoFactory patchSetInfoFactory;
+  private final ChangeIndexer indexer;
 
   private final PatchSet.Id patchSetId;
 
@@ -53,12 +55,14 @@ public class DeleteDraftPatchSet implements Callable<ReviewResult> {
   DeleteDraftPatchSet(ChangeControl.Factory changeControlFactory,
       ReviewDb db, GitRepositoryManager gitManager,
       GitReferenceUpdated gitRefUpdated, PatchSetInfoFactory patchSetInfoFactory,
+      ChangeIndexer indexer,
       @Assisted final PatchSet.Id patchSetId) {
     this.changeControlFactory = changeControlFactory;
     this.db = db;
     this.gitManager = gitManager;
     this.gitRefUpdated = gitRefUpdated;
     this.patchSetInfoFactory = patchSetInfoFactory;
+    this.indexer = indexer;
 
     this.patchSetId = patchSetId;
   }
@@ -97,7 +101,8 @@ public class DeleteDraftPatchSet implements Callable<ReviewResult> {
     List<PatchSet> restOfPatches = db.patchSets().byChange(changeId).toList();
     if (restOfPatches.size() == 0) {
       try {
-        ChangeUtil.deleteDraftChange(patchSetId, gitManager, gitRefUpdated, db);
+        ChangeUtil.deleteDraftChange(patchSetId, gitManager, gitRefUpdated, db,
+            indexer);
         result.setChangeId(null);
       } catch (IOException e) {
         result.addError(new ReviewResult.Error(

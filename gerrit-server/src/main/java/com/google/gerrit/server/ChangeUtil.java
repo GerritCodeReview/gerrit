@@ -35,6 +35,8 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
+
+import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.CommitMessageEditedSender;
 import com.google.gerrit.server.mail.RevertedSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -392,19 +394,19 @@ public class ChangeUtil {
     }
   }
 
-  public static void deleteDraftChange(final PatchSet.Id patchSetId,
+  public static void deleteDraftChange(PatchSet.Id patchSetId,
       GitRepositoryManager gitManager,
-      final GitReferenceUpdated gitRefUpdated, final ReviewDb db)
+      GitReferenceUpdated gitRefUpdated, ReviewDb db, ChangeIndexer indexer)
       throws NoSuchChangeException, OrmException, IOException {
     final Change.Id changeId = patchSetId.getParentKey();
-    deleteDraftChange(changeId, gitManager, gitRefUpdated, db);
+    deleteDraftChange(changeId, gitManager, gitRefUpdated, db, indexer);
   }
 
-  public static void deleteDraftChange(final Change.Id changeId,
+  public static void deleteDraftChange(Change.Id changeId,
       GitRepositoryManager gitManager,
-      final GitReferenceUpdated gitRefUpdated, final ReviewDb db)
+      GitReferenceUpdated gitRefUpdated, ReviewDb db, ChangeIndexer indexer)
       throws NoSuchChangeException, OrmException, IOException {
-    final Change change = db.changes().get(changeId);
+    Change change = db.changes().get(changeId);
     if (change == null || change.getStatus() != Change.Status.DRAFT) {
       throw new NoSuchChangeException(changeId);
     }
@@ -418,6 +420,7 @@ public class ChangeUtil {
     db.starredChanges().delete(db.starredChanges().byChange(changeId));
     db.trackingIds().delete(db.trackingIds().byChange(changeId));
     db.changes().delete(Collections.singleton(change));
+    indexer.delete(change);
   }
 
   public static void deleteOnlyDraftPatchSet(final PatchSet patch,

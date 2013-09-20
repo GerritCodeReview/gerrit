@@ -41,6 +41,7 @@ public abstract class ChangeIndexer {
       return Futures.immediateFuture(null);
     }
 
+    @Override
     public Callable<Void> indexTask(ChangeData cd) {
       return new Callable<Void>() {
         @Override
@@ -71,12 +72,17 @@ public abstract class ChangeIndexer {
    * Start indexing a change.
    *
    * @param change change to index.
-   * @param prop propagator to wrap any created runnables in.
    * @return future for the indexing task.
    */
   public ListenableFuture<?> index(ChangeData cd) {
     return executor.submit(indexTask(cd));
   }
 
+  /**
+   * Create a runnable to index a change.
+   *
+   * @param cd change to index.
+   * @return unstarted runnable to index the change.
+   */
   public abstract Callable<Void> indexTask(ChangeData cd);
 }

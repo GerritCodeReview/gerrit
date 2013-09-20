@@ -1,0 +1,239 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4c1b71a_cdf58902",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 8
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-20T04:28:19Z",
+      "side": 1,
+      "message": "Drop this option and this line, see my comment in Main for why.",
+      "revId": "d5a5d70a326f84b3d567165875ce156b752ce1f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04e02fae_affcb9e9",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-20T04:28:19Z",
+      "side": 1,
+      "message": "blank line is not necessary here. simple constants without documentation can be grouped with no spacing.",
+      "revId": "d5a5d70a326f84b3d567165875ce156b752ce1f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04e02fae_cff57d02",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-20T04:28:19Z",
+      "side": 1,
+      "message": "Unnecessary, see below for why.",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 0
+      },
+      "revId": "d5a5d70a326f84b3d567165875ce156b752ce1f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4c1b71a_edf2c517",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-20T04:28:19Z",
+      "side": 1,
+      "message": "Drop this entire function, I don\u0027t think you need it.",
+      "range": {
+        "startLine": 79,
+        "startChar": 2,
+        "endLine": 86,
+        "endChar": 3
+      },
+      "revId": "d5a5d70a326f84b3d567165875ce156b752ce1f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04e02fae_eff2c117",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-20T04:28:19Z",
+      "side": 1,
+      "message": "File tmpFile (see below)",
+      "range": {
+        "startLine": 88,
+        "startChar": 31,
+        "endLine": 88,
+        "endChar": 44
+      },
+      "revId": "d5a5d70a326f84b3d567165875ce156b752ce1f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4c1b71a_adfcbde9",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-20T04:28:19Z",
+      "side": 1,
+      "message": "Rewrap this comment block at 80 columns, it looks like its running long. I counted 89 here.",
+      "revId": "d5a5d70a326f84b3d567165875ce156b752ce1f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04e02fae_8fff75de",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-20T04:28:19Z",
+      "side": 1,
+      "message": ".toFile(tmpFile)",
+      "range": {
+        "startLine": 95,
+        "startChar": 18,
+        "endLine": 95,
+        "endChar": 70
+      },
+      "revId": "d5a5d70a326f84b3d567165875ce156b752ce1f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4c1b71a_8dff81de",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-20T04:28:19Z",
+      "side": 1,
+      "message": "Use a temporary file, which will automatically go into $TMP:\n\n  File tmp \u003d File.createTempFile(\"doc\", \".html\");\n  Options options \u003d createOptions(tmp);",
+      "range": {
+        "startLine": 140,
+        "startChar": 8,
+        "endLine": 140,
+        "endChar": 51
+      },
+      "revId": "d5a5d70a326f84b3d567165875ce156b752ce1f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4c1b71a_4d0bd93a",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-20T04:28:19Z",
+      "side": 1,
+      "message": "tmpFile",
+      "range": {
+        "startLine": 143,
+        "startChar": 48,
+        "endLine": 143,
+        "endChar": 94
+      },
+      "revId": "d5a5d70a326f84b3d567165875ce156b752ce1f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4c1b71a_6d101568",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-20T04:28:19Z",
+      "side": 1,
+      "message": "import java.io.IOException\n\nAlthough I would consider throwing IOException from this method and doing the catch in the caller, main(). Then you can move the real part of your program left one level of indentation and make the code slightly easier to read.",
+      "range": {
+        "startLine": 153,
+        "startChar": 13,
+        "endLine": 153,
+        "endChar": 32
+      },
+      "revId": "d5a5d70a326f84b3d567165875ce156b752ce1f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4c1b71a_2df1ad15",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-20T04:28:19Z",
+      "side": 1,
+      "message": "return void now as the result is not used",
+      "range": {
+        "startLine": 159,
+        "startChar": 10,
+        "endLine": 159,
+        "endChar": 28
+      },
+      "revId": "d5a5d70a326f84b3d567165875ce156b752ce1f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

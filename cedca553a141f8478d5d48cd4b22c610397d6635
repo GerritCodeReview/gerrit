@@ -16,6 +16,24 @@
       "revId": "cedca553a141f8478d5d48cd4b22c610397d6635",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4addb69_a62aa681",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/BaseInit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-09-20T11:25:12Z",
+      "side": 1,
+      "message": "\u003e Getter for a boolean var without \"is\" prefix?\n\n  $ git grep \u0027public boolean\u0027\n\nshows that we have many such cases.\n\nFor me this is easier to read:\n\n  if (skipPlugin()) {\n  ...\n  }\n\nthan:\n\n  if (isSkipPlugins()) {\n  ...\n  }\n\nFor the line 121 I agree that the name is not the best but intention of this change is not to fix wrong method names.",
+      "parentUuid": "e4addb69_263f96cb",
+      "revId": "cedca553a141f8478d5d48cd4b22c610397d6635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

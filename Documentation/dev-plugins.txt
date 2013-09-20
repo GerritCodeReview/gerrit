@@ -683,6 +683,40 @@ can be accessed from any REST client, i. e.:
   "Bonjour François from change 1, patch set 1!"
 ====
 
+Special case is to bind an endpoint without view name.  This is
+particularly useful for DELETE requests:
+
+[source,java]
+----
+public class Module extends AbstractModule {
+  @Override
+  protected void configure() {
+    install(new RestApiModule() {
+      @Override
+      protected void configure() {
+        delete(PROJECT_KIND)
+            .to(DeleteProject.class);
+      }
+    });
+  }
+}
+----
+
+For an `UiAction` bound this way JS API function can be provided.
+Currently only one restriction exists: per plugin only one UiAction
+can be bound per resource without view name. To define a JS function
+for the `UiAction`, "/" must be used as the name:
+
+[source,javascript]
+----
+Gerrit.install(function(self) {
+  function onDeleteProject(c) {
+    [...]
+  }
+  self.onAction('project', '/', onDeleteProject);
+});
+----
+
 [[http]]
 HTTP Servlets
 -------------

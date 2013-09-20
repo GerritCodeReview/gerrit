@@ -77,7 +77,8 @@ public class BaseInit extends SiteProgram {
     final SiteInit init = createSiteInit();
     beforeInit(init);
 
-    init.flags.autoStart = getAutoStart() && init.site.isNew;;
+    init.flags.autoStart = getAutoStart() && init.site.isNew;
+    init.flags.skipPlugins = skipPlugins();
 
     final SiteRun run;
     try {
@@ -101,6 +102,10 @@ public class BaseInit extends SiteProgram {
     System.err.println("Initialized " + getSitePath().getCanonicalPath());
     afterInit(run);
     return 0;
+  }
+
+  protected boolean skipPlugins() {
+    return false;
   }
 
   protected void beforeInit(SiteInit init) throws Exception {

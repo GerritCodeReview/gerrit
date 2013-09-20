@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "04b90faa_67103268",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 3164,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-20T07:22:15Z",
+      "side": 1,
+      "message": "Yes. The later suggestion is the way to go. Shawn proposed to change kind to \"suggestedreviewer\". I failed to update the class name too.",
+      "parentUuid": "04e02fae_6f3571eb",
+      "revId": "f3e527051f162d61d84b171167894f52614f5603",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04e02fae_0f3aa5da",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 18

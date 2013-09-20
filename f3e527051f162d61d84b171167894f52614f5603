@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04e02fae_6f3571eb",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 3164,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-20T06:35:35Z",
+      "side": 1,
+      "message": "The `kind` field\u0027s value is `suggestedreviewer`.\n\nTo make it consistent I would suggest changing one of them.\n\nI.e. change `kind` to `suggestreviewer`, or change this to `SuggestedReviewerInfo`.  I think the latter is better.",
+      "revId": "f3e527051f162d61d84b171167894f52614f5603",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04e02fae_0f3aa5da",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 3167,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-20T06:35:35Z",
+      "side": 1,
+      "message": "s/the change/a change",
+      "revId": "f3e527051f162d61d84b171167894f52614f5603",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4c1b71a_cd2349b2",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 3169,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-20T06:35:35Z",
+      "side": 1,
+      "message": "This should be formatted as a table, like in the other \"...Info\" entity descriptions.  See the one below (line 3179) for example.",
+      "revId": "f3e527051f162d61d84b171167894f52614f5603",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

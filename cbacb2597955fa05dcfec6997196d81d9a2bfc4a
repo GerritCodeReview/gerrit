@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "c4c1b71a_cd4ca978",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-20T08:40:07Z",
+      "side": 1,
+      "message": "Is there any way to enforce this?  Or is it just a recommendation?",
+      "revId": "cbacb2597955fa05dcfec6997196d81d9a2bfc4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "64e72b95_2239ceb4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfigProvider.java",
         "patchSetId": 3

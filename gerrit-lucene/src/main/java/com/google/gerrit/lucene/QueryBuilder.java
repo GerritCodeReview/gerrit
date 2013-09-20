@@ -23,6 +23,7 @@ import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.RegexPredicate;
+import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.TimestampRangePredicate;
 import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.NotPredicate;
@@ -54,26 +55,27 @@ public class QueryBuilder {
     return intTerm(ID_FIELD, cd.getId().get());
   }
 
-  public static Query toQuery(Predicate<ChangeData> p)
+  public static Query toQuery(Schema<ChangeData> schema, Predicate<ChangeData> p)
       throws QueryParseException {
     if (p instanceof AndPredicate) {
-      return and(p);
+      return and(schema, p);
     } else if (p instanceof OrPredicate) {
-      return or(p);
+      return or(schema, p);
     } else if (p instanceof NotPredicate) {
-      return not(p);
+      return not(schema, p);
     } else if (p instanceof IndexPredicate) {
-      return fieldQuery((IndexPredicate<ChangeData>) p);
+      return fieldQuery(schema, (IndexPredicate<ChangeData>) p);
     } else {
       throw new QueryParseException("cannot create query for index: " + p);
     }
   }
 
-  private static Query or(Predicate<ChangeData> p) throws QueryParseException {
+  private static Query or(Schema<ChangeData> schema, Predicate<ChangeData> p)
+      throws QueryParseException {
     try {
       BooleanQuery q = new BooleanQuery();
       for (int i = 0; i < p.getChildCount(); i++) {
-        q.add(toQuery(p.getChild(i)), SHOULD);
+        q.add(toQuery(schema, p.getChild(i)), SHOULD);
       }
       return q;
     } catch (BooleanQuery.TooManyClauses e) {
@@ -81,7 +83,8 @@ public class QueryBuilder {
     }
   }
 
-  private static Query and(Predicate<ChangeData> p) throws QueryParseException {
+  private static Query and(Schema<ChangeData> schema, Predicate<ChangeData> p)
+      throws QueryParseException {
     try {
       BooleanQuery b = new BooleanQuery();
       List<Query> not = Lists.newArrayListWithCapacity(p.getChildCount());
@@ -92,10 +95,10 @@ public class QueryBuilder {
           if (n instanceof TimestampRangePredicate) {
             b.add(notTimestamp((TimestampRangePredicate<ChangeData>) n), MUST);
           } else {
-            not.add(toQuery(n));
+            not.add(toQuery(schema, n));
           }
         } else {
-          b.add(toQuery(c), MUST);
+          b.add(toQuery(schema, c), MUST);
         }
       }
       for (Query q : not) {
@@ -107,7 +110,8 @@ public class QueryBuilder {
     }
   }
 
-  private static Query not(Predicate<ChangeData> p) throws QueryParseException {
+  private static Query not(Schema<ChangeData> schema, Predicate<ChangeData> p)
+      throws QueryParseException {
     Predicate<ChangeData> n = p.getChild(0);
     if (n instanceof TimestampRangePredicate) {
       return notTimestamp((TimestampRangePredicate<ChangeData>) n);
@@ -116,12 +120,12 @@ public class QueryBuilder {
     // Lucene does not support negation, start with all and subtract.
     BooleanQuery q = new BooleanQuery();
     q.add(new MatchAllDocsQuery(), MUST);
-    q.add(toQuery(n), MUST_NOT);
+    q.add(toQuery(schema, n), MUST_NOT);
     return q;
   }
 
-  private static Query fieldQuery(IndexPredicate<ChangeData> p)
-      throws QueryParseException {
+  private static Query fieldQuery(Schema<ChangeData> schema,
+      IndexPredicate<ChangeData> p) throws QueryParseException {
     if (p.getType() == FieldType.INTEGER) {
       return intQuery(p);
     } else if (p.getType() == FieldType.TIMESTAMP) {
@@ -133,7 +137,7 @@ public class QueryBuilder {
     } else if (p.getType() == FieldType.FULL_TEXT) {
       return fullTextQuery(p);
     } else if (p instanceof SortKeyPredicate) {
-      return sortKeyQuery((SortKeyPredicate) p);
+      return sortKeyQuery(schema, (SortKeyPredicate) p);
     } else {
       throw badFieldType(p.getType());
     }
@@ -158,12 +162,14 @@ public class QueryBuilder {
     return new TermQuery(intTerm(p.getField().getName(), value));
   }
 
-  private static Query sortKeyQuery(SortKeyPredicate p) {
+  private static Query sortKeyQuery(Schema<ChangeData> schema, SortKeyPredicate p) {
+    long min = p.getMinValue(schema);
+    long max = p.getMaxValue(schema);
     return NumericRangeQuery.newLongRange(
         p.getField().getName(),
-        p.getMinValue() != Long.MIN_VALUE ? p.getMinValue() : null,
-        p.getMaxValue() != Long.MAX_VALUE ? p.getMaxValue() : null,
-        true, true);
+        min != Long.MIN_VALUE ? min : null,
+        max != Long.MAX_VALUE ? max : null,
+        false, false);
   }
 
   private static Query timestampQuery(IndexPredicate<ChangeData> p)

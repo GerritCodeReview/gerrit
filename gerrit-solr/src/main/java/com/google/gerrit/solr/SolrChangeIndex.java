@@ -205,8 +205,8 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
     if (!Sets.intersection(statuses, CLOSED_STATUSES).isEmpty()) {
       indexes.add(closedIndex);
     }
-    return new QuerySource(indexes, QueryBuilder.toQuery(p), limit,
-        ChangeQueryBuilder.hasNonTrivialSortKeyAfter(p));
+    return new QuerySource(indexes, QueryBuilder.toQuery(schema, p), limit,
+        ChangeQueryBuilder.hasNonTrivialSortKeyAfter(schema, p));
   }
 
   private void commit(SolrServer server) throws IOException {

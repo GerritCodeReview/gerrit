@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04b90faa_8718c68a",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/BaseInit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-09-20T09:11:00Z",
+      "side": 1,
+      "message": "s/isSkipPlugin/isSkipPlugins",
+      "revId": "75b41e647cd3fe30ae5a3f0c2b69179b6a7aa5b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04b90faa_e71bc285",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-09-20T09:11:00Z",
+      "side": 1,
+      "message": "the method name should also be plural as the field name:\n\n  protected boolean isSkipPlugins()\n\noptional: I would prefer just skipPlugins as the name:\n\n  protected boolean skipPlugins()",
+      "revId": "75b41e647cd3fe30ae5a3f0c2b69179b6a7aa5b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

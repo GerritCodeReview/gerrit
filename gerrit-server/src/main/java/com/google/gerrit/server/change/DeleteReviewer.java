@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.DeleteReviewer.Input;
+import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -39,10 +40,12 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
   }
 
   private final Provider<ReviewDb> dbProvider;
+  private final ChangeIndexer indexer;
 
   @Inject
-  DeleteReviewer(Provider<ReviewDb> dbProvider) {
+  DeleteReviewer(Provider<ReviewDb> dbProvider, ChangeIndexer indexer) {
     this.dbProvider = dbProvider;
+    this.indexer = indexer;
   }
 
   @Override
@@ -70,6 +73,7 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
     } finally {
       db.rollback();
     }
+    indexer.index(rsrc.getChange());
     return Response.none();
   }
 

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "849dff27_bb43a743",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-20T00:04:02Z",
+      "side": 1,
+      "message": "Done. Since we still need to handle -b and -a parameters, I added it after that.",
+      "parentUuid": "443a27c6_314db044",
+      "revId": "c40c445d8a73fb516458eb15ed03d6ed200d5049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "849dff27_9b46eb54",
         "filename": "Documentation/asciidoc.defs",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2013-09-19T21:24:29Z",
       "side": 1,
       "message": "You can skip this, buck will automatically put them into $SRCS.",
+      "revId": "c40c445d8a73fb516458eb15ed03d6ed200d5049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_d16304b1",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 7
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-20T00:04:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "849dff27_9b46eb54",
       "revId": "c40c445d8a73fb516458eb15ed03d6ed200d5049",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "849dff27_5b86236d",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-20T00:04:02Z",
+      "side": 1,
+      "message": "I think the -b and -a part make this impractical?",
+      "parentUuid": "443a27c6_1152ace6",
+      "revId": "c40c445d8a73fb516458eb15ed03d6ed200d5049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "443a27c6_d13ae4a6",
         "filename": "lib/asciidoctor/java/Main.java",
         "patchSetId": 7
@@ -64,6 +118,24 @@
       "writtenOn": "2013-09-19T21:24:29Z",
       "side": 1,
       "message": "line wrap usage onto the next line, the @Option is overly long.",
+      "revId": "c40c445d8a73fb516458eb15ed03d6ed200d5049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_b16080a5",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-20T00:04:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "443a27c6_d13ae4a6",
       "revId": "c40c445d8a73fb516458eb15ed03d6ed200d5049",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -93,6 +165,24 @@
     },
     {
       "key": {
+        "uuid": "443a27c6_915d7cf3",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-20T00:04:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "849dff27_3b58f733",
+      "revId": "c40c445d8a73fb516458eb15ed03d6ed200d5049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "849dff27_5b59433a",
         "filename": "lib/asciidoctor/java/Main.java",
         "patchSetId": 7
@@ -110,6 +200,24 @@
         "endLine": 90,
         "endChar": 61
       },
+      "revId": "c40c445d8a73fb516458eb15ed03d6ed200d5049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "849dff27_7b8bdf71",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-20T00:04:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "849dff27_5b59433a",
       "revId": "c40c445d8a73fb516458eb15ed03d6ed200d5049",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -139,6 +247,24 @@
     },
     {
       "key": {
+        "uuid": "443a27c6_71f8d8ab",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-20T00:04:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "849dff27_1b53bb1c",
+      "revId": "c40c445d8a73fb516458eb15ed03d6ed200d5049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "849dff27_7b5e7f25",
         "filename": "lib/asciidoctor/java/Main.java",
         "patchSetId": 7
@@ -156,6 +282,24 @@
         "endLine": 93,
         "endChar": 65
       },
+      "revId": "c40c445d8a73fb516458eb15ed03d6ed200d5049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a27c6_51fdd499",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-20T00:04:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "849dff27_7b5e7f25",
       "revId": "c40c445d8a73fb516458eb15ed03d6ed200d5049",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -185,6 +329,24 @@
     },
     {
       "key": {
+        "uuid": "443a27c6_310250d6",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-20T00:04:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "849dff27_bb2ac781",
+      "revId": "c40c445d8a73fb516458eb15ed03d6ed200d5049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "443a27c6_b1476029",
         "filename": "lib/asciidoctor/java/Main.java",
         "patchSetId": 7
@@ -208,6 +370,24 @@
     },
     {
       "key": {
+        "uuid": "443a27c6_11074ce6",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-20T00:04:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "443a27c6_b1476029",
+      "revId": "c40c445d8a73fb516458eb15ed03d6ed200d5049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "443a27c6_f13de8a0",
         "filename": "lib/asciidoctor/java/Main.java",
         "patchSetId": 7
@@ -219,6 +399,24 @@
       "writtenOn": "2013-09-19T21:24:29Z",
       "side": 1,
       "message": "insert blank line after } before declaring a variable",
+      "revId": "c40c445d8a73fb516458eb15ed03d6ed200d5049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "849dff27_1b909b9d",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-20T00:04:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "443a27c6_f13de8a0",
       "revId": "c40c445d8a73fb516458eb15ed03d6ed200d5049",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -248,6 +446,24 @@
     },
     {
       "key": {
+        "uuid": "849dff27_3b95578e",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-20T00:04:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "849dff27_db4c7378",
+      "revId": "c40c445d8a73fb516458eb15ed03d6ed200d5049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "443a27c6_91445c25",
         "filename": "lib/asciidoctor/java/Main.java",
         "patchSetId": 7
@@ -271,6 +487,24 @@
     },
     {
       "key": {
+        "uuid": "849dff27_db99d3c8",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-20T00:04:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "443a27c6_91445c25",
+      "revId": "c40c445d8a73fb516458eb15ed03d6ed200d5049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "443a27c6_11398cb4",
         "filename": "lib/asciidoctor/java/Main.java",
         "patchSetId": 7
@@ -282,6 +516,24 @@
       "writtenOn": "2013-09-19T21:24:29Z",
       "side": 1,
       "message": "unnecessary blank line",
+      "revId": "c40c445d8a73fb516458eb15ed03d6ed200d5049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "849dff27_fb960f98",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-20T00:04:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "443a27c6_11398cb4",
       "revId": "c40c445d8a73fb516458eb15ed03d6ed200d5049",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

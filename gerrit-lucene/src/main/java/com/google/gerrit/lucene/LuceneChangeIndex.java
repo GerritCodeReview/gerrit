@@ -250,8 +250,8 @@ public class LuceneChangeIndex implements ChangeIndex {
     if (!Sets.intersection(statuses, CLOSED_STATUSES).isEmpty()) {
       indexes.add(closedIndex);
     }
-    return new QuerySource(indexes, QueryBuilder.toQuery(p), limit,
-        ChangeQueryBuilder.hasNonTrivialSortKeyAfter(p));
+    return new QuerySource(indexes, QueryBuilder.toQuery(schema, p), limit,
+        ChangeQueryBuilder.hasNonTrivialSortKeyAfter(schema, p));
   }
 
   @Override
@@ -300,7 +300,6 @@ public class LuceneChangeIndex implements ChangeIndex {
     @Override
     public ResultSet<ChangeData> read() throws OrmException {
       IndexSearcher[] searchers = new IndexSearcher[indexes.size()];
-      @SuppressWarnings("deprecation")
       Sort sort = new Sort(
           new SortField(
               ChangeField.SORTKEY.getName(),

@@ -34,6 +34,7 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.IndexCollection;
+import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
@@ -121,10 +122,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     return ((IntPredicate<?>) find(p, IntPredicate.class, FIELD_LIMIT)).intValue();
   }
 
-  public static boolean hasNonTrivialSortKeyAfter(Predicate<ChangeData> p) {
+  public static boolean hasNonTrivialSortKeyAfter(Schema<ChangeData> schema,
+      Predicate<ChangeData> p) {
     SortKeyPredicate after =
         (SortKeyPredicate) find(p, SortKeyPredicate.class, "sortkey_after");
-    return after != null && after.getMaxValue() > 0;
+    return after != null && after.getMaxValue(schema) > 0;
   }
 
   public static boolean hasSortKey(Predicate<ChangeData> p) {

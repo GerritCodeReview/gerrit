@@ -38,7 +38,7 @@ public class ChangeSchemas {
         ChangeField.REF,
         ChangeField.TOPIC,
         ChangeField.UPDATED,
-        ChangeField.SORTKEY,
+        ChangeField.LEGACY_SORTKEY,
         ChangeField.FILE,
         ChangeField.OWNER,
         ChangeField.REVIEWER,
@@ -51,6 +51,28 @@ public class ChangeSchemas {
 
   @SuppressWarnings({"unchecked", "deprecation"})
   static final Schema<ChangeData> V2 = release(
+        ChangeField.LEGACY_ID,
+        ChangeField.ID,
+        ChangeField.STATUS,
+        ChangeField.PROJECT,
+        ChangeField.REF,
+        ChangeField.TOPIC,
+        ChangeField.UPDATED,
+        ChangeField.LEGACY_SORTKEY,
+        ChangeField.FILE,
+        ChangeField.OWNER,
+        ChangeField.REVIEWER,
+        ChangeField.COMMIT,
+        ChangeField.TR,
+        ChangeField.LABEL,
+        ChangeField.REVIEWED,
+        ChangeField.COMMIT_MESSAGE,
+        ChangeField.COMMENT,
+        ChangeField.CHANGE,
+        ChangeField.APPROVAL);
+
+  @SuppressWarnings("unchecked")
+  static final Schema<ChangeData> V3 = release(
         ChangeField.LEGACY_ID,
         ChangeField.ID,
         ChangeField.STATUS,

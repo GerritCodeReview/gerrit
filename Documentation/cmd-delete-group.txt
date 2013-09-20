@@ -1,0 +1,50 @@
+gerrit delete-group
+===================
+
+NAME
+----
+gerrit delete-group - Delete an account group.
+
+SYNOPSIS
+--------
+[verse]
+'ssh' -p <port> <host> 'gerrit delete-group'
+  [--yes-really-delete]
+  [--force]
+  <GROUP>
+
+DESCRIPTION
+-----------
+Delete an account group.
+
+ACCESS
+------
+Caller must be a member of the privileged 'Administrators' group.
+
+SCRIPTING
+---------
+This command is intended to be used in scripts.
+
+OPTIONS
+-------
+<GROUP>::
+	Required; name of the group.
+
+--yes-really-delete::
+	Actually perform the deletion. If omitted, the command
+	will just output information about the deletion and then
+	exit.
+
+--force, -f::
+	Delete group even if it is used (not implemented yet).
+
+EXAMPLES
+--------
+
+====
+	$ ssh -p 29418 user@review.example.com gerrit delete-group --yes-really-delete gerritdev
+====
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

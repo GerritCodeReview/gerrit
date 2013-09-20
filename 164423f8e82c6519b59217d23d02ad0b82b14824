@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4c1b71a_8d2d419e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-20T07:09:48Z",
+      "side": 1,
+      "message": "Can you add an example of this in the dev-plugin documentation?",
+      "revId": "164423f8e82c6519b59217d23d02ad0b82b14824",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

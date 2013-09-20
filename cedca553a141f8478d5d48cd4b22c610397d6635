@@ -52,6 +52,24 @@
       "revId": "cedca553a141f8478d5d48cd4b22c610397d6635",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4addb69_a6a066e4",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/BaseInit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-09-20T13:32:00Z",
+      "side": 1,
+      "message": "I wouldn\u0027t fix getAutoStart in this change. Why? Because renaming of this method has nothing to do with what is written in the commit message (fixing of the acceptance test invocation from eclipse).\n\nAbout the isSkipPlugins vs skipPlugins I don\u0027t really have a very strong opinion. You can decide.",
+      "parentUuid": "e4addb69_06537a1c",
+      "revId": "cedca553a141f8478d5d48cd4b22c610397d6635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

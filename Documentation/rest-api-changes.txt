@@ -1020,6 +1020,48 @@ As result a list of link:#reviewer-info[ReviewerInfo] entries is returned.
   ]
 ----
 
+[[suggest-reviewers]]
+Suggest Reviewers
+~~~~~~~~~~~~~~~~~
+[verse]
+'GET /changes/link:#change-id[\{change-id\}]/suggest_reviewers?q=J&n=5'
+
+Suggest the reviewers for a given query `q` and result limit `n`. If result
+limit is not passed, then the default 10 is used.
+
+As result a list of link:#suggested-reviewer-info[SuggestedReviewerInfo] entries is returned.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/suggest_reviewers?q=J HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "kind": "gerritcodereview#suggestedreviewer",
+      "account": {
+        "_account_id": 1000097,
+        "name": "Jane Roe",
+        "email": "jane.roe@example.com"
+      }
+    },
+    {
+      "kind": "gerritcodereview#suggestedreviewer",
+      "group": {
+        "id": "4fd581c0657268f2bdcc26699fbf9ddb76e3a279",
+        "name": "Joiner"
+      }
+    }
+  ]
+----
+
 [[get-reviewer]]
 Get Reviewer
 ~~~~~~~~~~~~
@@ -2540,6 +2582,18 @@ permitted to vote on that label.
 The time and date describing when the approval was made.
 |===========================
 
+[[group-base-info]]
+GroupBaseInfo
+~~~~~~~~~~~~~
+The `GroupBaseInfo` entity contains base information about the group.
+
+[options="header",width="50%",cols="1,6"]
+|==========================
+|Field Name    |Description
+|`id`          |The id of the group.
+|`name`        |The name of the group.
+|==========================
+
 [[change-info]]
 ChangeInfo
 ~~~~~~~~~~
@@ -3117,6 +3171,17 @@ behavior matches how the rule will execute if installed. +
 If `SKIP` the parent filters are not called, allowing the test
 to return results from the input rule.
 |===========================
+
+[[suggested-reviewer-info]]
+SuggestedReviewerInfo
+~~~~~~~~~~~~~~~~~~~~~
+The `SuggestedReviewerInfo` entity contains information about a reviewer
+that can be added to a change (an account or a group).
+
+`SuggestedReviewerInfo` has either the `account` field that contains
+the link:rest-api-accounts.html#account-info[AccountInfo] entity, or
+the `group` field that contains the
+link:rest-api-changes.html#group-base-info[GroupBaseInfo] entity.
 
 [[submit-info]]
 SubmitInfo

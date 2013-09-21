@@ -144,6 +144,9 @@ public final class AccountGeneralPreferences {
   @Column(id = 14, length = 20, notNull = false)
   protected String diffView;
 
+  @Column(id = 15)
+  protected boolean loser;
+
   public AccountGeneralPreferences() {
   }
 
@@ -278,6 +281,14 @@ public final class AccountGeneralPreferences {
     this.diffView = diffView.name();
   }
 
+  public boolean isLoser() {
+    return loser;
+  }
+
+  public void setLoser(boolean loser) {
+    this.loser = loser;
+  }
+
   public void resetToDefaults() {
     maximumPageSize = DEFAULT_PAGESIZE;
     showSiteHeader = true;
@@ -292,5 +303,6 @@ public final class AccountGeneralPreferences {
     relativeDateInChangeTable = false;
     commentVisibilityStrategy = null;
     diffView = null;
+    loser = false;
   }
 }

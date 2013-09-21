@@ -12,22 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.change;
+package com.google.gerrit.server.schema;
 
-import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.changes.ChangeApi;
-import com.google.gerrit.client.changes.ChangeInfo;
-import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.reviewdb.client.Change;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
-class RebaseAction {
-  static void call(final Change.Id id, String revision) {
-    ChangeApi.rebase(id.get(), revision,
-      new GerritCallback<ChangeInfo>() {
-        public void onSuccess(ChangeInfo result) {
-          Gerrit.display(PageLinks.toChange(id));
-        }
-      });
+public class Schema_84 extends SchemaVersion {
+
+  @Inject
+  Schema_84(Provider<Schema_82> prior) {
+    super(prior);
   }
 }

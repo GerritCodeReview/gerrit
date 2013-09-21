@@ -49,6 +49,7 @@ public class MyPreferencesScreen extends SettingsScreen {
   private ListBox timeFormat;
   private ListBox commentVisibilityStrategy;
   private ListBox diffView;
+  private CheckBox loser;
   private Button save;
 
   @Override
@@ -92,6 +93,7 @@ public class MyPreferencesScreen extends SettingsScreen {
         com.google.gerrit.client.changes.Util.C.unifiedDiff(),
         AccountGeneralPreferences.DiffView.UNIFIED_DIFF.name()
     );
+    loser = new CheckBox(Util.C.loserLabel());
 
     Date now = new Date();
     dateFormat = new ListBox();
@@ -129,7 +131,7 @@ public class MyPreferencesScreen extends SettingsScreen {
 
     relativeDateInChangeTable = new CheckBox(Util.C.showRelativeDateInChangeTable());
 
-    final Grid formGrid = new Grid(10, 2);
+    final Grid formGrid = new Grid(11, 2);
 
     int row = 0;
     formGrid.setText(row, labelIdx, "");
@@ -172,6 +174,10 @@ public class MyPreferencesScreen extends SettingsScreen {
     formGrid.setWidget(row, fieldIdx, diffView);
     row++;
 
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, loser);
+    row++;
+
     add(formGrid);
 
     save = new Button(Util.C.buttonSaveChanges());
@@ -196,6 +202,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     e.listenTo(relativeDateInChangeTable);
     e.listenTo(commentVisibilityStrategy);
     e.listenTo(diffView);
+    e.listenTo(loser);
   }
 
   @Override
@@ -220,6 +227,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     relativeDateInChangeTable.setEnabled(on);
     commentVisibilityStrategy.setEnabled(on);
     diffView.setEnabled(on);
+    loser.setEnabled(on);
   }
 
   private void display(final AccountGeneralPreferences p) {
@@ -240,6 +248,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     setListBox(diffView,
         AccountGeneralPreferences.DiffView.SIDE_BY_SIDE,
         p.getDiffView());
+    loser.setValue(p.isLoser());
   }
 
   private void setListBox(final ListBox f, final short defaultValue,
@@ -310,6 +319,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     p.setDiffView(getListBox(diffView,
         AccountGeneralPreferences.DiffView.SIDE_BY_SIDE,
         AccountGeneralPreferences.DiffView.values()));
+    p.setLoser(loser.getValue());
 
     enable(false);
     save.setEnabled(false);

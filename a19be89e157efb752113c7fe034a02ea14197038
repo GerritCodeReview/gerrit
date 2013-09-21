@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4f07ba0_6eecaf3c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.ui.xml",
+        "patchSetId": 19
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-21T06:02:37Z",
+      "side": 1,
+      "message": "Edit icon was used for a reason here: the remove reviewers feature [1] uses the same form and thus edit icon makes much more sense.\n\n[1] https://gerrit-review.googlesource.com/49604",
+      "revId": "a19be89e157efb752113c7fe034a02ea14197038",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

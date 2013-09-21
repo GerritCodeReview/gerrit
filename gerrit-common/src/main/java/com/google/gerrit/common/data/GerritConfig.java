@@ -51,6 +51,7 @@ public class GerritConfig implements Cloneable {
   protected String anonymousCowardName;
   protected int suggestFrom;
   protected int changeUpdateDelay;
+  protected boolean legacyChangeScreen;
 
   public String getLoginUrl() {
     return loginUrl;
@@ -269,5 +270,13 @@ public class GerritConfig implements Cloneable {
 
   public void setChangeUpdateDelay(int seconds) {
     changeUpdateDelay = seconds;
+  }
+
+  public boolean isLegacyChangeScreen() {
+    return legacyChangeScreen;
+  }
+
+  public void setLegacyChangeScreen(boolean legacyChangeScreen) {
+    this.legacyChangeScreen = legacyChangeScreen;
   }
 }

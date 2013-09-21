@@ -93,8 +93,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwtorm.client.KeyUtil;
 
 public class Dispatcher {
-  private static boolean useChangeScreen2;
-
   public static String toPatchSideBySide(final Patch.Key id) {
     return toPatch("", null, id);
   }
@@ -202,9 +200,6 @@ public class Dispatcher {
 
     } else if (matchPrefix("/c/", token)) {
       change(token);
-
-    } else if (matchPrefix("/c2/", token)) {
-      change2(token);
 
     } else if (matchExact(MINE, token)) {
       Gerrit.display(token, mine(token));
@@ -480,9 +475,9 @@ public class Dispatcher {
 
     if (rest.isEmpty()) {
       Gerrit.display(token, panel== null
-          ? (useChangeScreen2
-              ? new ChangeScreen2(id, null, false)
-              : new ChangeScreen(id))
+          ? (isLegacyChangeScreen()
+              ? new ChangeScreen(id)
+              : new ChangeScreen2(id, null, false))
           : new NotFoundScreen());
       return;
     }
@@ -513,9 +508,9 @@ public class Dispatcher {
       patch(token, base, p, 0, null, null, panel);
     } else {
       if (panel == null) {
-        Gerrit.display(token, useChangeScreen2
-            ? new ChangeScreen2(id, String.valueOf(ps.get()), false)
-            : new ChangeScreen(id));
+        Gerrit.display(token, isLegacyChangeScreen()
+            ? new ChangeScreen(id)
+            : new ChangeScreen2(id, String.valueOf(ps.get()), false));
       } else if ("publish".equals(panel)) {
         publish(ps);
       } else {
@@ -524,19 +519,14 @@ public class Dispatcher {
     }
   }
 
-  private static void change2(final String token) {
-    String rest = skip(token);
-    Change.Id id;
-    int s = rest.indexOf('/');
-    if (0 <= s) {
-      id = Change.Id.parse(rest.substring(0, s));
-      rest = rest.substring(s + 1);
+  private static boolean isLegacyChangeScreen() {
+    if (!Gerrit.isSignedIn()) {
+      return Gerrit.getConfig().isLegacyChangeScreen();
     } else {
-      id = Change.Id.parse(rest);
-      rest = "";
+      return Gerrit.getUserAccount()
+          .getGeneralPreferences()
+          .isLegacyChangeScreen();
     }
-    useChangeScreen2 = true;
-    Gerrit.display(token, new ChangeScreen2(id, rest, false));
   }
 
   private static void publish(final PatchSet.Id ps) {

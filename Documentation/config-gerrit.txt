@@ -1357,6 +1357,13 @@ Gerrit service. By default this links to the upstream Gerrit
 Code Review's own bug tracker but could be directed to the system
 administrator's ticket queue.
 
+[[gerrit.legacyChangeScreen]]gerrit.legacyChangeScreen::
++
+By default, Gerrit will use new change screen if user is not authenticated.
+By setting this value to "true" the legacy change screen is used.
++
+Valid values are "true" and "false," default is "false."
+
 [[gitweb]]Section gitweb
 ~~~~~~~~~~~~~~~~~~~~~~~~
 

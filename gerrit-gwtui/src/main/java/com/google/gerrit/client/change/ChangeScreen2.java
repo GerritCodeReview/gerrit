@@ -120,7 +120,7 @@ public class ChangeScreen2 extends Screen {
   @UiField AnchorElement permalink;
 
   @UiField Element reviewersText;
-  @UiField Element ccText;
+  @UiField Reviewers reviewers;
   @UiField Element changeIdText;
   @UiField Element ownerText;
   @UiField Element statusText;
@@ -208,6 +208,7 @@ public class ChangeScreen2 extends Screen {
     Resources.I.style().ensureInjected();
     star.setVisible(Gerrit.isSignedIn());
     labels.init(style, statusText);
+    reviewers.init(style);
 
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
     keysNavigation.add(new KeyCommand(0, 'u', Util.C.upToChangeList()) {
@@ -239,6 +240,12 @@ public class ChangeScreen2 extends Screen {
         @Override
         public void onKeyPress(KeyPressEvent event) {
           star.setValue(!star.getValue(), true);
+        }
+      });
+      keysAction.add(new KeyCommand(0, 'c', Util.C.keyAddReviewers()) {
+        @Override
+        public void onKeyPress(KeyPressEvent event) {
+          reviewers.onOpenForm();
         }
       });
     }
@@ -654,8 +661,9 @@ public class ChangeScreen2 extends Screen {
     }
     r.remove(info.owner()._account_id());
     cc.remove(info.owner()._account_id());
-    reviewersText.setInnerSafeHtml(labels.formatUserList(r.values()));
-    ccText.setInnerSafeHtml(labels.formatUserList(cc.values()));
+    reviewersText.setInnerSafeHtml(Labels.formatUserList(style, r.values()));
+    reviewers.set(info.legacy_id());
+    reviewers.setReviewers(Labels.formatUserList(style, cc.values()));
   }
 
   private void renderOwner(ChangeInfo info) {

@@ -15,12 +15,14 @@
 
 from __future__ import print_function
 from optparse import OptionParser
+from os import path
 from sys import stderr
 from util import check_output
 
 opts = OptionParser()
 opts.add_option('--repository', help='maven repository id')
 opts.add_option('--url', help='maven repository url')
+opts.add_option('-o')
 opts.add_option('-a', help='action (valid actions are: install,deploy)')
 opts.add_option('-v', help='gerrit version')
 opts.add_option('-s', action='append', help='triplet of artifactId:type:path')
@@ -35,11 +37,13 @@ common = [
   '-Dversion=%s' % args.v,
 ]
 
+self = path.dirname(path.abspath(__file__))
+mvn = ['mvn', '--file', path.join(self, 'fake_pom.xml')]
+
 if 'install' == args.a:
-  cmd = ['mvn', 'install:install-file'] + common
+  cmd = mvn + ['install:install-file'] + common
 elif 'deploy' == args.a:
-  cmd = [
-    'mvn',
+  cmd = mvn + [
     'deploy:deploy-file',
     '-DrepositoryId=%s' % args.repository,
     '-Durl=%s' % args.url,
@@ -59,3 +63,10 @@ for spec in args.s:
   except Exception as e:
     print('%s command failed: %s' % (args.a, e), file=stderr)
     exit(1)
+
+with open(args.o, 'w') as fd:
+  if args.repository:
+    print('Repository: %s' % args.repository, file=fd)
+  if args.url:
+    print('URL: %s' % args.url, file=fd)
+  print('Version: %s' % args.v, file=fd)

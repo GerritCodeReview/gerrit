@@ -53,10 +53,10 @@ Eclipse Integration
 Generating the Eclipse Project
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Create the Eclipse project by building the `eclipse` target:
+Create the Eclipse project:
 
 ----
-  buck build eclipse
+  tools/eclipse/project.py
 ----
 
 In Eclipse, choose 'Import existing project' and select the `gerrit` project
@@ -65,21 +65,20 @@ from the current working directory.
 Expand the `gerrit` project, right-click on the `buck-out` folder, select
 'Properties', and then under 'Attributes' check 'Derived'.
 
-Note that if you make any changes in the project configuration that get
-saved to the `.project` file, for example adding Resource Filters on a
-folder, they will be overwritten the next time you run `buck build eclipse`.
+Note that if you make any changes in the project configuration
+that get saved to the `.project` file, for example adding Resource
+Filters on a folder, they will be overwritten the next time you run
+`tools/eclipse/project.py`.
 
 
 Refreshing the Classpath
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Normally `buck build eclipse` does everything necessary to generate a working Eclipse
-environment, but if the code doesn't compile and an updated classpath is needed, the
-Eclipse project can be refreshed and missing dependency JARs can be downloaded by
-building the `eclipse_project` and `download` targets:
+If an updated classpath is needed, the Eclipse project can be
+refreshed and missing dependency JARs can be downloaded:
 
 ----
-  buck build eclipse_project download
+  tools/eclipse/project.py
 ----
 
 
@@ -92,7 +91,7 @@ GWT compiler.  Additional sources may be obtained, allowing Eclipse to
 show documentation or dive into the implementation of a library JAR:
 
 ----
-  buck build download_sources
+  tools/eclipse/project.py --src
 ----
 
 
@@ -250,12 +249,10 @@ Dependencies
 
 Dependency JARs are normally downloaded automatically, but Buck can inspect
 its graph and download any missing JAR files.  This is useful to enable
-subsequent builds to run without network access.
-
-Force a download of dependency JARs by building the `download` target:
+subsequent builds to run without network access:
 
 ----
-  buck build download
+  tools/download_all.py
 ----
 
 When downloading from behind a proxy (which is common in some corporate

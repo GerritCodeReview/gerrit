@@ -73,7 +73,7 @@ class Header extends Composite {
     this.path = path;
 
     SafeHtml.setInnerHTML(filePath, formatPath(path));
-    up.setTargetHistoryToken(PageLinks.toChange2(
+    up.setTargetHistoryToken(PageLinks.toChange(
         patchSetId.getParentKey(),
         String.valueOf(patchSetId.get())));
   }

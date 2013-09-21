@@ -46,7 +46,7 @@ class RevertAction {
               public void onSuccess(ChangeInfo result) {
                 sent = true;
                 hide();
-                Gerrit.display(PageLinks.toChange2(result.legacy_id()));
+                Gerrit.display(PageLinks.toChange(result.legacy_id()));
               }
 
               @Override

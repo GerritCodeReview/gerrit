@@ -111,6 +111,8 @@ class GerritConfigProvider implements Provider<GerritConfig> {
         "contributoragreements", false));
     config.setGitDaemonUrl(cfg.getString("gerrit", null, "canonicalgiturl"));
     config.setGitHttpUrl(cfg.getString("gerrit", null, "gitHttpUrl"));
+    config.setLegacyChangeScreen(cfg.getBoolean("gerrit",
+        "legacyChangeScreen", false));
     config.setUseContactInfo(contactStore != null && contactStore.isEnabled());
     config.setDownloadSchemes(downloadConfig.getDownloadSchemes());
     config.setDownloadCommands(downloadConfig.getDownloadCommands());

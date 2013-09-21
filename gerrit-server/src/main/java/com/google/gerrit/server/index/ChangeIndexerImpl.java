@@ -30,6 +30,7 @@ import com.google.inject.util.Providers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.concurrent.Callable;
 
 /**
@@ -73,14 +74,21 @@ public class ChangeIndexerImpl extends ChangeIndexer {
 
   @Override
   public Callable<Void> indexTask(ChangeData cd) {
-    return new Task(cd);
+    return new Task(cd, false);
+  }
+
+  @Override
+  public Callable<Void> deleteTask(ChangeData cd) {
+    return new Task(cd, true);
   }
 
   private class Task implements Callable<Void> {
     private final ChangeData cd;
+    private final boolean delete;
 
-    private Task(ChangeData cd) {
+    private Task(ChangeData cd, boolean delete) {
       this.cd = cd;
+      this.delete = delete;
     }
 
     @Override
@@ -101,10 +109,10 @@ public class ChangeIndexerImpl extends ChangeIndexer {
           });
           if (indexes != null) {
             for (ChangeIndex i : indexes.getWriteIndexes()) {
-              i.replace(cd); // TODO(dborowitz): Parallelize these
+              apply(i, cd); // TODO(dborowitz): Parallelize these
             }
           } else {
-            index.replace(cd);
+            apply(index, cd);
           }
           return null;
         } finally  {
@@ -116,6 +124,14 @@ public class ChangeIndexerImpl extends ChangeIndexer {
             "Failed to index change %d in %s",
             cd.getId().get(), cd.getChange().getProject().get()), e);
         throw e;
+      }
+    }
+
+    private void apply(ChangeIndex i, ChangeData cd) throws IOException {
+      if (delete) {
+        i.delete(cd);
+      } else {
+        i.replace(cd);
       }
     }
 

@@ -50,6 +50,16 @@ public abstract class ChangeIndexer {
         }
       };
     }
+
+    @Override
+    public Callable<Void> deleteTask(ChangeData cd) {
+      return new Callable<Void>() {
+        @Override
+        public Void call() {
+          return null;
+        }
+      };
+    }
   };
 
   private final ListeningScheduledExecutorService executor;
@@ -85,4 +95,32 @@ public abstract class ChangeIndexer {
    * @return unstarted runnable to index the change.
    */
   public abstract Callable<Void> indexTask(ChangeData cd);
+
+  /**
+   * Start deleting a change.
+   *
+   * @param change change to delete.
+   * @return future for the deleting task.
+   */
+  public ListenableFuture<?> delete(Change change) {
+    return delete(new ChangeData(change));
+  }
+
+  /**
+   * Start deleting a change.
+   *
+   * @param change change to delete.
+   * @return future for the deleting task.
+   */
+  public ListenableFuture<?> delete(ChangeData cd) {
+    return executor.submit(deleteTask(cd));
+  }
+
+  /**
+   * Create a runnable to delete a change.
+   *
+   * @param cd change to delete.
+   * @return unstarted runnable to delete the change.
+   */
+  public abstract Callable<Void> deleteTask(ChangeData cd);
 }

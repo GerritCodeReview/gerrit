@@ -26,6 +26,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.DeleteDraftChange.Input;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
@@ -42,15 +43,18 @@ public class DeleteDraftChange implements
   protected final Provider<ReviewDb> dbProvider;
   private final GitRepositoryManager gitManager;
   private final GitReferenceUpdated gitRefUpdated;
+  private final ChangeIndexer indexer;
 
   @Inject
   public DeleteDraftChange(Provider<ReviewDb> dbProvider,
       GitRepositoryManager gitManager,
       GitReferenceUpdated gitRefUpdated,
-      PatchSetInfoFactory patchSetInfoFactory) {
+      PatchSetInfoFactory patchSetInfoFactory,
+      ChangeIndexer indexer) {
     this.dbProvider = dbProvider;
     this.gitManager = gitManager;
     this.gitRefUpdated = gitRefUpdated;
+    this.indexer = indexer;
   }
 
   @Override
@@ -67,7 +71,7 @@ public class DeleteDraftChange implements
 
     try {
       ChangeUtil.deleteDraftChange(rsrc.getChange().getId(),
-          gitManager, gitRefUpdated, dbProvider.get());
+          gitManager, gitRefUpdated, dbProvider.get(), indexer);
     } catch (NoSuchChangeException e) {
       throw new ResourceNotFoundException(e.getMessage());
     }

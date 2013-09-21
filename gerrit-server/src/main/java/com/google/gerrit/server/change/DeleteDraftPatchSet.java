@@ -28,6 +28,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.DeleteDraftPatchSet.Input;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -47,16 +48,19 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
   private final GitRepositoryManager gitManager;
   private final GitReferenceUpdated gitRefUpdated;
   private final PatchSetInfoFactory patchSetInfoFactory;
+  private final ChangeIndexer indexer;
 
   @Inject
   public DeleteDraftPatchSet(Provider<ReviewDb> dbProvider,
       GitRepositoryManager gitManager,
       GitReferenceUpdated gitRefUpdated,
-      PatchSetInfoFactory patchSetInfoFactory) {
+      PatchSetInfoFactory patchSetInfoFactory,
+      ChangeIndexer indexer) {
     this.dbProvider = dbProvider;
     this.gitManager = gitManager;
     this.gitRefUpdated = gitRefUpdated;
     this.patchSetInfoFactory = patchSetInfoFactory;
+    this.indexer = indexer;
   }
 
   @Override
@@ -129,7 +133,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
       throws OrmException, IOException, ResourceNotFoundException {
     try {
       ChangeUtil.deleteDraftChange(patchSetId,
-          gitManager, gitRefUpdated, dbProvider.get());
+          gitManager, gitRefUpdated, dbProvider.get(), indexer);
     } catch (NoSuchChangeException e) {
       throw new ResourceNotFoundException(e.getMessage());
     }

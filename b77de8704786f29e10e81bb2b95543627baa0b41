@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84625f22_f3fff0dc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfig.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-21T03:17:38Z",
+      "side": 1,
+      "message": "I think I would prefer something like this for the implementation:\n\n  List\u003cProjectState\u003e tree \u003d Lists.newArrayList(\n      projectStateFactory.create(projectConfig).tree());\n  Collections.reverse(tree);\n\n  Config c \u003d new Config();\n  copy(c, tree.get(0));\n\n  for (int i \u003d 1; i \u003c tree.size(); i++) {\n    c \u003d new Config(c);\n    copy(c, tree.get(i));\n  }\n  cfg \u003d c;\n\n  private void copy(Config dst, ProjectState state) {\n    Config src \u003d state.getConfig();\n    for (String name : src.getNames(PLUGIN, pluginName)) {\n      dst.setStringList(PLUGIN, pluginName, Arrays.asList(\n        src.getStringList(PLUGIN, pluginName, name));\n    }\n  }\n\nThen standard Git and JGit inheritance rules apply. For single value variables the child overrides the parent. For getStringList() all values are presented, in inheritance order from the child up through parents with All-Projects last.\n\nBut I could be convinced otherwise.",
+      "revId": "b77de8704786f29e10e81bb2b95543627baa0b41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

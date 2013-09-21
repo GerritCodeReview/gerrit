@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84625f22_53f18414",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-21T02:54:26Z",
+      "side": 1,
+      "message": "useful",
+      "range": {
+        "startLine": 687,
+        "startChar": 0,
+        "endLine": 687,
+        "endChar": 7
+      },
+      "revId": "f02830cef79723458944e1432258fdcf32ca0f31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84625f22_b3f57803",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-21T02:54:26Z",
+      "side": 1,
+      "message": "a",
+      "range": {
+        "startLine": 707,
+        "startChar": 38,
+        "endLine": 707,
+        "endChar": 40
+      },
+      "revId": "f02830cef79723458944e1432258fdcf32ca0f31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

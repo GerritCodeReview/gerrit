@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84625f22_733ac0db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-21T03:53:33Z",
+      "side": 1,
+      "message": "This is why we haven\u0027t offered group deletion yet. The hard part is crawling all of the access controls and making reasonably certain the group is not mentioned in any groups file.\n\nIf it is, the admin might want to see the list of projects, or just try to force deletion by also removing the access controls.",
+      "range": {
+        "startLine": 11,
+        "startChar": 2,
+        "endLine": 12,
+        "endChar": 10
+      },
+      "revId": "4ab175e9c2bd2135e1cabfdef2c374981452eaff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

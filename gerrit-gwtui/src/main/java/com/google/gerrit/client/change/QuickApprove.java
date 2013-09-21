@@ -112,7 +112,7 @@ class QuickApprove extends Button implements ClickHandler {
       .post(input, new GerritCallback<ReviewInput>() {
         @Override
         public void onSuccess(ReviewInput result) {
-          Gerrit.display(PageLinks.toChange2(changeId));
+          Gerrit.display(PageLinks.toChange(changeId));
         }
       });
   }

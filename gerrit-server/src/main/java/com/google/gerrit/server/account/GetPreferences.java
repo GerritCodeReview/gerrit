@@ -61,6 +61,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
     Boolean relativeDateInChangeTable;
     CommentVisibilityStrategy commentVisibilityStrategy;
     DiffView diffView;
+    Boolean legacyChangeScreen;
 
     PreferenceInfo(AccountGeneralPreferences p) {
       changesPerPage = p.getMaximumPageSize();
@@ -76,6 +77,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
       relativeDateInChangeTable = p.isRelativeDateInChangeTable() ? true : null;
       commentVisibilityStrategy = p.getCommentVisibilityStrategy();
       diffView = p.getDiffView();
+      legacyChangeScreen = p.isLegacyChangeScreen() ? true : null;
     }
   }
 }

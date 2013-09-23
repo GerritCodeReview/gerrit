@@ -14,9 +14,10 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
-import java.util.List;
+import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
+import com.google.gerrit.reviewdb.client.Project.SubmitType;
 
-public class ChangeInfo {
-  List<ChangeMessageInfo> messages;
-  String status;
+public class ProjectConfigInput {
+  public SubmitType submit_type;
+  public InheritableBoolean use_content_merge;
 }

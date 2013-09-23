@@ -14,9 +14,12 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
-import java.util.List;
+public class SubmitInput {
+  boolean wait_for_merge;
 
-public class ChangeInfo {
-  List<ChangeMessageInfo> messages;
-  String status;
+  public static SubmitInput waitForMerge() {
+    SubmitInput in = new SubmitInput();
+    in.wait_for_merge = true;
+    return in;
+  }
 }

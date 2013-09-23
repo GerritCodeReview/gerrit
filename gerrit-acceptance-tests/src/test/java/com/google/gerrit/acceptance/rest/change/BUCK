@@ -1,14 +1,39 @@
 include_defs('//gerrit-acceptance-tests/tests.defs')
 
 acceptance_tests(
-  srcs = glob(['*IT.java']),
+  srcs = ['ChangeMessagesIT.java'],
   deps = [
     ':util',
     '//gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git:util',
   ],
 )
 
+acceptance_tests(
+  srcs = ['SubmitByCherryPickIT.java', 'SubmitByFastForwardIT.java',
+          'SubmitByMergeAlwaysIT.java', 'SubmitByMergeIfNecessaryIT.java',
+          'SubmitByRebaseIfNecessaryIT.java'],
+  deps = [
+    ':submit',
+    '//gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git:util',
+  ],
+)
+
+java_library(
+  name = 'submit',
+  srcs = ['AbstractSubmit.java', 'AbstractSubmitByMerge.java'],
+  deps = [
+    ':util',
+    '//gerrit-acceptance-tests:lib',
+    '//gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git:util',
+  ],
+)
+
 java_library(
   name = 'util',
-  srcs = ['ChangeInfo.java', 'ChangeMessageInfo.java'],
+  srcs = ['ChangeInfo.java', 'ChangeMessageInfo.java', 'ProjectConfigInput.java',
+          'ReviewInput.java', 'SubmitInput.java'],
+  deps = [
+    '//lib:guava',
+    '//gerrit-reviewdb:server',
+  ],
 )

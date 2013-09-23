@@ -52,6 +52,24 @@
       "revId": "b77de8704786f29e10e81bb2b95543627baa0b41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4ed37cb_8d1be186",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfig.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-23T16:59:22Z",
+      "side": 1,
+      "message": "No problem, going back to patch set 13 then.",
+      "parentUuid": "84625f22_7353e01b",
+      "revId": "b77de8704786f29e10e81bb2b95543627baa0b41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

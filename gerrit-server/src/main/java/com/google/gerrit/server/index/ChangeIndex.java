@@ -132,7 +132,11 @@ public interface ChangeIndex {
    *     or NOT predicates as internal nodes, and {@link IndexPredicate}s as
    *     leaves.
    * @param limit maximum number of results to return.
-   * @return a source of documents matching the predicate.
+   * @return a source of documents matching the predicate. Documents must be
+   *     returned in descending sort key order, unless a {@code sortkey_after}
+   *     predicate (with a cut point not at {@link Long#MAX_VALUE}) is provided,
+   *     in which case the source should return documents in ascending sort key
+   *     order starting from the sort key cut point.
    *
    * @throws QueryParseException if the predicate could not be converted to an
    *     indexed data source.

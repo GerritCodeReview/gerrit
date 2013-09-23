@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2407f353_b0f55803",
+        "filename": "gerrit-server/BUCK",
+        "patchSetId": 14
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-23T17:09:27Z",
+      "side": 1,
+      "message": "Nit: please break this and indent, see e.g. compile_deps in server below.",
+      "revId": "e774d3f98b5e2dec44612e01c551edd053ae642f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2407f353_90f2d416",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/rules/GerritCommonTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-23T17:09:27Z",
+      "side": 1,
+      "message": "Are you actually testing anything by setting these new config values on these labels? Or by using labels other than the default set for that matter? Not that this is necessarily a problem, just wondering for the purposes of this review.",
+      "revId": "e774d3f98b5e2dec44612e01c551edd053ae642f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

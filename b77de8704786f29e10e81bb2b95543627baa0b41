@@ -16,6 +16,24 @@
       "revId": "b77de8704786f29e10e81bb2b95543627baa0b41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4f07ba0_8ef2bb16",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfig.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-23T09:06:45Z",
+      "side": 1,
+      "message": "If this is the standard behaviour for inheritance of config settings in Git and JGit we should follow the same rule here. Although personally I find it more intuitive to get the inherited values for getStringList(...) only if the child config doesn\u0027t define this key at all. \n\nI\u0027ve implemented the suggested coding. As result getStringList(...) is now returning all values, but the order of the values is top down from All-Projects down to the child. Looking at the implementation of Config.getStringList(...) I can see that first the values from the base are copied and then the own values are appended. Is this a bug in JGit and the sorting should actually be the other way around?\n\n  System.arraycopy(base, 0, res, 0, n);\n  System.arraycopy(self, 0, res, n, self.length);",
+      "parentUuid": "84625f22_f3fff0dc",
+      "revId": "b77de8704786f29e10e81bb2b95543627baa0b41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

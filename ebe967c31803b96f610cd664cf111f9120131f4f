@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2407f353_50f18c14",
+        "filename": "contrib/gerrit-ssh-http-adapter.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-23T12:51:35Z",
+      "side": 1,
+      "message": "PEP-257 nit:  class docstrings should have a blank line above and below.\n\n class MyClass:\n \n     \"\"\" Class docstring. \"\"\"\n \n     def _init(self)__:\n         ...",
+      "revId": "ebe967c31803b96f610cd664cf111f9120131f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2407f353_70ec903c",
+        "filename": "contrib/gerrit-ssh-http-adapter.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-23T12:51:35Z",
+      "side": 1,
+      "message": "`text.lstrip(GERRIT_JSON_PREFIX)` does not remove the string `GERRIT_JSON_PREFIX` from the left side of `text`, it removes all instances of all characters in `GERRIT_JSON_PREFIX` from the left side.\n\nWhile in this instance it most likely works because the string received from Gerrit is unlikely to include any of those characters after the prefix, it would be safer to do:\n\n  `response.text[len(GERRIT_JSON_PREFIX):]`",
+      "revId": "ebe967c31803b96f610cd664cf111f9120131f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c468d704_75ec683c",
+        "filename": "contrib/gerrit-ssh-http-adapter.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-23T12:51:35Z",
+      "side": 1,
+      "message": "No authentication handler is being given in the `get`, so the requests library will fall back to using HTTP basic authentication with credentials from the user\u0027s .netrc, if any exist.\n\nAssuming the user has put the generated http username and password in their .netrc, this will work with gerrit-review.googlesource.com, because the username and password are already hashed and the server accepts them via basic authentication.  I.e. requests can put the .netrc credentials in a `requests.auth.HTTPBasicAuth` handler.\n\nHowever, this will not work with a Gerrit server running \"out of the box\", which generates plain text passwords which must be hashed on the client side before sending.  I.e. the authentication must be done with a `requests.auth.HTTPDigestAuth` handler.",
+      "revId": "ebe967c31803b96f610cd664cf111f9120131f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

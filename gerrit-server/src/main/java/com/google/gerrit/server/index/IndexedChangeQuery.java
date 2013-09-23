@@ -40,12 +40,14 @@ import java.util.List;
  */
 public class IndexedChangeQuery extends Predicate<ChangeData>
     implements ChangeDataSource {
+  private final ChangeIndex index;
   private final Predicate<ChangeData> pred;
   private final int limit;
   private final ChangeDataSource source;
 
   public IndexedChangeQuery(ChangeIndex index, Predicate<ChangeData> pred, int limit)
       throws QueryParseException {
+    this.index = index;
     this.pred = pred;
     this.limit = limit;
     this.source = index.getSource(pred, limit);
@@ -76,7 +78,8 @@ public class IndexedChangeQuery extends Predicate<ChangeData>
 
   @Override
   public boolean hasChange() {
-    return source.hasChange();
+    return index.getSchema().getFields()
+        .containsKey(ChangeField.CHANGE.getName());
   }
 
   @Override

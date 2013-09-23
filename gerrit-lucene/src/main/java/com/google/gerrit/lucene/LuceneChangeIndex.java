@@ -42,6 +42,7 @@ import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.assistedinject.Assisted;
@@ -249,7 +250,8 @@ public class LuceneChangeIndex implements ChangeIndex {
     if (!Sets.intersection(statuses, CLOSED_STATUSES).isEmpty()) {
       indexes.add(closedIndex);
     }
-    return new QuerySource(indexes, QueryBuilder.toQuery(p), limit);
+    return new QuerySource(indexes, QueryBuilder.toQuery(p), limit,
+        ChangeQueryBuilder.hasNonTrivialSortKeyAfter(p));
   }
 
   @Override
@@ -270,11 +272,14 @@ public class LuceneChangeIndex implements ChangeIndex {
     private final List<SubIndex> indexes;
     private final Query query;
     private final int limit;
+    private final boolean reverse;
 
-    public QuerySource(List<SubIndex> indexes, Query query, int limit) {
+    private QuerySource(List<SubIndex> indexes, Query query, int limit,
+        boolean reverse) {
       this.indexes = indexes;
       this.query = query;
       this.limit = limit;
+      this.reverse = reverse;
     }
 
     @Override
@@ -295,11 +300,14 @@ public class LuceneChangeIndex implements ChangeIndex {
     @Override
     public ResultSet<ChangeData> read() throws OrmException {
       IndexSearcher[] searchers = new IndexSearcher[indexes.size()];
+      @SuppressWarnings("deprecation")
       Sort sort = new Sort(
           new SortField(
-              ChangeField.UPDATED.getName(),
-              SortField.Type.INT,
-              true /* descending */));
+              ChangeField.SORTKEY.getName(),
+              SortField.Type.LONG,
+              // Standard order is descending by sort key, unless reversed due
+              // to a sortkey_before predicate.
+              !reverse));
       try {
         TopDocs[] hits = new TopDocs[indexes.size()];
         for (int i = 0; i < indexes.size(); i++) {

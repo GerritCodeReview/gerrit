@@ -41,6 +41,7 @@ import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 
@@ -204,7 +205,8 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
     if (!Sets.intersection(statuses, CLOSED_STATUSES).isEmpty()) {
       indexes.add(closedIndex);
     }
-    return new QuerySource(indexes, QueryBuilder.toQuery(p), limit);
+    return new QuerySource(indexes, QueryBuilder.toQuery(p), limit,
+        ChangeQueryBuilder.hasNonTrivialSortKeyAfter(p));
   }
 
   private void commit(SolrServer server) throws IOException {
@@ -219,7 +221,9 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
     private final List<SolrServer> indexes;
     private final SolrQuery query;
 
-    public QuerySource(List<SolrServer> indexes, Query q, int limit) {
+    @SuppressWarnings("deprecation")
+    public QuerySource(List<SolrServer> indexes, Query q, int limit,
+        boolean reverse) {
       this.indexes = indexes;
 
       query = new SolrQuery(q.toString());
@@ -227,8 +231,8 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
       query.setParam("rows", Integer.toString(limit));
       query.setFields(ID_FIELD);
       query.setSort(
-          ChangeField.UPDATED.getName(),
-          SolrQuery.ORDER.desc);
+          ChangeField.SORTKEY.getName(),
+          !reverse ? SolrQuery.ORDER.desc : SolrQuery.ORDER.asc);
     }
 
     @Override

@@ -34,6 +34,24 @@
       "revId": "b77de8704786f29e10e81bb2b95543627baa0b41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84625f22_7353e01b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfig.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-23T15:21:31Z",
+      "side": 1,
+      "message": "OK, obviously I don\u0027t understand what the correct ordering should be.\n\nI just retested with git config and --get-all returns parent then children. So JGit is correct in returning All-Projects down to the child from getStringList().\n\nThis is perhaps not useful in this context. So maybe this version in revision 13 is the best approach. Sorry for the confusion.",
+      "parentUuid": "e4f07ba0_8ef2bb16",
+      "revId": "b77de8704786f29e10e81bb2b95543627baa0b41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -14,17 +14,22 @@
 
 package com.google.gerrit.server.index;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
-
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
+import com.google.gerrit.server.query.change.Paginated;
+import com.google.gerrit.server.query.change.SortKeyPredicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
+import com.google.inject.Provider;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -39,18 +44,55 @@ import java.util.List;
  * {@link ChangeDataSource} to be chosen by the query processor.
  */
 public class IndexedChangeQuery extends Predicate<ChangeData>
-    implements ChangeDataSource {
-  private final ChangeIndex index;
-  private final Predicate<ChangeData> pred;
-  private final int limit;
-  private final ChangeDataSource source;
+    implements ChangeDataSource, Paginated {
 
-  public IndexedChangeQuery(ChangeIndex index, Predicate<ChangeData> pred, int limit)
-      throws QueryParseException {
+  /**
+   * Replace all {@link SortKeyPredicate}s in a tree.
+   * <p>
+   * Strictly speaking this should replace only the {@link SortKeyPredicate} at
+   * the top-level AND node, but this implementation is simpler, and the
+   * behavior of having multiple sortkey operators is undefined anyway.
+   *
+   * @param p predicate to replace in.
+   * @param newValue new cut value to replace all sortkey operators with.
+   * @return a copy of {@code p} with all sortkey predicates replaced; or p
+   *     itself.
+   */
+  @VisibleForTesting
+  static Predicate<ChangeData> replaceSortKeyPredicates(
+      Predicate<ChangeData> p, String newValue) {
+    if (p instanceof SortKeyPredicate) {
+      return ((SortKeyPredicate) p).copy(newValue);
+    } else if (p.getChildCount() > 0) {
+      List<Predicate<ChangeData>> newChildren =
+          Lists.newArrayListWithCapacity(p.getChildCount());
+      boolean replaced = false;
+      for (Predicate<ChangeData> c : p.getChildren()) {
+        Predicate<ChangeData> nc = replaceSortKeyPredicates(c, newValue);
+        newChildren.add(nc);
+        if (nc != c) {
+          replaced = true;
+        }
+      }
+      return replaced ? p.copy(newChildren) : p;
+    } else {
+      return p;
+    }
+  }
+
+  private final Provider<ReviewDb> db;
+  private final ChangeIndex index;
+  private final int limit;
+
+  private Predicate<ChangeData> pred;
+  private ChangeDataSource source;
+
+  public IndexedChangeQuery(Provider<ReviewDb> db, ChangeIndex index,
+      Predicate<ChangeData> pred, int limit) throws QueryParseException {
+    this.db = db;
     this.index = index;
     this.pred = pred;
     this.limit = limit;
-    this.source = index.getSource(pred, limit);
   }
 
   @Override
@@ -72,8 +114,13 @@ public class IndexedChangeQuery extends Predicate<ChangeData>
   }
 
   @Override
+  public int limit() {
+    return limit;
+  }
+
+  @Override
   public int getCardinality() {
-    return source.getCardinality();
+    return source != null ? source.getCardinality() : limit();
   }
 
   @Override
@@ -84,7 +131,15 @@ public class IndexedChangeQuery extends Predicate<ChangeData>
 
   @Override
   public ResultSet<ChangeData> read() throws OrmException {
+    final ChangeDataSource currSource;
+    try {
+      currSource = index.getSource(pred, limit);
+    } catch (QueryParseException e) {
+      throw new OrmException(e);
+    }
+    source = currSource;
     final ResultSet<ChangeData> rs = source.read();
+
     return new ResultSet<ChangeData>() {
       @Override
       public Iterator<ChangeData> iterator() {
@@ -94,7 +149,7 @@ public class IndexedChangeQuery extends Predicate<ChangeData>
               @Override
               public
               ChangeData apply(ChangeData input) {
-                input.cacheFromSource(source);
+                input.cacheFromSource(currSource);
                 return input;
               }
             }).iterator();
@@ -104,7 +159,7 @@ public class IndexedChangeQuery extends Predicate<ChangeData>
       public List<ChangeData> toList() {
         List<ChangeData> r = rs.toList();
         for (ChangeData cd : r) {
-          cd.cacheFromSource(source);
+          cd.cacheFromSource(currSource);
         }
         return r;
       }
@@ -117,6 +172,12 @@ public class IndexedChangeQuery extends Predicate<ChangeData>
   }
 
   @Override
+  public ResultSet<ChangeData> restart(ChangeData last) throws OrmException {
+    pred = replaceSortKeyPredicates(pred, last.change(db).getSortKey());
+    return read();
+  }
+
+  @Override
   public Predicate<ChangeData> copy(
       Collection<? extends Predicate<ChangeData>> children) {
     return this;
@@ -124,7 +185,7 @@ public class IndexedChangeQuery extends Predicate<ChangeData>
 
   @Override
   public boolean match(ChangeData cd) throws OrmException {
-    return cd.isFromSource(source) || pred.match(cd);
+    return (source != null && cd.isFromSource(source)) || pred.match(cd);
   }
 
   @Override
@@ -153,7 +214,7 @@ public class IndexedChangeQuery extends Predicate<ChangeData>
   @Override
   public String toString() {
     return Objects.toStringHelper("index")
-        .add("p", source)
+        .add("p", pred)
         .add("limit", limit)
         .toString();
   }

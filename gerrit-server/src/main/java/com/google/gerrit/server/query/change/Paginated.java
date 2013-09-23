@@ -17,7 +17,7 @@ package com.google.gerrit.server.query.change;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 
-interface Paginated {
+public interface Paginated {
   int limit();
 
   ResultSet<ChangeData> restart(ChangeData last) throws OrmException;

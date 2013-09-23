@@ -38,6 +38,7 @@ public abstract class SortKeyPredicate extends IndexPredicate<ChangeData> {
 
   public abstract long getMinValue();
   public abstract long getMaxValue();
+  public abstract SortKeyPredicate copy(String newValue);
 
   public static class Before extends SortKeyPredicate {
     Before(Provider<ReviewDb> dbProvider, String value) {
@@ -58,6 +59,11 @@ public abstract class SortKeyPredicate extends IndexPredicate<ChangeData> {
     public boolean match(ChangeData cd) throws OrmException {
       Change change = cd.change(dbProvider);
       return change != null && change.getSortKey().compareTo(getValue()) < 0;
+    }
+
+    @Override
+    public Before copy(String newValue) {
+      return new Before(dbProvider, newValue);
     }
   }
 
@@ -80,6 +86,11 @@ public abstract class SortKeyPredicate extends IndexPredicate<ChangeData> {
     public boolean match(ChangeData cd) throws OrmException {
       Change change = cd.change(dbProvider);
       return change != null && change.getSortKey().compareTo(getValue()) > 0;
+    }
+
+    @Override
+    public After copy(String newValue) {
+      return new After(dbProvider, newValue);
     }
   }
 }

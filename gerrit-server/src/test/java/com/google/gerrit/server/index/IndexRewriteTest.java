@@ -214,7 +214,7 @@ public class IndexRewriteTest extends TestCase {
 
   private IndexedChangeQuery query(Predicate<ChangeData> p, int limit)
       throws QueryParseException {
-    return new IndexedChangeQuery(index, p, limit);
+    return new IndexedChangeQuery(null, index, p, limit);
   }
 
   private Set<Change.Status> status(String query) throws QueryParseException {

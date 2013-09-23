@@ -21,21 +21,16 @@ import static com.google.gerrit.reviewdb.client.Change.Status.NEW;
 import static com.google.gerrit.reviewdb.client.Change.Status.SUBMITTED;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.query.AndPredicate;
-import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.RewritePredicate;
 import com.google.gerrit.server.query.change.AndSource;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.OrSource;
 import com.google.gerrit.server.query.change.SqlRewriterImpl;
-import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.ResultSet;
 
 import junit.framework.TestCase;
 
@@ -44,127 +39,7 @@ import java.util.Set;
 
 @SuppressWarnings("unchecked")
 public class IndexRewriteTest extends TestCase {
-  private static Schema<ChangeData> V1 = new Schema<ChangeData>(
-      1, false, ImmutableList.<FieldDef<ChangeData, ?>> of(
-          ChangeField.STATUS));
-
-  private static Schema<ChangeData> V2 = new Schema<ChangeData>(
-      2, false, ImmutableList.of(
-          ChangeField.STATUS,
-          ChangeField.FILE));
-
-  private static class DummyIndex implements ChangeIndex {
-    private final Schema<ChangeData> schema;
-
-    private DummyIndex(Schema<ChangeData> schema) {
-      this.schema = schema;
-    }
-
-    @Override
-    public ListenableFuture<Void> insert(ChangeData cd) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public ListenableFuture<Void> replace(ChangeData cd) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public ListenableFuture<Void> delete(ChangeData cd) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void deleteAll() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public ChangeDataSource getSource(Predicate<ChangeData> p, int limit)
-        throws QueryParseException {
-      return new Source(p);
-    }
-
-    @Override
-    public Schema<ChangeData> getSchema() {
-      return schema;
-    }
-
-    @Override
-    public void close() {
-    }
-
-    @Override
-    public void markReady(boolean ready) {
-      throw new UnsupportedOperationException();
-    }
-  }
-
-  private static class Source implements ChangeDataSource {
-    private final Predicate<ChangeData> p;
-
-    Source(Predicate<ChangeData> p) {
-      this.p = p;
-    }
-
-    @Override
-    public int getCardinality() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public boolean hasChange() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public ResultSet<ChangeData> read() throws OrmException {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public String toString() {
-      return p.toString();
-    }
-  }
-
-  public class QueryBuilder extends ChangeQueryBuilder {
-    QueryBuilder() {
-      super(
-          new QueryBuilder.Definition<ChangeData, QueryBuilder>(
-            QueryBuilder.class),
-          new ChangeQueryBuilder.Arguments(null, null, null, null, null, null,
-            null, null, null, null, null, indexes),
-          null);
-    }
-
-    @Operator
-    public Predicate<ChangeData> foo(String value) {
-      return predicate("foo", value);
-    }
-
-    @Operator
-    public Predicate<ChangeData> bar(String value) {
-      return predicate("bar", value);
-    }
-
-    private Predicate<ChangeData> predicate(String name, String value) {
-      return new OperatorPredicate<ChangeData>(name, value) {
-        @Override
-        public boolean match(ChangeData object) throws OrmException {
-          return false;
-        }
-
-        @Override
-        public int getCost() {
-          return 0;
-        }
-      };
-    }
-  }
-
-  private DummyIndex index;
+  private FakeIndex index;
   private IndexCollection indexes;
   private ChangeQueryBuilder queryBuilder;
   private IndexRewriteImpl rewrite;
@@ -172,10 +47,10 @@ public class IndexRewriteTest extends TestCase {
   @Override
   public void setUp() throws Exception {
     super.setUp();
-    index = new DummyIndex(V2);
+    index = new FakeIndex(FakeIndex.V2);
     indexes = new IndexCollection();
     indexes.setSearchIndex(index);
-    queryBuilder = new QueryBuilder();
+    queryBuilder = new FakeQueryBuilder(indexes);
     rewrite = new IndexRewriteImpl(
         indexes,
         null,
@@ -302,7 +177,7 @@ public class IndexRewriteTest extends TestCase {
     Predicate<ChangeData> in = parse("status:merged file:a");
     assertEquals(query(in), rewrite(in));
 
-    indexes.setSearchIndex(new DummyIndex(V1));
+    indexes.setSearchIndex(new FakeIndex(FakeIndex.V1));
     Predicate<ChangeData> out = rewrite(in);
     assertTrue(out instanceof AndPredicate);
     assertEquals(ImmutableList.of(

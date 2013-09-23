@@ -121,6 +121,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     return ((IntPredicate<?>) find(p, IntPredicate.class, FIELD_LIMIT)).intValue();
   }
 
+  public static boolean hasNonTrivialSortKeyAfter(Predicate<ChangeData> p) {
+    SortKeyPredicate after =
+        (SortKeyPredicate) find(p, SortKeyPredicate.class, "sortkey_after");
+    return after != null && after.getMaxValue() > 0;
+  }
+
   public static boolean hasSortKey(Predicate<ChangeData> p) {
     return find(p, SortKeyPredicate.class, "sortkey_after") != null
         || find(p, SortKeyPredicate.class, "sortkey_before") != null;

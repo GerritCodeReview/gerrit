@@ -25,10 +25,15 @@ public class MergeAlways extends SubmitStrategy {
   }
 
   @Override
-  protected CodeReviewCommit _run(final CodeReviewCommit mergeTip,
-      final List<CodeReviewCommit> toMerge) throws MergeException {
+  protected CodeReviewCommit _run(CodeReviewCommit mergeTip,
+      List<CodeReviewCommit> toMerge) throws MergeException {
     args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, toMerge);
 
+    if (mergeTip == null) {
+      // The branch is unborn. Take a fast-forward resolution to
+      // create the branch.
+      mergeTip = toMerge.remove(0);
+    }
     CodeReviewCommit newMergeTip = mergeTip;
     while (!toMerge.isEmpty()) {
       newMergeTip =

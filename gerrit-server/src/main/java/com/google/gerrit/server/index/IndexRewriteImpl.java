@@ -278,8 +278,8 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
         new QueryRewriter.Definition<ChangeData, BasicRewritesImpl>(
             BasicRewritesImpl.class, SqlRewriterImpl.BUILDER);
     @Inject
-    BasicRewritesImpl(Provider<ReviewDb> db) {
-      super(mydef, db);
+    BasicRewritesImpl(Provider<ReviewDb> db, IndexCollection indexes) {
+      super(mydef, db, indexes);
     }
   }
 }

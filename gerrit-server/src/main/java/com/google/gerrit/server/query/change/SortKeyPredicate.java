@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.gerrit.server.index.ChangeField.SORTKEY;
+
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
@@ -24,21 +27,40 @@ import com.google.gerrit.server.index.Schema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
+import javax.annotation.Nullable;
+
 public abstract class SortKeyPredicate extends IndexPredicate<ChangeData> {
   @SuppressWarnings("deprecation")
   private static long parseSortKey(Schema<ChangeData> schema, String value) {
-    FieldDef<ChangeData, ?> field = schema.getFields().get(ChangeField.SORTKEY.getName());
-    if (field == ChangeField.SORTKEY) {
+    FieldDef<ChangeData, ?> field = schema.getFields().get(SORTKEY.getName());
+    if (field == SORTKEY) {
       return ChangeUtil.parseSortKey(value);
     } else {
       return ChangeField.legacyParseSortKey(value);
     }
   }
 
+  @SuppressWarnings("deprecation")
+  private static FieldDef<ChangeData, ?> sortkeyField(Schema<ChangeData> schema) {
+    if (schema == null) {
+      return ChangeField.LEGACY_SORTKEY;
+    }
+    FieldDef<ChangeData, ?> f = schema.getFields().get(SORTKEY.getName());
+    if (f != null) {
+      return f;
+    }
+    return checkNotNull(
+        schema.getFields().get(ChangeField.LEGACY_SORTKEY.getName()),
+        "schema missing sortkey field, found: %s", schema.getFields().keySet());
+  }
+
+  protected final Schema<ChangeData> schema;
   protected final Provider<ReviewDb> dbProvider;
 
-  SortKeyPredicate(Provider<ReviewDb> dbProvider, String name, String value) {
-    super(ChangeField.SORTKEY, name, value);
+  SortKeyPredicate(Schema<ChangeData> schema, Provider<ReviewDb> dbProvider,
+      String name, String value) {
+    super(sortkeyField(schema), name, value);
+    this.schema = schema;
     this.dbProvider = dbProvider;
   }
 
@@ -52,8 +74,9 @@ public abstract class SortKeyPredicate extends IndexPredicate<ChangeData> {
   public abstract SortKeyPredicate copy(String newValue);
 
   public static class Before extends SortKeyPredicate {
-    Before(Provider<ReviewDb> dbProvider, String value) {
-      super(dbProvider, "sortkey_before", value);
+    Before(@Nullable Schema<ChangeData> schema, Provider<ReviewDb> dbProvider,
+        String value) {
+      super(schema, dbProvider, "sortkey_before", value);
     }
 
     @Override
@@ -74,13 +97,14 @@ public abstract class SortKeyPredicate extends IndexPredicate<ChangeData> {
 
     @Override
     public Before copy(String newValue) {
-      return new Before(dbProvider, newValue);
+      return new Before(schema, dbProvider, newValue);
     }
   }
 
   public static class After extends SortKeyPredicate {
-    After(Provider<ReviewDb> dbProvider, String value) {
-      super(dbProvider, "sortkey_after", value);
+    After(@Nullable Schema<ChangeData> schema, Provider<ReviewDb> dbProvider,
+        String value) {
+      super(schema, dbProvider, "sortkey_after", value);
     }
 
     @Override
@@ -101,7 +125,7 @@ public abstract class SortKeyPredicate extends IndexPredicate<ChangeData> {
 
     @Override
     public After copy(String newValue) {
-      return new After(dbProvider, newValue);
+      return new After(schema, dbProvider, newValue);
     }
   }
 }

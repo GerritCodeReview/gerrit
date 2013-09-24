@@ -40,7 +40,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
   @Inject
   @VisibleForTesting
   public SqlRewriterImpl(Provider<ReviewDb> dbProvider) {
-    super(mydef, dbProvider);
+    super(mydef, dbProvider, null);
   }
 
   @Override

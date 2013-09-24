@@ -579,12 +579,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> sortkey_after(String sortKey) {
-    return new SortKeyPredicate.After(args.dbProvider, sortKey);
+    return new SortKeyPredicate.After(
+        BasicChangeRewrites.schema(args.indexes), args.dbProvider, sortKey);
   }
 
   @Operator
   public Predicate<ChangeData> sortkey_before(String sortKey) {
-    return new SortKeyPredicate.Before(args.dbProvider, sortKey);
+    return new SortKeyPredicate.Before(
+        BasicChangeRewrites.schema(args.indexes), args.dbProvider, sortKey);
   }
 
   @Operator

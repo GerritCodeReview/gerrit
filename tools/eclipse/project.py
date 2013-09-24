@@ -151,6 +151,7 @@ gen_project()
 gen_classpath()
 
 try:
-  check_call(['buck', 'build'] + MAIN + GWT)
+  targets = ['//tools:buck.properties'] + MAIN + GWT
+  check_call(['buck', 'build'] + targets)
 except CalledProcessError as err:
   exit(1)

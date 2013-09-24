@@ -77,6 +77,11 @@ public final class AccountGeneralPreferences {
     UNIFIED_DIFF
   }
 
+  public static enum ChangeScreen {
+    OLD_UI,
+    CHANGE_SCREEN2
+  }
+
   public static enum TimeFormat {
     /** 12-hour clock: 1:15 am, 2:13 pm */
     HHMM_12("h:mm a"),
@@ -143,6 +148,9 @@ public final class AccountGeneralPreferences {
 
   @Column(id = 14, length = 20, notNull = false)
   protected String diffView;
+
+  @Column(id = 15, length = 20, notNull = false)
+  protected String changeScreen;
 
   public AccountGeneralPreferences() {
   }
@@ -278,6 +286,14 @@ public final class AccountGeneralPreferences {
     this.diffView = diffView.name();
   }
 
+  public ChangeScreen getChangeScreen() {
+    return changeScreen != null ? ChangeScreen.valueOf(changeScreen) : null;
+  }
+
+  public void setChangeScreen(ChangeScreen ui) {
+    changeScreen = ui != null ? ui.name() : null;
+  }
+
   public void resetToDefaults() {
     maximumPageSize = DEFAULT_PAGESIZE;
     showSiteHeader = true;
@@ -292,5 +308,6 @@ public final class AccountGeneralPreferences {
     relativeDateInChangeTable = false;
     commentVisibilityStrategy = null;
     diffView = null;
+    changeScreen = null;
   }
 }

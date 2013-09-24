@@ -81,6 +81,7 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -93,8 +94,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwtorm.client.KeyUtil;
 
 public class Dispatcher {
-  private static boolean useChangeScreen2;
-
   public static String toPatchSideBySide(final Patch.Key id) {
     return toPatch("", null, id);
   }
@@ -202,9 +201,6 @@ public class Dispatcher {
 
     } else if (matchPrefix("/c/", token)) {
       change(token);
-
-    } else if (matchPrefix("/c2/", token)) {
-      change2(token);
 
     } else if (matchExact(MINE, token)) {
       Gerrit.display(token, mine(token));
@@ -480,7 +476,7 @@ public class Dispatcher {
 
     if (rest.isEmpty()) {
       Gerrit.display(token, panel== null
-          ? (useChangeScreen2
+          ? (isChangeScreen2()
               ? new ChangeScreen2(id, null, false)
               : new ChangeScreen(id))
           : new NotFoundScreen());
@@ -513,7 +509,7 @@ public class Dispatcher {
       patch(token, base, p, 0, null, null, panel);
     } else {
       if (panel == null) {
-        Gerrit.display(token, useChangeScreen2
+        Gerrit.display(token, isChangeScreen2()
             ? new ChangeScreen2(id, String.valueOf(ps.get()), false)
             : new ChangeScreen(id));
       } else if ("publish".equals(panel)) {
@@ -524,19 +520,17 @@ public class Dispatcher {
     }
   }
 
-  private static void change2(final String token) {
-    String rest = skip(token);
-    Change.Id id;
-    int s = rest.indexOf('/');
-    if (0 <= s) {
-      id = Change.Id.parse(rest.substring(0, s));
-      rest = rest.substring(s + 1);
-    } else {
-      id = Change.Id.parse(rest);
-      rest = "";
+  private static boolean isChangeScreen2() {
+    AccountGeneralPreferences.ChangeScreen ui = null;
+    if (Gerrit.isSignedIn()) {
+      ui = Gerrit.getUserAccount()
+          .getGeneralPreferences()
+          .getChangeScreen();
     }
-    useChangeScreen2 = true;
-    Gerrit.display(token, new ChangeScreen2(id, rest, false));
+    if (ui == null) {
+      ui = Gerrit.getConfig().getChangeScreen();
+    }
+    return ui == AccountGeneralPreferences.ChangeScreen.CHANGE_SCREEN2;
   }
 
   private static void publish(final PatchSet.Id ps) {

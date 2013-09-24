@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a4c12354_14e2744b",
+        "filename": "gerrit-server/BUCK",
+        "patchSetId": 14
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-24T06:16:18Z",
+      "side": 1,
+      "message": "my wrong! \n\nThanks! Done.",
+      "parentUuid": "2407f353_b0f55803",
+      "revId": "e774d3f98b5e2dec44612e01c551edd053ae642f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2407f353_90f2d416",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/rules/GerritCommonTest.java",
         "patchSetId": 14
@@ -30,6 +48,24 @@
       "writtenOn": "2013-09-23T17:09:27Z",
       "side": 1,
       "message": "Are you actually testing anything by setting these new config values on these labels? Or by using labels other than the default set for that matter? Not that this is necessarily a problem, just wondering for the purposes of this review.",
+      "revId": "e774d3f98b5e2dec44612e01c551edd053ae642f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4c45763_15e2744b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/rules/GerritCommonTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-24T06:16:18Z",
+      "side": 1,
+      "message": "oh,  I want provide all available cases of label\u0027s scope here \n without changing the result of this Test class.  \n\n --\u0027CR\u0027 is project scope (default) and be taken with All_Project, \n     so \u0027CR\u0027 will be available for \u0027change\u0027, line 80.\n\n --\u0027V\u0027 is branch special scope, and its branch scope is same as label access control scope, \n    later with line 74, \u0027V\u0027 will be available for \u0027change\u0027 too.\n\n --\u0027Q\u0027 is branch special scope, but only for \"refs/heads/develop\", given line 75, \n    so \u0027Q\u0027 will not be available for \u0027change\u0027 .\n\nThus \u0027CR\u0027 and \u0027V\u0027 will be available for \u0027change\u0027,\n this is the same result with that of this Test class before this commit.",
+      "parentUuid": "2407f353_90f2d416",
       "revId": "e774d3f98b5e2dec44612e01c551edd053ae642f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

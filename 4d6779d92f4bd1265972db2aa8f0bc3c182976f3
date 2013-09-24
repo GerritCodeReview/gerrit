@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4db7737_1d30d3fb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-09-24T14:23:21Z",
+      "side": 1,
+      "message": "Nit: s/reviw/review/",
+      "revId": "4d6779d92f4bd1265972db2aa8f0bc3c182976f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4debb26_fe15e152",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/MagicBranch.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-09-24T14:23:21Z",
+      "side": 1,
+      "message": "This naming feels very pythonish and long.  The class name is already MagicBranch, let\u0027s not put that in the method name.  Maybe just isForReview()?",
+      "revId": "4d6779d92f4bd1265972db2aa8f0bc3c182976f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

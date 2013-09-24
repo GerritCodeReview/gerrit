@@ -16,6 +16,7 @@ package com.google.gerrit.common.data;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.FieldName;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gerrit.reviewdb.client.AuthType;
@@ -51,6 +52,7 @@ public class GerritConfig implements Cloneable {
   protected String anonymousCowardName;
   protected int suggestFrom;
   protected int changeUpdateDelay;
+  protected AccountGeneralPreferences.ChangeScreen changeScreen;
 
   public String getLoginUrl() {
     return loginUrl;
@@ -269,5 +271,13 @@ public class GerritConfig implements Cloneable {
 
   public void setChangeUpdateDelay(int seconds) {
     changeUpdateDelay = seconds;
+  }
+
+  public AccountGeneralPreferences.ChangeScreen getChangeScreen() {
+    return changeScreen;
+  }
+
+  public void setChangeScreen(AccountGeneralPreferences.ChangeScreen ui) {
+    this.changeScreen = ui;
   }
 }

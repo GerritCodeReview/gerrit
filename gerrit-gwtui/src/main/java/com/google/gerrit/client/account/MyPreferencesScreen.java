@@ -48,6 +48,7 @@ public class MyPreferencesScreen extends SettingsScreen {
   private ListBox dateFormat;
   private ListBox timeFormat;
   private ListBox commentVisibilityStrategy;
+  private ListBox changeScreen;
   private ListBox diffView;
   private Button save;
 
@@ -68,30 +69,36 @@ public class MyPreferencesScreen extends SettingsScreen {
     commentVisibilityStrategy = new ListBox();
     commentVisibilityStrategy.addItem(
         com.google.gerrit.client.changes.Util.C.messageCollapseAll(),
-        AccountGeneralPreferences.CommentVisibilityStrategy.COLLAPSE_ALL.name()
-    );
+        AccountGeneralPreferences.CommentVisibilityStrategy.COLLAPSE_ALL.name());
     commentVisibilityStrategy.addItem(
         com.google.gerrit.client.changes.Util.C.messageExpandMostRecent(),
-        AccountGeneralPreferences.CommentVisibilityStrategy.EXPAND_MOST_RECENT.name()
-    );
+        AccountGeneralPreferences.CommentVisibilityStrategy.EXPAND_MOST_RECENT.name());
     commentVisibilityStrategy.addItem(
         com.google.gerrit.client.changes.Util.C.messageExpandRecent(),
-        AccountGeneralPreferences.CommentVisibilityStrategy.EXPAND_RECENT.name()
-    );
+        AccountGeneralPreferences.CommentVisibilityStrategy.EXPAND_RECENT.name());
     commentVisibilityStrategy.addItem(
         com.google.gerrit.client.changes.Util.C.messageExpandAll(),
-        AccountGeneralPreferences.CommentVisibilityStrategy.EXPAND_ALL.name()
-    );
+        AccountGeneralPreferences.CommentVisibilityStrategy.EXPAND_ALL.name());
+
+    changeScreen = new ListBox();
+    changeScreen.addItem(
+        Util.M.changeScreenServerDefault(
+            getLabel(Gerrit.getConfig().getChangeScreen())),
+        "");
+    changeScreen.addItem(
+        Util.C.changeScreenOldUi(),
+        AccountGeneralPreferences.ChangeScreen.OLD_UI.name());
+    changeScreen.addItem(
+        Util.C.changeScreenNewUi(),
+        AccountGeneralPreferences.ChangeScreen.CHANGE_SCREEN2.name());
 
     diffView = new ListBox();
     diffView.addItem(
         com.google.gerrit.client.changes.Util.C.sideBySide(),
-        AccountGeneralPreferences.DiffView.SIDE_BY_SIDE.name()
-    );
+        AccountGeneralPreferences.DiffView.SIDE_BY_SIDE.name());
     diffView.addItem(
         com.google.gerrit.client.changes.Util.C.unifiedDiff(),
-        AccountGeneralPreferences.DiffView.UNIFIED_DIFF.name()
-    );
+        AccountGeneralPreferences.DiffView.UNIFIED_DIFF.name());
 
     Date now = new Date();
     dateFormat = new ListBox();
@@ -129,7 +136,7 @@ public class MyPreferencesScreen extends SettingsScreen {
 
     relativeDateInChangeTable = new CheckBox(Util.C.showRelativeDateInChangeTable());
 
-    final Grid formGrid = new Grid(10, 2);
+    final Grid formGrid = new Grid(11, 2);
 
     int row = 0;
     formGrid.setText(row, labelIdx, "");
@@ -168,6 +175,10 @@ public class MyPreferencesScreen extends SettingsScreen {
     formGrid.setWidget(row, fieldIdx, commentVisibilityStrategy);
     row++;
 
+    formGrid.setText(row, labelIdx, Util.C.changeScreenLabel());
+    formGrid.setWidget(row, fieldIdx, changeScreen);
+    row++;
+
     formGrid.setText(row, labelIdx, Util.C.diffViewLabel());
     formGrid.setWidget(row, fieldIdx, diffView);
     row++;
@@ -195,6 +206,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     e.listenTo(timeFormat);
     e.listenTo(relativeDateInChangeTable);
     e.listenTo(commentVisibilityStrategy);
+    e.listenTo(changeScreen);
     e.listenTo(diffView);
   }
 
@@ -219,6 +231,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     timeFormat.setEnabled(on);
     relativeDateInChangeTable.setEnabled(on);
     commentVisibilityStrategy.setEnabled(on);
+    changeScreen.setEnabled(on);
     diffView.setEnabled(on);
   }
 
@@ -237,6 +250,9 @@ public class MyPreferencesScreen extends SettingsScreen {
     setListBox(commentVisibilityStrategy,
         AccountGeneralPreferences.CommentVisibilityStrategy.EXPAND_RECENT,
         p.getCommentVisibilityStrategy());
+    setListBox(changeScreen,
+        null,
+        p.getChangeScreen());
     setListBox(diffView,
         AccountGeneralPreferences.DiffView.SIDE_BY_SIDE,
         p.getDiffView());
@@ -249,7 +265,8 @@ public class MyPreferencesScreen extends SettingsScreen {
 
   private <T extends Enum<?>> void setListBox(final ListBox f,
       final T defaultValue, final T currentValue) {
-    setListBox(f, defaultValue.name(), //
+    setListBox(f,
+        defaultValue != null ? defaultValue.name() : "",
         currentValue != null ? currentValue.name() : "");
   }
 
@@ -280,6 +297,9 @@ public class MyPreferencesScreen extends SettingsScreen {
     final int idx = f.getSelectedIndex();
     if (0 <= idx) {
       String v = f.getValue(idx);
+      if ("".equals(v)) {
+        return defaultValue;
+      }
       for (T t : all) {
         if (t.name().equals(v)) {
           return t;
@@ -310,6 +330,9 @@ public class MyPreferencesScreen extends SettingsScreen {
     p.setDiffView(getListBox(diffView,
         AccountGeneralPreferences.DiffView.SIDE_BY_SIDE,
         AccountGeneralPreferences.DiffView.values()));
+    p.setChangeScreen(getListBox(changeScreen,
+        null,
+        AccountGeneralPreferences.ChangeScreen.values()));
 
     enable(false);
     save.setEnabled(false);
@@ -329,5 +352,19 @@ public class MyPreferencesScreen extends SettingsScreen {
         super.onFailure(caught);
       }
     });
+  }
+
+  private static String getLabel(AccountGeneralPreferences.ChangeScreen ui) {
+    if (ui == null) {
+      return "";
+    }
+    switch (ui) {
+      case OLD_UI:
+        return Util.C.changeScreenOldUi();
+      case CHANGE_SCREEN2:
+        return Util.C.changeScreenNewUi();
+      default:
+        return ui.name();
+    }
   }
 }

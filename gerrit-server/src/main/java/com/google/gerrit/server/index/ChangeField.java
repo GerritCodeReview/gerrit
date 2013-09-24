@@ -153,7 +153,7 @@ public class ChangeField {
    */
   public static final FieldDef<ChangeData, Long> SORTKEY =
       new FieldDef.Single<ChangeData, Long>(
-          "sortkey", FieldType.LONG, true) {
+          "sortkey2", FieldType.LONG, true) {
         @Override
         public Long get(ChangeData input, FillArgs args)
             throws OrmException {

@@ -54,7 +54,7 @@ public class IndexRewriteTest extends TestCase {
     rewrite = new IndexRewriteImpl(
         indexes,
         null,
-        new IndexRewriteImpl.BasicRewritesImpl(null),
+        new IndexRewriteImpl.BasicRewritesImpl(null, indexes),
         new SqlRewriterImpl(null));
   }
 

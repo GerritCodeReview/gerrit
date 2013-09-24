@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4debb26_9e1e9d77",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-24T06:23:19Z",
+      "side": 1,
+      "message": "Ack, your logic for keeping the field makes sense.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 39
+      },
+      "revId": "6c05c4a5faf2d68d55ae9f123b163a66f0875df4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4db7737_dd182b8c",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-24T06:23:19Z",
+      "side": 1,
+      "message": "eh?",
+      "range": {
+        "startLine": 271,
+        "startChar": 12,
+        "endLine": 272,
+        "endChar": 21
+      },
+      "revId": "6c05c4a5faf2d68d55ae9f123b163a66f0875df4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

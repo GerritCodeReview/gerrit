@@ -27,6 +27,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.git.GitUtil.Commit;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -36,7 +37,9 @@ import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
@@ -82,15 +85,17 @@ public class PushOneCommit {
   public Result to(Git git, String ref)
       throws GitAPIException, IOException {
     add(git, fileName, content);
+    Commit c;
     if (changeId != null) {
-      amendCommit(git, i, subject, changeId);
+      c = amendCommit(git, i, subject, changeId);
     } else {
-      changeId = createCommit(git, i, subject);
+      c = createCommit(git, i, subject);
+      changeId = c.getChangeId();
     }
     if (tagName != null) {
       git.tag().setName(tagName).setAnnotated(false).call();
     }
-    return new Result(db, ref, pushHead(git, ref, tagName != null), changeId, subject);
+    return new Result(db, ref, pushHead(git, ref, tagName != null), c, subject);
   }
 
   public void setTag(final String tagName) {
@@ -101,32 +106,40 @@ public class PushOneCommit {
     private final ReviewDb db;
     private final String ref;
     private final PushResult result;
-    private final String changeId;
+    private final Commit commit;
     private final String subject;
 
-    private Result(ReviewDb db, String ref, PushResult result, String changeId,
+    private Result(ReviewDb db, String ref, PushResult result, Commit commit,
         String subject) {
       this.db = db;
       this.ref = ref;
       this.result = result;
-      this.changeId = changeId;
+      this.commit = commit;
       this.subject = subject;
     }
 
     public PatchSet.Id getPatchSetId() throws OrmException {
       return Iterables.getOnlyElement(
-          db.changes().byKey(new Change.Key(changeId))).currentPatchSetId();
+          db.changes().byKey(new Change.Key(commit.getChangeId()))).currentPatchSetId();
     }
 
     public String getChangeId() {
-      return changeId;
+      return commit.getChangeId();
+    }
+
+    public ObjectId getCommitId() {
+      return commit.getCommit().getId();
+    }
+
+    public RevCommit getCommit() {
+      return commit.getCommit();
     }
 
     public void assertChange(Change.Status expectedStatus,
         String expectedTopic, TestAccount... expectedReviewers)
         throws OrmException {
       Change c =
-          Iterables.getOnlyElement(db.changes().byKey(new Change.Key(changeId)).toList());
+          Iterables.getOnlyElement(db.changes().byKey(new Change.Key(commit.getChangeId())).toList());
       assertEquals(subject, c.getSubject());
       assertEquals(expectedStatus, c.getStatus());
       assertEquals(expectedTopic, Strings.emptyToNull(c.getTopic()));

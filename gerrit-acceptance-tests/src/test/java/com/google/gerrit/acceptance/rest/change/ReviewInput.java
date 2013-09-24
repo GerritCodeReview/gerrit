@@ -14,9 +14,17 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
-import java.util.List;
+import com.google.common.collect.Maps;
 
-public class ChangeInfo {
-  List<ChangeMessageInfo> messages;
-  String status;
+import java.util.Map;
+
+public class ReviewInput {
+  Map<String, Integer> labels;
+
+  public static ReviewInput approve() {
+    ReviewInput in = new ReviewInput();
+    in.labels = Maps.newHashMap();
+    in.labels.put("Code-Review", 2);
+    return in;
+  }
 }

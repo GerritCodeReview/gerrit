@@ -25,6 +25,7 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
 import org.eclipse.jgit.api.AddCommand;
+import org.eclipse.jgit.api.CheckoutCommand;
 import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.Git;
@@ -33,6 +34,7 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.JschConfigSessionFactory;
@@ -130,45 +132,56 @@ public class GitUtil {
     addCmd.call();
   }
 
-  public static String createCommit(Git git, PersonIdent i, String msg)
+  public static Commit createCommit(Git git, PersonIdent i, String msg)
       throws GitAPIException, IOException {
-    return createCommit(git, i, msg, true, false);
+    return createCommit(git, i, msg, null);
   }
 
-  public static void amendCommit(Git git, PersonIdent i, String msg, String changeId)
+  public static Commit amendCommit(Git git, PersonIdent i, String msg, String changeId)
       throws GitAPIException, IOException {
     msg = ChangeIdUtil.insertId(msg, ObjectId.fromString(changeId.substring(1)));
-    createCommit(git, i, msg, false, true);
+    return createCommit(git, i, msg, changeId);
   }
 
-  private static String createCommit(Git git, PersonIdent i, String msg,
-      boolean insertChangeId, boolean amend) throws GitAPIException, IOException {
-    ObjectId changeId = null;
-    if (insertChangeId) {
-      changeId = computeChangeId(git, i, msg);
-      msg = ChangeIdUtil.insertId(msg, changeId);
-    }
+  private static Commit createCommit(Git git, PersonIdent i, String msg,
+      String changeId) throws GitAPIException, IOException {
 
     final CommitCommand commitCmd = git.commit();
-    commitCmd.setAmend(amend);
+    commitCmd.setAmend(changeId != null);
     commitCmd.setAuthor(i);
     commitCmd.setCommitter(i);
-    commitCmd.setMessage(msg);
-    commitCmd.call();
 
-    return changeId != null ? "I" + changeId.getName() : null;
+    if (changeId == null) {
+      ObjectId id = computeChangeId(git, i, msg);
+      changeId = "I" + id.getName();
+    }
+    msg = ChangeIdUtil.insertId(msg, ObjectId.fromString(changeId.substring(1)));
+    commitCmd.setMessage(msg);
+
+    RevCommit c = commitCmd.call();
+    return new Commit(c, changeId);
   }
 
   private static ObjectId computeChangeId(Git git, PersonIdent i, String msg)
       throws IOException {
     RevWalk rw = new RevWalk(git.getRepository());
     try {
-      RevCommit parent =
-          rw.lookupCommit(git.getRepository().getRef(Constants.HEAD).getObjectId());
-      return ChangeIdUtil.computeChangeId(parent.getTree(), parent.getId(), i, i, msg);
+      Ref head = git.getRepository().getRef(Constants.HEAD);
+      if (head.getObjectId() != null) {
+        RevCommit parent = rw.lookupCommit(head.getObjectId());
+        return ChangeIdUtil.computeChangeId(parent.getTree(), parent.getId(), i, i, msg);
+      } else {
+        return ChangeIdUtil.computeChangeId(null, null, i, i, msg);
+      }
     } finally {
       rw.release();
     }
+  }
+
+  public static void checkout(Git git, String name) throws GitAPIException {
+    CheckoutCommand checkout = git.checkout();
+    checkout.setName(name);
+    checkout.call();
   }
 
   public static PushResult pushHead(Git git, String ref, boolean pushTags)
@@ -180,5 +193,23 @@ public class GitUtil {
     }
     Iterable<PushResult> r = pushCmd.call();
     return Iterables.getOnlyElement(r);
+  }
+
+  public static class Commit {
+    private final RevCommit commit;
+    private final String changeId;
+
+    Commit(RevCommit commit, String changeId) {
+      this.commit = commit;
+      this.changeId = changeId;
+    }
+
+    public RevCommit getCommit() {
+      return commit;
+    }
+
+    public String getChangeId() {
+      return changeId;
+    }
   }
 }

@@ -1334,6 +1334,7 @@ form:
 ----
 fetch-cmd some://url/to/commit-msg .git/hooks/commit-msg ; chmod +x .git/hooks/commit-msg
 ----
+
 +
 By default unset; falls back to using scp from the canonical SSH host,
 or curl from the canonical HTTP URL for the server.  Only necessary if a
@@ -1356,6 +1357,11 @@ URL to direct users to when they need to report a bug about the
 Gerrit service. By default this links to the upstream Gerrit
 Code Review's own bug tracker but could be directed to the system
 administrator's ticket queue.
+
+[[gerrit.changeScreen]]gerrit.changeScreen::
++
+Default change screen UI to direct users to. Valid values are
+`OLD_UI` and `CHANGE_SCREEN2`. Default is `OLD_UI`.
 
 [[gitweb]]Section gitweb
 ~~~~~~~~~~~~~~~~~~~~~~~~

@@ -26,6 +26,7 @@ public interface AccountConstants extends Constants {
   String accountId();
 
   String commentVisibilityLabel();
+  String changeScreenLabel();
   String diffViewLabel();
   String maximumPageSizeFieldLabel();
   String dateFormatLabel();
@@ -37,6 +38,9 @@ public interface AccountConstants extends Constants {
   String showUsernameInReviewCategory();
   String buttonSaveChanges();
   String showRelativeDateInChangeTable();
+
+  String changeScreenOldUi();
+  String changeScreenNewUi();
 
   String tabAccountSummary();
   String tabPreferences();

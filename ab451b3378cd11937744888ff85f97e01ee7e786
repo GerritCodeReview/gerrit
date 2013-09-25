@@ -172,6 +172,23 @@
     },
     {
       "key": {
+        "uuid": "84933f69_8b4c8d77",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-25T12:09:12Z",
+      "side": 1,
+      "message": "[optional] Do we need a new root collection for this? Would it make sense to have it as \n  /config/server/top-menus/\n?\n\nIn any case should it be \u0027top-menus\u0027 (\u0027accounts\u0027, \u0027projects\u0027 etc. are all plural)?\n\nMaybe it could also be just \u0027menus\u0027 instead of \u0027top-menus\u0027.",
+      "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6482cb1a_ca2da39d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/extensions/MenuEntryCollection.java",
         "patchSetId": 7
@@ -183,6 +200,23 @@
       "writtenOn": "2013-09-25T12:04:06Z",
       "side": 1,
       "message": "Refactor this to be ChildCollection of ConfigResource instead:\n\n ChildCollection\u003cConfigResource, MenuEntryResource\u003e { ...",
+      "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6482cb1a_0a597b3b",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/extensions/MenuEntryCollection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-25T12:09:12Z",
+      "side": 1,
+      "message": "Remove \u0027Exception\u0027 from the throw list. We try not to throw Exception but only concrete exceptions.",
       "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

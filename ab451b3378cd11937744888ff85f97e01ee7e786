@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84933f69_cb469555",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-25T12:04:06Z",
+      "side": 1,
+      "message": "It is not sufficiently to document it in the commit message:\n\n Documentation/dev-plugins.txt\n\nmust be extended too. See for example plugin-owned capabilities section there.",
+      "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84933f69_ab494966",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-25T12:04:06Z",
+      "side": 1,
+      "message": "entries",
+      "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6482cb1a_8a23abb2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-25T12:04:06Z",
+      "side": 1,
+      "message": "Extend ConfigServerApi instead\n\n ConfigServerApi.topMenus()",
+      "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84933f69_0b597d3b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 941,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-25T12:04:06Z",
+      "side": 1,
+      "message": "You don\u0027t need final here.",
+      "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84933f69_2b5e3924",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 942,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-25T12:04:06Z",
+      "side": 1,
+      "message": "same",
+      "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6482cb1a_6a3f57ca",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/UiExtensionsApi.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-25T12:04:06Z",
+      "side": 1,
+      "message": "Extend ConfigServerApi.topMenus()",
+      "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84933f69_4b53851b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/extensions/TopMenuExtension.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-25T12:04:06Z",
+      "side": 1,
+      "message": "Do we really need here Extension suffix?",
+      "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84933f69_6b584135",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/extensions/TopMenuExtensionItem.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-25T12:04:06Z",
+      "side": 1,
+      "message": "TopMenuItem",
+      "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6482cb1a_aa206fa6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/extensions/TopMenuExtensionList.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-25T12:04:06Z",
+      "side": 1,
+      "message": "TopMenuList",
+      "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84933f69_eb2a7182",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-25T12:04:06Z",
+      "side": 1,
+      "message": "Since last Hackathon we added new top level endpoint config, check this:\n\n https://gerrit-review.googlesource.com/46642\n\nIt is used on line 110 above. For example we use it for plugin owned capabilities. I would reuse it for \"top-menu\" too:\n\n GET /config/server/top-menu",
+      "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6482cb1a_ca2da39d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/extensions/MenuEntryCollection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-25T12:04:06Z",
+      "side": 1,
+      "message": "Refactor this to be ChildCollection of ConfigResource instead:\n\n ChildCollection\u003cConfigResource, MenuEntryResource\u003e { ...",
+      "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6482cb1a_ea150753",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/extensions/TopMenuExtensionList.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-25T12:04:06Z",
+      "side": 1,
+      "message": "entries?",
+      "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6482cb1a_ea2a6782",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/extensions/TopMenuExtensionsRestApiServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-25T12:04:06Z",
+      "side": 1,
+      "message": "Is not needed.",
+      "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

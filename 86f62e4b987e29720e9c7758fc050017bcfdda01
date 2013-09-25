@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4968356_8c1e6777",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-25T17:32:41Z",
+      "side": 1,
+      "message": "Actually I think this should return Futures.immediateFuture(null)",
+      "revId": "86f62e4b987e29720e9c7758fc050017bcfdda01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

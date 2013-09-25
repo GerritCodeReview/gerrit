@@ -16,6 +16,24 @@
       "revId": "b7b0e76c9d17b47c09a32fdef1882dc2135efb2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4968356_ecfc4beb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeInfo.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-25T09:35:39Z",
+      "side": 1,
+      "message": "It was also added in Edwin\u0027s change.  I resolved the conflict and took the line from Edwin\u0027s.\n\nIf it\u0027s changed back to Change.Status then the other tests fail.\n\nI\u0027m resolving now and will upload a new ps.",
+      "parentUuid": "84933f69_eb151153",
+      "revId": "b7b0e76c9d17b47c09a32fdef1882dc2135efb2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

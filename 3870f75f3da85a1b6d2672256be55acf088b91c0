@@ -70,6 +70,24 @@
       "revId": "3870f75f3da85a1b6d2672256be55acf088b91c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4968356_acf24316",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/BUCK",
+        "patchSetId": 10
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-25T09:28:19Z",
+      "side": 1,
+      "message": "Moving to line 4 seems to have fixed the problem that I mentioned in the previous comment, but now there are failures because ChangeInfo.status is now a String instead of Change.Status",
+      "parentUuid": "84933f69_8b1e4d77",
+      "revId": "3870f75f3da85a1b6d2672256be55acf088b91c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

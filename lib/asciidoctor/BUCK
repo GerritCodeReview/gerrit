@@ -2,18 +2,38 @@ include_defs('//lib/maven.defs')
 
 java_binary(
   name = 'asciidoc',
-  main_class = 'Main',
-  deps = [':main_lib'],
+  main_class = 'AsciiDoctor',
+  deps = [':asciidoc_lib'],
   visibility = ['PUBLIC'],
 )
 
 java_library(
-  name = 'main_lib',
-  srcs = ['java/Main.java'],
+  name = 'asciidoc_lib',
+  srcs = ['java/AsciiDoctor.java'],
   deps = [
     ':asciidoctor',
     ':jruby',
     '//lib:args4j',
+    '//lib:guava',
+  ],
+)
+
+java_binary(
+  name = 'doc_indexer',
+  main_class = 'DocIndexer',
+  deps = [':doc_indexer_lib'],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'doc_indexer_lib',
+  srcs = ['java/DocIndexer.java'],
+  deps = [
+    ':asciidoc_lib',
+    '//lib:args4j',
+    '//lib:guava',
+    '//lib/lucene:analyzers-common',
+    '//lib/lucene:core',
   ],
 )
 

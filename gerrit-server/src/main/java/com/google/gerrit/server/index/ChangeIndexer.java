@@ -85,7 +85,9 @@ public abstract class ChangeIndexer {
    * @return future for the indexing task.
    */
   public ListenableFuture<?> index(ChangeData cd) {
-    return executor.submit(indexTask(cd));
+    return executor != null
+        ? executor.submit(indexTask(cd))
+        : null;
   }
 
   /**
@@ -113,7 +115,9 @@ public abstract class ChangeIndexer {
    * @return future for the deleting task.
    */
   public ListenableFuture<?> delete(ChangeData cd) {
-    return executor.submit(deleteTask(cd));
+    return executor != null
+        ? executor.submit(deleteTask(cd))
+        : null;
   }
 
   /**

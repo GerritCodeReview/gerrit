@@ -15,6 +15,7 @@
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +23,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
+import com.google.common.io.Files;
+
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.util.CharArraySet;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.TextField;
+import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.IndexWriterConfig.OpenMode;
+import org.apache.lucene.store.NIOFSDirectory;
+import org.apache.lucene.util.Version;
 
 import org.asciidoctor.Asciidoctor;
 import org.asciidoctor.AttributesBuilder;
@@ -39,12 +52,19 @@ public class Main {
   private static final int BUFSIZ = 4096;
   private static final String DOCTYPE = "article";
   private static final String ERUBY = "erb";
+  private static final Version LUCENE_VERSION = Version.LUCENE_43;
 
   @Option(name = "-b", usage = "set output format backend")
   private String backend = "html5";
 
   @Option(name = "-z", usage = "output zip file")
   private String zipFile;
+
+  @Option(name = "--index-dir", usage = "directory to put the index")
+  private String indexDir;
+
+  @Option(name = "--prefix", usage = "prefix for the html filepath")
+  private String prefix = "/Documentation/";
 
   @Option(name = "--in-ext", usage = "extension for input files")
   private String inExt = ".txt";
@@ -123,24 +143,60 @@ public class Main {
       return;
     }
 
+    File index = Files.createTempDir();
+    NIOFSDirectory directory = new NIOFSDirectory(index);
+    IndexWriterConfig config = new IndexWriterConfig(
+        LUCENE_VERSION,
+        new StandardAnalyzer(LUCENE_VERSION, CharArraySet.EMPTY_SET));
+    config.setOpenMode(OpenMode.CREATE);
+    IndexWriter iwriter = new IndexWriter(directory, config);
+
     ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(zipFile));
-    byte[] buf = new byte[BUFSIZ];
     for (String inputFile : inputFiles) {
       File tmp = File.createTempFile("doc", ".html");
       Options options = createOptions(tmp);
       renderInput(options, inputFile);
 
-      FileInputStream input = new FileInputStream(tmp);
-      int len;
-      zip.putNextEntry(new ZipEntry(mapInFileToOutFile(inputFile)));
-      while ((len = input.read(buf)) > 0) {
-        zip.write(buf, 0, len);
-      }
-      input.close();
-      tmp.delete();
-      zip.closeEntry();
+      String outputFile = mapInFileToOutFile(inputFile);
+      FileReader reader = new FileReader(tmp);
+      Document doc = new Document();
+      doc.add(new TextField(prefix + outputFile, reader));
+      iwriter.addDocument(doc);
+      reader.close();
+      zipFileAndDelete(tmp, outputFile, zip);
     }
+    iwriter.close();
+    zipDirAndDelete(index, indexDir, zip);
     zip.close();
+  }
+
+  private void zipDirAndDelete(File dir, String dirPrefix, ZipOutputStream zip)
+      throws IOException {
+    String[] files = dir.list();
+    for (String filename : files) {
+      File file = new File(dir, filename);
+      String fullname = dirPrefix + File.separator + filename;
+      if (file.isDirectory()) {
+        zipDirAndDelete(file, fullname, zip);
+      } else {
+        zipFileAndDelete(file, fullname, zip);
+      }
+    }
+    dir.delete();
+  }
+
+  private void zipFileAndDelete(File file, String filename, ZipOutputStream zip)
+      throws IOException {
+    byte[] buf = new byte[BUFSIZ];
+    FileInputStream input = new FileInputStream(file);
+    int len;
+    zip.putNextEntry(new ZipEntry(filename));
+    while ((len = input.read(buf)) > 0) {
+      zip.write(buf, 0, len);
+    }
+    input.close();
+    zip.closeEntry();
+    file.delete();
   }
 
   private void renderInput(Options options, String inputFile) {

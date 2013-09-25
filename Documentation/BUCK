@@ -2,20 +2,23 @@ include_defs('//Documentation/asciidoc.defs')
 include_defs('//Documentation/config.defs')
 include_defs('//tools/git.defs')
 
+DOC_DIR = 'Documentation'
+INDEX_DIR = '.index'
 MAIN = ['//gerrit-pgm:pgm', '//gerrit-gwtui:ui_module']
 SRCS = glob(['*.txt'], excludes = ['licenses.txt'])
 
 genrule(
   name = 'html',
   cmd = 'cd $TMP;' +
-    'mkdir -p Documentation/images;' +
-    'unzip -q $SRCDIR/only_html.zip -d Documentation/;' +
-    'for s in $SRCS;do ln -s $s Documentation;done;' +
-    'mv Documentation/*.{jpg,png} Documentation/images;' +
-    'rm Documentation/only_html.zip;' +
-    'rm Documentation/licenses.txt;' +
+    'mkdir -p %s/images;' % DOC_DIR +
+    'unzip -q $SRCDIR/only_html.zip -d %s/;' % DOC_DIR +
+    'mv %s/%s .;' % (DOC_DIR, INDEX_DIR) +
+    'for s in $SRCS;do ln -s $s %s;done;' % DOC_DIR +
+    'mv %s/*.{jpg,png} %s/images;' % (DOC_DIR, DOC_DIR) +
+    'rm %s/only_html.zip;' % DOC_DIR +
+    'rm %s/licenses.txt;' % DOC_DIR +
     'cp $SRCDIR/licenses.txt LICENSES.txt;' +
-    'zip -qr $OUT *',
+    'zip -qr $OUT * %s' % INDEX_DIR,
   srcs = [genfile('only_html.zip')] +
     glob([
       'images/*.jpg',
@@ -39,6 +42,8 @@ genasciidoc(
   attributes = documentation_attributes(git_describe()),
   backend = 'html5',
   out = 'only_html.zip',
+  prefix = '/' + DOC_DIR + '/',
+  index = INDEX_DIR,
 )
 
 genrule(

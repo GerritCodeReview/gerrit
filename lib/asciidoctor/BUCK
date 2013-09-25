@@ -14,6 +14,9 @@ java_library(
     ':asciidoctor',
     ':jruby',
     '//lib:args4j',
+    '//lib:guava',
+    '//lib/lucene:analyzers-common',
+    '//lib/lucene:core',
   ],
 )
 

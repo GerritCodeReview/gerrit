@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84933f69_eb151153",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeInfo.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-25T09:30:54Z",
+      "side": 1,
+      "message": "Why it was changed? In ps1 it was defined as:\n\n Change.Status status;",
+      "revId": "b7b0e76c9d17b47c09a32fdef1882dc2135efb2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

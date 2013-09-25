@@ -15,6 +15,7 @@
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
+import com.google.common.io.ByteStreams;
 
 import org.asciidoctor.Asciidoctor;
 import org.asciidoctor.AttributesBuilder;
@@ -34,9 +37,8 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
-public class Main {
+public class AsciiDoctor {
 
-  private static final int BUFSIZ = 4096;
   private static final String DOCTYPE = "article";
   private static final String ERUBY = "erb";
 
@@ -59,7 +61,8 @@ public class Main {
   @Argument(usage = "input files")
   private List<String> inputFiles = new ArrayList<String>();
 
-  private String mapInFileToOutFile(String inFile) {
+  public static String mapInFileToOutFile(
+      String inFile, String inExt, String outExt) {
     String basename = new File(inFile).getName();
     if (basename.endsWith(inExt)) {
       basename = basename.substring(0, basename.length() - inExt.length());
@@ -124,23 +127,40 @@ public class Main {
     }
 
     ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(zipFile));
-    byte[] buf = new byte[BUFSIZ];
     for (String inputFile : inputFiles) {
       File tmp = File.createTempFile("doc", ".html");
       Options options = createOptions(tmp);
       renderInput(options, inputFile);
 
-      FileInputStream input = new FileInputStream(tmp);
-      int len;
-      zip.putNextEntry(new ZipEntry(mapInFileToOutFile(inputFile)));
-      while ((len = input.read(buf)) > 0) {
-        zip.write(buf, 0, len);
-      }
-      input.close();
-      tmp.delete();
-      zip.closeEntry();
+      String outputFile = mapInFileToOutFile(inputFile, inExt, outExt);
+      zipFileAndDelete(tmp, outputFile, zip);
     }
     zip.close();
+  }
+
+  public static void zipDirAndDelete(
+      File dir, String dirPrefix, ZipOutputStream zip) throws IOException {
+    String[] files = dir.list();
+    for (String filename : files) {
+      File file = new File(dir, filename);
+      String fullname = dirPrefix + "/" + filename;
+      if (file.isDirectory()) {
+        zipDirAndDelete(file, fullname, zip);
+      } else {
+        zipFileAndDelete(file, fullname, zip);
+      }
+    }
+    dir.delete();
+  }
+
+  public static void zipFileAndDelete(
+      File file, String filename, ZipOutputStream zip) throws IOException {
+    zip.putNextEntry(new ZipEntry(filename));
+    FileInputStream input = new FileInputStream(file);
+    ByteStreams.copy(input, zip);
+    input.close();
+    zip.closeEntry();
+    file.delete();
   }
 
   private void renderInput(Options options, String inputFile) {
@@ -150,7 +170,7 @@ public class Main {
 
   public static void main(String[] args) {
     try {
-      new Main().invoke(args);
+      new AsciiDoctor().invoke(args);
     } catch (IOException e) {
       System.err.println(e.getMessage());
       System.exit(1);

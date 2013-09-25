@@ -28,6 +28,7 @@ import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.git.GitUtil;
 import com.google.gerrit.acceptance.git.PushOneCommit;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
@@ -164,7 +165,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
       ChangeInfo change =
           (new Gson()).fromJson(r.getReader(),
               new TypeToken<ChangeInfo>() {}.getType());
-      assertEquals("MERGED", change.status);
+      assertEquals(Change.Status.MERGED, change.status);
     }
     r.consume();
   }

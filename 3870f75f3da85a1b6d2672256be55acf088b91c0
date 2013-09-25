@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84933f69_2b10f966",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/BUCK",
+        "patchSetId": 10
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-25T09:14:44Z",
+      "side": 1,
+      "message": "The new test should rather be added in line 4, as they don\u0027t need to depend on the classes for testing submit. I guess this would also fix the failure that you are seeing.",
+      "revId": "3870f75f3da85a1b6d2672256be55acf088b91c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

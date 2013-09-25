@@ -52,6 +52,24 @@
       "revId": "3870f75f3da85a1b6d2672256be55acf088b91c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6482cb1a_0a0b3b3b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/BUCK",
+        "patchSetId": 10
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-25T09:26:18Z",
+      "side": 1,
+      "message": "Oh, you are of course right. I meant line 34 and not 24 and ChangeInfo.java is still there.",
+      "parentUuid": "84933f69_8b1e4d77",
+      "revId": "3870f75f3da85a1b6d2672256be55acf088b91c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

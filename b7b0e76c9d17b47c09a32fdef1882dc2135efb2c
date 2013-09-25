@@ -34,6 +34,24 @@
       "revId": "b7b0e76c9d17b47c09a32fdef1882dc2135efb2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6482cb1a_6a0af734",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeInfo.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-25T09:35:56Z",
+      "side": 1,
+      "message": "This was wrong in my change, I\u0027ve uploaded a fix.",
+      "parentUuid": "84933f69_eb151153",
+      "revId": "b7b0e76c9d17b47c09a32fdef1882dc2135efb2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

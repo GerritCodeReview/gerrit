@@ -34,6 +34,24 @@
       "revId": "3870f75f3da85a1b6d2672256be55acf088b91c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84933f69_8b1e4d77",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/BUCK",
+        "patchSetId": 10
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-25T09:21:25Z",
+      "side": 1,
+      "message": "But if you add the tests in line 4, they depends on \"util\" and util contains \u0027ChangeInfo\" in line 34. I can try it out later.",
+      "parentUuid": "84933f69_6b0a0135",
+      "revId": "3870f75f3da85a1b6d2672256be55acf088b91c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

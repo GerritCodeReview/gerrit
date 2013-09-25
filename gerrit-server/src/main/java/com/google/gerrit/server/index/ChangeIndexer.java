@@ -113,7 +113,10 @@ public abstract class ChangeIndexer {
    * @return future for the deleting task.
    */
   public ListenableFuture<?> delete(ChangeData cd) {
-    return executor.submit(deleteTask(cd));
+    if (executor != null) {
+      return executor.submit(deleteTask(cd));
+    }
+    return null;
   }
 
   /**

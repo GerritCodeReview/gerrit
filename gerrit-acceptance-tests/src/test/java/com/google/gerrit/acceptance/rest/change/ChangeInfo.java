@@ -14,9 +14,11 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
+import com.google.gerrit.reviewdb.client.Change;
+
 import java.util.List;
 
 public class ChangeInfo {
   List<ChangeMessageInfo> messages;
-  String status;
+  Change.Status status;
 }

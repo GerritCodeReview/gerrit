@@ -52,6 +52,24 @@
       "revId": "3fc86195135110a761eff53cf4de3714b21fe7e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4968356_eca0cbe5",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-26T07:12:16Z",
+      "side": 1,
+      "message": "Does it need to be a .sh file to work?\n\nIf the installation instructions need fixing, they should be fixed on the buck project as I mentioned before.\n\nNote that the almost same script also exists in gerrit under the /contrib folder and I was also going to add instructions for that in the documentation.  Your comments here may be more relevant in that case.\n\nDoes it actually work for you if you source it as mentioned at line 51?",
+      "parentUuid": "84b17f0f_fb2f8f98",
+      "revId": "3fc86195135110a761eff53cf4de3714b21fe7e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

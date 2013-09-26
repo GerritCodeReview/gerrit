@@ -378,11 +378,11 @@ ldap/linux.workflow group.
 +
 Matches changes with either a -1, -2, or any lower score.
 
-`is:open Code-Review+2 Verified+1 -Verified-1 -Code-Review-2`::
+`is:open label:Code-Review+2 label:Verified+1 NOT label:Verified-1 NOT label:Code-Review-2`::
 +
 Matches changes that are ready to be submitted.
 
-`is:open (Verified-1 OR Code-Review-2)`::
+`is:open (label:Verified-1 OR label:Code-Review-2)`::
 +
 Changes that are blocked from submission due to a blocking score.
 

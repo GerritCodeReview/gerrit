@@ -27,7 +27,6 @@ import com.google.gerrit.server.account.AccountUserNameException;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.auth.AuthenticationUnavailableException;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Provider;

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44ea27f0_71f6180f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-26T22:45:13Z",
+      "side": 1,
+      "message": "Just to make sure i understand why you forward isOwner() from here to RefControl and from there to ProjectControl, and then search in access section if that line is still present, that you wrote there in Schema_85\n\n [access \"refs/heads/*\"]\n  abandon \u003d group Change Owners\n\nand wasn\u0027t removed, right? OTOH why to add all those lines at all (in Schema_85 for abandon and other friends that you have listed in the commit message)?\n\nCan\u0027t we do it by convention over configuration paradigm? Like in the line 217? Project owner can abandon. Change owner can abandon too. So the code here would be much simpler (nothing to route any more):\n\n return getRefControl().isOwner() // branch owner can abandon\n      || getProjectControl().isOwner() // project owner can abandon \n      || getCurrentUser().getCapabilities().canAdministrateServer() // site administers are god\n      || isOwner()\n      || getRefControl().canAbandon()\n\nNot to mention the changes in Schema_85.",
+      "revId": "c57233fbd9906c01c79c4af7516d0980cc8ae4b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4d87b6d_8ef03b13",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_85.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-26T22:45:13Z",
+      "side": 1,
+      "message": "Why to do it? We don\u0027t do it for Project Owners, right?. So why not to behave the same way with the new group?",
+      "revId": "c57233fbd9906c01c79c4af7516d0980cc8ae4b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

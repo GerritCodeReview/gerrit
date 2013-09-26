@@ -53,11 +53,11 @@ else:
   exit(1)
 
 for spec in args.s:
-  artifact, type, src = spec.split(':')
+  artifact, packaging_type, src = spec.split(':')
   try:
     check_output(cmd + [
       '-DartifactId=%s' % artifact,
-      '-Dpackaging=%s' % type,
+      '-Dpackaging=%s' % packaging_type,
       '-Dfile=%s' % src,
     ])
   except Exception as e:

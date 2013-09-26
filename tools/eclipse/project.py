@@ -117,8 +117,8 @@ def gen_classpath():
       continue
 
     for env in ['main', 'test']:
-      for type in ['java', 'resources']:
-        p = path.join(s, 'src', env, type)
+      for srctype in ['java', 'resources']:
+        p = path.join(s, 'src', env, srctype)
         if path.exists(p):
           classpathentry('src', p)
 

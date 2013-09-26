@@ -28,8 +28,8 @@ war = environ['TMP']
 root = war[:war.index('buck-out')]
 jars = set()
 
-def link_jars(libs, dir):
-  makedirs(dir)
+def link_jars(libs, directory):
+  makedirs(directory)
   cp = check_output(['buck', 'audit', 'classpath'] + libs)
   for j in cp.strip().splitlines():
     if j not in jars:
@@ -37,7 +37,7 @@ def link_jars(libs, dir):
       n = path.basename(j)
       if j.startswith('buck-out/gen/gerrit-'):
         n = j.split('/')[2] + '-' + n
-      symlink(path.join(root, j), path.join(dir, n))
+      symlink(path.join(root, j), path.join(directory, n))
 
 if args.lib:
   link_jars(args.lib, path.join(war, 'WEB-INF', 'lib'))

@@ -50,7 +50,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 
 /** Access control management for a user accessing a single change. */

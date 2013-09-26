@@ -87,7 +87,7 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 /**
  * Secondary index implementation using Apache Lucene.

@@ -44,7 +44,7 @@ import java.util.List;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 public class PatchList implements Serializable {
   private static final long serialVersionUID = PatchListKey.serialVersionUID;

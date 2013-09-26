@@ -41,7 +41,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 public class ListGroupsIT extends AbstractDaemonTest {
 

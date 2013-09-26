@@ -37,7 +37,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 public class UiActions {
   private static final Logger log = LoggerFactory.getLogger(UiActions.class);

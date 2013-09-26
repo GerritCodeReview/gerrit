@@ -22,7 +22,7 @@ import com.google.gerrit.server.project.ProjectControl;
 import java.util.Collection;
 import java.util.Comparator;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 /**
  * Utility class for dealing with a GroupBackend.

@@ -59,7 +59,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 /** An authenticated user. */
 public class IdentifiedUser extends CurrentUser {

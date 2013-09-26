@@ -36,7 +36,7 @@ import java.util.Collections;
 import java.util.concurrent.Callable;
 import java.util.regex.Pattern;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 /** Operation to change the username of an account. */
 public class ChangeUserName implements Callable<VoidResult> {

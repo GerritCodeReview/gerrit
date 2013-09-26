@@ -31,7 +31,7 @@ import java.net.SocketAddress;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 /** Propagator for Guice's built-in servlet scope. */
 public class GuiceRequestScopePropagator extends RequestScopePropagator {

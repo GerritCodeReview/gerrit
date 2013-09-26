@@ -48,7 +48,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 import javax.naming.InvalidNameException;
 import javax.naming.NamingException;
 import javax.naming.directory.DirContext;

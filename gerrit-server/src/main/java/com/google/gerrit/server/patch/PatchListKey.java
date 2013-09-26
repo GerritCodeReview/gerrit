@@ -32,7 +32,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 public class PatchListKey implements Serializable {
   static final long serialVersionUID = 16L;

@@ -38,7 +38,7 @@ import org.apache.velocity.runtime.RuntimeInstance;
 
 import java.util.List;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 class EmailArguments {
   final GitRepositoryManager server;

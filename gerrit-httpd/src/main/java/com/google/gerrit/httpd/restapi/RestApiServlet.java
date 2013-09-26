@@ -117,7 +117,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPOutputStream;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

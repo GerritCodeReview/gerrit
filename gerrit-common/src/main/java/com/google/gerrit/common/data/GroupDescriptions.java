@@ -17,7 +17,7 @@ package com.google.gerrit.common.data;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 /**
  * Utility class for building GroupDescription objects.

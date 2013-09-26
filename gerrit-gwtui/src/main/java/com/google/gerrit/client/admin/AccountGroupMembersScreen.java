@@ -42,7 +42,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 public class AccountGroupMembersScreen extends AccountGroupScreen {
 

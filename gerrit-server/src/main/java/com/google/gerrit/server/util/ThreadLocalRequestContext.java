@@ -27,7 +27,7 @@ import com.google.inject.ProvisionException;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 /**
  * ThreadLocalRequestContext manages the current RequestContext using a

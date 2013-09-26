@@ -30,7 +30,7 @@ import org.eclipse.jgit.lib.ObjectId;
 
 import java.util.Map;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 public class FileInfoJson {
   private final PatchListCache patchListCache;

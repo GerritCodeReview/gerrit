@@ -44,7 +44,7 @@ import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 class EditCommitMessageHandler extends Handler<ChangeDetail> {
   interface Factory {

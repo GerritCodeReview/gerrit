@@ -41,7 +41,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Set;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 /** Factory to create a {@link SubmitStrategy} for a {@link SubmitType}. */
 public class SubmitStrategyFactory {

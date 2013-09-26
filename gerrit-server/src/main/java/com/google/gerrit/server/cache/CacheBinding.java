@@ -20,7 +20,7 @@ import com.google.inject.TypeLiteral;
 
 import java.util.concurrent.TimeUnit;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 /** Configure a cache declared within a {@link CacheModule} instance. */
 public interface CacheBinding<K, V> {

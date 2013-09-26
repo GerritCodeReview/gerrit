@@ -89,7 +89,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 /**
  * Merges changes in submission order into a single branch.

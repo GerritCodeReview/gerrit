@@ -16,7 +16,7 @@ package com.google.gerrit.server.auth;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 /**
  * An authenticated user as specified by the AuthBackend.

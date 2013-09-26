@@ -23,7 +23,7 @@ import com.google.gerrit.server.project.ProjectControl;
 
 import java.util.Collection;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 /**
  * Implementations of GroupBackend provide lookup and membership accessors

@@ -31,7 +31,7 @@ import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 public abstract class Plugin {
   public static enum ApiType {

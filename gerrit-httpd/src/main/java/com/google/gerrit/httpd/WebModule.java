@@ -45,7 +45,7 @@ import com.google.inject.servlet.RequestScoped;
 
 import java.net.SocketAddress;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 public class WebModule extends FactoryModule {
   private final AuthConfig authConfig;

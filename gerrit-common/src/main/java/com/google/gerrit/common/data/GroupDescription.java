@@ -16,7 +16,7 @@ package com.google.gerrit.common.data;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 /**
  * Group methods exposed by the GroupBackend.

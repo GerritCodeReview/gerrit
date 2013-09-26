@@ -69,7 +69,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 public class MergeUtil {
   private static final Logger log = LoggerFactory.getLogger(MergeUtil.class);

@@ -32,7 +32,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import java.io.IOException;
 import java.util.List;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
   interface Factory {

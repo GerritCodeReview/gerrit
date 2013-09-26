@@ -58,7 +58,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 /** Creates a {@link PatchSetDetail} from a {@link PatchSet}. */
 class PatchSetDetailFactory extends Handler<PatchSetDetail> {

@@ -51,7 +51,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 
 public class PatchScriptFactory implements Callable<PatchScript> {

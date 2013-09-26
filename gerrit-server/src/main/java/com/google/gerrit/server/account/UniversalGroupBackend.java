@@ -37,7 +37,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 /**
  * Universal implementation of the GroupBackend that works with the injected

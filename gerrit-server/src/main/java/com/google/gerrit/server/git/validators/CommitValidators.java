@@ -52,7 +52,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 public class CommitValidators {
   private static final Logger log = LoggerFactory

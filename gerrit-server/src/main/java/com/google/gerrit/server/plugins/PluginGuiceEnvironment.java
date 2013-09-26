@@ -54,7 +54,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 import javax.inject.Inject;
 
 /**

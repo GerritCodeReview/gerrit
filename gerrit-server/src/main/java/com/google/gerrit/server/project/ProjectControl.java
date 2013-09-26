@@ -47,7 +47,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 /** Access control management for a user accessing a project's data. */
 public class ProjectControl {

@@ -22,7 +22,7 @@ import com.google.inject.servlet.ServletModule;
 
 import java.io.IOException;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;

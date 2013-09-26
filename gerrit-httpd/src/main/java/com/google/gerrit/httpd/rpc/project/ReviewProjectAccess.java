@@ -49,7 +49,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
   interface Factory {

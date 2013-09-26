@@ -56,7 +56,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 public class GetRelated implements RestReadView<RevisionResource> {
   private static final Logger log = LoggerFactory.getLogger(GetRelated.class);

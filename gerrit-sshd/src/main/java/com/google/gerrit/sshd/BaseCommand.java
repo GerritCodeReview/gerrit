@@ -54,7 +54,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicReference;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 public abstract class BaseCommand implements Command {
   private static final Logger log = LoggerFactory.getLogger(BaseCommand.class);

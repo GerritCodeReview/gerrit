@@ -25,7 +25,7 @@ import java.util.Collections;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 /** Dynamic pointers to the index versions used for searching and writing. */
 @Singleton

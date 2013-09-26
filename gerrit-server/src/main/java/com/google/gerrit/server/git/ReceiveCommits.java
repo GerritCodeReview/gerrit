@@ -144,7 +144,7 @@ import java.util.concurrent.Callable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 /** Receives change upload using the Git receive-pack protocol. */
 public class ReceiveCommits {

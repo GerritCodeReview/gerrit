@@ -28,7 +28,7 @@ import com.google.inject.TypeLiteral;
 
 import java.util.concurrent.TimeUnit;
 
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 class CacheProvider<K, V>
     implements Provider<Cache<K, V>>,

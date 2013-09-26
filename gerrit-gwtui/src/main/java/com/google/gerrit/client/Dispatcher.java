@@ -94,6 +94,8 @@ import com.google.gwt.user.client.Window;
 import com.google.gwtorm.client.KeyUtil;
 
 public class Dispatcher {
+  public static boolean changeScreen2;
+
   public static String toPatchSideBySide(final Patch.Key id) {
     return toPatch("", null, id);
   }
@@ -223,6 +225,9 @@ public class Dispatcher {
     } else if (matchPrefix("/admin/", token)) {
       admin(token);
 
+    } else if (/* DEPRECATED URL */matchPrefix("/c2/", token)) {
+      changeScreen2 = true;
+      change(token);
     } else if (/* LEGACY URL */matchPrefix("all,", token)) {
       redirectFromLegacyToken(token, legacyAll(token));
     } else if (/* LEGACY URL */matchPrefix("mine,", token)
@@ -521,6 +526,10 @@ public class Dispatcher {
   }
 
   private static boolean isChangeScreen2() {
+    if (changeScreen2) {
+      return true;
+    }
+
     AccountGeneralPreferences.ChangeScreen ui = null;
     if (Gerrit.isSignedIn()) {
       ui = Gerrit.getUserAccount()

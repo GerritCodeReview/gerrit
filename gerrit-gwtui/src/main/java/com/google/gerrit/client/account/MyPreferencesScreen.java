@@ -17,6 +17,7 @@ package com.google.gerrit.client.account;
 import static com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DEFAULT_PAGESIZE;
 import static com.google.gerrit.reviewdb.client.AccountGeneralPreferences.PAGESIZE_CHOICES;
 
+import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
@@ -342,6 +343,7 @@ public class MyPreferencesScreen extends SettingsScreen {
       public void onSuccess(final VoidResult result) {
         Gerrit.getUserAccount().setGeneralPreferences(p);
         Gerrit.applyUserPreferences();
+        Dispatcher.changeScreen2 = false;
         enable(true);
       }
 

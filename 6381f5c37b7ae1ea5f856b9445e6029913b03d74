@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4968356_6c3f7bca",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-26T01:47:04Z",
+      "side": 1,
+      "message": "To take advantage of source highlighting, this should be:\n\n [source,xml]\n ----\n ...\n ----",
+      "revId": "6381f5c37b7ae1ea5f856b9445e6029913b03d74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c489b73b_6d585535",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-26T01:47:04Z",
+      "side": 1,
+      "message": "As above.  Should be:\n\n [source,python]\n ----",
+      "revId": "6381f5c37b7ae1ea5f856b9445e6029913b03d74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

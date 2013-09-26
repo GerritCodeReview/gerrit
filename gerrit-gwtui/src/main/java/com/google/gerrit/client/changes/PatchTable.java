@@ -414,12 +414,19 @@ public class PatchTable extends Composite {
       table.setWidget(row, C_PATH, nameCol);
 
       int C_UNIFIED = C_SIDEBYSIDE + 1;
-      table.setWidget(row, C_SIDEBYSIDE, new PatchLink.SideBySide(
-          Util.C.patchTableDiffSideBySide(), base, patch.getKey(), row - 1,
-          detail, PatchTable.this));
-      table.setWidget(row, C_UNIFIED, new PatchLink.Unified(
-          Util.C.patchTableDiffUnified(), base, patch.getKey(), row - 1,
-          detail, PatchTable.this));
+
+      PatchLink sideBySide =
+          new PatchLink.SideBySide(Util.C.patchTableDiffSideBySide(), base,
+              patch.getKey(), row - 1, detail, PatchTable.this);
+      sideBySide.setStyleName("gwt-Anchor");
+
+      PatchLink unified =
+          new PatchLink.Unified(Util.C.patchTableDiffUnified(), base,
+              patch.getKey(), row - 1, detail, PatchTable.this);
+      unified.setStyleName("gwt-Anchor");
+
+      table.setWidget(row, C_SIDEBYSIDE, sideBySide);
+      table.setWidget(row, C_UNIFIED, unified);
     }
 
     void initializeLastRow(int row) {

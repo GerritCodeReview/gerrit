@@ -17,6 +17,7 @@ package com.google.gerrit.httpd.rpc.changedetail;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.common.data.UiCommandDetail;
 import com.google.gerrit.common.errors.NoSuchEntityException;
@@ -57,8 +58,6 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.annotation.Nullable;
 
 /** Creates a {@link PatchSetDetail} from a {@link PatchSet}. */
 class PatchSetDetailFactory extends Handler<PatchSetDetail> {

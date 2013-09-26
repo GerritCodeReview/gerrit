@@ -14,6 +14,7 @@
 
 package com.google.gerrit.pgm.init;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.SitePaths;
@@ -24,8 +25,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
-
-import javax.annotation.Nullable;
 
 /** Helper to edit a section of the configuration files. */
 public class Section {

@@ -14,9 +14,8 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-
-import javax.annotation.Nullable;
 
 /** Tracks group objects in memory for efficient access. */
 public interface GroupCache {

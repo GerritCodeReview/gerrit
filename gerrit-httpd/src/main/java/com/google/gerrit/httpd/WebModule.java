@@ -17,6 +17,7 @@ package com.google.gerrit.httpd;
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.registerInParentInjectors;
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
@@ -44,8 +45,6 @@ import com.google.inject.ProvisionException;
 import com.google.inject.servlet.RequestScoped;
 
 import java.net.SocketAddress;
-
-import javax.annotation.Nullable;
 
 public class WebModule extends FactoryModule {
   private final AuthConfig authConfig;

@@ -14,9 +14,10 @@
 
 package com.google.gerrit.httpd.plugins;
 
+import com.google.gerrit.common.Nullable;
+
 import java.io.IOException;
 
-import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 

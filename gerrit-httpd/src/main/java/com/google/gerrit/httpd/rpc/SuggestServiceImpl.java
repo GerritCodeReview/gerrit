@@ -16,6 +16,7 @@ package com.google.gerrit.httpd.rpc;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.ReviewerInfo;
@@ -53,8 +54,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import javax.annotation.Nullable;
 
 class SuggestServiceImpl extends BaseServiceImplementation implements
     SuggestService {

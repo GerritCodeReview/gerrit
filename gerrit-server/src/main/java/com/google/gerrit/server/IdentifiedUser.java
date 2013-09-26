@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
@@ -58,8 +59,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
-
-import javax.annotation.Nullable;
 
 /** An authenticated user. */
 public class IdentifiedUser extends CurrentUser {

@@ -31,6 +31,7 @@ import com.google.common.cache.Weigher;
 import com.google.common.collect.Maps;
 import com.google.common.hash.Hashing;
 import com.google.common.io.ByteStreams;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -51,7 +52,6 @@ import java.io.OutputStream;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-import javax.annotation.Nullable;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

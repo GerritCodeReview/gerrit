@@ -14,9 +14,9 @@
 
 package com.google.gerrit.httpd;
 
-import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.gerrit.common.Nullable;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 

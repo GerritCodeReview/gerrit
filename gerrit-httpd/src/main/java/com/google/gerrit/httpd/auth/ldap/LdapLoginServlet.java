@@ -16,6 +16,7 @@ package com.google.gerrit.httpd.auth.ldap;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.httpd.CanonicalWebUrl;
 import com.google.gerrit.httpd.HtmlDomUtil;
@@ -39,7 +40,6 @@ import org.w3c.dom.Element;
 
 import java.io.IOException;
 
-import javax.annotation.Nullable;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;

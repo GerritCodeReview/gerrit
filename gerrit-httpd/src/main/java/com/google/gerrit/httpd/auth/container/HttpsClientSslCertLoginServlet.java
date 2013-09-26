@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.auth.container;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gwtexpui.server.CacheHeaders;
@@ -23,7 +24,6 @@ import com.google.inject.Singleton;
 
 import java.io.IOException;
 
-import javax.annotation.Nullable;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

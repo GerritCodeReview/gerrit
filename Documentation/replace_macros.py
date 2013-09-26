@@ -14,13 +14,12 @@
 # limitations under the License.
 
 from optparse import OptionParser
-import os
 import re
 import sys
 
-PAT_GERRIT = re.compile('^GERRIT')
-PAT_INCLUDE = re.compile('^(include::.*)(\[\])$')
-PAT_GET = re.compile('^get::([^ \t\n]*)')
+PAT_GERRIT = re.compile(r'^GERRIT')
+PAT_INCLUDE = re.compile(r'^(include::.*)(\[\])$')
+PAT_GET = re.compile(r'^get::([^ \t\n]*)')
 
 GERRIT_UPLINK = """
 

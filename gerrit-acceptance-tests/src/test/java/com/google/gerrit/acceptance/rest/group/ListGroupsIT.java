@@ -25,6 +25,7 @@ import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gson.Gson;
@@ -40,8 +41,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
-
-import javax.annotation.Nullable;
 
 public class ListGroupsIT extends AbstractDaemonTest {
 

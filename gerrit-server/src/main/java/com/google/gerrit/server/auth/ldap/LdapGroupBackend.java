@@ -21,6 +21,7 @@ import static com.google.gerrit.server.auth.ldap.LdapModule.GROUP_EXIST_CACHE;
 
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.ParameterizedString;
@@ -48,7 +49,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
-import javax.annotation.Nullable;
 import javax.naming.InvalidNameException;
 import javax.naming.NamingException;
 import javax.naming.directory.DirContext;

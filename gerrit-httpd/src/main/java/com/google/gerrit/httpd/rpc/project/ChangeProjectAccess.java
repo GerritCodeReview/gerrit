@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.reviewdb.client.Project;
@@ -31,8 +32,6 @@ import org.eclipse.jgit.lib.ObjectId;
 
 import java.io.IOException;
 import java.util.List;
-
-import javax.annotation.Nullable;
 
 class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
   interface Factory {

@@ -15,6 +15,7 @@
 package com.google.gerrit.sshd;
 
 import com.google.common.util.concurrent.Atomics;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
@@ -53,8 +54,6 @@ import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicReference;
-
-import javax.annotation.Nullable;
 
 public abstract class BaseCommand implements Command {
   private static final Logger log = LoggerFactory.getLogger(BaseCommand.class);

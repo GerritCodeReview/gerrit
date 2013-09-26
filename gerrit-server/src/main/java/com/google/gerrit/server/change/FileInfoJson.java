@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.collect.Maps;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -29,8 +30,6 @@ import com.google.inject.Inject;
 import org.eclipse.jgit.lib.ObjectId;
 
 import java.util.Map;
-
-import javax.annotation.Nullable;
 
 public class FileInfoJson {
   private final PatchListCache patchListCache;

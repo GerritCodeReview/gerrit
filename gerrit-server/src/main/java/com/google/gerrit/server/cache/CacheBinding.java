@@ -16,11 +16,10 @@ package com.google.gerrit.server.cache;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.Weigher;
+import com.google.gerrit.common.Nullable;
 import com.google.inject.TypeLiteral;
 
 import java.util.concurrent.TimeUnit;
-
-import javax.annotation.Nullable;
 
 /** Configure a cache declared within a {@link CacheModule} instance. */
 public interface CacheBinding<K, V> {

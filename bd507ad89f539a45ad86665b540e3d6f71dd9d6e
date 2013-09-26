@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84b17f0f_fb58af39",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-26T10:04:07Z",
+      "side": 1,
+      "message": "Please use another constructor of StandardAnalyzer, passing empty set for english stop words set:\n\n new StandardAnalyzer(Version.LUCENE_43, CharArraySet.EMPTY_SET));\n\nSee these changes why:\n\n* https://gerrit-review.googlesource.com/4979\n* https://gerrit-review.googlesource.com/47361",
+      "revId": "bd507ad89f539a45ad86665b540e3d6f71dd9d6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

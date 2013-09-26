@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a4fbe3cc_e4e11a48",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-26T23:45:42Z",
+      "side": 1,
+      "message": "No. You are right. Moved to a separated java_binary and genrule.",
+      "parentUuid": "a4968356_6ce3fb1c",
+      "revId": "3b020ccdb3a892af455e7556dd83d588ad5f4fe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c489b73b_8d3d81a2",
         "filename": "lib/asciidoctor/java/Main.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
         "endLine": 163,
         "endChar": 56
       },
+      "revId": "3b020ccdb3a892af455e7556dd83d588ad5f4fe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4fbe3cc_a4eb2224",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-26T23:45:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c489b73b_8d3d81a2",
       "revId": "3b020ccdb3a892af455e7556dd83d588ad5f4fe4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "a4fbe3cc_c4e61e5e",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-26T23:45:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4968356_acc40387",
+      "revId": "3b020ccdb3a892af455e7556dd83d588ad5f4fe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4968356_8cc7478b",
         "filename": "lib/asciidoctor/java/Main.java",
         "patchSetId": 2
@@ -82,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "84f89fd3_e3e11248",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-26T23:45:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4968356_8cc7478b",
+      "revId": "3b020ccdb3a892af455e7556dd83d588ad5f4fe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c489b73b_ad3a3da5",
         "filename": "lib/asciidoctor/java/Main.java",
         "patchSetId": 2
@@ -93,6 +165,24 @@
       "writtenOn": "2013-09-26T16:43:32Z",
       "side": 1,
       "message": "I don\u0027t think deleting is necessary.",
+      "revId": "3b020ccdb3a892af455e7556dd83d588ad5f4fe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84f89fd3_c3e6165e",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-26T23:45:42Z",
+      "side": 1,
+      "message": "I added deleting here because the files are created by File.createTempFile. They\u0027ll have different name every time you build the rule. So if we don\u0027t delete them, after building Documentation:html 20 times, we\u0027ll have 20 * \u003cnum of txt files\u003e html files under the tmp dir. A buck clean will clear them, but it will also clear a lot of other things.",
+      "parentUuid": "c489b73b_ad3a3da5",
       "revId": "3b020ccdb3a892af455e7556dd83d588ad5f4fe4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

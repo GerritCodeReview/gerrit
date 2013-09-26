@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git.validators;
 
 import com.google.common.base.CharMatcher;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -51,8 +52,6 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-
-import javax.annotation.Nullable;
 
 public class CommitValidators {
   private static final Logger log = LoggerFactory

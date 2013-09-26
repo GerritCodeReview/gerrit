@@ -15,6 +15,7 @@
 package com.google.gerrit.server.util;
 
 import com.google.common.base.Objects;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.errors.NotSignedInException;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -26,8 +27,6 @@ import com.google.inject.Provides;
 import com.google.inject.ProvisionException;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
-
-import javax.annotation.Nullable;
 
 /**
  * ThreadLocalRequestContext manages the current RequestContext using a

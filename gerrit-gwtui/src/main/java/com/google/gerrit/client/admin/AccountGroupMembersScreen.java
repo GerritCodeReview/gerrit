@@ -28,6 +28,7 @@ import com.google.gerrit.client.ui.AddMemberBox;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.SmallHeading;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -41,8 +42,6 @@ import com.google.gwt.user.client.ui.Panel;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
-
-import javax.annotation.Nullable;
 
 public class AccountGroupMembersScreen extends AccountGroupScreen {
 

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -37,8 +38,6 @@ import com.google.inject.Provider;
 import org.apache.velocity.runtime.RuntimeInstance;
 
 import java.util.List;
-
-import javax.annotation.Nullable;
 
 class EmailArguments {
   final GitRepositoryManager server;

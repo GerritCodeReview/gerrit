@@ -46,6 +46,7 @@ import com.google.common.math.IntMath;
 import com.google.common.net.HttpHeaders;
 import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.audit.HttpAuditEvent;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AcceptsPost;
@@ -117,7 +118,6 @@ import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPOutputStream;
 
-import javax.annotation.Nullable;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

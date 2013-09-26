@@ -15,8 +15,7 @@
 package com.google.gerrit.server.auth;
 
 import com.google.common.base.Objects;
-
-import javax.annotation.Nullable;
+import com.google.gerrit.common.Nullable;
 
 /**
  * Defines an abstract request for user authentication to Gerrit.

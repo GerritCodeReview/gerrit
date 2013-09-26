@@ -17,6 +17,7 @@ package com.google.gerrit.httpd;
 import com.google.gerrit.audit.AuditEvent;
 import com.google.gerrit.audit.AuditService;
 import com.google.common.base.Strings;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.config.AuthConfig;
@@ -27,7 +28,6 @@ import com.google.inject.Singleton;
 
 import java.io.IOException;
 
-import javax.annotation.Nullable;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

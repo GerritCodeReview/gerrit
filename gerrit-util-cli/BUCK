@@ -2,6 +2,7 @@ java_library(
   name = 'cli',
   srcs = glob(['src/main/java/**/*.java']),
   deps = [
+    '//gerrit-common:server',
     '//lib:args4j',
     '//lib:guava',
     '//lib:jsr305',

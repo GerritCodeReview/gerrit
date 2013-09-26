@@ -24,6 +24,7 @@ import static org.eclipse.jgit.lib.ObjectIdSerialization.readNotNull;
 import static org.eclipse.jgit.lib.ObjectIdSerialization.writeCanBeNull;
 import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 
@@ -43,8 +44,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
-
-import javax.annotation.Nullable;
 
 public class PatchList implements Serializable {
   private static final long serialVersionUID = PatchListKey.serialVersionUID;

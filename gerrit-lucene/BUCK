@@ -22,6 +22,7 @@ java_library(
   deps = [
     ':query_builder',
     '//gerrit-antlr:query_exception',
+    '//gerrit-common:server',
     '//gerrit-extension-api:api',
     '//gerrit-reviewdb:server',
     '//gerrit-server:server',

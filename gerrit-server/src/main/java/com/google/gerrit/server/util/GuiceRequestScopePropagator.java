@@ -15,6 +15,7 @@
 package com.google.gerrit.server.util;
 
 import com.google.common.collect.Maps;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
@@ -30,8 +31,6 @@ import java.lang.reflect.Type;
 import java.net.SocketAddress;
 import java.util.Map;
 import java.util.concurrent.Callable;
-
-import javax.annotation.Nullable;
 
 /** Propagator for Guice's built-in servlet scope. */
 public class GuiceRequestScopePropagator extends RequestScopePropagator {

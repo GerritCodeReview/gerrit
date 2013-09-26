@@ -21,14 +21,13 @@ import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.Weigher;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 
 import java.util.concurrent.TimeUnit;
-
-import javax.annotation.Nullable;
 
 class CacheProvider<K, V>
     implements Provider<Cache<K, V>>,

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.rpc.changedetail;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
@@ -43,8 +44,6 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
-
-import javax.annotation.Nullable;
 
 class EditCommitMessageHandler extends Handler<ChangeDetail> {
   interface Factory {

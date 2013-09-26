@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -48,8 +49,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import javax.annotation.Nullable;
 
 public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
   interface Factory {

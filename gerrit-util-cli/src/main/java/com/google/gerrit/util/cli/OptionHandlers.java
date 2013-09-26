@@ -15,6 +15,7 @@
 package com.google.gerrit.util.cli;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.common.Nullable;
 import com.google.inject.Binding;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -25,8 +26,6 @@ import com.google.inject.TypeLiteral;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.Map.Entry;
-
-import javax.annotation.Nullable;
 
 @Singleton
 public class OptionHandlers {

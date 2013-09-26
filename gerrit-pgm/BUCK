@@ -14,6 +14,7 @@ java_library(
   name = 'init-api',
   srcs = INIT_API_SRCS,
   deps = [
+    '//gerrit-common:server',
     '//gerrit-server:server',
     '//lib:jsr305',
     '//lib/guice:guice',

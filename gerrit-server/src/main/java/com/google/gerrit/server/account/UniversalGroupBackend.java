@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -36,8 +37,6 @@ import org.slf4j.LoggerFactory;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
-
-import javax.annotation.Nullable;
 
 /**
  * Universal implementation of the GroupBackend that works with the injected

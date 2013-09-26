@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAME;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.errors.InvalidUserNameException;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -35,8 +36,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.Callable;
 import java.util.regex.Pattern;
-
-import javax.annotation.Nullable;
 
 /** Operation to change the username of an account. */
 public class ChangeUserName implements Callable<VoidResult> {

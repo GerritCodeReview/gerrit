@@ -197,11 +197,14 @@ To build the documentation:
 The generated html files will be placed in:
 
 ----
-  buck-out/gen/Documentation
+  buck-out/gen/Documentation/html__tmp/Documentation
 ----
 
-The html files will also be bundled into `html.zip` in the same location.
+The html files will also be bundled into `html.zip` in this location:
 
+----
+  buck-out/gen/Documentation/html.zip
+----
 
 [[release]]
 Gerrit Release WAR File

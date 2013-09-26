@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "84b17f0f_bb522716",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-09-26T10:20:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c489b73b_2d8bad72",
+      "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4968356_cc46af55",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2013-09-26T05:03:34Z",
       "side": 1,
       "message": "\"the top menu of Gerrit\u0027s Web UI.",
+      "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4a7f7cf_bd8fbf7b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-09-26T10:20:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4968356_cc46af55",
       "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -64,6 +100,24 @@
       "writtenOn": "2013-09-25T12:04:06Z",
       "side": 1,
       "message": "entries",
+      "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6482cb1a_ca468355",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-09-26T10:20:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84933f69_ab494966",
       "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -140,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "6482cb1a_ea434742",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-09-26T10:20:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6482cb1a_8a23abb2",
+      "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84933f69_0b597d3b",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
         "patchSetId": 7
@@ -151,6 +223,24 @@
       "writtenOn": "2013-09-25T12:04:06Z",
       "side": 1,
       "message": "You don\u0027t need final here.",
+      "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84933f69_6b95a18d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 941,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-09-26T10:20:30Z",
+      "side": 1,
+      "message": "finals here were added to to match the style of the nearby code (eg. addDocLink method).",
+      "parentUuid": "84933f69_0b597d3b",
       "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -174,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "6482cb1a_0a86db6b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 942,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-09-26T10:20:30Z",
+      "side": 1,
+      "message": "same as above",
+      "parentUuid": "84933f69_2b5e3924",
+      "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6482cb1a_6a3f57ca",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/UiExtensionsApi.java",
         "patchSetId": 7
@@ -185,6 +293,24 @@
       "writtenOn": "2013-09-25T12:04:06Z",
       "side": 1,
       "message": "Extend ConfigServerApi.topMenus()",
+      "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84933f69_4b90e59e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/UiExtensionsApi.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-09-26T10:20:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6482cb1a_6a3f57ca",
       "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -208,6 +334,24 @@
     },
     {
       "key": {
+        "uuid": "6482cb1a_2a8b9f72",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/extensions/TopMenuExtension.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-09-26T10:20:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84933f69_4b53851b",
+      "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84933f69_6b584135",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/extensions/TopMenuExtensionItem.java",
         "patchSetId": 7
@@ -225,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "84933f69_8b99edc9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/extensions/TopMenuExtensionItem.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-09-26T10:20:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84933f69_6b584135",
+      "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6482cb1a_aa206fa6",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/extensions/TopMenuExtensionList.java",
         "patchSetId": 7
@@ -236,6 +398,24 @@
       "writtenOn": "2013-09-25T12:04:06Z",
       "side": 1,
       "message": "TopMenuList",
+      "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84933f69_ab96a996",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/extensions/TopMenuExtensionList.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-09-26T10:20:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6482cb1a_aa206fa6",
       "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -276,6 +456,42 @@
     },
     {
       "key": {
+        "uuid": "c4a7f7cf_7d9a57be",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-09-26T10:20:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84933f69_eb2a7182",
+      "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4a7f7cf_9d940393",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-09-26T10:20:30Z",
+      "side": 1,
+      "message": "I prefer \u0027top-menus\u0027 because it is more specific, for me \u0027menus\u0027 is to generic",
+      "parentUuid": "84933f69_8b4c8d77",
+      "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6482cb1a_ca2da39d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/extensions/MenuEntryCollection.java",
         "patchSetId": 7
@@ -287,6 +503,24 @@
       "writtenOn": "2013-09-25T12:04:06Z",
       "side": 1,
       "message": "Refactor this to be ChildCollection of ConfigResource instead:\n\n ChildCollection\u003cConfigResource, MenuEntryResource\u003e { ...",
+      "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4a7f7cf_5d979b94",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/extensions/MenuEntryCollection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-09-26T10:20:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6482cb1a_ca2da39d",
       "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -310,6 +544,24 @@
     },
     {
       "key": {
+        "uuid": "84b17f0f_9b576b06",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/extensions/MenuEntryCollection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-09-26T10:20:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6482cb1a_0a597b3b",
+      "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6482cb1a_ea150753",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/extensions/TopMenuExtensionList.java",
         "patchSetId": 7
@@ -327,6 +579,24 @@
     },
     {
       "key": {
+        "uuid": "84933f69_cba3f5ef",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/extensions/TopMenuExtensionList.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-09-26T10:20:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6482cb1a_ea150753",
+      "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6482cb1a_ea2a6782",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/extensions/TopMenuExtensionsRestApiServlet.java",
         "patchSetId": 7
@@ -338,6 +608,24 @@
       "writtenOn": "2013-09-25T12:04:06Z",
       "side": 1,
       "message": "Is not needed.",
+      "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84933f69_eba0b1e5",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/extensions/TopMenuExtensionsRestApiServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-09-26T10:20:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6482cb1a_ea2a6782",
       "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

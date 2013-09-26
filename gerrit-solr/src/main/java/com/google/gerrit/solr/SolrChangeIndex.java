@@ -221,7 +221,6 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
     private final List<SolrServer> indexes;
     private final SolrQuery query;
 
-    @SuppressWarnings("deprecation")
     public QuerySource(List<SolrServer> indexes, Query q, int limit,
         boolean reverse) {
       this.indexes = indexes;

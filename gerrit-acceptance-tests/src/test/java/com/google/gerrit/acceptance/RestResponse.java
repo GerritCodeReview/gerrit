@@ -16,11 +16,16 @@ package com.google.gerrit.acceptance;
 
 import static com.google.gerrit.httpd.restapi.RestApiServlet.JSON_MAGIC;
 
+import com.google.common.base.Preconditions;
+
 import org.apache.http.HttpResponse;
+import org.eclipse.jgit.util.IO;
+import org.eclipse.jgit.util.RawParseUtils;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.ByteBuffer;
 
 public class RestResponse {
 
@@ -48,5 +53,20 @@ public class RestResponse {
 
   public int getStatusCode() {
     return response.getStatusLine().getStatusCode();
+  }
+
+  public String getEntityContent() throws IOException {
+    Preconditions.checkNotNull(response,
+        "Response is not initialized.");
+    Preconditions.checkNotNull(response.getEntity(),
+        "Response.Entity is not initialized.");
+      ByteBuffer buf = IO.readWholeStream(
+          response.getEntity().getContent(),
+          1024);
+      return RawParseUtils.decode(
+          buf.array(),
+          buf.arrayOffset(),
+          buf.limit())
+          .trim();
   }
 }

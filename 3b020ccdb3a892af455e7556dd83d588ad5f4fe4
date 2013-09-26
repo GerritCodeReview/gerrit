@@ -186,6 +186,24 @@
       "revId": "3b020ccdb3a892af455e7556dd83d588ad5f4fe4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4fbe3cc_04fd56e4",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-26T23:57:27Z",
+      "side": 1,
+      "message": "Buck always deletes the tmp dir before it runs the genrule(). It has to, otherwise genrule can have very inconsistent output.",
+      "parentUuid": "84f89fd3_c3e6165e",
+      "revId": "3b020ccdb3a892af455e7556dd83d588ad5f4fe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

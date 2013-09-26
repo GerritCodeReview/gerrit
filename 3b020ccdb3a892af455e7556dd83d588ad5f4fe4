@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4968356_6ce3fb1c",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-26T16:43:32Z",
+      "side": 1,
+      "message": "Does Lucene skip the HTML tags?\n\nAnother option might be to scan the .txt input file (aka before macro expansion), which means you could put the Lucene indexing into a new genrule() and have it run in parallel with Asciidoctor.",
+      "revId": "3b020ccdb3a892af455e7556dd83d588ad5f4fe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c489b73b_8d3d81a2",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-26T16:43:32Z",
+      "side": 1,
+      "message": "The TextField holding the content should be a common name, e.g. \"doc\".\n\nAdd a second TextField that carries the name of the documentation file as a value (second arg). This field should not be analyzed using the analyzer.",
+      "range": {
+        "startLine": 163,
+        "startChar": 14,
+        "endLine": 163,
+        "endChar": 56
+      },
+      "revId": "3b020ccdb3a892af455e7556dd83d588ad5f4fe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4968356_acc40387",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-26T16:43:32Z",
+      "side": 1,
+      "message": "Since this is for the ZIP file use \"/\" to ensure you don\u0027t use \"\\\\\" on Windows.",
+      "range": {
+        "startLine": 178,
+        "startChar": 36,
+        "endLine": 178,
+        "endChar": 50
+      },
+      "revId": "3b020ccdb3a892af455e7556dd83d588ad5f4fe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4968356_8cc7478b",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-26T16:43:32Z",
+      "side": 1,
+      "message": "Since you are now importing Guava you can use ByteStreams.copy() instead of this loop.",
+      "revId": "3b020ccdb3a892af455e7556dd83d588ad5f4fe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c489b73b_ad3a3da5",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-26T16:43:32Z",
+      "side": 1,
+      "message": "I don\u0027t think deleting is necessary.",
+      "revId": "3b020ccdb3a892af455e7556dd83d588ad5f4fe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

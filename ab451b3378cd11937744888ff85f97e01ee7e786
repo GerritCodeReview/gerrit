@@ -87,6 +87,24 @@
     },
     {
       "key": {
+        "uuid": "c4a7f7cf_fd2f8798",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-26T05:16:20Z",
+      "side": 1,
+      "message": "+1\n\nI can do that.",
+      "parentUuid": "a4968356_8c4ca777",
+      "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6482cb1a_8a23abb2",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
         "patchSetId": 7

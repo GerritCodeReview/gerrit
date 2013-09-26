@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c489b73b_0dbd11fc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_84.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-26T13:11:44Z",
+      "side": 1,
+      "message": "Schema_84 has been used in another change that got merged earlier this week.",
+      "revId": "bf593261b76ce28550bca72dc60f4e3bd2a95603",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

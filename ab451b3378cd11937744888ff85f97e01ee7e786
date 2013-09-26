@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "c489b73b_2d8bad72",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-26T05:03:34Z",
+      "side": 1,
+      "message": "\"allows plugins to contribute entries to\"",
+      "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4968356_cc46af55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-26T05:03:34Z",
+      "side": 1,
+      "message": "\"the top menu of Gerrit\u0027s Web UI.",
+      "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84933f69_cb469555",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -30,6 +64,23 @@
       "writtenOn": "2013-09-25T12:04:06Z",
       "side": 1,
       "message": "entries",
+      "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4968356_8c4ca777",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-26T05:03:34Z",
+      "side": 1,
+      "message": "It would be good to also add an example in the cookbook plugin",
       "revId": "ab451b3378cd11937744888ff85f97e01ee7e786",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

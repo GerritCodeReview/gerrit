@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4a7f7cf_3d7def6d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-26T11:52:37Z",
+      "side": 1,
+      "message": "This change does not only effect the Change UI. E.g. it also changes the color for all links in the Change Table.",
+      "revId": "8950f6b39f0b5cf829d25eff48d12e6d56d75c58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

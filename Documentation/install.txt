@@ -129,6 +129,10 @@ automatically starts and stops with the operating system:
   sudo ln -snf /etc/init.d/gerrit /etc/rc3.d/S90gerrit
 ====
 
+('Optional') To enable autocompletion of the gerrit.sh commands, install
+autocompletion from the `/contrib/bash_completion` script.  Refer to the
+script's header comments for installation instructions.
+
 To install Gerrit into an existing servlet container instead of using
 the embedded Jetty server, see
 link:install-j2ee.html[J2EE installation].

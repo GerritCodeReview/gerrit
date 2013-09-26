@@ -283,10 +283,11 @@ Building against unpublished Maven JARs
 ---------------------------------------
 
 To build against unpublished Maven JARs, like gwtorm or PrologCafe, the custom
-JARs must be installed in the local Maven repository (mvn clean install) and
-maven_jar() must be updated to point to the MAVEN_LOCAL Maven repository for
+JARs must be installed in the local Maven repository (`mvn clean install`) and
+`maven_jar()` must be updated to point to the `MAVEN_LOCAL` Maven repository for
 that artifact:
 
+[source,python]
 ----
  maven_jar(
    name = 'gwtorm',
@@ -316,23 +317,28 @@ The trivial case using a local directory is:
 Using Buck daemon
 ~~~~~~~~~~~~~~~~~
 
-Buck ships with daemon command `buckd`, which uses
+Buck ships with a daemon command `buckd`, which uses the
 link:https://github.com/martylamb/nailgun[Nailgun] protocol for running
 Java programs from the command line without incurring the JVM startup
-overhead. Using a Buck daemon can save significant amounts of time as it
-avoids the overhead of starting a Java virtual machine, loading the buck class
-files and parsing the build files for each command. It is safe to run several
-buck daemons started from different project directories and they will not
-interfere with each other. Buck's documentation covers daemon in
-http://facebook.github.io/buck/command/buckd.html[buckd]. The trivial case is
-to run `buckd` from the project's root directory and use `buck` as usually:
+overhead.
+
+Using a Buck daemon can save significant amounts of time as it avoids the
+overhead of starting a Java virtual machine, loading the buck class files
+and parsing the build files for each command.
+
+It is safe to run several buck daemons started from different project
+directories and they will not interfere with each other. Buck's documentation
+covers daemon in http://facebook.github.io/buck/command/buckd.html[buckd].
+
+The trivial use case is to run `buckd` from the project's root directory and
+run `buck` as usual:
 
 ----
-$>buckd
-$>buck build gerrit
-Using buckd.
-[-] PARSING BUILD FILES...FINISHED 0.6s
-[-] BUILDING...FINISHED 0.2s
+  buckd
+  buck build gerrit
+  Using buckd.
+  [-] PARSING BUILD FILES...FINISHED 0.6s
+  [-] BUILDING...FINISHED 0.2s
 ----
 
 Overwrite Buck's settings

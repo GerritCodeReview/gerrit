@@ -105,6 +105,24 @@
       "revId": "c57233fbd9906c01c79c4af7516d0980cc8ae4b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a45043a5_bc3801b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_85.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-27T18:41:14Z",
+      "side": 1,
+      "message": "Martin, i see your point, and I disagree with that approach ;-)\n\nIt is not following the principle of least surprise. With that change in place in that form you could prevent change owners from abandoning his own changes by manipulating project.config. But you can\u0027t achieve that for Project Owners or Administrators.\n\nNot to mention:\n\n*  how that complicate the code.\n* how verbose All-Projects is with that change.\n* that it *not* following the YAGNI principle: in fact nobody need and missed that option to prevent change owner from abandon his change (well may be one day one would, but let\u0027s add that then).\n\nIt\u0027s like you would introduce the configuration option that prevents Administrator to create an user.\n\nIt just doesn\u0027t make any sense for me. For Labels yes, for Abandon and friends no.",
+      "parentUuid": "241613dd_b851f9e3",
+      "revId": "c57233fbd9906c01c79c4af7516d0980cc8ae4b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

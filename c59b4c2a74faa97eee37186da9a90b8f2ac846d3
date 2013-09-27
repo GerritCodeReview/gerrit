@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "241613dd_3844094b",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 850,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-27T08:22:29Z",
+      "side": 1,
+      "message": "Also for downloading (cloning) the project?",
+      "revId": "c59b4c2a74faa97eee37186da9a90b8f2ac846d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "241613dd_1847c552",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-27T08:22:29Z",
+      "side": 1,
+      "message": "I think \"both, \" can be removed here.",
+      "revId": "c59b4c2a74faa97eee37186da9a90b8f2ac846d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

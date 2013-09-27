@@ -169,9 +169,9 @@ configuration file:
 
 [source,python]
 ----
- manifest_entries = [
-    'Gerrit-PluginName: name',
-  ]
+manifest_entries = [
+   'Gerrit-PluginName: name',
+]
 ----
 
 [[reload_method]]
@@ -399,13 +399,13 @@ plugin to parse the `gerrit.config` file on its own:
 
 [source,java]
 ----
-  @Inject
-  private com.google.gerrit.server.config.PluginConfigFactory cfg;
+@Inject
+private com.google.gerrit.server.config.PluginConfigFactory cfg;
 
-  ...
+...
 
-  String language = cfg.get("helloworld")
-                       .getString("language", "English");
+String language = cfg.get("helloworld")
+                     .getString("language", "English");
 ----
 
 [[project-specific-configuration]]
@@ -434,13 +434,13 @@ is no need for a plugin to parse the `project.config` file on its own:
 
 [source,java]
 ----
-  @Inject
-  private com.google.gerrit.server.config.PluginConfigFactory cfg;
+@Inject
+private com.google.gerrit.server.config.PluginConfigFactory cfg;
 
-  ...
+...
 
-  boolean enabled = cfg.get(project, "helloworld")
-                       .getBoolean("enabled", false);
+boolean enabled = cfg.get(project, "helloworld")
+                     .getBoolean("enabled", false);
 ----
 
 It is also possible to get missing configuration parameters inherited
@@ -448,13 +448,13 @@ from the parent projects:
 
 [source,java]
 ----
-  @Inject
-  private com.google.gerrit.server.config.PluginConfigFactory cfg;
+@Inject
+private com.google.gerrit.server.config.PluginConfigFactory cfg;
 
-  ...
+...
 
-  boolean enabled = cfg.getWithInheritance(project, "helloworld")
-                       .getBoolean("enabled", false);
+boolean enabled = cfg.getWithInheritance(project, "helloworld")
+                     .getBoolean("enabled", false);
 ----
 
 Project owners can edit the project configuration by fetching the

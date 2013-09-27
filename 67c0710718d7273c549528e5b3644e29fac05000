@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a45043a5_fcc1a972",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-27T12:26:47Z",
+      "side": 1,
+      "message": "Can we be more specific here? I suggest to rephrase this:\n\nPlugins may now contribute UiActions to old change screen, new change screen and project info screen. The later two support UiActions extended with JS API.",
+      "revId": "67c0710718d7273c549528e5b3644e29fac05000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

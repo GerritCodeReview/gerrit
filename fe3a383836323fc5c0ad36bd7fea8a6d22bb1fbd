@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84f89fd3_03166e5e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-27T00:21:33Z",
+      "side": 1,
+      "message": "The table is using an italic font in the header, which doesn\u0027t match with the rest of the screen style.",
+      "revId": "fe3a383836323fc5c0ad36bd7fea8a6d22bb1fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84f89fd3_83093e41",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-27T00:21:33Z",
+      "side": 1,
+      "message": "Don\u0027t use this old API in new ChangeScreen2 code.",
+      "range": {
+        "startLine": 421,
+        "startChar": 4,
+        "endLine": 422,
+        "endChar": 40
+      },
+      "revId": "fe3a383836323fc5c0ad36bd7fea8a6d22bb1fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84f89fd3_431c667e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-27T00:21:33Z",
+      "side": 1,
+      "message": "This block now exactly matches the block in ChangeScreen2 that fills this UI. Maybe we should move the logic either up to ChangeScreen2 or down into this class and have only one copy of it?",
+      "range": {
+        "startLine": 433,
+        "startChar": 4,
+        "endLine": 446,
+        "endChar": 77
+      },
+      "revId": "fe3a383836323fc5c0ad36bd7fea8a6d22bb1fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84f89fd3_631f6275",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-27T00:21:33Z",
+      "side": 1,
+      "message": "maybe this should move down into labels.set() to reduce code duplication?",
+      "range": {
+        "startLine": 452,
+        "startChar": 4,
+        "endLine": 453,
+        "endChar": 52
+      },
+      "revId": "fe3a383836323fc5c0ad36bd7fea8a6d22bb1fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4fbe3cc_c40f3e44",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-27T00:21:33Z",
+      "side": 1,
+      "message": "dead code",
+      "range": {
+        "startLine": 456,
+        "startChar": 4,
+        "endLine": 458,
+        "endChar": 6
+      },
+      "revId": "fe3a383836323fc5c0ad36bd7fea8a6d22bb1fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84f89fd3_a3043a29",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-27T00:21:33Z",
+      "side": 1,
+      "message": "changeId",
+      "range": {
+        "startLine": 464,
+        "startChar": 23,
+        "endLine": 464,
+        "endChar": 39
+      },
+      "revId": "fe3a383836323fc5c0ad36bd7fea8a6d22bb1fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84f89fd3_23196a8e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.ui.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-27T00:21:33Z",
+      "side": 1,
+      "message": "I now see why you used the edit icon. Maybe switch to the edit icon now?",
+      "revId": "fe3a383836323fc5c0ad36bd7fea8a6d22bb1fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

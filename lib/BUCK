@@ -15,7 +15,6 @@ define_license(name = 'diffy')
 define_license(name = 'h2')
 define_license(name = 'jgit')
 define_license(name = 'jsch')
-define_license(name = 'jsr305')
 define_license(name = 'ow2')
 define_license(name = 'postgresql')
 define_license(name = 'prologcafe')
@@ -118,15 +117,6 @@ maven_jar(
   sha1 = 'e2f21e9868414122e6dd23ac66cf304d4290642c',
   license = 'Apache2.0',
   exclude = ['META-INF/NOTICE', 'META-INF/LICENSE'],
-)
-
-maven_jar(
-  name = 'jsr305',
-  id = 'com.google.code.findbugs:jsr305:1.3.9',
-  sha1 = '40719ea6961c0cb6afaeb6a921eaa1f6afd4cfdf',
-  license = 'jsr305',
-  attach_source = False,
-  exclude_java_sources = True,
 )
 
 maven_jar(

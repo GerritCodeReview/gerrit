@@ -28,7 +28,6 @@ java_library(
     '//gerrit-server:server',
     '//lib:guava',
     '//lib:gwtorm',
-    '//lib:jsr305',
     '//lib/guice:guice',
     '//lib/guice:guice-assistedinject',
     '//lib/jgit:jgit',

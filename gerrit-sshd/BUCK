@@ -16,7 +16,6 @@ java_library2(
     '//lib:guava',
     '//lib:gwtorm',
     '//lib:jsch',
-    '//lib:jsr305',
     '//lib/commons:codec',
     '//lib/guice:guice',
     '//lib/guice:guice-assistedinject',

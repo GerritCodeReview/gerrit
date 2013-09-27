@@ -76,7 +76,6 @@ gwt_module(
     '//lib:gwtjsonrpc',
     '//lib:gwtjsonrpc_src',
     '//lib:gwtorm',
-    '//lib:jsr305',
     '//lib/codemirror:codemirror',
     '//lib/gwt:user',
     '//lib/jgit:jgit',

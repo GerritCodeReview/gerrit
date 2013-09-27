@@ -32,6 +32,8 @@ Release Highlights
 ------------------
 
 
+* New change screen with completely redesigned UI and fully using the REST API.
+
 * link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config-gerrit.html#index[
 Secondary indexing with Lucene and Solr].
 
@@ -80,7 +82,7 @@ link:[http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/pgm-init.
 site initialization command].
 
 * New `auth.httpDisplaynameHeader` and `auth.httpEmailHeader` in the
-link:[http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config_gerrit.html#_a_id_auth_a_section_auth[
+link:[http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config-gerrit.html#_a_id_auth_a_section_auth[
 authentication configuration].
 +
 When using HTTP-based authentication, the SSO can be delegated to check not only
@@ -106,6 +108,9 @@ Oracle database].
 link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config-auto-site-initialization.html[
 auto-initialized on server startup].
 
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config_gerrit.html#httpd.filterClass[
+Configurable filtering of HTTP traffic through Gerrit's HTTP protocol].
+
 Web UI
 ~~~~~~
 
@@ -118,6 +123,15 @@ Global
 Change Screens
 ^^^^^^^^^^^^^^
 
+
+* New change screen with completely redesigned UI and using the REST API.
++
+Site administrators can
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config-gerrit.html#gerrit.changeScreen[
+configure which change screen is shown by default].
++
+Users can choose which one to use in their personal preferences, either using
+the site default or explicitly choosing the old one or new one.
 
 * New button to cherry-pick the change to another branch.
 
@@ -141,6 +155,9 @@ scripts.
 If a user has already seen and reviewed a file, the 'reviewed' flag is forwarded
 on to the next patch set when the content of the file in the next patch set is
 identical to the reviewed file.
+
+* "Uploaded Patch Set 1" change message is added on changes when they
+are uploaded.
 
 
 REST API
@@ -251,6 +268,9 @@ Publish draft change]
 
 * link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-changes.html#delete-draft-change[
 Delete draft change]
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-changes.html#suggest-reviewers[
+Suggest reviewers]
 
 
 Config
@@ -505,6 +525,9 @@ Global
 ^^^^^^
 
 
+* link:https://code.google.com/p/gerrit/issues/detail?id=1072[Issue 1072]:
+Fix "Push Merge Commit" permission on refs/heads/*
+
 * link:https://code.google.com/p/gerrit/issues/detail?id=1574[Issue 1574]:
 Correctly highlight matches of text in escaped HTML entities in suggestion results.
 
@@ -579,6 +602,11 @@ The link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/cmd-re
 
 * Improve the error message when rejecting upload for review to a read-only project.
 
+
+Plugins
+~~~~~~~
+
+* Better error message when a Javascript plugin cannot be loaded.
 
 Emails
 ~~~~~~

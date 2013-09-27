@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "241613dd_58245dba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-27T07:34:08Z",
+      "side": 1,
+      "message": "Confusingly, the plural of documentation is documentation. :-)",
+      "range": {
+        "startLine": 7,
+        "startChar": 6,
+        "endLine": 7,
+        "endChar": 20
+      },
+      "revId": "6dba0f64139690a0a9b6ba172cc18b2c74637375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "844dff11_1b2edb98",
+        "filename": "Documentation/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-27T07:34:08Z",
+      "side": 1,
+      "message": "DOC_DIR/INDEX_DIR? I think the documentation index should be under Documentation/.index. Which maybe then makes prefix irrelevant because file can be \"user-search.html\", relative to the index.",
+      "revId": "6dba0f64139690a0a9b6ba172cc18b2c74637375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "241613dd_983995e8",
+        "filename": "Documentation/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-27T07:34:08Z",
+      "side": 1,
+      "message": "I think we should remove the leading / here. ZIP archive entries should not begin with /",
+      "range": {
+        "startLine": 70,
+        "startChar": 17,
+        "endLine": 70,
+        "endChar": 18
+      },
+      "revId": "6dba0f64139690a0a9b6ba172cc18b2c74637375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "844dff11_7b211fa9",
+        "filename": "lib/asciidoctor/java/DocIndexer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-27T07:34:08Z",
+      "side": 1,
+      "message": "I think file is sufficient, and better matches our other operators in the change search language.",
+      "range": {
+        "startLine": 46,
+        "startChar": 48,
+        "endLine": 46,
+        "endChar": 56
+      },
+      "revId": "6dba0f64139690a0a9b6ba172cc18b2c74637375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "241613dd_b83ed9cb",
+        "filename": "lib/asciidoctor/java/DocIndexer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-27T07:34:08Z",
+      "side": 1,
+      "message": "No leading /?",
+      "range": {
+        "startLine": 52,
+        "startChar": 27,
+        "endLine": 52,
+        "endChar": 42
+      },
+      "revId": "6dba0f64139690a0a9b6ba172cc18b2c74637375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "844dff11_5b2463ba",
+        "filename": "lib/asciidoctor/java/DocIndexer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-27T07:34:08Z",
+      "side": 1,
+      "message": "To get the name back when a match is found, you need Store.YES.",
+      "range": {
+        "startLine": 92,
+        "startChar": 49,
+        "endLine": 92,
+        "endChar": 63
+      },
+      "revId": "6dba0f64139690a0a9b6ba172cc18b2c74637375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

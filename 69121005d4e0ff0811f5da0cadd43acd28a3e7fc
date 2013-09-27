@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c44377e0_3d44ef4a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-27T09:10:17Z",
+      "side": 1,
+      "message": "nit: please indent that properly (2 chars). We always indent code samples in commit message, see for example:\n\n https://gerrit-review.googlesource.com/#/c/47870/",
+      "revId": "69121005d4e0ff0811f5da0cadd43acd28a3e7fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

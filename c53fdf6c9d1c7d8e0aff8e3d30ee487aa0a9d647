@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "241613dd_18002518",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/BasicChangeRewrites.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-27T06:04:34Z",
+      "side": 1,
+      "message": "We are apparently not using this copy of Nullable anymore.",
+      "range": {
+        "startLine": 30,
+        "startChar": 13,
+        "endLine": 30,
+        "endChar": 23
+      },
+      "revId": "c53fdf6c9d1c7d8e0aff8e3d30ee487aa0a9d647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "241613dd_38fde9e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/SortKeyPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-27T06:04:34Z",
+      "side": 1,
+      "message": "Wrong Nullable.",
+      "revId": "c53fdf6c9d1c7d8e0aff8e3d30ee487aa0a9d647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

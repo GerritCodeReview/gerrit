@@ -1458,8 +1458,14 @@ public class ReceiveCommits {
       recipients.add(getRecipientsFromFooters(accountResolver, ps, footerLines));
       recipients.remove(me);
 
+      ChangeMessage msg =
+          new ChangeMessage(new ChangeMessage.Key(change.getId(),
+              ChangeUtil.messageUUID(db)), me, ps.getCreatedOn(), ps.getId());
+      msg.setMessage("Uploaded patch set " + ps.getPatchSetId() + ".");
+
       ins
         .setReviewers(recipients.getReviewers())
+        .setMessage(msg)
         .setSendMail(false)
         .insert();
       created = true;

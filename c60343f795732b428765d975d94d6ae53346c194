@@ -16,6 +16,24 @@
       "revId": "c60343f795732b428765d975d94d6ae53346c194",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a45043a5_7c2119a9",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-27T08:29:38Z",
+      "side": 1,
+      "message": "No, this is good like it is :-) just wasn\u0027t paying enough attention on this.",
+      "parentUuid": "844dff11_5b4d4370",
+      "revId": "c60343f795732b428765d975d94d6ae53346c194",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

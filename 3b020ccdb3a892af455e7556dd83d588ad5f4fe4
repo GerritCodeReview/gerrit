@@ -204,6 +204,24 @@
       "revId": "3b020ccdb3a892af455e7556dd83d588ad5f4fe4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4fbe3cc_a4044229",
+        "filename": "lib/asciidoctor/java/Main.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-27T00:11:22Z",
+      "side": 1,
+      "message": "Oh you are right. Removed.",
+      "parentUuid": "a4fbe3cc_04fd56e4",
+      "revId": "3b020ccdb3a892af455e7556dd83d588ad5f4fe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

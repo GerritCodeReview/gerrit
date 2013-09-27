@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "844dff11_5bb1c323",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-27T16:57:19Z",
+      "side": 1,
+      "message": "s/ file//",
+      "range": {
+        "startLine": 277,
+        "startChar": 20,
+        "endLine": 277,
+        "endChar": 24
+      },
+      "revId": "6226382520fa11fcd6b22e6b19ca62957fc56ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "844dff11_bbbb2705",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-27T16:57:19Z",
+      "side": 1,
+      "message": "s/as/the/",
+      "range": {
+        "startLine": 280,
+        "startChar": 59,
+        "endLine": 280,
+        "endChar": 61
+      },
+      "revId": "6226382520fa11fcd6b22e6b19ca62957fc56ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "241613dd_f82e916c",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-27T16:57:19Z",
+      "side": 1,
+      "message": "This paragraph needs some rephrasing but first I want to make sure I\u0027m clear on what it means. What does being unpopular have to do with the label tracking the branch scope? Can you give an example of such a label?",
+      "range": {
+        "startLine": 283,
+        "startChar": 0,
+        "endLine": 283,
+        "endChar": 19
+      },
+      "revId": "6226382520fa11fcd6b22e6b19ca62957fc56ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "844dff11_1bab3bb2",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/LabelType.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-27T16:57:19Z",
+      "side": 1,
+      "message": "Other setters in this class are void.",
+      "range": {
+        "startLine": 179,
+        "startChar": 9,
+        "endLine": 179,
+        "endChar": 16
+      },
+      "revId": "6226382520fa11fcd6b22e6b19ca62957fc56ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "844dff11_db295367",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-27T16:57:19Z",
+      "side": 1,
+      "message": "Is there supposed to be some difference between the refs \u003d\u003d null case and the refs.isEmpty() case? It may be that the way ProjectControl gets populated it is not possible to have an empty, non-null list, but that is not obvious in this portion of the code.",
+      "range": {
+        "startLine": 259,
+        "startChar": 10,
+        "endLine": 259,
+        "endChar": 22
+      },
+      "revId": "6226382520fa11fcd6b22e6b19ca62957fc56ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "241613dd_583e9d9d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-27T16:57:19Z",
+      "side": 1,
+      "message": "I think you can simplify all the conditional nesting here. This should be logically equivalent:\n\n if ((refs \u003d\u003d null \u0026\u0026 !branchSameAsAcecss)\n     || (branchSameAsAccess \u0026\u0026 accessSectionsLabels.contains(l)) {\n   r.add(l);\n   continue;\n }\n if (refs !\u003d null) {\n   ...\n }",
+      "range": {
+        "startLine": 261,
+        "startChar": 8,
+        "endLine": 262,
+        "endChar": 10
+      },
+      "revId": "6226382520fa11fcd6b22e6b19ca62957fc56ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "844dff11_fb2e8f6c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/rules/GerritCommonTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-09-27T16:57:19Z",
+      "side": 1,
+      "message": "I thought I asked this elsewhere but can\u0027t find the comment: does setting this actually have any effect on the test? If so what?",
+      "revId": "6226382520fa11fcd6b22e6b19ca62957fc56ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -2,30 +2,36 @@ include_defs('//Documentation/asciidoc.defs')
 include_defs('//Documentation/config.defs')
 include_defs('//tools/git.defs')
 
+DOC_DIR = 'Documentation'
+INDEX_DIR = DOC_DIR + '/.index'
 MAIN = ['//gerrit-pgm:pgm', '//gerrit-gwtui:ui_module']
 SRCS = glob(['*.txt'], excludes = ['licenses.txt'])
 
 genrule(
   name = 'html',
   cmd = 'cd $TMP;' +
-    'mkdir -p Documentation/images;' +
-    'unzip -q $SRCDIR/only_html.zip -d Documentation/;' +
-    'for s in $SRCS;do ln -s $s Documentation;done;' +
-    'mv Documentation/*.{jpg,png} Documentation/images;' +
-    'rm Documentation/only_html.zip;' +
-    'rm Documentation/licenses.txt;' +
+    'mkdir -p %s/images;' % DOC_DIR +
+    'unzip -q $SRCDIR/index.zip -d %s/;' % INDEX_DIR +
+    'unzip -q $SRCDIR/only_html.zip -d %s/;' % DOC_DIR +
+    'for s in $SRCS;do ln -s $s %s;done;' % DOC_DIR +
+    'mv %s/*.{jpg,png} %s/images;' % (DOC_DIR, DOC_DIR) +
+    'rm %s/only_html.zip;' % DOC_DIR +
+    'rm %s/index.zip;' % DOC_DIR +
+    'rm %s/licenses.txt;' % DOC_DIR +
     'cp $SRCDIR/licenses.txt LICENSES.txt;' +
     'zip -qr $OUT *',
-  srcs = [genfile('only_html.zip')] +
-    glob([
+  srcs = glob([
       'images/*.jpg',
       'images/*.png',
     ]) + [
-    'doc.css',
-    genfile('licenses.txt'),
-  ],
+      'doc.css',
+      genfile('licenses.txt'),
+      genfile('only_html.zip'),
+      genfile('index.zip'),
+    ],
   deps = [
     ':generate_html',
+    ':index',
     ':licenses.txt',
   ],
   out = 'html.zip',
@@ -56,4 +62,20 @@ python_binary(
 python_binary(
   name = 'replace_macros',
   main = 'replace_macros.py',
+)
+
+genrule(
+  name = 'index',
+  cmd = '$(exe //lib/asciidoctor:doc_indexer) ' +
+      '-z $OUT ' +
+      '--prefix "%s/" ' % DOC_DIR +
+      '--in-ext ".txt" ' +
+      '--out-ext ".html" ' +
+      '$SRCS',
+  srcs = SRCS + [genfile('licenses.txt')],
+  deps = [
+    ':licenses.txt',
+    '//lib/asciidoctor:doc_indexer',
+  ],
+  out = 'index.zip',
 )

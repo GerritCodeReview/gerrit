@@ -148,6 +148,24 @@
       "revId": "fe3a383836323fc5c0ad36bd7fea8a6d22bb1fbd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c44377e0_dde14b48",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.ui.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-27T04:46:09Z",
+      "side": 1,
+      "message": "Yupp, i commented on that change and was waiting for a response:\n\n https://gerrit-review.googlesource.com/#/c/49142/19/gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.ui.xml\n\nUnfortunately, you probably missed that comment? Just to clarify: You generally ignore  comments to merged changes?",
+      "parentUuid": "84f89fd3_23196a8e",
+      "revId": "fe3a383836323fc5c0ad36bd7fea8a6d22bb1fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

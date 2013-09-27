@@ -232,12 +232,10 @@ public class AccountManager {
         final AccountExternalId newId = createId(accountId, who);
         newId.setEmailAddress(who.getEmailAddress());
 
+        db.accountExternalIds().upsert(Collections.singleton(newId));
         if (openId.size() == 1) {
           final AccountExternalId oldId = openId.get(0);
-          db.accountExternalIds().upsert(Collections.singleton(newId));
           db.accountExternalIds().delete(Collections.singleton(oldId));
-        } else {
-          db.accountExternalIds().insert(Collections.singleton(newId));
         }
         return new AuthResult(accountId, newId.getKey(), false);
 
@@ -271,8 +269,8 @@ public class AccountManager {
       && db.accounts().anyAccounts().toList().isEmpty();
 
     try {
-      db.accounts().insert(Collections.singleton(account));
-      db.accountExternalIds().insert(Collections.singleton(extId));
+      db.accounts().upsert(Collections.singleton(account));
+      db.accountExternalIds().upsert(Collections.singleton(extId));
     } finally {
       // If adding the account failed, it may be that it actually was the
       // first account. So we reset the 'check for first account'-guard, as

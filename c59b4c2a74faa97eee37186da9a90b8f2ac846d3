@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a45043a5_5c83fd4f",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 850,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-27T11:47:35Z",
+      "side": 1,
+      "message": "Yes, but not on the change screen.\n\nDone.",
+      "parentUuid": "241613dd_3844094b",
+      "revId": "c59b4c2a74faa97eee37186da9a90b8f2ac846d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "241613dd_1847c552",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2013-09-27T08:22:29Z",
       "side": 1,
       "message": "I think \"both, \" can be removed here.",
+      "revId": "c59b4c2a74faa97eee37186da9a90b8f2ac846d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a45043a5_7c803942",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-27T11:47:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "241613dd_1847c552",
       "revId": "c59b4c2a74faa97eee37186da9a90b8f2ac846d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

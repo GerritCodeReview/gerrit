@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "847b3f36_cbe17548",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-09-27T17:15:45Z",
+      "side": 1,
+      "message": "I proposed to do it by convention on patch sets 2 thru 11, the Change Owner group would only apply to the label permission.  However the feedback was that it would be too confusing to users when setting up ACLs (patch set 2 \u0026 9).  The request was to make the CHANGE OWNER group apply to all permissions that have a change context.",
+      "parentUuid": "44ea27f0_71f6180f",
+      "revId": "c57233fbd9906c01c79c4af7516d0980cc8ae4b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4d87b6d_8ef03b13",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_85.java",
         "patchSetId": 13

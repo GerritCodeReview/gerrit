@@ -193,6 +193,9 @@ public final class Change {
   /** Database constant for {@link Status#MERGED}. */
   public static final char STATUS_MERGED = 'M';
 
+  /** Database constant for {@link Status#WORKINPROGRESS} */
+  private static final char STATUS_WIP = 'w';
+
   /** ID number of the first patch set in a change. */
   public static final int INITIAL_PATCH_SET_ID = 1;
 
@@ -277,6 +280,17 @@ public final class Change {
      * supporting a post-submit review.
      */
     MERGED(STATUS_MERGED),
+
+    /**
+     * Change is still open, but a work in progress.
+     *
+     * <p>
+     * The change owner, or someone with approval authority, has set a change from
+     * {@link #NEW} to this state. It implies that there is more work to be done,
+     * but the change will not show up in any review lists until a new patch set
+     * is pushed.
+     */
+    WORKINPROGRESS(STATUS_WIP),
 
     /**
      * Change is closed, but was not submitted to its destination branch.

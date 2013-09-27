@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "241613dd_182ee598",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-27T07:34:49Z",
+      "side": 1,
+      "message": "I agree, this is what it should have been, thanks Edwin!",
+      "parentUuid": "c44377e0_7d1cb77e",
+      "revId": "fe3a383836323fc5c0ad36bd7fea8a6d22bb1fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84f89fd3_03166e5e",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
         "patchSetId": 4

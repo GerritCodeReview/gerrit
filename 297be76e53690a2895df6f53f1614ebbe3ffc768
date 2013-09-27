@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "241613dd_5883fd4f",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-27T12:19:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a45043a5_bc948192",
+      "revId": "297be76e53690a2895df6f53f1614ebbe3ffc768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a45043a5_bc6d61c0",
         "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-09-27T11:39:27Z",
       "side": 1,
       "message": "I suggest to add some kind of description/HOWTO for the new change screen. It has some new usability and functionality concepts that not every one understand from the first glance. It needs to be explained. The only question is where and how?\n\nJust to name a few:\n\n* Region comments: how to do it?\n* How to search in the new codemirror side by side view?\n* How to download base64 and zipped patch file (Why not to mention it as a new feature here)?\n* Optionally sending Mails during votes\n* Quick vote\n* Reviewers infos split into three different places\n* Patch sets are sorted in descending order (Should we deprecate that user preference variable)? \n* Refresh every 5 sec. (or something like that) on New Change Screen to fetch changes, Votes, new ps, etc. Where is this feature covered?",
+      "revId": "297be76e53690a2895df6f53f1614ebbe3ffc768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "241613dd_b86d79c0",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-27T12:19:18Z",
+      "side": 1,
+      "message": "I agree that this should be documented, but I don\u0027t think the release notes is the right place for that.  I suggest adding a new document under Documentation/ and then link to that from here.",
+      "parentUuid": "a45043a5_bc6d61c0",
       "revId": "297be76e53690a2895df6f53f1614ebbe3ffc768",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

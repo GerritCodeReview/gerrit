@@ -22,7 +22,6 @@ java_library2(
     '//lib:gwtjsonrpc',
     '//lib:gwtorm',
     '//lib:jsch',
-    '//lib:jsr305',
     '//lib:mime-util',
     '//lib/commons:codec',
     '//lib/guice:guice',

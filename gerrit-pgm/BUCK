@@ -16,7 +16,6 @@ java_library(
   deps = [
     '//gerrit-common:server',
     '//gerrit-server:server',
-    '//lib:jsr305',
     '//lib/guice:guice',
     '//lib/guice:guice-assistedinject',
     '//lib/jgit:jgit',
@@ -67,7 +66,6 @@ java_library2(
     '//lib:guava',
     '//lib:gwtjsonrpc',
     '//lib:gwtorm',
-    '//lib:jsr305',
   ],
   compile_deps = ['//gerrit-launcher:launcher'],
   visibility = ['//gerrit-war:'],

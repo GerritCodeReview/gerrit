@@ -19,7 +19,6 @@ java_library(
     '//lib:gwtorm',
     '//lib:h2',
     '//lib:jsch',
-    '//lib:jsr305',
     '//lib:junit',
     '//lib:servlet-api-3_0',
 

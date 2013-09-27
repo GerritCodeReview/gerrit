@@ -11,7 +11,6 @@ java_library2(
     '//gerrit-server:server',
     '//lib:guava',
     '//lib:gwtorm',
-    '//lib:jsr305',
     '//lib/guice:guice',
     '//lib/guice:guice-servlet',
     '//lib/jgit:jgit',

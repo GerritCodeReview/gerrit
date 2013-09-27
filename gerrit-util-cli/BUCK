@@ -5,7 +5,6 @@ java_library(
     '//gerrit-common:server',
     '//lib:args4j',
     '//lib:guava',
-    '//lib:jsr305',
     '//lib/guice:guice',
     '//lib/guice:guice-assistedinject',
   ],

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "c44377e0_7d1cb77e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-27T07:33:08Z",
+      "side": 1,
+      "message": "I\u0027ve now allowed the gerrit-verifiers group to vote on Verified for all plugins. I think this makes sense. \n\nNo reason to laugh on you anymore ;-)",
+      "parentUuid": "c44377e0_9debc324",
+      "revId": "fe3a383836323fc5c0ad36bd7fea8a6d22bb1fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84f89fd3_03166e5e",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
         "patchSetId": 4

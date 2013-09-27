@@ -252,6 +252,24 @@
       "revId": "ae6e4723b7f7479a27c64b5ba14a079336a3f0df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c44377e0_bd38ffb1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-27T16:55:36Z",
+      "side": 1,
+      "message": "Until now these IDs were not relevant, it was only important if the merge succeeded or not. At the moment the code looks like this:\n\n  public ObjectInserter createDryRunInserter() {\n    return new ObjectInserter() {\n      private final MutableObjectId buf \u003d new MutableObjectId();\n      private static final int LAST_BYTE \u003d Constants.OBJECT_ID_LENGTH - 1;\n\n      @Override\n      public ObjectId insert(int objectType, long length, InputStream in)\n          throws IOException {\n        // create non-existing dummy ID\n        buf.setByte(LAST_BYTE, buf.getByte(LAST_BYTE) + 1);\n        return buf.copy();\n      }\n      \n      ...\n\nHow would the computation  of the correct ObjectId be done?",
+      "parentUuid": "241613dd_9833d5d7",
+      "revId": "ae6e4723b7f7479a27c64b5ba14a079336a3f0df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

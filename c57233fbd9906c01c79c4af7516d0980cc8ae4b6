@@ -87,6 +87,24 @@
       "revId": "c57233fbd9906c01c79c4af7516d0980cc8ae4b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "241613dd_b851f9e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_85.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-09-27T18:21:00Z",
+      "side": 1,
+      "message": "I don\u0027t understand your question David.  I think the idea here is to not change the Gerrit\u0027s default policies, but yet to allow them to be customised.  In other words, change owners have always been able to abandon changes.  And after this change, they will still be able to abandon changes, unless an admin comes along and modifies the ACLs to remove these default rules.\n\nAre you asking why we can\u0027t also remove the ability for Project Owners to abandon things?  Perhaps that is something that should also be considered at some point, but I don\u0027t know that it should be considered for this change.  It might be nice if almost all the default rules were expressed as ACLs instead of hard coded into the Control Objects?  That would mean the All-Projects would come with a bunch of default rules and they would be easy to screw up, but it would give lots of good flexibility.  I almost think it would be nice if we had some way of defining default rules in Gerrit that show up in the ACLs, and if someone deletes them, that they would somehow then be highlighted in the ACL UI as overridden!  That would make it obvious that something was changed from the default, and what it takes to get back to that default behavior.",
+      "parentUuid": "e4d87b6d_8ef03b13",
+      "revId": "c57233fbd9906c01c79c4af7516d0980cc8ae4b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

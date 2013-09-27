@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "844dff11_5b4d4370",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-27T08:27:50Z",
+      "side": 1,
+      "message": "Here.    I deliberately didn\u0027t mention specific places because I wasn\u0027t sure how many more would be added.  The documentation is more specific, and I thought it would be enough to just link to it.\n\nIf you think the release note needs to be more specific, I can add it.",
+      "revId": "c60343f795732b428765d975d94d6ae53346c194",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

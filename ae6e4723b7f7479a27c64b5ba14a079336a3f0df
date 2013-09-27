@@ -288,6 +288,24 @@
       "revId": "ae6e4723b7f7479a27c64b5ba14a079336a3f0df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a45043a5_dc294d67",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-27T17:01:27Z",
+      "side": 1,
+      "message": "Cool, this is easy enough :-)",
+      "parentUuid": "241613dd_783b61ac",
+      "revId": "ae6e4723b7f7479a27c64b5ba14a079336a3f0df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

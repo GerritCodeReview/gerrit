@@ -15,10 +15,12 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -27,6 +29,7 @@ import com.google.gerrit.server.data.PatchSetAttribute;
 import com.google.gerrit.server.data.QueryStatsAttribute;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.plugins.PluginLoader;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.Predicate;
@@ -116,13 +119,15 @@ public class QueryProcessor {
   private OutputStream outputStream = DisabledOutputStream.INSTANCE;
   private PrintWriter out;
   private boolean moreResults;
+  private boolean wipPlugin;
 
   @Inject
   QueryProcessor(EventFactory eventFactory,
       ChangeQueryBuilder.Factory queryBuilder, CurrentUser currentUser,
       ChangeQueryRewriter queryRewriter, Provider<ReviewDb> db,
       GitRepositoryManager repoManager,
-      ChangeControl.Factory changeControlFactory) {
+      ChangeControl.Factory changeControlFactory,
+      PluginLoader pluginLoader) {
     this.eventFactory = eventFactory;
     this.queryBuilder = queryBuilder.create(currentUser);
     this.queryRewriter = queryRewriter;
@@ -133,6 +138,7 @@ public class QueryProcessor {
       .getRange(GlobalCapability.QUERY_LIMIT)
       .getMax();
     this.moreResults = false;
+    this.wipPlugin = pluginLoader.get("wip") != null;
   }
 
   int getLimit() {
@@ -229,12 +235,17 @@ public class QueryProcessor {
       throws OrmException, QueryParseException {
     final Predicate<ChangeData> visibleToMe = queryBuilder.is_visible();
     int cnt = queries.size();
+    boolean filterWip = false;
 
     // Parse and rewrite all queries.
     List<Integer> limits = Lists.newArrayListWithCapacity(cnt);
     List<ChangeDataSource> sources = Lists.newArrayListWithCapacity(cnt);
     for (int i = 0; i < cnt; i++) {
-      Predicate<ChangeData> q = parseQuery(queries.get(i), visibleToMe);
+      String queryString = queries.get(i);
+      if (wipPlugin && queryString.indexOf("reviewer:self") >= 0) {
+        filterWip = true;
+      }
+      Predicate<ChangeData> q = parseQuery(queryString, visibleToMe);
       Predicate<ChangeData> s = queryRewriter.rewrite(q);
       if (!(s instanceof ChangeDataSource)) {
         @SuppressWarnings("unchecked")
@@ -255,13 +266,17 @@ public class QueryProcessor {
     // Run each query asynchronously, if supported.
     List<ResultSet<ChangeData>> matches = Lists.newArrayListWithCapacity(cnt);
     for (ChangeDataSource s : sources) {
-      matches.add(s.read());
+      ResultSet<ChangeData> rs = s.read();
+      matches.add(rs);
     }
     sources = null;
 
     List<List<ChangeData>> out = Lists.newArrayListWithCapacity(cnt);
     for (int i = 0; i < cnt; i++) {
       List<ChangeData> results = matches.get(i).toList();
+      if (filterWip) {
+        results = filterWipChanes(results);
+      }
       Collections.sort(results, sortkeyAfter != null ? cmpAfter : cmpBefore);
       if (results.size() > maxLimit) {
         moreResults = true;
@@ -539,6 +554,16 @@ public class QueryProcessor {
     }
     r.addAll(Arrays.asList(type.getDeclaredFields()));
     return r;
+  }
+
+  private static List<ChangeData> filterWipChanes(List<ChangeData> results) {
+    return Lists.newArrayList(Iterables.filter(results,
+        new com.google.common.base.Predicate<ChangeData>() {
+          @Override
+          public boolean apply(ChangeData input) {
+            return input.getChange().getStatus() != Change.Status.WORKINPROGRESS;
+          }
+        }));
   }
 
   static class ErrorMessage {

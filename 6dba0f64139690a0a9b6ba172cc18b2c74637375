@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "844dff11_5bc8e399",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-27T16:13:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "241613dd_58245dba",
+      "revId": "6dba0f64139690a0a9b6ba172cc18b2c74637375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "844dff11_1b2edb98",
         "filename": "Documentation/BUCK",
         "patchSetId": 5
@@ -36,6 +54,24 @@
       "writtenOn": "2013-09-27T07:34:08Z",
       "side": 1,
       "message": "DOC_DIR/INDEX_DIR? I think the documentation index should be under Documentation/.index. Which maybe then makes prefix irrelevant because file can be \"user-search.html\", relative to the index.",
+      "revId": "6dba0f64139690a0a9b6ba172cc18b2c74637375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "241613dd_38cf29a1",
+        "filename": "Documentation/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-27T16:13:05Z",
+      "side": 1,
+      "message": "I have no preference with the path so changed to Documentation/.index. But the prefix should be still necessary. See the explanation below.",
+      "parentUuid": "844dff11_1b2edb98",
       "revId": "6dba0f64139690a0a9b6ba172cc18b2c74637375",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "241613dd_d8bced01",
+        "filename": "Documentation/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-27T16:13:05Z",
+      "side": 1,
+      "message": "This prefix have nothing to do with the ZIP archive. It\u0027s just stored into the lucene index. We need the prefix because the URLs for Documentation is /Documentation/name.html, but we are unlikely to put the lucene search servlet under /Documentation/ too, so add this prefix to get usable URLs after search.",
+      "parentUuid": "241613dd_983995e8",
+      "revId": "6dba0f64139690a0a9b6ba172cc18b2c74637375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "844dff11_7b211fa9",
         "filename": "lib/asciidoctor/java/DocIndexer.java",
         "patchSetId": 5
@@ -82,6 +136,24 @@
         "endLine": 46,
         "endChar": 56
       },
+      "revId": "6dba0f64139690a0a9b6ba172cc18b2c74637375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "241613dd_f8c1b172",
+        "filename": "lib/asciidoctor/java/DocIndexer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-27T16:13:05Z",
+      "side": 1,
+      "message": "Actually, on second though, this should be \"url\".",
+      "parentUuid": "844dff11_7b211fa9",
       "revId": "6dba0f64139690a0a9b6ba172cc18b2c74637375",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -111,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "844dff11_7bc59f80",
+        "filename": "lib/asciidoctor/java/DocIndexer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-27T16:13:05Z",
+      "side": 1,
+      "message": "See explanation in the BUCK.",
+      "parentUuid": "241613dd_b83ed9cb",
+      "revId": "6dba0f64139690a0a9b6ba172cc18b2c74637375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "844dff11_5b2463ba",
         "filename": "lib/asciidoctor/java/DocIndexer.java",
         "patchSetId": 5
@@ -128,6 +218,24 @@
         "endLine": 92,
         "endChar": 63
       },
+      "revId": "6dba0f64139690a0a9b6ba172cc18b2c74637375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "241613dd_98b6751e",
+        "filename": "lib/asciidoctor/java/DocIndexer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-09-27T16:13:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "844dff11_5b2463ba",
       "revId": "6dba0f64139690a0a9b6ba172cc18b2c74637375",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

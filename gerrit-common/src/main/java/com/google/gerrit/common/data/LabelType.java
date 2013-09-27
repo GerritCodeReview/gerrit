@@ -97,6 +97,8 @@ public class LabelType {
   protected String functionName;
   protected boolean copyMinScore;
   protected boolean copyMaxScore;
+  protected boolean copyAllScoresOnTrivialRebase;
+  protected boolean copyAllScoresIfNoCodeChange;
 
   protected List<LabelValue> values;
   protected short maxNegative;
@@ -203,6 +205,22 @@ public class LabelType {
 
   public void setCopyMaxScore(boolean copyMaxScore) {
     this.copyMaxScore = copyMaxScore;
+  }
+
+  public boolean isCopyAllScoresOnTrivialRebase() {
+    return copyAllScoresOnTrivialRebase;
+  }
+
+  public void setCopyAllScoresOnTrivialRebase(boolean copyAllScoresOnTrivialRebase) {
+    this.copyAllScoresOnTrivialRebase = copyAllScoresOnTrivialRebase;
+  }
+
+  public boolean isCopyAllScoresIfNoCodeChange() {
+    return copyAllScoresIfNoCodeChange;
+  }
+
+  public void setCopyAllScoresIfNoCodeChange(boolean copyAllScoresIfNoCodeChange) {
+    this.copyAllScoresIfNoCodeChange = copyAllScoresIfNoCodeChange;
   }
 
   public boolean isMaxNegative(PatchSetApproval ca) {

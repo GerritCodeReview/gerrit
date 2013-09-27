@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "844dff11_fb0f6f43",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-27T05:22:30Z",
+      "side": 1,
+      "message": "The idea I had was to make the reviewer names in the Reviewers and CC lists at the top of the left column be \"chips\" that you can delete. This is similar to the \"chip\" UI used in GMail when composing a message.\n\nWrap each user name in a span or div. Apply some sort of bubble like CSS to show each reviewer as a its own bubble in the line. Use a :hover class to display an X button when the mouse is over a reviewer, if the current user can remove the reviewer or CC entry.\n\nThen the [+] makes a bit more sense, as its used only for adding reviewers and not for removing them.\n\nHowever my idea did not allow you to easily see which scores would be removed if the reviewer was removed. So there are some merits to the approach you propose here.",
+      "revId": "fe3a383836323fc5c0ad36bd7fea8a6d22bb1fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84f89fd3_03166e5e",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
         "patchSetId": 4
@@ -163,6 +180,24 @@
       "side": 1,
       "message": "Yupp, i commented on that change and was waiting for a response:\n\n https://gerrit-review.googlesource.com/#/c/49142/19/gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.ui.xml\n\nUnfortunately, you probably missed that comment? Just to clarify: You generally ignore  comments to merged changes?",
       "parentUuid": "84f89fd3_23196a8e",
+      "revId": "fe3a383836323fc5c0ad36bd7fea8a6d22bb1fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "844dff11_db0ab336",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.ui.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-27T05:22:30Z",
+      "side": 1,
+      "message": "I try not to ignore comments in merged changes. I saw your comment, but I figured I would just comment on it in this one when I got here. I should not have waited to reply.",
+      "parentUuid": "c44377e0_dde14b48",
       "revId": "fe3a383836323fc5c0ad36bd7fea8a6d22bb1fbd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

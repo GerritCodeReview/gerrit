@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c44377e0_1da493f7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/ConfigServerApi.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-27T09:56:54Z",
+      "side": 1,
+      "message": "nit: i don\u0027t think we need that.",
+      "revId": "b21181f57c1301308badc266e770ad68e6724632",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a45043a5_fc8a096d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/extensions/TopMenuItem.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-27T09:56:54Z",
+      "side": 1,
+      "message": "nit: we always put it in the end of file:\n\n https://gerrit-review.googlesource.com/#/c/48381/30/gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ConfigInfo.java",
+      "revId": "b21181f57c1301308badc266e770ad68e6724632",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a45043a5_9c8f457c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/extensions/TopMenuItem.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-27T09:56:54Z",
+      "side": 1,
+      "message": "nit: unneeded blank line.",
+      "revId": "b21181f57c1301308badc266e770ad68e6724632",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c44377e0_3da14fe8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/extensions/TopMenuItem.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-27T09:56:54Z",
+      "side": 1,
+      "message": "same",
+      "revId": "b21181f57c1301308badc266e770ad68e6724632",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

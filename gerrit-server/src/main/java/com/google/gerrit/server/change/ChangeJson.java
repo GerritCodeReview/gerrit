@@ -822,7 +822,8 @@ public class ChangeJson {
       }
     }
 
-    if (out.isCurrent && has(CURRENT_ACTIONS)
+    if ((out.isCurrent || out.draft)
+        && has(CURRENT_ACTIONS)
         && userProvider.get().isIdentifiedUser()) {
       out.actions = Maps.newTreeMap();
       for (UiAction.Description d : UiActions.from(

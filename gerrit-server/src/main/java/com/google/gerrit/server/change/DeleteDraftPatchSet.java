@@ -87,7 +87,6 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
 
   @Override
   public UiAction.Description getDescription(RevisionResource rsrc) {
-    PatchSet.Id current = rsrc.getChange().currentPatchSetId();
     try {
       int psCount = dbProvider.get().patchSets()
           .byChange(rsrc.getChange().getId()).toList().size();
@@ -95,7 +94,6 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
         .setTitle(String.format("Delete Draft Revision %d",
             rsrc.getPatchSet().getPatchSetId()))
         .setVisible(rsrc.getPatchSet().isDraft()
-            && rsrc.getPatchSet().getId().equals(current)
             && rsrc.getControl().canDeleteDraft(dbProvider.get())
             && psCount > 1);
     } catch (OrmException e) {

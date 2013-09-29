@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "a45043a5_5c677dbf",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-29T22:34:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84f89fd3_03166e5e",
+      "revId": "fe3a383836323fc5c0ad36bd7fea8a6d22bb1fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84f89fd3_83093e41",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
         "patchSetId": 4
@@ -107,6 +125,24 @@
         "endLine": 422,
         "endChar": 40
       },
+      "revId": "fe3a383836323fc5c0ad36bd7fea8a6d22bb1fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c44377e0_dd206b65",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-29T22:34:52Z",
+      "side": 1,
+      "message": "Done. Sorry for that. I wonder, if we can make it less verbose? May be to use builder pattern? So instead:\n\n    RestApi call \u003d ChangeApi.detail(changeId.get());\n    ChangeList.addOptions(call, EnumSet.of(\n      ListChangesOption.CURRENT_REVISION));\n    call.get(new GerritCallback\u003cChangeInfo\u003e() { [...]\n\nto say\n\n ChangeApi.detail(changeId.get()).withOptions(EnumSet.of(\n      ListChangesOption.CURRENT_REVISION)).get(\n         new GerritCallback\u003cChangeInfo\u003e() { [...]",
+      "parentUuid": "84f89fd3_83093e41",
       "revId": "fe3a383836323fc5c0ad36bd7fea8a6d22bb1fbd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -136,6 +172,24 @@
     },
     {
       "key": {
+        "uuid": "c44377e0_7de917d8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-29T22:34:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84f89fd3_431c667e",
+      "revId": "fe3a383836323fc5c0ad36bd7fea8a6d22bb1fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84f89fd3_631f6275",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
         "patchSetId": 4
@@ -153,6 +207,24 @@
         "endLine": 453,
         "endChar": 52
       },
+      "revId": "fe3a383836323fc5c0ad36bd7fea8a6d22bb1fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c44377e0_3df38fcc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-29T22:34:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84f89fd3_631f6275",
       "revId": "fe3a383836323fc5c0ad36bd7fea8a6d22bb1fbd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -182,6 +254,24 @@
     },
     {
       "key": {
+        "uuid": "c44377e0_1df6d3bb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-29T22:34:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4fbe3cc_c40f3e44",
+      "revId": "fe3a383836323fc5c0ad36bd7fea8a6d22bb1fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84f89fd3_a3043a29",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
         "patchSetId": 4
@@ -199,6 +289,24 @@
         "endLine": 464,
         "endChar": 39
       },
+      "revId": "fe3a383836323fc5c0ad36bd7fea8a6d22bb1fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a45043a5_7c64b9b9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-29T22:34:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84f89fd3_a3043a29",
       "revId": "fe3a383836323fc5c0ad36bd7fea8a6d22bb1fbd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -252,6 +360,24 @@
       "side": 1,
       "message": "I try not to ignore comments in merged changes. I saw your comment, but I figured I would just comment on it in this one when I got here. I should not have waited to reply.",
       "parentUuid": "c44377e0_dde14b48",
+      "revId": "fe3a383836323fc5c0ad36bd7fea8a6d22bb1fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a45043a5_1c61f5a8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.ui.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-29T22:34:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84f89fd3_23196a8e",
       "revId": "fe3a383836323fc5c0ad36bd7fea8a6d22bb1fbd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

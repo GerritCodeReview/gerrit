@@ -191,6 +191,10 @@ public class ChangeField {
         public Iterable<Integer> get(ChangeData input, FillArgs args)
             throws OrmException {
           Set<Integer> r = Sets.newHashSet();
+          if (input.getChange().getStatus() == Change.Status.WORKINPROGRESS) {
+            return r;
+          }
+
           for (PatchSetApproval a : input.allApprovals(args.db)) {
             r.add(a.getAccountId().get());
           }

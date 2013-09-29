@@ -15,7 +15,9 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexPredicate;
@@ -38,6 +40,11 @@ class ReviewerPredicate extends IndexPredicate<ChangeData> {
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
+    Change c = object.change(dbProvider);
+    if (c.getStatus() == Status.WORKINPROGRESS) {
+      return false;
+    }
+
     for (PatchSetApproval p : object.approvals(dbProvider)) {
       if (id.equals(p.getAccountId())) {
         return true;

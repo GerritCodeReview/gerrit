@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "241613dd_981af535",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.ui.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-29T23:05:46Z",
+      "side": 0,
+      "message": "The \u003cg:Image\u003e element should accept the \u003cui:attribute name\u003d\u0027title\u0027/\u003e child to denote the title can be translated.",
+      "revId": "0bc486989bf9b3d9eea3344947a88d2f81617cf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

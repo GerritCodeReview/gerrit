@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "844dff11_bb06c7e6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-29T23:05:46Z",
+      "side": 1,
+      "message": "This is now redundant with info. Replace changeId with info.legacy_id()?",
+      "revId": "3579be6b0a131feff8f4c66ab5869ff2cb7f8b0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "241613dd_7812811e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-29T23:05:46Z",
+      "side": 1,
+      "message": "This map appears unused. You only store into it and never read from it?",
+      "revId": "3579be6b0a131feff8f4c66ab5869ff2cb7f8b0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "844dff11_9b018bd3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-29T23:05:46Z",
+      "side": 1,
+      "message": "This is a bad reuse of a legacy type we should be trying to delete. I would prefer to extend ApprovalInfo in JSON by adding a new field that is only set in the browser to carry can_remove. Or just use ApprovalInfo and test contains in the removeableReviewers collection when setting up the button.",
+      "range": {
+        "startLine": 261,
+        "startChar": 12,
+        "endLine": 263,
+        "endChar": 31
+      },
+      "revId": "3579be6b0a131feff8f4c66ab5869ff2cb7f8b0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "241613dd_b81fb924",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/reviewers.css",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-29T23:05:46Z",
+      "side": 1,
+      "message": "This will conflict with the CSS class declared in gerrit.css. Both classes have the same name and will merge in the browser. Fortunately the definitions are currently the same. Unfortunately they could drift and get confusing results later.",
+      "revId": "3579be6b0a131feff8f4c66ab5869ff2cb7f8b0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "241613dd_58153d03",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/reviewers.css",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-29T23:05:46Z",
+      "side": 1,
+      "message": "Same problem as rightmost.",
+      "revId": "3579be6b0a131feff8f4c66ab5869ff2cb7f8b0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "844dff11_fbfc4fa0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/reviewers.css",
+        "patchSetId": 7
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-29T23:05:46Z",
+      "side": 1,
+      "message": "Same problem as rightmost.",
+      "revId": "3579be6b0a131feff8f4c66ab5869ff2cb7f8b0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

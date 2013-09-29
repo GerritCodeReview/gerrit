@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "844dff11_1bf6dbbb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-29T23:29:30Z",
+      "side": 1,
+      "message": "double use of in here",
+      "range": {
+        "startLine": 11,
+        "startChar": 70,
+        "endLine": 12,
+        "endChar": 2
+      },
+      "revId": "21c2298e43de82d01afe63a07fc9416a6cc3313e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "241613dd_180fc5f1",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-29T23:29:30Z",
+      "side": 1,
+      "message": "Please cluster with STATUS_DRAFT so it appears before MAX_OPEN.",
+      "revId": "21c2298e43de82d01afe63a07fc9416a6cc3313e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "241613dd_380c09fa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ReviewerPredicate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-29T23:29:30Z",
+      "side": 1,
+      "message": "I think you would also want to modify ChangeField.REVIEWER (approximately line 193) to have an empty collection of reviewers when status \u003d\u003d WORKINPROGRESS. This way the secondary index won\u0027t return candidates that match the reviewer but are changes in the work in progress state.",
+      "range": {
+        "startLine": 44,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 5
+      },
+      "revId": "21c2298e43de82d01afe63a07fc9416a6cc3313e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

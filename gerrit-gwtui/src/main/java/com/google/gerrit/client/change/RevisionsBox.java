@@ -174,8 +174,11 @@ class RevisionsBox extends Composite {
 
     sb.openTd()
       .setStyleName(style.legacy_id())
-      .append(r._number())
-      .closeTd();
+      .append(r._number());
+    if (r.draft()) {
+      sb.append(" ").append(Resources.C.draft());
+    }
+    sb.closeTd();
 
     sb.openTd()
       .setStyleName(style.commit())

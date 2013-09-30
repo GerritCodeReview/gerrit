@@ -43,6 +43,7 @@ public class ChangeInfoMapper
     STATUS_MAP.put(Status.SUBMITTED, ChangeStatus.SUBMITTED);
     STATUS_MAP.put(Status.MERGED, ChangeStatus.MERGED);
     STATUS_MAP.put(Status.ABANDONED, ChangeStatus.ABANDONED);
+    STATUS_MAP.put(Status.WORKINPROGRESS, ChangeStatus.WORKINPROGRESS);
   }
 
   public static Status changeStatus2Status(ChangeStatus status) {

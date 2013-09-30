@@ -31,7 +31,6 @@ import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.strategy.SubmitStrategyFactory;
@@ -53,7 +52,6 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
-import org.eclipse.jgit.lib.Config;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -159,7 +157,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final SubmitStrategyFactory submitStrategyFactory;
     final ConflictsCache conflictsCache;
     final TrackingFooters trackingFooters;
-    final boolean allowsDrafts;
 
     @Inject
     @VisibleForTesting
@@ -181,8 +178,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         IndexCollection indexes,
         SubmitStrategyFactory submitStrategyFactory,
         ConflictsCache conflictsCache,
-        TrackingFooters trackingFooters,
-        @GerritServerConfig Config cfg) {
+        TrackingFooters trackingFooters) {
       this.db = dbProvider;
       this.rewriter = rewriter;
       this.userFactory = userFactory;
@@ -202,9 +198,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.submitStrategyFactory = submitStrategyFactory;
       this.conflictsCache = conflictsCache;
       this.trackingFooters = trackingFooters;
-      this.allowsDrafts = cfg == null
-          ? true
-          : cfg.getBoolean("change", "allowDrafts", true);
     }
   }
 
@@ -330,7 +323,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     if ("reviewer".equalsIgnoreCase(value)) {
-      return new ReviewerPredicate(self(), args.allowsDrafts);
+      return new ReviewerPredicate(self());
     }
 
     if ("mergeable".equalsIgnoreCase(value)) {
@@ -614,7 +607,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     Set<Account.Id> m = parseAccount(who);
     List<ReviewerPredicate> p = Lists.newArrayListWithCapacity(m.size());
     for (Account.Id id : m) {
-      p.add(new ReviewerPredicate(id, args.allowsDrafts));
+      p.add(new ReviewerPredicate(id));
     }
     return Predicate.or(p);
   }

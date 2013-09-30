@@ -16,6 +16,24 @@
       "revId": "0cd5085d5cdb50d4c2634fd72dfdbf154ad0f41a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "241613dd_f80d31bd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-30T16:06:12Z",
+      "side": 1,
+      "message": "Looks like your Chrome is using a font that doesn\u0027t have the glyph?",
+      "parentUuid": "c44377e0_fdbf67a1",
+      "revId": "0cd5085d5cdb50d4c2634fd72dfdbf154ad0f41a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

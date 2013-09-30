@@ -834,6 +834,16 @@ public class ChangeJson {
         out.actions.put(d.getId(), new ActionInfo(d));
       }
     }
+
+    if (userProvider.get().isIdentifiedUser()) {
+      IdentifiedUser user = (IdentifiedUser)userProvider.get();
+      boolean hasDraftComments =
+          db.get().patchComments()
+              .draftByPatchSetAuthor(in.getId(), user.getAccountId())
+              .iterator().hasNext();
+      out.draftComments = hasDraftComments ? true : null;
+    }
+
     return out;
   }
 
@@ -936,6 +946,7 @@ public class ChangeJson {
   static class RevisionInfo {
     private transient boolean isCurrent;
     Boolean draft;
+    Boolean draftComments;
     int _number;
     Map<String, FetchInfo> fetch;
     CommitInfo commit;

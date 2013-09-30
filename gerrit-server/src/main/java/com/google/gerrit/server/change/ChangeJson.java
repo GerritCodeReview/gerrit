@@ -23,6 +23,7 @@ import static com.google.gerrit.common.changes.ListChangesOption.CURRENT_FILES;
 import static com.google.gerrit.common.changes.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.common.changes.ListChangesOption.DETAILED_ACCOUNTS;
 import static com.google.gerrit.common.changes.ListChangesOption.DETAILED_LABELS;
+import static com.google.gerrit.common.changes.ListChangesOption.DRAFT_COMMENTS;
 import static com.google.gerrit.common.changes.ListChangesOption.LABELS;
 import static com.google.gerrit.common.changes.ListChangesOption.MESSAGES;
 import static com.google.gerrit.common.changes.ListChangesOption.REVIEWED;
@@ -834,6 +835,18 @@ public class ChangeJson {
         out.actions.put(d.getId(), new ActionInfo(d));
       }
     }
+
+    if (has(DRAFT_COMMENTS)
+        && userProvider.get().isIdentifiedUser()) {
+      IdentifiedUser user = (IdentifiedUser)userProvider.get();
+      out.hasDraftComments =
+          db.get().patchComments()
+              .draftByPatchSetAuthor(in.getId(), user.getAccountId())
+              .iterator().hasNext()
+          ? true
+          : null;
+    }
+
     return out;
   }
 
@@ -936,6 +949,7 @@ public class ChangeJson {
   static class RevisionInfo {
     private transient boolean isCurrent;
     Boolean draft;
+    Boolean hasDraftComments;
     int _number;
     Map<String, FetchInfo> fetch;
     CommitInfo commit;

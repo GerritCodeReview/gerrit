@@ -41,6 +41,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.ImageResourceRenderer;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.impl.HyperlinkImpl;
@@ -94,6 +95,7 @@ class RevisionsBox extends Composite {
     String current();
     String legacy_id();
     String commit();
+    String draft_comment();
   }
 
   private final Change.Id changeId;
@@ -115,8 +117,9 @@ class RevisionsBox extends Composite {
     if (!loaded) {
       RestApi call = ChangeApi.detail(changeId.get());
       ChangeList.addOptions(call, EnumSet.of(
+          ListChangesOption.ALL_COMMITS,
           ListChangesOption.ALL_REVISIONS,
-          ListChangesOption.ALL_COMMITS));
+          ListChangesOption.DRAFT_COMMENTS));
       call.get(new AsyncCallback<ChangeInfo>() {
         @Override
         public void onSuccess(ChangeInfo result) {
@@ -177,6 +180,15 @@ class RevisionsBox extends Composite {
       .append(r._number());
     if (r.draft()) {
       sb.append(" ").append(Resources.C.draft());
+    }
+    if (r.has_draft_comments()) {
+      sb.append(" ")
+      .openSpan()
+      .addStyleName(style.draft_comment())
+      .setAttribute("title", Resources.C.draftCommentsTooltip())
+      .append(new ImageResourceRenderer()
+          .render(Gerrit.RESOURCES.draftComments()))
+      .closeSpan();
     }
     sb.closeTd();
 

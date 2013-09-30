@@ -48,10 +48,13 @@ import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwt.user.client.ui.UIObject;
+import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /** Add reviewers. */
 class Reviewers extends Composite {
@@ -220,7 +223,18 @@ class Reviewers extends Composite {
     }
     r.remove(info.owner()._account_id());
     cc.remove(info.owner()._account_id());
-    reviewersText.setInnerSafeHtml(Labels.formatUserList(style, r.values()));
-    ccText.setInnerSafeHtml(Labels.formatUserList(style, cc.values()));
+
+    Set<Integer> removable = new HashSet<Integer>();
+    if (info.removable_reviewers() != null) {
+      for (AccountInfo a : Natives.asList(info.removable_reviewers())) {
+        removable.add(a._account_id());
+      }
+    }
+
+    SafeHtml rHtml = Labels.formatUserList(style, r.values(), removable);
+    SafeHtml ccHtml = Labels.formatUserList(style, cc.values(), removable);
+
+    reviewersText.setInnerSafeHtml(rHtml);
+    ccText.setInnerSafeHtml(ccHtml);
   }
 }

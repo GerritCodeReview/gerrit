@@ -43,7 +43,10 @@ public enum ListChangesOption {
   CURRENT_ACTIONS(10),
 
   /** Set the reviewed boolean for the caller. */
-  REVIEWED(11);
+  REVIEWED(11),
+
+  /** Include draft comments for the caller. */
+  DRAFT_COMMENTS(12);
 
   private final int value;
 

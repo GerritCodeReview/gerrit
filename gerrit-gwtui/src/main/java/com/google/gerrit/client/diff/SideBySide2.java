@@ -287,18 +287,6 @@ public class SideBySide2 extends Screen {
     cm.on("cursorActivity", updateActiveLine(cm));
     cm.on("gutterClick", onGutterClick(cm));
     cm.on("scroll", doScroll(cm));
-    scrollTimerA = new Timer() {
-      @Override
-      public void run() {
-        fixScroll(cmA);
-      }
-    };
-    scrollTimerB = new Timer() {
-      @Override
-      public void run() {
-        fixScroll(cmB);
-      }
-    };
     cm.on("renderLine", resizeLinePadding(getSideFromCm(cm)));
     cm.on("viewportChange", adjustGutters(cm));
     cm.on("focus", new Runnable() {
@@ -428,6 +416,19 @@ public class SideBySide2 extends Screen {
   private void display(DiffInfo diffInfo) {
     cmA = displaySide(diffInfo.meta_a(), diffInfo.text_a(), diffTable.cmA);
     cmB = displaySide(diffInfo.meta_b(), diffInfo.text_b(), diffTable.cmB);
+    scrollTimerA = new Timer() {
+      @Override
+      public void run() {
+        fixScroll(cmA);
+      }
+    };
+    scrollTimerB = new Timer() {
+      @Override
+      public void run() {
+        fixScroll(cmB);
+      }
+    };
+
     skips = new ArrayList<SkippedLine>();
     linePaddingOnOtherSideMap = new HashMap<LineHandle, LinePaddingWidgetWrapper>();
     diffChunks = new ArrayList<DiffChunkInfo>();

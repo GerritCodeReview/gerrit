@@ -16,6 +16,24 @@
       "revId": "9ed405343cedd25b141bdd573eb1e539a35a54c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "241613dd_38dba907",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/ScrollingGlue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-30T16:01:59Z",
+      "side": 1,
+      "message": "ScrollSynchronizer. Done.",
+      "parentUuid": "844dff11_9b7e6b1d",
+      "revId": "9ed405343cedd25b141bdd573eb1e539a35a54c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

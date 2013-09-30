@@ -16,13 +16,10 @@ package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.actions.ActionInfo;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
-import com.google.gerrit.client.changes.ChangeInfo.ApprovalInfo;
 import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
-import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
 import com.google.gerrit.client.changes.ChangeInfo.MergeableInfo;
 import com.google.gerrit.client.changes.ChangeInfo.MessageInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
@@ -81,9 +78,7 @@ import com.google.gwtorm.client.KeyUtil;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ChangeScreen2 extends Screen {
   interface Binder extends UiBinder<HTMLPanel, ChangeScreen2> {}
@@ -208,7 +203,7 @@ public class ChangeScreen2 extends Screen {
     Resources.I.style().ensureInjected();
     star.setVisible(Gerrit.isSignedIn());
     labels.init(style, statusText);
-    reviewers.init(style);
+    reviewers.init(style, reviewersText);
 
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
     keysNavigation.add(new KeyCommand(0, 'u', Util.C.upToChangeList()) {
@@ -600,7 +595,6 @@ public class ChangeScreen2 extends Screen {
     }
 
     renderOwner(info);
-    renderReviewers(info);
     renderActionTextDate(info);
     renderHistory(info);
     initRevisionsAction(info, revision);
@@ -618,6 +612,7 @@ public class ChangeScreen2 extends Screen {
     topic.set(info, revision);
     commit.set(commentLinkProcessor, info, revision);
     related.set(info, revision);
+    reviewers.set(info);
     quickApprove.set(info, revision);
 
     if (Gerrit.isSignedIn()) {
@@ -643,27 +638,6 @@ public class ChangeScreen2 extends Screen {
       sb.append(info.subject());
     }
     setWindowTitle(sb.toString());
-  }
-
-  private void renderReviewers(ChangeInfo info) {
-    // TODO Fix approximation of reviewers and CC list(s).
-    Map<Integer, AccountInfo> r = new HashMap<Integer, AccountInfo>();
-    Map<Integer, AccountInfo> cc = new HashMap<Integer, AccountInfo>();
-    for (LabelInfo label : Natives.asList(info.all_labels().values())) {
-      if (label.all() != null) {
-        for (ApprovalInfo ai : Natives.asList(label.all())) {
-          (ai.value() != 0 ? r : cc).put(ai._account_id(), ai);
-        }
-      }
-    }
-    for (Integer i : r.keySet()) {
-      cc.remove(i);
-    }
-    r.remove(info.owner()._account_id());
-    cc.remove(info.owner()._account_id());
-    reviewersText.setInnerSafeHtml(Labels.formatUserList(style, r.values()));
-    reviewers.set(info.legacy_id());
-    reviewers.setReviewers(Labels.formatUserList(style, cc.values()));
   }
 
   private void renderOwner(ChangeInfo info) {

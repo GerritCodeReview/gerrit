@@ -44,7 +44,7 @@ limitations under the License.
   </ui:style>
   <g:HTMLPanel>
     <div>
-      <span ui:field='reviewers'/>
+      <span ui:field='ccText'/>
       <g:Button ui:field='openForm'
          title='Add reviewers to this change'
          styleName='{style.openAdd}'

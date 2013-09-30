@@ -56,6 +56,13 @@ limitations under the License.
     .commit {
       font-family: monospace;
     }
+
+    .draft_comment {
+      margin: 0 2px 0 0;
+      width: 16px;
+      height: 16px;
+      vertical-align: bottom;
+    }
   </ui:style>
   <g:HTMLPanel styleName='{style.revisionBox}'>
     <g:ScrollPanel styleName='{style.scroll}'>

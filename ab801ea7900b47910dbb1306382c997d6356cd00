@@ -34,6 +34,24 @@
       "revId": "ab801ea7900b47910dbb1306382c997d6356cd00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c44377e0_9db423c8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 825,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-09-30T15:35:48Z",
+      "side": 1,
+      "message": "\u003e out.draft will never be false. It is explicitly set to either true or null at line 805.\n\nAs long as this is true all is OK. But we have to stay aware of this assumption forever.\n\nI was just comparing the old and the new version in context of your intention to fix the NPE and\nfound out that the new version is not compatible with the old version in case when out.draft \u003d false.",
+      "parentUuid": "241613dd_58d45dd8",
+      "revId": "ab801ea7900b47910dbb1306382c997d6356cd00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

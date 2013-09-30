@@ -822,7 +822,7 @@ public class ChangeJson {
       }
     }
 
-    if ((out.isCurrent || out.draft)
+    if ((out.isCurrent || (out.draft != null && out.draft))
         && has(CURRENT_ACTIONS)
         && userProvider.get().isIdentifiedUser()) {
       out.actions = Maps.newTreeMap();

@@ -16,6 +16,24 @@
       "revId": "36c8723e24d273165f69fe7b52b8eab324efc3fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c44377e0_1d733355",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-09-30T14:12:39Z",
+      "side": 1,
+      "message": "Moving this logic to ProcjectControl will also require additional modifications in ReceiveCommits. My approach fixes both issues in one place. Also this approach protect us from making same error in future.\n\nPersonally I wouldn\u0027t move this logic to upper level. Signature of this method can be changed to canCreate(Map\u003cStirng, Ref\u003e, RevWalk, RevObject) instead of using Repository. But IMO will keep this logic here  to prevent from this issue in future.",
+      "parentUuid": "04690f74_072e9698",
+      "revId": "36c8723e24d273165f69fe7b52b8eab324efc3fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,24 @@
       "revId": "e7856ecaf72504b7dcd67dea3f91da78fbb2c288",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "844dff11_fbbbefd5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-30T06:25:54Z",
+      "side": 1,
+      "message": "Its truncated with \"...\" as the last 3 characters. ChangeTable2 does this in search results to keep the table from doing nasty layout things when people place War and Peace on the first line of their commit.",
+      "parentUuid": "241613dd_987e751d",
+      "revId": "e7856ecaf72504b7dcd67dea3f91da78fbb2c288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

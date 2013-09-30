@@ -16,6 +16,52 @@
       "revId": "3d57549a1d25eaa76ceca86913acaaf95928723f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "844dff11_bbaa4776",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-30T09:45:21Z",
+      "side": 1,
+      "message": "If I add a setTitle call here, it has no effect.",
+      "range": {
+        "startLine": 137,
+        "startChar": 7,
+        "endLine": 137,
+        "endChar": 17
+      },
+      "revId": "3d57549a1d25eaa76ceca86913acaaf95928723f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "241613dd_78ccc154",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPick.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-30T09:45:21Z",
+      "side": 1,
+      "message": "On gerrit-review I don\u0027t see this title on the Cherry Pick button.  I don\u0027t even see it if I inspect the element in Chrome\u0027s dev tools.\n\nOn my locally built Gerrit, I do see it, but if I change the title here to something else it has no effect.",
+      "range": {
+        "startLine": 99,
+        "startChar": 7,
+        "endLine": 99,
+        "endChar": 15
+      },
+      "revId": "3d57549a1d25eaa76ceca86913acaaf95928723f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

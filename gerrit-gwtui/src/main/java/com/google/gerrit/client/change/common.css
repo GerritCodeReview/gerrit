@@ -42,6 +42,13 @@
   -webkit-box-sizing: content-box;
 }
 
+.button:disabled,
+.popup button:disabled,
+.popup input[type='button']:disabled {
+  background-color: #999;
+  background-image: -webkit-linear-gradient(top, #999, #999);
+}
+
 .button div, .popup button div {
   width: 54px;
   white-space: nowrap;

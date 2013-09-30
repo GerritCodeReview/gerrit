@@ -144,7 +144,7 @@ Deploy {extension,plugin}-api to the remote maven repository
 ----
 
 The type of the repo is induced from the Gerrit version name, i.e.
-* 2.8-SNAPSHOT: shapshot repo
+* 2.8-SNAPSHOT: snapshot repo
 * 2.8: release repo
 
 Plugins

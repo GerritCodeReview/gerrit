@@ -27,11 +27,6 @@ limitations under the License.
     @def INFO_WIDTH 450px;
     @def HEADER_HEIGHT 29px;
 
-    button:disabled {
-      background-color: #999;
-      background-image: -webkit-linear-gradient(top, #999, #999);
-    }
-
     .headerLine {
       position: relative;
       background-color: trimColor;
@@ -112,6 +107,12 @@ limitations under the License.
     }
     .popdown button.selected {
       font-weight: bold;
+    }
+    .headerLine button:disabled,
+    .headerTable button:disabled,
+    .popdown button:disabled {
+      background-color: #999;
+      background-image: -webkit-linear-gradient(top, #999, #999);
     }
 
     .headerTable {

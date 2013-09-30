@@ -33,9 +33,11 @@ import com.google.gerrit.server.change.Abandon;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.DeleteDraftPatchSet;
 import com.google.gerrit.server.change.PostReview;
+import com.google.gerrit.server.change.ReadyForReviewAction;
 import com.google.gerrit.server.change.Restore;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
+import com.google.gerrit.server.change.WorkInProgressAction;
 import com.google.gerrit.server.changedetail.PublishDraft;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.project.ChangeControl;
@@ -102,6 +104,12 @@ public class ReviewCommand extends SshCommand {
   @Option(name = "--restore", usage = "restore the specified abandoned change(s)")
   private boolean restoreChange;
 
+  @Option(name = "--ready", usage = "mark as ready the specified change(s)")
+  private boolean readyChange;
+
+  @Option(name = "--wip", usage = "mark as wip the specified change(s)")
+  private boolean wipChange;
+
   @Option(name = "--submit", aliases = "-s", usage = "submit the specified patch set(s)")
   private boolean submitChange;
 
@@ -157,6 +165,13 @@ public class ReviewCommand extends SshCommand {
   @Inject
   private Provider<Submit> submitProvider;
 
+  @Inject
+  private Provider<ReadyForReviewAction> readyProvider;
+
+  @Inject
+  private Provider<WorkInProgressAction> wipProvider;
+
+
   private List<ApproveOption> optionList;
   private Map<String, Short> customLabels;
 
@@ -174,6 +189,12 @@ public class ReviewCommand extends SshCommand {
       }
       if (deleteDraftPatchSet) {
         throw error("abandon and delete actions are mutually exclusive");
+      }
+      if (wipChange) {
+        throw error("abandon and wip actions are mutually exclusive");
+      }
+      if (readyChange) {
+        throw error("abandon and ready actions are mutually exclusive");
       }
     }
     if (publishPatchSet) {
@@ -272,6 +293,24 @@ public class ReviewCommand extends SshCommand {
           writeError("error: " + parseError(Type.RESTORE_NOT_PERMITTED) + "\n");
         } catch (ResourceConflictException e) {
           writeError("error: " + parseError(Type.CHANGE_NOT_ABANDONED) + "\n");
+        }
+      } else if (readyChange) {
+        final ReadyForReviewAction ready = readyProvider.get();
+        final ReadyForReviewAction.Input input = new ReadyForReviewAction.Input();
+        input.message = changeComment;
+        try {
+          ready.apply(new ChangeResource(ctl), input);
+        } catch (ResourceConflictException e) {
+          writeError("error: " + e.getMessage() + "\n");
+        }
+      } else if (wipChange) {
+        final WorkInProgressAction wip = wipProvider.get();
+        final WorkInProgressAction.Input input = new WorkInProgressAction.Input();
+        input.message = changeComment;
+        try {
+          wip.apply(new ChangeResource(ctl), input);
+        } catch (ResourceConflictException e) {
+          writeError("error: " + e.getMessage() + "\n");
         }
       } else {
         applyReview(ctl, patchSet, review);

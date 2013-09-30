@@ -38,4 +38,5 @@ public class CapabilityConstants extends TranslationBundle {
   public String viewCaches;
   public String viewConnections;
   public String viewQueue;
+  public String workInProgress;
 }

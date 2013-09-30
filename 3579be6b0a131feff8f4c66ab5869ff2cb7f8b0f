@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "241613dd_78dfe123",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-30T01:29:44Z",
+      "side": 1,
+      "message": "Unused import.",
+      "revId": "3579be6b0a131feff8f4c66ab5869ff2cb7f8b0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "844dff11_bb06c7e6",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
         "patchSetId": 7
@@ -36,6 +53,29 @@
     },
     {
       "key": {
+        "uuid": "241613dd_98b0b5f4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-30T01:29:44Z",
+      "side": 1,
+      "message": "These are UI widgets and should be passed through init() not set(). Passing during init() matches the pattern used by Labels.init() from ChangeScreen2 to gain access to additional UiFields outside of itself that its set() controls.",
+      "range": {
+        "startLine": 174,
+        "startChar": 6,
+        "endLine": 174,
+        "endChar": 38
+      },
+      "revId": "3579be6b0a131feff8f4c66ab5869ff2cb7f8b0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "844dff11_9b018bd3",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
         "patchSetId": 7
@@ -53,6 +93,23 @@
         "endLine": 263,
         "endChar": 31
       },
+      "revId": "3579be6b0a131feff8f4c66ab5869ff2cb7f8b0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "241613dd_38e969c7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/reviewers.css",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-30T01:29:44Z",
+      "side": 1,
+      "message": "I know people like to reskin their Gerrit server with custom CSS, but GWT renames CSS classes at compile time to prevent these sorts of namespace collisions issues. Bypassing that feature in GWT with @external .* puts the onus on you as the core developer to prevent all conflicts in the global namespace. Yay!",
       "revId": "3579be6b0a131feff8f4c66ab5869ff2cb7f8b0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -85,6 +142,23 @@
         "id": 1001240
       },
       "writtenOn": "2013-09-29T23:05:46Z",
+      "side": 1,
+      "message": "Same problem as rightmost.",
+      "revId": "3579be6b0a131feff8f4c66ab5869ff2cb7f8b0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "844dff11_9b1aeb35",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/reviewers.css",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-30T01:29:44Z",
       "side": 1,
       "message": "Same problem as rightmost.",
       "revId": "3579be6b0a131feff8f4c66ab5869ff2cb7f8b0f",

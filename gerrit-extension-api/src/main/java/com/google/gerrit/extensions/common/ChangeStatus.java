@@ -90,6 +90,17 @@ public enum ChangeStatus {
   MERGED,
 
   /**
+   * Change is still open, but a work in progress.
+   *
+   * <p>
+   * The change owner, or someone with approval authority, has set a change from
+   * {@link #NEW} to this state. It implies that there is more work to be done,
+   * but the change will not show up in any review lists until a new patch set
+   * is pushed.
+   */
+  WORKINPROGRESS,
+
+  /**
    * Change is closed, but was not submitted to its destination branch.
    *
    * <p>
@@ -97,5 +108,5 @@ public enum ChangeStatus {
    * a replacement patch set, and it cannot be merged. Draft comments however
    * may be published, permitting reviewers to send constructive feedback.
    */
-  ABANDONED
+  ABANDONED,
 }

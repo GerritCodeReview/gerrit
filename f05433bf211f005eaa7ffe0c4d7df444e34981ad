@@ -34,6 +34,24 @@
       "revId": "f05433bf211f005eaa7ffe0c4d7df444e34981ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "241613dd_f889b121",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-30T05:41:34Z",
+      "side": 1,
+      "message": "It looks the same in Firefox on Windows, but OK in Firefox on Ubuntu.  I don\u0027t have Chrome on my Ubuntu box.\n\nI can\u0027t see anything obviously wrong when inspecting the element in dev tools.  But CSS is not one of my strong points...",
+      "parentUuid": "844dff11_7bdfdf23",
+      "revId": "f05433bf211f005eaa7ffe0c4d7df444e34981ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

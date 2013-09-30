@@ -90,7 +90,7 @@ public class PluginListScreen extends PluginScreen {
             row,
             1,
             new Anchor(plugin.name(), Gerrit.selfRedirect("/plugins/"
-                + plugin.name() + "/")));
+                + plugin.name() + "/"), "_blank"));
       }
       table.setText(row, 2, plugin.version());
       table.setText(row, 3, plugin.isDisabled() ? Util.C.pluginDisabled()

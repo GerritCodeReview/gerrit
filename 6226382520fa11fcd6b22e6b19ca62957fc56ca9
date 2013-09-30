@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "04690f74_8704c629",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-30T09:38:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "844dff11_5bb1c323",
+      "revId": "6226382520fa11fcd6b22e6b19ca62957fc56ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "844dff11_bbbb2705",
         "filename": "Documentation/config-labels.txt",
         "patchSetId": 18
@@ -42,6 +60,24 @@
         "endLine": 280,
         "endChar": 61
       },
+      "revId": "6226382520fa11fcd6b22e6b19ca62957fc56ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c44377e0_3dc2af41",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-30T09:38:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "844dff11_bbbb2705",
       "revId": "6226382520fa11fcd6b22e6b19ca62957fc56ca9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "c44377e0_1dc57348",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-30T09:38:38Z",
+      "side": 1,
+      "message": "oh sorry I have not make it clear here,  the emphasis here is not the \n relation between  being unpopular and the label tracking the branch scope.\n so I adjusted this paragraph.  what I want to say here is the need of the  \n label branch scope tracking the  label access control scope precisely.\n\n  case: we have a customized label \u0027Qualified\u0027, firstly we used it on few \n branches of few projects. when  a  commit is uploaded  for review onto \n these branches, a Jenkins job will be triggered to  check if the  commit \n message have a key:value pair like  \"FIX\u003dDMS01591015\" and check  if the\n value is valid.  because one or more branches affected by  this change \n have some  restrictions on which changes may be submitted. the\n restrictions can be understand by Jenkins job via the key:value pair.\n\n later , day by day, with new mobile products or new Android version \n created, the \u0027Qualified\u0027 need to be applied to new branches and new \n projects too. \n  from the view of GitAm, label permission apply(new, update) and approve\n  happens every day, every day GitAm need spent some time on these kind\n maintenance work. \n\n  GitAm should not let \u0027Qualified\u0027 be all project scope, because irrelevant \n users are complaining it now; GitAm should not make the branch scope of \n \u0027Qualified\u0027 be smaller that expected, because that would  let the label \n access update via UI be invalid.   if use \u0027branch \u003drefs\u0027 to  define branch \n scope for \u0027Qualified\u0027, GitAm need update the access via UI  and also need\n update project.config. (fetch , update, push ...) at last update \n project.config  is not as easy as update label permission via UI.  GitAm \n would like kill me if they find the  label branch feature need them spent \n more time than before . \n\n with \u0027BranchSameAsAccess\u0027, GitAm just need update the label access via \n UI.  and need not worry about if the label branch scope is bigger or smaller\n that the  label access control scope .\n\n \n\n *******\n\n another concern is migration from  project scope label to branch specific\n  label. with \u0027BranchSameAsAccess\u0027 , GitAm need not figure out how to \n create refs pattern for \u0027branch\u0027 without  influence the existing label access\n  control .",
+      "parentUuid": "241613dd_f82e916c",
+      "revId": "6226382520fa11fcd6b22e6b19ca62957fc56ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "844dff11_1bab3bb2",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/LabelType.java",
         "patchSetId": 18
@@ -88,6 +142,24 @@
         "endLine": 179,
         "endChar": 16
       },
+      "revId": "6226382520fa11fcd6b22e6b19ca62957fc56ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c44377e0_7ddfd723",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/LabelType.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-30T09:38:38Z",
+      "side": 1,
+      "message": "Sorry, its my damned error :(\n\nDone.",
+      "parentUuid": "844dff11_1bab3bb2",
       "revId": "6226382520fa11fcd6b22e6b19ca62957fc56ca9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -117,6 +189,24 @@
     },
     {
       "key": {
+        "uuid": "c44377e0_9db0a3f4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-30T09:38:38Z",
+      "side": 1,
+      "message": "please refer the Line 663 of https://gerrit-review.googlesource.com/#/c/49273/18/gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java\n\n label.setRefPatterns(getStringListOrNull(rc, LABEL, name, KEY_Branch));\n\nthat is why I only use \u0027\u0027refs \u003d\u003d null \u0027\u0027 here\n\nanyway  I agree \"refs \u003d\u003d null or refs.isEmpty() \" is better here.\n\nDone",
+      "parentUuid": "844dff11_db295367",
+      "revId": "6226382520fa11fcd6b22e6b19ca62957fc56ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "241613dd_583e9d9d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 18
@@ -140,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "c44377e0_7dc83761",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-30T09:38:38Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "241613dd_583e9d9d",
+      "revId": "6226382520fa11fcd6b22e6b19ca62957fc56ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "844dff11_fb2e8f6c",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/rules/GerritCommonTest.java",
         "patchSetId": 18
@@ -151,6 +259,24 @@
       "writtenOn": "2013-09-27T16:57:19Z",
       "side": 1,
       "message": "I thought I asked this elsewhere but can\u0027t find the comment: does setting this actually have any effect on the test? If so what?",
+      "revId": "6226382520fa11fcd6b22e6b19ca62957fc56ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c44377e0_3de94fc7",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/rules/GerritCommonTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-09-30T09:38:38Z",
+      "side": 1,
+      "message": "yes. :) the answer is here https://gerrit-review.googlesource.com/#/c/49190/14..16/gerrit-server/src/test/java/com/google/gerrit/rules/GerritCommonTest.java",
+      "parentUuid": "844dff11_fb2e8f6c",
       "revId": "6226382520fa11fcd6b22e6b19ca62957fc56ca9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

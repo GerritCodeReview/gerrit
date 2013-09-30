@@ -226,12 +226,12 @@ public class RefControl {
 
   /**
    * Determines whether the user can create a new Git ref.
-   *
+   * @param repo
    * @param rw revision pool {@code object} was parsed in.
    * @param object the object the user will start the reference with.
    * @return {@code true} if the user specified can create a new Git ref
    */
-  public boolean canCreate(RevWalk rw, RevObject object) {
+  public boolean canCreate(Repository repo, RevWalk rw, RevObject object) {
     if (!canWrite()) {
       return false;
     }
@@ -247,8 +247,9 @@ public class RefControl {
     }
 
     if (object instanceof RevCommit) {
-      return owner || canPerform(Permission.CREATE);
-
+      return owner
+          || (canPerform(Permission.CREATE) && projectControl.canReadCommit(rw,
+              (RevCommit) object));
     } else if (object instanceof RevTag) {
       final RevTag tag = (RevTag) object;
       try {

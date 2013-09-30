@@ -130,7 +130,7 @@ class AddBranch extends Handler<AddBranchResult> {
         }
       }
 
-      if (!refControl.canCreate(rw, object)) {
+      if (!refControl.canCreate(repo, rw, object)) {
         throw new IllegalStateException("Cannot create " + refname);
       }
 

@@ -36,7 +36,7 @@ public class AvatarImage extends Image implements LoadHandler {
 
   /** A default sized avatar image. */
   public AvatarImage(AccountInfo account) {
-    this(account, 26, true);
+    this(account, AccountInfo.AvatarInfo.DEFAULT_SIZE, true);
   }
 
   /**

@@ -169,7 +169,23 @@ limitations under the License.
       padding-right: 5px;
       white-space: nowrap;
     }
-    .label_user {white-space: nowrap;}
+
+    .label_user {
+      margin-right: 2px;
+      padding: 1px 3px 0px 3px;
+      border-radius: 5px;
+      -webkit-border-radius: 5px;
+      background: trimColor;
+      border: 1px solid trimColor;
+      white-space: nowrap;
+    }
+    .label_user img {
+      margin: 0 2px 0 0;
+      width: 16px;
+      height: 16px;
+      vertical-align: bottom;
+    }
+
     .label_ok {color: #060;}
     .label_reject {color: #d14836;}
     .label_need {color: #000;}

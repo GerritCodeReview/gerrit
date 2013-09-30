@@ -130,12 +130,12 @@ class AddBranch extends Handler<AddBranchResult> {
         }
       }
 
-      if (!refControl.canCreate(rw, object)) {
-        throw new IllegalStateException("Cannot create " + refname);
-      }
-
       try {
         final RefUpdate u = repo.updateRef(refname);
+
+        if (!refControl.canCreate(repo, rw, object)) {
+          throw new IllegalStateException("Cannot create " + refname);
+        }
         u.setExpectedOldObjectId(ObjectId.zeroId());
         u.setNewObjectId(object.copy());
         u.setRefLogIdent(identifiedUser.newRefLogIdent());

@@ -166,14 +166,6 @@ public class CodeMirror extends JavaScriptObject {
     this.state.oldViewportSize = lines;
   }-*/;
 
-  public final native double getScrollSetAt() /*-{
-    return this.state.scrollSetAt || 0;
-  }-*/;
-
-  public final native void setScrollSetAt(double when) /*-{
-    this.state.scrollSetAt = when;
-  }-*/;
-
   public final native void on(String event, Runnable thunk) /*-{
     this.on(event, $entry(function() {
       thunk.@java.lang.Runnable::run()();

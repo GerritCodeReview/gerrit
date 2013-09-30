@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "241613dd_78d121e7",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-30T14:31:16Z",
+      "side": 1,
+      "message": "This will be clearer with a code example.",
+      "revId": "149c2e20978fab00a20485034640428f24a28153",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

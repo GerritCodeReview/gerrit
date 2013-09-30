@@ -798,6 +798,10 @@ public class MyTopMenuExtension implements TopMenu {
 }
 ----
 
+Plugins can also add additional menu items to Gerrit's top menu entries
+by defining a MenuEntry that has the same name as a Gerrit top menu
+entry.
+
 If no Guice modules are declared in the manifest, the top menu extension may use
 auto-registration by providing an `@Listen` annotation:
 

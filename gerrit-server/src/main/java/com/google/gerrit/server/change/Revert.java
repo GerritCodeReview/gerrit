@@ -113,6 +113,7 @@ public class Revert implements RestModifyView<ChangeResource, Input>,
   public UiAction.Description getDescription(ChangeResource resource) {
     return new UiAction.Description()
       .setLabel("Revert")
+      .setTitle("Revert the change")
       .setVisible(resource.getChange().getStatus() == Status.MERGED
           && resource.getControl().getRefControl().canUpload());
   }

@@ -70,6 +70,24 @@
       "revId": "7284ebf2a0045a88ab027e97807acc89054e3b97",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04690f74_479a4ebe",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-30T16:48:50Z",
+      "side": 1,
+      "message": "Sorry for having been this someone.",
+      "parentUuid": "844dff11_5ba6a3a4",
+      "revId": "7284ebf2a0045a88ab027e97807acc89054e3b97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -61,7 +61,6 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -85,7 +84,6 @@ import net.codemirror.lib.KeyMap;
 import net.codemirror.lib.LineCharacter;
 import net.codemirror.lib.LineWidget;
 import net.codemirror.lib.ModeInjector;
-import net.codemirror.lib.ScrollInfo;
 import net.codemirror.lib.TextMarker.FromTo;
 
 import java.util.ArrayList;
@@ -118,8 +116,7 @@ public class SideBySide2 extends Screen {
   private CodeMirror cmA;
   private CodeMirror cmB;
   private CodeMirror lastFocused;
-  private Timer scrollTimerA;
-  private Timer scrollTimerB;
+  private ScrollSynchronizer scrollingGlue;
   private HandlerRegistration resizeHandler;
   private JsArray<CommentInfo> publishedBase;
   private JsArray<CommentInfo> publishedRevision;
@@ -286,19 +283,6 @@ public class SideBySide2 extends Screen {
   private void registerCmEvents(final CodeMirror cm) {
     cm.on("cursorActivity", updateActiveLine(cm));
     cm.on("gutterClick", onGutterClick(cm));
-    cm.on("scroll", doScroll(cm));
-    scrollTimerA = new Timer() {
-      @Override
-      public void run() {
-        fixScroll(cmA);
-      }
-    };
-    scrollTimerB = new Timer() {
-      @Override
-      public void run() {
-        fixScroll(cmB);
-      }
-    };
     cm.on("renderLine", resizeLinePadding(getSideFromCm(cm)));
     cm.on("viewportChange", adjustGutters(cm));
     cm.on("focus", new Runnable() {
@@ -428,6 +412,7 @@ public class SideBySide2 extends Screen {
   private void display(DiffInfo diffInfo) {
     cmA = displaySide(diffInfo.meta_a(), diffInfo.text_a(), diffTable.cmA);
     cmB = displaySide(diffInfo.meta_b(), diffInfo.text_b(), diffTable.cmB);
+
     skips = new ArrayList<SkippedLine>();
     linePaddingOnOtherSideMap = new HashMap<LineHandle, LinePaddingWidgetWrapper>();
     diffChunks = new ArrayList<DiffChunkInfo>();
@@ -453,6 +438,10 @@ public class SideBySide2 extends Screen {
     renderSkips();
     registerCmEvents(cmA);
     registerCmEvents(cmB);
+
+    scrollingGlue = GWT.create(ScrollSynchronizer.class);
+    scrollingGlue.init(diffTable, cmA, cmB, mapper);
+
     resizeHandler = Window.addResizeHandler(new ResizeHandler() {
       @Override
       public void onResize(ResizeEvent event) {
@@ -915,63 +904,6 @@ public class SideBySide2 extends Screen {
       cm.removeLineClass(activeLine,
           LineClassWhere.BACKGROUND, DiffTable.style.activeLineBg());
       cm.setActiveLine(null);
-    }
-  }
-
-  private Runnable doScroll(final CodeMirror cm) {
-    return new Runnable() {
-      public void run() {
-        // Hack to prevent feedback loop.
-        if (cm.getScrollSetAt() + 5 > System.currentTimeMillis()) {
-          return;
-        }
-        if (cm == cmA) {
-          scrollTimerB.cancel();
-          scrollTimerA.schedule(5);
-        } else {
-          scrollTimerA.cancel();
-          scrollTimerB.schedule(5);
-        }
-      }
-    };
-  }
-
-  private void fixScroll(CodeMirror cm) {
-    ScrollInfo si = cm.getScrollInfo();
-    if (si.getTop() == 0 && !Gerrit.isHeaderVisible()) {
-      Gerrit.setHeaderVisible(true);
-      diffTable.updateFileCommentVisibility(false);
-    } else if (si.getTop() > 0.5 * si.getClientHeight()
-        && Gerrit.isHeaderVisible()) {
-      Gerrit.setHeaderVisible(false);
-      diffTable.updateFileCommentVisibility(true);
-    }
-    CodeMirror other = otherCm(cm);
-    Viewport fromTo = cm.getViewport();
-    int line = fromTo.getFrom();
-    for (; line <= fromTo.getTo(); line++) {
-      LineOnOtherInfo info = mapper.lineOnOther(getSideFromCm(cm), line);
-      /**
-       * Since CM doesn't always take the height of line widgets into
-       * account when calculating scrollInfo when scrolling too fast
-       * (e.g. throw-scrolling), simply setting scrollTop to be the same
-       * doesn't guarantee alignment.
-       *
-       * Iterate over the viewport to find the first line that isn't part of an
-       * insertion or deletion gap, for which isAligned() will be true. We then
-       * manually examine if the lines that should be aligned are at the same
-       * height. If not, perform additional scrolling.
-       */
-      if (info.isAligned()) {
-        double myHeight = cm.heightAtLine(line);
-        double otherHeight = other.heightAtLine(info.getLine());
-        if (myHeight != otherHeight) {
-          other.scrollToY(
-              other.getScrollInfo().getTop() + otherHeight - myHeight);
-          other.setScrollSetAt(System.currentTimeMillis());
-        }
-        break;
-      }
     }
   }
 

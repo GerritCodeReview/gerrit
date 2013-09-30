@@ -62,6 +62,24 @@
       "revId": "3d57549a1d25eaa76ceca86913acaaf95928723f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c44377e0_3dc62f35",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPick.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-30T18:57:40Z",
+      "side": 1,
+      "message": "\"On gerrit-review I don\u0027t see this title on the Cherry Pick button\".\n\nThat\u0027s because it was a known bug, that i fixed in:\n\n https://gerrit-review.googlesource.com/49603\n\ncheck a2b() function.\n\n\"On my locally built Gerrit, I do see it\"\n\nthat\u0027s because you pulled that change\n\n\"...but if I change the title here to something else it has no effect\"\n\nthat\u0027s because your browser\u0027s cache. Clearing the cache should fix that.",
+      "parentUuid": "241613dd_78ccc154",
+      "revId": "3d57549a1d25eaa76ceca86913acaaf95928723f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

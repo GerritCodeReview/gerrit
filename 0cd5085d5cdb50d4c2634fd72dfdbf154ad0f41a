@@ -70,6 +70,24 @@
       "revId": "0cd5085d5cdb50d4c2634fd72dfdbf154ad0f41a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04690f74_27a15ae8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-30T18:32:39Z",
+      "side": 1,
+      "message": "Nope, it didn\u0027t.\n\nin Chrome dev tool i can see, that the reviewer name eleent using this font-family:\n\n body, table td, select {\n  font-family: sans-serif;\n }\n\nAnd that CSS is disabled:\n\n body, table td, select {\n  font-family: Arial Unicode MS, Arial, sans-serif;\n  font-size: small;\n }\n\nBut even if i enable \"Arial Unicode MS, Arial, sans-serif;\". i still don\u0027t see \"X\" It is empty, but i can click on it and it removed reviewer.",
+      "parentUuid": "241613dd_9818b5ef",
+      "revId": "0cd5085d5cdb50d4c2634fd72dfdbf154ad0f41a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

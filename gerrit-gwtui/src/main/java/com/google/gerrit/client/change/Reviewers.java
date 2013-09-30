@@ -48,7 +48,6 @@ import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwt.user.client.ui.UIObject;
-import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.util.HashMap;
@@ -59,17 +58,19 @@ class Reviewers extends Composite {
   interface Binder extends UiBinder<HTMLPanel, Reviewers> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
+  @UiField Element ccText;
   @UiField Button openForm;
-  @UiField Element reviewers;
   @UiField Element form;
   @UiField Element error;
   @UiField(provided = true)
   SuggestBox suggestBox;
 
+  private ChangeScreen2.Style style;
+  private Element reviewersText;
+
   private RestReviewerSuggestOracle reviewerSuggestOracle;
   private HintTextBox nameTxtBox;
   private Change.Id changeId;
-  private ChangeScreen2.Style style;
   private boolean submitOnSelection;
 
   Reviewers() {
@@ -108,18 +109,16 @@ class Reviewers extends Composite {
     });
   }
 
-  void set(Change.Id changeId) {
-    this.changeId = changeId;
-    reviewerSuggestOracle.setChange(changeId);
-  }
-
-  void init(ChangeScreen2.Style style) {
+  void init(ChangeScreen2.Style style, Element reviewersText) {
     this.style = style;
-    openForm.setVisible(Gerrit.isSignedIn());
+    this.reviewersText = reviewersText;
   }
 
-  void setReviewers(SafeHtml formatUserList) {
-    reviewers.setInnerSafeHtml(formatUserList);
+  void set(ChangeInfo info) {
+    this.changeId = info.legacy_id();
+    display(info);
+    reviewerSuggestOracle.setChange(changeId);
+    openForm.setVisible(Gerrit.isSignedIn());
   }
 
   @UiHandler("openForm")
@@ -219,7 +218,9 @@ class Reviewers extends Composite {
     for (Integer i : r.keySet()) {
       cc.remove(i);
     }
+    r.remove(info.owner()._account_id());
     cc.remove(info.owner()._account_id());
-    setReviewers(Labels.formatUserList(style, cc.values()));
+    reviewersText.setInnerSafeHtml(Labels.formatUserList(style, r.values()));
+    ccText.setInnerSafeHtml(Labels.formatUserList(style, cc.values()));
   }
 }

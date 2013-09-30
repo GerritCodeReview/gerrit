@@ -22,6 +22,30 @@
       "revId": "7284ebf2a0045a88ab027e97807acc89054e3b97",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04690f74_c70abe36",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-30T07:15:15Z",
+      "side": 1,
+      "message": "Hmm, not sure if \u0027popdown\u0027 is correct, but I mean the \u0027save\u0027 button when editing the commit message. If there are no changes done to the commit message the \u0027save\u0027 button is disabled, but now with this change it appears as blue like an enabled button.",
+      "parentUuid": "c44377e0_1dec93d6",
+      "range": {
+        "startLine": 30,
+        "startChar": 1,
+        "endLine": 31,
+        "endChar": 34
+      },
+      "revId": "7284ebf2a0045a88ab027e97807acc89054e3b97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -34,6 +34,24 @@
       "revId": "e7856ecaf72504b7dcd67dea3f91da78fbb2c288",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "844dff11_1bb01bd6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-09-30T16:41:01Z",
+      "side": 1,
+      "message": "Agreed Truncate is the right word here",
+      "parentUuid": "844dff11_fbbbefd5",
+      "revId": "e7856ecaf72504b7dcd67dea3f91da78fbb2c288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

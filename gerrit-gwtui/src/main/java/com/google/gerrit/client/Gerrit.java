@@ -92,7 +92,9 @@ import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Gerrit implements EntryPoint {
   public static final GerritConstants C = GWT.create(GerritConstants.class);
@@ -111,10 +113,17 @@ public class Gerrit implements EntryPoint {
   private static AccountDiffPreference myAccountDiffPref;
   private static String xGerritAuth;
 
+  private static final String ALL_BAR = "All";
+  private static final String MY_BAR = "My";
+  private static final String DIFF_BAR = "Differences";
+  private static final String PROJECTS_BAR = "Projects";
+  private static final String PEOPLE_BAR = "People";
+  private static final String PLUGINS_BAR = "Plugins";
+  private static final String DOCUMENTATION_BAR = "Documentation";
+  private static Map<String, LinkMenuBar> menuBars;
+
   private static MorphingTabPanel menuLeft;
   private static LinkMenuBar menuRight;
-  private static LinkMenuBar diffBar;
-  private static LinkMenuBar projectsBar;
   private static RootPanel topMenu;
   private static RootPanel siteHeader;
   private static RootPanel siteFooter;
@@ -201,6 +210,7 @@ public class Gerrit implements EntryPoint {
    * @param view the loaded view.
    */
   public static void updateMenus(Screen view) {
+    LinkMenuBar diffBar = menuBars.get(DIFF_BAR);
     if (view instanceof PatchScreen) {
       patchScreen = (PatchScreen) view;
       menuLeft.setVisible(diffBar, true);
@@ -654,11 +664,14 @@ public class Gerrit implements EntryPoint {
     menuLeft.clear();
     menuRight.clear();
 
+    menuBars = new HashMap<String, LinkMenuBar>();
+
     final boolean signedIn = isSignedIn();
     final GerritConfig cfg = getConfig();
     LinkMenuBar m;
 
     m = new LinkMenuBar();
+    menuBars.put(ALL_BAR, m);
     addLink(m, C.menuAllOpen(), PageLinks.toChangeQuery("status:open"));
     addLink(m, C.menuAllMerged(), PageLinks.toChangeQuery("status:merged"));
     addLink(m, C.menuAllAbandoned(), PageLinks.toChangeQuery("status:abandoned"));
@@ -666,6 +679,7 @@ public class Gerrit implements EntryPoint {
 
     if (signedIn) {
       m = new LinkMenuBar();
+      menuBars.put(MY_BAR, m);
       addLink(m, C.menuMyChanges(), PageLinks.MINE);
       addLink(m, C.menuMyDrafts(), PageLinks.toChangeQuery("is:draft"));
       addLink(m, C.menuMyDraftComments(), PageLinks.toChangeQuery("has:draft"));
@@ -678,7 +692,8 @@ public class Gerrit implements EntryPoint {
     }
 
     patchScreen = null;
-    diffBar = new LinkMenuBar();
+    LinkMenuBar diffBar = new LinkMenuBar();
+    menuBars.put(DIFF_BAR, diffBar);
     menuLeft.addInvisible(diffBar, C.menuDiff());
     addDiffLink(diffBar, CC.patchTableDiffSideBySide(), PatchScreen.Type.SIDE_BY_SIDE);
     addDiffLink(diffBar, CC.patchTableDiffUnified(), PatchScreen.Type.UNIFIED);
@@ -687,7 +702,7 @@ public class Gerrit implements EntryPoint {
     addDiffLink(diffBar, C.menuDiffPatchSets(), PatchScreen.TopView.PATCH_SETS);
     addDiffLink(diffBar, C.menuDiffFiles(), PatchScreen.TopView.FILES);
 
-    projectsBar = new LinkMenuBar() {
+    final LinkMenuBar projectsBar = new LinkMenuBar() {
       @Override
       public void onScreenLoad(ScreenLoadEvent event) {
         if (event.getScreen() instanceof ProjectScreen) {
@@ -695,30 +710,41 @@ public class Gerrit implements EntryPoint {
         }
       }
     };
+    menuBars.put(PROJECTS_BAR, projectsBar);
     addLink(projectsBar, C.menuProjectsList(), PageLinks.ADMIN_PROJECTS);
     addProjectLink(projectsBar, C.menuProjectsInfo(), ProjectScreen.INFO);
     addProjectLink(projectsBar, C.menuProjectsBranches(), ProjectScreen.BRANCH);
     addProjectLink(projectsBar, C.menuProjectsAccess(), ProjectScreen.ACCESS);
-    addProjectLink(projectsBar, C.menuProjectsDashboards(), ProjectScreen.DASHBOARDS);
+    final LinkMenuItem dashboardsMenuItem =
+        addProjectLink(projectsBar, C.menuProjectsDashboards(),
+            ProjectScreen.DASHBOARDS);
     menuLeft.add(projectsBar, C.menuProjects());
 
     if (signedIn) {
       final LinkMenuBar peopleBar = new LinkMenuBar();
-      addLink(peopleBar, C.menuPeopleGroupsList(), PageLinks.ADMIN_GROUPS);
+      menuBars.put(PEOPLE_BAR, peopleBar);
+      final LinkMenuItem groupsListMenuItem =
+          addLink(peopleBar, C.menuPeopleGroupsList(), PageLinks.ADMIN_GROUPS);
       menuLeft.add(peopleBar, C.menuPeople());
 
       final LinkMenuBar pluginsBar = new LinkMenuBar();
+      menuBars.put(PLUGINS_BAR, pluginsBar);
       AccountCapabilities.all(new GerritCallback<AccountCapabilities>() {
         @Override
         public void onSuccess(AccountCapabilities result) {
           if (result.canPerform(CREATE_PROJECT)) {
-            addLink(projectsBar, C.menuProjectsCreate(), PageLinks.ADMIN_CREATE_PROJECT);
+            insertLink(projectsBar, C.menuProjectsCreate(),
+                PageLinks.ADMIN_CREATE_PROJECT,
+                projectsBar.getWidgetIndex(dashboardsMenuItem) + 1);
           }
           if (result.canPerform(CREATE_GROUP)) {
-            addLink(peopleBar, C.menuPeopleGroupsCreate(), PageLinks.ADMIN_CREATE_GROUP);
+            insertLink(peopleBar, C.menuPeopleGroupsCreate(),
+                PageLinks.ADMIN_CREATE_GROUP,
+                peopleBar.getWidgetIndex(groupsListMenuItem) + 1);
           }
           if (result.canPerform(ADMINISTRATE_SERVER)) {
-            addLink(pluginsBar, C.menuPluginsInstalled(), PageLinks.ADMIN_PLUGINS);
+            insertLink(pluginsBar, C.menuPluginsInstalled(),
+                PageLinks.ADMIN_PLUGINS, 0);
             menuLeft.insert(pluginsBar, C.menuPlugins(),
                 menuLeft.getWidgetIndex(peopleBar) + 1);
           }
@@ -728,6 +754,7 @@ public class Gerrit implements EntryPoint {
 
     if (getConfig().isDocumentationAvailable()) {
       m = new LinkMenuBar();
+      menuBars.put(DOCUMENTATION_BAR, m);
       addDocLink(m, C.menuDocumentationIndex(), "index.html");
       addDocLink(m, C.menuDocumentationSearch(), "user-search.html");
       addDocLink(m, C.menuDocumentationUpload(), "user-upload.html");
@@ -799,13 +826,16 @@ public class Gerrit implements EntryPoint {
       public void onSuccess(TopMenuList result) {
         List<TopMenu> topMenuExtensions = Natives.asList(result);
         for (TopMenu menu : topMenuExtensions) {
-          LinkMenuBar bar = new LinkMenuBar();
+          LinkMenuBar existingBar = menuBars.get(menu.getName());
+          LinkMenuBar bar = existingBar != null ? existingBar : new LinkMenuBar();
           for (TopMenuItem item : Natives.asList(menu.getItems())) {
             addExtensionLink(bar, item);
           }
-          menuLeft.add(bar, menu.getName());
+          if (existingBar == null ) {
+            menuLeft.add(bar, menu.getName());
+          }
         }
-      };
+      }
     });
   }
 
@@ -874,9 +904,16 @@ public class Gerrit implements EntryPoint {
     return a;
   }
 
-  private static void addLink(final LinkMenuBar m, final String text,
+  private static LinkMenuItem addLink(final LinkMenuBar m, final String text,
       final String historyToken) {
-    m.addItem(new LinkMenuItem(text, historyToken));
+    LinkMenuItem i = new LinkMenuItem(text, historyToken);
+    m.addItem(i);
+    return i;
+  }
+
+  private static void insertLink(final LinkMenuBar m, final String text,
+      final String historyToken, final int beforeIndex) {
+    m.insertItem(new LinkMenuItem(text, historyToken), beforeIndex);
   }
 
   private static void addDiffLink(final LinkMenuBar m, final String text,
@@ -892,9 +929,9 @@ public class Gerrit implements EntryPoint {
       });
   }
 
-  private static void addProjectLink(final LinkMenuBar m, final String text,
+  private static LinkMenuItem addProjectLink(final LinkMenuBar m, final String text,
       final String panel) {
-    m.addItem(new LinkMenuItem(text, "") {
+    LinkMenuItem i = new LinkMenuItem(text, "") {
         @Override
         public void onScreenLoad(ScreenLoadEvent event) {
           Screen screen = event.getScreen();
@@ -913,7 +950,9 @@ public class Gerrit implements EntryPoint {
           }
           super.onScreenLoad(event);
         }
-      });
+      };
+    m.addItem(i);
+    return i;
   }
 
   private static void addDiffLink(final LinkMenuBar m, final String text,

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "241613dd_987e751d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-30T06:24:13Z",
+      "side": 1,
+      "message": "Looking at the definition of \"elide\" [1] it\u0027s not clear which is meant here.  Is the whole subject omitted?  Or part of it?  I assume (having not actually downloaded and tested this) that it will truncate the right-most part of the message.  If that\u0027s the case, perhaps \"truncate\" would be a better word to use.\n\n(Yes, I had to look up \"elide\" because I hadn\u0027t heard it before.)\n\n[1] http://www.merriam-webster.com/dictionary/elide",
+      "revId": "e7856ecaf72504b7dcd67dea3f91da78fbb2c288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,7 @@ import static com.google.gerrit.reviewdb.client.Change.Status.DRAFT;
 import static com.google.gerrit.reviewdb.client.Change.Status.MERGED;
 import static com.google.gerrit.reviewdb.client.Change.Status.NEW;
 import static com.google.gerrit.reviewdb.client.Change.Status.SUBMITTED;
+import static com.google.gerrit.reviewdb.client.Change.Status.WORKINPROGRESS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
@@ -96,7 +97,7 @@ public class IndexRewriteTest {
     Predicate<ChangeData> in =
         parse("-status:abandoned (status:open OR status:merged)");
     assertEquals(
-        query(parse("status:new OR status:submitted OR status:draft OR status:merged")),
+        query(parse("status:new OR status:submitted OR status:draft OR status:workinprogress OR status:merged")),
         rewrite.rewrite(in));
   }
 
@@ -172,7 +173,8 @@ public class IndexRewriteTest {
   public void testGetPossibleStatus() throws Exception {
     assertEquals(EnumSet.allOf(Change.Status.class), status("file:a"));
     assertEquals(EnumSet.of(NEW), status("is:new"));
-    assertEquals(EnumSet.of(SUBMITTED, DRAFT, MERGED, ABANDONED),
+    assertEquals(
+        EnumSet.of(SUBMITTED, DRAFT, MERGED, ABANDONED, WORKINPROGRESS),
         status("-is:new"));
     assertEquals(EnumSet.of(NEW, MERGED), status("is:new OR is:merged"));
 

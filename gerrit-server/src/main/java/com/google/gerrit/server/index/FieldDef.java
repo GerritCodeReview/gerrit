@@ -14,12 +14,9 @@
 
 package com.google.gerrit.server.index;
 
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
-import org.eclipse.jgit.lib.Config;
 
 /**
  * Definition of a field stored in the secondary index.
@@ -58,15 +55,10 @@ public abstract class FieldDef<I, T> {
   /** Arguments needed to fill in missing data in the input object. */
   public static class FillArgs {
     final TrackingFooters trackingFooters;
-    final boolean allowsDrafts;
 
     @Inject
-    FillArgs(TrackingFooters trackingFooters,
-        @GerritServerConfig Config cfg) {
+    FillArgs(TrackingFooters trackingFooters) {
       this.trackingFooters = trackingFooters;
-      this.allowsDrafts = cfg == null
-          ? true
-          : cfg.getBoolean("change", "allowDrafts", true);
     }
   }
 

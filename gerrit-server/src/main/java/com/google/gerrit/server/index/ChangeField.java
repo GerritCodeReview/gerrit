@@ -215,8 +215,10 @@ public class ChangeField {
         public Iterable<Integer> get(ChangeData input, FillArgs args)
             throws OrmException {
           Set<Integer> r = Sets.newHashSet();
-          for (PatchSetApproval a : input.approvals().values()) {
-            r.add(a.getAccountId().get());
+          if (input.change().getStatus() != Change.Status.WORKINPROGRESS) {
+            for (PatchSetApproval a : input.approvals().values()) {
+              r.add(a.getAccountId().get());
+            }
           }
           return r;
         }

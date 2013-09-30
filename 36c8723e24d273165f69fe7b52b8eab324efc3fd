@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04690f74_072e9698",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-09-30T13:47:07Z",
+      "side": 1,
+      "message": "I don\u0027t like this API because this class is already specific to a project and ref. Having a RefControl for project P and ref R and then using that instance to check if a user can read a commit C from project X is unintuitive.\n\nThe (new) logic (canReadCommit) of checking the read privilege on a commit is not ref specific. It would rather belong to the ProjectControl. The ProjectControl itself doesn\u0027t have an access to the underlying git Repository but it has access to the ProjectState which knows how to access the repository.\nTherefore I would rather implement the new logic in the ProjectControl or ProjectState and keep this method unchanged.",
+      "revId": "36c8723e24d273165f69fe7b52b8eab324efc3fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

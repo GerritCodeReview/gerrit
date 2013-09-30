@@ -1402,6 +1402,19 @@ Defaults to "Report Bug".
 Default change screen UI to direct users to. Valid values are
 `OLD_UI` and `CHANGE_SCREEN2`. Default is `CHANGE_SCREEN2`.
 
+[[gerrit.wipWorkflowEnabled]]gerrit.wipWorkflowEnabled::
++
+Enable `Work In Progress` workflow in Gerrit.
++
+It adds a new button that allows change owners to set a change to
+Work In Progress, and a button to change from WIP back to a
+"Ready For Review" state.
++
+Any change in the WIP state will not show up in anyone's Review
+Requests. Pushing a new patch set will reset the change to Review
+In Progress.
++
+
 [[gitweb]]
 === Section gitweb
 

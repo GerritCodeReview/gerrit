@@ -88,6 +88,9 @@ public class GlobalCapability {
   /** Can view all pending tasks in the queue (not just the filtered set). */
   public static final String VIEW_QUEUE = "viewQueue";
 
+  /** Can toggle WIP state. */
+  public static final String WORK_IN_PROGRESS = "workInProgress";
+
   private static final List<String> NAMES_ALL;
   private static final List<String> NAMES_LC;
 
@@ -109,6 +112,7 @@ public class GlobalCapability {
     NAMES_ALL.add(VIEW_CACHES);
     NAMES_ALL.add(VIEW_CONNECTIONS);
     NAMES_ALL.add(VIEW_QUEUE);
+    NAMES_ALL.add(WORK_IN_PROGRESS);
 
     NAMES_LC = new ArrayList<String>(NAMES_ALL.size());
     for (String name : NAMES_ALL) {

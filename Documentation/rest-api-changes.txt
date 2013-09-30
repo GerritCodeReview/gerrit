@@ -970,6 +970,50 @@ Deletes a draft change.
   HTTP/1.1 204 No Content
 ----
 
+[[mark-as-wip]]
+Mark a change as Work In Progress
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[verse]
+'POST /changes/link:#change-id[\{change-id\}]/wip'
+
+Marks a change as Work In Progress.
+
+The request body can include a link:#abandon-input[AbandonInput] entity
+if Work In Progress comment is added.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/wip HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
+[[mark-as-ready]]
+Mark a change as Ready For Review
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[verse]
+'POST /changes/link:#change-id[\{change-id\}]/ready'
+
+Marks a change as Ready For Review.
+
+The request body can include a link:#abandon-input[AbandonInput] entity
+if Ready For Review comment is added.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/ready HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[reviewer-endpoints]]
 Reviewer Endpoints
 ------------------

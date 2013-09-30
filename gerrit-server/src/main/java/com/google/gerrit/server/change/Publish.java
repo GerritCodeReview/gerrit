@@ -122,7 +122,7 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
     PatchSet.Id current = rsrc.getChange().currentPatchSetId();
     try {
       return new UiAction.Description()
-        .setTitle(String.format("Publish Revision %d",
+        .setTitle(String.format("Publish revision %d",
             rsrc.getPatchSet().getPatchSetId()))
         .setVisible(rsrc.getPatchSet().isDraft()
             && rsrc.getPatchSet().getId().equals(current)

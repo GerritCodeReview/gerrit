@@ -57,6 +57,8 @@ public class Module extends RestApiModule {
     post(CHANGE_KIND, "submit").to(Submit.CurrentRevision.class);
     post(CHANGE_KIND, "rebase").to(Rebase.CurrentRevision.class);
     post(CHANGE_KIND, "index").to(Index.class);
+    post(CHANGE_KIND, "wip").to(WorkInProgressAction.class);
+    post(CHANGE_KIND, "ready").to(ReadyForReviewAction.class);
 
     post(CHANGE_KIND, "reviewers").to(PostReviewers.class);
     get(CHANGE_KIND, "suggest_reviewers").to(SuggestReviewers.class);

@@ -175,6 +175,9 @@ class RevisionsBox extends Composite {
     sb.openTd()
       .setStyleName(style.legacy_id())
       .append(r._number());
+    if (r.has_draft_comments()) {
+      sb.append(" ...");
+    }
     if (r.draft()) {
       sb.append(" ").append(Resources.C.draft());
     }

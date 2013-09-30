@@ -20,9 +20,10 @@ limitations under the License.
     xmlns:x='urn:import:com.google.gwtexpui.progress.client'>
   <ui:style type='com.google.gerrit.client.change.RelatedChanges.Style'>
     .subject {
-      width: 200px;
+      width: 355px;
       overflow: hidden;
       text-overflow: ellipsis;
+      display: inline-block;
     }
     .header, .subject {
       white-space: nowrap;

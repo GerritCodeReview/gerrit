@@ -70,6 +70,24 @@
       "revId": "b0533452430e2f76f922c65c1371a8daffae5f86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04690f74_07a456f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013627
+      },
+      "writtenOn": "2013-09-30T17:30:48Z",
+      "side": 1,
+      "message": "Possibly related, but in the Cherry-Pick UI there is an (imho) valid case for changing the Change-Id (that is, removing, and having it re-generating), whereas in the commit message editor it should (afaik) keep the same change id.\n\nThe use case for generating a new change id from cherry-pick is when picking to the same branch in a new change set (e.g. a change that can\u0027t be re-opened because it is already merged or for some other reason).",
+      "parentUuid": "443a27c6_d1966498",
+      "revId": "b0533452430e2f76f922c65c1371a8daffae5f86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

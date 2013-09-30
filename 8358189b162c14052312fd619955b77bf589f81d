@@ -16,6 +16,24 @@
       "revId": "8358189b162c14052312fd619955b77bf589f81d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04690f74_a73eaacb",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/AddBranch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-09-30T13:18:08Z",
+      "side": 1,
+      "message": "good catch, I forgot to revert this chage",
+      "parentUuid": "241613dd_38c64935",
+      "revId": "8358189b162c14052312fd619955b77bf589f81d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

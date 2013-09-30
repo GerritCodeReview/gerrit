@@ -134,6 +134,7 @@ public class Abandon implements RestModifyView<ChangeResource, Input>,
   public UiAction.Description getDescription(ChangeResource resource) {
     return new UiAction.Description()
       .setLabel("Abandon")
+      .setTitle("Abandon the change")
       .setVisible(resource.getChange().getStatus().isOpen()
           && resource.getControl().canAbandon());
   }

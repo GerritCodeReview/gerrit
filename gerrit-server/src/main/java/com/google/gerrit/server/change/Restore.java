@@ -133,6 +133,7 @@ public class Restore implements RestModifyView<ChangeResource, Input>,
   public UiAction.Description getDescription(ChangeResource resource) {
     return new UiAction.Description()
       .setLabel("Restore")
+      .setTitle("Restore the change")
       .setVisible(resource.getChange().getStatus() == Status.ABANDONED
           && resource.getControl().canRestore());
   }

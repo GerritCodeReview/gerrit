@@ -53,6 +53,7 @@ import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -63,6 +64,8 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.EventListener;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -93,6 +96,17 @@ public class ChangeScreen2 extends Screen {
     String label_need();
     String replyBox();
     String selected();
+  }
+
+  static ChangeScreen2 get(NativeEvent in) {
+    com.google.gwt.user.client.Element e = in.getEventTarget().cast();
+    for (e = DOM.getParent(e); e != null; e = DOM.getParent(e)) {
+      EventListener l = DOM.getEventListener(e);
+      if (l instanceof ChangeScreen2) {
+        return (ChangeScreen2) l;
+      }
+    }
+    return null;
   }
 
   private final Change.Id changeId;
@@ -152,6 +166,10 @@ public class ChangeScreen2 extends Screen {
     this.revision = revision != null && !revision.isEmpty() ? revision : null;
     this.openReplyBox = openReplyBox;
     add(uiBinder.createAndBindUi(this));
+  }
+
+  Change.Id getChangeId() {
+    return changeId;
   }
 
   @Override

@@ -51,32 +51,62 @@ public class RelativeDateFormatter {
 
     // seconds
     if (ageMillis < upperLimit(MINUTE_IN_MILLIS)) {
-      return Util.M.secondsAgo(round(ageMillis, SECOND_IN_MILLIS));
+      long seconds = round(ageMillis, SECOND_IN_MILLIS);
+      if (seconds == 1) {
+        return Util.C.oneSecondAgo();
+      } else {
+        return Util.M.secondsAgo(seconds);
+      }
     }
 
     // minutes
     if (ageMillis < upperLimit(HOUR_IN_MILLIS)) {
-      return Util.M.minutesAgo(round(ageMillis, MINUTE_IN_MILLIS));
+      long minutes = round(ageMillis, MINUTE_IN_MILLIS);
+      if (minutes == 1) {
+        return Util.C.oneMinuteAgo();
+      } else {
+        return Util.M.minutesAgo(minutes);
+      }
     }
 
     // hours
     if (ageMillis < upperLimit(DAY_IN_MILLIS)) {
-      return Util.M.hoursAgo(round(ageMillis, HOUR_IN_MILLIS));
+      long hours = round(ageMillis, HOUR_IN_MILLIS);
+      if (hours == 1) {
+        return Util.C.oneHourAgo();
+      } else {
+        return Util.M.hoursAgo(hours);
+      }
     }
 
     // up to 14 days use days
     if (ageMillis < 14 * DAY_IN_MILLIS) {
-      return Util.M.daysAgo(round(ageMillis, DAY_IN_MILLIS));
+      long days = round(ageMillis, DAY_IN_MILLIS);
+      if (days == 1) {
+        return Util.C.oneDayAgo();
+      } else {
+        return Util.M.daysAgo(days);
+      }
     }
 
     // up to 10 weeks use weeks
     if (ageMillis < 10 * WEEK_IN_MILLIS) {
-      return Util.M.weeksAgo(round(ageMillis, WEEK_IN_MILLIS));
+      long weeks = round(ageMillis, WEEK_IN_MILLIS);
+      if (weeks == 1) {
+        return Util.C.oneWeekAgo();
+      } else {
+        return Util.M.weeksAgo(weeks);
+      }
     }
 
     // months
     if (ageMillis < YEAR_IN_MILLIS) {
-      return Util.M.monthsAgo(round(ageMillis, MONTH_IN_MILLIS));
+      long months = round(ageMillis, MONTH_IN_MILLIS);
+      if (months == 1) {
+        return Util.C.oneMonthAgo();
+      } else {
+        return Util.M.monthsAgo(months);
+      }
     }
 
     // up to 5 years use "year, months" rounded to months
@@ -94,7 +124,12 @@ public class RelativeDateFormatter {
     }
 
     // years
-    return Util.M.yearsAgo(round(ageMillis, YEAR_IN_MILLIS));
+    long years = round(ageMillis, YEAR_IN_MILLIS);
+    if (years == 1) {
+      return Util.C.oneYearAgo();
+    } else {
+      return Util.M.yearsAgo(years);
+    }
   }
 
   private static long upperLimit(long unit) {

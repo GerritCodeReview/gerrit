@@ -15,6 +15,7 @@
 package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.account.AccountInfo;
+import com.google.gerrit.client.account.AccountInfo.AvatarInfo;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.ApprovalInfo;
 import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
@@ -197,19 +198,32 @@ class Labels extends Grid {
     Iterator<? extends AccountInfo> itr = users.iterator();
     while (itr.hasNext()) {
       AccountInfo ai = itr.next();
-      html.openSpan();
-      html.setStyleName(style.label_user());
+      AvatarInfo img = ai.avatar(16);
+      String name;
       if (ai.name() != null) {
-        html.append(ai.name());
+        name = ai.name();
       } else if (ai.email() != null) {
-        html.append(ai.email());
+        name = ai.email();
       } else {
-        html.append(ai._account_id());
+        name = Integer.toString(ai._account_id());
       }
+
+      html.openSpan();
+      html.setAttribute("role", "listitem");
+      html.setStyleName(style.label_user());
+      if (img != null) {
+        html.openElement("img");
+        html.setAttribute("src", img.url());
+        if (img.width() > 0) {
+          html.setAttribute("width", img.width());
+        }
+        if (img.height() > 0) {
+          html.setAttribute("height", img.height());
+        }
+        html.closeSelf();
+      }
+      html.append(name);
       html.closeSpan();
-      if (itr.hasNext()) {
-        html.append(", ");
-      }
     }
     return html;
   }

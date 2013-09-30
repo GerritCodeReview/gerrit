@@ -36,8 +36,8 @@ import java.util.TreeSet;
 class Actions extends Composite {
   private static final String[] CORE = {
     "abandon", "restore", "revert", "topic",
-    "cherrypick", "submit", "rebase", "message",
-    "publish", "/"};
+    "cherrypick", "submit", "ready", "rebase",
+    "message", "publish", "wip", "/"};
 
   interface Binder extends UiBinder<FlowPanel, Actions> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
@@ -46,9 +46,11 @@ class Actions extends Composite {
   @UiField Button deleteChange;
   @UiField Button deleteRevision;
   @UiField Button publish;
+  @UiField Button ready;
   @UiField Button rebase;
   @UiField Button revert;
   @UiField Button submit;
+  @UiField Button wip;
 
   @UiField Button abandon;
   private AbandonAction abandonAction;
@@ -63,6 +65,8 @@ class Actions extends Composite {
   private String subject;
   private String message;
   private boolean canSubmit;
+  private ReadyAction readyAction;
+  private WipAction wipAction;
 
   Actions() {
     initWidget(uiBinder.createAndBindUi(this));
@@ -94,8 +98,10 @@ class Actions extends Composite {
     if (hasUser) {
       a2b(actions, "/", deleteChange);
       a2b(actions, "abandon", abandon);
+      a2b(actions, "ready", ready);
       a2b(actions, "restore", restore);
       a2b(actions, "revert", revert);
+      a2b(actions, "wip", wip);
       for (String id : filterNonCore(actions)) {
         add(new ActionButton(info, actions.get(id)));
       }
@@ -194,6 +200,22 @@ class Actions extends Composite {
   @UiHandler("revert")
   void onRevert(ClickEvent e) {
     RevertAction.call(cherrypick, changeId, revision, project, subject);
+  }
+
+  @UiHandler("ready")
+  void onReady(ClickEvent e) {
+    if (readyAction == null) {
+      readyAction = new ReadyAction(ready, changeId);
+    }
+    readyAction.show();
+  }
+
+  @UiHandler("wip")
+  void onWip(ClickEvent e) {
+    if (wipAction == null) {
+      wipAction = new WipAction(wip, changeId);
+    }
+    wipAction.show();
   }
 
   private static void a2b(NativeMap<ActionInfo> actions, String a, Button b) {

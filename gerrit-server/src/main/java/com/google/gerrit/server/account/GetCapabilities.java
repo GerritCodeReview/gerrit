@@ -27,6 +27,7 @@ import static com.google.gerrit.common.data.GlobalCapability.STREAM_EVENTS;
 import static com.google.gerrit.common.data.GlobalCapability.VIEW_CACHES;
 import static com.google.gerrit.common.data.GlobalCapability.VIEW_CONNECTIONS;
 import static com.google.gerrit.common.data.GlobalCapability.VIEW_QUEUE;
+import static com.google.gerrit.common.data.GlobalCapability.WORK_IN_PROGRESS;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
@@ -115,6 +116,7 @@ class GetCapabilities implements RestReadView<AccountResource> {
     have.put(FLUSH_CACHES, cc.canFlushCaches());
     have.put(VIEW_CONNECTIONS, cc.canViewConnections());
     have.put(VIEW_QUEUE, cc.canViewQueue());
+    have.put(WORK_IN_PROGRESS, cc.canToggleWip());
     have.put(RUN_GC, cc.canRunGC());
     have.put(STREAM_EVENTS, cc.canStreamEvents());
     have.put(ACCESS_DATABASE, cc.canAccessDatabase());

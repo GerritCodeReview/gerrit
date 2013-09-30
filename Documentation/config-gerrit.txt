@@ -1370,6 +1370,24 @@ administrator's ticket queue.
 Default change screen UI to direct users to. Valid values are
 `OLD_UI` and `CHANGE_SCREEN2`. Default is `OLD_UI`.
 
+[[gerrit.wipWorkflowEnabled]]gerrit.wipWorkflowEnabled::
++
+Enable `Work In Progress` workflow in Gerrit.
++
+It adds a new button that allows an authorized user to set a
+change to Work In Progress, and a button to change from WIP back
+to a "Ready For Review" state.
++
+Any change in the WIP state will not show up in anyone's Review
+Requests. Pushing a new patchset will reset the change to Review
+In Progress.
++
+In addition to UI REST endpoints and SSH command are exposed.
++
+It is intended to be used in combination with the new "Change Owners"
+group. The capability "Work In Progress" can be granted to that group,
+so that only change owners can toggle the WIP state.
+
 [[gitweb]]Section gitweb
 ~~~~~~~~~~~~~~~~~~~~~~~~
 

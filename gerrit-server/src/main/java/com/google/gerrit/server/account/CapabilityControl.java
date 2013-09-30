@@ -133,6 +133,11 @@ public class CapabilityControl {
     return canPerform(GlobalCapability.VIEW_QUEUE)
       || canAdministrateServer();
   }
+  /** @return true if the user can toggle WIP state. */
+  public boolean canToggleWip() {
+    return canPerform(GlobalCapability.WORK_IN_PROGRESS)
+      || canAdministrateServer();
+  }
 
   /** @return true if the user can access the database (with gsql). */
   public boolean canAccessDatabase() {

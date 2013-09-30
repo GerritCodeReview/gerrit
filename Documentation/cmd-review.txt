@@ -13,6 +13,7 @@ SYNOPSIS
   [--message <MESSAGE> | -m <MESSAGE>]
   [--submit | -s]
   [--abandon | --restore]
+  [--ready | --wip]
   [--publish]
   [--delete]
   [--verified <N>] [--code-review <N>]
@@ -62,6 +63,14 @@ OPTIONS
 --restore::
 	Restore the specified abandoned change(s).
 	(option is mutually exclusive with --abandon)
+
+--wip::
+	Mark the change as Work In Progress
+	(option is mutually exclusive with --ready)
+
+--ready::
+	Mark the change as Ready For Review
+	(option is mutually exclusive with --wip)
 
 --submit::
 -s::

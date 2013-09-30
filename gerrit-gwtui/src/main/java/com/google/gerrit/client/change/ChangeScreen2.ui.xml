@@ -185,6 +185,14 @@ limitations under the License.
       height: 16px;
       vertical-align: bottom;
     }
+    .label_user button {
+      cursor: pointer;
+      padding: 0;
+      margin: 0 0 0 5px;
+      border: 0;
+      background-color: transparent;
+      white-space: nowrap;
+    }
 
     .label_ok {color: #060;}
     .label_reject {color: #d14836;}

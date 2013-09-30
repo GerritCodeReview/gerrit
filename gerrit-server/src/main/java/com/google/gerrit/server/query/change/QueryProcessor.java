@@ -22,6 +22,7 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.PatchSetAttribute;
 import com.google.gerrit.server.data.QueryStatsAttribute;
@@ -302,7 +303,11 @@ public class QueryProcessor {
           c = eventFactory.asChangeAttribute(d.getChange());
           eventFactory.extend(c, d.getChange());
           eventFactory.addTrackingIds(c, d.trackingIds(db));
-
+          
+          ChangeResource rsrc =
+              new ChangeResource(changeControlFactory.controlFor(d.getChange()));
+          eventFactory.currentreviewers(c,rsrc,includeApprovals ? d.approvalsMap(db).asMap() : null);
+          
           if (includeSubmitRecords) {
             PatchSet.Id psId = d.getChange().currentPatchSetId();
             PatchSet patchSet = db.get().patchSets().get(psId);

@@ -33,6 +33,7 @@ import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ApprovalAttribute;
@@ -157,6 +158,25 @@ public class EventFactory {
     a.open = change.getStatus().isOpen();
   }
 
+  /**
+   * Add currentReviewers to an existing ChangeAttribute.
+   *
+   * @param a
+   * @param rsrc
+   * @param approvals
+   */
+  public void currentreviewers(ChangeAttribute a, ChangeResource rsrc,
+      Map<PatchSet.Id, Collection<PatchSetApproval>> approvals) throws OrmException {
+    a.currentReviewers = new ArrayList<AccountAttribute>();
+    PatchSet.Id psid = rsrc.getChange().currentPatchSetId();
+    Collection<PatchSetApproval> list = approvals.get(psid);
+    if (list != null) {
+      for (PatchSetApproval p : list) {
+         a.currentReviewers.add(asAccountAttribute(p.getAccountId()));
+      }
+    }
+  }
+  
   /**
    * Add submitRecords to an existing ChangeAttribute.
    *

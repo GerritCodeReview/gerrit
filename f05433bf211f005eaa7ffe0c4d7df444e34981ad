@@ -16,6 +16,24 @@
       "revId": "f05433bf211f005eaa7ffe0c4d7df444e34981ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "844dff11_7bdfdf23",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-30T05:22:18Z",
+      "side": 1,
+      "message": "I think this is the wrapping of a button inside of the span. Something is causing the button to drop slightly in the line?\n\nEither Unicode character drew correctly on same version of Chrome (29.0.1547.76) on Mac OS X. I haven\u0027t yet been able to test Chrome on Linux.\n\nAny hints from the metrics in the developer tools?",
+      "parentUuid": "241613dd_189a656b",
+      "revId": "f05433bf211f005eaa7ffe0c4d7df444e34981ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

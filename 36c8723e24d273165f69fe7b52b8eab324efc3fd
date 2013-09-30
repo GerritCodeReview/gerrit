@@ -34,6 +34,24 @@
       "revId": "36c8723e24d273165f69fe7b52b8eab324efc3fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c44377e0_7da35793",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-09-30T15:28:22Z",
+      "side": 1,
+      "message": "\u003e Moving this logic to ProcjectControl will also require additional modifications in ReceiveCommits\n\nWhy?\nI only proposed to move (the implementation of) that method (canReadCommit) out of this class because checking something on allRefs doesn\u0027t belong to a class that is specific to one ref.\n\nKeeping the check here (making use of the canReadCommit) is OK and necessary.\nActually, ReceiveCommits and AddBranch don\u0027t have to change at all, assuming the signature of this method doesn\u0027t change.\n\nWhat the Map\u003cString, Ref\u003e (in the new signature) should be? I guess allRefs? Making use of allRefs is an implementation detail for which callers shouldn\u0027t care about.",
+      "parentUuid": "c44377e0_1d733355",
+      "revId": "36c8723e24d273165f69fe7b52b8eab324efc3fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

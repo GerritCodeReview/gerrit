@@ -970,6 +970,36 @@ Deletes a draft change.
   HTTP/1.1 204 No Content
 ----
 
+[[get-included-in]]
+Get Included In
+~~~~~~~~~~~~~~~
+[verse]
+'GET /changes/link:#change-id[\{change-id\}]/in'
+
+Retrieves the branches and tags in which a changes is included. As result
+an link:#included-in-info[IncludedInInfo] entity is returned.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/in HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#includedininfo",
+    "branches": [
+      "master"
+    ],
+    "tags": []
+  }
+----
+
 [[reviewer-endpoints]]
 Reviewer Endpoints
 ------------------
@@ -3265,6 +3295,21 @@ The topic will be deleted if not set.
 Message to be added as review comment to the change when setting the
 topic.
 |===========================
+
+[[included-in-info]]
+IncludedInInfo
+~~~~~~~~~~~~~~
+The `IncludedInInfo` entity contains information about the branches a
+change was merged into and tags it was tagged with.
+
+[options="header",width="50%",cols="1,6"]
+|==========================
+|Field Name    |Description
+|`branches`      |
+The list of branches this change was merged into.
+|`tags`      |
+The list of tags this change was tagged with.
+|==========================
 
 
 GERRIT

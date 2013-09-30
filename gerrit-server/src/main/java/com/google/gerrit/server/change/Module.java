@@ -47,6 +47,7 @@ public class Module extends RestApiModule {
     get(CHANGE_KIND).to(GetChange.class);
     get(CHANGE_KIND, "detail").to(GetDetail.class);
     get(CHANGE_KIND, "topic").to(GetTopic.class);
+    get(CHANGE_KIND, "in").to(IncludedIn.class);
     put(CHANGE_KIND, "topic").to(PutTopic.class);
     delete(CHANGE_KIND, "topic").to(PutTopic.class);
     delete(CHANGE_KIND).to(DeleteDraftChange.class);

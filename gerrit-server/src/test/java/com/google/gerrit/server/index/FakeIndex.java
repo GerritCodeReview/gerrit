@@ -31,7 +31,8 @@ class FakeIndex implements ChangeIndex {
   static Schema<ChangeData> V2 = new Schema<ChangeData>(2, false,
     ImmutableList.of(
       ChangeField.STATUS,
-      ChangeField.FILE));
+      ChangeField.FILE,
+      ChangeField.SORTKEY));
 
   private static class Source implements ChangeDataSource {
     private final Predicate<ChangeData> p;

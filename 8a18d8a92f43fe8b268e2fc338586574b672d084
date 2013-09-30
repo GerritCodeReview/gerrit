@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "241613dd_98b435c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-30T08:56:21Z",
+      "side": 1,
+      "message": "Please wrap the commit message at around 70 characters.",
+      "revId": "8a18d8a92f43fe8b268e2fc338586574b672d084",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "844dff11_9ba50bab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-30T08:56:21Z",
+      "side": 1,
+      "message": "This should be an optional parameter which is not included by default.\n\nFor example, have a look at the `--submit-records` and `--dependencies` options on the query command.",
+      "revId": "8a18d8a92f43fe8b268e2fc338586574b672d084",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "241613dd_d8baadb4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-30T08:56:21Z",
+      "side": 1,
+      "message": "Put this before the Change-Id line",
+      "revId": "8a18d8a92f43fe8b268e2fc338586574b672d084",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "241613dd_38ade97a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/data/ChangeAttribute.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-30T08:56:21Z",
+      "side": 1,
+      "message": "This new attribute should be documented in Documentation/json.txt",
+      "revId": "8a18d8a92f43fe8b268e2fc338586574b672d084",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "844dff11_db9b9373",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-30T08:56:21Z",
+      "side": 1,
+      "message": "Trailing whitespace.",
+      "revId": "8a18d8a92f43fe8b268e2fc338586574b672d084",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "241613dd_18b025d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-30T08:56:21Z",
+      "side": 1,
+      "message": "Whitespace.",
+      "revId": "8a18d8a92f43fe8b268e2fc338586574b672d084",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "844dff11_fba0cf9b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-30T08:56:21Z",
+      "side": 1,
+      "message": "Whitespace.",
+      "revId": "8a18d8a92f43fe8b268e2fc338586574b672d084",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

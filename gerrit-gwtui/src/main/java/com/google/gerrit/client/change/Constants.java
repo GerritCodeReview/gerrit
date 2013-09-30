@@ -24,4 +24,5 @@ interface Constants extends com.google.gwt.i18n.client.Constants {
   String commit();
   String date();
   String author();
+  String draft();
 }

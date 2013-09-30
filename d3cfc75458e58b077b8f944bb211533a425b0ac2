@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "04690f74_27163a5f",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-30T12:44:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c44377e0_bdaa3f76",
+      "range": {
+        "startLine": 172,
+        "startChar": 2,
+        "endLine": 181,
+        "endChar": 3
+      },
+      "revId": "d3cfc75458e58b077b8f944bb211533a425b0ac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c44377e0_9da503ab",
         "filename": "Documentation/rest-api-config.txt",
         "patchSetId": 16
@@ -36,6 +60,24 @@
       "writtenOn": "2013-09-30T12:42:01Z",
       "side": 1,
       "message": "The indention in this example is wrong and the example box is not closed. Also this is the wrong place for the endpoint description. It should be above the description of the capability-info. In all REST API documentation files, we first described all the endpoints, then the IDs and then the JSON entities, we should have the same ordering here.",
+      "revId": "d3cfc75458e58b077b8f944bb211533a425b0ac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04690f74_c72f1e99",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-30T12:44:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c44377e0_9da503ab",
       "revId": "d3cfc75458e58b077b8f944bb211533a425b0ac2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

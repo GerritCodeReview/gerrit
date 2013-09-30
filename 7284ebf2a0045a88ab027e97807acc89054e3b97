@@ -46,6 +46,30 @@
       "revId": "7284ebf2a0045a88ab027e97807acc89054e3b97",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "844dff11_5ba6a3a4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-30T16:23:13Z",
+      "side": 1,
+      "message": "Ugh, that is why this CSS rule is broken in the first place. Those popdown boxes are displayed outside of the ChangeScreen2 DOM tree and are just attached to the root of the document. There wasn\u0027t an obvious CSS class to attach to them to get the right UI applied, so someone added this CSS rule and called it \"good enough for gerrit\". *sigh*\n\nI will try again. :-)",
+      "parentUuid": "04690f74_c70abe36",
+      "range": {
+        "startLine": 30,
+        "startChar": 1,
+        "endLine": 31,
+        "endChar": 34
+      },
+      "revId": "7284ebf2a0045a88ab027e97807acc89054e3b97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

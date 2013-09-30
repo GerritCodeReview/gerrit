@@ -16,6 +16,24 @@
       "revId": "ab801ea7900b47910dbb1306382c997d6356cd00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "241613dd_58d45dd8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 825,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-30T14:12:28Z",
+      "side": 1,
+      "message": "out.draft will never be false.  It is explicitly set to either true or null at line 805.",
+      "parentUuid": "c44377e0_bd831f00",
+      "revId": "ab801ea7900b47910dbb1306382c997d6356cd00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

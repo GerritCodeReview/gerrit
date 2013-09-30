@@ -52,6 +52,24 @@
       "revId": "0cd5085d5cdb50d4c2634fd72dfdbf154ad0f41a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "241613dd_9818b5ef",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-09-30T17:54:49Z",
+      "side": 1,
+      "message": "I have no idea. One fix we did with the arrows was to force  font-family: Arial Unicode MS, sans-serif; in the CSS declaration. Does this fix the presentation of the glyph for you? You should be able to add the element style in the developer tools directly on one of these nodes to try out the hack.",
+      "parentUuid": "04690f74_878fe67b",
+      "revId": "0cd5085d5cdb50d4c2634fd72dfdbf154ad0f41a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

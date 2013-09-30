@@ -101,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "04690f74_47248eba",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-09-30T13:23:09Z",
+      "side": 1,
+      "message": "True, will move this to refreshMenuBar()",
+      "parentUuid": "c44377e0_5d90db4c",
+      "revId": "d3cfc75458e58b077b8f944bb211533a425b0ac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04690f74_471fae74",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/ConfigServerApi.java",
         "patchSetId": 16
@@ -112,6 +130,24 @@
       "writtenOn": "2013-09-30T12:42:01Z",
       "side": 1,
       "message": "[optional] Would \n  new RestApi(\"/config/server/top-menus\").get(cb);\nbe shorter?",
+      "revId": "d3cfc75458e58b077b8f944bb211533a425b0ac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c44377e0_1d9a536b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/ConfigServerApi.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-09-30T13:23:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04690f74_471fae74",
       "revId": "d3cfc75458e58b077b8f944bb211533a425b0ac2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -135,6 +171,24 @@
         "endLine": 38,
         "endChar": 52
       },
+      "revId": "d3cfc75458e58b077b8f944bb211533a425b0ac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c44377e0_7d8d972f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListTopMenus.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-09-30T13:23:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04690f74_671c327f",
       "revId": "d3cfc75458e58b077b8f944bb211533a425b0ac2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

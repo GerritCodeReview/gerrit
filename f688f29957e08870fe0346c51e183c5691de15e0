@@ -34,6 +34,23 @@
       "revId": "f688f29957e08870fe0346c51e183c5691de15e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "844dff11_dbcdd37e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-09-30T05:09:52Z",
+      "side": 1,
+      "message": "- The #9447 character does not render very nicely on my browser.  The X is not centered properly in the circle.  Although it looks OK at http://www.fileformat.info/info/unicode/char/24e7/index.htm\n\n- If the hex code is used instead, i.e. `\u0026#x24e7;` it would make it easier to look up as most unicode tables use hex indexes.\n\n- How about using the upper case version?  http://www.fileformat.info/info/unicode/char/24cd/index.htm",
+      "revId": "f688f29957e08870fe0346c51e183c5691de15e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

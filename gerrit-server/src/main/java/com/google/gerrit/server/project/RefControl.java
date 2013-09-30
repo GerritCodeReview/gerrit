@@ -32,11 +32,14 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import dk.brics.automaton.RegExp;
 
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -44,11 +47,14 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 
 /** Manages access control for Git references (aka branches, tags). */
 public class RefControl {
+  private static final Logger log = LoggerFactory.getLogger(RefControl.class);
+
   private final ProjectControl projectControl;
   private final String refName;
 
@@ -226,12 +232,12 @@ public class RefControl {
 
   /**
    * Determines whether the user can create a new Git ref.
-   *
+   * @param repo
    * @param rw revision pool {@code object} was parsed in.
    * @param object the object the user will start the reference with.
    * @return {@code true} if the user specified can create a new Git ref
    */
-  public boolean canCreate(RevWalk rw, RevObject object) {
+  public boolean canCreate(Repository repo, RevWalk rw, RevObject object) {
     if (!canWrite()) {
       return false;
     }
@@ -247,8 +253,9 @@ public class RefControl {
     }
 
     if (object instanceof RevCommit) {
-      return owner || canPerform(Permission.CREATE);
-
+      return owner
+          || (canPerform(Permission.CREATE) && canReadCommit(repo, rw,
+              (RevCommit) object));
     } else if (object instanceof RevTag) {
       final RevTag tag = (RevTag) object;
       try {
@@ -285,6 +292,25 @@ public class RefControl {
     } else {
       return false;
     }
+  }
+
+  private boolean canReadCommit(Repository repo, RevWalk rw, RevCommit commit) {
+    try {
+      for (Entry<String, Ref> entry : repo.getAllRefs().entrySet()) {
+        RevCommit tip = rw.parseCommit(entry.getValue().getObjectId());
+        if (rw.isMergedInto(commit, tip)
+            && projectControl.controlForRef(entry.getKey()).canPerform(Permission.READ)) {
+          return true;
+        }
+      }
+    } catch (IOException e) {
+      String msg =
+          String.format(
+              "Cannot verify permissions to commit object %s in repository %s",
+              commit.name(), repo.getDirectory());
+      log.error(msg, e);
+    }
+    return projectControl.controlForRef("refs/*").canPerform(Permission.READ);
   }
 
   /**

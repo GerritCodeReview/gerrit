@@ -14,16 +14,27 @@
 
 package com.google.gerrit.client.change;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.account.AccountInfo.AvatarInfo;
+import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.ApprovalInfo;
 import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
+import com.google.gerrit.client.changes.ChangeResources;
+import com.google.gerrit.client.changes.Util;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.ImageResourceRenderer;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
@@ -40,6 +51,48 @@ import java.util.Set;
 
 /** Displays a table of label and reviewer scores. */
 class Labels extends Grid {
+  private static final String DATA_ID = "data-id";
+  private static final String REMOVE;
+
+  static {
+    REMOVE = DOM.createUniqueId().replace('-', '_');
+    init(REMOVE);
+  }
+
+  private static final native void init(String r) /*-{
+    $wnd[r] = $entry(function(e) {
+      @com.google.gerrit.client.change.Labels::onRemove(Lcom/google/gwt/dom/client/NativeEvent;)(e)
+    });
+  }-*/;
+
+  private static void onRemove(NativeEvent event) {
+    Integer user = getDataId(event);
+    if (user != null) {
+      final ChangeScreen2 screen = ChangeScreen2.get(event);
+      ChangeApi.reviewer(screen.getChangeId().get(), user).delete(
+          new GerritCallback<JavaScriptObject>() {
+            @Override
+            public void onSuccess(JavaScriptObject result) {
+              if (screen.isCurrentView()) {
+                Gerrit.display(PageLinks.toChange(screen.getChangeId()));
+              }
+            }
+          });
+    }
+  }
+
+  private static Integer getDataId(NativeEvent event) {
+    Element e = event.getEventTarget().cast();
+    while (e != null) {
+      String v = e.getAttribute(DATA_ID);
+      if (!v.isEmpty()) {
+        return Integer.parseInt(v);
+      }
+      e = e.getParentElement();
+    }
+    return null;
+  }
+
   private ChangeScreen2.Style style;
   private Element statusText;
 
@@ -124,7 +177,8 @@ class Labels extends Grid {
         html.setStyleName(style.label_reject());
       }
       html.append(val).append(" ");
-      html.append(formatUserList(style, m.get(v)));
+      html.append(formatUserList(style, m.get(v),
+          Collections.<Integer> emptySet()));
       html.closeSpan();
     }
     return html.toBlockWidget();
@@ -169,7 +223,8 @@ class Labels extends Grid {
   }
 
   static SafeHtml formatUserList(ChangeScreen2.Style style,
-      Collection<? extends AccountInfo> in) {
+      Collection<? extends AccountInfo> in,
+      Set<Integer> removable) {
     List<AccountInfo> users = new ArrayList<AccountInfo>(in);
     Collections.sort(users, new Comparator<AccountInfo>() {
       @Override
@@ -210,9 +265,11 @@ class Labels extends Grid {
 
       html.openSpan();
       html.setAttribute("role", "listitem");
+      html.setAttribute(DATA_ID, ai._account_id());
       html.setStyleName(style.label_user());
       if (img != null) {
         html.openElement("img");
+        html.setStyleName(style.avatar());
         html.setAttribute("src", img.url());
         if (img.width() > 0) {
           html.setAttribute("width", img.width());
@@ -223,6 +280,12 @@ class Labels extends Grid {
         html.closeSelf();
       }
       html.append(name);
+      if (removable.contains(ai._account_id())) {
+        html.openElement("button");
+        html.setAttribute("title", Util.M.removeReviewer(name));
+        html.setAttribute("onclick", REMOVE + "(event)");
+        html.append(new ImageResourceRenderer().render(Resources.I.remove_reviewer()));
+      }
       html.closeSpan();
     }
     return html;

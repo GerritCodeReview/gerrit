@@ -106,6 +106,14 @@ public class SafeHtmlBuilder extends SafeHtml {
   }
 
   /** Append already safe HTML as-is, avoiding double escaping. */
+  public SafeHtmlBuilder append(com.google.gwt.safehtml.shared.SafeHtml in) {
+    if (in != null) {
+      cb.append(in.asString());
+    }
+    return this;
+  }
+
+  /** Append already safe HTML as-is, avoiding double escaping. */
   public SafeHtmlBuilder append(final SafeHtml in) {
     if (in != null) {
       cb.append(in.asString());

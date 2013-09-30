@@ -180,11 +180,19 @@ limitations under the License.
       border: 1px solid trimColor;
       white-space: nowrap;
     }
-    .label_user img {
+    .label_user img.avatar {
       margin: 0 2px 0 0;
       width: 16px;
       height: 16px;
       vertical-align: bottom;
+    }
+    .label_user button {
+      cursor: pointer;
+      padding: 0;
+      margin: 0 0 0 5px;
+      border: 0;
+      background-color: transparent;
+      white-space: nowrap;
     }
 
     .label_ok {color: #060;}

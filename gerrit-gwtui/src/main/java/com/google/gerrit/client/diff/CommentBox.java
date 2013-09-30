@@ -103,6 +103,7 @@ abstract class CommentBox extends Composite {
   void setOpen(boolean open) {
     resizePaddingWidget();
     setRangeHighlight(open);
+    getCm().focus();
   }
 
   PaddingManager getPaddingManager() {

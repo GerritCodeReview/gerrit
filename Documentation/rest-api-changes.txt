@@ -171,6 +171,12 @@ default. Optional fields are:
 * `ALL_REVISIONS`: describe all revisions, not just current.
 --
 
+[[draft_comments]]
+--
+* `DRAFT_COMMENTS`: include the `has_draft_comments` field for
+  revisions. Only valid when the `CURRENT_REVISION` or `ALL_REVISIONS`
+  option is selected.
+
 [[current-commit]]
 --
 * `CURRENT_COMMIT`: parse and output all header fields from the
@@ -3138,6 +3144,9 @@ The `RevisionInfo` entity contains information about a patch set.
 |===========================
 |Field Name    ||Description
 |`draft`       |not set if `false`|Whether the patch set is a draft.
+|`has_draft_comments`       |not set if `false`|Whether the patch
+set has one or more draft comments. Only set if
+link:#draft_comments[draft comments] is requested.
 |`_number`     ||The patch set number.
 |`fetch`       ||
 Information about how to fetch this patch set. The fetch information is

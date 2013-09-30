@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c44377e0_bdaa3f76",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-30T12:42:01Z",
+      "side": 1,
+      "message": "The returned JSON entities should be documented.",
+      "range": {
+        "startLine": 172,
+        "startChar": 2,
+        "endLine": 181,
+        "endChar": 3
+      },
+      "revId": "d3cfc75458e58b077b8f944bb211533a425b0ac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c44377e0_9da503ab",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-30T12:42:01Z",
+      "side": 1,
+      "message": "The indention in this example is wrong and the example box is not closed. Also this is the wrong place for the endpoint description. It should be above the description of the capability-info. In all REST API documentation files, we first described all the endpoints, then the IDs and then the JSON entities, we should have the same ordering here.",
+      "revId": "d3cfc75458e58b077b8f944bb211533a425b0ac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c44377e0_5d90db4c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-30T12:42:01Z",
+      "side": 1,
+      "message": "Is refreshedMenuBar now executed twice? Once normally and once after the topMenus have been fetched?\n\nI think the fetching of the topMenus should rather be done inside the refreshedMenuBar method. Otherwise if I load a new plugin with a top menu during Gerrit runtime, would it appear in the menu?",
+      "revId": "d3cfc75458e58b077b8f944bb211533a425b0ac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04690f74_471fae74",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/ConfigServerApi.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-30T12:42:01Z",
+      "side": 1,
+      "message": "[optional] Would \n  new RestApi(\"/config/server/top-menus\").get(cb);\nbe shorter?",
+      "revId": "d3cfc75458e58b077b8f944bb211533a425b0ac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04690f74_671c327f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListTopMenus.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-09-30T12:42:01Z",
+      "side": 1,
+      "message": "These exceptions are never thrown and should be removed from the method declaration.",
+      "range": {
+        "startLine": 37,
+        "startChar": 54,
+        "endLine": 38,
+        "endChar": 52
+      },
+      "revId": "d3cfc75458e58b077b8f944bb211533a425b0ac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -15,6 +15,7 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.changes.ChangeInfo.IncludedInInfo;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -132,6 +133,20 @@ public class ChangeApi {
   public static void publish(int id, String commit, AsyncCallback<JavaScriptObject> cb) {
     JavaScriptObject in = JavaScriptObject.createObject();
     call(id, commit, "publish").post(in, cb);
+  }
+
+  /** Toggle the WIP state for a specific change. */
+  public static void wip(int id, String msg, GerritCallback<JavaScriptObject> cb) {
+    Input input = Input.create();
+    input.message(emptyToNull(msg));
+    call(id, "wip").post(input, cb);
+  }
+
+  /** Toggle the Ready state for a specific change. */
+  public static void ready(int id, String msg, GerritCallback<JavaScriptObject> cb) {
+    Input input = Input.create();
+    input.message(emptyToNull(msg));
+    call(id, "ready").post(input, cb);
   }
 
   /** Delete a specific draft change. */

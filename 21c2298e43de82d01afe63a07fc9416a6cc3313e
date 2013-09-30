@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "04690f74_c7e15e48",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-30T05:44:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "844dff11_1bf6dbbb",
+      "revId": "21c2298e43de82d01afe63a07fc9416a6cc3313e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "241613dd_180fc5f1",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
         "patchSetId": 6
@@ -36,6 +54,24 @@
       "writtenOn": "2013-09-29T23:29:30Z",
       "side": 1,
       "message": "Please cluster with STATUS_DRAFT so it appears before MAX_OPEN.",
+      "revId": "21c2298e43de82d01afe63a07fc9416a6cc3313e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c44377e0_9d1ae335",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-30T05:44:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "241613dd_180fc5f1",
       "revId": "21c2298e43de82d01afe63a07fc9416a6cc3313e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +95,24 @@
         "endLine": 46,
         "endChar": 5
       },
+      "revId": "21c2298e43de82d01afe63a07fc9416a6cc3313e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04690f74_e7e6e25d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ReviewerPredicate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-09-30T05:44:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "241613dd_380c09fa",
       "revId": "21c2298e43de82d01afe63a07fc9416a6cc3313e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

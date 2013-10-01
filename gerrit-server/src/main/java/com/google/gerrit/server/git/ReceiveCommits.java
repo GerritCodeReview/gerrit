@@ -1684,12 +1684,12 @@ public class ReceiveCommits {
       if (!validCommit(changeCtl.getRefControl(), inputCommand, newCommit)) {
         return false;
       }
+      rp.getRevWalk().parseBody(priorCommit);
 
       // Don't allow the same tree if the commit message is unmodified
       // or no parents were updated (rebase), else warn that only part
       // of the commit was modified.
       if (newCommit.getTree() == priorCommit.getTree()) {
-        rp.getRevWalk().parseBody(priorCommit);
         final boolean messageEq =
             eq(newCommit.getFullMessage(), priorCommit.getFullMessage());
         final boolean parentsEq = parentsEqual(newCommit, priorCommit);

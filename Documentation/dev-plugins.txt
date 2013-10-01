@@ -174,6 +174,16 @@ manifest_entries = [
 ]
 ----
 
+A plugin can get its own name injected at runtime:
+
+[source,java]
+----
+import com.google.gerrit.extensions.annotations.PluginName;
+
+@Inject
+private @PluginName String pluginName;
+----
+
 [[reload_method]]
 Reload Method
 ~~~~~~~~~~~~~

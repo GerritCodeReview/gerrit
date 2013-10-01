@@ -14,15 +14,18 @@
 
 package com.google.gerrit.lucene;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.index.IndexRewriteImpl.CLOSED_STATUSES;
 import static com.google.gerrit.server.index.IndexRewriteImpl.OPEN_STATUSES;
 
 import com.google.common.base.Function;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.ListeningScheduledExecutorService;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
@@ -33,6 +36,7 @@ import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.ChangeField.ChangeProtoField;
 import com.google.gerrit.server.index.ChangeField.PatchSetApprovalProtoField;
 import com.google.gerrit.server.index.ChangeIndex;
+import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.FieldType;
@@ -84,9 +88,8 @@ import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
 
 /**
  * Secondary index implementation using Apache Lucene.
@@ -100,20 +103,37 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final Logger log =
       LoggerFactory.getLogger(LuceneChangeIndex.class);
 
-  public static final Version LUCENE_VERSION = Version.LUCENE_43;
   public static final String CHANGES_OPEN = "open";
   public static final String CHANGES_CLOSED = "closed";
   private static final String ID_FIELD = ChangeField.LEGACY_ID.getName();
   private static final String CHANGE_FIELD = ChangeField.CHANGE.getName();
   private static final String APPROVAL_FIELD = ChangeField.APPROVAL.getName();
 
+  private static final Map<Schema<ChangeData>, Version> LUCENE_VERSIONS;
+  static {
+    ImmutableMap.Builder<Schema<ChangeData>, Version> versions =
+        ImmutableMap.builder();
+    @SuppressWarnings("deprecation")
+    Version lucene43 = Version.LUCENE_43;
+    for (Map.Entry<Integer, Schema<ChangeData>> e
+        : ChangeSchemas.ALL.entrySet()) {
+      if (e.getKey() <= 3) {
+        versions.put(e.getValue(), lucene43);
+      } else {
+        versions.put(e.getValue(), Version.LUCENE_44);
+      }
+    }
+    LUCENE_VERSIONS = versions.build();
+  }
+
   static interface Factory {
     LuceneChangeIndex create(Schema<ChangeData> schema, String base);
   }
 
-  private static IndexWriterConfig getIndexWriterConfig(Config cfg, String name) {
-    IndexWriterConfig writerConfig = new IndexWriterConfig(LUCENE_VERSION,
-        new StandardAnalyzer(LUCENE_VERSION, CharArraySet.EMPTY_SET));
+  private static IndexWriterConfig getIndexWriterConfig(Version version,
+      Config cfg, String name) {
+    IndexWriterConfig writerConfig = new IndexWriterConfig(version,
+        new StandardAnalyzer(version, CharArraySet.EMPTY_SET));
     writerConfig.setOpenMode(OpenMode.CREATE_OR_APPEND);
     double m = 1 << 20;
     writerConfig.setRAMBufferSizeMB(cfg.getLong("index", name, "ramBufferSize",
@@ -125,7 +145,7 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   private final SitePaths sitePaths;
   private final FillArgs fillArgs;
-  private final ExecutorService executor;
+  private final ListeningExecutorService executor;
   private final File dir;
   private final Schema<ChangeData> schema;
   private final SubIndex openIndex;
@@ -149,15 +169,18 @@ public class LuceneChangeIndex implements ChangeIndex {
     } else {
       dir = new File(base);
     }
+    Version luceneVersion = checkNotNull(
+        LUCENE_VERSIONS.get(schema),
+        "unknown Lucene version for index schema: %s", schema);
     openIndex = new SubIndex(new File(dir, CHANGES_OPEN),
-        getIndexWriterConfig(cfg, "changes_open"));
+        getIndexWriterConfig(luceneVersion, cfg, "changes_open"));
     closedIndex = new SubIndex(new File(dir, CHANGES_CLOSED),
-        getIndexWriterConfig(cfg, "changes_closed"));
+        getIndexWriterConfig(luceneVersion, cfg, "changes_closed"));
   }
 
   @Override
   public void close() {
-    List<Future<?>> closeFutures = Lists.newArrayListWithCapacity(2);
+    List<ListenableFuture<?>> closeFutures = Lists.newArrayListWithCapacity(2);
     closeFutures.add(executor.submit(new Runnable() {
       @Override
       public void run() {
@@ -170,9 +193,7 @@ public class LuceneChangeIndex implements ChangeIndex {
         closedIndex.close();
       }
     }));
-    for (Future<?> future : closeFutures) {
-      Futures.getUnchecked(future);
-    }
+    Futures.getUnchecked(Futures.allAsList(closeFutures));
   }
 
   @Override

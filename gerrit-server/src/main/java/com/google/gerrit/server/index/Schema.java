@@ -15,6 +15,7 @@
 package com.google.gerrit.server.index;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableMap;
 
 /** Specific version of a secondary index schema. */
@@ -49,6 +50,13 @@ public class Schema<T> {
 
   public final ImmutableMap<String, FieldDef<T, ?>> getFields() {
     return fields;
+  }
+
+  @Override
+  public String toString() {
+    return Objects.toStringHelper(this)
+        .addValue(fields.keySet())
+        .toString();
   }
 
   void setVersion(int version) {

@@ -2,9 +2,9 @@ include_defs('//lib/maven.defs')
 
 maven_jar(
   name = 'core',
-  id = 'org.apache.lucene:lucene-core:4.3.0',
-  bin_sha1 = 'd4e40fe5661b8de5d8c66db3d63a47b6b3ecf7f3',
-  src_sha1 = '86c29288b1930e33ba7ffea1b866af9a52d3d24a',
+  id = 'org.apache.lucene:lucene-core:4.4.0',
+  bin_sha1 = 'a9a0b553d5f2444aea3340b22753ea4bbddaa0af',
+  src_sha1 = 'd321e15f688066a3c3598607303e0de452a076da',
   license = 'Apache2.0',
   exclude = [
     'META-INF/LICENSE.txt',
@@ -14,9 +14,9 @@ maven_jar(
 
 maven_jar(
   name = 'analyzers-common',
-  id = 'org.apache.lucene:lucene-analyzers-common:4.3.0',
-  bin_sha1 = 'e7c3976156d292f696016e138b67ab5e6bfc1a56',
-  src_sha1 = '3606622b3c1f09b4b7cf34070cbf60d414af9b6b',
+  id = 'org.apache.lucene:lucene-analyzers-common:4.4.0',
+  bin_sha1 = 'f58f6b727293b2d4392064db8c91fdf1d0eb4ffe',
+  src_sha1 = '60176bb63009f41104b42656b20c81b66313e7b5',
   license = 'Apache2.0',
   exclude = [
     'META-INF/LICENSE.txt',
@@ -26,17 +26,17 @@ maven_jar(
 
 maven_jar(
   name = 'highlighter',
-  id = 'org.apache.lucene:lucene-highlighter:4.3.0',
-  bin_sha1 = '9e6d60921e16a0d6b2e609c6a02a8b08cd7f643c',
-  src_sha1 = '0ff70cae1a8fb7af29bf254d90e9885961deed5e',
+  id = 'org.apache.lucene:lucene-highlighter:4.4.0',
+  bin_sha1 = 'c55f402683388c0a71a1dfaaff198873dfe5b1e4',
+  src_sha1 = '3a99f84e4b6a8f74c34b2f2bd076c9b2b46fff2e',
   license = 'Apache2.0',
 )
 
 maven_jar(
   name = 'queries',
-  id = 'org.apache.lucene:lucene-queries:4.3.0',
-  bin_sha1 = '68e01022bdf4f869b95362c9af964846e5d3cf2d',
-  src_sha1 = '3e3541c1b9f44c532ce88ab6a12216566c3399df',
+  id = 'org.apache.lucene:lucene-queries:4.4.0',
+  bin_sha1 = 'c9010f4852345ba2a65163fdeb17b7b653e4a3c4',
+  src_sha1 = 'eefbcd43e66747a412a9f186d183d187405374b8',
   license = 'Apache2.0',
 )
 

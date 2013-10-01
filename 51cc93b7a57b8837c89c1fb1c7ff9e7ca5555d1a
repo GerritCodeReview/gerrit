@@ -63,6 +63,24 @@
       "revId": "51cc93b7a57b8837c89c1fb1c7ff9e7ca5555d1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "41ecd979_6171169c",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-01T18:39:55Z",
+      "side": 1,
+      "message": "Where is this change updates polling feature announced (excerpt from config-gerrit.txt)?\n\n [[change]]Section change\n~~~~~~~~~~~~~~~~~~~~~~~~~\n\n [[change.updateDelay]]change.updateDelay::\n\n\nHow often in seconds the web interface should poll for updates to the\ncurrently open change.  The poller relies on the client\u0027s browser\ncache to use If-Modified-Since and respect `304 Not Modified` HTTP\nreponses.  This allows for fast polls, often under 8 milliseconds.\n\n\nWith a configured 30 second delay a server with 4900 active users will\ntypically need to dedicate 1 CPU to the update check.  4900 users\ndivided by an average delay of 30 seconds is 163 requests arriving per\nsecond.  If requests are served at ~6 ms response time, 1 CPU is\nnecessary to keep up with the update request traffic.  On a smaller\nuser base of 500 active users, the default 30 second delay is only 17\nrequests per second and requires ~10% CPU.",
+      "parentUuid": "84433f33_ab5d4928",
+      "revId": "51cc93b7a57b8837c89c1fb1c7ff9e7ca5555d1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

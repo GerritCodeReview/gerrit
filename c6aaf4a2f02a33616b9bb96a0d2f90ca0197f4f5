@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "04582f19_0f9ae5bc",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 807,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-01T13:19:17Z",
+      "side": 1,
+      "message": "Maybe better to skip the imports then.",
+      "parentUuid": "84433f33_2b979995",
+      "revId": "c6aaf4a2f02a33616b9bb96a0d2f90ca0197f4f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84433f33_4ba4e5f8",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
         "patchSetId": 2

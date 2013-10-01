@@ -16,6 +16,29 @@
       "revId": "51cc93b7a57b8837c89c1fb1c7ff9e7ca5555d1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443787c3_c904512b",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-01T06:31:46Z",
+      "side": 1,
+      "message": "Highlight lines with the mouse and then click the bottom-most line number to create a range comment for the highlighted lines.\n\nAs someone (you?) said on one previous change: we need to add some documentation of the new change screen.",
+      "range": {
+        "startLine": 143,
+        "startChar": 0,
+        "endLine": 146,
+        "endChar": 0
+      },
+      "revId": "51cc93b7a57b8837c89c1fb1c7ff9e7ca5555d1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

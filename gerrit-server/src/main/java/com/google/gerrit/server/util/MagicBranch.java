@@ -51,11 +51,6 @@ public final class MagicBranch {
         || refName.startsWith(NEW_CHANGE);
   }
 
-  /** Checks if the supplied ref name is a magic branch for review */
-  public static boolean isForReview(String refName) {
-    return isMagicBranch(refName);
-  }
-
   /** Returns the ref name prefix for a magic branch, <code>null</code> if the branch is not magic */
   public static String getMagicRefNamePrefix(String refName) {
     if (refName.startsWith(NEW_DRAFT_CHANGE)) {

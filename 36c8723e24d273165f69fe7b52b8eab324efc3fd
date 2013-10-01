@@ -52,6 +52,24 @@
       "revId": "36c8723e24d273165f69fe7b52b8eab324efc3fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84433f33_0b249db9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-10-01T07:07:53Z",
+      "side": 1,
+      "message": "OK, now I got it ;)",
+      "parentUuid": "c44377e0_7da35793",
+      "revId": "36c8723e24d273165f69fe7b52b8eab324efc3fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

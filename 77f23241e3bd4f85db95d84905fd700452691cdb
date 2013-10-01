@@ -16,6 +16,24 @@
       "revId": "77f23241e3bd4f85db95d84905fd700452691cdb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "41ecd979_815ada2d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-01T08:43:51Z",
+      "side": 1,
+      "message": "Good idea. Since this is already merged, can you upload a fix for this?",
+      "parentUuid": "41ecd979_c130e2f5",
+      "revId": "77f23241e3bd4f85db95d84905fd700452691cdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

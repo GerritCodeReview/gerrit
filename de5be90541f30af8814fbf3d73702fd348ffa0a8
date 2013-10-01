@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "04582f19_cf8ffd7a",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-01T10:46:45Z",
+      "side": 1,
+      "message": "Good catch. I think only core capabilities should be listed here.\n\nThis doc was started before replication capability was moved out.",
+      "parentUuid": "41ecd979_e14ac65b",
+      "revId": "de5be90541f30af8814fbf3d73702fd348ffa0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84433f33_cb8ff57a",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2013-10-01T10:44:22Z",
       "side": 1,
       "message": "Another change is pending for review to insert here[1]:\n\n global:Change-Owners                          Change Owners\n\n[1] https://gerrit-review.googlesource.com/48254",
+      "revId": "de5be90541f30af8814fbf3d73702fd348ffa0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04582f19_af8ab96b",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-01T10:46:45Z",
+      "side": 1,
+      "message": "If this documentation change goes in before [1] is merged then [1] should be modified to add the necessary bits here.",
+      "parentUuid": "84433f33_cb8ff57a",
       "revId": "de5be90541f30af8814fbf3d73702fd348ffa0a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -16,6 +16,41 @@
       "revId": "c6aaf4a2f02a33616b9bb96a0d2f90ca0197f4f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84433f33_2b979995",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 807,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-01T11:27:01Z",
+      "side": 1,
+      "message": "Yes. Or more precise if we start to show the imports we should probably have both. \u0027TopMenu\u0027 for the \u0027implements TopMenu\u0027 and \u0027TopMenu.GerritTopMenu\u0027 for the enum.\n\nFor consistency we should then also add \n  import com.google.gerrit.extensions.webui.TopMenu;\nto the example above.",
+      "parentUuid": "443787c3_c98ff17a",
+      "revId": "c6aaf4a2f02a33616b9bb96a0d2f90ca0197f4f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84433f33_4ba4e5f8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-01T11:27:01Z",
+      "side": 1,
+      "message": "During the Buck build this cannot be resolved and the build fails. Can a client class actually depend on the server side extensions package?",
+      "revId": "c6aaf4a2f02a33616b9bb96a0d2f90ca0197f4f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

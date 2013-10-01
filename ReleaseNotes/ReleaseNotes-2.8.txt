@@ -111,6 +111,14 @@ auto-initialized on server startup].
 * link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config_gerrit.html#httpd.filterClass[
 Configurable filtering of HTTP traffic through Gerrit's HTTP protocol].
 
+* Labels can be
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config_labels.html#httpd.label_copyAllScoresIfNoCodeChange[
+configured to copy scores forward to new patch sets if there is no code change].
+
+* Labels can be
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config_labels.html#httpd.label_copyAllScoresOnTrivialRebase[
+configured to copy scores forward to new patch sets for trivial rebases].
+
 Web UI
 ~~~~~~
 
@@ -124,7 +132,7 @@ Change Screens
 ^^^^^^^^^^^^^^
 
 
-* New change screen with completely redesigned UI and using the REST API.
+* New change screen with completely redesigned UI, using the REST API.
 +
 Site administrators can
 link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config-gerrit.html#gerrit.changeScreen[
@@ -132,6 +140,9 @@ configure which change screen is shown by default].
 +
 Users can choose which one to use in their personal preferences, either using
 the site default or explicitly choosing the old one or new one.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=141[Issue 141]:
+In the new change screen, comments can be added on a range of lines.
 
 * New button to cherry-pick the change to another branch.
 
@@ -272,6 +283,9 @@ Delete draft change]
 * link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-changes.html#suggest-reviewers[
 Suggest reviewers]
 
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-changes.html#get-included-in[
+Get included in]
+
 
 Config
 ^^^^^^
@@ -370,7 +384,7 @@ Global capabilities].
 
 * Plugins may now
 link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/dev-plugins.html#plugin_name[
-define their own name].
+define their own name] and get the name injected at runtime.
 
 * The "hello world" plugin is replaced with the "cookbook plugin" which has more
 examples of the plugin API's usage.
@@ -383,6 +397,10 @@ event].
 Plugins implementing LifecycleListener can use auto registration.
 
 * Plugins may bind REST endpoints with empty view names.
+
+* Plugins may now provide
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/dev-plugins.html#top-menu-extensions[
+entries in Gerrit's top menu].
 
 
 Commit Message Length Checker
@@ -525,9 +543,6 @@ Global
 ^^^^^^
 
 
-* link:https://code.google.com/p/gerrit/issues/detail?id=1072[Issue 1072]:
-Fix "Push Merge Commit" permission on refs/heads/*
-
 * link:https://code.google.com/p/gerrit/issues/detail?id=1574[Issue 1574]:
 Correctly highlight matches of text in escaped HTML entities in suggestion results.
 
@@ -607,6 +622,8 @@ Plugins
 ~~~~~~~
 
 * Better error message when a Javascript plugin cannot be loaded.
+
+* Plugin documentation links are opened in a new tab.
 
 Emails
 ~~~~~~

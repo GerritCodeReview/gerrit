@@ -44,6 +44,10 @@ link in `~/bin` to the buckd executable:
   ln -s `pwd`/bin/buckd ~/bin/
 ----
 
+To enable autocompletion of buck commands, install the autocompletion
+script from `./scripts/bash_completion` in the buck project.  Refer to
+the script's header comments for installation instructions.
+
 
 [[eclipse]]
 Eclipse Integration

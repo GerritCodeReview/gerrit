@@ -321,7 +321,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> {
       @SuppressWarnings("unchecked")
       @Override
       Funnel<String> funnel() {
-        Funnel<?> s = Funnels.stringFunnel();
+        Funnel<?> s = Funnels.unencodedCharsFunnel();
         return (Funnel<String>) s;
       }
     };

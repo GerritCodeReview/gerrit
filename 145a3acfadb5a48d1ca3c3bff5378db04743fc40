@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84433f33_ab7389a7",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-01T13:14:25Z",
+      "side": 1,
+      "message": "Is that not deprecated SSH command pattern injection?\nThe new way should be only done with constructor injection.",
+      "revId": "145a3acfadb5a48d1ca3c3bff5378db04743fc40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

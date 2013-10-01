@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84433f33_0b4d7d71",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 838,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-01T08:24:43Z",
+      "side": 1,
+      "message": "[optionally]\n\nBecause db select involved here, we could optionally protect it with own option, a lá has(DRAFT_COMMENT) and only retrieve it if this option provided.\n\nFor example, for polling a change changes, we wouldn\u0027t need this.",
+      "revId": "8de3a6a16b3feffbfcdb817be2137275f653efad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

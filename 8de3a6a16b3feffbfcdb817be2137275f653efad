@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "812fb18b_6be10147",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 838,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-01T19:56:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84433f33_0b4d7d71",
+      "revId": "8de3a6a16b3feffbfcdb817be2137275f653efad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "41ecd979_c147c251",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 5
@@ -48,6 +66,24 @@
       "writtenOn": "2013-10-01T11:14:50Z",
       "side": 1,
       "message": "I would rather name this \u0027hasDraftComments\u0027. Maybe later we would like to include the actual draft comments as map here, and then we would like to name this map \u0027draftComments\u0027?\n\nIn any case this new field should be described in the REST API documentation.\n\nI\u0027m not 100% that it\u0027s good to include this user specific information into RevisionInfo, but I don\u0027t see any better solution.",
+      "revId": "8de3a6a16b3feffbfcdb817be2137275f653efad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "812fb18b_4be64561",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 949,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-01T19:56:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41ecd979_c147c251",
       "revId": "8de3a6a16b3feffbfcdb817be2137275f653efad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

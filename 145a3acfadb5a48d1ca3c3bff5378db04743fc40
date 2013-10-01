@@ -16,6 +16,24 @@
       "revId": "145a3acfadb5a48d1ca3c3bff5378db04743fc40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "41ecd979_e195268a",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-01T14:30:51Z",
+      "side": 1,
+      "message": "It\u0027s not deprecated. Only by convention we prefer not to use this syntax in Gerrit core.\n\nDone",
+      "parentUuid": "84433f33_ab7389a7",
+      "revId": "145a3acfadb5a48d1ca3c3bff5378db04743fc40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

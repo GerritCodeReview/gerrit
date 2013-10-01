@@ -20,7 +20,6 @@ import static com.google.gerrit.acceptance.git.GitUtil.initSsh;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
@@ -92,7 +91,8 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     String changeId = createChange();
     ChangeInfo c = getChangeWithMessages(changeId);
     assertNotNull(c.messages);
-    assertTrue(c.messages.isEmpty());
+    assertEquals(1, c.messages.size());
+    assertEquals("Uploaded patch set 1.", c.messages.get(0).message);
   }
 
   @Test
@@ -105,9 +105,10 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     postMessage(changeId, secondMessage);
     ChangeInfo c = getChangeWithMessages(changeId);
     assertNotNull(c.messages);
-    assertEquals(2, c.messages.size());
-    assertMessage(firstMessage, c.messages.get(0).message);
-    assertMessage(secondMessage, c.messages.get(1).message);
+    assertEquals(3, c.messages.size());
+    assertEquals("Uploaded patch set 1.", c.messages.get(0).message);
+    assertMessage(firstMessage, c.messages.get(1).message);
+    assertMessage(secondMessage, c.messages.get(2).message);
   }
 
   private String createChange() throws GitAPIException,

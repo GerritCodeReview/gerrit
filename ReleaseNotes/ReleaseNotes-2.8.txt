@@ -124,7 +124,7 @@ Change Screens
 ^^^^^^^^^^^^^^
 
 
-* New change screen with completely redesigned UI and using the REST API.
+* New change screen with completely redesigned UI, using the REST API.
 +
 Site administrators can
 link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config-gerrit.html#gerrit.changeScreen[
@@ -132,6 +132,9 @@ configure which change screen is shown by default].
 +
 Users can choose which one to use in their personal preferences, either using
 the site default or explicitly choosing the old one or new one.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=141[Issue 141]:
+In the new change screen, comments can be added on a range of lines.
 
 * New button to cherry-pick the change to another branch.
 

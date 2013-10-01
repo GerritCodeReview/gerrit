@@ -27,6 +27,7 @@
   <inherits name='com.google.gerrit.prettify.PrettyFormatter'/>
   <inherits name='com.google.gerrit.Common'/>
   <inherits name='com.google.gerrit.UserAgent'/>
+  <inherits name='com.google.gerrit.extensions.Extensions'/>
   <inherits name='org.eclipse.jgit.JGit'/>
   <inherits name='net.codemirror.CodeMirror'/>
 

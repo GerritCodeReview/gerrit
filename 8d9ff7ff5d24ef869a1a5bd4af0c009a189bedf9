@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "443787c3_c9529117",
+        "filename": "Documentation/json.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-01T09:21:35Z",
+      "side": 1,
+      "message": "- Add a blank line between this and the previous entry\n\n- Wrap the lines at around 80 characters.",
+      "revId": "8d9ff7ff5d24ef869a1a5bd4af0c009a189bedf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04582f19_cf529d17",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/data/ChangeAttribute.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-01T09:21:35Z",
+      "side": 1,
+      "message": "Put a blank line before this, and no blank line before java.util.List.",
+      "revId": "8d9ff7ff5d24ef869a1a5bd4af0c009a189bedf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04582f19_ef576104",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-01T09:21:35Z",
+      "side": 1,
+      "message": "Add a blank line before the new method.",
+      "revId": "8d9ff7ff5d24ef869a1a5bd4af0c009a189bedf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443787c3_094d8971",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-01T09:21:35Z",
+      "side": 1,
+      "message": "Wrap this line.",
+      "revId": "8d9ff7ff5d24ef869a1a5bd4af0c009a189bedf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443787c3_e9575504",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-01T09:21:35Z",
+      "side": 1,
+      "message": "Put the newline back.",
+      "revId": "8d9ff7ff5d24ef869a1a5bd4af0c009a189bedf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04582f19_af5d5928",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Query.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-01T09:21:35Z",
+      "side": 1,
+      "message": "- Add a blank line above\n\n- Remove \"for a change\".  The output is always related to changes, so this is redundant.\n\n- The new option should be documented in Documentation/cmd-query.txt",
+      "revId": "8d9ff7ff5d24ef869a1a5bd4af0c009a189bedf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

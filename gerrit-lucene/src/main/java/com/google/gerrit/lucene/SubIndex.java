@@ -22,12 +22,12 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
+import org.apache.lucene.index.TrackingIndexWriter;
+import org.apache.lucene.search.ControlledRealTimeReopenThread;
 import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.NRTManager;
-import org.apache.lucene.search.NRTManager.TrackingIndexWriter;
-import org.apache.lucene.search.NRTManagerReopenThread;
 import org.apache.lucene.search.ReferenceManager.RefreshListener;
 import org.apache.lucene.search.SearcherFactory;
+import org.apache.lucene.search.SearcherManager;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.slf4j.Logger;
@@ -48,17 +48,18 @@ class SubIndex {
 
   private final Directory dir;
   private final TrackingIndexWriter writer;
-  private final NRTManager nrtManager;
-  private final NRTManagerReopenThread reopenThread;
+  private final SearcherManager searcherManager;
+  private final ControlledRealTimeReopenThread<IndexSearcher> reopenThread;
   private final ConcurrentMap<RefreshListener, Boolean> refreshListeners;
 
   SubIndex(File file, IndexWriterConfig writerConfig) throws IOException {
     dir = FSDirectory.open(file);
-    writer = new NRTManager.TrackingIndexWriter(new IndexWriter(dir, writerConfig));
-    nrtManager = new NRTManager(writer, new SearcherFactory());
+    writer = new TrackingIndexWriter(new IndexWriter(dir, writerConfig));
+    searcherManager = new SearcherManager(
+        writer.getIndexWriter(), true, new SearcherFactory());
 
     refreshListeners = Maps.newConcurrentMap();
-    nrtManager.addListener(new RefreshListener() {
+    searcherManager.addListener(new RefreshListener() {
       @Override
       public void beforeRefresh() throws IOException {
       }
@@ -71,8 +72,8 @@ class SubIndex {
       }
     });
 
-    reopenThread = new NRTManagerReopenThread(
-        nrtManager,
+    reopenThread = new ControlledRealTimeReopenThread<IndexSearcher>(
+        writer, searcherManager,
         0.500 /* maximum stale age (seconds) */,
         0.010 /* minimum stale age (seconds) */);
     reopenThread.setName("NRT " + file.getName());
@@ -86,12 +87,8 @@ class SubIndex {
   void close() {
     reopenThread.close();
     try {
-      nrtManager.close();
-    } catch (IOException e) {
-      log.warn("error closing Lucene searcher", e);
-    }
-    try {
-      writer.getIndexWriter().close();
+      writer.getIndexWriter().commit();
+      writer.getIndexWriter().close(true);
     } catch (IOException e) {
       log.warn("error closing Lucene writer", e);
     }
@@ -119,11 +116,11 @@ class SubIndex {
   }
 
   IndexSearcher acquire() throws IOException {
-    return nrtManager.acquire();
+    return searcherManager.acquire();
   }
 
   void release(IndexSearcher searcher) throws IOException {
-    nrtManager.release(searcher);
+    searcherManager.release(searcher);
   }
 
   private final class NrtFuture extends AbstractFuture<Void>
@@ -138,7 +135,7 @@ class SubIndex {
     @Override
     public Void get() throws InterruptedException, ExecutionException {
       if (!isDone()) {
-        nrtManager.waitForGeneration(gen);
+        reopenThread.waitForGeneration(gen);
         set(null);
       }
       return super.get();
@@ -148,7 +145,8 @@ class SubIndex {
     public Void get(long timeout, TimeUnit unit) throws InterruptedException,
         TimeoutException, ExecutionException {
       if (!isDone()) {
-        nrtManager.waitForGeneration(gen, timeout, unit);
+        reopenThread.waitForGeneration(gen,
+            (int) TimeUnit.MILLISECONDS.convert(timeout, unit));
         set(null);
       }
       return super.get(timeout, unit);
@@ -158,7 +156,7 @@ class SubIndex {
     public boolean isDone() {
       if (super.isDone()) {
         return true;
-      } else if (gen <= nrtManager.getCurrentSearchingGen()) {
+      } else if (isSearcherCurrent()) {
         set(null);
         return true;
       }
@@ -168,7 +166,7 @@ class SubIndex {
     @Override
     public void addListener(Runnable listener, Executor executor) {
       if (hasListeners.compareAndSet(false, true) && !isDone()) {
-        nrtManager.addListener(this);
+        searcherManager.addListener(this);
       }
       super.addListener(listener, executor);
     }
@@ -187,9 +185,18 @@ class SubIndex {
 
     @Override
     public void afterRefresh(boolean didRefresh) throws IOException {
-      if (gen <= nrtManager.getCurrentSearchingGen()) {
+      if (isSearcherCurrent()) {
         refreshListeners.remove(this);
         set(null);
+      }
+    }
+
+    private boolean isSearcherCurrent() {
+      try {
+        return reopenThread.waitForGeneration(gen, 0);
+      } catch (InterruptedException e) {
+        log.warn("Interrupted waiting for searcher generation", e);
+        return false;
       }
     }
   }

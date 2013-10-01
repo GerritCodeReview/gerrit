@@ -25,6 +25,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Map;
 
 /** Secondary index schemas for changes. */
@@ -93,8 +94,15 @@ public class ChangeSchemas {
         ChangeField.CHANGE,
         ChangeField.APPROVAL);
 
+  // For upgrade to Lucene 4.4.0 index format only.
+  static final Schema<ChangeData> V4 = release(V3.getFields().values());
+
+  private static Schema<ChangeData> release(Collection<FieldDef<ChangeData, ?>> fields) {
+    return new Schema<ChangeData>(true, fields);
+  }
+
   private static Schema<ChangeData> release(FieldDef<ChangeData, ?>... fields) {
-    return new Schema<ChangeData>(true, Arrays.asList(fields));
+    return release(Arrays.asList(fields));
   }
 
   @SuppressWarnings("unused")

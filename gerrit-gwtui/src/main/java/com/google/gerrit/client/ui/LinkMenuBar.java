@@ -44,6 +44,10 @@ public class LinkMenuBar extends Composite implements ScreenLoadHandler {
     add(i);
   }
 
+  public void insertItem(final LinkMenuItem i, int beforeIndex) {
+    insert(i, beforeIndex);
+  }
+
   public void clear() {
     body.clear();
   }
@@ -66,6 +70,18 @@ public class LinkMenuBar extends Composite implements ScreenLoadHandler {
       p.addStyleName(Gerrit.RESOURCES.css().linkMenuItemNotLast());
     }
     body.add(i);
+  }
+
+  public void insert(final Widget i, int beforeIndex) {
+    if (body.getWidgetCount() == 0 || body.getWidgetCount() <= beforeIndex) {
+      add(i);
+      return;
+    }
+    body.insert(i, beforeIndex);
+  }
+
+  public int getWidgetIndex(Widget i) {
+    return body.getWidgetIndex(i);
   }
 
   public void onScreenLoad(ScreenLoadEvent event) {

@@ -34,6 +34,24 @@
       "revId": "a4aafa02dac8a83b78371a9f075c33465791c3bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44806779_c10fe243",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 980,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-01T03:10:36Z",
+      "side": 1,
+      "message": "The other cases use \"entries\" rather than \"entities\".  OK.  But in the other cases the context is:\n\n As result a list of link:#abc[ABC] entries is returned\n\nI.e. returning a list containing more than one.  In this case it only returns one entry, so it should be singular:\n\n an link:#included-in-info[IncludedInInfo] entry is returned",
+      "parentUuid": "846edfae_93e1bc49",
+      "revId": "a4aafa02dac8a83b78371a9f075c33465791c3bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

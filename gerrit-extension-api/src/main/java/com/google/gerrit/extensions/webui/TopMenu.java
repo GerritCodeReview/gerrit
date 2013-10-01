@@ -20,10 +20,24 @@ import java.util.List;
 
 @ExtensionPoint
 public interface TopMenu {
+  public enum GerritTopMenus {
+    ALL("All"), MY("My"), DIFFERENCES("Differences"), PROJECTS("Projects"),
+    PEOPLE("People"), PLUGINS("Plugins"), DOCUMENTATION("Documentation");
+
+    public final String menuName;
+
+    private GerritTopMenus(String name) {
+      menuName = name;
+    }
+  }
 
   public class MenuEntry {
     public final String name;
     public final List<MenuItem> items;
+
+    public MenuEntry(GerritTopMenus gerritMenu, List<MenuItem> items) {
+      this(gerritMenu.menuName, items);
+    }
 
     public MenuEntry(String name, List<MenuItem> items) {
       this.name = name;

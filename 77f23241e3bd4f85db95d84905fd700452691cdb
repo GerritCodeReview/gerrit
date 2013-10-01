@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "41ecd979_c130e2f5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-10-01T08:42:36Z",
+      "side": 1,
+      "message": "I would prefer to have those in one enum somewhere in extensions API so that clients can use it like:\n\n new MenuEntry(GerritMenuEntires.All.name(), Lists.newArrayList(new MenuItem(\"Browse Repositories\", \"https://gerrit.googlesource.com/\")));",
+      "revId": "77f23241e3bd4f85db95d84905fd700452691cdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

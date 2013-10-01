@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "443787c3_49006119",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RevisionsBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-01T05:46:01Z",
+      "side": 1,
+      "message": "It would be better if we could use the same graphic as used on the old change screen.",
+      "revId": "833c0d5a66f03fe72f6fb4e46dc0058835c10830",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

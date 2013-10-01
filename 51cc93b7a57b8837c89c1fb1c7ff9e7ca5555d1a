@@ -39,6 +39,30 @@
       "revId": "51cc93b7a57b8837c89c1fb1c7ff9e7ca5555d1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84433f33_ab5d4928",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-01T08:05:45Z",
+      "side": 1,
+      "message": "Yes it was me. Will do. I was working on WIP Workflow, so that it is still in the pipe.",
+      "parentUuid": "443787c3_c904512b",
+      "range": {
+        "startLine": 143,
+        "startChar": 0,
+        "endLine": 146,
+        "endChar": 0
+      },
+      "revId": "51cc93b7a57b8837c89c1fb1c7ff9e7ca5555d1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

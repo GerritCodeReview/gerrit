@@ -284,6 +284,12 @@ Fixes that are known to be needed for a particular release should be pushed
 for review on that release's stable branch.  It will then be included in
 the master branch when the stable branch is merged back.
 
+Vote CR-2 and disappear
+~~~~~~~~~~~~~~~~~~~~~~~
+
+If someone vote CR-2 and "disappears", even then when all comments were
+addressed, then this vote can be removed by another maintainer to approve that
+change. This is of course done only if this is really justified.
 
 GERRIT
 ------

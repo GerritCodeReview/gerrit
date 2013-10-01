@@ -70,6 +70,7 @@ gwt_module(
     '//gerrit-gwtexpui:SafeHtml',
     '//gerrit-gwtexpui:UserAgent',
     '//gerrit-common:client',
+    '//gerrit-extension-api:client',
     '//gerrit-patch-jgit:client',
     '//gerrit-prettify:client',
     '//gerrit-reviewdb:client',
@@ -117,6 +118,7 @@ java_test(
   deps = [
     ':ui_module',
     '//gerrit-common:client',
+    '//gerrit-extension-api:client',
     '//lib:junit',
     '//lib/gwt:dev',
     '//lib/gwt:user',

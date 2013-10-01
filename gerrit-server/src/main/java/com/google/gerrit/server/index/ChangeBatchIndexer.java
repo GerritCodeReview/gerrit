@@ -126,7 +126,7 @@ public class ChangeBatchIndexer {
     PrintWriter verboseWriter = verboseOut != null ? new PrintWriter(verboseOut)
         : null;
 
-    Stopwatch sw = new Stopwatch().start();
+    Stopwatch sw = Stopwatch.createStarted();
     final MultiProgressMonitor mpm =
         new MultiProgressMonitor(progressOut, "Reindexing changes");
     final Task projTask = mpm.beginSubTask("projects",

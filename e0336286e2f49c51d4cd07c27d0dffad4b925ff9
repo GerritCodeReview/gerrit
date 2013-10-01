@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "615e3d2d_2aebff28",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/data/ChangeAttribute.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-01T20:12:26Z",
+      "side": 1,
+      "message": "s/ArrayList/List",
+      "revId": "e0336286e2f49c51d4cd07c27d0dffad4b925ff9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "812fb18b_ebf4d103",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-01T20:12:26Z",
+      "side": 1,
+      "message": "s/currentreviewers/addCurrentReviewers",
+      "revId": "e0336286e2f49c51d4cd07c27d0dffad4b925ff9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "615e3d2d_0af03b0d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-01T20:12:26Z",
+      "side": 1,
+      "message": "Either\n\n a.currentReviewers \u003d Lists.newArrayList();\n\nor even better:\n\n a.currentReviewers \u003d Lists.newArrayListWithCapacity(n);",
+      "revId": "e0336286e2f49c51d4cd07c27d0dffad4b925ff9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "615e3d2d_eaf4c703",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-01T20:12:26Z",
+      "side": 1,
+      "message": "NullPointerException? You passed null for approvals on line 317 in QueryProcessor.java. Can it be, that you only tested the case, that the change has reviewers?",
+      "revId": "e0336286e2f49c51d4cd07c27d0dffad4b925ff9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "812fb18b_2bebf928",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-01T20:12:26Z",
+      "side": 1,
+      "message": "I am not happy with this indentation.\n\n ChangeResource rsrc \u003d\n     new ChangeResource(changeControlFactory\n          .controlFor(d.getChange()));",
+      "revId": "e0336286e2f49c51d4cd07c27d0dffad4b925ff9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "812fb18b_0bf03d0d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-01T20:12:26Z",
+      "side": 1,
+      "message": "We indent ? operator like this:\n\n eventFactory.currentreviewers(c, rsrc, includeApprovals\n     ? d.approvalsMap(db).asMap()\n     : null);",
+      "revId": "e0336286e2f49c51d4cd07c27d0dffad4b925ff9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

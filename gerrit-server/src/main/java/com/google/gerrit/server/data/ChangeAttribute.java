@@ -16,6 +16,7 @@ package com.google.gerrit.server.data;
 
 import com.google.gerrit.reviewdb.client.Change;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChangeAttribute {
@@ -43,4 +44,5 @@ public class ChangeAttribute {
     public List<DependencyAttribute> dependsOn;
     public List<DependencyAttribute> neededBy;
     public List<SubmitRecordAttribute> submitRecords;
+    public ArrayList<AccountAttribute> currentReviewers;
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "04582f19_0f4d8571",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-01T10:01:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca961906_7eee7142",
+      "revId": "11587b8bc06bc8c7b9bf4b97f70332aaeff8a161",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8aa0a15b_5ce93d37",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2013-06-14T17:57:41Z",
       "side": 1,
       "message": "To be fair, reviewing of ACL updates is available from the GUI too.",
+      "revId": "11587b8bc06bc8c7b9bf4b97f70332aaeff8a161",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443787c3_a98abd6b",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-01T10:01:19Z",
+      "side": 1,
+      "message": "Not done yet.",
+      "parentUuid": "8aa0a15b_5ce93d37",
       "revId": "11587b8bc06bc8c7b9bf4b97f70332aaeff8a161",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "04582f19_2f4a495a",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-01T10:01:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a8309c5_626256ee",
+      "revId": "11587b8bc06bc8c7b9bf4b97f70332aaeff8a161",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca961906_1ef3ad25",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 6
@@ -64,6 +118,24 @@
       "writtenOn": "2013-06-14T17:57:41Z",
       "side": 1,
       "message": "According to the section below there are more keys than \u0027description\u0027.",
+      "revId": "11587b8bc06bc8c7b9bf4b97f70332aaeff8a161",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04582f19_4f478d51",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-01T10:01:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca961906_1ef3ad25",
       "revId": "11587b8bc06bc8c7b9bf4b97f70332aaeff8a161",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "443787c3_49478151",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-01T10:01:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a8309c5_82675afb",
+      "revId": "11587b8bc06bc8c7b9bf4b97f70332aaeff8a161",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8aa0a15b_7cee7942",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 6
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "443787c3_6944454c",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-01T10:01:19Z",
+      "side": 1,
+      "message": "Can be done in a separate change?",
+      "parentUuid": "8aa0a15b_7cee7942",
+      "revId": "11587b8bc06bc8c7b9bf4b97f70332aaeff8a161",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca961906_3ef8e9fe",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 6
@@ -115,6 +223,24 @@
       "writtenOn": "2013-06-14T17:57:41Z",
       "side": 1,
       "message": "If the section is named \u0027capability\u0027 I think that\u0027s what the headline should say too.",
+      "revId": "11587b8bc06bc8c7b9bf4b97f70332aaeff8a161",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443787c3_8985f960",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-01T10:01:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca961906_3ef8e9fe",
       "revId": "11587b8bc06bc8c7b9bf4b97f70332aaeff8a161",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04582f19_cf045d2b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RevisionsBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-01T06:39:08Z",
+      "side": 1,
+      "message": "Nit: the old screen has a title \"Draft comment(s) inside)\".\n\nCan that also be added here?",
+      "range": {
+        "startLine": 186,
+        "startChar": 7,
+        "endLine": 186,
+        "endChar": 19
+      },
+      "revId": "d617a2bf33dd8b8b196f15f0788dfbcfb0495630",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

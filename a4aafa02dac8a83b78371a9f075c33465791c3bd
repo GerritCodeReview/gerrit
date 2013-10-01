@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "647bab60_42f3d21c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 980,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-01T02:57:22Z",
+      "side": 1,
+      "message": "\"an link:#included-in-info[IncludedInInfo] entity is returned\"",
+      "revId": "a4aafa02dac8a83b78371a9f075c33465791c3bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

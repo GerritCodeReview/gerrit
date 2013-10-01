@@ -809,7 +809,7 @@ public class MyTopMenuExtension implements TopMenu {
   @Override
   public List<MenuEntry> getEntries() {
     return Lists.newArrayList(
-               new MenuEntry("Projects", Lists.newArrayList(
+               new MenuEntry(GerritTopMenus.PROJECTS, Lists.newArrayList(
                       new MenuItem("Browse Repositories", "https://gerrit.googlesource.com/"))));
   }
 }

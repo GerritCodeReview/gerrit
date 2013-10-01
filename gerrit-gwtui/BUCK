@@ -73,6 +73,7 @@ gwt_module(
     '//gerrit-patch-jgit:client',
     '//gerrit-prettify:client',
     '//gerrit-reviewdb:client',
+    '//gerrit-extension-api:client',
     '//lib:gwtjsonrpc',
     '//lib:gwtjsonrpc_src',
     '//lib:gwtorm',
@@ -117,6 +118,7 @@ java_test(
   deps = [
     ':ui_module',
     '//gerrit-common:client',
+    '//gerrit-extension-api:client',
     '//lib:junit',
     '//lib/gwt:dev',
     '//lib/gwt:user',

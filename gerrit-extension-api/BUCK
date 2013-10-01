@@ -1,4 +1,13 @@
-SRCS = glob(['src/main/java/com/google/gerrit/extensions/**/*.java'])
+SRC = 'src/main/java/com/google/gerrit/extensions/'
+SRCS = glob([SRC + '**/*.java'])
+
+gwt_module(
+  name = 'client',
+  srcs = glob([SRC + 'webui/GerritTopMenus.java']),
+  gwtxml = SRC + 'Extensions.gwt.xml',
+  deps = ['//lib/guice:guice'],
+  visibility = ['PUBLIC'],
+)
 
 java_library2(
   name = 'api',

@@ -109,7 +109,7 @@ public class LuceneIndexModule extends LifecycleModule {
 
     @Override
     public void stop() {
-      index.close();
+      // Do nothing; indexes are closed by IndexCollection.
     }
   }
 }

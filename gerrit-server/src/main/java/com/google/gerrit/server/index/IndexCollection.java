@@ -49,7 +49,10 @@ public class IndexCollection implements LifecycleListener {
   }
 
   public void setSearchIndex(ChangeIndex index) {
-    searchIndex.set(index);
+    ChangeIndex old = searchIndex.getAndSet(index);
+    if (old != null && old != index) {
+      old.close();
+    }
   }
 
   public Collection<ChangeIndex> getWriteIndexes() {
@@ -76,7 +79,11 @@ public class IndexCollection implements LifecycleListener {
       }
     }
     if (removeIndex >= 0) {
-      writeIndexes.remove(removeIndex);
+      try {
+        writeIndexes.get(removeIndex).close();
+      } finally {
+        writeIndexes.remove(removeIndex);
+      }
     }
   }
 

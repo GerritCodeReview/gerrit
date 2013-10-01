@@ -220,5 +220,6 @@ class LuceneVersionManager implements LifecycleListener {
 
   @Override
   public void stop() {
+    // Do nothing; indexes are closed on demand by IndexCollection.
   }
 }

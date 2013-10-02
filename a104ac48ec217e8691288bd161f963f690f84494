@@ -16,6 +16,24 @@
       "revId": "a104ac48ec217e8691288bd161f963f690f84494",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "616c7df1_fa95a989",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-10-02T19:13:51Z",
+      "side": 1,
+      "message": "Well, otherwise it\u0027s 81 chars. I just changed it to a Map so it fits :)",
+      "parentUuid": "616c7df1_ba12d165",
+      "revId": "a104ac48ec217e8691288bd161f963f690f84494",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

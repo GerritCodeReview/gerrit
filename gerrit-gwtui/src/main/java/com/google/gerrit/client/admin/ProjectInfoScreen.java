@@ -51,7 +51,6 @@ import com.google.gwtexpui.globalkey.client.NpTextBox;
 
 public class ProjectInfoScreen extends ProjectScreen {
   private boolean isOwner;
-  private Project.NameKey parent;
 
   private LabeledWidgetsGrid grid;
   private LabeledWidgetsGrid actionsGrid;
@@ -115,13 +114,6 @@ public class ProjectInfoScreen extends ProjectScreen {
             isOwner = result.isOwner();
             enableForm();
             saveProject.setVisible(isOwner);
-          }
-        }));
-    ProjectApi.getParent(project,
-        cbg.add(new GerritCallback<Project.NameKey>() {
-          @Override
-          public void onSuccess(Project.NameKey result) {
-            parent = result;
           }
         }));
     ProjectApi.getConfig(project,
@@ -281,7 +273,7 @@ public class ProjectInfoScreen extends ProjectScreen {
       }
     }
     if (inheritedIndex >= 0) {
-      if (parent.equals(Gerrit.getConfig().getWildProject())) {
+      if (getProjectKey().equals(Gerrit.getConfig().getWildProject())) {
         if (box.getSelectedIndex() == inheritedIndex) {
           for (int i = 0; i < box.getItemCount(); i++) {
             if (box.getValue(i).equals(InheritableBoolean.FALSE.name())) {

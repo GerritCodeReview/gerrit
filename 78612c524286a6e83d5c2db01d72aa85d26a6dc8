@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "81cb313c_0b54ddfe",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-02T11:49:58Z",
+      "side": 1,
+      "message": "It\u0027s not only about access control, but also other project settings are kept in project.config.",
+      "range": {
+        "startLine": 4,
+        "startChar": 19,
+        "endLine": 5,
+        "endChar": 5
+      },
+      "revId": "78612c524286a6e83d5c2db01d72aa85d26a6dc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81cb313c_eb4ab15b",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-02T11:49:58Z",
+      "side": 1,
+      "message": "It\u0027s not only 3 sections. What about the \u0027receive\u0027 section?\n\ne.g.:\n  [receive]\n    requireContributorAgreement \u003d false\n    requireSignedOffBy \u003d false\n    requireChangeId \u003d true\n    maxObjectSizeLimit \u003d 45",
+      "range": {
+        "startLine": 56,
+        "startChar": 26,
+        "endLine": 56,
+        "endChar": 31
+      },
+      "revId": "78612c524286a6e83d5c2db01d72aa85d26a6dc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "615e3d2d_aafecfdf",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 8
@@ -31,6 +77,144 @@
       "side": 1,
       "message": "Can we do that as a separate change on top of this one?  I don\u0027t want this to end up with 65 patch sets.",
       "parentUuid": "615e3d2d_aafecfdf",
+      "revId": "78612c524286a6e83d5c2db01d72aa85d26a6dc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81cb313c_2b599937",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-02T11:49:58Z",
+      "side": 1,
+      "message": "Actuall these 2 are not in the \u0027project\u0027 section but in the \u0027submit\u0027 section. It should be described how the keys are named and which values are allowed.",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 16
+      },
+      "revId": "78612c524286a6e83d5c2db01d72aa85d26a6dc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1ce7549_0c3dd7d0",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-02T11:49:58Z",
+      "side": 1,
+      "message": "It should be mentioned here that every group that is used here must be listed in the \u0027groups\u0027 file.",
+      "range": {
+        "startLine": 89,
+        "startChar": 3,
+        "endLine": 89,
+        "endChar": 9
+      },
+      "revId": "78612c524286a6e83d5c2db01d72aa85d26a6dc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81cb313c_cb4d7576",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-02T11:49:58Z",
+      "side": 1,
+      "message": "This list of capabilities is outdated/incomplete. Maybe instead of listed them here we should better link to access-control.html?",
+      "range": {
+        "startLine": 95,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 8
+      },
+      "revId": "78612c524286a6e83d5c2db01d72aa85d26a6dc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81cb313c_6b5fa11f",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-02T11:49:58Z",
+      "side": 1,
+      "message": "This list of capabilities is outdated/incomplete. Maybe instead of listed them here we should better link to the capabilities section in access-control.html?",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 128,
+        "endChar": 13
+      },
+      "revId": "78612c524286a6e83d5c2db01d72aa85d26a6dc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1ce7549_2c42134e",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-02T11:49:58Z",
+      "side": 1,
+      "message": "s/each UUID/its UUID",
+      "range": {
+        "startLine": 135,
+        "startChar": 39,
+        "endLine": 135,
+        "endChar": 43
+      },
+      "revId": "78612c524286a6e83d5c2db01d72aa85d26a6dc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81cb313c_8b476d52",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-02T11:49:58Z",
+      "side": 1,
+      "message": "s/project.config/+project.config+",
+      "range": {
+        "startLine": 152,
+        "startChar": 33,
+        "endLine": 152,
+        "endChar": 47
+      },
       "revId": "78612c524286a6e83d5c2db01d72aa85d26a6dc8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

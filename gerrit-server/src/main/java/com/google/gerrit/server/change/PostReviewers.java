@@ -20,6 +20,8 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+
+import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.errors.EmailException;
@@ -151,7 +153,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
   }
 
   private PostResult putAccount(ReviewerResource rsrc) throws OrmException,
-      EmailException {
+      EmailException, IOException {
     PostResult result = new PostResult();
     addReviewers(rsrc, result, ImmutableSet.of(rsrc.getUser()));
     return result;
@@ -219,7 +221,8 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
   }
 
   private void addReviewers(ChangeResource rsrc, PostResult result,
-      Set<IdentifiedUser> reviewers) throws OrmException, EmailException {
+      Set<IdentifiedUser> reviewers)
+      throws OrmException, EmailException, IOException {
     if (reviewers.isEmpty()) {
       result.reviewers = ImmutableList.of();
       return;
@@ -259,9 +262,10 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
       db.rollback();
     }
 
-    indexer.index(rsrc.getChange());
+    CheckedFuture<?, IOException> indexFuture = indexer.indexAsync(rsrc.getChange());
     accountLoaderFactory.create(true).fill(result.reviewers);
     postAdd(rsrc.getChange(), result);
+    indexFuture.checkedGet();
   }
 
   private void postAdd(Change change, PostResult result)

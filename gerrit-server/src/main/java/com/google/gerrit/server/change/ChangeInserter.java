@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import static com.google.gerrit.reviewdb.client.Change.INITIAL_PATCH_SET_ID;
 
+import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.reviewdb.client.Account;
@@ -43,6 +44,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Set;
 
@@ -150,7 +152,7 @@ public class ChangeInserter {
     return patchSetInfo;
   }
 
-  public void insert() throws OrmException {
+  public void insert() throws OrmException, IOException {
     ReviewDb db = dbProvider.get();
     db.changes().beginTransaction(change.getId());
     try {
@@ -169,7 +171,7 @@ public class ChangeInserter {
       db.changeMessages().insert(Collections.singleton(changeMessage));
     }
 
-    indexer.index(change);
+    CheckedFuture<?, IOException> indexFuture = indexer.indexAsync(change);
     gitRefUpdated.fire(change.getProject(), patchSet.getRefName(),
         ObjectId.zeroId(), commit);
 
@@ -190,5 +192,6 @@ public class ChangeInserter {
         log.error("Cannot send email for new change " + change.getId(), err);
       }
     }
+    indexFuture.checkedGet();
   }
 }

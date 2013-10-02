@@ -177,7 +177,7 @@ public class Submit implements RestModifyView<RevisionResource, Input>,
   }
 
   public Change submit(RevisionResource rsrc, IdentifiedUser caller)
-      throws OrmException {
+      throws OrmException, IOException {
     final Timestamp timestamp = new Timestamp(System.currentTimeMillis());
     Change change = rsrc.getChange();
     ReviewDb db = dbProvider.get();

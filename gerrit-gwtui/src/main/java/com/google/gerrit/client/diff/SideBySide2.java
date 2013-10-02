@@ -159,7 +159,7 @@ public class SideBySide2 extends Screen {
     // TODO: Re-implement necessary GlobalKey bindings.
     addDomHandler(GlobalKey.STOP_PROPAGATION, KeyPressEvent.getType());
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
-    add(header = new Header(keysNavigation, revision, path));
+    add(header = new Header(keysNavigation, base, revision, path));
     add(diffTable = new DiffTable(this, base, revision, path));
     add(uiBinder.createAndBindUi(this));
   }

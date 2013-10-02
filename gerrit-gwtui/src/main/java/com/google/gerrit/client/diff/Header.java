@@ -60,15 +60,18 @@ class Header extends Composite {
   @UiField InlineHyperlink next;
 
   private final KeyCommandSet keys;
+  private final PatchSet.Id base;
   private final PatchSet.Id patchSetId;
   private final String path;
   private boolean hasPrev;
   private boolean hasNext;
   private String nextPath;
 
-  Header(KeyCommandSet keys, PatchSet.Id patchSetId, String path) {
+  Header(KeyCommandSet keys, PatchSet.Id base, PatchSet.Id patchSetId,
+      String path) {
     initWidget(uiBinder.createAndBindUi(this));
     this.keys = keys;
+    this.base = base;
     this.patchSetId = patchSetId;
     this.path = path;
 
@@ -164,6 +167,9 @@ class Header extends Composite {
     Change.Id c = patchSetId.getParentKey();
     StringBuilder p = new StringBuilder();
     p.append("/c/").append(c).append('/');
+    if (base != null) {
+      p.append(base.get()).append("..");
+    }
     p.append(patchSetId.get()).append('/').append(KeyUtil.encode(info.path()));
     p.append(info.binary() ? ",unified" : ",cm");
     return p.toString();

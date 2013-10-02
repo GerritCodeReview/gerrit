@@ -33,8 +33,8 @@ import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.patch.PatchListLoader;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
@@ -101,17 +101,17 @@ public class ChangeBatchIndexer {
     }
   }
 
-  private final SchemaFactory<ReviewDb> schemaFactory;
+  private final Provider<ReviewDb> db;
   private final GitRepositoryManager repoManager;
   private final ListeningScheduledExecutorService executor;
   private final ChangeIndexer.Factory indexerFactory;
 
   @Inject
-  ChangeBatchIndexer(SchemaFactory<ReviewDb> schemaFactory,
+  ChangeBatchIndexer(Provider<ReviewDb> db,
       GitRepositoryManager repoManager,
       @IndexExecutor ListeningScheduledExecutorService executor,
       ChangeIndexer.Factory indexerFactory) {
-    this.schemaFactory = schemaFactory;
+    this.db = db;
     this.repoManager = repoManager;
     this.executor = executor;
     this.indexerFactory = indexerFactory;
@@ -201,27 +201,22 @@ public class ChangeBatchIndexer {
       @Override
       public Void call() throws Exception {
         Multimap<ObjectId, ChangeData> byId = ArrayListMultimap.create();
-        ReviewDb db = schemaFactory.open();
+        Repository repo = repoManager.openRepository(project);
         try {
-          Repository repo = repoManager.openRepository(project);
-          try {
-            Map<String, Ref> refs = repo.getAllRefs();
-            for (Change c : db.changes().byProject(project)) {
-              Ref r = refs.get(c.currentPatchSetId().toRefName());
-              if (r != null) {
-                byId.put(r.getObjectId(), new ChangeData(c));
-              }
+          Map<String, Ref> refs = repo.getAllRefs();
+          for (Change c : db.get().changes().byProject(project)) {
+            Ref r = refs.get(c.currentPatchSetId().toRefName());
+            if (r != null) {
+              byId.put(r.getObjectId(), new ChangeData(c));
             }
-            new ProjectIndexer(indexer, byId, repo, done, failed, verboseWriter)
-                .call();
-          } finally {
-            repo.close();
-            // TODO(dborowitz): Opening all repositories in a live server may be
-            // wasteful; see if we can determine which ones it is safe to close
-            // with RepositoryCache.close(repo).
           }
+          new ProjectIndexer(indexer, byId, repo, done, failed, verboseWriter)
+              .call();
         } finally {
-          db.close();
+          repo.close();
+          // TODO(dborowitz): Opening all repositories in a live server may be
+          // wasteful; see if we can determine which ones it is safe to close
+          // with RepositoryCache.close(repo).
         }
         return null;
       }

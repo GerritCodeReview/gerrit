@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
+import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -29,6 +30,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.Abandon.Input;
+import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.ReplyToChangeSender;
@@ -41,6 +43,7 @@ import com.google.inject.Provider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.Collections;
 
 public class Abandon implements RestModifyView<ChangeResource, Input>,
@@ -113,7 +116,7 @@ public class Abandon implements RestModifyView<ChangeResource, Input>,
       db.rollback();
     }
 
-    indexer.index(change);
+    CheckedFuture<?, IOException> indexFuture = indexer.indexAsync(change);
     try {
       ReplyToChangeSender cm = abandonedSenderFactory.create(change);
       cm.setFrom(caller.getAccountId());
@@ -127,7 +130,9 @@ public class Abandon implements RestModifyView<ChangeResource, Input>,
         db.patchSets().get(change.currentPatchSetId()),
         Strings.emptyToNull(input.message),
         db);
-    return json.format(change);
+    ChangeInfo result = json.format(change);
+    indexFuture.checkedGet();
+    return result;
   }
 
   @Override

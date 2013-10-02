@@ -25,6 +25,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
+import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Capable;
@@ -509,7 +510,6 @@ public class MergeOp {
             commit.statusCode = CommitMergeStatus.ALREADY_MERGED;
             try {
               setMerged(chg, null);
-              indexer.index(chg);
             } catch (OrmException e) {
               log.error("Cannot mark change " + chg.getId() + " merged", e);
             }
@@ -672,6 +672,8 @@ public class MergeOp {
         }
       } catch (OrmException err) {
         log.warn("Error updating change status for " + c.getId(), err);
+      } catch (IOException err) {
+        log.warn("Error updating change status for " + c.getId(), err);
       }
     }
   }
@@ -789,7 +791,7 @@ public class MergeOp {
   }
 
   private void setMerged(final Change c, final ChangeMessage msg)
-      throws OrmException {
+      throws OrmException, IOException {
     try {
       db.changes().beginTransaction(c.getId());
 
@@ -990,10 +992,11 @@ public class MergeOp {
     }
 
     final boolean setStatusNew = makeNew;
+    Change change = null;
     try {
       db.changes().beginTransaction(c.getId());
       try {
-        Change change = db.changes().atomicUpdate(
+        change = db.changes().atomicUpdate(
             c.getId(),
             new AtomicUpdate<Change>() {
           @Override
@@ -1009,7 +1012,7 @@ public class MergeOp {
         });
         db.changeMessages().insert(Collections.singleton(msg));
         db.commit();
-        indexer.index(change);
+        indexer.indexAsync(change);
       } finally {
         db.rollback();
       }
@@ -1017,6 +1020,12 @@ public class MergeOp {
       log.warn("Cannot record merge failure message", err);
     }
 
+    CheckedFuture<?, IOException> indexFuture;
+    if (change != null) {
+      indexFuture = indexer.indexAsync(change);
+    } else {
+      indexFuture = null;
+    }
     final PatchSetApproval from = submitter;
     workQueue.getDefaultQueue()
         .submit(requestScopePropagator.wrap(new Runnable() {
@@ -1063,9 +1072,17 @@ public class MergeOp {
         log.error("Cannot run hook for merge failed " + c.getId(), ex);
       }
     }
+    if (indexFuture != null) {
+      try {
+        indexFuture.checkedGet();
+      } catch (IOException e) {
+        log.error("Failed to index new change message", e);
+      }
+    }
   }
 
   private void abandonAllOpenChanges() {
+    Exception err = null;
     try {
       openSchema();
       for (Change c : db.changes().byProjectOpenAll(destBranch.getParentKey())) {
@@ -1073,14 +1090,20 @@ public class MergeOp {
       }
       db.close();
       db = null;
+    } catch (IOException e) {
+      err = e;
     } catch (OrmException e) {
+      err = e;
+    }
+    if (err != null) {
       log.warn(String.format(
           "Cannot abandon changes for deleted project %s",
-          destBranch.getParentKey().get()), e);
+          destBranch.getParentKey().get()), err);
     }
   }
 
-  private void abandonOneChange(Change change) throws OrmException {
+  private void abandonOneChange(Change change) throws OrmException,
+      IOException {
     db.changes().beginTransaction(change.getId());
     try {
       change = db.changes().atomicUpdate(
@@ -1107,10 +1130,10 @@ public class MergeOp {
         db.changeMessages().insert(Collections.singleton(msg));
         new ApprovalsUtil(db).syncChangeStatus(change);
         db.commit();
-        indexer.index(change);
       }
     } finally {
       db.rollback();
     }
+    indexer.index(change);
   }
 }

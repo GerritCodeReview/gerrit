@@ -73,12 +73,12 @@ public class ChangeIndexerImpl extends ChangeIndexer {
   }
 
   @Override
-  public Callable<Void> indexTask(ChangeData cd) {
+  protected Callable<Void> indexTask(ChangeData cd) {
     return new Task(cd, false);
   }
 
   @Override
-  public Callable<Void> deleteTask(ChangeData cd) {
+  protected Callable<Void> deleteTask(ChangeData cd) {
     return new Task(cd, true);
   }
 

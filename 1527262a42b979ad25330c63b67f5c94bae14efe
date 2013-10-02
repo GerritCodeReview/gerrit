@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "81cb313c_4b33c506",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-02T08:46:01Z",
+      "side": 1,
+      "message": "Not sure if this is really needed, but would it make sense to always have \n  indexFuture.checkedGet();\nin a finally block?",
+      "revId": "1527262a42b979ad25330c63b67f5c94bae14efe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81cb313c_ab126965",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-02T08:46:01Z",
+      "side": 1,
+      "message": "[optional] s/dirty/indexWrite !\u003d null",
+      "revId": "1527262a42b979ad25330c63b67f5c94bae14efe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1ce7549_2c07732f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutTopic.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-02T08:46:01Z",
+      "side": 1,
+      "message": "Should this be\n  CheckedFuture\u003c?, IOException\u003e indexFuture \u003d indexer.indexAsync(change);\n\nand then calling\n  indexFuture.checkedGet();\nlater?",
+      "revId": "1527262a42b979ad25330c63b67f5c94bae14efe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

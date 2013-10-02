@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2013 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ui:UiBinder
+    xmlns:ui='urn:ui:com.google.gwt.uibinder'
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <ui:style type='com.google.gerrit.client.change.IncludedInBox.Style'>
+    .includedInBox {
+      min-width: 300px;
+      max-width: 580px;
+      margin: 5px;
+    }
+
+    .includedInTable {
+      border-spacing: 0;
+    }
+
+    .includedInTable th {
+      width: 60px;
+      color: #444;
+      font-weight: normal;
+      vertical-align: top;
+      text-align: left;
+      padding-right: 5px;
+    }
+
+    .includedInElement {
+      font-size: smaller;
+      font-family: monospace;
+    }
+
+    .includedInElement span {
+      width: 500px;
+      white-space: nowrap;
+      display: inline-block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .includedInElement .gwt-TextBox {
+      padding: 0;
+      margin: 0;
+      border: 0;
+      max-height: 18px;
+      width: 500px;
+    }
+
+    .includedInElement div {
+      float: right;
+    }
+  </ui:style>
+  <g:HTMLPanel styleName='{style.includedInBox}'>
+    <table class='{style.includedInTable}'>
+      <tr>
+        <th><ui:msg>Branches</ui:msg></th>
+          <td ui:field='branches'/>
+      </tr>
+      <tr>
+        <th><ui:msg>Tags</ui:msg></th>
+          <td ui:field='tags'/>
+      </tr>
+    </table>
+  </g:HTMLPanel>
+</ui:UiBinder>

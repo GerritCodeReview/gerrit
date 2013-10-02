@@ -47,6 +47,7 @@ import com.google.gerrit.common.changes.ListChangesOption;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
@@ -150,6 +151,7 @@ public class ChangeScreen2 extends Screen {
   @UiField FileTable files;
   @UiField FlowPanel history;
 
+  @UiField Button includedIn;
   @UiField Button revisions;
   @UiField Button download;
   @UiField Button reply;
@@ -159,6 +161,7 @@ public class ChangeScreen2 extends Screen {
   @UiField QuickApprove quickApprove;
   private ReplyAction replyAction;
   private EditMessageAction editMessageAction;
+  private IncludedInAction includedInAction;
   private RevisionsAction revisionsAction;
   private DownloadAction downloadAction;
 
@@ -265,6 +268,15 @@ public class ChangeScreen2 extends Screen {
     }
   }
 
+  private void initIncludedInAction(ChangeInfo info) {
+    if (info.status() == Status.MERGED) {
+      includedInAction = new IncludedInAction(
+          info.legacy_id(),
+          style, headerLine, includedIn);
+      includedIn.setVisible(true);
+    }
+  }
+
   private void initRevisionsAction(ChangeInfo info, String revision) {
     revisionsAction = new RevisionsAction(
         info.legacy_id(), revision,
@@ -358,6 +370,11 @@ public class ChangeScreen2 extends Screen {
   @UiHandler("star")
   void onToggleStar(ValueChangeEvent<Boolean> e) {
     StarredChanges.toggleStar(changeId, e.getValue());
+  }
+
+  @UiHandler("includedIn")
+  void onIncludedIn(ClickEvent e) {
+    includedInAction.show();
   }
 
   @UiHandler("download")
@@ -616,6 +633,7 @@ public class ChangeScreen2 extends Screen {
     renderOwner(info);
     renderActionTextDate(info);
     renderHistory(info);
+    initIncludedInAction(info);
     initRevisionsAction(info, revision);
     initDownloadAction(info, revision);
     actions.display(info, revision);

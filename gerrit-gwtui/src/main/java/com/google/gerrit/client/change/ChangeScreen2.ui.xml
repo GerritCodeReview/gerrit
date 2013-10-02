@@ -287,6 +287,9 @@ limitations under the License.
       </div>
 
       <g:FlowPanel styleName='{style.popdown}'>
+        <g:Button ui:field='includedIn' styleName='' visible="false">
+          <div><ui:msg>Included in</ui:msg></div>
+        </g:Button>
         <g:Button ui:field='revisions' styleName=''>
           <div><ui:msg>Revisions</ui:msg></div>
         </g:Button>

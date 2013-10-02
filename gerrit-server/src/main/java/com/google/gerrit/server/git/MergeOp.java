@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import static com.google.gerrit.server.git.MergeUtil.getSubmitter;
+
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
@@ -509,7 +510,7 @@ public class MergeOp {
             commit.statusCode = CommitMergeStatus.ALREADY_MERGED;
             try {
               setMerged(chg, null);
-              indexer.index(chg);
+              indexer.indexAsync(chg);
             } catch (OrmException e) {
               log.error("Cannot mark change " + chg.getId() + " merged", e);
             }
@@ -816,7 +817,7 @@ public class MergeOp {
     } finally {
       db.rollback();
     }
-    indexer.index(c);
+    indexer.indexAsync(c);
   }
 
   private void setMergedPatchSet(Change.Id changeId, final PatchSet.Id merged)
@@ -1009,7 +1010,7 @@ public class MergeOp {
         });
         db.changeMessages().insert(Collections.singleton(msg));
         db.commit();
-        indexer.index(change);
+        indexer.indexAsync(change);
       } finally {
         db.rollback();
       }
@@ -1066,6 +1067,7 @@ public class MergeOp {
   }
 
   private void abandonAllOpenChanges() {
+    Exception err = null;
     try {
       openSchema();
       for (Change c : db.changes().byProjectOpenAll(destBranch.getParentKey())) {
@@ -1073,14 +1075,20 @@ public class MergeOp {
       }
       db.close();
       db = null;
+    } catch (IOException e) {
+      err = e;
     } catch (OrmException e) {
+      err = e;
+    }
+    if (err != null) {
       log.warn(String.format(
           "Cannot abandon changes for deleted project %s",
-          destBranch.getParentKey().get()), e);
+          destBranch.getParentKey().get()), err);
     }
   }
 
-  private void abandonOneChange(Change change) throws OrmException {
+  private void abandonOneChange(Change change) throws OrmException,
+      IOException {
     db.changes().beginTransaction(change.getId());
     try {
       change = db.changes().atomicUpdate(
@@ -1107,10 +1115,10 @@ public class MergeOp {
         db.changeMessages().insert(Collections.singleton(msg));
         new ApprovalsUtil(db).syncChangeStatus(change);
         db.commit();
-        indexer.index(change);
       }
     } finally {
       db.rollback();
     }
+    indexer.index(change);
   }
 }

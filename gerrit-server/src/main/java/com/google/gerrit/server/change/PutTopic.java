@@ -114,7 +114,7 @@ class PutTopic implements RestModifyView<ChangeResource, Input>,
       } finally {
         db.rollback();
       }
-      indexer.index(change);
+      indexer.indexAsync(change);
       hooks.doTopicChangedHook(change, currentUser.getAccount(),
           oldTopicName, db);
     }

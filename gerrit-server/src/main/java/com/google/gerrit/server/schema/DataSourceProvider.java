@@ -41,6 +41,8 @@ import javax.sql.DataSource;
 @Singleton
 public class DataSourceProvider implements Provider<DataSource>,
     LifecycleListener {
+  public static final int DEFAULT_POOL_LIMIT = 8;
+
   private final SitePaths site;
   private final Config cfg;
   private final Context ctx;
@@ -118,7 +120,7 @@ public class DataSourceProvider implements Provider<DataSource>,
       if (password != null && !password.isEmpty()) {
         ds.setPassword(password);
       }
-      ds.setMaxActive(cfg.getInt("database", "poollimit", 8));
+      ds.setMaxActive(cfg.getInt("database", "poollimit", DEFAULT_POOL_LIMIT));
       ds.setMinIdle(cfg.getInt("database", "poolminidle", 4));
       ds.setMaxIdle(cfg.getInt("database", "poolmaxidle", 4));
       ds.setMaxWait(ConfigUtil.getTimeUnit(cfg, "database", null,

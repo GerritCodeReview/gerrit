@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.ChangeBatchIndexer;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.ChangeSchemas;
@@ -37,6 +38,8 @@ import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.index.NoIndexModule;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
+import com.google.gerrit.server.schema.DataSourceProvider;
+import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.solr.SolrIndexModule;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -48,10 +51,13 @@ import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.TypeLiteral;
 
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.util.io.NullOutputStream;
 import org.kohsuke.args4j.Option;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.List;
@@ -59,6 +65,8 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class Reindex extends SiteProgram {
+  private static final Logger log = LoggerFactory.getLogger(Reindex.class);
+
   @Option(name = "--threads", usage = "Number of threads to use for indexing")
   private int threads = Runtime.getRuntime().availableProcessors();
 
@@ -86,6 +94,7 @@ public class Reindex extends SiteProgram {
     if (IndexModule.getIndexType(dbInjector) == IndexType.SQL) {
       throw die("index.type must be configured (or not SQL)");
     }
+    limitThreads();
     if (version == null) {
       version = ChangeSchemas.getLatest().getVersion();
     }
@@ -107,6 +116,20 @@ public class Reindex extends SiteProgram {
     sysManager.stop();
     dbManager.stop();
     return result;
+  }
+
+  private void limitThreads() {
+    Config cfg =
+        dbInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
+    boolean usePool = cfg.getBoolean("database", "connectionpool",
+        dbInjector.getInstance(DataSourceType.class).usePool());
+    int poolLimit = cfg.getInt("database", "poollimit",
+        DataSourceProvider.DEFAULT_POOL_LIMIT);
+    if (usePool && threads > poolLimit) {
+      log.warn("Limiting reindexing to " + poolLimit
+          + " threads due to database.poolLimit");
+      threads = poolLimit;
+    }
   }
 
   private Injector createSysInjector() {

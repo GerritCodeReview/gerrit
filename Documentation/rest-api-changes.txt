@@ -174,8 +174,8 @@ default. Optional fields are:
 [[current-commit]]
 --
 * `CURRENT_COMMIT`: parse and output all header fields from the
-  commit object, including message. Only valid when the current
-  revision or all revisions are selected.
+  commit object, including message. Only valid when the
+  `CURRENT_REVISION` or `ALL_REVISIONS` option is selected.
 --
 
 [[all-commits]]
@@ -189,14 +189,14 @@ default. Optional fields are:
 --
 * `CURRENT_FILES`: list files modified by the commit, including
   basic line counts inserted/deleted per file. Only valid when
-  the current revision or all revisions are selected.
+  the `CURRENT_REVISION` or `ALL_REVISIONS` option is selected.
 --
 
 [[all-files]]
 --
 * `ALL_FILES`: list files modified by the commit, including
   basic line counts inserted/deleted per file. If only the
-  `CURRENT_REVISION` was requested the only that commit's
+  `CURRENT_REVISION` was requested then only that commit's
   modified files will be output.
 --
 

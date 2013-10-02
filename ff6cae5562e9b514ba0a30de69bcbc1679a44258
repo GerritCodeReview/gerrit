@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "616c7df1_fa7cc973",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-10-02T19:28:36Z",
+      "side": 1,
+      "message": "Should this call be here? setMerged already calls indexAsync.",
+      "range": {
+        "startLine": 513,
+        "startChar": 0,
+        "endLine": 513,
+        "endChar": 38
+      },
+      "revId": "ff6cae5562e9b514ba0a30de69bcbc1679a44258",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "417139c6_19666be7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 820,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-10-02T19:28:36Z",
+      "side": 1,
+      "message": "Is it ok that no one waits for this? (I haven\u0027t thought it through.)",
+      "range": {
+        "startLine": 820,
+        "startChar": 0,
+        "endLine": 820,
+        "endChar": 26
+      },
+      "revId": "ff6cae5562e9b514ba0a30de69bcbc1679a44258",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "417139c6_396b2fb0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1013,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-10-02T19:28:36Z",
+      "side": 1,
+      "message": "(nit) elsewhere these calls are outside the preceding \u0027try\u0027 block",
+      "range": {
+        "startLine": 1013,
+        "startChar": 0,
+        "endLine": 1013,
+        "endChar": 35
+      },
+      "revId": "ff6cae5562e9b514ba0a30de69bcbc1679a44258",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

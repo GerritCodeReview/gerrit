@@ -14,13 +14,17 @@
 
 package com.google.gerrit.server.index;
 
+import com.google.common.base.Function;
+import com.google.common.util.concurrent.Callables;
+import com.google.common.util.concurrent.CheckedFuture;
 import com.google.common.util.concurrent.Futures;
-import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningScheduledExecutorService;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.query.change.ChangeData;
 
+import java.io.IOException;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Helper for (re)indexing a change document.
@@ -37,28 +41,33 @@ public abstract class ChangeIndexer {
   /** Instance indicating secondary index is disabled. */
   public static final ChangeIndexer DISABLED = new ChangeIndexer(null) {
     @Override
-    public ListenableFuture<?> index(ChangeData cd) {
-      return Futures.immediateFuture(null);
+    public CheckedFuture<?, IOException> indexAsync(ChangeData cd) {
+      return Futures.immediateCheckedFuture(null);
     }
 
     @Override
-    public Callable<?> indexTask(ChangeData cd) {
-      return new Callable<Void>() {
-        @Override
-        public Void call() {
-          return null;
-        }
-      };
+    protected Callable<?> indexTask(ChangeData cd) {
+      return Callables.returning(null);
     }
 
     @Override
-    public Callable<?> deleteTask(ChangeData cd) {
-      return new Callable<Void>() {
-        @Override
-        public Void call() {
-          return null;
-        }
-      };
+    protected Callable<?> deleteTask(ChangeData cd) {
+      return Callables.returning(null);
+    }
+  };
+
+  private static final Function<Exception, IOException> MAPPER =
+      new Function<Exception, IOException>() {
+    @Override
+    public IOException apply(Exception in) {
+      if (in instanceof IOException) {
+        return (IOException) in;
+      } else if (in instanceof ExecutionException
+          && in.getCause() instanceof IOException) {
+        return (IOException) in.getCause();
+      } else {
+        return new IOException(in);
+      }
     }
   };
 
@@ -74,8 +83,8 @@ public abstract class ChangeIndexer {
    * @param change change to index.
    * @return future for the indexing task.
    */
-  public ListenableFuture<?> index(Change change) {
-    return index(new ChangeData(change));
+  public CheckedFuture<?, IOException> indexAsync(Change change) {
+    return indexAsync(new ChangeData(change));
   }
 
   /**
@@ -84,10 +93,28 @@ public abstract class ChangeIndexer {
    * @param cd change to index.
    * @return future for the indexing task.
    */
-  public ListenableFuture<?> index(ChangeData cd) {
+  public CheckedFuture<?, IOException> indexAsync(ChangeData cd) {
     return executor != null
-        ? executor.submit(indexTask(cd))
-        : Futures.immediateFuture(null);
+        ? submit(indexTask(cd))
+        : Futures.<Object, IOException> immediateCheckedFuture(null);
+  }
+
+  /**
+   * Synchronously index a change.
+   *
+   * @param change change to index.
+   */
+  public void index(Change change) throws IOException {
+    indexAsync(change).checkedGet();
+  }
+
+  /**
+   * Synchronously index a change.
+   *
+   * @param cd change to index.
+   */
+  public void index(ChangeData cd) throws IOException {
+    indexAsync(cd).checkedGet();
   }
 
   /**
@@ -96,7 +123,7 @@ public abstract class ChangeIndexer {
    * @param cd change to index.
    * @return unstarted runnable to index the change.
    */
-  public abstract Callable<?> indexTask(ChangeData cd);
+  protected abstract Callable<?> indexTask(ChangeData cd);
 
   /**
    * Start deleting a change.
@@ -104,8 +131,8 @@ public abstract class ChangeIndexer {
    * @param change change to delete.
    * @return future for the deleting task.
    */
-  public ListenableFuture<?> delete(Change change) {
-    return delete(new ChangeData(change));
+  public CheckedFuture<?, IOException> deleteAsync(Change change) {
+    return deleteAsync(new ChangeData(change));
   }
 
   /**
@@ -114,10 +141,28 @@ public abstract class ChangeIndexer {
    * @param cd change to delete.
    * @return future for the deleting task.
    */
-  public ListenableFuture<?> delete(ChangeData cd) {
+  public CheckedFuture<?, IOException> deleteAsync(ChangeData cd) {
     return executor != null
-        ? executor.submit(deleteTask(cd))
-        : Futures.immediateFuture(null);
+        ? submit(deleteTask(cd))
+        : Futures.<Object, IOException> immediateCheckedFuture(null);
+  }
+
+  /**
+   * Synchronously delete a change.
+   *
+   * @param change change to delete.
+   */
+  public void delete(Change change) throws IOException {
+    deleteAsync(change).checkedGet();
+  }
+
+  /**
+   * Synchronously delete a change.
+   *
+   * @param cd change to delete.
+   */
+  public void delete(ChangeData cd) throws IOException {
+    deleteAsync(cd).checkedGet();
   }
 
   /**
@@ -126,5 +171,9 @@ public abstract class ChangeIndexer {
    * @param cd change to delete.
    * @return unstarted runnable to delete the change.
    */
-  public abstract Callable<?> deleteTask(ChangeData cd);
+  protected abstract Callable<?> deleteTask(ChangeData cd);
+
+  private CheckedFuture<?, IOException> submit(Callable<?> task) {
+    return Futures.makeChecked(executor.submit(task), MAPPER);
+  }
 }

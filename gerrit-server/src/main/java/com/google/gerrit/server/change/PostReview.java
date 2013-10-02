@@ -20,7 +20,8 @@ import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.CheckedFuture;
+import com.google.common.util.concurrent.Futures;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.changes.Side;
 import com.google.gerrit.common.data.LabelType;
@@ -35,10 +36,10 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
@@ -52,12 +53,12 @@ import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 public class PostReview implements RestModifyView<RevisionResource, Input> {
   private static final Logger log = LoggerFactory.getLogger(PostReview.class);
@@ -153,7 +154,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
   @Override
   public Object apply(RevisionResource revision, Input input)
       throws AuthException, BadRequestException, OrmException,
-      UnprocessableEntityException, InterruptedException, ExecutionException {
+      UnprocessableEntityException, IOException {
     if (input.onBehalfOf != null) {
       revision = onBehalfOf(revision, input);
     }
@@ -169,28 +170,29 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
     }
 
     db.changes().beginTransaction(revision.getChange().getId());
+    boolean dirty = false;
     try {
       change = db.changes().get(revision.getChange().getId());
       ChangeUtil.updated(change);
       timestamp = change.getLastUpdatedOn();
 
-      boolean dirty = false;
       dirty |= insertComments(revision, input.comments, input.drafts);
       dirty |= updateLabels(revision, input.labels);
       dirty |= insertMessage(revision, input.message);
       if (dirty) {
         db.changes().update(Collections.singleton(change));
         db.commit();
-
-        ListenableFuture<?> indexWrite = indexer.index(change);
-        if (input.waitForCommit) {
-          indexWrite.get();
-        }
       }
     } finally {
       db.rollback();
     }
 
+    CheckedFuture<?, IOException> indexWrite;
+    if (dirty) {
+      indexWrite = indexer.indexAsync(change);
+    } else {
+      indexWrite = Futures.<Void, IOException> immediateCheckedFuture(null);
+    }
     if (input.notify.compareTo(NotifyHandling.NONE) > 0 && message != null) {
       email.create(
           input.notify,
@@ -204,6 +206,9 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
 
     Output output = new Output();
     output.labels = input.labels;
+    if (input.waitForCommit) {
+      indexWrite.checkedGet();
+    }
     return output;
   }
 

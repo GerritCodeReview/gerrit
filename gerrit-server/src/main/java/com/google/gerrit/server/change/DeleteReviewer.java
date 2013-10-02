@@ -33,6 +33,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import java.io.IOException;
 import java.util.List;
 
 public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
@@ -50,7 +51,8 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
 
   @Override
   public Object apply(ReviewerResource rsrc, Input input)
-      throws AuthException, ResourceNotFoundException, OrmException {
+      throws AuthException, ResourceNotFoundException, OrmException,
+      IOException {
     ChangeControl control = rsrc.getControl();
     Change.Id changeId = rsrc.getChange().getId();
     ReviewDb db = dbProvider.get();

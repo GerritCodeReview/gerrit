@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -25,9 +26,9 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.mail.PatchSetNotificationSender;
 import com.google.gerrit.server.change.Publish.Input;
 import com.google.gerrit.server.index.ChangeIndexer;
+import com.google.gerrit.server.mail.PatchSetNotificationSender;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
@@ -75,11 +76,13 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
     try {
       if (!updatedPatchSet.isDraft()
           || updatedChange.getStatus() == Change.Status.NEW) {
-        indexer.index(updatedChange);
+        CheckedFuture<?, IOException> indexFuture =
+            indexer.indexAsync(updatedChange);
         hooks.doDraftPublishedHook(updatedChange, updatedPatchSet, dbProvider.get());
         sender.send(rsrc.getChange().getStatus() == Change.Status.DRAFT,
             rsrc.getUser(), updatedChange, updatedPatchSet,
             rsrc.getControl().getLabelTypes());
+        indexFuture.checkedGet();
       }
     } catch (PatchSetInfoNotAvailableException e) {
       throw new ResourceNotFoundException(e.getMessage());

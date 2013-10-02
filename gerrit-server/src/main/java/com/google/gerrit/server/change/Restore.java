@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
+import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
@@ -28,6 +29,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gerrit.server.change.Restore.Input;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.ReplyToChangeSender;
@@ -41,6 +43,7 @@ import com.google.inject.Provider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.Collections;
 
 public class Restore implements RestModifyView<ChangeResource, Input>,
@@ -104,7 +107,6 @@ public class Restore implements RestModifyView<ChangeResource, Input>,
         throw new ResourceConflictException("change is "
             + status(db.changes().get(req.getChange().getId())));
       }
-      indexer.index(change);
       message = newMessage(input, caller, change);
       db.changeMessages().insert(Collections.singleton(message));
       new ApprovalsUtil(db).syncChangeStatus(change);
@@ -113,6 +115,7 @@ public class Restore implements RestModifyView<ChangeResource, Input>,
       db.rollback();
     }
 
+    CheckedFuture<?, IOException> indexFuture = indexer.indexAsync(change);
     try {
       ReplyToChangeSender cm = restoredSenderFactory.create(change);
       cm.setFrom(caller.getAccountId());
@@ -126,7 +129,9 @@ public class Restore implements RestModifyView<ChangeResource, Input>,
         db.patchSets().get(change.currentPatchSetId()),
         Strings.emptyToNull(input.message),
         dbProvider.get());
-    return json.format(change);
+    ChangeInfo result = json.format(change);
+    indexFuture.checkedGet();
+    return result;
   }
 
   @Override

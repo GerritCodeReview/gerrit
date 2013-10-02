@@ -22,7 +22,7 @@ import com.google.gerrit.server.change.Index.Input;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.inject.Inject;
 
-import java.util.concurrent.ExecutionException;
+import java.io.IOException;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 public class Index implements RestModifyView<ChangeResource, Input> {
@@ -37,9 +37,8 @@ public class Index implements RestModifyView<ChangeResource, Input> {
   }
 
   @Override
-  public Object apply(ChangeResource rsrc, Input input)
-      throws InterruptedException, ExecutionException {
-    indexer.index(rsrc.getChange()).get();
+  public Object apply(ChangeResource rsrc, Input input) throws IOException {
+    indexer.index(rsrc.getChange());
     return Response.none();
   }
 }

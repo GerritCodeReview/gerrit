@@ -1432,7 +1432,7 @@ public class ReceiveCommits {
       ListenableFuture<Void> future = changeUpdateExector.submit(
           requestScopePropagator.wrap(new Callable<Void>() {
         @Override
-        public Void call() throws OrmException {
+        public Void call() throws OrmException, IOException {
           if (caller == Thread.currentThread()) {
             insertChange(db);
           } else {
@@ -1452,7 +1452,7 @@ public class ReceiveCommits {
       return Futures.makeChecked(future, ORM_EXCEPTION);
     }
 
-    private void insertChange(ReviewDb db) throws OrmException {
+    private void insertChange(ReviewDb db) throws OrmException, IOException {
       final PatchSet ps = ins.getPatchSet();
       final Account.Id me = currentUser.getAccountId();
       final List<FooterLine> footerLines = commit.getFooterLines();
@@ -1504,7 +1504,8 @@ public class ReceiveCommits {
     }
   }
 
-  private void submit(ChangeControl changeCtl, PatchSet ps) throws OrmException {
+  private void submit(ChangeControl changeCtl, PatchSet ps)
+      throws OrmException, IOException {
     Submit submit = submitProvider.get();
     RevisionResource rsrc = new RevisionResource(new ChangeResource(changeCtl), ps);
     Change c = submit.submit(rsrc, currentUser);
@@ -1751,7 +1752,7 @@ public class ReceiveCommits {
       ListenableFuture<PatchSet.Id> future = changeUpdateExector.submit(
           requestScopePropagator.wrap(new Callable<PatchSet.Id>() {
         @Override
-        public PatchSet.Id call() throws OrmException {
+        public PatchSet.Id call() throws OrmException, IOException {
           try {
             if (caller == Thread.currentThread()) {
               return insertPatchSet(db);
@@ -1773,7 +1774,7 @@ public class ReceiveCommits {
       return Futures.makeChecked(future, ORM_EXCEPTION);
     }
 
-    PatchSet.Id insertPatchSet(ReviewDb db) throws OrmException {
+    PatchSet.Id insertPatchSet(ReviewDb db) throws OrmException, IOException {
       final Account.Id me = currentUser.getAccountId();
       final List<FooterLine> footerLines = newCommit.getFooterLines();
       final MailRecipients recipients = new MailRecipients();
@@ -1877,7 +1878,7 @@ public class ReceiveCommits {
       if (cmd.getResult() == NOT_ATTEMPTED) {
         cmd.execute(rp);
       }
-      indexer.index(change);
+      CheckedFuture<?, IOException> indexFuture = indexer.indexAsync(change);
       gitRefUpdated.fire(project.getNameKey(), newPatchSet.getRefName(),
           ObjectId.zeroId(), newCommit);
       hooks.doPatchsetCreatedHook(change, newPatchSet, db);
@@ -1911,6 +1912,7 @@ public class ReceiveCommits {
           return "send-email newpatchset";
         }
       }));
+      indexFuture.checkedGet();
 
       if (magicBranch != null && magicBranch.isSubmit()) {
         submit(changeCtl, newPatchSet);
@@ -2145,7 +2147,7 @@ public class ReceiveCommits {
   }
 
   private Change.Key closeChange(final ReceiveCommand cmd, final PatchSet.Id psi,
-      final RevCommit commit) throws OrmException {
+      final RevCommit commit) throws OrmException, IOException {
     final String refName = cmd.getRefName();
     final Change.Id cid = psi.getParentKey();
 
@@ -2200,7 +2202,8 @@ public class ReceiveCommits {
   }
 
   private void markChangeMergedByPush(final ReviewDb db,
-      final ReplaceRequest result) throws OrmException {
+      final ReplaceRequest result) throws OrmException,
+      IOException {
     Change change = result.change;
     final String mergedIntoRef = result.mergedIntoRef;
 

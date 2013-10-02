@@ -15,6 +15,7 @@
 
 package com.google.gerrit.server.changedetail;
 
+import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.ReviewResult;
@@ -121,12 +122,13 @@ public class PublishDraft implements Callable<ReviewResult> {
       });
 
       if (!updatedPatchSet.isDraft() || updatedChange.getStatus() == Change.Status.NEW) {
-        indexer.index(updatedChange);
+        CheckedFuture<?, IOException> indexFuture = indexer.indexAsync(updatedChange);
         hooks.doDraftPublishedHook(updatedChange, updatedPatchSet, db);
 
         sender.send(control.getChange().getStatus() == Change.Status.DRAFT,
             (IdentifiedUser) control.getCurrentUser(), updatedChange, updatedPatchSet,
             labelTypes);
+        indexFuture.checkedGet();
       }
     }
 

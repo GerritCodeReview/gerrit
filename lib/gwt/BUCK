@@ -39,8 +39,8 @@ python_binary(
 
 maven_jar(
   name = 'gwt-test-utils',
-  id = 'com.googlecode.gwt-test-utils:gwt-test-utils:0.45-SNAPSHOT-20130612.054327-7',
-  sha1 = 'ad53b8a05df35fbe394db80d1d7d2913a646bfb3',
+  id = 'com.googlecode.gwt-test-utils:gwt-test-utils:0.46-SNAPSHOT-20130930.170040-1',
+  sha1 = 'e8f5bd1b8c75be333da36f41613436a8eb175dad',
   license = 'Apache2.0',
   repository = 'http://oss.sonatype.org/content/repositories/snapshots',
   deps = [

@@ -247,8 +247,9 @@ public class RefControl {
     }
 
     if (object instanceof RevCommit) {
-      return owner || canPerform(Permission.CREATE);
-
+      return owner
+          || (canPerform(Permission.CREATE) && projectControl.canReadCommit(rw,
+              (RevCommit) object));
     } else if (object instanceof RevTag) {
       final RevTag tag = (RevTag) object;
       try {

@@ -29,15 +29,24 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -47,11 +56,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 
 /** Access control management for a user accessing a project's data. */
 public class ProjectControl {
   public static final int VISIBLE = 1 << 0;
   public static final int OWNER = 1 << 1;
+
+  private static final Logger log = LoggerFactory.getLogger(ProjectControl.class);
 
   public static class GenericFactory {
     private final ProjectCache projectCache;
@@ -129,6 +141,7 @@ public class ProjectControl {
   private final String canonicalWebUrl;
   private final CurrentUser user;
   private final ProjectState state;
+  private final GitRepositoryManager repoManager;
   private final PermissionCollection.Factory permissionFilter;
   private final Collection<ContributorAgreement> contributorAgreements;
 
@@ -142,8 +155,10 @@ public class ProjectControl {
   ProjectControl(@GitUploadPackGroups Set<AccountGroup.UUID> uploadGroups,
       @GitReceivePackGroups Set<AccountGroup.UUID> receiveGroups,
       final ProjectCache pc, final PermissionCollection.Factory permissionFilter,
+      final GitRepositoryManager repoManager,
       @CanonicalWebUrl @Nullable final String canonicalWebUrl,
       @Assisted CurrentUser who, @Assisted ProjectState ps) {
+    this.repoManager = repoManager;
     this.uploadGroups = uploadGroups;
     this.receiveGroups = receiveGroups;
     this.permissionFilter = permissionFilter;
@@ -470,5 +485,30 @@ public class ProjectControl {
       }
     }
     return false;
+  }
+
+  public boolean canReadCommit(RevWalk rw, RevCommit commit) {
+    NameKey projName = state.getProject().getNameKey();
+    try {
+      Repository repo = repoManager.openRepository(projName);
+      try {
+        for (Entry<String, Ref> entry : repo.getAllRefs().entrySet()) {
+          RevCommit tip = rw.parseCommit(entry.getValue().getObjectId());
+          if (rw.isMergedInto(commit, tip)
+              && controlForRef(entry.getKey()).canPerform(Permission.READ)) {
+            return true;
+          }
+        }
+      } finally {
+        repo.close();
+      }
+    } catch (IOException e) {
+      String msg =
+          String.format(
+              "Cannot verify permissions to commit object %s in repository %s",
+              commit.name(), projName.get());
+      log.error(msg, e);
+    }
+    return controlForRef("refs/*").canPerform(Permission.READ);
   }
 }

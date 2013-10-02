@@ -219,7 +219,7 @@ public class Util {
 
     return new ProjectControl(Collections.<AccountGroup.UUID> emptySet(),
         Collections.<AccountGroup.UUID> emptySet(), projectCache,
-        sectionSorter, canonicalWebUrl, new MockUser(name, memberOf),
+        sectionSorter, null, canonicalWebUrl, new MockUser(name, memberOf),
         newProjectState(local));
   }
 

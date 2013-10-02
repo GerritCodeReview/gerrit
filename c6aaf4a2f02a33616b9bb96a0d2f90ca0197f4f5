@@ -87,6 +87,24 @@
       "revId": "c6aaf4a2f02a33616b9bb96a0d2f90ca0197f4f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1ce7549_cc26efc4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-10-02T13:50:20Z",
+      "side": 1,
+      "message": "This should be rather be the other way around, server could depend on client classes. Will fix this in next patch set",
+      "parentUuid": "84433f33_4ba4e5f8",
+      "revId": "c6aaf4a2f02a33616b9bb96a0d2f90ca0197f4f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

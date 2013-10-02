@@ -297,7 +297,7 @@ public class ChangeBatchIndexer {
               cd = cdit.next();
               try {
                 cd.setCurrentFilePaths(paths);
-                indexer.indexTask(cd).call();
+                indexer.index(cd);
                 done.update(1);
                 if (verboseWriter != null) {
                   verboseWriter.println("Reindexed change " + cd.getId());

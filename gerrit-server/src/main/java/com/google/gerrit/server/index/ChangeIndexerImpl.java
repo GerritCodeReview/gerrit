@@ -14,15 +14,18 @@
 
 package com.google.gerrit.server.index;
 
+import com.google.common.util.concurrent.Atomics;
 import com.google.common.util.concurrent.ListeningScheduledExecutorService;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
+import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
+import com.google.inject.ProvisionException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import com.google.inject.util.Providers;
@@ -32,6 +35,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.concurrent.Callable;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Helper for (re)indexing a change document.
@@ -94,12 +98,25 @@ public class ChangeIndexerImpl extends ChangeIndexer {
     @Override
     public Void call() throws Exception {
       try {
-        final ReviewDb db = schemaFactory.open();
+        final AtomicReference<Provider<ReviewDb>> dbRef =
+            Atomics.newReference();
         try {
           context.setContext(new RequestContext() {
             @Override
             public Provider<ReviewDb> getReviewDbProvider() {
-              return Providers.of(db);
+              Provider<ReviewDb> db = dbRef.get();
+              if (db == null) {
+                try {
+                  db = Providers.of(schemaFactory.open());
+                } catch (OrmException e) {
+                  ProvisionException pe =
+                      new ProvisionException("error opening ReviewDb");
+                  pe.initCause(e);
+                  throw pe;
+                }
+                dbRef.set(db);
+              }
+              return db;
             }
 
             @Override
@@ -117,7 +134,10 @@ public class ChangeIndexerImpl extends ChangeIndexer {
           return null;
         } finally  {
           context.setContext(null);
-          db.close();
+          Provider<ReviewDb> db = dbRef.get();
+          if (db != null) {
+            db.get().close();
+          }
         }
       } catch (Exception e) {
         log.error(String.format(

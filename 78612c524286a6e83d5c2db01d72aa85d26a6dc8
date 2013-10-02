@@ -16,6 +16,24 @@
       "revId": "78612c524286a6e83d5c2db01d72aa85d26a6dc8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "616c7df1_ba2df19f",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-02T07:46:33Z",
+      "side": 1,
+      "message": "Can we do that as a separate change on top of this one?  I don\u0027t want this to end up with 65 patch sets.",
+      "parentUuid": "615e3d2d_aafecfdf",
+      "revId": "78612c524286a6e83d5c2db01d72aa85d26a6dc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

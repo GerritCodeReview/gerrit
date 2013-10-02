@@ -282,4 +282,12 @@ public class ChangeInfo extends JavaScriptObject {
     protected MergeableInfo() {
     }
   }
+
+  public static class IncludedInInfo extends JavaScriptObject {
+    public final native JsArrayString branches() /*-{ return this.branches; }-*/;
+    public final native JsArrayString tags() /*-{ return this.tags; }-*/;
+
+    protected IncludedInInfo() {
+    }
+  }
 }

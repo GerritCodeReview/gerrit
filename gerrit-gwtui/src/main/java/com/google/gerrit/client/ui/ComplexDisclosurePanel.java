@@ -47,15 +47,15 @@ public class ComplexDisclosurePanel extends Composite implements
       final Element tr1 = DOM.getChild(tbody, 0);
       final Element tr2 = DOM.getChild(tbody, 1);
 
-      DOM.setElementProperty(DOM.getChild(tr1, 0), "width", "20px");
-      DOM.setElementPropertyInt(DOM.getChild(tr2, 0), "colSpan", 2);
+      DOM.getChild(tr1, 0).setPropertyString("width", "20px");
+      DOM.getChild(tr2, 0).setPropertyInt("colSpan", 2);
       headerParent = tr1;
     }
 
     header = new ComplexPanel() {
       {
         setElement(DOM.createTD());
-        DOM.setInnerHTML(getElement(), "&nbsp;");
+        getElement().setInnerHTML("&nbsp;");
         addStyleName(Gerrit.RESOURCES.css().complexHeader());
       }
 

@@ -55,7 +55,7 @@ public class Hyperlink extends com.google.gwt.user.client.ui.Hyperlink {
   @Override
   public void onBrowserEvent(final Event event) {
     if (DOM.eventGetType(event) == Event.ONCLICK && impl.handleAsClick(event)) {
-      DOM.eventPreventDefault(event);
+      event.preventDefault();
       go();
     } else {
       super.onBrowserEvent(event);

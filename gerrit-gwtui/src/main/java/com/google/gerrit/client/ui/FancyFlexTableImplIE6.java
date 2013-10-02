@@ -29,7 +29,7 @@ public class FancyFlexTableImplIE6 extends FancyFlexTableImpl {
     assert newBody != null;
 
     final Element tableElem = DOM.getParent(oldBody);
-    DOM.removeChild(tableElem, oldBody);
+    tableElem.removeChild(oldBody);
     setBodyElement(myTable, newBody);
     DOM.appendChild(tableElem, newBody);
   }

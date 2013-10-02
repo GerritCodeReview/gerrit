@@ -23,7 +23,6 @@ import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -49,7 +48,7 @@ public class MyWatchesTable extends FancyFlexTable<AccountProjectWatchInfo> {
     fmt.setRowSpan(0, 0, 2);
     fmt.setRowSpan(0, 1, 2);
     fmt.setRowSpan(0, 2, 2);
-    DOM.setElementProperty(fmt.getElement(0, 3), "align", "center");
+    fmt.getElement(0, 3).setPropertyString("align", "center");
 
     fmt.setColSpan(0, 3, 5);
     table.setText(1, 0, Util.C.watchedProjectColumnNewChanges());

@@ -22,7 +22,6 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JsArray;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.SuggestBox;
@@ -63,7 +62,7 @@ public abstract class CherryPickDialog extends ActionDialog {
     });
 
     newBranch.setWidth("100%");
-    DOM.setStyleAttribute(newBranch.getElement(), "boxSizing", "border-box");
+    newBranch.getElement().getStyle().setProperty("boxSizing", "border-box");
     message.setCharacterWidth(70);
 
     final FlowPanel mwrap = new FlowPanel();

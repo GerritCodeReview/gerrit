@@ -16,7 +16,6 @@ package com.google.gerrit.client;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -49,7 +48,7 @@ public class ConfirmationDialog extends AutoCenterDialogBox {
     buttons.add(okButton);
 
     cancelButton = new Button();
-    DOM.setStyleAttribute(cancelButton.getElement(), "marginLeft", "300px");
+    cancelButton.getElement().getStyle().setProperty("marginLeft", "300px");
     cancelButton.setText(Gerrit.C.confirmationDialogCancel());
     cancelButton.addClickHandler(new ClickHandler() {
       @Override

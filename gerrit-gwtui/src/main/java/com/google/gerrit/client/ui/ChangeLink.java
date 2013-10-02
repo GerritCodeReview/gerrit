@@ -20,7 +20,6 @@ import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.DOM;
 
 public class ChangeLink extends InlineHyperlink {
   public static String permalink(final Change.Id c) {
@@ -32,7 +31,7 @@ public class ChangeLink extends InlineHyperlink {
 
   public ChangeLink(final String text, final Change.Id c) {
     super(text, PageLinks.toChange(c));
-    DOM.setElementProperty(getElement(), "href", permalink(c));
+    getElement().setPropertyString("href", permalink(c));
     cid = c;
     psid = null;
   }

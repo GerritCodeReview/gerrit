@@ -21,7 +21,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.DOM;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -55,7 +54,7 @@ public abstract class CommentedActionDialog<T> extends AutoCenterDialogBox
     message = new NpTextArea();
     message.setCharacterWidth(60);
     message.setVisibleLines(10);
-    DOM.setElementPropertyBoolean(message.getElement(), "spellcheck", true);
+    message.getElement().setPropertyBoolean("spellcheck", true);
     setFocusOn(message);
     sendButton = new Button(Util.C.commentedActionButtonSend());
     sendButton.addClickHandler(new ClickHandler() {
@@ -67,7 +66,7 @@ public abstract class CommentedActionDialog<T> extends AutoCenterDialogBox
     });
 
     cancelButton = new Button(Util.C.commentedActionButtonCancel());
-    DOM.setStyleAttribute(cancelButton.getElement(), "float", "right");
+    cancelButton.getElement().getStyle().setProperty("float", "right");
     cancelButton.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(final ClickEvent event) {
@@ -82,7 +81,7 @@ public abstract class CommentedActionDialog<T> extends AutoCenterDialogBox
     buttonPanel = new FlowPanel();
     buttonPanel.add(sendButton);
     buttonPanel.add(cancelButton);
-    DOM.setStyleAttribute(buttonPanel.getElement(), "marginTop", "4px");
+    buttonPanel.getElement().getStyle().setProperty("marginTop", "4px");
 
     panel = new FlowPanel();
     panel.add(new SmallHeading(heading));

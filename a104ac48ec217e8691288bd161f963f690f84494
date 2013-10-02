@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "616c7df1_ba12d165",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-02T04:21:12Z",
+      "side": 1,
+      "message": "Does this really need to be wrapped?",
+      "revId": "a104ac48ec217e8691288bd161f963f690f84494",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

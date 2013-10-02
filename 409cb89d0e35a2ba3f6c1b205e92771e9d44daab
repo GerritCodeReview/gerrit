@@ -16,6 +16,24 @@
       "revId": "409cb89d0e35a2ba3f6c1b205e92771e9d44daab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1ce7549_6c0d7b4f",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-10-02T07:28:39Z",
+      "side": 1,
+      "message": "thanks Edwin",
+      "parentUuid": "81cb313c_eb18718b",
+      "revId": "409cb89d0e35a2ba3f6c1b205e92771e9d44daab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

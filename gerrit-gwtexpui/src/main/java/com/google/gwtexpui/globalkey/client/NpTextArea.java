@@ -15,7 +15,6 @@
 package com.google.gwtexpui.globalkey.client;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.TextArea;
 
 public class NpTextArea extends TextArea {
@@ -29,6 +28,6 @@ public class NpTextArea extends TextArea {
   }
 
   public void setSpellCheck(boolean spell) {
-    DOM.setElementPropertyBoolean(getElement(), "spellcheck", spell);
+    getElement().setPropertyBoolean("spellcheck", spell);
   }
 }

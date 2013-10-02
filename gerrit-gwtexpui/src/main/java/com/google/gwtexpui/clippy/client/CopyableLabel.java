@@ -159,7 +159,7 @@ public class CopyableLabel extends Composite implements HasText {
       h.closeElement("div");
 
       if (swf != null) {
-        DOM.removeChild(getElement(), swf);
+        getElement().removeChild(swf);
       }
       DOM.appendChild(getElement(), swf = SafeHtml.parse(h));
       initHideHandler();

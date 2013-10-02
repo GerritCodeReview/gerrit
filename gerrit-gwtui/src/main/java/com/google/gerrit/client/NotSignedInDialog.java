@@ -18,7 +18,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -52,7 +51,7 @@ public class NotSignedInDialog extends AutoCenterDialogBox implements CloseHandl
     buttons.add(signin);
 
     final Button close = new Button();
-    DOM.setStyleAttribute(close.getElement(), "marginLeft", "200px");
+    close.getElement().getStyle().setProperty("marginLeft", "200px");
     close.setText(Gerrit.C.signInDialogClose());
     close.addClickHandler(new ClickHandler() {
       @Override

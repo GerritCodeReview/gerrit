@@ -17,7 +17,6 @@ package com.google.gerrit.client.admin;
 import com.google.gwt.editor.client.IsEditor;
 import com.google.gwt.editor.client.adapters.TakesValueEditor;
 import com.google.gwt.text.shared.Renderer;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.IntegerBox;
 import com.google.gwt.user.client.ui.ValueBoxBase.TextAlignment;
@@ -56,7 +55,7 @@ abstract class RangeBox extends Composite implements
 
     @Override
     void setEnabled(boolean on) {
-      DOM.setElementPropertyBoolean(list.getElement(), "disabled", !on);
+      list.getElement().setPropertyBoolean("disabled", !on);
     }
 
     @Override
@@ -77,7 +76,7 @@ abstract class RangeBox extends Composite implements
 
     @Override
     void setEnabled(boolean on) {
-      DOM.setElementPropertyBoolean(box.getElement(), "disabled", !on);
+      box.getElement().setPropertyBoolean("disabled", !on);
     }
 
     @Override

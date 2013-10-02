@@ -77,8 +77,8 @@ public class KeyHelpPopup extends PluginSafePopupPanel implements
     body.add(lists);
 
     focus = new FocusPanel(body);
-    DOM.setStyleAttribute(focus.getElement(), "outline", "0px");
-    DOM.setElementAttribute(focus.getElement(), "hideFocus", "true");
+    focus.getElement().getStyle().setProperty("outline", "0px");
+    focus.getElement().setAttribute("hideFocus", "true");
     focus.addKeyPressHandler(this);
     focus.addKeyDownHandler(this);
     add(focus);

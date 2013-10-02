@@ -39,7 +39,6 @@ import com.google.gwt.text.shared.Renderer;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
@@ -153,7 +152,7 @@ public class PermissionRuleEditor extends Composite implements
 
     } else {
       rangeEditor.getStyle().setDisplay(Display.NONE);
-      DOM.setElementPropertyBoolean(action.getElement(), "disabled", readOnly);
+      action.getElement().setPropertyBoolean("disabled", readOnly);
     }
 
     if (readOnly) {

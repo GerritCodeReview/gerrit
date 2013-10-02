@@ -175,14 +175,14 @@ public class ApprovalTable extends Composite {
 
   private void removeAllChildren(Element el) {
     for (int i = DOM.getChildCount(el) - 1; i >= 0; i--) {
-      DOM.removeChild(el, DOM.getChild(el, i));
+      el.removeChild(DOM.getChild(el, i));
     }
   }
 
   private void addMissingLabel(String text) {
     Element li = DOM.createElement("li");
     li.setClassName(Gerrit.RESOURCES.css().missingApproval());
-    DOM.setInnerText(li, text);
+    li.setInnerText(text);
     DOM.appendChild(missing.getElement(), li);
   }
 

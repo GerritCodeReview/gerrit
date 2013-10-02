@@ -21,7 +21,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.http.client.Response;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.StatusCodeException;
 import com.google.gwt.user.client.ui.Button;
@@ -151,7 +150,7 @@ public class ErrorDialog extends PluginSafePopupPanel {
 
     if (msg != null) {
       final Label m = new Label(msg);
-      DOM.setStyleAttribute(m.getElement(), "whiteSpace", "pre");
+      m.getElement().getStyle().setProperty("whiteSpace", "pre");
       body.add(m);
     }
   }

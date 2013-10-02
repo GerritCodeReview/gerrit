@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "616c7df1_faf12911",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-02T01:13:32Z",
+      "side": 1,
+      "message": "Actually, this should be reworded to be consistent with the rest of the doc.",
+      "revId": "a93175daa8e7dc91b574e647a32e763b8c654be0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

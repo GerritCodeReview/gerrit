@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "616c7df1_1a541dff",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-02T09:51:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "417139c6_3907af2f",
+      "revId": "0449f127be3f72a6f3656974e3e214e80de0f067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "81cb313c_0b3dbdd0",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2013-10-02T09:06:49Z",
       "side": 1,
       "message": "The \u0027kind\u0027 field is missing here.",
+      "revId": "0449f127be3f72a6f3656974e3e214e80de0f067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "616c7df1_3a59e137",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3307,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-02T09:51:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81cb313c_0b3dbdd0",
       "revId": "0449f127be3f72a6f3656974e3e214e80de0f067",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "616c7df1_da4d4576",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3309,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-02T09:51:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1ce7549_8c154752",
+      "revId": "0449f127be3f72a6f3656974e3e214e80de0f067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a1ce7549_ac128365",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2013-10-02T09:06:49Z",
       "side": 1,
       "message": "With or without \u0027refs/tags/\u0027 prefix?",
+      "revId": "0449f127be3f72a6f3656974e3e214e80de0f067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "417139c6_b92dff9f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3311,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-02T09:51:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1ce7549_ac128365",
       "revId": "0449f127be3f72a6f3656974e3e214e80de0f067",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

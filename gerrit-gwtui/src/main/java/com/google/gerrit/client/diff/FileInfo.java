@@ -29,6 +29,7 @@ public class FileInfo extends JavaScriptObject {
   public final native int lines_inserted() /*-{ return this.lines_inserted || 0; }-*/;
   public final native int lines_deleted() /*-{ return this.lines_deleted || 0; }-*/;
   public final native boolean binary() /*-{ return this.binary || false; }-*/;
+  public final native String status() /*-{ return this.status; }-*/;
 
   public final native int _row() /*-{ return this._row }-*/;
   public final native void _row(int r) /*-{ this._row = r }-*/;

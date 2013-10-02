@@ -74,6 +74,7 @@ class FileTable extends FlowPanel {
     String commonPrefix();
     String inserted();
     String deleted();
+    String statusTypeCell();
   }
 
   private static final String REVIEWED;
@@ -411,6 +412,7 @@ class FileTable extends FlowPanel {
       sb.openTr();
       sb.openTh().setStyleName(R.css().pointer()).closeTh();
       sb.openTh().setStyleName(R.css().reviewed()).closeTh();
+      sb.openTh().setStyleName(R.css().statusTypeCell()).closeTh();
       sb.openTh().append(Util.C.patchTableColumnName()).closeTh();
       sb.openTh()
         .setAttribute("colspan", 3)
@@ -427,6 +429,7 @@ class FileTable extends FlowPanel {
       sb.openTr();
       sb.openTd().setStyleName(R.css().pointer()).closeTd();
       columnReviewed(sb, info);
+      columnStatus(sb, info);
       columnPath(sb, info);
       columnComments(sb, info);
       columnDelta1(sb, info);
@@ -442,6 +445,16 @@ class FileTable extends FlowPanel {
           .setAttribute("type", "checkbox")
           .setAttribute("onclick", REVIEWED + "(event," + info._row() + ")")
           .closeSelf();
+      }
+      sb.closeTd();
+    }
+
+    private void columnStatus(SafeHtmlBuilder sb, FileInfo info) {
+      sb.openTd().setStyleName(R.css().statusTypeCell());
+      if (Patch.COMMIT_MSG.equals(info.path())) {
+        sb.nbsp();
+      } else {
+        sb.append(info.status());
       }
       sb.closeTd();
     }
@@ -573,6 +586,7 @@ class FileTable extends FlowPanel {
       sb.openTr();
       sb.openTh().setStyleName(R.css().pointer()).closeTh();
       sb.openTh().setStyleName(R.css().reviewed()).closeTh();
+      sb.openTh().setStyleName(R.css().statusTypeCell()).closeTh();
       sb.openTd().closeTd(); // path
       sb.openTd().setAttribute("colspan", 3).closeTd(); // comments
 

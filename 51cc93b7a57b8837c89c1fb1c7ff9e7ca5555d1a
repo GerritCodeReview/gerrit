@@ -81,6 +81,41 @@
       "revId": "51cc93b7a57b8837c89c1fb1c7ff9e7ca5555d1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "616c7df1_7a38b9e1",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-02T05:16:52Z",
+      "side": 1,
+      "message": "This only applies to ChangeScreen2, so it does not really need to be documented as a separate feature (in the release notes).",
+      "parentUuid": "41ecd979_6171169c",
+      "revId": "51cc93b7a57b8837c89c1fb1c7ff9e7ca5555d1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "417139c6_b912df65",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-02T05:16:52Z",
+      "side": 1,
+      "message": "This fix has been reverted and should be removed from the release note.",
+      "revId": "51cc93b7a57b8837c89c1fb1c7ff9e7ca5555d1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -529,7 +529,7 @@ public class RefControlTest extends TestCase {
 
     return new ProjectControl(Collections.<AccountGroup.UUID> emptySet(),
         Collections.<AccountGroup.UUID> emptySet(), projectCache,
-        sectionSorter,
+        sectionSorter, null,
         canonicalWebUrl, new MockUser(name, memberOf),
         newProjectState());
   }

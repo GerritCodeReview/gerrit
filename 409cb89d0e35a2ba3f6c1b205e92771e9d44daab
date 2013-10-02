@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "81cb313c_eb18718b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-02T07:25:54Z",
+      "side": 1,
+      "message": "I\u0027ve already fixed this by passing null here:\n  https://gerrit-review.googlesource.com/50430",
+      "revId": "409cb89d0e35a2ba3f6c1b205e92771e9d44daab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

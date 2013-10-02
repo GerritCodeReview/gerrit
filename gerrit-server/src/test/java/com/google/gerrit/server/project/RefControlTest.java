@@ -395,6 +395,7 @@ public class RefControlTest extends TestCase {
 
   private ProjectConfig local;
   private ProjectConfig parent;
+  private GitRepositoryManager repositoryManager;
   private PermissionCollection.Factory sectionSorter;
 
   private final AccountGroup.UUID admin = new AccountGroup.UUID("test.admin");
@@ -529,7 +530,7 @@ public class RefControlTest extends TestCase {
 
     return new ProjectControl(Collections.<AccountGroup.UUID> emptySet(),
         Collections.<AccountGroup.UUID> emptySet(), projectCache,
-        sectionSorter,
+        sectionSorter, repositoryManager,
         canonicalWebUrl, new MockUser(name, memberOf),
         newProjectState());
   }

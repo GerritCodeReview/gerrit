@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "417139c6_798a0772",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-10-02T17:53:37Z",
+      "side": 1,
+      "message": "el.getChildCount()?",
+      "range": {
+        "startLine": 177,
+        "startChar": 17,
+        "endLine": 177,
+        "endChar": 38
+      },
+      "revId": "4e7fcf133b05363834594791cab60c81971d7d60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "616c7df1_5a85b55e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-10-02T17:53:37Z",
+      "side": 1,
+      "message": "el.getChild(i)?",
+      "range": {
+        "startLine": 178,
+        "startChar": 21,
+        "endLine": 178,
+        "endChar": 40
+      },
+      "revId": "4e7fcf133b05363834594791cab60c81971d7d60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "616c7df1_7a8af971",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-10-02T17:53:37Z",
+      "side": 1,
+      "message": "missing.getElement().appendChild(li)?",
+      "range": {
+        "startLine": 186,
+        "startChar": 4,
+        "endLine": 186,
+        "endChar": 45
+      },
+      "revId": "4e7fcf133b05363834594791cab60c81971d7d60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

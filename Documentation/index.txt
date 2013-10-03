@@ -8,6 +8,7 @@ Index
 .. link:licenses.html[Licenses and Notices]
 . Installing
 .. link:intro-quick.html[A Quick Introduction To Gerrit]
+.. link:intro-change-screen.html[A Quick Introduction To New Change Screen]
 .. link:install.html[Installation Guide]
 . Tutorial
 .. Get started

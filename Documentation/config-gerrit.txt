@@ -935,6 +935,13 @@ Additional options to pass along to the Java runtime.  If multiple
 values are configured, they are passed in order on the command line,
 separated by spaces.  These options are appended onto 'JAVA_OPTIONS'.
 
+As example, it is possible to overwrite Gerrit's default log4j
+configuraion:
+
+----
+  javaOptions = -Dlog4j.configuration=file:///home/gerrit/site/etc/log4j.properties
+----
+
 [[container.slave]]container.slave::
 +
 Used on Gerrit slave installations. If set to true the Gerrit JVM is

@@ -15,41 +15,36 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.common.changes.ListChangesOption;
-import com.google.gerrit.extensions.restapi.CacheControl;
-import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Option;
 
-import java.util.concurrent.TimeUnit;
-
 public class GetDetail implements RestReadView<ChangeResource> {
-  private final ChangeJson json;
+  private final GetChange delegate;
 
   @Option(name = "-o", multiValued = true, usage = "Output options")
   void addOption(ListChangesOption o) {
-    json.addOption(o);
+    delegate.addOption(o);
   }
 
   @Option(name = "-O", usage = "Output option flags, in hex")
   void setOptionFlagsHex(String hex) {
-    json.addOptions(ListChangesOption.fromBits(Integer.parseInt(hex, 16)));
+    delegate.setOptionFlagsHex(hex);
   }
 
   @Inject
-  GetDetail(ChangeJson json) {
-    this.json = json
-        .addOption(ListChangesOption.LABELS)
-        .addOption(ListChangesOption.DETAILED_LABELS)
-        .addOption(ListChangesOption.DETAILED_ACCOUNTS)
-        .addOption(ListChangesOption.MESSAGES);
+  GetDetail(GetChange delegate) {
+    this.delegate = delegate;
+    delegate.addOption(ListChangesOption.LABELS);
+    delegate.addOption(ListChangesOption.DETAILED_LABELS);
+    delegate.addOption(ListChangesOption.DETAILED_ACCOUNTS);
+    delegate.addOption(ListChangesOption.MESSAGES);
   }
 
   @Override
   public Object apply(ChangeResource rsrc) throws OrmException {
-    return Response.ok(json.format(rsrc))
-        .caching(CacheControl.PRIVATE(0, TimeUnit.SECONDS).setMustRevalidate());
+    return delegate.apply(rsrc);
   }
 }

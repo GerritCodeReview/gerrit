@@ -336,6 +336,11 @@ Get Change
 
 Retrieves a change.
 
+Additional fields can be obtained by adding `o` parameters, each
+option requires more database lookups and slows down the query
+response time to the client so they are generally disabled by
+default. Fields are described in link:#list-changes[Query Changes].
+
 .Request
 ----
   GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940 HTTP/1.0

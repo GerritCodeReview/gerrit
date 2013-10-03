@@ -14,12 +14,29 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.common.changes.ListChangesOption;
+import com.google.gerrit.extensions.restapi.CacheControl;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
+import org.kohsuke.args4j.Option;
+
+import java.util.concurrent.TimeUnit;
+
 public class GetChange implements RestReadView<ChangeResource> {
   private final ChangeJson json;
+
+  @Option(name = "-o", multiValued = true, usage = "Output options")
+  void addOption(ListChangesOption o) {
+    json.addOption(o);
+  }
+
+  @Option(name = "-O", usage = "Output option flags, in hex")
+  void setOptionFlagsHex(String hex) {
+    json.addOptions(ListChangesOption.fromBits(Integer.parseInt(hex, 16)));
+  }
 
   @Inject
   GetChange(ChangeJson json) {
@@ -28,6 +45,15 @@ public class GetChange implements RestReadView<ChangeResource> {
 
   @Override
   public Object apply(ChangeResource rsrc) throws OrmException {
-    return json.format(rsrc);
+    return cache(json.format(rsrc));
+  }
+
+  Object apply(RevisionResource rsrc) throws OrmException {
+    return cache(json.format(rsrc));
+  }
+
+  private Object cache(Object res) {
+    return Response.ok(res)
+        .caching(CacheControl.PRIVATE(0, TimeUnit.SECONDS).setMustRevalidate());
   }
 }

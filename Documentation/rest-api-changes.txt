@@ -176,6 +176,7 @@ default. Optional fields are:
 * `DRAFT_COMMENTS`: include the `has_draft_comments` field for
   revisions. Only valid when the `CURRENT_REVISION` or `ALL_REVISIONS`
   option is selected.
+--
 
 [[current-commit]]
 --

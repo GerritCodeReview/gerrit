@@ -16,6 +16,24 @@
       "revId": "c772bd886dffc1595b9839bb6a08be4a8ab46f0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81cb313c_4bd7453f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 938,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-03T12:46:16Z",
+      "side": 1,
+      "message": "customize, change, replace, ...\n\nWithout this line, it would be loaded from:\n\n gerrit-war/src/main/resources/log4j.properties",
+      "parentUuid": "016bc1dd_973004f5",
+      "revId": "c772bd886dffc1595b9839bb6a08be4a8ab46f0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -29,12 +29,12 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.ChangeIndex;
-import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexRewriteImpl;
 import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.server.index.Schema.Values;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -285,12 +285,8 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
   private SolrInputDocument toDocument(ChangeData cd) throws IOException {
     try {
       SolrInputDocument result = new SolrInputDocument();
-      for (FieldDef<ChangeData, ?> f : schema.getFields().values()) {
-        if (f.isRepeatable()) {
-          add(result, f, (Iterable<?>) f.get(cd, fillArgs));
-        } else {
-          add(result, f, Collections.singleton(f.get(cd, fillArgs)));
-        }
+      for (Values<ChangeData> values : schema.buildFields(cd, fillArgs)) {
+        add(result, values);
       }
       return result;
     } catch (OrmException e) {
@@ -298,28 +294,31 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
     }
   }
 
-  private void add(SolrInputDocument doc, FieldDef<ChangeData, ?> f,
-      Iterable<?> values) throws OrmException {
-    if (f.getType() == FieldType.INTEGER) {
-      for (Object value : values) {
-        doc.addField(f.getName(), (Integer) value);
+  private void add(SolrInputDocument doc, Values<ChangeData> values)
+      throws OrmException {
+    String name = values.getField().getName();
+    FieldType<?> type = values.getField().getType();
+
+    if (type == FieldType.INTEGER) {
+      for (Object value : values.getValues()) {
+        doc.addField(name, (Integer) value);
       }
-    } else if (f.getType() == FieldType.LONG) {
-      for (Object value : values) {
-        doc.addField(f.getName(), (Long) value);
+    } else if (type == FieldType.LONG) {
+      for (Object value : values.getValues()) {
+        doc.addField(name, (Long) value);
       }
-    } else if (f.getType() == FieldType.TIMESTAMP) {
-      for (Object v : values) {
-        doc.addField(f.getName(), QueryBuilder.toIndexTime((Timestamp) v));
+    } else if (type == FieldType.TIMESTAMP) {
+      for (Object v : values.getValues()) {
+        doc.addField(name, QueryBuilder.toIndexTime((Timestamp) v));
       }
-    } else if (f.getType() == FieldType.EXACT
-        || f.getType() == FieldType.PREFIX
-        || f.getType() == FieldType.FULL_TEXT) {
-      for (Object value : values) {
-        doc.addField(f.getName(), (String) value);
+    } else if (type == FieldType.EXACT
+        || type == FieldType.PREFIX
+        || type == FieldType.FULL_TEXT) {
+      for (Object value : values.getValues()) {
+        doc.addField(name, (String) value);
       }
     } else {
-      throw QueryBuilder.badFieldType(f.getType());
+      throw QueryBuilder.badFieldType(type);
     }
   }
 

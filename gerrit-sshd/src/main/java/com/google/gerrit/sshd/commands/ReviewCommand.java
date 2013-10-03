@@ -229,7 +229,6 @@ public class ReviewCommand extends SshCommand {
     review.labels = Maps.newTreeMap();
     review.drafts = PostReview.DraftHandling.PUBLISH;
     review.strictLabels = false;
-    review.waitForCommit = true;
     for (ApproveOption ao : optionList) {
       Short v = ao.value();
       if (v != null) {

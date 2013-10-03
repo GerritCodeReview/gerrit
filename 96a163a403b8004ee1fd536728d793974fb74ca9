@@ -16,6 +16,24 @@
       "revId": "96a163a403b8004ee1fd536728d793974fb74ca9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "016bc1dd_f718608b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-10-03T03:05:01Z",
+      "side": 1,
+      "message": "You\u0027re right.  That\u0027s a typo. Should be 1233, however I figured it\u0027d be reasonable to note, even if it isn\u0027t a full fix.",
+      "parentUuid": "e17f8d95_56083440",
+      "revId": "96a163a403b8004ee1fd536728d793974fb74ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

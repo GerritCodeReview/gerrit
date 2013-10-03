@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.events;
 
+import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
@@ -33,6 +34,7 @@ import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ApprovalAttribute;
@@ -124,6 +126,21 @@ public class EventFactory {
     a.owner = asAccountAttribute(change.getOwner());
     a.status = change.getStatus();
     return a;
+  }
+
+  /**
+   * Add currentReviewers to an existing ChangeAttribute.
+   *
+   * @param a
+   * @param rsrc
+   */
+  public void addCurrentReviewers(ChangeAttribute a, ChangeResource rsrc)
+      throws OrmException {
+    a.currentReviewers = Lists.newArrayList();
+    PatchSet.Id psid = rsrc.getChange().currentPatchSetId();
+    for (PatchSetApproval psa : db.get().patchSetApprovals().byPatchSet(psid)) {
+      a.currentReviewers.add(asAccountAttribute(psa.getAccountId()));
+    }
   }
 
   /**

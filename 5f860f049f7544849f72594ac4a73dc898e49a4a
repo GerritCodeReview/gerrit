@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4134d906_81ebba26",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-03T23:35:58Z",
+      "side": 1,
+      "message": "This should be:\n\n if (info.status() \u003d\u003d Status.MERGED) {",
+      "revId": "5f860f049f7544849f72594ac4a73dc898e49a4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

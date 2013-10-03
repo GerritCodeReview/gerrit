@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "81cb313c_eb7cf173",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 938,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-03T12:30:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "016bc1dd_173dd4d0",
+      "revId": "29959123b697dc872dc9c75863ea5432d41fc39b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "016bc1dd_7738d0e1",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-10-03T12:26:53Z",
       "side": 1,
       "message": "s/configuraion/configuration",
+      "revId": "29959123b697dc872dc9c75863ea5432d41fc39b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81cb313c_8b79ad82",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 939,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-03T12:30:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "016bc1dd_7738d0e1",
       "revId": "29959123b697dc872dc9c75863ea5432d41fc39b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

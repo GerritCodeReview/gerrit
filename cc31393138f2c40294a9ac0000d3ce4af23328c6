@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a1ce7549_6c5fbb1f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/IncludedInBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-03T06:54:12Z",
+      "side": 1,
+      "message": "Done. Mac width is set not to the same value, like for RevisionsBox: 580:\n\n http://imgur.com/71ITnJe",
+      "parentUuid": "616c7df1_1ab89d07",
+      "revId": "cc31393138f2c40294a9ac0000d3ce4af23328c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "616c7df1_7ac3d97b",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/IncludedInBox.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-10-03T01:04:21Z",
       "side": 1,
       "message": "Indentation is wrong here.",
+      "revId": "cc31393138f2c40294a9ac0000d3ce4af23328c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1ce7549_0c54f7fe",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/IncludedInBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-03T06:54:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "616c7df1_7ac3d97b",
       "revId": "cc31393138f2c40294a9ac0000d3ce4af23328c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

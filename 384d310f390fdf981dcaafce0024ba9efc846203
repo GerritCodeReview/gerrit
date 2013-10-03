@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "616c7df1_3a3801af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndexer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-03T02:09:57Z",
+      "side": 1,
+      "message": "s/index/delete",
+      "revId": "384d310f390fdf981dcaafce0024ba9efc846203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "417139c6_d93c73a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndexer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-03T02:09:57Z",
+      "side": 1,
+      "message": "s/index/delete",
+      "revId": "384d310f390fdf981dcaafce0024ba9efc846203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

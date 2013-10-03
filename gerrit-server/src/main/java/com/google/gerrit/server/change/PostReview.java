@@ -100,8 +100,6 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
      * not the caller.
      */
     public String onBehalfOf;
-
-    public boolean waitForCommit;
   }
 
   public static enum DraftHandling {
@@ -206,9 +204,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
 
     Output output = new Output();
     output.labels = input.labels;
-    if (input.waitForCommit) {
-      indexWrite.checkedGet();
-    }
+    indexWrite.checkedGet();
     return output;
   }
 

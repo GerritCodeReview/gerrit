@@ -3117,10 +3117,6 @@ If not set, the default is `ALL`.
 link:rest-api-accounts.html#account-id[\{account-id\}] the review
 should be posted on behalf of. To use this option the caller must
 have been granted `labelAs-NAME` permission for all keys of labels.
-|`wait_for_commit`|optional|
-Whether the request should wait for commit to the index to finish.
-If `false` (default) the request returns after the data is sent to
-the index, but searches may not immediately see the update.
 |============================
 
 [[reviewer-info]]

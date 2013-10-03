@@ -47,7 +47,7 @@ def maven_jar(
 
   if 'SNAPSHOT' in version:
     file_version = version.replace('-SNAPSHOT', '')
-    version = version.split('-')[0] + '-SNAPSHOT'
+    version = version.split('-SNAPSHOT')[0] + '-SNAPSHOT'
   else:
     file_version = version
 

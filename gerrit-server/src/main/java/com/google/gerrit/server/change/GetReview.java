@@ -20,17 +20,17 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 public class GetReview implements RestReadView<RevisionResource> {
-  private final ChangeJson json;
+  private final GetChange delegate;
 
   @Inject
-  GetReview(ChangeJson json) {
-    this.json = json
-        .addOption(ListChangesOption.DETAILED_LABELS)
-        .addOption(ListChangesOption.DETAILED_ACCOUNTS);
+  GetReview(GetChange delegate) {
+    this.delegate = delegate;
+    delegate.addOption(ListChangesOption.DETAILED_LABELS);
+    delegate.addOption(ListChangesOption.DETAILED_ACCOUNTS);
   }
 
   @Override
-  public Object apply(RevisionResource resource) throws OrmException {
-    return json.format(resource);
+  public Object apply(RevisionResource rsrc) throws OrmException {
+    return delegate.apply(rsrc);
   }
 }

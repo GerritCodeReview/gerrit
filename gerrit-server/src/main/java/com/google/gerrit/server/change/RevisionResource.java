@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.restapi.RestResource;
+import com.google.gerrit.extensions.restapi.RestResource.HasETag;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -23,7 +24,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.inject.TypeLiteral;
 
-public class RevisionResource implements RestResource {
+public class RevisionResource implements RestResource, HasETag {
   public static final TypeLiteral<RestView<RevisionResource>> REVISION_KIND =
       new TypeLiteral<RestView<RevisionResource>>() {};
 
@@ -54,6 +55,14 @@ public class RevisionResource implements RestResource {
 
   public PatchSet getPatchSet() {
     return ps;
+  }
+
+  @Override
+  public String getETag() {
+    // Conservative estimate: refresh the revision if its parent change has
+    // changed, so we don't have to check whether a given modification affected
+    // this revision specifically.
+    return change.getETag();
   }
 
   Account.Id getAccountId() {

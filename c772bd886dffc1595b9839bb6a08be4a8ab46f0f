@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "016bc1dd_973004f5",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 938,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-03T12:32:03Z",
+      "side": 1,
+      "message": "Do you mean override?",
+      "revId": "c772bd886dffc1595b9839bb6a08be4a8ab46f0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

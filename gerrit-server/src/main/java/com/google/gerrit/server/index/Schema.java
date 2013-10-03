@@ -15,11 +15,41 @@
 package com.google.gerrit.server.index;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Function;
 import com.google.common.base.Objects;
+import com.google.common.base.Predicates;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.server.index.FieldDef.FillArgs;
+import com.google.gwtorm.server.OrmException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Collections;
 
 /** Specific version of a secondary index schema. */
 public class Schema<T> {
+  private static final Logger log = LoggerFactory.getLogger(Schema.class);
+
+  public static class Values<T> {
+    private final FieldDef<T, ?> field;
+    private final Iterable<?> values;
+
+    private Values(FieldDef<T, ?> field, Iterable<?> values) {
+      this.field = field;
+      this.values = values;
+    }
+
+    public FieldDef<T, ?> getField() {
+      return field;
+    }
+
+    public Iterable<?> getValues() {
+      return values;
+    }
+  }
+
   private final boolean release;
   private final ImmutableMap<String, FieldDef<T, ?>> fields;
   private int version;
@@ -50,6 +80,41 @@ public class Schema<T> {
 
   public final ImmutableMap<String, FieldDef<T, ?>> getFields() {
     return fields;
+  }
+
+  /**
+   * Build all fields in the schema from an input object.
+   * <p>
+   * Null values are omitted, as are fields which cause errors, which are
+   * logged.
+   *
+   * @param obj input object.
+   * @param fillArgs arguments for filling fields.
+   * @return all non-null field values from the object.
+   */
+  public final Iterable<Values<T>> buildFields(
+      final T obj, final FillArgs fillArgs) {
+    return FluentIterable.from(fields.values())
+        .transform(new Function<FieldDef<T, ?>, Values<T>>() {
+          @Override
+          public Values<T> apply(FieldDef<T, ?> f) {
+            Object v;
+            try {
+              v = f.get(obj, fillArgs);
+            } catch (OrmException e) {
+              log.error(String.format("error getting field %s of %s",
+                  f.getName(), obj), e);
+              return null;
+            }
+            if (v == null) {
+              return null;
+            } else if (f.isRepeatable()) {
+              return new Values<T>(f, (Iterable<?>) v);
+            } else {
+              return new Values<T>(f, Collections.singleton(v));
+            }
+          }
+        }).filter(Predicates.notNull());
   }
 
   @Override

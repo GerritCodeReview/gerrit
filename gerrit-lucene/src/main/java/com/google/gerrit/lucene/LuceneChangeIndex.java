@@ -42,6 +42,7 @@ import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.IndexRewriteImpl;
 import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.server.index.Schema.Values;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -409,14 +410,9 @@ public class LuceneChangeIndex implements ChangeIndex {
   private Document toDocument(ChangeData cd) throws IOException {
     try {
       Document result = new Document();
-      for (FieldDef<ChangeData, ?> f : schema.getFields().values()) {
-        if (f.isRepeatable()) {
-          add(result, f, (Iterable<?>) f.get(cd, fillArgs));
-        } else {
-          Object val = f.get(cd, fillArgs);
-          if (val != null) {
-            add(result, f, Collections.singleton(val));
-          }
+      for (Values<ChangeData> vs : schema.buildFields(cd, fillArgs)) {
+        if (vs.getValues() != null) {
+          add(result, vs);
         }
       }
       return result;
@@ -425,39 +421,40 @@ public class LuceneChangeIndex implements ChangeIndex {
     }
   }
 
-  private void add(Document doc, FieldDef<ChangeData, ?> f,
-      Iterable<?> values) throws OrmException {
-    String name = f.getName();
-    Store store = store(f);
+  private void add(Document doc, Values<ChangeData> values)
+      throws OrmException {
+    String name = values.getField().getName();
+    FieldType<?> type = values.getField().getType();
+    Store store = store(values.getField());
 
-    if (f.getType() == FieldType.INTEGER) {
-      for (Object value : values) {
+    if (type == FieldType.INTEGER) {
+      for (Object value : values.getValues()) {
         doc.add(new IntField(name, (Integer) value, store));
       }
-    } else if (f.getType() == FieldType.LONG) {
-      for (Object value : values) {
+    } else if (type == FieldType.LONG) {
+      for (Object value : values.getValues()) {
         doc.add(new LongField(name, (Long) value, store));
       }
-    } else if (f.getType() == FieldType.TIMESTAMP) {
-      for (Object v : values) {
-        int t = QueryBuilder.toIndexTime((Timestamp) v);
+    } else if (type == FieldType.TIMESTAMP) {
+      for (Object value : values.getValues()) {
+        int t = QueryBuilder.toIndexTime((Timestamp) value);
         doc.add(new IntField(name, t, store));
       }
-    } else if (f.getType() == FieldType.EXACT
-        || f.getType() == FieldType.PREFIX) {
-      for (Object value : values) {
+    } else if (type == FieldType.EXACT
+        || type == FieldType.PREFIX) {
+      for (Object value : values.getValues()) {
         doc.add(new StringField(name, (String) value, store));
       }
-    } else if (f.getType() == FieldType.FULL_TEXT) {
-      for (Object value : values) {
+    } else if (type == FieldType.FULL_TEXT) {
+      for (Object value : values.getValues()) {
         doc.add(new TextField(name, (String) value, store));
       }
-    } else if (f.getType() == FieldType.STORED_ONLY) {
-      for (Object value : values) {
+    } else if (type == FieldType.STORED_ONLY) {
+      for (Object value : values.getValues()) {
         doc.add(new StoredField(name, (byte[]) value));
       }
     } else {
-      throw QueryBuilder.badFieldType(f.getType());
+      throw QueryBuilder.badFieldType(type);
     }
   }
 

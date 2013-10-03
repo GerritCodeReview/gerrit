@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "81cb313c_0be13d15",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-03T13:55:44Z",
+      "side": 1,
+      "message": "nit: unnecessary new line. We put a new line after a block, not before.",
+      "revId": "9f828ca5860c4e8f96473edf33a5dcf0b70c02ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

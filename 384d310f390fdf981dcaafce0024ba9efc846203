@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "616c7df1_ba5ad1f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-10-03T15:52:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "616c7df1_fa6049a8",
+      "revId": "384d310f390fdf981dcaafce0024ba9efc846203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "417139c6_d9eeb3e5",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2013-10-03T15:26:01Z",
       "side": 1,
       "message": "make sure get() is invoked on the future...",
+      "revId": "384d310f390fdf981dcaafce0024ba9efc846203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "417139c6_7927677c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-10-03T15:52:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "417139c6_d9eeb3e5",
       "revId": "384d310f390fdf981dcaafce0024ba9efc846203",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "417139c6_191c2b30",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-10-03T15:52:29Z",
+      "side": 1,
+      "message": "Done.\n\nRereading this code I think we should just kill waitForCommit. Lots of endpoints mutate changes and block on indexing futures; this is the only one with waitForCommit as an option at all. Plus not blocking means the exception is never logged. But that will come in a separate change.",
+      "parentUuid": "417139c6_f9eb77d2",
+      "revId": "384d310f390fdf981dcaafce0024ba9efc846203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "417139c6_99f83ba6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndexer.java",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2013-10-03T15:26:01Z",
       "side": 1,
       "message": "Callables.returning(null);",
+      "revId": "384d310f390fdf981dcaafce0024ba9efc846203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "417139c6_3921ef64",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndexer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-10-03T15:52:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "417139c6_99f83ba6",
       "revId": "384d310f390fdf981dcaafce0024ba9efc846203",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "417139c6_d9155303",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndexer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-10-03T15:52:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "417139c6_b9f5ffac",
+      "revId": "384d310f390fdf981dcaafce0024ba9efc846203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "616c7df1_3a3801af",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndexer.java",
         "patchSetId": 5
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "616c7df1_5afb75a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndexer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-10-03T15:52:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "616c7df1_3a3801af",
+      "revId": "384d310f390fdf981dcaafce0024ba9efc846203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "417139c6_d93c73a5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndexer.java",
         "patchSetId": 5
@@ -115,6 +223,24 @@
       "writtenOn": "2013-10-03T02:09:57Z",
       "side": 1,
       "message": "s/index/delete",
+      "revId": "384d310f390fdf981dcaafce0024ba9efc846203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "616c7df1_7a00b9ce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndexer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-10-03T15:52:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "417139c6_d93c73a5",
       "revId": "384d310f390fdf981dcaafce0024ba9efc846203",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

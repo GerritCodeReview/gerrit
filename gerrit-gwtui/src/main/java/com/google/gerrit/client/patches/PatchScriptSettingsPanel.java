@@ -23,6 +23,9 @@ import com.google.gerrit.client.ui.NpIntTextBox;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.dom.client.OptionElement;
+import com.google.gwt.dom.client.SelectElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -156,6 +159,32 @@ public class PatchScriptSettingsPanel extends Composite {
       syntaxHighlighting.setValue(getValue().isSyntaxHighlighting());
     } else {
       syntaxHighlighting.setValue(false);
+    }
+
+    NodeList<OptionElement> options =
+        context.getElement().<SelectElement>cast().getOptions();
+    for (int i = 0; i < options.getLength(); i++) {
+      OptionElement currOption = options.getItem(i);
+      if (Short.parseShort(currOption.getValue()) ==
+          AccountDiffPreference.WHOLE_FILE_CONTEXT) {
+        if (enableSmallFileFeatures) {
+          currOption.setDisabled(false);
+        } else {
+          currOption.setDisabled(true);
+          if (context.getSelectedIndex() > -1 &&
+              AccountDiffPreference.CONTEXT_CHOICES[context.getSelectedIndex()] ==
+              AccountDiffPreference.WHOLE_FILE_CONTEXT) {
+            for (int j = 0; i < AccountDiffPreference.CONTEXT_CHOICES.length; j++) {
+              if (AccountDiffPreference.CONTEXT_CHOICES[j] ==
+                  PatchScreen.LARGE_FILE_CONTEXT) {
+                context.setSelectedIndex(j);
+                break;
+              }
+            }
+          }
+        }
+        break;
+      }
     }
     toggleEnabledStatus(save.isEnabled());
   }

@@ -23,6 +23,9 @@ import com.google.gerrit.client.ui.NpIntTextBox;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.dom.client.OptionElement;
+import com.google.gwt.dom.client.SelectElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -156,6 +159,21 @@ public class PatchScriptSettingsPanel extends Composite {
       syntaxHighlighting.setValue(getValue().isSyntaxHighlighting());
     } else {
       syntaxHighlighting.setValue(false);
+    }
+
+    NodeList<OptionElement> options =
+        context.getElement().<SelectElement>cast().getOptions();
+    // WHOLE_FILE_CONTEXT is the last option in the list.
+    int lastIndex = options.getLength() - 1;
+    OptionElement currOption = options.getItem(lastIndex);
+    if (enableSmallFileFeatures) {
+      currOption.setDisabled(false);
+    } else {
+      currOption.setDisabled(true);
+      if (context.getSelectedIndex() == lastIndex) {
+        // Select the next longest context from WHOLE_FILE_CONTEXT
+        context.setSelectedIndex(lastIndex - 1);
+      }
     }
     toggleEnabledStatus(save.isEnabled());
   }

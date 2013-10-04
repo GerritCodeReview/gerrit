@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1ed29cb_2d08ed3f",
+        "filename": "Documentation/intro-change-screen.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-04T15:29:30Z",
+      "side": 1,
+      "message": "May be we should mention here also the other way around: it is deactivated system-wide and users can activate it on their user preferences page.",
+      "revId": "305e5d7d9a70f091712318c84dbbd6c02fd10285",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "010ca176_2f08e93f",
+        "filename": "Documentation/intro-change-screen.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-04T15:29:30Z",
+      "side": 1,
+      "message": "Sorry, but that one is annoying [1]:\n\n* Display the inline draft comments when replying to a change\n\n[1] https://code.google.com/p/gerrit/issues/detail?id\u003d2070",
+      "revId": "305e5d7d9a70f091712318c84dbbd6c02fd10285",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

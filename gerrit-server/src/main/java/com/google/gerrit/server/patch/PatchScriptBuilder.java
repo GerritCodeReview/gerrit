@@ -193,18 +193,16 @@ class PatchScriptBuilder {
         // IF the file is really large, we disable things to avoid choking
         // the browser client.
         //
-        diffPrefs.setContext((short) Math.min(25, context));
-        diffPrefs.setSyntaxHighlighting(false);
-        context = diffPrefs.getContext();
         hugeFile = true;
 
-      } else {
-        // In order to expand the skipped common lines or syntax highlight the
-        // file properly we need to give the client the complete file contents.
-        // So force our context temporarily to the complete file size.
-        //
-        context = MAX_CONTEXT;
       }
+
+      // In order to expand the skipped common lines or syntax highlight the
+      // file properly we need to give the client the complete file contents.
+      // So force our context temporarily to the complete file size.
+      //
+      context = MAX_CONTEXT;
+
       packContent(diffPrefs.getIgnoreWhitespace() != Whitespace.IGNORE_NONE);
     }
 

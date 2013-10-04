@@ -50,6 +50,7 @@ import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 public abstract class PatchScreen extends Screen implements
     CommentEditorContainer {
   static final PrettyFactory PRETTY = ClientSideFormatter.FACTORY;
+  static final int MAX_CONTEXT = 5000000;
 
   public static class SideBySide extends PatchScreen {
     public SideBySide(final Patch.Key id, final int patchIndex,
@@ -458,6 +459,18 @@ public abstract class PatchScreen extends Screen implements
       contentTable.setCommentLinkProcessor(commentLinkProcessor);
       contentPanel.add(contentTable);
       setToken(Dispatcher.toPatchUnified(idSideA, patchKey));
+    }
+
+    if(script.isHugeFile()) {
+      AccountDiffPreference dp = script.getDiffPrefs();
+      int context = dp.getContext();
+      if (context == AccountDiffPreference.WHOLE_FILE_CONTEXT) {
+        context = MAX_CONTEXT;
+      } else if (context > MAX_CONTEXT) {
+        context = MAX_CONTEXT;
+      }
+      dp.setContext((short)Math.min(context, 25));
+      script.setDiffPrefs(dp);
     }
 
     contentTable.display(patchKey, idSideA, idSideB, script, patchSetDetail);

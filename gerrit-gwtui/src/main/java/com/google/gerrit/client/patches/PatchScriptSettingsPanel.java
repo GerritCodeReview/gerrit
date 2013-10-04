@@ -23,6 +23,7 @@ import com.google.gerrit.client.ui.NpIntTextBox;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -37,6 +38,7 @@ import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.xml.client.NodeList;
 import com.google.gwtjsonrpc.common.VoidResult;
 
 public class PatchScriptSettingsPanel extends Composite {
@@ -155,7 +157,19 @@ public class PatchScriptSettingsPanel extends Composite {
     if (enableSmallFileFeatures) {
       syntaxHighlighting.setValue(getValue().isSyntaxHighlighting());
     } else {
-      syntaxHighlighting.setValue(false);
+      //syntaxHighlighting.setValue(false);
+    }
+    Element element = context.getElement().getFirstChildElement();
+    while( element.getPropertyInt("value") != AccountDiffPreference.WHOLE_FILE_CONTEXT ) {
+      element = element.getNextSiblingElement();
+    }
+    if( element.getPropertyInt("value") == AccountDiffPreference.WHOLE_FILE_CONTEXT ) {
+      if (enableSmallFileFeatures) {
+        element.removeAttribute("disabled");
+      } else {
+        element.setAttribute("disabled", "disabled");
+        context.setSelectedIndex(Math.min(context.getSelectedIndex(), context.getItemCount() - 2));
+      }
     }
     toggleEnabledStatus(save.isEnabled());
   }
@@ -196,8 +210,8 @@ public class PatchScriptSettingsPanel extends Composite {
     } else {
       syntaxHighlighting.setValue(false);
     }
-    setContext(dp.getContext());
 
+    setContext(dp.getContext());
     tabWidth.setIntValue(dp.getTabSize());
     colWidth.setIntValue(dp.getLineLength());
     intralineDifference.setValue(dp.isIntralineDifference());

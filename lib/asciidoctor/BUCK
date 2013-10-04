@@ -41,8 +41,8 @@ java_library(
 
 maven_jar(
   name = 'asciidoctor',
-  id = 'org.asciidoctor:asciidoctor-java-integration:0.1.3',
-  sha1 = '5cf21b4331d737ef0f3b3f543a7e5a343c1f27ec',
+  id = 'org.asciidoctor:asciidoctor-java-integration:0.1.4',
+  sha1 = '3596c7142fd30d7b65a0e64ba294f3d9d4bd538f',
   license = 'Apache2.0',
   visibility = [],
   attach_source = False,

@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1ed29cb_4df0d90e",
+        "filename": "Documentation/intro-change-screen.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-04T12:02:40Z",
+      "side": 1,
+      "message": "reply-button?",
+      "revId": "b6e7569e4792c675f0dd77202f6edc37ee57b513",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "010ca176_4ff0cd0e",
+        "filename": "Documentation/intro-change-screen.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-04T12:02:40Z",
+      "side": 1,
+      "message": "and \"r\" to toggle the \u0027reviewed\u0027 flag.",
+      "revId": "b6e7569e4792c675f0dd77202f6edc37ee57b513",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1ed29cb_adf4dd02",
+        "filename": "Documentation/intro-change-screen.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-04T12:02:40Z",
+      "side": 1,
+      "message": "Features?",
+      "revId": "b6e7569e4792c675f0dd77202f6edc37ee57b513",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "010ca176_aff4d902",
+        "filename": "Documentation/intro-change-screen.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-04T12:02:40Z",
+      "side": 1,
+      "message": "* Patch preferences can not be changed\n\nAs Doug pointed out in [1].\n\n[1] https://code.google.com/p/gerrit/issues/detail?id\u003d2165",
+      "revId": "b6e7569e4792c675f0dd77202f6edc37ee57b513",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

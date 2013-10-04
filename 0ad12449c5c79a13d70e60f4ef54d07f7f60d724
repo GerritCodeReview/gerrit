@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4134d906_a1187e8a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-04T12:00:06Z",
+      "side": 1,
+      "message": "- This feature is supposed to list all reviewers, even if they have not voted.  This will clearly not be the case if it is limited to users with a code-review label.\n\n- Also, what if the site is not configured with the Code-Review label?\n\n- The code inside the `if` should be enclosed in curly braces and indented.",
+      "revId": "0ad12449c5c79a13d70e60f4ef54d07f7f60d724",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

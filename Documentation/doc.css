@@ -23,7 +23,7 @@ li p {
   margin: 0.2em 0 0.2em 0;
 }
 
-.monospaced {
+pre, .listingblock > .title {
   border: 2px solid silver;
   background: #ebebeb;
   margin-left: 2em;

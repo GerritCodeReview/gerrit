@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "013e61ea_7f028f1f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-04T12:25:04Z",
+      "side": 1,
+      "message": "Have a look at how it\u0027s done in ListReviewers:\n\n    for (PatchSetApproval patchSetApproval\n         : db.patchSetApprovals().byChange(changeId)) {\n      Account.Id accountId \u003d patchSetApproval.getAccountId();\n      if (!reviewers.containsKey(accountId)) {\n        reviewers.put(accountId, resourceFactory.create(rsrc, accountId));\n      }\n    }\n\nObviously you\u0027ll need to change variable names to fit in here, but generally that should work as expected.",
+      "revId": "0ad12449c5c79a13d70e60f4ef54d07f7f60d724",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4134d906_a1187e8a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
         "patchSetId": 6

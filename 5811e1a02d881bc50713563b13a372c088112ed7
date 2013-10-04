@@ -16,6 +16,24 @@
       "revId": "5811e1a02d881bc50713563b13a372c088112ed7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "013e61ea_9f18338b",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-04T12:30:28Z",
+      "side": 1,
+      "message": "Yes, I\u0027ll do this in the next patch set which I will upload after more of the pending changes are merged and before I make the rc0 release.",
+      "parentUuid": "010ca176_effee1e0",
+      "revId": "5811e1a02d881bc50713563b13a372c088112ed7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

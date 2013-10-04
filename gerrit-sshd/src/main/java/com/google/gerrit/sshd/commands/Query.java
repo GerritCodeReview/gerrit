@@ -52,6 +52,11 @@ class Query extends SshCommand {
     processor.setIncludeApprovals(on);
   }
 
+  @Option(name = "--current-reviewers", usage = "Include current reviewers")
+  void setCurrentReviewers(boolean on) {
+    processor.setIncludeCurrentReviewers(on);
+  }
+
   @Option(name = "--comments", usage = "Include patch set and inline comments")
   void setComments(boolean on) {
     processor.setIncludeComments(on);

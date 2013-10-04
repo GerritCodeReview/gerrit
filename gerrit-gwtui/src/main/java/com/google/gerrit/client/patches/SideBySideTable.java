@@ -52,6 +52,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
 
   private SparseHtmlFile a;
   private SparseHtmlFile b;
+  private boolean isHugeFile;
   protected boolean isFileCommentBorderRowExist;
 
   protected void createFileCommentEditorOnSideA() {
@@ -94,6 +95,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
   protected void render(final PatchScript script, final PatchSetDetail detail) {
     final ArrayList<Object> lines = new ArrayList<Object>();
     final SafeHtmlBuilder nc = new SafeHtmlBuilder();
+    isHugeFile = script.isHugeFile();
     allocateTableHeader(script, nc);
     lines.add(null);
     if (!isDisplayBinary) {
@@ -209,7 +211,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
         for (int row = 0; row < lines.size(); row++) {
           setRowItem(row, lines.get(row));
           if (lines.get(row) instanceof SkippedLine) {
-            createSkipLine(row, (SkippedLine) lines.get(row));
+            createSkipLine(row, (SkippedLine) lines.get(row), isHugeFile);
           }
         }
       }
@@ -540,16 +542,16 @@ public class SideBySideTable extends AbstractPatchContentTable {
 
     if (numRows > 0) {
       line.incrementStart(numRows);
-      createSkipLine(row + loopTo, line);
+      createSkipLine(row + loopTo, line, isHugeFile);
     } else if (numRows < 0) {
       line.reduceSize(-numRows);
-      createSkipLine(row, line);
+      createSkipLine(row, line, isHugeFile);
     } else {
       table.removeRow(row + loopTo);
     }
   }
 
-  private void createSkipLine(int row, SkippedLine line) {
+  private void createSkipLine(int row, SkippedLine line, boolean isHugeFile) {
     FlowPanel p = new FlowPanel();
     InlineLabel l1 = new InlineLabel(" " + PatchUtil.C.patchSkipRegionStart() + " ");
     InlineLabel l2 = new InlineLabel(" " + PatchUtil.C.patchSkipRegionEnd() + " ");
@@ -571,7 +573,11 @@ public class SideBySideTable extends AbstractPatchContentTable {
 
       p.add(b);
       p.add(l1);
-      p.add(all);
+      if( isHugeFile ) {
+        p.add(new InlineLabel(" " + line.getSize() + " "));
+      } else {
+        p.add(all);
+      }
       p.add(l2);
       p.add(a);
     } else {

@@ -24,9 +24,9 @@ import com.google.inject.Provider;
 /**
  * Definition of a field stored in the secondary index.
  *
- * @param I input type from which documents are created and search results are
+ * @param <I> input type from which documents are created and search results are
  *     returned.
- * @param T type that should be extracted from the input object when converting
+ * @param <T> type that should be extracted from the input object when converting
  *     to an index document.
  */
 public abstract class FieldDef<I, T> {

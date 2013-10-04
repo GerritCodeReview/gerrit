@@ -1,189 +1,212 @@
 Change Screen - Introduction
 ============================
 
-As of Gerrit 2.8 the change screen was redesigned from ground up. The old
-changes screen is deprecated and is going to be discontinued in one of the
-next Gerrit releases. The design spirit of the new change screen is
-simplicity: only one patch set is presented on the screen. The list of related
-changes is always visible and optional elements are moved to pop down boxes.
-+
-This is not only the facelift. The main highlights are under the hood:
+As of Gerrit 2.8 the change screen was redesigned from the ground up. The old
+changes screen is deprecated and will be discontinued in one of the next Gerrit
+releases.
 
-* Old style RPC was replaced by REST API
-* prettify syntax highlighting library was replaced by Codemirror
+The design spirit of the new change screen is simplicity: only one patch set is
+presented on the screen. The list of related changes is always visible and
+optional elements are moved to pop down boxes.
+
+This is not only a facelift. The main highlights are under the hood:
+
+* Old style RPC calls are replaced by the REST API
+* The prettify syntax highlighting library was replaced by Codemirror
 * Automatic refresh of open changes
 * Support to download a patch direct in browser: no local repo is needed
-* JS API integration: it was never so easy to add change/revision action to
+* JS API integration: it was never so easy to add change/revision actions to
 the UI from a plugin.
 
-This document intended to help to switch to the new change screen.
-Further information on the topic can be found here:
-link:https://groups.google.com/forum/#!topic/repo-discuss/6Ryz9p6AzgE[CS2 thread on the ML]
+This document is intended to help users to switch to the new change screen.
+
+Further information on the topic can be found in the:
+link:https://groups.google.com/forum/#!topic/repo-discuss/6Ryz9p6AzgE[
+CodeScreen2 thread on the repo-discuss mailing list].
 
 [[configuration]]
 Configuration
 ~~~~~~~~~~~~~
 
-At the time of this writing the new change screen is deactivated by default.
-There are system wide and user preference options to activate it:
-link:config-gerrit.html[gerrit.changeScreen]. If `gerrit.changeScreen` is set
-to `CHANGE_SCREEN2` then the new change screen is activated. User can
-deactivate it by setting `OLD_UI` on user preference site. And the other way
-around.
+The new change screen is deactivated by default. It can be activated system-wide
+by changing the link:config-gerrit.html[gerrit.changeScreen] setting to
+`CHANGE_SCREEN2`.  Users can deactivate it by setting `OLD_UI` on their user
+preferences page.
 
 [[switching-between-patch-sets]]
 Switching between patch sets
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-As already mentioned above, the main diference between the old and the new
-change sreen is the fact, that only one patch set is presented on the
-screen. To switch to other patch sets for the given change drop down
-Revisions box is used on the right upper side of the change header.
-Patch sets are always sorted in descending order. The known option to switch
-between ascending and reverse patch set srorting order is not supported any
-more on the new change screen.
+As already mentioned above, the main difference between the old and the new
+change screen is the fact that only one patch set is presented on the screen.
+
+To switch to other patch sets for the given change, the drop down 'Revisions'
+box is used on the right upper side of the change header.
+
+Patch sets are always sorted in descending order. The option to switch between
+ascending and reverse patch set sorting order is not supported on the new change
+screen.
 
 [[download-commands]]
 Download commands
 ~~~~~~~~~~~~~~~~~
 
-The download commands moved to the Download drop down box. Patch file can be
-downloaded as base64 encoded or zipped version. There are pending patches to
-move download commands to core plugin to make it easy customizable.
+The download commands are moved to the 'Download' drop down box.  Patch files
+can be downloaded as base64 encoded or zipped versions.
 
 [[quick-approve]]
 Quick approve
 ~~~~~~~~~~~~~
 
-The so called "Quick approve" button is some times confusing.
-Normal users (not maintainer) are seeing this as "Verified+1" button right to
-the "Reply" button. But the button is not always "Verified+1". The button
-appears if a user has permission to vote the max score in exactly one label
-that the rules have marked as NEED. For a maintainer with both "Verified+1" and
-"Code-Review+2" powers the button does not appear as both categories are still
-marked NEED and the maintainer has permission to use both. If another
-maintainer does "Code-Review+2" the button displays as Verified+1. If a
-verifier does "Verified+1" the button says "Code-Review+2". Important to note,
-that it is not possible per design to provide a comment when using this
-button, hence the name Quick approve. To provide comments, "Reply" button
-should be used.
+The so called 'Quick approve' button is some times confusing. Normal users (i.e.
+non-maintainers) see this as 'Verified+1' button to the right of the 'Reply'
+button.
 
-[[reply button]]
+The button is not always "Verified+1". The button appears if a user has
+permission to vote the max score in exactly one label that the rules have marked
+as NEED.
+
+For a maintainer with both 'Verified+1' and 'Code-Review+2' powers the button
+does not appear, as both categories are still marked NEED and the maintainer has
+permission to use both.  If another maintainer scores 'Code-Review+2', then the
+button displays as 'Verified+1'. If a verifier scores 'Verified+1' the button
+displays as 'Code-Review+2'.
+
+It is important to note that by design, the user cannot provide a comment when
+using this button, hence the name 'Quick approve'. To provide comments, the
+'Reply' button should be used.
+
+[[reply-button]]
 Reply button
 ~~~~~~~~~~~~
 
-This button correspond to the "Review" button on patch set panel on old change
-screen. The only new feature: the user can optionaly send email during the
-vote. Key bindings: "a" to open the drop down. "ESC" to close it.
+This button corresponds to the 'Review' button the on patch set panel on the old
+change screen.  The only new feature: the user can optionaly send an email
+during the vote.
+
+Key bindings: "a" to open the drop down. "ESC" to close it.
 
 
 [[edit-commit-message]]
 Edit commit message
 ~~~~~~~~~~~~~~~~~~~
 
-To edit commit message use "Edit Message" drop down box. It can be activated
-by clicking on "Edit Message" button on change header. Key bindings: "e" to
-open the drop down. "ESC" to close it.
+To edit the commit message use the 'Edit Message' button on the change header,
+which will open a drop-down editor box.
+
+Key bindings: "e" to open the drop down. "ESC" to close it.
 
 [[edit-change-topic]]
 Edit change topic
 ~~~~~~~~~~~~~~~~~
 
-To edit the topic use edit icon right to the topic field. Key bindings: "t" to
-open the drop down. "ESC" to close it.
+To edit the topic use the edit icon to the right of the topic field.
+
+Key bindings: "t" to open the drop down. "ESC" to close it.
 
 [[abandon-restore]]
 Abandon or Restore changes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When a change is abandoned or restored, a panel is appears and comment message
+When a change is abandoned or restored, a panel appears and a comment message
 can be provided.
 
 [[working-with-drafts]]
 Working with draft changes and patch sets
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When a change or a patch set is a draft, then three additional buttons appears
-on action panel: "Publish", "Delete Revision", "Delete Change". In Revisions
-drop down "(DRAFT)" suffix is added to the patch set number to indicate that
-the patch set is a draft.
+When a change or a patch set is a draft, then three additional buttons appear on
+the action panel: 'Publish', 'Delete Revision', and 'Delete Change'. In the
+'Revisions' drop down a "(DRAFT)" suffix is added to the patch set number to
+indicate that the patch set is a draft.
 
 [[draft-comments]]
 Highlight draft comments
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-If a patch set has draft comments that weren't published yet then that patch
-set is marked on the revision list. In addition red "draft" prefix appears on
-the file table.
+If a patch set has draft comments that weren't published yet, then that patch
+set is marked on the list in the 'Revisions' drop down list. In addition a red
+"draft" prefix appears on the filenames in the file table.
 
 [[codemirror]]
 Codemirror
 ~~~~~~~~~~
 
-On user preference "Side By Side and "Unified Diff" view can be configured.
-Use / key to start the CodeMirror search, like in vim. Key binding are not
-customizable at the moment. This can be changed in the future.
-+
-Range comments are supported on Codemirror "Side By Side" screen:
-Highlight lines with the mouse and then click the bottom-most line number to
-create a range comment for the highlighted lines.
+On the user preferences page, 'Side By Side' or 'Unified Diff' view can be
+configured.  Use the "/" key to start the CodeMirror search, like in vim.
+
+Key bindings are not customizable at the moment. They may be added in the future.
+
+Range comments are supported on Codemirror's 'Side By Side' screen.  Highlight
+lines with the mouse and then click the bottom-most line number to create a
+range comment for the highlighted lines.
 
 [[reviewers]]
 Reviewers
 ~~~~~~~~~
 
-Reviewers information is splitted into three different sections: Reviewers,
-who actually voted on the change (field "Reviewers"). Reviewer, who were added
-to the change but didn't vote yet (field "CC") and the actually votes per
-category (above "File" list).
-+
-To add a reviewers, use "[+]" button right to the "CC" field. Typing into
-suggest oracle field activate the auto completion of reviewers user or groups.
-+
-To remove reviewers click on the 'x' icon in reviewer's "chip".
-+
-Use "c" key binding to add a reviewers. "ESC" to close the drop down.
+Reviewer are split into two groups: Reviewers who actually voted on the change
+in the 'Reviewers' field, and reviewers, who were added to the change but didn't
+vote yet in the 'CC' field.
+
+The votes per category are listed above the File list.
+
+To add a reviewer, use the '[+]' button to the right of the 'CC' field. Typing
+into the pop-up text field activates auto completion of user or group names.
+
+To remove reviewers click on the 'x' icon in the reviewer's "chip".
+
+Key bindings:  "c" to add a reviewer. "ESC" to close the drop down.
 
 [[auto-refresh]]
 Auto refresh of change data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-With new change screen polling for updates to the currently open change is
-activated per default. Default delay is 30 sec. For example, if other user
-votes or comments on the same change, then a popup window appears on the right
-bottom corner and user is notified that the change was updated. The delay is
-controlled by link:config-gerrit.html[change.updateDelay] configuration option.
+On the new change screen polling for updates to the currently open change is
+activated per default.  For example, if another user votes or comments on the
+same change, then a popup window appears on the bottom right corner of the
+screen to notify the user that the change was updated.
+
+The default delay is 30 seconds.  It can be configured with the
+link:config-gerrit.html[change.updateDelay] setting.
 
 [[depends-on-needed-by]]
 "Depends on" and "Needed by"
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Dependencies and dependents changes are put together on the change screen. It
-can be found on the "Related Changes" section (third main column). Key
-bindings: use "J" & "K" to navigate between the related changes or use "O" to
-open currently selected related change.
+Dependencies and dependent changes are listed in the 'Related Changes' drop
+down.
+
+Key bindings:  "J" & "K" to navigate between the related changes. "O" to
+open the currently selected related change.
 
 [[file-table]]
 File table
 ~~~~~~~~~~
 
-One difference between old and new change screen ist the fact, that the
-user can manually now toggle the "reviewed" flag. Use check box left to the
-line. Key bindings: "j" & "k" to navigate in the table.
+The user can now manually toggle the 'reviewed' flag per file using the check
+box to the left of the filename.
+
+Key bindings: "j" & "k" to navigate in the file table, and "r" to toggle the
+'reviewed' flag.
 
 [[included-in]]
 Included in
 ~~~~~~~~~~~
 
 To see the branches a specific change was merged into and the list of the tags
-a change was tagged with, use "Included In" button on the change header, left
-to the "Revisions" button. Note: this button is only visible, if the change is
-merged.
+a change was tagged with, use the 'Included In' drop down on the change header,
+to the left of the 'Revisions' drop down.
+
+Note that this list is only visible on merged changes.
 
 [[missing-features]]
-Feature omitted for now
-~~~~~~~~~~~~~~~~~~~~~~~
+Missing features
+~~~~~~~~~~~~~~~~
+
+Several features have not been implemented yet:
 
 * Permalink a change
 * Allow to see if a reviewer can't vote on a label
 * Allow to select a reference version as base for the comparison
+* Change diff view preferences

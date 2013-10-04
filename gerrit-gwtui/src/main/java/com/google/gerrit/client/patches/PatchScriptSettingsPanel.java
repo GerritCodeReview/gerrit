@@ -23,6 +23,7 @@ import com.google.gerrit.client.ui.NpIntTextBox;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -152,10 +153,18 @@ public class PatchScriptSettingsPanel extends Composite {
 
   public void setEnableSmallFileFeatures(final boolean on) {
     enableSmallFileFeatures = on;
-    if (enableSmallFileFeatures) {
-      syntaxHighlighting.setValue(getValue().isSyntaxHighlighting());
-    } else {
-      syntaxHighlighting.setValue(false);
+
+    Element element = context.getElement().getFirstChildElement();
+    while( element.getPropertyInt("value") != AccountDiffPreference.WHOLE_FILE_CONTEXT ) {
+      element = element.getNextSiblingElement();
+    }
+    if( element.getPropertyInt("value") == AccountDiffPreference.WHOLE_FILE_CONTEXT ) {
+      if (enableSmallFileFeatures) {
+        element.removeAttribute("disabled");
+      } else {
+        element.setAttribute("disabled", "disabled");
+        context.setSelectedIndex(Math.min(context.getSelectedIndex(), context.getItemCount() - 2));
+      }
     }
     toggleEnabledStatus(save.isEnabled());
   }
@@ -172,11 +181,6 @@ public class PatchScriptSettingsPanel extends Composite {
 
   private void toggleEnabledStatus(final boolean on) {
     intralineDifference.setEnabled(on & enableIntralineDifference);
-    syntaxHighlighting.setEnabled(on & enableSmallFileFeatures);
-
-    final String title =
-        enableSmallFileFeatures ? null : PatchUtil.C.disabledOnLargeFiles();
-    syntaxHighlighting.setTitle(title);
   }
 
   public AccountDiffPreference getValue() {
@@ -191,13 +195,9 @@ public class PatchScriptSettingsPanel extends Composite {
   protected void display() {
     final AccountDiffPreference dp = getValue();
     setIgnoreWhitespace(dp.getIgnoreWhitespace());
-    if (enableSmallFileFeatures) {
-      syntaxHighlighting.setValue(dp.isSyntaxHighlighting());
-    } else {
-      syntaxHighlighting.setValue(false);
-    }
-    setContext(dp.getContext());
+    syntaxHighlighting.setValue(dp.isSyntaxHighlighting());
 
+    setContext(dp.getContext());
     tabWidth.setIntValue(dp.getTabSize());
     colWidth.setIntValue(dp.getLineLength());
     intralineDifference.setValue(dp.isIntralineDifference());

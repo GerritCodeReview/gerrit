@@ -38,6 +38,16 @@ mvn deploy:deploy-file \
   -DrepositoryId=gerrit-api-repository \
   -Durl=$URL
 
+mvn deploy:deploy-file \
+  -DgroupId=com.google.gerrit \
+  -DartifactId=gerrit-extension-api \
+  -Dversion=$VER \
+  -Dpackaging=jar \
+  -Dfile=gerrit-extension-api/target/gerrit-extension-api-$VER-javadoc.jar \
+  -Djava-source=false \
+  -DrepositoryId=gerrit-api-repository \
+  -Durl=$URL
+
 
 echo "Deploying $type gerrit-plugin-api $VER"
 mvn deploy:deploy-file \
@@ -58,3 +68,14 @@ mvn deploy:deploy-file \
   -Djava-source=false \
   -DrepositoryId=gerrit-api-repository \
   -Durl=$URL
+
+mvn deploy:deploy-file \
+  -DgroupId=com.google.gerrit \
+  -DartifactId=gerrit-plugin-api \
+  -Dversion=$VER \
+  -Dpackaging=jar \
+  -Dfile=gerrit-plugin-api/target/gerrit-plugin-api-$VER-javadoc.jar \
+  -Djava-source=false \
+  -DrepositoryId=gerrit-api-repository \
+  -Durl=$URL
+

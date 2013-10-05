@@ -40,6 +40,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -468,7 +469,12 @@ public class ProjectControl {
       Repository repo = repoManager.openRepository(projName);
       try {
         for (Entry<String, Ref> entry : repo.getAllRefs().entrySet()) {
-          RevCommit tip = rw.parseCommit(entry.getValue().getObjectId());
+          RevCommit tip;
+          try {
+            tip = rw.parseCommit(entry.getValue().getObjectId());
+          } catch (IncorrectObjectTypeException e) {
+            continue;
+          }
           if (rw.isMergedInto(commit, tip)
               && controlForRef(entry.getKey()).canPerform(Permission.READ)) {
             return true;

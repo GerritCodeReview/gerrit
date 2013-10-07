@@ -189,7 +189,7 @@ public class ChangeData {
   }
 
   public void setCurrentFilePaths(List<String> filePaths) {
-    currentFiles = filePaths;
+    currentFiles = Collections.unmodifiableList(filePaths);
   }
 
   public List<String> currentFilePaths(Provider<ReviewDb> db,

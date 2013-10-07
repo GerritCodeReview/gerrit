@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "c189a93b_ed2d259f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-10-07T19:49:37Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "c189a93b_ed128566",
+      "revId": "b2a726b56696ab5d3d4b042f325ffac83065423b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c189a93b_0d335107",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommitsAdvertiseRefsHook.java",
         "patchSetId": 2
@@ -42,6 +60,24 @@
         "endLine": 74,
         "endChar": 24
       },
+      "revId": "b2a726b56696ab5d3d4b042f325ffac83065423b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c189a93b_0d5a712f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommitsAdvertiseRefsHook.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-10-07T19:49:37Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "c189a93b_0d335107",
       "revId": "b2a726b56696ab5d3d4b042f325ffac83065423b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "81933169_ab18698a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-10-07T19:49:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c189a93b_2d380de1",
+      "revId": "b2a726b56696ab5d3d4b042f325ffac83065423b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c189a93b_4d3d59d0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
         "patchSetId": 2
@@ -88,6 +142,24 @@
         "endLine": 133,
         "endChar": 22
       },
+      "revId": "b2a726b56696ab5d3d4b042f325ffac83065423b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c189a93b_2d5f2d20",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-10-07T19:49:37Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "c189a93b_4d3d59d0",
       "revId": "b2a726b56696ab5d3d4b042f325ffac83065423b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

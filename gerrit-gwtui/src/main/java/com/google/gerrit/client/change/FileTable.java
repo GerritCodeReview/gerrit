@@ -451,9 +451,7 @@ class FileTable extends FlowPanel {
 
     private void columnStatus(SafeHtmlBuilder sb, FileInfo info) {
       sb.openTd().setStyleName(R.css().statusTypeCell());
-      if (Patch.COMMIT_MSG.equals(info.path())) {
-        sb.nbsp();
-      } else {
+      if (!Patch.COMMIT_MSG.equals(info.path())) {
         sb.append(info.status());
       }
       sb.closeTd();

@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "e1aa2d99_3eff29df",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-10-07T22:04:58Z",
+      "side": 1,
+      "message": "Actually, no.  That\u0027s not necessary, since it\u0027ll expand ten before or ten after just fine... it\u0027s only when it expands a huge chunk at once, it chokes the browser.",
+      "parentUuid": "21a1a5ba_80f5b6ff",
+      "revId": "5f55d438128654a8ab6e3d50f0107d434fcf84a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e1aa2d99_7ef5b1fc",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
         "patchSetId": 4
@@ -65,6 +83,24 @@
       "writtenOn": "2013-10-07T22:01:04Z",
       "side": 1,
       "message": "And hide the \u0027expand all\u0027 link here?",
+      "revId": "5f55d438128654a8ab6e3d50f0107d434fcf84a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21a1a5ba_40ffaedd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-10-07T22:04:58Z",
+      "side": 1,
+      "message": "Not necessary, since we\u0027re in a small enough case it won\u0027t choke the browser.",
+      "parentUuid": "e1aa2d99_7ef5b1fc",
       "revId": "5f55d438128654a8ab6e3d50f0107d434fcf84a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

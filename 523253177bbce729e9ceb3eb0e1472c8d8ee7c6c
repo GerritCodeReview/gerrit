@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c189a93b_4d8f1980",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/server/PatchSetApprovalAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-10-07T21:23:07Z",
+      "side": 0,
+      "message": "I notice this is referenced in index_*.sql; worth removing there too?",
+      "range": {
+        "startLine": 48,
+        "startChar": 30,
+        "endLine": 48,
+        "endChar": 42
+      },
+      "revId": "523253177bbce729e9ceb3eb0e1472c8d8ee7c6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

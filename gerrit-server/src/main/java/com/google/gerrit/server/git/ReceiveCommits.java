@@ -18,6 +18,7 @@ import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromApprovals;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
+import static org.eclipse.jgit.lib.RefDatabase.ALL;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.OK;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_MISSING_OBJECT;
@@ -110,6 +111,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.FooterKey;
@@ -123,6 +125,7 @@ import org.eclipse.jgit.transport.AdvertiseRefsHook;
 import org.eclipse.jgit.transport.AdvertiseRefsHookChain;
 import org.eclipse.jgit.transport.BaseReceivePack;
 import org.eclipse.jgit.transport.ReceiveCommand;
+import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.UploadPack;
@@ -395,10 +398,18 @@ public class ReceiveCommits {
     List<AdvertiseRefsHook> advHooks = new ArrayList<AdvertiseRefsHook>(3);
     advHooks.add(new AdvertiseRefsHook() {
       @Override
-      public void advertiseRefs(BaseReceivePack rp) {
+      public void advertiseRefs(BaseReceivePack rp)
+          throws ServiceMayNotContinueException {
         allRefs = rp.getAdvertisedRefs();
         if (allRefs == null) {
-          allRefs = rp.getRepository().getAllRefs();
+          try {
+            allRefs = rp.getRepository().getRefDatabase().getRefs(ALL);
+          } catch (IOException e) {
+            ServiceMayNotContinueException ex =
+                new ServiceMayNotContinueException(e.getMessage());
+            ex.initCause(e);
+            throw ex;
+          }
         }
         rp.setAdvertisedRefs(allRefs, rp.getAdvertisedObjects());
       }
@@ -1975,7 +1986,7 @@ public class ReceiveCommits {
 
   private Ref findMergedInto(final String first, final RevCommit commit) {
     try {
-      final Map<String, Ref> all = repo.getAllRefs();
+      final Map<String, Ref> all = repo.getRefDatabase().getRefs(ALL);
       Ref firstRef = all.get(first);
       if (firstRef != null && isMergedInto(commit, firstRef)) {
         return firstRef;

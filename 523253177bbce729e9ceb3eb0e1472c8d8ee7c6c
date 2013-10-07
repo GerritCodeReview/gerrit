@@ -22,6 +22,30 @@
       "revId": "523253177bbce729e9ceb3eb0e1472c8d8ee7c6c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81933169_6b592137",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/server/PatchSetApprovalAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-07T21:29:54Z",
+      "side": 0,
+      "message": "Actually we can\u0027t remove those SQL indexes yet. If SQL rewriting is used on the site we need those indexes to cover the deprecated closedByUserAll() query.",
+      "parentUuid": "c189a93b_4d8f1980",
+      "range": {
+        "startLine": 48,
+        "startChar": 30,
+        "endLine": 48,
+        "endChar": 42
+      },
+      "revId": "523253177bbce729e9ceb3eb0e1472c8d8ee7c6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

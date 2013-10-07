@@ -31,7 +31,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
@@ -491,7 +490,7 @@ public class ProjectControl {
   }
 
   public boolean canReadCommit(RevWalk rw, RevCommit commit) {
-    NameKey projName = state.getProject().getNameKey();
+    Project.NameKey projName = state.getProject().getNameKey();
     try {
       Repository repo = repoManager.openRepository(projName);
       try {

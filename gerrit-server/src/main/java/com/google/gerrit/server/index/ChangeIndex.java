@@ -125,6 +125,11 @@ public interface ChangeIndex {
   /**
    * Convert the given operator predicate into a source searching the index and
    * returning only the documents matching that predicate.
+   * <p>
+   * This method may be called multiple times for variations on the same
+   * predicate or multiple predicate subtrees in the course of processing a
+   * single query, so it should not have any side effects (e.g. starting a
+   * search in the background).
    *
    * @param p the predicate to match. Must be a tree containing only AND, OR,
    *     or NOT predicates as internal nodes, and {@link IndexPredicate}s as

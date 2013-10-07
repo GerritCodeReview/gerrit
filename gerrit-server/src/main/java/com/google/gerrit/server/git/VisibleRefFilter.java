@@ -24,12 +24,15 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.server.OrmException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.AbstractAdvertiseRefsHook;
+import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -120,9 +123,16 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
   }
 
   @Override
-  protected Map<String, Ref> getAdvertisedRefs(
-      Repository repository, RevWalk revWalk) {
-    return filter(repository.getAllRefs());
+  protected Map<String, Ref> getAdvertisedRefs(Repository repository,
+      RevWalk revWalk) throws ServiceMayNotContinueException {
+    try {
+      return filter(repository.getRefDatabase().getRefs(RefDatabase.ALL));
+    } catch (IOException e) {
+      ServiceMayNotContinueException ex =
+          new ServiceMayNotContinueException(e.getMessage());
+      ex.initCause(e);
+      throw ex;
+    }
   }
 
   private Map<String, Ref> filter(Map<String, Ref> refs) {

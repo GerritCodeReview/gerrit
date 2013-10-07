@@ -56,6 +56,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.FooterLine;
@@ -496,8 +497,9 @@ public class ChangeUtil {
     return next;
   }
 
-  public static PatchSet.Id nextPatchSetId(Repository git, PatchSet.Id id) {
-    return nextPatchSetId(git.getAllRefs(), id);
+  public static PatchSet.Id nextPatchSetId(Repository git, PatchSet.Id id)
+      throws IOException {
+    return nextPatchSetId(git.getRefDatabase().getRefs(RefDatabase.ALL), id);
   }
 
   private static PatchSet.Id nextPatchSetId(PatchSet.Id id) {

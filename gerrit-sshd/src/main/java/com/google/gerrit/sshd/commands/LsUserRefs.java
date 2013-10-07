@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static org.eclipse.jgit.lib.RefDatabase.ALL;
+
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.reviewdb.client.Account;
@@ -95,7 +97,7 @@ public class LsUserRefs extends SshCommand {
 
       Map<String, Ref> refsMap =
           new VisibleRefFilter(tagCache, changeCache, repo, userProjectControl,
-              db, true).filter(repo.getAllRefs(), false);
+              db, true).filter(repo.getRefDatabase().getRefs(ALL), false);
 
       for (final String ref : refsMap.keySet()) {
         if (!onlyRefsHeads || ref.startsWith(Branch.R_HEADS)) {

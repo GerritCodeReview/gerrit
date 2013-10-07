@@ -163,7 +163,7 @@ public class PatchSetInserter {
     return this;
   }
 
-  public PatchSet.Id getPatchSetId() {
+  public PatchSet.Id getPatchSetId() throws IOException {
     init();
     return patchSet.getId();
   }
@@ -325,7 +325,7 @@ public class PatchSetInserter {
     return updatedChange;
   }
 
-  private void init() {
+  private void init() throws IOException {
     if (sshInfo == null) {
       sshInfo = new NoSshInfo();
     }

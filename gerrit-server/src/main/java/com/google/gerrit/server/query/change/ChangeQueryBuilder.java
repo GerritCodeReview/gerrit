@@ -229,10 +229,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> comment(String value) throws QueryParseException {
-    ChangeIndex index = args.indexes.getSearchIndex();
-    if (index == null) {
-      throw error("secondary index must be enabled for comment:" + value);
-    }
+    ChangeIndex index = requireIndex(FIELD_COMMENT, value);
     return new CommentPredicate(args.dbProvider, index, value);
   }
 
@@ -347,15 +344,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> file(String file) throws QueryParseException {
     if (file.startsWith("^")) {
-      if (allowFileRegex || args.indexes.getSearchIndex() != null) {
-        return new RegexFilePredicate(args.dbProvider, args.patchListCache, file);
-      } else {
-        throw error("secondary index must be enabled for file:" + file);
+      if (!allowFileRegex) {
+        requireIndex(FIELD_FILE, file);
       }
+      return new RegexFilePredicate(args.dbProvider, args.patchListCache, file);
     } else {
-      if (args.indexes.getSearchIndex() == null) {
-        throw error("secondary index must be enabled for file:" + file);
-      }
+      requireIndex(FIELD_FILE, file);
       return new EqualsFilePredicate(args.dbProvider, args.patchListCache, file);
     }
   }
@@ -670,5 +664,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       return ((IdentifiedUser) currentUser).getAccountId();
     }
     throw new IllegalArgumentException();
+  }
+
+  private ChangeIndex requireIndex(String field, String value)
+      throws QueryParseException {
+    ChangeIndex idx = args.indexes.getSearchIndex();
+    if (idx == null) {
+      throw error("secondary index must be enabled for " + field + ":" + value);
+    }
+    return idx;
   }
 }

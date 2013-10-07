@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "21a1a5ba_0008863f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2013-10-07T22:22:18Z",
+      "side": 1,
+      "message": "Ah I see.  I wonder if we could improve the logic to only remove the expand all link when it is above a certain threshold, rather than any time it is above 30 lines with a huge file?\n\nSo remove the isHugeFile parameter and just check line.getSize()?",
+      "parentUuid": "e1aa2d99_3eff29df",
+      "revId": "5f55d438128654a8ab6e3d50f0107d434fcf84a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e1aa2d99_7ef5b1fc",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
         "patchSetId": 4

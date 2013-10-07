@@ -39,15 +39,12 @@ public interface PatchSetApprovalAccess extends
   ResultSet<PatchSetApproval> byPatchSetUser(PatchSet.Id patchSet,
       Account.Id account) throws OrmException;
 
+  @Deprecated
   @Query("WHERE changeOpen = true AND key.accountId = ?")
   ResultSet<PatchSetApproval> openByUser(Account.Id account)
       throws OrmException;
 
-  @Query("WHERE changeOpen = false AND key.accountId = ?"
-      + " ORDER BY changeSortKey DESC LIMIT 10")
-  ResultSet<PatchSetApproval> closedByUser(Account.Id account)
-      throws OrmException;
-
+  @Deprecated
   @Query("WHERE changeOpen = false AND key.accountId = ? ORDER BY changeSortKey")
   ResultSet<PatchSetApproval> closedByUserAll(Account.Id account)
       throws OrmException;

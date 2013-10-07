@@ -16,6 +16,40 @@
       "revId": "5f55d438128654a8ab6e3d50f0107d434fcf84a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21a1a5ba_80f5b6ff",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2013-10-07T22:01:04Z",
+      "side": 1,
+      "message": "This hides the \u0027expand all\u0027 link, but don\u0027t you also want to hide the \u0027expand 10 before/after\u0027 links? (Anchor a and b)",
+      "revId": "5f55d438128654a8ab6e3d50f0107d434fcf84a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e1aa2d99_7ef5b1fc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2013-10-07T22:01:04Z",
+      "side": 1,
+      "message": "And hide the \u0027expand all\u0027 link here?",
+      "revId": "5f55d438128654a8ab6e3d50f0107d434fcf84a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

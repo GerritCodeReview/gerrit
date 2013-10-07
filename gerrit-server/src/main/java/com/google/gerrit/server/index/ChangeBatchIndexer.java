@@ -16,52 +16,46 @@ package com.google.gerrit.server.index;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.AsyncFunction;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningScheduledExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
+import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
-import com.google.gerrit.server.patch.PatchListLoader;
+import com.google.gerrit.server.patch.PatchList;
+import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.patch.PatchListKey;
+import com.google.gerrit.server.patch.PatchScriptBuilder;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import org.eclipse.jgit.diff.DiffEntry;
-import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
-import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.util.io.DisabledOutputStream;
 import org.eclipse.jgit.util.io.NullOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -105,16 +99,22 @@ public class ChangeBatchIndexer {
   private final GitRepositoryManager repoManager;
   private final ListeningScheduledExecutorService executor;
   private final ChangeIndexer.Factory indexerFactory;
+  private final PatchListCache patchListCache;
+  private final PatchScriptBuilder patchScriptBuilder;
 
   @Inject
   ChangeBatchIndexer(Provider<ReviewDb> db,
       GitRepositoryManager repoManager,
       @IndexExecutor ListeningScheduledExecutorService executor,
-      ChangeIndexer.Factory indexerFactory) {
+      ChangeIndexer.Factory indexerFactory,
+      PatchListCache patchListCache,
+      PatchScriptBuilder patchScriptBuilder) {
     this.db = db;
     this.repoManager = repoManager;
     this.executor = executor;
     this.indexerFactory = indexerFactory;
+    this.patchListCache = patchListCache;
+    this.patchScriptBuilder = patchScriptBuilder;
   }
 
   public Result indexAll(ChangeIndex index, Iterable<Project.NameKey> projects,
@@ -210,8 +210,8 @@ public class ChangeBatchIndexer {
               byId.put(r.getObjectId(), new ChangeData(c));
             }
           }
-          new ProjectIndexer(indexer, byId, repo, done, failed, verboseWriter)
-              .call();
+          new ProjectIndexer(indexer, patchListCache, patchScriptBuilder,
+              project, byId, repo, done, failed, verboseWriter).call();
         } finally {
           repo.close();
           // TODO(dborowitz): Opening all repositories in a live server may be
@@ -225,6 +225,9 @@ public class ChangeBatchIndexer {
 
   public static class ProjectIndexer implements Callable<Void> {
     private final ChangeIndexer indexer;
+    private final PatchListCache patchListCache;
+    private final PatchScriptBuilder patchScriptBuilder;
+    private final Project.NameKey project;
     private final Multimap<ObjectId, ChangeData> byId;
     private final ProgressMonitor done;
     private final ProgressMonitor failed;
@@ -232,16 +235,22 @@ public class ChangeBatchIndexer {
     private final Repository repo;
     private RevWalk walk;
 
-    public ProjectIndexer(ChangeIndexer indexer,
+    public ProjectIndexer(ChangeIndexer indexer, PatchListCache patchListCache,
+        PatchScriptBuilder patchScriptBuilder, Project.NameKey project,
         Multimap<ObjectId, ChangeData> changesByCommitId, Repository repo) {
-      this(indexer, changesByCommitId, repo,
-          NullProgressMonitor.INSTANCE, NullProgressMonitor.INSTANCE, null);
+      this(indexer, patchListCache, patchScriptBuilder, project,
+          changesByCommitId, repo, NullProgressMonitor.INSTANCE,
+          NullProgressMonitor.INSTANCE, null);
     }
 
-    ProjectIndexer(ChangeIndexer indexer,
+    ProjectIndexer(ChangeIndexer indexer, PatchListCache patchListCache,
+        PatchScriptBuilder patchScriptBuilder, Project.NameKey project,
         Multimap<ObjectId, ChangeData> changesByCommitId, Repository repo,
         ProgressMonitor done, ProgressMonitor failed, PrintWriter verboseWriter) {
       this.indexer = indexer;
+      this.patchListCache = patchListCache;
+      this.patchScriptBuilder = patchScriptBuilder;
+      this.project = project;
       this.byId = changesByCommitId;
       this.repo = repo;
       this.done = done;
@@ -283,77 +292,31 @@ public class ChangeBatchIndexer {
       List<ChangeData> cds = Lists.newArrayList(byId.get(b));
       try {
         RevCommit bCommit = walk.parseCommit(b);
-        RevTree bTree = bCommit.getTree();
-        RevTree aTree = aFor(bCommit, walk);
-        DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);
-        try {
-          df.setRepository(repo);
-          if (!cds.isEmpty()) {
-            List<String> paths = (aTree != null)
-                ? getPaths(df.scan(aTree, bTree))
-                : Collections.<String>emptyList();
-            Iterator<ChangeData> cdit = cds.iterator();
-            for (ChangeData cd ; cdit.hasNext(); cdit.remove()) {
-              cd = cdit.next();
-              try {
-                cd.setCurrentFilePaths(paths);
-                indexer.index(cd);
-                done.update(1);
-                if (verboseWriter != null) {
-                  verboseWriter.println("Reindexed change " + cd.getId());
-                }
-              } catch (Exception e) {
-                fail("Failed to index change " + cd.getId(), true, e);
+        if (!cds.isEmpty()) {
+          Iterator<ChangeData> cdit = cds.iterator();
+          for (ChangeData cd; cdit.hasNext(); cdit.remove()) {
+            cd = cdit.next();
+            try {
+              PatchList list = patchListCache.get(
+                  new PatchListKey(project, null, bCommit, Whitespace.IGNORE_NONE));
+              cd.setCurrentFilePaths(list);
+              cd.currentDiffContent(repo, project, list, patchListCache,
+                  patchScriptBuilder);
+              indexer.index(cd);
+              done.update(1);
+              if (verboseWriter != null) {
+                verboseWriter.println("Reindexed change " + cd.getId());
               }
+            } catch (Exception e) {
+              fail("Failed to index change " + cd.getId(), true, e);
             }
           }
-        } finally {
-          df.release();
         }
       } catch (Exception e) {
         fail("Failed to index commit " + b.name(), false, e);
         for (ChangeData cd : cds) {
           fail("Failed to index change " + cd.getId(), true, null);
         }
-      }
-    }
-
-    private List<String> getPaths(List<DiffEntry> filenames) {
-      Set<String> paths = Sets.newTreeSet();
-      for (DiffEntry e : filenames) {
-        if (e.getOldPath() != null) {
-          paths.add(e.getOldPath());
-        }
-        if (e.getNewPath() != null) {
-          paths.add(e.getNewPath());
-        }
-      }
-      return ImmutableList.copyOf(paths);
-    }
-
-    private RevTree aFor(RevCommit b, RevWalk walk) throws IOException {
-      switch (b.getParentCount()) {
-        case 0:
-          return walk.parseTree(emptyTree());
-        case 1:
-          RevCommit a = b.getParent(0);
-          walk.parseBody(a);
-          return walk.parseTree(a.getTree());
-        case 2:
-          return PatchListLoader.automerge(repo, walk, b);
-        default:
-          return null;
-      }
-    }
-
-    private ObjectId emptyTree() throws IOException {
-      ObjectInserter oi = repo.newObjectInserter();
-      try {
-        ObjectId id = oi.insert(Constants.OBJ_TREE, new byte[] {});
-        oi.flush();
-        return id;
-      } finally {
-        oi.release();
       }
     }
 

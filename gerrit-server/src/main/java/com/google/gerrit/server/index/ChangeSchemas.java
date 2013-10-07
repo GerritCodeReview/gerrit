@@ -97,6 +97,29 @@ public class ChangeSchemas {
   // For upgrade to Lucene 4.4.0 index format only.
   static final Schema<ChangeData> V4 = release(V3.getFields().values());
 
+  @SuppressWarnings("unchecked")
+  static final Schema<ChangeData> V5 = release(
+        ChangeField.LEGACY_ID,
+        ChangeField.ID,
+        ChangeField.STATUS,
+        ChangeField.PROJECT,
+        ChangeField.REF,
+        ChangeField.TOPIC,
+        ChangeField.UPDATED,
+        ChangeField.SORTKEY,
+        ChangeField.FILE,
+        ChangeField.OWNER,
+        ChangeField.REVIEWER,
+        ChangeField.COMMIT,
+        ChangeField.TR,
+        ChangeField.LABEL,
+        ChangeField.REVIEWED,
+        ChangeField.COMMIT_MESSAGE,
+        ChangeField.COMMENT,
+        ChangeField.CHANGE,
+        ChangeField.APPROVAL,
+        ChangeField.DIFF);
+
   private static Schema<ChangeData> release(Collection<FieldDef<ChangeData, ?>> fields) {
     return new Schema<ChangeData>(true, fields);
   }

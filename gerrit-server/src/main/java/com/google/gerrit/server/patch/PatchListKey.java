@@ -22,11 +22,13 @@ import static org.eclipse.jgit.lib.ObjectIdSerialization.writeCanBeNull;
 import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
+import com.google.gerrit.reviewdb.client.Project;
 
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -39,15 +41,22 @@ public class PatchListKey implements Serializable {
   private transient ObjectId oldId;
   private transient ObjectId newId;
   private transient Whitespace whitespace;
+  private transient RevWalk revWalk;
 
   transient Project.NameKey projectKey; // not required to form the key
 
-  public PatchListKey(final Project.NameKey pk, final AnyObjectId a,
-      final AnyObjectId b, final Whitespace ws) {
+  public PatchListKey(Project.NameKey pk, AnyObjectId a, AnyObjectId b,
+      Whitespace ws) {
+    this(pk, a, b, ws, null);
+  }
+
+  public PatchListKey(Project.NameKey pk, AnyObjectId a, AnyObjectId b,
+      Whitespace ws, RevWalk rw) {
     projectKey = pk;
     oldId = a != null ? a.copy() : null;
     newId = b.copy();
     whitespace = ws;
+    revWalk = rw;
   }
 
   /** Old side commit, or null to assume ancestor or combined merge. */
@@ -63,6 +72,13 @@ public class PatchListKey implements Serializable {
 
   public Whitespace getWhitespace() {
     return whitespace;
+  }
+
+  public RevWalk getRevWalk(ObjectReader reader) {
+    if (revWalk == null) {
+      revWalk = new RevWalk(reader);
+    }
+    return revWalk;
   }
 
   @Override

@@ -106,7 +106,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
     final RawTextComparator cmp = comparatorFor(key.getWhitespace());
     final ObjectReader reader = repo.newObjectReader();
     try {
-      final RevWalk rw = new RevWalk(reader);
+      final RevWalk rw = key.getRevWalk(reader);
       final RevCommit b = rw.parseCommit(key.getNewId());
       final RevObject a = aFor(key, repo, rw, b);
 

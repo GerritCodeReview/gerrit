@@ -168,6 +168,12 @@ message:'MESSAGE'::
 +
 Changes that match 'MESSAGE' arbitrary string in the commit message body.
 
+[[patch]]
+patch:'PATCH'::
++
+Changes that match 'PATCH' arbitrary string in the commit message body
+or in any modified line.
+
 [[comment]]
 comment:'TEXT'::
 +

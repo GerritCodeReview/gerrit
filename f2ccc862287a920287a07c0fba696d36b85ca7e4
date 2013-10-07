@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "81e5f1f4_fb124f66",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-07T16:23:02Z",
+      "side": 1,
+      "message": "For now we only index the modified lines of the current patch set. This is matching the behaviour as the other operators.\n\nThe commit message is included since it appears it appears in the list of patch files and due to this users likely expect it to be searched too.",
+      "parentUuid": "c4c1b71a_8da301f1",
+      "revId": "f2ccc862287a920287a07c0fba696d36b85ca7e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "443a27c6_d17f8466",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
         "patchSetId": 9
@@ -72,6 +90,24 @@
         "endLine": 124,
         "endChar": 60
       },
+      "revId": "f2ccc862287a920287a07c0fba696d36b85ca7e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81e5f1f4_1b337b07",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-07T16:23:02Z",
+      "side": 1,
+      "message": "This was done in order to avoid ignoring of stop words in code lines. I was thinking that ignoring stop words was intended for the other fields, which is why I was disabling the stop words only for the new fields. By now the stop words have been disabled for all fields [1] and this coding here is not needed anymore.\n\n[1] https://gerrit-review.googlesource.com/49790",
+      "parentUuid": "443a27c6_d17f8466",
       "revId": "f2ccc862287a920287a07c0fba696d36b85ca7e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -101,6 +137,24 @@
     },
     {
       "key": {
+        "uuid": "81e5f1f4_3b3837e1",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-07T16:23:02Z",
+      "side": 1,
+      "message": "This code change was removed.",
+      "parentUuid": "443a27c6_f182884a",
+      "revId": "f2ccc862287a920287a07c0fba696d36b85ca7e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "849dff27_bbfc07ea",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/FieldType.java",
         "patchSetId": 9
@@ -124,6 +178,24 @@
     },
     {
       "key": {
+        "uuid": "a1e835cc_7c07192e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/FieldType.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-07T16:23:02Z",
+      "side": 1,
+      "message": "The meaning of exact was to put the values exactly as they are into the index and not to ignore stop words while parsing the value. This is not needed anymore since the stop words on parsing have been generally disabled [1]. We can now use the existing FULL_TEXT field type.\nEven when the exact text is copyied into the index, the search over it can still be fuzzy, by finding a value which does not exactly match the query string.\n\n[1] https://gerrit-review.googlesource.com/49790",
+      "parentUuid": "849dff27_bbfc07ea",
+      "revId": "f2ccc862287a920287a07c0fba696d36b85ca7e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "849dff27_5b0b833a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 9
@@ -141,6 +213,24 @@
     },
     {
       "key": {
+        "uuid": "81e5f1f4_3b0d9750",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-07T16:23:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "849dff27_5b0b833a",
+      "revId": "f2ccc862287a920287a07c0fba696d36b85ca7e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "443a27c6_9179fc82",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 9
@@ -152,6 +242,24 @@
       "writtenOn": "2013-09-19T17:45:31Z",
       "side": 1,
       "message": "Why not add the new name here? Oh, I see this is moved from below. Doesn\u0027t answer my question though.",
+      "revId": "f2ccc862287a920287a07c0fba696d36b85ca7e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81e5f1f4_5b02631f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-07T16:23:02Z",
+      "side": 1,
+      "message": "Done in a seperate change:\n  https://gerrit-review.googlesource.com/50542",
+      "parentUuid": "443a27c6_9179fc82",
       "revId": "f2ccc862287a920287a07c0fba696d36b85ca7e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -181,6 +289,24 @@
     },
     {
       "key": {
+        "uuid": "a1e835cc_9c1b0587",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-07T16:23:02Z",
+      "side": 1,
+      "message": "Done in a seperate change:\n  https://gerrit-review.googlesource.com/50543",
+      "parentUuid": "443a27c6_71d4583d",
+      "revId": "f2ccc862287a920287a07c0fba696d36b85ca7e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "443a27c6_51d95471",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 9
@@ -192,6 +318,24 @@
       "writtenOn": "2013-09-19T17:45:31Z",
       "side": 1,
       "message": "This signature feels messy to me. I understand the reasons for all the args to currentDiffContent; they\u0027re required to compute the content. But the pattern of the other setFoo methods is to pass something more direct. How hard would it be to pass a Map\u003cString, DiffContent\u003e or even just a List\u003cDiffContent\u003e to this method? Obviously that would complicate the body of currentDiffContent but that seems ok (this part into a private method).",
+      "revId": "f2ccc862287a920287a07c0fba696d36b85ca7e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81e5f1f4_5b3d03d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-07T16:23:02Z",
+      "side": 1,
+      "message": "I agree that the setFoo methods should not contain so much logic and just accept a simple argument, but I\u0027m not seeing a good way to simplify this method signature.\n\nFor now I\u0027m making another currentDiffContent method out of it and I\u0027m adding a simple setCurrentDiffContent method for consistency (although this is not used for now).",
+      "parentUuid": "443a27c6_51d95471",
       "revId": "f2ccc862287a920287a07c0fba696d36b85ca7e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -215,6 +359,24 @@
     },
     {
       "key": {
+        "uuid": "a1e835cc_bc18c18a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-07T16:23:02Z",
+      "side": 1,
+      "message": "Done in a seperate change:\n  https://gerrit-review.googlesource.com/50544",
+      "parentUuid": "443a27c6_31ded05b",
+      "revId": "f2ccc862287a920287a07c0fba696d36b85ca7e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "443a27c6_11e3cc1d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/DiffPredicate.java",
         "patchSetId": 9
@@ -226,6 +388,24 @@
       "writtenOn": "2013-09-19T17:45:31Z",
       "side": 1,
       "message": "Different indentation here?",
+      "revId": "f2ccc862287a920287a07c0fba696d36b85ca7e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1e835cc_5c025d1f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/DiffPredicate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-07T16:23:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "443a27c6_11e3cc1d",
       "revId": "f2ccc862287a920287a07c0fba696d36b85ca7e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

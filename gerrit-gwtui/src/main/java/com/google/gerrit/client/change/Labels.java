@@ -261,14 +261,14 @@ class Labels extends Grid {
         name = Integer.toString(ai._account_id());
       }
 
-      html.openSpan();
-      html.setAttribute("role", "listitem");
-      html.setAttribute(DATA_ID, ai._account_id());
-      html.setStyleName(style.label_user());
+      html.openSpan()
+          .setAttribute("role", "listitem")
+          .setAttribute(DATA_ID, ai._account_id())
+          .setStyleName(style.label_user());
       if (img != null) {
-        html.openElement("img");
-        html.setStyleName(style.avatar());
-        html.setAttribute("src", img.url());
+        html.openElement("img")
+            .setStyleName(style.avatar())
+            .setAttribute("src", img.url());
         if (img.width() > 0) {
           html.setAttribute("width", img.width());
         }
@@ -279,10 +279,11 @@ class Labels extends Grid {
       }
       html.append(name);
       if (removable.contains(ai._account_id())) {
-        html.openElement("button");
-        html.setAttribute("title", Util.M.removeReviewer(name));
-        html.setAttribute("onclick", REMOVE + "(event)");
-        html.append(new ImageResourceRenderer().render(Resources.I.remove_reviewer()));
+        html.openElement("button")
+            .setAttribute("title", Util.M.removeReviewer(name))
+            .setAttribute("onclick", REMOVE + "(event)")
+            .append(new ImageResourceRenderer().render(Resources.I.remove_reviewer()))
+            .closeElement("button");
       }
       html.closeSpan();
     }

@@ -65,6 +65,7 @@ class FileTable extends FlowPanel {
   interface FileTableCss extends CssResource {
     String pointer();
     String reviewed();
+    String status();
     String pathColumn();
     String draftColumn();
     String newColumn();
@@ -74,7 +75,6 @@ class FileTable extends FlowPanel {
     String commonPrefix();
     String inserted();
     String deleted();
-    String statusTypeCell();
   }
 
   private static final String REVIEWED;
@@ -412,7 +412,7 @@ class FileTable extends FlowPanel {
       sb.openTr();
       sb.openTh().setStyleName(R.css().pointer()).closeTh();
       sb.openTh().setStyleName(R.css().reviewed()).closeTh();
-      sb.openTh().setStyleName(R.css().statusTypeCell()).closeTh();
+      sb.openTh().setStyleName(R.css().status()).closeTh();
       sb.openTh().append(Util.C.patchTableColumnName()).closeTh();
       sb.openTh()
         .setAttribute("colspan", 3)
@@ -450,7 +450,7 @@ class FileTable extends FlowPanel {
     }
 
     private void columnStatus(SafeHtmlBuilder sb, FileInfo info) {
-      sb.openTd().setStyleName(R.css().statusTypeCell());
+      sb.openTd().setStyleName(R.css().status());
       if (!Patch.COMMIT_MSG.equals(info.path())) {
         sb.append(info.status());
       }
@@ -584,7 +584,7 @@ class FileTable extends FlowPanel {
       sb.openTr();
       sb.openTh().setStyleName(R.css().pointer()).closeTh();
       sb.openTh().setStyleName(R.css().reviewed()).closeTh();
-      sb.openTh().setStyleName(R.css().statusTypeCell()).closeTh();
+      sb.openTh().setStyleName(R.css().status()).closeTh();
       sb.openTd().closeTd(); // path
       sb.openTd().setAttribute("colspan", 3).closeTd(); // comments
 

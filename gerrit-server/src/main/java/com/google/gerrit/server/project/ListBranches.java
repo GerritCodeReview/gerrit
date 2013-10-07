@@ -24,6 +24,7 @@ import com.google.inject.Inject;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
@@ -59,7 +60,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
     }
 
     try {
-      final Map<String, Ref> all = db.getAllRefs();
+      final Map<String, Ref> all = db.getRefDatabase().getRefs(RefDatabase.ALL);
 
       if (!all.containsKey(Constants.HEAD)) {
         // The branch pointed to by HEAD doesn't exist yet, so getAllRefs

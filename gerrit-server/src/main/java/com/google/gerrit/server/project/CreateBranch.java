@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.project;
 
+import static org.eclipse.jgit.lib.RefDatabase.ALL;
+
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.errors.InvalidRevisionException;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -214,7 +216,7 @@ public class CreateBranch implements RestModifyView<ProjectResource, Input> {
       } catch (IncorrectObjectTypeException err) {
         throw new InvalidRevisionException();
       }
-      for (final Ref r : repo.getAllRefs().values()) {
+      for (final Ref r : repo.getRefDatabase().getRefs(ALL).values()) {
         try {
           rw.markUninteresting(rw.parseAny(r.getObjectId()));
         } catch (MissingObjectException err) {

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.project;
 
+import static org.eclipse.jgit.lib.RefDatabase.ALL;
+
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
@@ -493,7 +495,8 @@ public class ProjectControl {
     try {
       Repository repo = repoManager.openRepository(projName);
       try {
-        for (Entry<String, Ref> entry : repo.getAllRefs().entrySet()) {
+        Map<String, Ref> allRefs = repo.getRefDatabase().getRefs(ALL);
+        for (Entry<String, Ref> entry : allRefs.entrySet()) {
           RevCommit tip;
           try {
             tip = rw.parseCommit(entry.getValue().getObjectId());

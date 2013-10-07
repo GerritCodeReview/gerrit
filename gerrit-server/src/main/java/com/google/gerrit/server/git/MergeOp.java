@@ -19,6 +19,7 @@ import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.ArrayListMultimap;
@@ -404,7 +405,7 @@ public class MergeOp {
     }
 
     try {
-      for (final Ref r : repo.getAllRefs().values()) {
+      for (final Ref r : repo.getRefDatabase().getRefs(ALL).values()) {
         if (r.getName().startsWith(Constants.R_HEADS)) {
           try {
             alreadyAccepted.add(rw.parseCommit(r.getObjectId()));
@@ -425,8 +426,15 @@ public class MergeOp {
     final ListMultimap<SubmitType, Change> toSubmit =
         ArrayListMultimap.create();
 
+    final Map<String, Ref> allRefs;
+    try {
+      allRefs = repo.getRefDatabase().getRefs(ALL);
+    } catch (IOException e) {
+      throw new MergeException(e.getMessage(), e);
+    }
+
     final Set<ObjectId> tips = new HashSet<ObjectId>();
-    for (final Ref r : repo.getAllRefs().values()) {
+    for (final Ref r : allRefs.values()) {
       tips.add(r.getObjectId());
     }
 

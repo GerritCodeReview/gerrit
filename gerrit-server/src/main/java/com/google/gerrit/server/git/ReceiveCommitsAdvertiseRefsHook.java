@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import static org.eclipse.jgit.lib.RefDatabase.ALL;
+
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Change;
@@ -30,6 +32,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.AdvertiseRefsHook;
 import org.eclipse.jgit.transport.BaseReceivePack;
+import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.eclipse.jgit.transport.UploadPack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,10 +62,18 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
   }
 
   @Override
-  public void advertiseRefs(BaseReceivePack rp) {
+  public void advertiseRefs(BaseReceivePack rp)
+      throws ServiceMayNotContinueException {
     Map<String, Ref> oldRefs = rp.getAdvertisedRefs();
     if (oldRefs == null) {
-      oldRefs = rp.getRepository().getAllRefs();
+      try {
+        oldRefs = rp.getRepository().getRefDatabase().getRefs(ALL);
+      } catch (IOException e) {
+        ServiceMayNotContinueException ex =
+            new ServiceMayNotContinueException(e.getMessage());
+        ex.initCause(e);
+        throw ex;
+      }
     }
     Map<String, Ref> r = Maps.newHashMapWithExpectedSize(oldRefs.size());
     for (Map.Entry<String, Ref> e : oldRefs.entrySet()) {

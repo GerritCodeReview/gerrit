@@ -24,6 +24,7 @@ import com.google.inject.Provider;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 
@@ -61,7 +62,15 @@ public class Schema_56 extends SchemaVersion {
         continue;
       }
       try {
-        Map<String, Ref> all = git.getAllRefs();
+        Map<String, Ref> all;
+        try {
+          all = git.getRefDatabase().getRefs(RefDatabase.ALL);
+        } catch (IOException e) {
+          ui.message("warning: " + name.get() + ": Cannot read refs: "
+              + e.getMessage());
+          e.printStackTrace();
+          continue;
+        }
         if (all.keySet().equals(keysOne) || all.keySet().equals(keysTwo)) {
           try {
             RefUpdate update = git.updateRef(Constants.HEAD);

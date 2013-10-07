@@ -26,6 +26,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
@@ -159,7 +160,7 @@ class TagSet {
     TagWalk rw = new TagWalk(git);
     rw.setRetainBody(false);
     try {
-      for (Ref ref : git.getAllRefs().values()) {
+      for (Ref ref : git.getRefDatabase().getRefs(RefDatabase.ALL).values()) {
         if (skip(ref)) {
           continue;
 

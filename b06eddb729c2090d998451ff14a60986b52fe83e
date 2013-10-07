@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "81933169_ebfb51ee",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-07T18:55:47Z",
+      "side": 1,
+      "message": "nit: space after if before (",
+      "revId": "b06eddb729c2090d998451ff14a60986b52fe83e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81933169_0b089d3f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-07T18:55:47Z",
+      "side": 1,
+      "message": "nit: we say } else {",
+      "revId": "b06eddb729c2090d998451ff14a60986b52fe83e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c189a93b_8d1bc186",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-07T18:55:47Z",
+      "side": 1,
+      "message": "String.valueOf is not necessary.",
+      "range": {
+        "startLine": 549,
+        "startChar": 51,
+        "endLine": 549,
+        "endChar": 65
+      },
+      "revId": "b06eddb729c2090d998451ff14a60986b52fe83e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c189a93b_6d07752e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-07T18:55:47Z",
+      "side": 1,
+      "message": "nit: it would be shorter to inline the code here:\n\n  p.add(new InlineLabel(\" \" + line.getSize() + \" \")",
+      "range": {
+        "startLine": 549,
+        "startChar": 6,
+        "endLine": 550,
+        "endChar": 22
+      },
+      "revId": "b06eddb729c2090d998451ff14a60986b52fe83e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

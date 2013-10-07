@@ -209,7 +209,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
         for (int row = 0; row < lines.size(); row++) {
           setRowItem(row, lines.get(row));
           if (lines.get(row) instanceof SkippedLine) {
-            createSkipLine(row, (SkippedLine) lines.get(row));
+            createSkipLine(row, (SkippedLine) lines.get(row), script.getA().isWholeFile());
           }
         }
       }
@@ -540,16 +540,18 @@ public class SideBySideTable extends AbstractPatchContentTable {
 
     if (numRows > 0) {
       line.incrementStart(numRows);
-      createSkipLine(row + loopTo, line);
+      // If we got here, we must have the whole file anyway.
+      createSkipLine(row + loopTo, line, true);
     } else if (numRows < 0) {
       line.reduceSize(-numRows);
-      createSkipLine(row, line);
+      // If we got here, we must have the whole file anyway.
+      createSkipLine(row, line, true);
     } else {
       table.removeRow(row + loopTo);
     }
   }
 
-  private void createSkipLine(int row, SkippedLine line) {
+  private void createSkipLine(int row, SkippedLine line, boolean isWholeFile) {
     FlowPanel p = new FlowPanel();
     InlineLabel l1 = new InlineLabel(" " + PatchUtil.C.patchSkipRegionStart() + " ");
     InlineLabel l2 = new InlineLabel(" " + PatchUtil.C.patchSkipRegionEnd() + " ");
@@ -558,7 +560,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
     all.addClickHandler(expandAllListener);
     all.setStyleName(Gerrit.RESOURCES.css().skipLine());
 
-    if (line.getSize() > 30) {
+    if (line.getSize() > 30 && isWholeFile) {
       // Only show the expand before/after if skipped more than 30 lines.
       Anchor b = new Anchor(PatchUtil.M.expandBefore(NUM_ROWS_TO_EXPAND), true);
       Anchor a = new Anchor(PatchUtil.M.expandAfter(NUM_ROWS_TO_EXPAND), true);
@@ -574,9 +576,13 @@ public class SideBySideTable extends AbstractPatchContentTable {
       p.add(all);
       p.add(l2);
       p.add(a);
-    } else {
+    } else if (isWholeFile) {
       p.add(l1);
       p.add(all);
+      p.add(l2);
+    } else {
+      p.add(l1);
+      p.add(new InlineLabel(" " + line.getSize() + " "));
       p.add(l2);
     }
     table.setWidget(row, 1, p);

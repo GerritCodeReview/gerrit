@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c189a93b_cd15c951",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-07T18:58:53Z",
+      "side": 1,
+      "message": "PatchSetInserter has a setMessage(String) version that would vastly simplify this code. Please use it.",
+      "range": {
+        "startLine": 198,
+        "startChar": 4,
+        "endLine": 203,
+        "endChar": 71
+      },
+      "revId": "7c9cb74c23be801dec7796168e622e313b707216",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

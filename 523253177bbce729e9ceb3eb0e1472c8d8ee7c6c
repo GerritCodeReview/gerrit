@@ -46,6 +46,24 @@
       "revId": "523253177bbce729e9ceb3eb0e1472c8d8ee7c6c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81933169_cb477551",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/server/PatchSetApprovalAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-10-07T21:37:30Z",
+      "side": 0,
+      "message": "Ah, I see those are served by the same index, the \"covers:\" comment is just incomplete.",
+      "parentUuid": "81933169_6b592137",
+      "revId": "523253177bbce729e9ceb3eb0e1472c8d8ee7c6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

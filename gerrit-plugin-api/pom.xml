@@ -117,6 +117,50 @@ limitations under the License.
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>unpack-artifact-sources</id>
+              <phase>generate-resources</phase>
+              <goals>
+                <goal>unpack</goal>
+              </goals>
+              <configuration>
+                <artifactItems>
+                  <artifactItem>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>gerrit-plugin-api</artifactId>
+                    <version>${project.version}</version>
+                    <classifier>sources</classifier>
+                    <overWrite>true</overWrite>
+                  </artifactItem>
+               </artifactItems>
+             <outputDirectory>${project.build.directory}/unpack_sources</outputDirectory>
+           </configuration>
+         </execution>
+       </executions>
+     </plugin>
+     <plugin>
+       <groupId>org.apache.maven.plugins</groupId>
+       <artifactId>maven-javadoc-plugin</artifactId>
+       <version>2.7</version>
+       <configuration>
+         <sourcepath>${project.build.directory}/unpack_sources</sourcepath>
+         <encoding>ISO-8859-1</encoding>
+         <quiet>true</quiet>
+         <detectOfflineLinks>false</detectOfflineLinks>
+       </configuration>
+       <executions>
+         <execution>
+           <goals>
+             <goal>jar</goal>
+           </goals>
+           <phase>process-resources</phase>
+         </execution>
+       </executions>
+      </plugin>
     </plugins>
   </build>
 </project>

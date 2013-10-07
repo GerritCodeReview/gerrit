@@ -91,8 +91,9 @@ public class IndexedChangeQuery extends Predicate<ChangeData>
       Predicate<ChangeData> pred, int limit) throws QueryParseException {
     this.db = db;
     this.index = index;
-    this.pred = pred;
     this.limit = limit;
+    this.pred = pred;
+    this.source = index.getSource(pred, limit);
   }
 
   @Override
@@ -131,14 +132,8 @@ public class IndexedChangeQuery extends Predicate<ChangeData>
 
   @Override
   public ResultSet<ChangeData> read() throws OrmException {
-    final ChangeDataSource currSource;
-    try {
-      currSource = index.getSource(pred, limit);
-    } catch (QueryParseException e) {
-      throw new OrmException(e);
-    }
-    source = currSource;
-    final ResultSet<ChangeData> rs = source.read();
+    final ChangeDataSource currSource = source;
+    final ResultSet<ChangeData> rs = currSource.read();
 
     return new ResultSet<ChangeData>() {
       @Override
@@ -174,6 +169,14 @@ public class IndexedChangeQuery extends Predicate<ChangeData>
   @Override
   public ResultSet<ChangeData> restart(ChangeData last) throws OrmException {
     pred = replaceSortKeyPredicates(pred, last.change(db).getSortKey());
+    try {
+      source = index.getSource(pred, limit);
+    } catch (QueryParseException e) {
+      // Don't need to show this exception to the user; the only thing that
+      // changed about pred was its SortKeyPredicates, and any other QPEs
+      // that might happen should have already thrown from the constructor.
+      throw new OrmException(e);
+    }
     return read();
   }
 

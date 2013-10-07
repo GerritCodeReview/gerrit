@@ -70,7 +70,7 @@ class DirectChangeByCommit extends HttpServlet {
         }
       }
     } catch (QueryParseException e) {
-      log.warn("Received invalid query by URL: /r/" + query, e);
+      log.info("Received invalid query by URL: /r/" + query);
     } catch (OrmException e) {
       log.warn("Cannot process query by URL: /r/" + query, e);
     }

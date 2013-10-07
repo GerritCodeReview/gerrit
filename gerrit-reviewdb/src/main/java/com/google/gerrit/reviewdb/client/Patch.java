@@ -97,6 +97,10 @@ public final class Patch {
       return code;
     }
 
+    public boolean matches(String s) {
+      return s != null && s.length() == 1 && s.charAt(0) == code;
+    }
+
     public static ChangeType forCode(final char c) {
       for (final ChangeType s : ChangeType.values()) {
         if (s.code == c) {

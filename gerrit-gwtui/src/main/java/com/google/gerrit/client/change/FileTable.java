@@ -27,6 +27,7 @@ import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
@@ -451,7 +452,9 @@ class FileTable extends FlowPanel {
 
     private void columnStatus(SafeHtmlBuilder sb, FileInfo info) {
       sb.openTd().setStyleName(R.css().status());
-      if (!Patch.COMMIT_MSG.equals(info.path())) {
+      if (!Patch.COMMIT_MSG.equals(info.path())
+          && info.status() != null
+          && !ChangeType.MODIFIED.matches(info.status())) {
         sb.append(info.status());
       }
       sb.closeTd();

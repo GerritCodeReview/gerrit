@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "21a1a5ba_e0e5a253",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-10-07T20:31:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81933169_ebfb51ee",
+      "revId": "b06eddb729c2090d998451ff14a60986b52fe83e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "81933169_0b089d3f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-10-07T18:55:47Z",
       "side": 1,
       "message": "nit: we say } else {",
+      "revId": "b06eddb729c2090d998451ff14a60986b52fe83e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e1aa2d99_fee0a145",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-10-07T20:31:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81933169_0b089d3f",
       "revId": "b06eddb729c2090d998451ff14a60986b52fe83e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +95,24 @@
     },
     {
       "key": {
+        "uuid": "21a1a5ba_c0ea9e23",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-10-07T20:31:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c189a93b_8d1bc186",
+      "revId": "b06eddb729c2090d998451ff14a60986b52fe83e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c189a93b_6d07752e",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
         "patchSetId": 2
@@ -76,6 +130,24 @@
         "endLine": 550,
         "endChar": 22
       },
+      "revId": "b06eddb729c2090d998451ff14a60986b52fe83e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e1aa2d99_dee5e553",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-10-07T20:31:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c189a93b_6d07752e",
       "revId": "b06eddb729c2090d998451ff14a60986b52fe83e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

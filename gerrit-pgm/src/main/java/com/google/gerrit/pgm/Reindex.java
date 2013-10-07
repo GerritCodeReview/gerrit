@@ -27,6 +27,8 @@ import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.FileTypeRegistry;
+import com.google.gerrit.server.MimeUtilFileTypeRegistry;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -156,6 +158,7 @@ public class Reindex extends SiteProgram {
         // once, so don't worry about cache removal.
         bind(new TypeLiteral<DynamicSet<CacheRemovalListener>>() {})
             .toInstance(DynamicSet.<CacheRemovalListener> emptySet());
+        bind(FileTypeRegistry.class).to(MimeUtilFileTypeRegistry.class);
         install(new DefaultCacheFactory.Module());
       }
     });

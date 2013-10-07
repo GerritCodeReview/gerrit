@@ -26,6 +26,7 @@ import com.google.gwtorm.server.OrmException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.Collections;
 
 /** Specific version of a secondary index schema. */
@@ -102,6 +103,10 @@ public class Schema<T> {
             try {
               v = f.get(obj, fillArgs);
             } catch (OrmException e) {
+              log.error(String.format("error getting field %s of %s",
+                  f.getName(), obj), e);
+              return null;
+            } catch (IOException e) {
               log.error(String.format("error getting field %s of %s",
                   f.getName(), obj), e);
               return null;

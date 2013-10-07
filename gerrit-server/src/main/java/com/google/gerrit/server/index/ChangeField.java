@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.change.DiffContent;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
@@ -346,6 +347,34 @@ public class ChangeField {
           return r;
         }
       };
+
+  /** Lines inserted/deleted/replaced by the current patch set of the change. */
+  public static final FieldDef<ChangeData, Iterable<String>> DIFF =
+      new FieldDef.Repeatable<ChangeData, String>("diff", FieldType.FULL_TEXT,
+          false) {
+        @Override
+        public Iterable<String> get(ChangeData input, FillArgs args)
+            throws OrmException, IOException {
+          Set<String> r = Sets.newHashSet();
+          for (DiffContent diff : input.currentDiffContent(args.repoManager,
+              args.db, args.patchListCache, args.patchScriptBuilder).values()) {
+            for (DiffContent.Entry e : diff.getLines()) {
+              if (e.a != null) {
+                for (String aLine : e.a) {
+                  r.add("- " + aLine);
+                }
+              }
+              if (e.b != null) {
+                for (String bLine : e.b) {
+                  r.add("+ " + bLine);
+                }
+              }
+            }
+          }
+          return r;
+        }
+      };
+
 
   private static <T> List<byte[]> toProtos(ProtobufCodec<T> codec, Collection<T> objs)
       throws OrmException {

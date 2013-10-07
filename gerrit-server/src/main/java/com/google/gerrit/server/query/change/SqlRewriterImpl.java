@@ -81,6 +81,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
       @Named("S") final SortKeyPredicate.After s,
       @Named("L") final IntPredicate<ChangeData> l) {
     return new PaginatedSource(40000, s.getValue(), l.intValue()) {
+      @SuppressWarnings("deprecation")
       @Override
       ResultSet<Change> scan(ChangeAccess a, String key, int limit)
           throws OrmException {
@@ -105,6 +106,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
       @Named("S") final SortKeyPredicate.Before s,
       @Named("L") final IntPredicate<ChangeData> l) {
     return new PaginatedSource(40000, s.getValue(), l.intValue()) {
+      @SuppressWarnings("deprecation")
       @Override
       ResultSet<Change> scan(ChangeAccess a, String key, int limit)
           throws OrmException {
@@ -128,6 +130,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
       @Named("S") final SortKeyPredicate.After s,
       @Named("L") final IntPredicate<ChangeData> l) {
     return new PaginatedSource(500, s.getValue(), l.intValue()) {
+      @SuppressWarnings("deprecation")
       @Override
       ResultSet<Change> scan(ChangeAccess a, String key, int limit)
           throws OrmException {
@@ -170,6 +173,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
       @Named("S") final SortKeyPredicate.After s,
       @Named("L") final IntPredicate<ChangeData> l) {
     return new PaginatedSource(40000, s.getValue(), l.intValue()) {
+      @SuppressWarnings("deprecation")
       @Override
       ResultSet<Change> scan(ChangeAccess a, String key, int limit)
           throws OrmException {
@@ -192,6 +196,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
       @Named("S") final SortKeyPredicate.Before s,
       @Named("L") final IntPredicate<ChangeData> l) {
     return new PaginatedSource(40000, s.getValue(), l.intValue()) {
+      @SuppressWarnings("deprecation")
       @Override
       ResultSet<Change> scan(ChangeAccess a, String key, int limit)
           throws OrmException {
@@ -214,6 +219,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
       @Named("S") final SortKeyPredicate.After s,
       @Named("L") final IntPredicate<ChangeData> l) {
     return new PaginatedSource(40000, s.getValue(), l.intValue()) {
+      @SuppressWarnings("deprecation")
       @Override
       ResultSet<Change> scan(ChangeAccess a, String key, int limit)
           throws OrmException {
@@ -236,6 +242,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
       @Named("S") final SortKeyPredicate.Before s,
       @Named("L") final IntPredicate<ChangeData> l) {
     return new PaginatedSource(40000, s.getValue(), l.intValue()) {
+      @SuppressWarnings("deprecation")
       @Override
       ResultSet<Change> scan(ChangeAccess a, String key, int limit)
           throws OrmException {
@@ -257,6 +264,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
       @Named("S") final SortKeyPredicate.After s,
       @Named("L") final IntPredicate<ChangeData> l) {
     return new PaginatedSource(2000, s.getValue(), l.intValue()) {
+      @SuppressWarnings("deprecation")
       @Override
       ResultSet<Change> scan(ChangeAccess a, String key, int limit)
           throws OrmException {
@@ -275,6 +283,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
       @Named("S") final SortKeyPredicate.Before s,
       @Named("L") final IntPredicate<ChangeData> l) {
     return new PaginatedSource(2000, s.getValue(), l.intValue()) {
+      @SuppressWarnings("deprecation")
       @Override
       ResultSet<Change> scan(ChangeAccess a, String key, int limit)
           throws OrmException {
@@ -298,6 +307,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
         init("r20_byMergedPrev", s, l);
       }
 
+      @SuppressWarnings("deprecation")
       @Override
       ResultSet<Change> scan(ChangeAccess a, String key, int limit)
           throws OrmException {
@@ -322,6 +332,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
         init("r20_byMergedNext", s, l);
       }
 
+      @SuppressWarnings("deprecation")
       @Override
       ResultSet<Change> scan(ChangeAccess a, String key, int limit)
           throws OrmException {
@@ -346,6 +357,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
         init("r20_byAbandonedPrev", s, l);
       }
 
+      @SuppressWarnings("deprecation")
       @Override
       ResultSet<Change> scan(ChangeAccess a, String key, int limit)
           throws OrmException {
@@ -370,6 +382,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
         init("r20_byAbandonedNext", s, l);
       }
 
+      @SuppressWarnings("deprecation")
       @Override
       ResultSet<Change> scan(ChangeAccess a, String key, int limit)
           throws OrmException {
@@ -409,6 +422,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
         init("r25_byOwnerOpen", o);
       }
 
+      @SuppressWarnings("deprecation")
       @Override
       ResultSet<Change> scan(ChangeAccess a) throws OrmException {
         return a.byOwnerOpen(o.getAccountId());
@@ -430,6 +444,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
         init("r25_byOwnerClosed", o);
       }
 
+      @SuppressWarnings("deprecation")
       @Override
       ResultSet<Change> scan(ChangeAccess a) throws OrmException {
         return a.byOwnerClosedAll(o.getAccountId());
@@ -457,6 +472,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
         init("r30_byReviewerOpen", r);
       }
 
+      @SuppressWarnings("deprecation")
       @Override
       public ResultSet<ChangeData> read() throws OrmException {
         return ChangeDataResultSet.patchSetApproval(dbProvider.get()
@@ -490,6 +506,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
         init("r30_byReviewerClosed", r);
       }
 
+      @SuppressWarnings("deprecation")
       @Override
       public ResultSet<ChangeData> read() throws OrmException {
         return ChangeDataResultSet.patchSetApproval(dbProvider.get()

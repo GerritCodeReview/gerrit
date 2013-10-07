@@ -2,6 +2,7 @@
 
 package com.google.gerrit.httpd;
 
+import com.google.common.base.CharMatcher;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.CurrentUser;
@@ -49,7 +50,7 @@ class DirectChangeByCommit extends HttpServlet {
   @Override
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
-    String query = req.getPathInfo();
+    String query = CharMatcher.is('/').trimTrailingFrom(req.getPathInfo());
     HashSet<Change.Id> ids = new HashSet<Change.Id>();
     try {
       ChangeQueryBuilder builder = queryBuilder.create(currentUser.get());

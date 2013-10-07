@@ -40,6 +40,7 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
@@ -98,7 +99,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
 
     Repository git = gitManager.openRepository(change.getProject());
     try {
-      Map<String, Ref> refs = git.getAllRefs();
+      Map<String, Ref> refs = git.getRefDatabase().getRefs(RefDatabase.ALL);
       Ref ref = refs.get(change.getDest().get());
       if (isStale(change, ref)) {
         result.mergeable =

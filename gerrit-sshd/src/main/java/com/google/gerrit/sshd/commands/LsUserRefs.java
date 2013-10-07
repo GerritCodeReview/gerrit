@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static org.eclipse.jgit.lib.RefDatabase.ALL;
+
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.reviewdb.client.Account;
@@ -88,30 +90,33 @@ public class LsUserRefs extends SshCommand {
 
     IdentifiedUser user = userFactory.create(userAccount.getId());
     ProjectControl userProjectControl = projectControl.forUser(user);
-    Repository repo = null;
+    Repository repo;
     try {
       repo = repoManager.openRepository(userProjectControl.getProject()
               .getNameKey());
-
-      Map<String, Ref> refsMap =
-          new VisibleRefFilter(tagCache, changeCache, repo, userProjectControl,
-              db, true).filter(repo.getAllRefs(), false);
-
-      for (final String ref : refsMap.keySet()) {
-        if (!onlyRefsHeads || ref.startsWith(Branch.R_HEADS)) {
-          stdout.println(ref);
-        }
-      }
     } catch (RepositoryNotFoundException e) {
       throw new UnloggedFailure("fatal: '"
           + projectControl.getProject().getNameKey() + "': not a git archive");
     } catch (IOException e) {
       throw new UnloggedFailure("fatal: Error opening: '"
           + projectControl.getProject().getNameKey());
-    } finally {
-      if (repo != null) {
-        repo.close();
+    }
+
+    try {
+      Map<String, Ref> refsMap =
+          new VisibleRefFilter(tagCache, changeCache, repo, userProjectControl,
+              db, true).filter(repo.getRefDatabase().getRefs(ALL), false);
+
+      for (final String ref : refsMap.keySet()) {
+        if (!onlyRefsHeads || ref.startsWith(Branch.R_HEADS)) {
+          stdout.println(ref);
+        }
       }
+    } catch (IOException e) {
+      throw new Failure(1, "fatal: Error reading refs: '"
+          + projectControl.getProject().getNameKey(), e);
+    } finally {
+      repo.close();
     }
   }
 }

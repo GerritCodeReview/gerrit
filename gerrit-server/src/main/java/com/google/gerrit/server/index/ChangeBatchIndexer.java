@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.index;
 
+import static org.eclipse.jgit.lib.RefDatabase.ALL;
+
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
@@ -44,6 +46,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -203,7 +206,7 @@ public class ChangeBatchIndexer {
         Multimap<ObjectId, ChangeData> byId = ArrayListMultimap.create();
         Repository repo = repoManager.openRepository(project);
         try {
-          Map<String, Ref> refs = repo.getAllRefs();
+          Map<String, Ref> refs = repo.getRefDatabase().getRefs(ALL);
           for (Change c : db.get().changes().byProject(project)) {
             Ref r = refs.get(c.currentPatchSetId().toRefName());
             if (r != null) {

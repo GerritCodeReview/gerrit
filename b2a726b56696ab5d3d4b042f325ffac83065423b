@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c189a93b_ed128566",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-10-07T19:35:01Z",
+      "side": 1,
+      "message": "Perhaps there should be a ServiceMayNotContinueException(Throwable) constructor along the lines of Exception(Throwable) that does this?",
+      "range": {
+        "startLine": 408,
+        "startChar": 0,
+        "endLine": 410,
+        "endChar": 28
+      },
+      "revId": "b2a726b56696ab5d3d4b042f325ffac83065423b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c189a93b_0d335107",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommitsAdvertiseRefsHook.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-10-07T19:35:01Z",
+      "side": 1,
+      "message": "Likewise.",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 24
+      },
+      "revId": "b2a726b56696ab5d3d4b042f325ffac83065423b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c189a93b_2d380de1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-10-07T19:35:01Z",
+      "side": 1,
+      "message": "(not about this change) This message seems a bit misleading. :)",
+      "range": {
+        "startLine": 190,
+        "startChar": 0,
+        "endLine": 190,
+        "endChar": 67
+      },
+      "revId": "b2a726b56696ab5d3d4b042f325ffac83065423b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c189a93b_4d3d59d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-10-07T19:35:01Z",
+      "side": 1,
+      "message": "Likewise.",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 133,
+        "endChar": 22
+      },
+      "revId": "b2a726b56696ab5d3d4b042f325ffac83065423b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81933169_6b07612e",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/LsUserRefs.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-10-07T19:35:01Z",
+      "side": 1,
+      "message": "This message is a bit misleading now. Probably the try block should go like this:\n\nRepository repo \u003d null;\ntry {\n  repo \u003d ...\n} catch ... {\n}\nif (repo !\u003d null) {\n  try {\n    ...\n  } finally {\n    repo.close();\n  }\n}",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 54
+      },
+      "revId": "b2a726b56696ab5d3d4b042f325ffac83065423b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

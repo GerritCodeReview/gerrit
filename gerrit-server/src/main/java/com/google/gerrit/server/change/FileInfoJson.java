@@ -56,7 +56,8 @@ public class FileInfoJson {
     Map<String, FileInfo> files = Maps.newTreeMap();
     for (PatchListEntry e : list.getPatches()) {
       FileInfoJson.FileInfo d = new FileInfoJson.FileInfo();
-      d.status = e.getChangeType().getCode();
+      d.status = e.getChangeType() != Patch.ChangeType.MODIFIED
+          ? e.getChangeType().getCode() : null;
       d.oldPath = e.getOldName();
       if (e.getPatchType() == Patch.PatchType.BINARY) {
         d.binary = true;

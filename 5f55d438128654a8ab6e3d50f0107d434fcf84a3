@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "81933169_ab95c98a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-07T21:56:43Z",
+      "side": 1,
+      "message": "This no longer merges on master, as your change for stable-2.6 was merged into master. Please rebase this change and resolve the conflicts you created for yourself. :-)",
+      "revId": "5f55d438128654a8ab6e3d50f0107d434fcf84a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

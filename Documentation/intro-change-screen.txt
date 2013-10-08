@@ -2,7 +2,7 @@ Change Screen - Introduction
 ============================
 
 As of Gerrit 2.8 the change screen was redesigned from the ground up. The old
-changes screen is deprecated and will be discontinued in one of the next Gerrit
+change screen is deprecated and will be discontinued in one of the next Gerrit
 releases.
 
 The design spirit of the new change screen is simplicity: only one patch set is
@@ -210,3 +210,7 @@ Several features have not been implemented yet:
 * Allow to see if a reviewer can't vote on a label
 * Allow to select a reference version as base for the comparison
 * Change diff view preferences
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

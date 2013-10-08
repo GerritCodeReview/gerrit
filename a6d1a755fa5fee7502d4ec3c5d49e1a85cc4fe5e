@@ -16,6 +16,24 @@
       "revId": "a6d1a755fa5fee7502d4ec3c5d49e1a85cc4fe5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2108c5aa_28ff0bdf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-08T07:16:05Z",
+      "side": 1,
+      "message": "Actually I think both should be done. The list should be a defensive copy and it should be unmodifiable afterwards.\n\nDone.",
+      "parentUuid": "e1d86d6d_ae3c17d5",
+      "revId": "a6d1a755fa5fee7502d4ec3c5d49e1a85cc4fe5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

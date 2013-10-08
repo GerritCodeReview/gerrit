@@ -55,7 +55,7 @@ public class GroupInfoCache {
    * <li>an anonymous info block, if <code>id</code> was not loaded.</li>
    * </ul>
    *
-   * @param id the id desired.
+   * @param uuid the id desired.
    * @return info block for the group.
    */
   public GroupInfo get(final AccountGroup.UUID uuid) {

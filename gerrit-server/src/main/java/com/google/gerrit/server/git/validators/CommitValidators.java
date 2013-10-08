@@ -550,7 +550,7 @@ public class CommitValidators {
    *
    * @return the canonical URL (with any trailing slash removed) if it is
    *         configured, otherwise fall back to "http://hostname" where hostname
-   *         is the value returned by {@link #getGerritHost()}.
+   *         is the value returned by {@link #getGerritHost(String)}.
    */
   private static String getGerritUrl(String canonicalWebUrl) {
     if (canonicalWebUrl != null) {

@@ -24,7 +24,7 @@ import net.codemirror.lib.TextMarker.FromTo;
 /**
  * Glue to connect CodeMirror to be callable from GWT.
  *
- * @link http://codemirror.net/doc/manual.html#api
+ * @see <a href="http://codemirror.net/doc/manual.html#api">CodeMirror API</a>
  */
 public class CodeMirror extends JavaScriptObject {
   public static void initLibrary(AsyncCallback<Void> cb) {

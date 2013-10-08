@@ -25,14 +25,10 @@ import java.sql.Timestamp;
  * A user may have multiple identities they can use to login to Gerrit (see
  * {@link AccountExternalId}), but in such cases they always map back to a
  * single Account entity.
- *<p>
+ * <p>
  * Entities "owned" by an Account (that is, their primary key contains the
  * {@link Account.Id} key as part of their key structure):
  * <ul>
- * <li>{@link AccountAgreement}: any record of the user's acceptance of a
- * predefined {@link ContributorAgreement}. Multiple records indicate
- * potentially multiple agreements, especially if agreements must be retired and
- * replaced with new agreements.</li>
  *
  * <li>{@link AccountExternalId}: OpenID identities and email addresses known to
  * be registered to this user. Multiple records can exist when the user has more

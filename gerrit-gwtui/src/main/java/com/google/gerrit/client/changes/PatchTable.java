@@ -55,10 +55,8 @@ import java.util.Map;
 public class PatchTable extends Composite {
   public interface PatchValidator {
     /**
-     * Returns true if patch is valid
-     *
      * @param patch
-     * @return
+     * @return true if patch is valid.
      */
     boolean isValid(Patch patch);
   }
@@ -836,7 +834,7 @@ public class PatchTable extends Composite {
    * @param validators
    * @param loopAround loops back around to the front and traverses if this is
    *        true
-   * @return
+   * @return index of next valid patch, or -1 if no valid patches
    */
   public int getNextPatch(int currentIndex, boolean loopAround,
       PatchValidator... validators) {
@@ -851,7 +849,7 @@ public class PatchTable extends Composite {
    * @param validators
    * @param loopAround
    * @param maxIndex will only traverse up to this index
-   * @return
+   * @return index of next valid patch, or -1 if no valid patches
    */
   private int getNextPatchHelper(int currentIndex, boolean loopAround,
       int maxIndex, PatchValidator... validators) {

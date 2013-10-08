@@ -51,7 +51,7 @@ public class PrivateInternals_DynamicMapImpl<T> extends DynamicMap<T> {
    * @param key unique description from the item's Guice binding. This can be
    *        later obtained from the registration handle to facilitate matching
    *        with the new equivalent instance during a hot reload. The key must
-   *        use an {@link @Export} annotation.
+   *        use an {@link Export} annotation.
    * @param item the item to add to the collection right now. Must not be null.
    * @return a handle that can remove this item later, or hot-swap the item
    *         without it ever leaving the collection.

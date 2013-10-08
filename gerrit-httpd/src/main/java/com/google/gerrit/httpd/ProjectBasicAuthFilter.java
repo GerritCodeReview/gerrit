@@ -53,8 +53,8 @@ import javax.servlet.http.HttpServletResponseWrapper;
  * The current HTTP request is authenticated by looking up the username and
  * password from the Base64 encoded Authorization header and validating them
  * against any username/password configured authentication system in Gerrit.
- * This filter is intended only to protect the {@link ProjectServlet} and its
- * handled URLs, which provide remote repository access over HTTP.
+ * This filter is intended only to protect the {@link GitOverHttpServlet} and
+ * its handled URLs, which provide remote repository access over HTTP.
  *
  * @see <a href="http://www.ietf.org/rfc/rfc2617.txt">RFC 2617</a>
  */

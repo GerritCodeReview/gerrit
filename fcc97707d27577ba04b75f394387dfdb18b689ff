@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1d52934_cde52954",
+        "filename": "lib/asciidoctor/java/DocIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-08T00:08:38Z",
+      "side": 1,
+      "message": "Use Asciidoctor.readDocumentHeader() instead.",
+      "range": {
+        "startLine": 89,
+        "startChar": 6,
+        "endLine": 96,
+        "endChar": 26
+      },
+      "revId": "fcc97707d27577ba04b75f394387dfdb18b689ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e1d86d6d_aeead721",
+        "filename": "lib/asciidoctor/java/DocIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-08T00:08:38Z",
+      "side": 1,
+      "message": "Maybe make this a stored TextField so it can be searched independently of the document body?",
+      "revId": "fcc97707d27577ba04b75f394387dfdb18b689ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

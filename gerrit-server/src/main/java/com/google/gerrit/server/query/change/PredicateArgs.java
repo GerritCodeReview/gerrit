@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class is used to extract comma separated values in a predicate
- *
+ * This class is used to extract comma separated values in a predicate.
+ * <p>
  * If tags for the values are present (e.g. "branch=jb_2.3,vote=approved") then
  * the args are placed in a map that maps tag to value (e.g., "branch" to "jb_2.3").
  * If no tag is present (e.g. "jb_2.3,approved") then the args are placed into a
@@ -35,14 +35,12 @@ public class PredicateArgs {
   public Map<String, String> keyValue;
 
   /**
-   * Parses query arguments into keyValue and/or positional values
-   * labels for these arguments should be kept in ChangeQueryBuilder
-   * as ARG_ID_{argument name}.
+   * Parses query arguments into {@link #keyValue} and/or {@link #positional}..
+   * <p>
+   * Labels for these arguments should be kept in ChangeQueryBuilder
+   * as {@code ARG_ID_{argument name}}.
    *
-   * @param args - arguments to be parsed
-   *
-   * @return - the static values keyValue and positional will contain
-   *           the parsed values.
+   * @param args arguments to be parsed
    * @throws QueryParseException
    */
   PredicateArgs(String args) throws QueryParseException {

@@ -36,7 +36,7 @@ public interface SubmoduleSubscriptionAccess extends
    * Fetches all <code>SubmoduleSubscription</code>s in which some branch of
    * <code>superProject</code> subscribes a branch.
    *
-   * Use {@link #bySuperproject(Branch.NameKey)} to fetch for a branch instead
+   * Use {@link #bySuperProject(Branch.NameKey)} to fetch for a branch instead
    * of a project.
    *
    * @param superProject the project to fetch subscriptions for

@@ -17,7 +17,6 @@ package com.google.gerrit.server.account;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.ProjectControl;
 
 import java.util.Collection;
@@ -37,8 +36,8 @@ public class GroupBackends {
   };
 
   /**
-   * Runs {@link GroupBackend#suggest(String, Project)} and filters the result to return
-   * the best suggestion, or null if one does not exist.
+   * Runs {@link GroupBackend#suggest(String, ProjectControl)} and filters the
+   * result to return the best suggestion, or null if one does not exist.
    *
    * @param groupBackend the group backend
    * @param name the name for which to suggest groups
@@ -49,9 +48,10 @@ public class GroupBackends {
       String name) {
     return findBestSuggestion(groupBackend, name, null);
   }
+
   /**
-   * Runs {@link GroupBackend#suggest(String, Project)} and filters the result to return
-   * the best suggestion, or null if one does not exist.
+   * Runs {@link GroupBackend#suggest(String, ProjectControl)} and filters the
+   * result to return the best suggestion, or null if one does not exist.
    *
    * @param groupBackend the group backend
    * @param name the name for which to suggest groups
@@ -75,8 +75,8 @@ public class GroupBackends {
   }
 
   /**
-   * Runs {@link GroupBackend#suggest(String, Project)} and filters the result to return
-   * the exact suggestion, or null if one does not exist.
+   * Runs {@link GroupBackend#suggest(String, ProjectControl)} and filters the
+   * result to return the exact suggestion, or null if one does not exist.
    *
    * @param groupBackend the group backend
    * @param name the name for which to suggest groups
@@ -89,8 +89,8 @@ public class GroupBackends {
   }
 
   /**
-   * Runs {@link GroupBackend#suggest(String, Project)} and filters the result to return
-   * the exact suggestion, or null if one does not exist.
+   * Runs {@link GroupBackend#suggest(String, ProjectControl)} and filters the
+   * result to return the exact suggestion, or null if one does not exist.
    *
    * @param groupBackend the group backend
    * @param name the name for which to suggest groups

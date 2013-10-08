@@ -208,7 +208,7 @@ class OpenIdServiceImpl {
     }
   }
 
-  /** Called by {@link OpenIdLoginForm} doGet, doPost */
+  /** Called by {@link OpenIdLoginServlet} doGet, doPost */
   void doAuth(final HttpServletRequest req, final HttpServletResponse rsp)
       throws Exception {
     if (OMODE_CANCEL.equals(req.getParameter(OPENID_MODE))) {

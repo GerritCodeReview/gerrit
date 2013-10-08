@@ -167,7 +167,6 @@ public interface ChangeHooks {
    * @param uploader The gerrit user running the command
    * @param oldId The ref's old id
    * @param newId The ref's new id
-   * @param account The gerrit user who moved the ref
    */
   public HookResult doRefUpdateHook(Project project,  String refName,
        Account uploader, ObjectId oldId, ObjectId newId);

@@ -17,6 +17,7 @@ package com.google.gerrit.extensions.registration;
 import com.google.inject.Binder;
 import com.google.inject.Key;
 import com.google.inject.Provider;
+import com.google.inject.ProvisionException;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
 import com.google.inject.util.Types;
@@ -103,7 +104,7 @@ public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
    * @throws ProvisionException if the registered provider is unable to obtain
    *         an instance of the requested implementation.
    */
-  public T get(String pluginName, String exportName) {
+  public T get(String pluginName, String exportName) throws ProvisionException {
     Provider<T> p = items.get(new NamePair(pluginName, exportName));
     return p != null ? p.get() : null;
   }

@@ -42,7 +42,7 @@ public interface AvatarProvider {
   /**
    * Gets a URL for a user to modify their avatar image.
    *
-   * @param user The user wishing to change their avatar image
+   * @param forUser The user wishing to change their avatar image
    * @return a URL the user should visit to modify their avatar, or null if
    *         modification is not possible.
    */

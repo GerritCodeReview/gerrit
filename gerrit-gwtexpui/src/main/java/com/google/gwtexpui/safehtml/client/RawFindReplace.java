@@ -29,9 +29,9 @@ public class RawFindReplace implements FindReplace {
   }
 
   /**
-   * @param regex regular expression pattern to match substrings with.
-   * @param repl replacement expression. Capture groups within
-   *        <code>regex</code> can be referenced with <code>$<i>n</i></code>.
+   * @param find regular expression pattern to match substrings with.
+   * @param replace replacement expression. Capture groups within
+   *        <code>find</code> can be referenced with <code>$<i>n</i></code>.
    */
   public RawFindReplace(String find, String replace) {
     this.pat = RegExp.compile(find);

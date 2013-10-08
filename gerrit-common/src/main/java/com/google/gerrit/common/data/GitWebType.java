@@ -150,7 +150,7 @@ public class GitWebType {
   /**
    * Set the pattern for link-name type.
    *
-   * @param pattern The pattern for link-name type
+   * @param name The link-name type
    */
   public void setLinkName(final String name) {
     if (name != null && !name.isEmpty()) {

@@ -30,7 +30,7 @@ public interface CommitValidationListener {
   /**
    * Commit validation.
    *
-   * @param received commit event details
+   * @param receiveEvent commit event details
    * @return list of validation messages
    * @throws CommitValidationException if validation fails
    */

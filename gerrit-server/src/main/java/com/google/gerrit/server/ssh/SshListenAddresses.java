@@ -21,8 +21,8 @@ import com.google.inject.BindingAnnotation;
 import java.lang.annotation.Retention;
 
 /**
- * Marker on the list of {@link SocketAddress}es on which the SSH daemon is
- * configured to listen.
+ * Marker on the list of {@link java.net.SocketAddress}es on which the SSH
+ * daemon is configured to listen.
  */
 @Retention(RUNTIME)
 @BindingAnnotation

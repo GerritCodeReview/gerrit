@@ -21,8 +21,8 @@ import com.google.inject.BindingAnnotation;
 import java.lang.annotation.Retention;
 
 /**
- * Marker on the list of {@link SocketAddress}es configured to be advertised by
- * the server.
+ * Marker on the list of {@link java.net.SocketAddress}es configured to be
+ * advertised by the server.
  */
 @Retention(RUNTIME)
 @BindingAnnotation

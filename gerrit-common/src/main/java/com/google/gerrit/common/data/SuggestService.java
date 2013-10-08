@@ -30,7 +30,7 @@ public interface SuggestService extends RemoteJsonService {
       AsyncCallback<List<AccountInfo>> callback);
 
   /**
-   * @see #suggestAccountGroup(com.google.gerrit.reviewdb.client.Project.NameKey, String, int, AsyncCallback)
+   * @see #suggestAccountGroupForProject(com.google.gerrit.reviewdb.client.Project.NameKey, String, int, AsyncCallback)
    */
   @Deprecated
   void suggestAccountGroup(String query, int limit,

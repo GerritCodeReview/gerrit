@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1d52934_6d1cf57e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-08T00:33:46Z",
+      "side": 1,
+      "message": "Well, +2 except for the RFC bit.",
+      "revId": "00e21a85ea8a558c1c307e026f3b4266fd7400c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

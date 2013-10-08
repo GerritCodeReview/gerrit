@@ -75,6 +75,24 @@
       "revId": "fcc97707d27577ba04b75f394387dfdb18b689ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1d52934_ad3c1dd5",
+        "filename": "lib/asciidoctor/java/DocIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-08T02:13:00Z",
+      "side": 1,
+      "message": "True, the title is in the document and will be part of the doc field search. But I think the space used in the index is going to be trivial and we might find a use for title only searches, so lets just index it.\n\nIf we later decide it really isn\u0027t useful after we have the full search system working, we can switch back to a StringField here and save a few KiB on the overall index.",
+      "parentUuid": "e1d86d6d_4e19338d",
+      "revId": "fcc97707d27577ba04b75f394387dfdb18b689ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

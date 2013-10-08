@@ -16,14 +16,14 @@ package com.google.gerrit.server.index;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import com.google.common.util.concurrent.ListeningScheduledExecutorService;
+import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.inject.BindingAnnotation;
 
 import java.lang.annotation.Retention;
 
 /**
- * Marker on {@link ListeningScheduledExecutorService} used by secondary
- * indexing threads.
+ * Marker on {@link ListeningExecutorService} used by secondary indexing
+ * threads.
  */
 @Retention(RUNTIME)
 @BindingAnnotation

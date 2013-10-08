@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.index;
 
-import com.google.common.util.concurrent.ListeningScheduledExecutorService;
+import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -49,14 +49,14 @@ public class IndexModule extends LifecycleModule {
   }
 
   private final int threads;
-  private final ListeningScheduledExecutorService indexExecutor;
+  private final ListeningExecutorService indexExecutor;
 
   public IndexModule(int threads) {
     this.threads = threads;
     this.indexExecutor = null;
   }
 
-  public IndexModule(ListeningScheduledExecutorService indexExecutor) {
+  public IndexModule(ListeningExecutorService indexExecutor) {
     this.threads = -1;
     this.indexExecutor = indexExecutor;
   }
@@ -72,7 +72,7 @@ public class IndexModule extends LifecycleModule {
         .build(ChangeIndexer.Factory.class));
 
     if (indexExecutor != null) {
-      bind(ListeningScheduledExecutorService.class)
+      bind(ListeningExecutorService.class)
           .annotatedWith(IndexExecutor.class)
           .toInstance(indexExecutor);
     } else {
@@ -101,7 +101,7 @@ public class IndexModule extends LifecycleModule {
     @Provides
     @Singleton
     @IndexExecutor
-    ListeningScheduledExecutorService getIndexExecutor(
+    ListeningExecutorService getIndexExecutor(
         @GerritServerConfig Config config,
         WorkQueue workQueue) {
       int threads = this.threads;

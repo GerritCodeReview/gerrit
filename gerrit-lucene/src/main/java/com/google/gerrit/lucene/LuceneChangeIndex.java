@@ -25,7 +25,6 @@ import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
-import com.google.common.util.concurrent.ListeningScheduledExecutorService;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
@@ -156,7 +155,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   LuceneChangeIndex(
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
-      @IndexExecutor ListeningScheduledExecutorService executor,
+      @IndexExecutor ListeningExecutorService executor,
       FillArgs fillArgs,
       @Assisted Schema<ChangeData> schema,
       @Assisted @Nullable String base) throws IOException {

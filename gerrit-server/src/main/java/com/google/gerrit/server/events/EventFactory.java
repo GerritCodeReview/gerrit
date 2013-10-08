@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.events;
 
+import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
@@ -155,6 +156,29 @@ public class EventFactory {
     a.lastUpdated = change.getLastUpdatedOn().getTime() / 1000L;
     a.sortKey = change.getSortKey();
     a.open = change.getStatus().isOpen();
+  }
+
+  /**
+   * Add currentReviewers to an existing ChangeAttribute.
+   *
+   * @param a
+   * @param change
+   */
+  public void addCurrentReviewers(ChangeAttribute a, Change change)
+      throws OrmException {
+    a.currentReviewers = Lists.newArrayList();
+    ArrayList<Object> accountIdlist = Lists.newArrayList();
+    PatchSet.Id psid = change.currentPatchSetId();
+    for (PatchSetApproval psa : db.get().patchSetApprovals().byPatchSet(psid)) {
+      Account.Id accountId = psa.getAccountId();
+      if (!accountIdlist.contains(accountId)) {
+        accountIdlist.add(accountId);
+        a.currentReviewers.add(asAccountAttribute(psa.getAccountId()));
+      }
+    }
+    if (a.currentReviewers.isEmpty()) {
+      a.currentReviewers = null;
+    }
   }
 
   /**

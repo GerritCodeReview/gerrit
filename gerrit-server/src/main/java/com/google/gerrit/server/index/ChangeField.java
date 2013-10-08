@@ -22,8 +22,8 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.client.TrackingId;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.config.TrackingFooter;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
@@ -32,12 +32,15 @@ import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.gwtorm.server.OrmException;
 import com.google.protobuf.CodedOutputStream;
 
+import org.eclipse.jgit.revwalk.FooterLine;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
 
 /**
  * Fields indexed on change documents.
@@ -220,11 +223,29 @@ public class ChangeField {
         @Override
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
-          Set<String> r = Sets.newHashSet();
-          for (TrackingId id : input.trackingIds(args.db)) {
-            r.add(id.getTrackingId());
+          try {
+            Set<String> r = Sets.newHashSet();
+            for (FooterLine footer :
+                input.commitFooters(args.repoManager, args.db)) {
+              for (TrackingFooter config :
+                  args.trackingFooters.getTrackingFooters()) {
+                if (footer.matches(config.footerKey())) {
+                  Matcher m = config.match().matcher(footer.getValue());
+                  while (m.find()) {
+                    String id = m.groupCount() > 0
+                        ? m.group(1)
+                        : m.group();
+                    if (!id.isEmpty()) {
+                      r.add(id);
+                    }
+                  }
+                }
+              }
+            }
+            return r;
+          } catch (IOException e) {
+            throw new OrmException(e);
           }
-          return r;
         }
       };
 

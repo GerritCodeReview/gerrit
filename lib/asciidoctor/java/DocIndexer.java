@@ -12,10 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipOutputStream;
@@ -43,6 +47,7 @@ public class DocIndexer {
   private static final Version LUCENE_VERSION = Version.LUCENE_44;
   private static final String DOC_FIELD = "doc";
   private static final String URL_FIELD = "url";
+  private static final String TITLE_FIELD = "title";
 
   @Option(name = "-z", usage = "output zip file")
   private String zipFile;
@@ -82,6 +87,17 @@ public class DocIndexer {
     IndexWriter iwriter = new IndexWriter(directory, config);
     for (String inputFile : inputFiles) {
       File file = new File(inputFile);
+
+      BufferedReader titleReader = new BufferedReader(
+          new InputStreamReader(new FileInputStream(file), "UTF-8"));
+      String title = titleReader.readLine();
+      if (title.startsWith("[[")) {
+        // Generally the first line of the txt is the title. In a few cases the
+        // first line is a "[[tag]]" and the second line is the title.
+        title = titleReader.readLine();
+      }
+      titleReader.close();
+
       String outputFile = AsciiDoctor.mapInFileToOutFile(
           inputFile, inExt, outExt);
       FileReader reader = new FileReader(file);
@@ -89,6 +105,7 @@ public class DocIndexer {
       doc.add(new TextField(DOC_FIELD, reader));
       doc.add(new StringField(
             URL_FIELD, prefix + outputFile, Field.Store.YES));
+      doc.add(new TextField(TITLE_FIELD, title, Field.Store.YES));
       iwriter.addDocument(doc);
       reader.close();
     }

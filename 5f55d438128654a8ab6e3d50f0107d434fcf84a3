@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "81dfb155_2b3139f8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-10-08T17:56:50Z",
+      "side": 1,
+      "message": "That may not be a bad approach, but leaves the question, what\u0027s an \"insane\" level to expand at once?  500 or 1000 lines?\n\nAlso, I\u0027d wonder if it happens only with large files, or with files that have just a large gap in the middle?",
+      "parentUuid": "21a1a5ba_0008863f",
+      "revId": "5f55d438128654a8ab6e3d50f0107d434fcf84a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e1aa2d99_7ef5b1fc",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
         "patchSetId": 4

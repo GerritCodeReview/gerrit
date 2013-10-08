@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "81ca518f_93419c4b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-08T17:08:46Z",
+      "side": 1,
+      "message": "This is easier with Guava:\n\n  ImmutableList.copyOf(filePaths);",
+      "revId": "f620bbd5b0e29c9a104af3d6317ef97caaed84da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

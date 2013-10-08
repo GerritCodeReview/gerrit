@@ -2817,9 +2817,13 @@ As example, here is the theme configuration to have the old green look:
 
 Tagged footer lines containing references to external
 tracking systems, parsed out of the commit message and
-saved in Gerrit's database.  After making changes to
-this section, existing changes must be reindexed with the
-link:pgm-ScanTrackingIds.html[ScanTrackingIds] program.
+saved in Gerrit's database.
+
+After making changes to this section, existing changes
+must be reindexed with link:pgm-reindex.html[reindex]
+if index.type is `LUCENE` or `SOLR`; or with
+link:pgm-ScanTrackingIds.html[ScanTrackingIds] if index.type
+is unset or `SQL`.
 
 The tracking ids are searchable using tr:<tracking id> or
 bug:<tracking id>.

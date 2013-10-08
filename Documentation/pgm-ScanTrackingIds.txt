@@ -20,6 +20,14 @@ This task can take quite some time, but can run in the background
 concurrently to the server if the database is MySQL or PostgreSQL.
 If the database is H2, this task must be run by itself.
 
+STATUS
+------
+This command will be replaced by `reindex`.
+
+If secondary indexing is enabled
+(link:config-gerrit.html#index.type[index.type] set to `LUCENE`
+or `SOLR`) use link:pgm-reindex.html[reindex].
+
 OPTIONS
 -------
 

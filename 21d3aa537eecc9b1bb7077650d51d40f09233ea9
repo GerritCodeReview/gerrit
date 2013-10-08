@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1014d89_c6e50254",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-08T07:18:17Z",
+      "side": 1,
+      "message": "Here the name needs to be changed too.\n\ns/GerritTopMenus/GerritTopMenu",
+      "revId": "21d3aa537eecc9b1bb7077650d51d40f09233ea9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

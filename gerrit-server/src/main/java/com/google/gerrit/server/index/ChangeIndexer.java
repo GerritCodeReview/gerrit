@@ -105,7 +105,7 @@ public abstract class ChangeIndexer {
    * @param change change to index.
    */
   public void index(Change change) throws IOException {
-    indexAsync(change).checkedGet();
+    index(new ChangeData(change));
   }
 
   /**
@@ -114,7 +114,13 @@ public abstract class ChangeIndexer {
    * @param cd change to index.
    */
   public void index(ChangeData cd) throws IOException {
-    indexAsync(cd).checkedGet();
+    try {
+      indexTask(cd).call();
+    } catch (RuntimeException e) {
+      throw e;
+    } catch (Exception e) {
+      throw MAPPER.apply(e);
+    }
   }
 
   /**
@@ -153,7 +159,7 @@ public abstract class ChangeIndexer {
    * @param change change to delete.
    */
   public void delete(Change change) throws IOException {
-    deleteAsync(change).checkedGet();
+    delete(new ChangeData(change));
   }
 
   /**
@@ -162,7 +168,13 @@ public abstract class ChangeIndexer {
    * @param cd change to delete.
    */
   public void delete(ChangeData cd) throws IOException {
-    deleteAsync(cd).checkedGet();
+    try {
+      deleteTask(cd).call();
+    } catch (RuntimeException e) {
+      throw e;
+    } catch (Exception e) {
+      throw MAPPER.apply(e);
+    }
   }
 
   /**

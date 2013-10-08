@@ -16,6 +16,7 @@ java_library(
     '//lib:args4j',
     '//lib:guava',
   ],
+  visibility = ['//tools/eclipse:classpath'],
 )
 
 java_binary(
@@ -35,6 +36,7 @@ java_library(
     '//lib/lucene:analyzers-common',
     '//lib/lucene:core',
   ],
+  visibility = ['//tools/eclipse:classpath'],
 )
 
 maven_jar(

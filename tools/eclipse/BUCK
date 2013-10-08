@@ -10,6 +10,8 @@ java_library(
     '//gerrit-httpd:httpd_tests',
     '//gerrit-main:main_lib',
     '//gerrit-server:server__compile',
+    '//lib/asciidoctor:asciidoc_lib',
+    '//lib/asciidoctor:doc_indexer_lib',
     '//lib/prolog:compiler_lib',
   ] + scan_plugins(),
 )

@@ -40,8 +40,7 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
 public class DocIndexer {
-
-  private static final Version LUCENE_VERSION = Version.LUCENE_43;
+  private static final Version LUCENE_VERSION = Version.LUCENE_44;
   private static final String DOC_FIELD = "doc";
   private static final String URL_FIELD = "url";
 

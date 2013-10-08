@@ -16,6 +16,24 @@
       "revId": "d0c79a04304f4c284333200533d2d6ee5010b41f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2108c5aa_a801bb1b",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-08T07:32:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81dfb155_2bfff9de",
+      "revId": "d0c79a04304f4c284333200533d2d6ee5010b41f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

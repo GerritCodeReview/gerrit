@@ -15,7 +15,7 @@
 package com.google.gerrit.server.index;
 
 import com.google.common.util.concurrent.Atomics;
-import com.google.common.util.concurrent.ListeningScheduledExecutorService;
+import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -53,7 +53,7 @@ public class ChangeIndexerImpl extends ChangeIndexer {
   private final ThreadLocalRequestContext context;
 
   @AssistedInject
-  ChangeIndexerImpl(@IndexExecutor ListeningScheduledExecutorService executor,
+  ChangeIndexerImpl(@IndexExecutor ListeningExecutorService executor,
       SchemaFactory<ReviewDb> schemaFactory,
       ThreadLocalRequestContext context,
       @Assisted ChangeIndex index) {
@@ -65,7 +65,7 @@ public class ChangeIndexerImpl extends ChangeIndexer {
   }
 
   @AssistedInject
-  ChangeIndexerImpl(@IndexExecutor ListeningScheduledExecutorService executor,
+  ChangeIndexerImpl(@IndexExecutor ListeningExecutorService executor,
       SchemaFactory<ReviewDb> schemaFactory,
       ThreadLocalRequestContext context,
       @Assisted IndexCollection indexes) {

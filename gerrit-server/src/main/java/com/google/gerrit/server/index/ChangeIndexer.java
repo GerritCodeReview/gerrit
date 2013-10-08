@@ -18,7 +18,7 @@ import com.google.common.base.Function;
 import com.google.common.util.concurrent.Callables;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.common.util.concurrent.Futures;
-import com.google.common.util.concurrent.ListeningScheduledExecutorService;
+import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.query.change.ChangeData;
 
@@ -71,9 +71,9 @@ public abstract class ChangeIndexer {
     }
   };
 
-  private final ListeningScheduledExecutorService executor;
+  private final ListeningExecutorService executor;
 
-  protected ChangeIndexer(ListeningScheduledExecutorService executor) {
+  protected ChangeIndexer(ListeningExecutorService executor) {
     this.executor = executor;
   }
 

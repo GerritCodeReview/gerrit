@@ -25,7 +25,7 @@ import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.AsyncFunction;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
-import com.google.common.util.concurrent.ListeningScheduledExecutorService;
+import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -105,13 +105,13 @@ public class ChangeBatchIndexer {
 
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager repoManager;
-  private final ListeningScheduledExecutorService executor;
+  private final ListeningExecutorService executor;
   private final ChangeIndexer.Factory indexerFactory;
 
   @Inject
   ChangeBatchIndexer(Provider<ReviewDb> db,
       GitRepositoryManager repoManager,
-      @IndexExecutor ListeningScheduledExecutorService executor,
+      @IndexExecutor ListeningExecutorService executor,
       ChangeIndexer.Factory indexerFactory) {
     this.db = db;
     this.repoManager = repoManager;

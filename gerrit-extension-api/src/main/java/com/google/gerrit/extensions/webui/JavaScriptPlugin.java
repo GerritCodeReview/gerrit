@@ -16,6 +16,8 @@ package com.google.gerrit.extensions.webui;
 
 /** Configures a web UI plugin written using JavaScript. */
 public class JavaScriptPlugin extends WebUiPlugin {
+  public static final String STATIC_PREFIX = "static/";
+
   private final String fileName;
 
   /**
@@ -28,6 +30,6 @@ public class JavaScriptPlugin extends WebUiPlugin {
 
   @Override
   public String getJavaScriptResourcePath() {
-    return "static/" + fileName;
+    return STATIC_PREFIX + fileName;
   }
 }

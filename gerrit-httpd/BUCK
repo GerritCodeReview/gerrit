@@ -23,6 +23,7 @@ java_library2(
     '//lib:gwtorm',
     '//lib:jsch',
     '//lib:mime-util',
+    '//lib/commons:io',
     '//lib/commons:codec',
     '//lib/guice:guice',
     '//lib/guice:guice-assistedinject',

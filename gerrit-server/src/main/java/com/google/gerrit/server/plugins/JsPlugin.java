@@ -31,6 +31,21 @@ import java.io.File;
 import java.util.jar.JarFile;
 
 class JsPlugin extends Plugin {
+  private static final String INIT_FILE_NAME = "init.js";
+
+  static boolean isPlugin(File file) {
+    if (file.isFile()) {
+      return file.getName().endsWith(".js");
+    }
+    return isContainerPlugin(file);
+  }
+
+  static String getName(File file) {
+    if (file.isFile()) {
+      return file.getName().substring(0, file.getName().length() - 3);
+    }
+    return file.getName();
+  }
 
   private Injector httpInjector;
 
@@ -42,7 +57,7 @@ class JsPlugin extends Plugin {
   @Override
   @Nullable
   public String getVersion() {
-    String fileName = getSrcFile().getName();
+    String fileName = computeFileName();
     int firstDash = fileName.indexOf("-");
     if (firstDash > 0) {
       return fileName.substring(firstDash + 1, fileName.lastIndexOf(".js"));
@@ -53,10 +68,17 @@ class JsPlugin extends Plugin {
   @Override
   public void start(PluginGuiceEnvironment env) throws Exception {
     manager = new LifecycleManager();
-    String fileName = getSrcFile().getName();
+    String fileName = computeFileName();
     httpInjector =
         Guice.createInjector(new StandaloneJsPluginModule(getName(), fileName));
     manager.start();
+  }
+
+  private String computeFileName() {
+    if (isContainerPlugin(getSrcFile())) {
+      return INIT_FILE_NAME;
+    }
+    return getSrcFile().getName();
   }
 
   @Override
@@ -92,6 +114,14 @@ class JsPlugin extends Plugin {
   @Override
   boolean canReload() {
     return false;
+  }
+
+  private static boolean isContainerPlugin(File srcFile) {
+    return getContainerInitFile(srcFile).exists();
+  }
+
+  private static File getContainerInitFile(File container) {
+    return new File(container, INIT_FILE_NAME);
   }
 
   private static final class StandaloneJsPluginModule extends AbstractModule {

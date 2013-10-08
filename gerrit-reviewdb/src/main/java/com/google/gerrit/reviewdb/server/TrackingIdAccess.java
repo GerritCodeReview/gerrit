@@ -29,6 +29,7 @@ public interface TrackingIdAccess extends Access<TrackingId, TrackingId.Key> {
   @Query("WHERE key.changeId = ?")
   ResultSet<TrackingId> byChange(Change.Id change) throws OrmException;
 
+  @Deprecated
   @Query("WHERE key.trackingKey = ?")
   ResultSet<TrackingId> byTrackingId(TrackingId.Id trackingId)
       throws OrmException;

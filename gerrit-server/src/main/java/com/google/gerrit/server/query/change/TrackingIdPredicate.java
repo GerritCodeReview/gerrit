@@ -46,6 +46,7 @@ class TrackingIdPredicate extends IndexPredicate<ChangeData> implements
     return false;
   }
 
+  @SuppressWarnings("deprecation")
   @Override
   public ResultSet<ChangeData> read() throws OrmException {
     HashSet<Change.Id> ids = new HashSet<Change.Id>();

@@ -41,14 +41,16 @@ GET_TITLE = '<div class="title">%s</div>'
 GET_MACRO = """
 
 ++++
+<div class="listingblock">
 %s
-<div class="content monospaced">
+<div class="content">
 <a id=\"{0}\" onmousedown="javascript:
   var i = document.URL.lastIndexOf(\'/Documentation/\');
   var url = document.URL.substring(0, i) + \'{0}\';
   document.getElementById(\'{0}\').href = url;">
     GET {0} HTTP/1.0
 </a>
+</div>
 </div>
 ++++
 

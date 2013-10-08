@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1d52934_ed322502",
+        "filename": "lib/asciidoctor/java/DocIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-08T02:11:38Z",
+      "side": 1,
+      "message": "This uses the platform default encoding. By standard we encode the documentation in UTF-8 (or maybe US-ASCII subset). We would never encode a document in UTF-16 or ISO-8859-1 or any other encoding that someone might set as a default on their system.\n\nUse an explicit encoding:\n\n  new BufferedReader(new InputStreamReader(\n    new BufferedInputStream(new FileInputStream(file)),\n    \"UTF-8\");",
+      "range": {
+        "startLine": 88,
+        "startChar": 54,
+        "endLine": 88,
+        "endChar": 74
+      },
+      "revId": "5ad12789a3971f22482cf7646e5080327044de87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

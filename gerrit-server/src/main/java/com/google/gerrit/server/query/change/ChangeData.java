@@ -222,15 +222,13 @@ public class ChangeData {
           case MODIFIED:
           case DELETED:
           case COPIED:
+          case REWRITE:
             r.add(e.getNewName());
             break;
 
           case RENAMED:
             r.add(e.getOldName());
             r.add(e.getNewName());
-            break;
-
-          case REWRITE:
             break;
         }
       }

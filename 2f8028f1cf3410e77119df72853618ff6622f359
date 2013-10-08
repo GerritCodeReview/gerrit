@@ -22,6 +22,24 @@
       "revId": "2f8028f1cf3410e77119df72853618ff6622f359",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1d52934_4df25917",
+        "filename": "lib/asciidoctor/java/DocIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-08T00:23:01Z",
+      "side": 1,
+      "message": "I believe LUCENE_CURRENT is a convenient alias always point to the latest one, but it\u0027s not recommended (marked as deprecated) as you might not know which version you are actually using. I guess lucene courage users to explicitly declare the version they used.",
+      "parentUuid": "c1d52934_8def2132",
+      "revId": "2f8028f1cf3410e77119df72853618ff6622f359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

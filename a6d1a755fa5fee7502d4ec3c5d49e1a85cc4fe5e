@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1d86d6d_ae3c17d5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-08T03:13:49Z",
+      "side": 1,
+      "message": "The commit message says it makes a defensive copy. But really you are wrapping the input list with a decorator that forbids modifications. The caller can still modify the supplied list after the fact and impact the ChangeData the list was passed to.\n\nMaybe you meant new ArrayList\u003cString\u003e(filePaths)?\n\nOr reword the commit message to say ChangeData marks the collection unmodifiable?",
+      "revId": "a6d1a755fa5fee7502d4ec3c5d49e1a85cc4fe5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

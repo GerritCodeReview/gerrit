@@ -30,7 +30,6 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.TrackingId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -44,8 +43,12 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Provider;
 
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
@@ -136,6 +139,7 @@ public class ChangeData {
   private ChangeDataSource returnedBySource;
   private Change change;
   private String commitMessage;
+  private List<FooterLine> commitFooters;
   private PatchSet currentPatchSet;
   private Set<PatchSet.Id> limitedIds;
   private Collection<PatchSet> patches;
@@ -317,23 +321,37 @@ public class ChangeData {
   public String commitMessage(GitRepositoryManager repoManager,
       Provider<ReviewDb> db) throws IOException, OrmException {
     if (commitMessage == null) {
-      PatchSet.Id psId = change(db).currentPatchSetId();
-      String sha1 = db.get().patchSets().get(psId).getRevision().get();
-      Project.NameKey name = change.getProject();
-      Repository repo = repoManager.openRepository(name);
-      try {
-        RevWalk walk = new RevWalk(repo);
-        try {
-          RevCommit c = walk.parseCommit(ObjectId.fromString(sha1));
-          commitMessage = c.getFullMessage();
-        } finally {
-          walk.release();
-        }
-      } finally {
-        repo.close();
-      }
+      loadCommitData(repoManager, db);
     }
     return commitMessage;
+  }
+
+  public List<FooterLine> commitFooters(GitRepositoryManager repoManager,
+      Provider<ReviewDb> db) throws IOException, OrmException {
+    if (commitFooters == null) {
+      loadCommitData(repoManager, db);
+    }
+    return commitFooters;
+  }
+
+  private void loadCommitData(GitRepositoryManager repoManager,
+      Provider<ReviewDb> db) throws OrmException, RepositoryNotFoundException,
+      IOException, MissingObjectException, IncorrectObjectTypeException {
+    PatchSet.Id psId = change(db).currentPatchSetId();
+    String sha1 = db.get().patchSets().get(psId).getRevision().get();
+    Repository repo = repoManager.openRepository(change.getProject());
+    try {
+      RevWalk walk = new RevWalk(repo);
+      try {
+        RevCommit c = walk.parseCommit(ObjectId.fromString(sha1));
+        commitMessage = c.getFullMessage();
+        commitFooters = c.getFooterLines();
+      } finally {
+        walk.release();
+      }
+    } finally {
+      repo.close();
+    }
   }
 
   /**

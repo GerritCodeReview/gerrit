@@ -14,7 +14,13 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.common.collect.Sets;
+
+import org.eclipse.jgit.revwalk.FooterLine;
+
 import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
 
 public class TrackingFooters {
   protected List<TrackingFooter> trackingFooters;
@@ -25,5 +31,25 @@ public class TrackingFooters {
 
   public List<TrackingFooter> getTrackingFooters() {
     return trackingFooters;
+  }
+
+  public Set<String> extract(List<FooterLine> lines) {
+    Set<String> r = Sets.newHashSet();
+    for (FooterLine footer : lines) {
+      for (TrackingFooter config : trackingFooters) {
+        if (footer.matches(config.footerKey())) {
+          Matcher m = config.match().matcher(footer.getValue());
+          while (m.find()) {
+            String id = m.groupCount() > 0
+                ? m.group(1)
+                : m.group();
+            if (!id.isEmpty()) {
+              r.add(id);
+            }
+          }
+        }
+      }
+    }
+    return r;
   }
 }

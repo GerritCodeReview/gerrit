@@ -22,7 +22,6 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.client.TrackingId;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
@@ -220,11 +219,12 @@ public class ChangeField {
         @Override
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
-          Set<String> r = Sets.newHashSet();
-          for (TrackingId id : input.trackingIds(args.db)) {
-            r.add(id.getTrackingId());
+          try {
+            return args.trackingFooters.extract(
+                input.commitFooters(args.repoManager, args.db));
+          } catch (IOException e) {
+            throw new OrmException(e);
           }
-          return r;
         }
       };
 

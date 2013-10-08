@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.common.base.Function;
+import com.google.common.base.Objects;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
@@ -460,5 +461,10 @@ public class ChangeData {
 
   public List<SubmitRecord> getSubmitRecords() {
     return submitRecords;
+  }
+
+  @Override
+  public String toString() {
+    return Objects.toStringHelper(this).addValue(getId()).toString();
   }
 }

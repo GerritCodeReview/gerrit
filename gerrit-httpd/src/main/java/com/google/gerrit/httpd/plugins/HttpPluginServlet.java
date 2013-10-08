@@ -21,6 +21,7 @@ import com.google.common.cache.Cache;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
+import com.google.gerrit.extensions.webui.JavaScriptPlugin;
 import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.server.MimeUtilFileTypeRegistry;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -38,6 +39,7 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import com.google.inject.servlet.GuiceFilter;
 
+import org.apache.commons.io.IOUtils;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -271,7 +273,7 @@ class HttpPluginServlet extends HttpServlet
     if (file.startsWith(holder.staticPrefix)) {
       JarFile jar = holder.plugin.getJarFile();
       if (jar == null) {
-        sendJsPlugin(holder.plugin.getSrcFile(), key, req, res);
+        sendJsPlugin(holder.plugin.getSrcFile(), file, key, req, res);
       } else {
         JarEntry entry = jar.getJarEntry(file);
         if (exists(entry)) {
@@ -582,13 +584,29 @@ class HttpPluginServlet extends HttpServlet
     }
   }
 
-  private void sendJsPlugin(File srcFile, ResourceKey key,
+  private void sendJsPlugin(File srcFile, String fileName, ResourceKey key,
       HttpServletRequest req, HttpServletResponse res) throws IOException {
-    if (srcFile.exists()) {
+    if ((fileName.startsWith(JavaScriptPlugin.STATIC_PREFIX) && !fileName
+        .contains("../"))) {
+      if (srcFile.isDirectory()) {
+        fileName = fileName.replaceFirst(JavaScriptPlugin.STATIC_PREFIX, "");
+        srcFile = new File(srcFile, fileName);
+      }
+
+      long time = srcFile.lastModified();
+      byte[] data = IOUtils.toByteArray(new FileInputStream(srcFile));
+
+      String contentType = mimeUtil.getMimeType(srcFile.getAbsolutePath(), data).toString();
+      if ("application/octet-stream".equals(contentType)
+          && srcFile.getName().endsWith(".js")) {
+        contentType = "application/javascript";
+      }
+
+      res.setContentType(contentType);
+      res.setDateHeader("Last-Modified", time);
       res.setHeader("Content-Length", Long.toString(srcFile.length()));
-      res.setContentType("application/javascript");
-      writeToResponse(res, new FileInputStream(srcFile));
-    } else  {
+      res.getOutputStream().write(data);
+    } else {
       resourceCache.put(key, Resource.NOT_FOUND);
       Resource.NOT_FOUND.send(req, res);
     }

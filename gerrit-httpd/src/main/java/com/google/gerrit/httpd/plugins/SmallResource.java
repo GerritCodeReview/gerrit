@@ -22,10 +22,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 final class SmallResource extends Resource {
+  long lastModified;
+
   private final byte[] data;
   private String contentType;
   private String characterEncoding;
-  private long lastModified;
 
   SmallResource(byte[] data) {
     this.data = data;

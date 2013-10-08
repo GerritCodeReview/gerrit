@@ -339,14 +339,14 @@ public class PluginLoader implements LifecycleListener {
   }
 
   public synchronized void rescan() {
-    Multimap<String, File> jars = prunePlugins(pluginsDir);
-    if (jars.isEmpty()) {
+    Multimap<String, File> plugins = prunePlugins(pluginsDir);
+    if (plugins.isEmpty()) {
       return;
     }
 
-    syncDisabledPlugins(jars);
+    syncDisabledPlugins(plugins);
 
-    Map<String, File> activePlugins = filterDisabled(jars);
+    Map<String, File> activePlugins = filterDisabled(plugins);
     for (String name : activePlugins.keySet()) {
       File plugin = activePlugins.get(name);
       FileSnapshot brokenTime = broken.get(name);
@@ -485,19 +485,18 @@ public class PluginLoader implements LifecycleListener {
 
   private Plugin loadPlugin(String name, File srcPlugin, FileSnapshot snapshot)
       throws IOException, ClassNotFoundException, InvalidPluginException {
-    File tmp;
-    FileInputStream in = new FileInputStream(srcPlugin);
-    String extension = getExtension(srcPlugin);
-    try {
-      tmp = asTemp(in, tempNameFor(name), extension, tmpDir);
-    } finally {
-      in.close();
-    }
-
     String pluginName = srcPlugin.getName();
     if (isJarPlugin(pluginName)) {
+      File tmp;
+      FileInputStream in = new FileInputStream(srcPlugin);
+      String extension = getExtension(srcPlugin);
+      try {
+        tmp = asTemp(in, tempNameFor(name), extension, tmpDir);
+      } finally {
+        in.close();
+      }
       return loadJarPlugin(name, srcPlugin, snapshot, tmp);
-    } else if (isJsPlugin(pluginName)) {
+    } else if (JsPlugin.isPlugin(srcPlugin)) {
       return loadJsPlugin(name, srcPlugin, snapshot);
     } else {
       throw new RuntimeException("Unsupported plugin type");
@@ -602,11 +601,11 @@ public class PluginLoader implements LifecycleListener {
   }
 
   // Scan the $site_path/plugins directory and fetch all files that end
-  // with *.jar. The Key in returned multimap is the plugin name. Values are
-  // the files. Plugins can optionally provide their name in MANIFEST file.
-  // If multiple plugin files provide the same plugin name, then only
-  // the first plugin remains active and all other plugins with the same
-  // name are disabled.
+  // with *.jar or *.jar. The Key in returned multimap is the plugin name.
+  // Values are the files. Plugins can optionally provide their name in
+  // MANIFEST file. If multiple plugin files provide the same plugin name,
+  // then only the first plugin remains active and all other plugins with
+  // the same name are disabled.
   private static Multimap<String, File> prunePlugins(File pluginsDir) {
     List<File> jars = scanJarsInPluginsDirectory(pluginsDir);
     Multimap<String, File> map;
@@ -659,10 +658,11 @@ public class PluginLoader implements LifecycleListener {
       @Override
       public boolean accept(File pathname) {
         String n = pathname.getName();
-        return (isJarPlugin(n) || isJsPlugin(n))
+        boolean isJsPlugin = JsPlugin.isPlugin(pathname);
+        return (isJarPlugin(n) || isJsPlugin)
             && !n.startsWith(".last_")
             && !n.startsWith(".next_")
-            && pathname.isFile();
+            && (pathname.isFile() || isJsPlugin);
       }
     });
     if (matches == null) {
@@ -693,8 +693,8 @@ public class PluginLoader implements LifecycleListener {
         jarFile.close();
       }
     }
-    if (isJsPlugin(fileName)) {
-      return fileName.substring(0, fileName.length() - 3);
+    if (JsPlugin.isPlugin(srcFile)) {
+      return JsPlugin.getName(srcFile);
     }
     throw new RuntimeException(String.format("Unknown plugin file: %s", fileName));
   }
@@ -711,10 +711,6 @@ public class PluginLoader implements LifecycleListener {
 
   private static boolean isJarPlugin(String name) {
     return isPlugin(name, "jar");
-  }
-
-  private static boolean isJsPlugin(String name) {
-    return isPlugin(name, "js");
   }
 
   private static boolean isPlugin(String fileName, String ext) {

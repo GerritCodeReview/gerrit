@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1d86d6d_0e456b48",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-10-08T18:10:36Z",
+      "side": 1,
+      "message": "I think this change should also update the documentation in config-gerrit.txt and pgm-ScanTrackingIds.txt.",
+      "revId": "36067dd3632473b8496361b7d80b4b9e398514bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1d52934_6d9995c6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/TrackingFooters.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-10-08T18:10:36Z",
+      "side": 1,
+      "message": "newLinkedHashSet? Order doesn\u0027t matter for the index of course but is there some case when it would?",
+      "range": {
+        "startLine": 37,
+        "startChar": 25,
+        "endLine": 37,
+        "endChar": 35
+      },
+      "revId": "36067dd3632473b8496361b7d80b4b9e398514bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -22,6 +22,24 @@
       "revId": "5ad12789a3971f22482cf7646e5080327044de87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e1d86d6d_ee321f02",
+        "filename": "lib/asciidoctor/java/DocIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-08T02:23:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1d52934_ed322502",
+      "revId": "5ad12789a3971f22482cf7646e5080327044de87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

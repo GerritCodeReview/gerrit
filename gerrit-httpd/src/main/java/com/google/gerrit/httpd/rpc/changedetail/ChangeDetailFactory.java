@@ -214,7 +214,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
       PatchSet.Id id = msg.getPatchSetId();
       if (id != null) {
         PatchSet ps = patchsetsById.get(msg.getPatchSetId());
-        if (control.isPatchVisible(ps, db)) {
+        if (ps != null && control.isPatchVisible(ps, db)) {
           msgList.add(msg);
         }
       } else {

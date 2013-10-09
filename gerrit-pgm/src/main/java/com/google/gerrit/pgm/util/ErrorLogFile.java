@@ -34,7 +34,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class ErrorLogFile {
-  private static final String LOG4J_CONFIGURATION = "log4j.configuration";
+  private static final String LOG4J_CONFIGURATION = LogManager.DEFAULT_CONFIGURATION_KEY;
   static final String LOG_NAME = "error_log";
 
   public static void errorOnlyConsole() {

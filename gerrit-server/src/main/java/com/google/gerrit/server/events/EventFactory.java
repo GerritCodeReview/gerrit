@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.events;
 
+import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
@@ -55,6 +56,7 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.ResultSet;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -155,6 +157,29 @@ public class EventFactory {
     a.lastUpdated = change.getLastUpdatedOn().getTime() / 1000L;
     a.sortKey = change.getSortKey();
     a.open = change.getStatus().isOpen();
+  }
+
+  /**
+   * Add currentReviewers to an existing ChangeAttribute.
+   *
+   * @param a
+   * @param change
+   */
+  public void addCurrentReviewers(ChangeAttribute a, Change change)
+      throws OrmException {
+    ResultSet<PatchSetApproval> approvals =
+        db.get().patchSetApprovals().byChange(change.getId());
+    if (approvals.iterator().hasNext()) {
+      a.currentReviewers = Lists.newArrayList();
+      ArrayList<Object> accountIdlist = Lists.newArrayList();
+      for (PatchSetApproval psa : approvals) {
+        Account.Id accountId = psa.getAccountId();
+        if (!accountIdlist.contains(accountId)) {
+          accountIdlist.add(accountId);
+          a.currentReviewers.add(asAccountAttribute(psa.getAccountId()));
+        }
+      }
+    }
   }
 
   /**

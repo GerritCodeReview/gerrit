@@ -24,8 +24,10 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.testutil.InMemoryDatabase;
+import com.google.gerrit.testutil.InMemoryModule;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 
 import junit.framework.TestCase;
 
@@ -39,12 +41,19 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SchemaCreatorTest extends TestCase {
+  @Inject
+  private AllProjectsName allProjects;
+
+  @Inject
+  private GitRepositoryManager repoManager;
+
+  @Inject
   private InMemoryDatabase db;
 
   @Override
   protected void setUp() throws Exception {
     super.setUp();
-    db = new InMemoryDatabase();
+    new InMemoryModule().inject(this);
   }
 
   @Override
@@ -89,10 +98,8 @@ public class SchemaCreatorTest extends TestCase {
 
   private LabelTypes getLabelTypes() throws Exception {
     db.create();
-    AllProjectsName allProjects = db.getInstance(AllProjectsName.class);
     ProjectConfig c = new ProjectConfig(allProjects);
-    Repository repo = db.getInstance(GitRepositoryManager.class)
-        .openRepository(allProjects);
+    Repository repo = repoManager.openRepository(allProjects);
     try {
       c.load(repo);
       return new LabelTypes(

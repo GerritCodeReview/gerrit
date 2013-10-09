@@ -51,7 +51,7 @@ public class SchemaUpdaterTest extends TestCase {
   @Override
   protected void setUp() throws Exception {
     super.setUp();
-    db = new InMemoryDatabase();
+    db = InMemoryDatabase.newDatabase();
   }
 
   @Override

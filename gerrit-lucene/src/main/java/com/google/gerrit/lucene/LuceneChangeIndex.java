@@ -73,6 +73,7 @@ import org.apache.lucene.search.SearcherManager;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.BytesRef;
 import org.apache.lucene.util.Version;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -172,10 +173,18 @@ public class LuceneChangeIndex implements ChangeIndex {
     Version luceneVersion = checkNotNull(
         LUCENE_VERSIONS.get(schema),
         "unknown Lucene version for index schema: %s", schema);
-    openIndex = new SubIndex(new File(dir, CHANGES_OPEN),
-        getIndexWriterConfig(luceneVersion, cfg, "changes_open"));
-    closedIndex = new SubIndex(new File(dir, CHANGES_CLOSED),
-        getIndexWriterConfig(luceneVersion, cfg, "changes_closed"));
+
+    IndexWriterConfig openConfig =
+        getIndexWriterConfig(luceneVersion, cfg, "changes_open");
+    IndexWriterConfig closedConfig =
+        getIndexWriterConfig(luceneVersion, cfg, "changes_closed");
+    if (cfg.getBoolean("index", "lucene", "testInmemory", false)) {
+      openIndex = new SubIndex(new RAMDirectory(), "ramOpen", openConfig);
+      closedIndex = new SubIndex(new RAMDirectory(), "ramClosed", closedConfig);
+    } else {
+      openIndex = new SubIndex(new File(dir, CHANGES_OPEN), openConfig);
+      closedIndex = new SubIndex(new File(dir, CHANGES_CLOSED), closedConfig);
+    }
   }
 
   @Override

@@ -16,6 +16,24 @@
       "revId": "01b1a237f111f0998bc8b27ff34cd3d1ba91bffd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1fcb5ed_9ce56555",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2013-10-09T12:38:56Z",
+      "side": 1,
+      "message": "Not sure, ChangeHooks.postEvent() allow to send stream events separately from hook so it could be useful for the core as well. I do not see how we could include this in the dev-plugins.txt since this is just another method of a core class that a plugin can use.\n\nLet me know if you feel that this need to be documented in the dev-plugins.txt, I will add it even if I think we are duplicating the documentation, since already documented in the javadoc.",
+      "parentUuid": "c1efe930_bde01f45",
+      "revId": "01b1a237f111f0998bc8b27ff34cd3d1ba91bffd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

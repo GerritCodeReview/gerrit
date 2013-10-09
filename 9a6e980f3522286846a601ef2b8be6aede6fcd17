@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a1fcb5ed_dcefed30",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-10-09T14:30:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1291521_d4e03c46",
+      "revId": "9a6e980f3522286846a601ef2b8be6aede6fcd17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61339d7f_a201be1b",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2013-10-09T01:59:49Z",
       "side": 1,
       "message": "Nit: spacing",
+      "revId": "9a6e980f3522286846a601ef2b8be6aede6fcd17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1fcb5ed_3cf531fe",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-10-09T14:30:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61339d7f_a201be1b",
       "revId": "9a6e980f3522286846a601ef2b8be6aede6fcd17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "a1fcb5ed_1cf2f515",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-10-09T14:30:05Z",
+      "side": 1,
+      "message": "Done. FYI, the autoformatter which I forgot to run will actually unwrap the line, given the chance.",
+      "parentUuid": "61339d7f_e207c62e",
+      "revId": "9a6e980f3522286846a601ef2b8be6aede6fcd17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61339d7f_020d0a4f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.java",
         "patchSetId": 5
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "817b3136_6bf2c117",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-10-09T14:30:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61339d7f_020d0a4f",
+      "revId": "9a6e980f3522286846a601ef2b8be6aede6fcd17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61339d7f_42fc72e7",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
         "patchSetId": 5
@@ -81,6 +153,24 @@
       "writtenOn": "2013-10-09T01:59:49Z",
       "side": 1,
       "message": "Nit: spacing\n\n if (isHugeFile) {",
+      "revId": "9a6e980f3522286846a601ef2b8be6aede6fcd17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "817b3136_4bf585fc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-10-09T14:30:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61339d7f_42fc72e7",
       "revId": "9a6e980f3522286846a601ef2b8be6aede6fcd17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

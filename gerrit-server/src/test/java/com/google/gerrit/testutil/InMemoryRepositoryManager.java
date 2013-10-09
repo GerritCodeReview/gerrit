@@ -25,7 +25,6 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepository;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
-import org.eclipse.jgit.lib.Repository;
 
 import java.util.Map;
 import java.util.SortedSet;
@@ -55,13 +54,13 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
   private Map<String, Repo> repos = Maps.newHashMap();
 
   @Override
-  public Repository openRepository(Project.NameKey name)
+  public InMemoryRepository openRepository(Project.NameKey name)
       throws RepositoryNotFoundException {
     return get(name);
   }
 
   @Override
-  public Repository createRepository(Project.NameKey name)
+  public InMemoryRepository createRepository(Project.NameKey name)
       throws RepositoryCaseMismatchException, RepositoryNotFoundException {
     Repo repo;
     try {

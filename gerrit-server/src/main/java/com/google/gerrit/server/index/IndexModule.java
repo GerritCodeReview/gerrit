@@ -19,7 +19,6 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
-import com.google.gerrit.server.git.WorkQueue.Executor;
 import com.google.gerrit.server.query.change.ChangeQueryRewriter;
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
@@ -108,13 +107,11 @@ public class IndexModule extends LifecycleModule {
       if (threads <= 0) {
         threads = config.getInt("index", null, "threads", 0);
       }
-      Executor executor;
       if (threads <= 0) {
-        executor = workQueue.getDefaultQueue();
-      } else {
-        executor = workQueue.createQueue(threads, "index");
+        return MoreExecutors.sameThreadExecutor();
       }
-      return MoreExecutors.listeningDecorator(executor);
+      return MoreExecutors.listeningDecorator(
+          workQueue.createQueue(threads, "index"));
     }
   }
 }

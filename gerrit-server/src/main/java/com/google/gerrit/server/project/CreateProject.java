@@ -42,8 +42,8 @@ import java.io.IOException;
 import java.util.List;
 
 @RequiresCapability(GlobalCapability.CREATE_PROJECT)
-class CreateProject implements RestModifyView<TopLevelResource, Input> {
-  static class Input {
+public class CreateProject implements RestModifyView<TopLevelResource, Input> {
+  public static class Input {
     String name;
     String parent;
     String description;
@@ -59,7 +59,7 @@ class CreateProject implements RestModifyView<TopLevelResource, Input> {
     String maxObjectSizeLimit;
   }
 
-  static interface Factory {
+  public static interface Factory {
     CreateProject create(String name);
   }
 

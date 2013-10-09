@@ -53,7 +53,12 @@ class SubIndex {
   private final ConcurrentMap<RefreshListener, Boolean> refreshListeners;
 
   SubIndex(File file, IndexWriterConfig writerConfig) throws IOException {
-    dir = FSDirectory.open(file);
+    this(FSDirectory.open(file), file.getName(), writerConfig);
+  }
+
+  SubIndex(Directory dir, String dirName, IndexWriterConfig writerConfig)
+      throws IOException {
+    this.dir = dir;
     writer = new TrackingIndexWriter(new IndexWriter(dir, writerConfig));
     searcherManager = new SearcherManager(
         writer.getIndexWriter(), true, new SearcherFactory());
@@ -76,7 +81,7 @@ class SubIndex {
         writer, searcherManager,
         0.500 /* maximum stale age (seconds) */,
         0.010 /* minimum stale age (seconds) */);
-    reopenThread.setName("NRT " + file.getName());
+    reopenThread.setName("NRT " + dirName);
     reopenThread.setPriority(Math.min(
         Thread.currentThread().getPriority() + 2,
         Thread.MAX_PRIORITY));

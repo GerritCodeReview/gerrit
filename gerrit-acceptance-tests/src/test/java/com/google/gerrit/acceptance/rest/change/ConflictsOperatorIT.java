@@ -31,8 +31,18 @@ import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.git.GitUtil;
 import com.google.gerrit.acceptance.git.PushOneCommit;
+import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.config.AllProjectsNameProvider;
+import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.SchemaFactory;
@@ -43,10 +53,13 @@ import com.jcraft.jsch.JSchException;
 import org.apache.http.HttpStatus;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Set;
 
 public class ConflictsOperatorIT extends AbstractDaemonTestWithSecondaryIndex {
@@ -56,6 +69,18 @@ public class ConflictsOperatorIT extends AbstractDaemonTestWithSecondaryIndex {
 
   @Inject
   private SchemaFactory<ReviewDb> reviewDbProvider;
+
+  @Inject
+  private MetaDataUpdate.Server metaDataUpdateFactory;
+
+  @Inject
+  private ProjectCache projectCache;
+
+  @Inject
+  private GroupCache groupCache;
+
+  @Inject
+  private AllProjectsNameProvider allProjects;
 
   private TestAccount admin;
   private RestSession session;
@@ -96,6 +121,58 @@ public class ConflictsOperatorIT extends AbstractDaemonTestWithSecondaryIndex {
 
     Set<String> changes = queryConflictingChanges(change);
     assertChanges(changes, conflictingChange1, conflictingChange2);
+  }
+
+  @Test
+  public void conflictingChanges100() throws JSchException, IOException,
+      GitAPIException {
+    manyConflictingChanges(100);
+  }
+
+  @Test
+  public void conflictingChanges1000() throws JSchException, IOException,
+      GitAPIException, ConfigInvalidException {
+    setMaxQueryLimit(2000);
+    manyConflictingChanges(1000);
+  }
+
+  private void manyConflictingChanges(int count) throws JSchException, IOException,
+      GitAPIException {
+    Git git = createProject();
+    PushOneCommit.Result change = createChange(git, true);
+    int c = 0;
+    for (int i = 0; i < count; i++) {
+      createChange(git, true);
+      if (c >= 100) {
+        System.out.println();
+        c = 0;
+      }
+      System.out.print(".");
+      c++;
+    }
+    createChange(git, false);
+
+    long start = (new Date()).getTime();
+    Set<String> changes = queryConflictingChanges(change);
+    long end = (new Date()).getTime();
+    System.out.println();
+    System.out.println("Querying " + count + " conflicting changes took " + (end - start)/1000 + "s");
+    assertEquals(count, changes.size());
+  }
+
+  private void setMaxQueryLimit(int limit)
+      throws RepositoryNotFoundException, IOException, ConfigInvalidException {
+    MetaDataUpdate md = metaDataUpdateFactory.create(allProjects.get());
+    md.setMessage(String.format("Grant %s", GlobalCapability.QUERY_LIMIT));
+    ProjectConfig config = ProjectConfig.read(md);
+    AccessSection s = config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true);
+    Permission p = s.getPermission(GlobalCapability.QUERY_LIMIT, true);
+    AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Administrators"));
+    PermissionRule rule = new PermissionRule(config.resolve(adminGroup));
+    rule.setMax(limit);
+    p.add(rule);
+    config.commit(md);
+    projectCache.evict(config.getProject());
   }
 
   private Git createProject() throws JSchException, IOException,

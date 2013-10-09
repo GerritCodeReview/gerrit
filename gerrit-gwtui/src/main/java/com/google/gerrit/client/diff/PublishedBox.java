@@ -17,6 +17,7 @@ package com.google.gerrit.client.diff;
 import com.google.gerrit.client.AvatarImage;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.changes.CommentInput;
@@ -82,7 +83,10 @@ class PublishedBox extends CommentBox {
     this.comment = info;
 
     if (info.author() != null) {
-      avatar = new AvatarImage(info.author());
+      avatar = new AvatarImage(
+          info.author(),
+          AccountInfo.AvatarInfo.DEFAULT_SIZE,
+          false);
       avatar.setSize("", "");
     } else {
       avatar = new AvatarImage();

@@ -100,30 +100,30 @@ public class ChangeIndexerImpl extends ChangeIndexer {
       try {
         final AtomicReference<Provider<ReviewDb>> dbRef =
             Atomics.newReference();
-        try {
-          context.setContext(new RequestContext() {
-            @Override
-            public Provider<ReviewDb> getReviewDbProvider() {
-              Provider<ReviewDb> db = dbRef.get();
-              if (db == null) {
-                try {
-                  db = Providers.of(schemaFactory.open());
-                } catch (OrmException e) {
-                  ProvisionException pe =
-                      new ProvisionException("error opening ReviewDb");
-                  pe.initCause(e);
-                  throw pe;
-                }
-                dbRef.set(db);
+        RequestContext oldCtx = context.setContext(new RequestContext() {
+          @Override
+          public Provider<ReviewDb> getReviewDbProvider() {
+            Provider<ReviewDb> db = dbRef.get();
+            if (db == null) {
+              try {
+                db = Providers.of(schemaFactory.open());
+              } catch (OrmException e) {
+                ProvisionException pe =
+                    new ProvisionException("error opening ReviewDb");
+                pe.initCause(e);
+                throw pe;
               }
-              return db;
+              dbRef.set(db);
             }
+            return db;
+          }
 
-            @Override
-            public CurrentUser getCurrentUser() {
-              throw new OutOfScopeException("No user during ChangeIndexer");
-            }
-          });
+          @Override
+          public CurrentUser getCurrentUser() {
+            throw new OutOfScopeException("No user during ChangeIndexer");
+          }
+        });
+        try {
           if (indexes != null) {
             for (ChangeIndex i : indexes.getWriteIndexes()) {
               apply(i, cd);
@@ -133,7 +133,7 @@ public class ChangeIndexerImpl extends ChangeIndexer {
           }
           return null;
         } finally  {
-          context.setContext(null);
+          context.setContext(oldCtx);
           Provider<ReviewDb> db = dbRef.get();
           if (db != null) {
             db.get().close();

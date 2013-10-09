@@ -172,7 +172,7 @@ limitations under the License.
     }
 
     .label_user {
-      margin-right: 2px;
+      display: inline-block;
       padding: 1px 3px 0px 3px;
       border-radius: 5px;
       -webkit-border-radius: 5px;

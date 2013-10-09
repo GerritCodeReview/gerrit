@@ -14,6 +14,7 @@
 
 package com.google.gerrit.pgm.util;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.SitePaths;
 
@@ -33,6 +34,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class ErrorLogFile {
+  private static final String LOG4J_CONFIGURATION = "log4j.configuration";
   static final String LOG_NAME = "error_log";
 
   public static void errorOnlyConsole() {
@@ -57,7 +59,27 @@ public class ErrorLogFile {
     if (!logdir.exists() && !logdir.mkdirs()) {
       throw new Die("Cannot create log directory: " + logdir);
     }
+    if (shouldConfigureLogSystem()) {
+      initLogSystem(logdir);
+    }
 
+    return new LifecycleListener() {
+      @Override
+      public void start() {
+      }
+
+      @Override
+      public void stop() {
+        LogManager.shutdown();
+      }
+    };
+  }
+
+  public static boolean shouldConfigureLogSystem() {
+    return Strings.isNullOrEmpty(System.getProperty(LOG4J_CONFIGURATION));
+  }
+
+  private static void initLogSystem(final File logdir) {
     final PatternLayout layout = new PatternLayout();
     layout.setConversionPattern("[%d] %-5p %c %x: %m%n");
 
@@ -76,17 +98,6 @@ public class ErrorLogFile {
     final Logger root = LogManager.getRootLogger();
     root.removeAllAppenders();
     root.addAppender(dst);
-
-    return new LifecycleListener() {
-      @Override
-      public void start() {
-      }
-
-      @Override
-      public void stop() {
-        LogManager.shutdown();
-      }
-    };
   }
 
   private static File resolve(final File logs_dir) {

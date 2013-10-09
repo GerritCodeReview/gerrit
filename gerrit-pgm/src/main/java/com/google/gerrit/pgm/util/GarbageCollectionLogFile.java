@@ -42,7 +42,23 @@ public class GarbageCollectionLogFile {
     if (!logdir.exists() && !logdir.mkdirs()) {
       throw new Die("Cannot create log directory: " + logdir);
     }
+    if (ErrorLogFile.shouldConfigureLogSystem()) {
+      initLogSystem(logdir);
+    }
 
+    return new LifecycleListener() {
+      @Override
+      public void start() {
+      }
+
+      @Override
+      public void stop() {
+        LogManager.getLogger(GarbageCollection.LOG_NAME).removeAllAppenders();
+      }
+    };
+  }
+
+  private static void initLogSystem(File logdir) {
     PatternLayout layout = new PatternLayout();
     layout.setConversionPattern("[%d] %-5p %x: %m%n");
 
@@ -62,17 +78,6 @@ public class GarbageCollectionLogFile {
     gcLogger.removeAllAppenders();
     gcLogger.addAppender(dst);
     gcLogger.setAdditivity(false);
-
-    return new LifecycleListener() {
-      @Override
-      public void start() {
-      }
-
-      @Override
-      public void stop() {
-        LogManager.getLogger(GarbageCollection.LOG_NAME).removeAllAppenders();
-      }
-    };
   }
 
   private static File resolve(File logs_dir) {

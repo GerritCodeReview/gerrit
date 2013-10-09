@@ -1241,16 +1241,14 @@ public class SideBySide2 extends Screen {
   }
 
   void resizeCodeMirror() {
-    if (cmA == null) {
-      return;
-    }
-    int h = Gerrit.getHeaderFooterHeight()
+    int rest = Gerrit.getHeaderFooterHeight()
         + header.getOffsetHeight()
         + diffTable.getHeaderHeight()
         + 10; // Estimate
-    cmA.setHeight(Window.getClientHeight() - h);
+    int h = Window.getClientHeight() - rest;
+    cmA.setHeight(h);
+    cmB.setHeight(h);
     cmA.refresh();
-    cmB.setHeight(Window.getClientHeight() - h);
     cmB.refresh();
     diffTable.sidePanel.adjustGutters(cmB);
   }

@@ -103,11 +103,6 @@ class DiffTable extends Composite {
     this.host = host;
   }
 
-  @Override
-  protected void onLoad() {
-    updateFileCommentVisibility(false);
-  }
-
   void updateFileCommentVisibility(boolean forceHide) {
     UIObject.setVisible(patchSetNavRow, !forceHide);
     if (forceHide || (fileCommentPanelA.getBoxCount() == 0 &&

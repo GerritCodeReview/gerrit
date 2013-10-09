@@ -16,6 +16,24 @@
       "revId": "33f973f8dfc31a530e30c26c0fc5ca3dc7926855",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "815411b2_03ff6ede",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/ErrorLogFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-09T16:40:14Z",
+      "side": 1,
+      "message": "Missed this comment before submitting. Fixed in I477fe6b6f55aadecfa24019b97b5d8f5afb4063d.",
+      "parentUuid": "e1f22d16_be07792f",
+      "revId": "33f973f8dfc31a530e30c26c0fc5ca3dc7926855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

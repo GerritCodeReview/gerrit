@@ -924,7 +924,7 @@ public class ChangeJson {
     Boolean mergeable;
 
     String _sortkey;
-    int _number;
+    public int _number;
 
     AccountInfo owner;
 

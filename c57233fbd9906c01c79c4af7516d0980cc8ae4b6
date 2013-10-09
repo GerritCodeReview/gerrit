@@ -2,6 +2,114 @@
   "comments": [
     {
       "key": {
+        "uuid": "e1f22d16_feeaa122",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-10-09T11:55:00Z",
+      "side": 1,
+      "message": "s/Owner/Owners\n\nin your code it is the plural everywhere",
+      "revId": "c57233fbd9906c01c79c4af7516d0980cc8ae4b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e1f22d16_deefe530",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-10-09T11:55:00Z",
+      "side": 1,
+      "message": "s/CHANGE_OWNER/CHANGE_OWNERS\n\n\ns/virtual/system\n\nWe name such groups as system groups.",
+      "revId": "c57233fbd9906c01c79c4af7516d0980cc8ae4b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1efe930_ddefeb30",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-10-09T11:55:00Z",
+      "side": 1,
+      "message": "s/Owner/Owners",
+      "revId": "c57233fbd9906c01c79c4af7516d0980cc8ae4b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e1f22d16_3ef529fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-10-09T11:55:00Z",
+      "side": 1,
+      "message": "s/configurations/configuration ?",
+      "range": {
+        "startLine": 17,
+        "startChar": 15,
+        "endLine": 17,
+        "endChar": 29
+      },
+      "revId": "c57233fbd9906c01c79c4af7516d0980cc8ae4b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1efe930_3df52ffe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-10-09T11:55:00Z",
+      "side": 1,
+      "message": "s/Change_OWNER/CHANGE_OWNERS",
+      "revId": "c57233fbd9906c01c79c4af7516d0980cc8ae4b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1efe930_1df2f315",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-10-09T11:55:00Z",
+      "side": 1,
+      "message": "What does it mean that it will be applied to these permissions on the All-Projects?\n\nI think you wanted to say that: By default, the following permissions will be assigned to the CHANGE_OWNERS group in the All-Projects...",
+      "revId": "c57233fbd9906c01c79c4af7516d0980cc8ae4b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44ea27f0_71f6180f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 13
@@ -73,6 +181,24 @@
     },
     {
       "key": {
+        "uuid": "c1efe930_7dffb7dd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-10-09T11:55:00Z",
+      "side": 1,
+      "message": "@David: I don\u0027t see any difference between the code snippet you proposed and the code in the Base version (except the changed order of conditions).\n\nIn general I tend to agree with David on this change. The change owner(s) should be able to abandon own changes by default. We shouldn\u0027t be required to have \"abandon \u003d group Change Owners\" into the All-Projects.",
+      "parentUuid": "c44377e0_7d3b57ac",
+      "revId": "c57233fbd9906c01c79c4af7516d0980cc8ae4b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4d87b6d_8ef03b13",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_85.java",
         "patchSetId": 13
@@ -120,6 +246,24 @@
       "side": 1,
       "message": "Martin, i see your point, and I disagree with that approach ;-)\n\nIt is not following the principle of least surprise. With that change in place in that form you could prevent change owners from abandoning his own changes by manipulating project.config. But you can\u0027t achieve that for Project Owners or Administrators.\n\nNot to mention:\n\n*  how that complicate the code.\n* how verbose All-Projects is with that change.\n* that it *not* following the YAGNI principle: in fact nobody need and missed that option to prevent change owner from abandon his change (well may be one day one would, but let\u0027s add that then).\n\nIt\u0027s like you would introduce the configuration option that prevents Administrator to create an user.\n\nIt just doesn\u0027t make any sense for me. For Labels yes, for Abandon and friends no.",
       "parentUuid": "241613dd_b851f9e3",
+      "revId": "c57233fbd9906c01c79c4af7516d0980cc8ae4b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1efe930_5dfc7be7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_85.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-10-09T11:55:00Z",
+      "side": 1,
+      "message": "As said in another comment I tend to agree with Davids opinion here. Being able to prevent a change owner from abandoning own change(s) looks like we are solving a problem we don\u0027t have.",
+      "parentUuid": "a45043a5_bc3801b2",
       "revId": "c57233fbd9906c01c79c4af7516d0980cc8ae4b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

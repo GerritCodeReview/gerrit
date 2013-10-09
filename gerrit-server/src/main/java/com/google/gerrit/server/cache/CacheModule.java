@@ -85,7 +85,7 @@ public abstract class CacheModule extends AbstractModule {
 
     CacheProvider<K, V> m =
         new CacheProvider<K, V>(this, name, keyType, valType);
-    bind(key).toProvider(m).in(Scopes.SINGLETON);
+    bind(key).toProvider(m).asEagerSingleton();
     bind(ANY_CACHE).annotatedWith(Exports.named(name)).to(key);
     return m.maximumWeight(1024);
   }

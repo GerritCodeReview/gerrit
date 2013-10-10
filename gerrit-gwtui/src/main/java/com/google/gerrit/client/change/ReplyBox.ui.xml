@@ -37,6 +37,11 @@ limitations under the License.
       display: inline-block;
       margin-left: 2em;
     }
+    .cancel {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+    }
   </ui:style>
   <g:HTMLPanel styleName='{style.replyBox}'>
     <div class='{res.style.section}'>
@@ -48,7 +53,7 @@ limitations under the License.
     <div class='{res.style.section}' ui:field='labelsParent'>
       <g:Grid ui:field='labelsTable'/>
     </div>
-    <div class='{res.style.section}'>
+    <div class='{res.style.section}' style='position: relative'>
       <g:Button ui:field='send'
           title='Send reply (Shortcut: Ctrl-Enter)'
           styleName='{res.style.button}'>
@@ -59,6 +64,14 @@ limitations under the License.
       <div class='{style.email}'>
         <ui:msg>and <g:CheckBox ui:field='email' value='true'>send email</g:CheckBox></ui:msg>
       </div>
+
+      <g:Button ui:field='cancel'
+          title='Close reply form (Shortcut: Esc)'
+          styleName='{res.style.button}'
+          addStyleNames='{style.cancel}'>
+        <ui:attribute name='title'/>
+        <div><ui:msg>Cancel</ui:msg></div>
+      </g:Button>
     </div>
   </g:HTMLPanel>
 </ui:UiBinder>

@@ -75,6 +75,7 @@ class ReplyBox extends Composite {
   @UiField Grid labelsTable;
   @UiField Button send;
   @UiField CheckBox email;
+  @UiField Button cancel;
 
   ReplyBox(
       PatchSet.Id psId,
@@ -149,6 +150,11 @@ class ReplyBox extends Composite {
               String.valueOf(psId.get())));
         }
       });
+    hide();
+  }
+
+  @UiHandler("cancel")
+  void onCancel(ClickEvent e) {
     hide();
   }
 

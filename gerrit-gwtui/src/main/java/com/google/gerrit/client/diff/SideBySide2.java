@@ -901,8 +901,6 @@ public class SideBySide2 extends Screen {
       LineHandle activeLine = cm.getActiveLine();
       cm.removeLineClass(activeLine,
           LineClassWhere.WRAP, DiffTable.style.activeLine());
-      cm.removeLineClass(activeLine,
-          LineClassWhere.BACKGROUND, DiffTable.style.activeLineBg());
       cm.setActiveLine(null);
     }
   }
@@ -946,8 +944,6 @@ public class SideBySide2 extends Screen {
             cm.setActiveLine(handle);
             cm.addLineClass(
                 handle, LineClassWhere.WRAP, DiffTable.style.activeLine());
-            cm.addLineClass(
-                handle, LineClassWhere.BACKGROUND, DiffTable.style.activeLineBg());
             LineOnOtherInfo info =
                 mapper.lineOnOther(getSideFromCm(cm), cm.getLineNumber(handle));
             if (info.isAligned()) {
@@ -955,8 +951,6 @@ public class SideBySide2 extends Screen {
               other.setActiveLine(oLineHandle);
               other.addLineClass(oLineHandle, LineClassWhere.WRAP,
                   DiffTable.style.activeLine());
-              other.addLineClass(oLineHandle, LineClassWhere.BACKGROUND,
-                  DiffTable.style.activeLineBg());
             }
           }
         });

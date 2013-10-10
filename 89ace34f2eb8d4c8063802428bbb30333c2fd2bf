@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1228989_a5e57e54",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-10T09:10:05Z",
+      "side": 1,
+      "message": "s/postevent/postEvent",
+      "range": {
+        "startLine": 344,
+        "startChar": 53,
+        "endLine": 344,
+        "endChar": 62
+      },
+      "revId": "89ace34f2eb8d4c8063802428bbb30333c2fd2bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

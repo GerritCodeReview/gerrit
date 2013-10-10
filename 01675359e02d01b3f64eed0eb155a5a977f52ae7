@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "215e05fe_98e0f545",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/ForwardingRemovalListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-10T01:00:33Z",
+      "side": 1,
+      "message": "Eclipse is now warning that this suppression is unnecessary.",
+      "revId": "01675359e02d01b3f64eed0eb155a5a977f52ae7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

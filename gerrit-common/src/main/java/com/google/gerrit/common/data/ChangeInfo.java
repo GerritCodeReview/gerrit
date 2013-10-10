@@ -25,7 +25,7 @@ public class ChangeInfo {
   protected Change.Key key;
   protected Account.Id owner;
   protected String subject;
-  protected Change.Status status;
+  protected char status;
   protected ProjectInfo project;
   protected String branch;
   protected String topic;
@@ -73,7 +73,7 @@ public class ChangeInfo {
     return subject;
   }
 
-  public Change.Status getStatus() {
+  public char getStatus() {
     return status;
   }
 

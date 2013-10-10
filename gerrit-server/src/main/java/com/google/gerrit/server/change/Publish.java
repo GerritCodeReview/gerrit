@@ -75,11 +75,11 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
 
     try {
       if (!updatedPatchSet.isDraft()
-          || updatedChange.getStatus() == Change.Status.NEW) {
+          || updatedChange.getStatus() == Change.STATUS_NEW) {
         CheckedFuture<?, IOException> indexFuture =
             indexer.indexAsync(updatedChange);
         hooks.doDraftPublishedHook(updatedChange, updatedPatchSet, dbProvider.get());
-        sender.send(rsrc.getChange().getStatus() == Change.Status.DRAFT,
+        sender.send(rsrc.getChange().getStatus() == Change.STATUS_DRAFT,
             rsrc.getUser(), updatedChange, updatedPatchSet,
             rsrc.getControl().getLabelTypes());
         indexFuture.checkedGet();
@@ -97,8 +97,8 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
         new AtomicUpdate<Change>() {
       @Override
       public Change update(Change change) {
-        if (change.getStatus() == Change.Status.DRAFT) {
-          change.setStatus(Change.Status.NEW);
+        if (change.getStatus() == Change.STATUS_DRAFT) {
+          change.setStatus(Change.STATUS_NEW);
           ChangeUtil.updated(change);
         }
         return change;

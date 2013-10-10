@@ -76,7 +76,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     Change change = req.getChange();
     if (!control.canAbandon()) {
       throw new AuthException("abandon not permitted");
-    } else if (!change.getStatus().isOpen()) {
+    } else if (!Change.isOpenStatic(change.getStatus())) {
       throw new ResourceConflictException("change is " + status(change));
     }
 
@@ -89,8 +89,8 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
         new AtomicUpdate<Change>() {
           @Override
           public Change update(Change change) {
-            if (change.getStatus().isOpen()) {
-              change.setStatus(Change.Status.ABANDONED);
+            if (change.isOpen()) {
+              change.setStatus(Change.STATUS_ABANDONED);
               ChangeUtil.updated(change);
               return change;
             }
@@ -133,7 +133,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     return new UiAction.Description()
       .setLabel("Abandon")
       .setTitle("Abandon the change")
-      .setVisible(resource.getChange().getStatus().isOpen()
+      .setVisible(resource.getChange().isOpen()
           && resource.getControl().canAbandon());
   }
 
@@ -158,6 +158,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
   }
 
   private static String status(Change change) {
-    return change != null ? change.getStatus().name().toLowerCase() : "deleted";
+    // TODO(davido): handle null
+    return /*change != null ? */ String.valueOf(change.getStatus());
   }
 }

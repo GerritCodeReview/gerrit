@@ -94,7 +94,7 @@ class RelatedChanges extends TabPanel {
   }
 
   void set(final ChangeInfo info, final String revision) {
-    if (info.status().isOpen()) {
+    if (Change.isOpenStatic(info.status())) {
       setForOpenChange(info, revision);
     }
 

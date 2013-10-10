@@ -128,7 +128,7 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
     String id = cd.getId().toString();
     SolrInputDocument doc = toDocument(cd);
     try {
-      if (cd.getChange().getStatus().isOpen()) {
+      if (cd.getChange().isOpen()) {
         closedIndex.deleteById(id);
         openIndex.add(doc);
       } else {
@@ -147,7 +147,7 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
     String id = cd.getId().toString();
     SolrInputDocument doc = toDocument(cd);
     try {
-      if (cd.getChange().getStatus().isOpen()) {
+      if (cd.getChange().isOpen()) {
         closedIndex.deleteById(id);
         openIndex.add(doc);
       } else {
@@ -165,7 +165,7 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
   public void delete(ChangeData cd) throws IOException {
     String id = cd.getId().toString();
     try {
-      if (cd.getChange().getStatus().isOpen()) {
+      if (cd.getChange().isOpen()) {
         openIndex.deleteById(id);
         commit(openIndex);
       } else {

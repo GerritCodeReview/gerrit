@@ -272,14 +272,14 @@ public class ChangeJson {
     out.branch = in.getDest().getShortName();
     out.topic = in.getTopic();
     out.changeId = in.getKey().get();
-    out.mergeable = in.getStatus() != Change.Status.MERGED ? in.isMergeable() : null;
+    out.mergeable = in.getStatus() != Change.STATUS_MERGED ? in.isMergeable() : null;
     ChangedLines changedLines = cd.changedLines(db, patchListCache);
     if (changedLines != null) {
       out.insertions = changedLines.insertions;
       out.deletions = changedLines.deletions;
     }
     out.subject = in.getSubject();
-    out.status = in.getStatus();
+    out.status = String.valueOf(in.getStatus());
     out.owner = accountLoader.get(in.getOwner());
     out.created = in.getCreatedOn();
     out.updated = in.getLastUpdatedOn();
@@ -288,7 +288,7 @@ public class ChangeJson {
     out.starred = userProvider.get().getStarredChanges().contains(in.getId())
         ? true
         : null;
-    out.reviewed = in.getStatus().isOpen()
+    out.reviewed = Change.isOpenStatic(in.getStatus())
         && has(REVIEWED)
         && reviewed.contains(cd.getId()) ? true : null;
     out.labels = labelsFor(cd, has(LABELS), has(DETAILED_LABELS));
@@ -382,7 +382,7 @@ public class ChangeJson {
     }
 
     LabelTypes labelTypes = ctl.getLabelTypes();
-    if (cd.getChange().getStatus().isOpen()) {
+    if (cd.getChange().isOpen()) {
       return labelsForOpenChange(cd, labelTypes, standard, detailed);
     } else {
       return labelsForClosedChange(cd, labelTypes, standard, detailed);
@@ -733,7 +733,7 @@ public class ChangeJson {
             Lists.newArrayListWithCapacity(batch.size());
         for (ChangeData cd : batch) {
           PatchSet.Id ps = cd.change(db).currentPatchSetId();
-          if (ps != null && cd.change(db).getStatus().isOpen()) {
+          if (ps != null && cd.change(db).isOpen()) {
             m.add(db.get().changeMessages().byPatchSet(ps));
           } else {
             m.add(NO_MESSAGES);
@@ -916,7 +916,7 @@ public class ChangeJson {
     public String topic;
     public String changeId;
     public String subject;
-    public Change.Status status;
+    public String status;
     public Timestamp created;
     public Timestamp updated;
     public Boolean starred;

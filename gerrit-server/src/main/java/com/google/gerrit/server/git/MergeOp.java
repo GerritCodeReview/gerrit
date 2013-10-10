@@ -848,7 +848,7 @@ public class MergeOp {
     db.changes().atomicUpdate(changeId, new AtomicUpdate<Change>() {
       @Override
       public Change update(Change c) {
-        c.setStatus(Change.Status.MERGED);
+        c.setStatus(Change.STATUS_MERGED);
         // It could be possible that the change being merged
         // has never had its mergeability tested. So we insure
         // merged changes has mergeable field true.
@@ -878,7 +878,7 @@ public class MergeOp {
     // permissions get modified in the future, historical records stay accurate.
     PatchSetApproval submitter = null;
     try {
-      c.setStatus(Change.Status.MERGED);
+      c.setStatus(Change.STATUS_MERGED);
 
       List<PatchSetApproval> approvals =
           db.patchSetApprovals().byPatchSet(merged).toList();
@@ -1023,9 +1023,9 @@ public class MergeOp {
             new AtomicUpdate<Change>() {
           @Override
           public Change update(Change c) {
-            if (c.getStatus().isOpen()) {
+            if (c.isOpen()) {
               if (setStatusNew) {
-                c.setStatus(Change.Status.NEW);
+                c.setStatus(Change.STATUS_NEW);
               }
               ChangeUtil.updated(c);
             }
@@ -1132,8 +1132,8 @@ public class MergeOp {
         new AtomicUpdate<Change>() {
           @Override
           public Change update(Change change) {
-            if (change.getStatus().isOpen()) {
-              change.setStatus(Change.Status.ABANDONED);
+            if (change.isOpen()) {
+              change.setStatus(Change.STATUS_ABANDONED);
               return change;
             }
             return null;

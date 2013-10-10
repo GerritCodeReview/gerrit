@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.data;
 
-import com.google.gerrit.reviewdb.client.Change;
-
 import java.util.List;
 
 public class ChangeAttribute {
@@ -33,7 +31,7 @@ public class ChangeAttribute {
     public Long lastUpdated;
     public String sortKey;
     public Boolean open;
-    public Change.Status status;
+    public char status;
     public List<MessageAttribute> comments;
 
     public List<TrackingIdAttribute> trackingIds;

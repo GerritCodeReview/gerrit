@@ -68,7 +68,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
 
       @Override
       public boolean match(ChangeData cd) throws OrmException {
-        return cd.change(dbProvider).getStatus().isOpen()
+        return cd.change(dbProvider).isOpen()
             && p.match(cd)
             && b.match(cd);
       }
@@ -92,7 +92,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
 
       @Override
       public boolean match(ChangeData cd) throws OrmException {
-        return cd.change(dbProvider).getStatus() == Change.Status.MERGED
+        return cd.change(dbProvider).getStatus() == Change.STATUS_MERGED
             && p.match(cd) //
             && b.match(cd) //
             && s.match(cd);
@@ -117,7 +117,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
 
       @Override
       public boolean match(ChangeData cd) throws OrmException {
-        return cd.change(dbProvider).getStatus() == Change.Status.MERGED
+        return cd.change(dbProvider).getStatus() == Change.STATUS_MERGED
             && p.match(cd) //
             && b.match(cd) //
             && s.match(cd);
@@ -140,7 +140,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
 
       @Override
       public boolean match(ChangeData cd) throws OrmException {
-        return cd.change(dbProvider).getStatus().isOpen() //
+        return cd.change(dbProvider).isOpen() //
             && p.match(cd) //
             && s.match(cd);
       }
@@ -161,7 +161,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
 
       @Override
       public boolean match(ChangeData cd) throws OrmException {
-        return cd.change(dbProvider).getStatus().isOpen() //
+        return cd.change(dbProvider).isOpen() //
             && p.match(cd) //
             && s.match(cd);
       }
@@ -184,7 +184,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
 
       @Override
       public boolean match(ChangeData cd) throws OrmException {
-        return cd.change(dbProvider).getStatus() == Change.Status.MERGED
+        return cd.change(dbProvider).getStatus() == Change.STATUS_MERGED
             && p.match(cd) //
             && s.match(cd);
       }
@@ -207,7 +207,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
 
       @Override
       public boolean match(ChangeData cd) throws OrmException {
-        return cd.change(dbProvider).getStatus() == Change.Status.MERGED
+        return cd.change(dbProvider).getStatus() == Change.STATUS_MERGED
             && p.match(cd) //
             && s.match(cd);
       }
@@ -230,7 +230,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
 
       @Override
       public boolean match(ChangeData cd) throws OrmException {
-        return cd.change(dbProvider).getStatus() == Change.Status.ABANDONED
+        return cd.change(dbProvider).getStatus() == Change.STATUS_ABANDONED
             && p.match(cd) //
             && s.match(cd);
       }
@@ -253,7 +253,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
 
       @Override
       public boolean match(ChangeData cd) throws OrmException {
-        return cd.change(dbProvider).getStatus() == Change.Status.ABANDONED
+        return cd.change(dbProvider).getStatus() == Change.STATUS_ABANDONED
             && p.match(cd) //
             && s.match(cd);
       }
@@ -274,7 +274,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
 
       @Override
       public boolean match(ChangeData cd) throws OrmException {
-        return cd.change(dbProvider).getStatus().isOpen() && s.match(cd);
+        return cd.change(dbProvider).isOpen() && s.match(cd);
       }
     };
   }
@@ -293,7 +293,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
 
       @Override
       public boolean match(ChangeData cd) throws OrmException {
-        return cd.change(dbProvider).getStatus().isOpen() && s.match(cd);
+        return cd.change(dbProvider).isOpen() && s.match(cd);
       }
     };
   }
@@ -317,7 +317,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
 
       @Override
       public boolean match(ChangeData cd) throws OrmException {
-        return cd.change(dbProvider).getStatus() == Change.Status.MERGED
+        return cd.change(dbProvider).getStatus() == Change.STATUS_MERGED
             && s.match(cd);
       }
     };
@@ -342,7 +342,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
 
       @Override
       public boolean match(ChangeData cd) throws OrmException {
-        return cd.change(dbProvider).getStatus() == Change.Status.MERGED
+        return cd.change(dbProvider).getStatus() == Change.STATUS_MERGED
             && s.match(cd);
       }
     };
@@ -367,7 +367,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
 
       @Override
       public boolean match(ChangeData cd) throws OrmException {
-        return cd.change(dbProvider).getStatus() == Change.Status.ABANDONED
+        return cd.change(dbProvider).getStatus() == Change.STATUS_ABANDONED
             && s.match(cd);
       }
     };
@@ -392,7 +392,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
 
       @Override
       public boolean match(ChangeData cd) throws OrmException {
-        return cd.change(dbProvider).getStatus() == Change.Status.ABANDONED
+        return cd.change(dbProvider).getStatus() == Change.STATUS_ABANDONED
             && s.match(cd);
       }
     };
@@ -431,7 +431,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
 
       @Override
       public boolean match(ChangeData cd) throws OrmException {
-        return cd.change(dbProvider).getStatus().isOpen() && o.match(cd);
+        return cd.change(dbProvider).isOpen() && o.match(cd);
       }
     };
   }
@@ -453,7 +453,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
 
       @Override
       public boolean match(ChangeData cd) throws OrmException {
-        return cd.change(dbProvider).getStatus().isClosed() && o.match(cd);
+        return cd.change(dbProvider).isClosed() && o.match(cd);
       }
     };
   }
@@ -483,7 +483,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
       @Override
       public boolean match(ChangeData cd) throws OrmException {
         Change change = cd.change(dbProvider);
-        return change != null && change.getStatus().isOpen() && r.match(cd);
+        return change != null && change.isOpen() && r.match(cd);
       }
 
       @Override
@@ -517,7 +517,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
       @Override
       public boolean match(ChangeData cd) throws OrmException {
         Change change = cd.change(dbProvider);
-        return change != null && change.getStatus().isClosed() && r.match(cd);
+        return change != null && change.isClosed() && r.match(cd);
       }
 
       @Override
@@ -556,7 +556,7 @@ public class SqlRewriterImpl extends BasicChangeRewrites
 
       @Override
       public boolean match(ChangeData cd) throws OrmException {
-        return cd.change(dbProvider).getStatus() == Change.Status.SUBMITTED;
+        return cd.change(dbProvider).getStatus() == Change.STATUS_SUBMITTED;
       }
     };
   }

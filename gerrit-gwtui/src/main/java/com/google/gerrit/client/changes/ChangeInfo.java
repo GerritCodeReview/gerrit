@@ -71,8 +71,12 @@ public class ChangeInfo extends JavaScriptObject {
     return new Change.Key(change_id()).abbreviate();
   }
 
-  public final Change.Status status() {
-    return Change.Status.valueOf(statusRaw());
+  public final char status() {
+    String str = statusRaw();
+    if (str == null || str.isEmpty()) {
+      return '0';
+    }
+    return str.charAt(0);
   }
 
   public final Set<String> labels() {
@@ -87,6 +91,7 @@ public class ChangeInfo extends JavaScriptObject {
   public final native boolean mergeable() /*-{ return this.mergeable; }-*/;
   public final native int insertions() /*-{ return this.insertions; }-*/;
   public final native int deletions() /*-{ return this.deletions; }-*/;
+  // TODO(davido): doesn't JSNI support char type?
   private final native String statusRaw() /*-{ return this.status; }-*/;
   public final native String subject() /*-{ return this.subject; }-*/;
   public final native AccountInfo owner() /*-{ return this.owner; }-*/;

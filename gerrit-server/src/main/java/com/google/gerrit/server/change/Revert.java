@@ -25,7 +25,6 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -89,7 +88,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
     Change change = req.getChange();
     if (!control.canAddPatchSet()) {
       throw new AuthException("revert not permitted");
-    } else if (change.getStatus() != Status.MERGED) {
+    } else if (change.getStatus() != Change.STATUS_MERGED) {
       throw new ResourceConflictException("change is " + status(change));
     }
 
@@ -121,11 +120,12 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
     return new UiAction.Description()
       .setLabel("Revert")
       .setTitle("Revert the change")
-      .setVisible(resource.getChange().getStatus() == Status.MERGED
+      .setVisible(resource.getChange().getStatus() == Change.STATUS_MERGED
           && resource.getControl().getRefControl().canUpload());
   }
 
   private static String status(Change change) {
-    return change != null ? change.getStatus().name().toLowerCase() : "deleted";
-   }
+    // TODO(davido): handle null
+    return /*change != null ? */String.valueOf(change.getStatus());
+  }
  }

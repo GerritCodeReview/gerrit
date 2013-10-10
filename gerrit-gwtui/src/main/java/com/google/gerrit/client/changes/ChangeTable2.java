@@ -203,8 +203,8 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
 
     table.setWidget(row, C_SIZE, getSizeWidget(c));
 
-    Change.Status status = c.status();
-    if (status != Change.Status.NEW) {
+    char status = c.status();
+    if (status != Change.STATUS_NEW) {
       table.setText(row, C_STATUS, Util.toLongString(status));
     } else if (Gerrit.getConfig().testChangeMerge() && !c.mergeable()) {
       table.setText(row, C_STATUS, Util.C.changeTableNotMergeable());

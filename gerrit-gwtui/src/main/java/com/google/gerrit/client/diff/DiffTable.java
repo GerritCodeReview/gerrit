@@ -38,7 +38,6 @@ class DiffTable extends Composite {
   interface DiffTableStyle extends CssResource {
     String intralineBg();
     String diff();
-    String padding();
     String activeLine();
     String hideNumber();
     String range();

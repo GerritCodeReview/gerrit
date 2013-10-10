@@ -58,10 +58,8 @@ limitations under the License.
     .a .intralineBg { background-color: rgba(255, 238, 238, 0.3); }
     .b .intralineBg { background-color: rgba(221, 255, 221, 0.3); }
 
-    .padding, .fileCommentRow {
-      background-color: #eee;
-    }
     .fileCommentRow {
+      background-color: #eee;
       line-height: 1;
     }
     .fileCommentCell {
@@ -112,7 +110,7 @@ limitations under the License.
       <tr>
         <td class='{style.contentCell}'>
           <table class='{style.table}'>
-            <tr ui:field='patchSetNavRow' class='{style.padding}'>
+            <tr ui:field='patchSetNavRow' class='{style.fileCommentRow}'>
               <td ui:field='patchSetNavCellA'>
                 <d:PatchSetSelectBox2 ui:field='patchSetSelectBoxA' />
               </td>

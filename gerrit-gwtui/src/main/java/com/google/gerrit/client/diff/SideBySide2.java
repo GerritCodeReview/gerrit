@@ -596,8 +596,7 @@ public class SideBySide2 extends Screen {
       manager = linePaddingManagerMap.get(handle);
     } else {
       // Estimated height at 28px, fixed by deferring after display
-      manager = new PaddingManager(
-          addPaddingWidget(cm, DiffTable.style.padding(), line, 0, Unit.PX, 0));
+      manager = new PaddingManager(addPaddingWidget(cm, line, 0, Unit.PX, 0));
       linePaddingManagerMap.put(handle, manager);
     }
     int lineToPad = mapper.lineOnOther(side, line).getLine();
@@ -608,8 +607,8 @@ public class SideBySide2 extends Screen {
     if (linePaddingManagerMap.containsKey(otherHandle)) {
       otherManager = linePaddingManagerMap.get(otherHandle);
     } else {
-      otherManager = new PaddingManager(
-          addPaddingWidget(other, DiffTable.style.padding(), lineToPad, 0, Unit.PX, 0));
+      otherManager =
+          new PaddingManager(addPaddingWidget(other, lineToPad, 0, Unit.PX, 0));
       linePaddingManagerMap.put(otherHandle, otherManager);
     }
     if ((myChunk == null && otherChunk == null) || (myChunk != null && otherChunk != null)) {
@@ -875,16 +874,15 @@ public class SideBySide2 extends Screen {
       int lineOnOther, int chunkSize, boolean edit) {
     CodeMirror otherCm = otherCm(cmToPad);
     linePaddingOnOtherSideMap.put(otherCm.getLineHandle(lineOnOther),
-        new LinePaddingWidgetWrapper(addPaddingWidget(cmToPad, DiffTable.style.padding(),
+        new LinePaddingWidgetWrapper(addPaddingWidget(cmToPad,
             lineToPad, 0, Unit.EM, null), lineToPad, chunkSize));
     diffChunks.add(new DiffChunkInfo(getSideFromCm(otherCm),
         lineOnOther - chunkSize + 1, lineOnOther, edit));
   }
 
-  private PaddingWidgetWrapper addPaddingWidget(CodeMirror cm, String style,
+  private PaddingWidgetWrapper addPaddingWidget(CodeMirror cm,
       int line, double height, Unit unit, Integer index) {
     Element div = DOM.createDiv();
-    div.setClassName(style);
     div.getStyle().setHeight(height, unit);
     Configuration config = Configuration.create()
         .set("coverGutter", true)

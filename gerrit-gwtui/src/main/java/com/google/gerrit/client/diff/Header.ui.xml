@@ -21,8 +21,8 @@ limitations under the License.
   <ui:style>
   .header {
     position: relative;
-    width: 1484px;
-    min-width: 1484px;
+    width: 1420px;
+    min-width: 1420px;
   }
   .reviewed input {
     margin: 0;

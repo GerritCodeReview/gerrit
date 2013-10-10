@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0163c1c4_37f29816",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-10T02:44:31Z",
+      "side": 1,
+      "message": "Please add:\n\n  Bug: Issue 2110",
+      "revId": "a097d534c41580166c02993bb796a373b3972d96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

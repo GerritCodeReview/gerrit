@@ -163,7 +163,7 @@ class Labels extends Grid {
     SafeHtmlBuilder html = new SafeHtmlBuilder();
     for (Integer v : sort(m.keySet(), approved, rejected)) {
       if (!html.isEmpty()) {
-        html.append("; ");
+        html.br();
       }
 
       String val = LabelValue.formatValue(v.shortValue());
@@ -286,6 +286,9 @@ class Labels extends Grid {
             .closeElement("button");
       }
       html.closeSpan();
+      if (itr.hasNext()) {
+        html.append(' ');
+      }
     }
     return html;
   }

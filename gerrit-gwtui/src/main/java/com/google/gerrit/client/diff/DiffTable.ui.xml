@@ -44,14 +44,15 @@ limitations under the License.
       table-layout: fixed;
       border-spacing: 0;
     }
-    .a, .b {
-      padding: 0;
-    }
+
+    .a, .b { padding: 0; }
     .a { width: 702px; min-width: 702px; }
     .b { width: 718px; min-width: 718px; }
-    .a .CodeMirror-scroll {
-      padding-right: 0;
-    }
+
+    /* Hide left side scrollbar, right side controls both views. */
+    .a .CodeMirror-scroll { padding-right: 0; }
+    .a .CodeMirror-vscrollbar { display: none !important; }
+
     .a .intralineBg,
     .a .intralineBg .CodeMirror-linenumber {
       background-color: #fee;
@@ -68,6 +69,7 @@ limitations under the License.
     .b .diff .CodeMirror-linenumber {
       background-color: #9f9;
     }
+
     .padding, .fileCommentRow {
       background-color: #eee;
     }
@@ -77,9 +79,7 @@ limitations under the License.
     .fileCommentCell {
       overflow-x: auto;
     }
-    .a .CodeMirror-vscrollbar {
-      display: none !important;
-    }
+
     .activeLine .CodeMirror-linenumber,
     .activeLine .diff, .activeLine .intralineBg {
       background-color: #E0FFFF !important;

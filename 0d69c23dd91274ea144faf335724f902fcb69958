@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "215e05fe_d8ea6d23",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 946,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-10T01:43:29Z",
+      "side": 1,
+      "message": "I used this against gerrit-review and encountered a couple of issues.\n\n1.  It returns HTTP 411: \"POST requests require a \u003ccode\u003eContent-length\u003c/code\u003e header\" error unless adding \"Content-Length: 0\" header.\n\n2.  It seem using \"Content-Type: application/json\" is wrong here, as it returns an error \"Expected JSON object\".",
+      "revId": "0d69c23dd91274ea144faf335724f902fcb69958",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a71f6544_c4519e13",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
         "patchSetId": 7

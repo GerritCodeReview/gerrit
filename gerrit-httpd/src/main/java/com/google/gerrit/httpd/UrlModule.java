@@ -200,7 +200,7 @@ class UrlModule extends ServletModule {
         }
         Project.NameKey project = new Project.NameKey(name);
         toGerrit(PageLinks.toChangeQuery(PageLinks.projectQuery(project,
-            Change.Status.NEW)), req, rsp);
+            Change.STATUS_NEW)), req, rsp);
       }
     });
   }

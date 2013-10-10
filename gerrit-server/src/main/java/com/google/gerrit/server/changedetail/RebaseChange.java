@@ -14,12 +14,9 @@
 
 package com.google.gerrit.server.changedetail;
 
-import static com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy;
-
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetAncestor;
@@ -29,6 +26,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.PatchSetInserter;
+import com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
@@ -209,12 +207,12 @@ public class RebaseChange {
           continue;
         }
 
-        if (depChange.getStatus() == Status.ABANDONED) {
+        if (depChange.getStatus() == Change.STATUS_ABANDONED) {
           throw new IOException("Cannot rebase a change with an abandoned parent: "
               + depChange.getKey().toString());
         }
 
-        if (depChange.getStatus().isOpen()) {
+        if (depChange.isOpen()) {
           if (depPatchSet.getId().equals(depChange.currentPatchSetId())) {
             throw new IOException(
                 "Change is already based on the latest patch set of the dependent change.");

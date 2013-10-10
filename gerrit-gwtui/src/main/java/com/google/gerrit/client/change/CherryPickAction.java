@@ -21,6 +21,7 @@ import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CherryPickDialog;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.user.client.ui.Button;
 
@@ -32,7 +33,7 @@ class CherryPickAction {
     new CherryPickDialog(b, new Project.NameKey(project)) {
       {
         sendButton.setText(Util.C.buttonCherryPickChangeSend());
-        if (info.status().isClosed()) {
+        if (Change.isClosedStatic(info.status())) {
           message.setText(Util.M.cherryPickedChangeDefaultMessage(
               commitMessage.trim(),
               revision));

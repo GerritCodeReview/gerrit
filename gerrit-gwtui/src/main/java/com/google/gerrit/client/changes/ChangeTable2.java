@@ -197,8 +197,8 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     String subject = Util.cropSubject(c.subject());
     table.setWidget(row, C_SUBJECT, new TableChangeLink(subject, c));
 
-    Change.Status status = c.status();
-    if (status != Change.Status.NEW) {
+    char status = c.status();
+    if (status != Change.STATUS_NEW) {
       table.setText(row, C_STATUS, Util.toLongString(status));
     }
 

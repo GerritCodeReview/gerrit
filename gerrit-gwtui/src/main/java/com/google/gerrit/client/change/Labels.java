@@ -103,7 +103,7 @@ class Labels extends Grid {
     List<String> names = new ArrayList<String>(info.labels());
     Collections.sort(names);
 
-    boolean canSubmit = info.status().isOpen();
+    boolean canSubmit = Change.isOpenStatic(info.status());
     resize(names.size(), 2);
 
     for (int row = 0; row < names.size(); row++) {
@@ -116,7 +116,7 @@ class Labels extends Grid {
       getCellFormatter().setStyleName(row, 0, style.labelName());
       getCellFormatter().addStyleName(row, 0, getStyleForLabel(label));
 
-      if (canSubmit && info.status() == Change.Status.NEW) {
+      if (canSubmit && info.status() == Change.STATUS_NEW) {
         switch (label.status()) {
           case NEED:
             if (current) {

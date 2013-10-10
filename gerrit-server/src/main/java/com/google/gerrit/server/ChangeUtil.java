@@ -408,7 +408,7 @@ public class ChangeUtil {
       GitReferenceUpdated gitRefUpdated, ReviewDb db, ChangeIndexer indexer)
       throws NoSuchChangeException, OrmException, IOException {
     Change change = db.changes().get(changeId);
-    if (change == null || change.getStatus() != Change.Status.DRAFT) {
+    if (change == null || change.getStatus() != Change.STATUS_DRAFT) {
       throw new NoSuchChangeException(changeId);
     }
 

@@ -193,6 +193,9 @@ public final class Change {
   /** Database constant for {@link Status#MERGED}. */
   public static final char STATUS_MERGED = 'M';
 
+  /** Database constant for {@link Status#AANDONED}. */
+  public static final char STATUS_ABANDONED = 'A';
+
   /** ID number of the first patch set in a change. */
   public static final int INITIAL_PATCH_SET_ID = 1;
 
@@ -286,7 +289,7 @@ public final class Change {
      * a replacement patch set, and it cannot be merged. Draft comments however
      * may be published, permitting reviewers to send constructive feedback.
      */
-    ABANDONED('A');
+    ABANDONED(STATUS_ABANDONED);
 
     private final char code;
     private final boolean closed;
@@ -396,7 +399,7 @@ public final class Change {
     lastUpdatedOn = createdOn;
     owner = ownedBy;
     dest = forBranch;
-    setStatus(Status.NEW);
+    setStatus(STATUS_NEW);
     setLastSha1MergeTested(null);
   }
 
@@ -476,13 +479,20 @@ public final class Change {
     subject = ps.getSubject();
   }
 
-  public Status getStatus() {
-    return Status.forCode(status);
+  public char getStatus() {
+    return status;
   }
 
+  /*
   public void setStatus(final Status newStatus) {
     open = newStatus.isOpen();
     status = newStatus.getCode();
+  }
+  */
+
+  public void setStatus(char newStatus) {
+    status = newStatus;
+    open = isOpen();
   }
 
   public String getTopic() {
@@ -507,5 +517,30 @@ public final class Change {
 
   public void setMergeable(boolean mergeable) {
     this.mergeable = mergeable;
+  }
+
+  public boolean isClosed() {
+    return !(MIN_OPEN <= status && status <= MAX_OPEN);
+  }
+
+  public static boolean isClosedStatic(char c) {
+    return !(MIN_OPEN <= c && c <= MAX_OPEN);
+  }
+
+
+  public static boolean isOpenStatic(char c) {
+    return !isClosedStatic(c);
+  }
+
+  public boolean isOpen() {
+    return !isClosed();
+  }
+
+  public boolean isNew() {
+    return status == STATUS_NEW;
+  }
+
+  public boolean isDraft() {
+    return status == STATUS_DRAFT;
   }
 }

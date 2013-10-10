@@ -191,7 +191,7 @@ public class ChangeControl {
 
   /** Can this user see this change? */
   public boolean isVisible(ReviewDb db) throws OrmException {
-    if (change.getStatus() == Change.Status.DRAFT && !isDraftVisible(db, null)) {
+    if (change.getStatus() == Change.STATUS_DRAFT && !isDraftVisible(db, null)) {
       return false;
     }
     return isRefVisible();
@@ -323,7 +323,7 @@ public class ChangeControl {
   }
 
   public boolean canRemoveReviewer(Account.Id reviewer, int value) {
-    if (getChange().getStatus().isOpen()) {
+    if (getChange().isOpen()) {
       // A user can always remove themselves.
       //
       if (getCurrentUser().isIdentifiedUser()) {
@@ -354,7 +354,7 @@ public class ChangeControl {
 
   /** Can this user edit the topic name? */
   public boolean canEditTopicName() {
-    if (change.getStatus().isOpen()) {
+    if (change.isOpen()) {
       return isOwner() // owner (aka creator) of the change can edit topic
           || getRefControl().isOwner() // branch owner can edit topic
           || getProjectControl().isOwner() // project owner can edit topic
@@ -381,7 +381,7 @@ public class ChangeControl {
   public List<SubmitRecord> canSubmit(ReviewDb db, PatchSet patchSet,
       @Nullable ChangeData cd, boolean fastEvalLabels, boolean allowClosed,
       boolean allowDraft) {
-    if (!allowClosed && change.getStatus().isClosed()) {
+    if (!allowClosed && change.isClosed()) {
       SubmitRecord rec = new SubmitRecord();
       rec.status = SubmitRecord.Status.CLOSED;
       return Collections.singletonList(rec);
@@ -391,7 +391,7 @@ public class ChangeControl {
       return ruleError("Patch set " + patchSet.getPatchSetId() + " is not current");
     }
 
-    if ((change.getStatus() == Change.Status.DRAFT || patchSet.isDraft())
+    if ((change.getStatus() == Change.STATUS_DRAFT || patchSet.isDraft())
         && !allowDraft) {
       return cannotSubmitDraft(db, patchSet, cd);
     }
@@ -533,7 +533,7 @@ public class ChangeControl {
   public SubmitTypeRecord getSubmitTypeRecord(ReviewDb db, PatchSet patchSet,
       @Nullable ChangeData cd) {
     try {
-      if (change.getStatus() == Change.Status.DRAFT && !isDraftVisible(db, cd)) {
+      if (change.getStatus() == Change.STATUS_DRAFT && !isDraftVisible(db, cd)) {
         return typeRuleError("Patch set " + patchSet.getPatchSetId()
             + " not found");
       }

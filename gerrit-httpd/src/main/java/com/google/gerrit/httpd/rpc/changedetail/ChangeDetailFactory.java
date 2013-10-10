@@ -134,19 +134,19 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     detail.setChange(change);
     detail.setAllowsAnonymous(control.forUser(anonymousUser).isVisible(db));
 
-    detail.setCanAbandon(change.getStatus() != Change.Status.DRAFT && change.getStatus().isOpen() && control.canAbandon());
+    detail.setCanAbandon(change.getStatus() != Change.STATUS_DRAFT && change.isOpen() && control.canAbandon());
     detail.setCanPublish(control.canPublish(db));
-    detail.setCanRestore(change.getStatus() == Change.Status.ABANDONED
+    detail.setCanRestore(change.getStatus() == Change.STATUS_ABANDONED
         && control.canRestore()
         && ProjectUtil.branchExists(repoManager, change.getDest()));
     detail.setCanDeleteDraft(control.canDeleteDraft(db));
     detail.setStarred(control.getCurrentUser().getStarredChanges().contains(
         changeId));
 
-    detail.setCanRevert(change.getStatus() == Change.Status.MERGED && control.canAddPatchSet());
+    detail.setCanRevert(change.getStatus() == Change.STATUS_MERGED && control.canAddPatchSet());
     detail.setCanCherryPick(control.getProjectControl().canUpload());
     detail.setCanEdit(control.getRefControl().canWrite());
-    detail.setCanEditCommitMessage(change.getStatus().isOpen() && control.canAddPatchSet());
+    detail.setCanEditCommitMessage(change.isOpen() && control.canAddPatchSet());
     detail.setCanEditTopicName(control.canEditTopicName());
 
     List<SubmitRecord> submitRecords = control.getSubmitRecords(db, patch);
@@ -156,7 +156,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
           aic.want(lbl.appliedBy);
         }
       }
-      if (detail.getChange().getStatus().isOpen()
+      if (detail.getChange().isOpen()
           && rec.status == SubmitRecord.Status.OK
           && control.getRefControl().canSubmit()
           && ProjectUtil.branchExists(repoManager, change.getDest())) {
@@ -175,7 +175,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     }
     load();
 
-    detail.setCanRebase(detail.getChange().getStatus().isOpen() &&
+    detail.setCanRebase(detail.getChange().isOpen() &&
         control.canRebase() &&
         RebaseChange.canDoRebase(db, change, repoManager,
             currentPatchSetAncestors, currentDepPatchSets, currentDepChanges));
@@ -230,8 +230,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
 
   private void load() throws OrmException, NoSuchChangeException,
       NoSuchProjectException {
-    final Change.Status status = detail.getChange().getStatus();
-    if ((status.equals(Change.Status.NEW) || status.equals(Change.Status.DRAFT)) &&
+    if ((detail.getChange().isOpen() || detail.getChange().isDraft()) &&
         testMerge) {
       try {
         detail.getChange().setMergeable(mergeable.apply(new RevisionResource(
@@ -315,7 +314,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
       final Change ac = m.get(a);
       if (ac != null && ac.getProject().equals(detail.getChange().getProject())) {
         currentDepChanges.add(ac);
-        if (ac.getStatus().getCode() != Change.STATUS_DRAFT
+        if (ac.getStatus() != Change.STATUS_DRAFT
             || ac.getOwner().equals(currentUserId)
             || isReviewer(ac)) {
           dependsOn.add(newChangeInfo(ac, ancestorPatchIds));
@@ -327,7 +326,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     for (final PatchSet.Id a : descendants) {
       final Change ac = m.get(a.getParentKey());
       if (ac != null && ac.currentPatchSetId().equals(a)) {
-        if (ac.getStatus().getCode() != Change.STATUS_DRAFT
+        if (ac.getStatus() != Change.STATUS_DRAFT
             || ac.getOwner().equals(currentUserId)
             || isReviewer(ac)) {
           neededBy.add(newChangeInfo(ac, null));

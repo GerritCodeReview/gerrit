@@ -107,7 +107,7 @@ class RelatedChanges extends Composite {
   }
 
   void set(ChangeInfo info, final String revision) {
-    if (info.status().isClosed()) {
+    if (Change.isClosedStatic(info.status())) {
       setVisible(false);
       return;
     }

@@ -422,7 +422,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
     for (Map.Entry<String, Short> ent : labels.entrySet()) {
       String name = ent.getKey();
       LabelType lt = checkNotNull(labelTypes.byLabel(name), name);
-      if (change.getStatus().isClosed()) {
+      if (change.isClosed()) {
         // TODO Allow updating some labels even when closed.
         continue;
       }

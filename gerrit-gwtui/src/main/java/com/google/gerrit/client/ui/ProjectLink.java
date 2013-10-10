@@ -17,21 +17,19 @@ package com.google.gerrit.client.ui;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.QueryScreen;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Change.Status;
 
 /** Link to the open changes of a project. */
 public class ProjectLink extends InlineHyperlink {
   private Project.NameKey project;
-  private Status status;
+  private char status;
 
-  public ProjectLink(final Project.NameKey proj, Change.Status stat) {
+  public ProjectLink(final Project.NameKey proj, char stat) {
     this(proj.get(), proj, stat);
   }
 
   public ProjectLink(final String text, final Project.NameKey proj,
-      Change.Status stat) {
+      char stat) {
     super(text, PageLinks.toChangeQuery(PageLinks.projectQuery(proj, stat)));
     status = stat;
     project = proj;

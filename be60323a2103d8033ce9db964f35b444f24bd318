@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "215e05fe_f8ef3130",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/QueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-10T03:38:50Z",
+      "side": 1,
+      "message": "Missing copyright header.",
+      "revId": "be60323a2103d8033ce9db964f35b444f24bd318",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0163c1c4_77fc10e8",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/QueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-10T03:38:50Z",
+      "side": 1,
+      "message": "Wrap this line?",
+      "revId": "be60323a2103d8033ce9db964f35b444f24bd318",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

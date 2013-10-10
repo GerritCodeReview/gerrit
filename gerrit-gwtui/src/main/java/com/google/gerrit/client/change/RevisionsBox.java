@@ -175,21 +175,20 @@ class RevisionsBox extends Composite {
       sb.setStyleName(style.current());
     }
 
-    sb.openTd()
-      .setStyleName(style.legacy_id())
-      .append(r._number());
+    sb.openTd().setStyleName(style.legacy_id());
     if (r.draft()) {
-      sb.append(" ").append(Resources.C.draft());
+      sb.append(Resources.C.draft()).append(' ');
     }
     if (r.has_draft_comments()) {
-      sb.append(" ")
-      .openSpan()
-      .addStyleName(style.draft_comment())
-      .setAttribute("title", Resources.C.draftCommentsTooltip())
-      .append(new ImageResourceRenderer()
-          .render(Gerrit.RESOURCES.draftComments()))
-      .closeSpan();
+      sb.openSpan()
+        .addStyleName(style.draft_comment())
+        .setAttribute("title", Resources.C.draftCommentsTooltip())
+        .append(new ImageResourceRenderer()
+            .render(Gerrit.RESOURCES.draftComments()))
+        .closeSpan()
+        .append(' ');
     }
+    sb.append(r._number());
     sb.closeTd();
 
     sb.openTd()

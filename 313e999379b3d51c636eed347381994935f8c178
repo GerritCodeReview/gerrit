@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c174497d_15f594fd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-10T09:08:23Z",
+      "side": 1,
+      "message": "Only when I add\n  margin-bottom: 2px;\nin addition to\n  display: inline-block;\nI\u0027m getting a spacing between the lines.",
+      "range": {
+        "startLine": 175,
+        "startChar": 6,
+        "endLine": 175,
+        "endChar": 28
+      },
+      "revId": "313e999379b3d51c636eed347381994935f8c178",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

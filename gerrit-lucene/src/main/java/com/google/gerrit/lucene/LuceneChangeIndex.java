@@ -278,7 +278,8 @@ public class LuceneChangeIndex implements ChangeIndex {
     if (!Sets.intersection(statuses, CLOSED_STATUSES).isEmpty()) {
       indexes.add(closedIndex);
     }
-    return new QuerySource(indexes, QueryBuilder.toQuery(schema, p), limit,
+    return new QuerySource(schema.getFields().containsKey(CHANGE_FIELD),
+        indexes, QueryBuilder.toQuery(schema, p), limit,
         ChangeQueryBuilder.hasNonTrivialSortKeyAfter(schema, p));
   }
 
@@ -297,13 +298,15 @@ public class LuceneChangeIndex implements ChangeIndex {
     private static final ImmutableSet<String> FIELDS =
         ImmutableSet.of(ID_FIELD, CHANGE_FIELD, APPROVAL_FIELD);
 
+    private final boolean hasChange;
     private final List<SubIndex> indexes;
     private final Query query;
     private final int limit;
     private final boolean reverse;
 
-    private QuerySource(List<SubIndex> indexes, Query query, int limit,
-        boolean reverse) {
+    private QuerySource(boolean hasChange, List<SubIndex> indexes, Query query,
+        int limit, boolean reverse) {
+      this.hasChange = hasChange;
       this.indexes = indexes;
       this.query = query;
       this.limit = limit;
@@ -317,7 +320,7 @@ public class LuceneChangeIndex implements ChangeIndex {
 
     @Override
     public boolean hasChange() {
-      return false;
+      return hasChange;
     }
 
     @Override

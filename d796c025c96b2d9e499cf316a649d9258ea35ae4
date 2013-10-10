@@ -16,6 +16,24 @@
       "revId": "d796c025c96b2d9e499cf316a649d9258ea35ae4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e1778d7c_161cbc7d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 950,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-10-10T17:36:34Z",
+      "side": 0,
+      "message": "Yeah I tried that but then the \":after\" element won\u0027t show up. CodeMirror lacks a wrapper that wraps the \u003cpre\u003e element only.",
+      "parentUuid": "215e05fe_384b6962",
+      "revId": "d796c025c96b2d9e499cf316a649d9258ea35ae4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -47,8 +47,8 @@ limitations under the License.
     .a, .b {
       padding: 0;
     }
-    .a { width: 734px; min-width: 734px; }
-    .b { width: 750px; min-width: 750px; }
+    .a { width: 702px; min-width: 702px; }
+    .b { width: 718px; min-width: 718px; }
     .a .CodeMirror-scroll {
       padding-right: 0;
     }

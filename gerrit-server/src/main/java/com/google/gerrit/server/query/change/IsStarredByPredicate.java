@@ -79,7 +79,7 @@ class IsStarredByPredicate extends OrPredicate<ChangeData> implements
 
   @Override
   public int getCost() {
-    return ChangeCosts.cost(ChangeCosts.IDS_MEMORY, getCardinality());
+    return 0;
   }
 
   @Override

@@ -76,6 +76,6 @@ class HasDraftByPredicate extends OperatorPredicate<ChangeData> implements
 
   @Override
   public int getCost() {
-    return ChangeCosts.cost(ChangeCosts.PATCH_SETS_SCAN, getCardinality());
+    return 0;
   }
 }

@@ -17,6 +17,9 @@ package com.google.gerrit.testutil;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.common.base.Enums;
+import com.google.common.base.Objects;
+import com.google.common.base.Optional;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.DisabledChangeHooks;
 import com.google.gerrit.lucene.LuceneIndexModule;
@@ -41,7 +44,6 @@ import com.google.gerrit.server.config.TrackingFootersProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PerThreadRequestScope;
 import com.google.gerrit.server.index.ChangeSchemas;
-import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.index.NoIndexModule;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
@@ -157,20 +159,26 @@ public class InMemoryModule extends FactoryModule {
     install(new SmtpEmailSender.Module());
     install(new SignedTokenEmailTokenVerifier.Module());
 
-    IndexType indexType = IndexModule.getIndexType(cfgInjector);
-    switch (indexType) {
-      case LUCENE:
-        int version = cfg.getInt("index", "lucene", "testVersion", -1);
-        checkState(ChangeSchemas.ALL.containsKey(version),
-            "invalid index.lucene.testVersion %s", version);
-        install(new LuceneIndexModule(version, 0, null));
-        break;
-      case SQL:
-        install(new NoIndexModule());
-        break;
-      default:
-        throw new ProvisionException(
-            "index type unsupported in tests: " + indexType);
+    String indexTypeStr = cfg.getString("index", null, "type");
+    Optional<IndexType> indexType = Enums.getIfPresent(IndexType.class,
+        Objects.firstNonNull(indexTypeStr, IndexType.SQL.toString()));
+    if (indexType.isPresent()) {
+      switch (indexType.get()) {
+        case LUCENE:
+          int version = cfg.getInt("index", "lucene", "testVersion", -1);
+          checkState(ChangeSchemas.ALL.containsKey(version),
+              "invalid index.lucene.testVersion %s", version);
+          install(new LuceneIndexModule(version, 0, null));
+          break;
+        case SQL:
+          install(new NoIndexModule());
+          break;
+        default:
+          throw new ProvisionException(
+              "index type unsupported in tests: " + indexType);
+      }
+    } else {
+      // Custom index type, caller must provide their own module.
     }
   }
 

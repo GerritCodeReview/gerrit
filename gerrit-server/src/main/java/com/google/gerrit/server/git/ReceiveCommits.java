@@ -17,7 +17,6 @@ package com.google.gerrit.server.git;
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromApprovals;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
-
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
@@ -624,7 +623,7 @@ public class ReceiveCommits {
         .append("  ")
         .append(url)
         .append(change.getChangeId());
-    if (change.getStatus() == Change.Status.DRAFT) {
+    if (change.getStatus() == Change.STATUS_DRAFT) {
       m.append(" [DRAFT]");
     }
     return m.toString();
@@ -1258,7 +1257,7 @@ public class ReceiveCommits {
   private boolean requestReplace(final ReceiveCommand cmd,
       final boolean checkMergedInto, final Change change,
       final RevCommit newCommit) {
-    if (change.getStatus().isClosed()) {
+    if (change.isClosed()) {
       reject(cmd, "change " + change.getId() + " closed");
       return false;
     }
@@ -1550,13 +1549,13 @@ public class ReceiveCommits {
       mergeQueue.merge(c.getDest());
       c = db.changes().get(c.getId());
       switch (c.getStatus()) {
-        case SUBMITTED:
+        case Change.STATUS_SUBMITTED:
           addMessage("Change " + c.getChangeId() + " submitted.");
           break;
-        case MERGED:
+        case Change.STATUS_MERGED:
           addMessage("Change " + c.getChangeId() + " merged.");
           break;
-        case NEW:
+        case Change.STATUS_NEW:
           ChangeMessage msg = submit.getConflictMessage(rsrc);
           if (msg != null) {
             addMessage("Change " + c.getChangeId() + ": " + msg.getMessage());
@@ -1564,7 +1563,7 @@ public class ReceiveCommits {
           }
         default:
           addMessage("change " + c.getChangeId() + " is "
-              + c.getStatus().name().toLowerCase());
+              + c.getStatus());
       }
     }
   }
@@ -1696,7 +1695,7 @@ public class ReceiveCommits {
       if (!changeCtl.canAddPatchSet()) {
         reject(inputCommand, "cannot replace " + ontoChange);
         return false;
-      } else if (change.getStatus().isClosed()) {
+      } else if (change.isClosed()) {
         reject(inputCommand, "change " + ontoChange + " closed");
         return false;
       } else if (revisions.containsKey(newCommit)) {
@@ -1820,7 +1819,7 @@ public class ReceiveCommits {
       db.changes().beginTransaction(change.getId());
       try {
         change = db.changes().get(change.getId());
-        if (change == null || change.getStatus().isClosed()) {
+        if (change == null || change.isClosed()) {
           reject(inputCommand, "change is closed");
           return null;
         }
@@ -1859,7 +1858,7 @@ public class ReceiveCommits {
               db.changes().atomicUpdate(change.getId(), new AtomicUpdate<Change>() {
                 @Override
                 public Change update(Change change) {
-                  if (change.getStatus().isClosed()) {
+                  if (change.isClosed()) {
                     return null;
                   }
 
@@ -1870,10 +1869,10 @@ public class ReceiveCommits {
                   if (magicBranch != null && magicBranch.topic != null) {
                     change.setTopic(magicBranch.topic);
                   }
-                  if (change.getStatus() == Change.Status.DRAFT && newPatchSet.isDraft()) {
+                  if (change.getStatus() == Change.STATUS_DRAFT && newPatchSet.isDraft()) {
                     // Leave in draft status.
                   } else {
-                    change.setStatus(Change.Status.NEW);
+                    change.setStatus(Change.STATUS_NEW);
                   }
                   change.setLastSha1MergeTested(null);
                   change.setCurrentPatchSet(info);
@@ -2191,8 +2190,8 @@ public class ReceiveCommits {
       return null;
     }
 
-    if (change.getStatus() == Change.Status.MERGED ||
-        change.getStatus() == Change.Status.ABANDONED ||
+    if (change.getStatus() == Change.STATUS_MERGED ||
+        change.getStatus() == Change.STATUS_ABANDONED ||
         !change.getDest().get().equals(refName)) {
       // If it's already merged or the commit is not aimed for
       // this change's destination, don't make further updates.
@@ -2241,7 +2240,7 @@ public class ReceiveCommits {
     final String mergedIntoRef = result.mergedIntoRef;
 
     change.setCurrentPatchSet(result.info);
-    change.setStatus(Change.Status.MERGED);
+    change.setStatus(Change.STATUS_MERGED);
     ChangeUtil.updated(change);
 
     approvalsUtil.syncChangeStatus(change);
@@ -2269,9 +2268,9 @@ public class ReceiveCommits {
         change.getId(), new AtomicUpdate<Change>() {
           @Override
           public Change update(Change change) {
-            if (change.getStatus().isOpen()) {
+            if (change.isOpen()) {
               change.setCurrentPatchSet(result.info);
-              change.setStatus(Change.Status.MERGED);
+              change.setStatus(Change.STATUS_MERGED);
               ChangeUtil.updated(change);
             }
             return change;

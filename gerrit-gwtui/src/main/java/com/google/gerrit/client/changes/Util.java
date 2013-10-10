@@ -45,23 +45,20 @@ public class Util {
     JsonUtil.bind(MANAGE_SVC, "rpc/ChangeManageService");
   }
 
-  public static String toLongString(final Change.Status status) {
-    if (status == null) {
-      return "";
-    }
+  public static String toLongString(final char status) {
     switch (status) {
-      case DRAFT:
+      case Change.STATUS_DRAFT:
         return C.statusLongDraft();
-      case NEW:
+      case Change.STATUS_NEW:
         return C.statusLongNew();
-      case SUBMITTED:
+      case Change.STATUS_SUBMITTED:
         return C.statusLongSubmitted();
-      case MERGED:
+      case Change.STATUS_MERGED:
         return C.statusLongMerged();
-      case ABANDONED:
+      case Change.STATUS_ABANDONED:
         return C.statusLongAbandoned();
       default:
-        return status.name();
+        return "<unknown>";
     }
   }
 

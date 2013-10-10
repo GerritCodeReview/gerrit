@@ -183,11 +183,11 @@ public abstract class AbstractQueryChangesTest {
     TestRepository<InMemoryRepository> repo = createProject("repo");
     ChangeInserter ins1 = newChange(repo, null, null, null, null);
     Change change1 = ins1.getChange();
-    change1.setStatus(Change.Status.NEW);
+    change1.setStatus(Change.STATUS_NEW);
     ins1.insert();
     ChangeInserter ins2 = newChange(repo, null, null, null, null);
     Change change2 = ins2.getChange();
-    change2.setStatus(Change.Status.MERGED);
+    change2.setStatus(Change.STATUS_MERGED);
     ins2.insert();
 
     assertResultEquals(change1, queryOne("status:new"));
@@ -201,15 +201,15 @@ public abstract class AbstractQueryChangesTest {
     TestRepository<InMemoryRepository> repo = createProject("repo");
     ChangeInserter ins1 = newChange(repo, null, null, null, null);
     Change change1 = ins1.getChange();
-    change1.setStatus(Change.Status.NEW);
+    change1.setStatus(Change.STATUS_NEW);
     ins1.insert();
     ChangeInserter ins2 = newChange(repo, null, null, null, null);
     Change change2 = ins2.getChange();
-    change2.setStatus(Change.Status.DRAFT);
+    change2.setStatus(Change.STATUS_DRAFT);
     ins2.insert();
     ChangeInserter ins3 = newChange(repo, null, null, null, null);
     Change change3 = ins3.getChange();
-    change3.setStatus(Change.Status.MERGED);
+    change3.setStatus(Change.STATUS_MERGED);
     ins3.insert();
 
     List<ChangeInfo> results;
@@ -228,15 +228,15 @@ public abstract class AbstractQueryChangesTest {
     TestRepository<InMemoryRepository> repo = createProject("repo");
     ChangeInserter ins1 = newChange(repo, null, null, null, null);
     Change change1 = ins1.getChange();
-    change1.setStatus(Change.Status.MERGED);
+    change1.setStatus(Change.STATUS_MERGED);
     ins1.insert();
     ChangeInserter ins2 = newChange(repo, null, null, null, null);
     Change change2 = ins2.getChange();
-    change2.setStatus(Change.Status.ABANDONED);
+    change2.setStatus(Change.STATUS_ABANDONED);
     ins2.insert();
     ChangeInserter ins3 = newChange(repo, null, null, null, null);
     Change change3 = ins3.getChange();
-    change3.setStatus(Change.Status.NEW);
+    change3.setStatus(Change.STATUS_NEW);
     ins3.insert();
 
     List<ChangeInfo> results;

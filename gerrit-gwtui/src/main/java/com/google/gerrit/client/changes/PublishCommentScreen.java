@@ -326,7 +326,7 @@ public class PublishCommentScreen extends AccountScreen implements
     descBlock.display(changeDetail, null, false, r.getPatchSetInfo(), r.getAccounts(),
        r.getSubmitTypeRecord(), commentLinkProcessor);
 
-    if (r.getChange().getStatus().isOpen()) {
+    if (r.getChange().isOpen()) {
       initApprovals(approvalPanel);
       approvals.display(change);
     } else {

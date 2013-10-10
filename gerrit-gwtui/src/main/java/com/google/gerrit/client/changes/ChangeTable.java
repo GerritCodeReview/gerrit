@@ -146,8 +146,9 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     }
 
     String s = Util.cropSubject(c.getSubject());
-    if (c.getStatus() != null && c.getStatus() != Change.Status.NEW) {
-      s += " (" + c.getStatus().name() + ")";
+    if (c.getStatus() != Change.STATUS_NEW) {
+      // TODO(davido): how to replace here c.getStatus() ?
+      s += " (" + c.getStatus() + ")";
     }
     if (changeRowFormatter != null) {
       removeChangeStyle(row, changeRowFormatter);

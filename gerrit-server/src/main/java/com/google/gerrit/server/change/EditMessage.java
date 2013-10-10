@@ -119,7 +119,7 @@ class EditMessage implements RestModifyView<RevisionResource, Input>,
     PatchSet.Id current = resource.getChange().currentPatchSetId();
     return new UiAction.Description()
         .setLabel("Edit commit message")
-        .setVisible(resource.getChange().getStatus().isOpen()
+        .setVisible(resource.getChange().isOpen()
             && resource.getPatchSet().getId().equals(current)
             && resource.getControl().canAddPatchSet());
   }

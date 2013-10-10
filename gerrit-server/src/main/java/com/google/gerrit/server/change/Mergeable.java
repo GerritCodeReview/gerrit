@@ -87,7 +87,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
     PatchSet ps = resource.getPatchSet();
     MergeableInfo result = new MergeableInfo();
 
-    if (!change.getStatus().isOpen()) {
+    if (!change.isOpen()) {
       throw new ResourceConflictException("change is " + Submit.status(change));
     } else if (!ps.getId().equals(change.currentPatchSetId())) {
       // Only the current revision is mergeable. Others always fail.

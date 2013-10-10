@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "215e05fe_181ce57d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-10T09:41:50Z",
+      "side": 1,
+      "message": "Actually this doesn\u0027t fix the specific issue I describe in 2110.\n\nThis fixes the avatar popups on the inline comments, but not when opening the user preferences.",
+      "revId": "7a84967416a515eb67e415f8f5012c60ab6c02d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

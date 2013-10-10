@@ -1,4 +1,21 @@
+// Copyright (C) 2013 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.package com.google.gerrit.server.git;
+
 package com.google.gerrit.server.query.change;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.lifecycle.LifecycleManager;
@@ -21,25 +38,25 @@ import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.testutil.InMemoryDatabase;
-import com.google.gerrit.testutil.InMemoryModule;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
-import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.util.Providers;
 
-import junit.framework.TestCase;
-
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.util.List;
 
-public class QueryChangesTest extends TestCase {
+@Ignore
+public abstract class AbstractQueryChangesTest {
   @Inject private AccountManager accountManager;
   @Inject private ChangeInserter.Factory changeFactory;
   @Inject private CreateProject.Factory projectFactory;
@@ -55,14 +72,11 @@ public class QueryChangesTest extends TestCase {
   private ReviewDb db;
   private Account.Id user;
 
-  @Override
-  public void setUp() throws Exception {
-    Config cfg = InMemoryModule.newDefaultConfig();
-    cfg.setString("index", null, "type", "lucene");
-    cfg.setBoolean("index", "lucene", "testInmemory", true);
-    cfg.setInt("index", "lucene", "testVersion", 2);
+  protected abstract Injector createInjector();
 
-    Injector injector = Guice.createInjector(new InMemoryModule(cfg));
+  @Before
+  public void setUpInjector() throws Exception {
+    Injector injector = createInjector();
     injector.injectMembers(this);
     lifecycle = new LifecycleManager();
     lifecycle.add(injector);
@@ -86,21 +100,16 @@ public class QueryChangesTest extends TestCase {
     });
   }
 
-  @Override
-  public void tearDown() {
+  @After
+  public void tearDownInjector() {
     lifecycle.stop();
     requestContext.setContext(null);
     db.close();
     InMemoryDatabase.drop(schemaFactory);
   }
 
-
-  public void testInjectionSetup() {
-    assertNotNull(changeFactory);
-    assertNotNull(repoManager);
-  }
-
-  public void testQueryById() throws Exception {
+  @Test
+  public void byId() throws Exception {
     TestRepository<InMemoryRepository> repo = createProject("repo");
     RevCommit commit = repo.parseBody(repo.commit().message("message").create());
     Change change = new Change(
@@ -119,19 +128,19 @@ public class QueryChangesTest extends TestCase {
     assertEquals(id, result._number);
   }
 
-  private TestRepository<InMemoryRepository> createProject(String name)
-      throws Exception {
+  private TestRepository<InMemoryRepository> createProject(String name) throws Exception {
     CreateProject create = projectFactory.create(name);
     create.apply(TopLevelResource.INSTANCE, new CreateProject.Input());
     return new TestRepository<InMemoryRepository>(
         repoManager.openRepository(new Project.NameKey(name)));
   }
 
-  private RefControl refControl(String repo, Change change) throws NoSuchProjectException, IOException {
-    return projectControlFactory.controlFor(
-        new Project.NameKey(repo),
-        userFactory.create(user)).controlFor(change).getRefControl();
-  }
+  private RefControl refControl(String repo, Change change)
+      throws NoSuchProjectException, IOException {
+        return projectControlFactory.controlFor(
+            new Project.NameKey(repo),
+            userFactory.create(user)).controlFor(change).getRefControl();
+      }
 
   private ChangeInfo queryOne(String query) throws Exception {
     QueryChanges q = queryProvider.get();

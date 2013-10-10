@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "215e05fe_7845e147",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexedChangeQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-10-10T18:18:12Z",
+      "side": 1,
+      "message": "I\u0027m leery of messing with these costs too much because we still have a bug somewhere where we are choosing the wrong branch of an OrPredicate as the query source; this is what I56d97817 was trying to work around.\n\nI would test this against the pathological query the GWT team has that was triggering the bug before rolling it out.",
+      "range": {
+        "startLine": 199,
+        "startChar": 4,
+        "endLine": 199,
+        "endChar": 12
+      },
+      "revId": "2d1de10e7fe066eb3fad6b374df8b2200529f6e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

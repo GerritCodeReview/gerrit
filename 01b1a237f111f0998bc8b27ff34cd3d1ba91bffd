@@ -34,6 +34,24 @@
       "revId": "01b1a237f111f0998bc8b27ff34cd3d1ba91bffd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c174497d_d5ea3c23",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-10T06:40:47Z",
+      "side": 1,
+      "message": "From the commit message I understand that the main purpose of this change is to enable plugins to send stream events. This sounds very useful and many plugins may want to use this. Most plugin authors are not very familiar with the Gerrit internals which is why dev-plugins.txt explains the extension possibilities which are most interesting and provides examples for them. In this document there is already a section that describes how a plugin can listen to events. To me it would be very naturally to also add there a section about how to send events. \n\nOf course there is javadoc, but this is also true for most of the other stuff that is described in dev-plugins.txt.",
+      "parentUuid": "a1fcb5ed_9ce56555",
+      "revId": "01b1a237f111f0998bc8b27ff34cd3d1ba91bffd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

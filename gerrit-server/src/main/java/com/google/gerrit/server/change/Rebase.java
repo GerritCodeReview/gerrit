@@ -58,9 +58,9 @@ public class Rebase implements RestModifyView<RevisionResource, Input>,
     Change change = rsrc.getChange();
     if (!control.canRebase()) {
       throw new AuthException("rebase not permitted");
-    } else if (!change.getStatus().isOpen()) {
+    } else if (!change.isOpen()) {
       throw new ResourceConflictException("change is "
-          + change.getStatus().name().toLowerCase());
+          + change.getStatus());
     }
 
     try {
@@ -83,7 +83,7 @@ public class Rebase implements RestModifyView<RevisionResource, Input>,
     return new UiAction.Description()
       .setLabel("Rebase")
       .setTitle("Rebase onto tip of branch or parent change")
-      .setVisible(resource.getChange().getStatus().isOpen()
+      .setVisible(resource.getChange().isOpen()
           && resource.getControl().canRebase()
           && rebaseChange.get().canRebase(resource));
   }

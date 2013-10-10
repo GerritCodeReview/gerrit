@@ -40,7 +40,7 @@ class QuickApprove extends Button implements ClickHandler {
   }
 
   void set(ChangeInfo info, String commit) {
-    if (!info.has_permitted_labels() || !info.status().isOpen()) {
+    if (!info.has_permitted_labels() || !Change.isOpenStatic(info.status())) {
       // Quick approve needs at least one label on an open change.
       setVisible(false);
       return;

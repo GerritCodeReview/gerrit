@@ -33,7 +33,6 @@ import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.CommentVisibilityStrategy;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -313,7 +312,7 @@ public class ChangeScreen extends Screen
     displayTitle(detail.getChange().getKey(), detail.getChange().getSubject());
     discardDiffBaseIfNotApplicable(detail.getChange().getId());
 
-    if (Status.MERGED == detail.getChange().getStatus()) {
+    if (Change.STATUS_MERGED == detail.getChange().getStatus()) {
       includedInPanel.setVisible(true);
       includedInPanel.addOpenHandler(includedInTable);
     } else {
@@ -356,14 +355,14 @@ public class ChangeScreen extends Screen
     //
     boolean depsOpen = false;
     int outdated = 0;
-    if (!detail.getChange().getStatus().isClosed()) {
+    if (!detail.getChange().isClosed()) {
       final List<ChangeInfo> dependsOn = detail.getDependsOn();
       if (dependsOn != null) {
         for (final ChangeInfo ci : dependsOn) {
           if (!ci.isLatest()) {
             depsOpen = true;
             outdated++;
-          } else if (ci.getStatus() != Change.Status.MERGED) {
+          } else if (ci.getStatus() != Change.STATUS_MERGED) {
             depsOpen = true;
           }
         }
@@ -372,9 +371,9 @@ public class ChangeScreen extends Screen
     final List<ChangeInfo> neededBy = detail.getNeededBy();
     if (neededBy != null) {
       for (final ChangeInfo ci : neededBy) {
-        if ((ci.getStatus() == Change.Status.NEW) ||
-            (ci.getStatus() == Change.Status.SUBMITTED) ||
-            (ci.getStatus() == Change.Status.DRAFT)) {
+        if ((ci.getStatus() == Change.STATUS_NEW) ||
+            (ci.getStatus() == Change.STATUS_SUBMITTED) ||
+            (ci.getStatus() == Change.STATUS_DRAFT)) {
           depsOpen = true;
         }
       }

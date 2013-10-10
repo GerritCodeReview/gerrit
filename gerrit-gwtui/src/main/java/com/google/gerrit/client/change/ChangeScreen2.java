@@ -268,7 +268,7 @@ public class ChangeScreen2 extends Screen {
   }
 
   private void initIncludedInAction(ChangeInfo info) {
-    if (info.status() == Status.MERGED) {
+    if (info.status() == Change.STATUS_MERGED) {
       includedInAction = new IncludedInAction(
           info.legacy_id(),
           style, headerLine, includedIn);
@@ -571,7 +571,7 @@ public class ChangeScreen2 extends Screen {
       }));
   }
 
-  private void loadMergeable(final Change.Status status, final boolean canSubmit) {
+  private void loadMergeable(final char status, final boolean canSubmit) {
     if (Gerrit.getConfig().testChangeMerge()) {
       ChangeApi.revision(changeId.get(), revision)
         .view("mergeable")
@@ -580,7 +580,7 @@ public class ChangeScreen2 extends Screen {
           public void onSuccess(MergeableInfo result) {
             if (canSubmit) {
               actions.setSubmitEnabled(result.mergeable());
-              if (status == Change.Status.NEW) {
+              if (status == Change.STATUS_NEW) {
                 statusText.setInnerText(result.mergeable()
                     ? Util.C.readyToSubmit()
                     : Util.C.mergeConflict());
@@ -600,10 +600,10 @@ public class ChangeScreen2 extends Screen {
     }
   }
 
-  private void loadSubmitType(final Change.Status status, final boolean canSubmit) {
+  private void loadSubmitType(final char status, final boolean canSubmit) {
     if (canSubmit) {
       actions.setSubmitEnabled(true);
-      if (status == Change.Status.NEW) {
+      if (status == Change.STATUS_NEW) {
         statusText.setInnerText(Util.C.readyToSubmit());
       }
     }
@@ -640,11 +640,11 @@ public class ChangeScreen2 extends Screen {
   private void renderChangeInfo(ChangeInfo info) {
     changeInfo = info;
     lastDisplayedUpdate = info.updated();
-    boolean current = info.status().isOpen()
+    boolean current = Change.isOpenStatic(info.status())
         && revision.equals(info.current_revision());
     boolean canSubmit = labels.set(info, current);
 
-    if (!current && info.status() == Change.Status.NEW) {
+    if (!current && info.status() == Change.STATUS_NEW) {
       statusText.setInnerText(Util.C.notCurrent());
     } else {
       statusText.setInnerText(Util.toLongString(info.status()));

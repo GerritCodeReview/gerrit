@@ -127,9 +127,9 @@ public class ChangeInfoBlock extends Composite {
       submitType = submitTypeRecord.status.name();
     }
     table.setText(R_SUBMIT_TYPE, 1, submitType);
-    final Change.Status status = chg.getStatus();
+    final char status = chg.getStatus();
     if (Gerrit.getConfig().testChangeMerge()) {
-      if (status.equals(Change.Status.NEW) || status.equals(Change.Status.DRAFT)) {
+      if (status == Change.STATUS_NEW || status == Change.STATUS_DRAFT) {
         table.getRowFormatter().setVisible(R_MERGE_TEST, true);
         table.setText(R_MERGE_TEST, 1, chg.isMergeable() ? Util.C
             .changeInfoBlockCanMergeYes() : Util.C.changeInfoBlockCanMergeNo());
@@ -138,7 +138,7 @@ public class ChangeInfoBlock extends Composite {
       }
     }
 
-    if (status.isClosed()) {
+    if (Change.isClosedStatic(status)) {
       table.getCellFormatter().addStyleName(R_STATUS, 1, Gerrit.RESOURCES.css().closedstate());
       table.getRowFormatter().setVisible(R_SUBMIT_TYPE, false);
     } else {

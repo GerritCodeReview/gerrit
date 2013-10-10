@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
@@ -82,7 +81,7 @@ public class Restore implements RestModifyView<ChangeResource, Input>,
     Change change = req.getChange();
     if (!control.canRestore()) {
       throw new AuthException("restore not permitted");
-    } else if (change.getStatus() != Status.ABANDONED) {
+    } else if (change.getStatus() != Change.STATUS_ABANDONED) {
       throw new ResourceConflictException("change is " + status(change));
     }
 
@@ -95,8 +94,8 @@ public class Restore implements RestModifyView<ChangeResource, Input>,
         new AtomicUpdate<Change>() {
           @Override
           public Change update(Change change) {
-            if (change.getStatus() == Status.ABANDONED) {
-              change.setStatus(Status.NEW);
+            if (change.getStatus() == Change.STATUS_ABANDONED) {
+              change.setStatus(Change.STATUS_NEW);
               ChangeUtil.updated(change);
               return change;
             }
@@ -139,7 +138,7 @@ public class Restore implements RestModifyView<ChangeResource, Input>,
     return new UiAction.Description()
       .setLabel("Restore")
       .setTitle("Restore the change")
-      .setVisible(resource.getChange().getStatus() == Status.ABANDONED
+      .setVisible(resource.getChange().getStatus() == Change.STATUS_ABANDONED
           && resource.getControl().canRestore());
   }
 
@@ -164,6 +163,7 @@ public class Restore implements RestModifyView<ChangeResource, Input>,
   }
 
   private static String status(Change change) {
-    return change != null ? change.getStatus().name().toLowerCase() : "deleted";
+    // TODO(davido): handle null
+    return /*change != null ? */String.valueOf(change.getStatus());
   }
 }

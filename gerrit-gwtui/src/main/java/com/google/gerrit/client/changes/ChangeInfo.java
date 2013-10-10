@@ -71,8 +71,8 @@ public class ChangeInfo extends JavaScriptObject {
     return new Change.Key(change_id()).abbreviate();
   }
 
-  public final Change.Status status() {
-    return Change.Status.valueOf(statusRaw());
+  public final char status() {
+    return statusRaw();
   }
 
   public final Set<String> labels() {
@@ -85,7 +85,7 @@ public class ChangeInfo extends JavaScriptObject {
   public final native String topic() /*-{ return this.topic; }-*/;
   public final native String change_id() /*-{ return this.change_id; }-*/;
   public final native boolean mergeable() /*-{ return this.mergeable; }-*/;
-  private final native String statusRaw() /*-{ return this.status; }-*/;
+  private final native char statusRaw() /*-{ return this.status; }-*/;
   public final native String subject() /*-{ return this.subject; }-*/;
   public final native AccountInfo owner() /*-{ return this.owner; }-*/;
   private final native String createdRaw() /*-{ return this.created; }-*/;

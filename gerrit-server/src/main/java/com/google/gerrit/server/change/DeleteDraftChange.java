@@ -20,7 +20,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
-import com.google.gerrit.reviewdb.client.Change.Status;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.DeleteDraftChange.Input;
@@ -61,7 +61,7 @@ public class DeleteDraftChange implements
   public Object apply(ChangeResource rsrc, Input input)
       throws ResourceConflictException, AuthException,
       ResourceNotFoundException, OrmException, IOException {
-    if (rsrc.getChange().getStatus() != Status.DRAFT) {
+    if (rsrc.getChange().getStatus() != Change.STATUS_DRAFT) {
       throw new ResourceConflictException("Change is not a draft");
     }
 
@@ -85,7 +85,7 @@ public class DeleteDraftChange implements
       return new UiAction.Description()
         .setTitle(String.format("Delete draft change %d",
             rsrc.getChange().getChangeId()))
-        .setVisible(rsrc.getChange().getStatus() == Status.DRAFT
+        .setVisible(rsrc.getChange().getStatus() == Change.STATUS_DRAFT
             && rsrc.getControl().canDeleteDraft(dbProvider.get()));
     } catch (OrmException e) {
       throw new IllegalStateException(e);

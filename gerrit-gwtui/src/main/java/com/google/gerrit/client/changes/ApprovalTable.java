@@ -165,7 +165,7 @@ public class ApprovalTable extends Composite {
     }
 
     if (Gerrit.getConfig().testChangeMerge()
-        && change.status() != Change.Status.MERGED
+        && change.status() != Change.STATUS_MERGED
         && !change.mergeable()) {
       addMissingLabel(Util.C.messageNeedsRebaseOrHasDependency());
     }

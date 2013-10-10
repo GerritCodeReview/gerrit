@@ -18,19 +18,18 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.QueryScreen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 
 /** Link to the open changes of a project. */
 public class BranchLink extends InlineHyperlink {
   private final String query;
 
-  public BranchLink(Project.NameKey project, Change.Status status,
+  public BranchLink(Project.NameKey project, char status,
       String branch, String topic) {
     this(text(branch, topic), query(project, status, branch, topic));
   }
 
-  public BranchLink(String text, Project.NameKey project, Change.Status status,
+  public BranchLink(String text, Project.NameKey project, char status,
       String branch, String topic) {
     this(text, query(project, status, branch, topic));
   }
@@ -57,7 +56,7 @@ public class BranchLink extends InlineHyperlink {
     }
   }
 
-  private static String query(Project.NameKey project, Change.Status status,
+  private static String query(Project.NameKey project, char status,
       String branch, String topic) {
     String query = PageLinks.projectQuery(project, status);
 

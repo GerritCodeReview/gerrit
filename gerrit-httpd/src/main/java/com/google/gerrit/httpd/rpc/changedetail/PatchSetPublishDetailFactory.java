@@ -87,7 +87,7 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
     detail.setChange(change);
     detail.setDrafts(drafts);
 
-    if (change.getStatus().isOpen()
+    if (change.isOpen()
         && patchSetId.equals(change.currentPatchSetId())) {
       // TODO Push this selection of labels down into the Prolog interpreter.
       // Ideally we discover the labels the user can apply here based on doing

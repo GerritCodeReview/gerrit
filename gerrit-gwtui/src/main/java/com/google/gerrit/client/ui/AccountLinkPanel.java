@@ -45,10 +45,10 @@ public class AccountLinkPanel extends FlowPanel {
   }
 
   public AccountLinkPanel(AccountInfo info) {
-    this(info, Change.Status.NEW);
+    this(info, Change.STATUS_NEW);
   }
 
-  public AccountLinkPanel(AccountInfo info, Change.Status status) {
+  public AccountLinkPanel(AccountInfo info, char status) {
     addStyleName(Gerrit.RESOURCES.css().accountLinkPanel());
 
     InlineHyperlink l =

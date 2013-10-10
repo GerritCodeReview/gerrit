@@ -97,7 +97,7 @@ public class Submit implements RestModifyView<RevisionResource, Input>,
     Change change = rsrc.getChange();
     if (!control.canSubmit()) {
       throw new AuthException("submit not permitted");
-    } else if (!change.getStatus().isOpen()) {
+    } else if (!change.isOpen()) {
       throw new ResourceConflictException("change is " + status(change));
     } else if (!ProjectUtil.branchExists(repoManager, change.getDest())) {
       throw new ResourceConflictException(String.format(
@@ -128,11 +128,11 @@ public class Submit implements RestModifyView<RevisionResource, Input>,
       throw new ResourceConflictException("change is deleted");
     }
     switch (change.getStatus()) {
-      case SUBMITTED:
+      case Change.STATUS_SUBMITTED:
         return new Output(Status.SUBMITTED, change);
-      case MERGED:
+      case Change.STATUS_MERGED:
         return new Output(Status.MERGED, change);
-      case NEW:
+      case Change.STATUS_NEW:
         ChangeMessage msg = getConflictMessage(rsrc);
         if (msg != null) {
           throw new ResourceConflictException(msg.getMessage());
@@ -149,7 +149,7 @@ public class Submit implements RestModifyView<RevisionResource, Input>,
       .setTitle(String.format(
           "Submit revision %d",
           resource.getPatchSet().getPatchSetId()))
-      .setVisible(resource.getChange().getStatus().isOpen()
+      .setVisible(resource.getChange().isOpen()
           && resource.getPatchSet().getId().equals(current)
           && resource.getControl().canSubmit());
   }
@@ -189,8 +189,8 @@ public class Submit implements RestModifyView<RevisionResource, Input>,
         new AtomicUpdate<Change>() {
           @Override
           public Change update(Change change) {
-            if (change.getStatus().isOpen()) {
-              change.setStatus(Change.Status.SUBMITTED);
+            if (change.isOpen()) {
+              change.setStatus(Change.STATUS_SUBMITTED);
               change.setLastUpdatedOn(timestamp);
               ChangeUtil.computeSortKey(change);
               return change;
@@ -311,8 +311,9 @@ public class Submit implements RestModifyView<RevisionResource, Input>,
     });
   }
 
-  static String status(Change change) {
-    return change != null ? change.getStatus().name().toLowerCase() : "deleted";
+  public static String status(Change change) {
+    // TODO(davido): handle null
+    return /*change != null ? */String.valueOf(change.getStatus());
   }
 
   public static class CurrentRevision implements

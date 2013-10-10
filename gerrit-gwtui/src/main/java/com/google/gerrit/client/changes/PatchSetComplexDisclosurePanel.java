@@ -306,7 +306,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
   }
 
   private void populateActions(final PatchSetDetail detail) {
-    final boolean isOpen = changeDetail.getChange().getStatus().isOpen();
+    final boolean isOpen = changeDetail.getChange().isOpen();
 
     if (isOpen && changeDetail.canSubmit()) {
       final Button b =
@@ -399,7 +399,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
           new CherryPickDialog(b, changeDetail.getChange().getProject()) {
             {
               sendButton.setText(Util.C.buttonCherryPickChangeSend());
-              if (changeDetail.getChange().getStatus().isClosed()) {
+              if (changeDetail.getChange().isClosed()) {
                 message.setText(Util.M.cherryPickedChangeDefaultMessage(
                     detail.getInfo().getMessage().trim(),
                     detail.getPatchSet().getRevision().get()));
@@ -476,7 +476,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
       actionsPanel.add(b);
     }
 
-    if (changeDetail.getChange().getStatus() == Change.Status.DRAFT
+    if (changeDetail.getChange().getStatus() == Change.STATUS_DRAFT
         && changeDetail.canDeleteDraft()) {
       final Button b = new Button(Util.C.buttonDeleteDraftChange());
       b.addClickHandler(new ClickHandler() {

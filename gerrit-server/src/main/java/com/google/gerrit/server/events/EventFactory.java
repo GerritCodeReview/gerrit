@@ -154,7 +154,7 @@ public class EventFactory {
     a.createdOn = change.getCreatedOn().getTime() / 1000L;
     a.lastUpdated = change.getLastUpdatedOn().getTime() / 1000L;
     a.sortKey = change.getSortKey();
-    a.open = change.getStatus().isOpen();
+    a.open = Change.isOpenStatic(change.getStatus());
   }
 
   /**

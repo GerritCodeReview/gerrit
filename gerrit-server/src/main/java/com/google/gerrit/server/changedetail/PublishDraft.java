@@ -113,19 +113,19 @@ public class PublishDraft implements Callable<ReviewResult> {
           new AtomicUpdate<Change>() {
         @Override
         public Change update(Change change) {
-          if (change.getStatus() == Change.Status.DRAFT) {
-            change.setStatus(Change.Status.NEW);
+          if (change.getStatus() == Change.STATUS_DRAFT) {
+            change.setStatus(Change.STATUS_NEW);
             ChangeUtil.updated(change);
           }
           return change;
         }
       });
 
-      if (!updatedPatchSet.isDraft() || updatedChange.getStatus() == Change.Status.NEW) {
+      if (!updatedPatchSet.isDraft() || updatedChange.getStatus() == Change.STATUS_NEW) {
         CheckedFuture<?, IOException> indexFuture = indexer.indexAsync(updatedChange);
         hooks.doDraftPublishedHook(updatedChange, updatedPatchSet, db);
 
-        sender.send(control.getChange().getStatus() == Change.Status.DRAFT,
+        sender.send(control.getChange().getStatus() == Change.STATUS_DRAFT,
             (IdentifiedUser) control.getCurrentUser(), updatedChange, updatedPatchSet,
             labelTypes);
         indexFuture.checkedGet();

@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.Sets;
-
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.reviewdb.client.Account;
@@ -231,7 +230,7 @@ public class PatchSetInserter {
 
     db.changes().beginTransaction(change.getId());
     try {
-      if (!db.changes().get(change.getId()).getStatus().isOpen()) {
+      if (!db.changes().get(change.getId()).isOpen()) {
         throw new InvalidChangeOperationException(String.format(
             "Change %s is closed", change.getId()));
       }
@@ -255,14 +254,14 @@ public class PatchSetInserter {
           db.changes().atomicUpdate(change.getId(), new AtomicUpdate<Change>() {
             @Override
             public Change update(Change change) {
-              if (change.getStatus().isClosed()) {
+              if (change.isClosed()) {
                 return null;
               }
               if (!change.currentPatchSetId().equals(currentPatchSetId)) {
                 return null;
               }
-              if (change.getStatus() != Change.Status.DRAFT) {
-                change.setStatus(Change.Status.NEW);
+              if (change.getStatus() != Change.STATUS_DRAFT) {
+                change.setStatus(Change.STATUS_NEW);
               }
               change.setLastSha1MergeTested(null);
               change.setCurrentPatchSet(patchSetInfoFactory.get(commit,

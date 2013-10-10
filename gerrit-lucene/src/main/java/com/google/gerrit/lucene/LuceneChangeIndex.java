@@ -208,7 +208,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     Term id = QueryBuilder.idTerm(cd);
     Document doc = toDocument(cd);
     try {
-      if (cd.getChange().getStatus().isOpen()) {
+      if (Change.isOpenStatic(cd.getChange().getStatus())) {
         Futures.allAsList(
             closedIndex.delete(id),
             openIndex.insert(doc)).get();
@@ -230,7 +230,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     Term id = QueryBuilder.idTerm(cd);
     Document doc = toDocument(cd);
     try {
-      if (cd.getChange().getStatus().isOpen()) {
+      if (Change.isOpenStatic(cd.getChange().getStatus())) {
         Futures.allAsList(
             closedIndex.delete(id),
             openIndex.replace(id, doc)).get();

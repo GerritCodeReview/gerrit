@@ -129,7 +129,7 @@ public class ChangeInserter {
   }
 
   public ChangeInserter setDraft(boolean draft) {
-    change.setStatus(draft ? Change.Status.DRAFT : Change.Status.NEW);
+    change.setStatus(draft ? Change.STATUS_DRAFT : Change.STATUS_NEW);
     patchSet.setDraft(draft);
     return this;
   }

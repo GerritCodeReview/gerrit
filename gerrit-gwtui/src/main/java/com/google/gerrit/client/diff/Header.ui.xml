@@ -21,6 +21,8 @@ limitations under the License.
   <ui:style>
   .header {
     position: relative;
+    width: 1484px;
+    min-width: 1484px;
   }
   .reviewed input {
     margin: 0;
@@ -32,7 +34,7 @@ limitations under the License.
   .navigation {
     position: absolute;
     top: 0;
-    right: 15px;
+    right: 0;
     font-family: Arial Unicode MS, sans-serif;
   }
   </ui:style>

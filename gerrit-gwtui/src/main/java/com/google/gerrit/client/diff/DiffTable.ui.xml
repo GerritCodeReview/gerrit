@@ -53,22 +53,10 @@ limitations under the License.
     .a .CodeMirror-scroll { padding-right: 0; }
     .a .CodeMirror-vscrollbar { display: none !important; }
 
-    .a .intralineBg,
-    .a .intralineBg .CodeMirror-linenumber {
-      background-color: #fee;
-    }
-    .b .intralineBg,
-    .b .intralineBg .CodeMirror-linenumber {
-      background-color: #dfd;
-    }
-    .a .diff,
-    .a .diff .CodeMirror-linenumber {
-      background-color: #faa;
-    }
-    .b .diff,
-    .b .diff .CodeMirror-linenumber {
-      background-color: #9f9;
-    }
+    .a .diff { background-color: rgba(255, 170, 170, 0.3); }
+    .b .diff { background-color: rgba(153, 255, 153, 0.3); }
+    .a .intralineBg { background-color: rgba(255, 238, 238, 0.3); }
+    .b .intralineBg { background-color: rgba(221, 255, 221, 0.3); }
 
     .padding, .fileCommentRow {
       background-color: #eee;
@@ -80,13 +68,11 @@ limitations under the License.
       overflow-x: auto;
     }
 
-    .activeLine .CodeMirror-linenumber,
-    .activeLine .diff, .activeLine .intralineBg {
-      background-color: #E0FFFF !important;
+    .activeLine .CodeMirror-linenumber {
+      background-color: #bcf !important;
+      color: #000;
     }
-    .activeLineBg {
-      background-color: #E0FFFF !important;
-    }
+
     .range {
       background-color: #ffd500 !important;
     }

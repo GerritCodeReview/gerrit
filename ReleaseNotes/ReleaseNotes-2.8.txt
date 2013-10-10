@@ -32,7 +32,8 @@ Release Highlights
 ------------------
 
 
-* New change screen with completely redesigned UI and fully using the REST API.
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/intro-change-screen.html[
+New change screen] with completely redesigned UI and fully using the REST API.
 
 * link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config-gerrit.html#index[
 Secondary indexing with Lucene and Solr].
@@ -111,6 +112,14 @@ auto-initialized on server startup].
 * link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config_gerrit.html#httpd.filterClass[
 Configurable filtering of HTTP traffic through Gerrit's HTTP protocol].
 
+* Labels can be
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config_labels.html#httpd.label_copyAllScoresIfNoCodeChange[
+configured to copy scores forward to new patch sets if there is no code change].
+
+* Labels can be
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config_labels.html#httpd.label_copyAllScoresOnTrivialRebase[
+configured to copy scores forward to new patch sets for trivial rebases].
+
 Web UI
 ~~~~~~
 
@@ -124,7 +133,7 @@ Change Screens
 ^^^^^^^^^^^^^^
 
 
-* New change screen with completely redesigned UI and using the REST API.
+* New change screen with completely redesigned UI, using the REST API.
 +
 Site administrators can
 link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config-gerrit.html#gerrit.changeScreen[
@@ -132,6 +141,9 @@ configure which change screen is shown by default].
 +
 Users can choose which one to use in their personal preferences, either using
 the site default or explicitly choosing the old one or new one.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=141[Issue 141]:
+In the new change screen, comments can be added on a range of lines.
 
 * New button to cherry-pick the change to another branch.
 
@@ -272,6 +284,9 @@ Delete draft change]
 * link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-changes.html#suggest-reviewers[
 Suggest reviewers]
 
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-changes.html#get-included-in[
+Get included in]
+
 
 Config
 ^^^^^^
@@ -370,7 +385,7 @@ Global capabilities].
 
 * Plugins may now
 link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/dev-plugins.html#plugin_name[
-define their own name].
+define their own name] and get the name injected at runtime.
 
 * The "hello world" plugin is replaced with the "cookbook plugin" which has more
 examples of the plugin API's usage.
@@ -383,6 +398,10 @@ event].
 Plugins implementing LifecycleListener can use auto registration.
 
 * Plugins may bind REST endpoints with empty view names.
+
+* Plugins may now provide
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/dev-plugins.html#top-menu-extensions[
+entries in Gerrit's top menu].
 
 
 Commit Message Length Checker
@@ -433,11 +452,6 @@ Scheduling a retry to avoid collision with an in-flight push is differentiated
 from a retry due to a transport error.  In the case of collision avoidance, the
 job is rescheduled according to the replication delay, rather than the retry
 delay.
-
-Review Notes
-^^^^^^^^^^^^
-
-* Do not try to create review notes for ref deletion events.
 
 
 ssh
@@ -517,6 +531,9 @@ Define user scope when parsing server config.
 * link:https://code.google.com/p/gerrit/issues/detail?id=1990[Issue 1990]:
 Support optional Certificate Revocation List (CRL) with `CLIENT_SSL_CERT_LDAP`.
 
+* Do not override error and gc logging configuration provided by the
+`-Dlog4j.configuration` parameter.
+
 Web UI
 ~~~~~~
 
@@ -524,9 +541,6 @@ Web UI
 Global
 ^^^^^^
 
-
-* link:https://code.google.com/p/gerrit/issues/detail?id=1072[Issue 1072]:
-Fix "Push Merge Commit" permission on refs/heads/*
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=1574[Issue 1574]:
 Correctly highlight matches of text in escaped HTML entities in suggestion results.
@@ -548,6 +562,15 @@ only the most recent.
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=1814[Issue 1814]:
 Sort labels alphabetically by name in the approval table.
+
+* Don't add "This patchset was cherry picked to ..." for the same change.
++
+If a patchset is cherry-picked to the same destination branch and
+ends up on the same change, it does not make sense to add the "This
+patchset was cherry picked to change ..." message.
++
+In this case, it makes more sense for the message to say "Uploaded
+patch set N" instead.
 
 Project Screens
 ^^^^^^^^^^^^^^^
@@ -606,7 +629,27 @@ The link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/cmd-re
 Plugins
 ~~~~~~~
 
+Global
+^^^^^^
+
 * Better error message when a Javascript plugin cannot be loaded.
+
+* Plugin documentation links are opened in a new tab.
+
+
+Review Notes
+^^^^^^^^^^^^
+
+* Do not try to create review notes for ref deletion events.
+
+* Fix committing the notes from the export command.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2087[Issue 2087]:
+Fix note creation when the same commit exists in another Git repository.
+
+* Improve the export command performance.
+
+* Create review note also when newObjectId already present in another branch.
 
 Emails
 ~~~~~~

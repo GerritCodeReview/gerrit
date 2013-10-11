@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ea0f05b_7c72f9a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-11T23:21:25Z",
+      "side": 1,
+      "message": "Why aren\u0027t these in the fetch map of the ChangeInfo as created by ChangeJson?",
+      "range": {
+        "startLine": 18,
+        "startChar": 28,
+        "endLine": 19,
+        "endChar": 21
+      },
+      "revId": "816591133d86a1d74183839dd3dc90db0d901e23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

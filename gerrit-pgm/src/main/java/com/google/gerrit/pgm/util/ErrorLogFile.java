@@ -34,6 +34,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class ErrorLogFile {
+  @SuppressWarnings("deprecation")
   private static final String LOG4J_CONFIGURATION = LogManager.DEFAULT_CONFIGURATION_KEY;
   static final String LOG_NAME = "error_log";
 

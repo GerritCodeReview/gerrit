@@ -18,8 +18,12 @@ limitations under the License.
     xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:c='urn:import:com.google.gwtexpui.globalkey.client'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
-  <ui:style type='com.google.gerrit.client.change.UpdateAvailableBar.Style'>
+  <ui:style>
     .popup {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      z-index: 10;
       padding: 5px;
     }
     .bar {
@@ -39,21 +43,23 @@ limitations under the License.
       margin-left: 0.5em;
     }
   </ui:style>
-  <g:HTMLPanel styleName='{style.bar}'>
-    <ui:msg>Update from <span ui:field='author'/></ui:msg>
-    <g:Anchor ui:field='show'
-        styleName='{style.action}'
-        href='javascript:;'
-        title='Refresh screen and display updates'>
-      <ui:attribute name='title'/>
-      <ui:msg>Show</ui:msg>
-    </g:Anchor>
-    <g:Anchor ui:field='ignore'
-        styleName='{style.action}'
-        href='javascript:;'
-        title='Ignore this update'>
-      <ui:attribute name='title'/>
-      <ui:msg>Ignore</ui:msg>
-    </g:Anchor>
+  <g:HTMLPanel styleName='{style.popup}'>
+    <div class='{style.bar}'>
+      <ui:msg>Update from <span ui:field='author'/></ui:msg>
+      <g:Anchor ui:field='show'
+          styleName='{style.action}'
+          href='javascript:;'
+          title='Refresh screen and display updates'>
+        <ui:attribute name='title'/>
+        <ui:msg>Show</ui:msg>
+      </g:Anchor>
+      <g:Anchor ui:field='ignore'
+          styleName='{style.action}'
+          href='javascript:;'
+          title='Ignore this update'>
+        <ui:attribute name='title'/>
+        <ui:msg>Ignore</ui:msg>
+      </g:Anchor>
+    </div>
   </g:HTMLPanel>
 </ui:UiBinder>

@@ -1,0 +1,216 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be93f416_3d6c6fc4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadBox.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-11T23:20:46Z",
+      "side": 1,
+      "message": "What is the DEFAULT scheme?",
+      "range": {
+        "startLine": 156,
+        "startChar": 4,
+        "endLine": 158,
+        "endChar": 5
+      },
+      "revId": "d6c11b58ea2b478e8a280e7bf65324cf7970b6d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ea0f05b_9ca105ed",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadBox.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-11T23:20:46Z",
+      "side": 1,
+      "message": "Git?",
+      "range": {
+        "startLine": 185,
+        "startChar": 30,
+        "endLine": 185,
+        "endChar": 33
+      },
+      "revId": "d6c11b58ea2b478e8a280e7bf65324cf7970b6d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ea0f05b_bc9e41aa",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadBox.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-11T23:20:46Z",
+      "side": 1,
+      "message": "Git?",
+      "range": {
+        "startLine": 226,
+        "startChar": 19,
+        "endLine": 226,
+        "endChar": 22
+      },
+      "revId": "d6c11b58ea2b478e8a280e7bf65324cf7970b6d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ea0f05b_fc94c98f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
+        "patchSetId": 7
+      },
+      "lineNbr": 1098,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-11T23:20:46Z",
+      "side": 1,
+      "message": "Blank line before here.",
+      "revId": "d6c11b58ea2b478e8a280e7bf65324cf7970b6d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be93f416_5d6dbbc2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
+        "patchSetId": 7
+      },
+      "lineNbr": 1116,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-11T23:20:46Z",
+      "side": 1,
+      "message": "Do not use tab.",
+      "revId": "d6c11b58ea2b478e8a280e7bf65324cf7970b6d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be93f416_1d6733e5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ConfigInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-11T23:20:46Z",
+      "side": 1,
+      "message": "Why isn\u0027t this all done at the server in ChangeJson and included in the fetch map returned to the client?",
+      "revId": "d6c11b58ea2b478e8a280e7bf65324cf7970b6d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be93f416_9da103ed",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ConfigInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-11T23:20:46Z",
+      "side": 1,
+      "message": "I would prefer to call this out, when finding project names it makes no sense to fill an output result map thingy named changeCmds.",
+      "range": {
+        "startLine": 104,
+        "startChar": 44,
+        "endLine": 104,
+        "endChar": 54
+      },
+      "revId": "d6c11b58ea2b478e8a280e7bf65324cf7970b6d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be93f416_bd9e3faa",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ConfigInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-11T23:20:46Z",
+      "side": 1,
+      "message": "Just make the list and add it to the output map if non-empty:\n\n  JsArray\u003cDownloadCommandInfo\u003e list \u003d JsArray.createArray().cast();\n  ...\n  if (list.length() \u003e 0) {\n    out.put(scheme, list);\n  }",
+      "range": {
+        "startLine": 107,
+        "startChar": 6,
+        "endLine": 107,
+        "endChar": 16
+      },
+      "revId": "d6c11b58ea2b478e8a280e7bf65324cf7970b6d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ea0f05b_3c9311aa",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ConfigInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-11T23:20:46Z",
+      "side": 1,
+      "message": "list.push(cmd)",
+      "range": {
+        "startLine": 116,
+        "startChar": 10,
+        "endLine": 116,
+        "endChar": 29
+      },
+      "revId": "d6c11b58ea2b478e8a280e7bf65324cf7970b6d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ea0f05b_dc978d92",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ConfigInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-11T23:20:46Z",
+      "side": 1,
+      "message": "This NPEs if the user is not signed in. SshScheme does not filter itself out for anonymous users, so the server didn\u0027t account for this either.\n\nAnd if the user is signed in but has no name this inserts null? Or does the insert also NPE when its doing the replace?",
+      "range": {
+        "startLine": 183,
+        "startChar": 48,
+        "endLine": 183,
+        "endChar": 85
+      },
+      "revId": "d6c11b58ea2b478e8a280e7bf65324cf7970b6d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

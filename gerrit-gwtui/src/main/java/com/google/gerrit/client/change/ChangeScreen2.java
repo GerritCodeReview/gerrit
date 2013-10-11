@@ -334,7 +334,6 @@ public class ChangeScreen2 extends Screen {
     handlers.add(GlobalKey.add(this, keysNavigation));
     handlers.add(GlobalKey.add(this, keysAction));
     files.registerKeys();
-    related.registerKeys();
   }
 
   @Override

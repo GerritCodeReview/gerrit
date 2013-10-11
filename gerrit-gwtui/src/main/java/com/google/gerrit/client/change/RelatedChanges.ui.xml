@@ -45,15 +45,5 @@ limitations under the License.
     }
   </ui:style>
   <g:TabPanel ui:field='tabPanel'>
-    <g:Tab text='Related Changes'>
-      <g:HTMLPanel>
-        <g:ScrollPanel ui:field='scroll' visible='false'/>
-        <x:ProgressBar ui:field='progress'/>
-        <div ui:field='error' aria-hidden='true' style='display: NONE' class='{style.header}'/>
-        <div ui:field='none' aria-hidden='true' style='display: NONE' class='{style.header}'>
-          <ui:msg>No Related Changes</ui:msg>
-        </div>
-      </g:HTMLPanel>
-    </g:Tab>
   </g:TabPanel>
 </ui:UiBinder>

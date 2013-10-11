@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.extensions.events;
 
-import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -26,7 +25,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
-import java.util.List;
 
 public class GitReferenceUpdated {
   private static final Logger log = LoggerFactory
@@ -85,25 +83,18 @@ public class GitReferenceUpdated {
     }
 
     @Override
-    public List<GitReferenceUpdatedListener.Update> getUpdates() {
-      GitReferenceUpdatedListener.Update update =
-          new GitReferenceUpdatedListener.Update() {
-            @Override
-            public String getRefName() {
-              return ref;
-            }
+    public String getRefName() {
+      return ref;
+    }
 
-            @Override
-            public String getOldObjectId() {
-              return oldObjectId;
-            }
+    @Override
+    public String getOldObjectId() {
+      return oldObjectId;
+    }
 
-            @Override
-            public String getNewObjectId() {
-              return newObjectId;
-            }
-          };
-      return ImmutableList.of(update);
+    @Override
+    public String getNewObjectId() {
+      return newObjectId;
     }
   }
 }

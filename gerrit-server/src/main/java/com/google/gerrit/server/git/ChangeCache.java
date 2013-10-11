@@ -72,11 +72,8 @@ public class ChangeCache implements GitReferenceUpdatedListener {
 
   @Override
   public void onGitReferenceUpdated(GitReferenceUpdatedListener.Event event) {
-    for (GitReferenceUpdatedListener.Update u : event.getUpdates()) {
-      if (u.getRefName().startsWith("refs/changes/")) {
-        cache.invalidate(new Project.NameKey(event.getProjectName()));
-        break;
-      }
+    if (event.getRefName().startsWith("refs/changes/")) {
+      cache.invalidate(new Project.NameKey(event.getProjectName()));
     }
   }
 

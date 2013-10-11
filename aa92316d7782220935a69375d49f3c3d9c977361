@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e3aa4c5_71845865",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-11T13:31:46Z",
+      "side": 1,
+      "message": "Header?",
+      "revId": "aa92316d7782220935a69375d49f3c3d9c977361",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

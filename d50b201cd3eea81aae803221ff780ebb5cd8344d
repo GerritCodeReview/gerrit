@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5e3598d0_f2804846",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-11T14:01:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe43ac4d_2f030925",
+      "revId": "d50b201cd3eea81aae803221ff780ebb5cd8344d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ef16050_a0fa7ae9",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChanges.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-10-11T13:47:09Z",
       "side": 1,
       "message": "\"N/A\" or \"None\"",
+      "revId": "d50b201cd3eea81aae803221ff780ebb5cd8344d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e3598d0_d27d446e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChanges.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-11T14:01:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ef16050_a0fa7ae9",
       "revId": "d50b201cd3eea81aae803221ff780ebb5cd8344d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

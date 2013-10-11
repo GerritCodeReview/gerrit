@@ -1460,6 +1460,19 @@ using the property 'gitweb.pathSeparator'.
 +
 Valid values are the characters '*', '(' and ')'.
 
+[[gitweb.linkDrafts]]gitweb.urlEncode::
++
+Whether or not Gerrit should encode the generated viewer URL.
++
+Gerrit composes the viewer URL using information about the project, branch, file
+or commit of the target object to be displayed. Typically viewers such as CGit
+and GitWeb do need those parts to be encoded, including the '/' in project names,
+for being correctly parsed.
+However other viewers could instead require an unencoded URL (e.g. GitHub web
+based viewer)
++
+Valid values are "true" and "false," default is "true."
+
 [[gitweb.linkDrafts]]gitweb.linkDrafts::
 +
 Whether or not Gerrit should provide links to gitweb on draft patch sets.

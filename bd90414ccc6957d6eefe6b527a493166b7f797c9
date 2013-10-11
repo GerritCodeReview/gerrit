@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe43ac4d_0fef2533",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/GerritTopMenu.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-11T09:37:22Z",
+      "side": 1,
+      "message": "Missing copyright header.",
+      "revId": "bd90414ccc6957d6eefe6b527a493166b7f797c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

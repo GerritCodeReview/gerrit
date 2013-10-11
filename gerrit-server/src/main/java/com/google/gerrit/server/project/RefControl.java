@@ -375,14 +375,14 @@ public class RefControl {
   }
 
   /** All value ranges of any allowed label permission. */
-  public List<PermissionRange> getLabelRanges() {
+  public List<PermissionRange> getLabelRanges(boolean isChangeOwner) {
     List<PermissionRange> r = new ArrayList<PermissionRange>();
     for (Map.Entry<String, List<PermissionRule>> e : relevant.getDeclaredPermissions()) {
       if (Permission.isLabel(e.getKey())) {
         int min = 0;
         int max = 0;
         for (PermissionRule rule : e.getValue()) {
-          if (projectControl.match(rule)) {
+          if (projectControl.match(rule, isChangeOwner)) {
             min = Math.min(min, rule.getMin());
             max = Math.max(max, rule.getMax());
           }
@@ -397,8 +397,13 @@ public class RefControl {
 
   /** The range of permitted values associated with a label permission. */
   public PermissionRange getRange(String permission) {
+    return getRange(permission, false);
+  }
+
+  /** The range of permitted values associated with a label permission. */
+  public PermissionRange getRange(String permission, boolean isChangeOwner) {
     if (Permission.hasRange(permission)) {
-      return toRange(permission, access(permission));
+      return toRange(permission, access(permission, isChangeOwner));
     }
     return null;
   }
@@ -498,6 +503,11 @@ public class RefControl {
 
   /** Rules for the given permission, or the empty list. */
   private List<PermissionRule> access(String permissionName) {
+    return access(permissionName, false);
+  }
+
+  /** Rules for the given permission, or the empty list. */
+  private List<PermissionRule> access(String permissionName, boolean isChangeOwner) {
     List<PermissionRule> rules = effective.get(permissionName);
     if (rules != null) {
       return rules;
@@ -511,7 +521,7 @@ public class RefControl {
     }
 
     if (rules.size() == 1) {
-      if (!projectControl.match(rules.get(0))) {
+      if (!projectControl.match(rules.get(0), isChangeOwner)) {
         rules = Collections.emptyList();
       }
       effective.put(permissionName, rules);
@@ -520,7 +530,7 @@ public class RefControl {
 
     List<PermissionRule> mine = new ArrayList<PermissionRule>(rules.size());
     for (PermissionRule rule : rules) {
-      if (projectControl.match(rule)) {
+      if (projectControl.match(rule, isChangeOwner)) {
         mine.add(rule);
       }
     }

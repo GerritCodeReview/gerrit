@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be93f416_bd139f6b",
+        "filename": ".gitmodules",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-11T22:44:30Z",
+      "side": 1,
+      "message": "alpha sort, move this up 2 blocks",
+      "revId": "e386095981db35ee3f2fc5800685891b8dd2f6dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ea0f05b_1c3c15d3",
+        "filename": "plugins/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-11T22:44:30Z",
+      "side": 1,
+      "message": "Alpha sort, so move this up 2 lines.",
+      "revId": "e386095981db35ee3f2fc5800685891b8dd2f6dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

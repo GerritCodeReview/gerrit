@@ -463,9 +463,19 @@ public class ProjectControl {
     return match(rule.getGroup().getUUID());
   }
 
+  boolean match(PermissionRule rule, boolean isChangeOwner) {
+    return match(rule.getGroup().getUUID(), isChangeOwner);
+  }
+
   boolean match(AccountGroup.UUID uuid) {
+    return match(uuid, false);
+  }
+
+  boolean match(AccountGroup.UUID uuid, boolean isChangeOwner) {
     if (AccountGroup.PROJECT_OWNERS.equals(uuid)) {
       return isDeclaredOwner();
+    } else if (AccountGroup.CHANGE_OWNER.equals(uuid)) {
+      return isChangeOwner;
     } else {
       return user.getEffectiveGroups().contains(uuid);
     }

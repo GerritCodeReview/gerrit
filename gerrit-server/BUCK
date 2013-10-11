@@ -61,6 +61,29 @@ java_sources(
   visibility = ['PUBLIC'],
 )
 
+TESTUTIL = glob(['src/test/java/com/google/gerrit/testutil/**/*.java'])
+java_library(
+  name = 'testutil',
+  srcs = TESTUTIL,
+  deps = [
+    ':server',
+    '//gerrit-common:server',
+    '//gerrit-cache-h2:cache-h2',
+    '//gerrit-lucene:lucene',
+    '//gerrit-reviewdb:client',
+    '//gerrit-reviewdb:server',
+    '//lib:guava',
+    '//lib:gwtorm',
+    '//lib:h2',
+    '//lib:junit',
+    '//lib/guice:guice',
+    '//lib/guice:guice-servlet',
+    '//lib/jgit:jgit',
+    '//lib/jgit:junit',
+  ],
+  visibility = ['PUBLIC'],
+)
+
 PROLOG_TEST_CASE = [
   'src/test/java/com/google/gerrit/rules/PrologTestCase.java',
 ]
@@ -95,25 +118,22 @@ java_test(
   name = 'server_tests',
   srcs = glob(
     ['src/test/java/**/*.java'],
-    excludes = PROLOG_TESTS + PROLOG_TEST_CASE
+    excludes = TESTUTIL + PROLOG_TESTS + PROLOG_TEST_CASE
   ),
   deps = [
     ':server',
+    ':testutil',
     '//gerrit-antlr:query_exception',
     '//gerrit-antlr:query_parser',
     '//gerrit-common:server',
-    '//gerrit-cache-h2:cache-h2',
     '//gerrit-extension-api:api',
-    '//gerrit-lucene:lucene',
     '//gerrit-reviewdb:server',
     '//lib:easymock',
     '//lib:guava',
     '//lib:gwtorm',
-    '//lib:h2',
     '//lib:junit',
     '//lib/antlr:java_runtime',
     '//lib/guice:guice',
-    '//lib/guice:guice-servlet',
     '//lib/jgit:jgit',
     '//lib/jgit:junit',
     '//lib/prolog:prolog-cafe',

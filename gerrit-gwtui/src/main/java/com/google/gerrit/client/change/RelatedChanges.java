@@ -42,6 +42,7 @@ class RelatedChanges extends TabPanel {
   private RelatedChangesTab relatedChangesTab;
   private RelatedChangesTab conflictingChangesTab;
   private RelatedChangesTab cherryPicksTab;
+  private RelatedChangesTab sameTopicTab;
   private int maxHeight;
 
   RelatedChanges() {
@@ -113,6 +114,44 @@ class RelatedChanges extends TabPanel {
             return cherryPicksTab;
           }
         });
+
+    if (info.topic() != null && !"".equals(info.topic())) {
+      StringBuilder topicQuery = new StringBuilder();
+      topicQuery.append("status:open");
+      topicQuery.append(" project:").append(info.project());
+      topicQuery.append(" branch:").append(info.branch());
+      topicQuery.append(" topic:").append(info.topic());
+      topicQuery.append(" -age:1month");
+      ChangeList.query(topicQuery.toString(),
+          EnumSet.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_COMMIT),
+          new AsyncCallback<ChangeList>() {
+            @Override
+            public void onSuccess(ChangeList result) {
+              if (result.length() > 0) {
+                getTab().setTitle(Resources.M.sameTopic(result.length()));
+                getTab().setChanges(info.project(), revision,
+                    convertChangeList(result));
+              }
+            }
+
+            @Override
+            public void onFailure(Throwable err) {
+              getTab().setTitle(
+                  Resources.M.sameTopic(Resources.C.notAvailable()));
+              getTab().setError(err.getMessage());
+            }
+
+            private RelatedChangesTab getTab() {
+              if (sameTopicTab == null) {
+                sameTopicTab =
+                    createTab(Resources.C.sameTopic(),
+                        Resources.C.sameTopicTooltip());
+                sameTopicTab.registerKeys();
+              }
+              return sameTopicTab;
+            }
+          });
+    }
   }
 
   private void setForOpenChange(final ChangeInfo info, final String revision) {

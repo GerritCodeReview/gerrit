@@ -832,6 +832,7 @@ public class Gerrit implements EntryPoint {
             addExtensionLink(bar, item);
           }
           if (existingBar == null ) {
+            menuBars.put(menu.getName(), bar);
             menuLeft.add(bar, menu.getName());
           }
         }

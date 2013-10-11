@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be93f416_5de05b44",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/schema/SchemaCreatorTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-11T20:59:37Z",
+      "side": 1,
+      "message": "FYI, I don\u0027t like field injection in production code, but its fine in test support.",
+      "revId": "4652d348a445bc683d2c6d76461e822767b1bae1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,19 +14,7 @@
 
 package com.google.gerrit.client.change;
 
-interface Constants extends com.google.gwt.i18n.client.Constants {
-  String previousChange();
-  String nextChange();
-  String openChange();
-  String reviewedFileTitle();
-
-  String ps();
-  String commit();
-  String date();
-  String author();
-  String draft();
-  String draftCommentsTooltip();
-
-  String notAvailable();
-  String relatedChangesTooltip();
+public interface Messages extends com.google.gwt.i18n.client.Messages {
+  String relatedChanges(int count);
+  String relatedChanges(String count);
 }

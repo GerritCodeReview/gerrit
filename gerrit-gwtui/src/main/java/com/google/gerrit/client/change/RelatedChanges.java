@@ -39,15 +39,16 @@ import com.google.gwt.user.client.EventListener;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.TabBar.Tab;
+import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.impl.HyperlinkImpl;
 import com.google.gwtexpui.progress.client.ProgressBar;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 class RelatedChanges extends Composite {
-  interface Binder extends UiBinder<HTMLPanel, RelatedChanges> {}
+  interface Binder extends UiBinder<TabPanel, RelatedChanges> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   private static final String OPEN;
@@ -89,14 +90,15 @@ class RelatedChanges extends Composite {
 
   interface Style extends CssResource {
     String subject();
+    String tabPanel();
   }
 
   private String project;
   private MyTable table;
   private boolean register;
 
+  @UiField TabPanel tabPanel;
   @UiField Style style;
-  @UiField Element header;
   @UiField Element none;
   @UiField ScrollPanel scroll;
   @UiField ProgressBar progress;
@@ -104,6 +106,12 @@ class RelatedChanges extends Composite {
 
   RelatedChanges() {
     initWidget(uiBinder.createAndBindUi(this));
+
+    tabPanel.addStyleName(style.tabPanel());
+    tabPanel.selectTab(0);
+    Tab relatedChangesTab = tabPanel.getTabBar().getTab(0);
+    relatedChangesTab.setWordWrap(false);
+    ((Composite)relatedChangesTab).setTitle(Resources.C.relatedChangesTooltip());
   }
 
   void set(ChangeInfo info, final String revision) {
@@ -133,8 +141,7 @@ class RelatedChanges extends Composite {
   }
 
   void setMaxHeight(int height) {
-    int h = height - header.getOffsetHeight();
-    scroll.setHeight(h + "px");
+    scroll.setHeight(height + "px");
   }
 
   void registerKeys() {
@@ -153,7 +160,6 @@ class RelatedChanges extends Composite {
       }
     } else {
       progress.setVisible(false);
-      UIObject.setVisible(header, false);
       UIObject.setVisible(none, true);
     }
   }

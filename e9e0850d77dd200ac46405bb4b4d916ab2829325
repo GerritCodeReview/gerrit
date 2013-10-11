@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be93f416_1dead322",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/QueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-11T21:06:06Z",
+      "side": 1,
+      "message": "AOSP header.",
+      "revId": "e9e0850d77dd200ac46405bb4b4d916ab2829325",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

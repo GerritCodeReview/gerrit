@@ -78,6 +78,9 @@ public class GitWebType {
   /** Whether to include links to draft patch sets */
   private boolean linkDrafts;
 
+  /** Whether to encode URL segments */
+  private boolean urlEncode;
+
   /** Private default constructor for gson. */
   protected GitWebType() {
   }
@@ -216,5 +219,13 @@ public class GitWebType {
 
   public void setLinkDrafts(boolean linkDrafts) {
     this.linkDrafts = linkDrafts;
+  }
+
+  public boolean isUrlEncode() {
+    return urlEncode;
+  }
+
+  public void setUrlEncode(boolean urlEncode) {
+    this.urlEncode = urlEncode;
   }
 }

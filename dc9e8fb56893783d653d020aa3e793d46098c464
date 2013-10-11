@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e3598d0_3255b0fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-10-11T12:34:14Z",
+      "side": 1,
+      "message": "which plugin?\n\ns/plugin/change ?",
+      "revId": "dc9e8fb56893783d653d020aa3e793d46098c464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

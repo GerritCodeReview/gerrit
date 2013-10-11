@@ -1593,3 +1593,26 @@ a:hover.downloadLink {
 .maxObjectSizeLimitPanel td {
   padding-right: 5px;
 }
+
+/** Related Changes */
+.relatedChangesSubject {
+  width: 355px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+}
+
+.relatedChangesSubject {
+  white-space: nowrap;
+}
+
+.relatedChangesTabPanel .gwt-TabBarItem,
+.relatedChangesTabPanel .gwt-TabBarItem-selected,
+.relatedChangesTabPanel .gwt-TabBarRest {
+  background: none repeat scroll 0 0 #FFF !important;
+}
+
+.relatedChangesTabPanel .gwt-TabBarItem-selected {
+  border-bottom-color: #000 !important;
+  color: #000 !important;
+}

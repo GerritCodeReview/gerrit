@@ -81,6 +81,7 @@ class RelatedChangesTab {
   private final ProgressBar progress;
 
   private String project;
+  private boolean showBranches;
   private MyTable table;
   private boolean register;
 
@@ -99,6 +100,10 @@ class RelatedChangesTab {
 
   void setTitle(String title) {
     parent.setTabTitle(index, title);
+  }
+
+  void setShowBranches(boolean showBranches) {
+    this.showBranches = showBranches;
   }
 
   void setChanges(String project, String revision, JsArray<ChangeAndCommit> changes) {
@@ -264,7 +269,8 @@ class RelatedChangesTab {
         if (url.startsWith("#")) {
           sb.setAttribute("onclick", OPEN + "(event," + row + ")");
         }
-        sb.append(info.commit().subject());
+        sb.append(info.commit().subject()
+            + (showBranches ? " (" + info.branch() + ")" : ""));
         sb.closeAnchor();
       } else {
         sb.append(info.commit().subject());

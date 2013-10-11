@@ -17,9 +17,6 @@ package com.google.gerrit.testutil;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.inject.Scopes.SINGLETON;
 
-import com.google.common.base.Enums;
-import com.google.common.base.Objects;
-import com.google.common.base.Optional;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.DisabledChangeHooks;
 import com.google.gerrit.lucene.LuceneIndexModule;
@@ -159,11 +156,14 @@ public class InMemoryModule extends FactoryModule {
     install(new SmtpEmailSender.Module());
     install(new SignedTokenEmailTokenVerifier.Module());
 
-    String indexTypeStr = cfg.getString("index", null, "type");
-    Optional<IndexType> indexType = Enums.getIfPresent(IndexType.class,
-        Objects.firstNonNull(indexTypeStr, IndexType.SQL.toString()));
-    if (indexType.isPresent()) {
-      switch (indexType.get()) {
+    IndexType indexType = null;
+    try {
+      indexType = cfg.getEnum("index", null, "type", IndexType.SQL);
+    } catch (IllegalArgumentException e) {
+      // Custom index type, caller must provide their own module.
+    }
+    if (indexType != null) {
+      switch (indexType) {
         case LUCENE:
           int version = cfg.getInt("index", "lucene", "testVersion", -1);
           checkState(ChangeSchemas.ALL.containsKey(version),
@@ -177,8 +177,6 @@ public class InMemoryModule extends FactoryModule {
           throw new ProvisionException(
               "index type unsupported in tests: " + indexType);
       }
-    } else {
-      // Custom index type, caller must provide their own module.
     }
   }
 

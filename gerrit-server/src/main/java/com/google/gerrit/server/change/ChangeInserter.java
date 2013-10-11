@@ -113,6 +113,10 @@ public class ChangeInserter {
     ChangeUtil.computeSortKey(change);
   }
 
+  public Change getChange() {
+    return change;
+  }
+
   public ChangeInserter setMessage(ChangeMessage changeMessage) {
     this.changeMessage = changeMessage;
     return this;
@@ -152,7 +156,7 @@ public class ChangeInserter {
     return patchSetInfo;
   }
 
-  public void insert() throws OrmException, IOException {
+  public Change insert() throws OrmException, IOException {
     ReviewDb db = dbProvider.get();
     db.changes().beginTransaction(change.getId());
     try {
@@ -193,5 +197,6 @@ public class ChangeInserter {
       }
     }
     indexFuture.checkedGet();
+    return change;
   }
 }

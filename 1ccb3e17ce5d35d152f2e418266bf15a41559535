@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e3aa4c5_313c90d3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 891,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-10-11T11:46:46Z",
+      "side": 1,
+      "message": "BLACK? Is the color also encoded in the 0x25be? :-)",
+      "revId": "1ccb3e17ce5d35d152f2e418266bf15a41559535",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

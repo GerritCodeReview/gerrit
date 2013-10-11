@@ -20,7 +20,7 @@ import com.google.inject.Injector;
 
 import org.eclipse.jgit.lib.Config;
 
-public class LuceneQueryChangesTest extends AbstractQueryChangesTest {
+public class LuceneQueryChangesTest extends AbstractIndexQueryChangesTest {
   protected Injector createInjector() {
     Config cfg = InMemoryModule.newDefaultConfig();
     cfg.setString("index", null, "type", "lucene");

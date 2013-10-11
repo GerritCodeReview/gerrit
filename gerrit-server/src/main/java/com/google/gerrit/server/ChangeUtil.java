@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 import static com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy.RECEIVE_COMMITS;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Change;
@@ -35,7 +36,6 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
-
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.CommitMessageEditedSender;
 import com.google.gerrit.server.mail.RevertedSender;
@@ -80,7 +80,9 @@ import java.util.Set;
 import java.util.regex.Matcher;
 
 public class ChangeUtil {
-  private static final long SORT_KEY_EPOCH = 1222819200L; // Oct 1 2008 00:00
+  @VisibleForTesting
+  public static final long SORT_KEY_EPOCH = 1222819200L; // Oct 1 2008 00:00
+
   private static final Object uuidLock = new Object();
   private static final int SEED = 0x2418e6f9;
   private static int uuidPrefix;

@@ -49,6 +49,7 @@ import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,7 +69,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
     public String message;
 
     public Map<String, Short> labels;
-    Map<String, List<Comment>> comments;
+    public Map<String, List<Comment>> comments;
 
     /**
      * If true require all labels to be within the user's permitted ranges based
@@ -110,20 +111,20 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
     NONE, OWNER, OWNER_REVIEWERS, ALL;
   }
 
-  static class Comment {
-    String id;
-    Side side;
-    int line;
-    String inReplyTo;
-    String message;
-    CommentRange range;
+  public static class Comment {
+    public String id;
+    public Side side;
+    public int line;
+    public String inReplyTo;
+    public String message;
+    public CommentRange range;
   }
 
   static class Output {
     Map<String, Short> labels;
   }
 
-  private final ReviewDb db;
+  private final Provider<ReviewDb> db;
   private final ChangeIndexer indexer;
   private final AccountsCollection accounts;
   private final EmailReviewComments.Factory email;
@@ -137,7 +138,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
   private Map<String, Short> categories = Maps.newHashMap();
 
   @Inject
-  PostReview(ReviewDb db,
+  PostReview(Provider<ReviewDb> db,
       ChangeIndexer indexer,
       AccountsCollection accounts,
       EmailReviewComments.Factory email,
@@ -167,10 +168,10 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
       input.notify = NotifyHandling.NONE;
     }
 
-    db.changes().beginTransaction(revision.getChange().getId());
+    db.get().changes().beginTransaction(revision.getChange().getId());
     boolean dirty = false;
     try {
-      change = db.changes().get(revision.getChange().getId());
+      change = db.get().changes().get(revision.getChange().getId());
       ChangeUtil.updated(change);
       timestamp = change.getLastUpdatedOn();
 
@@ -178,11 +179,11 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
       dirty |= updateLabels(revision, input.labels);
       dirty |= insertMessage(revision, input.message);
       if (dirty) {
-        db.changes().update(Collections.singleton(change));
-        db.commit();
+        db.get().changes().update(Collections.singleton(change));
+        db.get().commit();
       }
     } finally {
-      db.rollback();
+      db.get().rollback();
     }
 
     CheckedFuture<?, IOException> indexWrite;
@@ -357,7 +358,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
           e = new PatchLineComment(
               new PatchLineComment.Key(
                   new Patch.Key(rsrc.getPatchSet().getId(), path),
-                  ChangeUtil.messageUUID(db)),
+                  ChangeUtil.messageUUID(db.get())),
               c.line,
               rsrc.getAccountId(),
               parent);
@@ -388,9 +389,9 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
         }
         break;
     }
-    db.patchComments().delete(del);
-    db.patchComments().insert(ins);
-    db.patchComments().update(upd);
+    db.get().patchComments().delete(del);
+    db.get().patchComments().insert(ins);
+    db.get().patchComments().update(upd);
     comments.addAll(ins);
     comments.addAll(upd);
     return !del.isEmpty() || !ins.isEmpty() || !upd.isEmpty();
@@ -399,7 +400,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
   private Map<String, PatchLineComment> scanDraftComments(
       RevisionResource rsrc) throws OrmException {
     Map<String, PatchLineComment> drafts = Maps.newHashMap();
-    for (PatchLineComment c : db.patchComments().draftByPatchSetAuthor(
+    for (PatchLineComment c : db.get().patchComments().draftByPatchSetAuthor(
           rsrc.getPatchSet().getId(),
           rsrc.getAccountId())) {
       drafts.put(c.getKey().get(), c);
@@ -461,9 +462,9 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
     }
 
     forceCallerAsReviewer(rsrc, current, ins, upd, del);
-    db.patchSetApprovals().delete(del);
-    db.patchSetApprovals().insert(ins);
-    db.patchSetApprovals().update(upd);
+    db.get().patchSetApprovals().delete(del);
+    db.get().patchSetApprovals().insert(ins);
+    db.get().patchSetApprovals().update(upd);
     return !del.isEmpty() || !ins.isEmpty() || !upd.isEmpty();
   }
 
@@ -501,7 +502,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
       List<PatchSetApproval> del) throws OrmException {
     LabelTypes labelTypes = rsrc.getControl().getLabelTypes();
     Map<String, PatchSetApproval> current = Maps.newHashMap();
-    for (PatchSetApproval a : db.patchSetApprovals().byPatchSetUser(
+    for (PatchSetApproval a : db.get().patchSetApprovals().byPatchSetUser(
           rsrc.getPatchSet().getId(), rsrc.getAccountId())) {
       if (a.isSubmit()) {
         continue;
@@ -548,7 +549,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
     }
 
     message = new ChangeMessage(
-        new ChangeMessage.Key(change.getId(), ChangeUtil.messageUUID(db)),
+        new ChangeMessage.Key(change.getId(), ChangeUtil.messageUUID(db.get())),
         rsrc.getAccountId(),
         timestamp,
         rsrc.getPatchSet().getId());
@@ -556,7 +557,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
         "Patch Set %d:%s",
         rsrc.getPatchSet().getPatchSetId(),
         buf.toString()));
-    db.changeMessages().insert(Collections.singleton(message));
+    db.get().changeMessages().insert(Collections.singleton(message));
     return true;
   }
 
@@ -568,7 +569,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
           user.getAccount(),
           rsrc.getPatchSet(),
           message.getMessage(),
-          categories, db);
+          categories, db.get());
     } catch (OrmException e) {
       log.warn("ChangeHook.doCommentAddedHook delivery failed", e);
     }

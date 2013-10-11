@@ -196,8 +196,10 @@ public class CherryPickChange {
     final PatchSetInserter inserter = patchSetInserterFactory
         .create(git, revWalk, refControl, currentUser, change, cherryPickCommit);
     final PatchSet.Id newPatchSetId = inserter.getPatchSetId();
+    final PatchSet current = db.patchSets().get(change.currentPatchSetId());
     inserter
       .setMessage("Uploaded patch set " + newPatchSetId.get() + ".")
+      .setDraft(current.isDraft())
       .insert();
     return change.getId();
   }

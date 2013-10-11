@@ -854,16 +854,25 @@ public class MyTopMenuExtension implements TopMenu {
 }
 ----
 
-Otherwise the top menu extension must be bound in a plugin module:
+Otherwise the top menu extension must be bound in the plugin module used
+for the Gerrit system injector (Gerrit-Module entry in MANIFEST.MF):
 
 [source,java]
 ----
+package com.googlesource.gerrit.plugins.helloworld;
+
 public class HelloWorldModule extends AbstractModule {
   @Override
   protected void configure() {
     DynamicSet.bind(binder(), TopMenu.class).to(MyTopMenuExtension.class);
   }
 }
+----
+
+[source,manifest]
+----
+Gerrit-ApiType: plugin
+Gerrit-Module: com.googlesource.gerrit.plugins.helloworld.HelloWorldModule
 ----
 
 [[http]]

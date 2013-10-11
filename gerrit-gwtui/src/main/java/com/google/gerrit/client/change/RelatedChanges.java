@@ -125,11 +125,14 @@ class RelatedChanges extends Composite {
       .get(new AsyncCallback<RelatedInfo>() {
         @Override
         public void onSuccess(RelatedInfo result) {
+          tabPanel.getTabBar().setTabText(0, Resources.M.relatedChanges(result.changes().length()));
           render(revision, result.changes());
         }
 
         @Override
         public void onFailure(Throwable err) {
+          tabPanel.getTabBar().setTabText(0,
+              Resources.M.relatedChanges(Resources.C.notAvailable()));
           progress.setVisible(false);
           scroll.setVisible(false);
           UIObject.setVisible(error, true);

@@ -888,7 +888,8 @@ public class Gerrit implements EntryPoint {
     userSummaryPanel.setStyleName(RESOURCES.css().menuBarUserNamePanel());
     userSummaryPanel.add(l);
     userSummaryPanel.add(avatar);
-    userSummaryPanel.add(new InlineLabel(" ▾"));
+    // "BLACK DOWN-POINTING SMALL TRIANGLE"
+    userSummaryPanel.add(new InlineLabel(" \u25be"));
     userPopup.addAutoHidePartner(userSummaryPanel.getElement());
     FocusPanel fp = new FocusPanel(userSummaryPanel);
     fp.setStyleName(RESOURCES.css().menuBarUserNameFocusPanel());

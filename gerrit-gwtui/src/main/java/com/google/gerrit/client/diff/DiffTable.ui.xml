@@ -51,6 +51,7 @@ limitations under the License.
     .a, .b {
       padding: 0;
       width: 50%;
+      font-size: 8pt;
     }
 
     /* Hide left side scrollbar, right side controls both views. */

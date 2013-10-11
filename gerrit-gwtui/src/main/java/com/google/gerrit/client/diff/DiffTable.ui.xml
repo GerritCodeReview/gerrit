@@ -53,10 +53,10 @@ limitations under the License.
     .a .CodeMirror-scroll { padding-right: 0; }
     .a .CodeMirror-vscrollbar { display: none !important; }
 
-    .a .diff { background-color: rgba(255, 170, 170, 0.3); }
-    .b .diff { background-color: rgba(153, 255, 153, 0.3); }
-    .a .intralineBg { background-color: rgba(255, 238, 238, 0.3); }
-    .b .intralineBg { background-color: rgba(221, 255, 221, 0.3); }
+    .a .diff { background-color: #faa; }
+    .b .diff { background-color: #9f9; }
+    .a .intralineBg { background-color: #fee; }
+    .b .intralineBg { background-color: #dfd; }
 
     .fileCommentRow {
       background-color: #eee;

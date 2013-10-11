@@ -199,6 +199,24 @@
     },
     {
       "key": {
+        "uuid": "5e3598d0_7209f842",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-11T06:40:07Z",
+      "side": 1,
+      "message": "@Saša: ah, right, apparently i mixed the Base version and the version in ps 13.",
+      "parentUuid": "c1efe930_7dffb7dd",
+      "revId": "c57233fbd9906c01c79c4af7516d0980cc8ae4b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4d87b6d_8ef03b13",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_85.java",
         "patchSetId": 13

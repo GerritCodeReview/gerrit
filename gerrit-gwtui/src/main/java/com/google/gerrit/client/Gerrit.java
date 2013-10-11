@@ -831,7 +831,8 @@ public class Gerrit implements EntryPoint {
           for (TopMenuItem item : Natives.asList(menu.getItems())) {
             addExtensionLink(bar, item);
           }
-          if (existingBar == null ) {
+          if (existingBar == null) {
+            menuBars.put(menu.getName(), bar);
             menuLeft.add(bar, menu.getName());
           }
         }

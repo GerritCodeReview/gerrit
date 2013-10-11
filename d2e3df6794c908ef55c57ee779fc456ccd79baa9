@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fef56c3d_5f370bf3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 834,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-11T17:49:29Z",
+      "side": 1,
+      "message": "nit: space should not be here.",
+      "range": {
+        "startLine": 834,
+        "startChar": 29,
+        "endLine": 834,
+        "endChar": 35
+      },
+      "revId": "d2e3df6794c908ef55c57ee779fc456ccd79baa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -113,7 +113,7 @@ public class ChangeInfo extends JavaScriptObject {
   public final native boolean has_actions() /*-{ return this.hasOwnProperty('actions') }-*/;
   public final native NativeMap<ActionInfo> actions() /*-{ return this.actions; }-*/;
 
-  final native int _number() /*-{ return this._number; }-*/;
+  public final native int _number() /*-{ return this._number; }-*/;
   final native boolean _more_changes()
   /*-{ return this._more_changes ? true : false; }-*/;
 

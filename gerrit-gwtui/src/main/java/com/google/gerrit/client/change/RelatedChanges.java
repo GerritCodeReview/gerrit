@@ -17,6 +17,10 @@ package com.google.gerrit.client.change;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
+import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
+import com.google.gerrit.client.changes.ChangeList;
+import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.common.changes.ListChangesOption;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
@@ -33,6 +37,7 @@ import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 
 class RelatedChanges extends Composite {
@@ -49,6 +54,7 @@ class RelatedChanges extends Composite {
   @UiField Style style;
 
   private List<RelatedChangesTab> tabs;
+  private RelatedChangesTab conflictingChangesTab;
   private int maxHeight;
 
   RelatedChanges() {
@@ -106,6 +112,40 @@ class RelatedChanges extends Composite {
             tab.setError(err.getMessage());
           }
         });
+
+    StringBuilder conflictsQuery = new StringBuilder();
+    conflictsQuery.append("status:open");
+    conflictsQuery.append(" project:").append(info.project());
+    conflictsQuery.append(" branch:").append(info.branch());
+    conflictsQuery.append(" conflicts:").append(info.change_id());
+    ChangeList.query(conflictsQuery.toString(),
+        EnumSet.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_COMMIT),
+        new AsyncCallback<ChangeList>() {
+          @Override
+          public void onSuccess(ChangeList result) {
+            if (result.length() > 0) {
+              getTab().setTitle(Resources.M.conflictingChanges(result.length()));
+              getTab().setChanges(info.project(), revision,
+                  convertChangeList(result));
+            }
+          }
+
+          @Override
+          public void onFailure(Throwable err) {
+            getTab().setTitle(Resources.M.conflictingChanges("na"));
+            getTab().setError(err.getMessage());
+          }
+
+          private RelatedChangesTab getTab() {
+            if (conflictingChangesTab == null) {
+              conflictingChangesTab =
+                  createTab(Resources.C.conflictingChanges(),
+                      Resources.C.conflictingChangesTooltip());
+              conflictingChangesTab.registerKeys();
+            }
+            return conflictingChangesTab;
+          }
+        });
   }
 
   void setMaxHeight(int height) {
@@ -121,6 +161,20 @@ class RelatedChanges extends Composite {
     }
   }
 
+  private JsArray<ChangeAndCommit> convertChangeList(ChangeList l) {
+    JsArray<ChangeAndCommit> arr = JavaScriptObject.createArray().cast();
+    for (ChangeInfo i : Natives.asList(l)) {
+      RevisionInfo currentRevision = i.revision(i.current_revision());
+      ChangeAndCommit c = ChangeAndCommit.create();
+      c.set_id(i.id());
+      c.set_commit(currentRevision.commit());
+      c.set_change_number(i._number());
+      c.set_revision_number(currentRevision._number());
+      arr.push(c);
+    }
+    return arr;
+  }
+
   private static class RelatedInfo extends JavaScriptObject {
     final native JsArray<ChangeAndCommit> changes() /*-{ return this.changes }-*/;
     protected RelatedInfo() {
@@ -128,8 +182,18 @@ class RelatedChanges extends Composite {
   }
 
   static class ChangeAndCommit extends JavaScriptObject {
+    static ChangeAndCommit create() {
+      return (ChangeAndCommit) createObject();
+    }
+
     final native String id() /*-{ return this.change_id }-*/;
     final native CommitInfo commit() /*-{ return this.commit }-*/;
+
+    final native void set_id(String i)
+    /*-{ if(i)this.change_id=i; }-*/;
+
+    final native void set_commit(CommitInfo c)
+    /*-{ if(c)this.commit=c; }-*/;
 
     final Change.Id legacy_id() {
       return has_change_number() ? new Change.Id(_change_number()) : null;
@@ -152,6 +216,12 @@ class RelatedChanges extends Composite {
 
     final native int _revision_number()
     /*-{ return this._revision_number }-*/;
+
+    final native void set_change_number(int n)
+    /*-{ this._change_number=n; }-*/;
+
+    final native void set_revision_number(int n)
+    /*-{ this._revision_number=n; }-*/;
 
     protected ChangeAndCommit() {
     }

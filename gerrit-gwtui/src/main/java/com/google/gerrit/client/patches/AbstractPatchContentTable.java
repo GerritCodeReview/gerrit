@@ -242,7 +242,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   }
 
   protected boolean hasDifferences(PatchScript script) {
-    return hasEdits(script) || hasMeta(script);
+    return hasEdits(script) || hasMeta(script) || hasComments(script);
   }
 
   public boolean isPureMetaChange(PatchScript script) {
@@ -257,6 +257,12 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       }
     }
     return false;
+  }
+
+  // True if one of the two patch sets has comments
+  private boolean hasComments(PatchScript script) {
+    return !script.getCommentDetail().getCommentsA().isEmpty()
+        || !script.getCommentDetail().getCommentsB().isEmpty();
   }
 
   // True if this change is a mode change or a pure rename/copy

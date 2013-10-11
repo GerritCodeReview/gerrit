@@ -494,7 +494,8 @@ Plugin Owned Capabilities
 -------------------------
 
 Plugins may provide their own capabilities and restrict usage of SSH
-commands to the users who are granted those capabilities.
+commands, REST endpoints and UiActions to the users who are granted
+those capabilities.
 
 Plugins define the capabilities by overriding the `CapabilityDefinition`
 abstract class:
@@ -577,6 +578,37 @@ this can be specified by setting `scope = CapabilityScope.CORE`:
 @RequiresCapability(value = "administrateServer", scope =
     CapabilityScope.CORE)
   ...
+----
+
+Plugin Owned capabilities can be granted to Project Owners and Change Owner
+system groups. Because of the implemenetation details the check is
+only performed for REST endpoints and UiActions, but not for SSH commands.
+That means that the plugin developers cannot rely on `@RequiresCapability`
+annotation to restrict access to the SSH commands for capabilities that have
+been granted to these system groups. As workaround direct check in the SSH
+commmand's `run()` method should be used instead:
+
+[source,java]
+----
+public class MyCommand extends SshCommand {
+  @Option(name = "--project", usage = "project to apply the action on")
+  private ProjectControl projectControl;
+
+  @PluginName
+  private String pluginName;
+
+  @Override
+  protected void run() throws UnloggedFailure {
+    CapabilityControl ctl = projectControl.getCurrentUser().getCapabilities();
+    String capability = String.format("%s-%s", pluginName, "foo");
+    if (projectControl.isOwner() && ctl.canPerformProjectOwnersAction(capability)) {
+      doRun();
+    } else {
+      throw new UnloggedFailure(String.format("Current user is not a project owner"
+          + " or the capability %s wasn't granted to the Project Owners group.",
+          capability));
+    }
+  }
 ----
 
 [[ui_extension]]

@@ -85,6 +85,24 @@ avoid the need to initially configure access rights for
 newly created child projects.
 
 
+[[change_owner]]
+Change Owner
+~~~~~~~~~~~~
+
+Access rights assigned to this group are always evaluated within the
+context of a change to which the access rights apply. These rights
+therefore apply to the user who is the owner of this change.
+
+It is typical to assign a label to this group, allowing the change
+owner to vote on his change, but not actually cause it to become
+approved or rejected.
+
+Another typical usage is to grant plugin owned capabilities to that group.
+For example Staging plugin may grant CHANGE_STATUS_CAPABILITY to this group
+to allow only change owners to perform this operation.  The capability check
+take place seamlessly for REST endpoints and UiActions if the operation
+occurs on change or revision resource.
+
 [[registered_users]]
 Registered Users
 ~~~~~~~~~~~~~~~~

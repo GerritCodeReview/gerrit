@@ -54,10 +54,11 @@ import java.util.Map;
 import java.util.Set;
 
 public class Util {
-  public static final AccountGroup.UUID ANONYMOUS = AccountGroup.ANONYMOUS_USERS;
-  public static final AccountGroup.UUID REGISTERED = AccountGroup.REGISTERED_USERS;
-  public static final AccountGroup.UUID ADMIN = new AccountGroup.UUID("test.admin");
-  public static final AccountGroup.UUID DEVS = new AccountGroup.UUID("test.devs");
+  public static AccountGroup.UUID ANONYMOUS = AccountGroup.ANONYMOUS_USERS;
+  public static AccountGroup.UUID CHANGE_OWNER = AccountGroup.CHANGE_OWNER;
+  public static AccountGroup.UUID REGISTERED = AccountGroup.REGISTERED_USERS;
+  public static AccountGroup.UUID ADMIN = new AccountGroup.UUID("test.admin");
+  public static AccountGroup.UUID DEVS = new AccountGroup.UUID("test.devs");
 
   public static final LabelType CR = category("Code-Review",
       value(2, "Looks good to me, approved"),

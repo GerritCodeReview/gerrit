@@ -16,6 +16,24 @@
       "revId": "1ccb3e17ce5d35d152f2e418266bf15a41559535",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe43ac4d_6f091143",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 891,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-11T12:31:22Z",
+      "side": 1,
+      "message": "The text here is copied directly from the Unicode page.",
+      "parentUuid": "3e3aa4c5_313c90d3",
+      "revId": "1ccb3e17ce5d35d152f2e418266bf15a41559535",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

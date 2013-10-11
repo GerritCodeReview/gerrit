@@ -19,6 +19,10 @@ limitations under the License.
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
     xmlns:x='urn:import:com.google.gwtexpui.progress.client'>
   <ui:style type='com.google.gerrit.client.change.RelatedChanges.Style'>
+    @external .gwt-TabBarItem;
+    @external .gwt-TabBarItem-selected;
+    @external .gwt-TabBarRest;
+
     .subject {
       width: 355px;
       overflow: hidden;
@@ -28,19 +32,28 @@ limitations under the License.
     .header, .subject {
       white-space: nowrap;
     }
-  </ui:style>
 
-  <g:HTMLPanel>
-    <div ui:field='header' class='{style.header}'
-         title='Same branch changes connected by Git history'>
-      <ui:attribute name='title'/>
-      <ui:msg>Related Changes</ui:msg>
-    </div>
-    <g:ScrollPanel ui:field='scroll' visible='false'/>
-    <x:ProgressBar ui:field='progress'/>
-    <div ui:field='error' aria-hidden='true' style='display: NONE' class='{style.header}'/>
-    <div ui:field='none' aria-hidden='true' style='display: NONE' class='{style.header}'>
-      <ui:msg>No Related Changes</ui:msg>
-    </div>
-  </g:HTMLPanel>
+    .gwt-TabBarItem,
+    .gwt-TabBarItem-selected,
+    .gwt-TabBarRest {
+      background: none repeat scroll 0 0 #FFF !important;
+    }
+
+    .gwt-TabBarItem-selected {
+      border-bottom-color: #000 !important;
+      color: #000 !important;
+    }
+  </ui:style>
+  <g:TabPanel ui:field='tabPanel'>
+    <g:Tab text='Related Changes'>
+      <g:HTMLPanel>
+        <g:ScrollPanel ui:field='scroll' visible='false'/>
+        <x:ProgressBar ui:field='progress'/>
+        <div ui:field='error' aria-hidden='true' style='display: NONE' class='{style.header}'/>
+        <div ui:field='none' aria-hidden='true' style='display: NONE' class='{style.header}'>
+          <ui:msg>No Related Changes</ui:msg>
+        </div>
+      </g:HTMLPanel>
+    </g:Tab>
+  </g:TabPanel>
 </ui:UiBinder>

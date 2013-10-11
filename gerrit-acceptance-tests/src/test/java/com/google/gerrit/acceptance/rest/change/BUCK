@@ -2,7 +2,7 @@ include_defs('//gerrit-acceptance-tests/tests.defs')
 
 acceptance_tests(
   srcs = ['ChangeMessagesIT.java', 'DeleteDraftChangeIT.java',
-          'DeleteDraftPatchSetIT.java'],
+          'DeleteDraftPatchSetIT.java', 'ChangeOwnerIT.java'],
   deps = [
     ':util',
     '//gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git:util',

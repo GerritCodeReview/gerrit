@@ -207,6 +207,36 @@ public class CapabilityControl {
         || AccountGroup.REGISTERED_USERS.equals(group.getUUID());
   }
 
+  private static boolean isChangeOwner(GroupReference group) {
+    return AccountGroup.CHANGE_OWNER.equals(group.getUUID());
+  }
+
+  private static boolean isProjectOwners(GroupReference group) {
+    return AccountGroup.PROJECT_OWNERS.equals(group.getUUID());
+  }
+
+  /** True if a specific capability was granted to Project Owners group. */
+  public boolean canPerformProjectOwnersAction(String permissionName) {
+    List<PermissionRule> rules = capabilities.getPermission(permissionName);
+    for (PermissionRule permissionRule : rules) {
+      if (isProjectOwners(permissionRule.getGroup())) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /** True if a specific capability was granted to Change Owner group. */
+  public boolean canPerformChangeOwnerAction(String permissionName) {
+    List<PermissionRule> rules = capabilities.getPermission(permissionName);
+    for (PermissionRule permissionRule : rules) {
+      if (isChangeOwner(permissionRule.getGroup())) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   /** True if the user has this permission. Works only for non labels. */
   public boolean canPerform(String permissionName) {
     return !access(permissionName).isEmpty();

@@ -121,7 +121,8 @@ final class DispatchCommand extends BaseCommand {
     }
     try {
       CapabilityUtils.checkRequiresCapability(currentUser,
-          pluginName, cmd.getClass());
+          pluginName, cmd.getClass(),
+          null /* we don't have resource here */);
     } catch (AuthException e) {
       throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN,
           e.getMessage());

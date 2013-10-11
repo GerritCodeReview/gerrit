@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "5e3598d0_d219c48d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-10-11T12:27:48Z",
+      "side": 1,
+      "message": "s/virtual/system",
+      "revId": "998459ccec3e1288c727f886d70d6be04aef86f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e3aa4c5_f1f3a819",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_85.java",
         "patchSetId": 15
@@ -13,6 +30,24 @@
       "writtenOn": "2013-10-11T08:06:51Z",
       "side": 1,
       "message": "The same comment from me as for ps 13. I suggest to restore ps 9 in respect of these lines 122-128 (and ChangeControl.java \u0026 RefControl.java) and handle it in the same way for all three system groups:\n\n* Change Owner\n* Project Owners\n* Administrators\n\nSo basically that new Change Owner group can/should be used in the same way as Project Owners \u0026 Administrators: it can be applied for Labels or plugin owned capabilities can be granted to it.\n\nIf one day, for some reasons (i can\u0027t think of any use cases for that right now) we need the ability to block the permissions for Change Owner on lines 122-128, let\u0027s us reconsider that again.",
+      "revId": "998459ccec3e1288c727f886d70d6be04aef86f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e3598d0_725b3833",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_85.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-10-11T12:27:48Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "3e3aa4c5_f1f3a819",
       "revId": "998459ccec3e1288c727f886d70d6be04aef86f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

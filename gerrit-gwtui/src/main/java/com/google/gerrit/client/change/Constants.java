@@ -31,5 +31,7 @@ interface Constants extends com.google.gwt.i18n.client.Constants {
   String relatedChangesTooltip();
   String conflictingChanges();
   String conflictingChangesTooltip();
+  String cherryPicks();
+  String cherryPicksTooltip();
   String noChanges();
 }

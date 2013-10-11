@@ -375,7 +375,6 @@ public class ChangeUtil {
       newPatchSet.setCreatedOn(new Timestamp(now.getTime()));
       newPatchSet.setUploader(user.getAccountId());
       newPatchSet.setRevision(new RevId(newCommit.name()));
-      newPatchSet.setDraft(originalPS.isDraft());
 
       final String msg =
           "Patch Set " + newPatchSet.getPatchSetId()
@@ -387,6 +386,7 @@ public class ChangeUtil {
           .setMessage(msg)
           .setCopyLabels(true)
           .setValidatePolicy(RECEIVE_COMMITS)
+          .setDraft(originalPS.isDraft())
           .insert();
 
       return change.getId();

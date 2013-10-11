@@ -560,7 +560,7 @@ public class Gerrit implements EntryPoint {
     };
     gBody.add(body);
 
-    RpcStatus.INSTANCE = new RpcStatus(topMenu);
+    RpcStatus.INSTANCE = new RpcStatus();
     JsonUtil.addRpcStartHandler(RpcStatus.INSTANCE);
     JsonUtil.addRpcCompleteHandler(RpcStatus.INSTANCE);
     JsonUtil.setDefaultXsrfManager(new XsrfManager() {

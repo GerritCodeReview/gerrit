@@ -14,10 +14,9 @@
 
 package com.google.gerrit.client;
 
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwtjsonrpc.client.event.RpcCompleteEvent;
 import com.google.gwtjsonrpc.client.event.RpcCompleteHandler;
 import com.google.gwtjsonrpc.client.event.RpcStartEvent;
@@ -41,17 +40,12 @@ public class RpcStatus implements RpcStartHandler, RpcCompleteHandler {
   private final Label loading;
   private int activeCalls;
 
-  RpcStatus(final Panel p) {
-    final FlowPanel r = new FlowPanel();
-    r.setStyleName(Gerrit.RESOURCES.css().rpcStatusPanel());
-    p.add(r);
-
+  RpcStatus() {
     loading = new InlineLabel();
     loading.setText(Gerrit.C.rpcStatusWorking());
     loading.setStyleName(Gerrit.RESOURCES.css().rpcStatus());
-    loading.addStyleName(Gerrit.RESOURCES.css().rpcStatusLoading());
     loading.setVisible(false);
-    r.add(loading);
+    RootPanel.get().add(loading);
   }
 
   @Override

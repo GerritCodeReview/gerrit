@@ -360,25 +360,18 @@ a:hover {
 }
 
 /** RPC Status **/
-.rpcStatusPanel {
-  position: absolute;
-  left: 50%;
-  float: left;
-  top: 6px;
-}
-
 .rpcStatus {
   position: fixed;
+  top: 6px;
+  left: 50%;
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 10px;
   padding-right: 10px;
   text-align: center;
   font-weight: bold;
-}
-
-.rpcStatusLoading {
   background: #FFF1A8;
+  z-index: 10;
 }
 
 

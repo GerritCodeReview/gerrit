@@ -45,7 +45,10 @@ limitations under the License.
       border-spacing: 0;
     }
 
-    .a, .b { padding: 0; }
+    .a, .b {
+      padding: 0;
+      font-size: 8pt;
+    }
     .a { width: 702px; min-width: 702px; }
     .b { width: 718px; min-width: 718px; }
 

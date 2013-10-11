@@ -16,6 +16,24 @@
       "revId": "4652d348a445bc683d2c6d76461e822767b1bae1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be93f416_3def8f33",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/schema/SchemaCreatorTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-10-11T21:06:14Z",
+      "side": 1,
+      "message": "Agreed. I took the pattern from AbstractDaemonTest.\n\nThe alternative is to have some Args class and just getInstance(Args.class), but that makes usages of these objects messier.",
+      "parentUuid": "be93f416_5de05b44",
+      "revId": "4652d348a445bc683d2c6d76461e822767b1bae1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

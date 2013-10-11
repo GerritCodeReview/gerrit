@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1ef16050_60e59253",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-11T06:48:32Z",
+      "side": 1,
+      "message": "I think the code is wrong, rather than the commit message.\n\nThere can only be one owner of a change.",
+      "parentUuid": "e1f22d16_feeaa122",
+      "revId": "c57233fbd9906c01c79c4af7516d0980cc8ae4b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e1f22d16_deefe530",
         "filename": "/COMMIT_MSG",
         "patchSetId": 13

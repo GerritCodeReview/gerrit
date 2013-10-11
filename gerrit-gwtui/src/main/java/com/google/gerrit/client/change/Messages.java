@@ -19,4 +19,6 @@ public interface Messages extends com.google.gwt.i18n.client.Messages {
   String relatedChanges(String count);
   String conflictingChanges(int count);
   String conflictingChanges(String count);
+  String cherryPicks(int count);
+  String cherryPicks(String count);
 }

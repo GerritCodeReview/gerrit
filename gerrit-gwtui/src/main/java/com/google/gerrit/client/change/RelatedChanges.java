@@ -44,8 +44,6 @@ class RelatedChanges extends Composite {
   interface Binder extends UiBinder<TabPanel, RelatedChanges> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
-  private static final int RELATED_CHANGES = 0;
-
   interface Style extends CssResource {
     String subject();
   }
@@ -54,16 +52,20 @@ class RelatedChanges extends Composite {
   @UiField Style style;
 
   private List<RelatedChangesTab> tabs;
+  private RelatedChangesTab relatedChangesTab;
   private RelatedChangesTab conflictingChangesTab;
+  private RelatedChangesTab cherryPicksTab;
   private int maxHeight;
 
   RelatedChanges() {
     initWidget(uiBinder.createAndBindUi(this));
+    setVisible(false);
 
     tabs = new ArrayList<RelatedChangesTab>();
   }
 
   private RelatedChangesTab createTab(String title, String tooltip) {
+    setVisible(true);
     VerticalPanel panel = new VerticalPanel();
     tabPanel.add(panel, title);
     TabBar tabBar = tabPanel.getTabBar();
@@ -75,6 +77,9 @@ class RelatedChanges extends Composite {
         new RelatedChangesTab(this, index, panel);
     tabs.add(relatedChangesTab);
     relatedChangesTab.setMaxHeight(maxHeight);
+    if (index == 0) {
+      tabPanel.selectTab(0);
+    }
     return relatedChangesTab;
   }
 
@@ -87,29 +92,63 @@ class RelatedChanges extends Composite {
   }
 
   void set(final ChangeInfo info, final String revision) {
-    if (info.status().isClosed()) {
-      setVisible(false);
-      return;
+    if (info.status().isOpen()) {
+      setForOpenChange(info, revision);
     }
 
-    createTab(Resources.C.relatedChanges(),
+    StringBuilder cherryPicksQuery = new StringBuilder();
+    cherryPicksQuery.append(" project:").append(info.project());
+    cherryPicksQuery.append(" change:").append(info.change_id());
+    cherryPicksQuery.append(" -change:").append(info._number());
+    ChangeList.query(cherryPicksQuery.toString(),
+        EnumSet.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_COMMIT),
+        new AsyncCallback<ChangeList>() {
+          @Override
+          public void onSuccess(ChangeList result) {
+            if (result.length() > 0) {
+              getTab().setTitle(Resources.M.cherryPicks(result.length()));
+              getTab().setChanges(info.project(), revision,
+                  convertChangeList(result));
+            }
+          }
+
+          @Override
+          public void onFailure(Throwable err) {
+            getTab().setTitle(
+                Resources.M.cherryPicks(Resources.C.notAvailable()));
+            getTab().setError(err.getMessage());
+          }
+
+          private RelatedChangesTab getTab() {
+            if (cherryPicksTab == null) {
+              cherryPicksTab =
+                  createTab(Resources.C.cherryPicks(),
+                      Resources.C.cherryPicksTooltip());
+              cherryPicksTab.registerKeys();
+              cherryPicksTab.setShowBranches(true);
+            }
+            return cherryPicksTab;
+          }
+        });
+  }
+
+  private void setForOpenChange(final ChangeInfo info, final String revision) {
+    relatedChangesTab = createTab(Resources.C.relatedChanges(),
         Resources.C.relatedChangesTooltip());
-    tabPanel.selectTab(RELATED_CHANGES);
 
     ChangeApi.revision(info.legacy_id().get(), revision).view("related")
         .get(new AsyncCallback<RelatedInfo>() {
           @Override
           public void onSuccess(RelatedInfo result) {
-            RelatedChangesTab tab = tabs.get(RELATED_CHANGES);
-            tab.setTitle(Resources.M.relatedChanges(result.changes().length()));
-            tab.setChanges(info.project(), revision, result.changes());
+            relatedChangesTab.setTitle(Resources.M.relatedChanges(result.changes().length()));
+            relatedChangesTab.setChanges(info.project(), revision, result.changes());
           }
 
           @Override
           public void onFailure(Throwable err) {
-            RelatedChangesTab tab = tabs.get(RELATED_CHANGES);
-            tab.setTitle(Resources.M.relatedChanges(Resources.C.notAvailable()));
-            tab.setError(err.getMessage());
+            relatedChangesTab.setTitle(
+                Resources.M.relatedChanges(Resources.C.notAvailable()));
+            relatedChangesTab.setError(err.getMessage());
           }
         });
 
@@ -171,6 +210,7 @@ class RelatedChanges extends Composite {
       c.set_commit(currentRevision.commit());
       c.set_change_number(i._number());
       c.set_revision_number(currentRevision._number());
+      c.set_branch(i.branch());
       arr.push(c);
     }
     return arr;
@@ -189,12 +229,16 @@ class RelatedChanges extends Composite {
 
     final native String id() /*-{ return this.change_id }-*/;
     final native CommitInfo commit() /*-{ return this.commit }-*/;
+    final native String branch() /*-{ return this.branch }-*/;
 
     final native void set_id(String i)
     /*-{ if(i)this.change_id=i; }-*/;
 
     final native void set_commit(CommitInfo c)
     /*-{ if(c)this.commit=c; }-*/;
+
+    final native void set_branch(String b)
+    /*-{ if(b)this.branch=b; }-*/;
 
     final Change.Id legacy_id() {
       return has_change_number() ? new Change.Id(_change_number()) : null;

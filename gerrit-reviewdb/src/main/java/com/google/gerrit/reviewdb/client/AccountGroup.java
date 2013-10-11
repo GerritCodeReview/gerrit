@@ -149,6 +149,10 @@ public final class AccountGroup {
   public static final AccountGroup.UUID PROJECT_OWNERS =
       new AccountGroup.UUID("global:Project-Owners");
 
+  /** Common UUID assigned to the "Change Owner" placeholder group. */
+  public static final AccountGroup.UUID CHANGE_OWNER =
+      new AccountGroup.UUID("global:Change-Owner");
+
   /** Common UUID assigned to the "Anonymous Users" group. */
   public static final AccountGroup.UUID ANONYMOUS_USERS =
       new AccountGroup.UUID("global:Anonymous-Users");

@@ -43,6 +43,14 @@ public class ChangeList extends JsArray<ChangeInfo> {
     call.get(callback);
   }
 
+  public static void query(String query,
+      EnumSet<ListChangesOption> options,
+      AsyncCallback<ChangeList> callback) {
+    RestApi call = newQuery(query);
+    addOptions(call, options);
+    call.get(callback);
+  }
+
   public static void prev(String query,
       int limit, String sortkey,
       AsyncCallback<ChangeList> callback) {

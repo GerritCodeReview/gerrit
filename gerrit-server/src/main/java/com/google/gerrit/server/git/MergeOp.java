@@ -1137,10 +1137,10 @@ public class MergeOp {
         db.changeMessages().insert(Collections.singleton(msg));
         new ApprovalsUtil(db).syncChangeStatus(change);
         db.commit();
+        indexer.index(change);
       }
     } finally {
       db.rollback();
     }
-    indexer.index(change);
   }
 }

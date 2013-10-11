@@ -23,6 +23,7 @@ import com.google.gerrit.server.query.IntPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryRewriter;
 import com.google.gerrit.server.query.RewritePredicate;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder.LimitPredicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
@@ -536,6 +537,13 @@ public class SqlRewriterImpl extends BasicChangeRewrites
   public Predicate<ChangeData> r31_byReviewer(
       @Named("R") final ReviewerPredicate r) {
     return or(r30_byReviewerOpen(r), r30_byReviewerClosed(r));
+  }
+
+  @Rewrite("status:closed")
+  public Predicate<ChangeData> r99_allClosed() {
+    return r20_byClosedNext(
+        new SortKeyPredicate.Before(null, dbProvider, "z"),
+        new LimitPredicate(Integer.MAX_VALUE));
   }
 
   @Rewrite("status:submitted")

@@ -557,18 +557,24 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     return limit(Integer.parseInt(limit));
   }
 
-  public Predicate<ChangeData> limit(int limit) {
-    return new IntPredicate<ChangeData>(FIELD_LIMIT, limit) {
-      @Override
-      public boolean match(ChangeData object) {
-        return true;
-      }
+  static class LimitPredicate extends IntPredicate<ChangeData> {
+    LimitPredicate(int limit) {
+      super(FIELD_LIMIT, limit);
+    }
 
-      @Override
-      public int getCost() {
-        return 0;
-      }
-    };
+    @Override
+    public boolean match(ChangeData object) {
+      return true;
+    }
+
+    @Override
+    public int getCost() {
+      return 0;
+    }
+  }
+
+  public Predicate<ChangeData> limit(int limit) {
+    return new LimitPredicate(limit);
   }
 
   @Operator

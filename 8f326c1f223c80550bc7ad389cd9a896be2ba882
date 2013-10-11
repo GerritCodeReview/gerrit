@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5e3598d0_d222e4af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-10-11T12:09:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e3aa4c5_f11cc87f",
+      "revId": "8f326c1f223c80550bc7ad389cd9a896be2ba882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e3aa4c5_d119c48d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-10-11T11:39:49Z",
       "side": 1,
       "message": "nit: remove the trailing \" \\\"",
+      "revId": "8f326c1f223c80550bc7ad389cd9a896be2ba882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e3aa4c5_f125e8b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-10-11T12:09:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e3aa4c5_d119c48d",
       "revId": "8f326c1f223c80550bc7ad389cd9a896be2ba882",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "5e3598d0_b22f6096",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1469,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-10-11T12:09:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e3598d0_523714f3",
+      "revId": "8f326c1f223c80550bc7ad389cd9a896be2ba882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e3aa4c5_b116405c",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 2
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "3e3aa4c5_d122e4af",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1474,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-10-11T12:09:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e3aa4c5_b116405c",
+      "revId": "8f326c1f223c80550bc7ad389cd9a896be2ba882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e3aa4c5_91133c6c",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GitWebType.java",
         "patchSetId": 2
@@ -81,6 +153,24 @@
       "writtenOn": "2013-10-11T11:39:49Z",
       "side": 1,
       "message": "s/ or not//",
+      "revId": "8f326c1f223c80550bc7ad389cd9a896be2ba882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e3aa4c5_912c5ca2",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GitWebType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-10-11T12:09:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e3aa4c5_91133c6c",
       "revId": "8f326c1f223c80550bc7ad389cd9a896be2ba882",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -19,7 +19,6 @@ import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.DisabledChangeHooks;
-import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -55,6 +54,7 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.Provides;
 import com.google.inject.ProvisionException;
@@ -66,6 +66,8 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 
 import java.io.File;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
@@ -121,9 +123,7 @@ public class InMemoryModule extends FactoryModule {
       bind(SocketAddress.class).annotatedWith(RemotePeer.class)
           .toInstance(new InetSocketAddress(InetAddress.getLocalHost(), 1234));
     } catch (UnknownHostException e) {
-      ProvisionException pe = new ProvisionException(e.getMessage());
-      pe.initCause(e);
-      throw pe;
+      throw newProvisionException(e);
     }
     bind(PersonIdent.class)
         .annotatedWith(GerritPersonIdent.class)
@@ -165,10 +165,7 @@ public class InMemoryModule extends FactoryModule {
     if (indexType != null) {
       switch (indexType) {
         case LUCENE:
-          int version = cfg.getInt("index", "lucene", "testVersion", -1);
-          checkState(ChangeSchemas.ALL.containsKey(version),
-              "invalid index.lucene.testVersion %s", version);
-          install(new LuceneIndexModule(version, 0, null));
+          install(luceneIndexModule());
           break;
         case SQL:
           install(new NoIndexModule());
@@ -185,5 +182,38 @@ public class InMemoryModule extends FactoryModule {
   InMemoryDatabase getInMemoryDatabase(@Current SchemaVersion schemaVersion,
       SchemaCreator schemaCreator) throws OrmException {
     return new InMemoryDatabase(schemaVersion, schemaCreator);
+  }
+
+  private Module luceneIndexModule() {
+    try {
+      int version = cfg.getInt("index", "lucene", "testVersion", -1);
+      checkState(ChangeSchemas.ALL.containsKey(version),
+          "invalid index.lucene.testVersion %s", version);
+      Class<?> clazz =
+          Class.forName("com.google.gerrit.lucene.LuceneIndexModule");
+      Constructor<?> c =
+          clazz.getConstructor(Integer.class, int.class, String.class);
+      return (Module) c.newInstance(Integer.valueOf(version), 0, (String) null);
+    } catch (ClassNotFoundException e) {
+      throw newProvisionException(e);
+    } catch (SecurityException e) {
+      throw newProvisionException(e);
+    } catch (NoSuchMethodException e) {
+      throw newProvisionException(e);
+    } catch (IllegalArgumentException e) {
+      throw newProvisionException(e);
+    } catch (InstantiationException e) {
+      throw newProvisionException(e);
+    } catch (IllegalAccessException e) {
+      throw newProvisionException(e);
+    } catch (InvocationTargetException e) {
+      throw newProvisionException(e);
+    }
+  }
+
+  private static ProvisionException newProvisionException(Throwable cause) {
+    ProvisionException pe = new ProvisionException(cause.getMessage());
+    pe.initCause(cause);
+    return pe;
   }
 }

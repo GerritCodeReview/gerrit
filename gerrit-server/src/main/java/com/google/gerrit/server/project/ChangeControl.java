@@ -270,12 +270,12 @@ public class ChangeControl {
 
   /** All value ranges of any allowed label permission. */
   public List<PermissionRange> getLabelRanges() {
-    return getRefControl().getLabelRanges();
+    return getRefControl().getLabelRanges(isOwner());
   }
 
   /** The range of permitted values associated with a label permission. */
   public PermissionRange getRange(String permission) {
-    return getRefControl().getRange(permission);
+    return getRefControl().getRange(permission, isOwner());
   }
 
   /** Can this user add a patch set to this change? */

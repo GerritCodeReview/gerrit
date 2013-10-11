@@ -22,6 +22,7 @@ import static com.google.gerrit.common.data.Permission.READ;
 import static com.google.gerrit.common.data.Permission.SUBMIT;
 import static com.google.gerrit.server.project.Util.ANONYMOUS;
 import static com.google.gerrit.server.project.Util.REGISTERED;
+import static com.google.gerrit.server.project.Util.CHANGE_OWNER;
 import static com.google.gerrit.server.project.Util.ADMIN;
 import static com.google.gerrit.server.project.Util.DEVS;
 import static com.google.gerrit.server.project.Util.grant;
@@ -396,4 +397,14 @@ public class RefControlTest extends TestCase {
     assertFalse("u can't vote -2", range.contains(-2));
     assertFalse("u can't vote 2", range.contains(2));
   }
+
+  public void testUnblockRangeForChangeOwner() {
+    grant(local, LABEL + "Code-Review", -2, +2, CHANGE_OWNER, "refs/heads/*");
+
+    ProjectControl u = util.user(local, DEVS);
+    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review", true);
+    assertTrue("u can vote -2", range.contains(-2));
+    assertTrue("u can vote +2", range.contains(2));
+  }
+
 }

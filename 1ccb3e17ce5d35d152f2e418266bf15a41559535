@@ -52,6 +52,29 @@
       "revId": "1ccb3e17ce5d35d152f2e418266bf15a41559535",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ef16050_4003ae23",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 892,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-11T17:38:30Z",
+      "side": 1,
+      "message": "\" \\u25be\" should also work.",
+      "range": {
+        "startLine": 892,
+        "startChar": 19,
+        "endLine": 892,
+        "endChar": 51
+      },
+      "revId": "1ccb3e17ce5d35d152f2e418266bf15a41559535",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

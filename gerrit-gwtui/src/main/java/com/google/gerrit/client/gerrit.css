@@ -341,7 +341,7 @@ a:hover {
   border: 1px solid black;
   background: white;
   box-shadow: 3px 3px 5px #888;
-  z-index: 5;
+  z-index: 200;
 }
 .searchPanel {
   white-space: nowrap;
@@ -356,7 +356,7 @@ a:hover {
   padding: 3px 6px;
 }
 .suggestBoxPopup {
-  z-index: 5;
+  z-index: 200;
 }
 
 /** RPC Status **/
@@ -391,9 +391,11 @@ a:hover {
   color: backgroundColor;
   font-size: 15px;
   font-family: verdana;
+  z-index: 200;
 }
 .errorDialogGlass {
   opacity: 0.75;
+  z-index: 200;
 }
 @if user.agent safari {
   .errorDialogGlass {

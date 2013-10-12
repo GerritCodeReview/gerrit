@@ -18,6 +18,7 @@ limitations under the License.
     xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:c='urn:import:com.google.gerrit.client.change'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
+    xmlns:x='urn:import:com.google.gerrit.client.ui'
     xmlns:clippy='urn:import:com.google.gwtexpui.clippy.client'>
   <ui:with field='res' type='com.google.gerrit.client.change.Resources'/>
   <ui:style type='com.google.gerrit.client.change.ChangeScreen2.Style'>
@@ -316,11 +317,15 @@ limitations under the License.
             </tr>
             <tr>
               <th><ui:msg>Project</ui:msg></th>
-              <td ui:field='projectText'/>
+              <td>
+                <x:InlineHyperlink ui:field='projectLink' title='Search for changes on this project'/>
+              </td>
             </tr>
             <tr>
               <th><ui:msg>Branch</ui:msg></th>
-              <td ui:field='branchText'/>
+              <td>
+                <x:InlineHyperlink ui:field='branchLink' title='Search for changes on this branch'/>
+              </td>
             </tr>
             <tr>
               <th><ui:msg>Strategy</ui:msg></th>

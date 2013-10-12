@@ -37,8 +37,7 @@ class ScrollSynchronizer {
     cmB.on("scroll", new ScrollCallback(cmB, cmA, DisplaySide.B));
   }
 
-  private void updateScreenHeader(CodeMirror cm) {
-    ScrollInfo si = cm.getScrollInfo();
+  private void updateScreenHeader(ScrollInfo si) {
     if (si.getTop() == 0 && !Gerrit.isHeaderVisible()) {
       Gerrit.setHeaderVisible(true);
       diffTable.updateFileCommentVisibility(false);
@@ -77,8 +76,9 @@ class ScrollSynchronizer {
         fixup.scheduleRepeating(20);
       }
       if (active == this) {
-        updateScreenHeader(src);
-        dst.scrollToY(src.getScrollInfo().getTop());
+        ScrollInfo si = src.getScrollInfo();
+        updateScreenHeader(si);
+        dst.scrollTo(si.getLeft(), si.getTop());
         state = 0;
       }
     }

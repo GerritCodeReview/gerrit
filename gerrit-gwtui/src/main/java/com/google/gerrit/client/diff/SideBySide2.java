@@ -159,8 +159,8 @@ public class SideBySide2 extends Screen {
     // TODO: Re-implement necessary GlobalKey bindings.
     addDomHandler(GlobalKey.STOP_PROPAGATION, KeyPressEvent.getType());
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
-    add(header = new Header(keysNavigation, base, revision, path));
-    add(diffTable = new DiffTable(this, base, revision, path));
+    header = new Header(keysNavigation, base, revision, path);
+    diffTable = new DiffTable(this, base, revision, path);
     add(uiBinder.createAndBindUi(this));
   }
 
@@ -248,8 +248,8 @@ public class SideBySide2 extends Screen {
       }
     }));
     resizeCodeMirror();
-
     Window.enableScrolling(false);
+
     cmA.setOption("viewportMargin", 10);
     cmB.setOption("viewportMargin", 10);
     cmB.setCursor(LineCharacter.create(0));
@@ -267,8 +267,13 @@ public class SideBySide2 extends Screen {
       resizeHandler.removeHandler();
       resizeHandler = null;
     }
-    cmA.getWrapperElement().removeFromParent();
-    cmB.getWrapperElement().removeFromParent();
+    if (cmA != null) {
+      cmA.getWrapperElement().removeFromParent();
+    }
+    if (cmB != null) {
+      cmB.getWrapperElement().removeFromParent();
+    }
+
     Window.enableScrolling(true);
     Gerrit.setHeaderVisible(true);
   }
@@ -463,7 +468,7 @@ public class SideBySide2 extends Screen {
       .set("lineNumbers", true)
       .set("tabSize", pref.getTabSize())
       .set("mode", getContentType(meta))
-      .set("lineWrapping", true)
+      .set("lineWrapping", false)
       .set("styleSelectedText", true)
       .set("showTrailingSpace", pref.isShowWhitespaceErrors())
       .set("keyMap", "vim_ro")

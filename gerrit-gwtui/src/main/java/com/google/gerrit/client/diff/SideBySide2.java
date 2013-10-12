@@ -49,6 +49,7 @@ import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
@@ -159,8 +160,8 @@ public class SideBySide2 extends Screen {
     // TODO: Re-implement necessary GlobalKey bindings.
     addDomHandler(GlobalKey.STOP_PROPAGATION, KeyPressEvent.getType());
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
-    add(header = new Header(keysNavigation, base, revision, path));
-    add(diffTable = new DiffTable(this, base, revision, path));
+    header = new Header(keysNavigation, base, revision, path);
+    diffTable = new DiffTable(this, base, revision, path);
     add(uiBinder.createAndBindUi(this));
   }
 
@@ -248,8 +249,8 @@ public class SideBySide2 extends Screen {
       }
     }));
     resizeCodeMirror();
+    enableScrolling(false);
 
-    Window.enableScrolling(false);
     cmA.setOption("viewportMargin", 10);
     cmB.setOption("viewportMargin", 10);
     cmB.setCursor(LineCharacter.create(0));
@@ -267,10 +268,22 @@ public class SideBySide2 extends Screen {
       resizeHandler.removeHandler();
       resizeHandler = null;
     }
-    cmA.getWrapperElement().removeFromParent();
-    cmB.getWrapperElement().removeFromParent();
-    Window.enableScrolling(true);
+    if (cmA != null) {
+      cmA.getWrapperElement().removeFromParent();
+    }
+    if (cmB != null) {
+      cmB.getWrapperElement().removeFromParent();
+    }
+
+    enableScrolling(true);
     Gerrit.setHeaderVisible(true);
+  }
+
+  private static void enableScrolling(boolean enable) {
+    Element viewport = Document.get().isCSS1Compat()
+      ? Document.get().getDocumentElement()
+      : Document.get().getBody();
+    viewport.getStyle().setProperty("overflow-y", enable ? "auto" : "hidden");
   }
 
   private void removeKeyHandlerRegs() {

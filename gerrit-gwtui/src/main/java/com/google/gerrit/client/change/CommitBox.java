@@ -17,11 +17,16 @@ package com.google.gerrit.client.change;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GitwebLink;
+import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
 import com.google.gerrit.client.changes.ChangeInfo.GitPerson;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
+import com.google.gerrit.client.ui.AccountLinkPanel;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
+import com.google.gerrit.client.ui.InlineHyperlink;
+import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.Element;
@@ -38,7 +43,7 @@ class CommitBox extends Composite {
 
   @UiField Element commitName;
   @UiField AnchorElement browserLink;
-  @UiField Element authorNameEmail;
+  @UiField InlineHyperlink authorNameEmail;
   @UiField Element authorDate;
   @UiField Element committerNameEmail;
   @UiField Element committerDate;
@@ -55,7 +60,8 @@ class CommitBox extends Composite {
     CommitInfo commit = revInfo.commit();
 
     commitName.setInnerText(revision);
-    format(commit.author(), authorNameEmail, authorDate);
+    formatLink(commit.author(), authorNameEmail, authorDate,
+        change.owner(), change.status());
     format(commit.committer(), committerNameEmail, committerDate);
     commitMessageText.setInnerSafeHtml(commentLinkProcessor.apply(
         new SafeHtmlBuilder().append(commit.message()).linkify()));
@@ -67,6 +73,14 @@ class CommitBox extends Composite {
     } else {
       UIObject.setVisible(browserLink, false);
     }
+  }
+
+  private void formatLink(GitPerson person, InlineHyperlink name,
+      Element date, AccountInfo a, Status status) {
+    name.setText(person.name() + " <" + person.email() + ">");
+    name.setTargetHistoryToken(PageLinks.toAccountQuery(
+        AccountLinkPanel.owner(a), status));
+    date.setInnerText(FormatUtil.mediumFormat(person.date()));
   }
 
   private void format(GitPerson person, Element name, Element date) {

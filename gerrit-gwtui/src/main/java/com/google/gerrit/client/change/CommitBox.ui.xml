@@ -16,7 +16,8 @@ limitations under the License.
 -->
 <ui:UiBinder
     xmlns:ui='urn:ui:com.google.gwt.uibinder'
-    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'
+    xmlns:x='urn:import:com.google.gerrit.client.ui'>
   <ui:style>
     .commitHeader {
       border-spacing: 0;
@@ -46,7 +47,9 @@ limitations under the License.
       </tr>
       <tr>
         <th><ui:msg>Author</ui:msg></th>
-        <td ui:field='authorNameEmail'/>
+        <td>
+          <x:InlineHyperlink ui:field='authorNameEmail' title='Search changes for that user'/>
+        </td>
         <td ui:field='authorDate'/>
       </tr>
       <tr>

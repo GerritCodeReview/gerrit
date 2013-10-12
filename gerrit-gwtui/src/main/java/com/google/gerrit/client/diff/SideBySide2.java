@@ -51,7 +51,6 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -68,9 +67,6 @@ import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtexpui.globalkey.client.ShowHelpCommand;
-import com.google.gwtexpui.user.client.DialogVisibleEvent;
-import com.google.gwtexpui.user.client.DialogVisibleHandler;
-import com.google.gwtexpui.user.client.UserAgent;
 
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.CodeMirror.EventHandler;
@@ -237,16 +233,6 @@ public class SideBySide2 extends Screen {
   @Override
   public void onShowView() {
     super.onShowView();
-
-    handlers.add(UserAgent.addDialogVisibleHandler(new DialogVisibleHandler() {
-      @Override
-      public void onDialogVisible(DialogVisibleEvent event) {
-        diffTable.getElement().getStyle().setVisibility(
-          event.isVisible()
-              ? Style.Visibility.HIDDEN
-              : Style.Visibility.VISIBLE);
-      }
-    }));
     resizeCodeMirror();
 
     Window.enableScrolling(false);

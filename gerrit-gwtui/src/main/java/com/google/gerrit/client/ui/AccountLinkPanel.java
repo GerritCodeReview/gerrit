@@ -65,7 +65,7 @@ public class AccountLinkPanel extends FlowPanel {
     add(l);
   }
 
-  private static String owner(AccountInfo ai) {
+  public static String owner(AccountInfo ai) {
     if (ai.email() != null) {
       return ai.email();
     } else if (ai.name() != null) {

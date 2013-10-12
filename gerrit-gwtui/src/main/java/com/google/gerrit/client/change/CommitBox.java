@@ -22,6 +22,9 @@ import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
 import com.google.gerrit.client.changes.ChangeInfo.GitPerson;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
+import com.google.gerrit.client.ui.InlineHyperlink;
+import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.Element;
@@ -38,9 +41,9 @@ class CommitBox extends Composite {
 
   @UiField Element commitName;
   @UiField AnchorElement browserLink;
-  @UiField Element authorNameEmail;
+  @UiField InlineHyperlink authorNameEmail;
   @UiField Element authorDate;
-  @UiField Element committerNameEmail;
+  @UiField InlineHyperlink committerNameEmail;
   @UiField Element committerDate;
   @UiField Element commitMessageText;
 
@@ -55,8 +58,10 @@ class CommitBox extends Composite {
     CommitInfo commit = revInfo.commit();
 
     commitName.setInnerText(revision);
-    format(commit.author(), authorNameEmail, authorDate);
-    format(commit.committer(), committerNameEmail, committerDate);
+    formatLink(commit.author(), authorNameEmail,
+        authorDate, change.status());
+    formatLink(commit.committer(), committerNameEmail,
+        committerDate, change.status());
     commitMessageText.setInnerSafeHtml(commentLinkProcessor.apply(
         new SafeHtmlBuilder().append(commit.message()).linkify()));
 
@@ -69,8 +74,25 @@ class CommitBox extends Composite {
     }
   }
 
-  private void format(GitPerson person, Element name, Element date) {
-    name.setInnerText(person.name() + " <" + person.email() + ">");
+  private static void formatLink(GitPerson person, InlineHyperlink name,
+      Element date, Status status) {
+    name.setText(renderName(person));
+    name.setTargetHistoryToken(PageLinks
+        .toAccountQuery(owner(person), status));
     date.setInnerText(FormatUtil.mediumFormat(person.date()));
+  }
+
+  private static String renderName(GitPerson person) {
+    return person.name() + " <" + person.email() + ">";
+  }
+
+  public static String owner(GitPerson person) {
+    if (person.email() != null) {
+      return person.email();
+    } else if (person.name() != null) {
+      return person.name();
+    } else {
+      return "";
+    }
   }
 }

@@ -22,6 +22,30 @@
       "revId": "816591133d86a1d74183839dd3dc90db0d901e23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe6accd7_57e02c44",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-12T11:07:14Z",
+      "side": 1,
+      "message": "I was considering to put them into the fetch map of ChangeInfo, but in the end I found it more logically to return them as part of the project configuration. Why? One goal is to enable a project specific configuration of the download commands. This configuration will likely be done in the project.config file and then it feels naturally to return them as part of the project configuration. Also I don\u0027t think it\u0027s necessary to send this information with each change. We already have caching of the project configuration on client side. Fetching the download command templates for a project once should be enough. I also wasn\u0027t sure if it\u0027s good to make the result of a change query dependent on the calling user (since we would include the username into the download command). But the most important point for me was that if we have project specific download commands it would mean that for each change the commands in the fetch info could be different and it would be hard to program against it. I somehow like that with ChangeInfo you get a stable well defined info in the fetch map and the project specific command configuration is returned with the project configuration. Does this make sense? Let me know if I should change this.",
+      "parentUuid": "9ea0f05b_7c72f9a3",
+      "range": {
+        "startLine": 18,
+        "startChar": 28,
+        "endLine": 19,
+        "endChar": 21
+      },
+      "revId": "816591133d86a1d74183839dd3dc90db0d901e23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

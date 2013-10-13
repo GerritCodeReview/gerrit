@@ -403,6 +403,45 @@ by PrintHello class will be available to users as:
 $ ssh -p 29418 review.example.com helloworld print
 ----
 
+Multiple SSH commands can be bound to the same implementation class. For
+example a Gerrit Shell plugin can bind different shell commands to the same
+implementation class:
+
+[source,java]
+----
+public class SshShellModule extends PluginCommandModule {
+  @Override
+  protected void configureCommands() {
+    command("ls").to(ShellCommand.class);
+    command("ps").to(ShellCommand.class);
+    [...]
+  }
+}
+----
+
+With the possible implementation:
+
+[source,java]
+----
+public class ShellCommand extends SshCommand {
+  @Override
+  protected void run() throws UnloggedFailure {
+    String cmd = getName()
+      .substring(getPluginName().length() + 1);
+    ProcessBuilder proc = new ProcessBuilder(cmd);
+    Process cmd = proc.start();
+    [...]
+  }
+}
+----
+
+And the call:
+
+----
+$ ssh -p 29418 review.example.com shell ls
+$ ssh -p 29418 review.example.com shell ps
+----
+
 [[configuration]]
 Configuration
 -------------

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ea0f05b_3c3791c2",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-13T12:13:02Z",
+      "side": 1,
+      "message": "In other release notes this section is called \"Updates\".\n\n(or something like that.  I\u0027m using my phone now and can\u0027t easily check).",
+      "revId": "3f0653fc0cf5f6f1aab02e0f49b4077f3539517c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -679,3 +679,14 @@ documentation index page] is rewritten in a hierarchical structure.
 * Various spelling mistakes are corrected in the documentation and previous
 release notes.
 
+
+Other Changes
+-------------
+
+* Update guice to 4.0-beta
+* Update jgit to 3.0.0.201306101825-r.41-g84d2738
+* Update gwtorm to 1.7
+* Update guava to 15.0
+* Update H2 to 1.3.173
+* Update bouncycastle to 1.44
+* jsr305 library was removed

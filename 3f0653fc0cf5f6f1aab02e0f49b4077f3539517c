@@ -16,6 +16,24 @@
       "revId": "3f0653fc0cf5f6f1aab02e0f49b4077f3539517c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e66c012_1803c524",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-13T13:18:05Z",
+      "side": 1,
+      "message": "Interestingly, i just copy pasted it from 2.2 or something like that, Will rechek it.",
+      "parentUuid": "9ea0f05b_3c3791c2",
+      "revId": "3f0653fc0cf5f6f1aab02e0f49b4077f3539517c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe6accd7_17039424",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-13T07:48:39Z",
+      "side": 1,
+      "message": "I believe that must be changed too. If on user preference the Side by side 2 switched to Unified then we should use new Unified2? Another possibility would be to extend the preference with side by side | unified | unified2, but i guess this is not what we want:\n\nI tried to replace the line 614 with this:\n\n return new Unified2(baseId, id.getParentKey(), id.get());\n\nBut it didn\u0027t work as expected.",
+      "revId": "a3feb8f9dcfc3f49e46d85af76d878bacd3ff412",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe6accd7_3708183c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-13T07:48:39Z",
+      "side": 1,
+      "message": "wrap this line",
+      "revId": "a3feb8f9dcfc3f49e46d85af76d878bacd3ff412",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e66c012_b8fad9e9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-13T07:48:39Z",
+      "side": 1,
+      "message": "wrap this line",
+      "revId": "a3feb8f9dcfc3f49e46d85af76d878bacd3ff412",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e66c012_780e814d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-13T07:48:39Z",
+      "side": 1,
+      "message": "Comment?\n\n /* Base class for multiple difference screen implementations **/",
+      "revId": "a3feb8f9dcfc3f49e46d85af76d878bacd3ff412",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e66c012_58093d42",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTableStyle.css",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-13T07:48:39Z",
+      "side": 1,
+      "message": "we mix the name conventions for css files: Camel case and underscore:\n\n* admin.css\n* common.css\n* gerrit.css\n* gwt_override.css\n* file_table.css\n\nand \n\n* CommentBoxUi.css\n* DiffTableStyle.css",
+      "revId": "a3feb8f9dcfc3f49e46d85af76d878bacd3ff412",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e66c012_d8f30d1a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/EditIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-13T07:48:39Z",
+      "side": 1,
+      "message": "Why that change?",
+      "revId": "a3feb8f9dcfc3f49e46d85af76d878bacd3ff412",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe6accd7_f7f0600f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PublishedBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-13T07:48:39Z",
+      "side": 1,
+      "message": "Wrap this line",
+      "revId": "a3feb8f9dcfc3f49e46d85af76d878bacd3ff412",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe6accd7_770e904d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Unified2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-13T07:48:39Z",
+      "side": 1,
+      "message": "multiple dead code and wrap line comments",
+      "revId": "a3feb8f9dcfc3f49e46d85af76d878bacd3ff412",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

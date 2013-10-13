@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e66c012_9816f55c",
+        "filename": "Documentation/cmd-query.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-13T18:42:46Z",
+      "side": 1,
+      "message": "current reviewers imply for me: for the current patch set only. Not review could vote for old patch set but was removed as reviewer. I wouldn\u0027t expect that that guy returns with this option.",
+      "revId": "56e880cd0bc08914492ef17b6276b4a6018fd5a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e66c012_b813b96b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-13T18:42:46Z",
+      "side": 1,
+      "message": "As mentioned in documentation, it feels very wrong to me to consider reviewers for old patch sets for `--current-reviewers` option.\n\nI would like to suggest an alternative implementation, that considers only current patch set for a given change:\n\n   public void addCurrentReviewers(ChangeAttribute a, Change change)\n      throws OrmException {\n    a.currentReviewers \u003d\n        Lists.newArrayList(Iterables.transform(db.get().patchSetApprovals()\n            .byPatchSet(change.currentPatchSetId()).toList(),\n            new Function\u003cPatchSetApproval, AccountAttribute\u003e() {\n              @Override\n              public AccountAttribute apply(PatchSetApproval psa) {\n                return asAccountAttribute(psa.getAccountId());\n              }\n            }));\n  }\n\nI didn\u0027t test it.",
+      "revId": "56e880cd0bc08914492ef17b6276b4a6018fd5a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

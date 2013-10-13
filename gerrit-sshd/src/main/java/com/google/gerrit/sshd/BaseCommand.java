@@ -131,7 +131,7 @@ public abstract class BaseCommand implements Command {
     return pluginName;
   }
 
-  String getName() {
+  protected String getName() {
     return commandName;
   }
 

@@ -46,6 +46,30 @@
       "revId": "816591133d86a1d74183839dd3dc90db0d901e23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be93f416_7dc43784",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-13T22:45:10Z",
+      "side": 1,
+      "message": "We started to put the URLs into the fetch map of ChangeInfo because users complained that the UI used an algorithm to generate the URL and the ref name. This made it overly difficult for scripts and automation systems to have the same behavior as the UI and get access to the same URL and ref strings. I tried to fix this in the REST API by having the UI be dumber, and the server generate the data in an easy to use format.\n\nChangeInfo is already user-specific. It can include a starred field to indicate if the calling user has starred the change. It has an action map that is user specific. Adding the username to the fetch URLs when the user is signed in is fine. ChangeInfo is cacheable, but only by the end user\u0027s browser/user-agent. It cannot be cached at proxies or reused between end-users.\n\nChangeInfo is also obviously project-specific. Embedding commands isn\u0027t much different from the project rules being run at the server side to format ChangeInfo. The ChangeInfo caching already includes information about refs/meta/config so project changes do invalidate cached results.\n\nIIRC, ProjectInfo as it stands is not editable over the REST API. Don\u0027t we have different APIs for reading and writing the configuration? ProjectInfo is some larger aggregation of web UI specific properties for projects like commentlink regexes and header/footer HTML and CSS.\n\n\nI think ChangeInfo\u0027s fetch map should include the username in the URLs. I think this change should include the extension download schemes in the fetch map. I think you should consider including the commands in the ChangeInfo, pre-expanded so the client doesn\u0027t have to think about ${username}, ${hostname} or ${ref} replacements.",
+      "parentUuid": "fe6accd7_57e02c44",
+      "range": {
+        "startLine": 18,
+        "startChar": 28,
+        "endLine": 19,
+        "endChar": 21
+      },
+      "revId": "816591133d86a1d74183839dd3dc90db0d901e23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

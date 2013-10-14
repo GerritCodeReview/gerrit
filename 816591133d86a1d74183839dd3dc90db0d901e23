@@ -94,6 +94,24 @@
       "revId": "816591133d86a1d74183839dd3dc90db0d901e23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe6accd7_576d8cc2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-14T18:30:23Z",
+      "side": 1,
+      "message": "\"I think ChangeInfo\u0027s fetch map should include the username in the URLs. I think this change should include the extension download schemes in the fetch map.\"\n\n[Optionally]\n\nWith introduction of change screen 2 we changed the approach to retrieve the whole data from changes/4711/detail request to retrieve what is actually needed by the core change screen 2 and postponed the fetching of optional data, which is needed only in pop downs.\n\nConsequently we should protect the whole (extended) fetch map with new variable FETCH_MAP. And only put it in the response if this information was required by the UI (i. e. in download pop down) or REST client, like we already do with other ListChangesOption options:\n\n  /** If accounts are included, include detailed account info. */\n  DETAILED_ACCOUNTS(7),\n\n  /** Include draft comments for the caller. */\n  DRAFT_COMMENTS(12);",
+      "parentUuid": "be93f416_7dc43784",
+      "revId": "816591133d86a1d74183839dd3dc90db0d901e23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

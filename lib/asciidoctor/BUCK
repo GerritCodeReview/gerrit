@@ -31,6 +31,7 @@ java_library(
   srcs = ['java/DocIndexer.java'],
   deps = [
     ':asciidoc_lib',
+    '//gerrit-server:server',
     '//lib:args4j',
     '//lib:guava',
     '//lib/lucene:analyzers-common',

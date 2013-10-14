@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fe6accd7_d7251cba",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadBox.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-14T14:38:44Z",
+      "side": 1,
+      "message": "No idea, I removed it.\n\nDone",
+      "parentUuid": "be93f416_3d6c6fc4",
+      "range": {
+        "startLine": 156,
+        "startChar": 4,
+        "endLine": 158,
+        "endChar": 5
+      },
+      "revId": "d6c11b58ea2b478e8a280e7bf65324cf7970b6d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ea0f05b_9ca105ed",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadBox.java",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2013-10-11T23:20:46Z",
       "side": 1,
       "message": "Git?",
+      "range": {
+        "startLine": 185,
+        "startChar": 30,
+        "endLine": 185,
+        "endChar": 33
+      },
+      "revId": "d6c11b58ea2b478e8a280e7bf65324cf7970b6d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe6accd7_f722a0af",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadBox.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-14T14:38:44Z",
+      "side": 1,
+      "message": "I\u0027ve now choosen \u0027git\u0027 because this is what we use as key for the Git protocol in the fetch map so far. To stay compatible we should not change this.\n\nThis is also why I\u0027m changing \u0027SSH\u0027 to \u0027ssh\u0027 and \u0027HTTP\u0027 to \u0027http\u0027 below.",
+      "parentUuid": "9ea0f05b_9ca105ed",
       "range": {
         "startLine": 185,
         "startChar": 30,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "fe6accd7_972fa496",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadBox.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-14T14:38:44Z",
+      "side": 1,
+      "message": "Using \u0027repo\u0027 since all other schem names are lower case too.",
+      "parentUuid": "9ea0f05b_5cd61d45",
+      "revId": "d6c11b58ea2b478e8a280e7bf65324cf7970b6d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ea0f05b_bc9e41aa",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadBox.java",
         "patchSetId": 7
@@ -76,6 +142,30 @@
       "writtenOn": "2013-10-11T23:20:46Z",
       "side": 1,
       "message": "Git?",
+      "range": {
+        "startLine": 226,
+        "startChar": 19,
+        "endLine": 226,
+        "endChar": 22
+      },
+      "revId": "d6c11b58ea2b478e8a280e7bf65324cf7970b6d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e66c012_d8254dba",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadBox.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-14T14:38:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ea0f05b_bc9e41aa",
       "range": {
         "startLine": 226,
         "startChar": 19,
@@ -105,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "1e66c012_f82291af",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
+        "patchSetId": 7
+      },
+      "lineNbr": 1098,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-14T14:38:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ea0f05b_fc94c98f",
+      "revId": "d6c11b58ea2b478e8a280e7bf65324cf7970b6d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be93f416_5d6dbbc2",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
         "patchSetId": 7
@@ -116,6 +224,24 @@
       "writtenOn": "2013-10-11T23:20:46Z",
       "side": 1,
       "message": "Do not use tab.",
+      "revId": "d6c11b58ea2b478e8a280e7bf65324cf7970b6d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e66c012_982fd596",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
+        "patchSetId": 7
+      },
+      "lineNbr": 1116,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-14T14:38:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be93f416_5d6dbbc2",
       "revId": "d6c11b58ea2b478e8a280e7bf65324cf7970b6d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -139,6 +265,24 @@
     },
     {
       "key": {
+        "uuid": "1e66c012_b82c19a2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ConfigInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-14T14:38:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be93f416_1d6733e5",
+      "revId": "d6c11b58ea2b478e8a280e7bf65324cf7970b6d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be93f416_9da103ed",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ConfigInfo.java",
         "patchSetId": 7
@@ -150,6 +294,30 @@
       "writtenOn": "2013-10-11T23:20:46Z",
       "side": 1,
       "message": "I would prefer to call this out, when finding project names it makes no sense to fill an output result map thingy named changeCmds.",
+      "range": {
+        "startLine": 104,
+        "startChar": 44,
+        "endLine": 104,
+        "endChar": 54
+      },
+      "revId": "d6c11b58ea2b478e8a280e7bf65324cf7970b6d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe6accd7_b72c28a2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ConfigInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-14T14:38:44Z",
+      "side": 1,
+      "message": "not applicable anymore",
+      "parentUuid": "be93f416_9da103ed",
       "range": {
         "startLine": 104,
         "startChar": 44,
@@ -185,6 +353,30 @@
     },
     {
       "key": {
+        "uuid": "1e66c012_585b7d32",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ConfigInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-14T14:38:44Z",
+      "side": 1,
+      "message": "not applicable anymore",
+      "parentUuid": "be93f416_bd9e3faa",
+      "range": {
+        "startLine": 107,
+        "startChar": 6,
+        "endLine": 107,
+        "endChar": 16
+      },
+      "revId": "d6c11b58ea2b478e8a280e7bf65324cf7970b6d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ea0f05b_3c9311aa",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ConfigInfo.java",
         "patchSetId": 7
@@ -208,6 +400,30 @@
     },
     {
       "key": {
+        "uuid": "fe6accd7_575b4c32",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ConfigInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-14T14:38:44Z",
+      "side": 1,
+      "message": "not applicable anymore",
+      "parentUuid": "9ea0f05b_3c9311aa",
+      "range": {
+        "startLine": 116,
+        "startChar": 10,
+        "endLine": 116,
+        "endChar": 29
+      },
+      "revId": "d6c11b58ea2b478e8a280e7bf65324cf7970b6d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ea0f05b_dc978d92",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ConfigInfo.java",
         "patchSetId": 7
@@ -219,6 +435,30 @@
       "writtenOn": "2013-10-11T23:20:46Z",
       "side": 1,
       "message": "This NPEs if the user is not signed in. SshScheme does not filter itself out for anonymous users, so the server didn\u0027t account for this either.\n\nAnd if the user is signed in but has no name this inserts null? Or does the insert also NPE when its doing the replace?",
+      "range": {
+        "startLine": 183,
+        "startChar": 48,
+        "endLine": 183,
+        "endChar": 85
+      },
+      "revId": "d6c11b58ea2b478e8a280e7bf65324cf7970b6d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe6accd7_7760d0db",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ConfigInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-14T14:38:44Z",
+      "side": 1,
+      "message": "not applicable anymore",
+      "parentUuid": "9ea0f05b_dc978d92",
       "range": {
         "startLine": 183,
         "startChar": 48,

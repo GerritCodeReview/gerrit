@@ -1,3 +1,11 @@
+[submodule "plugins/commit-message-length-validator"]
+	path = plugins/commit-message-length-validator
+	url = https://gerrit.googlesource.com/plugins/commit-message-length-validator
+
+[submodule "plugins/cookbook-plugin"]
+	path = plugins/cookbook-plugin
+	url = https://gerrit.googlesource.com/plugins/cookbook-plugin
+
 [submodule "plugins/replication"]
 	path = plugins/replication
 	url = https://gerrit.googlesource.com/plugins/replication
@@ -6,10 +14,3 @@
 	path = plugins/reviewnotes
 	url = https://gerrit.googlesource.com/plugins/reviewnotes
 
-[submodule "plugins/commit-message-length-validator"]
-	path = plugins/commit-message-length-validator
-	url = https://gerrit.googlesource.com/plugins/commit-message-length-validator
-
-[submodule "plugins/cookbook-plugin"]
-	path = plugins/cookbook-plugin
-	url = https://gerrit.googlesource.com/plugins/cookbook-plugin

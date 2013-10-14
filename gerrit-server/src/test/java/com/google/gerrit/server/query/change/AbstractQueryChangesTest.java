@@ -118,9 +118,13 @@ public abstract class AbstractQueryChangesTest {
 
   @After
   public void tearDownInjector() {
-    lifecycle.stop();
+    if (lifecycle != null) {
+      lifecycle.stop();
+    }
     requestContext.setContext(null);
-    db.close();
+    if (db != null) {
+      db.close();
+    }
     InMemoryDatabase.drop(schemaFactory);
   }
 

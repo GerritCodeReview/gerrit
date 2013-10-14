@@ -3,7 +3,6 @@ include_defs('//Documentation/config.defs')
 include_defs('//tools/git.defs')
 
 DOC_DIR = 'Documentation'
-INDEX_DIR = DOC_DIR + '/.index'
 MAIN = ['//gerrit-pgm:pgm', '//gerrit-gwtui:ui_module']
 SRCS = glob(['*.txt'], excludes = ['licenses.txt'])
 
@@ -11,12 +10,10 @@ genrule(
   name = 'html',
   cmd = 'cd $TMP;' +
     'mkdir -p %s/images;' % DOC_DIR +
-    'unzip -q $SRCDIR/index.zip -d %s/;' % INDEX_DIR +
     'unzip -q $SRCDIR/only_html.zip -d %s/;' % DOC_DIR +
     'for s in $SRCS;do ln -s $s %s;done;' % DOC_DIR +
     'mv %s/*.{jpg,png} %s/images;' % (DOC_DIR, DOC_DIR) +
     'rm %s/only_html.zip;' % DOC_DIR +
-    'rm %s/index.zip;' % DOC_DIR +
     'rm %s/licenses.txt;' % DOC_DIR +
     'cp $SRCDIR/licenses.txt LICENSES.txt;' +
     'zip -qr $OUT *',
@@ -27,11 +24,9 @@ genrule(
       'doc.css',
       genfile('licenses.txt'),
       genfile('only_html.zip'),
-      genfile('index.zip'),
     ],
   deps = [
     ':generate_html',
-    ':index',
     ':licenses.txt',
   ],
   out = 'html.zip',
@@ -78,4 +73,19 @@ genrule(
     '//lib/asciidoctor:doc_indexer',
   ],
   out = 'index.zip',
+)
+
+genrule(
+  name = 'index_jar',
+  cmd = 'jar cf $OUT -C $SRCDIR index.zip',
+  srcs = [genfile('index.zip')],
+  deps = [':index'],
+  out = 'index.jar',
+)
+
+prebuilt_jar(
+  name = 'index_lib',
+  binary_jar = genfile('index.jar'),
+  deps = [':index_jar'],
+  visibility = ['PUBLIC'],
 )

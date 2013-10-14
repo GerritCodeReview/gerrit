@@ -41,6 +41,14 @@ maven_jar(
 )
 
 maven_jar(
+  name = 'query-parser',
+  id = 'org.apache.lucene:lucene-queryparser:4.4.0',
+  bin_sha1 = 'e2fca26d9c64f3aad7b8a3461dbab14782107a06',
+  src_sha1 = 'f23e42ab90b5b7eb888d394282eba65362e88606',
+  license = 'Apache2.0',
+)
+
+maven_jar(
   name = 'spellchecker',
   id = 'org.apache.lucene:lucene-spellchecker:3.6.2',
   bin_sha1 = '15db0c0cfee44e275f15ad046e46b9a05910ad24',

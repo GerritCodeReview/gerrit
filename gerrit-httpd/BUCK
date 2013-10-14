@@ -1,11 +1,24 @@
-SRCS = glob(['src/main/java/**/*.java'])
+CONSTANTS_SRC = [
+  'src/main/java/com/google/gerrit/httpd/rpc/doc/Constants.java',
+]
+SRCS = glob(
+  ['src/main/java/**/*.java'],
+  excludes = CONSTANTS_SRC,
+)
 RESOURCES = glob(['src/main/resources/**/*'])
+
+java_library2(
+  name = 'constants',
+  srcs = CONSTANTS_SRC,
+  visibility = ['PUBLIC'],
+)
 
 java_library2(
   name = 'httpd',
   srcs = SRCS,
   resources = RESOURCES,
   deps = [
+    ':constants',
     '//gerrit-antlr:query_exception',
     '//gerrit-common:server',
     '//gerrit-extension-api:api',
@@ -30,6 +43,9 @@ java_library2(
     '//lib/jgit:jgit',
     '//lib/jgit:jgit-servlet',
     '//lib/log:api',
+    '//lib/lucene:analyzers-common',
+    '//lib/lucene:core',
+    '//lib/lucene:query-parser',
   ],
   compile_deps = ['//lib:servlet-api-3_0'],
   visibility = ['PUBLIC'],

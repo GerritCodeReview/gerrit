@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1e66c012_98a115ed",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-14T18:05:39Z",
+      "side": 1,
+      "message": "They are not quite the same:\n\n* `auth.contributorAgreements` from `gerit.config` activates CLA specific client UI\n* `receive.requireContributorAgreement` from `project.config` controls if CLA for specific project is actually enabled.\n\nI extended the documentation and linked the both options.",
+      "parentUuid": "be93f416_9daca3cb",
+      "revId": "71233bf8d73e76788a1d38c7448d70305eb3c31d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be93f416_fdafe7bd",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 11
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "fe6accd7_97a1e4ec",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-14T18:05:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be93f416_fdafe7bd",
+      "revId": "71233bf8d73e76788a1d38c7448d70305eb3c31d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ea0f05b_fc3849ae",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 11
@@ -47,6 +83,24 @@
       "writtenOn": "2013-10-14T13:59:11Z",
       "side": 1,
       "message": "\"from the\"",
+      "revId": "71233bf8d73e76788a1d38c7448d70305eb3c31d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e66c012_d8978d92",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-14T18:05:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ea0f05b_fc3849ae",
       "revId": "71233bf8d73e76788a1d38c7448d70305eb3c31d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -30,6 +30,7 @@ import com.google.gerrit.httpd.rpc.account.AccountsRestApiServlet;
 import com.google.gerrit.httpd.rpc.change.ChangesRestApiServlet;
 import com.google.gerrit.httpd.rpc.change.DeprecatedChangeQueryServlet;
 import com.google.gerrit.httpd.rpc.config.ConfigRestApiServlet;
+import com.google.gerrit.httpd.rpc.doc.QueryDocumentationFilter;
 import com.google.gerrit.httpd.rpc.group.GroupsRestApiServlet;
 import com.google.gerrit.httpd.rpc.project.ProjectsRestApiServlet;
 import com.google.gerrit.reviewdb.client.Change;
@@ -109,6 +110,8 @@ class UrlModule extends ServletModule {
     serveRegex("^/(?:a/)?config/(.*)$").with(ConfigRestApiServlet.class);
     serveRegex("^/(?:a/)?groups/(.*)?$").with(GroupsRestApiServlet.class);
     serveRegex("^/(?:a/)?projects/(.*)?$").with(ProjectsRestApiServlet.class);
+
+    filter("/Documentation/*").through(QueryDocumentationFilter.class);
 
     if (cfg.deprecatedQuery) {
       serve("/query").with(DeprecatedChangeQueryServlet.class);

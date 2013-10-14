@@ -46,6 +46,9 @@ java_library2(
     '//lib/guice:guice-servlet',
     '//lib/jgit:jgit',
     '//lib/log:api',
+    '//lib/lucene:analyzers-common',
+    '//lib/lucene:core',
+    '//lib/lucene:query-parser',
     '//lib/prolog:prolog-cafe',
   ],
   compile_deps = [

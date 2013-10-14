@@ -3,7 +3,7 @@ include_defs('//Documentation/config.defs')
 include_defs('//tools/git.defs')
 
 DOC_DIR = 'Documentation'
-INDEX_DIR = DOC_DIR + '/.index'
+INDEX_ZIP_FILE = DOC_DIR + '/.index.zip'
 MAIN = ['//gerrit-pgm:pgm', '//gerrit-gwtui:ui_module']
 SRCS = glob(['*.txt'], excludes = ['licenses.txt'])
 
@@ -11,7 +11,7 @@ genrule(
   name = 'html',
   cmd = 'cd $TMP;' +
     'mkdir -p %s/images;' % DOC_DIR +
-    'unzip -q $SRCDIR/index.zip -d %s/;' % INDEX_DIR +
+    'cp $SRCDIR/index.zip %s;' % INDEX_ZIP_FILE +
     'unzip -q $SRCDIR/only_html.zip -d %s/;' % DOC_DIR +
     'for s in $SRCS;do ln -s $s %s;done;' % DOC_DIR +
     'mv %s/*.{jpg,png} %s/images;' % (DOC_DIR, DOC_DIR) +

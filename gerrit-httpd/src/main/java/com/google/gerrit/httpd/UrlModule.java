@@ -30,11 +30,14 @@ import com.google.gerrit.httpd.rpc.account.AccountsRestApiServlet;
 import com.google.gerrit.httpd.rpc.change.ChangesRestApiServlet;
 import com.google.gerrit.httpd.rpc.change.DeprecatedChangeQueryServlet;
 import com.google.gerrit.httpd.rpc.config.ConfigRestApiServlet;
+import com.google.gerrit.httpd.rpc.doc.DocSearchRestApiServlet;
 import com.google.gerrit.httpd.rpc.group.GroupsRestApiServlet;
 import com.google.gerrit.httpd.rpc.project.ProjectsRestApiServlet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.query.doc.DocQueryLucene;
+import com.google.gerrit.server.query.doc.DocQueryProcessor;
 import com.google.gwtexpui.server.CacheControlFilter;
 import com.google.inject.Inject;
 import com.google.inject.Key;
@@ -73,6 +76,7 @@ class UrlModule extends ServletModule {
   protected void configureServlets() {
     filter("/*").through(Key.get(CacheControlFilter.class));
     bind(Key.get(CacheControlFilter.class)).in(SINGLETON);
+    bind(DocQueryProcessor.class).to(DocQueryLucene.class);
 
     if (uiOptions.enableDefaultUi()) {
       serve("/").with(HostPageServlet.class);
@@ -107,6 +111,7 @@ class UrlModule extends ServletModule {
     serveRegex("^/(?:a/)?accounts/(.*)$").with(AccountsRestApiServlet.class);
     serveRegex("^/(?:a/)?changes/(.*)$").with(ChangesRestApiServlet.class);
     serveRegex("^/(?:a/)?config/(.*)$").with(ConfigRestApiServlet.class);
+    serveRegex("^/(?:a/)?docsearch/(.*)$").with(DocSearchRestApiServlet.class);
     serveRegex("^/(?:a/)?groups/(.*)?$").with(GroupsRestApiServlet.class);
     serveRegex("^/(?:a/)?projects/(.*)?$").with(ProjectsRestApiServlet.class);
 

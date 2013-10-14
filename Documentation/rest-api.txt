@@ -23,6 +23,8 @@ link:rest-api-plugins.html[/plugins/]::
   Plugin related REST endpoints
 link:rest-api-projects.html[/projects/]::
   Project related REST endpoints
+link:rest-api-docsearch.html[/docsearch/]::
+  Documentation Search related REST endpoints
 
 Protocol Details
 ----------------

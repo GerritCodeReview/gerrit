@@ -13,5 +13,6 @@ java_library(
     '//lib/asciidoctor:asciidoc_lib',
     '//lib/asciidoctor:doc_indexer_lib',
     '//lib/prolog:compiler_lib',
+    '//Documentation:index_lib',
   ] + scan_plugins(),
 )

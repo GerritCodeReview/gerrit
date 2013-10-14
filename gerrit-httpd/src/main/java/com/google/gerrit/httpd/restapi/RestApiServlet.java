@@ -607,7 +607,7 @@ public class RestApiServlet extends HttpServlet {
     throw new InstantiationException("Cannot make " + type);
   }
 
-  private static void replyJson(@Nullable HttpServletRequest req,
+  public static void replyJson(@Nullable HttpServletRequest req,
       HttpServletResponse res,
       Multimap<String, String> config,
       Object result)

@@ -14,7 +14,12 @@
 
 # These definitions support building a runnable version of Gerrit.
 
-DOCS = ['//Documentation:html.zip']
+DOCS_SRC = genfile('Documentation/html.zip')
+DOCS_LIB = '//Documentation:index_lib'
+DOCS_DEP = [
+  '//Documentation:html',
+  '//Documentation:index_lib',
+]
 LIBS = [
   '//gerrit-war:log4j-config',
   '//gerrit-war:init',
@@ -36,7 +41,8 @@ def war(
     libs = [],
     pgmlibs = [],
     context = [],
-    visibility = []
+    visibility = [],
+    docs = False
     ):
   cmd = ['$(exe //tools:pack_war)', '-o', '$OUT', '--tmp', '$TMP']
   for l in libs:
@@ -46,6 +52,10 @@ def war(
 
   src = []
   dep = []
+  if docs:
+    src.append(DOCS_SRC)
+    dep.extend(DOCS_DEP)
+    cmd.extend(['--lib', DOCS_LIB])
   if context:
     root = get_base_path()
     if root:
@@ -56,6 +66,7 @@ def war(
         r = root + r[2:]
       r = r.replace(':', '/')
       src.append(genfile(r))
+  if src:
     cmd.append('$SRCS')
 
   genrule(
@@ -67,7 +78,7 @@ def war(
     visibility = visibility,
   )
 
-def gerrit_war(name, ui = 'ui_optdbg', context = []):
+def gerrit_war(name, ui = 'ui_optdbg', context = [], docs = False):
   war(
     name = name,
     libs = LIBS + ['//gerrit-war:version'],
@@ -77,4 +88,5 @@ def gerrit_war(name, ui = 'ui_optdbg', context = []):
       '//gerrit-war:webapp_assets.zip',
       '//gerrit-gwtui:' + ui + '.zip',
     ] + context,
+    docs = docs,
   )

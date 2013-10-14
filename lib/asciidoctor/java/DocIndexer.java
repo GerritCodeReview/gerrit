@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import com.google.common.io.Files;
+import com.google.gerrit.httpd.rpc.doc.Constants;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.util.CharArraySet;
@@ -25,6 +26,7 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.store.NIOFSDirectory;
 import org.apache.lucene.util.Version;
+
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -43,9 +45,6 @@ import java.util.zip.ZipOutputStream;
 
 public class DocIndexer {
   private static final Version LUCENE_VERSION = Version.LUCENE_44;
-  private static final String DOC_FIELD = "doc";
-  private static final String URL_FIELD = "url";
-  private static final String TITLE_FIELD = "title";
 
   @Option(name = "-z", usage = "output zip file")
   private String zipFile;
@@ -100,10 +99,10 @@ public class DocIndexer {
           inputFile, inExt, outExt);
       FileReader reader = new FileReader(file);
       Document doc = new Document();
-      doc.add(new TextField(DOC_FIELD, reader));
+      doc.add(new TextField(Constants.DOC_FIELD, reader));
       doc.add(new StringField(
-            URL_FIELD, prefix + outputFile, Field.Store.YES));
-      doc.add(new TextField(TITLE_FIELD, title, Field.Store.YES));
+            Constants.URL_FIELD, prefix + outputFile, Field.Store.YES));
+      doc.add(new TextField(Constants.TITLE_FIELD, title, Field.Store.YES));
       iwriter.addDocument(doc);
       reader.close();
     }

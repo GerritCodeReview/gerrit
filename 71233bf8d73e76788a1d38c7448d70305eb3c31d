@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be93f416_9daca3cb",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-14T13:59:11Z",
+      "side": 1,
+      "message": "I wonder if it\u0027s better to just link to the relevant section in config-gerrit.html rather than duplicating the information here.",
+      "revId": "71233bf8d73e76788a1d38c7448d70305eb3c31d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be93f416_fdafe7bd",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-14T13:59:11Z",
+      "side": 1,
+      "message": "\"which means that\"",
+      "revId": "71233bf8d73e76788a1d38c7448d70305eb3c31d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ea0f05b_fc3849ae",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-14T13:59:11Z",
+      "side": 1,
+      "message": "\"from the\"",
+      "revId": "71233bf8d73e76788a1d38c7448d70305eb3c31d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

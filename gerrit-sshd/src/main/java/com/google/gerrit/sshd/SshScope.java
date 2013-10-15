@@ -23,6 +23,7 @@ import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestScopePropagator;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Key;
@@ -165,7 +166,7 @@ class SshScope {
   }
 
   Context newContext(SchemaFactory<ReviewDb> sf, SshSession s, String cmd) {
-    return new Context(sf, s, cmd, System.currentTimeMillis());
+    return new Context(sf, s, cmd, TimeUtil.nowMs());
   }
 
   private Context newContinuingContext(Context ctx) {

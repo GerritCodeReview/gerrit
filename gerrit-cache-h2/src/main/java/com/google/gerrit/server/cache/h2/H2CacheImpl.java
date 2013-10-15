@@ -11,6 +11,7 @@ import com.google.common.hash.BloomFilter;
 import com.google.common.hash.Funnel;
 import com.google.common.hash.Funnels;
 import com.google.common.hash.PrimitiveSink;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.inject.TypeLiteral;
 
 import org.h2.jdbc.JdbcSQLException;
@@ -114,7 +115,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> {
   @Override
   public void put(final K key, V val) {
     final ValueHolder<V> h = new ValueHolder<V>(val);
-    h.created = System.currentTimeMillis();
+    h.created = TimeUtil.nowMs();
     mem.put(key, h);
     executor.execute(new Runnable() {
       @Override
@@ -182,7 +183,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> {
     cal.set(Calendar.MILLISECOND, 0);
     cal.add(Calendar.DAY_OF_MONTH, 1);
 
-    long delay = cal.getTimeInMillis() - System.currentTimeMillis();
+    long delay = cal.getTimeInMillis() - TimeUtil.nowMs();
     service.schedule(new Runnable() {
       @Override
       public void run() {
@@ -245,7 +246,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> {
       }
 
       final ValueHolder<V> h = new ValueHolder<V>(loader.load(key));
-      h.created = System.currentTimeMillis();
+      h.created = TimeUtil.nowMs();
       executor.execute(new Runnable() {
         @Override
         public void run() {
@@ -461,7 +462,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> {
         c.touch =c.conn.prepareStatement("UPDATE data SET accessed=? WHERE k=?");
       }
       try {
-        c.touch.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
+        c.touch.setTimestamp(1, new Timestamp(TimeUtil.nowMs()));
         keyType.set(c.touch, 2, key);
         c.touch.executeUpdate();
       } finally {
@@ -490,7 +491,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> {
           keyType.set(c.put, 1, key);
           c.put.setObject(2, holder.value);
           c.put.setTimestamp(3, new Timestamp(holder.created));
-          c.put.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
+          c.put.setTimestamp(4, new Timestamp(TimeUtil.nowMs()));
           c.put.executeUpdate();
           holder.clean = true;
         } finally {

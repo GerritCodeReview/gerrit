@@ -27,6 +27,7 @@ import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.CancelableRunnable;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gerrit.sshd.SshScope.Context;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gerrit.util.cli.EndOfOptionsHandler;
@@ -429,7 +430,7 @@ public abstract class BaseCommand implements Command {
         int rc = 0;
         final Context old = sshScope.set(context);
         try {
-          context.started = System.currentTimeMillis();
+          context.started = TimeUtil.nowMs();
           thisThread.setName("SSH " + taskName);
 
           if (thunk instanceof ProjectCommandRunnable) {

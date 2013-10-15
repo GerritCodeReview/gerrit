@@ -1,0 +1,25 @@
+include_defs('//lib/maven.defs')
+
+EXCLUDE = [
+  'META-INF/LICENSE.txt',
+  'META-INF/NOTICE.txt',
+]
+
+maven_jar(
+  name = 'joda-time',
+  id = 'joda-time:joda-time:2.3',
+  sha1 = '56498efd17752898cfcc3868c1b6211a07b12b8f',
+  deps = [':joda-convert'],
+  license = 'Apache2.0',
+  exclude = EXCLUDE,
+  visibility = ['PUBLIC'],
+)
+
+maven_jar(
+  name = 'joda-convert',
+  id = 'org.joda:joda-convert:1.2',
+  bin_sha1 = '35ec554f0cd00c956cc69051514d9488b1374dec',
+  license = 'Apache2.0',
+  exclude = EXCLUDE,
+  visibility = ['//lib/joda:joda-time'],
+)

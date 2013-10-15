@@ -20,6 +20,7 @@ import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.ContactInformation;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.UrlEncoded;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.ProvisionException;
@@ -213,7 +214,7 @@ class EncryptedContactStore implements ContactStore {
       throws ContactInformationStoreException {
     Timestamp on = account.getContactFiledOn();
     if (on == null) {
-      on = new Timestamp(System.currentTimeMillis());
+      on = new Timestamp(TimeUtil.nowMs());
     }
 
     final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");

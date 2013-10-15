@@ -14,14 +14,15 @@
 
 package com.google.gerrit.httpd;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.audit.AuditEvent;
 import com.google.gerrit.audit.AuditService;
-import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -80,7 +81,7 @@ class HttpLogoutServlet extends HttpServlet {
     final String sid = webSession.get().getSessionId();
     final CurrentUser currentUser = webSession.get().getCurrentUser();
     final String what = "sign out";
-    final long when = System.currentTimeMillis();
+    final long when = TimeUtil.nowMs();
 
     try {
       doLogout(req, rsp);

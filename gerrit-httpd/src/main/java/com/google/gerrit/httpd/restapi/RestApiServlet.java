@@ -16,7 +16,9 @@ package com.google.gerrit.httpd.restapi;
 
 import static com.google.common.base.Charsets.UTF_8;
 import static com.google.common.base.Preconditions.checkNotNull;
+
 import static java.math.RoundingMode.CEILING;
+
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_CONFLICT;
 import static javax.servlet.http.HttpServletResponse.SC_CREATED;
@@ -76,6 +78,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OptionUtil;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.account.CapabilityUtils;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.FieldNamingPolicy;
@@ -185,7 +188,7 @@ public class RestApiServlet extends HttpServlet {
   @Override
   protected final void service(HttpServletRequest req, HttpServletResponse res)
       throws ServletException, IOException {
-    long auditStartTs = System.currentTimeMillis();
+    long auditStartTs = TimeUtil.nowMs();
     res.setHeader("Content-Disposition", "attachment");
     res.setHeader("X-Content-Type-Options", "nosniff");
     int status = SC_OK;

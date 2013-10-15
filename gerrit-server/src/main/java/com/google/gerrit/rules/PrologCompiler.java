@@ -18,6 +18,7 @@ import com.google.gerrit.common.Version;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -222,7 +223,7 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
   /** Takes compiled prolog .class files, puts them into the jar file. */
   private void createJar(File archiveFile, List<String> toBeJared,
       File tempDir, ObjectId metaConfig, ObjectId rulesId) throws IOException {
-    long now = System.currentTimeMillis();
+    long now = TimeUtil.nowMs();
     File tmpjar = File.createTempFile(".rulec_", ".jar", archiveFile.getParentFile());
     try {
       Manifest mf = new Manifest();

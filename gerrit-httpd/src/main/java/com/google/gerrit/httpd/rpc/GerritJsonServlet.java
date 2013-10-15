@@ -24,6 +24,7 @@ import com.google.gerrit.common.errors.NotSignedInException;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gson.GsonBuilder;
 import com.google.gwtjsonrpc.common.RemoteJsonService;
 import com.google.gwtjsonrpc.server.ActiveCall;
@@ -238,7 +239,7 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
         final HttpServletResponse o) {
       super(i, o);
       this.session = session;
-      this.when = System.currentTimeMillis();
+      this.when = TimeUtil.nowMs();
     }
 
     @Override
@@ -290,7 +291,7 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
     }
 
     public long getElapsed() {
-      return System.currentTimeMillis() - when;
+      return TimeUtil.nowMs() - when;
     }
   }
 

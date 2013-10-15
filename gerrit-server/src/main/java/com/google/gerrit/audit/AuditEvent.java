@@ -19,6 +19,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.util.TimeUtil;
 
 public class AuditEvent {
 
@@ -94,7 +95,7 @@ public class AuditEvent {
     this.params = Objects.firstNonNull(params, EMPTY_PARAMS);
     this.uuid = new UUID();
     this.result = result;
-    this.elapsed = System.currentTimeMillis() - timeAtStart;
+    this.elapsed = TimeUtil.nowMs() - timeAtStart;
   }
 
   @Override

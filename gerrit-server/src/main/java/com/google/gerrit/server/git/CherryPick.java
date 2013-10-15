@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -159,7 +160,7 @@ public class CherryPick extends SubmitStrategy {
     PatchSet.Id id =
         ChangeUtil.nextPatchSetId(args.repo, n.change.currentPatchSetId());
     final PatchSet ps = new PatchSet(id);
-    ps.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+    ps.setCreatedOn(new Timestamp(TimeUtil.nowMs()));
     ps.setUploader(submitAudit.getAccountId());
     ps.setRevision(new RevId(newCommit.getId().getName()));
     insertAncestors(args.db, ps.getId(), newCommit);

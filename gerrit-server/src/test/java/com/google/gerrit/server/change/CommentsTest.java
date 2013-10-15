@@ -30,14 +30,15 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.server.PatchLineCommentAccess;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountInfo;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.ListResultSet;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.AbstractModule;
@@ -109,7 +110,7 @@ public class CommentsTest extends TestCase {
     PatchSet ps2 = new PatchSet(psId2);
     expect(revRes2.getPatchSet()).andReturn(ps2);
 
-    long timeBase = System.currentTimeMillis();
+    long timeBase = TimeUtil.nowMs();
     plc1 = newPatchLineComment(psId1, "Comment1", null,
         "FileOne.txt", Side.REVISION, 1, account1, timeBase,
         "First Comment", new CommentRange(1, 2, 3, 4));

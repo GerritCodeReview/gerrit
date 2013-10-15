@@ -14,6 +14,7 @@
 
 package com.google.gerrit.rules;
 
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.inject.Guice;
 import com.google.inject.Module;
 
@@ -116,7 +117,7 @@ public abstract class PrologTestCase extends TestCase {
 
   public void runPrologBasedTests() {
     int errors = 0;
-    long start = System.currentTimeMillis();
+    long start = TimeUtil.nowMs();
 
     for (Term test : tests) {
       PrologEnvironment env = envFactory.create(machine);
@@ -159,7 +160,7 @@ public abstract class PrologTestCase extends TestCase {
       }
     }
 
-    long end = System.currentTimeMillis();
+    long end = TimeUtil.nowMs();
     System.out.println("-------------------------------");
     System.out.format("Prolog tests: %d, Failures: %d, Time elapsed %.3f sec",
         tests.size(), errors, (end - start) / 1000.0);

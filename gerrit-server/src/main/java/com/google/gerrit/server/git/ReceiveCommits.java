@@ -17,6 +17,7 @@ package com.google.gerrit.server.git;
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromApprovals;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
+
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
@@ -94,6 +95,7 @@ import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.util.RequestScopePropagator;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
@@ -124,9 +126,9 @@ import org.eclipse.jgit.transport.AdvertiseRefsHook;
 import org.eclipse.jgit.transport.AdvertiseRefsHookChain;
 import org.eclipse.jgit.transport.BaseReceivePack;
 import org.eclipse.jgit.transport.ReceiveCommand;
-import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.ReceivePack;
+import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.eclipse.jgit.transport.UploadPack;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.Option;
@@ -1740,7 +1742,7 @@ public class ReceiveCommits {
       PatchSet.Id id =
           ChangeUtil.nextPatchSetId(allRefs, change.currentPatchSetId());
       newPatchSet = new PatchSet(id);
-      newPatchSet.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+      newPatchSet.setCreatedOn(new Timestamp(TimeUtil.nowMs()));
       newPatchSet.setUploader(currentUser.getAccountId());
       newPatchSet.setRevision(toRevId(newCommit));
       if (magicBranch != null && magicBranch.isDraft()) {

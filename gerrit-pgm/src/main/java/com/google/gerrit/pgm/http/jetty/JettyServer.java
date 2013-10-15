@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
@@ -596,7 +597,7 @@ public class JettyServer {
     if (properties.contains("PATH")) {
       proc.environment().put("PATH", properties.getProperty("PATH"));
     }
-    long start = System.currentTimeMillis();
+    long start = TimeUtil.nowMs();
     Process rebuild = proc.start();
     byte[] out;
     InputStream in = rebuild.getInputStream();
@@ -619,7 +620,7 @@ public class JettyServer {
       System.exit(status);
     }
 
-    long time = System.currentTimeMillis() - start;
+    long time = TimeUtil.nowMs() - start;
     log.info(String.format("UPDATED    %s in %.3fs", target, time / 1000.0));
   }
 

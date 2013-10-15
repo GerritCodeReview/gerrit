@@ -25,6 +25,7 @@ import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.IdGenerator;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gerrit.sshd.SshScope.Context;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -109,7 +110,7 @@ class SshLog implements LifecycleListener {
     final LoggingEvent event = new LoggingEvent( //
         Logger.class.getName(), // fqnOfCategoryClass
         log, // logger
-        System.currentTimeMillis(), // when
+        TimeUtil.nowMs(), // when
         Level.INFO, // level
         "AUTH FAILURE FROM " + sd.getRemoteAddressAsString(), // message text
         "SSHD", // thread name
@@ -133,7 +134,7 @@ class SshLog implements LifecycleListener {
 
   void onExecute(DispatchCommand dcmd, int exitValue) {
     final Context ctx = context.get();
-    ctx.finished = System.currentTimeMillis();
+    ctx.finished = TimeUtil.nowMs();
 
     String cmd = extractWhat(dcmd);
 
@@ -219,7 +220,7 @@ class SshLog implements LifecycleListener {
     final LoggingEvent event = new LoggingEvent( //
         Logger.class.getName(), // fqnOfCategoryClass
         log, // logger
-        System.currentTimeMillis(), // when
+        TimeUtil.nowMs(), // when
         Level.INFO, // level
         msg, // message text
         "SSHD", // thread name
@@ -473,7 +474,7 @@ class SshLog implements LifecycleListener {
   }
 
   private long extractCreated(final Context ctx) {
-    return (ctx != null) ? ctx.created : System.currentTimeMillis();
+    return (ctx != null) ? ctx.created : TimeUtil.nowMs();
   }
 
   private CurrentUser extractCurrentUser(final Context ctx) {

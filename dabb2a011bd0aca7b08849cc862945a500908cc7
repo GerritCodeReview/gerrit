@@ -16,6 +16,24 @@
       "revId": "dabb2a011bd0aca7b08849cc862945a500908cc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ebaf89c_aafa6fe9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-15T10:49:45Z",
+      "side": 1,
+      "message": "Done.\n\n\"and add \"committer\":\n\nI commented on https://code.google.com/p/gerrit/issues/detail?id\u003d2075 why we can not (yet) linkify the commiter:\n\nCommitter\u0027s AccountInfo doesn\u0027t exist on the client side.\n\nI didn\u0027t thought about that special case, when author \u003d commiter.",
+      "parentUuid": "dec4282a_0e55cbfc",
+      "revId": "dabb2a011bd0aca7b08849cc862945a500908cc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

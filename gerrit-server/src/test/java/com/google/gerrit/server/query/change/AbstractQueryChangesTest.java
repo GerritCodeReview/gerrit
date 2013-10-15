@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.query.change;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.DAYS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -85,7 +88,9 @@ public abstract class AbstractQueryChangesTest {
   protected Account.Id userId;
   protected CurrentUser user;
   protected int clockStepMs = 1;
-  private long ts = ChangeUtil.SORT_KEY_EPOCH * 1000;
+  private long clockMs =
+      MILLISECONDS.convert(ChangeUtil.SORT_KEY_EPOCH_MINS, MINUTES)
+      + MILLISECONDS.convert(60, DAYS);
 
   protected abstract Injector createInjector();
 
@@ -416,8 +421,8 @@ public abstract class AbstractQueryChangesTest {
 
     Change change = new Change(new Change.Key(key), id, ownerId,
         new Branch.NameKey(project, branch));
-    change.setLastUpdatedOn(new Timestamp(ts));
-    ts += clockStepMs;
+    change.setLastUpdatedOn(new Timestamp(clockMs));
+    clockMs += clockStepMs;
     return changeFactory.create(
         projectControlFactory.controlFor(project,
           userFactory.create(ownerId)).controlFor(change).getRefControl(),

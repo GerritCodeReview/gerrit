@@ -101,6 +101,10 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
     queries.add(query);
   }
 
+  public String getQuery(int i) {
+    return queries.get(i);
+  }
+
   @Override
   public Object apply(TopLevelResource rsrc)
       throws BadRequestException, AuthException, OrmException {

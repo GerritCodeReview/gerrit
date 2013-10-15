@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ebaf89c_ca2563ba",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 957,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-15T17:58:32Z",
+      "side": 1,
+      "message": "+\n\nGerrit core plugin `download-commands` is provided that implement the most used download schemes.",
+      "revId": "14c2a3db21d80de9923e48584a412e8a9b1e48d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ebaf89c_ea22a7af",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-15T17:58:32Z",
+      "side": 1,
+      "message": "Why did you put `ALL_REVISIONS` as required option in the code, DownloadBox.java:81:\n\n ChangeList.addOptions(call, EnumSet.of(ListChangesOption.ALL_REVISIONS, [...]",
+      "revId": "14c2a3db21d80de9923e48584a412e8a9b1e48d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ecb3c3d_cb4ed570",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadBox.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-15T17:58:32Z",
+      "side": 1,
+      "message": "[optionally]\n\nCan\u0027t we be smarter here and only request all revisions, if the revision to request is not the current one? I.e. if a change has 7 ps and current ps is 7, then in this specific case would be enouph to only request the  ListChangesOption.CURRENT_REVISION.\n\nIf however it needs the commands for the revision 3 then currently we need all revisions. \n\nAdditional bonus points would be to introduce new request option: ListChangesOption.SPECIFIC_REVISION and pass the requested revision number as a parameter, to position in the middle of the change\u0027s pacth set list and still to include only one revision in the response.\n\nFor our projects it is not unusual to have 20-40 patch sets per change.",
+      "revId": "14c2a3db21d80de9923e48584a412e8a9b1e48d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ecb3c3d_eb4b915d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadBox.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-15T17:58:32Z",
+      "side": 1,
+      "message": "wrap this line",
+      "revId": "14c2a3db21d80de9923e48584a412e8a9b1e48d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ebaf89c_2a419f49",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadBox.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-15T17:58:32Z",
+      "side": 1,
+      "message": "wrap this line",
+      "revId": "14c2a3db21d80de9923e48584a412e8a9b1e48d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ecb3c3d_4b842565",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-15T17:58:32Z",
+      "side": 1,
+      "message": "userProvider.get().isIdentifiedUser()",
+      "revId": "14c2a3db21d80de9923e48584a412e8a9b1e48d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ecb3c3d_ab45894b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadBox.ui.xml",
+        "patchSetId": 10
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-15T17:58:32Z",
+      "side": 0,
+      "message": "[optionally] preserve that file with (partially applied css) , i. e.\n\n\n \u003cg:HTMLPanel styleName\u003d\u0027{...}\u0027\n   \u003cdiv class\u003d\u0027{res.style.section}\u0027\u003e\n      \u003cg:Grid ui:field\u003d\u0027commands\u0027/\u003e\n    \u003c/div\u003e\n [...]\n\nAnd use @UiField in code instead to create it from the scratch:\n\n @UiField Grid grid;",
+      "revId": "048cf106bf80950cda6eff3b841d645275509956",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -135,6 +135,12 @@ class SidePanel extends Composite {
     gutters.remove(wrapper);
   }
 
+  void clearGutters() {
+    for (GutterWrapper wrapper : gutters) {
+      wrapper.remove();
+    }
+  }
+
   static class GutterWrapper {
     private SidePanel host;
     private Label gutter;

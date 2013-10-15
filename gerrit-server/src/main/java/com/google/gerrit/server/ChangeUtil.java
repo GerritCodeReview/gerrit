@@ -15,8 +15,12 @@
 package com.google.gerrit.server;
 
 import static com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy.RECEIVE_COMMITS;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.primitives.Ints;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Change;
@@ -80,8 +84,14 @@ import java.util.Set;
 import java.util.regex.Matcher;
 
 public class ChangeUtil {
+  /**
+   * Epoch for sort key calculations, Tue Sep 30 2008 17:00:00.
+   * <p>
+   * We overrun approximately 4,083 years later, so ~6092.
+   */
   @VisibleForTesting
-  public static final long SORT_KEY_EPOCH = 1222819200L; // Oct 1 2008 00:00
+  public static final long SORT_KEY_EPOCH_MINS =
+      MINUTES.convert(1222819200L, SECONDS);
 
   private static final Object uuidLock = new Object();
   private static final int SEED = 0x2418e6f9;
@@ -465,14 +475,12 @@ public class ChangeUtil {
     db.patchSets().delete(Collections.singleton(patch));
   }
 
-  public static String sortKey(long lastUpdated, int id){
-    // The encoding uses minutes since Wed Oct 1 00:00:00 2008 UTC.
-    // We overrun approximately 4,085 years later, so ~6093.
-    //
-    final long lastUpdatedOn = (lastUpdated / 1000L) - SORT_KEY_EPOCH;
-    final StringBuilder r = new StringBuilder(16);
+  public static String sortKey(long lastUpdatedMs, int id){
+    long lastUpdatedMins = MINUTES.convert(lastUpdatedMs, MILLISECONDS);
+    long minsSinceEpoch = lastUpdatedMins - SORT_KEY_EPOCH_MINS;
+    StringBuilder r = new StringBuilder(16);
     r.setLength(16);
-    formatHexInt(r, 0, (int) (lastUpdatedOn / 60));
+    formatHexInt(r, 0, Ints.checkedCast(minsSinceEpoch));
     formatHexInt(r, 8, id);
     return r.toString();
   }
@@ -484,10 +492,10 @@ public class ChangeUtil {
     return Long.parseLong(sortKey, 16);
   }
 
-  public static void computeSortKey(final Change c) {
-    long lastUpdated = c.getLastUpdatedOn().getTime();
+  public static void computeSortKey(Change c) {
+    long lastUpdatedMs = c.getLastUpdatedOn().getTime();
     int id = c.getId().get();
-    c.setSortKey(sortKey(lastUpdated, id));
+    c.setSortKey(sortKey(lastUpdatedMs, id));
   }
 
   public static PatchSet.Id nextPatchSetId(Map<String, Ref> allRefs,

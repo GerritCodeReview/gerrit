@@ -415,6 +415,131 @@ public abstract class AbstractQueryChangesTest {
     }
   }
 
+  @Test
+  public void pagination() throws Exception {
+    TestRepository<InMemoryRepository> repo = createProject("repo");
+    List<Change> changes = Lists.newArrayList();
+    for (int i = 0; i < 5; i++) {
+      changes.add(newChange(repo, null, null, null, null).insert());
+    }
+
+    // Page forward and back through 3 pages of results.
+    QueryChanges q;
+    List<ChangeInfo> results;
+    results = query("status:new limit:2");
+    assertEquals(2, results.size());
+    assertResultEquals(changes.get(4), results.get(0));
+    assertResultEquals(changes.get(3), results.get(1));
+
+    q = newQuery("status:new limit:2");
+    q.setSortKeyBefore(results.get(1)._sortkey);
+    results = query(q);
+    assertEquals(2, results.size());
+    assertResultEquals(changes.get(2), results.get(0));
+    assertResultEquals(changes.get(1), results.get(1));
+
+    q = newQuery("status:new limit:2");
+    q.setSortKeyBefore(results.get(1)._sortkey);
+    results = query(q);
+    assertEquals(1, results.size());
+    assertResultEquals(changes.get(0), results.get(0));
+
+    q = newQuery("status:new limit:2");
+    q.setSortKeyAfter(results.get(0)._sortkey);
+    results = query(q);
+    assertEquals(2, results.size());
+    assertResultEquals(changes.get(2), results.get(0));
+    assertResultEquals(changes.get(1), results.get(1));
+
+    q = newQuery("status:new limit:2");
+    q.setSortKeyAfter(results.get(0)._sortkey);
+    results = query(q);
+    assertEquals(2, results.size());
+    assertResultEquals(changes.get(4), results.get(0));
+    assertResultEquals(changes.get(3), results.get(1));
+  }
+
+  @Test
+  public void sortKeyWithMinuteResolution() throws Exception {
+    clockStepMs = MILLISECONDS.convert(2, MINUTES);
+    TestRepository<InMemoryRepository> repo = createProject("repo");
+    ChangeInserter ins1 = newChange(repo, null, null, null, null);
+    Change change1 = ins1.insert();
+    ChangeControl ctl1 = changeControlFactory.controlFor(change1, user);
+    Change change2 = newChange(repo, null, null, null, null).insert();
+
+    assertTrue(lastUpdatedMs(change1) < lastUpdatedMs(change2));
+
+    List<ChangeInfo> results;
+    results = query("status:new");
+    assertEquals(2, results.size());
+    assertResultEquals(change2, results.get(0));
+    assertResultEquals(change1, results.get(1));
+
+    PostReview.Input input = new PostReview.Input();
+    input.message = "toplevel";
+    postReview.apply(new RevisionResource(
+        new ChangeResource(ctl1), ins1.getPatchSet()), input);
+    change1 = db.changes().get(change1.getId());
+
+    assertTrue(lastUpdatedMs(change1) > lastUpdatedMs(change2));
+    assertTrue(lastUpdatedMs(change1) - lastUpdatedMs(change2)
+        > MILLISECONDS.convert(1, MINUTES));
+
+    results = query("status:new");
+    assertEquals(2, results.size());
+    // change1 moved to the top.
+    assertResultEquals(change1, results.get(0));
+    assertResultEquals(change2, results.get(1));
+  }
+
+  @Test
+  public void sortKeyWithSubMinuteResolution() throws Exception {
+    TestRepository<InMemoryRepository> repo = createProject("repo");
+    ChangeInserter ins1 = newChange(repo, null, null, null, null);
+    Change change1 = ins1.insert();
+    ChangeControl ctl1 = changeControlFactory.controlFor(change1, user);
+    Change change2 = newChange(repo, null, null, null, null).insert();
+
+    assertTrue(lastUpdatedMs(change1) < lastUpdatedMs(change2));
+
+    List<ChangeInfo> results;
+    results = query("status:new");
+    assertEquals(2, results.size());
+    assertResultEquals(change2, results.get(0));
+    assertResultEquals(change1, results.get(1));
+
+    PostReview.Input input = new PostReview.Input();
+    input.message = "toplevel";
+    postReview.apply(new RevisionResource(
+        new ChangeResource(ctl1), ins1.getPatchSet()), input);
+    change1 = db.changes().get(change1.getId());
+
+    assertTrue(lastUpdatedMs(change1) > lastUpdatedMs(change2));
+    assertTrue(lastUpdatedMs(change1) - lastUpdatedMs(change2)
+        < MILLISECONDS.convert(1, MINUTES));
+
+    results = query("status:new");
+    assertEquals(2, results.size());
+    // Same order as before change1 was modified.
+    assertResultEquals(change2, results.get(0));
+    assertResultEquals(change1, results.get(1));
+  }
+
+  @Test
+  public void sortKeyBreaksTiesOnChangeId() throws Exception {
+    clockStepMs = 0;
+    TestRepository<InMemoryRepository> repo = createProject("repo");
+    Change change1 = newChange(repo, null, null, null, null).insert();
+    Change change2 = newChange(repo, null, null, null, null).insert();
+    assertEquals(change1.getLastUpdatedOn(), change2.getLastUpdatedOn());
+
+    List<ChangeInfo> results = query("status:new");
+    assertEquals(2, results.size());
+    assertResultEquals(change2, results.get(0));
+    assertResultEquals(change1, results.get(1));
+  }
+
   protected ChangeInserter newChange(
       TestRepository<InMemoryRepository> repo,
       @Nullable RevCommit commit, @Nullable String key, @Nullable Integer owner,
@@ -468,23 +593,31 @@ public abstract class AbstractQueryChangesTest {
         repoManager.openRepository(new Project.NameKey(name)));
   }
 
-  @SuppressWarnings({"rawtypes", "unchecked"})
-  protected List<ChangeInfo> query(Object query) throws Exception {
+  protected QueryChanges newQuery(Object query) {
     QueryChanges q = queryProvider.get();
     q.addQuery(query.toString());
+    return q;
+  }
+
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  protected List<ChangeInfo> query(QueryChanges q) throws Exception {
     Object result = q.apply(TLR);
     assertTrue(
         String.format("expected List<ChangeInfo>, found %s for [%s]",
-          result, query),
+          result, q.getQuery(0)),
         result instanceof List);
     List results = (List) result;
     if (!results.isEmpty()) {
       assertTrue(
           String.format("expected ChangeInfo, found %s for [%s]",
-            result, query),
+            result, q.getQuery(0)),
           results.get(0) instanceof ChangeInfo);
     }
     return (List<ChangeInfo>) result;
+  }
+
+  protected List<ChangeInfo> query(Object query) throws Exception {
+    return query(newQuery(query));
   }
 
   protected ChangeInfo queryOne(Object query) throws Exception {
@@ -494,5 +627,9 @@ public abstract class AbstractQueryChangesTest {
           results, query),
         results.size() == 1);
     return results.get(0);
+  }
+
+  private static long lastUpdatedMs(Change c) {
+    return c.getLastUpdatedOn().getTime();
   }
 }

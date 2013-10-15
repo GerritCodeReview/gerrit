@@ -88,10 +88,10 @@ class Loader {
   }
 
   private static void initVimKeys() {
-    // TODO: Better custom keybindings, remove temporary navigation hacks.
+    // TODO: Better custom keybindings.
     KeyMap km = CodeMirror.cloneKeyMap("vim");
     for (String s : new String[] {
-        "A", "C", "O", "R", "U", "Ctrl-C", "Ctrl-O"}) {
+        "A", "C", "O", "R", "S", "U", "Ctrl-C", "Ctrl-O"}) {
       km.remove(s);
     }
     CodeMirror.addKeyMap("vim_ro", km);

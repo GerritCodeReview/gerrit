@@ -35,6 +35,8 @@ import net.codemirror.lib.LineWidget;
 import net.codemirror.lib.TextMarker;
 import net.codemirror.lib.TextMarker.FromTo;
 
+import java.util.List;
+
 /** The Widget that handles expanding of skipped lines */
 class SkipBar extends Composite {
   interface Binder extends UiBinder<HTMLPanel, SkipBar> {}
@@ -66,6 +68,7 @@ class SkipBar extends Composite {
 
   private TextMarker marker;
   private SkipBar otherBar;
+  private List<SkipBar> skipBars;
   private CodeMirror cm;
   private int numSkipLines;
 
@@ -104,9 +107,14 @@ class SkipBar extends Composite {
     }
   }
 
-  static void link(SkipBar barA, SkipBar barB) {
+  static void linkAndAddToList(
+      SkipBar barA, SkipBar barB, List<SkipBar> skipBars) {
+    skipBars.add(barA);
+    skipBars.add(barB);
     barA.otherBar = barB;
+    barA.skipBars = skipBars;
     barB.otherBar = barA;
+    barB.skipBars = skipBars;
   }
 
   private void updateSkipNum() {
@@ -173,6 +181,7 @@ class SkipBar extends Composite {
 
   @UiHandler("skipNum")
   void onExpandAll(ClickEvent e) {
+    skipBars.remove(this);
     otherBar.expandAll();
     expandAll();
   }

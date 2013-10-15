@@ -188,8 +188,6 @@ public interface ChangeHooks {
    *
    * @param branchName The branch that the event is related to
    * @param event The event to post
-   * @throws OrmException
    */
-  public void postEvent(Branch.NameKey branchName, ChangeEvent event)
-      throws OrmException;
+  public void postEvent(Branch.NameKey branchName, ChangeEvent event);
 }

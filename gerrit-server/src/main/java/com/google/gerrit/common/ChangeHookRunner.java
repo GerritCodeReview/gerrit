@@ -608,7 +608,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
 
     @Override
     public void postEvent(final Branch.NameKey branchName,
-        final ChangeEvent event) throws OrmException {
+        final ChangeEvent event) {
       fireEvent(branchName, event);
     }
 

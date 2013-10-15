@@ -89,7 +89,7 @@ public class DocIndexer {
       BufferedReader titleReader = new BufferedReader(
           new InputStreamReader(new FileInputStream(file), "UTF-8"));
       String title = titleReader.readLine();
-      if (title.startsWith("[[")) {
+      if (title != null && title.startsWith("[[")) {
         // Generally the first line of the txt is the title. In a few cases the
         // first line is a "[[tag]]" and the second line is the title.
         title = titleReader.readLine();

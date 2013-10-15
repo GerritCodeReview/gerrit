@@ -435,10 +435,6 @@ public final class Change {
     return rowVersion;
   }
 
-  public void resetLastUpdatedOn() {
-    lastUpdatedOn = new Timestamp(System.currentTimeMillis());
-  }
-
   public String getSortKey() {
     return sortKey;
   }

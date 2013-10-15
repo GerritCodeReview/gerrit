@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ecb3c3d_6b0ec14d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryLucene.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-15T04:03:07Z",
+      "side": 1,
+      "message": "unused import",
+      "revId": "6b77214b42f2fbd6a657bf543df024faedf05f8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ecb3c3d_4b098542",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryLucene.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-15T04:03:07Z",
+      "side": 1,
+      "message": "NPE here, because\n\n InputStream indexPath \u003d DocQueryLucene.class.getClass().getResourceAsStream(INDEX_PATH);\n\nproduces null, at least when testing from the Eclipse. Does it suppose to work from Eclipse? May be we can set some java System property to point to the INDEX_PATH directory, to make it work?",
+      "revId": "6b77214b42f2fbd6a657bf543df024faedf05f8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

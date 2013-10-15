@@ -50,6 +50,7 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.util.MagicBranch;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmConcurrencyException;
 import com.google.gwtorm.server.OrmException;
 
@@ -144,7 +145,7 @@ public class ChangeUtil {
   }
 
   public static void updated(final Change c) {
-    c.setLastUpdatedOn(new Timestamp(System.currentTimeMillis()));
+    c.setLastUpdatedOn(new Timestamp(TimeUtil.nowMs()));
     computeSortKey(c);
   }
 

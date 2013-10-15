@@ -39,6 +39,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -178,7 +179,7 @@ public class Submit implements RestModifyView<RevisionResource, Input>,
 
   public Change submit(RevisionResource rsrc, IdentifiedUser caller)
       throws OrmException, IOException {
-    final Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+    final Timestamp timestamp = new Timestamp(TimeUtil.nowMs());
     Change change = rsrc.getChange();
     ReviewDb db = dbProvider.get();
     db.changes().beginTransaction(change.getId());

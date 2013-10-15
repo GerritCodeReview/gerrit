@@ -31,6 +31,7 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
@@ -292,7 +293,7 @@ public class QueryProcessor {
 
       try {
         final QueryStatsAttribute stats = new QueryStatsAttribute();
-        stats.runTimeMilliseconds = System.currentTimeMillis();
+        stats.runTimeMilliseconds = TimeUtil.nowMs();
 
         List<ChangeData> results = queryChanges(queryString);
         ChangeAttribute c = null;
@@ -362,7 +363,7 @@ public class QueryProcessor {
           stats.resumeSortKey = c.sortKey;
         }
         stats.runTimeMilliseconds =
-            System.currentTimeMillis() - stats.runTimeMilliseconds;
+            TimeUtil.nowMs() - stats.runTimeMilliseconds;
         show(stats);
       } catch (OrmException err) {
         log.error("Cannot execute query: " + queryString, err);

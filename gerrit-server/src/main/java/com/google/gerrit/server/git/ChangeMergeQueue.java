@@ -27,6 +27,7 @@ import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.RequestScopePropagator;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -155,7 +156,7 @@ public class ChangeMergeQueue implements MergeQueue {
   @Override
   public synchronized void recheckAfter(final Branch.NameKey branch,
       final long delay, final TimeUnit delayUnit) {
-    final long now = System.currentTimeMillis();
+    final long now = TimeUtil.nowMs();
     final long at = now + MILLISECONDS.convert(delay, delayUnit);
     RecheckJob e = recheck.get(branch);
     if (e == null) {
@@ -216,7 +217,7 @@ public class ChangeMergeQueue implements MergeQueue {
   }
 
   private synchronized void recheck(final RecheckJob e) {
-    final long remainingDelay = e.recheckAt - System.currentTimeMillis();
+    final long remainingDelay = e.recheckAt - TimeUtil.nowMs();
     if (MILLISECONDS.convert(10, SECONDS) < remainingDelay) {
       // Woke up too early, the job deadline was pushed back.
       // Reschedule for the new deadline. We allow for a small

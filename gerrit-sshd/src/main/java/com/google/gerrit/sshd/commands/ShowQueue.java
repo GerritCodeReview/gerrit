@@ -22,6 +22,7 @@ import com.google.gerrit.server.git.WorkQueue.Task;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.util.IdGenerator;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gerrit.sshd.AdminHighPriorityCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
@@ -102,7 +103,7 @@ final class ShowQueue extends SshCommand {
         + "--------------------------------\n");
 
     int numberOfPendingTasks = 0;
-    final long now = System.currentTimeMillis();
+    final long now = TimeUtil.nowMs();
     final boolean viewAll = currentUser.getCapabilities().canViewQueue();
 
     for (final Task<?> task : pending) {
@@ -186,7 +187,7 @@ final class ShowQueue extends SshCommand {
   }
 
   private static String startTime(final Date when) {
-    return format(when, System.currentTimeMillis() - when.getTime());
+    return format(when, TimeUtil.nowMs() - when.getTime());
   }
 
   private static String format(final Date when, final long timeFromNow) {

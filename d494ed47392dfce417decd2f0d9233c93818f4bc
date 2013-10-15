@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bec1341b_4d099942",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-15T02:12:01Z",
+      "side": 1,
+      "message": "\"Search for changes on this project\"",
+      "revId": "d494ed47392dfce417decd2f0d9233c93818f4bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bec1341b_6d0ed54d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-15T02:12:01Z",
+      "side": 1,
+      "message": "\"Search for changes on this branch\"",
+      "revId": "d494ed47392dfce417decd2f0d9233c93818f4bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

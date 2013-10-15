@@ -209,7 +209,6 @@ Several features have not been implemented yet:
 * Permalink a change
 * Allow to see if a reviewer can't vote on a label
 * Allow to select a reference version as base for the comparison
-* Change diff view preferences
 
 GERRIT
 ------

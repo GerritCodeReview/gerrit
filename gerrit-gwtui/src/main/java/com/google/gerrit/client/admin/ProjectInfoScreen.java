@@ -326,6 +326,8 @@ public class ProjectInfoScreen extends ProjectScreen {
   }
 
   private void initProjectActions(ConfigInfo info) {
+    actionsGrid.clear();
+
     NativeMap<ActionInfo> actions = info.actions();
     if (actions == null || actions.isEmpty()) {
       return;

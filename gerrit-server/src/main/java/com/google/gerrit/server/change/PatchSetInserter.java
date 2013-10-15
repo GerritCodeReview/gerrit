@@ -63,7 +63,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -332,7 +331,7 @@ public class PatchSetInserter {
     if (patchSet == null) {
       patchSet = new PatchSet(
           ChangeUtil.nextPatchSetId(git, change.currentPatchSetId()));
-      patchSet.setCreatedOn(new Timestamp(TimeUtil.nowMs()));
+      patchSet.setCreatedOn(TimeUtil.nowTs());
       patchSet.setUploader(change.getOwner());
       patchSet.setRevision(new RevId(commit.name()));
     }

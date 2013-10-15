@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bec1341b_ed19658d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/doc/DocSearchRestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-15T03:31:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dec4282a_4ee0b344",
+      "revId": "d405cc10544202694627243f56deb543430948b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bec1341b_4de0b944",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryLucene.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-10-15T01:17:52Z",
       "side": 1,
       "message": "2013",
+      "revId": "d405cc10544202694627243f56deb543430948b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dec4282a_8e169b5c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryLucene.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-15T03:31:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bec1341b_4de0b944",
       "revId": "d405cc10544202694627243f56deb543430948b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "dec4282a_ae13576b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryLucene.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-15T03:31:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dec4282a_6ee56f53",
+      "revId": "d405cc10544202694627243f56deb543430948b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bec1341b_6de57553",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryProcessor.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2013-10-15T01:17:52Z",
       "side": 1,
       "message": "2013",
+      "revId": "d405cc10544202694627243f56deb543430948b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dec4282a_4e32f304",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-15T03:31:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bec1341b_6de57553",
       "revId": "d405cc10544202694627243f56deb543430948b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "bec1341b_8d16a15c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-15T03:31:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dec4282a_0eeaab22",
+      "revId": "d405cc10544202694627243f56deb543430948b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dec4282a_2eef6733",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocsCollection.java",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2013-10-15T01:17:52Z",
       "side": 1,
       "message": "2013",
+      "revId": "d405cc10544202694627243f56deb543430948b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bec1341b_ad135d6b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-15T03:31:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dec4282a_2eef6733",
       "revId": "d405cc10544202694627243f56deb543430948b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "dec4282a_6e37aff3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/Module.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-15T03:31:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bec1341b_0deab122",
+      "revId": "d405cc10544202694627243f56deb543430948b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dec4282a_cef3431a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/QueryDocs.java",
         "patchSetId": 1
@@ -132,6 +258,24 @@
       "writtenOn": "2013-10-15T01:17:52Z",
       "side": 1,
       "message": "2013",
+      "revId": "d405cc10544202694627243f56deb543430948b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dec4282a_0e3cebd2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/QueryDocs.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-15T03:31:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dec4282a_cef3431a",
       "revId": "d405cc10544202694627243f56deb543430948b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

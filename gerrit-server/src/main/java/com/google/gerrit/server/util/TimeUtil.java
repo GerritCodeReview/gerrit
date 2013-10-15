@@ -16,10 +16,16 @@ package com.google.gerrit.server.util;
 
 import org.joda.time.DateTimeUtils;
 
+import java.sql.Timestamp;
+
 /** Static utility methods for dealing with dates and times. */
 public class TimeUtil {
   public static long nowMs() {
     return DateTimeUtils.currentTimeMillis();
+  }
+
+  public static Timestamp nowTs() {
+    return new Timestamp(nowMs());
   }
 
   private TimeUtil() {

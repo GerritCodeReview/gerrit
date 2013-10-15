@@ -33,7 +33,6 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -160,7 +159,7 @@ public class CherryPick extends SubmitStrategy {
     PatchSet.Id id =
         ChangeUtil.nextPatchSetId(args.repo, n.change.currentPatchSetId());
     final PatchSet ps = new PatchSet(id);
-    ps.setCreatedOn(new Timestamp(TimeUtil.nowMs()));
+    ps.setCreatedOn(TimeUtil.nowTs());
     ps.setUploader(submitAudit.getAccountId());
     ps.setRevision(new RevId(newCommit.getId().getName()));
     insertAncestors(args.db, ps.getId(), newCommit);

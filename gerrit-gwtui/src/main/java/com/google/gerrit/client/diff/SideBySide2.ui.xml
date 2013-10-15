@@ -16,8 +16,10 @@ limitations under the License.
 -->
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
-    xmlns:d='urn:import:com.google.gerrit.client.diff'>
+    xmlns:d='urn:import:com.google.gerrit.client.diff'
+    xmlns:p='urn:import:com.google.gerrit.client.patches'>
   <g:FlowPanel>
+    <p:PatchScriptSettingsPanel ui:field='settingsPanel'/>
     <d:Header ui:field='header'/>
     <d:DiffTable ui:field='diffTable'/>
   </g:FlowPanel>

@@ -4,13 +4,11 @@ Release notes for Gerrit 2.7
 
 Gerrit 2.7 is now available:
 
-link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.7.war[
-http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.7.war]
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.7.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.7.war]
 
-Gerrit 2.7 includes the bug fixes done with
-link:ReleaseNotes-2.6.1.html[Gerrit 2.6.1] and
-link:ReleaseNotes-2.6.2.html[Gerrit 2.6.2]. These bug fixes are *not*
-listed in these release notes.
+Gerrit 2.7 includes the bug fixes done with link:ReleaseNotes-2.6.1.html[Gerrit 2.6.1].
+These bug fixes are *not* listed in these release notes.
 
 Schema Change
 -------------
@@ -25,6 +23,15 @@ Schema Change
 a later 2.1.x version), and then to 2.7.x.  If you are upgrading from 2.2.x.x or
 newer, you may ignore this warning and upgrade directly to 2.7.x.
 
+
+
+Gerrit Trigger Plugin in Jenkins
+--------------------------------
+
+
+*WARNING:* Upgrading to 2.7 may cause the Gerrit Trigger Plugin in Jenkins to
+stop working.  Please see the "New 'Stream Events' global capability" section
+below.
 
 
 Release Highlights
@@ -70,6 +77,10 @@ The link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.7/access
 Stream Events capability] controls access to the `stream-events` ssh command.
 +
 Only administrators and users having this capability are allowed to use `stream-events`.
++
+If you are using the Gerrit Trigger Plugin in Jenkins, you must make sure that the
+'Non-Interactive Users' group, or whichever group the Jenkins user belongs to, is
+given the 'Stream Events' capability.
 
 * Allow opening new changes on existing commits.
 +
@@ -88,7 +99,7 @@ draft patch sets.
 +
 Teams that want to use Gerrit's submit strategies to handle contention on busy
 branches can use `%submit` to create a change and have it
-link:link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.7/user-upload.html#auto_merge[
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.7/user-upload.html#auto_merge[
 immediately submitted], if the caller has Submit permission on `refs/for/<ref>`.
 
 * Allow administrators to see all groups.
@@ -195,22 +206,48 @@ General
 
 * Postpone check for first account until adding an account.
 
-* Mark `ALREADY_MERGED` changes as merged in the database.
+* link:https://code.google.com/p/gerrit/issues/detail?id=1848[Issue 1848]:
+Mark `ALREADY_MERGED` changes as merged in the database.
 +
 If a change was marked `ALREADY_MERGED`, likely due to a bug in
 merge code, it does not end up in the list of changes to be submitted
 and never gets marked as merged despite the branch head already
 having advanced.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=600[Issue 600]:
+Fix change stuck in SUBMITTED state but actually merged.
 +
-Works around (but does not fix)
-link:https://code.google.com/p/gerrit/issues/detail?id=1985[Issue 1985] and
-link:https://code.google.com/p/gerrit/issues/detail?id=600[Issue 600]
-to allow recovery from certain kind of bad state.
+When submitting a commit that has a tag, it could not be merged.
+
+* Fix null-pointer exception when dashboard title is not specified.
++
+If the title is not specified, the path of the dashboard config file
+is used as title.
+
+* Allow label values to be configured with no text.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1966[Issue 1966]:
+Fix Gerrit plugins under Tomcat by avoiding Guice static filter.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2054[Issue 2054]:
+Expand capabilities of `ldap.groupMemberPattern`.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2098[Issue 2098]:
+Fix re-enabling of disabled plugins.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2128[Issue 2128]:
+Fix null-pointer exception when deleting draft patch set when previous
+draft was already deleted.
 
 
 Web UI
 ~~~~~~
 
+
+* Properly handle double-click on external group in GroupTable.
++
+Double-clicking on an external group opens the group's URL (if it
+is provided).
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=1848[Issue 1848]:
 Don't discard inline comments when escape key is pressed.
@@ -221,6 +258,28 @@ Drop Arial Unicode MS font and request only sans-serif.
 Arial Unicode MS does not have a bold version. Selecting this font prevents
 correct display of bold text on Mac OS X. Simplify the selector to sans-serif
 and allow the browser to use the user's preferred font in this family.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1872[Issue 1872]:
+Fix tab expansion in diff screens when syntax coloring is on.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1904[Issue 1904]:
+Fix diff screens for files with CRLF line endings.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2056[Issue 2056]:
+Display custom NoOp label score for open changes.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2093[Issue 2093]:
+Fix incorrect title of "repo download" link on change screen.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2127[Issue 2127]:
+Remove hard-coded documentation links from the admin page.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2010[Issue 2010]:
+Fix null-pointer exception when searching for changes with the query
+`owner:self`.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2039[Issue 2039]:
+Fix browser null-pointer exception when ChangeCache is incomplete.
 
 
 REST API

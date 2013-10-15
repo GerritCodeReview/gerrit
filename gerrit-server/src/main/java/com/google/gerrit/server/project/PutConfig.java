@@ -139,8 +139,10 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
           throw new ResourceConflictException("Cannot update " + projectName);
         }
       }
-      return new ConfigInfo(rsrc.getControl(),
-          projectStateFactory.create(projectConfig),
+
+      ProjectState state = projectStateFactory.create(projectConfig);
+      return new ConfigInfo(
+          state.controlFor(currentUser.get()), state,
           config, views, currentUser);
     } catch (ConfigInvalidException err) {
       throw new ResourceConflictException("Cannot read project " + projectName, err);

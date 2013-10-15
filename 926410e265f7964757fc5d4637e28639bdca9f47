@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "bec1341b_ed22c5af",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-15T06:24:03Z",
+      "side": 1,
+      "message": "Sorry, typo in my previous comment.\n\n\"rely on the\"",
+      "parentUuid": "bec1341b_2d41ad49",
+      "revId": "926410e265f7964757fc5d4637e28639bdca9f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dec4282a_8e2f7b96",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 19

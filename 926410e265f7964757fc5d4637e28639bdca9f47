@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "dec4282a_4e5bd332",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-15T06:25:35Z",
+      "side": 1,
+      "message": "Is the implementation changed enough to justify changing the author name?",
+      "revId": "926410e265f7964757fc5d4637e28639bdca9f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dec4282a_ee22bfaf",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 19

@@ -1,0 +1,16 @@
+Release notes for Gerrit 2.6.1
+==============================
+
+There are no schema changes from link:ReleaseNotes-2.6.html[2.6].
+
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.6.1.war[https://gerrit-releases.storage.googleapis.com/gerrit-2.6.1.war]
+
+Bug Fixes
+---------
+* Patch JGit security hole
++
+The security hole may permit a modified Git client to gain access
+to hidden or deleted branches if the user has read permission on
+at least one branch in the repository. Access requires knowing a
+SHA-1 to request, which may be discovered out-of-band from an issue
+tracker or gitweb instance.

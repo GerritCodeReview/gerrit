@@ -110,7 +110,7 @@ Other Changes
 * Delete dead CSS bundle code
 * Always use NpTextBox or NpTextArea to prevent GlobalKe...
 * Detect cases where system_config has too many rows
-* Remove unnecessary warning supressions
+* Remove unnecessary warning suppressions
 * Remove dead code, these aren't used anymore
 * Fix warnings about potential serialization problems
 * Fix warning about debug code in OpenIdServiceImpl

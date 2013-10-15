@@ -190,7 +190,7 @@ the current row of a file.
 * Display abbreviated hexy Change-Id in screen titles
 * Use hexy Change-Id in emails sent from Gerrit
 +
-Change-Id abbreviations are now used throught more of the UI,
+Change-Id abbreviations are now used through more of the UI,
 including emails sent by Gerrit and window/page titles.  This
 change breaks email threading for any existing review emails.
 That is comments on a change created before the upgrade will

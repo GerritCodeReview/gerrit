@@ -89,7 +89,7 @@ using client SSL certificates.  This feature requires using the
 embedded Jetty web server with SSL enabled, and an LDAP directory to
 lookup individual account information.
 
-* issue 503 Inactive acounts may be disabled.
+* issue 503 Inactive accounts may be disabled.
 +
 Administrators can manually update the accounts table, setting
 inactive = `Y` to mark user accounts inactive.  Inactive accounts

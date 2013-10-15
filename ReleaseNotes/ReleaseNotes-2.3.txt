@@ -220,7 +220,7 @@ parameter 'ldap.accountSshUserName' is set to
 This helps prevent a very slow LDAP server from blocking
 all SSH command creation threads.
 
-* Introduce a git maxObjectSizeLimit in the [recieve] config
+* Introduce a git maxObjectSizeLimit in the [receive] config
 +
 This limits the size of uploaded files
 
@@ -294,7 +294,7 @@ required to push commits with gitlinks when they are created
 
 * Allow Realm to participate when linking an account identity
 +
-When linking a new user identity to an exisiting account, permit the
+When linking a new user identity to an existing account, permit the
 Realm to observe the new incoming identity and the current account,
 and to alter the request. This enables a Realm to observe when a
 user verifies a new email address link.
@@ -401,7 +401,7 @@ Bug Fixes
 If a project inherits from a non existing parent, prevent a
 StringIndexOutOfBoundsException.
 
-* Fix: Supress "Error on refs/cache-automerge" warnings.
+* Fix: Suppress "Error on refs/cache-automerge" warnings.
 
 * Don't allow registering for cleanup after cleanup runs
 +

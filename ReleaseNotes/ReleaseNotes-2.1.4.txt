@@ -21,7 +21,7 @@ Change Management
 
 * issue 504 Implement full query operators
 +
-The search box now implments a wide range of operators and boolean
+The search box now implements a wide range of operators and boolean
 expressions, permitting complex queries such as `is:open CodeReview>=1
 (has:draft OR is:starred)` to locate open changes that have been code
 reviewed, but still have unpublished drafts or were starred by the

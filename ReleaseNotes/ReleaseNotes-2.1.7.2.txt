@@ -25,7 +25,7 @@ on a specific file view. This was accidentally broken when the
 * Fix API breakage on ChangeDetailService
 +
 Version 2.1.7 broke the Gerrit Code Review plugin for Mylyn Reviews
-due to an accidential signature change of one of the remote JSON
+due to an accidental signature change of one of the remote JSON
 APIs. The ChangeDetailService.patchSetDetail() method is back to the
 old signature and a new patchSetDetail2() method has been added to
 handle the newer calling convention used in some contexts of the

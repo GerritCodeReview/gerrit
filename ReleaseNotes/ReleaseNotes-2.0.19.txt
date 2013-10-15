@@ -149,7 +149,7 @@ aborts, although it will spew many errors.
 Uploading commits to a project now requires that the new commits
 share a common ancestry with the existing commits of that project.
 This catches and prevents problems caused by a user making a typo 
-in the project name, and inadverently selecting the wrong project.
+in the project name, and inadvertently selecting the wrong project.
 
 * Change-Id tags in commit messages to associate commits
 +

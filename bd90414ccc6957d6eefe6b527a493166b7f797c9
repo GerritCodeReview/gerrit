@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1e66c012_3841e949",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/GerritTopMenu.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-10-15T13:50:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe43ac4d_0fef2533",
+      "revId": "bd90414ccc6957d6eefe6b527a493166b7f797c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e3aa4c5_11418c49",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/GerritTopMenu.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2013-10-11T12:07:32Z",
       "side": 1,
       "message": "optional: instead of specifying the menuName for each constant derive it from the constant name:\n\n  public enum GerritTopMenu {\n    ALL, MY, DIFFERENCES, PROJECTS,\n    PEOPLE, PLUGINS, DOCUMENTATION;\n\n    public final String menuName;\n\n    private GerritTopMenu(String name) {\n      menuName \u003d name.substring(0,1) + name.substring(1).toLowerCase();\n    }\n  }",
+      "revId": "bd90414ccc6957d6eefe6b527a493166b7f797c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ecb3c3d_8b2f6d96",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/GerritTopMenu.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-10-15T13:50:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e3aa4c5_11418c49",
       "revId": "bd90414ccc6957d6eefe6b527a493166b7f797c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

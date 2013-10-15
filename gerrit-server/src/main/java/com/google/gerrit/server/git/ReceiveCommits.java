@@ -137,7 +137,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -1742,7 +1741,7 @@ public class ReceiveCommits {
       PatchSet.Id id =
           ChangeUtil.nextPatchSetId(allRefs, change.currentPatchSetId());
       newPatchSet = new PatchSet(id);
-      newPatchSet.setCreatedOn(new Timestamp(TimeUtil.nowMs()));
+      newPatchSet.setCreatedOn(TimeUtil.nowTs());
       newPatchSet.setUploader(currentUser.getAccountId());
       newPatchSet.setRevision(toRevId(newCommit));
       if (magicBranch != null && magicBranch.isDraft()) {

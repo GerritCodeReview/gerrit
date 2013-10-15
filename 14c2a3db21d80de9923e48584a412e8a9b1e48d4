@@ -101,6 +101,23 @@
       "revId": "14c2a3db21d80de9923e48584a412e8a9b1e48d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ecb3c3d_6b89e179",
+        "filename": "plugins/BUCK",
+        "patchSetId": 10
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-15T18:04:47Z",
+      "side": 1,
+      "message": "I would prefer to put this and\n\n diff --git a/plugins/download-commands b/plugins/download-commands\n\nin its own change and make that change depend on it. It was not obviously for me to find that. And we don\u0027t provide pom.xml in download-commands plugin so that it can not be built out of the tree.",
+      "revId": "14c2a3db21d80de9923e48584a412e8a9b1e48d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5ebaf89c_6a0eb74d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-15T11:15:59Z",
+      "side": 1,
+      "message": "No. It was an accident. Done.",
+      "parentUuid": "dec4282a_4e5bd332",
+      "revId": "926410e265f7964757fc5d4637e28639bdca9f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dec4282a_ee22bfaf",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 19
@@ -30,6 +48,24 @@
       "writtenOn": "2013-10-15T06:23:25Z",
       "side": 1,
       "message": "\"on a change or revision resource\" or \"on change or revision resources\"",
+      "revId": "926410e265f7964757fc5d4637e28639bdca9f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ecb3c3d_8b168d5c",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-15T11:15:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dec4282a_ee22bfaf",
       "revId": "926410e265f7964757fc5d4637e28639bdca9f47",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "7ecb3c3d_4b32e504",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-15T11:15:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bec1341b_ed22c5af",
+      "revId": "926410e265f7964757fc5d4637e28639bdca9f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dec4282a_8e2f7b96",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 19
@@ -82,6 +136,24 @@
       "writtenOn": "2013-10-15T06:23:25Z",
       "side": 1,
       "message": "\"As a workaround, a direct check ...\"",
+      "revId": "926410e265f7964757fc5d4637e28639bdca9f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ebaf89c_0a037b24",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-15T11:15:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dec4282a_8e2f7b96",
       "revId": "926410e265f7964757fc5d4637e28639bdca9f47",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

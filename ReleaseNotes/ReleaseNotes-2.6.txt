@@ -3,7 +3,7 @@ Release notes for Gerrit 2.6
 
 Gerrit 2.6 is now available:
 
-link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.6.war[http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.6.war]
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.6.war[https://gerrit-releases.storage.googleapis.com/gerrit-2.6.war]
 
 Gerrit 2.6 includes the bug fixes done with
 link:ReleaseNotes-2.5.1.html[Gerrit 2.5.1],
@@ -439,7 +439,7 @@ running MSIE 6 or 7, but those are ancient and users should upgrade.
 +
 Enable this on the REST API responses because we sometimes send back
 text/plain results that are really just plain text. Existing JSON
-responses are protected from accidential sniffing and treatment as
+responses are protected from accidental sniffing and treatment as
 HTML thanks to Gson encoding HTML control characters using Unicode
 character escapes within JSON strings.
 
@@ -870,13 +870,13 @@ number of objects is marked as uninteresting.
 * PatchSet.isRef()-optimizations.
 +
 PatchSet.isRef() is used extensively when preparing for a ref
-advertisment and the regular expression used by isRefs() was notably
+advertisement and the regular expression used by isRefs() was notably
 costly in these circumstances, especially since it could not be
 pre-compiled.
 +
 The regular expression is removed and the check is now directly
 implemented. As result the performance of `git ls-remote` could be
-increased upto 15%.
+increased by up to 15%.
 
 * New config option `receive.checkReferencedObjectsAreReachable`
 +
@@ -898,11 +898,11 @@ initial page load for most users.
 
 * Caching of changes
 +
-During Ref Advertisments (via VisibleRefFilter), all changes need to
+During Ref Advertisements (via VisibleRefFilter), all changes need to
 be fetched from the database to allow Gerrit to figure out which change
 refs are visible and should be advertised to the user. To reduce
 database traffic a cache for changes was introduced. This cache is
-disabled by default since it can mess-up multi-server setups.
+disabled by default since it can mess up multi-server setups.
 
 Misc
 ~~~~
@@ -1140,13 +1140,13 @@ the 'Projects' menu was not selected.
 +
 ** Sometimes a second comment editor was shown instead of using the
    existing comment editor.
-** Fix doublicated border line between comments.
+** Fix duplicated border line between comments.
 ** Sometimes the parts of the border were missing when a comment was
    expanded.
 ** Fix displaying the blue line that marks the current line when there
    are several published comments.
 ** Sometimes on discard of a comment some frames of the comment editor
-   stayed and some border lines of neighbour comments disappeared.
+   stayed and some border lines of neighbor comments disappeared.
 
 * In diff view don't let arrow column accept clicks.
 
@@ -1178,7 +1178,7 @@ when switching pages, leaving the help text visible.
 +
 The provided suggestions should highlight the part that the user has
 already typed as bold text. This only worked for the first operator.
-For suggestions of any further operator no hightlighting was done.
+For suggestions of any further operator no highlighting was done.
 
 * Fix style of hint text in search box on initial page load
 +
@@ -1335,7 +1335,7 @@ message saying that it couldn't be merged because the destination
 branch doesn't exist anymore.
 +
 In addition Gerrit was writing an error into the error log if a change
-couldn't be merged because the destination branch wass missing.
+couldn't be merged because the destination branch was missing.
 That was not really a server error and is not logged anymore.
 
 * Fix NPE when pushing a patch with an invalid author with
@@ -1612,7 +1612,7 @@ load the Gerrit WAR. Instead package the Jetty runtime and the
 servlet API in a new `WEB-INF/pgm-lib` directory.
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=1822[Issue 1822]:
-  Verify session matches container authentiation header
+  Verify session matches container authentication header
 +
 If the user alters their identity in the container invalidate
 the Gerrit user session and force a new one to begin.

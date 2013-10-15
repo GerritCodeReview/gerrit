@@ -195,7 +195,7 @@ with SSH requests.
 * issue 392 Make hooks/commit-msg available over HTTP
 +
 The scp filesystem holding client side tools and hooks is now
-avaliable over `http://review.example.com/tools/'$name'`.  User
+available over `http://review.example.com/tools/'$name'`.  User
 documentation is updated with example URLs.
 
 * issue 470 Allow /r/I... URLs
@@ -252,7 +252,7 @@ it requires access to the private half of the host key.  For example:
 +
 Additional public keys for the magical 'Gerrit Code Review' user may
 be specified in an OpenSSH authorized_keys style file and are
-functionally equivilent to authenticating with the daemon's host key.
+functionally equivalent to authenticating with the daemon's host key.
 The keys are primarily intended to be other daemons, most likely
 slaves, that share the same set of repositories and database.
 
@@ -434,7 +434,7 @@ closed changes.
 * issue 466 Reject pushing to invalid reference names
 +
 Gerrit allowed the invalid `HEAD:/refs/for/master` push refspec
-to actaully create the branch `refs/heads/refs/for/master`, which
+to actually create the branch `refs/heads/refs/for/master`, which
 confused any other client trying to push.  Fixed.
 
 * issue 485 Trim the username before requesting authentication
@@ -467,7 +467,7 @@ handlers are now installed to trap and log any uncaught errors.
 
 * issue 451 gerrit.sh: Wait until the daemon is serving requests
 +
-The gerrit.sh script now waits until the deamon is actually running
+The gerrit.sh script now waits until the daemon is actually running
 and able to serve requests before returning to the caller with a
 successful exit status code.  This makes it easier to then start up
 dependent tasks that need the server to be ready before they can run.

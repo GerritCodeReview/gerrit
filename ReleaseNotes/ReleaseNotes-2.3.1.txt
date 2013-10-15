@@ -21,4 +21,4 @@ All-Projects and be accessed before the project that has the same
 section name as All-Projects. This is an unlikely scenario for
 most servers, as Gerrit does not normally set inheritFrom equal to
 All-Projects. The usual behavior is to not supply this property in
-project.config, and permit the implicit inheritence to take place.
+project.config, and permit the implicit inheritance to take place.

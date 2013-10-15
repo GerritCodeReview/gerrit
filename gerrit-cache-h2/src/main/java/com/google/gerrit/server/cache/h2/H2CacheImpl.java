@@ -462,7 +462,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> {
         c.touch =c.conn.prepareStatement("UPDATE data SET accessed=? WHERE k=?");
       }
       try {
-        c.touch.setTimestamp(1, new Timestamp(TimeUtil.nowMs()));
+        c.touch.setTimestamp(1, TimeUtil.nowTs());
         keyType.set(c.touch, 2, key);
         c.touch.executeUpdate();
       } finally {
@@ -491,7 +491,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> {
           keyType.set(c.put, 1, key);
           c.put.setObject(2, holder.value);
           c.put.setTimestamp(3, new Timestamp(holder.created));
-          c.put.setTimestamp(4, new Timestamp(TimeUtil.nowMs()));
+          c.put.setTimestamp(4, TimeUtil.nowTs());
           c.put.executeUpdate();
           holder.clean = true;
         } finally {

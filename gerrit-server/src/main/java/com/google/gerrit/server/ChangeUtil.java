@@ -145,7 +145,7 @@ public class ChangeUtil {
   }
 
   public static void updated(final Change c) {
-    c.setLastUpdatedOn(new Timestamp(TimeUtil.nowMs()));
+    c.setLastUpdatedOn(TimeUtil.nowTs());
     computeSortKey(c);
   }
 

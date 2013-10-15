@@ -56,6 +56,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
   private final TransferConfig config;
   private final DynamicMap<RestView<ProjectResource>> views;
   private final Provider<CurrentUser> currentUser;
+  private final ProjectControl.GenericFactory projectControlFactory;
 
   @Inject
   PutConfig(MetaDataUpdate.User metaDataUpdateFactory,
@@ -64,7 +65,8 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
       ProjectState.Factory projectStateFactory,
       TransferConfig config,
       DynamicMap<RestView<ProjectResource>> views,
-      Provider<CurrentUser> currentUser) {
+      Provider<CurrentUser> currentUser,
+      ProjectControl.GenericFactory projectControlFactory) {
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.projectCache = projectCache;
     this.self = self;
@@ -72,6 +74,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
     this.config = config;
     this.views = views;
     this.currentUser = currentUser;
+    this.projectControlFactory = projectControlFactory;
   }
 
   @Override
@@ -139,13 +142,16 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
           throw new ResourceConflictException("Cannot update " + projectName);
         }
       }
-      return new ConfigInfo(rsrc.getControl(),
-          projectStateFactory.create(projectConfig),
+      ProjectControl ctrl =
+          projectControlFactory.controlFor(projectName, currentUser.get());
+      return new ConfigInfo(ctrl, projectStateFactory.create(projectConfig),
           config, views, currentUser);
     } catch (ConfigInvalidException err) {
       throw new ResourceConflictException("Cannot read project " + projectName, err);
     } catch (IOException err) {
       throw new ResourceConflictException("Cannot update project " + projectName, err);
+    } catch (NoSuchProjectException err) {
+      throw new ResourceConflictException("Cannot find project " + projectName, err);
     } finally {
       md.close();
     }

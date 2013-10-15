@@ -25,6 +25,7 @@ import com.google.gerrit.client.api.ApiGlue;
 import com.google.gerrit.client.changes.ChangeConstants;
 import com.google.gerrit.client.changes.ChangeListScreen;
 import com.google.gerrit.client.config.ConfigServerApi;
+import com.google.gerrit.client.diff.DiffScreen;
 import com.google.gerrit.client.extensions.TopMenu;
 import com.google.gerrit.client.extensions.TopMenuItem;
 import com.google.gerrit.client.extensions.TopMenuList;
@@ -126,6 +127,7 @@ public class Gerrit implements EntryPoint {
   private static final Dispatcher dispatcher = new Dispatcher();
   private static ViewSite<Screen> body;
   private static PatchScreen patchScreen;
+  private static DiffScreen diffScreen;
   private static String lastChangeListToken;
   private static String lastViewToken;
 
@@ -144,6 +146,13 @@ public class Gerrit implements EntryPoint {
       return null;
     }
     return patchScreen.getTopView();
+  }
+
+  public static DiffScreen.TopViewType getDiffScreenTopViewType() {
+    if (diffScreen == null) {
+      return null;
+    }
+    return diffScreen.getTopViewType();
   }
 
   public static void displayLastChangeList() {
@@ -209,11 +218,17 @@ public class Gerrit implements EntryPoint {
       patchScreen = (PatchScreen) view;
       menuLeft.setVisible(diffBar, true);
       menuLeft.selectTab(menuLeft.getWidgetIndex(diffBar));
+    } else if (view instanceof DiffScreen) {
+      diffScreen = (DiffScreen) view;
+      menuLeft.setVisible(diffBar, true);
+      menuLeft.selectTab(menuLeft.getWidgetIndex(diffBar));
     } else {
-      if (patchScreen != null && menuLeft.getSelectedWidget() == diffBar) {
+      if ((patchScreen != null || diffScreen != null) &&
+          menuLeft.getSelectedWidget() == diffBar) {
         menuLeft.selectTab(isSignedIn() ? 1 : 0);
       }
       patchScreen = null;
+      diffScreen = null;
       menuLeft.setVisible(diffBar, false);
     }
   }
@@ -686,6 +701,7 @@ public class Gerrit implements EntryPoint {
     }
 
     patchScreen = null;
+    diffScreen = null;
     LinkMenuBar diffBar = new LinkMenuBar();
     menuBars.put(GerritTopMenu.DIFFERENCES.menuName, diffBar);
     menuLeft.addInvisible(diffBar, C.menuDiff());
@@ -919,6 +935,9 @@ public class Gerrit implements EntryPoint {
         public void go() {
           if (patchScreen != null) {
             patchScreen.setTopView(tv);
+          } else if (diffScreen != null) {
+            diffScreen.setTopViewType(
+                DiffScreen.TopViewType.valueOf(tv.toString()));
           }
           AnchorElement.as(getElement()).blur();
         }

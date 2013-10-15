@@ -17,6 +17,8 @@ package com.google.gerrit.launcher;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
+import org.joda.time.DateTimeUtils;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -506,7 +508,7 @@ public final class GerritLauncher {
     //
     final File[] tmpEntries = tmp.listFiles();
     if (tmpEntries != null) {
-      final long now = System.currentTimeMillis();
+      final long now = DateTimeUtils.currentTimeMillis();
       final long expired = now - MILLISECONDS.convert(7, DAYS);
       for (final File tmpEntry : tmpEntries) {
         if (tmpEntry.isDirectory() && tmpEntry.lastModified() < expired) {

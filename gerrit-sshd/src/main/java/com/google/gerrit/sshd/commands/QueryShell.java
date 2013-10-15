@@ -16,6 +16,7 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.Version;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gwtorm.jdbc.JdbcSchema;
@@ -354,7 +355,7 @@ public class QueryShell {
   }
 
   private void executeStatement(final String sql) {
-    final long start = System.currentTimeMillis();
+    final long start = TimeUtil.nowMs();
     final boolean hasResultSet;
     try {
       hasResultSet = statement.execute(sql);
@@ -374,7 +375,7 @@ public class QueryShell {
 
       } else {
         final int updateCount = statement.getUpdateCount();
-        final long ms = System.currentTimeMillis() - start;
+        final long ms = TimeUtil.nowMs() - start;
         switch (outputFormat) {
           case JSON_SINGLE:
           case JSON: {
@@ -490,7 +491,7 @@ public class QueryShell {
       tail = new JsonObject();
       tail.addProperty("type", "query-stats");
       tail.addProperty("rowCount", rowCnt);
-      final long ms = System.currentTimeMillis() - start;
+      final long ms = TimeUtil.nowMs() - start;
       tail.addProperty("runTimeMilliseconds", ms);
     }
 
@@ -629,7 +630,7 @@ public class QueryShell {
 
     if (start != 0) {
       final int rowCount = rows.size();
-      final long ms = System.currentTimeMillis() - start;
+      final long ms = TimeUtil.nowMs() - start;
       println("(" + rowCount + (rowCount == 1 ? " row" : " rows")
           + "; " + ms + " ms)");
     }

@@ -24,6 +24,7 @@ import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -333,7 +334,7 @@ public class CatServlet extends HttpServlet {
     md.update(req.getRemoteAddr().getBytes("UTF-8"));
     md.update(buf, 0, 4);
 
-    NB.encodeInt64(buf, 0, System.currentTimeMillis());
+    NB.encodeInt64(buf, 0, TimeUtil.nowMs());
     md.update(buf, 0, 8);
 
     rng.nextBytes(buf);

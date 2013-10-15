@@ -26,6 +26,7 @@ import com.google.gerrit.server.cache.h2.H2CacheImpl;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.Task;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshDaemon;
 import com.google.inject.Inject;
@@ -59,7 +60,7 @@ final class ShowCaches extends CacheCommand {
   static class StartupListener implements LifecycleListener {
     @Override
     public void start() {
-      serverStarted = System.currentTimeMillis();
+      serverStarted = TimeUtil.nowMs();
     }
 
     @Override
@@ -270,7 +271,7 @@ final class ShowCaches extends CacheCommand {
       return;
     }
 
-    long now = System.currentTimeMillis();
+    long now = TimeUtil.nowMs();
     Collection<IoSession> list = acceptor.getManagedSessions().values();
     long oldest = now;
     for (IoSession s : list) {

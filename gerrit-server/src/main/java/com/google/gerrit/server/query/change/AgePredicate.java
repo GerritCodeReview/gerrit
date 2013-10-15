@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.TimestampRangePredicate;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
@@ -37,7 +38,7 @@ public class AgePredicate extends TimestampRangePredicate<ChangeData> {
 
     long s = ConfigUtil.getTimeUnit(getValue(), 0, SECONDS);
     long ms = MILLISECONDS.convert(s, SECONDS);
-    this.cut = System.currentTimeMillis() - ms;
+    this.cut = TimeUtil.nowMs() - ms;
   }
 
   public Timestamp getMinTimestamp() {

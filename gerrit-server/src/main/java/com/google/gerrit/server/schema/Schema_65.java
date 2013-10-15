@@ -39,6 +39,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -348,7 +349,7 @@ public class Schema_65 extends SchemaVersion {
           "       reviewed_on, review_comments " +
           "FROM account_agreements WHERE status = 'V'");
       try {
-        long minTime = System.currentTimeMillis();
+        long minTime = TimeUtil.nowMs();
         while (rs.next()) {
           Account.Id accountId = new Account.Id(rs.getInt(1));
           Account.Id reviewerId = new Account.Id(rs.getInt(4));

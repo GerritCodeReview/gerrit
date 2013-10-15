@@ -15,6 +15,7 @@
 package com.google.gerrit.server.plugins;
 
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -52,7 +53,7 @@ class PluginCleanerTask implements Runnable {
       self = null;
 
       if (0 < left) {
-        long waiting = System.currentTimeMillis() - start;
+        long waiting = TimeUtil.nowMs() - start;
         PluginLoader.log.warn(String.format(
             "%d plugins still waiting to be reclaimed after %d minutes",
             pending,
@@ -76,7 +77,7 @@ class PluginCleanerTask implements Runnable {
 
   synchronized void clean(int expect) {
     if (self == null && pending == 0) {
-      start = System.currentTimeMillis();
+      start = TimeUtil.nowMs();
     }
     pending = expect;
     ensureScheduled();

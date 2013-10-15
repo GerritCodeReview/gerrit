@@ -214,7 +214,7 @@ class EncryptedContactStore implements ContactStore {
       throws ContactInformationStoreException {
     Timestamp on = account.getContactFiledOn();
     if (on == null) {
-      on = new Timestamp(TimeUtil.nowMs());
+      on = TimeUtil.nowTs();
     }
 
     final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");

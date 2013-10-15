@@ -18,6 +18,7 @@ import com.google.gerrit.common.Version;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -151,7 +152,7 @@ public class SmtpEmailSender implements EmailSender {
       setMissingHeader(hdrs, "Importance", importance);
     }
     if(expiryDays > 0) {
-      Date expiry = new Date(System.currentTimeMillis() +
+      Date expiry = new Date(TimeUtil.nowMs() +
         expiryDays * 24 * 60 * 60 * 1000L );
       setMissingHeader(hdrs, "Expiry-Date",
         new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z").format(expiry));

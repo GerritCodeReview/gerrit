@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.Sets;
-
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.reviewdb.client.Account;
@@ -46,6 +45,7 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.ssh.SshInfo;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -332,7 +332,7 @@ public class PatchSetInserter {
     if (patchSet == null) {
       patchSet = new PatchSet(
           ChangeUtil.nextPatchSetId(git, change.currentPatchSetId()));
-      patchSet.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+      patchSet.setCreatedOn(new Timestamp(TimeUtil.nowMs()));
       patchSet.setUploader(change.getOwner());
       patchSet.setRevision(new RevId(commit.name()));
     }

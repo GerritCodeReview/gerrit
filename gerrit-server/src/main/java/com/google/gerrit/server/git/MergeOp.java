@@ -15,10 +15,12 @@
 package com.google.gerrit.server.git;
 
 import static com.google.gerrit.server.git.MergeUtil.getSubmitter;
+
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
+
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
 import com.google.common.base.Objects;
@@ -59,6 +61,7 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.util.RequestScopePropagator;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -705,7 +708,7 @@ public class MergeOp {
     final Capable capable;
     final Change c = commit.change;
     final boolean submitStillPossible = isSubmitForMissingCommitsStillPossible(commit);
-    final long now = System.currentTimeMillis();
+    final long now = TimeUtil.nowMs();
     final long waitUntil = c.getLastUpdatedOn().getTime() + DEPENDENCY_DELAY;
     if (submitStillPossible && now < waitUntil) {
       // If we waited a short while we might still be able to get
@@ -956,7 +959,7 @@ public class MergeOp {
       @Nullable PatchSetApproval submitter,
       ChangeMessage msg) {
     if (submitter != null
-        && System.currentTimeMillis() - submitter.getGranted().getTime()
+        && TimeUtil.nowMs() - submitter.getGranted().getTime()
           > MAX_SUBMIT_WINDOW) {
       return RetryStatus.UNSUBMIT;
     }

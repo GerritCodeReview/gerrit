@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.util.IdGenerator;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gerrit.sshd.SshDaemon;
@@ -94,7 +95,7 @@ final class ShowConnections extends SshCommand {
 
     hostNameWidth = wide ? Integer.MAX_VALUE : columns - 9 - 9 - 10 - 32;
 
-    final long now = System.currentTimeMillis();
+    final long now = TimeUtil.nowMs();
     stdout.print(String.format("%-8s %8s %8s   %-15s %s\n", //
         "Session", "Start", "Idle", "User", "Remote Host"));
     stdout.print("--------------------------------------------------------------\n");

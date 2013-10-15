@@ -17,6 +17,7 @@ package com.google.gerrit.pgm.http.jetty;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.util.TimeUtil;
 
 import org.apache.log4j.Appender;
 import org.apache.log4j.AsyncAppender;
@@ -95,7 +96,7 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
     final LoggingEvent event = new LoggingEvent( //
         Logger.class.getName(), // fqnOfCategoryClass
         log, // logger
-        System.currentTimeMillis(), // when
+        TimeUtil.nowMs(), // when
         Level.INFO, // level
         "", // message text
         "HTTPD", // thread name
@@ -162,7 +163,7 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
       dateFormat = new SimpleDateFormat("dd/MMM/yyyy:HH:mm:ss Z");
       dateFormat.setTimeZone(tz);
 
-      lastTimeMillis = System.currentTimeMillis();
+      lastTimeMillis = TimeUtil.nowMs();
       lastTimeString = dateFormat.format(new Date(lastTimeMillis));
     }
 

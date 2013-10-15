@@ -22,6 +22,7 @@ import static com.google.gerrit.server.ioutil.BasicSerialization.writeBytes;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeFixInt64;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeString;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
+import static com.google.gerrit.server.util.TimeUtil.nowMs;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
@@ -52,10 +53,6 @@ import java.util.concurrent.TimeUnit;
 class WebSessionManager {
   private static final Logger log = LoggerFactory.getLogger(WebSessionManager.class);
   static final String CACHE_NAME = "web_sessions";
-
-  static long now() {
-    return System.currentTimeMillis();
-  }
 
   private final long sessionMaxAgeMillis;
   private final SecureRandom prng;
@@ -117,7 +114,7 @@ class WebSessionManager {
     final long halfAgeRefresh = sessionMaxAgeMillis >>> 1;
     final long minRefresh = MILLISECONDS.convert(1, HOURS);
     final long refresh = Math.min(halfAgeRefresh, minRefresh);
-    final long now = now();
+    final long now = nowMs();
     final long refreshCookieAt = now + refresh;
     final long expiresAt = now + sessionMaxAgeMillis;
     if (sid == null) {
@@ -150,7 +147,7 @@ class WebSessionManager {
 
   Val get(final Key key) {
     Val val = self.getIfPresent(key.token);
-    if (val != null && val.expiresAt <= now()) {
+    if (val != null && val.expiresAt <= nowMs()) {
       self.invalidate(key.token);
       return null;
     }
@@ -223,7 +220,7 @@ class WebSessionManager {
     }
 
     boolean needsCookieRefresh() {
-      return refreshCookieAt <= now();
+      return refreshCookieAt <= nowMs();
     }
 
     boolean isPersistentCookie() {

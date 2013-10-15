@@ -18,6 +18,7 @@ limitations under the License.
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
     xmlns:d='urn:import:com.google.gerrit.client.diff'>
   <g:FlowPanel>
+    <g:FlowPanel ui:field='topPanel'></g:FlowPanel>
     <d:Header ui:field='header'/>
     <d:DiffTable ui:field='diffTable'/>
   </g:FlowPanel>

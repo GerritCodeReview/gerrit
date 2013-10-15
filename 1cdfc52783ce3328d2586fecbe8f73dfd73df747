@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dec4282a_ee7ddf6d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-15T23:50:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ecb3c3d_8bfd2de6",
+      "revId": "1cdfc52783ce3328d2586fecbe8f73dfd73df747",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ebaf89c_2aef5f33",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-10-15T03:45:46Z",
       "side": 1,
       "message": "i don\u0027t think you need that. We have documentation how to test REST endpoints in Documentation/dev-rest-api.html.\n\nWhat is missing is the documentation of that REST endpoint and result entity it produces. Have a look at Documentation/rest-api-projects.txt and friends.",
+      "revId": "1cdfc52783ce3328d2586fecbe8f73dfd73df747",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dec4282a_8e7a1b73",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-15T23:50:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ebaf89c_2aef5f33",
       "revId": "1cdfc52783ce3328d2586fecbe8f73dfd73df747",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "dec4282a_ae9ef7a9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryLucene.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-15T23:50:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ebaf89c_caf3231a",
+      "revId": "1cdfc52783ce3328d2586fecbe8f73dfd73df747",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ecb3c3d_abfa69e9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryLucene.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2013-10-15T03:45:46Z",
       "side": 1,
       "message": "s/BUFSIZ/BUFSIZE\n\n\n DocQueryLucene.java:146: error: cannot find symbol\n    byte[] buffer \u003d new byte[BUFSIZ];\n                             ^\n  symbol:   variable BUFSIZ\n  location: class com.google.gerrit.server.query.doc.DocQueryLucene",
+      "revId": "1cdfc52783ce3328d2586fecbe8f73dfd73df747",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bec1341b_0d55d1fc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryLucene.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-15T23:50:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ecb3c3d_abfa69e9",
       "revId": "1cdfc52783ce3328d2586fecbe8f73dfd73df747",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

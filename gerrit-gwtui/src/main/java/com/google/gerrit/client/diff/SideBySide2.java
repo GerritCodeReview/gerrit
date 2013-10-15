@@ -36,7 +36,6 @@ import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
-import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.changes.ListChangesOption;
 import com.google.gerrit.common.changes.Side;
@@ -90,7 +89,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SideBySide2 extends Screen {
+public class SideBySide2 extends DiffScreen {
   interface Binder extends UiBinder<FlowPanel, SideBySide2> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
@@ -107,7 +106,6 @@ public class SideBySide2 extends Screen {
   private final PatchSet.Id base;
   private final PatchSet.Id revision;
   private final String path;
-  private AccountDiffPreference pref;
 
   private CodeMirror cmA;
   private CodeMirror cmB;
@@ -128,7 +126,6 @@ public class SideBySide2 extends Screen {
   private Map<LineHandle, LinePaddingWidgetWrapper> linePaddingOnOtherSideMap;
   private List<DiffChunkInfo> diffChunks;
   private List<SkippedLine> skips;
-  private int context;
 
   private KeyCommandSet keysNavigation;
   private KeyCommandSet keysAction;
@@ -144,12 +141,6 @@ public class SideBySide2 extends Screen {
     this.revision = revision;
     this.changeId = revision.getParentKey();
     this.path = path;
-
-    pref = Gerrit.getAccountDiffPreference();
-    if (pref == null) {
-      pref = AccountDiffPreference.createDefault(null);
-    }
-    context = pref.getContext();
 
     handlers = new ArrayList<HandlerRegistration>(6);
     // TODO: Re-implement necessary GlobalKey bindings.
@@ -179,8 +170,8 @@ public class SideBySide2 extends Screen {
     DiffApi.diff(revision, path)
       .base(base)
       .wholeFile()
-      .intraline(pref.isIntralineDifference())
-      .ignoreWhitespace(pref.getIgnoreWhitespace())
+      .intraline(getPrefs().get().isIntralineDifference())
+      .ignoreWhitespace(getPrefs().get().getIgnoreWhitespace())
       .get(cmGroup.addFinal(new GerritCallback<DiffInfo>() {
         @Override
         public void onSuccess(DiffInfo diffInfo) {
@@ -234,6 +225,7 @@ public class SideBySide2 extends Screen {
   public void onShowView() {
     super.onShowView();
     resizeCodeMirror();
+
     Window.enableScrolling(false);
 
     cmA.setOption("viewportMargin", 10);
@@ -401,8 +393,26 @@ public class SideBySide2 extends Screen {
   }
 
   private void display(DiffInfo diffInfo) {
-    cmA = displaySide(diffInfo.meta_a(), diffInfo.text_a(), diffTable.cmA);
-    cmB = displaySide(diffInfo.meta_b(), diffInfo.text_b(), diffTable.cmB);
+    boolean isFirstDisplay = false;
+    if (cmA == null && cmB == null) {
+      isFirstDisplay = true;
+      cmA = displaySide(diffInfo.meta_a(), diffInfo.text_a(), diffTable.cmA);
+      cmB = displaySide(diffInfo.meta_b(), diffInfo.text_b(), diffTable.cmB);
+    } else {
+      cmA.setValue(diffInfo.text_a());
+      cmB.setValue(diffInfo.text_b());
+      cmA.setOptionToInfinity("viewportMargin");
+      cmB.setOptionToInfinity("viewportMargin");
+      Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+        @Override
+        public void execute() {
+          cmA.refresh();
+          cmB.refresh();
+          cmA.setOption("viewportMargin", 10);
+          cmB.setOption("viewportMargin", 10);
+        }
+      });
+    }
 
     skips = new ArrayList<SkippedLine>();
     linePaddingOnOtherSideMap = new HashMap<LineHandle, LinePaddingWidgetWrapper>();
@@ -427,19 +437,23 @@ public class SideBySide2 extends Screen {
       renderDrafts(draftsRevision);
     }
     renderSkips();
-    registerCmEvents(cmA);
-    registerCmEvents(cmB);
-
-    scrollingGlue = GWT.create(ScrollSynchronizer.class);
-    scrollingGlue.init(diffTable, cmA, cmB, mapper);
-
-    resizeHandler = Window.addResizeHandler(new ResizeHandler() {
-      @Override
-      public void onResize(ResizeEvent event) {
-        resizeCodeMirror();
-      }
-    });
-    if (pref.isShowTabs()) {
+    if (isFirstDisplay) {
+      registerCmEvents(cmA);
+      registerCmEvents(cmB);
+    }
+    if (scrollingGlue == null) {
+      scrollingGlue = GWT.create(ScrollSynchronizer.class);
+      scrollingGlue.init(diffTable, cmA, cmB, mapper);
+    }
+    if (resizeHandler == null) {
+      resizeHandler = Window.addResizeHandler(new ResizeHandler() {
+        @Override
+        public void onResize(ResizeEvent event) {
+          resizeCodeMirror();
+        }
+      });
+    }
+    if (getPrefs().get().isShowTabs()) {
       diffTable.addStyleName(DiffTable.style.showtabs());
     }
   }
@@ -452,11 +466,11 @@ public class SideBySide2 extends Screen {
     Configuration cfg = Configuration.create()
       .set("readOnly", true)
       .set("lineNumbers", true)
-      .set("tabSize", pref.getTabSize())
+      .set("tabSize", getPrefs().get().getTabSize())
       .set("mode", getContentType(meta))
       .set("lineWrapping", false)
       .set("styleSelectedText", true)
-      .set("showTrailingSpace", pref.isShowWhitespaceErrors())
+      .set("showTrailingSpace", getPrefs().get().isShowWhitespaceErrors())
       .set("keyMap", "vim_ro")
       .set("value", contents)
       /**
@@ -465,13 +479,41 @@ public class SideBySide2 extends Screen {
        * 10 (default) after initial rendering.
        */
       .setInfinity("viewportMargin");
-    int h = Gerrit.getHeaderFooterHeight() + 18 /* reviewed estimate */;
     CodeMirror cm = CodeMirror.create(ele, cfg);
+    int h = Gerrit.getHeaderFooterHeight() + 28 /* reviewed estimate */;
     cm.setHeight(Window.getClientHeight() - h);
     return cm;
   }
 
+  @Override
+  void updateDiffPrefs(AccountDiffPreference value) {
+    if (value.isShowTabs()) {
+      diffTable.addStyleName(DiffTable.style.showtabs());
+    } else {
+      diffTable.removeStyleName(DiffTable.style.showtabs());
+    }
+    cmA.setOption("showTrailingSpace", value.isShowWhitespaceErrors());
+    cmB.setOption("showTrailingSpace", value.isShowWhitespaceErrors());
+    cmA.setOption("tabSize", value.getTabSize());
+    cmB.setOption("tabSize", value.getTabSize());
+    setContext(value.getContext());
+
+    DiffApi.diff(revision, path)
+      .base(base)
+      .wholeFile()
+      .intraline(getPrefs().get().isIntralineDifference())
+      .ignoreWhitespace(getPrefs().get().getIgnoreWhitespace())
+      .get(new GerritCallback<DiffInfo>() {
+        @Override
+        public void onSuccess(DiffInfo diffInfo) {
+          diff = diffInfo;
+          display(diff);
+        }
+      });
+  }
+
   private void render(DiffInfo diff) {
+    int context = getContext();
     JsArray<Region> regions = diff.content();
     if (!(regions.length() == 0 ||
         regions.length() == 1 && regions.get(0).ab() != null)) {
@@ -675,6 +717,9 @@ public class SideBySide2 extends Screen {
       CodeMirror cm = getCmFromSide(side);
       PublishedBox box = new PublishedBox(this, cm, side, commentLinkProcessor,
           getPatchSetIdFromSide(side), info);
+      if (getPrefs().get().isExpandAllComments()) {
+        box.setOpen(true);
+      }
       publishedMap.put(info.id(), box);
       if (!info.has_line()) {
         diffTable.addFileCommentBox(box);
@@ -709,6 +754,9 @@ public class SideBySide2 extends Screen {
       DraftBox box = new DraftBox(
           this, getCmFromSide(side), side, commentLinkProcessor,
           getPatchSetIdFromSide(side), info);
+      if (getPrefs().get().isExpandAllComments()) {
+        box.setOpen(true);
+      }
       if (publishedBase != null || publishedRevision != null) {
         PublishedBox replyToBox = publishedMap.get(info.in_reply_to());
         if (replyToBox != null) {
@@ -726,6 +774,7 @@ public class SideBySide2 extends Screen {
   }
 
   private void renderSkips() {
+    int context = getContext();
     if (context == AccountDiffPreference.WHOLE_FILE_CONTEXT) {
       return;
     }
@@ -1232,6 +1281,7 @@ public class SideBySide2 extends Screen {
     int rest = Gerrit.getHeaderFooterHeight()
         + header.getOffsetHeight()
         + diffTable.getHeaderHeight()
+        + getTopPanel().getOffsetHeight()
         + 10; // Estimate
     int h = Window.getClientHeight() - rest;
     cmA.setHeight(h);
@@ -1246,7 +1296,7 @@ public class SideBySide2 extends Screen {
   }
 
   private String getContentType(DiffInfo.FileMeta meta) {
-    return pref.isSyntaxHighlighting()
+    return getPrefs().get().isSyntaxHighlighting()
           && meta != null
           && meta.content_type() != null
         ? ModeInjector.getContentType(meta.content_type())
@@ -1267,8 +1317,8 @@ public class SideBySide2 extends Screen {
       DiffApi.diff(revision, nextPath)
         .base(base)
         .wholeFile()
-        .intraline(pref.isIntralineDifference())
-        .ignoreWhitespace(pref.getIgnoreWhitespace())
+        .intraline(getPrefs().get().isIntralineDifference())
+        .ignoreWhitespace(getPrefs().get().getIgnoreWhitespace())
         .get(new AsyncCallback<DiffInfo>() {
           @Override
           public void onSuccess(DiffInfo info) {

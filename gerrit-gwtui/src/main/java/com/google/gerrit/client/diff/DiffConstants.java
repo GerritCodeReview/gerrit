@@ -15,27 +15,21 @@
 package com.google.gerrit.client.diff;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.CssResource;
+import com.google.gwt.i18n.client.Constants;
 
-/** Resources used by diff. */
-interface Resources extends ClientBundle {
-  static final Resources I = GWT.create(Resources.class);
+public interface DiffConstants extends Constants {
+  public static final DiffConstants I = GWT.create(DiffConstants.class);
 
-  @Source("CommentBoxUi.css") Style style();
-  @Source("DiffPreferences.css") PrefsStyle prefs();
-
-  interface Style extends CssResource {
-    String commentBox();
-    String contents();
-    String header();
-    String summary();
-    String date();
-  }
-
-  public interface PrefsStyle extends CssResource {
-    String prefsPopup();
-    String prefsHeader();
-    String prefsHeaderGlue();
-  }
+  String diffPreferences();
+  String syntaxHighlighting();
+  String ignoreWhitespace();
+  String tabWidth();
+  String intralineDifference();
+  String context();
+  String whitespaceErrors();
+  String showTabs();
+  String expandAllComments();
+  String update();
+  String save();
+  String close();
 }

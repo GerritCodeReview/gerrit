@@ -18,6 +18,7 @@ import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GitwebLink;
 import com.google.gerrit.client.ui.Hyperlink;
+import com.google.gerrit.client.ui.ParentProjectBox;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -54,6 +55,10 @@ public class ProjectAccessEditor extends Composite implements
 
   @UiField
   Hyperlink parentProject;
+
+  @UiField
+  @Editor.Ignore
+  ParentProjectBox parentProjectBox;
 
   @UiField
   DivElement history;
@@ -106,6 +111,11 @@ public class ProjectAccessEditor extends Composite implements
       parentProject.setText(parent.get());
       parentProject.setTargetHistoryToken( //
           Dispatcher.toProjectAdmin(parent, ProjectScreen.ACCESS));
+
+      parentProjectBox.setVisible(editing && value.canChangeParent());
+      parentProjectBox.setProject(value.getProjectName());
+      parentProjectBox.setParentProject(value.getInheritsFrom());
+      parentProject.setVisible(!parentProjectBox.isVisible());
     } else {
       inheritsFrom.getStyle().setDisplay(Display.NONE);
     }
@@ -135,6 +145,7 @@ public class ProjectAccessEditor extends Composite implements
       }
     }
     value.setLocal(keep);
+    value.setInheritsFrom(parentProjectBox.getParentProjectName());
   }
 
   @Override

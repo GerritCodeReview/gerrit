@@ -31,6 +31,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.PostReviewers;
+import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -39,6 +40,7 @@ import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.SetParent;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -60,9 +62,11 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       LoggerFactory.getLogger(ReviewProjectAccess.class);
 
   interface Factory {
-    ReviewProjectAccess create(@Assisted Project.NameKey projectName,
+    ReviewProjectAccess create(
+        @Assisted("projectName") Project.NameKey projectName,
         @Nullable @Assisted ObjectId base,
         @Assisted List<AccessSection> sectionList,
+        @Nullable @Assisted("parentProjectName") Project.NameKey parentProjectName,
         @Nullable @Assisted String message);
   }
 
@@ -84,13 +88,17 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       ChangeControl.GenericFactory changeFactory,
       ChangeIndexer indexer, ChangeHooks hooks,
       CreateChangeSender.Factory createChangeSenderFactory,
+      AllProjectsNameProvider allProjects,
+      Provider<SetParent> setParent,
 
-      @Assisted Project.NameKey projectName,
+      @Assisted("projectName") Project.NameKey projectName,
       @Nullable @Assisted ObjectId base,
       @Assisted List<AccessSection> sectionList,
+      @Nullable @Assisted("parentProjectName") Project.NameKey parentProjectName,
       @Nullable @Assisted String message) {
     super(projectControlFactory, groupBackend, metaDataUpdateFactory,
-        projectName, base, sectionList, message, false);
+        allProjects, setParent, projectName, base, sectionList,
+        parentProjectName, message, false);
     this.db = db;
     this.user = user;
     this.patchSetInfoFactory = patchSetInfoFactory;

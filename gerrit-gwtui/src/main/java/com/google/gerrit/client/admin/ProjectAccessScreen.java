@@ -17,6 +17,7 @@ package com.google.gerrit.client.admin;
 import static com.google.gerrit.common.ProjectAccessUtil.mergeSections;
 import static com.google.gerrit.common.ProjectAccessUtil.removeEmptyPermissionsAndSections;
 
+import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.config.CapabilityInfo;
 import com.google.gerrit.client.config.ConfigServerApi;
@@ -28,6 +29,7 @@ import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ProjectAccess;
+import com.google.gerrit.common.errors.UpdateParentFailedException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
@@ -45,6 +47,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
+import com.google.gwtjsonrpc.client.RemoteJsonException;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -205,6 +208,7 @@ public class ProjectAccessScreen extends ProjectScreen {
         access.getRevision(), //
         message, //
         access.getLocal(), //
+        access.getInheritsFrom(), //
         new GerritCallback<ProjectAccess>() {
           @Override
           public void onSuccess(ProjectAccess newAccess) {
@@ -250,7 +254,15 @@ public class ProjectAccessScreen extends ProjectScreen {
           public void onFailure(Throwable caught) {
             error.clear();
             enable(true);
-            super.onFailure(caught);
+            if (caught instanceof RemoteJsonException
+                && caught.getMessage().startsWith(
+                    UpdateParentFailedException.MESSAGE)) {
+              new ErrorDialog(Gerrit.M.parentUpdateFailed(caught.getMessage()
+                  .substring(UpdateParentFailedException.MESSAGE.length() + 1)))
+                  .center();
+            } else {
+              super.onFailure(caught);
+            }
           }
         });
   }
@@ -275,6 +287,7 @@ public class ProjectAccessScreen extends ProjectScreen {
         access.getRevision(), //
         message, //
         access.getLocal(), //
+        access.getInheritsFrom(), //
         new GerritCallback<Change.Id>() {
           @Override
           public void onSuccess(Change.Id changeId) {

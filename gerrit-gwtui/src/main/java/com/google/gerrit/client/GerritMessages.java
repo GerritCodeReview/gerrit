@@ -34,4 +34,6 @@ public interface GerritMessages extends Messages {
 
   String pluginFailed(String scriptPath);
   String cannotDownloadPlugin(String scriptPath);
+
+  String parentUpdateFailed(String message);
 }

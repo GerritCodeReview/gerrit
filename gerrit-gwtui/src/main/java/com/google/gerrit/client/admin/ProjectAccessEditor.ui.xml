@@ -56,6 +56,9 @@ limitations under the License.
   <div ui:field='inheritsFrom' class='{style.inheritsFrom}'>
     <span class='{style.parentTitle}'><ui:msg>Rights Inherit From:</ui:msg></span>
     <q:Hyperlink ui:field='parentProject' styleName='{style.parentLink}'/>
+    <q:ParentProjectBox
+      ui:field='parentProjectBox'
+      visible='false'/>
   </div>
   <div ui:field='history' class='{style.history}'>
     <span class='{style.historyTitle}'><ui:msg>History:</ui:msg></span>

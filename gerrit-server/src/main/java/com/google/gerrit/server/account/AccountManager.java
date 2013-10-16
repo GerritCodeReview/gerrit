@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -258,7 +259,7 @@ public class AccountManager {
     }
 
     final Account.Id newId = new Account.Id(db.nextAccountId());
-    final Account account = new Account(newId);
+    final Account account = new Account(newId, TimeUtil.nowTs());
     final AccountExternalId extId = createId(newId, who);
 
     extId.setEmailAddress(who.getEmailAddress());
@@ -293,8 +294,8 @@ public class AccountManager {
       final AccountGroup.Id adminId = g.getId();
       final AccountGroupMember m =
           new AccountGroupMember(new AccountGroupMember.Key(newId, adminId));
-      db.accountGroupMembersAudit().insert(
-          Collections.singleton(new AccountGroupMemberAudit(m, newId)));
+      db.accountGroupMembersAudit().insert(Collections.singleton(
+          new AccountGroupMemberAudit(m, newId, TimeUtil.nowTs())));
       db.accountGroupMembers().insert(Collections.singleton(m));
     }
 

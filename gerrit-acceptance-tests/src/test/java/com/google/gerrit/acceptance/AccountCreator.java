@@ -30,8 +30,10 @@ import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.ssh.SshKeyCache;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
+
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.KeyPair;
@@ -77,7 +79,7 @@ public class AccountCreator {
         db.accountExternalIds().insert(Collections.singleton(extMailto));
       }
 
-      Account a = new Account(id);
+      Account a = new Account(id, TimeUtil.nowTs());
       a.setFullName(fullName);
       a.setPreferredEmail(email);
       db.accounts().insert(Collections.singleton(a));

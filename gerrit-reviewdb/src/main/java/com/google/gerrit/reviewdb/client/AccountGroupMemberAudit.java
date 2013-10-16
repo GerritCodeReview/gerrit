@@ -79,11 +79,6 @@ public final class AccountGroupMemberAudit {
   }
 
   public AccountGroupMemberAudit(final AccountGroupMember m,
-      final Account.Id adder) {
-    this(m, adder, now());
-  }
-
-  public AccountGroupMemberAudit(final AccountGroupMember m,
       final Account.Id adder, Timestamp addedOn) {
     final Account.Id who = m.getAccountId();
     final AccountGroup.Id group = m.getAccountGroupId();
@@ -99,17 +94,13 @@ public final class AccountGroupMemberAudit {
     return removedOn == null;
   }
 
-  public void removed(final Account.Id deleter) {
+  public void removed(final Account.Id deleter, final Timestamp when) {
     removedBy = deleter;
-    removedOn = now();
+    removedOn = when;
   }
 
   public void removedLegacy() {
     removedBy = addedBy;
     removedOn = key.addedOn;
-  }
-
-  private static Timestamp now() {
-    return new Timestamp(System.currentTimeMillis());
   }
 }

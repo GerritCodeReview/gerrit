@@ -32,6 +32,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.PutTopic.Input;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -91,7 +92,7 @@ class PutTopic implements RestModifyView<ChangeResource, Input>,
       IdentifiedUser currentUser = ((IdentifiedUser) control.getCurrentUser());
       ChangeMessage cmsg = new ChangeMessage(
           new ChangeMessage.Key(change.getId(), ChangeUtil.messageUUID(db)),
-          currentUser.getAccountId(),
+          currentUser.getAccountId(), TimeUtil.nowTs(),
           change.currentPatchSetId());
       StringBuilder msgBuf = new StringBuilder(summary);
       if (!Strings.isNullOrEmpty(input.message)) {

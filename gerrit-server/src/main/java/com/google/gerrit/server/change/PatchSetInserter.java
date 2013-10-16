@@ -168,8 +168,9 @@ public class PatchSetInserter {
   }
 
   public PatchSetInserter setMessage(String message) throws OrmException {
-    changeMessage = new ChangeMessage(new ChangeMessage.Key(change.getId(),
-        ChangeUtil.messageUUID(db)), user.getAccountId(), patchSet.getId());
+    changeMessage = new ChangeMessage(
+        new ChangeMessage.Key(change.getId(), ChangeUtil.messageUUID(db)),
+        user.getAccountId(), TimeUtil.nowTs(), patchSet.getId());
     changeMessage.setMessage(message);
     return this;
   }

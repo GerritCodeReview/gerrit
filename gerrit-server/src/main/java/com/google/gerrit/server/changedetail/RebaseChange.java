@@ -35,6 +35,7 @@ import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -302,9 +303,9 @@ public class RebaseChange {
         .setRunHooks(runHooks);
 
     final PatchSet.Id newPatchSetId = patchSetInserter.getPatchSetId();
-    final ChangeMessage cmsg =
-        new ChangeMessage(new ChangeMessage.Key(change.getId(),
-            ChangeUtil.messageUUID(db)), uploader.getAccountId(), patchSetId);
+    final ChangeMessage cmsg = new ChangeMessage(
+        new ChangeMessage.Key(change.getId(), ChangeUtil.messageUUID(db)),
+        uploader.getAccountId(), TimeUtil.nowTs(), patchSetId);
 
     cmsg.setMessage("Patch Set " + newPatchSetId.get()
         + ": Patch Set " + patchSetId.get() + " was rebased");

@@ -273,7 +273,8 @@ public class ChangeUtil {
           new Change.Key("I" + computedChangeId.name()),
           new Change.Id(db.nextChangeId()),
           user.getAccountId(),
-          changeToRevert.getDest());
+          changeToRevert.getDest(),
+          TimeUtil.nowTs());
       change.setTopic(changeToRevert.getTopic());
       ChangeInserter ins =
           changeInserterFactory.create(refControl, change, revertCommit);
@@ -304,9 +305,9 @@ public class ChangeUtil {
             change.getDest().getParentKey().get(), ru.getResult()));
       }
 
-      final ChangeMessage cmsg =
-          new ChangeMessage(new ChangeMessage.Key(changeId,
-              ChangeUtil.messageUUID(db)), user.getAccountId(), patchSetId);
+      final ChangeMessage cmsg = new ChangeMessage(
+          new ChangeMessage.Key(changeId, ChangeUtil.messageUUID(db)),
+          user.getAccountId(), TimeUtil.nowTs(), patchSetId);
       final StringBuilder msgBuf =
           new StringBuilder("Patch Set " + patchSetId.get() + ": Reverted");
       msgBuf.append("\n\n");

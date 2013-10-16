@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dec4282a_6ed1ef18",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/QueryDocs.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-16T16:55:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bec1341b_cd802947",
+      "revId": "7ec86c78af02a167eb0821c52881d92ae4c13e7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bec1341b_ed7de56d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/QueryDocs.java",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2013-10-16T08:33:10Z",
       "side": 1,
       "message": "`reverse` is not used",
+      "revId": "7ec86c78af02a167eb0821c52881d92ae4c13e7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bec1341b_0d04f1e1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/QueryDocs.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-16T16:55:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bec1341b_ed7de56d",
       "revId": "7ec86c78af02a167eb0821c52881d92ae4c13e7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

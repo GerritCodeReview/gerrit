@@ -22,13 +22,15 @@ limitations under the License.
     @external .CodeMirror-linenumber, .CodeMirror-vscrollbar .CodeMirror-scroll;
     @external .cm-keymap-fat-cursor, CodeMirror-cursor;
     @external .cm-searching, .cm-trailingspace, .cm-tab;
-    .difftable .CodeMirror-lines {
-      padding: 0;
-    }
+
+    .difftable { max-width: 1484px; }
+    .difftable .CodeMirror-lines { padding: 0; }
     .difftable .CodeMirror pre {
       padding: 0;
       padding-bottom: 0.11em;
       overflow: hidden;
+      border-right: 0;
+      width: auto;
     }
     .difftable .CodeMirror pre span {
       padding-bottom: 0.11em;
@@ -41,13 +43,15 @@ limitations under the License.
       width: 10px;
     }
     .table {
+      width: 100%;
       table-layout: fixed;
       border-spacing: 0;
     }
 
-    .a, .b { padding: 0; }
-    .a { width: 702px; min-width: 702px; }
-    .b { width: 718px; min-width: 718px; }
+    .a, .b {
+      padding: 0;
+      width: 50%;
+    }
 
     /* Hide left side scrollbar, right side controls both views. */
     .a .CodeMirror-scroll { padding-right: 0; }

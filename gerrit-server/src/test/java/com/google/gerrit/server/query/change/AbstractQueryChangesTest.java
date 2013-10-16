@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.query.change;
 
+import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
-import static java.util.concurrent.TimeUnit.DAYS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -59,13 +59,15 @@ import com.google.inject.util.Providers;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.joda.time.DateTimeUtils;
+import org.joda.time.DateTimeUtils.MillisProvider;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import java.sql.Timestamp;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Ignore
 public abstract class AbstractQueryChangesTest {
@@ -88,10 +90,7 @@ public abstract class AbstractQueryChangesTest {
   protected ReviewDb db;
   protected Account.Id userId;
   protected CurrentUser user;
-  protected int clockStepMs = 1;
-  private long clockMs =
-      MILLISECONDS.convert(ChangeUtil.SORT_KEY_EPOCH_MINS, MINUTES)
-      + MILLISECONDS.convert(60, DAYS);
+  protected volatile long clockStepMs;
 
   protected abstract Injector createInjector();
 
@@ -132,6 +131,26 @@ public abstract class AbstractQueryChangesTest {
       db.close();
     }
     InMemoryDatabase.drop(schemaFactory);
+  }
+
+  @Before
+  public void setMillisProvider() {
+    clockStepMs = 1;
+    final AtomicLong clockMs = new AtomicLong(
+        MILLISECONDS.convert(ChangeUtil.SORT_KEY_EPOCH_MINS, MINUTES)
+        + MILLISECONDS.convert(60, DAYS));
+
+    DateTimeUtils.setCurrentMillisProvider(new MillisProvider() {
+      @Override
+      public long getMillis() {
+        return clockMs.getAndAdd(clockStepMs);
+      }
+    });
+  }
+
+  @After
+  public void resetMillisProvider() {
+    DateTimeUtils.setCurrentMillisSystem();
   }
 
   @Test
@@ -422,8 +441,6 @@ public abstract class AbstractQueryChangesTest {
 
     Change change = new Change(new Change.Key(key), id, ownerId,
         new Branch.NameKey(project, branch), TimeUtil.nowTs());
-    change.setLastUpdatedOn(new Timestamp(clockMs));
-    clockMs += clockStepMs;
     return changeFactory.create(
         projectControlFactory.controlFor(project,
           userFactory.create(ownerId)).controlFor(change).getRefControl(),

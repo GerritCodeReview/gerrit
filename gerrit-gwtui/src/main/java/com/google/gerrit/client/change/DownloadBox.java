@@ -14,102 +14,107 @@
 
 package com.google.gerrit.client.change;
 
-import static com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme.REPO_DOWNLOAD;
-
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.AccountApi;
+import com.google.gerrit.client.changes.ChangeApi;
+import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.FetchInfo;
+import com.google.gerrit.client.changes.ChangeList;
 import com.google.gerrit.client.rpc.NativeMap;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
+import com.google.gerrit.common.changes.ListChangesOption;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.dom.client.AnchorElement;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.UIObject;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 
-class DownloadBox extends Composite {
-  interface Binder extends UiBinder<HTMLPanel, DownloadBox> {}
-  private static final Binder uiBinder = GWT.create(Binder.class);
+import java.util.EnumSet;
 
-  private final NativeMap<FetchInfo> fetch;
+class DownloadBox extends VerticalPanel {
+  private final ChangeInfo change;
   private final String revision;
-  private final String project;
   private final PatchSet.Id psId;
+  private final FlexTable commandTable;
+  private final ListBox scheme;
+  private NativeMap<FetchInfo> fetch;
 
-  @UiField ListBox scheme;
-  @UiField CopyableLabel checkout;
-  @UiField CopyableLabel cherryPick;
-  @UiField CopyableLabel pull;
-  @UiField AnchorElement patchBase64;
-  @UiField AnchorElement patchZip;
-  @UiField Element repoSection;
-  @UiField CopyableLabel repoDownload;
-
-  DownloadBox(NativeMap<FetchInfo> fetch, String revision,
-      String project, PatchSet.Id psId) {
-    this.fetch = fetch;
+  DownloadBox(ChangeInfo change, String revision, PatchSet.Id psId) {
+    this.change = change;
     this.revision = revision;
-    this.project = project;
     this.psId = psId;
-    initWidget(uiBinder.createAndBindUi(this));
+    this.commandTable = new FlexTable();
+    this.scheme = new ListBox();
+    this.scheme.addChangeHandler(new ChangeHandler() {
+      @Override
+      public void onChange(ChangeEvent event) {
+        renderCommands();
+        if (Gerrit.isSignedIn()) {
+          saveScheme();
+        }
+      }
+    });
+
+    setStyleName(Gerrit.RESOURCES.css().downloadBox());
+    commandTable.setStyleName(Gerrit.RESOURCES.css().downloadBoxTable());
+    scheme.setStyleName(Gerrit.RESOURCES.css().downloadBoxScheme());
+    add(commandTable);
   }
 
   @Override
   protected void onLoad() {
-    if (scheme.getItemCount() == 0) {
-      renderScheme(fetch);
-    }
-  }
+    if (fetch == null) {
+      RestApi call = ChangeApi.detail(change.legacy_id().get());
+      ChangeList.addOptions(call, EnumSet.of(
+          revision.equals(change.current_revision())
+             ? ListChangesOption.CURRENT_REVISION
+             : ListChangesOption.ALL_REVISIONS,
+          ListChangesOption.DOWNLOAD_COMMANDS));
+      call.get(new AsyncCallback<ChangeInfo>() {
+        @Override
+        public void onSuccess(ChangeInfo result) {
+          fetch = result.revision(revision).fetch();
+          renderScheme();
+        }
 
-  @UiHandler("scheme")
-  void onScheme(ChangeEvent event) {
-    renderCommands();
-
-    if (Gerrit.isSignedIn()) {
-      saveScheme();
+        @Override
+        public void onFailure(Throwable caught) {
+        }
+      });
     }
   }
 
   private void renderCommands() {
-    FetchInfo info = fetch.get(scheme.getValue(scheme.getSelectedIndex()));
-    checkout(info);
-    cherryPick(info);
-    pull(info);
-    patch(info);
-    repo(info);
+    commandTable.removeAllRows();
+
+    if (scheme.getItemCount() > 0) {
+      FetchInfo fetchInfo =
+          fetch.get(scheme.getValue(scheme.getSelectedIndex()));
+      for (String commandName : Natives.keys(fetchInfo.commands())) {
+        CopyableLabel copyLabel =
+            new CopyableLabel(fetchInfo.command(commandName));
+        copyLabel.setStyleName(Gerrit.RESOURCES.css().downloadBoxCopyLabel());
+        insertCommand(commandName, copyLabel);
+      }
+    }
+    insertPatch();
+    insertCommand(null, scheme);
   }
 
-  private void checkout(FetchInfo info) {
-    checkout.setText(
-        "git fetch " + info.url() + " " + info.ref()
-        + " && git checkout FETCH_HEAD");
-  }
-
-  private void cherryPick(FetchInfo info) {
-    cherryPick.setText(
-        "git fetch " + info.url() + " " + info.ref()
-        + " && git cherry-pick FETCH_HEAD");
-  }
-
-  private void pull(FetchInfo info) {
-    pull.setText("git pull " + info.url() + " " + info.ref());
-  }
-
-  private void patch(FetchInfo info) {
+  private void insertPatch() {
     String id = revision.substring(0, 7);
-    patchBase64.setInnerText(id + ".diff.base64");
+    Anchor patchBase64 = new Anchor(id + ".diff.base64");
     patchBase64.setHref(new RestApi("/changes/")
       .id(psId.getParentKey().get())
       .view("revisions")
@@ -118,7 +123,7 @@ class DownloadBox extends Composite {
       .addParameterTrue("download")
       .url());
 
-    patchZip.setInnerText(id + ".diff.zip");
+    Anchor patchZip = new Anchor(id + ".diff.zip");
     patchZip.setHref(new RestApi("/changes/")
       .id(psId.getParentKey().get())
       .view("revisions")
@@ -126,45 +131,52 @@ class DownloadBox extends Composite {
       .view("patch")
       .addParameterTrue("zip")
       .url());
+
+    HorizontalPanel p = new HorizontalPanel();
+    p.add(patchBase64);
+    InlineLabel spacer = new InlineLabel("|");
+    spacer.setStyleName(Gerrit.RESOURCES.css().downloadBoxSpacer());
+    p.add(spacer);
+    p.add(patchZip);
+    insertCommand("Patch-File", p);
   }
 
-  private void repo(FetchInfo info) {
-    if (Gerrit.getConfig().getDownloadSchemes().contains(REPO_DOWNLOAD)) {
-      UIObject.setVisible(repoSection, true);
-      repoDownload.setText("repo download "
-          + project
-          + " " + psId.getParentKey().get() + "/" + psId.get());
+  private void insertCommand(String commandName, Widget w) {
+    int row = commandTable.getRowCount();
+    commandTable.insertRow(row);
+    commandTable.getCellFormatter().addStyleName(row, 0,
+        Gerrit.RESOURCES.css().downloadBoxTableCommandColumn());
+    if (commandName != null) {
+      commandTable.setText(row, 0, commandName);
+    }
+    if (w != null) {
+      commandTable.setWidget(row, 1, w);
     }
   }
 
-  private void renderScheme(NativeMap<FetchInfo> fetch) {
+  private void renderScheme() {
     for (String id : fetch.keySet()) {
-      FetchInfo info = fetch.get(id);
-      String u = info.url();
-      int css = u.indexOf("://");
-      if (css > 0) {
-        int s = u.indexOf('/', css + 3);
-        if (s > 0) {
-          u = u.substring(0, s + 1);
-        }
-      }
-      scheme.addItem(u, id);
+      scheme.addItem(id);
     }
-    if (scheme.getItemCount() == 1) {
-      scheme.setSelectedIndex(0);
+    if (scheme.getItemCount() == 0) {
       scheme.setVisible(false);
     } else {
-      int select = 0;
-      String find = getUserPreference();
-      if (find != null) {
-        for (int i = 0; i < scheme.getItemCount(); i++) {
-          if (find.equals(scheme.getValue(i))) {
-            select = i;
-            break;
+      if (scheme.getItemCount() == 1) {
+        scheme.setSelectedIndex(0);
+        scheme.setVisible(false);
+      } else {
+        int select = 0;
+        String find = getUserPreference();
+        if (find != null) {
+          for (int i = 0; i < scheme.getItemCount(); i++) {
+            if (find.equals(scheme.getValue(i))) {
+              select = i;
+              break;
+            }
           }
         }
+        scheme.setSelectedIndex(select);
       }
-      scheme.setSelectedIndex(select);
     }
     renderCommands();
   }
@@ -177,11 +189,14 @@ class DownloadBox extends Composite {
         switch (pref) {
           case ANON_GIT:
             return "git";
-          case HTTP:
           case ANON_HTTP:
+            return "anonymous http";
+          case HTTP:
             return "http";
           case SSH:
             return "ssh";
+          case REPO_DOWNLOAD:
+            return "repo";
           default:
             return null;
         }
@@ -216,10 +231,14 @@ class DownloadBox extends Composite {
     String id = scheme.getValue(scheme.getSelectedIndex());
     if ("git".equals(id)) {
       return DownloadScheme.ANON_GIT;
+    } else if ("anonymous http".equals(id)) {
+      return DownloadScheme.ANON_HTTP;
     } else if ("http".equals(id)) {
       return DownloadScheme.HTTP;
     } else if ("ssh".equals(id)) {
       return DownloadScheme.SSH;
+    } else if ("repo".equals(id)) {
+      return DownloadScheme.REPO_DOWNLOAD;
     }
     return null;
   }

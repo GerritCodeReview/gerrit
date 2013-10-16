@@ -46,7 +46,10 @@ public enum ListChangesOption {
   REVIEWED(11),
 
   /** Include draft comments for the caller. */
-  DRAFT_COMMENTS(12);
+  DRAFT_COMMENTS(12),
+
+  /** Include download commands for the caller. */
+  DOWNLOAD_COMMANDS(13);
 
   private final int value;
 

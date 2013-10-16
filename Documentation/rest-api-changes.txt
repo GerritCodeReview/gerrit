@@ -171,6 +171,13 @@ default. Optional fields are:
 * `ALL_REVISIONS`: describe all revisions, not just current.
 --
 
+[[download_commands]]
+--
+* `DOWNLOAD_COMMANDS`: include the `commands` field in the
+  link:#fetch-info[FetchInfo] for revisions. Only valid when the
+  `CURRENT_REVISION` or `ALL_REVISIONS` option is selected.
+--
+
 [[draft_comments]]
 --
 * `DRAFT_COMMENTS`: include the `has_draft_comments` field for
@@ -233,7 +240,7 @@ default. Optional fields are:
 
 .Request
 ----
-  GET /changes/?q=97&o=CURRENT_REVISION&o=CURRENT_COMMIT&o=CURRENT_FILES HTTP/1.0
+  GET /changes/?q=97&o=CURRENT_REVISION&o=CURRENT_COMMIT&o=CURRENT_FILES&o=DOWNLOAD_COMMANDS HTTP/1.0
 ----
 
 .Response
@@ -267,11 +274,33 @@ default. Optional fields are:
           "fetch": {
             "git": {
               "url": "git://localhost/gerrit",
-              "ref": "refs/changes/97/97/1"
+              "ref": "refs/changes/97/97/1",
+              "commands": {
+                "Checkout": "git fetch git://localhost/gerrit refs/changes/97/97/1 \u0026\u0026 git checkout FETCH_HEAD",
+                "Cherry-Pick": "git fetch git://localhost/gerrit refs/changes/97/97/1 \u0026\u0026 git cherry-pick FETCH_HEAD",
+                "Format-Patch": "git fetch git://localhost/gerrit refs/changes/97/97/1 \u0026\u0026 git format-patch -1 --stdout FETCH_HEAD",
+                "Pull": "git pull git://localhost/gerrit refs/changes/97/97/1"
+              }
             },
             "http": {
-              "url": "http://127.0.0.1:8080/gerrit",
-              "ref": "refs/changes/97/97/1"
+              "url": "http://myuser@127.0.0.1:8080/gerrit",
+              "ref": "refs/changes/97/97/1",
+              "commands": {
+                "Checkout": "git fetch http://myuser@127.0.0.1:8080/gerrit refs/changes/97/97/1 \u0026\u0026 git checkout FETCH_HEAD",
+                "Cherry-Pick": "git fetch http://myuser@127.0.0.1:8080/gerrit refs/changes/97/97/1 \u0026\u0026 git cherry-pick FETCH_HEAD",
+                "Format-Patch": "git fetch http://myuser@127.0.0.1:8080/gerrit refs/changes/97/97/1 \u0026\u0026 git format-patch -1 --stdout FETCH_HEAD",
+                "Pull": "git pull http://myuser@127.0.0.1:8080/gerrit refs/changes/97/97/1"
+              }
+            },
+            "ssh": {
+              "url": "ssh://myuser@*:29418/gerrit",
+              "ref": "refs/changes/97/97/1",
+              "commands": {
+                "Checkout": "git fetch ssh://myuser@*:29418/gerrit refs/changes/97/97/1 \u0026\u0026 git checkout FETCH_HEAD",
+                "Cherry-Pick": "git fetch ssh://myuser@*:29418/gerrit refs/changes/97/97/1 \u0026\u0026 git cherry-pick FETCH_HEAD",
+                "Format-Patch": "git fetch ssh://myuser@*:29418/gerrit refs/changes/97/97/1 \u0026\u0026 git format-patch -1 --stdout FETCH_HEAD",
+                "Pull": "git pull ssh://myuser@*:29418/gerrit refs/changes/97/97/1"
+              }
             }
           },
           "commit": {
@@ -2949,11 +2978,15 @@ FetchInfo
 The `FetchInfo` entity contains information about how to fetch a patch
 set via a certain protocol.
 
-[options="header",width="50%",cols="1,6"]
+[options="header",width="50%",cols="1,^1,5"]
 |==========================
-|Field Name    |Description
-|`url`         |The URL of the project.
-|`ref`         |The ref of the patch set.
+|Field Name    ||Description
+|`url`         ||The URL of the project.
+|`ref`         ||The ref of the patch set.
+|`commands`    |optional|
+The download commands for this patch set as a map that maps the command
+names to the commands. +
+Only set if link:#download_commands[download commands] are requested.
 |==========================
 
 [[file-info]]

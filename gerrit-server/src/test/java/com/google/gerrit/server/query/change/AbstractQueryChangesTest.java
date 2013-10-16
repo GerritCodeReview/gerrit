@@ -540,6 +540,34 @@ public abstract class AbstractQueryChangesTest {
     assertResultEquals(change1, results.get(1));
   }
 
+  @Test
+  public void filterOutMoreThanOnePageOfResults() throws Exception {
+    TestRepository<InMemoryRepository> repo = createProject("repo");
+    Change change = newChange(repo, null, null, userId.get(), null).insert();
+    int user2 = accountManager.authenticate(AuthRequest.forUser("anotheruser"))
+        .getAccountId().get();
+    for (int i = 0; i < 5; i++) {
+      newChange(repo, null, null, user2, null).insert();
+    }
+
+    assertResultEquals(change, queryOne("status:new ownerin:Administrators"));
+    assertResultEquals(change,
+        queryOne("status:new ownerin:Administrators limit:2"));
+  }
+
+  @Test
+  public void filterOutAllResults() throws Exception {
+    TestRepository<InMemoryRepository> repo = createProject("repo");
+    int user2 = accountManager.authenticate(AuthRequest.forUser("anotheruser"))
+        .getAccountId().get();
+    for (int i = 0; i < 5; i++) {
+      newChange(repo, null, null, user2, null).insert();
+    }
+
+    assertTrue(query("status:new ownerin:Administrators").isEmpty());
+    assertTrue(query("status:new ownerin:Administrators limit:2").isEmpty());
+  }
+
   protected ChangeInserter newChange(
       TestRepository<InMemoryRepository> repo,
       @Nullable RevCommit commit, @Nullable String key, @Nullable Integer owner,

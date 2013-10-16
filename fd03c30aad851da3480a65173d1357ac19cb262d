@@ -16,6 +16,24 @@
       "revId": "fd03c30aad851da3480a65173d1357ac19cb262d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ebaf89c_8a452b25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-16T15:38:07Z",
+      "side": 1,
+      "message": "The old change screen isn\u0027t using this REST endpoint.",
+      "parentUuid": "5ebaf89c_aaa90fba",
+      "revId": "fd03c30aad851da3480a65173d1357ac19cb262d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

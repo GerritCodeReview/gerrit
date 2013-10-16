@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bec1341b_cd7a6926",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadBox.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T19:11:06Z",
+      "side": 1,
+      "message": "This should not happen on the client side.",
+      "range": {
+        "startLine": 127,
+        "startChar": 8,
+        "endLine": 130,
+        "endChar": 9
+      },
+      "revId": "128892c72b9112f7c6c239191bedf9f191b57b3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bec1341b_2d868d13",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 951,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T19:11:06Z",
+      "side": 1,
+      "message": "newTreeMap so the raw JSON is ordered in a sane order, for the sake of a poor human reading the output?",
+      "range": {
+        "startLine": 951,
+        "startChar": 24,
+        "endLine": 951,
+        "endChar": 34
+      },
+      "revId": "128892c72b9112f7c6c239191bedf9f191b57b3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

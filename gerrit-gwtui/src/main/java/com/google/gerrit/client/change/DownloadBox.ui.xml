@@ -19,7 +19,7 @@ limitations under the License.
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
     xmlns:c='urn:import:com.google.gwtexpui.clippy.client'>
   <ui:with field='res' type='com.google.gerrit.client.change.Resources'/>
-  <ui:style>
+  <ui:style type='com.google.gerrit.client.change.DownloadBox.Style'>
     @external .gwt-TextBox;
 
     .downloadBox {
@@ -31,13 +31,18 @@ limitations under the License.
       border-spacing: 0;
       width: 100%;
     }
-    .table th {
+    .column {
       text-align: left;
       font-weight: normal;
       white-space: nowrap;
       max-height: 18px;
       width: 80px;
       padding-right: 5px;
+    }
+
+    .spacer {
+      margin-left: 5px;
+      margin-right: 5px;
     }
 
     .scheme {
@@ -66,33 +71,6 @@ limitations under the License.
       float: right;
     }
   </ui:style>
-  <g:HTMLPanel styleName='{style.downloadBox}'>
-    <table class='{style.table}'>
-      <tr>
-        <th><ui:msg>Checkout</ui:msg></th>
-        <td><c:CopyableLabel ui:field='checkout' styleName='{style.clippy}'/></td>
-      </tr>
-      <tr>
-        <th><ui:msg>Cherry Pick</ui:msg></th>
-        <td><c:CopyableLabel ui:field='cherryPick' styleName='{style.clippy}'/></td>
-      </tr>
-      <tr>
-        <th><ui:msg>Pull</ui:msg></th>
-        <td><c:CopyableLabel ui:field='pull' styleName='{style.clippy}'/></td>
-      </tr>
-      <tr>
-        <th><ui:msg>Patch File</ui:msg></th>
-        <td><a ui:field='patchZip'/> | <a ui:field='patchBase64'/></td>
-      </tr>
-      <tr ui:field='repoSection' style='display: NONE' aria-hidden='true'>
-        <th><ui:msg>repo</ui:msg></th>
-        <td><c:CopyableLabel ui:field='repoDownload' styleName='{style.clippy}'/></td>
-      </tr>
-      <tr>
-        <td colspan='2'>
-          <g:ListBox ui:field='scheme' styleName='{style.scheme}'/>
-        </td>
-      </tr>
-    </table>
-  </g:HTMLPanel>
+  <g:VerticalPanel ui:field='panel' styleName='{style.downloadBox}'>
+  </g:VerticalPanel>
 </ui:UiBinder>

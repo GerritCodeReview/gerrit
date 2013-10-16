@@ -57,7 +57,7 @@ class InitContainer implements InitStep {
     try {
       myWar = GerritLauncher.getDistributionArchive();
     } catch (FileNotFoundException e) {
-      System.err.println("warn: Cannot find gerrit.war");
+      System.err.println("warn: Cannot find distribution archive (e.g. gerrit.war)");
       myWar = null;
     }
 
@@ -75,7 +75,7 @@ class InitContainer implements InitStep {
       if (siteWar.exists()) {
         copy = ui.yesno(true, "Upgrade %s", siteWar.getPath());
       } else {
-        copy = ui.yesno(true, "Copy gerrit.war to %s", siteWar.getPath());
+        copy = ui.yesno(true, "Copy %s to %s", myWar.getName(), siteWar.getPath());
         if (copy) {
           container.unset("war");
         } else {
@@ -84,7 +84,7 @@ class InitContainer implements InitStep {
       }
       if (copy) {
         if (!ui.isBatch()) {
-          System.err.format("Copying gerrit.war to %s", siteWar.getPath());
+          System.err.format("Copying %s to %s", myWar.getName(), siteWar.getPath());
           System.err.println();
         }
 

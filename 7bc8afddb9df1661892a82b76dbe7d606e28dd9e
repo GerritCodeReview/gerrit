@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dec4282a_aeaa7763",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/config/DownloadCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T19:05:28Z",
+      "side": 1,
+      "message": "Hrrmph. We name things. You could use a DynamicMap instead of DynamicSet and then the name is implied by Guice binding used by the developer.",
+      "revId": "7bc8afddb9df1661892a82b76dbe7d606e28dd9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

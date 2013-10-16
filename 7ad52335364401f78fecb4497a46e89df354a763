@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bec1341b_4db999bc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadBox.ui.xml",
+        "patchSetId": 13
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T21:30:13Z",
+      "side": 1,
+      "message": "There isn\u0027t much point in using UiBinder if its just a VerticalPanel.",
+      "revId": "7ad52335364401f78fecb4497a46e89df354a763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dec4282a_0eecebac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T21:30:13Z",
+      "side": 1,
+      "message": "You can write this shorter:\n\n  for (DynamicMap.Entry\u003cDownloadScheme\u003e e : downloadSchemes) {\n    String name \u003d e.getExportName();\n    DownloadScheme scheme \u003d e.getProvider().get();",
+      "range": {
+        "startLine": 850,
+        "startChar": 4,
+        "endLine": 852,
+        "endChar": 60
+      },
+      "revId": "7ad52335364401f78fecb4497a46e89df354a763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dec4282a_2ef1a783",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 874,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T21:30:13Z",
+      "side": 1,
+      "message": "See above, DynamicMap.Entry\u003cT\u003e helps this case.",
+      "range": {
+        "startLine": 871,
+        "startChar": 37,
+        "endLine": 874,
+        "endChar": 68
+      },
+      "revId": "7ad52335364401f78fecb4497a46e89df354a763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

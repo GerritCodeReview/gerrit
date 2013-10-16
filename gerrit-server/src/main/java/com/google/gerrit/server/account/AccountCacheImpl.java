@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -115,7 +116,7 @@ public class AccountCacheImpl implements AccountCache {
   }
 
   private static AccountState missing(Account.Id accountId) {
-    Account account = new Account(accountId);
+    Account account = new Account(accountId, TimeUtil.nowTs());
     Collection<AccountExternalId> ids = Collections.emptySet();
     Set<AccountGroup.UUID> anon = ImmutableSet.of(AccountGroup.ANONYMOUS_USERS);
     return new AccountState(account, anon, ids);

@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.PutDraft.Input;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -62,7 +63,7 @@ class CreateDraft implements RestModifyView<RevisionResource, Input> {
         new PatchLineComment.Key(
             new Patch.Key(rsrc.getPatchSet().getId(), in.path),
             ChangeUtil.messageUUID(db.get())),
-        line, rsrc.getAccountId(), Url.decode(in.inReplyTo));
+        line, rsrc.getAccountId(), Url.decode(in.inReplyTo), TimeUtil.nowTs());
     c.setSide(in.side == Side.PARENT ? (short) 0 : (short) 1);
     c.setMessage(in.message.trim());
     c.setRange(in.range);

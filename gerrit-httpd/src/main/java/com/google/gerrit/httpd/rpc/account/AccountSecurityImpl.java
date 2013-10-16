@@ -42,6 +42,7 @@ import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.contact.ContactStore;
 import com.google.gerrit.server.mail.EmailTokenVerifier;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.gwtorm.server.OrmException;
@@ -139,7 +140,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
         if (useContactInfo) {
           if (ContactInformation.hasAddress(info)
               || (me.isContactFiled() && ContactInformation.hasData(info))) {
-            me.setContactFiled();
+            me.setContactFiled(TimeUtil.nowTs());
           }
           if (ContactInformation.hasData(info)) {
             try {
@@ -198,8 +199,8 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
         if (m == null) {
           m = new AccountGroupMember(key);
           db.accountGroupMembersAudit().insert(
-              Collections.singleton(
-                  new AccountGroupMemberAudit(m, account.getId())));
+              Collections.singleton(new AccountGroupMemberAudit(
+                  m, account.getId(), TimeUtil.nowTs())));
           db.accountGroupMembers().insert(Collections.singleton(m));
           accountCache.evict(m.getAccountId());
         }

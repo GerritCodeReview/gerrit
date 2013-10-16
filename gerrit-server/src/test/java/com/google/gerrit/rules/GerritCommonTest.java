@@ -22,6 +22,7 @@ import static com.google.gerrit.server.project.Util.grant;
 
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.Util;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -79,7 +80,8 @@ public class GerritCommonTest extends PrologTestCase {
     Change change =
         new Change(new Change.Key("Ibeef"), new Change.Id(1),
             new Account.Id(2),
-            new Branch.NameKey(localKey, "refs/heads/master"));
+            new Branch.NameKey(localKey, "refs/heads/master"),
+            TimeUtil.nowTs());
     env.set(StoredValues.CHANGE, change);
     env.set(StoredValues.CHANGE_CONTROL, util.user(local).controlFor(change));
   }

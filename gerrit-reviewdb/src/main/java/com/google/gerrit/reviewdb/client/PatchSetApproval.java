@@ -140,11 +140,11 @@ public final class PatchSetApproval {
   protected PatchSetApproval() {
   }
 
-  public PatchSetApproval(final PatchSetApproval.Key k, final short v) {
+  public PatchSetApproval(PatchSetApproval.Key k, short v, Timestamp ts) {
     key = k;
     changeOpen = true;
     setValue(v);
-    setGranted();
+    setGranted(ts);
   }
 
   public PatchSetApproval(final PatchSet.Id psId, final PatchSetApproval src) {
@@ -181,10 +181,6 @@ public final class PatchSetApproval {
 
   public Timestamp getGranted() {
     return granted;
-  }
-
-  public void setGranted() {
-    granted = new Timestamp(System.currentTimeMillis());
   }
 
   public void setGranted(Timestamp ts) {

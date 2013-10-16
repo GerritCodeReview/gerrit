@@ -53,6 +53,7 @@ import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -314,7 +315,8 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
     LabelId id =
         Iterables.getLast(ctl.getLabelTypes().getLabelTypes()).getLabelId();
     PatchSetApproval dummyApproval = new PatchSetApproval(
-        new PatchSetApproval.Key(patchSetId, reviewerId, id), (short) 0);
+        new PatchSetApproval.Key(patchSetId, reviewerId, id), (short) 0,
+        TimeUtil.nowTs());
     dummyApproval.cache(ctl.getChange());
     return dummyApproval;
   }

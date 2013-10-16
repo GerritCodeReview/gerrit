@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ebaf89c_aaa90fba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-16T14:59:14Z",
+      "side": 1,
+      "message": "What about old change screen? Is that REST endpoint used from there?",
+      "revId": "fd03c30aad851da3480a65173d1357ac19cb262d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.PatchSetInserter.ChangeKind;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -136,7 +137,7 @@ public class ApprovalsUtil {
     for (Account.Id account : need) {
       PatchSetApproval psa = new PatchSetApproval(
           new PatchSetApproval.Key(ps.getId(), account, labelId),
-          (short) 0);
+          (short) 0, TimeUtil.nowTs());
       psa.cache(change);
       cells.add(psa);
     }

@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.PutDraft.Input;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -84,7 +85,7 @@ class PutDraft implements RestModifyView<DraftResource, Input> {
               c.getKey().get()),
           c.getLine(),
           rsrc.getAuthorId(),
-          c.getParentUuid());
+          c.getParentUuid(), TimeUtil.nowTs());
       db.get().patchComments().insert(Collections.singleton(update(c, in)));
     } else {
       db.get().patchComments().update(Collections.singleton(update(c, in)));
@@ -104,7 +105,7 @@ class PutDraft implements RestModifyView<DraftResource, Input> {
       e.setRange(in.range);
       e.setLine(in.range != null ? in.range.getEndLine() : in.line);
     }
-    e.updated();
+    e.updated(TimeUtil.nowTs());
     return e;
   }
 }

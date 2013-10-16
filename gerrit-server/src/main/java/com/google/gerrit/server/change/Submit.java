@@ -227,7 +227,7 @@ public class Submit implements RestModifyView<RevisionResource, Input>,
               rev.getId(),
               caller.getAccountId(),
               LabelId.SUBMIT),
-          (short) 1);
+          (short) 1, TimeUtil.nowTs());
     }
     submit.setValue((short) 1);
     submit.setGranted(timestamp);

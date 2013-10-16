@@ -388,11 +388,11 @@ public final class Change {
   protected Change() {
   }
 
-  public Change(final Change.Key newKey, final Change.Id newId,
-      final Account.Id ownedBy, final Branch.NameKey forBranch) {
+  public Change(Change.Key newKey, Change.Id newId, Account.Id ownedBy,
+      Branch.NameKey forBranch, Timestamp ts) {
     changeKey = newKey;
     changeId = newId;
-    createdOn = new Timestamp(System.currentTimeMillis());
+    createdOn = ts;
     lastUpdatedOn = createdOn;
     owner = ownedBy;
     dest = forBranch;
@@ -433,10 +433,6 @@ public final class Change {
 
   public int getRowVersion() {
     return rowVersion;
-  }
-
-  public void resetLastUpdatedOn() {
-    lastUpdatedOn = new Timestamp(System.currentTimeMillis());
   }
 
   public String getSortKey() {

@@ -370,6 +370,24 @@
       "revId": "14c2a3db21d80de9923e48584a412e8a9b1e48d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ebaf89c_6adb176a",
+        "filename": "plugins/BUCK",
+        "patchSetId": 10
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-16T11:10:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ebaf89c_2a6c3fc4",
+      "revId": "14c2a3db21d80de9923e48584a412e8a9b1e48d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

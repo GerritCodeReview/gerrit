@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "bec1341b_adf4bdb0",
+        "filename": "lib/joda/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T17:00:57Z",
+      "side": 1,
+      "message": "Oh. That doesn\u0027t require src_sha1. We just trust the source JAR made available to Eclipse for showing source matches the binary that we do verify.",
+      "parentUuid": "3ebf048e_892f7996",
+      "revId": "5ba5e6efbe158303c5c49258231bf25e1a425b80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bec1341b_6dffb592",
         "filename": "lib/joda/BUCK",
         "patchSetId": 2

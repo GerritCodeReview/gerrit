@@ -1,0 +1,464 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ecb3c3d_cb3b35a9",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-16T12:00:44Z",
+      "side": 1,
+      "message": "In the paragraph above we spell \u0027name space\u0027 as \u0027namespace\u0027.",
+      "range": {
+        "startLine": 13,
+        "startChar": 23,
+        "endLine": 13,
+        "endChar": 33
+      },
+      "revId": "ef7035a4dad458c076cd6dd9689588d3508f4e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ecb3c3d_eb3871ae",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-16T12:00:44Z",
+      "side": 1,
+      "message": "[optional] Is this good to provide the \u0027project.config\u0027 from the All-Projects as example? The \u0027capabilty\u0027 section is only used in the All-Projects project, but not for any other project. Providing an example for a normal project might be better.",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 48
+      },
+      "revId": "ef7035a4dad458c076cd6dd9689588d3508f4e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ecb3c3d_4b5185e1",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-16T12:00:44Z",
+      "side": 1,
+      "message": "Link from here to the \u0027Project section\u0027 section below?",
+      "range": {
+        "startLine": 60,
+        "startChar": 4,
+        "endLine": 60,
+        "endChar": 21
+      },
+      "revId": "ef7035a4dad458c076cd6dd9689588d3508f4e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ecb3c3d_ab426918",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-16T12:00:44Z",
+      "side": 1,
+      "message": "Link from here to the \u0027Access section\u0027 section below?",
+      "range": {
+        "startLine": 62,
+        "startChar": 4,
+        "endLine": 62,
+        "endChar": 20
+      },
+      "revId": "ef7035a4dad458c076cd6dd9689588d3508f4e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ebaf89c_0ae05b11",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-16T12:00:44Z",
+      "side": 1,
+      "message": "Link from here to the \u0027Receive section\u0027 section below?",
+      "range": {
+        "startLine": 67,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 21
+      },
+      "revId": "ef7035a4dad458c076cd6dd9689588d3508f4e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ebaf89c_2ae51f22",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-16T12:00:44Z",
+      "side": 1,
+      "message": "Link from here to the \u0027Submit section\u0027 section below?",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 20
+      },
+      "revId": "ef7035a4dad458c076cd6dd9689588d3508f4e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ecb3c3d_8b452d25",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-16T12:00:44Z",
+      "side": 1,
+      "message": "Link from here to the \u0027Capability section\u0027 section below?",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 24
+      },
+      "revId": "ef7035a4dad458c076cd6dd9689588d3508f4e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ebaf89c_cac9e3a0",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-16T12:00:44Z",
+      "side": 1,
+      "message": "s/categories/keys",
+      "range": {
+        "startLine": 83,
+        "startChar": 14,
+        "endLine": 83,
+        "endChar": 24
+      },
+      "revId": "ef7035a4dad458c076cd6dd9689588d3508f4e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ebaf89c_eac62790",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-16T12:00:44Z",
+      "side": 1,
+      "message": "s/a user/users\nor do not use \u0027they\u0027 in second part of the sentence",
+      "range": {
+        "startLine": 97,
+        "startChar": 24,
+        "endLine": 97,
+        "endChar": 30
+      },
+      "revId": "ef7035a4dad458c076cd6dd9689588d3508f4e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ecb3c3d_2b50b9da",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-16T12:00:44Z",
+      "side": 1,
+      "message": "s/change/a change\nOR\n  s/change/changes",
+      "range": {
+        "startLine": 100,
+        "startChar": 61,
+        "endLine": 100,
+        "endChar": 67
+      },
+      "revId": "ef7035a4dad458c076cd6dd9689588d3508f4e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ebaf89c_4abf33f3",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-16T12:00:44Z",
+      "side": 1,
+      "message": "s/config-gerrit.html/config-gerrit.html#auth.contributorAgreements",
+      "range": {
+        "startLine": 102,
+        "startChar": 22,
+        "endLine": 102,
+        "endChar": 40
+      },
+      "revId": "ef7035a4dad458c076cd6dd9689588d3508f4e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ecb3c3d_cb6495bf",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-16T12:00:44Z",
+      "side": 1,
+      "message": "s/It\u0027s/Its",
+      "range": {
+        "startLine": 108,
+        "startChar": 29,
+        "endLine": 108,
+        "endChar": 33
+      },
+      "revId": "ef7035a4dad458c076cd6dd9689588d3508f4e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ecb3c3d_eb6151ac",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-16T12:00:44Z",
+      "side": 1,
+      "message": "s/inherited/is inherited",
+      "range": {
+        "startLine": 110,
+        "startChar": 9,
+        "endLine": 110,
+        "endChar": 18
+      },
+      "revId": "ef7035a4dad458c076cd6dd9689588d3508f4e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ecb3c3d_8b5e8deb",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-16T12:00:44Z",
+      "side": 1,
+      "message": "s/inherited/is inherited",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 116,
+        "endChar": 9
+      },
+      "revId": "ef7035a4dad458c076cd6dd9689588d3508f4e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ecb3c3d_ab5b49fa",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-16T12:00:44Z",
+      "side": 1,
+      "message": "s/Gerrit administrators/Project owners",
+      "range": {
+        "startLine": 124,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 21
+      },
+      "revId": "ef7035a4dad458c076cd6dd9689588d3508f4e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ecb3c3d_4bfae5a3",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-16T12:00:44Z",
+      "side": 1,
+      "message": "Say the the key is \u0027mergeContent\u0027 and value can be true/false/INHERIT (default: INHERIT).",
+      "range": {
+        "startLine": 142,
+        "startChar": 2,
+        "endLine": 142,
+        "endChar": 21
+      },
+      "revId": "ef7035a4dad458c076cd6dd9689588d3508f4e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ecb3c3d_6bffa192",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-16T12:00:44Z",
+      "side": 1,
+      "message": "Say that the key is \u0027action\u0027 and values are \u0027fast forward only\u0027, \u0027merge if necessary\u0027, \u0027rebase if necessary\u0027, \u0027merge always\u0027 and \u0027cherry pick\u0027. And that the default is \u0027merge if necessary\u0027.\n\nAlso lik to \u0027project-setup.html#submit_type\u0027.",
+      "range": {
+        "startLine": 143,
+        "startChar": 2,
+        "endLine": 143,
+        "endChar": 16
+      },
+      "revId": "ef7035a4dad458c076cd6dd9689588d3508f4e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ebaf89c_6ac47784",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-16T12:00:44Z",
+      "side": 1,
+      "message": "s/a full/for a full",
+      "range": {
+        "startLine": 155,
+        "startChar": 14,
+        "endLine": 155,
+        "endChar": 20
+      },
+      "revId": "ef7035a4dad458c076cd6dd9689588d3508f4e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ebaf89c_0ab93b0b",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-16T12:00:44Z",
+      "side": 1,
+      "message": "s/core feature/Gerrit administration capabilities",
+      "range": {
+        "startLine": 163,
+        "startChar": 40,
+        "endLine": 163,
+        "endChar": 53
+      },
+      "revId": "ef7035a4dad458c076cd6dd9689588d3508f4e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ecb3c3d_0b04dde1",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-16T12:00:44Z",
+      "side": 1,
+      "message": "remove \u0027still\u0027",
+      "range": {
+        "startLine": 176,
+        "startChar": 10,
+        "endLine": 176,
+        "endChar": 15
+      },
+      "revId": "ef7035a4dad458c076cd6dd9689588d3508f4e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

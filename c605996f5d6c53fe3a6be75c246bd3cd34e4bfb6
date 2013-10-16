@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "7ecb3c3d_2bdbd938",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-16T19:10:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bec1341b_8dfd41e6",
+      "revId": "c605996f5d6c53fe3a6be75c246bd3cd34e4bfb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bec1341b_4d9e7964",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -60,6 +78,24 @@
     },
     {
       "key": {
+        "uuid": "5ebaf89c_0a4b7b33",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-16T19:10:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bec1341b_4d9e7964",
+      "revId": "c605996f5d6c53fe3a6be75c246bd3cd34e4bfb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dec4282a_4e90b33e",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BaseCommand.java",
         "patchSetId": 1
@@ -71,6 +107,41 @@
       "writtenOn": "2013-10-16T18:40:36Z",
       "side": 1,
       "message": "Maybe this should also be protected?",
+      "revId": "c605996f5d6c53fe3a6be75c246bd3cd34e4bfb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ebaf89c_6a56b7dc",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-16T19:10:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dec4282a_4e90b33e",
+      "revId": "c605996f5d6c53fe3a6be75c246bd3cd34e4bfb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ecb3c3d_cbdfb521",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-16T19:10:08Z",
+      "side": 1,
+      "message": "Done ;-)",
       "revId": "c605996f5d6c53fe3a6be75c246bd3cd34e4bfb6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

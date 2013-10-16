@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ece304a_8c16a75c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-10-16T01:22:30Z",
+      "side": 1,
+      "message": "This is what caused wrapped lines to align incorrectly.",
+      "range": {
+        "startLine": 53,
+        "startChar": 6,
+        "endLine": 53,
+        "endChar": 22
+      },
+      "revId": "545cca262e8a7ac3101665cccbc2a2c9384ea616",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

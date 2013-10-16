@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bec1341b_4dfaf9a3",
+        "filename": "lib/joda/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T16:47:39Z",
+      "side": 1,
+      "message": "We only need src_sha1 if the library is going to be used from GWT.",
+      "revId": "5ba5e6efbe158303c5c49258231bf25e1a425b80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bec1341b_6dffb592",
+        "filename": "lib/joda/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T16:47:39Z",
+      "side": 1,
+      "message": ":joda-time should be sufficient here.",
+      "range": {
+        "startLine": 26,
+        "startChar": 17,
+        "endLine": 26,
+        "endChar": 37
+      },
+      "revId": "5ba5e6efbe158303c5c49258231bf25e1a425b80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -23,6 +23,7 @@ import static org.junit.Assert.assertTrue;
 import com.google.common.base.Charsets;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -400,16 +401,18 @@ public abstract class AbstractQueryChangesTest {
   @Test
   public void limit() throws Exception {
     TestRepository<InMemoryRepository> repo = createProject("repo");
-    Change change1 = newChange(repo, null, null, null, null).insert();
-    Change change2 = newChange(repo, null, null, null, null).insert();
+    Change last = null;
+    int n = 5;
+    for (int i = 0; i < n; i++) {
+      last = newChange(repo, null, null, null, null).insert();
+    }
 
-    // TODO(dborowitz): Limit is broken in SQL (returns N+1 results) with some
-    // kinds of predicates but not others.
-    //assertResultEquals(change2, queryOne("status:new limit:1"));
-    List<ChangeInfo> results = query("status:new limit:2");
-    assertEquals(2, results.size());
-    assertResultEquals(change2, results.get(0));
-    assertResultEquals(change1, results.get(1));
+    List<ChangeInfo> results;
+    for (int i = 1; i <= n + 2; i++) {
+      results = query("status:new limit:" + i);
+      assertEquals(Math.min(i, n), results.size());
+      assertResultEquals(last, results.get(0));
+    }
   }
 
   protected ChangeInserter newChange(

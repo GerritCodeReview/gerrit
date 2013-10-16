@@ -152,7 +152,7 @@ public class IndexRewriteTest extends TestCase {
     Predicate<ChangeData> out = rewrite(in);
     assertSame(AndSource.class, out.getClass());
     assertEquals(ImmutableList.of(
-          query(in.getChild(0), 4),
+          query(in.getChild(0), 3),
           in.getChild(1)),
         out.getChildren());
   }

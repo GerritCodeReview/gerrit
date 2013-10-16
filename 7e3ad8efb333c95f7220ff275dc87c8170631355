@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "7ecb3c3d_8be9adcb",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-16T19:20:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dec4282a_6ebecfa7",
+      "revId": "7e3ad8efb333c95f7220ff275dc87c8170631355",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dec4282a_0eb38bde",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BaseCommand.java",
         "patchSetId": 2
@@ -42,6 +60,24 @@
         "endLine": 147,
         "endChar": 0
       },
+      "revId": "7e3ad8efb333c95f7220ff275dc87c8170631355",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ecb3c3d_abe6e9f8",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-16T19:20:15Z",
+      "side": 1,
+      "message": "*lol*\n\nDone, but don\u0027t blame me for that private/public mismatch ...",
+      "parentUuid": "dec4282a_0eb38bde",
       "revId": "7e3ad8efb333c95f7220ff275dc87c8170631355",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

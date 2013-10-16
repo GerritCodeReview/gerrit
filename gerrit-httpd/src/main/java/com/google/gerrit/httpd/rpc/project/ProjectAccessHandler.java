@@ -22,6 +22,10 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.common.errors.UpdateParentFailedException;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.GroupBackend;
@@ -31,7 +35,9 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.project.SetParent;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Provider;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -47,27 +53,29 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
   private final ProjectControl.Factory projectControlFactory;
   protected final GroupBackend groupBackend;
   private final MetaDataUpdate.User metaDataUpdateFactory;
+  private final Provider<SetParent> setParent;
 
   protected final Project.NameKey projectName;
   protected final ObjectId base;
   private List<AccessSection> sectionList;
+  private final Project.NameKey parentProjectName;
   protected String message;
   private boolean checkIfOwner;
 
-  protected ProjectAccessHandler(
-      final ProjectControl.Factory projectControlFactory,
-      final GroupBackend groupBackend,
-      final MetaDataUpdate.User metaDataUpdateFactory,
-      final Project.NameKey projectName, final ObjectId base,
-      final List<AccessSection> sectionList, final String message,
-      final boolean checkIfOwner) {
+  protected ProjectAccessHandler(ProjectControl.Factory projectControlFactory,
+      GroupBackend groupBackend, MetaDataUpdate.User metaDataUpdateFactory,
+      Provider<SetParent> setParent, Project.NameKey projectName,
+      ObjectId base, List<AccessSection> sectionList,
+      Project.NameKey parentProjectName, String message, boolean checkIfOwner) {
     this.projectControlFactory = projectControlFactory;
     this.groupBackend = groupBackend;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
+    this.setParent = setParent;
 
     this.projectName = projectName;
     this.base = base;
     this.sectionList = sectionList;
+    this.parentProjectName = parentProjectName;
     this.message = message;
     this.checkIfOwner = checkIfOwner;
   }
@@ -75,7 +83,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
   @Override
   public final T call() throws NoSuchProjectException, IOException,
       ConfigInvalidException, InvalidNameException, NoSuchGroupException,
-      OrmException {
+      OrmException, UpdateParentFailedException {
     final ProjectControl projectControl =
         projectControlFactory.controlFor(projectName);
 
@@ -119,6 +127,17 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
           config.remove(config.getAccessSection(name));
         }
       }
+
+        try {
+          setParent.get().validateParentUpdate(projectControl, parentProjectName.get());
+        } catch (AuthException e) {
+          throw new UpdateParentFailedException(e.getMessage(), e);
+        } catch (ResourceConflictException e) {
+          throw new UpdateParentFailedException(e.getMessage(), e);
+        } catch (UnprocessableEntityException e) {
+          throw new UpdateParentFailedException(e.getMessage(), e);
+        }
+        config.getProject().setParentName(parentProjectName);
 
       if (message != null && !message.isEmpty()) {
         if (!message.endsWith("\n")) {

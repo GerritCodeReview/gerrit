@@ -38,7 +38,7 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
 import java.io.IOException;
 
-class SetParent implements RestModifyView<ProjectResource, Input> {
+public class SetParent implements RestModifyView<ProjectResource, Input> {
   static class Input {
     @DefaultInput
     String parent;
@@ -63,41 +63,14 @@ class SetParent implements RestModifyView<ProjectResource, Input> {
       BadRequestException, ResourceConflictException,
       ResourceNotFoundException, UnprocessableEntityException, IOException {
     ProjectControl ctl = rsrc.getControl();
+    validateParentUpdate(ctl, input.parent);
     IdentifiedUser user = (IdentifiedUser) ctl.getCurrentUser();
-    if (!user.getCapabilities().canAdministrateServer()) {
-      throw new AuthException("not administrator");
-    }
-
-    if (rsrc.getNameKey().equals(allProjects)) {
-      throw new ResourceConflictException("cannot set parent of "
-          + allProjects.get());
-    }
-
-    input.parent = Strings.emptyToNull(input.parent);
-    if (input.parent != null) {
-      ProjectState parent = cache.get(new Project.NameKey(input.parent));
-      if (parent == null) {
-        throw new UnprocessableEntityException("parent project " + input.parent
-            + " not found");
-      }
-
-      if (Iterables.tryFind(parent.tree(), new Predicate<ProjectState>() {
-        @Override
-        public boolean apply(ProjectState input) {
-          return input.getProject().getNameKey().equals(rsrc.getNameKey());
-        }
-      }).isPresent()) {
-        throw new ResourceConflictException("cycle exists between "
-            + rsrc.getName() + " and " + parent.getProject().getName());
-      }
-    }
-
     try {
       MetaDataUpdate md = updateFactory.create(rsrc.getNameKey());
       try {
         ProjectConfig config = ProjectConfig.read(md);
         Project project = config.getProject();
-        project.setParentName(input.parent);
+        project.setParentName(Strings.emptyToNull(input.parent));
 
         String msg = Strings.emptyToNull(input.commitMessage);
         if (msg == null) {
@@ -122,6 +95,41 @@ class SetParent implements RestModifyView<ProjectResource, Input> {
     } catch (ConfigInvalidException e) {
       throw new ResourceConflictException(String.format(
           "invalid project.config: %s", e.getMessage()));
+    }
+  }
+
+  public void validateParentUpdate(final ProjectControl ctl, String newParent)
+      throws AuthException, ResourceConflictException,
+      UnprocessableEntityException {
+    IdentifiedUser user = (IdentifiedUser) ctl.getCurrentUser();
+    if (!user.getCapabilities().canAdministrateServer()) {
+      throw new AuthException("not administrator");
+    }
+
+    if (ctl.getProject().getNameKey().equals(allProjects)) {
+      throw new ResourceConflictException("cannot set parent of "
+          + allProjects.get());
+    }
+
+    newParent = Strings.emptyToNull(newParent);
+    if (newParent != null) {
+      ProjectState parent = cache.get(new Project.NameKey(newParent));
+      if (parent == null) {
+        throw new UnprocessableEntityException("parent project " + newParent
+            + " not found");
+      }
+
+      if (Iterables.tryFind(parent.tree(), new Predicate<ProjectState>() {
+        @Override
+        public boolean apply(ProjectState input) {
+          return input.getProject().getNameKey()
+              .equals(ctl.getProject().getNameKey());
+        }
+      }).isPresent()) {
+        throw new ResourceConflictException("cycle exists between "
+            + ctl.getProject().getName() + " and "
+            + parent.getProject().getName());
+      }
     }
   }
 }

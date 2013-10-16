@@ -422,7 +422,8 @@ describes the change.
     "owner": {
       "_account_id": 1000096,
       "name": "John Doe",
-      "email": "john.doe@example.com"
+      "email": "john.doe@example.com",
+      "username": "jdoe"
     },
     "labels": {
       "Verified": {
@@ -431,13 +432,15 @@ describes the change.
             "value": 0,
             "_account_id": 1000096,
             "name": "John Doe",
-            "email": "john.doe@example.com"
+            "email": "john.doe@example.com",
+            "username": "jdoe"
           },
           {
             "value": 0,
             "_account_id": 1000097,
             "name": "Jane Roe",
-            "email": "jane.roe@example.com"
+            "email": "jane.roe@example.com",
+            "username": "jroe"
           }
         ],
         "values": {
@@ -450,25 +453,29 @@ describes the change.
         "recommended": {
           "_account_id": 1000097,
           "name": "Jane Roe",
-          "email": "jane.roe@example.com"
+          "email": "jane.roe@example.com",
+          "username": "jroe"
         },
         "disliked": {
           "_account_id": 1000096,
           "name": "John Doe",
-          "email": "john.doe@example.com"
+          "email": "john.doe@example.com",
+          "username": "jdoe"
         },
         "all": [
           {
             "value": -1,
             "_account_id": 1000096,
             "name": "John Doe",
-            "email": "john.doe@example.com"
+            "email": "john.doe@example.com",
+            "username": "jdoe"
           },
           {
             "value": 1,
             "_account_id": 1000097,
             "name": "Jane Roe",
-            "email": "jane.roe@example.com"
+            "email": "jane.roe@example.com",
+            "username": "jroe"
           }
         ]
         "values": {
@@ -498,12 +505,14 @@ describes the change.
       {
         "_account_id": 1000096,
         "name": "John Doe",
-        "email": "john.doe@example.com"
+        "email": "john.doe@example.com",
+        "username": "jdoe"
       },
       {
         "_account_id": 1000097,
         "name": "Jane Roe",
-        "email": "jane.roe@example.com"
+        "email": "jane.roe@example.com",
+        "username": "jroe"
       }
     ],
     "messages": [
@@ -512,7 +521,8 @@ describes the change.
         "author": {
           "_account_id": 1000096,
           "name": "John Doe",
-          "email": "john.doe@example.com"
+          "email": "john.doe@example.com",
+          "username": "jdoe"
         },
         "updated": "2013-03-23 21:34:02.419000000",
         "message": "Patch Set 1:\n\nThis is the first message.",
@@ -523,7 +533,8 @@ describes the change.
         "author": {
           "_account_id": 1000097,
           "name": "Jane Roe",
-          "email": "jane.roe@example.com"
+          "email": "jane.roe@example.com",
+          "username": "jroe"
         },
         "updated": "2013-03-23 21:36:52.332000000",
         "message": "Patch Set 1:\n\nThis is the second message.\n\nWith a line break.",

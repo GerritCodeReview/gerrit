@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dec4282a_6e956f2d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T18:44:20Z",
+      "side": 1,
+      "message": "title should have a \u003cui:attribute name\u003d\u0027title\u0027/\u003e child to denote this could be translated.",
+      "range": {
+        "startLine": 321,
+        "startChar": 58,
+        "endLine": 321,
+        "endChar": 100
+      },
+      "revId": "916d3bbf0cdd3812434b969c169e84404987626c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dec4282a_0e9aab5c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T18:44:20Z",
+      "side": 1,
+      "message": "I kind of wanted the CSS for these to hide the fact they are links unless you focus them or mouse over them. I don\u0027t like how the old change screen is a huge mass of hyperlinks, most of which aren\u0027t used.",
+      "range": {
+        "startLine": 327,
+        "startChar": 19,
+        "endLine": 327,
+        "endChar": 34
+      },
+      "revId": "916d3bbf0cdd3812434b969c169e84404987626c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bec1341b_0da87180",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T18:44:20Z",
+      "side": 1,
+      "message": "These lines are long, consider line wrapping them at the attributes?",
+      "revId": "916d3bbf0cdd3812434b969c169e84404987626c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

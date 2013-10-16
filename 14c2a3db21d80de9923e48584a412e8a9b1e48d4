@@ -280,6 +280,24 @@
       "revId": "14c2a3db21d80de9923e48584a412e8a9b1e48d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ebaf89c_aa9eefa9",
+        "filename": "plugins/BUCK",
+        "patchSetId": 10
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-16T08:58:18Z",
+      "side": 1,
+      "message": "Right, this is the reason why I ended up having it all in one commit.",
+      "parentUuid": "bec1341b_4dd67945",
+      "revId": "14c2a3db21d80de9923e48584a412e8a9b1e48d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

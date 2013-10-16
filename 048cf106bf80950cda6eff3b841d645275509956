@@ -16,6 +16,24 @@
       "revId": "048cf106bf80950cda6eff3b841d645275509956",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ebaf89c_2a5aff2b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadBox.ui.xml",
+        "patchSetId": 10
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-16T08:12:16Z",
+      "side": 0,
+      "message": "Not sure why I would need a Grid, but I\u0027ve restored this file and moved the css back here.",
+      "parentUuid": "7ecb3c3d_ab45894b",
+      "revId": "048cf106bf80950cda6eff3b841d645275509956",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

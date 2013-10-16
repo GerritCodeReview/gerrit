@@ -345,12 +345,13 @@ run `buck` as usual:
   [-] BUILDING...FINISHED 0.2s
 ----
 
-Overwrite Buck's settings
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Override Buck's settings
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-In the latest version of Buck the wrapper script `buck_common` will source
-one of these files (if they exist): /etc/buck.conf, $HOME/.buck/buck.conf or
-$HOME/.buckrc. The trivial case to overwrite the Buck's default 1GB heap size:
+User-specific configuration can be placed in one of the following files:
+`/etc/buck.conf`, `$HOME/.buck/buck.conf` or `$HOME/.buckrc`.
+
+For example to override Buck's default 1GB heap size:
 
 ----
   cat > $HOME/.buckrc <<EOF
@@ -361,7 +362,7 @@ $HOME/.buckrc. The trivial case to overwrite the Buck's default 1GB heap size:
   EOF
 ----
 
-Or to debug BUCK, set BUCK_DEBUG_MODE to anything non-empty, then connect to
+Or to debug BUCK, set `BUCK_DEBUG_MODE` to anything non-empty, then connect to
 port 8888:
 
 ----

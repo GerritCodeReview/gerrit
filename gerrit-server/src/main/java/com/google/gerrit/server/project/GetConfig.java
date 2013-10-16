@@ -26,7 +26,6 @@ public class GetConfig implements RestReadView<ProjectResource> {
 
   private final TransferConfig config;
   private final DynamicMap<RestView<ProjectResource>> views;
-  private final Provider<CurrentUser> currentUser;
 
   @Inject
   public GetConfig(TransferConfig config,
@@ -34,15 +33,10 @@ public class GetConfig implements RestReadView<ProjectResource> {
       Provider<CurrentUser> currentUser) {
     this.config = config;
     this.views = views;
-    this.currentUser = currentUser;
   }
 
   @Override
   public ConfigInfo apply(ProjectResource resource) {
-    return new ConfigInfo(resource.getControl(),
-        resource.getControl().getProjectState(),
-        config,
-        views,
-        currentUser);
+    return new ConfigInfo(resource.getControl(), config, views);
   }
 }

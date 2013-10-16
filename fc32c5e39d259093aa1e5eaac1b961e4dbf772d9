@@ -1,0 +1,295 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bec1341b_ad0d9dfa",
+        "filename": "Documentation/rest-api-docsearch.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T17:39:55Z",
+      "side": 1,
+      "message": "GET /Documentation/?q\u003d...",
+      "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dec4282a_aebfd7ba",
+        "filename": "Documentation/rest-api-docsearch.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T17:39:55Z",
+      "side": 1,
+      "message": "This shouldn\u0027t be necessary. We know from context the query is for documentation only.",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 50
+      },
+      "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dec4282a_2eb447e3",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T17:39:55Z",
+      "side": 1,
+      "message": "I don\u0027t think a full rest API servlet is necessary.\n\nDocumentation cannot be modified remotely. There are very few operations we will likely ever offer:\n\n- viewing a file, already handled by a GET on /Documentation/...\n- searching documentation\n\nThe search is conceptually over the /Documentation/ collection. It should mirror existing patterns. Change search is /changes/?q\u003d... so querying /Documentation/ should be /Documentation/?q\u003d...\n\nI think you can only do this using a filter:\n\n  filter(\"/Documentation/\").through(QueryDocumentationFilter.class);\n\nand in the filter:\n\n  @Override\n  public void doFilter(ServletRequest request,\n      ServletResponse response, FilterChain chain)\n      throws IOException, ServletException {\n    HttpServletRequest req \u003d (HttpServletRequest) request;\n    if (\"GET\".equals(req.getMethod())\n        \u0026\u0026 !Strings.isNullOrEmpty(req.getParameter(\"q\")) {\n      doQuery(req, (HttpServletResponse) response);\n    } else {\n      chain.doFilter(request, response);\n    }\n  }",
+      "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dec4282a_cec82366",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryLucene.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T17:39:55Z",
+      "side": 1,
+      "message": "Constant is used only once. Just inline it.",
+      "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dec4282a_0eaf0b94",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryLucene.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T17:39:55Z",
+      "side": 1,
+      "message": "I would suggest skipping pagination altogether.",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 39
+      },
+      "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dec4282a_6eba4fd3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryLucene.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T17:39:55Z",
+      "side": 1,
+      "message": "Put these field names into their own constants class that has no other dependencies. Then write a new java_library() rule in the gerrit-server/BUCK to compile only that class by itself, and depend on it from the indexer. This will allow Buck to build the documentation index in parallel with gerrit-server. The gerrit-server library build is one of the slower targets we make, so I think this is worth the effort. It also changes often so reducing the surface of what the documentation index depends on will help to reduce documentation rebuilds.",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 47
+      },
+      "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bec1341b_2d220d6b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryLucene.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T17:39:55Z",
+      "side": 1,
+      "message": "Do not catch NPE. Test for null and handle it more explicitly.",
+      "range": {
+        "startLine": 77,
+        "startChar": 4,
+        "endLine": 77,
+        "endChar": 38
+      },
+      "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dec4282a_eec5df4c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryLucene.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T17:39:55Z",
+      "side": 1,
+      "message": "Simplify your life and only accept one \"q\" parameter.",
+      "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dec4282a_8ec21b42",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryLucene.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T17:39:55Z",
+      "side": 1,
+      "message": "Why are we doing this?",
+      "range": {
+        "startLine": 108,
+        "startChar": 8,
+        "endLine": 114,
+        "endChar": 9
+      },
+      "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bec1341b_cd16e90f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryLucene.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T17:39:55Z",
+      "side": 1,
+      "message": "This isn\u0027t going to work correctly in all contexts. No wonder you can\u0027t load the index from Eclipse.\n\nInstead of embedding the index.zip into the /Documentation/ directory as /Documentation/.index.zip we need to wrap it inside of a java_library() and make sure the java_library() is part of the Eclipse classpath and the WAR with docs classpath.\n\nFirst step is to change the Documentation/BUCK file to stop copying .index.zip into /Documentation/ as part of html.zip and instead shovel it into a java_library(). This is hideous to do given its naming, I think you need to wrap it in a genrule(). See gerrit-war/BUCK for the log4j-config prebuilt_jar() rule. You need do something like this for index.zip where the prebuilt_jar() depends on a genrule() that makes a ZIP or JAR of the index.zip file.\n\nThen in tools/eclipse/BUCK add the name of this prebuilt_jar() to the classpath target. Now your documentation will be built and visible in eclipse, next time you run tools/eclipse/project.py.\n\nIn the top level BUCK file gerrit_war() rules need to include the index prebuilt_jar() when DOCS are included. The index needs to be in the libs list of the war() function, not the pgmlibs. Maybe we need to make DOCS be a boolean that is False by default and set docs\u003dTrue in the top level, and when docs is true the gerrit_war() function adds the DOCS to the context and the index.zip to the libs list.",
+      "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bec1341b_8d10e111",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryLucene.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T17:39:55Z",
+      "side": 1,
+      "message": "Probably should be in a finally.",
+      "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bec1341b_ed13a51c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryLucene.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T17:39:55Z",
+      "side": 1,
+      "message": "This should be in a finally.",
+      "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bec1341b_4d23d971",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryProcessor.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T17:39:55Z",
+      "side": 1,
+      "message": "This interface is unnecessary abstraction.",
+      "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bec1341b_6d28154b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocResource.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T17:39:55Z",
+      "side": 1,
+      "message": "DocResource is not necessary as I think the REST API code is overkill. And HasETag really is overkill here, it would never be used.",
+      "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bec1341b_0d1dd12b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocsCollection.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T17:39:55Z",
+      "side": 1,
+      "message": "This is why the REST API is overkill.",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 18
+      },
+      "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

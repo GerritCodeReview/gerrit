@@ -23,11 +23,10 @@ import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.actions.ActionInfo;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.TransferConfig;
-import com.google.inject.Provider;
+import com.google.inject.util.Providers;
 
 import java.util.Map;
 
@@ -48,10 +47,9 @@ public class ConfigInfo {
   public ThemeInfo theme;
 
   public ConfigInfo(ProjectControl control,
-      ProjectState projectState,
       TransferConfig config,
-      DynamicMap<RestView<ProjectResource>> views,
-      Provider<CurrentUser> currentUser) {
+      DynamicMap<RestView<ProjectResource>> views) {
+    ProjectState projectState = control.getProjectState();
     Project p = control.getProject();
     this.description = Strings.emptyToNull(p.getDescription());
 
@@ -108,7 +106,7 @@ public class ConfigInfo {
     actions = Maps.newTreeMap();
     for (UiAction.Description d : UiActions.from(
         views, new ProjectResource(control),
-        currentUser)) {
+        Providers.of(control.getCurrentUser()))) {
       actions.put(d.getId(), new ActionInfo(d));
     }
     this.theme = projectState.getTheme();

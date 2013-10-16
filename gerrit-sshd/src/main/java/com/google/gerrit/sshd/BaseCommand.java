@@ -128,11 +128,11 @@ public abstract class BaseCommand implements Command {
   }
 
   @Nullable
-  String getPluginName() {
+  protected String getPluginName() {
     return pluginName;
   }
 
-  String getName() {
+  protected String getName() {
     return commandName;
   }
 
@@ -140,7 +140,7 @@ public abstract class BaseCommand implements Command {
     this.commandName = prefix;
   }
 
-  String[] getArguments() {
+  public String[] getArguments() {
     return argv;
   }
 

@@ -78,11 +78,6 @@ public final class ChangeMessage {
   }
 
   public ChangeMessage(final ChangeMessage.Key k, final Account.Id a,
-      final PatchSet.Id psid) {
-    this(k, a, new Timestamp(System.currentTimeMillis()), psid);
-  }
-
-  public ChangeMessage(final ChangeMessage.Key k, final Account.Id a,
       final Timestamp wo, final PatchSet.Id psid) {
     key = k;
     author = a;

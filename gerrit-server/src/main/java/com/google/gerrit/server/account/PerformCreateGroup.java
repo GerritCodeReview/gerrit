@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -147,8 +148,8 @@ public class PerformCreateGroup {
           new AccountGroupMember(new AccountGroupMember.Key(accountId, groupId));
       memberships.add(membership);
 
-      final AccountGroupMemberAudit audit =
-          new AccountGroupMemberAudit(membership, currentUser.getAccountId());
+      final AccountGroupMemberAudit audit = new AccountGroupMemberAudit(
+          membership, currentUser.getAccountId(), TimeUtil.nowTs());
       membershipsAudit.add(audit);
     }
     db.accountGroupMembers().insert(memberships);
@@ -170,8 +171,8 @@ public class PerformCreateGroup {
         new AccountGroupById(new AccountGroupById.Key(groupId, includeUUID));
       includeList.add(groupInclude);
 
-      final AccountGroupByIdAud audit =
-        new AccountGroupByIdAud(groupInclude, currentUser.getAccountId());
+      final AccountGroupByIdAud audit = new AccountGroupByIdAud(
+          groupInclude, currentUser.getAccountId(), TimeUtil.nowTs());
       includesAudit.add(audit);
     }
     db.accountGroupById().insert(includeList);

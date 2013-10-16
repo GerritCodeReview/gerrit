@@ -37,6 +37,7 @@ import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -105,7 +106,8 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
         user.getAccountId(),
         new Branch.NameKey(
             config.getProject().getNameKey(),
-            GitRepositoryManager.REF_CONFIG));
+            GitRepositoryManager.REF_CONFIG),
+        TimeUtil.nowTs());
 
     ps.setCreatedOn(change.getCreatedOn());
     ps.setUploader(change.getOwner());

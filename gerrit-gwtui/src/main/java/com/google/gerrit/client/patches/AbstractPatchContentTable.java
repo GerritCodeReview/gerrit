@@ -37,6 +37,7 @@ import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -525,7 +526,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
 
         final PatchLineComment newComment =
             new PatchLineComment(new PatchLineComment.Key(parentKey, null),
-                line, Gerrit.getUserAccount().getId(), null);
+                line, Gerrit.getUserAccount().getId(), null, TimeUtil.nowTs());
         newComment.setSide(side);
         newComment.setMessage("");
 
@@ -969,7 +970,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       PatchLineComment newComment =
           new PatchLineComment(new PatchLineComment.Key(comment.getKey()
               .getParentKey(), null), comment.getLine(), Gerrit
-              .getUserAccount().getId(), comment.getKey().get());
+              .getUserAccount().getId(), comment.getKey().get(), TimeUtil.nowTs());
       newComment.setSide(comment.getSide());
       return newComment;
     }

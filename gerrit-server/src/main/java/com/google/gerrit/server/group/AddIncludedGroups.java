@@ -35,6 +35,7 @@ import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.group.AddIncludedGroups.Input;
 import com.google.gerrit.server.group.GroupJson.GroupInfo;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -115,7 +116,8 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
         if (agi == null) {
           agi = new AccountGroupById(agiKey);
           newIncludedGroups.put(d.getGroupUUID(), agi);
-          newIncludedGroupsAudits.add(new AccountGroupByIdAud(agi, me));
+          newIncludedGroupsAudits.add(
+              new AccountGroupByIdAud(agi, me, TimeUtil.nowTs()));
         }
       }
       result.add(json.format(d));

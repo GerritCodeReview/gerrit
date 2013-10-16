@@ -39,10 +39,13 @@ import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
+import com.google.gerrit.client.ui.BranchLink;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
+import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.client.ui.UserActivityMonitor;
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.changes.ListChangesOption;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
@@ -132,8 +135,8 @@ public class ChangeScreen2 extends Screen {
   @UiField Element changeIdText;
   @UiField Element ownerText;
   @UiField Element statusText;
-  @UiField Element projectText;
-  @UiField Element branchText;
+  @UiField InlineHyperlink projectLink;
+  @UiField InlineHyperlink branchLink;
   @UiField Element submitActionText;
   @UiField Element notMergeable;
   @UiField CopyableLabel idText;
@@ -282,6 +285,26 @@ public class ChangeScreen2 extends Screen {
         info.project(),
         info.revision(revision),
         style, headerLine, download);
+  }
+
+  private void initProjectLink(ChangeInfo info) {
+    projectLink.setText(info.project());
+    projectLink.setTargetHistoryToken(
+        PageLinks.toChangeQuery(
+            PageLinks.projectQuery(
+                info.project_name_key(),
+                info.status())));
+  }
+
+  private void initBranchLink(ChangeInfo info) {
+    branchLink.setText(info.branch());
+    branchLink.setTargetHistoryToken(
+        PageLinks.toChangeQuery(
+            BranchLink.query(
+                info.project_name_key(),
+                info.status(),
+                info.branch(),
+                info.topic())));
   }
 
   private void initEditMessageAction(ChangeInfo info, String revision) {
@@ -629,13 +652,13 @@ public class ChangeScreen2 extends Screen {
     initIncludedInAction(info);
     initRevisionsAction(info, revision);
     initDownloadAction(info, revision);
+    initProjectLink(info);
+    initBranchLink(info);
     actions.display(info, revision);
 
     star.setValue(info.starred());
     permalink.setHref(ChangeLink.permalink(changeId));
     changeIdText.setInnerText(String.valueOf(info.legacy_id()));
-    projectText.setInnerText(info.project());
-    branchText.setInnerText(info.branch());
     idText.setText("Change-Id: " + info.change_id());
     idText.setPreviewText(info.change_id());
     reload.set(info);

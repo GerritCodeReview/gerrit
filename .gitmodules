@@ -6,6 +6,10 @@
 	path = plugins/cookbook-plugin
 	url = https://gerrit.googlesource.com/plugins/cookbook-plugin
 
+[submodule "plugins/download-commands"]
+	path = plugins/download-commands
+	url = https://gerrit.googlesource.com/plugins/download-commands
+
 [submodule "plugins/replication"]
 	path = plugins/replication
 	url = https://gerrit.googlesource.com/plugins/replication

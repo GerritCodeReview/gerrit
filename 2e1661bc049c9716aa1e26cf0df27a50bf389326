@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bec1341b_cddfc921",
+        "filename": "gerrit-extension-api/BUCK",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T18:11:09Z",
+      "side": 1,
+      "message": "Guice is not necessary here.",
+      "revId": "2e1661bc049c9716aa1e26cf0df27a50bf389326",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bec1341b_eddc052f",
+        "filename": "gerrit-gwtui/BUCK",
+        "patchSetId": 9
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T18:11:09Z",
+      "side": 1,
+      "message": "We shouldn\u0027t need the api here.",
+      "revId": "2e1661bc049c9716aa1e26cf0df27a50bf389326",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dec4282a_2ead2791",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/GerritGwtUI.gwt.xml",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T18:11:09Z",
+      "side": 1,
+      "message": "nit: move above prettify.PrettyFormatter?",
+      "revId": "2e1661bc049c9716aa1e26cf0df27a50bf389326",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

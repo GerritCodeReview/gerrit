@@ -316,6 +316,24 @@
       "revId": "14c2a3db21d80de9923e48584a412e8a9b1e48d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ecb3c3d_cbb25527",
+        "filename": "plugins/BUCK",
+        "patchSetId": 10
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-16T09:14:50Z",
+      "side": 1,
+      "message": "\"In both cases mentioned in previous comments, we have potential for a broken system\"\n\nHow is the system broken with approach a)?",
+      "parentUuid": "bec1341b_4dd67945",
+      "revId": "14c2a3db21d80de9923e48584a412e8a9b1e48d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

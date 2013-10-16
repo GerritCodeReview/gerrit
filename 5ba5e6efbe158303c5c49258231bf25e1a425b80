@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3ebf048e_c92571ba",
+        "filename": "lib/joda/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-10-16T16:53:43Z",
+      "side": 1,
+      "message": "Isn\u0027t it also used when putting src jars on the classpath?",
+      "parentUuid": "bec1341b_4dfaf9a3",
+      "revId": "5ba5e6efbe158303c5c49258231bf25e1a425b80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bec1341b_6dffb592",
         "filename": "lib/joda/BUCK",
         "patchSetId": 2
@@ -36,6 +54,24 @@
         "endLine": 26,
         "endChar": 37
       },
+      "revId": "5ba5e6efbe158303c5c49258231bf25e1a425b80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ebf048e_e922b5af",
+        "filename": "lib/joda/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-10-16T16:53:43Z",
+      "side": 1,
+      "message": "Should be, yes, but:\n\n java.lang.IllegalArgumentException: buildTargetPattern must start with //\n         at com.google.common.base.Preconditions.checkArgument(Preconditions.java:93)\n         at com.facebook.buck.parser.BuildTargetPatternParser.parse(BuildTargetPatternParser.java:60)\n         at com.facebook.buck.parser.AbstractBuildRuleFactory.getVisibilityPatterns(AbstractBuildRuleFactory.java:98)",
+      "parentUuid": "bec1341b_6dffb592",
       "revId": "5ba5e6efbe158303c5c49258231bf25e1a425b80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

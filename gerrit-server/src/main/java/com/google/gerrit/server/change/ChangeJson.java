@@ -23,6 +23,7 @@ import static com.google.gerrit.common.changes.ListChangesOption.CURRENT_FILES;
 import static com.google.gerrit.common.changes.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.common.changes.ListChangesOption.DETAILED_ACCOUNTS;
 import static com.google.gerrit.common.changes.ListChangesOption.DETAILED_LABELS;
+import static com.google.gerrit.common.changes.ListChangesOption.DOWNLOAD_COMMANDS;
 import static com.google.gerrit.common.changes.ListChangesOption.DRAFT_COMMENTS;
 import static com.google.gerrit.common.changes.ListChangesOption.LABELS;
 import static com.google.gerrit.common.changes.ListChangesOption.MESSAGES;
@@ -30,7 +31,6 @@ import static com.google.gerrit.common.changes.ListChangesOption.REVIEWED;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
-import com.google.common.base.Strings;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
@@ -50,6 +50,8 @@ import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.extensions.config.DownloadCommand;
+import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.Url;
@@ -69,8 +71,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.actions.ActionInfo;
-import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -79,14 +79,11 @@ import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.ssh.SshAdvertisedAddresses;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 
-import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -98,6 +95,7 @@ import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -120,30 +118,6 @@ public class ChangeJson {
         }
       };
 
-  @Singleton
-  static class Urls {
-    final String git;
-    final String http;
-    final String ssh;
-
-    @Inject
-    Urls(@GerritServerConfig Config cfg,
-        @SshAdvertisedAddresses List<String> sshAddresses) {
-      this.git = ensureSlash(cfg.getString("gerrit", null, "canonicalGitUrl"));
-      this.http = ensureSlash(cfg.getString("gerrit", null, "gitHttpUrl"));
-      this.ssh = !sshAddresses.isEmpty()
-          ? ensureSlash("ssh://" + sshAddresses.get(0))
-          : null;
-    }
-
-    private static String ensureSlash(String in) {
-      if (in != null && !in.endsWith("/")) {
-        return in + "/";
-      }
-      return in;
-    }
-  }
-
   private final Provider<ReviewDb> db;
   private final LabelNormalizer labelNormalizer;
   private final Provider<CurrentUser> userProvider;
@@ -153,8 +127,8 @@ public class ChangeJson {
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final FileInfoJson fileInfoJson;
   private final AccountInfo.Loader.Factory accountLoaderFactory;
-  private final Provider<String> urlProvider;
-  private final Urls urls;
+  private final DynamicMap<DownloadScheme> downloadSchemes;
+  private final DynamicMap<DownloadCommand> downloadCommands;
   private final DynamicMap<RestView<ChangeResource>> changes;
   private final Revisions revisions;
 
@@ -175,8 +149,8 @@ public class ChangeJson {
       PatchSetInfoFactory psi,
       FileInfoJson fileInfoJson,
       AccountInfo.Loader.Factory ailf,
-      @CanonicalWebUrl Provider<String> curl,
-      Urls urls,
+      DynamicMap<DownloadScheme> downloadSchemes,
+      DynamicMap<DownloadCommand> downloadCommands,
       DynamicMap<RestView<ChangeResource>> changes,
       Revisions revisions) {
     this.db = db;
@@ -188,8 +162,8 @@ public class ChangeJson {
     this.patchSetInfoFactory = psi;
     this.fileInfoJson = fileInfoJson;
     this.accountLoaderFactory = ailf;
-    this.urlProvider = curl;
-    this.urls = urls;
+    this.downloadSchemes = downloadSchemes;
+    this.downloadCommands = downloadCommands;
     this.changes = changes;
     this.revisions = revisions;
 
@@ -872,28 +846,40 @@ public class ChangeJson {
   private Map<String, FetchInfo> makeFetchMap(ChangeData cd, PatchSet in)
       throws OrmException {
     Map<String, FetchInfo> r = Maps.newLinkedHashMap();
-    String refName = in.getRefName();
-    ChangeControl ctl = control(cd);
-    if (ctl != null && ctl.forUser(anonymous).isPatchVisible(in, db.get())) {
-      if (urls.git != null) {
-        r.put("git", new FetchInfo(urls.git
-            + cd.change(db).getProject().get(), refName));
+
+    for (String pluginName : downloadSchemes.plugins()) {
+      for (Entry<String, Provider<DownloadScheme>> e :
+          downloadSchemes.byPlugin(pluginName).entrySet()) {
+        DownloadScheme scheme = e.getValue().get();
+        if (!scheme.isEnabled()
+            || (scheme.isAuthRequired() && !userProvider.get().isIdentifiedUser())) {
+          continue;
+        }
+
+        ChangeControl ctl = control(cd);
+        if (!scheme.isAuthRequired()
+            && !ctl.forUser(anonymous).isPatchVisible(in, db.get())) {
+          continue;
+        }
+
+        String projectName = ctl.getProject().getNameKey().get();
+        String url = scheme.getUrl(projectName);
+        String refName = in.getRefName();
+        FetchInfo fetchInfo = new FetchInfo(url, refName);
+        r.put(e.getKey(), fetchInfo);
+
+        if (has(DOWNLOAD_COMMANDS)) {
+          for (String pluginName2 : downloadCommands.plugins()) {
+            for (Entry<String, Provider<DownloadCommand>> e2 :
+                downloadCommands.byPlugin(pluginName2).entrySet()) {
+              String c = e2.getValue().get().getCommand(scheme, projectName, refName);
+              if (c != null) {
+                fetchInfo.addCommand(e2.getKey(), c);
+              }
+            }
+          }
+        }
       }
-    }
-    if (urls.http != null) {
-      r.put("http", new FetchInfo(urls.http
-          + cd.change(db).getProject().get(), refName));
-    } else {
-      String http = urlProvider.get();
-      if (!Strings.isNullOrEmpty(http)) {
-        r.put("http", new FetchInfo(http
-            + cd.change(db).getProject().get(), refName));
-      }
-    }
-    if (urls.ssh != null) {
-      r.put("ssh", new FetchInfo(
-          urls.ssh + cd.change(db).getProject().get(),
-          refName));
     }
 
     return r;
@@ -960,10 +946,18 @@ public class ChangeJson {
   static class FetchInfo {
     String url;
     String ref;
+    Map<String, String> commands;
 
     FetchInfo(String url, String ref) {
       this.url = url;
       this.ref = ref;
+    }
+
+    void addCommand(String name, String command) {
+      if (commands == null) {
+        commands = Maps.newTreeMap();
+      }
+      commands.put(name, command);
     }
   }
 

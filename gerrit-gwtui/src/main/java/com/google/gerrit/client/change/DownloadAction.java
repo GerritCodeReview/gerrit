@@ -14,10 +14,7 @@
 
 package com.google.gerrit.client.change;
 
-import com.google.gerrit.client.changes.ChangeInfo.FetchInfo;
-import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
-import com.google.gerrit.client.rpc.NativeMap;
-import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
@@ -26,20 +23,15 @@ class DownloadAction extends RightSidePopdownAction {
   private final DownloadBox downloadBox;
 
   DownloadAction(
-      Change.Id changeId,
-      String project,
-      RevisionInfo revision,
+      ChangeInfo info,
+      String revision,
       ChangeScreen2.Style style,
       UIObject relativeTo,
       Widget downloadButton) {
     super(style, relativeTo, downloadButton);
-    this.downloadBox = new DownloadBox(
-        revision.has_fetch()
-            ? revision.fetch()
-            : NativeMap.<FetchInfo> create(),
-        revision.name(),
-        project,
-        new PatchSet.Id(changeId, revision._number()));
+    this.downloadBox = new DownloadBox(info, revision,
+        new PatchSet.Id(info.legacy_id(),
+            info.revision(revision)._number()));
   }
 
   Widget getWidget() {

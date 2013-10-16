@@ -83,7 +83,7 @@ public class AccountInfo {
       try {
         directory.fillAccountInfo(
             Iterables.concat(created.values(), provided),
-            DETAILED_OPTIONS);
+            detailed ? DETAILED_OPTIONS : EnumSet.of(FillOptions.NAME));
       } catch (DirectoryException e) {
         Throwables.propagateIfPossible(e.getCause(), OrmException.class);
         throw new OrmException(e);

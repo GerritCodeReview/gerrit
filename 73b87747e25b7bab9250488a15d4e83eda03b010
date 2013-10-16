@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bec1341b_ad9efda9",
+        "filename": "Documentation/rest-api-docsearch.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-16T05:27:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dec4282a_8ed3fb4c",
+      "revId": "73b87747e25b7bab9250488a15d4e83eda03b010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dec4282a_aed03740",
         "filename": "Documentation/rest-api-docsearch.txt",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2013-10-16T05:10:48Z",
       "side": 1,
       "message": "s/documentation/document",
+      "revId": "73b87747e25b7bab9250488a15d4e83eda03b010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dec4282a_ceb26327",
+        "filename": "Documentation/rest-api-docsearch.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-16T05:27:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dec4282a_aed03740",
       "revId": "73b87747e25b7bab9250488a15d4e83eda03b010",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "dec4282a_eeaf1fbe",
+        "filename": "Documentation/rest-api-docsearch.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-16T05:27:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bec1341b_ed940590",
+      "revId": "73b87747e25b7bab9250488a15d4e83eda03b010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dec4282a_4ebf53f3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryLucene.java",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2013-10-16T05:10:48Z",
       "side": 1,
       "message": "s/a opened/an opened",
+      "revId": "73b87747e25b7bab9250488a15d4e83eda03b010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dec4282a_8eac5bcb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryLucene.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-16T05:27:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dec4282a_4ebf53f3",
       "revId": "73b87747e25b7bab9250488a15d4e83eda03b010",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7ecb3c3d_6ba321a9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadBox.ui.xml",
+        "patchSetId": 13
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-16T21:53:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bec1341b_4db999bc",
+      "revId": "7ad52335364401f78fecb4497a46e89df354a763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dec4282a_0eecebac",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 13
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "5ebaf89c_eaeaa7ce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-16T21:53:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dec4282a_0eecebac",
+      "range": {
+        "startLine": 850,
+        "startChar": 4,
+        "endLine": 852,
+        "endChar": 60
+      },
+      "revId": "7ad52335364401f78fecb4497a46e89df354a763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dec4282a_2ef1a783",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 13
@@ -53,6 +95,30 @@
       "writtenOn": "2013-10-16T21:30:13Z",
       "side": 1,
       "message": "See above, DynamicMap.Entry\u003cT\u003e helps this case.",
+      "range": {
+        "startLine": 871,
+        "startChar": 37,
+        "endLine": 874,
+        "endChar": 68
+      },
+      "revId": "7ad52335364401f78fecb4497a46e89df354a763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ecb3c3d_4b9e6564",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 874,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-16T21:53:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dec4282a_2ef1a783",
       "range": {
         "startLine": 871,
         "startChar": 37,

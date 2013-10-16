@@ -977,12 +977,15 @@ The `AccountInfo` entity contains information about an account.
 |Field Name    ||Description
 |`_account_id` ||The numeric ID of the account.
 |`name`        |optional|The full name of the user. +
-Only set if detailed account information is requested.
+Only set if link:rest-api-changes.html#detailed-accounts[detailed
+account information] is requested.
 |`email`       |optional|
 The email address the user prefers to be contacted through. +
-Only set if detailed account information is requested.
+Only set if link:rest-api-changes.html#detailed-accounts[detailed
+account information] is requested.
 |`username`    |optional|The username of the user. +
-Only set if detailed account information is requested.
+Only set if link:rest-api-changes.html#detailed-accounts[detailed
+account information] is requested.
 |===========================
 
 [[account-input]]

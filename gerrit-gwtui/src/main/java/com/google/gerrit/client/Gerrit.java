@@ -42,6 +42,7 @@ import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.GitwebConfig;
 import com.google.gerrit.common.data.HostPageData;
 import com.google.gerrit.common.data.SystemInfoService;
+import com.google.gerrit.extensions.webui.GerritTopMenu;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
@@ -113,13 +114,6 @@ public class Gerrit implements EntryPoint {
   private static AccountDiffPreference myAccountDiffPref;
   private static String xGerritAuth;
 
-  private static final String ALL_BAR = "All";
-  private static final String MY_BAR = "My";
-  private static final String DIFF_BAR = "Differences";
-  private static final String PROJECTS_BAR = "Projects";
-  private static final String PEOPLE_BAR = "People";
-  private static final String PLUGINS_BAR = "Plugins";
-  private static final String DOCUMENTATION_BAR = "Documentation";
   private static Map<String, LinkMenuBar> menuBars;
 
   private static MorphingTabPanel menuLeft;
@@ -210,7 +204,7 @@ public class Gerrit implements EntryPoint {
    * @param view the loaded view.
    */
   public static void updateMenus(Screen view) {
-    LinkMenuBar diffBar = menuBars.get(DIFF_BAR);
+    LinkMenuBar diffBar = menuBars.get(GerritTopMenu.DIFFERENCES.menuName);
     if (view instanceof PatchScreen) {
       patchScreen = (PatchScreen) view;
       menuLeft.setVisible(diffBar, true);
@@ -671,7 +665,7 @@ public class Gerrit implements EntryPoint {
     LinkMenuBar m;
 
     m = new LinkMenuBar();
-    menuBars.put(ALL_BAR, m);
+    menuBars.put(GerritTopMenu.ALL.menuName, m);
     addLink(m, C.menuAllOpen(), PageLinks.toChangeQuery("status:open"));
     addLink(m, C.menuAllMerged(), PageLinks.toChangeQuery("status:merged"));
     addLink(m, C.menuAllAbandoned(), PageLinks.toChangeQuery("status:abandoned"));
@@ -679,7 +673,7 @@ public class Gerrit implements EntryPoint {
 
     if (signedIn) {
       m = new LinkMenuBar();
-      menuBars.put(MY_BAR, m);
+      menuBars.put(GerritTopMenu.MY.menuName, m);
       addLink(m, C.menuMyChanges(), PageLinks.MINE);
       addLink(m, C.menuMyDrafts(), PageLinks.toChangeQuery("is:draft"));
       addLink(m, C.menuMyDraftComments(), PageLinks.toChangeQuery("has:draft"));
@@ -693,7 +687,7 @@ public class Gerrit implements EntryPoint {
 
     patchScreen = null;
     LinkMenuBar diffBar = new LinkMenuBar();
-    menuBars.put(DIFF_BAR, diffBar);
+    menuBars.put(GerritTopMenu.DIFFERENCES.menuName, diffBar);
     menuLeft.addInvisible(diffBar, C.menuDiff());
     addDiffLink(diffBar, CC.patchTableDiffSideBySide(), PatchScreen.Type.SIDE_BY_SIDE);
     addDiffLink(diffBar, CC.patchTableDiffUnified(), PatchScreen.Type.UNIFIED);
@@ -710,7 +704,7 @@ public class Gerrit implements EntryPoint {
         }
       }
     };
-    menuBars.put(PROJECTS_BAR, projectsBar);
+    menuBars.put(GerritTopMenu.PROJECTS.menuName, projectsBar);
     addLink(projectsBar, C.menuProjectsList(), PageLinks.ADMIN_PROJECTS);
     addProjectLink(projectsBar, C.menuProjectsInfo(), ProjectScreen.INFO);
     addProjectLink(projectsBar, C.menuProjectsBranches(), ProjectScreen.BRANCH);
@@ -722,13 +716,13 @@ public class Gerrit implements EntryPoint {
 
     if (signedIn) {
       final LinkMenuBar peopleBar = new LinkMenuBar();
-      menuBars.put(PEOPLE_BAR, peopleBar);
+      menuBars.put(GerritTopMenu.PEOPLE.menuName, peopleBar);
       final LinkMenuItem groupsListMenuItem =
           addLink(peopleBar, C.menuPeopleGroupsList(), PageLinks.ADMIN_GROUPS);
       menuLeft.add(peopleBar, C.menuPeople());
 
       final LinkMenuBar pluginsBar = new LinkMenuBar();
-      menuBars.put(PLUGINS_BAR, pluginsBar);
+      menuBars.put(GerritTopMenu.PLUGINS.menuName, pluginsBar);
       AccountCapabilities.all(new GerritCallback<AccountCapabilities>() {
         @Override
         public void onSuccess(AccountCapabilities result) {
@@ -754,7 +748,7 @@ public class Gerrit implements EntryPoint {
 
     if (getConfig().isDocumentationAvailable()) {
       m = new LinkMenuBar();
-      menuBars.put(DOCUMENTATION_BAR, m);
+      menuBars.put(GerritTopMenu.DOCUMENTATION.menuName, m);
       addDocLink(m, C.menuDocumentationIndex(), "index.html");
       addDocLink(m, C.menuDocumentationSearch(), "user-search.html");
       addDocLink(m, C.menuDocumentationUpload(), "user-upload.html");

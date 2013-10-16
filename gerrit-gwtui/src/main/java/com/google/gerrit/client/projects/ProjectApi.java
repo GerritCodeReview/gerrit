@@ -110,6 +110,15 @@ public class ProjectApi {
         });
   }
 
+  public static void getChildren(Project.NameKey name, boolean recursive,
+      AsyncCallback<JsArray<ProjectInfo>> cb) {
+    RestApi view = project(name).view("children");
+    if (recursive) {
+      view.addParameterTrue("recursive");
+    }
+    view.get(cb);
+  }
+
   public static void getDescription(Project.NameKey name,
       AsyncCallback<NativeString> cb) {
     project(name).view("description").get(cb);

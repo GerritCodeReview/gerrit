@@ -594,7 +594,7 @@ public class JettyServer {
     ProcessBuilder proc = new ProcessBuilder(buck, "build", target)
         .directory(root)
         .redirectErrorStream(true);
-    if (properties.contains("PATH")) {
+    if (properties.containsKey("PATH")) {
       proc.environment().put("PATH", properties.getProperty("PATH"));
     }
     long start = TimeUtil.nowMs();

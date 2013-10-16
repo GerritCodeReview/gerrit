@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ece304a_2c08d33b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/GerritTopMenu.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-10-16T00:59:18Z",
+      "side": 1,
+      "message": "nit: missing space",
+      "range": {
+        "startLine": 23,
+        "startChar": 33,
+        "endLine": 23,
+        "endChar": 34
+      },
+      "revId": "fe255a99e412fc284164e13f5b0a07379e90198c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

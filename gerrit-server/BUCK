@@ -137,6 +137,7 @@ java_test(
     '//lib/guice:guice',
     '//lib/jgit:jgit',
     '//lib/jgit:junit',
+    '//lib/joda:joda-time',
     '//lib/prolog:prolog-cafe',
   ],
   source_under_test = [':server'],

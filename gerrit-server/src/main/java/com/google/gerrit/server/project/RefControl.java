@@ -308,7 +308,8 @@ public class RefControl {
       case REST_API:
       case JSON_RPC:
       case SSH_COMMAND:
-        return isOwner() || canPushWithForce();
+        return (isOwner() && !isForceBlocked(Permission.PUSH))
+            || canPushWithForce();
 
       case GIT:
         return canPushWithForce();
@@ -494,6 +495,22 @@ public class RefControl {
     }
     blocks.removeAll(allows);
     return blocks.isEmpty() && !allows.isEmpty();
+  }
+
+  /** True if for this permission force is blocked for the user. Works only for non labels. */
+  private boolean isForceBlocked(String permissionName) {
+    List<PermissionRule> access = access(permissionName);
+    Set<ProjectRef> allows = Sets.newHashSet();
+    Set<ProjectRef> blocks = Sets.newHashSet();
+    for (PermissionRule rule : access) {
+      if (rule.isBlock()) {
+        blocks.add(relevant.getRuleProps(rule));
+      } else if (rule.getForce()) {
+        allows.add(relevant.getRuleProps(rule));
+      }
+    }
+    blocks.removeAll(allows);
+    return !blocks.isEmpty();
   }
 
   /** Rules for the given permission, or the empty list. */

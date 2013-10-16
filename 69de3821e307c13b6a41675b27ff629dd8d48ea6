@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dec4282a_4e875312",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T18:28:45Z",
+      "side": 1,
+      "message": "I actually preferred to inline this.",
+      "revId": "69de3821e307c13b6a41675b27ff629dd8d48ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

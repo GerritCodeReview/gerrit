@@ -45,9 +45,9 @@ import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.client.ui.UserActivityMonitor;
 import com.google.gerrit.common.changes.ListChangesOption;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
@@ -57,8 +57,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.CssResource;
@@ -71,7 +69,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
@@ -203,10 +200,6 @@ public class ChangeScreen2 extends Screen {
 
   @Override
   protected void onUnload() {
-    if (updateAvailable != null) {
-      updateAvailable.hide(true);
-      updateAvailable = null;
-    }
     if (updateCheck != null) {
       updateCheck.cancel();
       updateCheck = null;
@@ -742,18 +735,12 @@ public class ChangeScreen2 extends Screen {
           lastDisplayedUpdate = newTime;
         }
       };
-      updateAvailable.addCloseHandler(new CloseHandler<PopupPanel>() {
-        @Override
-        public void onClose(CloseEvent<PopupPanel> event) {
-          updateAvailable = null;
-        }
-      });
     }
     updateAvailable.set(
         Natives.asList(nm).subList(om.length(), nm.length()),
         newInfo.updated());
-    if (!updateAvailable.isShowing()) {
-      updateAvailable.popup();
+    if (!updateAvailable.isAttached()) {
+      add(updateAvailable);
     }
   }
 

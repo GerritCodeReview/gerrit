@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bec1341b_6dba55d3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T18:31:59Z",
+      "side": 1,
+      "message": "Unnecessary. We create a new ProjectState for the 2nd arg and just need to use that new state to make the new control.",
+      "revId": "f5d0d3b7f92731780b9959ede967203e87f0f095",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

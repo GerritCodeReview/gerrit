@@ -209,8 +209,8 @@ default. Optional fields are:
 
 [[detailed-accounts]]
 --
-* `DETAILED_ACCOUNTS`: include `_account_id` and `email` fields when
-  referencing accounts.
+* `DETAILED_ACCOUNTS`: include `_account_id`, `email` and `username`
+  fields when referencing accounts.
 --
 
 [[messages]]

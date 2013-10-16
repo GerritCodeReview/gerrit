@@ -340,7 +340,7 @@ limitations under the License.
               <td ui:field='actionDate'/>
             </tr>
             <tr>
-              <th><ui:msg>Id</ui:msg></th>
+              <th><ui:msg>Change-Id</ui:msg></th>
               <td><clippy:CopyableLabel styleName='{style.clippy}' ui:field='idText'/></td>
             </tr>
             <tr>

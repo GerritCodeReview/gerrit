@@ -38,6 +38,7 @@ public class AccountInfo {
         Collections.unmodifiableSet(EnumSet.of(
             FillOptions.NAME,
             FillOptions.EMAIL,
+            FillOptions.USERNAME,
             FillOptions.AVATARS));
 
     public interface Factory {

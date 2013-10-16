@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bec1341b_2dad2d91",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T18:48:14Z",
+      "side": 1,
+      "message": "This is misleading. The change owner can be different from the author of the commit. I could see you as the author, but maybe I uploaded the change. Clicking on your name searches for things owned by me. Not correct behavior.\n\nIf you use the name and email string from renderName() as the argument for the owner operator, that would resolve the issue I have. The server will attempt to parse that and find changes owned by accounts matching the name and/or email.",
+      "revId": "d28188a7459433b2f3a5b4b4fb53ef01d275acc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dec4282a_cea34394",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.ui.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T18:48:14Z",
+      "side": 1,
+      "message": "Avoid whitespace here. GWT will insert an LF and such and the browser will actually put a space between the widgets and now the names won\u0027t align.",
+      "revId": "d28188a7459433b2f3a5b4b4fb53ef01d275acc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bec1341b_cd910950",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.ui.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T18:48:14Z",
+      "side": 1,
+      "message": "ui attribute",
+      "range": {
+        "startLine": 51,
+        "startChar": 56,
+        "endLine": 51,
+        "endChar": 95
+      },
+      "revId": "d28188a7459433b2f3a5b4b4fb53ef01d275acc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

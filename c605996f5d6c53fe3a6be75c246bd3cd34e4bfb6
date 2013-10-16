@@ -34,6 +34,46 @@
       "revId": "c605996f5d6c53fe3a6be75c246bd3cd34e4bfb6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bec1341b_4d9e7964",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T18:40:36Z",
+      "side": 1,
+      "message": "Maybe while you are here add protected to getPluginName() and make it also available so plugins don\u0027t need to use @Inject?",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 0
+      },
+      "revId": "c605996f5d6c53fe3a6be75c246bd3cd34e4bfb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dec4282a_4e90b33e",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T18:40:36Z",
+      "side": 1,
+      "message": "Maybe this should also be protected?",
+      "revId": "c605996f5d6c53fe3a6be75c246bd3cd34e4bfb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

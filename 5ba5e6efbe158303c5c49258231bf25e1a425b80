@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "3ebf048e_892f7996",
+        "filename": "lib/joda/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-10-16T16:55:46Z",
+      "side": 1,
+      "message": "On the Eclipse classpath. For debugging, etc.",
+      "parentUuid": "dec4282a_cedfc321",
+      "revId": "5ba5e6efbe158303c5c49258231bf25e1a425b80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bec1341b_6dffb592",
         "filename": "lib/joda/BUCK",
         "patchSetId": 2

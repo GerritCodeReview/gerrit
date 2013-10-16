@@ -37,6 +37,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.CreateAccount.Input;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.ssh.SshKeyCache;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -149,7 +150,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
       }
     }
 
-    Account a = new Account(id);
+    Account a = new Account(id, TimeUtil.nowTs());
     a.setFullName(input.name);
     a.setPreferredEmail(input.email);
     db.accounts().insert(Collections.singleton(a));
@@ -162,7 +163,8 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
       AccountGroupMember m =
           new AccountGroupMember(new AccountGroupMember.Key(id, groupId));
       db.accountGroupMembersAudit().insert(Collections.singleton(
-          new AccountGroupMemberAudit(m, currentUser.getAccountId())));
+          new AccountGroupMemberAudit(
+              m, currentUser.getAccountId(), TimeUtil.nowTs())));
       db.accountGroupMembers().insert(Collections.singleton(m));
     }
 

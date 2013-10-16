@@ -217,7 +217,7 @@ public class CommentsTest extends TestCase {
     Patch.Key p = new Patch.Key(psId, filename);
     PatchLineComment.Key id = new PatchLineComment.Key(p, uuid);
     PatchLineComment plc =
-        new PatchLineComment(id, line, authorId, inReplyToUuid);
+        new PatchLineComment(id, line, authorId, inReplyToUuid, TimeUtil.nowTs());
     plc.setMessage(message);
     plc.setRange(range);
     plc.setSide(side == Side.PARENT ? (short) 0 : (short) 1);

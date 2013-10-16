@@ -123,14 +123,14 @@ public final class PatchLineComment {
   protected PatchLineComment() {
   }
 
-  public PatchLineComment(final PatchLineComment.Key id, final int line,
-      final Account.Id a, String parentUuid) {
+  public PatchLineComment(PatchLineComment.Key id, int line, Account.Id a,
+      String parentUuid, Timestamp when) {
     key = id;
     lineNbr = line;
     author = a;
     this.parentUuid = parentUuid;
     setStatus(Status.DRAFT);
-    updated();
+    updated(when);
   }
 
   public PatchLineComment.Key getKey() {
@@ -177,8 +177,8 @@ public final class PatchLineComment {
     message = s;
   }
 
-  public void updated() {
-    writtenOn = new Timestamp(System.currentTimeMillis());
+  public void updated(Timestamp when) {
+    writtenOn = when;
   }
 
   public void setWrittenOn(Timestamp ts) {

@@ -1428,7 +1428,8 @@ public class ReceiveCommits {
       change = new Change(changeKey,
           new Change.Id(db.nextChangeId()),
           currentUser.getAccountId(),
-          magicBranch.dest);
+          magicBranch.dest,
+          TimeUtil.nowTs());
       change.setTopic(magicBranch.topic);
       ins = changeInserterFactory.create(ctl, change, c)
           .setDraft(magicBranch.isDraft());
@@ -2236,9 +2237,9 @@ public class ReceiveCommits {
       }
     }
     msgBuf.append(".");
-    final ChangeMessage msg =
-        new ChangeMessage(new ChangeMessage.Key(change.getId(), ChangeUtil
-            .messageUUID(db)), currentUser.getAccountId(), result.info.getKey());
+    final ChangeMessage msg = new ChangeMessage(
+        new ChangeMessage.Key(change.getId(), ChangeUtil.messageUUID(db)),
+        currentUser.getAccountId(), TimeUtil.nowTs(), result.info.getKey());
     msg.setMessage(msgBuf.toString());
 
     db.changeMessages().insert(Collections.singleton(msg));

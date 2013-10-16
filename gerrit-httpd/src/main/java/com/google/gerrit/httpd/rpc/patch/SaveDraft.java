@@ -25,6 +25,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -91,8 +92,9 @@ class SaveDraft extends Handler<PatchLineComment> {
         }
 
         final PatchLineComment nc =
-            new PatchLineComment(new PatchLineComment.Key(patchKey, ChangeUtil
-                .messageUUID(db)), comment.getLine(), me, comment.getParentUuid());
+            new PatchLineComment(new PatchLineComment.Key(patchKey,
+                ChangeUtil.messageUUID(db)), comment.getLine(), me,
+                comment.getParentUuid(), TimeUtil.nowTs());
         nc.setSide(comment.getSide());
         nc.setMessage(comment.getMessage());
         nc.setRange(comment.getRange());
@@ -104,7 +106,7 @@ class SaveDraft extends Handler<PatchLineComment> {
         if (!me.equals(comment.getAuthor())) {
           throw new NoSuchChangeException(changeId);
         }
-        comment.updated();
+        comment.updated(TimeUtil.nowTs());
         db.patchComments().update(Collections.singleton(comment));
         db.commit();
         return comment;

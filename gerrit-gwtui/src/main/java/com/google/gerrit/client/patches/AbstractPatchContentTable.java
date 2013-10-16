@@ -66,6 +66,7 @@ import com.google.gwtorm.client.KeyUtil;
 
 import org.eclipse.jgit.diff.Edit;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -523,9 +524,10 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
             throw new RuntimeException("unexpected file id " + file);
         }
 
-        final PatchLineComment newComment =
-            new PatchLineComment(new PatchLineComment.Key(parentKey, null),
-                line, Gerrit.getUserAccount().getId(), null);
+        final PatchLineComment newComment = new PatchLineComment(
+            new PatchLineComment.Key(parentKey, null), line,
+            Gerrit.getUserAccount().getId(), null,
+            new Timestamp(System.currentTimeMillis()));
         newComment.setSide(side);
         newComment.setMessage("");
 
@@ -969,7 +971,8 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       PatchLineComment newComment =
           new PatchLineComment(new PatchLineComment.Key(comment.getKey()
               .getParentKey(), null), comment.getLine(), Gerrit
-              .getUserAccount().getId(), comment.getKey().get());
+              .getUserAccount().getId(), comment.getKey().get(),
+              new Timestamp(System.currentTimeMillis()));
       newComment.setSide(comment.getSide());
       return newComment;
     }

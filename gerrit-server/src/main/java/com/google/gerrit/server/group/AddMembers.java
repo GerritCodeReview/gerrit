@@ -39,6 +39,7 @@ import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.group.AddMembers.Input;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -132,7 +133,8 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
         if (m == null) {
           m = new AccountGroupMember(key);
           newAccountGroupMembers.put(m.getAccountId(), m);
-          newAccountGroupMemberAudits.add(new AccountGroupMemberAudit(m, me));
+          newAccountGroupMemberAudits.add(
+              new AccountGroupMemberAudit(m, me, TimeUtil.nowTs()));
         }
       }
       result.add(loader.get(a.getId()));

@@ -33,6 +33,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.AddMembers.Input;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -107,10 +108,10 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
       }
 
       if (audit != null) {
-        audit.removed(me);
+        audit.removed(me, TimeUtil.nowTs());
         auditUpdates.add(audit);
       } else {
-        audit = new AccountGroupMemberAudit(m, me);
+        audit = new AccountGroupMemberAudit(m, me, TimeUtil.nowTs());
         audit.removedLegacy();
         auditInserts.add(audit);
       }

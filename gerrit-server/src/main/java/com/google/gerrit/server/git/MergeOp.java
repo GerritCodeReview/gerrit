@@ -794,9 +794,8 @@ public class MergeOp {
     } catch (OrmException e) {
       return null;
     }
-    final ChangeMessage m =
-        new ChangeMessage(new ChangeMessage.Key(c.getId(), uuid), null,
-            c.currentPatchSetId());
+    ChangeMessage m = new ChangeMessage(new ChangeMessage.Key(c.getId(), uuid),
+        null, TimeUtil.nowTs(), c.currentPatchSetId());
     m.setMessage(body);
     return m;
   }

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "dec4282a_eea07f89",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-16T18:48:24Z",
+      "side": 1,
+      "message": "Avoid whitespace here. GWT will insert an LF and such and the browser will actually put a space between the widgets and now the names won\u0027t align.",
+      "revId": "916d3bbf0cdd3812434b969c169e84404987626c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dec4282a_6e956f2d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
         "patchSetId": 4

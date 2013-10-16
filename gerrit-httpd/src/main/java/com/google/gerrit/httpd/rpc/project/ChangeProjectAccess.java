@@ -19,12 +19,15 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.SetParent;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -35,9 +38,11 @@ import java.util.List;
 
 class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
   interface Factory {
-    ChangeProjectAccess create(@Assisted Project.NameKey projectName,
+    ChangeProjectAccess create(
+        @Assisted("projectName") Project.NameKey projectName,
         @Nullable @Assisted ObjectId base,
         @Assisted List<AccessSection> sectionList,
+        @Nullable @Assisted("parentProjectName") Project.NameKey parentProjectName,
         @Nullable @Assisted String message);
   }
 
@@ -45,17 +50,21 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
   private final ProjectCache projectCache;
 
   @Inject
-  ChangeProjectAccess(final ProjectAccessFactory.Factory projectAccessFactory,
-      final ProjectControl.Factory projectControlFactory,
-      final ProjectCache projectCache, final GroupBackend groupBackend,
-      final MetaDataUpdate.User metaDataUpdateFactory,
+  ChangeProjectAccess(ProjectAccessFactory.Factory projectAccessFactory,
+      ProjectControl.Factory projectControlFactory,
+      ProjectCache projectCache, GroupBackend groupBackend,
+      MetaDataUpdate.User metaDataUpdateFactory,
+      AllProjectsNameProvider allProjects,
+      Provider<SetParent> setParent,
 
-      @Assisted final Project.NameKey projectName,
-      @Nullable @Assisted final ObjectId base,
+      @Assisted("projectName") Project.NameKey projectName,
+      @Nullable @Assisted ObjectId base,
       @Assisted List<AccessSection> sectionList,
+      @Nullable @Assisted("parentProjectName") Project.NameKey parentProjectName,
       @Nullable @Assisted String message) {
     super(projectControlFactory, groupBackend, metaDataUpdateFactory,
-        projectName, base, sectionList, message, true);
+        allProjects, setParent, projectName, base, sectionList,
+        parentProjectName, message, true);
     this.projectAccessFactory = projectAccessFactory;
     this.projectCache = projectCache;
   }

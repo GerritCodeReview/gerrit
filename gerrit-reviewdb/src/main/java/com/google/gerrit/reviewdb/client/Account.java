@@ -144,10 +144,11 @@ public final class Account {
    *
    * @param newId unique id, see
    *        {@link com.google.gerrit.reviewdb.server.ReviewDb#nextAccountId()}.
+   * @param registeredOn when the account was registered.
    */
-  public Account(final Account.Id newId) {
-    accountId = newId;
-    registeredOn = new Timestamp(System.currentTimeMillis());
+  public Account(Account.Id newId, Timestamp registeredOn) {
+    this.accountId = newId;
+    this.registeredOn = registeredOn;
 
     generalPreferences = new AccountGeneralPreferences();
     generalPreferences.resetToDefaults();
@@ -203,8 +204,8 @@ public final class Account {
     return contactFiledOn;
   }
 
-  public void setContactFiled() {
-    contactFiledOn = new Timestamp(System.currentTimeMillis());
+  public void setContactFiled(Timestamp ts) {
+    contactFiledOn = ts;
   }
 
   public boolean isActive() {

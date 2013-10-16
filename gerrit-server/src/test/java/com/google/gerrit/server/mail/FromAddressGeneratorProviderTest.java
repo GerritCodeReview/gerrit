@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.util.TimeUtil;
 
 import junit.framework.TestCase;
 
@@ -276,7 +277,7 @@ public class FromAddressGeneratorProviderTest extends TestCase {
 
   private AccountState makeUser(final String name, final String email) {
     final Account.Id userId = new Account.Id(42);
-    final Account account = new Account(userId);
+    final Account account = new Account(userId, TimeUtil.nowTs());
     account.setFullName(name);
     account.setPreferredEmail(email);
     final AccountState s =

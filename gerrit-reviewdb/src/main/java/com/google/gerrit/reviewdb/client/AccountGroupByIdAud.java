@@ -86,11 +86,6 @@ public final class AccountGroupByIdAud {
     addedBy = adder;
   }
 
-  public AccountGroupByIdAud(final AccountGroupById m,
-      final Account.Id adder) {
-    this(m, adder, now());
-  }
-
   public AccountGroupByIdAud.Key getKey() {
     return key;
   }
@@ -99,17 +94,8 @@ public final class AccountGroupByIdAud {
     return removedOn == null;
   }
 
-  public void removed(final Account.Id deleter) {
-    removedBy = deleter;
-    removedOn = now();
-  }
-
   public void removed(final Account.Id deleter, final Timestamp when) {
     removedBy = deleter;
     removedOn = when;
-  }
-
-  private static Timestamp now() {
-    return new Timestamp(System.currentTimeMillis());
   }
 }

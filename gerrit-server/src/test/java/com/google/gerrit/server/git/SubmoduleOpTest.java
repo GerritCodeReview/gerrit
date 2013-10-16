@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.SubmoduleSubscriptionAccess;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.ListResultSet;
 import com.google.gwtorm.server.ResultSet;
@@ -608,9 +609,9 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
 
     final CodeReviewCommit codeReviewCommit =
         new CodeReviewCommit(sourceMergeTip.toObjectId());
-    final Change submittedChange =
-        new Change(new Change.Key(sourceMergeTip.toObjectId().getName()),
-            new Change.Id(1), new Account.Id(1), sourceBranchNameKey);
+    final Change submittedChange = new Change(
+        new Change.Key(sourceMergeTip.toObjectId().getName()), new Change.Id(1),
+        new Account.Id(1), sourceBranchNameKey, TimeUtil.nowTs());
     codeReviewCommit.change = submittedChange;
 
     final Map<Change.Id, CodeReviewCommit> mergedCommits =
@@ -712,9 +713,9 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
 
     final CodeReviewCommit codeReviewCommit =
         new CodeReviewCommit(sourceMergeTip.toObjectId());
-    final Change submittedChange =
-        new Change(new Change.Key(sourceMergeTip.toObjectId().getName()),
-            new Change.Id(1), new Account.Id(1), sourceBranchNameKey);
+    final Change submittedChange = new Change(
+        new Change.Key(sourceMergeTip.toObjectId().getName()), new Change.Id(1),
+        new Account.Id(1), sourceBranchNameKey, TimeUtil.nowTs());
     codeReviewCommit.change = submittedChange;
 
     final Map<Change.Id, CodeReviewCommit> mergedCommits =

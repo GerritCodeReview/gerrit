@@ -48,6 +48,7 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.inject.Inject;
@@ -420,7 +421,7 @@ public abstract class AbstractQueryChangesTest {
     }
 
     Change change = new Change(new Change.Key(key), id, ownerId,
-        new Branch.NameKey(project, branch));
+        new Branch.NameKey(project, branch), TimeUtil.nowTs());
     change.setLastUpdatedOn(new Timestamp(clockMs));
     clockMs += clockStepMs;
     return changeFactory.create(

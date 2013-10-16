@@ -35,6 +35,7 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.ssh.NoSshInfo;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -211,7 +212,7 @@ public class CherryPickChange {
     Change change =
         new Change(changeKey, new Change.Id(db.nextChangeId()),
             currentUser.getAccountId(), new Branch.NameKey(project,
-                destRef.getName()));
+                destRef.getName()), TimeUtil.nowTs());
     ChangeInserter ins =
         changeInserterFactory.create(refControl, change, cherryPickCommit);
     PatchSet newPatchSet = ins.getPatchSet();
@@ -247,10 +248,10 @@ public class CherryPickChange {
 
   private ChangeMessage buildChangeMessage(PatchSet.Id patchSetId, Change dest)
       throws OrmException {
-    ChangeMessage cmsg =
-        new ChangeMessage(new ChangeMessage.Key(patchSetId.getParentKey(),
-            ChangeUtil.messageUUID(db)), currentUser.getAccountId(),
-            patchSetId);
+    ChangeMessage cmsg = new ChangeMessage(
+        new ChangeMessage.Key(
+            patchSetId.getParentKey(), ChangeUtil.messageUUID(db)),
+        currentUser.getAccountId(), TimeUtil.nowTs(), patchSetId);
     StringBuilder msgBuf =
         new StringBuilder("Patch Set " + patchSetId.get()
             + ": Cherry Picked");

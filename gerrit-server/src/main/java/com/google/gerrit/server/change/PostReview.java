@@ -47,6 +47,7 @@ import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.change.PostReview.Input;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -361,7 +362,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
                   ChangeUtil.messageUUID(db.get())),
               c.line,
               rsrc.getAccountId(),
-              parent);
+              parent, TimeUtil.nowTs());
         } else if (parent != null) {
           e.setParentUuid(parent);
         }
@@ -452,7 +453,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
                 rsrc.getPatchSet().getId(),
                 rsrc.getAccountId(),
                 lt.getLabelId()),
-            ent.getValue());
+            ent.getValue(), TimeUtil.nowTs());
         c.setGranted(timestamp);
         c.cache(change);
         ins.add(c);
@@ -481,7 +482,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
             rsrc.getAccountId(),
             rsrc.getControl().getLabelTypes().getLabelTypes().get(0)
                 .getLabelId()),
-            (short) 0);
+            (short) 0, TimeUtil.nowTs());
         c.setGranted(timestamp);
         c.cache(change);
         ins.add(c);

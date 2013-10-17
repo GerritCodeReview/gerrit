@@ -72,6 +72,11 @@ class Query extends SshCommand {
     processor.setIncludeDependencies(on);
   }
 
+  @Option(name = "--all-reviewers", usage = "Include all reviewers")
+  void setAllReviewers(boolean on) {
+    processor.setIncludeAllReviewers(on);
+  }
+
   @Option(name = "--submit-records", usage = "Include submit and label status")
   void setSubmitRecords(boolean on) {
     processor.setIncludeSubmitRecords(on);

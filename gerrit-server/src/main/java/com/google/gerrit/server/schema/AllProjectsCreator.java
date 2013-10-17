@@ -55,6 +55,7 @@ public class AllProjectsCreator {
   private GroupReference anonymous;
   private GroupReference registered;
   private GroupReference owners;
+  private GroupReference changeOwner;
 
   @Inject
   AllProjectsCreator(
@@ -74,6 +75,9 @@ public class AllProjectsCreator {
     this.owners = new GroupReference(
         AccountGroup.PROJECT_OWNERS,
         "Project Owners");
+    this.changeOwner = new GroupReference(
+        AccountGroup.CHANGE_OWNER,
+        "Change Owner");
   }
 
   public AllProjectsCreator setAdministrators(GroupReference admin) {
@@ -158,6 +162,13 @@ public class AllProjectsCreator {
     grant(config, heads, Permission.FORGE_AUTHOR, registered);
     grant(config, heads, Permission.FORGE_COMMITTER, admin, owners);
     grant(config, heads, Permission.EDIT_TOPIC_NAME, true, admin, owners);
+    grant(config, all, Permission.EDIT_TOPIC_NAME, true, admin, owners, changeOwner);
+    grant(config, all, Permission.ABANDON, changeOwner);
+    grant(config, all, Permission.REBASE, changeOwner);
+    grant(config, all, Permission.REMOVE_REVIEWER, changeOwner);
+    grant(config, all, Permission.VIEW_DRAFTS, changeOwner);
+    grant(config, all, Permission.PUBLISH_DRAFTS, changeOwner);
+    grant(config, all, Permission.DELETE_DRAFTS, changeOwner);
 
     grant(config, tags, Permission.PUSH_TAG, admin, owners);
     grant(config, tags, Permission.PUSH_SIGNED_TAG, admin, owners);

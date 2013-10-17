@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7ecb3c3d_eba07189",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetParent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-17T12:57:03Z",
+      "side": 1,
+      "message": "This method can\u0027t be static since it uses allProjects and cache from the class.",
+      "parentUuid": "5ebaf89c_2adbdf38",
+      "revId": "c2f1a6b22f793031df745b2e7649eae305fcd953",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ecb3c3d_cba33594",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetParent.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "5ebaf89c_aae6eff8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetParent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-17T12:57:03Z",
+      "side": 1,
+      "message": "This is to be on the safe side.\n\nIt is true that the dependent graph cannot have cycles, but at least temporary this condition can occur. I\u0027ve once discussed this with Martin, you may have a look at this discussion [1].\n\n[1] https://gerrit-review.googlesource.com/#/c/30171/9/gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminSetParent.java,cm",
+      "parentUuid": "7ecb3c3d_cba33594",
+      "revId": "c2f1a6b22f793031df745b2e7649eae305fcd953",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ebaf89c_cadfa321",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetParent.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2013-10-17T12:36:33Z",
       "side": 1,
       "message": "you don\u0027t need final here",
+      "revId": "c2f1a6b22f793031df745b2e7649eae305fcd953",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ecb3c3d_8bad2d80",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetParent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-17T12:57:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ebaf89c_cadfa321",
       "revId": "c2f1a6b22f793031df745b2e7649eae305fcd953",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

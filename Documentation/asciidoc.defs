@@ -23,6 +23,7 @@ def genasciidoc(
   EXPN = '.expn'
 
   asciidoc = [
+      'cd $SRCDIR;',
       '$(exe //lib/asciidoctor:asciidoc)',
       '-z', '$OUT',
       '--in-ext', '".txt%s"' % EXPN,
@@ -33,7 +34,7 @@ def genasciidoc(
   for attribute in attributes:
     asciidoc.extend(['-a', attribute])
   asciidoc.append('$SRCS')
-  newsrcs = []
+  newsrcs = ["doc.css"]
   newdeps = deps + ['//lib/asciidoctor:asciidoc']
 
   for src in srcs:

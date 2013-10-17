@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ebaf89c_2adbdf38",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetParent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-17T12:36:33Z",
+      "side": 1,
+      "message": "private static",
+      "revId": "c2f1a6b22f793031df745b2e7649eae305fcd953",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ecb3c3d_cba33594",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetParent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-17T12:36:33Z",
+      "side": 1,
+      "message": "if the dependent graph doesn\u0027t have cycles how can it be, that\n\n grandParents.add(gp) \u003d\u003d false\n\n? If it can never be false why to include it in the while condition?",
+      "revId": "c2f1a6b22f793031df745b2e7649eae305fcd953",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ebaf89c_cadfa321",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetParent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-17T12:36:33Z",
+      "side": 1,
+      "message": "you don\u0027t need final here",
+      "revId": "c2f1a6b22f793031df745b2e7649eae305fcd953",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

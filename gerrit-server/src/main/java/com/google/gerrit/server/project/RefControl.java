@@ -155,8 +155,8 @@ public class RefControl {
   }
 
   /** @return true if this user can rebase changes on this ref */
-  public boolean canRebase() {
-    return canPerform(Permission.REBASE)
+  public boolean canRebase(boolean isChangeOwner) {
+    return canPerform(Permission.REBASE, isChangeOwner)
         && canWrite();
   }
 
@@ -342,33 +342,33 @@ public class RefControl {
   }
 
   /** @return true if this user can abandon a change for this ref */
-  public boolean canAbandon() {
-    return canPerform(Permission.ABANDON);
+  public boolean canAbandon(boolean isChangeOwner) {
+    return canPerform(Permission.ABANDON, isChangeOwner);
   }
 
   /** @return true if this user can remove a reviewer for a change. */
-  public boolean canRemoveReviewer() {
-    return canPerform(Permission.REMOVE_REVIEWER);
+  public boolean canRemoveReviewer(boolean isChangeOwner) {
+    return canPerform(Permission.REMOVE_REVIEWER, isChangeOwner);
   }
 
   /** @return true if this user can view draft changes. */
-  public boolean canViewDrafts() {
-    return canPerform(Permission.VIEW_DRAFTS);
+  public boolean canViewDrafts(boolean isChangeOwner) {
+    return canPerform(Permission.VIEW_DRAFTS, isChangeOwner);
   }
 
   /** @return true if this user can publish draft changes. */
-  public boolean canPublishDrafts() {
-    return canPerform(Permission.PUBLISH_DRAFTS);
+  public boolean canPublishDrafts(boolean isChangeOwner) {
+    return canPerform(Permission.PUBLISH_DRAFTS, isChangeOwner);
   }
 
   /** @return true if this user can delete draft changes. */
-  public boolean canDeleteDrafts() {
-    return canPerform(Permission.DELETE_DRAFTS);
+  public boolean canDeleteDrafts(boolean isChangeOwner) {
+    return canPerform(Permission.DELETE_DRAFTS, isChangeOwner);
   }
 
   /** @return true if this user can edit topic names. */
-  public boolean canEditTopicName() {
-    return canPerform(Permission.EDIT_TOPIC_NAME);
+  public boolean canEditTopicName(boolean isChangeOwner) {
+    return canPerform(Permission.EDIT_TOPIC_NAME, isChangeOwner);
   }
 
   /** @return true if this user can force edit topic names. */
@@ -473,7 +473,12 @@ public class RefControl {
 
   /** True if the user has this permission. Works only for non labels. */
   boolean canPerform(String permissionName) {
-    List<PermissionRule> access = access(permissionName);
+    return canPerform(permissionName, false);
+  }
+
+  /** True if the user has this permission. Works only for non labels. */
+  boolean canPerform(String permissionName, boolean isChangeOwner) {
+    List<PermissionRule> access = access(permissionName, isChangeOwner);
     Set<ProjectRef> allows = Sets.newHashSet();
     Set<ProjectRef> blocks = Sets.newHashSet();
     for (PermissionRule rule : access) {

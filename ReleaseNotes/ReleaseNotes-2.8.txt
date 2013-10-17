@@ -32,19 +32,19 @@ Release Highlights
 ------------------
 
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/intro-change-screen.html[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/intro-change-screen.html[
 New change screen] with completely redesigned UI and fully using the REST API.
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config-gerrit.html#index[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/config-gerrit.html#index[
 Secondary indexing with Lucene and Solr].
 
-* Lots of new link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api.html[
+* Lots of new link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api.html[
 REST API endpoints].
 
 * New
-link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/dev-plugins.html#ui_extension[
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/dev-plugins.html#ui_extension[
 UI extension] and
-link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/js-api.html[
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/js-api.html[
 JavaScript API] for plugins.
 
 * New build system using Facebook's link:http://facebook.github.io/buck/[Buck].
@@ -59,7 +59,7 @@ Build
 ~~~~~
 
 * Gerrit is now built with
-link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/dev-buck.html[
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/dev-buck.html[
 Buck].
 
 * Documentation is now built with Buck and link:http://asciidoctor.org[Asciidoctor].
@@ -69,11 +69,11 @@ Configuration
 ~~~~~~~~~~~~~
 
 * Project owners can define `receive.maxObjectSizeLimit` in the
-link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config-gerrit.html#receive.maxObjectSizeLimit[
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/config-gerrit.html#receive.maxObjectSizeLimit[
 project configuration] to further reduce the global setting.
 
 * Site administrators can define a
-link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config-mail.html#_footer_vm[
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/config-mail.html#_footer_vm[
 footer template] that will be appended to the end of all outgoing emails after
 the 'ChangeFooter' and 'CommentFooter'.
 
@@ -81,11 +81,11 @@ the 'ChangeFooter' and 'CommentFooter'.
 edited from the Web UI or via a REST API.
 
 * New options `--list-plugins` and `--install-plugins` on the
-link:[http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/pgm-init.html[
+link:[https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/pgm-init.html[
 site initialization command].
 
 * New `auth.httpDisplaynameHeader` and `auth.httpEmailHeader` in the
-link:[http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config-gerrit.html#_a_id_auth_a_section_auth[
+link:[https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/config-gerrit.html#_a_id_auth_a_section_auth[
 authentication configuration].
 +
 When using HTTP-based authentication, the SSO can be delegated to check not only
@@ -95,31 +95,31 @@ With the config properties `auth.httpDisplaynameHeader` and `auth.httpEmailHeade
 it is possible to configure the name of the headers used for propagating this extra
 information and enforce them on the user profile during login and beyond.
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config_gerrit.html#_a_id_httpd_a_section_httpd[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/config_gerrit.html#_a_id_httpd_a_section_httpd[
 Customizable registration page for HTTP authentication].
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config_gerrit.html#_a_id_httpd_a_section_httpd[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/config_gerrit.html#_a_id_httpd_a_section_httpd[
 Configurable external `robots.txt` file].
 
 * Support for
-link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/database-setup.html#createdb_oracle[
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/database-setup.html#createdb_oracle[
 Oracle database].
 
 * New bash completion script for autocompletion of parameters to the gerrit.sh wrapper.
 
 * The site can be
-link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config-auto-site-initialization.html[
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/config-auto-site-initialization.html[
 auto-initialized on server startup].
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config_gerrit.html#httpd.filterClass[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/config_gerrit.html#httpd.filterClass[
 Configurable filtering of HTTP traffic through Gerrit's HTTP protocol].
 
 * Labels can be
-link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config_labels.html#httpd.label_copyAllScoresIfNoCodeChange[
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/config_labels.html#httpd.label_copyAllScoresIfNoCodeChange[
 configured to copy scores forward to new patch sets if there is no code change].
 
 * Labels can be
-link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config_labels.html#httpd.label_copyAllScoresOnTrivialRebase[
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/config_labels.html#httpd.label_copyAllScoresOnTrivialRebase[
 configured to copy scores forward to new patch sets for trivial rebases].
 
 Web UI
@@ -138,7 +138,7 @@ Change Screens
 * New change screen with completely redesigned UI, using the REST API.
 +
 Site administrators can
-link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config-gerrit.html#gerrit.changeScreen[
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/config-gerrit.html#gerrit.changeScreen[
 configure which change screen is shown by default].
 +
 Users can choose which one to use in their personal preferences, either using
@@ -177,7 +177,7 @@ are uploaded.
 REST API
 ~~~~~~~~
 
-* Several new link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api.html[
+* Several new link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api.html[
 REST API endpoints] are added.
 
 * REST views can determine how long their response should be cached.
@@ -188,115 +188,115 @@ Access Rights
 ^^^^^^^^^^^^^
 
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-access.html#list-access[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-access.html#list-access[
 List access rights for project(s)]
 
 Accounts
 ^^^^^^^^
 
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-accounts.html#create-account[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-accounts.html#create-account[
 Create account]
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-accounts.html#get-account-name[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-accounts.html#get-account-name[
 Get account full name]
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-accounts.html#set-account-name[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-accounts.html#set-account-name[
 Set account full name]
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-accounts.html#delete-account-name[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-accounts.html#delete-account-name[
 Delete account full name]
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-accounts.html#list-account-emails[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-accounts.html#list-account-emails[
 List account email addresses]
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-accounts.html#get-account-email[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-accounts.html#get-account-email[
 Get account email address]
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-accounts.html#set-preferred-email[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-accounts.html#set-preferred-email[
 Set account preferred email address]
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-accounts.html#create-account-email[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-accounts.html#create-account-email[
 Create account email]
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-accounts.html#delete-account-email[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-accounts.html#delete-account-email[
 Delete account email]
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-accounts.html#get-active[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-accounts.html#get-active[
 Get account state]
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-accounts.html#set-active[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-accounts.html#set-active[
 Set account state to active]
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-accounts.html#delete-active[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-accounts.html#delete-active[
 Set account state to inactive]
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-accounts.html#get-http-password[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-accounts.html#get-http-password[
 Get account HTTP password]
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-accounts.html#set-http-password[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-accounts.html#set-http-password[
 Set or generate account HTTP password]
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-accounts.html#delete-http-password[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-accounts.html#delete-http-password[
 Delete account HTTP password]
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-accounts.html#list-ssh-keys[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-accounts.html#list-ssh-keys[
 List account SSH keys]
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-accounts.html#get-ssh-key[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-accounts.html#get-ssh-key[
 Get account SSH key]
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-accounts.html#add-ssh-key[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-accounts.html#add-ssh-key[
 Add account SSH key]
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-accounts.html#delete-ssh-key[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-accounts.html#delete-ssh-key[
 Delete account SSH key]
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-accounts.html#get-username[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-accounts.html#get-username[
 Get account username]
 
 Changes
 ^^^^^^^
 
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-changes.html#rebase-change[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-changes.html#rebase-change[
 Rebase change]
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-changes.html#cherry-pick[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-changes.html#cherry-pick[
 Cherry-pick revision]
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-changes.html#get-content[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-changes.html#get-content[
 Get content of a file in a revision]
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-changes.html#get-patch[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-changes.html#get-patch[
 Get revision as a formatted patch]
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-changes.html#get-diff[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-changes.html#get-diff[
 Get diff of a file in a revision]
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-changes.html#get-commit[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-changes.html#get-commit[
 Get parsed commit of a revision]
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-changes.html#publish-draft-change[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-changes.html#publish-draft-change[
 Publish draft change]
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-changes.html#delete-draft-change[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-changes.html#delete-draft-change[
 Delete draft change]
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-changes.html#suggest-reviewers[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-changes.html#suggest-reviewers[
 Suggest reviewers]
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-changes.html#get-included-in[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-changes.html#get-included-in[
 Get included in]
 
 
 Config
 ^^^^^^
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-config.html#get-capabilities[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-config.html#get-capabilities[
 Get capabilities]
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-config.html#get-version[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-config.html#get-version[
 Get version] (of the Gerrit server)
 
 
@@ -304,25 +304,25 @@ Projects
 ^^^^^^^^
 
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-projects.html#list-branches[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-projects.html#list-branches[
 List branches]
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-projects.html#get-branch[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-projects.html#get-branch[
 Get branch]
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-projects.html#create-branch[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-projects.html#create-branch[
 Create branch]
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-projects.html#delete-branch[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-projects.html#delete-branch[
 Delete branch]
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-projects.html#list-child-projects[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-projects.html#list-child-projects[
 List child projects]
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-projects.html#get-child-project[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-projects.html#get-child-project[
 Get child project]
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-projects.html#set-config[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-projects.html#set-config[
 Set configuration]
 
 
@@ -332,7 +332,7 @@ Capabilities
 
 New global capabilities are added.
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/access_control.html#capability_generateHttpPassword[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/access_control.html#capability_generateHttpPassword[
 Generate Http Password] allows non-administrator users to generate HTTP
 passwords for users other than themselves.
 +
@@ -340,7 +340,7 @@ This capability would typically be assigned to a non-interactive group
 to be able to generate HTTP passwords for users from a tool or web service
 that uses the Gerrit REST API.
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/access_control.html#capability_runAs[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/access_control.html#capability_runAs[
 Run As] allows users to impersonate other users by setting the `X-Gerrit-RunAs`
 HTTP header on REST API calls.
 +
@@ -367,9 +367,9 @@ Global
 
 
 * Plugins may now contribute buttons to various parts of the UI using the
-link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/dev-plugins.html#ui_extension[
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/dev-plugins.html#ui_extension[
 UI extension] and
-link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/js-api.html[
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/js-api.html[
 JavaScript API].
 
 * Plugins may now provide an 'About' section on their documentation index page.
@@ -378,22 +378,22 @@ JavaScript API].
 documentation on their index page.
 
 * Plugins may now provide
-link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config-validation.html#pre-merge-validation[
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/config-validation.html#pre-merge-validation[
 pre-merge validation steps].
 
 * Plugins may now provide
-link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/dev-plugins.html#capabilities[
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/dev-plugins.html#capabilities[
 Global capabilities].
 
 * Plugins may now
-link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/dev-plugins.html#plugin_name[
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/dev-plugins.html#plugin_name[
 define their own name] and get the name injected at runtime.
 
 * The "hello world" plugin is replaced with the "cookbook plugin" which has more
 examples of the plugin API's usage.
 
 * Plugins may now trigger and listen to a "project deleted"
-link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/dev-plugins.html#events[
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/dev-plugins.html#events[
 event].
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=2101[Issue 2101]:
@@ -402,17 +402,17 @@ Plugins implementing LifecycleListener can use auto registration.
 * Plugins may bind REST endpoints with empty view names.
 
 * Plugins may now provide
-link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/dev-plugins.html#top-menu-extensions[
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/dev-plugins.html#top-menu-extensions[
 entries in Gerrit's top menu].
 
 * Plugins may now
-link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/dev-plugins.html#stream-events[
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/dev-plugins.html#stream-events[
 send events to the events stream].
 
 * Plugins may now bind multiple SSH commands to the same implementation class.
 
 * Plugins may now provide
-link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/dev-plugins.html#download-commands[
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/dev-plugins.html#download-commands[
 download schemes and download commands].
 +
 Commonly used download schemes and commands are moved out of core
@@ -475,23 +475,23 @@ ssh
 
 
 * The `commit-msg` hook installation command is now
-link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config_gerrit.html#gerrit.installCommitMsgHookCommand[
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/config_gerrit.html#gerrit.installCommitMsgHookCommand[
 configurable].
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/cmd-ls-members.html[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/cmd-ls-members.html[
 New `ls-members` command].
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/cmd-set-members.html[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/cmd-set-members.html[
 New `set-members` command].
 +
 New command to manipulate group membership. Members can be added or removed
 and groups can be included or excluded in one specific group or number of groups.
 
 * The full commit message is now included in the data sent by the
-link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/cmd-stream-events.html[
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/cmd-stream-events.html[
 `stream-events` command].
 
-* The link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/cmd-show-queue.html[
+* The link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/cmd-show-queue.html[
 `show-queue` command] now shows the time that a task was added to the queue.
 
 
@@ -540,7 +540,7 @@ Configuration
 * Fix 'query disabled' error when Query Limit is set.
 
 * Honor the `gerrit.createChangeId` setting from the git config in the
-The link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/cmd-hook-commit-msg.html[
+The link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/cmd-hook-commit-msg.html[
 `commit-msg` hook].
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=2045[Issue 2045]:
@@ -624,7 +624,7 @@ ssh
 
 
 * The `--force-message` option is removed from the
-The link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/cmd-review.html[
+The link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/cmd-review.html[
 `review` command].
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=1908[Issue 1908]:
@@ -638,7 +638,7 @@ This allows consumers of the event stream to determine whether or not
 the event is related to a draft patch set.
 
 * Normalize the case of review labels submitted via the
-The link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/cmd-review.html[
+The link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/cmd-review.html[
 `review` command].
 
 * The `@CommandMetaData(descr)` annotation is deprecated in favor of `@CommandMetaData(description)`.
@@ -698,11 +698,11 @@ Documentation
 -------------
 
 
-* The link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/index.html[
+* The link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/index.html[
 documentation index page] is rewritten in a hierarchical structure.
 
 * Documentation of
-link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config-project-config.txt[
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/config-project-config.txt[
 project configuration] is added.
 
 * Various spelling mistakes are corrected in the documentation and previous

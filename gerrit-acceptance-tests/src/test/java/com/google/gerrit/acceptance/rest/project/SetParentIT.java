@@ -24,6 +24,8 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
@@ -41,6 +43,9 @@ public class SetParentIT extends AbstractDaemonTest {
 
   @Inject
   private AccountCreator accounts;
+
+  @Inject
+  private AllProjectsNameProvider allProjects;
 
   private RestSession adminSession;
   private RestSession userSession;
@@ -95,6 +100,47 @@ public class SetParentIT extends AbstractDaemonTest {
         (new Gson()).fromJson(r.getReader(),
             new TypeToken<String>() {}.getType());
     assertEquals(parent, newParent);
+    r.consume();
+  }
+
+  @Test
+  public void setParentForAllProjects_Conflict() throws IOException {
+    RestResponse r =
+        adminSession.put("/projects/" + allProjects.get() + "/parent",
+            new ParentInput(project));
+    assertEquals(HttpStatus.SC_CONFLICT, r.getStatusCode());
+    r.consume();
+  }
+
+  @Test
+  public void setInvalidParent_Conflict() throws IOException, JSchException {
+    RestResponse r =
+        adminSession.put("/projects/" + project + "/parent",
+            new ParentInput(project));
+    assertEquals(HttpStatus.SC_CONFLICT, r.getStatusCode());
+    r.consume();
+
+    String child = "child";
+    createProject(sshSession, child, new Project.NameKey(project), true);
+    r = adminSession.put("/projects/" + project + "/parent",
+           new ParentInput(child));
+    assertEquals(HttpStatus.SC_CONFLICT, r.getStatusCode());
+    r.consume();
+
+    String grandchild = "grandchild";
+    createProject(sshSession, grandchild, new Project.NameKey(child), true);
+    r = adminSession.put("/projects/" + project + "/parent",
+           new ParentInput(grandchild));
+    assertEquals(HttpStatus.SC_CONFLICT, r.getStatusCode());
+    r.consume();
+  }
+
+  @Test
+  public void setNonExistingParent_UnprocessibleEntity() throws IOException {
+    RestResponse r =
+        adminSession.put("/projects/" + project + "/parent",
+            new ParentInput("non-existing"));
+    assertEquals(HttpStatus.SC_UNPROCESSABLE_ENTITY, r.getStatusCode());
     r.consume();
   }
 

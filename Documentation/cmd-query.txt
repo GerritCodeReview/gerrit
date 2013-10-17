@@ -17,6 +17,7 @@ SYNOPSIS
   [--commit-message]
   [--dependencies]
   [--submit-records]
+  [--all-reviewers]
   [--]
   <query>
   [limit:<n>]
@@ -88,6 +89,10 @@ OPTIONS
 --dependencies::
 	Show information about patch sets which depend on, or are needed by,
 	each patch set.
+
+--all-reviewers::
+	Show the name and email of all reviewers which are added to a change
+	(irrespective of whether they have been voting on that change or not).
 
 --submit-records::
 	Show submit record information about the change, which

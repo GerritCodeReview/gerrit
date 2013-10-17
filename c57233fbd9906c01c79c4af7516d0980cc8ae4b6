@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "5e3598d0_922c5ca2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-10-17T14:44:36Z",
+      "side": 1,
+      "message": "\u003e There can only be one owner of a change\n\nI was aware of that and was thinking that the usage of the plural form was like telling: maybe in the future it will be possible to have multiple owners of a change.\n\nI am also fine with the singular form as long as the code and commit message are consistent.",
+      "parentUuid": "1ef16050_60e59253",
+      "revId": "c57233fbd9906c01c79c4af7516d0980cc8ae4b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e1f22d16_deefe530",
         "filename": "/COMMIT_MSG",
         "patchSetId": 13
@@ -318,6 +336,24 @@
       "side": 1,
       "message": "I\u0027m not having a strong opinion about this, but here are my 2 cents on\nthis discussion.\n\n1. At the moment certain access rights are hard-coded for\nAdministrators, Project Owners and Change Owners.\n\n2. We already have groups for Administrators and Project Owners that\nmake it possible to assign additional access rights to them.\n\n\u003d\u003e Having a Change Owners group that allows to assign additional access\nrights to change owners makes sense to me.\n\n\u003d\u003e Since we have hard-coded access rights for Administrators and\nProject Owners I can\u0027t find anything wrong with keeping hard-coded\naccess rights for Change Owners too.\n\n\u003d\u003e Martin\u0027s idea of expressing all currently hard-coded access rights\nas ACLs is cool and provides a lot of additional flexibility. However\nI\u0027m not seeing this as a precondition for this change. The\nintroduction of a Change Owners group which is in design similar to the\nexisting Project Owners and Adminstrator groups makes sense to me on\nits own and it is not preventing to implement a solution which\nprovides more flexibility in the future.\n\n\u003d\u003e I\u0027m always liking to move forward in small steps which provide\nvalue and I\u0027m happy with a small change which addressed a current\nrequirement.\n\n\u003d\u003e If there are good use cases where more flexibility is required we\nshould come back to Martin\u0027s proposal and implement this in an own\nchange. I\u0027m a bit sharing David\u0027s concern about additional complexity\nin the All-Project project configuration, but on the other side only\nadministrators have to deal with this and nobody is forced to change\nthe default configuration. This can probably be solved by a good UI as\nMartin already pointed out.",
       "parentUuid": "c1efe930_5dfc7be7",
+      "revId": "c57233fbd9906c01c79c4af7516d0980cc8ae4b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ecb3c3d_8bc68d36",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_85.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-10-17T14:44:36Z",
+      "side": 1,
+      "message": "+1\nI agree with Edwin.",
+      "parentUuid": "5ebaf89c_eac5c74c",
       "revId": "c57233fbd9906c01c79c4af7516d0980cc8ae4b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

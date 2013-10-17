@@ -29,6 +29,7 @@ import org.asciidoctor.Asciidoctor;
 import org.asciidoctor.AttributesBuilder;
 import org.asciidoctor.Options;
 import org.asciidoctor.OptionsBuilder;
+import org.asciidoctor.SafeMode;
 import org.asciidoctor.internal.JRubyAsciidoctor;
 
 import org.kohsuke.args4j.Argument;
@@ -75,15 +76,16 @@ public class AsciiDoctor {
     return basename + outExt;
   }
 
-  private Options createOptions(File tmpFile) {
+  private Options createOptions(File outputFile) {
     OptionsBuilder optionsBuilder = OptionsBuilder.options();
 
-    optionsBuilder.backend(backend).docType(DOCTYPE).eruby(ERUBY);
+    optionsBuilder.backend(backend).docType(DOCTYPE).eruby(ERUBY)
+      .safe(SafeMode.UNSAFE);
     // XXX(fishywang): ideally we should just output to a string and add the
     // content into zip. But asciidoctor will actually ignore all attributes if
     // not output to a file. So we *have* to output to a file then read the
     // content of the file into zip.
-    optionsBuilder.toFile(tmpFile);
+    optionsBuilder.toFile(outputFile);
 
     AttributesBuilder attributesBuilder = AttributesBuilder.attributes();
     attributesBuilder.attributes(getAttributes());
@@ -127,12 +129,18 @@ public class AsciiDoctor {
 
     ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(zipFile));
     for (String inputFile : inputFiles) {
-      File tmp = File.createTempFile("doc", ".html");
-      Options options = createOptions(tmp);
+      if (!inputFile.endsWith(inExt)) {
+        // We have to use UNSAFE mode in order to make embedding work. But in
+        // UNSAFE mode we'll also need css file in the same directory, so we
+        // have to add css files into the SRCS.
+        continue;
+      }
+      String outName = mapInFileToOutFile(inputFile, inExt, outExt);
+      File out = new File(outName);
+      Options options = createOptions(out);
       renderInput(options, inputFile);
 
-      String outputFile = mapInFileToOutFile(inputFile, inExt, outExt);
-      zipFile(tmp, outputFile, zip);
+      zipFile(out, outName, zip);
     }
     zip.close();
   }

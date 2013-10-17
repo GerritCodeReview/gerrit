@@ -77,6 +77,11 @@ class Query extends SshCommand {
     processor.setIncludeSubmitRecords(on);
   }
 
+  @Option(name = "--all-reviewers", usage = "Include all reviewers")
+  void setAllReviewers(boolean on) {
+    processor.setIncludeAllReviewers(on);
+  }
+
   @Argument(index = 0, required = true, multiValued = true, metaVar = "QUERY", usage = "Query to execute")
   private List<String> query;
 

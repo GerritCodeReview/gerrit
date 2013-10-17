@@ -72,6 +72,9 @@ neededBy:: List of changes that depend on this change in <<dependency,dependency
 submitRecords:: The <<submitRecord,submitRecord attribute>> contains
 information about whether this change has been or can be submitted.
 
+allReviewers:: List of all reviewers in <<account,account attribute>>
+which are added to a change.
+
 [[trackingid]]
 trackingid
 ----------

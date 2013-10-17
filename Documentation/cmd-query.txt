@@ -17,6 +17,7 @@ SYNOPSIS
   [--commit-message]
   [--dependencies]
   [--submit-records]
+  [--all-reviewers]
   [--]
   <query>
   [limit:<n>]
@@ -93,6 +94,10 @@ OPTIONS
 	Show submit record information about the change, which
 	includes whether the change meets the criteria for submission
 	(including information for each review label).
+
+--all-reviewers::
+	Show the name and email of all reviewers which are added to a change
+	(irrespective of whether they have been voting on that change or not).
 
 limit:<n>::
 	Maximum number of results to return.  This is actually a

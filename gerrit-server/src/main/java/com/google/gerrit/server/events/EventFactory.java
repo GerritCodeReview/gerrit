@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.events;
 
+import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
@@ -55,6 +56,7 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.ResultSet;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -67,8 +69,10 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Singleton
 public class EventFactory {
@@ -155,6 +159,30 @@ public class EventFactory {
     a.lastUpdated = change.getLastUpdatedOn().getTime() / 1000L;
     a.sortKey = change.getSortKey();
     a.open = change.getStatus().isOpen();
+  }
+
+  /**
+   * Add allReviewers to an existing ChangeAttribute.
+   *
+   * @param a
+   * @param change
+   */
+  public void addAllReviewers(ChangeAttribute a, Change change)
+      throws OrmException {
+    ResultSet<PatchSetApproval> approvals =
+        db.get().patchSetApprovals().byChange(change.getId());
+    a.allReviewers = Lists.newArrayList();
+    Set<Account.Id> accountIdlist = new HashSet<Account.Id>();
+    for (PatchSetApproval psa : approvals) {
+      Account.Id accountId = psa.getAccountId();
+      if (!accountIdlist.contains(accountId)) {
+        accountIdlist.add(accountId);
+        a.allReviewers.add(asAccountAttribute(psa.getAccountId()));
+      }
+    }
+    if (a.allReviewers.isEmpty()) {
+      a.allReviewers = null;
+    }
   }
 
   /**

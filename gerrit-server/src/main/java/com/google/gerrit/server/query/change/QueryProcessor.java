@@ -113,6 +113,7 @@ public class QueryProcessor {
   private boolean includeCommitMessage;
   private boolean includeDependencies;
   private boolean includeSubmitRecords;
+  private boolean includeAllReviewers;
 
   private OutputStream outputStream = DisabledOutputStream.INSTANCE;
   private PrintWriter out;
@@ -198,6 +199,10 @@ public class QueryProcessor {
 
   public void setIncludeSubmitRecords(boolean on) {
     includeSubmitRecords = on;
+  }
+
+  public void setIncludeAllReviewers(boolean on) {
+    includeAllReviewers = on;
   }
 
   public void setOutput(OutputStream out, OutputFormat fmt) {
@@ -303,6 +308,10 @@ public class QueryProcessor {
           c = eventFactory.asChangeAttribute(d.getChange());
           eventFactory.extend(c, d.getChange());
           eventFactory.addTrackingIds(c, d.trackingIds(db));
+
+          if (includeAllReviewers) {
+            eventFactory.addAllReviewers(c, d.getChange());
+          }
 
           if (includeSubmitRecords) {
             PatchSet.Id psId = d.getChange().currentPatchSetId();

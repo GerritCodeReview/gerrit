@@ -38,7 +38,7 @@ plugin project.
 ----
 mvn archetype:generate -DarchetypeGroupId=com.google.gerrit \
     -DarchetypeArtifactId=gerrit-plugin-archetype \
-    -DarchetypeVersion=2.8-SNAPSHOT \
+    -DarchetypeVersion=2.9-SNAPSHOT \
     -DgroupId=com.google.gerrit \
     -DartifactId=testPlugin
 ----

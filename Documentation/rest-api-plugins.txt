@@ -45,12 +45,12 @@ by plugin ID.
     "delete-project": {
       "kind": "gerritcodereview#plugin",
       "id": "delete-project",
-      "version": "2.8-SNAPSHOT"
+      "version": "2.9-SNAPSHOT"
     },
     "reviewers-by-blame": {
       "kind": "gerritcodereview#plugin",
       "id": "reviewers-by-blame",
-      "version": "2.8-SNAPSHOT",
+      "version": "2.9-SNAPSHOT",
       "disabled": true
     }
   }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7ecb3c3d_6b95612d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2013-10-17T11:47:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ecb3c3d_eb77113d",
+      "revId": "1d79789efe786f19d942669dbd9851d997f4d4c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ebaf89c_8a10cb11",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
         "patchSetId": 11
@@ -30,6 +48,24 @@
       "writtenOn": "2013-10-17T10:08:03Z",
       "side": 1,
       "message": "that way you wouldn\u0027t create the list (line 174) and throw it away (lines 183-185 above):\n\n public void addAllReviewers(ChangeAttribute a, Change change)\n      throws OrmException {\n   List\u003cPatchSetApproval\u003e approvals \u003d\n        db.get().patchSetApprovals()\n           .byChange(change.getId())\n           .toList();\n   if (approvals.isEmpty()) {\n      return;\n   }\n   a.allReviewers \u003d Lists.newArrayList();\n   Set\u003cAccount.Id\u003e accountIdlist \u003d Sets.newHashSet();\n   for (PatchSetApproval psa : approvals) {\n      Account.Id accountId \u003d psa.getAccountId();\n      if (!accountIdlist.contains(accountId)) {\n        accountIdlist.add(accountId);\n        a.allReviewers.add(asAccountAttribute(psa.getAccountId()));\t\n      }\n    }\n  }",
+      "revId": "1d79789efe786f19d942669dbd9851d997f4d4c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ebaf89c_aa0d8ffa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2013-10-17T11:47:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ebaf89c_8a10cb11",
       "revId": "1d79789efe786f19d942669dbd9851d997f4d4c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

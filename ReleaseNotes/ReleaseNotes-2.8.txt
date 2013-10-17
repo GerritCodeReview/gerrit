@@ -49,6 +49,8 @@ JavaScript API] for plugins.
 
 * New build system using Facebook's link:http://facebook.github.io/buck/[Buck].
 
+* New core plugin: Download Commands.
+
 
 New Features
 ------------
@@ -407,6 +409,16 @@ entries in Gerrit's top menu].
 link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/dev-plugins.html#stream-events[
 send events to the events stream].
 
+* Plugins may now bind multiple SSH commands to the same implementation class.
+
+* Plugins may now provide
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/dev-plugins.html#download-commands[
+download schemes and download commands].
++
+Commonly used download schemes and commands are moved out of core
+Gerrit and are now implemented by a new core plugin, `download-commands`.
+
+
 
 Commit Message Length Checker
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -514,6 +526,8 @@ Fix handling of projects with trailing ".git" suffix.
 
 * Limit retrying of submitted changes to 12 hours.
 
+* Don't allow project owners to delete branches if force push is blocked.
+
 
 Configuration
 ~~~~~~~~~~~~~
@@ -554,6 +568,8 @@ The "Keyboard Shortcuts" help popup can be closed by pressing the Escape key.
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=2013[Issue 2013]:
 Correctly populate the list of watched changes when watching more than one project.
+
+* Display "Working..." when header is hidden.
 
 Change Screens
 ^^^^^^^^^^^^^^
@@ -640,6 +656,15 @@ Global
 
 * Plugin documentation links are opened in a new tab.
 
+* The GitReferenceUpdatedListener.Event API is simplified.
++
+The Event exposed the getUpdates method which implied that one Event
+could contain updates of more than one reference. However, this feature
+was never used.
++
+The API is simplified in the sense that one Event now corresponds to
+one ref update only.
+
 
 Review Notes
 ^^^^^^^^^^^^
@@ -676,12 +701,16 @@ Documentation
 * The link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/index.html[
 documentation index page] is rewritten in a hierarchical structure.
 
+* Documentation of
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config-project-config.txt[
+project configuration] is added.
+
 * Various spelling mistakes are corrected in the documentation and previous
 release notes.
 
 
 Upgrades
-~~~~~~~~
+--------
 
 * Update JGit to 3.0.0.201306101825-r.41-g84d2738
 * Update gwtorm to 1.7

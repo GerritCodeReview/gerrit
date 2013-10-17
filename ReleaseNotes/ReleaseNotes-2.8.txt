@@ -85,7 +85,7 @@ link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/pgm-i
 site initialization command].
 
 * New `auth.httpDisplaynameHeader` and `auth.httpEmailHeader` in the
-link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/config-gerrit.html#_a_id_auth_a_section_auth[
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/config-gerrit.html#__a_id_auth_a_section_auth[
 authentication configuration].
 +
 When using HTTP-based authentication, the SSO can be delegated to check not only
@@ -95,10 +95,10 @@ With the config properties `auth.httpDisplaynameHeader` and `auth.httpEmailHeade
 it is possible to configure the name of the headers used for propagating this extra
 information and enforce them on the user profile during login and beyond.
 
-* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/config-gerrit.html#_a_id_httpd_a_section_httpd[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/config-gerrit.html#__a_id_httpd_a_section_httpd[
 Customizable registration page for HTTP authentication].
 
-* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/config-gerrit.html#_a_id_httpd_a_section_httpd[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/config-gerrit.html#__a_id_httpd_a_section_httpd[
 Configurable external `robots.txt` file].
 
 * Support for

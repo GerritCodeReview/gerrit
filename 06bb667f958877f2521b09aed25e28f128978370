@@ -34,6 +34,24 @@
       "revId": "06bb667f958877f2521b09aed25e28f128978370",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ebaf89c_ca91e34f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-17T16:05:20Z",
+      "side": 1,
+      "message": "Is that a taste question? Or can we formulate when we prefer early exits and when to have multi indent \"{{{...\" blocks?",
+      "parentUuid": "1e07a053_30e04844",
+      "revId": "06bb667f958877f2521b09aed25e28f128978370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

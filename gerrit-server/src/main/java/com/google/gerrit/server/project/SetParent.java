@@ -16,12 +16,14 @@ package com.google.gerrit.server.project;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
+import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -32,6 +34,9 @@ import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+
+import java.io.IOException;
+import java.util.Set;
 
 class SetParent implements RestModifyView<ProjectResource, Input> {
   static class Input {
@@ -54,21 +59,41 @@ class SetParent implements RestModifyView<ProjectResource, Input> {
   }
 
   @Override
-  public String apply(ProjectResource resource, Input input)
-      throws AuthException, BadRequestException, ResourceConflictException,
-      Exception {
-    ProjectControl ctl = resource.getControl();
+  public String apply(ProjectResource rsrc, Input input) throws AuthException,
+      BadRequestException, ResourceConflictException,
+      ResourceNotFoundException, UnprocessableEntityException, IOException {
+    ProjectControl ctl = rsrc.getControl();
     IdentifiedUser user = (IdentifiedUser) ctl.getCurrentUser();
     if (!user.getCapabilities().canAdministrateServer()) {
       throw new AuthException("not administrator");
     }
 
+    if (rsrc.getNameKey().equals(allProjects)) {
+      throw new ResourceConflictException("cannot set parent of "
+          + allProjects.get());
+    }
+
+    input.parent = Strings.emptyToNull(input.parent);
+    if (input.parent != null) {
+      ProjectState parent = cache.get(new Project.NameKey(input.parent));
+      if (parent == null) {
+        throw new UnprocessableEntityException("parent project " + input.parent
+            + " not found");
+      }
+      Set<Project.NameKey> grandParents = getGrandParents(parent.getProject());
+      if (grandParents.contains(rsrc.getNameKey())
+          || rsrc.getNameKey().equals(parent.getProject().getNameKey())) {
+        throw new ResourceConflictException("cycle exists between "
+            + rsrc.getName() + " and " + parent.getProject().getName());
+      }
+    }
+
     try {
-      MetaDataUpdate md = updateFactory.create(resource.getNameKey());
+      MetaDataUpdate md = updateFactory.create(rsrc.getNameKey());
       try {
         ProjectConfig config = ProjectConfig.read(md);
         Project project = config.getProject();
-        project.setParentName(Strings.emptyToNull(input.parent));
+        project.setParentName(input.parent);
 
         String msg = Strings.emptyToNull(input.commitMessage);
         if (msg == null) {
@@ -89,10 +114,26 @@ class SetParent implements RestModifyView<ProjectResource, Input> {
         md.close();
       }
     } catch (RepositoryNotFoundException notFound) {
-      throw new ResourceNotFoundException(resource.getName());
+      throw new ResourceNotFoundException(rsrc.getName());
     } catch (ConfigInvalidException e) {
       throw new ResourceConflictException(String.format(
           "invalid project.config: %s", e.getMessage()));
     }
+  }
+
+  private Set<Project.NameKey> getGrandParents(Project parent) {
+    Set<Project.NameKey> grandParents = Sets.newHashSet();
+    if (parent != null) {
+      Project.NameKey gp = parent.getParent(allProjects);
+      while (gp != null && grandParents.add(gp)) {
+        final ProjectState s = cache.get(gp);
+        if (s != null) {
+          gp = s.getProject().getParent();
+        } else {
+          break;
+        }
+      }
+    }
+    return grandParents;
   }
 }

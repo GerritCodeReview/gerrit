@@ -16,6 +16,24 @@
       "revId": "06bb667f958877f2521b09aed25e28f128978370",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e07a053_30e04844",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-17T16:00:06Z",
+      "side": 1,
+      "message": "I agree with David\u0027s suggestion of writing this as if (!approvals.isEmpty())",
+      "parentUuid": "bec1341b_6d39f553",
+      "revId": "06bb667f958877f2521b09aed25e28f128978370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bec1341b_cdfee94a",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-17T06:37:04Z",
+      "side": 0,
+      "message": "The opening square brace after \"link:\" should not be there.",
+      "revId": "2e99e0fb86c54b7be196f841cdca0386ceed1da7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bec1341b_edfba557",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-17T06:37:04Z",
+      "side": 0,
+      "message": "And here.",
+      "revId": "2e99e0fb86c54b7be196f841cdca0386ceed1da7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -40,6 +40,24 @@
       "revId": "5e2ab4ffd0cd991bafd0d44231796367f62764fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ed0e40e_c17da26e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-18T10:51:06Z",
+      "side": 1,
+      "message": "But this history really must not be merged into stable-2.8.",
+      "parentUuid": "7e109c95_236daac4",
+      "revId": "5e2ab4ffd0cd991bafd0d44231796367f62764fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

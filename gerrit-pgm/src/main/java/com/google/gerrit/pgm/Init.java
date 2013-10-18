@@ -80,7 +80,7 @@ public class Init extends BaseInit {
     ErrorLogFile.errorOnlyConsole();
 
     if (!skipPlugins) {
-      final List<PluginData> plugins = InitPlugins.listPlugins(init.site);
+      final List<PluginData> plugins = InitPlugins.listPlugins(init.site, true);
       ConsoleUI ui = ConsoleUI.getInstance(false);
       verifyInstallPluginList(ui, plugins);
       if (listPlugins) {

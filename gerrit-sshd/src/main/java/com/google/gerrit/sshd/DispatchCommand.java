@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityUtils;
 import com.google.gerrit.server.args4j.SubcommandHandler;
@@ -85,7 +86,6 @@ final class DispatchCommand extends BaseCommand {
       }
 
       final Command cmd = p.getProvider().get();
-      checkRequiresCapability(cmd);
       if (cmd instanceof BaseCommand) {
         final BaseCommand bc = (BaseCommand) cmd;
         if (getName().isEmpty())
@@ -97,6 +97,7 @@ final class DispatchCommand extends BaseCommand {
       } else if (!args.isEmpty()) {
         throw new UnloggedFailure(1, commandName + " does not take arguments");
       }
+      checkRequiresCapability(cmd);
 
       provideStateTo(cmd);
       atomicCmd.set(cmd);
@@ -116,12 +117,20 @@ final class DispatchCommand extends BaseCommand {
   private void checkRequiresCapability(Command cmd)
       throws UnloggedFailure {
     String pluginName = null;
+    RestResource rsrc = null;
     if (cmd instanceof BaseCommand) {
-      pluginName = ((BaseCommand) cmd).getPluginName();
+      BaseCommand baseCmd = (BaseCommand) cmd;
+      pluginName = baseCmd.getPluginName();
+      try {
+        rsrc = baseCmd.getResourceContext();
+      } catch (Exception e) {
+        throw new UnloggedFailure("Cannot get resource context");
+      }
     }
     try {
       CapabilityUtils.checkRequiresCapability(currentUser,
-          pluginName, cmd.getClass());
+          pluginName, cmd.getClass(),
+          rsrc);
     } catch (AuthException e) {
       throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN,
           e.getMessage());

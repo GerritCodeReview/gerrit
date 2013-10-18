@@ -123,6 +123,24 @@
       "revId": "58e535fa71b72b70e21c3a63a5f871333e701b92",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ed0e40e_0114ea52",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-18T06:49:43Z",
+      "side": 1,
+      "message": "Will resubmit as an own change, then. BTW: you can assign it already in Gerrit 2.0 i guess, it just not honored...",
+      "parentUuid": "3ed0e40e_a11c1e7f",
+      "revId": "58e535fa71b72b70e21c3a63a5f871333e701b92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

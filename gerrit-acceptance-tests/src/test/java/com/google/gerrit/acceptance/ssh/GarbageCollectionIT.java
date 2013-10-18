@@ -24,16 +24,26 @@ import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.GcAssert;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GarbageCollectionResult;
+import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.git.GarbageCollectionQueue;
+import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import com.jcraft.jsch.JSchException;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -54,6 +64,15 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
 
   @Inject
   private GarbageCollectionQueue gcQueue;
+
+  @Inject
+  private MetaDataUpdate.Server metaDataUpdateFactory;
+
+  @Inject
+  private GroupCache groupCache;
+
+  @Inject
+  private ProjectCache projectCache;
 
   @Inject
   private GcAssert gcAssert;
@@ -110,6 +129,18 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void testGcCapabilityGrantedToProjectOwners()
+      throws IOException, OrmException,
+      JSchException, ConfigInvalidException {
+    grantOwner();
+    grantGC();
+    SshSession s = new SshSession(server,
+        accounts.create("user", "user@example.com", "User"));
+    s.exec("gerrit gc \"" + project1.get() + "\"");
+    assertFalse(s.hasError());
+  }
+
+  @Test
   public void testGcAlreadyScheduled() {
     gcQueue.addAll(Arrays.asList(project1));
     GarbageCollectionResult result = garbageCollectionFactory.create().run(
@@ -127,5 +158,34 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
 
   private void assertNoError(String response) {
     assertFalse(response, response.toLowerCase(Locale.US).contains("error"));
+  }
+
+  private void grantOwner() throws IOException, ConfigInvalidException {
+    MetaDataUpdate md = metaDataUpdateFactory.create(project1);
+    md.setMessage(String.format("Grant %s", Permission.OWNER));
+    ProjectConfig config = ProjectConfig.read(md);
+    AccessSection s = config.getAccessSection("refs/*", true);
+    Permission p = s.getPermission(Permission.OWNER, true);
+    AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Registered Users"));
+    PermissionRule rule = new PermissionRule(config.resolve(adminGroup));
+    p.add(rule);
+    config.commit(md);
+    projectCache.evict(config.getProject());
+  }
+
+  private void grantGC() throws IOException, ConfigInvalidException {
+    MetaDataUpdate md = metaDataUpdateFactory.create(allProjects);
+    md.setMessage(String.format("Grant %s", GlobalCapability.RUN_GC));
+    ProjectConfig config = ProjectConfig.read(md);
+    AccessSection s = config.getAccessSection(
+        AccessSection.GLOBAL_CAPABILITIES);
+    Permission p = s.getPermission(GlobalCapability.RUN_GC, true);
+    AccountGroup projectOwnersGroup = groupCache.get(
+        new AccountGroup.NameKey("Project Owners"));
+    PermissionRule rule = new PermissionRule(
+        config.resolve(projectOwnersGroup));
+    p.add(rule);
+    config.commit(md);
+    projectCache.evict(config.getProject());
   }
 }

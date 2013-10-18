@@ -20,6 +20,7 @@ import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
@@ -28,14 +29,14 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwtorm.client.KeyUtil;
 
-/**
- * HTMLPanel to select among patch sets
- * TODO: Implement download link.
- */
+/** HTMLPanel to select among patch sets */
 class PatchSetSelectBox2 extends Composite {
   interface Binder extends UiBinder<HTMLPanel, PatchSetSelectBox2> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
@@ -51,6 +52,7 @@ class PatchSetSelectBox2 extends Composite {
   private DiffTable table;
   private DisplaySide side;
   private boolean sideA;
+  private boolean emptyFile;
   private String path;
   private Change.Id changeId;
   private PatchSet.Id revision;
@@ -71,12 +73,15 @@ class PatchSetSelectBox2 extends Composite {
     this.path = path;
   }
 
-  void setUpPatchSetNav(JsArray<RevisionInfo> list) {
+  void setUpPatchSetNav(JsArray<RevisionInfo> list, DiffInfo.FileMeta meta) {
     InlineHyperlink baseLink = null;
     InlineHyperlink selectedLink = null;
     if (sideA) {
       baseLink = createLink(PatchUtil.C.patchBase(), null);
       linkPanel.add(baseLink);
+    }
+    if (meta == null) {
+      emptyFile = true;
     }
     for (int i = 0; i < list.length(); i++) {
       RevisionInfo r = list.get(i);
@@ -91,6 +96,11 @@ class PatchSetSelectBox2 extends Composite {
       selectedLink.setStyleName(style.selected());
     } else if (sideA) {
       baseLink.setStyleName(style.selected());
+    }
+
+    Anchor downloadLink = createDownloadLink();
+    if (downloadLink != null) {
+      linkPanel.add(downloadLink);
     }
   }
 
@@ -108,6 +118,24 @@ class PatchSetSelectBox2 extends Composite {
         sideA ? id : other.idActive,
         sideA ? other.idActive : id,
         path));
+  }
+
+  private Anchor createDownloadLink() {
+    if (Patch.COMMIT_MSG.equals(path) || emptyFile) {
+      return null;
+    }
+
+    PatchSet.Id id = (idActive == null) ? other.idActive : idActive;
+    String sideURL = (idActive == null) ? "1" : "0";
+    String base = GWT.getHostPageBaseURL() + "cat/";
+    Image image = new Image(Gerrit.RESOURCES.downloadIcon());
+    Anchor anchor = new Anchor();
+    anchor.setHref(
+        base + KeyUtil.encode(id.toString() + "," + path) + "^" + sideURL);
+    anchor.setTitle(PatchUtil.C.download());
+    DOM.insertBefore(anchor.getElement(), image.getElement(),
+        DOM.getFirstChild(anchor.getElement()));
+    return anchor;
   }
 
   @UiHandler("icon")

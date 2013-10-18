@@ -69,6 +69,24 @@
       "revId": "58e535fa71b72b70e21c3a63a5f871333e701b92",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e109c95_c3fad6ea",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-18T06:30:53Z",
+      "side": 1,
+      "message": "Nope you can\u0027t ;-)\n\nBecause the code was removed from that change. And i want to hear your and other maintainer\u0027s opinion (that why the explanation above why to support capabilities for system groups make sense), if we want that in tree and i should reimplement it again in its own change?",
+      "parentUuid": "3e2b84c4_8994798f",
+      "revId": "58e535fa71b72b70e21c3a63a5f871333e701b92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

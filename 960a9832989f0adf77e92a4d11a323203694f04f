@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e07a053_b02558bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-18T01:29:22Z",
+      "side": 1,
+      "message": "Don\u0027t put a blank line between Bug and Change-Id.",
+      "revId": "960a9832989f0adf77e92a4d11a323203694f04f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

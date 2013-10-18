@@ -76,6 +76,24 @@
       "revId": "5e2ab4ffd0cd991bafd0d44231796367f62764fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e109c95_c377768b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-18T11:29:10Z",
+      "side": 1,
+      "message": "I think i am missing something, but my understanding of CR-2 is, that the change must not be  merged in any form, because it is conceptional very wrong. So in a nutshell CR-2 can not be revoked. Never, under no circumstances with all possible changes to the code. It just can not be repaired.\n\nThe only example of justified CR-2 that i am aware of on Gerrit Review is Shawn\u0027s Veto to introduce a capability to prevent the registered users to be able to run `ssh gerrit query` command [1].\n\nAll other CR-2 on Gerrit Review are exaggerations and/or misunderstanding  of reviewers the truly concept/whole story behind CR-2.\n\n[1] https://gerrit-review.googlesource.com/#/c/45700",
+      "parentUuid": "3ed0e40e_c17da26e",
+      "revId": "5e2ab4ffd0cd991bafd0d44231796367f62764fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

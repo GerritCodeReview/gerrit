@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "7e109c95_03722ea2",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPluginStepsLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-18T10:49:08Z",
+      "side": 1,
+      "message": "Should this annotation rather be with the gerritConfig parameter in the constructor that is annotated with Inject?",
+      "revId": "939bead095444cf2a5899986e1809be641cf6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ed0e40e_816c7ac6",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPluginStepsLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-18T10:49:08Z",
+      "side": 1,
+      "message": "Better directly inject canonicalWebUrl here.\n\n  @CanonicalWebUrl @Nullable Provider\u003cString\u003e urlProvider,",
+      "range": {
+        "startLine": 53,
+        "startChar": 35,
+        "endLine": 53,
+        "endChar": 60
+      },
+      "revId": "939bead095444cf2a5899986e1809be641cf6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3ed0e40e_216d6ec4",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPluginStepsLoader.java",
         "patchSetId": 1
@@ -13,6 +53,29 @@
       "writtenOn": "2013-10-18T10:42:40Z",
       "side": 1,
       "message": "It is unrelated here, but what about pluginName? plugin own name defined in MANIFEST is not honored here? What am i missing?",
+      "revId": "939bead095444cf2a5899986e1809be641cf6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ed0e40e_a1809e45",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPluginStepsLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-18T10:49:08Z",
+      "side": 1,
+      "message": "You must ensure that path ends with \u0027/\u0027.",
+      "range": {
+        "startLine": 113,
+        "startChar": 60,
+        "endLine": 113,
+        "endChar": 64
+      },
       "revId": "939bead095444cf2a5899986e1809be641cf6618",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

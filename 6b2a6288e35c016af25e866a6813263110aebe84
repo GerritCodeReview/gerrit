@@ -142,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "7e109c95_c32c96a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JsPlugin.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-10-18T08:41:43Z",
+      "side": 1,
+      "message": "Yes there is. StandaloneJsPluginModule module needs to be unloaded when plugin is unloaded. If we don\u0027t stop LCM then plugin will be still present in DynamicSet\u003cWeUiPlugin\u003e.\n\nThis also mean that enabling plugin again will add new entry to DynamicSet and this will cause multiple plugin loads.",
+      "parentUuid": "3e2b84c4_0989a97a",
+      "revId": "6b2a6288e35c016af25e866a6813263110aebe84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e2b84c4_698e6584",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 10

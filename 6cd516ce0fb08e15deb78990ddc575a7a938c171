@@ -16,6 +16,24 @@
       "revId": "6cd516ce0fb08e15deb78990ddc575a7a938c171",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e109c95_23bf6af4",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPlugins.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-10-18T11:41:56Z",
+      "side": 1,
+      "message": "yep, you are right. sometimes I think faster then type...",
+      "parentUuid": "7e109c95_e3d3924b",
+      "revId": "6cd516ce0fb08e15deb78990ddc575a7a938c171",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

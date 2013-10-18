@@ -16,6 +16,24 @@
       "revId": "37518524d952327e98510c367b6eb05243e0972a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e07a053_d09e1cab",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/become/BecomeAnyAccountLoginServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-18T06:15:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e07a053_f0a1a0eb",
+      "revId": "37518524d952327e98510c367b6eb05243e0972a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

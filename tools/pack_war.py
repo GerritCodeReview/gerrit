@@ -13,9 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from __future__ import print_function
 from optparse import OptionParser
 from os import environ, makedirs, path, symlink
 from subprocess import check_call
+import sys
 from util import check_output
 
 opts = OptionParser()
@@ -43,6 +45,10 @@ if args.lib:
   link_jars(args.lib, path.join(war, 'WEB-INF', 'lib'))
 if args.pgmlib:
   link_jars(args.pgmlib, path.join(war, 'WEB-INF', 'pgm-lib'))
-for s in ctx:
-  check_call(['unzip', '-q', '-d', war, s])
-check_call(['zip', '-9qr', args.o, '.'], cwd = war)
+try:
+  for s in ctx:
+    check_call(['unzip', '-q', '-d', war, s])
+  check_call(['zip', '-9qr', args.o, '.'], cwd = war)
+except KeyboardInterrupt:
+  print('Interrupted by user', file=sys.stderr)
+  exit(1)

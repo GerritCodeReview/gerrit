@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "1e07a053_d0a9fcb9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-10-18T16:27:58Z",
+      "side": 1,
+      "message": "I think a Branch Owners group is a great idea!  One of the reasons that I support being able remove certain standard permissions from even change owners is because we often want to strictly control a branch during its end of life period.   Sometimes we have a set of changes destined of an EOL branch which have been approved, tested... but not yet merged.  We basically want to freeze these changes and let a specific team (not the original developers) handle merging these changes to the branch.  That team should be able to resolve merge conflicts and do what it takes to get the changes merged.  Durig this period, it is sometimes desirable to restrict even various things that you would expect a normal Change owner to be able to do.  This make me support the idea of being able to set restrictions using the CHANGE_OWNER group.  \n\nAdditionally, the idea of a BRANCH_OWNERS group would go a long toward helping in these cases also!  The concept of a project owner is often too wide for us.  We rarely have anyone in the company who fits the role of a project owner well, I doubt we use the feature much.  But we have plenty of places where a branch owner would make a lot of sense!",
+      "parentUuid": "1ed5e0ff_4037cef2",
+      "revId": "9b0d9f1c0caf2e3ecaf168c040fc822500d35e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ed5e0ff_2032ca03",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/AllProjectsCreator.java",
         "patchSetId": 1

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ed0e40e_0146aa56",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JsPlugin.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-18T09:34:40Z",
+      "side": 1,
+      "message": "Does it implies, that the same plugin can be deployed multiple times on the same site? I. e. with different file names:\n\n foo-1.0.js\n foo-2.0.js\n\nDoes it make sense for JS code?\n\n\nRecently we added the ability to provide plugin names in MANIFEST file in plugin\u0027s jar. So that only one plugin with the given name can be loaded on Gerrit site. All other plugin files with the same plugin name renamed to \"plugin.disabled\" and rejected to load.\n\nI wonder if we would want to support similar semantic with JS plugin? Not sure, how/where to define JS plugin-name, though.",
+      "revId": "98fd46f9cfe01fda14ba55ac31c67c6aaa33d714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

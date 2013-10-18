@@ -168,7 +168,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
     Element userlistElement = HtmlDomUtil.find(doc, "userlist");
     ReviewDb db = schema.open();
     try {
-      ResultSet<Account> accounts = db.accounts().firstNById(5);
+      ResultSet<Account> accounts = db.accounts().firstNById(100);
       for (Account a : accounts) {
         String displayName;
         if (a.getUserName() != null) {

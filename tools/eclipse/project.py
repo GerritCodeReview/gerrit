@@ -21,6 +21,7 @@ from os import path
 from subprocess import Popen, PIPE, CalledProcessError, check_call
 from xml.dom import minidom
 import re
+import sys
 
 MAIN = ['//tools/eclipse:classpath']
 GWT = ['//gerrit-gwtui:ui_module']
@@ -141,17 +142,21 @@ def gen_classpath():
   with open(p, 'w') as fd:
     doc.writexml(fd, addindent='  ', newl='\n', encoding='UTF-8')
 
-if args.src:
+try:
+  if args.src:
+    try:
+      check_call([path.join(ROOT, 'tools', 'download_all.py'), '--src'])
+    except CalledProcessError as err:
+      exit(1)
+
+  gen_project()
+  gen_classpath()
+
   try:
-    check_call([path.join(ROOT, 'tools', 'download_all.py'), '--src'])
+    targets = ['//tools:buck.properties'] + MAIN + GWT
+    check_call(['buck', 'build'] + targets)
   except CalledProcessError as err:
     exit(1)
-
-gen_project()
-gen_classpath()
-
-try:
-  targets = ['//tools:buck.properties'] + MAIN + GWT
-  check_call(['buck', 'build'] + targets)
-except CalledProcessError as err:
+except KeyboardInterrupt:
+  print('Interrupted by user', file=sys.stderr)
   exit(1)

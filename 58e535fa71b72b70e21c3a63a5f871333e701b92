@@ -105,6 +105,24 @@
       "revId": "58e535fa71b72b70e21c3a63a5f871333e701b92",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ed0e40e_a11c1e7f",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-18T06:45:13Z",
+      "side": 1,
+      "message": "Being able to assign capabilities to the Project Owners group makes a lot of sense to me. It would be good to have it implemented in own change.",
+      "parentUuid": "1e07a053_b080b845",
+      "revId": "58e535fa71b72b70e21c3a63a5f871333e701b92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

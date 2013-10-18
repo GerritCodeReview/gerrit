@@ -17,6 +17,7 @@ package com.google.gerrit.sshd;
 import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.annotations.PluginName;
+import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.CurrentUser;
@@ -577,5 +578,9 @@ public abstract class BaseCommand implements Command {
         final Throwable why) {
       super(exitCode, msg, why);
     }
+  }
+
+  public RestResource getResourceContext() throws Exception {
+    return null;
   }
 }

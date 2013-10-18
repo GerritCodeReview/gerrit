@@ -26,6 +26,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Queues;
 import com.google.common.collect.Sets;
+import com.google.common.io.Closeables;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
@@ -40,6 +41,7 @@ import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.apache.commons.io.IOUtils;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
@@ -48,9 +50,11 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -60,6 +64,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -70,6 +75,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
+import java.util.zip.ZipFile;
 
 @Singleton
 public class PluginLoader implements LifecycleListener {
@@ -144,7 +152,8 @@ public class PluginLoader implements LifecycleListener {
   public void installPluginFromStream(String originalName, InputStream in)
       throws IOException, PluginInstallException {
     String fileName = originalName;
-    if (!(fileName.endsWith(".jar") || fileName.endsWith(".js"))) {
+    if (!(fileName.endsWith(".jar") || fileName.endsWith(".js") || fileName
+        .endsWith(".zip"))) {
       fileName += ".jar";
     }
     File tmp = asTemp(in, ".next_" + fileName + "_", ".tmp", pluginsDir);
@@ -161,14 +170,14 @@ public class PluginLoader implements LifecycleListener {
     synchronized (this) {
       Plugin active = running.get(name);
       if (active != null) {
-        fileName = active.getSrcFile().getName();
+        name = active.getSrcFile().getName();
         log.info(String.format("Replacing plugin %s", active.getName()));
-        File old = new File(pluginsDir, ".last_" + fileName);
+        File old = new File(pluginsDir, ".last_" + name);
         old.delete();
         active.getSrcFile().renameTo(old);
       }
 
-      new File(pluginsDir, fileName + ".disabled").delete();
+      new File(pluginsDir, name + ".disabled").delete();
       tmp.renameTo(dst);
       try {
         Plugin plugin = runPlugin(name, dst, active);
@@ -343,14 +352,14 @@ public class PluginLoader implements LifecycleListener {
   }
 
   public synchronized void rescan() {
-    Multimap<String, File> jars = prunePlugins(pluginsDir);
-    if (jars.isEmpty()) {
+    Multimap<String, File> plugins = prunePlugins(pluginsDir);
+    if (plugins.isEmpty()) {
       return;
     }
 
-    syncDisabledPlugins(jars);
+    syncDisabledPlugins(plugins);
 
-    Map<String, File> activePlugins = filterDisabled(jars);
+    Map<String, File> activePlugins = filterDisabled(plugins);
     for (Map.Entry<String, File> entry : activePlugins.entrySet()) {
       String name = entry.getKey();
       File jar = entry.getValue();
@@ -504,8 +513,10 @@ public class PluginLoader implements LifecycleListener {
         in.close();
       }
       return loadJarPlugin(name, srcPlugin, snapshot, tmp);
-    } else if (isJsPlugin(pluginName)) {
+    } else if (JsPlugin.isJsPlugin(srcPlugin)) {
       return loadJsPlugin(name, srcPlugin, snapshot);
+    } else if (JsPlugin.isJsContainerPlugin(srcPlugin)) {
+      return loadJsContainerPlugin(name, srcPlugin, snapshot);
     } else {
       throw new InvalidPluginException(String.format(
           "Unsupported plugin type: %s", srcPlugin.getName()));
@@ -573,6 +584,55 @@ public class PluginLoader implements LifecycleListener {
 
   private Plugin loadJsPlugin(String name, File srcJar, FileSnapshot snapshot) {
     return new JsPlugin(name, srcJar, pluginUserFactory.create(name), snapshot);
+  }
+
+  private Plugin loadJsContainerPlugin(String name, File srcPlugin,
+      FileSnapshot snapshot) throws InvalidPluginException, IOException {
+    File outputDir = new File(pluginsDir, name);
+    if (!outputDir.exists()) {
+      deployJsContainerPlugin(srcPlugin, outputDir);
+    }
+    return new JsPlugin(name, outputDir, pluginUserFactory.create(name), snapshot);
+  }
+
+  private void deployJsContainerPlugin(File srcPlugin, File outputDir)
+      throws ZipException, IOException, FileNotFoundException,
+      InvalidPluginException {
+    outputDir.mkdir();
+    ZipFile zipFile = null;
+    boolean hasInitJs = false;
+    try {
+      zipFile = new ZipFile(srcPlugin);
+      Enumeration<? extends ZipEntry> entries = zipFile.entries();
+      for (ZipEntry e = entries.nextElement(); entries.hasMoreElements(); e =
+          entries.nextElement()) {
+        if (JsPlugin.INIT_FILE_NAME.equals(e.getName())) {
+          hasInitJs = true;
+        }
+        extractEntry(outputDir, zipFile, e);
+      }
+      srcPlugin.delete();
+      if (!hasInitJs) {
+        outputDir.delete();
+        String msg =
+            String.format("Cannot find %s in plugin zip root directory.",
+                JsPlugin.INIT_FILE_NAME);
+        throw new InvalidPluginException(msg);
+      }
+    } finally {
+      Closeables.close(zipFile, true);
+    }
+  }
+
+  private void extractEntry(File outputDir, ZipFile zipFile, ZipEntry e)
+      throws IOException, FileNotFoundException {
+    File entryDestination = new File(outputDir, e.getName());
+    entryDestination.getParentFile().mkdirs();
+    InputStream in = zipFile.getInputStream(e);
+    OutputStream out = new FileOutputStream(entryDestination);
+    IOUtils.copy(in, out);
+    IOUtils.closeQuietly(in);
+    IOUtils.closeQuietly(out);
   }
 
   private static ClassLoader parentFor(Plugin.ApiType type)
@@ -686,10 +746,11 @@ public class PluginLoader implements LifecycleListener {
       @Override
       public boolean accept(File pathname) {
         String n = pathname.getName();
-        return (isJarPlugin(n) || isJsPlugin(n))
+        boolean isJsPlugin = JsPlugin.isPlugin(pathname);
+        return (isJarPlugin(n) || isJsPlugin)
             && !n.startsWith(".last_")
             && !n.startsWith(".next_")
-            && pathname.isFile();
+            && (pathname.isFile() || isJsPlugin);
       }
     });
     if (matches == null) {
@@ -720,8 +781,8 @@ public class PluginLoader implements LifecycleListener {
         jarFile.close();
       }
     }
-    if (isJsPlugin(fileName)) {
-      return fileName.substring(0, fileName.length() - 3);
+    if (JsPlugin.isPlugin(srcFile)) {
+      return JsPlugin.getName(srcFile);
     }
     return null;
   }
@@ -738,10 +799,6 @@ public class PluginLoader implements LifecycleListener {
 
   private static boolean isJarPlugin(String name) {
     return isPlugin(name, "jar");
-  }
-
-  private static boolean isJsPlugin(String name) {
-    return isPlugin(name, "js");
   }
 
   private static boolean isPlugin(String fileName, String ext) {

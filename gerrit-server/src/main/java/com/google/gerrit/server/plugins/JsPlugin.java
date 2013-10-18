@@ -29,8 +29,33 @@ import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 
 import java.io.File;
 import java.util.jar.JarFile;
+import java.util.regex.Pattern;
 
 class JsPlugin extends Plugin {
+  static final String INIT_FILE_NAME = "init.js";
+  private static final Pattern PLUGIN_FILE_EXTENSION = Pattern.compile("\\.(js|zip)$");
+
+  static boolean isPlugin(File file) {
+    return isJsPlugin(file) || isJsContainerPlugin(file);
+  }
+
+  static boolean isJsPlugin(File file) {
+    return file.isFile() && file.getName().endsWith(".js");
+  }
+
+  static boolean isJsContainerPlugin(File file) {
+    return (file.isFile() && file.getName().endsWith(".zip"))
+        || (file.isDirectory() && isContainerPlugin(file));
+  }
+
+  static String getName(File file) {
+    String name = file.getName();
+    if (file.isFile()) {
+      return PLUGIN_FILE_EXTENSION.matcher(name).replaceFirst("");
+    }
+    return name;
+  }
+
   private Injector httpInjector;
 
   JsPlugin(String name, File srcFile, PluginUser pluginUser,
@@ -43,7 +68,7 @@ class JsPlugin extends Plugin {
   public String getVersion() {
     String fileName = getSrcFile().getName();
     int firstDash = fileName.indexOf("-");
-    if (firstDash > 0) {
+    if (firstDash > 0 && fileName.lastIndexOf(".js") > 0) {
       return fileName.substring(firstDash + 1, fileName.lastIndexOf(".js"));
     }
     return "";
@@ -52,7 +77,7 @@ class JsPlugin extends Plugin {
   @Override
   public void start(PluginGuiceEnvironment env) throws Exception {
     manager = new LifecycleManager();
-    String fileName = getSrcFile().getName();
+    String fileName = getMainFileName();
     httpInjector =
         Guice.createInjector(new StandaloneJsPluginModule(getName(), fileName));
     manager.start();
@@ -91,6 +116,24 @@ class JsPlugin extends Plugin {
   @Override
   boolean canReload() {
     return true;
+  }
+
+  private String getMainFileName() {
+    String fileName;
+    if (getSrcFile().isDirectory()) {
+      fileName = INIT_FILE_NAME;
+    } else {
+      fileName = getSrcFile().getName();
+    }
+    return fileName;
+  }
+
+  private static boolean isContainerPlugin(File srcFile) {
+    return getContainerInitFile(srcFile).exists();
+  }
+
+  private static File getContainerInitFile(File container) {
+    return new File(container, INIT_FILE_NAME);
   }
 
   private static final class StandaloneJsPluginModule extends AbstractModule {

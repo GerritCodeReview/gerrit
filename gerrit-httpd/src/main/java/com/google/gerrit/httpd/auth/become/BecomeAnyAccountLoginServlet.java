@@ -29,6 +29,7 @@ import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
@@ -37,6 +38,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.lib.Config;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -57,22 +59,27 @@ import javax.servlet.http.HttpServletResponse;
 @Singleton
 class BecomeAnyAccountLoginServlet extends HttpServlet {
   private static final boolean IS_DEV = Boolean.getBoolean("Gerrit.GwtDevMode");
+  private static final int DEFAULT_NUM_ACCOUNTS = 5;
+  private static final int MAX_NUM_ACCOUNTS = 100;
 
   private final SchemaFactory<ReviewDb> schema;
   private final Provider<WebSession> webSession;
   private final AccountManager accountManager;
   private final SiteHeaderFooter headers;
+  private final Config config;
 
   @Inject
   BecomeAnyAccountLoginServlet(final Provider<WebSession> ws,
       final SchemaFactory<ReviewDb> sf,
       final AccountManager am,
       final ServletContext servletContext,
-      SiteHeaderFooter shf) {
+      SiteHeaderFooter shf,
+      @GerritServerConfig Config cfg) {
     webSession = ws;
     schema = sf;
     accountManager = am;
     headers = shf;
+    config = cfg;
   }
 
   @Override
@@ -168,7 +175,8 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
     Element userlistElement = HtmlDomUtil.find(doc, "userlist");
     ReviewDb db = schema.open();
     try {
-      ResultSet<Account> accounts = db.accounts().firstNById(5);
+      ResultSet<Account> accounts = db.accounts().firstNById(Math.min(MAX_NUM_ACCOUNTS,
+          config.getInt("developer", "becomeAccounts", DEFAULT_NUM_ACCOUNTS)));
       for (Account a : accounts) {
         String displayName;
         if (a.getUserName() != null) {

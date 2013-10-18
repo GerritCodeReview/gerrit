@@ -1213,6 +1213,20 @@ Default is `30 seconds`.
 This setting only applies if
 <<database.connectionPool,database.connectionPool>> is true.
 
+[[developer]]Section developer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The developer section configures settings that are used during
+Gerrit development.
+
+[[developer.becomeAccounts]]developer.becomeAccounts::
++
+Maximum number of user accounts to list on the "Become Any Account"
+login page.  This setting is only used when `auth.type` is set to
+`DEVELOPMENT_BECOME_ANY_ACCOUNT`.
++
+The default value is 5.  The maximum allowed value is 100.
+
 [[download]]Section download
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

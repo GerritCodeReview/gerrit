@@ -460,7 +460,7 @@ public class PluginLoader implements LifecycleListener {
     }
   }
 
-  private static String nameOf(File jar) {
+  public static String nameOf(File jar) {
     return nameOf(jar.getName());
   }
 
@@ -653,7 +653,7 @@ public class PluginLoader implements LifecycleListener {
     });
   }
 
-  private static String getGerritPluginName(File srcFile) throws IOException {
+  public static String getGerritPluginName(File srcFile) throws IOException {
     JarFile jarFile = new JarFile(srcFile);
     try {
       return jarFile.getManifest().getMainAttributes()

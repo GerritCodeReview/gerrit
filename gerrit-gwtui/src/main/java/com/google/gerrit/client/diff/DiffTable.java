@@ -133,9 +133,9 @@ class DiffTable extends Composite {
     return fileCommentRow.getOffsetHeight() + patchSetSelectBoxA.getOffsetHeight();
   }
 
-  void setUpPatchSetNav(JsArray<RevisionInfo> list) {
-    patchSetSelectBoxA.setUpPatchSetNav(list);
-    patchSetSelectBoxB.setUpPatchSetNav(list);
+  void setUpPatchSetNav(JsArray<RevisionInfo> list, DiffInfo info) {
+    patchSetSelectBoxA.setUpPatchSetNav(list, info.meta_a());
+    patchSetSelectBoxB.setUpPatchSetNav(list, info.meta_b());
   }
 
   void add(Widget widget) {

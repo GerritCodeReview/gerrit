@@ -20,6 +20,7 @@ import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
@@ -28,14 +29,14 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.ImageResourceRenderer;
+import com.google.gwtorm.client.KeyUtil;
 
-/**
- * HTMLPanel to select among patch sets
- * TODO: Implement download link.
- */
+/** HTMLPanel to select among patch sets */
 class PatchSetSelectBox2 extends Composite {
   interface Binder extends UiBinder<HTMLPanel, PatchSetSelectBox2> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
@@ -71,7 +72,7 @@ class PatchSetSelectBox2 extends Composite {
     this.path = path;
   }
 
-  void setUpPatchSetNav(JsArray<RevisionInfo> list) {
+  void setUpPatchSetNav(JsArray<RevisionInfo> list, DiffInfo.FileMeta meta) {
     InlineHyperlink baseLink = null;
     InlineHyperlink selectedLink = null;
     if (sideA) {
@@ -92,6 +93,9 @@ class PatchSetSelectBox2 extends Composite {
     } else if (sideA) {
       baseLink.setStyleName(style.selected());
     }
+    if (meta != null && !Patch.COMMIT_MSG.equals(path)) {
+      linkPanel.add(createDownloadLink());
+    }
   }
 
   static void link(PatchSetSelectBox2 a, PatchSetSelectBox2 b) {
@@ -108,6 +112,17 @@ class PatchSetSelectBox2 extends Composite {
         sideA ? id : other.idActive,
         sideA ? other.idActive : id,
         path));
+  }
+
+  private Anchor createDownloadLink() {
+    PatchSet.Id id = (idActive == null) ? other.idActive : idActive;
+    String sideURL = (idActive == null) ? "1" : "0";
+    String base = GWT.getHostPageBaseURL() + "cat/";
+    Anchor anchor = new Anchor(
+        new ImageResourceRenderer().render(Gerrit.RESOURCES.downloadIcon()),
+        base + KeyUtil.encode(id + "," + path) + "^" + sideURL);
+    anchor.setTitle(PatchUtil.C.download());
+    return anchor;
   }
 
   @UiHandler("icon")

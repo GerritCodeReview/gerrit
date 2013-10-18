@@ -79,6 +79,23 @@
       "revId": "939bead095444cf2a5899986e1809be641cf6618",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ed0e40e_81371ac0",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPluginStepsLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-18T18:07:20Z",
+      "side": 1,
+      "message": "That is the wrong place to do that. Here is only pgm init related stuff. You want to put the above in JarPlugin.java, around line 196.",
+      "revId": "939bead095444cf2a5899986e1809be641cf6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

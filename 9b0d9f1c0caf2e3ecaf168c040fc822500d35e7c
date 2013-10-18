@@ -43,6 +43,24 @@
     },
     {
       "key": {
+        "uuid": "1e07a053_1056e4da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-10-18T20:25:09Z",
+      "side": 1,
+      "message": "I\u0027m not sure how explicit this configuration should be.  Should it also extend to Administrators as well?",
+      "parentUuid": "1ed5e0ff_4037cef2",
+      "revId": "9b0d9f1c0caf2e3ecaf168c040fc822500d35e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ed5e0ff_2032ca03",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/AllProjectsCreator.java",
         "patchSetId": 1
@@ -54,6 +72,24 @@
       "writtenOn": "2013-10-18T02:30:11Z",
       "side": 1,
       "message": "I think we want these on refs/* so change owners have these permissions on code reviews on refs/meta/config too.",
+      "revId": "9b0d9f1c0caf2e3ecaf168c040fc822500d35e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e07a053_704bf032",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-10-18T20:25:09Z",
+      "side": 1,
+      "message": "ok. that makes sense.",
+      "parentUuid": "1ed5e0ff_2032ca03",
       "revId": "9b0d9f1c0caf2e3ecaf168c040fc822500d35e7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

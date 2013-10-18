@@ -191,6 +191,32 @@ public class MyClass {
 }
 ----
 
+A plugin can get its canonical web URL injected at runtime:
+
+[source,java]
+----
+public class MyClass {
+
+  private final String url;
+
+  @Inject
+  public MyClass(@PluginCanonicalWebUrl String url) {
+    this.url = url;
+  }
+
+  ...
+}
+----
+
+The URL is composed of the server's canonical web URL and the plugin's
+name, i.e. `http://review.example.com:8080/plugin-name`.
+
+If the server does not have a canonical web URL configured, the URL
+defaults to `/plugin-name`.
+
+The canonical web URL may be injected into any .jar plugin regardless of
+whether or not the plugin provides an HTTP servlet.
+
 [[reload_method]]
 Reload Method
 ~~~~~~~~~~~~~

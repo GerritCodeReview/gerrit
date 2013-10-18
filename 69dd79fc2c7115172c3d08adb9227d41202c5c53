@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e07a053_30320804",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-18T01:24:25Z",
+      "side": 1,
+      "message": "Put this in the footer:\n\n Bug: Issue 2199",
+      "revId": "69dd79fc2c7115172c3d08adb9227d41202c5c53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

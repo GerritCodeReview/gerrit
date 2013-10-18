@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e2b84c4_09ffe992",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-10-18T22:50:41Z",
+      "side": 0,
+      "message": "this got removed, need to add it back",
+      "revId": "6945d139dd5d9b886024e3b804e54a8fae43b7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "be16948d_255bee33",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-10-18T02:58:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be16948d_4541ca48",
+      "revId": "584f5089e00cdccfb9464922e7707413006b58d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be16948d_8522a2ae",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox2.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-10-18T02:49:30Z",
       "side": 1,
       "message": "Wrap this:\n\n  if (meta !\u003d null \u0026\u0026 !Patch.COMMIT_MSG.equals(path)) {\n    linkPanel.add(createDownloadLink());\n  }",
+      "revId": "584f5089e00cdccfb9464922e7707413006b58d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be16948d_c52c9aa3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-10-18T02:58:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be16948d_8522a2ae",
       "revId": "584f5089e00cdccfb9464922e7707413006b58d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "1ed5e0ff_8041d64b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-10-18T02:58:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be16948d_a5251ebb",
+      "range": {
+        "startLine": 124,
+        "startChar": 4,
+        "endLine": 126,
+        "endChar": 5
+      },
+      "revId": "584f5089e00cdccfb9464922e7707413006b58d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ed5e0ff_603cd2d4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox2.java",
         "patchSetId": 1
@@ -70,6 +130,30 @@
       "writtenOn": "2013-10-18T02:49:30Z",
       "side": 1,
       "message": "You can\u0027t do this sort of DOM manipulation of GWT widgets. It messes with the attach rules. You can get a SafeHtml string of the image resource:\n\n  new ImageResourceRenderer().render(Gerrit.RESOURCES.downloadIcon())\n\nand pass this to the Anchor() constructor to have it wrap the image.",
+      "range": {
+        "startLine": 136,
+        "startChar": 4,
+        "endLine": 137,
+        "endChar": 48
+      },
+      "revId": "584f5089e00cdccfb9464922e7707413006b58d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be16948d_056072da",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-10-18T02:58:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ed5e0ff_603cd2d4",
       "range": {
         "startLine": 136,
         "startChar": 4,

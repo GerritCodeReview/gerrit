@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e07a053_f0a1a0eb",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/become/BecomeAnyAccountLoginServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-18T06:08:56Z",
+      "side": 1,
+      "message": "I think this is overkill. Just list 100 and be done?\n\nThe page is trivial, its quite small, and most test systems don\u0027t have that many accounts. 100 is probably fine to list.",
+      "revId": "37518524d952327e98510c367b6eb05243e0972a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

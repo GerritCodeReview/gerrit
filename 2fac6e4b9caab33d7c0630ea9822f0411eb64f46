@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3e2b84c4_0956c9da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-10-18T18:57:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ed5e0ff_8008f63d",
+      "revId": "2fac6e4b9caab33d7c0630ea9822f0411eb64f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be16948d_e516f65c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_85.java",
         "patchSetId": 22
@@ -30,6 +48,24 @@
       "writtenOn": "2013-10-18T02:23:08Z",
       "side": 1,
       "message": "This is always false. The AccountGroup.UUID never equals an AccountGroup.",
+      "revId": "2fac6e4b9caab33d7c0630ea9822f0411eb64f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e07a053_d0429c19",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_85.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-10-18T18:57:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be16948d_e516f65c",
       "revId": "2fac6e4b9caab33d7c0630ea9822f0411eb64f46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "1e07a053_305168e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_85.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-10-18T18:57:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be16948d_c513fa6a",
+      "revId": "2fac6e4b9caab33d7c0630ea9822f0411eb64f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ed5e0ff_400eee4c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_85.java",
         "patchSetId": 22
@@ -64,6 +118,24 @@
       "writtenOn": "2013-10-18T02:23:08Z",
       "side": 1,
       "message": "This is not a suitable way to find an admin group. Look at All-Projects and get a group that was granted administrateServer capability.",
+      "revId": "2fac6e4b9caab33d7c0630ea9822f0411eb64f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e2b84c4_694b0533",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_85.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-10-18T18:57:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ed5e0ff_400eee4c",
       "revId": "2fac6e4b9caab33d7c0630ea9822f0411eb64f46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

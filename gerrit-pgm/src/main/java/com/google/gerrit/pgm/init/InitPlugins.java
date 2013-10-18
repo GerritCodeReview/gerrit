@@ -51,6 +51,14 @@ public class InitPlugins implements InitStep {
   }
 
   public static List<PluginData> listPlugins(SitePaths site) throws IOException {
+    return listPlugins(site, false);
+  }
+
+  public static List<PluginData> listPluginsAndRemoveTempFiles(SitePaths site) throws IOException {
+    return listPlugins(site, false);
+  }
+
+  private static List<PluginData> listPlugins(SitePaths site, boolean deleteTempPluginFile) throws IOException {
     final File myWar = GerritLauncher.getDistributionArchive();
     final List<PluginData> result = Lists.newArrayList();
     try {
@@ -69,6 +77,9 @@ public class InitPlugins implements InitStep {
             final InputStream in = zf.getInputStream(ze);
             final File tmpPlugin = PluginLoader.storeInTemp(pluginName, in, site);
             final String pluginVersion = getVersion(tmpPlugin);
+            if (deleteTempPluginFile) {
+              tmpPlugin.delete();
+            }
 
             result.add(new PluginData(pluginName, pluginVersion, tmpPlugin));
           }

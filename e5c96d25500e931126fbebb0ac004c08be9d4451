@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "3ed0e40e_21848e64",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-18T09:52:05Z",
+      "side": 1,
+      "message": "Theoretically, that annotation can be in the middle of the class hierarchy, so that may be better: \n\n  boolean mem \u003d CapabilityUtils.getClassAnnotation(description, UseLocalDisk.class);\n\nObviously, the method CapabilityUtils.getClassAnnotation() must be changed to be public.",
+      "revId": "e5c96d25500e931126fbebb0ac004c08be9d4451",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e109c95_0337cef3",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
         "patchSetId": 2

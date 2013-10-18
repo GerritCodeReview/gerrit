@@ -87,6 +87,24 @@
       "revId": "58e535fa71b72b70e21c3a63a5f871333e701b92",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e07a053_b080b845",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-18T06:40:37Z",
+      "side": 1,
+      "message": "I meant I\u0027ll add it back when it\u0027s merged and I know exactly what is implemented.  I shouldn\u0027t have added it in here while it was still under review.\n\nYour explanation makes sense.  Perhaps it was just not a good idea to add it into the initial change.  Maybe better to add it in a separate change after that one is merged.",
+      "parentUuid": "7e109c95_c3fad6ea",
+      "revId": "58e535fa71b72b70e21c3a63a5f871333e701b92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

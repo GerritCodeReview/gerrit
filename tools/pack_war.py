@@ -14,7 +14,7 @@
 # limitations under the License.
 
 from optparse import OptionParser
-from os import environ, makedirs, path, symlink
+from os import makedirs, path, symlink
 from subprocess import check_call
 from util import check_output
 
@@ -22,9 +22,10 @@ opts = OptionParser()
 opts.add_option('-o', help='path to write WAR to')
 opts.add_option('--lib', action='append', help='target for WEB-INF/lib')
 opts.add_option('--pgmlib', action='append', help='target for WEB-INF/pgm-lib')
+opts.add_option('--tmp', help='temporary directory')
 args, ctx = opts.parse_args()
 
-war = environ['TMP']
+war = args.tmp
 root = war[:war.index('buck-out')]
 jars = set()
 

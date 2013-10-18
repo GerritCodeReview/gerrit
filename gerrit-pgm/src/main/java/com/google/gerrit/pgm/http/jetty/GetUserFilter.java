@@ -50,7 +50,7 @@ public class GetUserFilter implements Filter {
     Module(@GerritServerConfig final Config cfg) {
       URI[] urls = JettyServer.listenURLs(cfg);
       boolean reverseProxy = JettyServer.isReverseProxied(urls);
-      this.loggingEnabled = cfg.getBoolean("httpd", "requestlog", !reverseProxy);
+      this.loggingEnabled = cfg.getBoolean("httpd", "requestLog", !reverseProxy);
     }
 
     @Override

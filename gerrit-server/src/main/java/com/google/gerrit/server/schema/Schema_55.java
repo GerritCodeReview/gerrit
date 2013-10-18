@@ -17,6 +17,7 @@ package com.google.gerrit.server.schema;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -30,10 +31,10 @@ import java.io.File;
 import java.util.Collections;
 
 public class Schema_55 extends SchemaVersion {
-  private final LocalDiskRepositoryManager mgr;
+  private final GitRepositoryManager mgr;
 
   @Inject
-  Schema_55(Provider<Schema_54> prior, LocalDiskRepositoryManager mgr) {
+  Schema_55(Provider<Schema_54> prior, GitRepositoryManager mgr) {
     super(prior);
     this.mgr = mgr;
   }
@@ -46,7 +47,7 @@ public class Schema_55 extends SchemaVersion {
     if ("-- All Projects --".equals(oldName)) {
       ui.message("Renaming \"" + oldName + "\" to \"" + newName + "\"");
 
-      File base = mgr.getBasePath();
+      File base = ((LocalDiskRepositoryManager) mgr).getBasePath();
       File oldDir = FileKey.resolve(new File(base, oldName), FS.DETECTED);
       File newDir = new File(base, newName + Constants.DOT_GIT_EXT);
       if (!oldDir.renameTo(newDir)) {

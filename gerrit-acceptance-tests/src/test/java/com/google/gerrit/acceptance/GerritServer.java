@@ -14,18 +14,19 @@
 
 package com.google.gerrit.acceptance;
 
-import com.google.gerrit.lifecycle.LifecycleManager;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.pgm.Daemon;
 import com.google.gerrit.pgm.Init;
 import com.google.gerrit.server.config.FactoryModule;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.util.SocketUtil;
 import com.google.inject.Injector;
+import com.google.inject.Key;
 import com.google.inject.Module;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.RepositoryCache;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 
 import java.io.File;
@@ -46,8 +47,7 @@ import java.util.concurrent.TimeUnit;
 public class GerritServer {
 
   /** Returns fully started Gerrit server */
-  static GerritServer start(Config base) throws Exception {
-    final File site = initSite(base);
+  static GerritServer start(Config base, boolean memory) throws Exception {
     final CyclicBarrier serverStarted = new CyclicBarrier(2);
     final Daemon daemon = new Daemon(new Runnable() {
       public void run() {
@@ -61,21 +61,34 @@ public class GerritServer {
       }
     });
 
-    ExecutorService daemonService = Executors.newSingleThreadExecutor();
-    daemonService.submit(new Callable<Void>() {
-      public Void call() throws Exception {
-        int rc = daemon.main(new String[] {"-d", site.getPath(), "--headless" });
-        if (rc != 0) {
-          System.out.println("Failed to start Gerrit daemon. Check "
-              + site.getPath() + "/logs/error_log");
-          serverStarted.reset();
-        }
-        return null;
-      };
-    });
-
-    serverStarted.await();
-    System.out.println("Gerrit Server Started");
+    final File site;
+    ExecutorService daemonService = null;
+    if (memory) {
+      site = null;
+      Config cfg = base != null ? base : new Config();
+      mergeTestConfig(cfg);
+      cfg.setBoolean("httpd", null, "requestLog", false);
+      cfg.setBoolean("sshd", null, "requestLog", false);
+      daemon.setDatabaseForTesting(ImmutableList.<Module>of(
+          new InMemoryTestingDatabaseModule(cfg)));
+      daemon.start();
+    } else {
+      site = initSite(base);
+      daemonService = Executors.newSingleThreadExecutor();
+      daemonService.submit(new Callable<Void>() {
+        public Void call() throws Exception {
+          int rc = daemon.main(new String[] {"-d", site.getPath(), "--headless" });
+          if (rc != 0) {
+            System.out.println("Failed to start Gerrit daemon. Check "
+                + site.getPath() + "/logs/error_log");
+            serverStarted.reset();
+          }
+          return null;
+        };
+      });
+      serverStarted.await();
+      System.out.println("Gerrit Server Started");
+    }
 
     Injector i = createTestInjector(daemon);
     return new GerritServer(site, i, daemon, daemonService);
@@ -91,14 +104,22 @@ public class GerritServer {
       throw new RuntimeException("Couldn't initialize site");
     }
 
-    InetSocketAddress http = newPort();
-    InetSocketAddress sshd = newPort();
-    String url = "http://" + format(http) + "/";
     MergeableFileBasedConfig cfg = new MergeableFileBasedConfig(
         new File(new File(tmp, "etc"), "gerrit.config"),
         FS.DETECTED);
     cfg.load();
     cfg.merge(base);
+    mergeTestConfig(cfg);
+    cfg.save();
+    return tmp;
+  }
+
+  private static void mergeTestConfig(Config cfg)
+      throws IOException {
+    InetSocketAddress http = newPort();
+    InetSocketAddress sshd = newPort();
+    String url = "http://" + format(http) + "/";
+
     cfg.setString("gerrit", null, "canonicalWebUrl", url);
     cfg.setString("httpd", null, "listenUrl", url);
     cfg.setString("sshd", null, "listenAddress", format(sshd));
@@ -106,8 +127,6 @@ public class GerritServer {
     cfg.setBoolean("sendemail", null, "enable", false);
     cfg.setInt("cache", "projects", "checkFrequency", 0);
     cfg.setInt("plugins", null, "checkFrequency", 0);
-    cfg.save();
-    return tmp;
   }
 
   private static String format(InetSocketAddress s) {
@@ -169,11 +188,8 @@ public class GerritServer {
     this.daemon = daemon;
     this.daemonService = daemonService;
 
-    FileBasedConfig cfg = new FileBasedConfig(
-        new File(new File(sitePath, "etc"), "gerrit.config"),
-        FS.DETECTED);
-    cfg.load();
-
+    Config cfg = testInjector.getInstance(
+      Key.get(Config.class, GerritServerConfig.class));
     url = cfg.getString("gerrit", null, "canonicalWebUrl");
     URI uri = URI.create(url);
 
@@ -200,12 +216,15 @@ public class GerritServer {
   }
 
   void stop() throws Exception {
-    LifecycleManager manager = get(daemon, "manager");
-    System.out.println("Gerrit Server Shutdown");
-    manager.stop();
-    daemonService.shutdownNow();
-    daemonService.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);
-    TempFileUtil.recursivelyDelete(sitePath);
+    daemon.getLifecycleManager().stop();
+    if (daemonService != null) {
+      System.out.println("Gerrit Server Shutdown");
+      daemonService.shutdownNow();
+      daemonService.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);
+    }
+    if (sitePath != null) {
+      TempFileUtil.recursivelyDelete(sitePath);
+    }
     RepositoryCache.clear();
   }
 }

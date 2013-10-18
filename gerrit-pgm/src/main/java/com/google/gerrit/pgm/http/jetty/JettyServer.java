@@ -136,7 +136,7 @@ public class JettyServer {
     httpd.setThreadPool(threadPool(cfg));
 
     Handler app = makeContext(env, cfg);
-    if (cfg.getBoolean("httpd", "requestlog", !reverseProxy)) {
+    if (cfg.getBoolean("httpd", "requestLog", !reverseProxy)) {
       RequestLogHandler handler = new RequestLogHandler();
       handler.setRequestLog(new HttpLog(site, cfg));
       handler.setHandler(app);

@@ -25,9 +25,9 @@ import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gerrit.testutil.InMemoryH2Type;
+import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.gwtorm.server.StatementExecutor;
@@ -74,7 +74,6 @@ public class SchemaUpdaterTest extends TestCase {
         install(new SchemaVersion.Module());
 
         Config cfg = new Config();
-        cfg.setString("gerrit", null, "basePath", "git");
         cfg.setString("user", null, "name", "Gerrit Code Review");
         cfg.setString("user", null, "email", "gerrit@localhost");
 
@@ -89,8 +88,8 @@ public class SchemaUpdaterTest extends TestCase {
         bind(AllProjectsName.class)
             .toInstance(new AllProjectsName("All-Projects"));
 
-        bind(GitRepositoryManager.class) //
-            .to(LocalDiskRepositoryManager.class);
+        bind(GitRepositoryManager.class)
+            .toInstance(new InMemoryRepositoryManager());
 
         bind(String.class) //
           .annotatedWith(AnonymousCowardName.class) //

@@ -24,6 +24,7 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gwtorm.server.OrmException;
@@ -83,8 +84,8 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   }
 
   @Test
+  @UseLocalDisk
   public void testGcOneProject() throws JSchException, IOException {
-
     assertEquals(HttpStatus.SC_OK, POST("/projects/" + allProjects.get() + "/gc"));
     gcAssert.assertHasPackFile(allProjects);
     gcAssert.assertHasNoPackFile(project1, project2);

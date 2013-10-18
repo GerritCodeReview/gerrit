@@ -204,6 +204,18 @@ public class SideBySide2 extends Screen {
       CommentApi.drafts(revision, group.add(getCommentCallback(DisplaySide.B, true)));
     }
 
+    RestApi call = ChangeApi.detail(changeId.get());
+    ChangeList.addOptions(call, EnumSet.of(
+        ListChangesOption.ALL_REVISIONS));
+    call.get(group.add(new GerritCallback<ChangeInfo>() {
+      @Override
+      public void onSuccess(ChangeInfo info) {
+        info.revisions().copyKeysIntoChildren("name");
+        JsArray<RevisionInfo> list = info.revisions().values();
+        RevisionInfo.sortRevisionInfoByNumber(list);
+        diffTable.setUpPatchSetNav(list, diff);
+      }}));
+
     ConfigInfoCache.get(changeId, group.addFinal(
         new ScreenLoadCallback<ConfigInfoCache.Entry>(SideBySide2.this) {
           @Override
@@ -216,18 +228,6 @@ public class SideBySide2 extends Screen {
             display(diffInfo);
           }
         }));
-
-    RestApi call = ChangeApi.detail(changeId.get());
-    ChangeList.addOptions(call, EnumSet.of(
-        ListChangesOption.ALL_REVISIONS));
-    call.get(new GerritCallback<ChangeInfo>() {
-      @Override
-      public void onSuccess(ChangeInfo info) {
-        info.revisions().copyKeysIntoChildren("name");
-        JsArray<RevisionInfo> list = info.revisions().values();
-        RevisionInfo.sortRevisionInfoByNumber(list);
-        diffTable.setUpPatchSetNav(list);
-      }});
   }
 
   @Override

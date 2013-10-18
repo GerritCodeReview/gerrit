@@ -38,7 +38,7 @@ def war(
     context = [],
     visibility = []
     ):
-  cmd = ['$(exe //tools:pack_war)', '-o', '$OUT']
+  cmd = ['$(exe //tools:pack_war)', '-o', '$OUT', '--tmp', '$TMP']
   for l in libs:
     cmd.extend(['--lib', l])
   for l in pgmlibs:

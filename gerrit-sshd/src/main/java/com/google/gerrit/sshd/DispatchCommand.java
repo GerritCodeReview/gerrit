@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityUtils;
 import com.google.gerrit.server.args4j.SubcommandHandler;
@@ -116,12 +117,16 @@ final class DispatchCommand extends BaseCommand {
   private void checkRequiresCapability(Command cmd)
       throws UnloggedFailure {
     String pluginName = null;
+    RestResource rsrc = null;
     if (cmd instanceof BaseCommand) {
-      pluginName = ((BaseCommand) cmd).getPluginName();
+      BaseCommand baseCmd = (BaseCommand) cmd;
+      pluginName = baseCmd.getPluginName();
+      rsrc = baseCmd.getResourceContext();
     }
     try {
       CapabilityUtils.checkRequiresCapability(currentUser,
-          pluginName, cmd.getClass());
+          pluginName, cmd.getClass(),
+          rsrc);
     } catch (AuthException e) {
       throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN,
           e.getMessage());

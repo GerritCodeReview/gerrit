@@ -18,10 +18,12 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GarbageCollectionResult;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.inject.Inject;
@@ -118,5 +120,13 @@ public class GarbageCollectionCommand extends BaseCommand {
         stdout.print(msg + "\n");
       }
     }
+  }
+
+  @Override
+  public RestResource getResourceContext() {
+    if (projects != null && projects.size() == 1) {
+      return new ProjectResource(projects.get(0));
+    }
+    return null;
   }
 }

@@ -245,6 +245,10 @@ $ git config -f $site_path/etc/gerrit.config gitweb.filehistory ?p=\${project}\;
 After updating `'$site_path'/etc/gerrit.config`, the Gerrit server must
 be restarted and clients must reload the host page to see the change.
 
+Note that when using a custom gitweb configuration, values must be
+specified for all of the `project`, `revision`, `branch` and `filehistory`
+settings, otherwise the configuration will not be used.
+
 Access Control
 ++++++++++++++
 

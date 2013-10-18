@@ -59,6 +59,24 @@
     },
     {
       "key": {
+        "uuid": "3ed0e40e_a13b3ea9",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPluginStepsLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-18T18:18:11Z",
+      "side": 1,
+      "message": "Fixed in https://gerrit-review.googlesource.com/51067",
+      "parentUuid": "3ed0e40e_216d6ec4",
+      "revId": "939bead095444cf2a5899986e1809be641cf6618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3ed0e40e_a1809e45",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPluginStepsLoader.java",
         "patchSetId": 1

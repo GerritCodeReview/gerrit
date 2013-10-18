@@ -30,7 +30,8 @@ public abstract class AbstractDaemonTest {
       return new Statement() {
         @Override
         public void evaluate() throws Throwable {
-          beforeTest(config(description));
+          boolean mem = description.getAnnotation(UseLocalDisk.class) == null;
+          beforeTest(config(description), mem);
           base.evaluate();
           afterTest();
         }
@@ -53,8 +54,8 @@ public abstract class AbstractDaemonTest {
     }
   }
 
-  private void beforeTest(Config cfg) throws Exception {
-    server = GerritServer.start(cfg);
+  private void beforeTest(Config cfg, boolean memory) throws Exception {
+    server = GerritServer.start(cfg, memory);
     server.getTestInjector().injectMembers(this);
   }
 

@@ -2705,6 +2705,13 @@ by the client and must match for kerberos authentication to work.
 +
 By default, `host/canonical.host.name`
 
+[[sshd.requestLog]]sshd.requestLog::
++
+Enable (or disable) the `'$site_path'/logs/sshd_log` request log.
+If enabled, a request log file is written out by the SSH daemon.
++
+By default, true.
+
 [[suggest]] Section suggest
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

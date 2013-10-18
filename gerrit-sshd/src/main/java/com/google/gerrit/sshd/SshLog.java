@@ -72,24 +72,28 @@ class SshLog implements LifecycleListener {
     this.context = context;
     this.auditService = auditService;
 
-    final DailyRollingFileAppender dst = new DailyRollingFileAppender();
-    dst.setName(LOG_NAME);
-    dst.setLayout(new MyLayout());
-    dst.setEncoding("UTF-8");
-    dst.setFile(new File(resolve(site.logs_dir), LOG_NAME).getPath());
-    dst.setImmediateFlush(true);
-    dst.setAppend(true);
-    dst.setThreshold(Level.INFO);
-    dst.setErrorHandler(new DieErrorHandler());
-    dst.activateOptions();
-    dst.setErrorHandler(new LogLogHandler());
+    if (config.getBoolean("sshd", "requestLog", true)) {
+      final DailyRollingFileAppender dst = new DailyRollingFileAppender();
+      dst.setName(LOG_NAME);
+      dst.setLayout(new MyLayout());
+      dst.setEncoding("UTF-8");
+      dst.setFile(new File(resolve(site.logs_dir), LOG_NAME).getPath());
+      dst.setImmediateFlush(true);
+      dst.setAppend(true);
+      dst.setThreshold(Level.INFO);
+      dst.setErrorHandler(new DieErrorHandler());
+      dst.activateOptions();
+      dst.setErrorHandler(new LogLogHandler());
 
-    async = new AsyncAppender();
-    async.setBlocking(true);
-    async.setBufferSize(config.getInt("core", "asyncLoggingBufferSize", 64));
-    async.setLocationInfo(false);
-    async.addAppender(dst);
-    async.activateOptions();
+      async = new AsyncAppender();
+      async.setBlocking(true);
+      async.setBufferSize(config.getInt("core", "asyncLoggingBufferSize", 64));
+      async.setLocationInfo(false);
+      async.addAppender(dst);
+      async.activateOptions();
+    } else {
+      async = null;
+    }
   }
 
   @Override
@@ -98,11 +102,17 @@ class SshLog implements LifecycleListener {
 
   @Override
   public void stop() {
-    async.close();
+    if (async != null) {
+      async.close();
+    }
   }
 
   void onLogin() {
-    async.append(log("LOGIN FROM " + session.get().getRemoteAddressAsString()));
+    LoggingEvent entry =
+        log("LOGIN FROM " + session.get().getRemoteAddressAsString());
+    if (async != null) {
+      async.append(entry);
+    }
     audit(context.get(), "0", "LOGIN");
   }
 
@@ -127,8 +137,9 @@ class SshLog implements LifecycleListener {
     if (error != null) {
       event.setProperty(P_STATUS, error);
     }
-
-    async.append(event);
+    if (async != null) {
+      async.append(event);
+    }
     audit(null, "FAIL", "AUTH");
   }
 
@@ -162,7 +173,9 @@ class SshLog implements LifecycleListener {
     }
     event.setProperty(P_STATUS, status);
 
-    async.append(event);
+    if (async != null) {
+      async.append(event);
+    }
     audit(context.get(), status, dcmd);
   }
 
@@ -209,7 +222,10 @@ class SshLog implements LifecycleListener {
   }
 
   void onLogout() {
-    async.append(log("LOGOUT"));
+    LoggingEvent entry = log("LOGOUT");
+    if (async != null) {
+      async.append(entry);
+    }
     audit(context.get(), "0", "LOGOUT");
   }
 

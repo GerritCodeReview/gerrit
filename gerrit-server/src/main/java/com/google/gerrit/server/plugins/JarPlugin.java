@@ -17,6 +17,7 @@ package com.google.gerrit.server.plugins;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.annotations.PluginCanonicalWebUrl;
 import com.google.gerrit.extensions.annotations.PluginData;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
@@ -59,6 +60,7 @@ class JarPlugin extends Plugin {
   private final JarFile jarFile;
   private final Manifest manifest;
   private final File dataDir;
+  private final String pluginCanonicalWebUrl;
   private final ClassLoader classLoader;
   private Class<? extends Module> sysModule;
   private Class<? extends Module> sshModule;
@@ -71,6 +73,7 @@ class JarPlugin extends Plugin {
   private List<ReloadableRegistrationHandle<?>> reloadableHandles;
 
   public JarPlugin(String name,
+      String pluginCanonicalWebUrl,
       PluginUser pluginUser,
       File srcJar,
       FileSnapshot snapshot,
@@ -83,6 +86,7 @@ class JarPlugin extends Plugin {
       @Nullable Class<? extends Module> sshModule,
       @Nullable Class<? extends Module> httpModule) {
     super(name, srcJar, pluginUser, snapshot, apiType);
+    this.pluginCanonicalWebUrl = pluginCanonicalWebUrl;
     this.jarFile = jarFile;
     this.manifest = manifest;
     this.dataDir = dataDir;
@@ -193,6 +197,9 @@ class JarPlugin extends Plugin {
         bind(String.class)
           .annotatedWith(PluginName.class)
           .toInstance(getName());
+        bind(String.class)
+          .annotatedWith(PluginCanonicalWebUrl.class)
+          .toInstance(pluginCanonicalWebUrl);
 
         bind(File.class)
           .annotatedWith(PluginData.class)

@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.gerrit.extensions.webui.JavaScriptPlugin;
 import com.google.gerrit.server.PluginUser;
+import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -86,6 +87,7 @@ public class PluginLoader implements LifecycleListener {
   private final Queue<Plugin> toCleanup;
   private final Provider<PluginCleanerTask> cleaner;
   private final PluginScannerThread scanner;
+  private final Provider<String> urlProvider;
 
   @Inject
   public PluginLoader(SitePaths sitePaths,
@@ -93,7 +95,8 @@ public class PluginLoader implements LifecycleListener {
       ServerInformationImpl sii,
       PluginUser.Factory puf,
       Provider<PluginCleanerTask> pct,
-      @GerritServerConfig Config cfg) {
+      @GerritServerConfig Config cfg,
+      @CanonicalWebUrl Provider<String> provider) {
     pluginsDir = sitePaths.plugins_dir;
     dataDir = sitePaths.data_dir;
     tmpDir = sitePaths.tmp_dir;
@@ -106,6 +109,7 @@ public class PluginLoader implements LifecycleListener {
     toCleanup = Queues.newArrayDeque();
     cleanupHandles = Maps.newConcurrentMap();
     cleaner = pct;
+    urlProvider = provider;
 
     long checkFrequency = ConfigUtil.getTimeUnit(cfg,
         "plugins", null, "checkFrequency",
@@ -504,7 +508,17 @@ public class PluginLoader implements LifecycleListener {
       Class<? extends Module> sysModule = load(sysName, pluginLoader);
       Class<? extends Module> sshModule = load(sshName, pluginLoader);
       Class<? extends Module> httpModule = load(httpName, pluginLoader);
-      Plugin plugin = new JarPlugin(name, pluginUserFactory.create(name),
+
+      String url;
+
+      url = urlProvider.get();
+      if (!url.endsWith("/")) {
+        url = url + "/";
+      }
+      url = url + name;
+
+      Plugin plugin = new JarPlugin(name, url,
+          pluginUserFactory.create(name),
           srcJar, snapshot,
           jarFile, manifest,
           new File(dataDir, name), type, pluginLoader,

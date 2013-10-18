@@ -122,6 +122,12 @@ public class AccountCreator {
       "Administrators");
   }
 
+  public TestAccount projectOwner()
+      throws UnsupportedEncodingException, OrmException, JSchException {
+    return create("projectOwner", "projectOwner@example.com", "ProjectOwner",
+      "Project Owners");
+  }
+
   private AccountExternalId.Key getEmailKey(String email) {
     return new AccountExternalId.Key(AccountExternalId.SCHEME_MAILTO, email);
   }

@@ -110,7 +110,7 @@ public class UiActions {
 
             try {
               CapabilityUtils.checkRequiresCapability(userProvider,
-                  e.getPluginName(), view.getClass());
+                  e.getPluginName(), view.getClass(), resource);
             } catch (AuthException exc) {
               return null;
             }

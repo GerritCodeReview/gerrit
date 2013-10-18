@@ -1,0 +1,65 @@
+Release notes for Gerrit 2.9
+============================
+
+
+Gerrit 2.9 is now available:
+
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.9.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.9.war]
+
+
+Schema Change
+-------------
+
+
+*WARNING:* This release contains schema changes.  To upgrade:
+----
+  java -jar gerrit.war init -d site_path
+----
+
+*WARNING:* Upgrading to 2.9.x requires the server be first upgraded to 2.1.7 (or
+a later 2.1.x version), and then to 2.9.x.  If you are upgrading from 2.2.x.x or
+later, you may ignore this warning and upgrade directly to 2.9.x.
+
+
+Release Highlights
+------------------
+
+
+* 'Gerrit Inspector' for interactive inspection and troubleshooting of a running
+Gerrit instance.
+
+
+New Features
+------------
+
+
+ssh
+~~~
+
+
+* New `--all-reviewers` option on the `query` command allowing query results
+to include information about all reviewers added on the change.
+
+
+Daemon
+~~~~~~
+
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/dev-inspector.html[
+Gerrit Inspector]: interactive Jython shell.
++
+New `-s` option is added to the Daemon to start an interactive Jython shell for inspection and
+troubleshooting of live data of the Gerrit instance.
+
+
+Bug Fixes
+---------
+
+
+Configuration
+~~~~~~~~~~~~~
+
+
+* The number of accounts shown on the 'Become Any Account' login
+screen is increased from 5 to 100.

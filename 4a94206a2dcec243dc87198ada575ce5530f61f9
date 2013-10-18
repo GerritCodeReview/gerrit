@@ -39,6 +39,23 @@
       "revId": "4a94206a2dcec243dc87198ada575ce5530f61f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e2b84c4_4941e148",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/SiteProgram.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-18T01:06:33Z",
+      "side": 1,
+      "message": "This is incredible overkill. new JythonShell() would have been fine.",
+      "revId": "4a94206a2dcec243dc87198ada575ce5530f61f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -18,13 +18,18 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GarbageCollectionResult;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.GarbageCollection;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Argument;
@@ -52,6 +57,12 @@ public class GarbageCollectionCommand extends BaseCommand {
 
   @Inject
   private GarbageCollection.Factory garbageCollectionFactory;
+
+  @Inject
+  private Provider<CurrentUser> userProvider;
+
+  @Inject
+  private ProjectControl.GenericFactory projectControl;
 
   private PrintWriter stdout;
 
@@ -118,5 +129,20 @@ public class GarbageCollectionCommand extends BaseCommand {
         stdout.print(msg + "\n");
       }
     }
+  }
+
+  @Override
+  public RestResource getResourceContext() throws NoSuchProjectException,
+      IOException {
+    // we cannot use here projects, because the parameters are not get parsed yet.
+    if (getArguments() != null && getArguments().length == 1) {
+      String param = getArguments()[0];
+      if (param.startsWith("--")) {
+        return null;
+      }
+      return new ProjectResource(projectControl.controlFor(
+          new Project.NameKey(getArguments()[0]), userProvider.get()));
+    }
+    return null;
   }
 }

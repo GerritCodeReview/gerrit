@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e07a053_50086c3c",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-18T00:58:33Z",
+      "side": 1,
+      "message": "I don\u0027t think the shell should be in init-base. init-base gets shared into the WAR for web app based initialization. The shell makes no sense there, we only have a web environment.\n\nIt should just be in the pgm target, below.",
+      "revId": "4a94206a2dcec243dc87198ada575ce5530f61f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e2b84c4_2932ad03",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-18T00:58:33Z",
+      "side": 1,
+      "message": "I don\u0027t think we need to line wrap here.",
+      "range": {
+        "startLine": 237,
+        "startChar": 0,
+        "endLine": 240,
+        "endChar": 62
+      },
+      "revId": "4a94206a2dcec243dc87198ada575ce5530f61f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

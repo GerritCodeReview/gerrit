@@ -27,7 +27,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gerrit.server.git.LocalDiskRepositoryManager;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gwtorm.jdbc.JdbcSchema;
@@ -48,12 +48,12 @@ import java.util.Collections;
 
 public class Schema_57 extends SchemaVersion {
   private final SitePaths site;
-  private final LocalDiskRepositoryManager mgr;
+  private final GitRepositoryManager mgr;
   private final PersonIdent serverUser;
 
   @Inject
   Schema_57(Provider<Schema_56> prior, SitePaths site,
-      LocalDiskRepositoryManager mgr, @GerritPersonIdent PersonIdent serverUser) {
+      GitRepositoryManager mgr, @GerritPersonIdent PersonIdent serverUser) {
     super(prior);
     this.site = site;
     this.mgr = mgr;

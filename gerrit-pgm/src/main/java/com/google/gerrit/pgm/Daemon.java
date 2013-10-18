@@ -16,6 +16,8 @@ package com.google.gerrit.pgm;
 
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
 
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Objects;
 import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.httpd.AllRequestFilter;
 import com.google.gerrit.httpd.CacheBasedWebSession;
@@ -63,14 +65,17 @@ import com.google.gerrit.server.schema.SchemaVersionCheck;
 import com.google.gerrit.server.ssh.NoSshKeyCache;
 import com.google.gerrit.server.ssh.NoSshModule;
 import com.google.gerrit.solr.SolrIndexModule;
+import com.google.gerrit.sshd.SshHostKeyModule;
 import com.google.gerrit.sshd.SshKeyCacheImpl;
 import com.google.gerrit.sshd.SshModule;
 import com.google.gerrit.sshd.commands.MasterCommandModule;
 import com.google.gerrit.sshd.commands.SlaveCommandModule;
 import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.Provider;
+import com.google.inject.Stage;
 
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
@@ -132,12 +137,14 @@ public class Daemon extends SiteProgram {
   private Injector webInjector;
   private Injector httpdInjector;
   private File runFile;
+  private boolean test;
 
   private Runnable serverStarted;
 
   public Daemon() {
   }
 
+  @VisibleForTesting
   public Daemon(Runnable serverStarted) {
     this.serverStarted = serverStarted;
   }
@@ -181,22 +188,7 @@ public class Daemon extends SiteProgram {
     }
 
     try {
-      dbInjector = createDbInjector(MULTI_USER);
-      cfgInjector = createCfgInjector();
-      sysInjector = createSysInjector();
-      sysInjector.getInstance(PluginGuiceEnvironment.class)
-        .setCfgInjector(cfgInjector);
-      manager.add(dbInjector, cfgInjector, sysInjector);
-
-      if (sshd) {
-        initSshd();
-      }
-
-      if (httpd) {
-        initHttpd();
-      }
-
-      manager.start();
+      start();
       RuntimeShutdown.add(new Runnable() {
         @Override
         public void run() {
@@ -245,6 +237,45 @@ public class Daemon extends SiteProgram {
     }
   }
 
+  @VisibleForTesting
+  public LifecycleManager getLifecycleManager() {
+    return manager;
+  }
+
+  @VisibleForTesting
+  public void setDatabaseForTesting(List<Module> modules) {
+    dbInjector = Guice.createInjector(Stage.PRODUCTION, modules);
+    test = true;
+    headless = true;
+  }
+
+  @VisibleForTesting
+  public void start() {
+    if (dbInjector == null) {
+      dbInjector = createDbInjector(MULTI_USER);
+    }
+    cfgInjector = createCfgInjector();
+    sysInjector = createSysInjector();
+    sysInjector.getInstance(PluginGuiceEnvironment.class)
+      .setCfgInjector(cfgInjector);
+    manager.add(dbInjector, cfgInjector, sysInjector);
+
+    if (sshd) {
+      initSshd();
+    }
+
+    if (Objects.firstNonNull(httpd, true)) {
+      initHttpd();
+    }
+
+    manager.start();
+  }
+
+  @VisibleForTesting
+  public void stop() {
+    manager.stop();
+  }
+
   private String myVersion() {
     return com.google.gerrit.common.Version.getVersion();
   }
@@ -281,7 +312,7 @@ public class Daemon extends SiteProgram {
         changeIndexModule = new NoIndexModule();
     }
     modules.add(changeIndexModule);
-    if (httpd) {
+    if (Objects.firstNonNull(httpd, true)) {
       modules.add(new CanonicalWebUrlModule() {
         @Override
         protected Class<? extends Provider<String>> provider() {
@@ -324,6 +355,9 @@ public class Daemon extends SiteProgram {
     final List<Module> modules = new ArrayList<Module>();
     if (sshd) {
       modules.add(sysInjector.getInstance(SshModule.class));
+      if (!test) {
+        modules.add(new SshHostKeyModule());
+      }
       if (slave) {
         modules.add(new SlaveCommandModule());
       } else {

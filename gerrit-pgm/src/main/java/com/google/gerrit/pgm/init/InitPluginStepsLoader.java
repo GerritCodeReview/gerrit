@@ -14,9 +14,11 @@
 
 package com.google.gerrit.pgm.init;
 
+import com.google.common.base.Objects;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.plugins.PluginLoader;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -24,6 +26,7 @@ import com.google.inject.Singleton;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -90,10 +93,10 @@ public class InitPluginStepsLoader {
     }
   }
 
-  private Injector getPluginInjector(File jarFile) {
-    String jarFileName = jarFile.getName();
+  private Injector getPluginInjector(File jarFile) throws IOException {
     final String pluginName =
-        jarFileName.substring(0, jarFileName.lastIndexOf('.'));
+        Objects.firstNonNull(PluginLoader.getGerritPluginName(jarFile),
+            PluginLoader.nameOf(jarFile));
     return initInjector.createChildInjector(new AbstractModule() {
       @Override
       protected void configure() {

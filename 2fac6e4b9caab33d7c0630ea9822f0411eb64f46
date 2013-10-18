@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "1ed5e0ff_8008f63d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-18T02:23:59Z",
+      "side": 1,
+      "message": "These lines are very short. You can use up to 70ish columns, and it would be easier to read if you re-wrap the message at a wider width.",
+      "revId": "2fac6e4b9caab33d7c0630ea9822f0411eb64f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be16948d_e516f65c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_85.java",
         "patchSetId": 22

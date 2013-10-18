@@ -22,6 +22,24 @@
       "revId": "e5c96d25500e931126fbebb0ac004c08be9d4451",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e07a053_f07a4073",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-18T07:23:04Z",
+      "side": 1,
+      "message": "Note: there\u0027s already an httpd.requestlog setting used in a couple of places, and that\u0027s not documented either.",
+      "parentUuid": "7e109c95_0337cef3",
+      "revId": "e5c96d25500e931126fbebb0ac004c08be9d4451",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

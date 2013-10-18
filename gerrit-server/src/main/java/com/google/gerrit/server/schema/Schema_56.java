@@ -17,11 +17,9 @@ package com.google.gerrit.server.schema;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
@@ -34,12 +32,12 @@ import java.util.Map;
 import java.util.Set;
 
 public class Schema_56 extends SchemaVersion {
-  private final LocalDiskRepositoryManager mgr;
+  private final GitRepositoryManager mgr;
   private final Set<String> keysOne;
   private final Set<String> keysTwo;
 
   @Inject
-  Schema_56(Provider<Schema_55> prior, LocalDiskRepositoryManager mgr) {
+  Schema_56(Provider<Schema_55> prior, GitRepositoryManager mgr) {
     super(prior);
     this.mgr = mgr;
 
@@ -57,7 +55,7 @@ public class Schema_56 extends SchemaVersion {
       Repository git;
       try {
         git = mgr.openRepository(name);
-      } catch (RepositoryNotFoundException e) {
+      } catch (IOException e) {
         ui.message("warning: Cannot open " + name.get());
         continue;
       }

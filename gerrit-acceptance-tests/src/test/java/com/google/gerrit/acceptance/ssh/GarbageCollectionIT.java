@@ -24,6 +24,7 @@ import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.GcAssert;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.common.data.GarbageCollectionResult;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -83,6 +84,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   }
 
   @Test
+  @UseLocalDisk
   public void testGc() throws JSchException, IOException {
     String response =
         sshSession.exec("gerrit gc \"" + project1.get() + "\" \""
@@ -94,6 +96,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   }
 
   @Test
+  @UseLocalDisk
   public void testGcAll() throws JSchException, IOException {
     String response = sshSession.exec("gerrit gc --all");
     assertFalse(sshSession.hasError());
@@ -110,6 +113,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   }
 
   @Test
+  @UseLocalDisk
   public void testGcAlreadyScheduled() {
     gcQueue.addAll(Arrays.asList(project1));
     GarbageCollectionResult result = garbageCollectionFactory.create().run(

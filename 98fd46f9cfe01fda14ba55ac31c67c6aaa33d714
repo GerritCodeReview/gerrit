@@ -16,6 +16,24 @@
       "revId": "98fd46f9cfe01fda14ba55ac31c67c6aaa33d714",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ed0e40e_41899279",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JsPlugin.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-10-18T10:00:27Z",
+      "side": 1,
+      "message": "You are right, this will enable possibility of loading different version of same plugin at once.\n\nThe main idea of this implementation is to provide PURE js plugin without any additional files/configuration/build-step what so ever, so that js-dev can just drop file in $gerrit_site/plugins directory and start working on the plugin. Adding additional complexity for plugin name/version will break this idea.\n\nThe only place where name/version of plugin can be store is plugin file it self. We can analyze first eg. 10 lines and search for strings like:\n * gerrit-plugin-name\n * gerrit-plugin-version\n\nbut I don\u0027t feel comfortable with this approach.\n\nAs a heads up, I started working on so called js-container-plugin. The idea behind that is to add support for deploying JS plugin bundle. Right now it is a simple zip file with init.js file that will initialize plugin. During plugin install step, zip file will be extracted into $gerrit_site/plugins/$plugin_name. There I also consider having something like optional metadata.txt file in zip root where you can provide data like default plugin name, vendor, version etc.",
+      "parentUuid": "3ed0e40e_0146aa56",
+      "revId": "98fd46f9cfe01fda14ba55ac31c67c6aaa33d714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

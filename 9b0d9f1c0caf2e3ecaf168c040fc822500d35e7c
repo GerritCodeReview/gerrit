@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ed5e0ff_4037cef2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-18T02:30:11Z",
+      "side": 1,
+      "message": "So branch and project owners implicitly have the abandon permission, but a change owner requires a permission granted?\n\nShould this change also grant Project Owners the permission and remove that implicit case above?\n\nShould we have a Branch Owners group and do the same?",
+      "range": {
+        "startLine": 215,
+        "startChar": 11,
+        "endLine": 218,
+        "endChar": 83
+      },
+      "revId": "9b0d9f1c0caf2e3ecaf168c040fc822500d35e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ed5e0ff_2032ca03",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-18T02:30:11Z",
+      "side": 1,
+      "message": "I think we want these on refs/* so change owners have these permissions on code reviews on refs/meta/config too.",
+      "revId": "9b0d9f1c0caf2e3ecaf168c040fc822500d35e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ed5e0ff_a01c1a7f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_86.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-18T02:30:11Z",
+      "side": 1,
+      "message": "unused?",
+      "revId": "9b0d9f1c0caf2e3ecaf168c040fc822500d35e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ed5e0ff_c0191e8e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_86.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-18T02:30:11Z",
+      "side": 1,
+      "message": "This is a horrible idiom. Here is a cleaner way to write it:\n\n  Repository git;\n  try {\n    git \u003d mgr.openRepository(allProjects);\n  } catch (RepositoryNotFoundException e) {\n    ...\n  }\n  \n  try {\n    assignChangeOwnerPermissions(git);\n  } finally {\n    git.close();\n  }",
+      "range": {
+        "startLine": 68,
+        "startChar": 4,
+        "endLine": 82,
+        "endChar": 5
+      },
+      "revId": "9b0d9f1c0caf2e3ecaf168c040fc822500d35e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ed5e0ff_e016225d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_86.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-18T02:30:11Z",
+      "side": 1,
+      "message": "assign",
+      "range": {
+        "startLine": 86,
+        "startChar": 15,
+        "endLine": 86,
+        "endChar": 20
+      },
+      "revId": "9b0d9f1c0caf2e3ecaf168c040fc822500d35e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be16948d_0537d2f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_86.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-18T02:30:11Z",
+      "side": 1,
+      "message": "Configure default Change Owner permissions",
+      "range": {
+        "startLine": 93,
+        "startChar": 21,
+        "endLine": 93,
+        "endChar": 68
+      },
+      "revId": "9b0d9f1c0caf2e3ecaf168c040fc822500d35e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ed5e0ff_0014e652",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_86.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-18T02:30:11Z",
+      "side": 1,
+      "message": "I think we want to do this on refs/*",
+      "revId": "9b0d9f1c0caf2e3ecaf168c040fc822500d35e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,16 +14,22 @@
 
 package com.google.gerrit.pgm.init;
 
+import com.google.common.base.Objects;
+import com.google.gerrit.extensions.annotations.PluginCanonicalWebUrl;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.pgm.util.ConsoleUI;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.lib.Config;
+
 import java.io.File;
 import java.io.FileFilter;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -40,13 +46,15 @@ public class InitPluginStepsLoader {
   private final File pluginsDir;
   private final Injector initInjector;
   final ConsoleUI ui;
+  @GerritServerConfig final Config gerritConfig;
 
   @Inject
   public InitPluginStepsLoader(final ConsoleUI ui, final SitePaths sitePaths,
-      final Injector initInjector) {
+      final Injector initInjector, final Config gerritConfig) {
     this.pluginsDir = sitePaths.plugins_dir;
     this.initInjector = initInjector;
     this.ui = ui;
+    this.gerritConfig = gerritConfig;
   }
 
   public Collection<InitStep> getInitSteps() {
@@ -94,11 +102,23 @@ public class InitPluginStepsLoader {
     String jarFileName = jarFile.getName();
     final String pluginName =
         jarFileName.substring(0, jarFileName.lastIndexOf('.'));
+    final String canonicalWebUrl =
+        Objects.firstNonNull(gerritConfig.getString("gerrit", null, "canonicalWebUrl"), "/");
+    String path;
+    try {
+      path = new URL(canonicalWebUrl).getPath();
+    } catch (MalformedURLException e) {
+      path = "/";
+    }
+    final String pluginUrl = String.format("%splugins/%s/", path, pluginName);
+
     return initInjector.createChildInjector(new AbstractModule() {
       @Override
       protected void configure() {
         bind(String.class).annotatedWith(PluginName.class).toInstance(
             pluginName);
+        bind(String.class).annotatedWith(PluginCanonicalWebUrl.class).toInstance(
+            pluginUrl);
       }
     });
   }

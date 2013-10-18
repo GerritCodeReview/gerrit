@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ed5e0ff_002dc69c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-18T03:54:21Z",
+      "side": 1,
+      "message": "I think we should require the name to be static/$plugin_name.js?",
+      "revId": "6b2a6288e35c016af25e866a6813263110aebe84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ed5e0ff_205baa33",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-18T03:54:21Z",
+      "side": 1,
+      "message": "Just inline the variable here.",
+      "revId": "6b2a6288e35c016af25e866a6813263110aebe84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be16948d_854bc25e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-18T03:54:21Z",
+      "side": 1,
+      "message": "We need to be very paranoid here about taking input from the client and forming a path on the local filesystem.\n\nBut we already know the name of the plugin and its path when we scanned the plugin directory or installed the plugin. Just use getSrcFile() from the plugin.",
+      "revId": "6b2a6288e35c016af25e866a6813263110aebe84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e2b84c4_0989a97a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JsPlugin.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-18T03:54:21Z",
+      "side": 1,
+      "message": "Unnecessary. There is nothing in the Guice world to start or stop.",
+      "revId": "6b2a6288e35c016af25e866a6813263110aebe84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e2b84c4_698e6584",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-18T03:54:21Z",
+      "side": 1,
+      "message": "Uhm, weird exception to import.",
+      "revId": "6b2a6288e35c016af25e866a6813263110aebe84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e07a053_d0457c4b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-18T03:54:21Z",
+      "side": 1,
+      "message": "\u0027.\u0027",
+      "range": {
+        "startLine": 482,
+        "startChar": 31,
+        "endLine": 482,
+        "endChar": 34
+      },
+      "revId": "6b2a6288e35c016af25e866a6813263110aebe84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e07a053_3084c864",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-18T03:54:21Z",
+      "side": 1,
+      "message": "IOException?",
+      "range": {
+        "startLine": 699,
+        "startChar": 14,
+        "endLine": 699,
+        "endChar": 30
+      },
+      "revId": "6b2a6288e35c016af25e866a6813263110aebe84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

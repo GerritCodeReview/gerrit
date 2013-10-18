@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ed0e40e_2109ee43",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-18T06:38:41Z",
+      "side": 1,
+      "message": "Actually we should suport the setting of $TMP to RAM in buck build and buck test:\n\n mkdir -p /tmp/ram\n sudo mount -t tmpfs -o size\u003d512M tmpfs /tmp/ram\n\nAnd to be able to pass that TMP\u003d/tmp/ram somehow to `buck test --all`",
+      "revId": "4b218b9648b9f822f2d7cf8db23076e67dea7028",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

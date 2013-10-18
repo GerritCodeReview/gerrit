@@ -16,14 +16,14 @@
 from __future__ import print_function
 
 from multiprocessing import cpu_count
-from os import environ, makedirs, mkdir, path
+from os import makedirs, mkdir, path
 from subprocess import Popen, PIPE
 from sys import argv, stderr
 
-cp, opt, end, TMP = [], [], False, environ['TMP']
-module, outzip = argv[1], argv[2]
+cp, opt, end = [], [], False
+module, TMP, outzip = argv[1], argv[2], argv[3]
 
-for a in argv[3:]:
+for a in argv[4:]:
   if end:
     if a.endswith('.jar'):
       cp.append(path.expandvars(a))

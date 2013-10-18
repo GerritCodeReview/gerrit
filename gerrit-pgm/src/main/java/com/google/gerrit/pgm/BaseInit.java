@@ -75,7 +75,9 @@ public class BaseInit extends SiteProgram {
   @Override
   public int run() throws Exception {
     final SiteInit init = createSiteInit();
-    beforeInit(init);
+    if (beforeInit(init)) {
+      return 0;
+    }
 
     init.flags.autoStart = getAutoStart() && init.site.isNew;
     init.flags.skipPlugins = skipPlugins();
@@ -108,7 +110,8 @@ public class BaseInit extends SiteProgram {
     return false;
   }
 
-  protected void beforeInit(SiteInit init) throws Exception {
+  protected boolean beforeInit(SiteInit init) throws Exception {
+    return false;
   }
 
   protected void afterInit(SiteRun run) throws Exception {

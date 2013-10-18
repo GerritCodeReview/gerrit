@@ -54,7 +54,7 @@ def gwt_application(
     compiler_jvm_flags = [],
     deps = [],
     visibility = []):
-  cmd = ['$(exe //lib/gwt:compiler)', module_target, '$OUT']
+  cmd = ['$(exe //lib/gwt:compiler)', module_target, '$TMP', '$OUT']
   cmd += compiler_opts + ['--', '$DEPS']
   genrule(
     name = name,

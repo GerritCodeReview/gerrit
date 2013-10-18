@@ -76,11 +76,12 @@ public class Init extends BaseInit {
   }
 
   @Override
-  protected void beforeInit(SiteInit init) throws Exception {
+  protected boolean beforeInit(SiteInit init) throws Exception {
     ErrorLogFile.errorOnlyConsole();
 
     if (!skipPlugins) {
-      final List<PluginData> plugins = InitPlugins.listPlugins(init.site);
+      final List<PluginData> plugins =
+          InitPlugins.listPluginsAndRemoveTempFiles(init.site);
       ConsoleUI ui = ConsoleUI.getInstance(false);
       verifyInstallPluginList(ui, plugins);
       if (listPlugins) {
@@ -92,8 +93,10 @@ public class Init extends BaseInit {
         } else {
           ui.message("No plugins found.\n");
         }
+        return true;
       }
     }
+    return false;
   }
 
   @Override

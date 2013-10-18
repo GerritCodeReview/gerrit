@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e109c95_a3f35a1a",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-18T05:50:29Z",
+      "side": 1,
+      "message": "Gerrit Inspector, that expose interactive Python shell? I thinkyour version is to short to understand what it\u0027s about.",
+      "revId": "58e535fa71b72b70e21c3a63a5f871333e701b92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e109c95_83f0de0e",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-18T05:50:29Z",
+      "side": 1,
+      "message": "That suport was removed from patch set 21 from the change owner change, after -1 from the change owner. But, i do have many valid use cases, why assigning and honoring (seamlessly checking in REST, UiActions and even SSH command code) of capabilities for existing and new system groups make sense.\n\nCurrently only one system group respects (allow all) capabilities:\nAdministrators. All other system groups ignored, even so at least REST\nendpoints and UiActions have already resource context (and can access\nProjectControl and ChangeControl) and can decide for authenticated\nusers if they should be granted/rejected the access to the REST\nendpoints/UiActions for that specific resource.\n\nFor example DeleteProjectCapability (Delete-Project plugin defines it)\ncould be granted to Project Owners groups. Note it is already possible\ntoday, the problem is however, that it is not honored. If John Doe is\nthe owner of the project foo, and he tries to delete that project per\nSSH/REST endpoint or UiAction, then he would get the Authenticated\nException even that DeleteProjectCapability was granted to Project\nOwners system group and John Doe is the owner of that project.\n\nOther use cases:\n\n* Replication plugin defines StartReplication capability that can be\ngranted to Project Owners system groups.\n* Core GC capability can be granted to the Project Owners groups.\n* Work In Progress Plugin\u0027s WorkInProgressCapability can be granted to\nthe Change Owner system group, so that only she can toggle the state\nof the change.\n* Plugin owned capability from Gerrit Staging plugin which allows to\npromote the status of the change from post mortem MERGED to\n  DEVELOPMENT_STAGE, INTEGRATION_STAGE, VALIDATION_STAGE,\nPRE_PRODUCTION_STAGE and PRODUCTION_STAGE\n  can be granted to Project Owners/Change Owner groups.\n\nThe only non trivial task is to seamlessly support the Resource\nContext Aware Capability Check in SSH commands, because we don\u0027t have\ncurrently resource context there. The idea is to extend BaseCommand\nwith ResourceAware Inteface or some such.",
+      "revId": "58e535fa71b72b70e21c3a63a5f871333e701b92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -42,6 +42,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
@@ -54,6 +55,8 @@ class Header extends Composite {
 
   @UiField CheckBox reviewed;
   @UiField Element filePath;
+
+  @UiField Element noDiff;
 
   @UiField InlineHyperlink prev;
   @UiField InlineHyperlink up;
@@ -207,5 +210,9 @@ class Header extends Composite {
 
   String getNextPath() {
     return nextPath;
+  }
+
+  void hideNoDiff() {
+    UIObject.setVisible(noDiff, false);
   }
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bec4d461_951cc47f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-19T17:00:09Z",
+      "side": 1,
+      "message": "This is built on master, but was uploaded to stable-2.8. Merging it will include all of master\u0027s history, which we do not want to do.\n\nPlease rebase onto the stable-2.8 history.",
+      "revId": "83c4335a58f1d6f8846fa9bf2549ef4516336ab2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dec7c862_56031423",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Header.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-19T17:00:09Z",
+      "side": 1,
+      "message": "This is usually not presented, so you could also just remove the DOM node:\n\n  noDiff.removeFromParent();\n\ninstead of making it invisible.",
+      "revId": "83c4335a58f1d6f8846fa9bf2549ef4516336ab2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

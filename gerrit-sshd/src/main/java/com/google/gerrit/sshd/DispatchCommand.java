@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityUtils;
 import com.google.gerrit.server.args4j.SubcommandHandler;
+import com.google.gwt.thirdparty.guava.common.base.Objects;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -76,7 +77,8 @@ final class DispatchCommand extends BaseCommand {
         throw new UnloggedFailure(1, msg.toString());
       }
 
-      final CommandProvider p = commands.get(commandName);
+      final CommandProvider p = Objects.firstNonNull(
+          commands.get(commandName), commands.get("__default__"));
       if (p == null) {
         String msg =
             (getName().isEmpty() ? "Gerrit Code Review" : getName()) + ": "

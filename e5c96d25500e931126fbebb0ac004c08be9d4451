@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1e07a053_903814ae",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-19T00:23:27Z",
+      "side": 1,
+      "message": "Irrelevant here, this is inside of JUnit4 where we want the annotation at a method level, not the class level. CapabilityUtils.getClassAnnotation() would work off the classes, which is not the desired use.",
+      "parentUuid": "3ed0e40e_21848e64",
+      "revId": "e5c96d25500e931126fbebb0ac004c08be9d4451",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e109c95_0337cef3",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
         "patchSetId": 2
@@ -108,6 +126,24 @@
       "side": 1,
       "message": "Also, perhaps the new setting should be mentioned in the commit message.",
       "parentUuid": "3e2b84c4_897d996f",
+      "revId": "e5c96d25500e931126fbebb0ac004c08be9d4451",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e07a053_f0452024",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-19T00:23:27Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "3e2b84c4_e97a5573",
       "revId": "e5c96d25500e931126fbebb0ac004c08be9d4451",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

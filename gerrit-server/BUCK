@@ -1,8 +1,20 @@
+CONSTANTS_SRC = [
+  'src/main/java/com/google/gerrit/server/documentation/Constants.java',
+]
+
 SRCS = glob([
   'src/main/java/**/*.java',
-  'src/test/java/com/google/gerrit/server/project/Util.java'
-])
+  'src/test/java/com/google/gerrit/server/project/Util.java',
+  ],
+  excludes = CONSTANTS_SRC,
+)
 RESOURCES =  glob(['src/main/resources/**/*'])
+
+java_library2(
+  name = 'constants',
+  srcs = CONSTANTS_SRC,
+  visibility = ['PUBLIC'],
+)
 
 # TODO(sop) break up gerrit-server java_library(), its too big
 java_library2(
@@ -10,6 +22,7 @@ java_library2(
   srcs = SRCS,
   resources = RESOURCES,
   deps = [
+    ':constants',
     '//gerrit-antlr:query_exception',
     '//gerrit-antlr:query_parser',
     '//gerrit-common:server',
@@ -48,6 +61,9 @@ java_library2(
     '//lib/joda:joda-time',
     '//lib/log:api',
     '//lib/prolog:prolog-cafe',
+    '//lib/lucene:analyzers-common',
+    '//lib/lucene:core',
+    '//lib/lucene:query-parser',
   ],
   compile_deps = [
     '//lib/bouncycastle:bcprov',

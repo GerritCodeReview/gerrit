@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ebedcc7_33e5c854",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/doc/QueryDocumentationFilter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-19T05:45:43Z",
+      "side": 1,
+      "message": "In second thought to burry the whole query logic in the filter class seems wrong to me. For example we may want to expose this functionality as SSH `man` or `apropos` command:\n\n ssh review gerrit man test\n\nGoing to extract it and upload a change for review.",
+      "revId": "ec4b06a6e2b25c902cd553fa7ad705801e0d9f0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

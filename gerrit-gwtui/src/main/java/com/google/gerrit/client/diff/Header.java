@@ -55,6 +55,8 @@ class Header extends Composite {
   @UiField CheckBox reviewed;
   @UiField Element filePath;
 
+  @UiField Element noDiff;
+
   @UiField InlineHyperlink prev;
   @UiField InlineHyperlink up;
   @UiField InlineHyperlink next;
@@ -207,5 +209,9 @@ class Header extends Composite {
 
   String getNextPath() {
     return nextPath;
+  }
+
+  void removeNoDiff() {
+    noDiff.removeFromParent();
   }
 }

@@ -36,6 +36,11 @@ limitations under the License.
     right: 15px;
     font-family: Arial Unicode MS, sans-serif;
   }
+  .nodiff {
+    position: absolute;
+    left: literal("calc(50% - 30px)");
+    color: #B00000;
+  }
   </ui:style>
   <g:HTMLPanel styleName='{style.header}'>
     <g:CheckBox ui:field='reviewed'
@@ -44,6 +49,10 @@ limitations under the License.
       <ui:attribute name='title'/>
     </g:CheckBox>
     <span ui:field='filePath' class='{style.path}'/>
+
+    <span ui:field='noDiff' class='{style.nodiff}'>
+      <ui:msg>No Differences</ui:msg>
+    </span>
 
     <div class='{style.navigation}'>
       <x:InlineHyperlink ui:field='prev'>&#x21e6;</x:InlineHyperlink>

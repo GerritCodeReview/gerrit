@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1e07a053_50098cf7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-19T00:27:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bec1341b_4d0bd9ac",
+      "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bec1341b_ad0d9dfa",
         "filename": "Documentation/rest-api-docsearch.txt",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2013-10-16T17:39:55Z",
       "side": 1,
       "message": "GET /Documentation/?q\u003d...",
+      "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e07a053_b0ed58ea",
+        "filename": "Documentation/rest-api-docsearch.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-19T00:27:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bec1341b_ad0d9dfa",
       "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +95,24 @@
     },
     {
       "key": {
+        "uuid": "1e07a053_90ead4cd",
+        "filename": "Documentation/rest-api-docsearch.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-19T00:27:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dec4282a_aebfd7ba",
+      "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dec4282a_2eb447e3",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UrlModule.java",
         "patchSetId": 8
@@ -76,6 +130,24 @@
     },
     {
       "key": {
+        "uuid": "1e07a053_f0f7e0b3",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-19T00:27:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dec4282a_2eb447e3",
+      "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dec4282a_cec82366",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryLucene.java",
         "patchSetId": 8
@@ -87,6 +159,24 @@
       "writtenOn": "2013-10-16T17:39:55Z",
       "side": 1,
       "message": "Constant is used only once. Just inline it.",
+      "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e2b84c4_a9edfde9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryLucene.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-19T00:27:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dec4282a_cec82366",
       "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -116,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "1e07a053_d0f45cb2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryLucene.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-19T00:27:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dec4282a_0eaf0b94",
+      "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dec4282a_6eba4fd3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryLucene.java",
         "patchSetId": 8
@@ -133,6 +241,24 @@
         "endLine": 58,
         "endChar": 47
       },
+      "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e2b84c4_89eab9cd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryLucene.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-19T00:27:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dec4282a_6eba4fd3",
       "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -162,6 +288,24 @@
     },
     {
       "key": {
+        "uuid": "1e07a053_30232873",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryLucene.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-19T00:27:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bec1341b_2d220d6b",
+      "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dec4282a_eec5df4c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryLucene.java",
         "patchSetId": 8
@@ -173,6 +317,24 @@
       "writtenOn": "2013-10-16T17:39:55Z",
       "side": 1,
       "message": "Simplify your life and only accept one \"q\" parameter.",
+      "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e2b84c4_e9f7f5b3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryLucene.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-19T00:27:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dec4282a_eec5df4c",
       "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -202,6 +364,24 @@
     },
     {
       "key": {
+        "uuid": "3e2b84c4_c9f4b1b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryLucene.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-19T00:27:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dec4282a_8ec21b42",
+      "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bec1341b_cd16e90f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryLucene.java",
         "patchSetId": 8
@@ -213,6 +393,24 @@
       "writtenOn": "2013-10-16T17:39:55Z",
       "side": 1,
       "message": "This isn\u0027t going to work correctly in all contexts. No wonder you can\u0027t load the index from Eclipse.\n\nInstead of embedding the index.zip into the /Documentation/ directory as /Documentation/.index.zip we need to wrap it inside of a java_library() and make sure the java_library() is part of the Eclipse classpath and the WAR with docs classpath.\n\nFirst step is to change the Documentation/BUCK file to stop copying .index.zip into /Documentation/ as part of html.zip and instead shovel it into a java_library(). This is hideous to do given its naming, I think you need to wrap it in a genrule(). See gerrit-war/BUCK for the log4j-config prebuilt_jar() rule. You need do something like this for index.zip where the prebuilt_jar() depends on a genrule() that makes a ZIP or JAR of the index.zip file.\n\nThen in tools/eclipse/BUCK add the name of this prebuilt_jar() to the classpath target. Now your documentation will be built and visible in eclipse, next time you run tools/eclipse/project.py.\n\nIn the top level BUCK file gerrit_war() rules need to include the index prebuilt_jar() when DOCS are included. The index needs to be in the libs list of the war() function, not the pgmlibs. Maybe we need to make DOCS be a boolean that is False by default and set docs\u003dTrue in the top level, and when docs is true the gerrit_war() function adds the DOCS to the context and the index.zip to the libs list.",
+      "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e2b84c4_2923cd72",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryLucene.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-19T00:27:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bec1341b_cd16e90f",
       "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -236,6 +434,24 @@
     },
     {
       "key": {
+        "uuid": "1e07a053_1028a449",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryLucene.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-19T00:27:58Z",
+      "side": 1,
+      "message": "this one should be ok.",
+      "parentUuid": "bec1341b_8d10e111",
+      "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bec1341b_ed13a51c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryLucene.java",
         "patchSetId": 8
@@ -247,6 +463,24 @@
       "writtenOn": "2013-10-16T17:39:55Z",
       "side": 1,
       "message": "This should be in a finally.",
+      "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e07a053_701db02b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryLucene.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-19T00:27:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bec1341b_ed13a51c",
       "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -270,6 +504,24 @@
     },
     {
       "key": {
+        "uuid": "3e2b84c4_09288949",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryProcessor.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-19T00:27:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bec1341b_4d23d971",
+      "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bec1341b_6d28154b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocResource.java",
         "patchSetId": 8
@@ -281,6 +533,24 @@
       "writtenOn": "2013-10-16T17:39:55Z",
       "side": 1,
       "message": "DocResource is not necessary as I think the REST API code is overkill. And HasETag really is overkill here, it would never be used.",
+      "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e07a053_50222c6b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocResource.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-19T00:27:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bec1341b_6d28154b",
       "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -304,6 +574,24 @@
         "endLine": 53,
         "endChar": 18
       },
+      "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e07a053_b016f80d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocsCollection.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-19T00:27:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bec1341b_0d1dd12b",
       "revId": "fc32c5e39d259093aa1e5eaac1b961e4dbf772d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e2b84c4_a9169d0d",
+        "filename": "Documentation/BUCK",
+        "patchSetId": 9
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-19T00:41:38Z",
+      "side": 1,
+      "message": "This is now unused.",
+      "revId": "075444359c339a3e2015c3ce962289cdd812e657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e2b84c4_4922816b",
+        "filename": "Documentation/BUCK",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-19T00:41:38Z",
+      "side": 1,
+      "message": "Remove this dep.",
+      "revId": "075444359c339a3e2015c3ce962289cdd812e657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e2b84c4_8913d91d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-19T00:41:38Z",
+      "side": 1,
+      "message": "filter(\"/Documentation/\") might be sufficient, since we only look at /Documentation/?q\u003d...",
+      "range": {
+        "startLine": 114,
+        "startChar": 4,
+        "endLine": 114,
+        "endChar": 30
+      },
+      "revId": "075444359c339a3e2015c3ce962289cdd812e657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e2b84c4_e9109512",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/doc/QueryDocumentationFilter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-19T00:41:38Z",
+      "side": 1,
+      "message": "log.error(\"Cannot initialize documentation full text index\", e);",
+      "range": {
+        "startLine": 94,
+        "startChar": 6,
+        "endLine": 94,
+        "endChar": 22
+      },
+      "revId": "075444359c339a3e2015c3ce962289cdd812e657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e07a053_9013f41d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/doc/QueryDocumentationFilter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-19T00:41:38Z",
+      "side": 1,
+      "message": "private?",
+      "revId": "075444359c339a3e2015c3ce962289cdd812e657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e2b84c4_c90dd1fa",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/doc/QueryDocumentationFilter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-19T00:41:38Z",
+      "side": 1,
+      "message": "Don\u0027t wrap in OrmException. This is an odd type to use. Make your own exception as an inner class?",
+      "range": {
+        "startLine": 142,
+        "startChar": 4,
+        "endLine": 146,
+        "endChar": 5
+      },
+      "revId": "075444359c339a3e2015c3ce962289cdd812e657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e2b84c4_29cc6d83",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/doc/QueryDocumentationFilter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-19T00:41:38Z",
+      "side": 1,
+      "message": "log.warn()",
+      "revId": "075444359c339a3e2015c3ce962289cdd812e657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

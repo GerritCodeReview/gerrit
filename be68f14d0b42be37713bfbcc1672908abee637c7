@@ -1,0 +1,199 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dec7c862_16099c43",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-19T16:54:06Z",
+      "side": 1,
+      "message": "Obviously we should fix this. :-)",
+      "revId": "be68f14d0b42be37713bfbcc1672908abee637c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dec7c862_b6f0e80e",
+        "filename": "gerrit-server/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-19T16:54:06Z",
+      "side": 1,
+      "message": "Indent the two src/ lines by two more spaces. ] is at the same level now as excludes, and the members of [] should be one level further right than the closing ].",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 4
+      },
+      "revId": "be68f14d0b42be37713bfbcc1672908abee637c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bec4d461_15099443",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/documentation/QueryDocumentationExecutor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-19T16:54:06Z",
+      "side": 1,
+      "message": "Bind this in GerritGlobalModule. If you don\u0027t do that it will be an implicit binding possibly registered twice, once in the HTTP stack and again in the SSH stack.\n\nYes I know its horribly confusing. Our code is not very clear or easy to work.",
+      "revId": "be68f14d0b42be37713bfbcc1672908abee637c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bec4d461_350e904c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/documentation/QueryDocumentationExecutor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-19T16:54:06Z",
+      "side": 1,
+      "message": "Maybe change this to \"Documentation search not available\"",
+      "range": {
+        "startLine": 83,
+        "startChar": 34,
+        "endLine": 83,
+        "endChar": 51
+      },
+      "revId": "be68f14d0b42be37713bfbcc1672908abee637c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dec7c862_f6fa60ea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/documentation/QueryDocumentationExecutor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-19T16:54:06Z",
+      "side": 1,
+      "message": "Make the constructors package visible, as we don\u0027t want folks outside to be throwing this.\n\nAnd I don\u0027t think we need all of these. I should have caught both issues when Fishy added this code, but I didn\u0027t.",
+      "range": {
+        "startLine": 137,
+        "startChar": 4,
+        "endLine": 150,
+        "endChar": 5
+      },
+      "revId": "be68f14d0b42be37713bfbcc1672908abee637c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bec4d461_d5fd5ce5",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AproposCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-19T16:54:06Z",
+      "side": 1,
+      "message": "I think you can safely omit this, as multiValued\u003dfalse should be the default.",
+      "range": {
+        "startLine": 32,
+        "startChar": 21,
+        "endLine": 32,
+        "endChar": 40
+      },
+      "revId": "be68f14d0b42be37713bfbcc1672908abee637c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bec4d461_f5fa58ea",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AproposCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-19T16:54:06Z",
+      "side": 1,
+      "message": "Is \"title: url\" going to fit on a terminal? IIRC a lot of our documentation tiles can be somewhat long. Should this maybe be \"%s:\\n%s\\n\" so it renders:\n\n  title of page\n  Documentation/...\n\n  title of second result\n  Documentation/...",
+      "range": {
+        "startLine": 39,
+        "startChar": 37,
+        "endLine": 39,
+        "endChar": 45
+      },
+      "revId": "be68f14d0b42be37713bfbcc1672908abee637c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dec7c862_d6fd64e5",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AproposCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-19T16:54:06Z",
+      "side": 1,
+      "message": "Maybe we should resolve the URL with the @CanonicalWebUrl so the user can just copy and paste the link into their browser?",
+      "range": {
+        "startLine": 40,
+        "startChar": 29,
+        "endLine": 40,
+        "endChar": 42
+      },
+      "revId": "be68f14d0b42be37713bfbcc1672908abee637c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bec4d461_b5f0e00e",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AproposCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-19T16:54:06Z",
+      "side": 1,
+      "message": "Inconsistent formatting here. for should be at the same level as List.",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 3
+      },
+      "revId": "be68f14d0b42be37713bfbcc1672908abee637c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

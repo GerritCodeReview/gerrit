@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import com.google.common.io.Files;
-import com.google.gerrit.httpd.rpc.doc.Constants;
+import com.google.gerrit.server.documentation.Constants;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.util.CharArraySet;
@@ -26,7 +26,6 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.store.NIOFSDirectory;
 import org.apache.lucene.util.Version;
-
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;

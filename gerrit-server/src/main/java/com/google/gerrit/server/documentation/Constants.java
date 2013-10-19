@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.httpd.rpc.doc;
+package com.google.gerrit.server.documentation;
 
 public class Constants {
 

@@ -51,6 +51,9 @@ see link:user-upload.html#test_ssh[Testing Your SSH Connection].
 [[user_commands]]User Commands
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+link:cmd-apropos.html[gerrit apropos]::
+	Search Gerrit documentation index.
+
 'gerrit approve'::
 	'Deprecated alias for `gerrit review`.'
 

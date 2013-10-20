@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "5e991882_f2fa68ea",
+        "filename": "Documentation/cmd-plugin-install.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-20T10:27:10Z",
+      "side": 1,
+      "message": "As pointed out in java file: we have backwards compatibility problem here.",
+      "revId": "dd535be1fd1756ff6167b831de709110fa7e63ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e991882_921cbc7f",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-20T10:27:10Z",
+      "side": 1,
+      "message": "Can you please be more verbose on JA plugin? May be we should start its own documentation file dev-plugins-js.txt? Or may be extend JS-API.txt?\n\nI have still many questions:\n\n* How should i verify that cange? Can you upload or point to an example of such JS plugin? What can we do from it?\n* Can JS plugin access JS API? Can it send requests?\n* Can JS plugin retrieve its own name?\n* Can we communicate with such a plugin from UiAction? From JS-API?",
+      "revId": "dd535be1fd1756ff6167b831de709110fa7e63ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5e991882_12e0cc43",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JsPlugin.java",
         "patchSetId": 14
@@ -31,6 +65,74 @@
       "side": 1,
       "message": "This class was created in 2012, see first patch set.",
       "parentUuid": "5e991882_12e0cc43",
+      "revId": "dd535be1fd1756ff6167b831de709110fa7e63ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e991882_52033423",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-20T10:27:10Z",
+      "side": 1,
+      "message": "This condition is always false now:\n\n originalName \u003d \"foo.jar\"\n\nAnd the name of plugin can be \"foo\" or \"bar\" if plugin defines its own name, but it is never \"foo.jar\".",
+      "revId": "dd535be1fd1756ff6167b831de709110fa7e63ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e991882_7208383d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-20T10:27:10Z",
+      "side": 1,
+      "message": "Please, don\u0027t mix fileName and plugin name. Just preserve the old assignment to fileName. Because now you have possible corrupted the plugin name that was provided by plugin, bcause the old plugin may be was loaded under different file name. Consider the following example:\n\n* plugin foo.jar defines its own name in MANIFEST to be bar. So the file is still called foo.jar\n* plugin foo.jar deployed regularly per copy to $site/plugins/\n* administrator updates the plugin per SSH and pass bar as name\n* but the name is overriden now from bar to foo, because the old plugin file was called foo.jar\n\nIn generall plugin file name and plugin name can now be different. See this change for more information:\n\n https://gerrit-review.googlesource.com/#/c/49382",
+      "revId": "dd535be1fd1756ff6167b831de709110fa7e63ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e991882_1209ac43",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-20T10:27:10Z",
+      "side": 1,
+      "message": "rename jar to plugin or file?",
+      "revId": "dd535be1fd1756ff6167b831de709110fa7e63ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ebedcc7_931cdc7f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-20T10:27:10Z",
+      "side": 1,
+      "message": "You don\u0027t need that. It is sufficint to just return null in this method for Js plugins (unless they define their own names):\n\n public static String getGerritPluginName(File srcFile) throws IOException {\t  \n   if (isJarPlugin(fileName)) {\n     [...]\n   }\n   return null;\n }\n\nThe callers of this method are aware of \"plugin doesn\u0027t provide its own name\" semantic and handle that case correspondingly.\n\nCheck lines 148 and 709 in this file.",
       "revId": "dd535be1fd1756ff6167b831de709110fa7e63ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

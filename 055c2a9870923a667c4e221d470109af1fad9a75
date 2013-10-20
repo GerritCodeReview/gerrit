@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e991882_320eb04c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-20T10:27:10Z",
+      "side": 0,
+      "message": "That\u0027s backwards compatibility issue here: Some Gerrit user have set up scripts, and that change going to break it: by making extension mandatory. May be we could be smarter here and still assume \".jar\" suffix?",
+      "revId": "055c2a9870923a667c4e221d470109af1fad9a75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

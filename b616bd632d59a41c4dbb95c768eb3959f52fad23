@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e991882_12844c64",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-21T09:52:36Z",
+      "side": 1,
+      "message": "nit: it can be done shorter\n\n String url \u003d String.format(\"%s/%s\",\n      CharMatcher.is(\u0027/\u0027).trimTrailingFrom(urlProvider.get()),\n      name);\n\nOr even without to define url var and inline that statement on line 520?",
+      "revId": "b616bd632d59a41c4dbb95c768eb3959f52fad23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ebedcc7_333788f4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarPlugin.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-21T04:43:23Z",
+      "side": 1,
+      "message": "With this method here and why it is public?",
+      "revId": "c68e7b0e17ff713b848bbf55a9966526e84ae084",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e991882_12328c03",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarPlugin.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-21T04:43:23Z",
+      "side": 1,
+      "message": "wrong indentation.",
+      "revId": "c68e7b0e17ff713b848bbf55a9966526e84ae084",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e991882_523c14d4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-21T04:43:23Z",
+      "side": 1,
+      "message": "Can it be really null?",
+      "revId": "c68e7b0e17ff713b848bbf55a9966526e84ae084",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e991882_323790f4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-21T04:43:23Z",
+      "side": 1,
+      "message": "Is this really possible that urlProvide is null? We require CanonicalWebUrl now.",
+      "revId": "c68e7b0e17ff713b848bbf55a9966526e84ae084",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ebedcc7_533c04d4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-21T04:43:23Z",
+      "side": 1,
+      "message": "That branch seems wrong to me.",
+      "revId": "c68e7b0e17ff713b848bbf55a9966526e84ae084",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

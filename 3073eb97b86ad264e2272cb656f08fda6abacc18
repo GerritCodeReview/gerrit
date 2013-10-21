@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dec7c862_166d1cc4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-21T10:14:27Z",
+      "side": 1,
+      "message": "Typo.\n\nDone.",
+      "parentUuid": "7ebedcc7_735ae02c",
+      "revId": "3073eb97b86ad264e2272cb656f08fda6abacc18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5e991882_528ed483",
         "filename": "contrib/manage-plugins.sh",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "dec7c862_566794e3",
+        "filename": "contrib/manage-plugins.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-21T10:14:27Z",
+      "side": 1,
+      "message": "The tools directory is for build tools and IIRC was only added when moving to buck.\n\nThe contrib folder has existed for longer and already contains a few tool-like scripts that don\u0027t belong to the build.  I think this is the correct place.",
+      "parentUuid": "5e991882_528ed483",
+      "revId": "3073eb97b86ad264e2272cb656f08fda6abacc18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ebedcc7_934e9c6f",
         "filename": "contrib/manage-plugins.sh",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2013-10-21T09:56:58Z",
       "side": 1,
       "message": "Intentionally not Apache 2?",
+      "revId": "3073eb97b86ad264e2272cb656f08fda6abacc18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dec7c862_367218a3",
+        "filename": "contrib/manage-plugins.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-21T10:14:27Z",
+      "side": 1,
+      "message": "Yes.  Sony Mobile publishes to open source under the MIT license.\n\nOther scripts under /contrib are also not all Apache2.",
+      "parentUuid": "7ebedcc7_934e9c6f",
       "revId": "3073eb97b86ad264e2272cb656f08fda6abacc18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

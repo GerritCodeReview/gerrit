@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dec7c862_b622a8ae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarPlugin.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-21T05:08:28Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "7ebedcc7_333788f4",
+      "revId": "c68e7b0e17ff713b848bbf55a9966526e84ae084",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5e991882_12328c03",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarPlugin.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2013-10-21T04:43:23Z",
       "side": 1,
       "message": "wrong indentation.",
+      "revId": "c68e7b0e17ff713b848bbf55a9966526e84ae084",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bec4d461_155b5433",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarPlugin.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-21T05:08:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e991882_12328c03",
       "revId": "c68e7b0e17ff713b848bbf55a9966526e84ae084",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "bec4d461_356050db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-21T05:08:28Z",
+      "side": 1,
+      "message": "Copied this from somewhere else.  Most of the instances where @CanonicalWebUrl is used, @Nullable is also used.\n\nIf it\u0027s not needed any more, those should be removed in a separate change.",
+      "parentUuid": "5e991882_523c14d4",
+      "revId": "c68e7b0e17ff713b848bbf55a9966526e84ae084",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5e991882_323790f4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 3
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "bec4d461_5555ccfb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-21T05:08:28Z",
+      "side": 1,
+      "message": "See above.",
+      "parentUuid": "5e991882_323790f4",
+      "revId": "c68e7b0e17ff713b848bbf55a9966526e84ae084",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ebedcc7_533c04d4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 3
@@ -81,6 +153,24 @@
       "writtenOn": "2013-10-21T04:43:23Z",
       "side": 1,
       "message": "That branch seems wrong to me.",
+      "revId": "c68e7b0e17ff713b848bbf55a9966526e84ae084",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dec7c862_d62f2495",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-21T05:08:28Z",
+      "side": 1,
+      "message": "This won\u0027t be needed if the url can never be null.",
+      "parentUuid": "7ebedcc7_533c04d4",
       "revId": "c68e7b0e17ff713b848bbf55a9966526e84ae084",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

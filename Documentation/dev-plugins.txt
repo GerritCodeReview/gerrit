@@ -621,7 +621,7 @@ this can be specified by setting `scope = CapabilityScope.CORE`:
 UI Extension
 ------------
 
-Plugins can contribute their own UI commands on core Gerrit pages.
+Plugins can contribute their own UI actions on core Gerrit pages.
 This is useful for workflow customization or exposing plugin functionality
 through the UI in addition to SSH commands and the REST API.
 
@@ -674,6 +674,48 @@ class HelloWorldAction implements UiAction<RevisionResource>,
     return new Description()
         .setLabel("Say hello")
         .setTitle("Say hello in different languages");
+  }
+}
+----
+
+Sometimes plugins my want to be able to change the state of patch set or change
+in `UiAction.apply()` method and reflect these changes on the core UI. For
+example buildbot plugin which exposes Schedule button on patch set panel may
+want to disable that button after the build was scheduled and update the
+tooltip of that button. But because of Gerrit caching strategy the following
+must be taken into consideration.
+
+The browser is allowed to cache the UiAction information until something on
+the change is modified. More accurately the change row needs to be modified in
+the database to have a more recent `lastUpdatedOn` or a new `rowVersion`, or
+the +refs/meta/config+ of the project or any parents needs to change to a new
+SHA-1. The ETag SHA-1 computation code can be found in
+`ChangeResource.getETag()` method.
+
+The easiest way to accompilsh it is to update `lastUpdatedOn` of the change:
+
+[source,java]
+----
+@Override
+public Object apply(RevisionResource rcrs, Input in) {
+  // schedule a build
+  [...]
+  // update change
+  ReviewDb db = dbProvider.get();
+  db.changes().beginTransaction(change.getId());
+  try {
+    change = db.changes().atomicUpdate(
+      change.getId(),
+      new AtomicUpdate<Change>() {
+        @Override
+        public Change update(Change change) {
+          ChangeUtil.updated(change);
+          return change;
+        }
+      });
+    db.commit();
+  } finally {
+    db.rollback();
   }
 }
 ----

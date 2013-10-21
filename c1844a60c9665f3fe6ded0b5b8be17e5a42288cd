@@ -52,6 +52,24 @@
       "revId": "c1844a60c9665f3fe6ded0b5b8be17e5a42288cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dec7c862_363778f4",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-21T00:52:38Z",
+      "side": 1,
+      "message": "Removed in the next PS.",
+      "parentUuid": "7e109c95_a397da92",
+      "revId": "c1844a60c9665f3fe6ded0b5b8be17e5a42288cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

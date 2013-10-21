@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ebedcc7_735ae02c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-21T09:56:58Z",
+      "side": 1,
+      "message": "./contrib/manage-plugins.sh or drop .sh suffix?",
+      "revId": "3073eb97b86ad264e2272cb656f08fda6abacc18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e991882_528ed483",
+        "filename": "contrib/manage-plugins.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-21T09:56:58Z",
+      "side": 1,
+      "message": "may be put this file in tools directory?",
+      "revId": "3073eb97b86ad264e2272cb656f08fda6abacc18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ebedcc7_934e9c6f",
+        "filename": "contrib/manage-plugins.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-21T09:56:58Z",
+      "side": 1,
+      "message": "Intentionally not Apache 2?",
+      "revId": "3073eb97b86ad264e2272cb656f08fda6abacc18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

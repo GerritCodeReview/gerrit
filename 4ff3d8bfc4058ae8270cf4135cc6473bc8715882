@@ -16,6 +16,24 @@
       "revId": "4ff3d8bfc4058ae8270cf4135cc6473bc8715882",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dec7c862_f62c20a3",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-21T06:06:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e991882_92259cbb",
+      "revId": "4ff3d8bfc4058ae8270cf4135cc6473bc8715882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

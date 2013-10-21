@@ -16,6 +16,24 @@
       "revId": "b616bd632d59a41c4dbb95c768eb3959f52fad23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dec7c862_b694688f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-21T10:03:44Z",
+      "side": 1,
+      "message": "Thanks.  Changed as your example.  I would prefer not to inline it below though.",
+      "parentUuid": "5e991882_12844c64",
+      "revId": "b616bd632d59a41c4dbb95c768eb3959f52fad23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

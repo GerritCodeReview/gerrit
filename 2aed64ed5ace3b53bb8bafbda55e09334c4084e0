@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7ebedcc7_d3a1f4eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-22T04:53:59Z",
+      "side": 1,
+      "message": "Done.\n\nActually the core buttons, like Abandon, Submit, Rebase have to do the same to get the UI refreshed.",
+      "parentUuid": "bec4d461_35dbf06a",
+      "revId": "2aed64ed5ace3b53bb8bafbda55e09334c4084e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dec7c862_d67ac473",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-10-22T00:29:18Z",
       "side": 1,
       "message": "- s/my/may\n\n- \"the state of a\"",
+      "revId": "2aed64ed5ace3b53bb8bafbda55e09334c4084e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e991882_f29ee8aa",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 681,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-22T04:53:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dec7c862_d67ac473",
       "revId": "2aed64ed5ace3b53bb8bafbda55e09334c4084e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "7ebedcc7_337228a3",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-22T04:53:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dec7c862_f677c08a",
+      "revId": "2aed64ed5ace3b53bb8bafbda55e09334c4084e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bec4d461_756c88c5",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2013-10-22T00:29:18Z",
       "side": 1,
       "message": "\"a buildbot plugin which exposes a \u0027Schedule\u0027 button on the patch set panel\"",
+      "revId": "2aed64ed5ace3b53bb8bafbda55e09334c4084e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ebedcc7_136d2cc4",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-22T04:53:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bec4d461_756c88c5",
       "revId": "2aed64ed5ace3b53bb8bafbda55e09334c4084e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "7ebedcc7_f39ef0aa",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 685,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-22T04:53:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bec4d461_95804446",
+      "revId": "2aed64ed5ace3b53bb8bafbda55e09334c4084e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bec4d461_b57d406f",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 1
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "5e991882_126d2cc4",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 692,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-22T04:53:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bec4d461_b57d406f",
+      "revId": "2aed64ed5ace3b53bb8bafbda55e09334c4084e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dec7c862_16d6fc43",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 1
@@ -115,6 +223,24 @@
       "writtenOn": "2013-10-22T00:29:18Z",
       "side": 1,
       "message": "Would it be be better to provide a utility method for this in the plugin API?",
+      "revId": "2aed64ed5ace3b53bb8bafbda55e09334c4084e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e991882_327230a3",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-22T04:53:59Z",
+      "side": 1,
+      "message": "That update idiom already exists, with AtomicUpdate\u003cChange\u003e() Interfae and update() method.\n\nIn that example i only updated change\u0027s timestamp. Plugin may want to do more updates, like add a chane message or similar?",
+      "parentUuid": "dec7c862_16d6fc43",
       "revId": "2aed64ed5ace3b53bb8bafbda55e09334c4084e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -25,6 +25,10 @@ import java.util.Comparator;
 import java.util.List;
 
 public class ProjectsTable extends NavigationTable<ProjectInfo> {
+  private static final int P_STATE = 1;
+  private static final int P_NAME = 2;
+  private static final int P_DESCRIPTION = 3;
+  private static final int P_GIT_URL = 4;
 
   public ProjectsTable() {
     super(Util.C.projectItemHelp());
@@ -32,12 +36,15 @@ public class ProjectsTable extends NavigationTable<ProjectInfo> {
   }
 
   protected void initColumnHeaders() {
-    table.setText(0, 1, Util.C.projectName());
-    table.setText(0, 2, Util.C.projectDescription());
+    table.setText(0, P_STATE, Util.C.projectState());
+    table.getCellFormatter().getElement(0, P_STATE).setTitle(Util.C.projectStateHelp());
+    table.setText(0, P_NAME, Util.C.projectName());
+    table.setText(0, P_DESCRIPTION, Util.C.projectDescription());
 
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
-    fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().dataHeader());
-    fmt.addStyleName(0, 2, Gerrit.RESOURCES.css().dataHeader());
+    fmt.addStyleName(0, P_STATE, Gerrit.RESOURCES.css().iconHeader());
+    fmt.addStyleName(0, P_NAME, Gerrit.RESOURCES.css().dataHeader());
+    fmt.addStyleName(0, P_DESCRIPTION, Gerrit.RESOURCES.css().dataHeader());
   }
 
   @Override
@@ -75,17 +82,35 @@ public class ProjectsTable extends NavigationTable<ProjectInfo> {
     applyDataRowStyle(row);
 
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
-    fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().dataCell());
-    fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().projectNameColumn());
-    fmt.addStyleName(row, 2, Gerrit.RESOURCES.css().dataCell());
+    fmt.addStyleName(row, P_STATE, Gerrit.RESOURCES.css().iconCell());
+    fmt.addStyleName(row, P_NAME, Gerrit.RESOURCES.css().dataCell());
+    fmt.addStyleName(row, P_NAME, Gerrit.RESOURCES.css().projectNameColumn());
+    fmt.addStyleName(row, P_DESCRIPTION, Gerrit.RESOURCES.css().dataCell());
 
     populate(row, k);
   }
 
   protected void populate(final int row, final ProjectInfo k) {
-    table.setText(row, 1, k.name());
-    table.setText(row, 2, k.description());
+    table.setText(row, P_STATE, k.state());
+    table.setText(row, P_NAME, k.name());
+    table.setText(row, P_DESCRIPTION, k.description());
 
     setRowItem(row, k);
+  }
+
+  public static int getpState() {
+    return P_STATE;
+  }
+
+  public static int getpName() {
+    return P_NAME;
+  }
+
+  public static int getpDescription() {
+    return P_DESCRIPTION;
+  }
+
+  public static int getpGitUrl() {
+    return P_GIT_URL;
   }
 }

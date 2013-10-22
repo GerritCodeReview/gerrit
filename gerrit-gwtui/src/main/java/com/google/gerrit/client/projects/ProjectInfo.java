@@ -27,6 +27,7 @@ public class ProjectInfo
 
   public final native String name() /*-{ return this.name; }-*/;
   public final native String description() /*-{ return this.description; }-*/;
+  public final native String state() /*-{ return this.state; }-*/;
 
   @Override
   public final String getDisplayString() {

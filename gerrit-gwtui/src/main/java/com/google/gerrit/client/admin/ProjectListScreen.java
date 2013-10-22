@@ -37,6 +37,7 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 
@@ -102,9 +103,9 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
       protected void initColumnHeaders() {
         super.initColumnHeaders();
         if (Gerrit.getGitwebLink() != null) {
-          table.setText(0, 3, Util.C.projectRepoBrowser());
+          table.setText(0, ProjectsTable.getpGitUrl(), Util.C.projectRepoBrowser());
           table.getFlexCellFormatter().
-            addStyleName(0, 3, Gerrit.RESOURCES.css().dataHeader());
+            addStyleName(0, ProjectsTable.getpGitUrl(), Gerrit.RESOURCES.css().dataHeader());
         }
       }
 
@@ -122,20 +123,33 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
         super.insert(row, k);
         if (Gerrit.getGitwebLink() != null) {
           table.getFlexCellFormatter().
-            addStyleName(row, 3, Gerrit.RESOURCES.css().dataCell());
+            addStyleName(row, ProjectsTable.getpGitUrl(), Gerrit.RESOURCES.css().dataCell());
         }
       }
 
       @Override
       protected void populate(final int row, final ProjectInfo k) {
+        Image state = new Image();
+        if ("HIDDEN".equals(k.state())){
+          state.setResource(Gerrit.RESOURCES.redNot());
+          state.setTitle("Hidden");
+        } else if ("READ_ONLY".equals(k.state())){
+          state = new Image(Gerrit.RESOURCES.readOnly());
+          state.setTitle("Read Only");
+        } else {
+          state = new Image(Gerrit.RESOURCES.active());
+          state.setTitle("Active");
+        }
+        table.setWidget(row, ProjectsTable.getpState(), state);
+
         FlowPanel fp = new FlowPanel();
         fp.add(new ProjectSearchLink(k.name_key()));
         fp.add(new HighlightingInlineHyperlink(k.name(), link(k), subname));
-        table.setWidget(row, 1, fp);
-        table.setText(row, 2, k.description());
+        table.setWidget(row, ProjectsTable.getpName(), fp);
+        table.setText(row, ProjectsTable.getpDescription(), k.description());
         GitwebLink l = Gerrit.getGitwebLink();
         if (l != null) {
-          table.setWidget(row, 3, new Anchor(l.getLinkName(), false, l.toProject(k
+          table.setWidget(row, ProjectsTable.getpGitUrl(), new Anchor(l.getLinkName(), false, l.toProject(k
               .name_key())));
         }
 

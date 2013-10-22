@@ -136,7 +136,7 @@ will be performed by scanning all classes in the plugin JAR for
 Plugin Name
 ~~~~~~~~~~~
 
-Plugin can optionally provide its own plugin name.
+A plugin can optionally provide its own plugin name.
 
 ====
   Gerrit-PluginName: replication
@@ -187,7 +187,7 @@ public class MyClass {
     this.pluginName = pluginName;
   }
 
-  ...
+  [...]
 }
 ----
 
@@ -268,11 +268,12 @@ For instance a plugin that wants to verify connectivity may need to statically
 call the constructor of their connection class, passing in values obtained
 from the Section.Factory rather than from an injected Config object.
 
-Plugins InitStep are executing during the "Gerrit Plugin init" phase, after
-the extraction of the plugins embedded in Gerrit.war into $GERRIT_SITE/plugins
-and before the DB Schema initialization or upgrade.
-Plugins InitStep cannot refer to Gerrit DB Schema or any other Gerrit runtime
-objects injected at startup.
+Plugins' InitSteps are executed during the "Gerrit Plugin init" phase, after
+the extraction of the plugins embedded in the distribution .war file into
+`$GERRIT_SITE/plugins` and before the DB Schema initialization or upgrade.
+
+A plugin's InitStep cannot refer to Gerrit's DB Schema or any other Gerrit
+runtime objects injected at startup.
 
 [source,java]
 ----
@@ -468,7 +469,7 @@ plugin to parse the `gerrit.config` file on its own:
 @Inject
 private com.google.gerrit.server.config.PluginConfigFactory cfg;
 
-...
+[...]
 
 String language = cfg.get("helloworld")
                      .getString("language", "English");
@@ -503,7 +504,7 @@ is no need for a plugin to parse the `project.config` file on its own:
 @Inject
 private com.google.gerrit.server.config.PluginConfigFactory cfg;
 
-...
+[...]
 
 boolean enabled = cfg.get(project, "helloworld")
                      .getBoolean("enabled", false);
@@ -517,7 +518,7 @@ from the parent projects:
 @Inject
 private com.google.gerrit.server.config.PluginConfigFactory cfg;
 
-...
+[...]
 
 boolean enabled = cfg.getWithInheritance(project, "helloworld")
                      .getBoolean("enabled", false);
@@ -554,7 +555,7 @@ use auto-registration by providing an `@Export` annotation:
 ----
 @Export("printHello")
 public class PrintHelloCapability extends CapabilityDefinition {
-  ...
+  [...]
 }
 ----
 
@@ -581,7 +582,7 @@ this capability in the usual way, using the `RequiresCapability` annotation:
 @RequiresCapability("printHello")
 @CommandMetaData(name="print", description="Print greeting in different languages")
 public final class PrintHelloWorldCommand extends SshCommand {
-  ...
+  [...]
 }
 ----
 
@@ -592,7 +593,7 @@ Or with `UiAction`:
 @RequiresCapability("printHello")
 public class SayHelloAction extends UiAction<RevisionResource>
   implements RestModifyView<RevisionResource, SayHelloAction.Input> {
-  ...
+  [...]
 }
 ----
 
@@ -614,7 +615,7 @@ this can be specified by setting `scope = CapabilityScope.CORE`:
 ----
 @RequiresCapability(value = "administrateServer", scope =
     CapabilityScope.CORE)
-  ...
+  [...]
 ----
 
 [[ui_extension]]
@@ -692,7 +693,7 @@ the +refs/meta/config+ of the project or any parents needs to change to a new
 SHA-1. The ETag SHA-1 computation code can be found in the
 `ChangeResource.getETag()` method.
 
-The easiest way to accompilsh it is to update `lastUpdatedOn` of the change:
+The easiest way to accompilsh this is to update `lastUpdatedOn` of the change:
 
 [source,java]
 ----
@@ -717,6 +718,7 @@ public Object apply(RevisionResource rcrs, Input in) {
   } finally {
     db.rollback();
   }
+  [...]
 }
 ----
 
@@ -930,7 +932,7 @@ auto-registration by providing an `@Listen` annotation:
 ----
 @Listen
 public class MyTopMenuExtension implements TopMenu {
-  ...
+  [...]
 }
 ----
 

@@ -14,9 +14,6 @@
 
 package com.google.gwtexpui.clippy.client;
 
-import static com.google.gwt.dom.client.Style.Visibility.HIDDEN;
-import static com.google.gwt.dom.client.Style.Visibility.VISIBLE;
-
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -24,7 +21,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
@@ -37,8 +33,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
-import com.google.gwtexpui.user.client.DialogVisibleEvent;
-import com.google.gwtexpui.user.client.DialogVisibleHandler;
 import com.google.gwtexpui.user.client.UserAgent;
 
 /**
@@ -76,7 +70,6 @@ public class CopyableLabel extends Composite implements HasText {
   private Label textLabel;
   private TextBox textBox;
   private Element swf;
-  private HandlerRegistration hideHandler;
 
   public CopyableLabel() {
     this("");
@@ -162,27 +155,6 @@ public class CopyableLabel extends Composite implements HasText {
         getElement().removeChild(swf);
       }
       DOM.appendChild(getElement(), swf = SafeHtml.parse(h));
-      initHideHandler();
-    }
-  }
-
-  private void initHideHandler() {
-    if (hideHandler == null && swf != null && isAttached()) {
-      hideHandler =
-          UserAgent.addDialogVisibleHandler(new DialogVisibleHandler() {
-            @Override
-            public void onDialogVisible(DialogVisibleEvent event) {
-              if (event.contains(CopyableLabel.this)) {
-                if (event.isVisible()) {
-                  swf.getStyle().setVisibility(VISIBLE);
-                }
-              } else {
-                swf.getStyle().setVisibility(event.isVisible()
-                    ? HIDDEN
-                    : VISIBLE);
-              }
-            }
-          });
     }
   }
 
@@ -202,19 +174,6 @@ public class CopyableLabel extends Composite implements HasText {
       textBox.selectAll();
     }
     embedMovie();
-  }
-
-  @Override
-  protected void onLoad() {
-    initHideHandler();
-  }
-
-  @Override
-  protected void onUnload() {
-    if (hideHandler != null) {
-      hideHandler.removeHandler();
-      hideHandler = null;
-    }
   }
 
   private void showTextBox() {

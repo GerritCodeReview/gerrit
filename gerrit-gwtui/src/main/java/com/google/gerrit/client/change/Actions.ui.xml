@@ -66,6 +66,13 @@ limitations under the License.
       background-image: -webkit-linear-gradient(top, #4d90fe, #4d90fe);
     }
     #change_actions button.submit div {color: #fff;}
+
+    #change_actions button:disabled {
+      font-weight: normal;
+      background-color: #999;
+      background-image: -webkit-linear-gradient(top, #999, #999);
+    }
+
   </ui:style>
 
   <g:FlowPanel>

@@ -473,6 +473,11 @@ public class SideBySide2 extends Screen {
 
   private void render(DiffInfo diff) {
     JsArray<Region> regions = diff.content();
+    if (!(regions.length() == 0 ||
+        regions.length() == 1 && regions.get(0).ab() != null)) {
+      header.removeNoDiff();
+    }
+
     String diffColor = diff.meta_a() == null || diff.meta_b() == null
         ? DiffTable.style.intralineBg()
         : DiffTable.style.diff();

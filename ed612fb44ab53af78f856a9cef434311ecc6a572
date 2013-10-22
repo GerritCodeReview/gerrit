@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dec7c862_d6d3a44b",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-22T01:19:39Z",
+      "side": 1,
+      "message": "This causes a findbugs warning:\n\n Incorrect lazy initialization of static field.\n\nThe variable should be declared as volatile at line 303, like the declaration of `myArchive` above it.",
+      "revId": "ed612fb44ab53af78f856a9cef434311ecc6a572",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

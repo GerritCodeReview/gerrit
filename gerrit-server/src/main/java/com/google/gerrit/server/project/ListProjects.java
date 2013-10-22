@@ -271,6 +271,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
               info.name = parentState.getProject().getName();
               info.description = Strings.emptyToNull(
                   parentState.getProject().getDescription());
+              info.state = parentState.getProject().getState();
             } else {
               rejected.add(parentState.getProject().getName());
               continue;
@@ -312,6 +313,8 @@ public class ListProjects implements RestReadView<TopLevelResource> {
           if (showDescription) {
             info.description = Strings.emptyToNull(e.getProject().getDescription());
           }
+
+          info.state = e.getProject().getState();
 
           try {
             if (!showBranch.isEmpty()) {

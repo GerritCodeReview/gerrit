@@ -57,4 +57,7 @@ public interface GerritResources extends ClientBundle {
 
   @Source("draftComments.png")
   public ImageResource draftComments();
+
+  @Source("readOnly.png")
+  public ImageResource readOnly();
 }

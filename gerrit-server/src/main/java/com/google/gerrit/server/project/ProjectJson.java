@@ -41,6 +41,7 @@ public class ProjectJson {
     Project.NameKey parentName = p.getParent(allProjects);
     info.parent = parentName != null ? parentName.get() : null;
     info.description = Strings.emptyToNull(p.getDescription());
+    info.state = p.getState();
     info.finish();
     return info;
   }
@@ -51,6 +52,7 @@ public class ProjectJson {
     public String name;
     public String parent;
     public String description;
+    public Project.State state;
     public Map<String, String> branches;
 
     void finish() {

@@ -37,6 +37,7 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 
@@ -131,6 +132,23 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
 
       @Override
       protected void populate(final int row, final ProjectInfo k) {
+        Image state = new Image();
+        switch (k.state()) {
+          case HIDDEN:
+            state.setResource(Gerrit.RESOURCES.redNot());
+            state.setTitle(Util.toLongString(k.state()));
+            table.setWidget(row, ProjectsTable.C_STATE, state);
+            break;
+          case READ_ONLY:
+            state.setResource(Gerrit.RESOURCES.readOnly());
+            state.setTitle(Util.toLongString(k.state()));
+            table.setWidget(row, ProjectsTable.C_STATE, state);
+            break;
+          default:
+            // Intentionally left blank, do not show an icon when active.
+            break;
+        }
+
         FlowPanel fp = new FlowPanel();
         fp.add(new ProjectSearchLink(k.name_key()));
         fp.add(new HighlightingInlineHyperlink(k.name(), link(k), subname));

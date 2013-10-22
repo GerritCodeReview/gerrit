@@ -25,9 +25,10 @@ import java.util.Comparator;
 import java.util.List;
 
 public class ProjectsTable extends NavigationTable<ProjectInfo> {
-  public static final int C_NAME = 1;
-  public static final int C_DESCRIPTION = 2;
-  public static final int C_REPO_BROWSER = 3;
+  public static final int C_STATE = 1;
+  public static final int C_NAME = 2;
+  public static final int C_DESCRIPTION = 3;
+  public static final int C_REPO_BROWSER = 4;
 
   public ProjectsTable() {
     super(Util.C.projectItemHelp());
@@ -35,10 +36,14 @@ public class ProjectsTable extends NavigationTable<ProjectInfo> {
   }
 
   protected void initColumnHeaders() {
+    table.setText(0, C_STATE, Util.C.projectStateAbbrev());
+    table.getCellFormatter().getElement(0, C_STATE)
+        .setTitle(Util.C.projectStateHelp());
     table.setText(0, C_NAME, Util.C.projectName());
     table.setText(0, C_DESCRIPTION, Util.C.projectDescription());
 
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
+    fmt.addStyleName(0, C_STATE, Gerrit.RESOURCES.css().iconHeader());
     fmt.addStyleName(0, C_NAME, Gerrit.RESOURCES.css().dataHeader());
     fmt.addStyleName(0, C_DESCRIPTION, Gerrit.RESOURCES.css().dataHeader());
   }
@@ -78,6 +83,7 @@ public class ProjectsTable extends NavigationTable<ProjectInfo> {
     applyDataRowStyle(row);
 
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
+    fmt.addStyleName(row, C_STATE, Gerrit.RESOURCES.css().iconCell());
     fmt.addStyleName(row, C_NAME, Gerrit.RESOURCES.css().dataCell());
     fmt.addStyleName(row, C_NAME, Gerrit.RESOURCES.css().projectNameColumn());
     fmt.addStyleName(row, C_DESCRIPTION, Gerrit.RESOURCES.css().dataCell());
@@ -86,6 +92,7 @@ public class ProjectsTable extends NavigationTable<ProjectInfo> {
   }
 
   protected void populate(final int row, final ProjectInfo k) {
+    table.setText(row, C_STATE, k.state().toString());
     table.setText(row, C_NAME, k.name());
     table.setText(row, C_DESCRIPTION, k.description());
 

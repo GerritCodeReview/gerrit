@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dec7c862_36c4d883",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/CredentialsVerifier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-22T03:19:59Z",
+      "side": 1,
+      "message": "How can the credentials be \"valid\" if the user does not exist?",
+      "revId": "2857a785a2e6ed3bb13daa434330be1d7a97869b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dec7c862_56b9540a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/InternalPasswordCredentialsVerifier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-22T03:19:59Z",
+      "side": 1,
+      "message": "2013",
+      "revId": "2857a785a2e6ed3bb13daa434330be1d7a97869b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dec7c862_76be50f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/InternalUserBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-22T03:19:59Z",
+      "side": 1,
+      "message": "2013",
+      "revId": "2857a785a2e6ed3bb13daa434330be1d7a97869b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dec7c862_96b20c26",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/PasswordCredentialsVerifier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-22T03:19:59Z",
+      "side": 1,
+      "message": "2013",
+      "revId": "2857a785a2e6ed3bb13daa434330be1d7a97869b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dec7c862_b6af08bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/PasswordCredentialsVerifier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-22T03:19:59Z",
+      "side": 1,
+      "message": "s/Lookups/Looks up",
+      "revId": "2857a785a2e6ed3bb13daa434330be1d7a97869b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

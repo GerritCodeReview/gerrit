@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "bec4d461_35dbf06a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-22T01:21:10Z",
+      "side": 1,
+      "message": "\"Document how a plugin can force state update of UiAction\"",
+      "revId": "2aed64ed5ace3b53bb8bafbda55e09334c4084e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dec7c862_d67ac473",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 1

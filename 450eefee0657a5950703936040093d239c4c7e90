@@ -16,6 +16,24 @@
       "revId": "450eefee0657a5950703936040093d239c4c7e90",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bec4d461_35c4d083",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-22T12:55:13Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/#/c/51106/",
+      "parentUuid": "5e991882_12d60c44",
+      "revId": "450eefee0657a5950703936040093d239c4c7e90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

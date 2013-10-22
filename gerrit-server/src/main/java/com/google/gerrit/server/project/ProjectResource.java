@@ -41,6 +41,10 @@ public class ProjectResource implements RestResource {
     return control.getProject().getNameKey();
   }
 
+  public Project.State getState() {
+    return control.getProject().getState();
+  }
+
   public ProjectControl getControl() {
     return control;
   }

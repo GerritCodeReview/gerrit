@@ -30,8 +30,9 @@ import com.google.gerrit.sshd.SshDaemon;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import org.apache.mina.core.service.IoAcceptor;
-import org.apache.mina.core.session.IoSession;
+import org.apache.sshd.common.io.IoAcceptor;
+import org.apache.sshd.common.io.IoSession;
+import org.apache.sshd.common.io.mina.MinaSession;
 import org.apache.sshd.server.Environment;
 import org.eclipse.jgit.internal.storage.file.WindowCacheStatAccessor;
 import org.kohsuke.args4j.Option;
@@ -275,8 +276,12 @@ final class ShowCaches extends CacheCommand {
     long now = System.currentTimeMillis();
     Collection<IoSession> list = acceptor.getManagedSessions().values();
     long oldest = now;
+
     for (IoSession s : list) {
-      oldest = Math.min(oldest, s.getCreationTime());
+      if (s instanceof MinaSession) {
+        MinaSession minaSession = (MinaSession)s;
+        oldest = Math.min(oldest, minaSession.getSession().getCreationTime());
+      }
     }
 
     stdout.format(

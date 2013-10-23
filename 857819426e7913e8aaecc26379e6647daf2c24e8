@@ -51,6 +51,24 @@
       "revId": "857819426e7913e8aaecc26379e6647daf2c24e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e16c0dc_782361b5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectsTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-10-23T21:20:07Z",
+      "side": 1,
+      "message": "Agreed.",
+      "parentUuid": "5e1cb8fa_3a140153",
+      "revId": "857819426e7913e8aaecc26379e6647daf2c24e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

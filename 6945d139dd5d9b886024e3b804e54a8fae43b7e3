@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "be2cd42e_9502c41e",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-23T09:01:03Z",
+      "side": 1,
+      "message": "Now it is not 4 any more.",
+      "revId": "6945d139dd5d9b886024e3b804e54a8fae43b7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de2fc81f_56f43402",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/SystemGroupsIT.java",
         "patchSetId": 23

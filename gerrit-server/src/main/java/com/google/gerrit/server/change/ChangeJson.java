@@ -855,7 +855,7 @@ public class ChangeJson {
       }
 
       ChangeControl ctl = control(cd);
-      if (!scheme.isAuthRequired()
+      if (!scheme.isAuthSupported()
           && !ctl.forUser(anonymous).isPatchVisible(in, db.get())) {
         continue;
       }

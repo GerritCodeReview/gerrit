@@ -25,8 +25,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.mina.core.future.IoFuture;
-import org.apache.mina.core.future.IoFutureListener;
+import org.apache.sshd.common.future.CloseFuture;
+import org.apache.sshd.common.future.SshFutureListener;
 import org.apache.sshd.common.KeyPairProvider;
 import org.apache.sshd.common.SshException;
 import org.apache.sshd.common.util.Buffer;
@@ -178,12 +178,13 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
         sshScope.set(old);
       }
 
-      session.getIoSession().getCloseFuture().addListener(
-          new IoFutureListener<IoFuture>() {
+      GerritServerSession s = (GerritServerSession)session;
+      s.addCloseSessionListener(
+          new SshFutureListener<CloseFuture>() {
             @Override
-            public void operationComplete(IoFuture future) {
-              final Context ctx = sshScope.newContext(null, sd, null);
-              final Context old = sshScope.set(ctx);
+            public void operationComplete(CloseFuture future) {
+              Context ctx = sshScope.newContext(null, sd, null);
+              Context old = sshScope.set(ctx);
               try {
                 sshLog.onLogout();
               } finally {

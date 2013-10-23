@@ -15,7 +15,6 @@
 package com.google.gerrit.sshd;
 
 import static com.google.gerrit.server.ssh.SshAddressesModule.IANA_SSH_PORT;
-
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -35,20 +34,17 @@ import com.google.inject.Singleton;
 import com.jcraft.jsch.HostKey;
 import com.jcraft.jsch.JSchException;
 
-import org.apache.mina.core.future.IoFuture;
-import org.apache.mina.core.future.IoFutureListener;
-import org.apache.mina.core.service.IoAcceptor;
-import org.apache.mina.core.session.IoSession;
-import org.apache.mina.transport.socket.SocketSessionConfig;
 import org.apache.sshd.SshServer;
 import org.apache.sshd.common.Channel;
 import org.apache.sshd.common.Cipher;
 import org.apache.sshd.common.Compression;
+import org.apache.sshd.common.ForwardingFilter;
 import org.apache.sshd.common.KeyExchange;
 import org.apache.sshd.common.KeyPairProvider;
 import org.apache.sshd.common.NamedFactory;
 import org.apache.sshd.common.Session;
 import org.apache.sshd.common.Signature;
+import org.apache.sshd.common.SshdSocketAddress;
 import org.apache.sshd.common.cipher.AES128CBC;
 import org.apache.sshd.common.cipher.AES192CBC;
 import org.apache.sshd.common.cipher.AES256CBC;
@@ -56,6 +52,15 @@ import org.apache.sshd.common.cipher.BlowfishCBC;
 import org.apache.sshd.common.cipher.CipherNone;
 import org.apache.sshd.common.cipher.TripleDESCBC;
 import org.apache.sshd.common.compression.CompressionNone;
+import org.apache.sshd.common.file.FileSystemFactory;
+import org.apache.sshd.common.file.FileSystemView;
+import org.apache.sshd.common.file.SshFile;
+import org.apache.sshd.common.forward.DefaultTcpipForwarderFactory;
+import org.apache.sshd.common.forward.TcpipServerChannel;
+import org.apache.sshd.common.future.CloseFuture;
+import org.apache.sshd.common.future.SshFutureListener;
+import org.apache.sshd.common.io.IoAcceptor;
+import org.apache.sshd.common.io.IoSession;
 import org.apache.sshd.common.mac.HMACMD5;
 import org.apache.sshd.common.mac.HMACMD596;
 import org.apache.sshd.common.mac.HMACSHA1;
@@ -63,26 +68,21 @@ import org.apache.sshd.common.mac.HMACSHA196;
 import org.apache.sshd.common.random.BouncyCastleRandom;
 import org.apache.sshd.common.random.JceRandom;
 import org.apache.sshd.common.random.SingletonRandomFactory;
+import org.apache.sshd.common.session.AbstractSession;
 import org.apache.sshd.common.signature.SignatureDSA;
 import org.apache.sshd.common.signature.SignatureRSA;
 import org.apache.sshd.common.util.Buffer;
 import org.apache.sshd.common.util.SecurityUtils;
 import org.apache.sshd.server.Command;
 import org.apache.sshd.server.CommandFactory;
-import org.apache.sshd.server.FileSystemFactory;
-import org.apache.sshd.server.FileSystemView;
-import org.apache.sshd.server.ForwardingFilter;
 import org.apache.sshd.server.PublickeyAuthenticator;
-import org.apache.sshd.server.SshFile;
 import org.apache.sshd.server.UserAuth;
 import org.apache.sshd.server.auth.UserAuthPublicKey;
 import org.apache.sshd.server.auth.gss.GSSAuthenticator;
 import org.apache.sshd.server.auth.gss.UserAuthGSS;
-import org.apache.sshd.server.channel.ChannelDirectTcpip;
 import org.apache.sshd.server.channel.ChannelSession;
 import org.apache.sshd.server.kex.DHG1;
 import org.apache.sshd.server.kex.DHG14;
-import org.apache.sshd.server.session.ServerSession;
 import org.apache.sshd.server.session.SessionFactory;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
@@ -91,7 +91,6 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.net.UnknownHostException;
 import java.security.InvalidKeyException;
@@ -128,7 +127,6 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
   private final List<SocketAddress> listen;
   private final List<String> advertised;
-  private final boolean keepAlive;
   private final List<HostKey> hostKeys;
   private volatile IoAcceptor acceptor;
 
@@ -144,8 +142,6 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
     this.listen = listen;
     this.advertised = advertised;
-    reuseAddress = cfg.getBoolean("sshd", "reuseaddress", true);
-    keepAlive = cfg.getBoolean("sshd", "tcpkeepalive", true);
 
     getProperties().put(SERVER_IDENTIFICATION,
         "GerritCodeReview_" + Version.getVersion() //
@@ -161,12 +157,6 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
     long idleTimeoutSeconds = ConfigUtil.getTimeUnit(cfg, "sshd", null,
         "idleTimeout", 0, SECONDS);
-    if (idleTimeoutSeconds == 0) {
-      // Since Apache SSHD does not allow to turn off closing idle connections,
-      // we fake it by using the highest timeout allowed by Apache SSHD, which
-      // amounts to ~24 days.
-      idleTimeoutSeconds = MILLISECONDS.toSeconds(Integer.MAX_VALUE);
-    }
     getProperties().put(
         IDLE_TIMEOUT,
         String.valueOf(SECONDS.toMillis(idleTimeoutSeconds)));
@@ -192,7 +182,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     initMacs(cfg);
     initSignatures();
     initChannels();
-    initForwardingFilter();
+    initForwarding();
     initFileSystemFactory();
     initSubsystems();
     initCompression();
@@ -202,30 +192,31 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     setShellFactory(noShell);
     setSessionFactory(new SessionFactory() {
       @Override
-      protected ServerSession createSession(final IoSession io)
+      protected AbstractSession createSession(final IoSession io)
           throws Exception {
-        if (io.getConfig() instanceof SocketSessionConfig) {
-          final SocketSessionConfig c = (SocketSessionConfig) io.getConfig();
-          c.setKeepAlive(keepAlive);
-        }
-
-        final ServerSession s = (ServerSession) super.createSession(io);
-        final int id = idGenerator.next();
-        final SocketAddress peer = io.getRemoteAddress();
+        GerritServerSession s = (GerritServerSession)super.createSession(io);
+        int id = idGenerator.next();
+        SocketAddress peer = io.getRemoteAddress();
         final SshSession sd = new SshSession(id, peer);
         s.setAttribute(SshSession.KEY, sd);
 
         // Log a session close without authentication as a failure.
         //
-        io.getCloseFuture().addListener(new IoFutureListener<IoFuture>() {
+        s.getCloseFuture().addListener(new SshFutureListener<CloseFuture>() {
           @Override
-          public void operationComplete(IoFuture future) {
+          public void operationComplete(CloseFuture future) {
             if (sd.isAuthenticationError()) {
               sshLog.onAuthFail(sd);
             }
           }
         });
         return s;
+      }
+
+      @Override
+      protected AbstractSession doCreateSession(IoSession ioSession)
+          throws Exception {
+        return new GerritServerSession(server, ioSession);
       }
     });
 
@@ -245,13 +236,11 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   public synchronized void start() {
     if (acceptor == null && !listen.isEmpty()) {
       checkConfig();
-
+      if (sessionFactory == null) {
+        sessionFactory = createSessionFactory();
+      }
+      sessionFactory.setServer(this);
       acceptor = createAcceptor();
-      configure(acceptor);
-
-      final SessionFactory handler = getSessionFactory();
-      handler.setServer(this);
-      acceptor.setHandler(handler);
 
       try {
         acceptor.bind(listen);
@@ -259,7 +248,8 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         throw new IllegalStateException("Cannot bind to " + addressList(), e);
       }
 
-      log.info("Started Gerrit SSHD on " + addressList());
+      log.info(String.format("Started Gerrit %s on %s",
+          version, addressList()));
     }
   }
 
@@ -473,7 +463,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   private void initChannels() {
     setChannelFactories(Arrays.<NamedFactory<Channel>> asList(
         new ChannelSession.Factory(), //
-        new ChannelDirectTcpip.Factory() //
+        new TcpipServerChannel.DirectTcpipFactory() //
         ));
   }
 
@@ -514,28 +504,25 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     setPublickeyAuthenticator(pubkey);
   }
 
-  private void initForwardingFilter() {
-    setForwardingFilter(new ForwardingFilter() {
-      @Override
-      public boolean canForwardAgent(ServerSession session) {
-        return false;
+  private void initForwarding() {
+    setTcpipForwardingFilter(new ForwardingFilter() {
+      public boolean canForwardAgent(Session session) {
+          return false;
       }
 
-      @Override
-      public boolean canForwardX11(ServerSession session) {
-        return false;
+      public boolean canForwardX11(Session session) {
+          return false;
       }
 
-      @Override
-      public boolean canConnect(InetSocketAddress address, ServerSession session) {
-        return false;
+      public boolean canListen(SshdSocketAddress address, Session session) {
+          return false;
       }
 
-      @Override
-      public boolean canListen(InetSocketAddress address, ServerSession session) {
-        return false;
+      public boolean canConnect(SshdSocketAddress address, Session session) {
+          return false;
       }
     });
+    setTcpipForwarderFactory(new DefaultTcpipForwarderFactory());
   }
 
   private void initFileSystemFactory() {

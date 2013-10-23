@@ -32,8 +32,8 @@ import com.google.gerrit.sshd.SshDaemon;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import org.apache.mina.core.service.IoAcceptor;
-import org.apache.mina.core.session.IoSession;
+import org.apache.sshd.common.io.IoAcceptor;
+import org.apache.sshd.common.io.IoSession;
 import org.apache.sshd.server.Environment;
 import org.eclipse.jgit.internal.storage.file.WindowCacheStatAccessor;
 import org.kohsuke.args4j.Option;
@@ -274,9 +274,11 @@ final class ShowCaches extends CacheCommand {
     long now = TimeUtil.nowMs();
     Collection<IoSession> list = acceptor.getManagedSessions().values();
     long oldest = now;
-    for (IoSession s : list) {
-      oldest = Math.min(oldest, s.getCreationTime());
-    }
+    // TODO(davido): no attributes getCreationTime()
+    // as of SSHD 0.9.0
+//    for (IoSession s : list) {
+//      oldest = Math.min(oldest, s.getCreationTime());
+//    }
 
     stdout.format(
         "SSH:   %4d  users, oldest session started %s ago\n",

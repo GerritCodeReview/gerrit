@@ -855,7 +855,8 @@ public class ChangeJson {
       }
 
       ChangeControl ctl = control(cd);
-      if (!scheme.isAuthRequired()
+      // TODO(dborowitz/jrn): Change to !scheme.isAuthSupported().
+      if ("git".equals(schemeName)
           && !ctl.forUser(anonymous).isPatchVisible(in, db.get())) {
         continue;
       }

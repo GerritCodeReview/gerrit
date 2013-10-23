@@ -158,6 +158,24 @@
     },
     {
       "key": {
+        "uuid": "1e16c0dc_983bd5dc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectsTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2013-10-23T20:30:39Z",
+      "side": 1,
+      "message": "Yes I believe the C_ indicated Column, not Change.  https://gerrit.googlesource.com/gerrit/+/master/gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchTable.java does a similar C_ format.\n\nTo be consistent, I\u0027d do that.\n\ngetters are typically better OO design, but for static final data I typically use direct access.  I don\u0027t see any examples in Gerrit right off, but I don\u0027t see any getters for private static final variables either (I\u0027m on a laptop without a gerrit sandbox, so I\u0027m just browsing the code online).  I suspect Effective Java might discuss this as well.",
+      "parentUuid": "5e1cb8fa_ba07b12d",
+      "revId": "5c8fbfb6006c3e62e5c0d252f9cba4cca6dff09a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e16c0dc_9802f51e",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectsTable.java",
         "patchSetId": 2

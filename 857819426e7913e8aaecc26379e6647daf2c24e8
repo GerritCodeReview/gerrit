@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e16c0dc_b8401947",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectsTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011812
+      },
+      "writtenOn": "2013-10-23T21:10:17Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is the best name for this field, C_PROJECT_REPO_BROWSER is another option, since this matches the name of the constant which is used to set the heading.  I\u0027m open to suggestions.",
+      "revId": "857819426e7913e8aaecc26379e6647daf2c24e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

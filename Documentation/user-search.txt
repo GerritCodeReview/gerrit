@@ -319,8 +319,8 @@ Labels
 ------
 Label operators can be used to match approval scores given during
 a code review.  The specific set of supported labels depends on
-the server configuration, however `Code-Review` and `Verified`
-are the default labels provided out of the box.
+the server configuration, however the `Code-Review` label is provided
+out of the box.
 
 A label name is any of the following:
 

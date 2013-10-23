@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de2fc81f_76f13011",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/GarbageCollectionIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-23T08:22:43Z",
+      "side": 1,
+      "message": "[optionally] extend SSH based acceptance test too:\n\n acceptance/ssh/GarbageCollectionIT.java",
+      "revId": "97d3e881b531b83e88a890f8389a3fff4dc0c982",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

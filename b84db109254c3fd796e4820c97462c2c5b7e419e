@@ -46,6 +46,30 @@
       "revId": "b84db109254c3fd796e4820c97462c2c5b7e419e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de2fc81f_f60d404f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/config/DownloadScheme.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-23T19:12:07Z",
+      "side": 1,
+      "message": "Returning isAuthRequired by default sounds gold to me.",
+      "parentUuid": "9ee2b019_4c1a5f83",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 16
+      },
+      "revId": "b84db109254c3fd796e4820c97462c2c5b7e419e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

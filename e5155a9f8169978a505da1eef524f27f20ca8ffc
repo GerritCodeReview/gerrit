@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de2fc81f_f6e46059",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/CapabilitiesIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-23T07:09:06Z",
+      "side": 1,
+      "message": "Given that the content is:\n\n  )]}\u0027\n {\n   \"runGC\": true\n }\n\ncouldn\u0027t we do that check in a smarter way, with something like:\n\n  CapabilityCheckInfo check \u003d\n    (new Gson()).fromJson(r.getReader(),\n        new TypeToken\u003cCapabilityCheckInfo\u003e() {}.getType());\n\nAnd defined CapabilityCheckInfo corespondingl?",
+      "revId": "e5155a9f8169978a505da1eef524f27f20ca8ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

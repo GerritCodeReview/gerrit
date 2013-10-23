@@ -326,9 +326,6 @@ A label name is any of the following:
 
 * The label name.  Example: `label:Code-Review`.
 
-* The one or two character abbreviation shown in the column header
-  of change list pages.  Example: `label:R` or `label:V`.
-
 * The label name followed by a ',' followed by a reviewer id or a
   group id.  To make it clear whether a user or group is being looked
   for, precede the value by a user or group argument identifier

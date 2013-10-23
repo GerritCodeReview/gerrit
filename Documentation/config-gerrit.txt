@@ -2507,6 +2507,13 @@ namespace. To alias `replication start` to `gerrit replicate`:
 [[sshd]] Section sshd
 ~~~~~~~~~~~~~~~~~~~~~
 
+[[sshd.backend]]sshd.backend::
++
+Starting from version 0.9.0 Apache SSHD project added support for NIO2
+IoSession. To use the new NIO2 session `backend` option must be set to NIO2.
++
+By default, MINA.
+
 [[sshd.listenAddress]]sshd.listenAddress::
 +
 Specifies the local addresses the internal SSHD should listen
@@ -2545,19 +2552,11 @@ of them.
 +
 By default, sshd.listenAddress.
 
-[[sshd.reuseAddress]]sshd.reuseAddress::
-+
-If true, permits the daemon to bind to the port even if the port
-is already in use.  If false, the daemon ensures the port is not
-in use before starting.  Busy sites may need to set this to true
-to permit fast restarts.
-+
-By default, true.
-
-[[sshd.tcpKeepAlive]]sshd.tcpKeepAlive::
-+
-If true, enables TCP keepalive messages to the other side, so
+[[sshd.tcpKeepAlive]]sshd.tcpKeepAlive::		
++		
+If true, enables TCP keepalive messages to the other side, so	
 the daemon can terminate connections if the peer disappears.
+Has only effect for Mina backend.
 +
 By default, true.
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fef3ace7_0f144552",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/config/DownloadScheme.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-10-23T18:44:14Z",
+      "side": 1,
+      "message": "If this default implementation were to do\n\n  return isAuthRequired();\n\nthen there would be no need to update the git and anonymous HTTP download plugins.\n\nAlternatively it could be an abstract method so plugin authors would notice the change and make an explicit choice. Would that be an ok compatibility break?",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 16
+      },
+      "revId": "b84db109254c3fd796e4820c97462c2c5b7e419e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

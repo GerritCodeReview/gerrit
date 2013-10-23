@@ -22,6 +22,30 @@
       "revId": "b84db109254c3fd796e4820c97462c2c5b7e419e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ee2b019_4c1a5f83",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/config/DownloadScheme.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-10-23T18:51:11Z",
+      "side": 1,
+      "message": "My inclination is to return isAuthRequired() but I\u0027ll defer to other reviewers.",
+      "parentUuid": "fef3ace7_0f144552",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 16
+      },
+      "revId": "b84db109254c3fd796e4820c97462c2c5b7e419e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

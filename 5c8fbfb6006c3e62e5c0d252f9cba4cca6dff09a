@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e1cb8fa_1afedde0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2013-10-23T19:59:50Z",
+      "side": 1,
+      "message": "This seems fairly fragile/dangerous.  If the enum names/options change on the back end we won\u0027t get any compiler warning or error here, it just won\u0027t work at runtime.  I believe there is a way to unpack REST data back to an enum, I\u0027d recommend looking into that.  I think I might have done something similar for some plugin REST data at some point...?",
+      "revId": "5c8fbfb6006c3e62e5c0d252f9cba4cca6dff09a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e16c0dc_d8086d42",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2013-10-23T19:59:50Z",
+      "side": 1,
+      "message": "Technically, these strings should be resources so they can be translated",
+      "revId": "5c8fbfb6006c3e62e5c0d252f9cba4cca6dff09a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e16c0dc_38fba9f1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2013-10-23T19:59:50Z",
+      "side": 1,
+      "message": "I\u0027m not sure why you set state to a new image here rather than just setting the resource like you did for the hidden case?",
+      "revId": "5c8fbfb6006c3e62e5c0d252f9cba4cca6dff09a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e1cb8fa_3afba1f1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2013-10-23T19:59:50Z",
+      "side": 1,
+      "message": "Same comment here.",
+      "revId": "5c8fbfb6006c3e62e5c0d252f9cba4cca6dff09a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e1cb8fa_da086542",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2013-10-23T19:59:50Z",
+      "side": 1,
+      "message": "I mentioned this on the previous file - I wonder if there is a better option than returning a String here?",
+      "revId": "5c8fbfb6006c3e62e5c0d252f9cba4cca6dff09a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e16c0dc_f80d314f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectsTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2013-10-23T19:59:50Z",
+      "side": 1,
+      "message": "I\u0027m not sure what the \u0027P_\u0027 prefix is for?  I don\u0027t believe we do this elsewhere in Gerrit... but we might use COL_ or similar.  I would also make them public...",
+      "revId": "5c8fbfb6006c3e62e5c0d252f9cba4cca6dff09a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e16c0dc_9802f51e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectsTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2013-10-23T19:59:50Z",
+      "side": 1,
+      "message": "... and then get rid of these getters.  (getp*?  not sure what the \u0027p\u0027 is for).  It is generally fine to directly access public static final variables without getters.\n\nAlso - if it were me, I\u0027d make the column variable name change in a separate patch and submit it before adding the column for icons.  It is a little more clear that way, both patches make sense and stand on their own, and it gets you one more commit in the git logs.",
+      "revId": "5c8fbfb6006c3e62e5c0d252f9cba4cca6dff09a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e1cb8fa_9a02ed1e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/UIConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2013-10-23T19:59:50Z",
+      "side": 1,
+      "message": "Are these used anywhere?\n\nAlso, this is where the tooltip help strings should go.",
+      "revId": "5c8fbfb6006c3e62e5c0d252f9cba4cca6dff09a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e16c0dc_b807b92d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2013-10-23T19:59:50Z",
+      "side": 1,
+      "message": "I believe emptyToNull() is unnecessary - an enum.toString() shouldn\u0027t return empty.",
+      "revId": "5c8fbfb6006c3e62e5c0d252f9cba4cca6dff09a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e16c0dc_581d3d78",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2013-10-23T19:59:50Z",
+      "side": 1,
+      "message": "I think you can store this as the state enum rather than the String and gson will convert it to the string for you?  It would prevent a lot of toString() calls.",
+      "revId": "5c8fbfb6006c3e62e5c0d252f9cba4cca6dff09a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

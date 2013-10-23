@@ -26,8 +26,8 @@ import com.google.gerrit.sshd.SshDaemon;
 import com.google.gerrit.sshd.SshSession;
 import com.google.inject.Inject;
 
-import org.apache.mina.core.service.IoAcceptor;
-import org.apache.mina.core.session.IoSession;
+import org.apache.sshd.common.io.IoAcceptor;
+import org.apache.sshd.common.io.IoSession;
 import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.session.ServerSession;
 import org.kohsuke.args4j.Option;
@@ -38,8 +38,6 @@ import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -81,17 +79,19 @@ final class ShowConnections extends SshCommand {
 
     final List<IoSession> list =
         new ArrayList<IoSession>(acceptor.getManagedSessions().values());
-    Collections.sort(list, new Comparator<IoSession>() {
-      @Override
-      public int compare(IoSession arg0, IoSession arg1) {
-        if (arg0.getCreationTime() < arg1.getCreationTime()) {
-          return -1;
-        } else if (arg0.getCreationTime() > arg1.getCreationTime()) {
-          return 1;
-        }
-        return (int) (arg0.getId() - arg1.getId());
-      }
-    });
+    // TODO(davido): no attributes getCreationTime()
+    // as of SSHD 0.9.0
+//    Collections.sort(list, new Comparator<IoSession>() {
+//      @Override
+//      public int compare(IoSession arg0, IoSession arg1) {
+//        if (arg0.getCreationTime() < arg1.getCreationTime()) {
+//          return -1;
+//        } else if (arg0.getCreationTime() > arg1.getCreationTime()) {
+//          return 1;
+//        }
+//        return (int) (arg0.getId() - arg1.getId());
+//      }
+//    });
 
     hostNameWidth = wide ? Integer.MAX_VALUE : columns - 9 - 9 - 10 - 32;
 
@@ -104,8 +104,10 @@ final class ShowConnections extends SshCommand {
       SshSession sd = s != null ? s.getAttribute(SshSession.KEY) : null;
 
       final SocketAddress remoteAddress = io.getRemoteAddress();
-      final long start = io.getCreationTime();
-      final long idle = now - io.getLastIoTime();
+      // TODO(davido): no attributes getCreationTime() & getLastIoTime()
+      // as of SSHD 0.9.0
+      final long start = 0;//io.getCreationTime();
+      final long idle = now;// - io.getLastIoTime();
 
       stdout.print(String.format("%8s %8s %8s   %-15.15s %s\n", //
           id(sd), //

@@ -15,7 +15,6 @@
 package com.google.gerrit.sshd;
 
 import static com.google.gerrit.server.ssh.SshAddressesModule.IANA_SSH_PORT;
-
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -44,6 +43,7 @@ import org.apache.sshd.SshServer;
 import org.apache.sshd.common.Channel;
 import org.apache.sshd.common.Cipher;
 import org.apache.sshd.common.Compression;
+import org.apache.sshd.common.ForwardingAcceptorFactory;
 import org.apache.sshd.common.KeyExchange;
 import org.apache.sshd.common.KeyPairProvider;
 import org.apache.sshd.common.NamedFactory;
@@ -56,6 +56,7 @@ import org.apache.sshd.common.cipher.BlowfishCBC;
 import org.apache.sshd.common.cipher.CipherNone;
 import org.apache.sshd.common.cipher.TripleDESCBC;
 import org.apache.sshd.common.compression.CompressionNone;
+import org.apache.sshd.common.forward.DefaultForwardingAcceptorFactory;
 import org.apache.sshd.common.mac.HMACMD5;
 import org.apache.sshd.common.mac.HMACMD596;
 import org.apache.sshd.common.mac.HMACSHA1;
@@ -161,12 +162,6 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
     long idleTimeoutSeconds = ConfigUtil.getTimeUnit(cfg, "sshd", null,
         "idleTimeout", 0, SECONDS);
-    if (idleTimeoutSeconds == 0) {
-      // Since Apache SSHD does not allow to turn off closing idle connections,
-      // we fake it by using the highest timeout allowed by Apache SSHD, which
-      // amounts to ~24 days.
-      idleTimeoutSeconds = MILLISECONDS.toSeconds(Integer.MAX_VALUE);
-    }
     getProperties().put(
         IDLE_TIMEOUT,
         String.valueOf(SECONDS.toMillis(idleTimeoutSeconds)));
@@ -192,7 +187,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     initMacs(cfg);
     initSignatures();
     initChannels();
-    initForwardingFilter();
+    initForwarding();
     initFileSystemFactory();
     initSubsystems();
     initCompression();
@@ -514,7 +509,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     setPublickeyAuthenticator(pubkey);
   }
 
-  private void initForwardingFilter() {
+  private void initForwarding() {
     setForwardingFilter(new ForwardingFilter() {
       @Override
       public boolean canForwardAgent(ServerSession session) {
@@ -536,6 +531,9 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         return false;
       }
     });
+    ForwardingAcceptorFactory faf = new DefaultForwardingAcceptorFactory();
+    setTcpipForwardNioSocketAcceptorFactory(faf);
+    setX11ForwardNioSocketAcceptorFactory(faf);
   }
 
   private void initFileSystemFactory() {

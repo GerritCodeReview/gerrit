@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1e16c0dc_38140953",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1011812
+      },
+      "writtenOn": "2013-10-23T20:13:04Z",
+      "side": 1,
+      "message": "I agree, I\u0027ll try to find what you did before, originally I tried to keep state as an enum, but failed.",
+      "parentUuid": "5e1cb8fa_1afedde0",
+      "revId": "5c8fbfb6006c3e62e5c0d252f9cba4cca6dff09a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e16c0dc_d8086d42",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
         "patchSetId": 2
@@ -47,6 +65,24 @@
       "writtenOn": "2013-10-23T19:59:50Z",
       "side": 1,
       "message": "I\u0027m not sure why you set state to a new image here rather than just setting the resource like you did for the hidden case?",
+      "revId": "5c8fbfb6006c3e62e5c0d252f9cba4cca6dff09a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e16c0dc_1817c55a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1011812
+      },
+      "writtenOn": "2013-10-23T20:13:04Z",
+      "side": 1,
+      "message": "That\u0027s a mistake for sure, I\u0027ll fix it. Thanks!",
+      "parentUuid": "1e16c0dc_38fba9f1",
       "revId": "5c8fbfb6006c3e62e5c0d252f9cba4cca6dff09a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -104,6 +140,24 @@
     },
     {
       "key": {
+        "uuid": "5e1cb8fa_ba07b12d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectsTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011812
+      },
+      "writtenOn": "2013-10-23T20:13:04Z",
+      "side": 1,
+      "message": "I was basing the naming off of ChangeTable, which has C_STAR, C_SUBJECT, etc - I assumed that the C was ment to indicate Change, however that could just as easily have been intended to indicate Column.  Would you suggest C_STATE.. or COL_STATE?\nI\u0027m not against changing these to public, I just was under the impression that using getter methods was better object oriented design.",
+      "parentUuid": "1e16c0dc_f80d314f",
+      "revId": "5c8fbfb6006c3e62e5c0d252f9cba4cca6dff09a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e16c0dc_9802f51e",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectsTable.java",
         "patchSetId": 2
@@ -132,6 +186,24 @@
       "writtenOn": "2013-10-23T19:59:50Z",
       "side": 1,
       "message": "Are these used anywhere?\n\nAlso, this is where the tooltip help strings should go.",
+      "revId": "5c8fbfb6006c3e62e5c0d252f9cba4cca6dff09a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e16c0dc_d8314d00",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/UIConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011812
+      },
+      "writtenOn": "2013-10-23T20:13:04Z",
+      "side": 1,
+      "message": "These are used in the headers of the State column (it shows S, then on-hover shows \"State\", in an attempt to remain consistent to the changes table\u0027s behavior for the Verify and Code Review columns.\n\nI agree.",
+      "parentUuid": "5e1cb8fa_9a02ed1e",
       "revId": "5c8fbfb6006c3e62e5c0d252f9cba4cca6dff09a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

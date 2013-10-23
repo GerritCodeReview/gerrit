@@ -19,6 +19,58 @@
     },
     {
       "key": {
+        "uuid": "9ee2b019_ace9c32f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-23T03:05:11Z",
+      "side": 1,
+      "message": "If you expand to show more context you can see that this is added after existing static classes.",
+      "parentUuid": "AAAHSn////E\u003d",
+      "revId": "c136c980a7066696ad38274294a591a84b0fd838",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ee2b019_8cee0734",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-23T03:05:11Z",
+      "side": 1,
+      "message": "Fixed in next patch set:\n\n- Made private.\n- Added dummy serialVersionUID to prevent Eclipse warning.",
+      "revId": "c136c980a7066696ad38274294a591a84b0fd838",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fef3ace7_afe9b92f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-23T03:05:11Z",
+      "side": 1,
+      "message": "Wrapped and used String.format in next patch set.",
+      "revId": "c136c980a7066696ad38274294a591a84b0fd838",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHb3////o\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 6
@@ -30,6 +82,24 @@
       "writtenOn": "2012-07-18T12:02:52Z",
       "side": 1,
       "message": "I think it makes sense to include the message from the exception in the log. This would help Gerrit admin to understand   why the result is invalid. Right now we see the following in the error_log:\n\n [2012-07-18 13:54:44,430] ERROR com.google.gerrit.server.project.ChangeControl : Submit rule :(user,submit_rule) for change 2 of test output invalid result: submit(label(Code-Review,ok(_677A0B4D)))\n\nIn we would pass e.getMessage() to the logInvalidResult and then include it in the log message then it could look like:\n\n [2012-07-18 13:54:44,430] ERROR com.google.gerrit.server.project.ChangeControl : Submit rule :(user,submit_rule) for change 2 of test output invalid result: submit(label(Code-Review,ok(_677A0B4D))). Reason: A label with the status Code-Review: OK must contain a user.\n\nsince there are a lot of places that call logInvalidResult with 2 parameters I would suggest adding another version of this method with 3rd parameter:\n\n   private List\u003cSubmitRecord\u003e logInvalidResult(Term rule, Term record, String reason) {\n    return logRuleError(\"Submit rule \" + rule + \" for change \" + change.getId()\n        + \" of \" + getProject().getName() + \" output invalid result: \" + record\n        + (reason \u003d\u003d null ? \"\" : \". Reason: \" + reason));\n  }\n\nthe 2-parameter version of logInvalidResult should then just call this one with null as the reason.",
+      "revId": "c136c980a7066696ad38274294a591a84b0fd838",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fef3ace7_cfe4fd59",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-23T03:05:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHb3////o\u003d",
       "revId": "c136c980a7066696ad38274294a591a84b0fd838",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

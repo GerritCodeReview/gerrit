@@ -16,6 +16,24 @@
       "revId": "97d3e881b531b83e88a890f8389a3fff4dc0c982",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be2cd42e_751a8883",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/GarbageCollectionIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-23T21:49:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de2fc81f_76f13011",
+      "revId": "97d3e881b531b83e88a890f8389a3fff4dc0c982",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

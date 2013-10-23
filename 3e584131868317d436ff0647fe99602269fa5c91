@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fef3ace7_6f1d1179",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 859,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-10-23T17:52:57Z",
+      "side": 1,
+      "message": "Test is reversed (sorry, my typo). Should be:\n\n if (\"git\".equals(schemeName)",
+      "range": {
+        "startLine": 859,
+        "startChar": 0,
+        "endLine": 859,
+        "endChar": 35
+      },
+      "revId": "3e584131868317d436ff0647fe99602269fa5c91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

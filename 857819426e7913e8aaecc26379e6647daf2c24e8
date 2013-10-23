@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "5e1cb8fa_da314500",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2013-10-23T21:17:03Z",
+      "side": 1,
+      "message": "Need to end this sentence with a period, and remove the extra space between facilitate and easier.  I\u0027d add another sentence that you plan to take advantage of this soon to add an icon column for the project\u0027s hidden/read_only state.",
+      "revId": "857819426e7913e8aaecc26379e6647daf2c24e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e16c0dc_b8401947",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectsTable.java",
         "patchSetId": 1
@@ -13,6 +30,24 @@
       "writtenOn": "2013-10-23T21:10:17Z",
       "side": 1,
       "message": "I\u0027m not sure this is the best name for this field, C_PROJECT_REPO_BROWSER is another option, since this matches the name of the constant which is used to set the heading.  I\u0027m open to suggestions.",
+      "revId": "857819426e7913e8aaecc26379e6647daf2c24e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e1cb8fa_3a140153",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectsTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2013-10-23T21:17:03Z",
+      "side": 1,
+      "message": "+1 for repo browser",
+      "parentUuid": "1e16c0dc_b8401947",
       "revId": "857819426e7913e8aaecc26379e6647daf2c24e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

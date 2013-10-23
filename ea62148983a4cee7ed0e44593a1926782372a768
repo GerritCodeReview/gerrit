@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fef3ace7_cf0d1d50",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-10-23T15:50:03Z",
+      "side": 1,
+      "message": "This line is causing trouble for some of ChromeOS\u0027s automation. Specifically, they are requesting https://foo.googlesource.com/a/changes/q\u003dX\u0026O\u003dCURRENT_REVISION and expecting to receive an https fetch URL (ideally with /a in it).\n\nThis is preventing us from rolling this change on googlesource.com. I would prefer not to revert the whole change; do you have an alternative suggestion?",
+      "range": {
+        "startLine": 858,
+        "startChar": 11,
+        "endLine": 858,
+        "endChar": 32
+      },
+      "revId": "ea62148983a4cee7ed0e44593a1926782372a768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ef97cfd_1b1afb81",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-24T00:54:24Z",
+      "side": 1,
+      "message": "Nit: Line wrapping does not line up with previous paragraph.",
+      "revId": "9a3940a7efe8f1f6997956c1576a1887cae66028",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ef97cfd_3b1d377a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-24T00:54:24Z",
+      "side": 1,
+      "message": "Please wrap long lines.",
+      "revId": "9a3940a7efe8f1f6997956c1576a1887cae66028",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e0838d9_5a147553",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectsTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-24T00:54:24Z",
+      "side": 1,
+      "message": "Do we need \"PROJECT\" in the constant\u0027s name?  It\u0027s not used in the NAME and DESCRIPTION ones.",
+      "revId": "9a3940a7efe8f1f6997956c1576a1887cae66028",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

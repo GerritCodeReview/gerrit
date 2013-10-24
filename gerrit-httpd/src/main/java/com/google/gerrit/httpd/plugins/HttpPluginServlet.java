@@ -78,6 +78,8 @@ class HttpPluginServlet extends HttpServlet
   private static final long serialVersionUID = 1L;
   private static final Logger log
       = LoggerFactory.getLogger(HttpPluginServlet.class);
+  private static final String PLUGINS_PREFIX = "/plugins/";
+  private static final String AUTHORIZED_PREFIX = "/a" + PLUGINS_PREFIX;
 
   private final MimeUtilFileTypeRegistry mimeUtil;
   private final Provider<String> webUrl;
@@ -88,6 +90,7 @@ class HttpPluginServlet extends HttpServlet
 
   private List<Plugin> pending = Lists.newArrayList();
   private String base;
+  private String authorizedBase;
   private final ConcurrentMap<String, PluginHolder> plugins
       = Maps.newConcurrentMap();
 
@@ -126,7 +129,8 @@ class HttpPluginServlet extends HttpServlet
     super.init(config);
 
     String path = config.getServletContext().getContextPath();
-    base = Strings.nullToEmpty(path) + "/plugins/";
+    base = Strings.nullToEmpty(path) + PLUGINS_PREFIX;
+    authorizedBase = Strings.nullToEmpty(path) + AUTHORIZED_PREFIX;
     for (Plugin plugin : pending) {
       install(plugin);
     }
@@ -210,7 +214,8 @@ class HttpPluginServlet extends HttpServlet
       return;
     }
 
-    WrappedRequest wr = new WrappedRequest(req, base + name);
+    WrappedRequest wr = new WrappedRequest(req,
+        (isAuthorizedCall(req) ? authorizedBase : base) + name);
     FilterChain chain = new FilterChain() {
       @Override
       public void doFilter(ServletRequest req, ServletResponse res)
@@ -223,6 +228,16 @@ class HttpPluginServlet extends HttpServlet
     } else {
       chain.doFilter(wr, res);
     }
+  }
+
+  private boolean isAuthorizedCall(HttpServletRequest req) {
+    if (Strings.isNullOrEmpty(req.getServletPath())) {
+      return false;
+    }
+    if (req.getServletPath().startsWith(AUTHORIZED_PREFIX)) {
+      return true;
+    }
+    return false;
   }
 
   private static boolean isApiCall(HttpServletRequest req, List<String> parts) {

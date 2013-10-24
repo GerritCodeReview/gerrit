@@ -197,7 +197,7 @@ public class AuthConfig {
   }
 
   /** Whether git-over-http should use Gerrit basic authentication scheme. */
-  public boolean isGitBasichAuth() {
+  public boolean isGitBasicAuth() {
     return gitBasicAuth;
   }
 

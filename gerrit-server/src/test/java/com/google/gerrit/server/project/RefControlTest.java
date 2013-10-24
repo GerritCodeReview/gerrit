@@ -14,18 +14,22 @@
 
 package com.google.gerrit.server.project;
 
+
 import static com.google.gerrit.common.data.Permission.EDIT_TOPIC_NAME;
 import static com.google.gerrit.common.data.Permission.LABEL;
 import static com.google.gerrit.common.data.Permission.OWNER;
 import static com.google.gerrit.common.data.Permission.PUSH;
 import static com.google.gerrit.common.data.Permission.READ;
 import static com.google.gerrit.common.data.Permission.SUBMIT;
-import static com.google.gerrit.server.project.Util.ANONYMOUS;
-import static com.google.gerrit.server.project.Util.REGISTERED;
+import static com.google.gerrit.reviewdb.client.AccountGroup.PROJECT_OWNERS;
+import static com.google.gerrit.server.git.GitRepositoryManager.REF_CONFIG;
 import static com.google.gerrit.server.project.Util.ADMIN;
+import static com.google.gerrit.server.project.Util.ANONYMOUS;
 import static com.google.gerrit.server.project.Util.DEVS;
-import static com.google.gerrit.server.project.Util.grant;
+import static com.google.gerrit.server.project.Util.REGISTERED;
+import static com.google.gerrit.server.project.Util.SUPER;
 import static com.google.gerrit.server.project.Util.doNotInherit;
+import static com.google.gerrit.server.project.Util.grant;
 
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.PermissionRange;
@@ -131,6 +135,35 @@ public class RefControlTest extends TestCase {
 
     assertFalse("deny refs/heads/foobar", //
         u.controlForRef("refs/heads/foobar").canUpload());
+  }
+
+  public void testInheritRead_DelegatedProjectOwner() {
+    grant(local, OWNER, DEVS, "refs/*");
+
+    doNotInherit(util.getParentConfig(), READ, REF_CONFIG);
+    doNotInherit(util.getParentConfig(), PUSH, REF_CONFIG);
+    grant(util.getParentConfig(), READ, SUPER, REF_CONFIG);
+    grant(util.getParentConfig(), PUSH, SUPER, REF_CONFIG);
+    grant(util.getParentConfig(), READ, PROJECT_OWNERS, REF_CONFIG);
+    grant(util.getParentConfig(), SUBMIT, PROJECT_OWNERS, REF_CONFIG);
+
+    ProjectControl d = util.user(local, DEVS);
+
+    assertTrue("deny refs/meta/config",
+        d.controlForRef(REF_CONFIG).canSubmit());
+
+    assertFalse("deny refs/meta/config",
+        d.controlForRef(REF_CONFIG).canUpdate());
+
+    ProjectControl a = util.user(local, SUPER);
+    assertTrue("can administrate server",
+        a.getCurrentUser().getCapabilities().canAdministrateServer());
+
+    assertTrue("can update refs/meta/config",
+        a.controlForRef(REF_CONFIG).canSubmit());
+
+    assertTrue("can update refs/meta/config",
+        a.controlForRef(REF_CONFIG).canUpdate());
   }
 
   public void testInheritRead_SingleBranchDoesNotOverrideInherited() {

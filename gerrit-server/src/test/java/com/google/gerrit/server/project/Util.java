@@ -17,6 +17,8 @@ package com.google.gerrit.server.project;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
@@ -58,6 +60,7 @@ public class Util {
   public static AccountGroup.UUID REGISTERED = AccountGroup.REGISTERED_USERS;
   public static AccountGroup.UUID ADMIN = new AccountGroup.UUID("test.admin");
   public static AccountGroup.UUID DEVS = new AccountGroup.UUID("test.devs");
+  public static AccountGroup.UUID SUPER = new AccountGroup.UUID("test.superuser");
 
   public static LabelType CR = category("Code-Review",
       value(2, "Looks good to me, approved"),
@@ -96,6 +99,13 @@ public class Util {
     return grant(project, permissionName, newRule(project, group), ref);
   }
 
+  static private void grantSuperuser(ProjectConfig project,
+      AccountGroup.UUID group) {
+    project.getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true)
+        .getPermission(GlobalCapability.ADMINISTRATE_SERVER, true)
+        .add(newRule(project, group));
+  }
+
   static public void doNotInherit(ProjectConfig project, String permissionName,
       String ref) {
     project.getAccessSection(ref, true) //
@@ -123,6 +133,7 @@ public class Util {
     all = new HashMap<Project.NameKey, ProjectState>();
     parent.createInMemory();
     parent.getLabelSections().put(CR.getName(), CR);
+    grantSuperuser(parent, SUPER);
 
     add(parent);
 

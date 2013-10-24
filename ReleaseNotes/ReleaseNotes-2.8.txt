@@ -65,6 +65,26 @@ Buck].
 * Documentation is now built with Buck and link:http://asciidoctor.org[Asciidoctor].
 
 
+Indexing and Search
+~~~~~~~~~~~~~~~~~~~
+
+Gerrit can be configured to use a
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/config-gerrit.html#index[
+secondary index] with Lucene or Solr.
+
+The following search operations are possible when secondary indexing
+is enabled:
+
+* New
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/user-search.html#comment[
+`comment` search operator].
+
+* The link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/user-search.html#file[
+`file` operator] can be used to find changes on the specified file.
+
+* Regular expressions are allowed in `file` searches.
+
+
 Configuration
 ~~~~~~~~~~~~~
 

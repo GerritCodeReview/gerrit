@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be18542d_f5e9182f",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-24T07:43:53Z",
+      "side": 1,
+      "message": "May be we should consequently refer to the gerrit site using $site_path var, as in this file above, for example on line 68:\n\n `\u0027$site_path/etc/gerrit.config\u0027`",
+      "revId": "c6d5d52d535944c0bf5dc6f29c025900c48ba522",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

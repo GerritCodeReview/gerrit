@@ -50,6 +50,24 @@
       "revId": "9a3940a7efe8f1f6997956c1576a1887cae66028",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe064cce_b7084841",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectsTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011812
+      },
+      "writtenOn": "2013-10-24T13:34:10Z",
+      "side": 1,
+      "message": "This was chosen to match Util.C.projectRepoBrowser() in ProjectListScreen. If you prefer without project, I can certainly change it though.",
+      "parentUuid": "5e0838d9_5a147553",
+      "revId": "9a3940a7efe8f1f6997956c1576a1887cae66028",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

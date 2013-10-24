@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be18542d_b5dfa085",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-24T06:30:17Z",
+      "side": 1,
+      "message": "Should we mention, that existing operators, like \"message:\" and friends use secondary index search if it is enabled? That means performance improvement and less resources consumtion.",
+      "revId": "49cfc10f2f4647bf6bdea991c959ed689fe3aa3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

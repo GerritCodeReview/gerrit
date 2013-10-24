@@ -26,6 +26,7 @@ import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
+import com.google.gerrit.server.auth.AuthException;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -75,10 +76,11 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
   @Override
   public final T call() throws NoSuchProjectException, IOException,
       ConfigInvalidException, InvalidNameException, NoSuchGroupException,
-      OrmException {
+      OrmException, AuthException {
     final ProjectControl projectControl =
         projectControlFactory.controlFor(projectName);
 
+    checkPermission(projectControl);
     final MetaDataUpdate md;
     try {
       md = metaDataUpdateFactory.create(projectName);
@@ -138,6 +140,9 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
   protected abstract T updateProjectConfig(ProjectConfig config,
       MetaDataUpdate md) throws IOException, NoSuchProjectException,
       ConfigInvalidException, OrmException;
+
+  protected abstract void checkPermission(ProjectControl ctl)
+      throws AuthException;
 
   private void replace(ProjectConfig config, Set<String> toDelete,
       AccessSection section) throws NoSuchGroupException {

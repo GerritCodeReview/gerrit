@@ -14,11 +14,14 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
+import static com.google.gerrit.server.git.GitRepositoryManager.REF_CONFIG;
+
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.auth.AuthException;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -58,6 +61,14 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
         projectName, base, sectionList, message, true);
     this.projectAccessFactory = projectAccessFactory;
     this.projectCache = projectCache;
+  }
+
+  @Override
+  protected void checkPermission(ProjectControl ctl) throws AuthException {
+    if (!ctl.controlForRef(REF_CONFIG).canUpdate()) {
+      throw new AuthException("You are not allowed to perform this operation."
+          + " To save changes you need 'Push' rights on " + REF_CONFIG + ".");
+    }
   }
 
   @Override

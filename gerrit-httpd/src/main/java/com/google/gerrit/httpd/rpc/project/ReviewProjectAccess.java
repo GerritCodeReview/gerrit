@@ -14,6 +14,8 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
+import static com.google.gerrit.server.git.GitRepositoryManager.REF_CONFIG;
+
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -28,6 +30,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.auth.AuthException;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -87,6 +90,15 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
     this.reviewersProvider = reviewersProvider;
     this.changeFactory = changeFactory;
     this.indexer = indexer;
+  }
+
+  @Override
+  protected void checkPermission(ProjectControl ctl) throws AuthException {
+    if (!ctl.controlForRef(REF_CONFIG).canSubmit()) {
+      throw new AuthException("You are not allowed to perform this operation."
+          + " To submit changes you need 'Submit' rights on "
+          + REF_CONFIG + ".");
+    }
   }
 
   @Override

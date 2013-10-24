@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.rpc.project;
 
 import static com.google.gerrit.common.ProjectAccessUtil.mergeSections;
+import static com.google.gerrit.server.git.GitRepositoryManager.REF_CONFIG;
 
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
@@ -26,6 +27,7 @@ import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
+import com.google.gerrit.server.auth.AuthException;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -75,10 +77,15 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
   @Override
   public final T call() throws NoSuchProjectException, IOException,
       ConfigInvalidException, InvalidNameException, NoSuchGroupException,
-      OrmException {
+      OrmException, AuthException {
     final ProjectControl projectControl =
         projectControlFactory.controlFor(projectName);
 
+    RefControl ctl = projectControl.controlForRef(REF_CONFIG);
+    if (!ctl.canUpdate()) {
+      throw new AuthException("You are not allowed to perform this operation."
+          + " To push into this reference you need 'Push' rights.");
+    }
     final MetaDataUpdate md;
     try {
       md = metaDataUpdateFactory.create(projectName);

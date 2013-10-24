@@ -54,8 +54,12 @@ cmd = [
   '-localWorkers', str(cpu_count()),
 ] + opt + [module]
 
-gwt = Popen(cmd, stdout = PIPE, stderr = PIPE)
-out, err = gwt.communicate()
-if gwt.returncode != 0:
-  print(out + err, file=stderr)
-  exit(gwt.returncode)
+try:
+  gwt = Popen(cmd, stdout=PIPE, stderr=PIPE)
+  out, err = gwt.communicate()
+  if gwt.returncode != 0:
+    print(out + err, file=stderr)
+    exit(gwt.returncode)
+except KeyboardInterrupt:
+  print("Interrupted by user", file=stderr)
+  exit(1)

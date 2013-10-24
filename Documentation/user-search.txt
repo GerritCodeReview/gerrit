@@ -319,15 +319,12 @@ Labels
 ------
 Label operators can be used to match approval scores given during
 a code review.  The specific set of supported labels depends on
-the server configuration, however `Code-Review` and `Verified`
-are the default labels provided out of the box.
+the server configuration, however the `Code-Review` label is provided
+out of the box.
 
 A label name is any of the following:
 
 * The label name.  Example: `label:Code-Review`.
-
-* The one or two character abbreviation shown in the column header
-  of change list pages.  Example: `label:R` or `label:V`.
 
 * The label name followed by a ',' followed by a reviewer id or a
   group id.  To make it clear whether a user or group is being looked

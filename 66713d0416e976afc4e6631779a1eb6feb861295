@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de77c87c_16f4bc01",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeProjectAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1005688
+      },
+      "writtenOn": "2013-10-26T14:06:18Z",
+      "side": 1,
+      "message": "The message may be confusing as it talks about pushing and submitting. Perhaps for this class use:\n\n\" To save changes you need \u0027Push\u0027 rights on \" + REF_CONFIG\".\"",
+      "revId": "66713d0416e976afc4e6631779a1eb6feb861295",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be8bf4a1_dde98b2f",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ReviewProjectAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1005688
+      },
+      "writtenOn": "2013-10-26T14:06:18Z",
+      "side": 1,
+      "message": "The message may be confusing as it talks about pushing and submitting. Perhaps for this class use:\n\n\" To submit changes you need \u0027Submit\u0027 rights on \" + REF_CONFIG\".\"",
+      "revId": "66713d0416e976afc4e6631779a1eb6feb861295",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

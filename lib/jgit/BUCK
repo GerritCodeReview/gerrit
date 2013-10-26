@@ -10,6 +10,7 @@ maven_jar(
   src_sha1 = 'b4e3d9c9c3da39b72acf72bd913ce9dbee88a9d4',
   license = 'jgit',
   repository = REPO,
+  unsign = True,
   deps = [':ewah'],
   exclude = [
     'META-INF/eclipse.inf',

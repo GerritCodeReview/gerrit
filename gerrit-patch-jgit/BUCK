@@ -30,3 +30,15 @@ java_library(
   ],
   visibility = ['PUBLIC'],
 )
+
+java_test(
+  name = 'jgit_patch_tests',
+  srcs = glob(['src/test/java/**/*.java']),
+  deps = [
+    ':server',
+    '//lib/jgit:jgit',
+    '//lib:junit',
+  ],
+  source_under_test = [':server'],
+  visibility = ['//tools/eclipse:classpath'],
+)

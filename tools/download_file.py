@@ -109,6 +109,7 @@ opts.add_option('-u', help='URL to download')
 opts.add_option('-v', help='expected content SHA-1')
 opts.add_option('-x', action='append', help='file to delete from ZIP')
 opts.add_option('--exclude_java_sources', action='store_true')
+opts.add_option('--unsign', action='store_true')
 args, _ = opts.parse_args()
 
 root_dir = args.o
@@ -162,6 +163,21 @@ if args.exclude_java_sources:
     try:
       for n in zf.namelist():
         if n.endswith('.java'):
+          exclude.append(n)
+    finally:
+      zf.close()
+  except (BadZipfile, LargeZipFile) as err:
+    print("error opening %s: %s"  % (cache_ent, err), file=stderr)
+    exit(1)
+
+if args.unsign:
+  try:
+    zf = ZipFile(cache_ent, 'r')
+    try:
+      for n in zf.namelist():
+        if n.endswith('.RSA') \
+              or n.endswith('.SF') \
+              or n.endswith('.LIST'):
           exclude.append(n)
     finally:
       zf.close()

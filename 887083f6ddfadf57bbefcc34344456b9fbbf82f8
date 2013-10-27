@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be8bf4a1_3df18f12",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-27T06:45:15Z",
+      "side": 1,
+      "message": "We don\u0027t use old style RPC calls on new change screen. It should be migrated to REST API.",
+      "revId": "887083f6ddfadf57bbefcc34344456b9fbbf82f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

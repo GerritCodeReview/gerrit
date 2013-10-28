@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e71d08e_b40dc050",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffPreferencesPanel.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-10-28T01:25:13Z",
+      "side": 1,
+      "message": "I was going to use DiffPreferencesInfo for everything but that might be an overkill, because the REST API implementation parses AccountDiffPreference anyways.",
+      "range": {
+        "startLine": 222,
+        "startChar": 10,
+        "endLine": 222,
+        "endChar": 31
+      },
+      "revId": "e596886d8f83f73e016d237248a1dfdc775b8005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

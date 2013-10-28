@@ -66,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "be8bf4a1_3d1a6f82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-28T13:15:12Z",
+      "side": 1,
+      "message": "Still the motivation should be explained in the commit message. In my opinion that\u0027s the main purpose of the commit message.",
+      "parentUuid": "de77c87c_b636a8f4",
+      "revId": "5de8a4a8756f41f97b2786a13ca32a22e431318c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be8bf4a1_9d08e341",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ReviewProjectAccess.java",
         "patchSetId": 5

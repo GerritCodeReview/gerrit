@@ -16,6 +16,24 @@
       "revId": "626f8b56a8f7e6092044888fbd75684cabc1b568",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e6edcb1_b3e4f858",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-28T09:51:58Z",
+      "side": 1,
+      "message": "This commit only syncs the information here with the step described in the gerrit.sh file.\n\nIf corrections are needed related to rc.d, etc, perhaps that is better done in a separate change.",
+      "parentUuid": "de77c87c_361a9882",
+      "revId": "626f8b56a8f7e6092044888fbd75684cabc1b568",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

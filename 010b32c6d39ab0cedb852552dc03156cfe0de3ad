@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e6edcb1_33f1c812",
+        "filename": "tools/download_file.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-10-28T19:51:10Z",
+      "side": 1,
+      "message": "Optional style nit: I prefer parens to backslashes for line continuation:\n\n if (n.endswith(\u0027.RSA\u0027)\n     or n.endswith(\u0027.SF\u0027)\n     or n.endswith(\u0027.LIST\u0027)):",
+      "revId": "010b32c6d39ab0cedb852552dc03156cfe0de3ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e6edcb1_53fe44e1",
+        "filename": "tools/download_file.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-10-28T19:51:10Z",
+      "side": 1,
+      "message": "Style nit: single quotes are more consistent with the rest of the file (the instance immediately preceding this hunk notwithstanding).",
+      "range": {
+        "startLine": 185,
+        "startChar": 29,
+        "endLine": 185,
+        "endChar": 30
+      },
+      "revId": "010b32c6d39ab0cedb852552dc03156cfe0de3ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

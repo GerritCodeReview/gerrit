@@ -24,7 +24,7 @@ import com.google.gwt.user.client.ui.Image;
 public class ProjectSearchLink extends InlineHyperlink {
 
   public ProjectSearchLink(Project.NameKey projectName) {
-    super(" ", PageLinks.toProjectDashboard(projectName, "default"));
+    super(" ", PageLinks.toProjectDefaultDashboard(projectName));
     setTitle(Util.C.projectListQueryLink());
     final Image image = new Image(Gerrit.RESOURCES.queryIcon());
     DOM.insertBefore(getElement(), image.getElement(),

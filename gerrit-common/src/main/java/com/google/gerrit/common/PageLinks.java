@@ -94,6 +94,10 @@ public class PageLinks {
     return PROJECTS + name.get() + DASHBOARDS + id;
   }
 
+  public static String toProjectDefaultDashboard(Project.NameKey name) {
+    return PROJECTS + name.get() + DASHBOARDS + "default";
+  }
+
   public static String projectQuery(Project.NameKey proj) {
     return op("project", proj.get());
   }

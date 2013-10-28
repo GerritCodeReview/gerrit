@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "be74d47b_f5ee5834",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-10-28T17:14:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be2cd42e_9502c41e",
+      "revId": "6945d139dd5d9b886024e3b804e54a8fae43b7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de2fc81f_56f43402",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/SystemGroupsIT.java",
         "patchSetId": 23
@@ -30,6 +48,24 @@
       "writtenOn": "2013-10-23T08:10:23Z",
       "side": 1,
       "message": "Please extend acceptance tests to reflect the addition of the new system group in:\n\n https://gerrit.googlesource.com/gerrit/+/master/gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/SystemGroupsIT.java",
+      "revId": "6945d139dd5d9b886024e3b804e54a8fae43b7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e98f0f6_5cfe5de1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/SystemGroupsIT.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-10-28T17:14:13Z",
+      "side": 1,
+      "message": "Could you please be more specific?  I believe I have added Change Owner to this test.",
+      "parentUuid": "de2fc81f_56f43402",
       "revId": "6945d139dd5d9b886024e3b804e54a8fae43b7e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "be74d47b_d5e95c2f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-10-28T17:14:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be2cd42e_15feb4e0",
+      "revId": "6945d139dd5d9b886024e3b804e54a8fae43b7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be2cd42e_95e96430",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_85.java",
         "patchSetId": 23
@@ -64,6 +118,24 @@
       "writtenOn": "2013-10-23T08:10:23Z",
       "side": 1,
       "message": "isEmpty() checked twice now. Once here and once on the line 126.\n\nMay be rename the method in findAdminGroup() and return the first group from that method?",
+      "revId": "6945d139dd5d9b886024e3b804e54a8fae43b7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e71d08e_f4ee5834",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_85.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-10-28T17:14:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be2cd42e_95e96430",
       "revId": "6945d139dd5d9b886024e3b804e54a8fae43b7e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "9e98f0f6_fcee4934",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_85.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-10-28T17:14:13Z",
+      "side": 1,
+      "message": "creatGroup is a generic function for creating any group.  I pass them in because i might want to change the name and description of the group.",
+      "parentUuid": "be2cd42e_b5eee033",
+      "revId": "6945d139dd5d9b886024e3b804e54a8fae43b7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de2fc81f_96e96c30",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_85.java",
         "patchSetId": 23
@@ -98,6 +188,24 @@
       "writtenOn": "2013-10-23T08:10:23Z",
       "side": 1,
       "message": "private static",
+      "revId": "6945d139dd5d9b886024e3b804e54a8fae43b7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e98f0f6_1cf4d501",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_85.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-10-28T17:14:13Z",
+      "side": 1,
+      "message": "this method requires access to an instance variable (serverUser) so i\u0027ll just keep as non static.",
+      "parentUuid": "de2fc81f_96e96c30",
       "revId": "6945d139dd5d9b886024e3b804e54a8fae43b7e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "9e98f0f6_3cf19112",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_85.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-10-28T17:14:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be2cd42e_55f42c02",
+      "revId": "6945d139dd5d9b886024e3b804e54a8fae43b7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de2fc81f_b6eee833",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_85.java",
         "patchSetId": 23
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "9e71d08e_14f4b401",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_85.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-10-28T17:14:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de2fc81f_b6eee833",
+      "revId": "6945d139dd5d9b886024e3b804e54a8fae43b7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be2cd42e_75f12811",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_85.java",
         "patchSetId": 23
@@ -149,6 +293,24 @@
       "writtenOn": "2013-10-23T08:10:23Z",
       "side": 1,
       "message": "1. private static\n\n2. rename in AccountGroup.UUID findAdminGroup()?",
+      "revId": "6945d139dd5d9b886024e3b804e54a8fae43b7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e71d08e_34f1b012",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_85.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-10-28T17:14:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be2cd42e_75f12811",
       "revId": "6945d139dd5d9b886024e3b804e54a8fae43b7e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

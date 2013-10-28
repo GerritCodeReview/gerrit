@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de77c87c_361a9882",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2013-10-28T08:12:11Z",
+      "side": 1,
+      "message": "While runlevel 3 is OK for multi-user servers, it would we 5 if xdm is running on the machine as well. I woud recommend to mention install_initd (http://refspecs.linuxbase.org/LSB_3.1.1/LSB-Core-generic/LSB-Core-generic/initsrcinstrm.html) instead, as this script should map runlevels if necessary.\n\nAnd this applies to linux only, on e.g. FreeBSD private init scripts are in /usr/local/etc/rc.d only.",
+      "revId": "626f8b56a8f7e6092044888fbd75684cabc1b568",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

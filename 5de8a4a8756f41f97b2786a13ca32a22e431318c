@@ -48,6 +48,24 @@
     },
     {
       "key": {
+        "uuid": "de77c87c_b636a8f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-28T13:13:58Z",
+      "side": 1,
+      "message": "\"What is the motivation for this change?\"\n\nThe motivation for this change is explained twice:\n\n* the link to the discussion on dev ML bellow\n* new unit test in RefControlTest.java\n\n public void testProjectOwnersDelegation()",
+      "parentUuid": "be8bf4a1_bd0d9f50",
+      "revId": "5de8a4a8756f41f97b2786a13ca32a22e431318c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be8bf4a1_9d08e341",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ReviewProjectAccess.java",
         "patchSetId": 5

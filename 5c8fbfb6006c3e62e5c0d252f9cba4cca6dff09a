@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "9e71d08e_9431a401",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1011812
+      },
+      "writtenOn": "2013-10-28T15:54:20Z",
+      "side": 1,
+      "message": "Found com.google.gerrit.client.admin toLongString(final Project.State type) to use instead of adding new state constants (which are defined in AdminConstants.properties already)",
+      "parentUuid": "1e16c0dc_d8086d42",
+      "revId": "5c8fbfb6006c3e62e5c0d252f9cba4cca6dff09a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e16c0dc_38fba9f1",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
         "patchSetId": 2

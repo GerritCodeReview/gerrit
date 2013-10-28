@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de77c87c_9631ac01",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-28T12:02:33Z",
+      "side": 1,
+      "message": "I think this is not completely correct, but the code actually checks that the user is owner of the ref for which the access rights are modified. This allows the delegation of access rights for certain branches or namespaces to other groups than the project owners. How would this delegation work if the push access right for refs/meta/config is required? If push on refs/meta/config is assigned the user can change the access rights for all branches/namespace but cannot be restricted to certain branches/namespaces anymore.",
+      "range": {
+        "startLine": 9,
+        "startChar": 22,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "5de8a4a8756f41f97b2786a13ca32a22e431318c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be8bf4a1_bd0d9f50",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-28T12:02:33Z",
+      "side": 1,
+      "message": "What is the motivation for this change? What is the use-case behind it? Can you please explain it in the commit message?\n\nIf somebody should not be allowed to edit the access rights, you should not grant him the owner privilege. Do you actually want to allow editing the project options (description, submit type etc), but not the project access rights? If yes, maybe better add a new permissions that allows to edit the project options without being project owner.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 46
+      },
+      "revId": "5de8a4a8756f41f97b2786a13ca32a22e431318c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be8bf4a1_9d08e341",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ReviewProjectAccess.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-28T12:02:33Z",
+      "side": 1,
+      "message": "Why would I need submit permissions for saving access rights for review? The whole point of saving access rights for review is that a user who does not have permissions to modify the access rights, can propose modifications to the access rights by creating a change that is in review. This change then needs to be approved and submitted by somebody who has the required permissions (e.g. by the project owner).",
+      "range": {
+        "startLine": 97,
+        "startChar": 4,
+        "endLine": 101,
+        "endChar": 5
+      },
+      "revId": "5de8a4a8756f41f97b2786a13ca32a22e431318c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

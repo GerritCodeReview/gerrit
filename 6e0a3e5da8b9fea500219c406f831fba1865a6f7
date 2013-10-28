@@ -16,6 +16,24 @@
       "revId": "6e0a3e5da8b9fea500219c406f831fba1865a6f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be8bf4a1_1d2693c5",
+        "filename": "tools/download_file.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-28T21:18:32Z",
+      "side": 1,
+      "message": "I checked the code of Maven plugin that you pointed me on dev ML and tested the code above. I think that middle term target is to stop mess around with that unsigning all together and find a way to not need it, like you suggested on dev ML.",
+      "parentUuid": "be8bf4a1_fd400748",
+      "revId": "6e0a3e5da8b9fea500219c406f831fba1865a6f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

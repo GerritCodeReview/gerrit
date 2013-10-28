@@ -59,6 +59,7 @@ import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -72,6 +73,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
@@ -135,6 +137,7 @@ public class ChangeScreen2 extends Screen {
   @UiField Element changeIdText;
   @UiField Element ownerText;
   @UiField Element statusText;
+  @UiField Image projectQuery;
   @UiField InlineHyperlink projectLink;
   @UiField InlineHyperlink branchLink;
   @UiField Element submitActionText;
@@ -284,13 +287,17 @@ public class ChangeScreen2 extends Screen {
         new DownloadAction(info, revision, style, headerLine, download);
   }
 
-  private void initProjectLink(ChangeInfo info) {
+  private void initProjectLinks(final ChangeInfo info) {
+    projectQuery.addDomHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        Gerrit.display(
+            PageLinks.toProjectDashboard(info.project_name_key(), "default"));
+      }
+    }, ClickEvent.getType());
     projectLink.setText(info.project());
     projectLink.setTargetHistoryToken(
-        PageLinks.toChangeQuery(
-            PageLinks.projectQuery(
-                info.project_name_key(),
-                info.status())));
+        PageLinks.toProject(info.project_name_key()));
   }
 
   private void initBranchLink(ChangeInfo info) {
@@ -649,7 +656,7 @@ public class ChangeScreen2 extends Screen {
     initIncludedInAction(info);
     initRevisionsAction(info, revision);
     initDownloadAction(info, revision);
-    initProjectLink(info);
+    initProjectLinks(info);
     initBranchLink(info);
     actions.display(info, revision);
 

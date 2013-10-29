@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de77c87c_b67148a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-29T08:36:25Z",
+      "side": 1,
+      "message": "Is this correct? Shouldn\u0027t this be \n  \"%s/plugins/%s\"",
+      "range": {
+        "startLine": 513,
+        "startChar": 33,
+        "endLine": 513,
+        "endChar": 40
+      },
+      "revId": "b3e336aadf1a49ac25955a05c4b4b90e627366d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

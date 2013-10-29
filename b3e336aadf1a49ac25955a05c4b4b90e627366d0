@@ -40,6 +40,24 @@
       "revId": "b3e336aadf1a49ac25955a05c4b4b90e627366d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e6edcb1_131dac79",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-29T09:17:55Z",
+      "side": 1,
+      "message": "Yes, I\u0027m fixing this and testing it with the branch-network plugin now.",
+      "parentUuid": "be8bf4a1_fd6ba7ab",
+      "revId": "b3e336aadf1a49ac25955a05c4b4b90e627366d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

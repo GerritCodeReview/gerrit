@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de77c87c_d63164ce",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/documentation/DocScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-29T23:32:46Z",
+      "side": 1,
+      "message": "Not used.",
+      "revId": "25db96a66e1aa755fe5d23a86a7487617d9b26f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be8bf4a1_3d398fb1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/documentation/DocScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-29T23:32:46Z",
+      "side": 1,
+      "message": "Static method should be accessed in static way:\n\n DocList.query(loadCallback(), query);",
+      "revId": "25db96a66e1aa755fe5d23a86a7487617d9b26f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be8bf4a1_1d3cd3a0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/documentation/DocScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-29T23:32:46Z",
+      "side": 1,
+      "message": "not used.",
+      "revId": "25db96a66e1aa755fe5d23a86a7487617d9b26f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be8bf4a1_7d43171f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/documentation/DocTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-29T23:32:46Z",
+      "side": 1,
+      "message": "You don\u0027t need final here and in all other methods.",
+      "revId": "25db96a66e1aa755fe5d23a86a7487617d9b26f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be8bf4a1_5d465b30",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/documentation/DocTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-29T23:32:46Z",
+      "side": 1,
+      "message": "not used.",
+      "revId": "25db96a66e1aa755fe5d23a86a7487617d9b26f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

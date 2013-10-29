@@ -90,6 +90,10 @@ public class PatchListCacheImpl implements PatchListCache {
       throws PatchListNotAvailableException {
     final Project.NameKey projectKey = change.getProject();
     final ObjectId a = null;
+    if (patchSet.getRevision() == null) {
+      throw new PatchListNotAvailableException(
+          "revision is null for " + patchSet.getId());
+    }
     final ObjectId b = ObjectId.fromString(patchSet.getRevision().get());
     final Whitespace ws = Whitespace.IGNORE_NONE;
     return get(new PatchListKey(projectKey, a, b, ws));

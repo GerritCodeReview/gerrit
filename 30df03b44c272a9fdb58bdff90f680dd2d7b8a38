@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e98f0f6_bc884178",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2013-10-29T15:30:54Z",
+      "side": 1,
+      "message": "We can remove the [RFC] now",
+      "revId": "30df03b44c272a9fdb58bdff90f680dd2d7b8a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e98f0f6_dc8d0d87",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2013-10-29T15:30:54Z",
+      "side": 1,
+      "message": "[nit] since you need to amend the commit anyway..\nit is slightly odd that the order of these 3 statements are different for hidden vs read only.  The table.setWidget() call is in the middle for hidden but last here.",
+      "revId": "30df03b44c272a9fdb58bdff90f680dd2d7b8a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e71d08e_142674c5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/UIConstants.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2013-10-29T15:30:54Z",
+      "side": 1,
+      "message": "[nit/optional] I wonder if a better name is projectStateAbbrev or projectStateShort?",
+      "revId": "30df03b44c272a9fdb58bdff90f680dd2d7b8a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e98f0f6_fc92c9a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2013-10-29T15:30:54Z",
+      "side": 1,
+      "message": "[nit/optional] I think you can leave this as Project.State rather than String, and gson will call toString() for you when converting it to JSON.  This would let you skip a lot of toString() calls.",
+      "revId": "30df03b44c272a9fdb58bdff90f680dd2d7b8a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

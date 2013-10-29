@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "de77c87c_b6c3087c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/SystemGroupsIT.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-29T19:25:59Z",
+      "side": 1,
+      "message": "\"Could you please be more specific?\"\n\nYou only added a check that the new change owner group was succesfully created. \n\nWhat I meant is to add a complete acceptance test for the added permission check. For that you would need to do the following in the test: \n\nPreparation:\n\n* create a project\n* create an owner (not admin) user\n* create a not owner (another non admin) user\n* fetch the created project on behalf of the owner\n* create a commit\n* upload a change for review\n\ntestChangeOwner_OwnerACLNotGranted:\n\n* vote +2 on Code-Review label with owner identity per REST API\n* expected result: SC_FORBIDDEN\n\ntestChangeOwner_OwnerACLGranted\n\n* grant new created Change Owner group range permission min \u003d -2, max \u003d +2\n* vote +2 on Code-Review label with owner identity per REST API\n* expected result: SC_OK\n\ntestChangeOwner_NotOwnerACLGranted\n\n* grant new created Change Owner group range permission min \u003d -2, max \u003d +2\n* vote +2 on Code-Review label with not owner (another dev) identity per REST API\n* expected result: SC_FORBIDDEN",
+      "parentUuid": "9e98f0f6_5cfe5de1",
+      "revId": "6945d139dd5d9b886024e3b804e54a8fae43b7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be2cd42e_15feb4e0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 23

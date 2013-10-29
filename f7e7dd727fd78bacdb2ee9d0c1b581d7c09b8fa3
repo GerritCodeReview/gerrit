@@ -16,6 +16,40 @@
       "revId": "f7e7dd727fd78bacdb2ee9d0c1b581d7c09b8fa3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de77c87c_56d47434",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfigFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-29T17:55:29Z",
+      "side": 1,
+      "message": "Why don\u0027t you tell us, that this approach sucks if you need sub sections in plugin\u0027s configuration, like having different review strategies on different branches or some such?\n\n [plugin \"my-plugin\"]\n [branch foo]\n    reviewer-strategy \u003d bar\n [branch baz]\n    reviewer-strategy \u003d qux\n\nHow you do that in gerrit.config?\n\nAnd because this is the first question everyone is going to ask anyway, i would put that conceptional limitation of mixing gerrit.config and plugin.config in some visible place and propose the solution for that problem: plugin own configuration file(s), that you mentioned in the commit message (and that i proposed from the first version, reviewers-by-blame plugin was uploaded).",
+      "revId": "f7e7dd727fd78bacdb2ee9d0c1b581d7c09b8fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de77c87c_76d17043",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfigFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-29T17:55:29Z",
+      "side": 1,
+      "message": "Same as above here: Can we put plugin-foo.config on /ref/meta/config per project base an expose it with project inheritance to the users?",
+      "revId": "f7e7dd727fd78bacdb2ee9d0c1b581d7c09b8fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

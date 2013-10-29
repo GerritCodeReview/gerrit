@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "be74d47b_b536a0f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-29T22:30:42Z",
+      "side": 1,
+      "message": "Oh sorry I forgot to mention you\u0027ll need to build with docs. But since for end users the gerrit instance will always be built with docs, an error message seems to be not very necessary.",
+      "parentUuid": "be8bf4a1_dd542b03",
+      "revId": "003c5c0b985d484d7d83257813b02dc1b1dc9337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be8bf4a1_7d2dd79b",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/documentation/Util.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
       "writtenOn": "2013-10-29T05:44:10Z",
       "side": 1,
       "message": "2013",
+      "revId": "003c5c0b985d484d7d83257813b02dc1b1dc9337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be74d47b_9531a401",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/documentation/Util.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-29T22:30:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be8bf4a1_7d2dd79b",
       "revId": "003c5c0b985d484d7d83257813b02dc1b1dc9337",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

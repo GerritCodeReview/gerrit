@@ -481,7 +481,7 @@ private com.google.gerrit.server.config.PluginConfigFactory cfg;
 
 [...]
 
-String language = cfg.get("helloworld")
+String language = cfg.getFromGerritConfig("helloworld")
                      .getString("language", "English");
 ----
 
@@ -526,7 +526,7 @@ private com.google.gerrit.server.config.PluginConfigFactory cfg;
 
 [...]
 
-boolean enabled = cfg.get(project, "helloworld")
+boolean enabled = cfg.getFromProjectConfig(project, "helloworld")
                      .getBoolean("enabled", false);
 ----
 
@@ -540,7 +540,7 @@ private com.google.gerrit.server.config.PluginConfigFactory cfg;
 
 [...]
 
-boolean enabled = cfg.getWithInheritance(project, "helloworld")
+boolean enabled = cfg.getFromProjectConfigWithInheritance(project, "helloworld")
                      .getBoolean("enabled", false);
 ----
 

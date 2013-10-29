@@ -82,6 +82,8 @@ public class QueryDocumentationExecutor {
     }
     try {
       Query query = parser.parse(q);
+      // TODO(fishywang): Currently as we don't have much documentation, we just use MAX_VALUE here
+      // and skipped paging. Maybe add paging later.
       TopDocs results = searcher.search(query, Integer.MAX_VALUE);
       ScoreDoc[] hits = results.scoreDocs;
       int totalHits = results.totalHits;

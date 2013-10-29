@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be8bf4a1_5d49fb64",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-29T07:16:16Z",
+      "side": 1,
+      "message": "[Optionally] With this change, there are two places where magic string \"default\" is passed to the method toProjectDashboard method: here and on ProjectSearchLink:27.\n\nSuggestion: refactor the method toProjectDashboard by renaming it to toProjectDefaultDashboard, and remove the \"default\" parameter here and in ProjectSearchLink. The original toProjectDashboard method is still needed, though.",
+      "revId": "6a9b54088cf89081b87ec0edf90cf4000190ad59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

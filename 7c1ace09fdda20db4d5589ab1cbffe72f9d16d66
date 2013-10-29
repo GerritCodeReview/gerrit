@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de77c87c_9627ec94",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/documentation/DocInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-29T22:55:19Z",
+      "side": 1,
+      "message": "Style nit: unneeded new line.",
+      "revId": "7c1ace09fdda20db4d5589ab1cbffe72f9d16d66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be8bf4a1_dd318bce",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/documentation/DocTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-29T22:55:19Z",
+      "side": 1,
+      "message": "May be call this method insertDocRow?",
+      "revId": "7c1ace09fdda20db4d5589ab1cbffe72f9d16d66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be8bf4a1_fd3647c3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/documentation/DocTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-29T22:55:19Z",
+      "side": 1,
+      "message": "May be call this method insertDocRow?",
+      "revId": "7c1ace09fdda20db4d5589ab1cbffe72f9d16d66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

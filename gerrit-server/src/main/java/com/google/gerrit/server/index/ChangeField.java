@@ -206,7 +206,9 @@ public class ChangeField {
             throws OrmException {
           Set<String> revisions = Sets.newHashSet();
           for (PatchSet ps : input.patches(args.db)) {
-            revisions.add(ps.getRevision().get());
+            if (ps.getRevision() != null) {
+              revisions.add(ps.getRevision().get());
+            }
           }
           return revisions;
         }

@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "be8bf4a1_dd8d0b87",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-29T07:53:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be8bf4a1_3d4c2f76",
+      "revId": "59fe916f28d06d4655f3a74edb079e96465eee00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be8bf4a1_1d4f736d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/GerritServerSession.java",
         "patchSetId": 7
@@ -42,6 +60,24 @@
         "endLine": 30,
         "endChar": 39
       },
+      "revId": "59fe916f28d06d4655f3a74edb079e96465eee00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be8bf4a1_bd883f78",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/GerritServerSession.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-29T07:53:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be8bf4a1_1d4f736d",
       "revId": "59fe916f28d06d4655f3a74edb079e96465eee00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

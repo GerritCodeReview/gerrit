@@ -71,6 +71,7 @@ import com.google.gerrit.client.changes.QueryScreen;
 import com.google.gerrit.client.dashboards.DashboardInfo;
 import com.google.gerrit.client.dashboards.DashboardList;
 import com.google.gerrit.client.diff.SideBySide2;
+import com.google.gerrit.client.documentation.DocScreen;
 import com.google.gerrit.client.groups.GroupApi;
 import com.google.gerrit.client.groups.GroupInfo;
 import com.google.gerrit.client.patches.PatchScreen;
@@ -200,6 +201,9 @@ public class Dispatcher {
   private static void select(final String token) {
     if (matchPrefix("/q/", token)) {
       query(token);
+
+    } else if (matchPrefix("/doc/", token)) {
+      docSearch(token);
 
     } else if (matchPrefix("/c/", token)) {
       change(token);
@@ -883,5 +887,9 @@ public class Dispatcher {
         new ErrorDialog(reason).center();
       }
     }
+  }
+
+  private static void docSearch(final String token) {
+    Gerrit.display(token, new DocScreen(skip(token)));
   }
 }

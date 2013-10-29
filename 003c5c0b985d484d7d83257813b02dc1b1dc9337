@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "be8bf4a1_dd542b03",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-29T06:30:14Z",
+      "side": 1,
+      "message": "Accessing this URL fails with \u0027500 Server Error\u0027 if Gerrit was built without documentation. Maybe you could display a proper error message instead.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 48
+      },
+      "revId": "003c5c0b985d484d7d83257813b02dc1b1dc9337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be8bf4a1_7d2dd79b",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/documentation/Util.java",
         "patchSetId": 1

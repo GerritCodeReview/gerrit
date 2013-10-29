@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de77c87c_567b9478",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-29T09:33:14Z",
+      "side": 1,
+      "message": "http://review.example.com:8080/plugins/plugin-name/ ?",
+      "revId": "064fe07bb983567ff385983e90a53ced84145115",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

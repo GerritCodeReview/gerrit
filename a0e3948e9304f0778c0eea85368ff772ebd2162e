@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be8bf4a1_fdac8796",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-30T14:58:11Z",
+      "side": 1,
+      "message": "./default-reviewer.config\n\nor just\n\ndefault-reviewer.config",
+      "revId": "a0e3948e9304f0778c0eea85368ff772ebd2162e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be8bf4a1_1d921354",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfigFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-30T14:58:11Z",
+      "side": 1,
+      "message": "I\u0027ve read this multiple times, before i could understand, that it is actually read plugin specific file on refs/meta/config. Why not to say that here?",
+      "revId": "a0e3948e9304f0778c0eea85368ff772ebd2162e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe572ce7_afe47958",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfigFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-30T14:58:11Z",
+      "side": 1,
+      "message": "I would prefer more prominent difference then just an additional parameter projectName between this method and the `getFromPluginConfig(pluginName)`. They are fundamental different, and should be named differently. May be:\n\n* getPluginConfigSite\n* getPluginConfigProject\n\n?",
+      "revId": "a0e3948e9304f0778c0eea85368ff772ebd2162e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be8bf4a1_3d8fcf2c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-30T14:58:11Z",
+      "side": 1,
+      "message": "Can we provide a unit test/acceptance test for that? I think we need programmatic way/core API to create such a foo.config file on /erfs/meta/config for that. But we would need it anyway to enable plugins to populate foo.config in plugin\u0027s Init Step on initial site initialization.",
+      "revId": "a0e3948e9304f0778c0eea85368ff772ebd2162e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be8bf4a1_5d9c9b63",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-30T14:58:11Z",
+      "side": 1,
+      "message": "The same here: how is the caller supposed to differentiate between, missing file/missing optional configuration option in foo.config?",
+      "revId": "a0e3948e9304f0778c0eea85368ff772ebd2162e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

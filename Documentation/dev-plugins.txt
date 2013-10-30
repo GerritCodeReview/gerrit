@@ -630,6 +630,20 @@ String[] reviewers = cfg.getFromPluginConfig(project, "default-reviewer")
                         .getStringList("branch", "refs/heads/master", "reviewer");
 ----
 
+It is also possible to get missing configuration parameters inherited
+from the parent projects:
+
+[source,java]
+----
+@Inject
+private com.google.gerrit.server.config.PluginConfigFactory cfg;
+
+[...]
+
+String[] reviewers = cfg.getFromPluginConfigWithInheritance(project, "default-reviewer")
+                        .getStringList("branch", "refs/heads/master", "reviewer");
+----
+
 Project owners can edit the project configuration by fetching the
 `refs/meta/config` branch, editing the `<plugin-name>.config` file and
 pushing the commit back.

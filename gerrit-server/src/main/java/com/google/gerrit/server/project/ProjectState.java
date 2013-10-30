@@ -225,7 +225,7 @@ public class ProjectState {
       return configs.get(fileName);
     }
 
-    ProjectLevelConfig cfg = new ProjectLevelConfig(fileName);
+    ProjectLevelConfig cfg = new ProjectLevelConfig(fileName, this);
     try {
       Repository git = gitMgr.openRepository(getProject().getNameKey());
       try {

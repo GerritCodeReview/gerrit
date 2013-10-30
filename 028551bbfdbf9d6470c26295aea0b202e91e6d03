@@ -2,6 +2,160 @@
   "comments": [
     {
       "key": {
+        "uuid": "de77c87c_b655c8cf",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-30T08:47:31Z",
+      "side": 1,
+      "message": "I think I would prefer \"/Documentation/\"",
+      "range": {
+        "startLine": 205,
+        "startChar": 27,
+        "endLine": 205,
+        "endChar": 34
+      },
+      "revId": "028551bbfdbf9d6470c26295aea0b202e91e6d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be8bf4a1_fd0807f7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 893,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-30T08:47:31Z",
+      "side": 1,
+      "message": "Wrap this inside of a GWT.runAsync(new AsyncSplit(token) {\n\nThis way the code for rendering documentation is lazily downloaded, instead of being part of the initial download.",
+      "revId": "028551bbfdbf9d6470c26295aea0b202e91e6d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be8bf4a1_1dee93e4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/documentation/DocScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-30T08:47:31Z",
+      "side": 1,
+      "message": "Unnecessary. The documentation can\u0027t change so reloading has no value.",
+      "range": {
+        "startLine": 43,
+        "startChar": 6,
+        "endLine": 50,
+        "endChar": 7
+      },
+      "revId": "028551bbfdbf9d6470c26295aea0b202e91e6d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be8bf4a1_3deb4fd5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/documentation/DocTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-30T08:47:31Z",
+      "side": 1,
+      "message": "Should be default access",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 6
+      },
+      "revId": "028551bbfdbf9d6470c26295aea0b202e91e6d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de77c87c_f64f403b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/documentation/DocTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-30T08:47:31Z",
+      "side": 1,
+      "message": "Drop this, the table should have one section.",
+      "revId": "028551bbfdbf9d6470c26295aea0b202e91e6d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de77c87c_d64a442e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/documentation/DocTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-30T08:47:31Z",
+      "side": 1,
+      "message": "Drop this field, you have a fixed number of columns to display.",
+      "revId": "028551bbfdbf9d6470c26295aea0b202e91e6d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be8bf4a1_5df81ba4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/documentation/DocTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-30T08:47:31Z",
+      "side": 1,
+      "message": "change.FileTable is perhaps a better example than whatever you copied from.",
+      "revId": "028551bbfdbf9d6470c26295aea0b202e91e6d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de77c87c_16659cb8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/documentation/DocTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-10-30T08:47:31Z",
+      "side": 1,
+      "message": "Drop the section stuff, its too complex.",
+      "revId": "028551bbfdbf9d6470c26295aea0b202e91e6d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de77c87c_f63660c3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/documentation/QueryDocumentationExecutor.java",
         "patchSetId": 4

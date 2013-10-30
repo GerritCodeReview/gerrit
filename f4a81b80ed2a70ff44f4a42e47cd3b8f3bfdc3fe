@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fe572ce7_cfe9bd2f",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-30T15:36:01Z",
+      "side": 1,
+      "message": "Done.\n\nPlease not that the leading \u0027.\u0027 is part of the asciidoc syntax and marks a heading for the following block.",
+      "parentUuid": "be8bf4a1_9d9d4368",
+      "revId": "f4a81b80ed2a70ff44f4a42e47cd3b8f3bfdc3fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be8bf4a1_bda2ffa2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfigFactory.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-10-30T14:24:46Z",
       "side": 1,
       "message": "May be return null as indicator that it wasn\u0027t able to load? Or throw an exception? Otherwise the caller can not differentiate between an optional value in plain specific configuration file wasn\u0027t provided, or because of misconfiguration the config file was missing?",
+      "revId": "f4a81b80ed2a70ff44f4a42e47cd3b8f3bfdc3fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe572ce7_efee8134",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfigFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-30T15:36:01Z",
+      "side": 1,
+      "message": "I was thinking to do this, but then I was wondering if the caller really wants to differentiate between \u0027the parameter was not set\u0027 and \u0027the config file is missing\u0027/\u0027the config file is invalid\u0027/\u0027the config file cannot be loaded\u0027. Wouldn\u0027t the caller want to fall back in all cases to a default value? If yes, I think the coding above makes the usage simpler, because then the caller can simply do:\n\n  String y \u003d pcf.getFromPluginConfig(\"my-plugin\").getString(\"x\", null, \"y\");\n  if (y \u003d\u003d null) {\n    y \u003d DEFAULT_VALUE;\n  }\n\nIf we throw an exception or return null, every caller would need do handle this which I find a little annoying:\n\n  String y \u003d DEFAULT_VALUE;\n  try {\n    y \u003d pcf.getFromPluginConfig(\"my-plugin\").getString(\"x\", null, \"y\");\n  } catch (Exception e) {\n    // ignore, just use the default value\n  }\n\nOR\n\n  Config cfg \u003d pcf.getFromPluginConfig(\"my-plugin\");\n  String y \u003d DEFAULT_VALUE;\n  if (cfg !\u003d null) {\n    y \u003d cfg.getString(\"x\", null, \"y\");\n  }\n\nI don\u0027t mind to change this, if you think that there is really a use-case for differentiating these cases. Let me know.",
+      "parentUuid": "be8bf4a1_bda2ffa2",
       "revId": "f4a81b80ed2a70ff44f4a42e47cd3b8f3bfdc3fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

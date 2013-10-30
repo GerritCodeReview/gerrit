@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "be8bf4a1_1d65b3b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-30T08:11:05Z",
+      "side": 1,
+      "message": "No, I did not really change my mind. I never questioned that having plugin own configuration files are useful if a plugin requires a complex configuration (see also my other inline comment).",
+      "parentUuid": "de77c87c_16cafc94",
+      "revId": "f7e7dd727fd78bacdb2ee9d0c1b581d7c09b8fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de77c87c_56d47434",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfigFactory.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-10-29T17:55:29Z",
       "side": 1,
       "message": "Why don\u0027t you tell us, that this approach sucks if you need sub sections in plugin\u0027s configuration, like having different review strategies on different branches or some such?\n\n [plugin \"my-plugin\"]\n [branch foo]\n    reviewer-strategy \u003d bar\n [branch baz]\n    reviewer-strategy \u003d qux\n\nHow you do that in gerrit.config?\n\nAnd because this is the first question everyone is going to ask anyway, i would put that conceptional limitation of mixing gerrit.config and plugin.config in some visible place and propose the solution for that problem: plugin own configuration file(s), that you mentioned in the commit message (and that i proposed from the first version, reviewers-by-blame plugin was uploaded).",
+      "revId": "f7e7dd727fd78bacdb2ee9d0c1b581d7c09b8fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de77c87c_3639b8b1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfigFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-30T08:11:05Z",
+      "side": 1,
+      "message": "I see that we still have different opinions about this. I don\u0027t think that this sucks, but on the contrary I\u0027m very happy with this solution and I believe this is still the preferred solution for all plugins that have a simple enough configuration so that they do not need subsections. I think it\u0027s a big advantage to have one \u0027gerrit.config\u0027/\u0027project.config\u0027 file in which you have the complete configuration, instead of having 16 different configuration files for 16 plugins, that quite a nightmare for administrators/project owners.\n\nOf course with this approach there is the limitation that you cannot have subsections. I never denied that there are plugins that have a need for a more complex configuration and thus require an own configuration file. The replication plugin is the best example here. Having an own global plugin configuration file besides \u0027gerrit.config\u0027 is already possible and we would not need extra support for this in Gerrit core. I will still add support for it for the sake of completeness and to highlight this as an alternative to the first approach. It may also make it a little easier to use.\n\nI do agree that this conceptual limitation of not being able to have subsections with the first approach should be highlighted in the dev-plugins documentation. I will upload a change for this a bit later. This limitation was just too obvious to me to mention it. My bad.\n\nWhat I\u0027m really interested to archive is to allow project specific plugin configuration files in refs/meta/config besides the \u0027project.config\u0027 file. This is something that currently can\u0027t be done easily from plugins, at least not with caching the configuration, as it\u0027s difficult to know for the plugin when the cache needs to be refreshed (on push to refs/meta/config or when project is evicted from the cache). Also we want to support inheritance in such a case and it makes no sense that every plugin needs to implement this on its own.\n\nI think what you have proposed for the reviewers-by-blame plugin is even different from the solutions discussed above. You proposed to have project specific configuration parameters in a global configuration file with having a subsection per project. This still doesn\u0027t make much sense to me but I don\u0027t want to repeat the discussion that we already had. But of course this is doable and nothing prevents a plugin author to do it this way.",
+      "parentUuid": "de77c87c_56d47434",
       "revId": "f7e7dd727fd78bacdb2ee9d0c1b581d7c09b8fa3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -442,9 +442,9 @@ $ ssh -p 29418 review.example.com shell ls
 $ ssh -p 29418 review.example.com shell ps
 ----
 
-[[configuration]]
-Configuration
--------------
+[[simple-configuration]]
+Simple Configuration in `gerrit.config`
+---------------------------------------
 
 In Gerrit, global configuration is stored in the `gerrit.config` file.
 If a plugin needs global configuration, this configuration should be
@@ -453,12 +453,12 @@ approach of storing the plugin configuration is only suitable for
 plugins that have a simple configuration that only consists of
 key-value pairs. With this approach it is not possible to have
 subsections in the plugin configuration. Plugins that require a complex
-configuration need to store their configuration in an own configuration
-file where they can make use of subsections. On the other side storing
-the plugin configuration in a 'plugin' subsection in the
-`gerrit.config` file has the advantage that administrators have all
-configuration parameters in one file, instead of having one
-configuration file per plugin.
+configuration need to store their configuration in an
+link:#configuration[own configuration file] where they can make use of
+subsections. On the other side storing the plugin configuration in a
+'plugin' subsection in the `gerrit.config` file has the advantage
+that administrators have all configuration parameters in one file,
+instead of having one configuration file per plugin.
 
 To avoid conflicts with other plugins, it is recommended that plugins
 only use the `plugin` subsection with their own name. For example the
@@ -484,6 +484,49 @@ private com.google.gerrit.server.config.PluginConfigFactory cfg;
 String language = cfg.getFromGerritConfig("helloworld")
                      .getString("language", "English");
 ----
+
+[[configuration]]
+Configuration in own config file
+--------------------------------
+
+Plugins can store their configuration in an own configuration file.
+This makes sense if the plugin configuration is rather complex and
+requires the usage of subsections. Plugins that have a simple
+key-value pair configuration can store their configuration in a
+link:#simple-configuration[`plugin` subsection of the `gerrit.config`
+file].
+
+The plugin configuration file must be named after the plugin and must
+be located in the `etc` folder of the review site. For example a
+configuration file for a `default-reviewer` plugin could look like
+this:
+
+.$site_path/etc/default-reviewer.config
+----
+[branch "refs/heads/master"]
+  reviewer = Project Owners
+  reviewer = john.doe@example.com
+[match "file:^.*\.txt"]
+  reviewer = My Info Developers
+----
+
+Via the `com.google.gerrit.server.config.PluginConfigFactory` class a
+plugin can easily access its configuration:
+
+[source,java]
+----
+@Inject
+private com.google.gerrit.server.config.PluginConfigFactory cfg;
+
+[...]
+
+String[] reviewers = cfg.getFromPluginConfig("default-reviewer")
+                        .getStringList("branch", "refs/heads/master", "reviewer");
+----
+
+The plugin configuration is loaded only once and is then cached.
+Similar to changes in 'gerrit.config' changes to the plugin
+configuration file will only become effective after a Gerrit restart.
 
 [[project-specific-configuration]]
 Project Specific Configuration

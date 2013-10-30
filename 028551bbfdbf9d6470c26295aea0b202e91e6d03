@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "be74d47b_154f546d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-30T21:11:15Z",
+      "side": 1,
+      "message": "Done. But in case you\u0027re confused, this will actually be \"/#/Documentation/\", instead of \"/Documentation/\" we used to serve the real documentation.",
+      "parentUuid": "de77c87c_b655c8cf",
+      "revId": "028551bbfdbf9d6470c26295aea0b202e91e6d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be8bf4a1_fd0807f7",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
         "patchSetId": 4
@@ -36,6 +54,24 @@
       "writtenOn": "2013-10-30T08:47:31Z",
       "side": 1,
       "message": "Wrap this inside of a GWT.runAsync(new AsyncSplit(token) {\n\nThis way the code for rendering documentation is lazily downloaded, instead of being part of the initial download.",
+      "revId": "028551bbfdbf9d6470c26295aea0b202e91e6d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e6edcb1_7346e057",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 893,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-30T21:11:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be8bf4a1_fd0807f7",
       "revId": "028551bbfdbf9d6470c26295aea0b202e91e6d03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "7e6edcb1_93837c5d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/documentation/DocScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-30T21:11:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be8bf4a1_1dee93e4",
+      "revId": "028551bbfdbf9d6470c26295aea0b202e91e6d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be8bf4a1_3deb4fd5",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/documentation/DocTable.java",
         "patchSetId": 4
@@ -88,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "7e6edcb1_b3887878",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/documentation/DocTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-30T21:11:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be8bf4a1_3deb4fd5",
+      "revId": "028551bbfdbf9d6470c26295aea0b202e91e6d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de77c87c_f64f403b",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/documentation/DocTable.java",
         "patchSetId": 4
@@ -99,6 +171,24 @@
       "writtenOn": "2013-10-30T08:47:31Z",
       "side": 1,
       "message": "Drop this, the table should have one section.",
+      "revId": "028551bbfdbf9d6470c26295aea0b202e91e6d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e98f0f6_3cc7d18d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/documentation/DocTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-30T21:11:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de77c87c_f64f403b",
       "revId": "028551bbfdbf9d6470c26295aea0b202e91e6d03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -122,6 +212,24 @@
     },
     {
       "key": {
+        "uuid": "7e6edcb1_d38df486",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/documentation/DocTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-30T21:11:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de77c87c_d64a442e",
+      "revId": "028551bbfdbf9d6470c26295aea0b202e91e6d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be8bf4a1_5df81ba4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/documentation/DocTable.java",
         "patchSetId": 4
@@ -133,6 +241,24 @@
       "writtenOn": "2013-10-30T08:47:31Z",
       "side": 1,
       "message": "change.FileTable is perhaps a better example than whatever you copied from.",
+      "revId": "028551bbfdbf9d6470c26295aea0b202e91e6d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e71d08e_5449cc64",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/documentation/DocTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-30T21:11:15Z",
+      "side": 1,
+      "message": "That seems more complex, and FlowPanel doesn\u0027t look like the thing I want here.",
+      "parentUuid": "be8bf4a1_5df81ba4",
       "revId": "028551bbfdbf9d6470c26295aea0b202e91e6d03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -156,6 +282,24 @@
     },
     {
       "key": {
+        "uuid": "9e98f0f6_5cd49d34",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/documentation/DocTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-30T21:11:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de77c87c_16659cb8",
+      "revId": "028551bbfdbf9d6470c26295aea0b202e91e6d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de77c87c_f63660c3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/documentation/QueryDocumentationExecutor.java",
         "patchSetId": 4
@@ -167,6 +311,24 @@
       "writtenOn": "2013-10-30T05:30:18Z",
       "side": 1,
       "message": "May be add this TODO also to the commit message?",
+      "revId": "028551bbfdbf9d6470c26295aea0b202e91e6d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e6edcb1_739fc0a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/documentation/QueryDocumentationExecutor.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2013-10-30T21:11:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de77c87c_f63660c3",
       "revId": "028551bbfdbf9d6470c26295aea0b202e91e6d03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

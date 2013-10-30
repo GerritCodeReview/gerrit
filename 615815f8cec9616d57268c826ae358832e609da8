@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "be8bf4a1_1d17730c",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-30T09:16:44Z",
+      "side": 1,
+      "message": "I believe \"Non-Interactive Users\" is not a system group, but users have to be assigned manually to this group.",
+      "parentUuid": "de77c87c_76aa50af",
+      "revId": "615815f8cec9616d57268c826ae358832e609da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de77c87c_56ad54c4",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 25

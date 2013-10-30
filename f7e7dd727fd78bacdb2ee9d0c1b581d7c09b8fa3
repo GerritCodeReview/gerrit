@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "be8bf4a1_dd034bda",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfigFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-30T08:38:28Z",
+      "side": 1,
+      "message": "\u003e I do agree that this conceptual limitation of not being \n \u003e able to have subsections with the first approach should be \n \u003e highlighted in the dev-plugins documentation. I will \n \u003e upload a change for this a bit later. This limitation was \n \u003e just too obvious to me to mention it. My bad.\n Done in\n   https://gerrit-review.googlesource.com/51234",
+      "parentUuid": "de77c87c_3639b8b1",
+      "revId": "f7e7dd727fd78bacdb2ee9d0c1b581d7c09b8fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de77c87c_76d17043",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfigFactory.java",
         "patchSetId": 1

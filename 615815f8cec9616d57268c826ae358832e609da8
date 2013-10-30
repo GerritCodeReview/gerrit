@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "be8bf4a1_fddac732",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-30T09:30:12Z",
+      "side": 1,
+      "message": "If manual assignability is your definition of system group, then you shouldn\u0027t count \"Administrators\" group to. Because you can assign users to that group.\n\nSuggestion: to drop that magic number and just list the groups that are created from the system when database is first time populated or migrated to the newest version.",
+      "parentUuid": "be8bf4a1_1d17730c",
+      "revId": "615815f8cec9616d57268c826ae358832e609da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de77c87c_56ad54c4",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 25

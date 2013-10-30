@@ -43,6 +43,24 @@
     },
     {
       "key": {
+        "uuid": "be8bf4a1_bdb91fdf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-30T10:04:07Z",
+      "side": 1,
+      "message": "Ok, I guess you are right that we do not need to handle this case.",
+      "parentUuid": "be74d47b_b536a0f4",
+      "revId": "003c5c0b985d484d7d83257813b02dc1b1dc9337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be8bf4a1_7d2dd79b",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/documentation/Util.java",
         "patchSetId": 1

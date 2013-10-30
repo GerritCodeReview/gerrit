@@ -20,9 +20,12 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.StarredChange;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gwt.thirdparty.guava.common.collect.Sets;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
+import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -50,11 +53,13 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
         final Set<Change.Id> existing = currentUser.get().getStarredChanges();
         List<StarredChange> add = new ArrayList<StarredChange>();
         List<StarredChange.Key> remove = new ArrayList<StarredChange.Key>();
+        Set<Change.Id> toRefresh = Sets.newHashSet();
 
         if (req.getAddSet() != null) {
           for (final Change.Id id : req.getAddSet()) {
             if (!existing.contains(id)) {
               add.add(new StarredChange(new StarredChange.Key(me, id)));
+              toRefresh.add(id);
             }
           }
         }
@@ -62,13 +67,36 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
         if (req.getRemoveSet() != null) {
           for (final Change.Id id : req.getRemoveSet()) {
             remove.add(new StarredChange.Key(me, id));
+            toRefresh.add(id);
           }
         }
 
         db.starredChanges().insert(add);
         db.starredChanges().deleteKeys(remove);
+
+        for (Change.Id id : toRefresh) {
+          refreshChange(db, id);
+        }
         return VoidResult.INSTANCE;
       }
     });
+  }
+
+  private static void refreshChange(ReviewDb db, Change.Id id) throws OrmException {
+    db.changes().beginTransaction(id);
+    try {
+      db.changes().atomicUpdate(
+        id,
+        new AtomicUpdate<Change>() {
+          @Override
+          public Change update(Change change) {
+            ChangeUtil.updated(change);
+            return change;
+          }
+        });
+      db.commit();
+    } finally {
+      db.rollback();
+    }
   }
 }

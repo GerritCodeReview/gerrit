@@ -528,9 +528,9 @@ The plugin configuration is loaded only once and is then cached.
 Similar to changes in 'gerrit.config' changes to the plugin
 configuration file will only become effective after a Gerrit restart.
 
-[[project-specific-configuration]]
-Project Specific Configuration
-------------------------------
+[[simple-project-specific-configuration]]
+Simple Project Specific Configuration in `project.config`
+---------------------------------------------------------
 
 In Gerrit, project specific configuration is stored in the project's
 `project.config` file on the `refs/meta/config` branch.  If a plugin
@@ -541,12 +541,12 @@ approach of storing the plugin configuration is only suitable for
 plugins that have a simple configuration that only consists of
 key-value pairs. With this approach it is not possible to have
 subsections in the plugin configuration. Plugins that require a complex
-configuration need to store their configuration in an own configuration
-file where they can make use of subsections. On the other side storing
-the plugin configuration in a 'plugin' subsection in the
-`project.config` file has the advantage that project owners have all
-configuration parameters in one file, instead of having one
-configuration file per plugin.
+configuration need to store their configuration in an
+link:#project-specific-configuration[own configuration file] where they
+can make use of subsections. On the other side storing the plugin
+configuration in a 'plugin' subsection in the `project.config` file has
+the advantage that project owners have all configuration parameters in
+one file, instead of having one configuration file per plugin.
 
 To avoid conflicts with other plugins, it is recommended that plugins
 only use the `plugin` subsection with their own name. For example the
@@ -589,6 +589,49 @@ boolean enabled = cfg.getFromProjectConfigWithInheritance(project, "helloworld")
 
 Project owners can edit the project configuration by fetching the
 `refs/meta/config` branch, editing the `project.config` file and
+pushing the commit back.
+
+[[project-specific-configuration]]
+Project Specific Configuration in own config file
+-------------------------------------------------
+
+Plugins can store their project specific configuration in an own
+configuration file in the projects `refs/meta/config` branch.
+This makes sense if the plugins project specific configuration is
+rather complex and requires the usage of subsections. Plugins that
+have a simple key-value pair configuration can store their project
+specific configuration in a link:#simple-project-specific-configuration[
+`plugin` subsection of the `project.config` file].
+
+The plugin configuration file in the `refs/meta/config` branch must be
+named after the plugin. For example a configuration file for a
+`default-reviewer` plugin could look like this:
+
+.default-reviewer.config
+----
+[branch "refs/heads/master"]
+  reviewer = Project Owners
+  reviewer = john.doe@example.com
+[match "file:^.*\.txt"]
+  reviewer = My Info Developers
+----
+
+Via the `com.google.gerrit.server.config.PluginConfigFactory` class a
+plugin can easily access its project specific configuration:
+
+[source,java]
+----
+@Inject
+private com.google.gerrit.server.config.PluginConfigFactory cfg;
+
+[...]
+
+String[] reviewers = cfg.getFromPluginConfig(project, "default-reviewer")
+                        .getStringList("branch", "refs/heads/master", "reviewer");
+----
+
+Project owners can edit the project configuration by fetching the
+`refs/meta/config` branch, editing the `<plugin-name>.config` file and
 pushing the commit back.
 
 [[capabilities]]

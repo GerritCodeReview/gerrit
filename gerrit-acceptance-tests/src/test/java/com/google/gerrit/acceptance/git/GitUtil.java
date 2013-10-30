@@ -28,6 +28,7 @@ import org.eclipse.jgit.api.AddCommand;
 import org.eclipse.jgit.api.CheckoutCommand;
 import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.CommitCommand;
+import org.eclipse.jgit.api.FetchCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PushCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -176,6 +177,12 @@ public class GitUtil {
     } finally {
       rw.release();
     }
+  }
+
+  public static void fetch(Git git, String spec) throws GitAPIException {
+    FetchCommand fetch = git.fetch();
+    fetch.setRefSpecs(new RefSpec(spec));
+    fetch.call();
   }
 
   public static void checkout(Git git, String name) throws GitAPIException {

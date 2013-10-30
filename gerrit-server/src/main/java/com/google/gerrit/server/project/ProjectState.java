@@ -40,12 +40,14 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.git.ProjectLevelConfig;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import com.googlecode.prolog_cafe.compiler.CompileException;
 import com.googlecode.prolog_cafe.lang.PrologMachineCopy;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
@@ -83,6 +85,7 @@ public class ProjectState {
   private final List<CommentLinkInfo> commentLinks;
 
   private final ProjectConfig config;
+  private final Map<String, ProjectLevelConfig> configs;
   private final Set<AccountGroup.UUID> localOwners;
 
   /** Prolog rule state. */
@@ -121,6 +124,7 @@ public class ProjectState {
     this.rulesCache = rulesCache;
     this.commentLinks = commentLinks;
     this.config = config;
+    this.configs = Maps.newHashMap();
     this.capabilities = isAllProjects
       ? new CapabilityCollection(config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES))
       : null;
@@ -214,6 +218,29 @@ public class ProjectState {
 
   public ProjectConfig getConfig() {
     return config;
+  }
+
+  public ProjectLevelConfig getConfig(String fileName) {
+    if (configs.containsKey(fileName)) {
+      return configs.get(fileName);
+    }
+
+    ProjectLevelConfig cfg = new ProjectLevelConfig(fileName);
+    try {
+      Repository git = gitMgr.openRepository(getProject().getNameKey());
+      try {
+        cfg.load(git);
+      } finally {
+        git.close();
+      }
+    } catch (IOException e) {
+      log.warn("Failed to load " + fileName + " for " + getProject().getName(), e);
+    } catch (ConfigInvalidException e) {
+      log.warn("Failed to load " + fileName + " for " + getProject().getName(), e);
+    }
+
+    configs.put(fileName, cfg);
+    return cfg;
   }
 
   public long getMaxObjectSizeLimit() {

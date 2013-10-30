@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "be8bf4a1_7de797f6",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-30T09:58:52Z",
+      "side": 1,
+      "message": "Yes, actually system groups are those groups where membership is computed and not assigned, at least if we talk about the \u0027GROUP_TYPE\u0027 in the \u0027account_groups\u0027 table being \u0027SYSTEM\u0027. By this definition \"Administrators\" is also no system group.\n\nNow I see that this documentation section has another understanding of \u0027system group\u0027, which is confusing me since I know about the SYSTEM group type...\n\n \u003e Suggestion: to drop that magic number and just list the \n \u003e groups that are created from the system when database is \n \u003e first time populated or migrated to the newest version.\n +1",
+      "parentUuid": "be8bf4a1_fddac732",
+      "revId": "615815f8cec9616d57268c826ae358832e609da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de77c87c_56ad54c4",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 25

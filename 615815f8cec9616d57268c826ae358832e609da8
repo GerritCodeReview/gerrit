@@ -73,6 +73,42 @@
     },
     {
       "key": {
+        "uuid": "be74d47b_354c5076",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-10-30T18:50:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de77c87c_76aa50af",
+      "revId": "615815f8cec9616d57268c826ae358832e609da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be74d47b_5549cc64",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-10-30T18:50:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be8bf4a1_7de797f6",
+      "revId": "615815f8cec9616d57268c826ae358832e609da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de77c87c_56ad54c4",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 25
@@ -84,6 +120,24 @@
       "writtenOn": "2013-10-29T20:18:45Z",
       "side": 1,
       "message": "If you are already on it, may be you can remove that wrong statement?",
+      "revId": "615815f8cec9616d57268c826ae358832e609da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e6edcb1_f392f0a3",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-10-30T18:50:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de77c87c_56ad54c4",
       "revId": "615815f8cec9616d57268c826ae358832e609da8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -107,6 +161,24 @@
     },
     {
       "key": {
+        "uuid": "be74d47b_7546c857",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-10-30T18:50:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be8bf4a1_ddb8ab0a",
+      "revId": "615815f8cec9616d57268c826ae358832e609da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be8bf4a1_fdbd67f7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_85.java",
         "patchSetId": 25
@@ -118,6 +190,24 @@
       "writtenOn": "2013-10-29T20:18:45Z",
       "side": 1,
       "message": "unused",
+      "revId": "615815f8cec9616d57268c826ae358832e609da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e6edcb1_13984cc1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_85.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-10-30T18:50:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be8bf4a1_fdbd67f7",
       "revId": "615815f8cec9616d57268c826ae358832e609da8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -141,6 +231,24 @@
     },
     {
       "key": {
+        "uuid": "7e6edcb1_3395488a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_85.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-10-30T18:50:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de77c87c_d6b8840a",
+      "revId": "615815f8cec9616d57268c826ae358832e609da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de77c87c_16b3dc2c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_85.java",
         "patchSetId": 25
@@ -152,6 +260,24 @@
       "writtenOn": "2013-10-29T20:18:45Z",
       "side": 1,
       "message": "Style nit: remove new line",
+      "revId": "615815f8cec9616d57268c826ae358832e609da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be74d47b_9583645d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_85.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-10-30T18:50:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de77c87c_16b3dc2c",
       "revId": "615815f8cec9616d57268c826ae358832e609da8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -175,6 +301,24 @@
     },
     {
       "key": {
+        "uuid": "be74d47b_b5886078",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_85.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-10-30T18:50:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de77c87c_f6bd80f7",
+      "revId": "615815f8cec9616d57268c826ae358832e609da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be8bf4a1_1db3f32c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_85.java",
         "patchSetId": 25
@@ -186,6 +330,24 @@
       "writtenOn": "2013-10-29T20:18:45Z",
       "side": 1,
       "message": "Style nit: remove new line",
+      "revId": "615815f8cec9616d57268c826ae358832e609da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be74d47b_d58ddc86",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_85.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-10-30T18:50:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be8bf4a1_1db3f32c",
       "revId": "615815f8cec9616d57268c826ae358832e609da8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -209,6 +371,24 @@
     },
     {
       "key": {
+        "uuid": "be74d47b_f592d8a3",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-10-30T18:50:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be8bf4a1_5dad7bc4",
+      "revId": "615815f8cec9616d57268c826ae358832e609da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de77c87c_36b0d81d",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
         "patchSetId": 25
@@ -220,6 +400,24 @@
       "writtenOn": "2013-10-29T20:18:45Z",
       "side": 1,
       "message": "Why not to add a negative test for not change owner:\n\n   public void testUnblockRangeForNotChangeOwner_Fails() {\n    grant(local, LABEL + \"Code-Review\", -2, +2, CHANGE_OWNER, \"refs/heads/*\");\n\n    ProjectControl u \u003d util.user(local, DEVS);\n    PermissionRange range \u003d u.controlForRef(\"refs/heads/master\")\n        .getRange(LABEL + \"Code-Review\");\n    assertFalse(\"u can vote -2\", range.contains(-2));\n    assertFalse(\"u can vote +2\", range.contains(2));\n  }",
+      "revId": "615815f8cec9616d57268c826ae358832e609da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e6edcb1_53a2c4f0",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2013-10-30T18:50:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de77c87c_36b0d81d",
       "revId": "615815f8cec9616d57268c826ae358832e609da8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -16,6 +16,24 @@
       "revId": "d9d1abbf1018c2215c6a8c5b5a3c09480542d4a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e71d08e_d454fc02",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/DiffPreferencesInfo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-10-30T13:20:10Z",
+      "side": 1,
+      "message": "Maybe we will need it in the future? I\u0027m not sure yet.",
+      "parentUuid": "be8bf4a1_fdb3a7fa",
+      "revId": "d9d1abbf1018c2215c6a8c5b5a3c09480542d4a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

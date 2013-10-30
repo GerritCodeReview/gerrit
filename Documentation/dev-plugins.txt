@@ -448,7 +448,17 @@ Configuration
 
 In Gerrit, global configuration is stored in the `gerrit.config` file.
 If a plugin needs global configuration, this configuration should be
-stored in a `plugin` subsection in the `gerrit.config` file.
+stored in a `plugin` subsection in the `gerrit.config` file. This
+approach of storing the plugin configuration is only suitable for
+plugins that have a simple configuration that only consists of
+key-value pairs. With this approach it is not possible to have
+subsections in the plugin configuration. Plugins that require a complex
+configuration need to store their configuration in an own configuration
+file where they can make use of subsections. On the other side storing
+the plugin configuration in a 'plugin' subsection in the
+`gerrit.config` file has the advantage that administrators have all
+configuration parameters in one file, instead of having one
+configuration file per plugin.
 
 To avoid conflicts with other plugins, it is recommended that plugins
 only use the `plugin` subsection with their own name. For example the
@@ -483,7 +493,17 @@ In Gerrit, project specific configuration is stored in the project's
 `project.config` file on the `refs/meta/config` branch.  If a plugin
 needs configuration on project level (e.g. to enable its functionality
 only for certain projects), this configuration should be stored in a
-`plugin` subsection in the project's `project.config` file.
+`plugin` subsection in the project's `project.config` file. This
+approach of storing the plugin configuration is only suitable for
+plugins that have a simple configuration that only consists of
+key-value pairs. With this approach it is not possible to have
+subsections in the plugin configuration. Plugins that require a complex
+configuration need to store their configuration in an own configuration
+file where they can make use of subsections. On the other side storing
+the plugin configuration in a 'plugin' subsection in the
+`project.config` file has the advantage that project owners have all
+configuration parameters in one file, instead of having one
+configuration file per plugin.
 
 To avoid conflicts with other plugins, it is recommended that plugins
 only use the `plugin` subsection with their own name. For example the

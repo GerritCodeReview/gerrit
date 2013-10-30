@@ -20,6 +20,7 @@ limitations under the License.
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
     xmlns:x='urn:import:com.google.gerrit.client.ui'
     xmlns:clippy='urn:import:com.google.gwtexpui.clippy.client'>
+  <ui:with field='ico' type='com.google.gerrit.client.GerritResources'/>
   <ui:with field='res' type='com.google.gerrit.client.change.Resources'/>
   <ui:style type='com.google.gerrit.client.change.ChangeScreen2.Style'>
     @eval textColor com.google.gerrit.client.Gerrit.getTheme().textColor;
@@ -131,6 +132,11 @@ limitations under the License.
 
     .clippy div {
       float: right;
+    }
+
+    .queryProject {
+      float: left;
+      cursor: pointer;
     }
 
     .infoColumn {
@@ -317,8 +323,15 @@ limitations under the License.
             </tr>
             <tr>
               <th><ui:msg>Project</ui:msg></th>
-              <td><x:InlineHyperlink ui:field='projectLink'
+              <td><g:Image
+                     ui:field='projectQuery'
+                     resource='{ico.queryIcon}'
+                     styleName='{style.queryProject}'
                      title='Search for changes on this project'>
+                    <ui:attribute name='title'/>
+                  </g:Image>
+                  <x:InlineHyperlink ui:field='projectLink'
+                     title='Go to project'>
                      <ui:attribute name='title'/>
                   </x:InlineHyperlink>
               </td>

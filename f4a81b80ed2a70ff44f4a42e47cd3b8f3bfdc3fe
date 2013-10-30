@@ -69,6 +69,24 @@
       "revId": "f4a81b80ed2a70ff44f4a42e47cd3b8f3bfdc3fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be8bf4a1_fd856706",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfigFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-30T20:13:25Z",
+      "side": 1,
+      "message": "We can leave it this way for now and possibly extend it later when we really need. Another point would be is a missing mandatory parameter: Why it wasn\u0027t returned? File missing, Wrong syntax in the file or the option was really missing?",
+      "parentUuid": "fe572ce7_efee8134",
+      "revId": "f4a81b80ed2a70ff44f4a42e47cd3b8f3bfdc3fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "de77c87c_96f9acb0",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/ChangeListServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-30T09:32:52Z",
+      "side": 1,
+      "message": "Yeah, i am going to create the missing REST API later today, unless someone else is faster then me ;-)",
+      "parentUuid": "9e98f0f6_5c7bbd78",
+      "revId": "7f51996b1fe8a4bcb19cb60b3b4b87f77f271011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be8bf4a1_9df9c3b0",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/ChangeListServiceImpl.java",
         "patchSetId": 1

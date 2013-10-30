@@ -179,4 +179,27 @@ public class PluginConfigFactory {
 
     return cfg;
   }
+
+  /**
+   * Returns the configuration for the specified plugin that is stored in the
+   * '<plugin-name>.config' file in the 'refs/meta/config' branch of the
+   * specified project.
+   *
+   * @param projectName the name of the project for which the plugin
+   *        configuration should be returned
+   * @param pluginName the name of the plugin for which the configuration should
+   *        be returned
+   * @return the plugin configuration from the '<plugin-name>.config' file of
+   *         the specified project
+   * @throws NoSuchProjectException thrown if the specified project does not
+   *         exist
+   */
+  public Config getProjectPluginConfig(Project.NameKey projectName,
+      String pluginName) throws NoSuchProjectException {
+    ProjectState projectState = projectCache.get(projectName);
+    if (projectState == null) {
+      throw new NoSuchProjectException(projectName);
+    }
+    return projectState.getConfig(pluginName + ".config").get();
+  }
 }

@@ -28,6 +28,7 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.git.PushOneCommit;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -54,8 +55,12 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
   @Inject
   private ProjectCache projectCache;
 
+  @Inject
+  private AllProjectsNameProvider allProjects;
+
   private ReviewDb db;
   private TestAccount admin;
+  private SshSession sshSession;
   private String project;
   private Git git;
 
@@ -63,7 +68,7 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
   public void setUp() throws Exception {
     admin = accounts.admin();
     initSsh(admin);
-    SshSession sshSession = new SshSession(server, admin);
+    sshSession = new SshSession(server, admin);
 
     project = "p";
     createProject(sshSession, project, null, true);
@@ -98,5 +103,45 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
   public void nonExistingConfig() {
     ProjectState state = projectCache.get(new Project.NameKey(project));
     assertEquals("", state.getConfig("test.config").get().toText());
+  }
+
+  @Test
+  public void withInheritance() throws GitAPIException, IOException {
+    String configName = "test.config";
+
+    Config parentCfg = new Config();
+    parentCfg.setString("s1", null, "k1", "parentValue1");
+    parentCfg.setString("s1", null, "k2", "parentValue2");
+    parentCfg.setString("s2", "ss", "k3", "parentValue3");
+    parentCfg.setString("s2", "ss", "k4", "parentValue4");
+
+    Git parentGit =
+        cloneProject(sshSession.getUrl() + "/" + allProjects.get().get(), false);
+    fetch(parentGit, GitRepositoryManager.REF_CONFIG + ":refs/heads/config");
+    checkout(parentGit, "refs/heads/config");
+    PushOneCommit push =
+        new PushOneCommit(db, admin.getIdent(), "Create Project Level Config",
+            configName, parentCfg.toText());
+    push.to(parentGit, GitRepositoryManager.REF_CONFIG);
+
+    Config cfg = new Config();
+    cfg.setString("s1", null, "k1", "childValue1");
+    cfg.setString("s2", "ss", "k3", "childValue2");
+    push = new PushOneCommit(db, admin.getIdent(), "Create Project Level Config",
+        configName, cfg.toText());
+    push.to(git, GitRepositoryManager.REF_CONFIG);
+
+    ProjectState state = projectCache.get(new Project.NameKey(project));
+
+    Config expectedCfg = new Config();
+    expectedCfg.setString("s1", null, "k1", "childValue1");
+    expectedCfg.setString("s1", null, "k2", "parentValue2");
+    expectedCfg.setString("s2", "ss", "k3", "childValue2");
+    expectedCfg.setString("s2", "ss", "k4", "parentValue4");
+
+    assertEquals(expectedCfg.toText(), state.getConfig(configName)
+        .getWithInheritance().toText());
+
+    assertEquals(cfg.toText(), state.getConfig(configName).get().toText());
   }
 }

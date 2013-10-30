@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de77c87c_f63660c3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/documentation/QueryDocumentationExecutor.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-30T05:30:18Z",
+      "side": 1,
+      "message": "May be add this TODO also to the commit message?",
+      "revId": "028551bbfdbf9d6470c26295aea0b202e91e6d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

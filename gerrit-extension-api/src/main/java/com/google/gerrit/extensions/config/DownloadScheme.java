@@ -30,9 +30,7 @@ public abstract class DownloadScheme {
   public abstract boolean isAuthRequired();
 
   /** @return whether this scheme supports authentication */
-  public boolean isAuthSupported() {
-    return isAuthRequired();
-  }
+  public abstract boolean isAuthSupported();
 
   /** @return whether the download scheme is enabled */
   public abstract boolean isEnabled();

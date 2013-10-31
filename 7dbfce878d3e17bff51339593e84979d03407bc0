@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e6edcb1_53ad64c4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-10-31T16:51:09Z",
+      "side": 1,
+      "message": "Optional: if you like Guava, you could avoid the extra catch clause:\n\n } catch (IOException e) {\n   Throwables.propagateIfInstanceOf(e, ServiceMayNotContinueException.class);\n   ServiceMayNotContinueException ex \u003d ...",
+      "revId": "7dbfce878d3e17bff51339593e84979d03407bc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

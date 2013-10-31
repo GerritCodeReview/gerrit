@@ -16,6 +16,24 @@
       "revId": "29fe01560663d56df9e5acb595fb352a7aec511e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe572ce7_4f494d65",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-31T15:45:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be74d47b_75d16843",
+      "revId": "29fe01560663d56df9e5acb595fb352a7aec511e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -591,22 +591,42 @@ public class ReceiveCommits {
             return input.created;
           }
         });
-    if (!Iterables.isEmpty(created) && canonicalWebUrl != null) {
-      final String url = canonicalWebUrl;
+    if (!Iterables.isEmpty(created)) {
       addMessage("");
       addMessage("New Changes:");
       for (CreateRequest c : created) {
-        StringBuilder m = new StringBuilder()
-            .append("  ")
-            .append(url)
-            .append(c.change.getChangeId());
-        if (c.change.getStatus() == Change.Status.DRAFT) {
-          m.append(" [DRAFT]");
-        }
-        addMessage(m.toString());
+        addMessage(formatChangeUrl(canonicalWebUrl, c.change));
       }
       addMessage("");
     }
+
+    Iterable<ReplaceRequest> updated =
+        Iterables.filter(replaceByChange.values(),
+            new Predicate<ReplaceRequest>() {
+              @Override
+              public boolean apply(ReplaceRequest input) {
+                return !input.skip;
+              }
+            });
+    if (!Iterables.isEmpty(updated)) {
+      addMessage("");
+      addMessage("Updated Changes:");
+      for (ReplaceRequest u : updated) {
+        addMessage(formatChangeUrl(canonicalWebUrl, u.change));
+      }
+      addMessage("");
+    }
+  }
+
+  private static String formatChangeUrl(String url, Change change) {
+    StringBuilder m = new StringBuilder()
+        .append("  ")
+        .append(url)
+        .append(change.getChangeId());
+    if (change.getStatus() == Change.Status.DRAFT) {
+      m.append(" [DRAFT]");
+    }
+    return m.toString();
   }
 
   private void insertChangesAndPatchSets() {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e463041_0c9837c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/DefaultFileExtensionRegistery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-31T13:55:46Z",
+      "side": 1,
+      "message": "Can we support \"*.defs\" : PYTHON too?\n\n $\u003e find . -name \"*.defs\"\n ./Documentation/asciidoc.defs\n ./lib/maven.defs\n ./tools/build.defs",
+      "revId": "e3084874088fad28902760bde6670715a1fc827a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

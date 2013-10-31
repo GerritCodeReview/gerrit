@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e6edcb1_936c5cc9",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-31T00:44:27Z",
+      "side": 1,
+      "message": "I think it would be better to put this new text in a new paragraph.",
+      "revId": "1fb2e1e2994d815835f41f34a3987fac8da992aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be74d47b_55a2acf0",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-31T00:44:27Z",
+      "side": 1,
+      "message": "s/an own/their own",
+      "revId": "1fb2e1e2994d815835f41f34a3987fac8da992aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be74d47b_759fa8a7",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-31T00:44:27Z",
+      "side": 1,
+      "message": "s/other side/other hand",
+      "revId": "1fb2e1e2994d815835f41f34a3987fac8da992aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e6edcb1_b37158a0",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-31T00:44:27Z",
+      "side": 1,
+      "message": "Same comments as above.",
+      "revId": "1fb2e1e2994d815835f41f34a3987fac8da992aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

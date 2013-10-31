@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be74d47b_f56bb8ab",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-31T00:49:31Z",
+      "side": 1,
+      "message": "Add a comma after \"\u0027gerrit.config\u0027\".",
+      "revId": "d1c2a76d042be6f10ea69e7dff7b586ff41fe8bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

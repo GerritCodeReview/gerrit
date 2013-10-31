@@ -127,9 +127,10 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       RevWalk revWalk) throws ServiceMayNotContinueException {
     try {
       return filter(repository.getRefDatabase().getRefs(RefDatabase.ALL));
+    } catch (ServiceMayNotContinueException e) {
+      throw e;
     } catch (IOException e) {
-      ServiceMayNotContinueException ex =
-          new ServiceMayNotContinueException(e.getMessage());
+      ServiceMayNotContinueException ex = new ServiceMayNotContinueException();
       ex.initCause(e);
       throw ex;
     }

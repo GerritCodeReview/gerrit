@@ -584,29 +584,52 @@ public class ReceiveCommits {
     commandProgress.end();
     progress.end();
 
-    Iterable<CreateRequest> created =
-        Iterables.filter(newChanges, new Predicate<CreateRequest>() {
-          @Override
-          public boolean apply(CreateRequest input) {
-            return input.created;
-          }
-        });
-    if (!Iterables.isEmpty(created) && canonicalWebUrl != null) {
-      final String url = canonicalWebUrl;
-      addMessage("");
-      addMessage("New Changes:");
-      for (CreateRequest c : created) {
-        StringBuilder m = new StringBuilder()
-            .append("  ")
-            .append(url)
-            .append(c.change.getChangeId());
-        if (c.change.getStatus() == Change.Status.DRAFT) {
-          m.append(" [DRAFT]");
+    if (canonicalWebUrl != null) {
+      Iterable<CreateRequest> created =
+          Iterables.filter(newChanges, new Predicate<CreateRequest>() {
+            @Override
+            public boolean apply(CreateRequest input) {
+              return input.created;
+            }
+          });
+      if (!Iterables.isEmpty(created)) {
+        final String url = canonicalWebUrl;
+        addMessage("");
+        addMessage("New Changes:");
+        for (CreateRequest c : created) {
+          addMessage(formatChangeUrl(url, c.change));
         }
-        addMessage(m.toString());
+        addMessage("");
       }
-      addMessage("");
+
+      Iterable<ReplaceRequest> updated =
+          Iterables.filter(replaceByChange.values(), new Predicate<ReplaceRequest>() {
+            @Override
+            public boolean apply(ReplaceRequest input) {
+              return !input.skip;
+            }
+          });
+      if (!Iterables.isEmpty(updated)) {
+        final String url = canonicalWebUrl;
+        addMessage("");
+        addMessage("Updated Changes:");
+        for (ReplaceRequest u : updated) {
+          addMessage(formatChangeUrl(url, u.change));
+        }
+        addMessage("");
+      }
     }
+  }
+
+  private static String formatChangeUrl(String url, Change change) {
+    StringBuilder m = new StringBuilder()
+        .append("  ")
+        .append(url)
+        .append(change.getChangeId());
+    if (change.getStatus() == Change.Status.DRAFT) {
+      m.append(" [DRAFT]");
+    }
+    return m.toString();
   }
 
   private void insertChangesAndPatchSets() {

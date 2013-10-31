@@ -16,6 +16,24 @@
       "revId": "762da38661fa2c975dde0059bbcf3878d094d06d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e463041_ec592b38",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectLevelConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-31T13:37:12Z",
+      "side": 1,
+      "message": "Actually the code is different in both places. Here were are not merging both configs, but from the parent config we only copy the parameter if it is not set in the child config.",
+      "parentUuid": "fe572ce7_0f2665c5",
+      "revId": "762da38661fa2c975dde0059bbcf3878d094d06d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
+import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -34,6 +35,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.index.ChangeIndexer;
+import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectControl;
@@ -45,6 +47,8 @@ import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,6 +56,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
+  private static final Logger log =
+      LoggerFactory.getLogger(ReviewProjectAccess.class);
+
   interface Factory {
     ReviewProjectAccess create(@Assisted Project.NameKey projectName,
         @Nullable @Assisted ObjectId base,
@@ -65,6 +72,8 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
   private final Provider<PostReviewers> reviewersProvider;
   private final ChangeControl.GenericFactory changeFactory;
   private final ChangeIndexer indexer;
+  private final ChangeHooks hooks;
+  private final CreateChangeSender.Factory createChangeSenderFactory;
 
   @Inject
   ReviewProjectAccess(final ProjectControl.Factory projectControlFactory,
@@ -73,7 +82,8 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       IdentifiedUser user, PatchSetInfoFactory patchSetInfoFactory,
       Provider<PostReviewers> reviewersProvider,
       ChangeControl.GenericFactory changeFactory,
-      ChangeIndexer indexer,
+      ChangeIndexer indexer, ChangeHooks hooks,
+      CreateChangeSender.Factory createChangeSenderFactory,
 
       @Assisted Project.NameKey projectName,
       @Nullable @Assisted ObjectId base,
@@ -87,6 +97,8 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
     this.reviewersProvider = reviewersProvider;
     this.changeFactory = changeFactory;
     this.indexer = indexer;
+    this.hooks = hooks;
+    this.createChangeSenderFactory = createChangeSenderFactory;
   }
 
   @Override
@@ -122,12 +134,22 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       insertAncestors(ps.getId(), commit);
       db.patchSets().insert(Collections.singleton(ps));
       db.changes().insert(Collections.singleton(change));
-      addProjectOwnersAsReviewers(change);
       db.commit();
     } finally {
       db.rollback();
     }
     indexer.index(change);
+    hooks.doPatchsetCreatedHook(change, ps, db);
+    try {
+      CreateChangeSender cm =
+          createChangeSenderFactory.create(change);
+      cm.setFrom(change.getOwner());
+      cm.setPatchSet(ps, info);
+      cm.send();
+    } catch (Exception err) {
+      log.error("Cannot send email for new change " + change.getId(), err);
+    }
+    addProjectOwnersAsReviewers(change);
     return changeId;
   }
 

@@ -596,17 +596,38 @@ public class ReceiveCommits {
       addMessage("");
       addMessage("New Changes:");
       for (CreateRequest c : created) {
-        StringBuilder m = new StringBuilder()
-            .append("  ")
-            .append(url)
-            .append(c.change.getChangeId());
-        if (c.change.getStatus() == Change.Status.DRAFT) {
-          m.append(" [DRAFT]");
-        }
-        addMessage(m.toString());
+        addMessage(formatChangeUrl(url, c.change));
       }
       addMessage("");
     }
+
+    Iterable<ReplaceRequest> updated =
+        Iterables.filter(replaceByChange.values(), new Predicate<ReplaceRequest>() {
+          @Override
+          public boolean apply(ReplaceRequest input) {
+            return !input.skip;
+          }
+        });
+    if (!Iterables.isEmpty(updated) && canonicalWebUrl != null) {
+      final String url = canonicalWebUrl;
+      addMessage("");
+      addMessage("Updated Changes:");
+      for (ReplaceRequest u : updated) {
+        addMessage(formatChangeUrl(url, u.change));
+      }
+      addMessage("");
+    }
+  }
+
+  private static String formatChangeUrl(String url, Change change) {
+    StringBuilder m = new StringBuilder()
+        .append("  ")
+        .append(url)
+        .append(change.getChangeId());
+    if (change.getStatus() == Change.Status.DRAFT) {
+      m.append(" [DRAFT]");
+    }
+    return m.toString();
   }
 
   private void insertChangesAndPatchSets() {

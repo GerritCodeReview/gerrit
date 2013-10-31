@@ -54,12 +54,12 @@ public class MimeUtilFileTypeRegistry implements FileTypeRegistry {
     if (HostPlatform.isWin32()) {
       register("eu.medsea.mimeutil.detector.WindowsRegistryMimeDetector");
     }
+    register(DefaultFileExtensionRegistry.class.getName());
   }
 
   private void register(String name) {
     mimeUtil.registerMimeDetector(name);
   }
-
 
   /**
    * Get specificity of mime types with generic types forced to low values

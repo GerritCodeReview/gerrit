@@ -16,6 +16,23 @@
       "revId": "7dbfce878d3e17bff51339593e84979d03407bc0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e463041_2c7ed369",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-31T16:53:39Z",
+      "side": 1,
+      "message": "Is the passing of the exception message removed intentionally?",
+      "revId": "7dbfce878d3e17bff51339593e84979d03407bc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

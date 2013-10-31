@@ -52,6 +52,24 @@
       "revId": "762da38661fa2c975dde0059bbcf3878d094d06d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e463041_6c461b58",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectLevelConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-31T13:46:45Z",
+      "side": 1,
+      "message": "Yes, would be nice to do this refactoring, but maybe it\u0027s better done in an own change.",
+      "parentUuid": "9e463041_2c4c1376",
+      "revId": "762da38661fa2c975dde0059bbcf3878d094d06d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

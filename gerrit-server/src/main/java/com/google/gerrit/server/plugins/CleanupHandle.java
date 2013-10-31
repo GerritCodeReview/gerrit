@@ -32,6 +32,7 @@ class CleanupHandle {
     try {
       jarFile.close();
     } catch (IOException err) {
+      PluginLoader.log.error("Cannot close " + jarFile.getName());
     }
     if (!tmpFile.delete() && tmpFile.exists()) {
       PluginLoader.log.warn("Cannot delete " + tmpFile.getAbsolutePath()

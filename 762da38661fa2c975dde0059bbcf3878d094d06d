@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe572ce7_0f2665c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectLevelConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-31T13:24:47Z",
+      "side": 1,
+      "message": "[Optional]\n\nThis block lines[65…87] merges two config files: parentCfg and cfg (get()).\nThat logic was already implemented and extracted into its own class:\n\n https://gerrit-review.googlesource.com/#/c/49829/7/gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/MergeableFileBasedConfig.java\n\nWe should find a way to reuse that logic, may be extract it even further in its own utility class and use it from box places?",
+      "revId": "762da38661fa2c975dde0059bbcf3878d094d06d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

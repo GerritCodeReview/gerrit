@@ -404,11 +404,10 @@ public class ReceiveCommits {
         if (allRefs == null) {
           try {
             allRefs = rp.getRepository().getRefDatabase().getRefs(ALL);
+          } catch (ServiceMayNotContinueException e) {
+            throw e;
           } catch (IOException e) {
-            ServiceMayNotContinueException ex =
-                new ServiceMayNotContinueException(e.getMessage());
-            ex.initCause(e);
-            throw ex;
+            throw new ServiceMayNotContinueException().initCause(e);
           }
         }
         rp.setAdvertisedRefs(allRefs, rp.getAdvertisedObjects());

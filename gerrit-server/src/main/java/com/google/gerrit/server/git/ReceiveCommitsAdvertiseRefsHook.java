@@ -68,11 +68,10 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
     if (oldRefs == null) {
       try {
         oldRefs = rp.getRepository().getRefDatabase().getRefs(ALL);
+      } catch (ServiceMayNotContinueException e) {
+        throw e;
       } catch (IOException e) {
-        ServiceMayNotContinueException ex =
-            new ServiceMayNotContinueException(e.getMessage());
-        ex.initCause(e);
-        throw ex;
+        throw new ServiceMayNotContinueException().initCause(e);
       }
     }
     Map<String, Ref> r = Maps.newHashMapWithExpectedSize(oldRefs.size());

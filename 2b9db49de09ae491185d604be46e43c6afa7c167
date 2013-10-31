@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9e463041_0cf4b701",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfigFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-31T06:50:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be74d47b_956c44c9",
+      "revId": "2b9db49de09ae491185d604be46e43c6afa7c167",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be74d47b_b57140a0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfigFactory.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-10-31T00:47:16Z",
       "side": 1,
       "message": "s/inheriting/inherited\n\nor remove \"with\", i.e. \"specified project, inheriting ...\"",
+      "revId": "2b9db49de09ae491185d604be46e43c6afa7c167",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e463041_2cf17312",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfigFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-31T06:50:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be74d47b_b57140a0",
       "revId": "2b9db49de09ae491185d604be46e43c6afa7c167",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

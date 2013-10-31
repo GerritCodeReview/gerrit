@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "7e6edcb1_33c7088e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/DefaultFileExtensionRegistery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-31T15:03:23Z",
+      "side": 1,
+      "message": "s/Registery/Registry",
+      "revId": "e3084874088fad28902760bde6670715a1fc827a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e463041_0c9837c1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/DefaultFileExtensionRegistery.java",
         "patchSetId": 1

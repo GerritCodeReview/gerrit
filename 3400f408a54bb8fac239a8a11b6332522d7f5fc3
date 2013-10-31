@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be74d47b_f5e49827",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/AddBranchResult.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-10-31T07:33:37Z",
+      "side": 1,
+      "message": "Should we use String.format here rather than concatenation?",
+      "revId": "3400f408a54bb8fac239a8a11b6332522d7f5fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

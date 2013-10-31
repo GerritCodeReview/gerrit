@@ -16,6 +16,24 @@
       "revId": "122622d2236d12de9477a24fefe714f7414ae770",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e463041_ac0d6350",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-31T07:19:48Z",
+      "side": 1,
+      "message": "It breaks the reviewers-by-blame plugin, but I\u0027ll fix it as soon as this is merged. The core plugins are not affected.",
+      "parentUuid": "7e6edcb1_537ba478",
+      "revId": "122622d2236d12de9477a24fefe714f7414ae770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

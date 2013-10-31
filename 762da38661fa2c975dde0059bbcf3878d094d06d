@@ -70,6 +70,24 @@
       "revId": "762da38661fa2c975dde0059bbcf3878d094d06d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e463041_cc8d4f87",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectLevelConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-31T13:49:33Z",
+      "side": 1,
+      "message": "Agreed.",
+      "parentUuid": "9e463041_6c461b58",
+      "revId": "762da38661fa2c975dde0059bbcf3878d094d06d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

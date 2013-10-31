@@ -87,6 +87,24 @@
       "revId": "f4a81b80ed2a70ff44f4a42e47cd3b8f3bfdc3fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe572ce7_6ffb71f0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfigFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-10-31T07:04:09Z",
+      "side": 1,
+      "message": "Ok, then I\u0027m leaving it for now as it is. If needed we will change this later.",
+      "parentUuid": "be8bf4a1_fd856706",
+      "revId": "f4a81b80ed2a70ff44f4a42e47cd3b8f3bfdc3fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

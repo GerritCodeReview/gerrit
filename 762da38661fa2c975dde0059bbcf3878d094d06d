@@ -34,6 +34,24 @@
       "revId": "762da38661fa2c975dde0059bbcf3878d094d06d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e463041_2c4c1376",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectLevelConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-10-31T13:43:45Z",
+      "side": 1,
+      "message": "Yes, it is additional parameter to merge method, a lá:\n\n GitConfigUtil.merge(Config from, Config to, boolean overwrite);\n\nHere you would pass overwrite \u003d false and from the MergeableFileBasedConfig overwrite \u003d true.",
+      "parentUuid": "9e463041_ec592b38",
+      "revId": "762da38661fa2c975dde0059bbcf3878d094d06d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

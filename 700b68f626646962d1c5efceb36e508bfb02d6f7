@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "be0135f5_5b0ba33e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-01T15:20:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e1c1c52_63146254",
+      "revId": "700b68f626646962d1c5efceb36e508bfb02d6f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e1f1045_041d7679",
         "filename": "Documentation/intro-change-screen.txt",
         "patchSetId": 1

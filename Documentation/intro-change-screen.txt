@@ -11,7 +11,7 @@ optional elements are moved to pop down boxes.
 
 This is not only a facelift. The main highlights are under the hood:
 
-* Old style RPC calls are replaced by the REST API
+* Old style RPC calls are replaced by the REST API (except starred change request)
 * The prettify syntax highlighting library was replaced by Codemirror
 * Automatic refresh of open changes
 * Support to download a patch direct in browser: no local repo is needed

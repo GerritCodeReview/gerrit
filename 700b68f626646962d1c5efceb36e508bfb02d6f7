@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "7e1c1c52_63146254",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-01T10:52:37Z",
+      "side": 1,
+      "message": "s/Chang/Change",
+      "revId": "700b68f626646962d1c5efceb36e508bfb02d6f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e1f1045_041d7679",
         "filename": "Documentation/intro-change-screen.txt",
         "patchSetId": 1
@@ -31,6 +48,24 @@
       "side": 1,
       "message": "I am working on that. I was wondering how fast you\u0027ve created rc-2 so that i upload that documentation fix here, in case you would want to release 2.8 final *before* that get fixed.",
       "parentUuid": "9e1f1045_041d7679",
+      "revId": "700b68f626646962d1c5efceb36e508bfb02d6f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e1f1045_241a7282",
+        "filename": "Documentation/intro-change-screen.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-01T10:52:37Z",
+      "side": 1,
+      "message": "OK.  I was intending to do weekly RCs until there are no more pending issues.\n\nDo you think that\u0027s too frequent?",
+      "parentUuid": "be0135f5_fbf26f13",
       "revId": "700b68f626646962d1c5efceb36e508bfb02d6f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

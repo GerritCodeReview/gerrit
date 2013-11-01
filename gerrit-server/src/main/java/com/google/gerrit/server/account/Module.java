@@ -64,6 +64,7 @@ public class Module extends RestApiModule {
     get(ACCOUNT_KIND, "preferences.diff").to(GetDiffPreferences.class);
     put(ACCOUNT_KIND, "preferences.diff").to(SetDiffPreferences.class);
     get(CAPABILITY_KIND).to(GetCapabilities.CheckOne.class);
+    post(ACCOUNT_KIND, "starred.changes").to(StarredChanges.class);
 
     install(new FactoryModuleBuilder().build(CreateAccount.Factory.class));
     install(new FactoryModuleBuilder().build(CreateEmail.Factory.class));

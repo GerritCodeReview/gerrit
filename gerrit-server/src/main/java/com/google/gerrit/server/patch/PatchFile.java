@@ -31,7 +31,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
 import java.io.IOException;
-import java.nio.charset.CharacterCodingException;
 
 /** State supporting processing of a single {@link Patch} instance. */
 public class PatchFile {

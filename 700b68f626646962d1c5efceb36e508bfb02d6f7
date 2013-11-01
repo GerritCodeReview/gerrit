@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e1f1045_041d7679",
+        "filename": "Documentation/intro-change-screen.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-01T10:16:28Z",
+      "side": 1,
+      "message": "So this is not going to get fixed on stable-2.8?",
+      "revId": "700b68f626646962d1c5efceb36e508bfb02d6f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

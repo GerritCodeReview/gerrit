@@ -27,7 +27,6 @@ public class UiRpcModule extends RpcServletModule {
 
   @Override
   protected void configureServlets() {
-    rpc(ChangeListServiceImpl.class);
     rpc(SuggestServiceImpl.class);
     rpc(SystemInfoServiceImpl.class);
 

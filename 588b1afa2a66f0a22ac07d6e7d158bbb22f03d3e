@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be0135f5_dbefb329",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-01T11:43:24Z",
+      "side": 1,
+      "message": "Can you please update the documentation and remove the last statement in Missing features section?\n\n Documentation/intro-change-screen.txt\n\nMissing features\n\n* Change diff view preferences",
+      "revId": "588b1afa2a66f0a22ac07d6e7d158bbb22f03d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e0af914_38e90929",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-01T11:43:24Z",
+      "side": 1,
+      "message": "Can you be more specific here?",
+      "revId": "588b1afa2a66f0a22ac07d6e7d158bbb22f03d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

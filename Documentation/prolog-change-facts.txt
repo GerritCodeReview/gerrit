@@ -101,3 +101,6 @@ all Java classes whose name matches `PRED_*.java` from Gerrit's source code.
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

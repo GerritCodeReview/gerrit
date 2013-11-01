@@ -636,3 +636,6 @@ For a plugin specific version see link:#self_url()[`self.url()`].
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

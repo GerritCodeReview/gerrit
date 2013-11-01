@@ -92,3 +92,6 @@ the single quotes to delimit the value.
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

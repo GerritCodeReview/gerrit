@@ -288,3 +288,6 @@ the master branch when the stable branch is merged back.
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

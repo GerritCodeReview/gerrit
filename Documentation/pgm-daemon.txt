@@ -126,3 +126,6 @@ planned to be implemented in a future version.
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

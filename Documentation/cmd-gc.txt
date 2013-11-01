@@ -70,3 +70,6 @@ Run the Git garbage collection for all projects:
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

@@ -44,3 +44,6 @@ Rename the group "MyGroup" to "MyCommitters".
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

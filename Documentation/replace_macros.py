@@ -22,6 +22,7 @@ PAT_INCLUDE = re.compile(r'^(include::.*)(\[\])$')
 PAT_GET = re.compile(r'^get::([^ \t\n]*)')
 PAT_TITLE = re.compile(r'^\.(.*)')
 PAT_STARS = re.compile(r'^\*\*\*\*')
+PAT_SEARCHBOX = re.compile(r'^SEARCHBOX')
 
 GERRIT_UPLINK = """
 
@@ -56,6 +57,23 @@ GET_MACRO = """
 
 """
 
+SEARCH_BOX = """
+
+++++
+<div style="position:absolute; right:20px; top:20px;">
+<input type="text" id="docSearch" size="70" />
+<button type="button" id="searchBox">Search</button>
+<script type="text/javascript">
+document.getElementById("searchBox").onclick = function() {
+  window.location = '/#/Documentation/' +
+    document.getElementById("docSearch").value;
+}
+</script>
+</div>
+++++
+
+"""
+
 opts = OptionParser()
 opts.add_option('-o', '--out', help='output file')
 opts.add_option('-s', '--src', help='source file')
@@ -72,6 +90,10 @@ try:
     if PAT_GERRIT.match(last_line):
       # Case of "GERRIT\n------" at the footer
       out_file.write(GERRIT_UPLINK)
+      last_line = ''
+    elif PAT_SEARCHBOX.match(line):
+      # Case of 'SEARCHBOX\n---------'
+      out_file.write(SEARCH_BOX)
       last_line = ''
     elif PAT_INCLUDE.match(line):
       # Case of 'include::<filename>'

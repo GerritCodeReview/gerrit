@@ -51,3 +51,6 @@ Can be used either interactively for testing new prolog submit type, or from a s
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

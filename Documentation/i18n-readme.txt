@@ -22,3 +22,6 @@ strings is supported.
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

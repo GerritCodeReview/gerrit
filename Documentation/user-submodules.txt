@@ -187,3 +187,6 @@ of the .gitmodules file.
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

@@ -134,3 +134,6 @@ to a commit object.  Abbreviated SHA-1s are not supported.
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

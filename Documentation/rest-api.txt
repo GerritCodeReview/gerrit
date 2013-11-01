@@ -171,3 +171,6 @@ specified in the request body cannot be resolved.
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

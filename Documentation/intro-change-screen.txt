@@ -214,3 +214,6 @@ Several features have not been implemented yet:
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

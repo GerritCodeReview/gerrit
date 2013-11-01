@@ -57,3 +57,6 @@ To rescan all known trackingids:
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

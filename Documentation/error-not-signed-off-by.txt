@@ -29,3 +29,6 @@ that are connected with this footer.
 GERRIT
 ------
 Part of link:error-messages.html[Gerrit Error Messages]
+
+SEARCHBOX
+---------

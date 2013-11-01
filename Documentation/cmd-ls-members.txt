@@ -62,3 +62,6 @@ List members of a non-existent group:
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

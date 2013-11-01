@@ -17,3 +17,6 @@ There are two possibilities how to continue in this situation:
 GERRIT
 ------
 Part of link:error-messages.html[Gerrit Error Messages]
+
+SEARCHBOX
+---------

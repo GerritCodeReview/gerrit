@@ -3371,3 +3371,6 @@ Each tag is listed without the 'refs/tags/' prefix.
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

@@ -140,3 +140,6 @@ the function and is ready to register the hook callback.
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

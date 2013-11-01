@@ -32,3 +32,6 @@ link:access-control.html#category_create['Create reference'] access to create ne
 GERRIT
 ------
 Part of link:error-messages.html[Gerrit Error Messages]
+
+SEARCHBOX
+---------

@@ -39,3 +39,6 @@ commit may not rewrite it.
 GERRIT
 ------
 Part of link:error-messages.html[Gerrit Error Messages]
+
+SEARCHBOX
+---------

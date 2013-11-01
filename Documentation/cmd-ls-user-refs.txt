@@ -53,3 +53,6 @@ List visible refs for the user "mr.developer" in project "gerrit"
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

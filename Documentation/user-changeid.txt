@@ -169,3 +169,6 @@ be automatically associated with the prior change.
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

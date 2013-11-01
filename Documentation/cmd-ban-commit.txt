@@ -58,3 +58,6 @@ Ban commit `421919d015c062fd28901fe144a78a555d0b5984` from project
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

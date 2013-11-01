@@ -71,3 +71,6 @@ Install a plugin from piped input:
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

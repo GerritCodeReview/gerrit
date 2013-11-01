@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e1f1045_64146a54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-11-01T22:14:15Z",
+      "side": 1,
+      "message": "Perhaps: \"Recompress *.png images to reduce the size of files\"\n\nCould you also document what you did here? e.g. \"Produced by pngcrush -brute\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 20
+      },
+      "revId": "f3646d1b05581f699179c45207737f0bcf947a1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -108,3 +108,6 @@ on the author's behalf.
 GERRIT
 ------
 Part of link:error-messages.html[Gerrit Error Messages]
+
+SEARCHBOX
+---------

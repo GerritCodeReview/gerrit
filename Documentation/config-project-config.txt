@@ -223,3 +223,6 @@ link:prolog-cookbook.html[the Prolog cookbook page].
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

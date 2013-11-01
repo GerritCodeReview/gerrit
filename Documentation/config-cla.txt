@@ -80,3 +80,6 @@ appear in the `groups` file.
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

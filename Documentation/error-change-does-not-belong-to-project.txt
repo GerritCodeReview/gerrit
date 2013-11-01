@@ -14,3 +14,6 @@ link:user-upload.html#push_replace[replacing changes].
 GERRIT
 ------
 Part of link:error-messages.html[Gerrit Error Messages]
+
+SEARCHBOX
+---------

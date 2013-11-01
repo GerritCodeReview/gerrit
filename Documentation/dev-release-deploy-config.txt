@@ -132,3 +132,6 @@ deployable to the `gerrit-plugins` storage bucket:
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

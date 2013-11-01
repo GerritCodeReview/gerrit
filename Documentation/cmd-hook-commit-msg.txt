@@ -117,6 +117,7 @@ committer timestamp are included in the hash computation, the output
 
 GERRIT
 ------
-
-
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

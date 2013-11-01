@@ -102,3 +102,6 @@ https://dl.google.com/dl/gwt/plugins/safari/gwt-dev-plugin.dmg[Safari]
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

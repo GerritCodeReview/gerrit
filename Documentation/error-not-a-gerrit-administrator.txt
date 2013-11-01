@@ -12,3 +12,6 @@ are member of the Gerrit link:access-control.html#administrators[Administrators]
 GERRIT
 ------
 Part of link:error-messages.html[Gerrit Error Messages]
+
+SEARCHBOX
+---------

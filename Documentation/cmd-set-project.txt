@@ -117,3 +117,6 @@ and use 'merge if necessary' as merge strategy:
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

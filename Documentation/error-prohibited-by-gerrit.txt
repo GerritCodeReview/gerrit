@@ -39,3 +39,6 @@ are explained link:user-upload.html#push_create[here].
 GERRIT
 ------
 Part of link:error-messages.html[Gerrit Error Messages]
+
+SEARCHBOX
+---------

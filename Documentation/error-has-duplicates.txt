@@ -22,3 +22,6 @@ commit is explained link:error-push-fails-due-to-commit-message.html[here].
 GERRIT
 ------
 Part of link:error-messages.html[Gerrit Error Messages]
+
+SEARCHBOX
+---------

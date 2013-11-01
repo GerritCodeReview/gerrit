@@ -12,3 +12,6 @@ refer to link:error-no-new-changes.html[no new changes].
 GERRIT
 ------
 Part of link:error-messages.html[Gerrit Error Messages]
+
+SEARCHBOX
+---------

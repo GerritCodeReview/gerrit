@@ -246,3 +246,6 @@ PostgreSQL:
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

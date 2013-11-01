@@ -39,3 +39,6 @@ using the Gerrit server's SSH port).
 GERRIT
 ------
 Part of link:error-messages.html[Gerrit Error Messages]
+
+SEARCHBOX
+---------

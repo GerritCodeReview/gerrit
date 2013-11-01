@@ -147,3 +147,6 @@ Make sure to use a 'proxy_pass' URL without any path (esp. no trailing
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

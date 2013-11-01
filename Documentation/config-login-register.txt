@@ -141,3 +141,6 @@ Verify that the ssh connection works for you.
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

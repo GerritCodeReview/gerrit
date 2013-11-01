@@ -28,3 +28,6 @@ Intended for interactive use only.
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

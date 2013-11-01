@@ -18,3 +18,6 @@ verify that you are pushing the commit to the correct project.
 GERRIT
 ------
 Part of link:error-messages.html[Gerrit Error Messages]
+
+SEARCHBOX
+---------

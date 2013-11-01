@@ -14,3 +14,6 @@ permissions for project creation.
 GERRIT
 ------
 Part of link:error-messages.html[Gerrit Error Messages]
+
+SEARCHBOX
+---------

@@ -277,3 +277,6 @@ The `PluginInput` entity describes a plugin that should be installed.
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

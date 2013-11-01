@@ -219,3 +219,6 @@ a top menu entry.
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

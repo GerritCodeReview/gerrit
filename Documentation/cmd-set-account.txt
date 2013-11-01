@@ -94,3 +94,6 @@ Add an email and SSH key to `watcher`'s account:
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

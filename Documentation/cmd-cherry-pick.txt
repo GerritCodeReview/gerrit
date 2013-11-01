@@ -45,3 +45,6 @@ copy it to your local system:
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

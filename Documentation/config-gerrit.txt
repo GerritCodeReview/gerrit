@@ -3030,3 +3030,6 @@ Other files support site customization.
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

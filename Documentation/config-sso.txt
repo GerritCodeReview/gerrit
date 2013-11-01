@@ -179,3 +179,6 @@ then the external_id field would be populated with "gerrit:foo".
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

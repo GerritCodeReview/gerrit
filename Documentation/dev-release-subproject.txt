@@ -107,3 +107,6 @@ link:dev-release-deploy-config.html#deploy-configuration-core-plugins[Core Plugi
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

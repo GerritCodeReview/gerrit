@@ -66,3 +66,6 @@ Can be used either interactively for testing new prolog submit rules, or from a 
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

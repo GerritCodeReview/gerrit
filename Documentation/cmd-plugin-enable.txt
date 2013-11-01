@@ -42,3 +42,6 @@ Enable a plugin:
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

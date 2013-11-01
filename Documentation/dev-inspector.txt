@@ -300,3 +300,6 @@ IMPORTANT: Using the Inspector may void your warranty.
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

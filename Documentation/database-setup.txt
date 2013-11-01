@@ -113,3 +113,6 @@ Sample database section in $site_path/etc/secure.config:
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

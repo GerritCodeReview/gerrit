@@ -88,3 +88,6 @@ Without reverse DNS lookup:
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

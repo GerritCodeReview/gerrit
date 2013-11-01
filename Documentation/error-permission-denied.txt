@@ -60,3 +60,6 @@ lines in the output:
 GERRIT
 ------
 Part of link:error-messages.html[Gerrit Error Messages]
+
+SEARCHBOX
+---------

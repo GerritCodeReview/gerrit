@@ -80,3 +80,6 @@ database and a given path:
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

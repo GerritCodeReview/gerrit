@@ -175,3 +175,6 @@ increase the likelihood of your patch getting into the kernel.
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

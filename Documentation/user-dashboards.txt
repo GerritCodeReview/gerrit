@@ -169,3 +169,6 @@ but not inherited to the child projects.
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

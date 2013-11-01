@@ -39,3 +39,6 @@ link:config-gerrit.html#index.type[index.type].
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

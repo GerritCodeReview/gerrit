@@ -149,3 +149,6 @@ The `DocResult` entity contains information about a document.
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

@@ -55,3 +55,6 @@ Define a simple predicate and test it:
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

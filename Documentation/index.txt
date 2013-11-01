@@ -91,3 +91,6 @@ Resources
 * link:http://code.google.com/p/gerrit/issues/list[Issue Tracking]
 * link:http://code.google.com/p/gerrit/source/checkout[Source Code]
 * link:http://code.google.com/p/gerrit/wiki/Background[A History of Gerrit Code Review]
+
+SEARCHBOX
+---------

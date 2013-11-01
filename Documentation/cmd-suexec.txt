@@ -67,3 +67,6 @@ Approve the change with commit c0ff33 as "Verified +1" as user bob@example.com
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

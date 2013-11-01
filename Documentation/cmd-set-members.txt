@@ -80,3 +80,6 @@ exclude the included group my-testers from the group my-committers.
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

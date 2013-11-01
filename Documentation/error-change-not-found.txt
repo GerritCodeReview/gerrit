@@ -13,3 +13,6 @@ It is recommended to only rely on Change-IDs for link:user-upload.html#push_repl
 GERRIT
 ------
 Part of link:error-messages.html[Gerrit Error Messages]
+
+SEARCHBOX
+---------

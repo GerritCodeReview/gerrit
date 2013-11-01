@@ -145,3 +145,6 @@ need to use the `visibleto:` operator in the filter.
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

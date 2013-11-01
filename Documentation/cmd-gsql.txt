@@ -65,3 +65,6 @@ To manually correct a user's SSH user name:
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

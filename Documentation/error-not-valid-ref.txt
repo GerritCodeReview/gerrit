@@ -44,3 +44,6 @@ $ git push ssh://JohnDoe@host:29418/myProject HEAD:master
 GERRIT
 ------
 Part of link:error-messages.html[Gerrit Error Messages]
+
+SEARCHBOX
+---------

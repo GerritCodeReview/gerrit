@@ -106,3 +106,6 @@ affected commit messages.
 GERRIT
 ------
 Part of link:error-messages.html[Gerrit Error Messages]
+
+SEARCHBOX
+---------

@@ -52,3 +52,6 @@ To compile a rule JAR file for test/project:
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

@@ -32,3 +32,6 @@ server to see if a particular project exists.
 GERRIT
 ------
 Part of link:error-messages.html[Gerrit Error Messages]
+
+SEARCHBOX
+---------

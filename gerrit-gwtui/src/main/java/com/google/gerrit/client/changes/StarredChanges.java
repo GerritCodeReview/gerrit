@@ -15,16 +15,17 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.account.AccountApi;
 import com.google.gerrit.common.data.ToggleStarRequest;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
-import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.web.bindery.event.shared.Event;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 
@@ -123,27 +124,28 @@ public class StarredChanges {
     next = null;
     busy = true;
 
-    Util.LIST_SVC.toggleStars(req, new GerritCallback<VoidResult>() {
-      @Override
-      public void onSuccess(VoidResult result) {
-        if (next != null) {
-          start();
-        } else {
-          busy = false;
-        }
-      }
+    StarredChangesInput in = StarredChangesInput.create(req);
+    AccountApi.self().view("starred.changes")
+        .post(in, new AsyncCallback<JavaScriptObject>() {
+          @Override
+          public void onSuccess(JavaScriptObject result) {
+            if (next != null) {
+              start();
+            } else {
+              busy = false;
+            }
+          }
 
-      @Override
-      public void onFailure(Throwable caught) {
-        rollback(req);
-        if (next != null) {
-          rollback(next);
-          next = null;
-        }
-        busy = false;
-        super.onFailure(caught);
-      }
-    });
+          @Override
+          public void onFailure(Throwable caught) {
+            rollback(req);
+            if (next != null) {
+              rollback(next);
+              next = null;
+            }
+            busy = false;
+          }
+        });
   }
 
   private static void rollback(ToggleStarRequest req) {
@@ -209,5 +211,34 @@ public class StarredChanges {
   }
 
   private StarredChanges() {
+  }
+
+  static class StarredChangesInput extends JavaScriptObject {
+    final native void init0() /*-{
+      this.on = [];
+      this.off = [];
+    }-*/;
+
+    final native void add_off(String n) /*-{ this.off.push(n); }-*/;
+    final native void add_on(String n) /*-{ this.on.push(n); }-*/;
+
+    static StarredChangesInput create(ToggleStarRequest r) {
+      StarredChangesInput m = createObject().cast();
+      m.init0();
+      if (r.getAddSet() != null) {
+        for (Change.Id id : r.getAddSet()) {
+          m.add_on(id.toString());
+        }
+      }
+      if (r.getRemoveSet() != null) {
+        for (Change.Id id : r.getRemoveSet()) {
+          m.add_off(id.toString());
+        }
+      }
+      return m;
+    }
+
+    protected StarredChangesInput() {
+    }
   }
 }

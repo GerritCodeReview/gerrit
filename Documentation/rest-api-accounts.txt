@@ -921,6 +921,37 @@ link:#diff-preferences-info[DiffPreferencesInfo] entity.
   }
 ----
 
+Toggle Starred Change State
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[verse]
+'POST /accounts/link:#account-id[\{account-id\}]/starred.changes'
+
+Toggle starred change state for one or several changes.
+
+The changes to be toggled as starred or unstarred must be provided in the
+request body as a link:#starred-changes-input[StarredChangesInput] entity.
+
+.Request
+----
+  POST /a/accounts/self/starred.changes HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "on": [
+      "4711",
+      "4712"
+    ],
+    "off": [
+      "4713",
+      "4714"
+    ]
+  }
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
 
 [[ids]]
 IDs
@@ -1245,6 +1276,21 @@ user.
 |`comment`       |optional|The comment of the SSH key.
 |`valid`         ||Whether the SSH key is valid.
 |=============================
+
+[[starred-changes-input]]
+StarredChangesInput
+~~~~~~~~~~~~~~~~~~~
+The `StarredChangesInput` entity contains information about changes for wich
+the star state should be toggled.
+
+[options="header",width="50%",cols="1,^1,5"]
+|==========================
+|Field Name   ||Description
+|`on`         |optional|
+A list of change ids that should be starred.
+|`off`        |optional|
+A list of change ids that should be unstarred.
+|==========================
 
 
 GERRIT

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5e0af914_f8f27113",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-01T11:51:02Z",
+      "side": 1,
+      "message": "Will do it later.",
+      "parentUuid": "7e1c1c52_63146254",
+      "revId": "700b68f626646962d1c5efceb36e508bfb02d6f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e1f1045_041d7679",
         "filename": "Documentation/intro-change-screen.txt",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "OK.  I was intending to do weekly RCs until there are no more pending issues.\n\nDo you think that\u0027s too frequent?",
       "parentUuid": "be0135f5_fbf26f13",
+      "revId": "700b68f626646962d1c5efceb36e508bfb02d6f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e0af914_18ee4531",
+        "filename": "Documentation/intro-change-screen.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-01T11:51:02Z",
+      "side": 1,
+      "message": "I personally think yes. I\u0027ve thought that the stabilization phase would need about 6-8 weeks (2.8 has huge number of commits). Given that we normally required around 4 release candidates, that would mean 1 RC per two weeks.\n\nBut if we could have much more then 4 RC, before we are going to see the final, then it is OK.",
+      "parentUuid": "9e1f1045_241a7282",
       "revId": "700b68f626646962d1c5efceb36e508bfb02d6f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

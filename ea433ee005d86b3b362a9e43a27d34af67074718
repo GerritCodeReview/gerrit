@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e1f1045_64fb8af0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-01T00:10:07Z",
+      "side": 1,
+      "message": "Based on David O\u0027s comment on the previous patch set, do we still need this check?",
+      "revId": "ea433ee005d86b3b362a9e43a27d34af67074718",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e1c1c52_e307722c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-01T00:10:07Z",
+      "side": 1,
+      "message": "`url` is only used here.  Why not just use `canonicalWebUrl` instead?",
+      "revId": "ea433ee005d86b3b362a9e43a27d34af67074718",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e1f1045_84088641",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-01T00:10:07Z",
+      "side": 1,
+      "message": "Same here with `url`",
+      "revId": "ea433ee005d86b3b362a9e43a27d34af67074718",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -34,6 +34,24 @@
       "revId": "d9d1abbf1018c2215c6a8c5b5a3c09480542d4a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e0af914_78df817e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/DiffPreferencesInfo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-01T05:57:57Z",
+      "side": 1,
+      "message": "Even then i would prefer to not place in the tree for now, but restore when we really need it.",
+      "parentUuid": "9e71d08e_d454fc02",
+      "revId": "d9d1abbf1018c2215c6a8c5b5a3c09480542d4a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

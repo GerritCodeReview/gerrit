@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be0135f5_3be9f728",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/DefaultFileExtensionRegistry.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-01T09:46:46Z",
+      "side": 1,
+      "message": "Add support for asciidoc/markdown for txt files as \"text/x-markdown\" too?\n\n http://codemirror.net/mode/markdown/index.html",
+      "revId": "89f340e7bd52e9d81c8698105ba24ff6b6e3f07d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

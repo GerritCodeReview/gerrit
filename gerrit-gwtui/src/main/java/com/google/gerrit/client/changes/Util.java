@@ -15,7 +15,6 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.common.data.ChangeDetailService;
-import com.google.gerrit.common.data.ChangeListService;
 import com.google.gerrit.common.data.ChangeManageService;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.GWT;
@@ -27,7 +26,6 @@ public class Util {
   public static final ChangeResources R = GWT.create(ChangeResources.class);
 
   public static final ChangeDetailService DETAIL_SVC;
-  public static final ChangeListService LIST_SVC;
   public static final ChangeManageService MANAGE_SVC;
 
   private static final int SUBJECT_MAX_LENGTH = 80;
@@ -37,9 +35,6 @@ public class Util {
   static {
     DETAIL_SVC = GWT.create(ChangeDetailService.class);
     JsonUtil.bind(DETAIL_SVC, "rpc/ChangeDetailService");
-
-    LIST_SVC = GWT.create(ChangeListService.class);
-    JsonUtil.bind(LIST_SVC, "rpc/ChangeListService");
 
     MANAGE_SVC = GWT.create(ChangeManageService.class);
     JsonUtil.bind(MANAGE_SVC, "rpc/ChangeManageService");

@@ -22,6 +22,24 @@
       "revId": "f3646d1b05581f699179c45207737f0bcf947a1e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be0135f5_9b100b66",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013197
+      },
+      "writtenOn": "2013-11-01T22:47:46Z",
+      "side": 1,
+      "message": "Image processing with pngout (https://en.wikipedia.org/wiki/PNGOUT). Compression occurs without loss of image quality and without loss of color.",
+      "parentUuid": "9e1f1045_64146a54",
+      "revId": "f3646d1b05581f699179c45207737f0bcf947a1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

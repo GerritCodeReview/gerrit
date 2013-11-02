@@ -57,6 +57,7 @@ public class ChangeResource implements RestResource, HasETag {
     Hasher h = Hashing.md5().newHasher()
       .putLong(getChange().getLastUpdatedOn().getTime())
       .putInt(getChange().getRowVersion())
+      .putBoolean(user.getStarredChanges().contains(getChange().getId()))
       .putInt(user.isIdentifiedUser()
           ? ((IdentifiedUser) user).getAccountId().get()
           : 0);

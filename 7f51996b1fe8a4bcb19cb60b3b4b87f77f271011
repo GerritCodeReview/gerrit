@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "be0135f5_3b37b700",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/ChangeListServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-02T07:49:29Z",
+      "side": 1,
+      "message": "Done in\n\n https://gerrit-review.googlesource.com/51341",
+      "parentUuid": "be8bf4a1_bdfe7f93",
+      "revId": "7f51996b1fe8a4bcb19cb60b3b4b87f77f271011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be8bf4a1_9df9c3b0",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/ChangeListServiceImpl.java",
         "patchSetId": 1
@@ -101,6 +119,24 @@
       "writtenOn": "2013-10-30T09:14:30Z",
       "side": 1,
       "message": "Yeah i know, it was brute force approach. Do you have a suggestion how to force different SHA-1 on change to solve the caching problem?",
+      "parentUuid": "be8bf4a1_9df9c3b0",
+      "revId": "7f51996b1fe8a4bcb19cb60b3b4b87f77f271011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be0135f5_1b3cfbe0",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/ChangeListServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-02T07:49:29Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "be8bf4a1_9df9c3b0",
       "revId": "7f51996b1fe8a4bcb19cb60b3b4b87f77f271011",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

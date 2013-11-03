@@ -14,15 +14,24 @@
 
 package com.google.gerrit.acceptance;
 
+import static com.google.inject.Scopes.SINGLETON;
+
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.pgm.Daemon;
 import com.google.gerrit.pgm.Init;
+import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.FactoryModule;
+import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.server.util.SocketUtil;
+import com.google.gerrit.sshd.SshRemotePeerProvider;
+import com.google.gerrit.sshd.SshScope;
+import com.google.gerrit.sshd.SshSession;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
+import com.google.inject.servlet.RequestScoped;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
@@ -35,6 +44,7 @@ import java.lang.reflect.Field;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
+import java.net.SocketAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
 import java.util.concurrent.BrokenBarrierException;
@@ -135,10 +145,23 @@ public class GerritServer {
 
   private static Injector createTestInjector(Daemon daemon) throws Exception {
     Injector sysInjector = get(daemon, "sysInjector");
+
     Module module = new FactoryModule() {
       @Override
       protected void configure() {
         bind(AccountCreator.class);
+        // Handle request scope
+        bindScope(RequestScoped.class, AcceptanceTestRequestScope.REQUEST);
+        bind(RequestScopePropagator.class)
+            .to(AcceptanceTestRequestScope.Propagator.class);
+        bind(AcceptanceTestRequestScope.class).in(SINGLETON);
+        bind(AcceptanceTestRequestScope.Context.class)
+            .toProvider(AcceptanceTestRequestScope.ContextProvider.class);
+        bind(SshSession.class)
+            .toProvider(SshScope.SshSessionProvider.class).in(SshScope.REQUEST);
+        bind(SocketAddress.class).annotatedWith(RemotePeer.class).toProvider(
+            SshRemotePeerProvider.class).in(SshScope.REQUEST);
+        install(new GerritRequestModule());
       }
     };
     return sysInjector.createChildInjector(module);
@@ -176,19 +199,19 @@ public class GerritServer {
   private File sitePath;
   private Daemon daemon;
   private ExecutorService daemonService;
-  private Injector testInjector;
+  private Injector sysInjector;
   private String url;
   private InetSocketAddress sshdAddress;
   private InetSocketAddress httpAddress;
 
-  private GerritServer(File sitePath, Injector testInjector, Daemon daemon,
+  private GerritServer(File sitePath, Injector sysInjector, Daemon daemon,
       ExecutorService daemonService) throws IOException, ConfigInvalidException {
     this.sitePath = sitePath;
-    this.testInjector = testInjector;
+    this.sysInjector = sysInjector;
     this.daemon = daemon;
     this.daemonService = daemonService;
 
-    Config cfg = testInjector.getInstance(
+    Config cfg = sysInjector.getInstance(
       Key.get(Config.class, GerritServerConfig.class));
     url = cfg.getString("gerrit", null, "canonicalWebUrl");
     URI uri = URI.create(url);
@@ -212,7 +235,7 @@ public class GerritServer {
   }
 
   Injector getTestInjector() {
-    return testInjector;
+    return sysInjector;
   }
 
   void stop() throws Exception {

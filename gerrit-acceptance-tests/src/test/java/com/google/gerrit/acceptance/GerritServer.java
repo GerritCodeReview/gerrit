@@ -167,6 +167,7 @@ public class GerritServer {
 
   private static Injector createTestInjector(Daemon daemon) throws Exception {
     Injector sysInjector = get(daemon, "sysInjector");
+
     Module module = new FactoryModule() {
       @Override
       protected void configure() {
@@ -208,19 +209,19 @@ public class GerritServer {
   private File sitePath;
   private Daemon daemon;
   private ExecutorService daemonService;
-  private Injector testInjector;
+  private Injector sysInjector;
   private String url;
   private InetSocketAddress sshdAddress;
   private InetSocketAddress httpAddress;
 
-  private GerritServer(File sitePath, Injector testInjector, Daemon daemon,
+  private GerritServer(File sitePath, Injector sysInjector, Daemon daemon,
       ExecutorService daemonService) throws IOException, ConfigInvalidException {
     this.sitePath = sitePath;
-    this.testInjector = testInjector;
+    this.sysInjector = sysInjector;
     this.daemon = daemon;
     this.daemonService = daemonService;
 
-    Config cfg = testInjector.getInstance(
+    Config cfg = sysInjector.getInstance(
       Key.get(Config.class, GerritServerConfig.class));
     url = cfg.getString("gerrit", null, "canonicalWebUrl");
     URI uri = URI.create(url);
@@ -244,7 +245,7 @@ public class GerritServer {
   }
 
   Injector getTestInjector() {
-    return testInjector;
+    return sysInjector;
   }
 
   void stop() throws Exception {

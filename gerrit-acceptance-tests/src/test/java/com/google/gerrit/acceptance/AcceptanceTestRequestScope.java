@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2013 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,12 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.sshd;
+package com.google.gerrit.acceptance;
 
 import com.google.common.collect.Maps;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
 import com.google.gerrit.server.util.RequestContext;
@@ -34,30 +33,30 @@ import com.google.inject.util.Providers;
 
 import java.util.Map;
 
-/** Guice scopes for state during an SSH connection. */
-public class SshScope {
+/** Guice scopes for state during an Acceptance Test connection. */
+public class AcceptanceTestRequestScope {
   private static final Key<RequestCleanup> RC_KEY =
       Key.get(RequestCleanup.class);
 
   private static final Key<RequestScopedReviewDbProvider> DB_KEY =
       Key.get(RequestScopedReviewDbProvider.class);
 
-  class Context implements RequestContext {
+  public class Context implements RequestContext {
     private final RequestCleanup cleanup = new RequestCleanup();
     private final Map<Key<?>, Object> map = Maps.newHashMap();
     private final SchemaFactory<ReviewDb> schemaFactory;
     private final SshSession session;
-    private final String commandLine;
+    private final CurrentUser user;
 
     final long created;
     volatile long started;
     volatile long finished;
 
-    private Context(SchemaFactory<ReviewDb> sf, final SshSession s,
-        final String c, final long at) {
+    private Context(SchemaFactory<ReviewDb> sf, SshSession s,
+        CurrentUser u, long at) {
       schemaFactory = sf;
       session = s;
-      commandLine = c;
+      user = u;
       created = started = finished = at;
       map.put(RC_KEY, cleanup);
       map.put(DB_KEY, new RequestScopedReviewDbProvider(
@@ -65,14 +64,10 @@ public class SshScope {
           Providers.of(cleanup)));
     }
 
-    private Context(Context p, SshSession s, String c) {
+    private Context(Context p, SshSession s, CurrentUser c) {
       this(p.schemaFactory, s, c, p.created);
       started = p.started;
       finished = p.finished;
-    }
-
-    String getCommandLine() {
-      return commandLine;
     }
 
     SshSession getSession() {
@@ -81,11 +76,8 @@ public class SshScope {
 
     @Override
     public CurrentUser getCurrentUser() {
-      final CurrentUser user = session.getCurrentUser();
-      if (user != null && user.isIdentifiedUser()) {
-        IdentifiedUser identifiedUser = userFactory.create(((IdentifiedUser) user).getAccountId());
-        identifiedUser.setAccessPath(user.getAccessPath());
-        return identifiedUser;
+      if (user == null) {
+        throw new IllegalStateException("user == null, forgot to set it?");
       }
       return user;
     }
@@ -104,12 +96,6 @@ public class SshScope {
       }
       return t;
     }
-
-    synchronized Context subContext(SshSession newSession, String newCommandLine) {
-      Context ctx = new Context(this, newSession, newCommandLine);
-      cleanup.add(ctx.cleanup);
-      return ctx;
-    }
   }
 
   static class ContextProvider implements Provider<Context> {
@@ -119,7 +105,7 @@ public class SshScope {
     }
   }
 
-  public static class SshSessionProvider implements Provider<SshSession> {
+  static class SshSessionProvider implements Provider<SshSession> {
     @Override
     public SshSession get() {
       return requireContext().getSession();
@@ -127,20 +113,20 @@ public class SshScope {
   }
 
   static class Propagator extends ThreadLocalRequestScopePropagator<Context> {
-    private final SshScope sshScope;
+    private final AcceptanceTestRequestScope atrScope;
 
     @Inject
-    Propagator(SshScope sshScope, ThreadLocalRequestContext local,
+    Propagator(AcceptanceTestRequestScope atrScope, ThreadLocalRequestContext local,
         Provider<RequestScopedReviewDbProvider> dbProviderProvider) {
       super(REQUEST, current, local, dbProviderProvider);
-      this.sshScope = sshScope;
+      this.atrScope = atrScope;
     }
 
     @Override
     protected Context continuingContext(Context ctx) {
       // The cleanup is not chained, since the RequestScopePropagator executors
       // the Context's cleanup when finished executing.
-      return sshScope.newContinuingContext(ctx);
+      return atrScope.newContinuingContext(ctx);
     }
   }
 
@@ -156,24 +142,21 @@ public class SshScope {
   }
 
   private final ThreadLocalRequestContext local;
-  private final IdentifiedUser.RequestFactory userFactory;
 
   @Inject
-  SshScope(ThreadLocalRequestContext local,
-      IdentifiedUser.RequestFactory userFactory) {
+  AcceptanceTestRequestScope(ThreadLocalRequestContext local) {
     this.local = local;
-    this.userFactory = userFactory;
   }
 
-  Context newContext(SchemaFactory<ReviewDb> sf, SshSession s, String cmd) {
-    return new Context(sf, s, cmd, TimeUtil.nowMs());
+  public Context newContext(SchemaFactory<ReviewDb> sf, SshSession s, CurrentUser user) {
+    return new Context(sf, s, user, TimeUtil.nowMs());
   }
 
   private Context newContinuingContext(Context ctx) {
-    return new Context(ctx, ctx.getSession(), ctx.getCommandLine());
+    return new Context(ctx, ctx.getSession(), ctx.getCurrentUser());
   }
 
-  Context set(Context ctx) {
+  public Context set(Context ctx) {
     Context old = current.get();
     current.set(ctx);
     local.setContext(ctx);
@@ -181,7 +164,7 @@ public class SshScope {
   }
 
   /** Returns exactly one instance per command executed. */
-  public static final Scope REQUEST = new Scope() {
+  static final Scope REQUEST = new Scope() {
     public <T> Provider<T> scope(final Key<T> key, final Provider<T> creator) {
       return new Provider<T>() {
         public T get() {
@@ -197,7 +180,7 @@ public class SshScope {
 
     @Override
     public String toString() {
-      return "SshScopes.REQUEST";
+      return "Acceptance Test Scope.REQUEST";
     }
   };
 }

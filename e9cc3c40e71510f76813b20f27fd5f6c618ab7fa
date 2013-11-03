@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "be0135f5_5b59634e",
+        "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/SiteInitializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1013197
+      },
+      "writtenOn": "2013-11-03T08:47:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be221488_45176a59",
+      "revId": "e9cc3c40e71510f76813b20f27fd5f6c618ab7fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be221488_65146654",
         "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/SiteInitializer.java",
         "patchSetId": 1
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "be0135f5_7b541f18",
+        "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/SiteInitializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1013197
+      },
+      "writtenOn": "2013-11-03T08:47:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be221488_65146654",
+      "revId": "e9cc3c40e71510f76813b20f27fd5f6c618ab7fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3ef6254a_3f37a700",
         "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/SiteInitializer.java",
         "patchSetId": 1
@@ -65,6 +101,24 @@
         "endLine": 75,
         "endChar": 7
       },
+      "revId": "e9cc3c40e71510f76813b20f27fd5f6c618ab7fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e0af914_3837c900",
+        "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/SiteInitializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1013197
+      },
+      "writtenOn": "2013-11-03T08:47:13Z",
+      "side": 1,
+      "message": "I do not clearly understand this comment. Should I move nested try {} finally {} block to another method and then invoke this new method here?",
+      "parentUuid": "3ef6254a_3f37a700",
       "revId": "e9cc3c40e71510f76813b20f27fd5f6c618ab7fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

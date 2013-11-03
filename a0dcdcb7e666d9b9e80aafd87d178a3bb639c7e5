@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "5e0af914_d81d6d79",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-03T21:40:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "adaae4e9_ac3623f8",
+      "revId": "a0dcdcb7e666d9b9e80aafd87d178a3bb639c7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3802b4bb_1e22edca",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -82,6 +100,24 @@
       "writtenOn": "2013-08-27T07:05:08Z",
       "side": 1,
       "message": "Why \u0027api2\u0027, and not \u0027api\u0027?",
+      "revId": "a0dcdcb7e666d9b9e80aafd87d178a3bb639c7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e0af914_b82ab98f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api2/GerritApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-03T21:40:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed74dc43_2e328700",
       "revId": "a0dcdcb7e666d9b9e80aafd87d178a3bb639c7e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -140,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "be0135f5_9b3ecbcd",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api2/changes/Changes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-03T21:40:41Z",
+      "side": 1,
+      "message": "You can pass here a string:\n\n id(\"p~master~4711\");\n\nor you can pass the triplet parts:\n\n id(\"p\", \"master\", \"4711\");\n\nThe com.google.gerrit.server.change.ChangeTriplet is in server package and not in extension.",
+      "parentUuid": "8d5440b2_a35c5a24",
+      "revId": "a0dcdcb7e666d9b9e80aafd87d178a3bb639c7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3802b4bb_3e2531d3",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api2/changes/RevisionApi.java",
         "patchSetId": 1
@@ -192,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "5e0af914_9827f5c7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api2/Module.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-03T21:40:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d5440b2_43524610",
+      "revId": "a0dcdcb7e666d9b9e80aafd87d178a3bb639c7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eda05c0a_eeee5f3a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api2/Module.java",
         "patchSetId": 1
@@ -209,6 +281,24 @@
     },
     {
       "key": {
+        "uuid": "5e0af914_78542118",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api2/Module.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-03T21:40:41Z",
+      "side": 1,
+      "message": "Done\n\nNow it is used and can be injected from core and plugin. ReviewCommand was migrated to use the new REST API.",
+      "parentUuid": "eda05c0a_eeee5f3a",
+      "revId": "a0dcdcb7e666d9b9e80aafd87d178a3bb639c7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d6aac67_aa450f52",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api2/changes/RevisionApiImpl.java",
         "patchSetId": 1
@@ -220,6 +310,24 @@
       "writtenOn": "2013-08-27T07:05:08Z",
       "side": 1,
       "message": "nit: blank line too much",
+      "revId": "a0dcdcb7e666d9b9e80aafd87d178a3bb639c7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be0135f5_7b7bffa5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api2/changes/RevisionApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-03T21:40:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d6aac67_aa450f52",
       "revId": "a0dcdcb7e666d9b9e80aafd87d178a3bb639c7e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -255,6 +363,24 @@
       "side": 1,
       "message": "I agree this should be switched to api2 in this commit. I simply did not have time to do that on Saturday when I uploaded this RFC. I had a 30 minute window on Saturday to get some work done and this is the result. :-)",
       "parentUuid": "3802b4bb_de2fd5b1",
+      "revId": "a0dcdcb7e666d9b9e80aafd87d178a3bb639c7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be0135f5_5b804330",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-03T21:40:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "586f6876_697c0577",
       "revId": "a0dcdcb7e666d9b9e80aafd87d178a3bb639c7e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

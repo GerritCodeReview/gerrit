@@ -21,7 +21,7 @@ import com.google.inject.Singleton;
 import java.net.SocketAddress;
 
 @Singleton
-class SshRemotePeerProvider implements Provider<SocketAddress> {
+public class SshRemotePeerProvider implements Provider<SocketAddress> {
   private final Provider<SshSession> session;
 
   @Inject

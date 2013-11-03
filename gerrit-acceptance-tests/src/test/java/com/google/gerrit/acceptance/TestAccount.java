@@ -58,4 +58,8 @@ public class TestAccount {
         server.getHttpAddress().getAddress().getHostAddress(),
         server.getHttpAddress().getPort());
   }
+
+  public Account.Id getId() {
+    return id;
+  }
 }

@@ -1,0 +1,8 @@
+include_defs('//gerrit-acceptance-tests/tests.defs')
+
+acceptance_tests(
+  srcs = ['ReviewIT.java'],
+  deps = [
+    '//gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git:util',
+  ],
+)

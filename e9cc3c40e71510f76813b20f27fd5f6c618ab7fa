@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "9e1f1045_242352b6",
+        "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/SiteInitializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-03T14:18:54Z",
+      "side": 1,
+      "message": "Is this change really necessary?",
+      "revId": "e9cc3c40e71510f76813b20f27fd5f6c618ab7fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be221488_45176a59",
         "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/SiteInitializer.java",
         "patchSetId": 1

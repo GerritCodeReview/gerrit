@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be221488_c5027a1f",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1283,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-11-03T04:47:26Z",
+      "side": 1,
+      "message": "s/wich/which/",
+      "range": {
+        "startLine": 1283,
+        "startChar": 72,
+        "endLine": 1283,
+        "endChar": 76
+      },
+      "revId": "52c30e974d80909d8b0fc35f6457aa066121e6cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ef6254a_df167b63",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/StarredChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-11-03T04:47:26Z",
+      "side": 1,
+      "message": "Not sure if this should be in a separate file.",
+      "range": {
+        "startLine": 216,
+        "startChar": 15,
+        "endLine": 216,
+        "endChar": 34
+      },
+      "revId": "52c30e974d80909d8b0fc35f6457aa066121e6cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ef6254a_bf13b771",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/StarredChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-11-03T04:47:26Z",
+      "side": 1,
+      "message": "The import java.util.ArrayList is never used",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 27
+      },
+      "revId": "52c30e974d80909d8b0fc35f6457aa066121e6cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ef6254a_9f10f365",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/StarredChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-11-03T04:47:26Z",
+      "side": 1,
+      "message": "Unnecessary?",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 27
+      },
+      "revId": "52c30e974d80909d8b0fc35f6457aa066121e6cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be221488_051d7279",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/StarredChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-11-03T04:47:26Z",
+      "side": 1,
+      "message": "nit:\nadd.add(\n    new StarredChange(new StarredChange.Key(me, Change.Id.parse(id))));\n\nPrefer wrapping on higher syntactic level.",
+      "range": {
+        "startLine": 74,
+        "startChar": 10,
+        "endLine": 75,
+        "endChar": 37
+      },
+      "revId": "52c30e974d80909d8b0fc35f6457aa066121e6cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be221488_e507762c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/StarredChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-11-03T04:47:26Z",
+      "side": 1,
+      "message": "Unnecessary?",
+      "range": {
+        "startLine": 80,
+        "startChar": 4,
+        "endLine": 80,
+        "endChar": 28
+      },
+      "revId": "52c30e974d80909d8b0fc35f6457aa066121e6cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be221488_251a6e82",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/StarredChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-11-03T04:47:26Z",
+      "side": 1,
+      "message": "Unwrap?",
+      "range": {
+        "startLine": 82,
+        "startChar": 8,
+        "endLine": 83,
+        "endChar": 34
+      },
+      "revId": "52c30e974d80909d8b0fc35f6457aa066121e6cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

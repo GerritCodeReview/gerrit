@@ -122,6 +122,24 @@
       "revId": "e9cc3c40e71510f76813b20f27fd5f6c618ab7fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ef6254a_df1d5b79",
+        "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/SiteInitializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-11-03T10:01:39Z",
+      "side": 1,
+      "message": "Yeah that\u0027s what I initially meant. But actually I don\u0027t think you need the nested try. From the JavaDoc of ResultSet.close():\n\nNote: A ResultSet object is automatically closed by the Statement object that generated it when that Statement object is closed, re-executed, or is used to retrieve the next result from a sequence of multiple results.\n\nSo I think stmt.close() should be sufficient.",
+      "parentUuid": "5e0af914_3837c900",
+      "revId": "e9cc3c40e71510f76813b20f27fd5f6c618ab7fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "be0135f5_db445363",
+        "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/SiteInitializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013197
+      },
+      "writtenOn": "2013-11-03T14:49:56Z",
+      "side": 1,
+      "message": "According to java naming convention, static final fields should naming in upper case. If you think that it is not necessary, I can push new patchset without this change",
+      "parentUuid": "9e1f1045_242352b6",
+      "revId": "e9cc3c40e71510f76813b20f27fd5f6c618ab7fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be221488_45176a59",
         "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/SiteInitializer.java",
         "patchSetId": 1

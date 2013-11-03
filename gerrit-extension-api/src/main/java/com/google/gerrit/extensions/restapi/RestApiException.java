@@ -20,6 +20,7 @@ public abstract class RestApiException extends Exception {
   private CacheControl caching = CacheControl.NONE;
 
   public RestApiException() {
+    super();
   }
 
   public RestApiException(String msg) {

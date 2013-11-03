@@ -21,6 +21,7 @@ public class PreconditionFailedException extends RestApiException {
   private static final long serialVersionUID = 1L;
 
   public PreconditionFailedException() {
+    super();
   }
 
   /** @param msg message to return to the client describing the error. */

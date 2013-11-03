@@ -25,6 +25,7 @@ public class MissingCredentialsException extends AuthException {
   private static final long serialVersionUID = -6499866977513508051L;
 
   public MissingCredentialsException() {
+    super();
   }
 
   public MissingCredentialsException(String msg) {

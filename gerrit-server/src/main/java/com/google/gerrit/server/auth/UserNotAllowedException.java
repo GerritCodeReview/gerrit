@@ -23,6 +23,7 @@ public class UserNotAllowedException extends AuthException {
   private static final long serialVersionUID = -1531411999932922558L;
 
   public UserNotAllowedException() {
+    super();
   }
 
   public UserNotAllowedException(String msg) {

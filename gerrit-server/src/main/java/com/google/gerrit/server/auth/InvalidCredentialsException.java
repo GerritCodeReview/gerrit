@@ -22,6 +22,7 @@ public class InvalidCredentialsException extends AuthException {
   private static final long serialVersionUID = 3709201042080444276L;
 
   public InvalidCredentialsException() {
+    super();
   }
 
   public InvalidCredentialsException(String msg) {

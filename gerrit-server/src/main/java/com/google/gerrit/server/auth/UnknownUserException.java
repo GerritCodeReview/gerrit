@@ -22,6 +22,7 @@ public class UnknownUserException extends AuthException {
   private static final long serialVersionUID = 1626186166924670754L;
 
   public UnknownUserException() {
+    super();
   }
 
   public UnknownUserException(String msg) {

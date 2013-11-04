@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "9e1f1045_e4593a38",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-11-04T18:44:00Z",
+      "side": 1,
+      "message": "You need to make sure to call the correct LuceneIndexModule constructor. If you pass in a single version it will use that rather than trying to scan the index directory (which in the in-memory case doesn\u0027t exist) for versions marked as live.",
+      "parentUuid": "5e0af914_d8720dbb",
+      "revId": "e0695a0fe9dfc15909f725e65c7eadf5947460d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e1c1c52_c33b56db",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
         "patchSetId": 13

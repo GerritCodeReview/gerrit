@@ -246,10 +246,10 @@ public class ListAccess implements RestReadView<TopLevelResource> {
         }
       }
 
-      isOwner = toBoolean(pc.isOwner());
-      canUpload = toBoolean(pc.isOwner()
-          || (metaConfigControl.isVisible() && metaConfigControl.canUpload()));
-      canAdd = toBoolean(pc.canAddRefs());
+      isOwner = pc.isOwner();
+      canUpload = pc.isOwner()
+          || (metaConfigControl.isVisible() && metaConfigControl.canUpload());
+      canAdd = pc.canAddRefs();
       configVisible = pc.isOwner() || metaConfigControl.isVisible();
     }
   }
@@ -272,7 +272,7 @@ public class ListAccess implements RestReadView<TopLevelResource> {
 
     public PermissionInfo(Permission permission) {
       label = permission.getLabel();
-      exclusive = toBoolean(permission.getExclusiveGroup());
+      exclusive = permission.getExclusiveGroup();
       rules = Maps.newHashMap();
       for (PermissionRule r : permission.getRules()) {
         rules.put(r.getGroup().getUUID().get(), new PermissionRuleInfo(r));
@@ -289,7 +289,7 @@ public class ListAccess implements RestReadView<TopLevelResource> {
 
     public PermissionRuleInfo(PermissionRule rule) {
       action = rule.getAction();
-      force = toBoolean(rule.getForce());
+      force = rule.getForce();
       if (hasRange(rule)) {
         min = rule.getMin();
         max = rule.getMax();
@@ -300,9 +300,5 @@ public class ListAccess implements RestReadView<TopLevelResource> {
       return (!(rule.getMin() == null || rule.getMin() == 0))
           || (!(rule.getMax() == null || rule.getMax() == 0));
     }
-  }
-
-  private static Boolean toBoolean(boolean value) {
-    return value ? true : null;
   }
 }

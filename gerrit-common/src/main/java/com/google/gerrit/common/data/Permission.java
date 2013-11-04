@@ -139,7 +139,7 @@ public class Permission implements Comparable<Permission> {
     return extractLabel(getName());
   }
 
-  public Boolean getExclusiveGroup() {
+  public boolean getExclusiveGroup() {
     // Only permit exclusive group behavior on non OWNER permissions,
     // otherwise an owner might lose access to a delegated subspace.
     //

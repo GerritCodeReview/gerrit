@@ -33,8 +33,9 @@ class CookieBase64 {
   }
 
   private static int fill(final char[] out, int o, final char f, final int l) {
-    for (char c = f; c <= l; c++)
+    for (char c = f; c <= l; c++) {
       out[o++] = c;
+    }
     return o;
   }
 

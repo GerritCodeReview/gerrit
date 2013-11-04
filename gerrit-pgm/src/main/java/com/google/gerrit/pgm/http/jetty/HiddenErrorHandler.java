@@ -65,8 +65,9 @@ class HiddenErrorHandler extends ErrorHandler {
 
   private static byte[] message(AbstractHttpConnection conn) {
     String msg = conn.getResponse().getReason();
-    if (msg == null)
+    if (msg == null) {
       msg = HttpStatus.getMessage(conn.getResponse().getStatus());
+    }
     return msg.getBytes(Charsets.ISO_8859_1);
   }
 

@@ -20,7 +20,7 @@ public class PermissionRule implements Comparable<PermissionRule> {
   public static enum Action {
     ALLOW, DENY, BLOCK,
 
-    INTERACTIVE, BATCH;
+    INTERACTIVE, BATCH
   }
 
   protected Action action = Action.ALLOW;
@@ -63,27 +63,27 @@ public class PermissionRule implements Comparable<PermissionRule> {
     action = Action.BLOCK;
   }
 
-  public Boolean getForce() {
+  public boolean getForce() {
     return force;
   }
 
-  public void setForce(Boolean newForce) {
+  public void setForce(boolean newForce) {
     force = newForce;
   }
 
-  public Integer getMin() {
+  public int getMin() {
     return min;
   }
 
-  public void setMin(Integer min) {
+  public void setMin(int min) {
     this.min = min;
   }
 
-  public void setMax(Integer max) {
+  public void setMax(int max) {
     this.max = max;
   }
 
-  public Integer getMax() {
+  public int getMax() {
     return max;
   }
 

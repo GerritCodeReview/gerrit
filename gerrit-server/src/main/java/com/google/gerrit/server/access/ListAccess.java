@@ -146,11 +146,11 @@ public class ListAccess implements RestReadView<TopLevelResource> {
     public String revision;
     public ProjectInfo inheritsFrom;
     public Map<String, AccessSectionInfo> local;
-    public Boolean isOwner;
+    public boolean isOwner;
     public Set<String> ownerOf;
-    public Boolean canUpload;
-    public Boolean canAdd;
-    public Boolean configVisible;
+    public boolean canUpload;
+    public boolean canAdd;
+    public boolean configVisible;
 
     public ProjectAccessInfo(ProjectControl pc, ProjectConfig config) {
       final RefControl metaConfigControl =
@@ -246,10 +246,10 @@ public class ListAccess implements RestReadView<TopLevelResource> {
         }
       }
 
-      isOwner = toBoolean(pc.isOwner());
-      canUpload = toBoolean(pc.isOwner()
-          || (metaConfigControl.isVisible() && metaConfigControl.canUpload()));
-      canAdd = toBoolean(pc.canAddRefs());
+      isOwner = pc.isOwner();
+      canUpload = pc.isOwner()
+          || (metaConfigControl.isVisible() && metaConfigControl.canUpload());
+      canAdd = pc.canAddRefs();
       configVisible = pc.isOwner() || metaConfigControl.isVisible();
     }
   }
@@ -267,12 +267,12 @@ public class ListAccess implements RestReadView<TopLevelResource> {
 
   public class PermissionInfo {
     public String label;
-    public Boolean exclusive;
+    public boolean exclusive;
     public Map<String, PermissionRuleInfo> rules;
 
     public PermissionInfo(Permission permission) {
       label = permission.getLabel();
-      exclusive = toBoolean(permission.getExclusiveGroup());
+      exclusive = permission.getExclusiveGroup();
       rules = Maps.newHashMap();
       for (PermissionRule r : permission.getRules()) {
         rules.put(r.getGroup().getUUID().get(), new PermissionRuleInfo(r));
@@ -282,14 +282,14 @@ public class ListAccess implements RestReadView<TopLevelResource> {
 
   public class PermissionRuleInfo {
     public PermissionRule.Action action;
-    public Boolean force;
-    public Integer min;
-    public Integer max;
+    public boolean force;
+    public int min;
+    public int max;
 
 
     public PermissionRuleInfo(PermissionRule rule) {
       action = rule.getAction();
-      force = toBoolean(rule.getForce());
+      force = rule.getForce();
       if (hasRange(rule)) {
         min = rule.getMin();
         max = rule.getMax();
@@ -297,12 +297,7 @@ public class ListAccess implements RestReadView<TopLevelResource> {
     }
 
     private boolean hasRange(PermissionRule rule) {
-      return (!(rule.getMin() == null || rule.getMin() == 0))
-          || (!(rule.getMax() == null || rule.getMax() == 0));
+      return rule.getMin() == 0 || rule.getMax() == 0;
     }
-  }
-
-  private static Boolean toBoolean(boolean value) {
-    return value ? true : null;
   }
 }

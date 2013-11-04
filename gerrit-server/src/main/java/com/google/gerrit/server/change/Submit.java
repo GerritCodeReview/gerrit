@@ -21,6 +21,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -34,7 +35,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ProjectUtil;
-import com.google.gerrit.server.change.Submit.Input;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.index.ChangeIndexer;
@@ -53,7 +53,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public class Submit implements RestModifyView<RevisionResource, Input>,
+public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     UiAction<RevisionResource> {
   public static class Input {
     public boolean waitForMerge;
@@ -90,9 +90,9 @@ public class Submit implements RestModifyView<RevisionResource, Input>,
   }
 
   @Override
-  public Output apply(RevisionResource rsrc, Input input) throws AuthException,
-      ResourceConflictException, RepositoryNotFoundException, IOException,
-      OrmException {
+  public Output apply(RevisionResource rsrc, SubmitInput input)
+      throws AuthException, ResourceConflictException,
+      RepositoryNotFoundException, IOException, OrmException {
     ChangeControl control = rsrc.getControl();
     IdentifiedUser caller = (IdentifiedUser) control.getCurrentUser();
     Change change = rsrc.getChange();
@@ -317,7 +317,7 @@ public class Submit implements RestModifyView<RevisionResource, Input>,
   }
 
   public static class CurrentRevision implements
-      RestModifyView<ChangeResource, Input> {
+      RestModifyView<ChangeResource, SubmitInput> {
     private final Provider<ReviewDb> dbProvider;
     private final Submit submit;
     private final ChangeJson json;
@@ -332,9 +332,9 @@ public class Submit implements RestModifyView<RevisionResource, Input>,
     }
 
     @Override
-    public Object apply(ChangeResource rsrc, Input input) throws AuthException,
-        ResourceConflictException, RepositoryNotFoundException, IOException,
-        OrmException {
+    public Object apply(ChangeResource rsrc, SubmitInput input)
+        throws AuthException, ResourceConflictException,
+        RepositoryNotFoundException, IOException, OrmException {
       PatchSet ps = dbProvider.get().patchSets()
         .get(rsrc.getChange().currentPatchSetId());
       if (ps == null) {

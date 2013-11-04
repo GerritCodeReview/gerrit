@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "7e1c1c52_c3543603",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-11-04T17:00:57Z",
+      "side": 1,
+      "message": "True, Reindex doesn\u0027t support that (and it would be tricky due to creating all new injectors). Why do you need to reindex though? If you start with an empty db and index, every new change will be indexed.\n\nThe only times you should need to reindex are when you start with a db that has changes but no index, or if you do a schema upgrade, or if there is some kind of corruption. none of which generally apply to tests.",
+      "parentUuid": "5e0af914_58671dfe",
+      "revId": "e0695a0fe9dfc15909f725e65c7eadf5947460d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e1c1c52_c33b56db",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
         "patchSetId": 13

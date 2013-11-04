@@ -900,23 +900,15 @@ public class ChangeJson {
     return p;
   }
 
-  public static class ChangeInfo {
+  public static class ChangeInfo extends
+      com.google.gerrit.extensions.api.changes.ChangeInfo {
     final String kind = "gerritcodereview#change";
-    String id;
-    String project;
-    String branch;
-    String topic;
-    public String changeId;
-    public String subject;
     Change.Status status;
-    Timestamp created;
-    Timestamp updated;
     Boolean starred;
     Boolean reviewed;
     Boolean mergeable;
 
     public String _sortkey;
-    public int _number;
 
     AccountInfo owner;
 

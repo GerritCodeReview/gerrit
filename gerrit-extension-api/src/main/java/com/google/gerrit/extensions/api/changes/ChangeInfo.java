@@ -14,19 +14,17 @@
 
 package com.google.gerrit.extensions.api.changes;
 
-import com.google.gerrit.extensions.restapi.RestApiException;
+import java.sql.Timestamp;
 
-public interface ChangeApi {
-  RevisionApi current() throws RestApiException;
-  RevisionApi revision(int id) throws RestApiException;
-  RevisionApi revision(String id) throws RestApiException;
+public class ChangeInfo {
+  public String id;
+  public String project;
+  public String branch;
+  public String topic;
+  public String changeId;
+  public String subject;
+  public Timestamp created;
+  public Timestamp updated;
 
-  void abandon() throws RestApiException;
-  void abandon(AbandonInput in) throws RestApiException;
-
-  void restore() throws RestApiException;
-  void restore(RestoreInput in) throws RestApiException;
-
-  ChangeInfo revert() throws RestApiException;
-  ChangeInfo revert(RevertInput in) throws RestApiException;
+  public Integer _number;
 }

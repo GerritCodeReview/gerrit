@@ -18,4 +18,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 
 public interface RevisionApi {
   void review(ReviewInput in) throws RestApiException;
+  void submit(SubmitInput in) throws RestApiException;
+  void deleteDraft() throws RestApiException;
 }

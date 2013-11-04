@@ -12,13 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.api.revision;
+package com.google.gerrit.acceptance.api.change;
 
 import static com.google.gerrit.acceptance.git.GitUtil.cloneProject;
 import static com.google.gerrit.acceptance.git.GitUtil.createProject;
 import static com.google.gerrit.acceptance.git.GitUtil.initSsh;
 
-import com.google.common.collect.Maps;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.AccountCreator;
@@ -26,13 +25,15 @@ import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.git.PushOneCommit;
 import com.google.gerrit.extensions.api.GerritApi;
-import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.AbandonInput;
+import com.google.gerrit.extensions.api.changes.RestoreInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -42,7 +43,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-public class ReviewIT extends AbstractDaemonTest {
+public class ChangeIT extends AbstractDaemonTest {
 
   @Inject
   private AccountCreator accounts;
@@ -54,7 +55,7 @@ public class ReviewIT extends AbstractDaemonTest {
   private GerritApi gApi;
 
   @Inject
-  AcceptanceTestRequestScope atrScope;
+  private AcceptanceTestRequestScope atrScope;
 
   @Inject
   private IdentifiedUser.GenericFactory identifiedUserFactory;
@@ -71,9 +72,9 @@ public class ReviewIT extends AbstractDaemonTest {
     SshSession sshSession = new SshSession(server, admin);
     createProject(sshSession, project.get());
     git = cloneProject(sshSession.getUrl() + "/" + project.get());
-    atrScope.set(atrScope.newContext(reviewDbProvider, sshSession,
-        identifiedUserFactory.create(admin.getId())));
     db = reviewDbProvider.open();
+    atrScope.set(atrScope.newContext(reviewDbProvider, sshSession,
+        identifiedUserFactory.create(Providers.of(db), admin.getId())));
   }
 
   @After
@@ -82,36 +83,29 @@ public class ReviewIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void reviewTriplet() throws GitAPIException,
+  public void abandon() throws GitAPIException,
       IOException, RestApiException {
     PushOneCommit.Result r = createChange();
     gApi.changes()
         .id("p~master~" + r.getChangeId())
-        .revision(r.getCommit().name())
-        .review(makeReview());
+        .abandon(new AbandonInput());
   }
 
   @Test
-  public void reviewId() throws GitAPIException,
+  public void restore() throws GitAPIException,
       IOException, RestApiException {
     PushOneCommit.Result r = createChange();
     gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .review(makeReview());
+        .id("p~master~" + r.getChangeId())
+        .abandon(new AbandonInput());
+    gApi.changes()
+        .id("p~master~" + r.getChangeId())
+        .restore(new RestoreInput());
   }
 
   private PushOneCommit.Result createChange() throws GitAPIException,
       IOException {
     PushOneCommit push = new PushOneCommit(db, admin.getIdent());
     return push.to(git, "refs/for/master");
-  }
-
-  private static ReviewInput makeReview() {
-    ReviewInput in = new ReviewInput();
-    in.message = "Looks good!";
-    in.labels = Maps.newHashMap();
-    in.labels.put("Code-Review", (short) 2);
-    return in;
   }
 }

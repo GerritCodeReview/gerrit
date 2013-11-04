@@ -606,12 +606,12 @@ public abstract class AbstractQueryChangesTest {
   }
 
   protected void assertResultEquals(Change expected, ChangeInfo actual) {
-    assertEquals(expected.getId().get(), actual._number);
+    assertEquals(expected.getId().get(), (int) actual._number);
   }
 
   protected void assertResultEquals(String message, Change expected,
       ChangeInfo actual) {
-    assertEquals(message, expected.getId().get(), actual._number);
+    assertEquals(message, expected.getId().get(), (int) actual._number);
   }
 
   protected TestRepository<InMemoryRepository> createProject(String name)

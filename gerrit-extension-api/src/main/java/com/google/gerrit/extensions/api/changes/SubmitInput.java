@@ -14,21 +14,6 @@
 
 package com.google.gerrit.extensions.api.changes;
 
-import com.google.gerrit.extensions.restapi.RestApiException;
-
-public interface ChangeApi {
-  String id();
-
-  RevisionApi current() throws RestApiException;
-  RevisionApi revision(int id) throws RestApiException;
-  RevisionApi revision(String id) throws RestApiException;
-
-  void abandon() throws RestApiException;
-  void abandon(AbandonInput in) throws RestApiException;
-
-  void restore() throws RestApiException;
-  void restore(RestoreInput in) throws RestApiException;
-
-  ChangeApi revert() throws RestApiException;
-  ChangeApi revert(RevertInput in) throws RestApiException;
+public class SubmitInput {
+  public boolean waitForMerge;
 }

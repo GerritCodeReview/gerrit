@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.api.changes;
 
 import com.google.gerrit.extensions.restapi.DefaultInput;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -84,5 +85,32 @@ public class ReviewInput {
       public int endLine;
       public int endCharacter;
     }
+  }
+
+  public ReviewInput message(String msg) {
+    message = msg != null && !msg.isEmpty() ? msg : null;
+    return this;
+  }
+
+  public ReviewInput label(String name, short value) {
+    if (name == null || name.isEmpty()) {
+      throw new IllegalArgumentException();
+    }
+    if (labels == null) {
+      labels = new LinkedHashMap<String, Short>(4);
+    }
+    labels.put(name, value);
+    return this;
+  }
+
+  public ReviewInput label(String name, int value) {
+    if (value < Short.MIN_VALUE || value > Short.MAX_VALUE) {
+      throw new IllegalArgumentException();
+    }
+    return label(name, (short) value);
+  }
+
+  public ReviewInput label(String name) {
+    return label(name, (short) 1);
   }
 }

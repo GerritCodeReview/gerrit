@@ -14,11 +14,16 @@
 
 package com.google.gerrit.server.api.changes;
 
+import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
+import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.change.DeleteDraftPatchSet;
 import com.google.gerrit.server.change.PostReview;
+import com.google.gerrit.server.change.Rebase;
 import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.change.Submit;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -31,13 +36,22 @@ class RevisionApiImpl implements RevisionApi {
     RevisionApiImpl create(RevisionResource r);
   }
 
+  private final Provider<DeleteDraftPatchSet> deleteDraft;
+  private final Provider<Rebase> rebase;
   private final Provider<PostReview> review;
+  private final Provider<Submit> submit;
   private final RevisionResource revision;
 
   @Inject
-  RevisionApiImpl(Provider<PostReview> review,
+  RevisionApiImpl(Provider<DeleteDraftPatchSet> deleteDraft,
+      Provider<Rebase> rebase,
+      Provider<PostReview> review,
+      Provider<Submit> submit,
       @Assisted RevisionResource r) {
+    this.deleteDraft = deleteDraft;
+    this.rebase = rebase;
     this.review = review;
+    this.submit = submit;
     this.revision = r;
   }
 
@@ -49,6 +63,46 @@ class RevisionApiImpl implements RevisionApi {
       throw new RestApiException("Cannot post review", e);
     } catch (IOException e) {
       throw new RestApiException("Cannot post review", e);
+    }
+  }
+
+  @Override
+  public void submit() throws RestApiException {
+    SubmitInput in = new SubmitInput();
+    in.waitForMerge = true;
+    submit(in);
+  }
+
+  @Override
+  public void submit(SubmitInput in) throws RestApiException {
+    try {
+      submit.get().apply(revision, in);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot submit change", e);
+    } catch (IOException e) {
+      throw new RestApiException("Cannot submit change", e);
+    }
+  }
+
+  @Override
+  public void delete() throws RestApiException {
+    try {
+      deleteDraft.get().apply(revision, null);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot delete draft ps", e);
+    } catch (IOException e) {
+      throw new RestApiException("Cannot delete draft ps", e);
+    }
+  }
+
+  @Override
+  public void rebase() throws RestApiException {
+    try {
+      rebase.get().apply(revision, null);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot rebase ps", e);
+    } catch (EmailException e) {
+      throw new RestApiException("Cannot rebase ps", e);
     }
   }
 }

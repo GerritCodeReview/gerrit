@@ -43,6 +43,7 @@ import org.eclipse.jgit.util.FS;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
 
@@ -101,7 +102,17 @@ public class Schema_57 extends SchemaVersion {
 
         // Prepare the account_group_includes query
         PreparedStatement stmt = ((JdbcSchema) db).getConnection().
-            prepareStatement("SELECT * FROM account_group_includes WHERE group_id = ?");
+            prepareStatement("SELECT COUNT(1) FROM account_group_includes WHERE group_id = ?");
+        boolean isAccountGroupNotEmpty = false;
+        try {
+          stmt.setInt(1, sc.batchUsersGroupId.get());
+          ResultSet rs = stmt.executeQuery();
+          if (rs.next()) {
+            isAccountGroupNotEmpty = rs.getInt(1) != 0;
+          }
+        } finally {
+          stmt.close();
+        }
 
         for (String name : createGroupList) {
           AccountGroup.NameKey key = new AccountGroup.NameKey(name);
@@ -125,10 +136,10 @@ public class Schema_57 extends SchemaVersion {
         }
 
         AccountGroup batch = db.accountGroups().get(sc.batchUsersGroupId);
-        stmt.setInt(1, sc.batchUsersGroupId.get());
+
         if (batch != null
             && db.accountGroupMembers().byGroup(sc.batchUsersGroupId).toList().isEmpty()
-            &&  stmt.executeQuery().first() != false) {
+            && isAccountGroupNotEmpty) {
           // If the batch user group is not used, delete it.
           //
           db.accountGroups().delete(Collections.singleton(batch));

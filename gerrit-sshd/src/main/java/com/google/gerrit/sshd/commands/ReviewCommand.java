@@ -23,23 +23,21 @@ import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.ReviewResult;
 import com.google.gerrit.common.data.ReviewResult.Error.Type;
 import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.api.changes.AbandonInput;
+import com.google.gerrit.extensions.api.changes.DeleteDraftPatchSetInput;
+import com.google.gerrit.extensions.api.changes.RestoreInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.change.Abandon;
-import com.google.gerrit.server.change.ChangeResource;
-import com.google.gerrit.server.change.DeleteDraftPatchSet;
-import com.google.gerrit.server.change.Restore;
-import com.google.gerrit.server.change.RevisionResource;
-import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.changedetail.PublishDraft;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -132,31 +130,16 @@ public class ReviewCommand extends SshCommand {
   private ReviewDb db;
 
   @Inject
-  private DeleteDraftPatchSet deleteDraftPatchSetImpl;
-
-  @Inject
   private ProjectControl.Factory projectControlFactory;
 
   @Inject
   private AllProjectsName allProjects;
 
   @Inject
-  private ChangeControl.Factory changeControlFactory;
-
-  @Inject
-  private Provider<Abandon> abandonProvider;
-
-  @Inject
-  private Provider<GerritApi> api;
+  private Provider<GerritApi> gApi;
 
   @Inject
   private PublishDraft.Factory publishDraftFactory;
-
-  @Inject
-  private Provider<Restore> restoreProvider;
-
-  @Inject
-  private Provider<Submit> submitProvider;
 
   private List<ApproveOption> optionList;
   private Map<String, Short> customLabels;
@@ -213,10 +196,10 @@ public class ReviewCommand extends SshCommand {
     }
   }
 
-  private void applyReview(final ChangeControl ctl, final PatchSet patchSet,
+  private void applyReview(PatchSet patchSet,
       final ReviewInput review) throws Exception {
-    api.get().changes()
-        .id(ctl.getChange().getChangeId())
+    gApi.get().changes()
+        .id(patchSet.getId().getParentKey().get())
         .revision(patchSet.getRevision().get())
         .review(review);
   }
@@ -248,44 +231,43 @@ public class ReviewCommand extends SshCommand {
     }
 
     try {
-      ChangeControl ctl =
-          changeControlFactory.controlFor(patchSet.getId().getParentKey());
-
       if (abandonChange) {
-        final Abandon abandon = abandonProvider.get();
-        final Abandon.Input input = new Abandon.Input();
+        AbandonInput input = new AbandonInput();
         input.message = changeComment;
-        applyReview(ctl, patchSet, review);
+        applyReview(patchSet, review);
         try {
-          abandon.apply(new ChangeResource(ctl), input);
+          gApi.get().changes()
+              .id(patchSet.getId().getParentKey().get())
+              .abandon(input);
         } catch (AuthException e) {
           writeError("error: " + parseError(Type.ABANDON_NOT_PERMITTED) + "\n");
         } catch (ResourceConflictException e) {
           writeError("error: " + parseError(Type.CHANGE_IS_CLOSED) + "\n");
         }
       } else if (restoreChange) {
-        final Restore restore = restoreProvider.get();
-        final Restore.Input input = new Restore.Input();
+        RestoreInput input = new RestoreInput();
         input.message = changeComment;
         try {
-          restore.apply(new ChangeResource(ctl), input);
-          applyReview(ctl, patchSet, review);
+          gApi.get().changes()
+              .id(patchSet.getId().getParentKey().get())
+              .restore(input);
+          applyReview(patchSet, review);
         } catch (AuthException e) {
           writeError("error: " + parseError(Type.RESTORE_NOT_PERMITTED) + "\n");
         } catch (ResourceConflictException e) {
           writeError("error: " + parseError(Type.CHANGE_NOT_ABANDONED) + "\n");
         }
       } else {
-        applyReview(ctl, patchSet, review);
+        applyReview(patchSet, review);
       }
 
       if (submitChange) {
-        Submit submit = submitProvider.get();
-        Submit.Input input = new Submit.Input();
+        SubmitInput input = new SubmitInput();
         input.waitForMerge = true;
-        submit.apply(new RevisionResource(
-            new ChangeResource(ctl), patchSet),
-          input);
+        gApi.get().changes()
+            .id(patchSet.getId().getParentKey().get())
+            .revision(patchSet.getRevision().get())
+            .submit(input);
       }
 
       if (publishPatchSet) {
@@ -293,9 +275,10 @@ public class ReviewCommand extends SshCommand {
             publishDraftFactory.create(patchSet.getId()).call();
         handleReviewResultErrors(result);
       } else if (deleteDraftPatchSet) {
-        deleteDraftPatchSetImpl.apply(new RevisionResource(
-            new ChangeResource(ctl), patchSet),
-            new DeleteDraftPatchSet.Input());
+        gApi.get().changes()
+            .id(patchSet.getId().getParentKey().get())
+            .revision(patchSet.getRevision().get())
+            .deleteDraftPatchSet(new DeleteDraftPatchSetInput());
       }
     } catch (InvalidChangeOperationException e) {
       throw error(e.getMessage());
@@ -306,6 +289,8 @@ public class ReviewCommand extends SshCommand {
     } catch (BadRequestException e) {
       throw error(e.getMessage());
     } catch (ResourceConflictException e) {
+      throw error(e.getMessage());
+    } catch (RestApiException e) {
       throw error(e.getMessage());
     }
   }

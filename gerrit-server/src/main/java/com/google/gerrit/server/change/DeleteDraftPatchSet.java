@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.extensions.api.changes.DeleteDraftPatchSetInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -25,7 +26,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.change.DeleteDraftPatchSet.Input;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.ChangeIndexer;
@@ -39,10 +39,9 @@ import com.google.inject.Provider;
 
 import java.io.IOException;
 
-public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Input>,
+public class DeleteDraftPatchSet implements
+    RestModifyView<RevisionResource, DeleteDraftPatchSetInput>,
     UiAction<RevisionResource> {
-  public static class Input {
-  }
 
   protected final Provider<ReviewDb> dbProvider;
   private final GitRepositoryManager gitManager;
@@ -64,7 +63,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
   }
 
   @Override
-  public Object apply(RevisionResource rsrc, Input input)
+  public Object apply(RevisionResource rsrc, DeleteDraftPatchSetInput input)
       throws ResourceNotFoundException, AuthException, OrmException,
       IOException, ResourceConflictException {
     PatchSet patchSet = rsrc.getPatchSet();

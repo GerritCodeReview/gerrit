@@ -17,10 +17,11 @@ package com.google.gerrit.server.change;
 import com.google.common.base.Strings;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
@@ -29,8 +30,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.change.Abandon.Input;
-import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.ReplyToChangeSender;
@@ -46,7 +45,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.Collections;
 
-public class Abandon implements RestModifyView<ChangeResource, Input>,
+public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     UiAction<ChangeResource> {
   private static final Logger log = LoggerFactory.getLogger(Abandon.class);
 
@@ -55,11 +54,6 @@ public class Abandon implements RestModifyView<ChangeResource, Input>,
   private final Provider<ReviewDb> dbProvider;
   private final ChangeJson json;
   private final ChangeIndexer indexer;
-
-  public static class Input {
-    @DefaultInput
-    public String message;
-  }
 
   @Inject
   Abandon(ChangeHooks hooks,
@@ -75,9 +69,9 @@ public class Abandon implements RestModifyView<ChangeResource, Input>,
   }
 
   @Override
-  public Object apply(ChangeResource req, Input input)
+  public Object apply(ChangeResource req, AbandonInput input)
       throws BadRequestException, AuthException,
-      ResourceConflictException, Exception {
+      ResourceConflictException, OrmException, IOException {
     ChangeControl control = req.getControl();
     IdentifiedUser caller = (IdentifiedUser) control.getCurrentUser();
     Change change = req.getChange();
@@ -130,7 +124,7 @@ public class Abandon implements RestModifyView<ChangeResource, Input>,
         db.patchSets().get(change.currentPatchSetId()),
         Strings.emptyToNull(input.message),
         db);
-    ChangeInfo result = json.format(change);
+    Object result = input.render ? json.format(change) : Response.none();
     indexFuture.checkedGet();
     return result;
   }
@@ -144,7 +138,7 @@ public class Abandon implements RestModifyView<ChangeResource, Input>,
           && resource.getControl().canAbandon());
   }
 
-  private ChangeMessage newMessage(Input input, IdentifiedUser caller,
+  private ChangeMessage newMessage(AbandonInput input, IdentifiedUser caller,
       Change change) throws OrmException {
     StringBuilder msg = new StringBuilder();
     msg.append("Abandoned");

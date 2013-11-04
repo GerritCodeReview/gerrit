@@ -14,11 +14,15 @@
 
 package com.google.gerrit.server.api.changes;
 
+import com.google.gerrit.extensions.api.changes.DeleteDraftPatchSetInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
+import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.change.DeleteDraftPatchSet;
 import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.change.Submit;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -31,13 +35,19 @@ class RevisionApiImpl implements RevisionApi {
     RevisionApiImpl create(RevisionResource r);
   }
 
+  private final Provider<DeleteDraftPatchSet> deleteDraftPatchSet;
   private final Provider<PostReview> review;
+  private final Provider<Submit> submit;
   private final RevisionResource revision;
 
   @Inject
   RevisionApiImpl(Provider<PostReview> review,
+      Provider<Submit> submit,
+      Provider<DeleteDraftPatchSet> deleteDraftPatchSet,
       @Assisted RevisionResource r) {
     this.review = review;
+    this.submit = submit;
+    this.deleteDraftPatchSet = deleteDraftPatchSet;
     this.revision = r;
   }
 
@@ -49,6 +59,29 @@ class RevisionApiImpl implements RevisionApi {
       throw new RestApiException("Cannot post review", e);
     } catch (IOException e) {
       throw new RestApiException("Cannot post review", e);
+    }
+  }
+
+  @Override
+  public void submit(SubmitInput in) throws RestApiException {
+    try {
+      submit.get().apply(revision, in);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot submit change", e);
+    } catch (IOException e) {
+      throw new RestApiException("Cannot submit change", e);
+    }
+  }
+
+  @Override
+  public void deleteDraftPatchSet(DeleteDraftPatchSetInput in)
+      throws RestApiException {
+    try {
+      deleteDraftPatchSet.get().apply(revision, in);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot delete draft ps", e);
+    } catch (IOException e) {
+      throw new RestApiException("Cannot delete draft ps", e);
     }
   }
 }

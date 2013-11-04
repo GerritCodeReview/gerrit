@@ -12,19 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.rest.change;
+package com.google.gerrit.extensions.api.changes;
 
-import com.google.common.collect.Maps;
-
-import java.util.Map;
-
-public class ReviewInput {
-  Map<String, Integer> labels;
-
-  public static ReviewInput approve() {
-    ReviewInput in = new ReviewInput();
-    in.labels = Maps.newHashMap();
-    in.labels.put("Code-Review", 2);
-    return in;
-  }
+public class SubmitInput {
+  public boolean waitForMerge;
 }
+

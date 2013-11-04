@@ -33,6 +33,7 @@ def maven_jar(
     license,
     exclude = [],
     exclude_java_sources = False,
+    unsign = False,
     deps = [],
     sha1 = '', bin_sha1 = '', src_sha1 = '',
     repository = MAVEN_CENTRAL,
@@ -73,6 +74,8 @@ def maven_jar(
     cmd.extend(['-x', x])
   if exclude_java_sources:
     cmd.append('--exclude_java_sources')
+  if unsign:
+    cmd.append('--unsign')
 
   genrule(
     name = name + '__download_bin',

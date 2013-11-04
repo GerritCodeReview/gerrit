@@ -14,12 +14,17 @@
 
 package com.google.gerrit.common.data;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class ParameterizedStringTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+public class ParameterizedStringTest {
+  @Test
   public void testEmptyString() {
     final ParameterizedString p = new ParameterizedString("");
     assertEquals("", p.getPattern());
@@ -32,6 +37,7 @@ public class ParameterizedStringTest extends TestCase {
     assertEquals("", p.replace(a));
   }
 
+  @Test
   public void testAsis1() {
     final ParameterizedString p = ParameterizedString.asis("${bar}c");
     assertEquals("${bar}c", p.getPattern());
@@ -60,6 +66,7 @@ public class ParameterizedStringTest extends TestCase {
     assertEquals("frobinatorc", p.replace(a));
   }
 
+  @Test
   public void testReplace2() {
     final ParameterizedString p = new ParameterizedString("a${bar}c");
     assertEquals("a${bar}c", p.getPattern());
@@ -75,6 +82,7 @@ public class ParameterizedStringTest extends TestCase {
     assertEquals("afrobinatorc", p.replace(a));
   }
 
+  @Test
   public void testReplace3() {
     final ParameterizedString p = new ParameterizedString("a${bar}");
     assertEquals("a${bar}", p.getPattern());
@@ -90,6 +98,7 @@ public class ParameterizedStringTest extends TestCase {
     assertEquals("afrobinator", p.replace(a));
   }
 
+  @Test
   public void testReplace4() {
     final ParameterizedString p = new ParameterizedString("a${bar}c");
     assertEquals("a${bar}c", p.getPattern());
@@ -104,6 +113,7 @@ public class ParameterizedStringTest extends TestCase {
     assertEquals("ac", p.replace(a));
   }
 
+  @Test
   public void testReplaceToLowerCase() {
     final ParameterizedString p = new ParameterizedString("${a.toLowerCase}");
     assertEquals(1, p.getParameterNames().size());
@@ -124,6 +134,7 @@ public class ParameterizedStringTest extends TestCase {
     assertEquals("foo", p.replace(a));
   }
 
+  @Test
   public void testReplaceToUpperCase() {
     final ParameterizedString p = new ParameterizedString("${a.toUpperCase}");
     assertEquals(1, p.getParameterNames().size());
@@ -144,6 +155,7 @@ public class ParameterizedStringTest extends TestCase {
     assertEquals("FOO", p.replace(a));
   }
 
+  @Test
   public void testReplaceLocalName() {
     final ParameterizedString p = new ParameterizedString("${a.localPart}");
     assertEquals(1, p.getParameterNames().size());
@@ -164,6 +176,7 @@ public class ParameterizedStringTest extends TestCase {
     assertEquals("foo", p.replace(a));
   }
 
+  @Test
   public void testUndefinedFunctionName() {
     ParameterizedString p =
         new ParameterizedString(
@@ -183,6 +196,7 @@ public class ParameterizedStringTest extends TestCase {
     assertEquals("hi, FIRSTNAME LASTNAME,your eamil address is 'firstname.lastname'.right?", p.replace(a));
   }
 
+  @Test
   public void testReplaceToUpperCaseToLowerCase() {
     final ParameterizedString p =
         new ParameterizedString("${a.toUpperCase.toLowerCase}");
@@ -204,6 +218,7 @@ public class ParameterizedStringTest extends TestCase {
     assertEquals("foo@example.com", p.replace(a));
   }
 
+  @Test
   public void testReplaceToUpperCaseLocalName() {
     final ParameterizedString p =
         new ParameterizedString("${a.toUpperCase.localPart}");
@@ -225,6 +240,7 @@ public class ParameterizedStringTest extends TestCase {
     assertEquals("FOO", p.replace(a));
   }
 
+  @Test
   public void testReplaceToUpperCaseAnUndefinedMethod() {
     final ParameterizedString p =
         new ParameterizedString("${a.toUpperCase.anUndefinedMethod}");
@@ -246,6 +262,7 @@ public class ParameterizedStringTest extends TestCase {
     assertEquals("FOO@EXAMPLE.COM", p.replace(a));
   }
 
+  @Test
   public void testReplaceLocalNameToUpperCase() {
     final ParameterizedString p =
         new ParameterizedString("${a.localPart.toUpperCase}");
@@ -267,6 +284,7 @@ public class ParameterizedStringTest extends TestCase {
     assertEquals("FOO", p.replace(a));
   }
 
+  @Test
   public void testReplaceLocalNameToLowerCase() {
     final ParameterizedString p =
         new ParameterizedString("${a.localPart.toLowerCase}");
@@ -288,6 +306,7 @@ public class ParameterizedStringTest extends TestCase {
     assertEquals("foo", p.replace(a));
   }
 
+  @Test
   public void testReplaceLocalNameAnUndefinedMethod() {
     final ParameterizedString p =
         new ParameterizedString("${a.localPart.anUndefinedMethod}");
@@ -309,6 +328,7 @@ public class ParameterizedStringTest extends TestCase {
     assertEquals("foo", p.replace(a));
   }
 
+  @Test
   public void testReplaceToLowerCaseToUpperCase() {
     final ParameterizedString p =
         new ParameterizedString("${a.toLowerCase.toUpperCase}");
@@ -330,6 +350,7 @@ public class ParameterizedStringTest extends TestCase {
     assertEquals("FOO@EXAMPLE.COM", p.replace(a));
   }
 
+  @Test
   public void testReplaceToLowerCaseLocalName() {
     final ParameterizedString p =
         new ParameterizedString("${a.toLowerCase.localPart}");
@@ -351,6 +372,7 @@ public class ParameterizedStringTest extends TestCase {
     assertEquals("foo", p.replace(a));
   }
 
+  @Test
   public void testReplaceToLowerCaseAnUndefinedMethod() {
     final ParameterizedString p =
         new ParameterizedString("${a.toLowerCase.anUndefinedMethod}");

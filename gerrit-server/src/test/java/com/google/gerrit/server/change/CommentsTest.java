@@ -18,6 +18,9 @@ import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.EasyMock.replay;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableMap;
@@ -46,9 +49,9 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.TypeLiteral;
 
-import junit.framework.TestCase;
-
 import org.easymock.IAnswer;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -56,7 +59,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class CommentsTest extends TestCase {
+public class CommentsTest {
 
   private Injector injector;
   private RevisionResource revRes1;
@@ -65,8 +68,8 @@ public class CommentsTest extends TestCase {
   private PatchLineComment plc2;
   private PatchLineComment plc3;
 
-  @Override
-  protected void setUp() throws Exception {
+  @Before
+  public void setUp() throws Exception {
     @SuppressWarnings("unchecked")
     final DynamicMap<RestView<CommentResource>> views =
         createMock(DynamicMap.class);
@@ -130,6 +133,7 @@ public class CommentsTest extends TestCase {
     injector = Guice.createInjector(mod);
   }
 
+  @Test
   public void testListComments() throws Exception {
     // test ListComments for patch set 1
     assertListComments(injector, revRes1, ImmutableMap.of(
@@ -140,6 +144,7 @@ public class CommentsTest extends TestCase {
         Collections.<String, ArrayList<PatchLineComment>>emptyMap());
   }
 
+  @Test
   public void testGetComment() throws Exception {
     // test GetComment for existing comment
     assertGetComment(injector, revRes1, plc1, plc1.getKey().get());

@@ -223,8 +223,8 @@ maven_jar(
 
 maven_jar(
   name = 'easymock',
-  id = 'org.easymock:easymock:3.1',
-  sha1 = '3e127311a86fc2e8f550ef8ee4abe094bbcf7e7e',
+  id = 'org.easymock:easymock:3.2',
+  sha1 = '00c82f7fa3ef377d8954b1db25123944b5af2ba4',
   license = 'DO_NOT_DISTRIBUTE',
   deps = [
     ':cglib-2_2',

@@ -14,11 +14,13 @@
 
 package com.google.gerrit.server.query;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import java.util.Collections;
 
-public class FieldPredicateTest extends TestCase {
+import static org.junit.Assert.*;
+
+public class FieldPredicateTest {
   private static final class TestPredicate extends OperatorPredicate<String> {
     private TestPredicate(String name, String value) {
       super(name, value);
@@ -39,12 +41,14 @@ public class FieldPredicateTest extends TestCase {
     return new TestPredicate(name, value);
   }
 
+  @Test
   public void testToString() {
     assertEquals("author:bob", f("author", "bob").toString());
     assertEquals("author:\"\"", f("author", "").toString());
     assertEquals("owner:\"A U Thor\"", f("owner", "A U Thor").toString());
   }
 
+  @Test
   public void testEquals() {
     assertTrue(f("author", "bob").equals(f("author", "bob")));
     assertFalse(f("author", "bob").equals(f("author", "alice")));
@@ -52,11 +56,13 @@ public class FieldPredicateTest extends TestCase {
     assertFalse(f("author", "bob").equals("author"));
   }
 
+  @Test
   public void testHashCode() {
     assertTrue(f("a", "bob").hashCode() == f("a", "bob").hashCode());
     assertFalse(f("a", "bob").hashCode() == f("a", "alice").hashCode());
   }
 
+  @Test
   public void testNameValue() {
     final String name = "author";
     final String value = "alice";
@@ -66,6 +72,7 @@ public class FieldPredicateTest extends TestCase {
     assertEquals(0, f.getChildren().size());
   }
 
+  @Test
   public void testCopy() {
     final OperatorPredicate<String> f = f("author", "alice");
     assertSame(f, f.copy(Collections.<Predicate<String>> emptyList()));

@@ -19,6 +19,9 @@ import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
@@ -27,21 +30,20 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.util.TimeUtil;
 
-import junit.framework.TestCase;
-
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.Collections;
 
-public class FromAddressGeneratorProviderTest extends TestCase {
+public class FromAddressGeneratorProviderTest {
   private Config config;
   private PersonIdent ident;
   private AccountCache accountCache;
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
+  @Before
+  public void setUp() throws Exception {
     config = new Config();
     ident = new PersonIdent("NAME", "e@email", 0, 0);
     accountCache = createStrictMock(AccountCache.class);
@@ -56,10 +58,12 @@ public class FromAddressGeneratorProviderTest extends TestCase {
     config.setString("sendemail", null, "from", newFrom);
   }
 
+  @Test
   public void testDefaultIsMIXED() {
     assertTrue(create() instanceof FromAddressGeneratorProvider.PatternGen);
   }
 
+  @Test
   public void testSelectUSER() {
     setFrom("USER");
     assertTrue(create() instanceof FromAddressGeneratorProvider.UserGen);
@@ -71,6 +75,7 @@ public class FromAddressGeneratorProviderTest extends TestCase {
     assertTrue(create() instanceof FromAddressGeneratorProvider.UserGen);
   }
 
+  @Test
   public void testUSER_FullyConfiguredUser() {
     setFrom("USER");
 
@@ -86,6 +91,7 @@ public class FromAddressGeneratorProviderTest extends TestCase {
     verify(accountCache);
   }
 
+  @Test
   public void testUSER_NoFullNameUser() {
     setFrom("USER");
 
@@ -100,6 +106,7 @@ public class FromAddressGeneratorProviderTest extends TestCase {
     verify(accountCache);
   }
 
+  @Test
   public void testUSER_NoPreferredEmailUser() {
     setFrom("USER");
 
@@ -114,6 +121,7 @@ public class FromAddressGeneratorProviderTest extends TestCase {
     verify(accountCache);
   }
 
+  @Test
   public void testUSER_NullUser() {
     setFrom("USER");
     replay(accountCache);
@@ -124,6 +132,7 @@ public class FromAddressGeneratorProviderTest extends TestCase {
     verify(accountCache);
   }
 
+  @Test
   public void testSelectSERVER() {
     setFrom("SERVER");
     assertTrue(create() instanceof FromAddressGeneratorProvider.ServerGen);
@@ -135,6 +144,7 @@ public class FromAddressGeneratorProviderTest extends TestCase {
     assertTrue(create() instanceof FromAddressGeneratorProvider.ServerGen);
   }
 
+  @Test
   public void testSERVER_FullyConfiguredUser() {
     setFrom("SERVER");
 
@@ -150,6 +160,7 @@ public class FromAddressGeneratorProviderTest extends TestCase {
     verify(accountCache);
   }
 
+  @Test
   public void testSERVER_NullUser() {
     setFrom("SERVER");
     replay(accountCache);
@@ -160,6 +171,7 @@ public class FromAddressGeneratorProviderTest extends TestCase {
     verify(accountCache);
   }
 
+  @Test
   public void testSelectMIXED() {
     setFrom("MIXED");
     assertTrue(create() instanceof FromAddressGeneratorProvider.PatternGen);
@@ -171,6 +183,7 @@ public class FromAddressGeneratorProviderTest extends TestCase {
     assertTrue(create() instanceof FromAddressGeneratorProvider.PatternGen);
   }
 
+  @Test
   public void testMIXED_FullyConfiguredUser() {
     setFrom("MIXED");
 
@@ -186,6 +199,7 @@ public class FromAddressGeneratorProviderTest extends TestCase {
     verify(accountCache);
   }
 
+  @Test
   public void testMIXED_NoFullNameUser() {
     setFrom("MIXED");
 
@@ -200,6 +214,7 @@ public class FromAddressGeneratorProviderTest extends TestCase {
     verify(accountCache);
   }
 
+  @Test
   public void testMIXED_NoPreferredEmailUser() {
     setFrom("MIXED");
 
@@ -214,6 +229,7 @@ public class FromAddressGeneratorProviderTest extends TestCase {
     verify(accountCache);
   }
 
+  @Test
   public void testMIXED_NullUser() {
     setFrom("MIXED");
     replay(accountCache);
@@ -224,6 +240,7 @@ public class FromAddressGeneratorProviderTest extends TestCase {
     verify(accountCache);
   }
 
+  @Test
   public void testCUSTOM_FullyConfiguredUser() {
     setFrom("A ${user} B <my.server@email.address>");
 
@@ -239,6 +256,7 @@ public class FromAddressGeneratorProviderTest extends TestCase {
     verify(accountCache);
   }
 
+  @Test
   public void testCUSTOM_NoFullNameUser() {
     setFrom("A ${user} B <my.server@email.address>");
 
@@ -253,6 +271,7 @@ public class FromAddressGeneratorProviderTest extends TestCase {
     verify(accountCache);
   }
 
+  @Test
   public void testCUSTOM_NullUser() {
     setFrom("A ${user} B <my.server@email.address>");
 

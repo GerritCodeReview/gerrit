@@ -121,8 +121,8 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
     public CommentRange range;
   }
 
-  static class Output {
-    Map<String, Short> labels;
+  public static class Output {
+    public Map<String, Short> labels;
   }
 
   private final Provider<ReviewDb> db;

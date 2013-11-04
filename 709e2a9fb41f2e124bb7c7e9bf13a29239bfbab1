@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "be0135f5_9b6c8bdd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ParentProjectBox.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-04T13:55:52Z",
+      "side": 1,
+      "message": "I tried this, but having a 3 lines ui.xml file doesn\u0027t look much useful for me. Also I couldn\u0027t find out have the ParentProjectBox inline then. So I would just leave it as it is.",
+      "parentUuid": "fe572ce7_cf8d3d87",
+      "revId": "709e2a9fb41f2e124bb7c7e9bf13a29239bfbab1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e463041_cc662fe7",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectAccessHandler.java",
         "patchSetId": 12
@@ -30,6 +48,24 @@
       "writtenOn": "2013-10-31T16:32:24Z",
       "side": 1,
       "message": "wrong indentation",
+      "revId": "709e2a9fb41f2e124bb7c7e9bf13a29239bfbab1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be0135f5_7bc9bf95",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectAccessHandler.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-04T13:55:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e463041_cc662fe7",
       "revId": "709e2a9fb41f2e124bb7c7e9bf13a29239bfbab1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

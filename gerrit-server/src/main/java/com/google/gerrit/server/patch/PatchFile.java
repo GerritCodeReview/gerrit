@@ -31,7 +31,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
 import java.io.IOException;
-import java.nio.charset.CharacterCodingException;
 
 /** State supporting processing of a single {@link Patch} instance. */
 public class PatchFile {
@@ -89,7 +88,6 @@ public class PatchFile {
    * @throws CorruptEntityException the patch cannot be read.
    * @throws IOException the patch or complete file content cannot be read.
    * @throws NoSuchEntityException
-   * @throws CharacterCodingException the file is not a known character set.
    */
   public String getLine(final int file, final int line)
       throws CorruptEntityException, IOException, NoSuchEntityException {

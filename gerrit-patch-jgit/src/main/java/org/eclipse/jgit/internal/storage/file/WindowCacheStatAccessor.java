@@ -14,8 +14,6 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import org.eclipse.jgit.internal.storage.file.WindowCache;
-
 // Hack to obtain visibility to package level methods only.
 // These aren't yet part of the public JGit API.
 

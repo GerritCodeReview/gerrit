@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e1c1c52_639f02a8",
+        "filename": "Documentation/replace_macros.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-04T23:04:26Z",
+      "side": 1,
+      "message": "Clicking enter in the box should also cause a search to start.",
+      "revId": "fe9db3ca2508a59413c12c23829a66849f2f8968",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e1f1045_c48d1e87",
+        "filename": "Documentation/replace_macros.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-04T23:04:26Z",
+      "side": 1,
+      "message": "Gerrit is not always installed at /. Some installations are at /r/ or /gerrit/ or etc. Coming from Documentation/bar.html I think you want to redirect to ../#/Documentation/ so its always relative.",
+      "revId": "fe9db3ca2508a59413c12c23829a66849f2f8968",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e1f1045_e4921aa4",
+        "filename": "Documentation/replace_macros.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-04T23:04:26Z",
+      "side": 1,
+      "message": "This needs to be escaped. Spaces in the value need to be replaced as + or %20. Etc.",
+      "revId": "fe9db3ca2508a59413c12c23829a66849f2f8968",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

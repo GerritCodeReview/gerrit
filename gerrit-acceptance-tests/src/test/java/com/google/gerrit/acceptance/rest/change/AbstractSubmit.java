@@ -28,6 +28,7 @@ import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.git.GitUtil;
 import com.google.gerrit.acceptance.git.PushOneCommit;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
@@ -171,9 +172,9 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   private void approve(String changeId) throws IOException {
-    RestResponse r =
-        session.post("/changes/" + changeId + "/revisions/current/review",
-            ReviewInput.approve());
+    RestResponse r = session.post(
+        "/changes/" + changeId + "/revisions/current/review",
+        new ReviewInput().label("Code-Review", 2));
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     r.consume();
   }

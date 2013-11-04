@@ -13,13 +13,13 @@
 // limitations under the License.
 
 package com.google.gerrit.server.query;
-
-
-import junit.framework.TestCase;
-
 import org.antlr.runtime.tree.Tree;
+import org.junit.Test;
 
-public class QueryParserTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+
+public class QueryParserTest {
+  @Test
   public void testProjectBare() throws QueryParseException {
     Tree r;
 

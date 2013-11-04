@@ -14,11 +14,15 @@
 
 package com.google.gerrit.server.util;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import java.util.HashSet;
 
-public class IdGeneratorTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+public class IdGeneratorTest {
+  @Test
   public void test1234() {
     final HashSet<Integer> seen = new HashSet<Integer>();
     for (int i = 0; i < 1 << 16; i++) {
@@ -32,6 +36,7 @@ public class IdGeneratorTest extends TestCase {
     assertEquals(0x0b966b11, IdGenerator.unmix(IdGenerator.mix(0x0b966b11)));
   }
 
+  @Test
   public void testFormat() {
     assertEquals("0000000f", IdGenerator.format(0xf));
     assertEquals("801234ab", IdGenerator.format(0x801234ab));

@@ -14,13 +14,16 @@
 
 package com.google.gerrit.server;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class StringUtilTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+
+public class StringUtilTest {
   /**
    * Test the boundary condition that the first character of a string
    * should be escaped.
    */
+  @Test
   public void testEscapeFirstChar() {
     assertEquals(StringUtil.escapeString("\tLeading tab"), "\\tLeading tab");
   }
@@ -29,6 +32,7 @@ public class StringUtilTest extends TestCase {
    * Test the boundary condition that the last character of a string
    * should be escaped.
    */
+  @Test
   public void testEscapeLastChar() {
     assertEquals(StringUtil.escapeString("Trailing tab\t"), "Trailing tab\\t");
   }
@@ -37,6 +41,7 @@ public class StringUtilTest extends TestCase {
    * Test that various forms of input strings are escaped (or left as-is)
    * in the expected way.
    */
+  @Test
   public void testEscapeString() {
     final String[] testPairs =
       { "", "",

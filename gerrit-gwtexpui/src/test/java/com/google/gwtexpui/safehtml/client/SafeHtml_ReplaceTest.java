@@ -14,19 +14,25 @@
 
 package com.google.gwtexpui.safehtml.client;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class SafeHtml_ReplaceTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
+
+public class SafeHtml_ReplaceTest {
+  @Test
   public void testReplaceEmpty() {
     SafeHtml o = html("A\nissue42\nB");
     assertSame(o, o.replaceAll(null));
     assertSame(o, o.replaceAll(Collections.<FindReplace> emptyList()));
   }
 
+  @Test
   public void testReplaceOneLink() {
     SafeHtml o = html("A\nissue 42\nB");
     SafeHtml n = o.replaceAll(repls(
@@ -35,6 +41,7 @@ public class SafeHtml_ReplaceTest extends TestCase {
     assertEquals("A\n<a href=\"?42\">issue 42</a>\nB", n.asString());
   }
 
+  @Test
   public void testReplaceNoLeadingOrTrailingText() {
     SafeHtml o = html("issue 42");
     SafeHtml n = o.replaceAll(repls(
@@ -43,6 +50,7 @@ public class SafeHtml_ReplaceTest extends TestCase {
     assertEquals("<a href=\"?42\">issue 42</a>", n.asString());
   }
 
+  @Test
   public void testReplaceTwoLinks() {
     SafeHtml o = html("A\nissue 42\nissue 9918\nB");
     SafeHtml n = o.replaceAll(repls(
@@ -55,6 +63,7 @@ public class SafeHtml_ReplaceTest extends TestCase {
     , n.asString());
   }
 
+  @Test
   public void testReplaceInOrder() {
     SafeHtml o = html("A\nissue 42\nReally GWTEXPUI-9918 is better\nB");
     SafeHtml n = o.replaceAll(repls(
@@ -70,6 +79,7 @@ public class SafeHtml_ReplaceTest extends TestCase {
     , n.asString());
   }
 
+  @Test
   public void testReplaceOverlappingAfterFirstChar() {
     SafeHtml o = html("abcd");
     RawFindReplace ab = new RawFindReplace("ab", "AB");
@@ -81,6 +91,7 @@ public class SafeHtml_ReplaceTest extends TestCase {
     assertEquals("ABYZ", o.replaceAll(repls(ab, bc, cd)).asString());
   }
 
+  @Test
   public void testReplaceOverlappingAtFirstCharLongestMatch() {
     SafeHtml o = html("abcd");
     RawFindReplace ab = new RawFindReplace("ab", "AB");
@@ -90,6 +101,7 @@ public class SafeHtml_ReplaceTest extends TestCase {
     assertEquals("234d", o.replaceAll(repls(abc, ab)).asString());
   }
 
+  @Test
   public void testReplaceOverlappingAtFirstCharFirstMatch() {
     SafeHtml o = html("abcd");
     RawFindReplace ab1 = new RawFindReplace("ab", "AB");
@@ -99,6 +111,7 @@ public class SafeHtml_ReplaceTest extends TestCase {
     assertEquals("12cd", o.replaceAll(repls(ab2, ab1)).asString());
   }
 
+  @Test
   public void testFailedSanitization() {
     SafeHtml o = html("abcd");
     LinkFindReplace evil = new LinkFindReplace("(b)", "javascript:alert('$1')");

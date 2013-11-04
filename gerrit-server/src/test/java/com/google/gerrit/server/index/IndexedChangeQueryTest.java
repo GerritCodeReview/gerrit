@@ -15,32 +15,35 @@
 package com.google.gerrit.server.index;
 
 import static com.google.gerrit.server.index.IndexedChangeQuery.replaceSortKeyPredicates;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
+import org.junit.Before;
+import org.junit.Test;
 
-import junit.framework.TestCase;
-
-public class IndexedChangeQueryTest extends TestCase {
+public class IndexedChangeQueryTest {
   private FakeIndex index;
   private ChangeQueryBuilder queryBuilder;
 
-  @Override
+  @Before
   public void setUp() throws Exception {
-    super.setUp();
     index = new FakeIndex(FakeIndex.V2);
     IndexCollection indexes = new IndexCollection();
     indexes.setSearchIndex(index);
     queryBuilder = new FakeQueryBuilder(indexes);
   }
 
+  @Test
   public void testReplaceSortKeyPredicate_NoSortKey() throws Exception {
     Predicate<ChangeData> p = parse("foo:a bar:b OR (foo:b bar:a)");
     assertSame(p, replaceSortKeyPredicates(p, "1234"));
   }
 
+  @Test
   public void testReplaceSortKeyPredicate_TopLevelSortKey() throws Exception {
     Predicate<ChangeData> p;
     p = parse("foo:a bar:b sortkey_before:1234 OR (foo:b bar:a)");
@@ -51,6 +54,7 @@ public class IndexedChangeQueryTest extends TestCase {
         replaceSortKeyPredicates(p, "5678"));
   }
 
+  @Test
   public void testReplaceSortKeyPredicate_NestedSortKey() throws Exception {
     Predicate<ChangeData> p;
     p = parse("foo:a bar:b OR (foo:b bar:a AND sortkey_before:1234)");

@@ -34,10 +34,11 @@ import com.google.gwtorm.server.StatementExecutor;
 import com.google.inject.Guice;
 import com.google.inject.TypeLiteral;
 
-import junit.framework.TestCase;
-
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -45,21 +46,22 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
-public class SchemaUpdaterTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+
+public class SchemaUpdaterTest {
   private InMemoryDatabase db;
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
+  @Before
+  public void setUp() throws Exception {
     db = InMemoryDatabase.newDatabase();
   }
 
-  @Override
-  protected void tearDown() throws Exception {
+  @After
+  public void tearDown() throws Exception {
     InMemoryDatabase.drop(db);
-    super.tearDown();
   }
 
+  @Test
   public void testUpdate() throws OrmException, FileNotFoundException,
       IOException {
     db.create();

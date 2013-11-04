@@ -99,6 +99,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
 
   @After
   public void cleanup() {
+    sshSession.close();
     db.close();
   }
 

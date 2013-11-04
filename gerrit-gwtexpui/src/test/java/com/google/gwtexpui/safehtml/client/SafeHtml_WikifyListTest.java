@@ -14,9 +14,12 @@
 
 package com.google.gwtexpui.safehtml.client;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class SafeHtml_WikifyListTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
+
+public class SafeHtml_WikifyListTest {
   private static final String BEGIN_LIST = "<ul class=\"wikiList\">";
   private static final String END_LIST = "</ul>";
 
@@ -24,6 +27,7 @@ public class SafeHtml_WikifyListTest extends TestCase {
     return "<li>" + raw + "</li>";
   }
 
+  @Test
   public void testBulletList1() {
     final SafeHtml o = html("A\n\n* line 1\n* 2nd line");
     final SafeHtml n = o.wikify();
@@ -36,6 +40,7 @@ public class SafeHtml_WikifyListTest extends TestCase {
     , n.asString());
   }
 
+  @Test
   public void testBulletList2() {
     final SafeHtml o = html("A\n\n* line 1\n* 2nd line\n\nB");
     final SafeHtml n = o.wikify();
@@ -49,6 +54,7 @@ public class SafeHtml_WikifyListTest extends TestCase {
     , n.asString());
   }
 
+  @Test
   public void testBulletList3() {
     final SafeHtml o = html("* line 1\n* 2nd line\n\nB");
     final SafeHtml n = o.wikify();
@@ -61,6 +67,7 @@ public class SafeHtml_WikifyListTest extends TestCase {
     , n.asString());
   }
 
+  @Test
   public void testBulletList4() {
     final SafeHtml o = html("To see this bug, you have to:\n" //
         + "* Be on IMAP or EAS (not on POP)\n"//
@@ -75,6 +82,7 @@ public class SafeHtml_WikifyListTest extends TestCase {
     , n.asString());
   }
 
+  @Test
   public void testBulletList5() {
     final SafeHtml o = html("To see this bug,\n" //
         + "you have to:\n" //
@@ -90,6 +98,7 @@ public class SafeHtml_WikifyListTest extends TestCase {
     , n.asString());
   }
 
+  @Test
   public void testDashList1() {
     final SafeHtml o = html("A\n\n- line 1\n- 2nd line");
     final SafeHtml n = o.wikify();
@@ -102,6 +111,7 @@ public class SafeHtml_WikifyListTest extends TestCase {
     , n.asString());
   }
 
+  @Test
   public void testDashList2() {
     final SafeHtml o = html("A\n\n- line 1\n- 2nd line\n\nB");
     final SafeHtml n = o.wikify();
@@ -115,6 +125,7 @@ public class SafeHtml_WikifyListTest extends TestCase {
     , n.asString());
   }
 
+  @Test
   public void testDashList3() {
     final SafeHtml o = html("- line 1\n- 2nd line\n\nB");
     final SafeHtml n = o.wikify();

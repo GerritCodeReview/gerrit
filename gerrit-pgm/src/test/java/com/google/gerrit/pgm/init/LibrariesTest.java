@@ -21,13 +21,14 @@ import static org.easymock.EasyMock.verify;
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Provider;
-
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 
-public class LibrariesTest extends TestCase {
+public class LibrariesTest {
+  @Test
   public void testCreate() throws FileNotFoundException {
     final SitePaths site = new SitePaths(new File("."));
     final ConsoleUI ui = createStrictMock(ConsoleUI.class);

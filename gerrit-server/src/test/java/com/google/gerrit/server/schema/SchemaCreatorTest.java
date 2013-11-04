@@ -29,9 +29,10 @@ import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
-import junit.framework.TestCase;
-
 import org.eclipse.jgit.lib.Repository;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,7 +41,9 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
-public class SchemaCreatorTest extends TestCase {
+import static org.junit.Assert.*;
+
+public class SchemaCreatorTest {
   @Inject
   private AllProjectsName allProjects;
 
@@ -50,18 +53,17 @@ public class SchemaCreatorTest extends TestCase {
   @Inject
   private InMemoryDatabase db;
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
+  @Before
+  public void setUp() throws Exception {
     new InMemoryModule().inject(this);
   }
 
-  @Override
-  protected void tearDown() throws Exception {
+  @After
+  public void tearDown() throws Exception {
     InMemoryDatabase.drop(db);
-    super.tearDown();
   }
 
+  @Test
   public void testGetCauses_CreateSchema() throws OrmException, SQLException,
       IOException {
     // Initially the schema should be empty.
@@ -109,6 +111,7 @@ public class SchemaCreatorTest extends TestCase {
     }
   }
 
+  @Test
   public void testCreateSchema_LabelTypes() throws Exception {
     List<String> labels = Lists.newArrayList();
     for (LabelType label : getLabelTypes().getLabelTypes()) {
@@ -117,6 +120,7 @@ public class SchemaCreatorTest extends TestCase {
     assertEquals(ImmutableList.of("Code-Review"), labels);
   }
 
+  @Test
   public void testCreateSchema_Label_CodeReview() throws Exception {
     LabelType codeReview = getLabelTypes().byLabel("Code-Review");
     assertNotNull(codeReview);

@@ -14,9 +14,12 @@
 
 package com.google.gwtexpui.safehtml.client;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class SafeHtml_WikifyPreformatTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
+
+public class SafeHtml_WikifyPreformatTest {
   private static final String B = "<span class=\"wikiPreFormat\">";
   private static final String E = "</span><br />";
 
@@ -24,6 +27,7 @@ public class SafeHtml_WikifyPreformatTest extends TestCase {
     return B + raw + E;
   }
 
+  @Test
   public void testPreformat1() {
     final SafeHtml o = html("A\n\n  This is pre\n  formatted");
     final SafeHtml n = o.wikify();
@@ -36,6 +40,7 @@ public class SafeHtml_WikifyPreformatTest extends TestCase {
     , n.asString());
   }
 
+  @Test
   public void testPreformat2() {
     final SafeHtml o = html("A\n\n  This is pre\n  formatted\n\nbut this is not");
     final SafeHtml n = o.wikify();
@@ -49,6 +54,7 @@ public class SafeHtml_WikifyPreformatTest extends TestCase {
     , n.asString());
   }
 
+  @Test
   public void testPreformat3() {
     final SafeHtml o = html("A\n\n  Q\n    <R>\n  S\n\nB");
     final SafeHtml n = o.wikify();
@@ -63,6 +69,7 @@ public class SafeHtml_WikifyPreformatTest extends TestCase {
     , n.asString());
   }
 
+  @Test
   public void testPreformat4() {
     final SafeHtml o = html("  Q\n    <R>\n  S\n\nB");
     final SafeHtml n = o.wikify();

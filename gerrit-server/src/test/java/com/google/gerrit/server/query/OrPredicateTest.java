@@ -14,15 +14,16 @@
 
 package com.google.gerrit.server.query;
 
-import static com.google.gerrit.server.query.Predicate.or;
+import org.junit.Test;
 
-import junit.framework.TestCase;
+import static com.google.gerrit.server.query.Predicate.or;
+import static org.junit.Assert.*;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class OrPredicateTest extends TestCase {
+public class OrPredicateTest {
   private static final class TestPredicate extends OperatorPredicate<String> {
     private TestPredicate(String name, String value) {
       super(name, value);
@@ -43,6 +44,7 @@ public class OrPredicateTest extends TestCase {
     return new TestPredicate(name, value);
   }
 
+  @Test
   @SuppressWarnings("unchecked")
   public void testChildren() {
     final TestPredicate a = f("author", "alice");
@@ -53,6 +55,7 @@ public class OrPredicateTest extends TestCase {
     assertSame(b, n.getChild(1));
   }
 
+  @Test
   @SuppressWarnings("unchecked")
   public void testChildrenUnmodifiable() {
     final TestPredicate a = f("author", "alice");
@@ -83,6 +86,7 @@ public class OrPredicateTest extends TestCase {
     assertEquals(o + " did not affect child", l, p.getChildren());
   }
 
+  @Test
   @SuppressWarnings("unchecked")
   public void testToString() {
     final TestPredicate a = f("q", "alice");
@@ -92,6 +96,7 @@ public class OrPredicateTest extends TestCase {
     assertEquals("(q:alice OR q:bob OR q:charlie)", or(a, b, c).toString());
   }
 
+  @Test
   @SuppressWarnings("unchecked")
   public void testEquals() {
     final TestPredicate a = f("author", "alice");
@@ -107,6 +112,7 @@ public class OrPredicateTest extends TestCase {
     assertFalse(or(a, c).equals(a));
   }
 
+  @Test
   @SuppressWarnings("unchecked")
   public void testHashCode() {
     final TestPredicate a = f("author", "alice");
@@ -118,6 +124,7 @@ public class OrPredicateTest extends TestCase {
     assertFalse(or(a, c).hashCode() == or(a, b).hashCode());
   }
 
+  @Test
   @SuppressWarnings("unchecked")
   public void testCopy() {
     final TestPredicate a = f("author", "alice");

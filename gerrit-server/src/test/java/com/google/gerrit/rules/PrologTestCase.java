@@ -29,8 +29,6 @@ import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 import com.googlecode.prolog_cafe.lang.VariableTerm;
 
-import junit.framework.TestCase;
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -41,9 +39,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 
 /** Base class for any tests written in Prolog. */
-public abstract class PrologTestCase extends TestCase {
+public abstract class PrologTestCase {
   private static final SymbolTerm test_1 = SymbolTerm.intern("test", 1);
 
   private String pkg;

@@ -14,15 +14,16 @@
 
 package com.google.gerrit.server.query;
 
+import org.junit.Test;
+
 import static com.google.gerrit.server.query.Predicate.and;
 import static com.google.gerrit.server.query.Predicate.not;
-
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
 import java.util.Collections;
 import java.util.List;
 
-public class NotPredicateTest extends TestCase {
+public class NotPredicateTest {
   private static final class TestPredicate extends OperatorPredicate<String> {
     private TestPredicate(String name, String value) {
       super(name, value);
@@ -43,6 +44,7 @@ public class NotPredicateTest extends TestCase {
     return new TestPredicate(name, value);
   }
 
+  @Test
   public void testNotNot() {
     final TestPredicate p = f("author", "bob");
     final Predicate<String> n = not(p);
@@ -51,6 +53,7 @@ public class NotPredicateTest extends TestCase {
     assertSame(p, not(n));
   }
 
+  @Test
   public void testChildren() {
     final TestPredicate p = f("author", "bob");
     final Predicate<String> n = not(p);
@@ -58,6 +61,7 @@ public class NotPredicateTest extends TestCase {
     assertSame(p, n.getChild(0));
   }
 
+  @Test
   public void testChildrenUnmodifiable() {
     final TestPredicate p = f("author", "bob");
     final Predicate<String> n = not(p);
@@ -87,10 +91,12 @@ public class NotPredicateTest extends TestCase {
     assertSame(o + " did not affect child", c, p.getChild(0));
   }
 
+  @Test
   public void testToString() {
     assertEquals("-author:bob", not(f("author", "bob")).toString());
   }
 
+  @Test
   public void testEquals() {
     assertTrue(not(f("author", "bob")).equals(not(f("author", "bob"))));
     assertFalse(not(f("author", "bob")).equals(not(f("author", "alice"))));
@@ -98,11 +104,13 @@ public class NotPredicateTest extends TestCase {
     assertFalse(not(f("author", "bob")).equals("author"));
   }
 
+  @Test
   public void testHashCode() {
     assertTrue(not(f("a", "b")).hashCode() == not(f("a", "b")).hashCode());
     assertFalse(not(f("a", "b")).hashCode() == not(f("a", "a")).hashCode());
   }
 
+  @Test
   @SuppressWarnings({"rawtypes", "unchecked"})
   public void testCopy() {
     final TestPredicate a = f("author", "alice");

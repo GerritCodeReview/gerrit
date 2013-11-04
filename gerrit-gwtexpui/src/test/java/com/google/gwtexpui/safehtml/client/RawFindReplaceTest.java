@@ -14,9 +14,11 @@
 
 package com.google.gwtexpui.safehtml.client;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
-public class RawFindReplaceTest extends TestCase {
+public class RawFindReplaceTest {
+  @Test
   public void testFindReplace() {
     final String find = "find";
     final String replace = "replace";

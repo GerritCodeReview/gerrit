@@ -21,9 +21,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
-public class ParameterParserTest extends TestCase {
+public class ParameterParserTest {
+  @Test
   public void testConvertFormToJson() throws BadRequestException {
     JsonObject obj = ParameterParser.formToJson(
         ImmutableMap.of(

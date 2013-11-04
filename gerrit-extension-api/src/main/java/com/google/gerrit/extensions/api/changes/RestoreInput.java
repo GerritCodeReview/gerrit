@@ -14,19 +14,10 @@
 
 package com.google.gerrit.extensions.api.changes;
 
-import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.DefaultInput;
 
-public interface ChangeApi {
-  RevisionApi current() throws RestApiException;
-  RevisionApi revision(int id) throws RestApiException;
-  RevisionApi revision(String id) throws RestApiException;
-
-  void abandon() throws RestApiException;
-  void abandon(AbandonInput in) throws RestApiException;
-
-  void restore() throws RestApiException;
-  void restore(RestoreInput in) throws RestApiException;
-
-  void revert() throws RestApiException;
-  void revert(RevertInput in) throws RestApiException;
+public class RestoreInput {
+  @DefaultInput
+  public String message;
 }
+

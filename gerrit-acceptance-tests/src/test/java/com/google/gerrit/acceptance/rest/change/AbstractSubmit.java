@@ -20,6 +20,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 
+import com.google.common.collect.Maps;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.RestResponse;
@@ -28,6 +29,7 @@ import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.git.GitUtil;
 import com.google.gerrit.acceptance.git.PushOneCommit;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
@@ -171,9 +173,12 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   private void approve(String changeId) throws IOException {
+    ReviewInput in = new ReviewInput();
+    in.labels = Maps.newHashMap();
+    in.labels.put("Code-Review", (short) 2);
     RestResponse r =
         session.post("/changes/" + changeId + "/revisions/current/review",
-            ReviewInput.approve());
+            in);
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     r.consume();
   }

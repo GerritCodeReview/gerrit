@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.api.revision;
+package com.google.gerrit.acceptance.api.change;
 
 import static com.google.gerrit.acceptance.git.GitUtil.cloneProject;
 import static com.google.gerrit.acceptance.git.GitUtil.createProject;
@@ -27,12 +27,14 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.git.PushOneCommit;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -42,7 +44,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-public class ReviewIT extends AbstractDaemonTest {
+public class ChangeIT extends AbstractDaemonTest {
 
   @Inject
   private AccountCreator accounts;
@@ -54,7 +56,7 @@ public class ReviewIT extends AbstractDaemonTest {
   private GerritApi gApi;
 
   @Inject
-  AcceptanceTestRequestScope atrScope;
+  private AcceptanceTestRequestScope atrScope;
 
   @Inject
   private IdentifiedUser.GenericFactory identifiedUserFactory;
@@ -71,9 +73,9 @@ public class ReviewIT extends AbstractDaemonTest {
     SshSession sshSession = new SshSession(server, admin);
     createProject(sshSession, project.get());
     git = cloneProject(sshSession.getUrl() + "/" + project.get());
-    atrScope.set(atrScope.newContext(reviewDbProvider, sshSession,
-        identifiedUserFactory.create(admin.getId())));
     db = reviewDbProvider.open();
+    atrScope.set(atrScope.newContext(reviewDbProvider, sshSession,
+        identifiedUserFactory.create(Providers.of(db), admin.getId())));
   }
 
   @After
@@ -82,23 +84,52 @@ public class ReviewIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void reviewTriplet() throws GitAPIException,
+  public void abandon() throws GitAPIException,
+      IOException, RestApiException {
+    PushOneCommit.Result r = createChange();
+    gApi.changes()
+        .id("p~master~" + r.getChangeId())
+        .abandon();
+  }
+
+  @Test
+  public void restore() throws GitAPIException,
+      IOException, RestApiException {
+    PushOneCommit.Result r = createChange();
+    gApi.changes()
+        .id("p~master~" + r.getChangeId())
+        .abandon();
+    gApi.changes()
+        .id("p~master~" + r.getChangeId())
+        .restore();
+  }
+
+  @Test
+  public void revert() throws GitAPIException,
       IOException, RestApiException {
     PushOneCommit.Result r = createChange();
     gApi.changes()
         .id("p~master~" + r.getChangeId())
         .revision(r.getCommit().name())
-        .review(makeReview());
+        .review(approve());
+    gApi.changes()
+        .id("p~master~" + r.getChangeId())
+        .revision(r.getCommit().name())
+        .submit();
+    gApi.changes()
+        .id("p~master~" + r.getChangeId())
+        .revert();
   }
 
-  @Test
-  public void reviewId() throws GitAPIException,
+  // Change is already up to date
+  @Test(expected = ResourceConflictException.class)
+  public void rebase() throws GitAPIException,
       IOException, RestApiException {
     PushOneCommit.Result r = createChange();
     gApi.changes()
-        .id(r.getChangeId())
+        .id("p~master~" + r.getChangeId())
         .revision(r.getCommit().name())
-        .review(makeReview());
+        .rebase();
   }
 
   private PushOneCommit.Result createChange() throws GitAPIException,
@@ -107,7 +138,7 @@ public class ReviewIT extends AbstractDaemonTest {
     return push.to(git, "refs/for/master");
   }
 
-  private static ReviewInput makeReview() {
+  private static ReviewInput approve() {
     ReviewInput in = new ReviewInput();
     in.message = "Looks good!";
     in.labels = Maps.newHashMap();

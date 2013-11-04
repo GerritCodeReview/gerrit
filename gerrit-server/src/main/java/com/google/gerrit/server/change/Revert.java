@@ -16,6 +16,8 @@ package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -27,21 +29,24 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.change.Revert.Input;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.RevertedSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.ssh.NoSshInfo;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 
-public class Revert implements RestModifyView<ChangeResource, Input>,
+import java.io.IOException;
+
+public class Revert implements RestModifyView<ChangeResource, RevertInput>,
     UiAction<ChangeResource> {
   private final ChangeHooks hooks;
   private final RevertedSender.Factory revertedSenderFactory;
@@ -52,10 +57,6 @@ public class Revert implements RestModifyView<ChangeResource, Input>,
   private final PersonIdent myIdent;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ChangeInserter.Factory changeInserterFactory;
-
-  public static class Input {
-    public String message;
-  }
 
   @Inject
   Revert(ChangeHooks hooks,
@@ -79,7 +80,9 @@ public class Revert implements RestModifyView<ChangeResource, Input>,
   }
 
   @Override
-  public Object apply(ChangeResource req, Input input) throws Exception {
+  public Object apply(ChangeResource req, RevertInput input)
+      throws AuthException, ResourceConflictException, IOException,
+      NoSuchChangeException, EmailException, OrmException, BadRequestException {
     ChangeControl control = req.getControl();
     Change change = req.getChange();
     if (!control.canAddPatchSet()) {

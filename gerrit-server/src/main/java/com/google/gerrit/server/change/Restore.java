@@ -17,9 +17,10 @@ package com.google.gerrit.server.change;
 import com.google.common.base.Strings;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.extensions.api.changes.RestoreInput;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
@@ -29,8 +30,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
-import com.google.gerrit.server.change.Restore.Input;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.ReplyToChangeSender;
 import com.google.gerrit.server.mail.RestoredSender;
@@ -46,7 +45,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.Collections;
 
-public class Restore implements RestModifyView<ChangeResource, Input>,
+public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
     UiAction<ChangeResource> {
   private static final Logger log = LoggerFactory.getLogger(Restore.class);
 
@@ -55,11 +54,6 @@ public class Restore implements RestModifyView<ChangeResource, Input>,
   private final Provider<ReviewDb> dbProvider;
   private final ChangeJson json;
   private final ChangeIndexer indexer;
-
-  public static class Input {
-    @DefaultInput
-    public String message;
-  }
 
   @Inject
   Restore(ChangeHooks hooks,
@@ -75,8 +69,9 @@ public class Restore implements RestModifyView<ChangeResource, Input>,
   }
 
   @Override
-  public Object apply(ChangeResource req, Input input)
-      throws Exception {
+  public Object apply(ChangeResource req, RestoreInput input)
+      throws OrmException, IOException, AuthException,
+      ResourceConflictException {
     ChangeControl control = req.getControl();
     IdentifiedUser caller = (IdentifiedUser) control.getCurrentUser();
     Change change = req.getChange();
@@ -129,7 +124,7 @@ public class Restore implements RestModifyView<ChangeResource, Input>,
         db.patchSets().get(change.currentPatchSetId()),
         Strings.emptyToNull(input.message),
         dbProvider.get());
-    ChangeInfo result = json.format(change);
+    Object result = input.render ? json.format(change) : Response.none();
     indexFuture.checkedGet();
     return result;
   }
@@ -143,7 +138,7 @@ public class Restore implements RestModifyView<ChangeResource, Input>,
           && resource.getControl().canRestore());
   }
 
-  private ChangeMessage newMessage(Input input, IdentifiedUser caller,
+  private ChangeMessage newMessage(RestoreInput input, IdentifiedUser caller,
       Change change) throws OrmException {
     StringBuilder msg = new StringBuilder();
     msg.append("Restored");

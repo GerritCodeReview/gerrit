@@ -14,15 +14,22 @@
 
 package com.google.gerrit.server.api.changes;
 
+import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
+import com.google.gerrit.extensions.api.changes.RestoreInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.change.Abandon;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.Restore;
 import com.google.gerrit.server.change.Revisions;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+
+import java.io.IOException;
 
 class ChangeApiImpl implements ChangeApi {
   interface Factory {
@@ -32,13 +39,19 @@ class ChangeApiImpl implements ChangeApi {
   private final Revisions revisions;
   private final RevisionApiImpl.Factory revisionApi;
   private final ChangeResource change;
+  private final Provider<Abandon> abandon;
+  private final Provider<Restore> restore;
 
   @Inject
   ChangeApiImpl(Revisions revisions,
       RevisionApiImpl.Factory api,
+      Provider<Abandon> abandon,
+      Provider<Restore> restore,
       @Assisted ChangeResource change) {
     this.revisions = revisions;
     this.revisionApi = api;
+    this.abandon = abandon;
+    this.restore = restore;
     this.change = change;
   }
 
@@ -54,6 +67,28 @@ class ChangeApiImpl implements ChangeApi {
           revisions.parse(change, IdString.fromDecoded(id)));
     } catch (OrmException e) {
       throw new RestApiException("Cannot parse revision", e);
+    }
+  }
+
+  @Override
+  public void abandon(AbandonInput in) throws RestApiException {
+    try {
+      abandon.get().apply(change, in);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot abandon change", e);
+    } catch (IOException e) {
+      throw new RestApiException("Cannot abandon review", e);
+    }
+  }
+
+  @Override
+  public void restore(RestoreInput in) throws RestApiException {
+    try {
+      restore.get().apply(change, in);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot restore review", e);
+    } catch (IOException e) {
+      throw new RestApiException("Cannot restore review", e);
     }
   }
 }

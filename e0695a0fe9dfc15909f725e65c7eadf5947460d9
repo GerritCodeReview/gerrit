@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5e0af914_58671dfe",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-04T14:44:08Z",
+      "side": 1,
+      "message": "Nice, I wasn\u0027t aware of the Lucene TestInmemory option, but how would I run the reindexing then without having a site?",
+      "parentUuid": "7e1c1c52_a3365af4",
+      "revId": "e0695a0fe9dfc15909f725e65c7eadf5947460d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e1c1c52_c33b56db",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
         "patchSetId": 13
@@ -30,6 +48,24 @@
       "writtenOn": "2013-11-01T22:48:25Z",
       "side": 1,
       "message": "You probably already knew this but note that I\u0027m pretty sure this will fail if the site is currently running, since Reindex uses its own injector stack and will try (and fail) to make a second connection to the H2 database.",
+      "revId": "e0695a0fe9dfc15909f725e65c7eadf5947460d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be0135f5_3bd33748",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-04T14:44:08Z",
+      "side": 1,
+      "message": "Yes, I\u0027m aware of this. I\u0027ve added a small comment about this.",
+      "parentUuid": "7e1c1c52_c33b56db",
       "revId": "e0695a0fe9dfc15909f725e65c7eadf5947460d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "5e0af914_385c692e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-04T14:44:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e1f1045_84316601",
+      "revId": "e0695a0fe9dfc15909f725e65c7eadf5947460d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e1c1c52_03264ec5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
         "patchSetId": 13
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "be0135f5_fbbcaff2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-04T14:44:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e1c1c52_03264ec5",
+      "revId": "e0695a0fe9dfc15909f725e65c7eadf5947460d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e1c1c52_e3405248",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
         "patchSetId": 13
@@ -81,6 +153,24 @@
       "writtenOn": "2013-11-01T22:48:25Z",
       "side": 1,
       "message": "I don\u0027t think parens around (new ChangeData(c)) are necessary here?",
+      "revId": "e0695a0fe9dfc15909f725e65c7eadf5947460d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e0af914_1861a5e6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-04T14:44:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e1c1c52_e3405248",
       "revId": "e0695a0fe9dfc15909f725e65c7eadf5947460d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -110,6 +200,30 @@
     },
     {
       "key": {
+        "uuid": "be0135f5_1bd87b60",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-04T14:44:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e1f1045_a43662f4",
+      "range": {
+        "startLine": 46,
+        "startChar": 45,
+        "endLine": 46,
+        "endChar": 57
+      },
+      "revId": "e0695a0fe9dfc15909f725e65c7eadf5947460d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e1f1045_c43b5edb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
         "patchSetId": 13
@@ -121,6 +235,24 @@
       "writtenOn": "2013-11-01T22:48:25Z",
       "side": 1,
       "message": "Not sure if this is the right behavior or not (and this seems  unlikely in practice), but if there are multiple changes in the list that conflict with each other, they will show up in the search results despite this predicate. For example:\n\n Change Iabcd: Foo.java, Bar.java\n Change Iabce: Bar.java, Baz.java\n conflicts:Iabc\n \u003d\u003e (-change:Iabcd (file:Foo.java OR file.Bar.java))\n    OR (-change:Iabce (file:Bar.java OR file:Foo.java))\n\nIabce matches the first half of the predicate and Iabcd matches the second.",
+      "revId": "e0695a0fe9dfc15909f725e65c7eadf5947460d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be0135f5_dbb9f300",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-04T14:44:08Z",
+      "side": 1,
+      "message": "I would say this behaviour is ok. Don\u0027t know, as a user I might even expect that \u0027conflicts:Iabc\u0027 returns the same result as \u0027conflicts:Iabcd OR conflicts:Iabce\u0027. At least this would match \u0027change:Iabc\u0027 returning the same result as \u0027change:Iabcd OR change:Iabce\u0027. If you don\u0027t mind I would leave it like this for now and adapt it later if needed.",
+      "parentUuid": "9e1f1045_c43b5edb",
       "revId": "e0695a0fe9dfc15909f725e65c7eadf5947460d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

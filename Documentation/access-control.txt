@@ -425,7 +425,7 @@ ref.
 
 
 [[category_create]]
-Create reference
+Create Reference
 ~~~~~~~~~~~~~~~~
 
 The create reference category controls whether it is possible to

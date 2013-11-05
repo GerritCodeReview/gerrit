@@ -170,6 +170,7 @@ public interface ChangeConstants extends Constants {
   String buttonPublishCommentsCancel();
   String headingCoverMessage();
   String headingPatchComments();
+  String draftPanelWarningMessage();
 
   String buttonRestoreChangeBegin();
   String restoreChangeTitle();

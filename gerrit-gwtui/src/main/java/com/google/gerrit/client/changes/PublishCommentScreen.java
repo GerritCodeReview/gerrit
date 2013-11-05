@@ -80,9 +80,13 @@ public class PublishCommentScreen extends AccountScreen implements
   private List<CommentEditorPanel> commentEditors;
   private ChangeInfo change;
   private CommentLinkProcessor commentLinkProcessor;
+  private final ChangeDetailCache detailCache;
+  private final ChangeDetail changedetail;
 
   public PublishCommentScreen(final PatchSet.Id psi) {
     patchSetId = psi;
+    detailCache = ChangeCache.get(psi.getParentKey()).getChangeDetailCache();
+    changedetail = detailCache.get();
   }
 
   @Override
@@ -340,6 +344,23 @@ public class PublishCommentScreen extends AccountScreen implements
     draftsPanel.clear();
     commentEditors = new ArrayList<CommentEditorPanel>();
     revision = r.getPatchSetInfo().getRevId();
+
+    for (final PatchSet patchset : changedetail.getPatchSets()) {
+      CallbackGroup c = new CallbackGroup();
+      Util.DETAIL_SVC.patchSetPublishDetail(patchset.getId(),
+          c.addFinal(new ScreenLoadCallback<PatchSetPublishDetail>(this) {
+            @Override
+            protected void preDisplay(final PatchSetPublishDetail rs) {
+              if (!rs.getDrafts().isEmpty()
+                  && !(patchset.getId()).equals(patchSetId)) {
+                draftsPanel.add(new SmallHeading(Util.C
+                    .draftPanelWarningMessage()
+                    + " "
+                    + patchset.getPatchSetId()));
+              }
+            }
+          }));
+    }
 
     if (!r.getDrafts().isEmpty()) {
       draftsPanel.add(new SmallHeading(Util.C.headingPatchComments()));

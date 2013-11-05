@@ -56,6 +56,8 @@ import java.util.Set;
 import java.util.TreeSet;
 
 class ReplyBox extends Composite {
+  private static final String CODE_REVIEW = "Code-Review";
+
   interface Binder extends UiBinder<HTMLPanel, ReplyBox> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
@@ -67,7 +69,7 @@ class ReplyBox extends Composite {
   private final PatchSet.Id psId;
   private final String revision;
   private ReviewInput in = ReviewInput.create();
-  private List<Runnable> lgtm;
+  private Runnable lgtm;
 
   @UiField Styles style;
   @UiField NpTextArea message;
@@ -91,7 +93,6 @@ class ReplyBox extends Composite {
       UIObject.setVisible(labelsParent, false);
     } else {
       Collections.sort(names);
-      lgtm = new ArrayList<Runnable>(names.size());
       renderLabels(names, all, permitted);
     }
   }
@@ -118,11 +119,7 @@ class ReplyBox extends Composite {
       Scheduler.get().scheduleDeferred(new ScheduledCommand() {
         @Override
         public void execute() {
-          if (message.getValue().startsWith("LGTM")) {
-            for (Runnable r : lgtm) {
-              r.run();
-            }
-          }
+          lgtm.run();
         }
       });
     }
@@ -236,8 +233,8 @@ class ReplyBox extends Composite {
       }
     }
 
-    if (!group.isEmpty()) {
-      lgtm.add(new Runnable() {
+    if (CODE_REVIEW.equalsIgnoreCase(id) && !group.isEmpty()) {
+      lgtm = new Runnable() {
         @Override
         public void run() {
           for (int i = 0; i < group.size() - 1; i++) {
@@ -245,7 +242,7 @@ class ReplyBox extends Composite {
           }
           group.get(group.size() - 1).setValue(true, true);
         }
-      });
+      };
     }
   }
 
@@ -269,12 +266,14 @@ class ReplyBox extends Composite {
     b.setStyleName(style.label_name());
     labelsTable.setWidget(row, 0, b);
 
-    lgtm.add(new Runnable() {
-      @Override
-      public void run() {
-        b.setValue(true, true);
-      }
-    });
+    if (CODE_REVIEW.equalsIgnoreCase(id)) {
+      lgtm = new Runnable() {
+        @Override
+        public void run() {
+          b.setValue(true, true);
+        }
+      };
+    }
   }
 
   private static boolean isCheckBox(Set<Short> values) {

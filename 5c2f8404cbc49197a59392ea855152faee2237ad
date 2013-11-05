@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be0135f5_fba38fc4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/access/ListAccess.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-05T06:03:19Z",
+      "side": 1,
+      "message": "These boolean fields are translated into JSON. For the JSON result it is intended that the boolean fields only appear if they are true. We don\u0027t want to return them as false, but simply leave them out if they are false. To archive this, the fields must be of type Boolean and must be set to null in case of false.\n\nThis is a pattern that we follow in the complete REST API. Also if to change this, the description in rest-api-access.txt would need to be adapted.",
+      "range": {
+        "startLine": 149,
+        "startChar": 4,
+        "endLine": 153,
+        "endChar": 33
+      },
+      "revId": "5c2f8404cbc49197a59392ea855152faee2237ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e1c1c52_23c7ca8d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_57.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-05T01:04:40Z",
+      "side": 1,
+      "message": "It might be better to name the variable `isAccountGroupEmpty` and then use `!isAccountGroupEmpty` in this condition.",
+      "revId": "edf4eacaf0b37242124d677c3439a0818ce9639b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -186,9 +186,9 @@ public class CommentsTest extends TestCase {
     assertNotNull(actual);
     assertEquals(expected.size(), actual.size());
     assertEquals(expected.keySet(), actual.keySet());
-    for (String filename : expected.keySet()) {
-      List<PatchLineComment> expectedComments = expected.get(filename);
-      List<CommentInfo> actualComments = actual.get(filename);
+    for (Map.Entry<String, ArrayList<PatchLineComment>> entry : expected.entrySet()) {
+      List<PatchLineComment> expectedComments = entry.getValue();
+      List<CommentInfo> actualComments = actual.get(entry.getKey());
       assertNotNull(actualComments);
       assertEquals(expectedComments.size(), actualComments.size());
       for (int i = 0; i < expectedComments.size(); i++) {

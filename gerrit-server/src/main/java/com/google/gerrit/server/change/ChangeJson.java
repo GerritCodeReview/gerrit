@@ -551,10 +551,10 @@ public class ChangeJson {
           Maps.newHashMapWithExpectedSize(labels.size());
 
       if (detailed) {
-        for (String name : labels.keySet()) {
+        for (Map.Entry<String, LabelInfo> entry : labels.entrySet()) {
           ApprovalInfo ai = approvalInfo(accountId, 0, null);
-          byLabel.put(name, ai);
-          labels.get(name).addApproval(ai);
+          byLabel.put(entry.getKey(), ai);
+          entry.getValue().addApproval(ai);
         }
       }
       for (PatchSetApproval psa : current.get(accountId)) {

@@ -200,8 +200,9 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
     expect(bbc.getSubsections("submodule"))
         .andReturn(sectionsToReturn.keySet());
 
-    for (final String id : sectionsToReturn.keySet()) {
-      final SubmoduleSection section = sectionsToReturn.get(id);
+    for (Map.Entry<String, SubmoduleSection> entry : sectionsToReturn.entrySet()) {
+      String id = entry.getKey();
+      final SubmoduleSection section = entry.getValue();
       expect(bbc.getString("submodule", id, "url")).andReturn(section.getUrl());
       expect(bbc.getString("submodule", id, "path")).andReturn(
           section.getPath());

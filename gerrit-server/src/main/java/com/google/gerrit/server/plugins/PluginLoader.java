@@ -349,8 +349,9 @@ public class PluginLoader implements LifecycleListener {
     syncDisabledPlugins(jars);
 
     Map<String, File> activePlugins = filterDisabled(jars);
-    for (String name : activePlugins.keySet()) {
-      File jar = activePlugins.get(name);
+    for (Map.Entry<String, File> entry : activePlugins.entrySet()) {
+      String name = entry.getKey();
+      File jar = entry.getValue();
       FileSnapshot brokenTime = broken.get(name);
       if (brokenTime != null && !brokenTime.isModified(jar)) {
         continue;

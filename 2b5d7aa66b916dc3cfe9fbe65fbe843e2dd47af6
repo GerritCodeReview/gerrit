@@ -52,6 +52,24 @@
       "revId": "2b5d7aa66b916dc3cfe9fbe65fbe843e2dd47af6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e0af914_986c95dd",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ReviewProjectAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-05T05:51:55Z",
+      "side": 1,
+      "message": "This is not needed. For adding the reviewers we delegate to the REST API code for adding reviewers (PostReviewers), and this code takes care to reindex the change if reviewers are added.",
+      "parentUuid": "7e1c1c52_e3e4d227",
+      "revId": "2b5d7aa66b916dc3cfe9fbe65fbe843e2dd47af6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

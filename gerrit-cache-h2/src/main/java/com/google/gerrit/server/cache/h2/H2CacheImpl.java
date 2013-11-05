@@ -28,6 +28,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.Calendar;
 import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -268,7 +269,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> {
     }
 
     void set(PreparedStatement ps, int col, K value) throws SQLException {
-      ps.setObject(col, value);
+      ps.setObject(col, value, Types.JAVA_OBJECT);
     }
 
     Funnel<K> funnel() {
@@ -489,7 +490,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> {
         }
         try {
           keyType.set(c.put, 1, key);
-          c.put.setObject(2, holder.value);
+          c.put.setObject(2, holder.value, Types.JAVA_OBJECT);
           c.put.setTimestamp(3, new Timestamp(holder.created));
           c.put.setTimestamp(4, TimeUtil.nowTs());
           c.put.executeUpdate();

@@ -199,51 +199,40 @@ public class Schema_77 extends SchemaVersion {
 
   static LegacyLabelTypes getLegacyTypes(ReviewDb db) throws SQLException {
     List<LegacyLabelType> types = Lists.newArrayListWithCapacity(2);
-    Statement catStmt = null;
-    PreparedStatement valStmt = null;
-    ResultSet catRs = null;
+    Statement catStmt = ((JdbcSchema) db).getConnection().createStatement();
     try {
-      catStmt = ((JdbcSchema) db).getConnection().createStatement();
-      catRs = catStmt.executeQuery(
+      ResultSet catRs = catStmt.executeQuery(
           "SELECT category_id, name, abbreviated_name, function_name, "
           + " copy_min_score"
           + " FROM approval_categories"
           + " ORDER BY position, name");
-      valStmt = ((JdbcSchema) db).getConnection().prepareStatement(
-          "SELECT value, name"
-          + " FROM approval_category_values"
-          + " WHERE category_id = ?");
-      while (catRs.next()) {
-        String id = catRs.getString("category_id");
-        valStmt.setString(1, id);
-        List<LabelValue> values = Lists.newArrayListWithCapacity(5);
-        ResultSet valRs = valStmt.executeQuery();
-        try {
+      PreparedStatement valStmt = ((JdbcSchema) db).getConnection().prepareStatement(
+              "SELECT value, name"
+                      + " FROM approval_category_values"
+                      + " WHERE category_id = ?");
+      try {
+        while (catRs.next()) {
+          String id = catRs.getString("category_id");
+          valStmt.setString(1, id);
+          List<LabelValue> values = Lists.newArrayListWithCapacity(5);
+          ResultSet valRs = valStmt.executeQuery();
           while (valRs.next()) {
             values.add(new LabelValue(
                 valRs.getShort("value"), valRs.getString("name")));
           }
-        } finally {
-          valRs.close();
+          LegacyLabelType type =
+              new LegacyLabelType(getLabelName(catRs.getString("name")), values);
+          type.setId(id);
+          type.setAbbreviation(catRs.getString("abbreviated_name"));
+          type.setFunctionName(catRs.getString("function_name"));
+          type.setCopyMinScore("Y".equals(catRs.getString("copy_min_score")));
+          types.add(type);
         }
-        LegacyLabelType type =
-            new LegacyLabelType(getLabelName(catRs.getString("name")), values);
-        type.setId(id);
-        type.setAbbreviation(catRs.getString("abbreviated_name"));
-        type.setFunctionName(catRs.getString("function_name"));
-        type.setCopyMinScore("Y".equals(catRs.getString("copy_min_score")));
-        types.add(type);
-      }
-    } finally {
-      if (valStmt != null) {
+      } finally {
         valStmt.close();
       }
-      if (catRs != null) {
-        catRs.close();
-      }
-      if (catStmt != null) {
-        catStmt.close();
-      }
+    } finally {
+      catStmt.close();
     }
     return new LegacyLabelTypes(types);
   }

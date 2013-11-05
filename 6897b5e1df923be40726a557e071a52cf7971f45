@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be0135f5_bb34e7c6",
+        "filename": "Documentation/dev-rest-api.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1013197
+      },
+      "writtenOn": "2013-11-05T20:38:05Z",
+      "side": 1,
+      "message": "Two blank lines instead of one in other files?",
+      "revId": "6897b5e1df923be40726a557e071a52cf7971f45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be0135f5_9b312bd7",
+        "filename": "Documentation/rest-api-documentation.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1013197
+      },
+      "writtenOn": "2013-11-05T20:38:05Z",
+      "side": 1,
+      "message": "Double copy-pasted?",
+      "revId": "6897b5e1df923be40726a557e071a52cf7971f45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

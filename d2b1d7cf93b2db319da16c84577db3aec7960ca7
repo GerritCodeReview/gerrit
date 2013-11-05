@@ -33,6 +33,24 @@
       "revId": "d2b1d7cf93b2db319da16c84577db3aec7960ca7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be0135f5_1b3d1ba6",
+        "filename": "gerrit-patch-jgit/src/test/java/org/eclipse/jgit/diff/EditDeserializerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-05T22:16:54Z",
+      "side": 1,
+      "message": "Normally you are right, but in this specific case, where we are messing around with foreign package patches it was failing to create the instance of that class [1] (because JGit jar is signed now). Because of that we had broken master for a couple of days. It was the reason i created that test. As example, try to comment out \"unsign \u003d True\" parameter in maven_jar in lib/jgit/BUCK to see that  this test is going to fail.\n\n\n[1] http://pastebin.com/cZsyGAA0",
+      "parentUuid": "9e1f1045_a45582cf",
+      "revId": "d2b1d7cf93b2db319da16c84577db3aec7960ca7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

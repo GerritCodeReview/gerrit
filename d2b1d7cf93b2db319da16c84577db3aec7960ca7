@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e1c1c52_e30852f7",
+        "filename": "gerrit-patch-jgit/BUCK",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-05T21:54:24Z",
+      "side": 1,
+      "message": "This target should be added to the classpath target so tools/eclipse/project.py can find the src/test/java directory here and link it into the IDE.",
+      "revId": "d2b1d7cf93b2db319da16c84577db3aec7960ca7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e1f1045_a45582cf",
+        "filename": "gerrit-patch-jgit/src/test/java/org/eclipse/jgit/diff/EditDeserializerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-05T21:54:24Z",
+      "side": 1,
+      "message": "Creating the object doesn\u0027t really test it.",
+      "revId": "d2b1d7cf93b2db319da16c84577db3aec7960ca7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

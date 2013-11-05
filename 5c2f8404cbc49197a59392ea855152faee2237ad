@@ -58,6 +58,24 @@
       "revId": "5c2f8404cbc49197a59392ea855152faee2237ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e0af914_98c3756f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/access/ListAccess.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-05T09:00:00Z",
+      "side": 1,
+      "message": "\"These boolean fields are translated into JSON.\"\n\nWhy not to hack on Gson serializer moving that botch from client to the serializer: drop boolean fields if they are false?",
+      "parentUuid": "be0135f5_fba38fc4",
+      "revId": "5c2f8404cbc49197a59392ea855152faee2237ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

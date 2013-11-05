@@ -311,8 +311,8 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
         MergeFormatter fmt = new MergeFormatter();
         Map<String, MergeResult<? extends Sequence>> r = m.getMergeResults();
         Map<String, ObjectId> resolved = new HashMap<String, ObjectId>();
-        for (String path : r.keySet()) {
-          MergeResult<? extends Sequence> p = r.get(path);
+        for (Map.Entry<String, MergeResult<? extends Sequence>> entry : r.entrySet()) {
+          MergeResult<? extends Sequence> p = entry.getValue();
           TemporaryBuffer buf = new TemporaryBuffer.LocalFile(10 * 1024 * 1024);
           try {
             fmt.formatMerge(buf, p, "BASE", oursName, theirsName, "UTF-8");
@@ -320,7 +320,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
 
             InputStream in = buf.openInputStream();
             try {
-              resolved.put(path, ins.insert(Constants.OBJ_BLOB, buf.length(), in));
+              resolved.put(entry.getKey(), ins.insert(Constants.OBJ_BLOB, buf.length(), in));
             } finally {
               in.close();
             }

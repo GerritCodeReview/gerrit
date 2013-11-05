@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e1c1c52_e34f723b",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-05T19:12:50Z",
+      "side": 1,
+      "message": "regex is overkill here. We are just testing req.getServletPath().startsWith(\"/a/plugins/\").",
+      "revId": "0ce9a796ec9c78f9653f6cdf4541b256c244b6fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

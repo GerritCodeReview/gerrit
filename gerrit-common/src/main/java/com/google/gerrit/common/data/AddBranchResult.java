@@ -41,6 +41,19 @@ public class AddBranchResult {
     return error;
   }
 
+  @Override
+  public String toString() {
+    if (hasError()) {
+      return getError().toString();
+    }
+    if (getListBranchesResult() != null) {
+      return "succeed, no repository: "
+          + getListBranchesResult().getNoRepository() + ", can add: "
+          + getListBranchesResult().getCanAdd();
+    }
+    return "succeed";
+  }
+
   public static class Error {
     public static enum Type {
       /** The branch cannot be created because the given branch name is invalid. */

@@ -67,7 +67,6 @@ class ReplyBox extends Composite {
   private final PatchSet.Id psId;
   private final String revision;
   private ReviewInput in = ReviewInput.create();
-  private List<Runnable> lgtm;
 
   @UiField Styles style;
   @UiField NpTextArea message;
@@ -91,7 +90,6 @@ class ReplyBox extends Composite {
       UIObject.setVisible(labelsParent, false);
     } else {
       Collections.sort(names);
-      lgtm = new ArrayList<Runnable>(names.size());
       renderLabels(names, all, permitted);
     }
   }
@@ -112,19 +110,6 @@ class ReplyBox extends Composite {
       event.preventDefault();
       event.stopPropagation();
       onSend(null);
-    } else if (lgtm != null
-        && event.getCharCode() == 'M'
-        && message.getValue().equals("LGT")) {
-      Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-        @Override
-        public void execute() {
-          if (message.getValue().startsWith("LGTM")) {
-            for (Runnable r : lgtm) {
-              r.run();
-            }
-          }
-        }
-      });
     }
   }
 
@@ -235,18 +220,6 @@ class ReplyBox extends Composite {
         labelsTable.setWidget(row, 1 + i, b);
       }
     }
-
-    if (!group.isEmpty()) {
-      lgtm.add(new Runnable() {
-        @Override
-        public void run() {
-          for (int i = 0; i < group.size() - 1; i++) {
-            group.get(i).setValue(false, false);
-          }
-          group.get(group.size() - 1).setValue(true, true);
-        }
-      });
-    }
   }
 
   private void renderCheckBox(int row, final String id, LabelInfo info) {
@@ -268,13 +241,6 @@ class ReplyBox extends Composite {
     });
     b.setStyleName(style.label_name());
     labelsTable.setWidget(row, 0, b);
-
-    lgtm.add(new Runnable() {
-      @Override
-      public void run() {
-        b.setValue(true, true);
-      }
-    });
   }
 
   private static boolean isCheckBox(Set<Short> values) {

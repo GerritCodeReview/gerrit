@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "be0135f5_5b1cc34f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-05T06:49:04Z",
+      "side": 1,
+      "message": "Thanks, this seems to work.\n\nDone",
+      "parentUuid": "9e1f1045_e4593a38",
+      "revId": "e0695a0fe9dfc15909f725e65c7eadf5947460d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e1c1c52_c33b56db",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
         "patchSetId": 13

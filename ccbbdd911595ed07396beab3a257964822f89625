@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be0135f5_fb2a6f62",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-05T08:10:54Z",
+      "side": 1,
+      "message": "I don\u0027t think we need it the upcoming 2.9 release any more. With new plugin and extension API [1],[2] the PostReview construct should be considered as hidden implementation. Instead the plugins, extensions and Gerrit core (ReviewerCommand) would just say:\n\n  [...]\n  import com.google.gerrit.extensions.api.GerritApi;\n  import com.google.gerrit.extensions.api.changes.ReviewInput;\n  import com.google.gerrit.extensions.api.changes.ReviewOutput;\n  [...]\n\n  @Inject\n  private GerritApi api;\n  [...]\n\n  ReviewInput in \u003d new ReviewInput();\n  fillInput(in);\n  ReviewOutput out \u003d api\n      .changes()\n      .id(\"foo~master~4711\")\n      .revision(\"c0ff33\")\n      .review(in);\n  [...]\n\n* [1] https://gerrit-review.googlesource.com/48664\n* [2] https://gerrit-review.googlesource.com/51364",
+      "revId": "ccbbdd911595ed07396beab3a257964822f89625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

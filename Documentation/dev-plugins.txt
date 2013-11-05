@@ -323,6 +323,12 @@ Certain operations in Gerrit trigger events. Plugins may receive
 notifications of these events by implementing the corresponding
 listeners.
 
+* `com.google.gerrit.common.ChangeListener`:
++
+Allows to listen to change events. These are the same
+link:cmd-stream-events.html#events[events] that are also streamed by
+the link:cmd-stream-events.html[gerrit stream-events] command.
+
 * `com.google.gerrit.extensions.events.LifecycleListener`:
 +
 Gerrit server startup and shutdown

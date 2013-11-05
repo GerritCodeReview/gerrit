@@ -68,7 +68,10 @@ java_library2(
     '//lib:gwtorm',
   ],
   compile_deps = ['//gerrit-launcher:launcher'],
-  visibility = ['//gerrit-war:'],
+  visibility = [
+    '//gerrit-war:',
+    '//gerrit-acceptance-tests/...',
+  ],
 )
 
 java_library2(

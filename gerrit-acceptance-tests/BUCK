@@ -8,6 +8,7 @@ java_library(
     '//gerrit-extension-api:api',
     '//gerrit-launcher:launcher',
     '//gerrit-httpd:httpd',
+    '//gerrit-pgm:init-base',
     '//gerrit-pgm:pgm',
     '//gerrit-reviewdb:server',
     '//gerrit-server:server',
@@ -30,6 +31,7 @@ java_library(
     '//lib/guice:guice',
     '//lib/jgit:jgit',
     '//lib/jgit:junit',
+    '//lib/mina:sshd',
   ],
   export_deps = True,
   visibility = [

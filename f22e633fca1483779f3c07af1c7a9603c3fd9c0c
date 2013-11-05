@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be0135f5_db4e9352",
+        "filename": "gerrit-acceptance-tests/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-05T22:36:30Z",
+      "side": 1,
+      "message": "This dependency seems not to be needed. At least not on stable-2.8.",
+      "revId": "f22e633fca1483779f3c07af1c7a9603c3fd9c0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

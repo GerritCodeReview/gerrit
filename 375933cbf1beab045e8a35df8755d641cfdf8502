@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "9e1f1045_44d4ce34",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_77.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-05T18:22:20Z",
+      "side": 1,
+      "message": "You are right. Thanks.",
+      "parentUuid": "5e0af914_b89d1981",
+      "revId": "375933cbf1beab045e8a35df8755d641cfdf8502",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e1c1c52_43ada6c4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_77.java",
         "patchSetId": 1

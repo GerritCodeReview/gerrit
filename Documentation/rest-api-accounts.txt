@@ -201,7 +201,7 @@ Checks if an account is active.
 ----
 
 As response `200 OK` is returned for an active account and
-`404 Not Found` is returned for an inactive account.
+`410 Gone` is returned for an inactive account.
 
 .Response
 ----

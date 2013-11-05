@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "7e1c1c52_83d5de38",
+        "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/SiteInitializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-05T00:52:36Z",
+      "side": 1,
+      "message": "I would have preferred it to be in a separate change, or at least mentioned in the commit message if it stays in this one.",
+      "parentUuid": "be0135f5_db445363",
+      "revId": "e9cc3c40e71510f76813b20f27fd5f6c618ab7fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be221488_45176a59",
         "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/SiteInitializer.java",
         "patchSetId": 1

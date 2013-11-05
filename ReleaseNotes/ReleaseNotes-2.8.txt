@@ -735,7 +735,7 @@ release notes.
 Upgrades
 --------
 
-* Update JGit to 3.0.0.201306101825-r.41-g84d2738
+* Update JGit to 3.1.0.201310021548-r
 * Update gwtorm to 1.7
 * Update guice to 4.0-beta
 * Update guava to 15.0

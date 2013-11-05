@@ -52,6 +52,7 @@ The currently supported message types are *patchset-created*,
 Note that any field may be missing in the JSON messages, so consumers of
 this JSON stream should deal with that appropriately.
 
+[[events]]
 Events
 ~~~~~~
 Patchset Created

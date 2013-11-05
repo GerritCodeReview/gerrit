@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.ioutil;
 
-import com.google.gerrit.server.ioutil.ColumnFormatter;
-
 import junit.framework.TestCase;
 
 import java.io.PrintWriter;

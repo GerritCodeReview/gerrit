@@ -19,6 +19,9 @@ public abstract class Response<T> {
   @SuppressWarnings({"rawtypes"})
   private static final Response NONE = new None();
 
+  @SuppressWarnings({"rawtypes"})
+  private static final Response GONE = new Gone();
+
   /** HTTP 200 OK: pointless wrapper for type safety. */
   public static <T> Response<T> ok(T value) {
     return new Impl<T>(200, value);
@@ -38,6 +41,12 @@ public abstract class Response<T> {
   /** HTTP 302 Found: temporary redirect to another URL. */
   public static Redirect redirect(String location) {
     return new Redirect(location);
+  }
+
+  /** HTTP 410 Gone: typically used to distinguish an inactive resource. */
+  @SuppressWarnings("unchecked")
+  public static <T> Response<T> gone() {
+    return GONE;
   }
 
   @SuppressWarnings({"unchecked", "rawtypes"})
@@ -146,6 +155,35 @@ public abstract class Response<T> {
     @Override
     public String toString() {
       return String.format("[302 Redirect] %s", location);
+    }
+  }
+
+  private static final class Gone extends Response<Object> {
+    private Gone() {
+    }
+
+    @Override
+    public int statusCode() {
+      return 410;
+    }
+
+    public Object value() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public CacheControl caching() {
+      return CacheControl.NONE;
+    }
+
+    @Override
+    public Response<Object> caching(CacheControl c) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String toString() {
+      return "[410 Gone] Gone";
     }
   }
 }

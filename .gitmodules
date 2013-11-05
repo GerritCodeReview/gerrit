@@ -1,20 +1,20 @@
 [submodule "plugins/commit-message-length-validator"]
 	path = plugins/commit-message-length-validator
-	url = https://gerrit.googlesource.com/plugins/commit-message-length-validator
+	url = ../plugins/commit-message-length-validator
 
 [submodule "plugins/cookbook-plugin"]
 	path = plugins/cookbook-plugin
-	url = https://gerrit.googlesource.com/plugins/cookbook-plugin
+	url = ../plugins/cookbook-plugin
 
 [submodule "plugins/download-commands"]
 	path = plugins/download-commands
-	url = https://gerrit.googlesource.com/plugins/download-commands
+	url = ../plugins/download-commands
 
 [submodule "plugins/replication"]
 	path = plugins/replication
-	url = https://gerrit.googlesource.com/plugins/replication
+	url = ../plugins/replication
 
 [submodule "plugins/reviewnotes"]
 	path = plugins/reviewnotes
-	url = https://gerrit.googlesource.com/plugins/reviewnotes
+	url = ../plugins/reviewnotes
 

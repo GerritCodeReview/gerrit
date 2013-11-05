@@ -22,6 +22,24 @@
       "revId": "5c2f8404cbc49197a59392ea855152faee2237ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e1f1045_a4dae263",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/access/ListAccess.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-05T06:20:29Z",
+      "side": 1,
+      "message": "I assume this change is going to cause the REST API test cases to fail then?",
+      "parentUuid": "be0135f5_fba38fc4",
+      "revId": "5c2f8404cbc49197a59392ea855152faee2237ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

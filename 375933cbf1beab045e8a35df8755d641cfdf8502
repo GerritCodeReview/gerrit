@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5e0af914_b89d1981",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_77.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1013197
+      },
+      "writtenOn": "2013-11-05T18:18:00Z",
+      "side": 1,
+      "message": "In one of my previous patches (https://gerrit-review.googlesource.com/51344  , see comments to patchset 1) Michael Zhou wrote me that closing ResultSet unnecessary, since according to the JavaDoc of ResultSet.close() ResultSet will be closed at the close of Statement. I think that it is necessary to adopt a unified point of view on this issue, if it is decided that closing ResultSet necessary, I will correct it as well and in the class SiteInitializer.java",
+      "parentUuid": "7e1c1c52_23b0aa1d",
+      "revId": "375933cbf1beab045e8a35df8755d641cfdf8502",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e1c1c52_43ada6c4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_77.java",
         "patchSetId": 1

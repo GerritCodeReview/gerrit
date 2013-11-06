@@ -7,6 +7,7 @@ java_library2(
     '//gerrit-extension-api:api',
     '//gerrit-cache-h2:cache-h2',
     '//gerrit-common:server',
+    '//gerrit-common:util',
     '//gerrit-patch-jgit:server',
     '//gerrit-reviewdb:server',
     '//gerrit-server:server',

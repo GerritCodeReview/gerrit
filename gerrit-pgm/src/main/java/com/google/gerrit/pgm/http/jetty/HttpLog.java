@@ -18,11 +18,11 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.TimeUtil;
+import com.google.gerrit.util.LogUtil;
 
 import org.apache.log4j.Appender;
 import org.apache.log4j.AsyncAppender;
 import org.apache.log4j.DailyRollingFileAppender;
-import org.apache.log4j.Layout;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.spi.ErrorHandler;
@@ -35,45 +35,48 @@ import org.eclipse.jgit.lib.Config;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
 
 /** Writes the {@code httpd_log} file with per-request data. */
 class HttpLog extends AbstractLifeCycle implements RequestLog {
   private static final Logger log = Logger.getLogger(HttpLog.class);
   private static final String LOG_NAME = "httpd_log";
 
-  private static final String P_HOST = "Host";
-  private static final String P_USER = "User";
-  private static final String P_METHOD = "Method";
-  private static final String P_RESOURCE = "Resource";
-  private static final String P_PROTOCOL = "Version";
-  private static final String P_STATUS = "Status";
-  private static final String P_CONTENT_LENGTH = "Content-Length";
-  private static final String P_REFERER = "Referer";
-  private static final String P_USER_AGENT = "User-Agent";
+  protected static final String P_HOST = "Host";
+  protected static final String P_USER = "User";
+  protected static final String P_METHOD = "Method";
+  protected static final String P_RESOURCE = "Resource";
+  protected static final String P_PROTOCOL = "Version";
+  protected static final String P_STATUS = "Status";
+  protected static final String P_CONTENT_LENGTH = "Content-Length";
+  protected static final String P_REFERER = "Referer";
+  protected static final String P_USER_AGENT = "User-Agent";
 
   private final AsyncAppender async;
 
   HttpLog(final SitePaths site, final Config config) {
-    final DailyRollingFileAppender dst = new DailyRollingFileAppender();
-    dst.setName(LOG_NAME);
-    dst.setLayout(new MyLayout());
-    dst.setEncoding("UTF-8");
-    dst.setFile(new File(resolve(site.logs_dir), LOG_NAME).getPath());
-    dst.setImmediateFlush(true);
-    dst.setAppend(true);
-    dst.setThreshold(Level.INFO);
-    dst.setErrorHandler(new DieErrorHandler());
-    dst.activateOptions();
-    dst.setErrorHandler(new LogLogHandler());
-
     async = new AsyncAppender();
     async.setBlocking(true);
     async.setBufferSize(config.getInt("core", "asyncLoggingBufferSize", 64));
     async.setLocationInfo(false);
-    async.addAppender(dst);
+    if (LogUtil.shouldConfigureLogSystem()) {
+      final DailyRollingFileAppender dst = new DailyRollingFileAppender();
+      dst.setName(LOG_NAME);
+      dst.setLayout(new HttpLogLayout());
+      dst.setEncoding("UTF-8");
+      dst.setFile(new File(resolve(site.logs_dir), LOG_NAME).getPath());
+      dst.setImmediateFlush(true);
+      dst.setAppend(true);
+      dst.setThreshold(Level.INFO);
+      dst.setErrorHandler(new DieErrorHandler());
+      dst.activateOptions();
+      dst.setErrorHandler(new LogLogHandler());
+      async.addAppender(dst);
+    } else {
+      Appender appender = log.getAppender(LOG_NAME);
+      if (appender != null) {
+        async.addAppender(appender);
+      }
+    }
     async.activateOptions();
   }
 
@@ -150,105 +153,6 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
       return logs_dir.getCanonicalFile();
     } catch (IOException e) {
       return logs_dir.getAbsoluteFile();
-    }
-  }
-
-  private static final class MyLayout extends Layout {
-    private final SimpleDateFormat dateFormat;
-    private long lastTimeMillis;
-    private String lastTimeString;
-
-    MyLayout() {
-      final TimeZone tz = TimeZone.getDefault();
-      dateFormat = new SimpleDateFormat("dd/MMM/yyyy:HH:mm:ss Z");
-      dateFormat.setTimeZone(tz);
-
-      lastTimeMillis = TimeUtil.nowMs();
-      lastTimeString = dateFormat.format(new Date(lastTimeMillis));
-    }
-
-    @Override
-    public String format(LoggingEvent event) {
-      final StringBuilder buf = new StringBuilder(128);
-
-      opt(buf, event, P_HOST);
-
-      buf.append(' ');
-      buf.append('-'); // identd on client system (never requested)
-
-      buf.append(' ');
-      opt(buf, event, P_USER);
-
-      buf.append(' ');
-      buf.append('[');
-      formatDate(event.getTimeStamp(), buf);
-      buf.append(']');
-
-      buf.append(' ');
-      buf.append('"');
-      buf.append(event.getMDC(P_METHOD));
-      buf.append(' ');
-      buf.append(event.getMDC(P_RESOURCE));
-      buf.append(' ');
-      buf.append(event.getMDC(P_PROTOCOL));
-      buf.append('"');
-
-      buf.append(' ');
-      buf.append(event.getMDC(P_STATUS));
-
-      buf.append(' ');
-      opt(buf, event, P_CONTENT_LENGTH);
-
-      buf.append(' ');
-      dq_opt(buf, event, P_REFERER);
-
-      buf.append(' ');
-      dq_opt(buf, event, P_USER_AGENT);
-
-      buf.append('\n');
-      return buf.toString();
-    }
-
-    private void opt(StringBuilder buf, LoggingEvent event, String key) {
-      String val = (String) event.getMDC(key);
-      if (val == null) {
-        buf.append('-');
-      } else {
-        buf.append(val);
-      }
-    }
-
-    private void dq_opt(StringBuilder buf, LoggingEvent event, String key) {
-      String val = (String) event.getMDC(key);
-      if (val == null) {
-        buf.append('-');
-      } else {
-        buf.append('"');
-        buf.append(val);
-        buf.append('"');
-      }
-    }
-
-    private void formatDate(final long now, final StringBuilder sbuf) {
-      final long rounded = now - (int) (now % 1000);
-      if (rounded != lastTimeMillis) {
-        synchronized (dateFormat) {
-          lastTimeMillis = rounded;
-          lastTimeString = dateFormat.format(new Date(lastTimeMillis));
-          sbuf.append(lastTimeString);
-        }
-      } else {
-        sbuf.append(lastTimeString);
-      }
-    }
-
-    @Override
-    public boolean ignoresThrowable() {
-      return true;
-    }
-
-    @Override
-    public void activateOptions() {
     }
   }
 

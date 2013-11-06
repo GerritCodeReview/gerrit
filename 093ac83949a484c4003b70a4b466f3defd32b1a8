@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e2f11b5_42dff27d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-06T06:15:22Z",
+      "side": 1,
+      "message": "The new status code should also be handled on client side in com.google.gerrit.client.rpc.RestApi in the isExpected(int) method.\n\nAlso it should be documented in rest-api.txt in the \u0027Response Codes\u0027 section.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "093ac83949a484c4003b70a4b466f3defd32b1a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

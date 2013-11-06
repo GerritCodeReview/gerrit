@@ -269,4 +269,22 @@ public class Permission implements Comparable<Permission> {
   public int hashCode() {
     return name.hashCode();
   }
+
+  @Override
+  public String toString() {
+    StringBuilder bldr = new StringBuilder();
+    bldr.append(name)
+        .append(" ");
+    if (exclusiveGroup) {
+      bldr.append("[exclusive] ");
+    }
+    bldr.append("[");
+    // No Joiner here available
+    for (PermissionRule rule: rules) {
+      bldr.append(rule)
+          .append(" ");
+    }
+    bldr.append("]");
+    return bldr.toString();
+  }
 }

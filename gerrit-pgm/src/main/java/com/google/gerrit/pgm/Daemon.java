@@ -44,6 +44,7 @@ import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.account.InternalAccountDirectory;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
+import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
@@ -51,6 +52,7 @@ import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.MasterNodeStartup;
 import com.google.gerrit.server.contact.HttpContactStoreConnection;
+import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.IndexModule;
@@ -226,6 +228,8 @@ public class Daemon extends SiteProgram {
         shell.set("m", manager);
         shell.set("ds", dbInjector.getInstance(DataSourceProvider.class));
         shell.set("schk", dbInjector.getInstance(SchemaVersionCheck.class));
+        shell.set("allProjectsProvider", sysInjector.getInstance(AllProjectsNameProvider.class));
+        shell.set("metaUpdateFactory", sysInjector.getInstance(MetaDataUpdate.Server.class));
         shell.run();
       } else {
         RuntimeShutdown.waitFor();

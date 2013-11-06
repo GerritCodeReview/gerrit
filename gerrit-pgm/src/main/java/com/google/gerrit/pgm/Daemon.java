@@ -227,6 +227,7 @@ public class Daemon extends SiteProgram {
         shell.set("m", manager);
         shell.set("ds", dbInjector.getInstance(DataSourceProvider.class));
         shell.set("schk", dbInjector.getInstance(SchemaVersionCheck.class));
+        shell.set("d", this);
         shell.run();
       } else {
         RuntimeShutdown.waitFor();

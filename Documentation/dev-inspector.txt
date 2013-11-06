@@ -180,11 +180,8 @@ defined in the interpreter:
 "schk" is "com.google.gerrit.server.schema.SchemaVersionCheck@5e8cb9bd"
 "ds" is "com.google.gerrit.server.schema.DataSourceProvider@6b3592c"
 "m" is "com.google.gerrit.lifecycle.LifecycleManager@6f03b248"
-"q" is "com.google.gerrit.reviewdb.server.ReviewDb_Schema_GwtOrm$$23@56d3384d"
 "Shell" is "com.google.gerrit.pgm.shell.JythonShell@61644f2d"
-"x" is "com.google.gerrit.reviewdb.client.PatchLineComment@518acfa7"
-"z" is "com.google.gwtorm.jdbc.Database@668dfd9b"
-"db" is "com.google.gerrit.reviewdb.server.ReviewDb_Schema_GwtOrm$$23@6a3ccb09"
+"d" is "com.google.gerrit.pgm.Daemon@28a3f689"
 
 Welcome to the Gerrit Inspector
 Enter help() to see the above again, EOF to quit and stop Gerrit

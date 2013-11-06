@@ -112,7 +112,9 @@ public class DeleteDraftPatchSet implements Callable<ReviewResult> {
       }
       if (change.currentPatchSetId().equals(patchSetId)) {
         try {
-          change.setCurrentPatchSet(patchSetInfoFactory.get(db, highestId));
+          PatchSet.Id id =
+              new PatchSet.Id(patchSetId.getParentKey(), patchSetId.get() - 1);
+          change.setCurrentPatchSet(patchSetInfoFactory.get(db, id));
         } catch (PatchSetInfoNotAvailableException e) {
           throw new NoSuchChangeException(changeId);
         }

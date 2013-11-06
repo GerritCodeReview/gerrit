@@ -978,6 +978,9 @@ public class Gerrit implements EntryPoint {
   private static void addExtensionLink(final LinkMenuBar m, final TopMenuItem item) {
     final Anchor atag = anchor(item.getName(), item.getUrl());
     atag.setTarget(item.getTarget());
+    if (item.getId() != null) {
+      atag.getElement().setAttribute("id", item.getId());
+    }
     m.add(atag);
   }
 }

@@ -27,6 +27,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gerrit.sshd.SshScope.Context;
+import com.google.gerrit.util.LogUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -34,20 +35,14 @@ import com.google.inject.Singleton;
 import org.apache.log4j.Appender;
 import org.apache.log4j.AsyncAppender;
 import org.apache.log4j.DailyRollingFileAppender;
-import org.apache.log4j.Layout;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.spi.ErrorHandler;
 import org.apache.log4j.spi.LoggingEvent;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.util.QuotedString;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
 
 @Singleton
 class SshLog implements LifecycleListener {
@@ -72,10 +67,15 @@ class SshLog implements LifecycleListener {
     this.context = context;
     this.auditService = auditService;
 
-    if (config.getBoolean("sshd", "requestLog", true)) {
+    async = new AsyncAppender();
+    async.setBlocking(true);
+    async.setBufferSize(config.getInt("core", "asyncLoggingBufferSize", 64));
+    async.setLocationInfo(false);
+
+    if (LogUtil.shouldConfigureLogSystem()) {
       final DailyRollingFileAppender dst = new DailyRollingFileAppender();
       dst.setName(LOG_NAME);
-      dst.setLayout(new MyLayout());
+      dst.setLayout(new SshLogLayout());
       dst.setEncoding("UTF-8");
       dst.setFile(new File(resolve(site.logs_dir), LOG_NAME).getPath());
       dst.setImmediateFlush(true);
@@ -84,16 +84,14 @@ class SshLog implements LifecycleListener {
       dst.setErrorHandler(new DieErrorHandler());
       dst.activateOptions();
       dst.setErrorHandler(new LogLogHandler());
-
-      async = new AsyncAppender();
-      async.setBlocking(true);
-      async.setBufferSize(config.getInt("core", "asyncLoggingBufferSize", 64));
-      async.setLocationInfo(false);
       async.addAppender(dst);
-      async.activateOptions();
     } else {
-      async = null;
+      Appender appender = log.getAppender(LOG_NAME);
+      if (appender != null) {
+        async.addAppender(appender);
+      }
     }
+    async.activateOptions();
   }
 
   @Override
@@ -274,126 +272,6 @@ class SshLog implements LifecycleListener {
       return logs_dir.getCanonicalFile();
     } catch (IOException e) {
       return logs_dir.getAbsoluteFile();
-    }
-  }
-
-  private static final class MyLayout extends Layout {
-    private final Calendar calendar;
-    private long lastTimeMillis;
-    private final char[] lastTimeString = new char[20];
-    private final char[] timeZone;
-
-    MyLayout() {
-      final TimeZone tz = TimeZone.getDefault();
-      calendar = Calendar.getInstance(tz);
-
-      final SimpleDateFormat sdf = new SimpleDateFormat("Z");
-      sdf.setTimeZone(tz);
-      timeZone = sdf.format(new Date()).toCharArray();
-    }
-
-    @Override
-    public String format(LoggingEvent event) {
-      final StringBuffer buf = new StringBuffer(128);
-
-      buf.append('[');
-      formatDate(event.getTimeStamp(), buf);
-      buf.append(' ');
-      buf.append(timeZone);
-      buf.append(']');
-
-      req(P_SESSION, buf, event);
-      req(P_USER_NAME, buf, event);
-      req(P_ACCOUNT_ID, buf, event);
-
-      buf.append(' ');
-      buf.append(event.getMessage());
-
-      opt(P_WAIT, buf, event);
-      opt(P_EXEC, buf, event);
-      opt(P_STATUS, buf, event);
-
-      buf.append('\n');
-      return buf.toString();
-    }
-
-    private void formatDate(final long now, final StringBuffer sbuf) {
-      final int millis = (int) (now % 1000);
-      final long rounded = now - millis;
-      if (rounded != lastTimeMillis) {
-        synchronized (calendar) {
-          final int start = sbuf.length();
-
-          calendar.setTimeInMillis(rounded);
-          sbuf.append(calendar.get(Calendar.YEAR));
-          sbuf.append('-');
-          final int month = calendar.get(Calendar.MONTH) + 1;
-          if (month < 10) sbuf.append('0');
-          sbuf.append(month);
-          sbuf.append('-');
-          final int day = calendar.get(Calendar.DAY_OF_MONTH);
-          if (day < 10) sbuf.append('0');
-          sbuf.append(day);
-
-          sbuf.append(' ');
-          final int hour = calendar.get(Calendar.HOUR_OF_DAY);
-          if (hour < 10) sbuf.append('0');
-          sbuf.append(hour);
-          sbuf.append(':');
-          final int mins = calendar.get(Calendar.MINUTE);
-          if (mins < 10) sbuf.append('0');
-          sbuf.append(mins);
-          sbuf.append(':');
-          final int secs = calendar.get(Calendar.SECOND);
-          if (secs < 10) sbuf.append('0');
-          sbuf.append(secs);
-
-          sbuf.append(',');
-          sbuf.getChars(start, sbuf.length(), lastTimeString, 0);
-          lastTimeMillis = rounded;
-        }
-      } else {
-        sbuf.append(lastTimeString);
-      }
-      if (millis < 100) {
-        sbuf.append('0');
-      }
-      if (millis < 10) {
-        sbuf.append('0');
-      }
-      sbuf.append(millis);
-    }
-
-    private void req(String key, StringBuffer buf, LoggingEvent event) {
-      Object val = event.getMDC(key);
-      buf.append(' ');
-      if (val != null) {
-        String s = val.toString();
-        if (0 <= s.indexOf(' ')) {
-          buf.append(QuotedString.BOURNE.quote(s));
-        } else {
-          buf.append(val);
-        }
-      } else {
-        buf.append('-');
-      }
-    }
-
-    private void opt(String key, StringBuffer buf, LoggingEvent event) {
-      Object val = event.getMDC(key);
-      if (val != null) {
-        buf.append(' ');
-        buf.append(val);
-      }
-    }
-
-    @Override
-    public boolean ignoresThrowable() {
-      return true;
-    }
-
-    @Override
-    public void activateOptions() {
     }
   }
 

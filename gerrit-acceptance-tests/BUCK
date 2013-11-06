@@ -7,6 +7,7 @@ java_library(
     '//gerrit-common:server',
     '//gerrit-extension-api:api',
     '//gerrit-launcher:launcher',
+    '//gerrit-lucene:lucene',
     '//gerrit-httpd:httpd',
     '//gerrit-pgm:init-base',
     '//gerrit-pgm:pgm',

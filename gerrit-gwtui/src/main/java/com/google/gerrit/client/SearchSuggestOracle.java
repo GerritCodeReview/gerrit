@@ -80,6 +80,7 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
 
     suggestions.add("commit:");
     suggestions.add("comment:");
+    suggestions.add("conflicts:");
     suggestions.add("project:");
     suggestions.add("branch:");
     suggestions.add("topic:");
@@ -89,7 +90,6 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
     suggestions.add("label:");
     suggestions.add("message:");
     suggestions.add("file:");
-
     suggestions.add("has:");
     suggestions.add("has:draft");
     suggestions.add("has:star");

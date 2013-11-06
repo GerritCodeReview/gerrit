@@ -17,6 +17,7 @@ package com.google.gerrit.pgm.http.jetty;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.util.LogUtil;
 
 import org.apache.log4j.Appender;
 import org.apache.log4j.AsyncAppender;
@@ -56,23 +57,29 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
   private final AsyncAppender async;
 
   HttpLog(final SitePaths site, final Config config) {
-    final DailyRollingFileAppender dst = new DailyRollingFileAppender();
-    dst.setName(LOG_NAME);
-    dst.setLayout(new MyLayout());
-    dst.setEncoding("UTF-8");
-    dst.setFile(new File(resolve(site.logs_dir), LOG_NAME).getPath());
-    dst.setImmediateFlush(true);
-    dst.setAppend(true);
-    dst.setThreshold(Level.INFO);
-    dst.setErrorHandler(new DieErrorHandler());
-    dst.activateOptions();
-    dst.setErrorHandler(new LogLogHandler());
-
     async = new AsyncAppender();
     async.setBlocking(true);
     async.setBufferSize(config.getInt("core", "asyncLoggingBufferSize", 64));
     async.setLocationInfo(false);
-    async.addAppender(dst);
+    if (LogUtil.shouldConfigureLogSystem()) {
+      final DailyRollingFileAppender dst = new DailyRollingFileAppender();
+      dst.setName(LOG_NAME);
+      dst.setLayout(new MyLayout());
+      dst.setEncoding("UTF-8");
+      dst.setFile(new File(resolve(site.logs_dir), LOG_NAME).getPath());
+      dst.setImmediateFlush(true);
+      dst.setAppend(true);
+      dst.setThreshold(Level.INFO);
+      dst.setErrorHandler(new DieErrorHandler());
+      dst.activateOptions();
+      dst.setErrorHandler(new LogLogHandler());
+      async.addAppender(dst);
+    } else {
+      Appender appender = log.getAppender(LOG_NAME);
+      if (appender != null) {
+        async.addAppender(appender);
+      }
+    }
     async.activateOptions();
   }
 

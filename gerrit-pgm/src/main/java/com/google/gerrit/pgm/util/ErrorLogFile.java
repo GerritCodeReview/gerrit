@@ -14,9 +14,9 @@
 
 package com.google.gerrit.pgm.util;
 
-import com.google.common.base.Strings;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.util.LogUtil;
 
 import org.apache.log4j.Appender;
 import org.apache.log4j.ConsoleAppender;
@@ -34,7 +34,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class ErrorLogFile {
-  private static final String LOG4J_CONFIGURATION = LogManager.DEFAULT_CONFIGURATION_KEY;
+
   static final String LOG_NAME = "error_log";
 
   public static void errorOnlyConsole() {
@@ -59,7 +59,7 @@ public class ErrorLogFile {
     if (!logdir.exists() && !logdir.mkdirs()) {
       throw new Die("Cannot create log directory: " + logdir);
     }
-    if (shouldConfigureLogSystem()) {
+    if (LogUtil.shouldConfigureLogSystem()) {
       initLogSystem(logdir);
     }
 
@@ -73,10 +73,6 @@ public class ErrorLogFile {
         LogManager.shutdown();
       }
     };
-  }
-
-  public static boolean shouldConfigureLogSystem() {
-    return Strings.isNullOrEmpty(System.getProperty(LOG4J_CONFIGURATION));
   }
 
   private static void initLogSystem(final File logdir) {

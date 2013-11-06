@@ -14,16 +14,16 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 
 public class GetActive implements RestReadView<AccountResource> {
   @Override
-  public Object apply(AccountResource rsrc) throws ResourceNotFoundException {
+  public Object apply(AccountResource rsrc) {
     if (rsrc.getUser().getAccount().isActive()) {
-      return Response.ok("");
+      return BinaryResult.create("ok\n");
     }
-    throw new ResourceNotFoundException();
+    return Response.none();
   }
 }

@@ -200,13 +200,16 @@ Checks if an account is active.
   GET /accounts/john.doe@example.com/active HTTP/1.0
 ----
 
-As response `200 OK` is returned for an active account and
-`404 Not Found` is returned for an inactive account.
+If the account is active the string `ok` is returned.
 
 .Response
 ----
   HTTP/1.1 200 OK
+
+  ok
 ----
+
+If the account is inactive the response is `204 No Content`.
 
 [[set-active]]
 Set Active

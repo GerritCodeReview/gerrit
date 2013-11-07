@@ -22,7 +22,7 @@ public class StringUtil {
    * corresponds to its ASCII value, i.e. the string representation of
    * ASCII 0 is found in the first element of this array.
    */
-  static String[] NON_PRINTABLE_CHARS =
+  private static final String[] NON_PRINTABLE_CHARS =
     { "\\x00", "\\x01", "\\x02", "\\x03", "\\x04", "\\x05", "\\x06", "\\a",
       "\\b",   "\\t",   "\\n",   "\\v",   "\\f",   "\\r",   "\\x0e", "\\x0f",
       "\\x10", "\\x11", "\\x12", "\\x13", "\\x14", "\\x15", "\\x16", "\\x17",

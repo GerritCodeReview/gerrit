@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e2545ef_47054e26",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-11-07T21:07:33Z",
+      "side": 1,
+      "message": "This is what I meant.  The last change message wouldn\u0027t be found because the \"updated\" time change.  This should find the most recent failure message anyway, no?",
+      "revId": "74fe27fe922bdd37f26157f0e52b50009d32ccb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

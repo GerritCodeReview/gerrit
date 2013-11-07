@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3e2545ef_c7f93ef7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1049,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-11-07T20:19:13Z",
+      "side": 1,
+      "message": "Okay, I\u0027d be fine with that.  Problem seems to be we\u0027ll end up with an error message that doesn\u0027t make sense (\"change is new\") if someone hits the submit button twice.  I can try to fix that, but it\u0027s going to be a *little* more than a simple moving of the code.",
+      "parentUuid": "7e2b3dc3_c92791c6",
+      "revId": "7d33d6cb15540f9cfdcda02479d06ff1f133c667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e1a41b4_e6139e70",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 1
@@ -48,6 +66,24 @@
       "side": 1,
       "message": "Please do. (Probably took you longer to write this comment than it will to fix it :)",
       "parentUuid": "1e1a41b4_e6139e70",
+      "revId": "7d33d6cb15540f9cfdcda02479d06ff1f133c667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e2545ef_27065a37",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1089,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-11-07T20:19:13Z",
+      "side": 1,
+      "message": "Yep.  I figured I\u0027d point it out at least, but not push another patchset right away. :P",
+      "parentUuid": "7e2b3dc3_29546d17",
       "revId": "7d33d6cb15540f9cfdcda02479d06ff1f133c667",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

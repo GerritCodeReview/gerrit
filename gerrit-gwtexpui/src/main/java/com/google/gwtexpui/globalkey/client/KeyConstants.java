@@ -32,6 +32,7 @@ public interface KeyConstants extends Constants {
   String keyCtrl();
   String keyAlt();
   String keyMeta();
+  String keyShift();
   String keyEnter();
   String keyEsc();
 }

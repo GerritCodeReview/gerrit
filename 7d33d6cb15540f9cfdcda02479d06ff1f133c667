@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "7e2b3dc3_c92791c6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1049,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-11-07T20:07:05Z",
+      "side": 1,
+      "message": "This block needs to not execute in the isDuplicate case. We have some changes with tens of thousands of ChangeMessages due to this.",
+      "revId": "7d33d6cb15540f9cfdcda02479d06ff1f133c667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e1a41b4_e6139e70",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 1
@@ -13,6 +30,24 @@
       "writtenOn": "2013-11-07T19:57:54Z",
       "side": 1,
       "message": "Ew, got an extra newline in there somehow.  If desired, I\u0027ll clean this up.",
+      "revId": "7d33d6cb15540f9cfdcda02479d06ff1f133c667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e2b3dc3_29546d17",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1089,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-11-07T20:07:05Z",
+      "side": 1,
+      "message": "Please do. (Probably took you longer to write this comment than it will to fix it :)",
+      "parentUuid": "1e1a41b4_e6139e70",
       "revId": "7d33d6cb15540f9cfdcda02479d06ff1f133c667",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

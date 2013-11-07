@@ -20,7 +20,9 @@ limitations under the License.
 
     <requiredProperty key="Implementation-Vendor"/>
     <requiredProperty key="Implementation-Url"/>
-    <requiredProperty key="Gwt-Version"/>
+    <requiredProperty key="Gwt-Version">
+      <defaultValue>2.5.1</defaultValue>
+    </requiredProperty>
 
     <requiredProperty key="gerritApiVersion">
       <defaultValue>${defaultGerritApiVersion}</defaultValue>

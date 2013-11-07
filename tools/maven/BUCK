@@ -10,10 +10,12 @@ maven_package(
   jar = {
     'gerrit-extension-api': '//:extension-api',
     'gerrit-plugin-api': '//:plugin-api',
+    'gerrit-plugin-gwtui': '//:plugin-gwtui',
   },
   src = {
     'gerrit-extension-api': '//:extension-api-src',
     'gerrit-plugin-api': '//:plugin-api-src',
+    'gerrit-plugin-gwtui': '//:plugin-gwtui-src',
   },
 )
 

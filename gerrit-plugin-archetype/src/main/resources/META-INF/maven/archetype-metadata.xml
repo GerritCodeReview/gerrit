@@ -62,6 +62,7 @@ limitations under the License.
       <directory></directory>
       <includes>
         <include>.gitignore</include>
+        <include>.settings/*</include>
         <include>LICENSE</include>
       </includes>
     </fileSet>

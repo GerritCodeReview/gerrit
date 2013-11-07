@@ -16,6 +16,24 @@
       "revId": "33645d629a052438a718f18eda063c907d3a997c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e2631f7_2a061f37",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/CapabilitiesIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-07T08:50:00Z",
+      "side": 1,
+      "message": "Yes, and check that the query database capability is not set even for admin. Will do it later today.",
+      "parentUuid": "9efd5175_d210e466",
+      "revId": "33645d629a052438a718f18eda063c907d3a997c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

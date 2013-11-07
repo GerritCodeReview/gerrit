@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9efd5175_723778ff",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLayout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-07T14:11:40Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be cleaner to use string formatting to add the leading zeros?  I.e. something like:\n\n String.format(\"%03d\", millis)",
+      "revId": "426df9fa896864f4977c449b07034a0d5aa92e89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

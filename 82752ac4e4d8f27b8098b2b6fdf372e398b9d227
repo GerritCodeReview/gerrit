@@ -1,0 +1,180 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e2b3dc3_891d997a",
+        "filename": "gerrit-gwtexpui/src/test/java/com/google/gwtexpui/safehtml/client/LinkFindReplaceTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-07T19:23:44Z",
+      "side": 1,
+      "message": "Don\u0027t import *",
+      "revId": "82752ac4e4d8f27b8098b2b6fdf372e398b9d227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_327b30a7",
+        "filename": "gerrit-gwtexpui/src/test/java/com/google/gwtexpui/safehtml/client/SafeHtmlBuilderTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-07T19:23:44Z",
+      "side": 1,
+      "message": "This should only import the used methods.",
+      "revId": "82752ac4e4d8f27b8098b2b6fdf372e398b9d227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e2b3dc3_0932490f",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/SitePathsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-07T19:23:44Z",
+      "side": 1,
+      "message": "Don\u0027t import *",
+      "revId": "82752ac4e4d8f27b8098b2b6fdf372e398b9d227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e2b3dc3_693785ff",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/AndPredicateTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-07T19:23:44Z",
+      "side": 1,
+      "message": "Don\u0027t import *",
+      "revId": "82752ac4e4d8f27b8098b2b6fdf372e398b9d227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_1280ac2f",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/FieldPredicateTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-07T19:23:44Z",
+      "side": 1,
+      "message": "Don\u0027t import *",
+      "revId": "82752ac4e4d8f27b8098b2b6fdf372e398b9d227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e2b3dc3_e92a5590",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/NotPredicateTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-07T19:23:44Z",
+      "side": 1,
+      "message": "Don\u0027t import *",
+      "revId": "82752ac4e4d8f27b8098b2b6fdf372e398b9d227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e2b3dc3_493c41e2",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/OrPredicateTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-07T19:23:44Z",
+      "side": 1,
+      "message": "Don\u0027t import *",
+      "revId": "82752ac4e4d8f27b8098b2b6fdf372e398b9d227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_7285b83f",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/schema/SchemaCreatorTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-07T19:23:44Z",
+      "side": 1,
+      "message": "Don\u0027t import *",
+      "revId": "82752ac4e4d8f27b8098b2b6fdf372e398b9d227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_528a3451",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/util/SocketUtilTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-07T19:23:44Z",
+      "side": 1,
+      "message": "Don\u0027t import *",
+      "revId": "82752ac4e4d8f27b8098b2b6fdf372e398b9d227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e1a41b4_060b5a3f",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryDatabase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-07T19:23:44Z",
+      "side": 1,
+      "message": "This is not a test and should have been kept as assertSchemaVersion.",
+      "range": {
+        "startLine": 164,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 55
+      },
+      "revId": "82752ac4e4d8f27b8098b2b6fdf372e398b9d227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

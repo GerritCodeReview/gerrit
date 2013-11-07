@@ -34,6 +34,40 @@
       "revId": "b2723c491702fbfae91d226860c6e9310ea6f193",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_523cf4e1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/api/JavaScriptRestApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-07T15:39:52Z",
+      "side": 1,
+      "message": "Do not pollute the global namespace like this. ApiGlue takes great pains to publish a single Gerrit object into the global namespace with everything contained inside of it.\n\nThis already has get, post, put, delete JS functions to run an API invocation. The \"glue\" should be using those functions.",
+      "revId": "b2723c491702fbfae91d226860c6e9310ea6f193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_b220c0b2",
+        "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/client/RestApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-07T15:39:52Z",
+      "side": 1,
+      "message": "This should be using $wnd.Gerrit.get(path, cb).",
+      "revId": "b2723c491702fbfae91d226860c6e9310ea6f193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

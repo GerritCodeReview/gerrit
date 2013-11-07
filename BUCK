@@ -11,6 +11,8 @@ API_DEPS = [
   ':extension-api-src',
   ':plugin-api',
   ':plugin-api-src',
+  ':plugin-gwtui',
+  ':plugin-gwtui-src',
 ]
 
 genrule(
@@ -74,5 +76,21 @@ java_binary(
   deps = [
     '//gerrit-extension-api:api-src',
   ] + [d + '-src' for d in PLUGIN_API],
+  visibility = ['//tools/maven:'],
+)
+
+genrule(
+  name = 'plugin-gwtui',
+  cmd = 'ln -s $(location //gerrit-plugin-gwtui:client) $OUT',
+  deps = ['//gerrit-plugin-gwtui:client'],
+  out = 'plugin-gwtui.jar',
+  visibility = ['//tools/maven:'],
+)
+
+genrule(
+  name = 'plugin-gwtui-src',
+  cmd = 'ln -s $(location //gerrit-plugin-gwtui:src) $OUT',
+  deps = ['//gerrit-plugin-gwtui:src'],
+  out = 'plugin-gwtui-src.jar',
   visibility = ['//tools/maven:'],
 )

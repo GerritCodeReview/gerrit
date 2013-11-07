@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bef77598_6b3781ff",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2513,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-07T15:40:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e2b3dc3_a9f21d12",
+      "revId": "9714e96df79bd72252431791a10081091d250171",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e2b3dc3_89ef592a",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 10
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "9e2631f7_ca102367",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2515,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-07T15:40:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e2b3dc3_89ef592a",
+      "revId": "9714e96df79bd72252431791a10081091d250171",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e2b3dc3_49ee0132",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 10
@@ -47,6 +83,24 @@
       "writtenOn": "2013-11-07T08:20:55Z",
       "side": 1,
       "message": "Add an extra blank line before this.\n\n\"Only effective when `sshd.backend` is set to `MINA`\"",
+      "revId": "9714e96df79bd72252431791a10081091d250171",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bef77598_ab2049b2",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2559,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-07T15:40:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e2b3dc3_49ee0132",
       "revId": "9714e96df79bd72252431791a10081091d250171",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

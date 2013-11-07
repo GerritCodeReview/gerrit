@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "9efd5175_928bfc51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1049,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-11-07T20:22:27Z",
+      "side": 1,
+      "message": "I\u0027m not sure I follow. All I\u0027m asking is that you don\u0027t insert a new ChangeMessage if it\u0027s a duplicate, i.e. insert a ChangeMessage if and only if you also send an email. How does that affect the error message shown to the user?",
+      "parentUuid": "3e2545ef_c7f93ef7",
+      "revId": "7d33d6cb15540f9cfdcda02479d06ff1f133c667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e1a41b4_e6139e70",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 1

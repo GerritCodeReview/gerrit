@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e2b3dc3_89163962",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-07T17:55:03Z",
+      "side": 1,
+      "message": "Hmm, any chance this is moving upstream? I am probably still an inactive committer on the MINA SSHD project...",
+      "revId": "e20cb24a3a986ee7bb7686f6d9f558defa4f8800",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e2b3dc3_a9197d96",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-07T17:55:03Z",
+      "side": 1,
+      "message": "declare enum SshSessionBackend after here",
+      "revId": "e20cb24a3a986ee7bb7686f6d9f558defa4f8800",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e2b3dc3_49056126",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-07T17:55:03Z",
+      "side": 1,
+      "message": "nit: i prefer this to be early in the class, above instance members.",
+      "revId": "e20cb24a3a986ee7bb7686f6d9f558defa4f8800",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -84,6 +84,7 @@ public class ListChildProjectsIT extends AbstractDaemonTest {
     Project.NameKey child2 = new Project.NameKey("p2");
     createProject(sshSession, child2.get());
     createProject(sshSession, "p1.1", child1);
+    sshSession.close();
 
     RestResponse r = GET("/projects/" + allProjects.get() + "/children/");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -107,6 +108,7 @@ public class ListChildProjectsIT extends AbstractDaemonTest {
     createProject(sshSession, child1_1_1.get(), child1_1);
     Project.NameKey child1_1_1_1 = new Project.NameKey("p1.1.1.1");
     createProject(sshSession, child1_1_1_1.get(), child1_1_1);
+    sshSession.close();
 
     RestResponse r = GET("/projects/" + child1.get() + "/children/?recursive");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());

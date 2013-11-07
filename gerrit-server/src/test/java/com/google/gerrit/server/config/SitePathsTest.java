@@ -15,14 +15,16 @@
 package com.google.gerrit.server.config;
 
 import com.google.gerrit.server.util.HostPlatform;
-
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class SitePathsTest extends TestCase {
+import static org.junit.Assert.*;
+
+public class SitePathsTest {
+  @Test
   public void testCreate_NotExisting() throws IOException {
     final File root = random();
     final SitePaths site = new SitePaths(root);
@@ -31,6 +33,7 @@ public class SitePathsTest extends TestCase {
     assertEquals(new File(root, "etc"), site.etc_dir);
   }
 
+  @Test
   public void testCreate_Empty() throws IOException {
     final File root = random();
     try {
@@ -44,6 +47,7 @@ public class SitePathsTest extends TestCase {
     }
   }
 
+  @Test
   public void testCreate_NonEmpty() throws IOException {
     final File root = random();
     final File txt = new File(root, "test.txt");
@@ -60,6 +64,7 @@ public class SitePathsTest extends TestCase {
     }
   }
 
+  @Test
   public void testCreate_NotDirectory() throws IOException {
     final File root = random();
     try {
@@ -75,6 +80,7 @@ public class SitePathsTest extends TestCase {
     }
   }
 
+  @Test
   public void testResolve() throws IOException {
     final File root = random();
     final SitePaths site = new SitePaths(root);

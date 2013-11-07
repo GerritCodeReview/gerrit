@@ -74,6 +74,7 @@ public class GetChildProjectIT extends AbstractDaemonTest {
     createProject(sshSession, p1.get());
     Project.NameKey p2 = new Project.NameKey("p2");
     createProject(sshSession, p2.get());
+    sshSession.close();
     assertEquals(HttpStatus.SC_NOT_FOUND,
         GET("/projects/" + p1.get() + "/children/" + p2.get()).getStatusCode());
   }
@@ -83,6 +84,7 @@ public class GetChildProjectIT extends AbstractDaemonTest {
     SshSession sshSession = new SshSession(server, admin);
     Project.NameKey child = new Project.NameKey("p1");
     createProject(sshSession, child.get());
+    sshSession.close();
     RestResponse r = GET("/projects/" + allProjects.get() + "/children/" + child.get());
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     ProjectInfo childInfo =
@@ -98,6 +100,7 @@ public class GetChildProjectIT extends AbstractDaemonTest {
     createProject(sshSession, child.get());
     Project.NameKey grandChild = new Project.NameKey("p1.1");
     createProject(sshSession, grandChild.get(), child);
+    sshSession.close();
     assertEquals(HttpStatus.SC_NOT_FOUND,
         GET("/projects/" + allProjects.get() + "/children/" + grandChild.get())
             .getStatusCode());
@@ -111,6 +114,7 @@ public class GetChildProjectIT extends AbstractDaemonTest {
     createProject(sshSession, child.get());
     Project.NameKey grandChild = new Project.NameKey("p1.1");
     createProject(sshSession, grandChild.get(), child);
+    sshSession.close();
     RestResponse r =
         GET("/projects/" + allProjects.get() + "/children/" + grandChild.get()
             + "?recursive");

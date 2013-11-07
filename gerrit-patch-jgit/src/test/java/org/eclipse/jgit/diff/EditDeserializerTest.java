@@ -14,11 +14,11 @@
 
 package org.eclipse.jgit.diff;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.assertNotNull;
 
-import org.eclipse.jgit.diff.EditDeserializer;
-
-public class EditDeserializerTest extends TestCase {
+public class EditDeserializerTest {
+  @Test
   public void testDiffDeserializer() {
     assertNotNull("edit deserializer", new EditDeserializer());
   }

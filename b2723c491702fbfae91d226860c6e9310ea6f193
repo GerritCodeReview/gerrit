@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e2631f7_8a162b62",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-07T15:33:28Z",
+      "side": 1,
+      "message": "Why not to describe this in dev-plugins.txt and provide code samples and the needed steps? Or create a working use case in cookbok-plugin:\n\n* expose REST endpoint\n* create GWT module\n* create top menu entry\n* bind menu entry to GWT dialog\n* fill the data\n* call the REST endpoint\n* show the results",
+      "revId": "b2723c491702fbfae91d226860c6e9310ea6f193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

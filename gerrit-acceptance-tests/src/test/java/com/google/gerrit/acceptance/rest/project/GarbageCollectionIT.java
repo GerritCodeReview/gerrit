@@ -67,6 +67,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
 
     project2 = new Project.NameKey("p2");
     createProject(sshSession, project2.get());
+    sshSession.close();
 
     session = new RestSession(server, admin);
   }

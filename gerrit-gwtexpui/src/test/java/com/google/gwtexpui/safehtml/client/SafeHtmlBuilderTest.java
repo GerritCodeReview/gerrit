@@ -14,9 +14,12 @@
 
 package com.google.gwtexpui.safehtml.client;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class SafeHtmlBuilderTest extends TestCase {
+import static org.junit.Assert.*;
+
+public class SafeHtmlBuilderTest {
+  @Test
   public void testEmpty() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertTrue(b.isEmpty());
@@ -28,6 +31,7 @@ public class SafeHtmlBuilderTest extends TestCase {
     assertEquals("a", b.asString());
   }
 
+  @Test
   public void testToSafeHtml() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     b.append(1);
@@ -39,6 +43,7 @@ public class SafeHtmlBuilderTest extends TestCase {
     assertEquals("1", h.asString());
   }
 
+  @Test
   public void testAppend_boolean() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertSame(b, b.append(true));
@@ -46,6 +51,7 @@ public class SafeHtmlBuilderTest extends TestCase {
     assertEquals("truefalse", b.asString());
   }
 
+  @Test
   public void testAppend_char() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertSame(b, b.append('a'));
@@ -53,6 +59,7 @@ public class SafeHtmlBuilderTest extends TestCase {
     assertEquals("ab", b.asString());
   }
 
+  @Test
   public void testAppend_int() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertSame(b, b.append(4));
@@ -61,6 +68,7 @@ public class SafeHtmlBuilderTest extends TestCase {
     assertEquals("42-100", b.asString());
   }
 
+  @Test
   public void testAppend_long() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertSame(b, b.append(4L));
@@ -68,18 +76,21 @@ public class SafeHtmlBuilderTest extends TestCase {
     assertEquals("42", b.asString());
   }
 
+  @Test
   public void testAppend_float() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertSame(b, b.append(0.0f));
     assertEquals("0.0", b.asString());
   }
 
+  @Test
   public void testAppend_double() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertSame(b, b.append(0.0));
     assertEquals("0.0", b.asString());
   }
 
+  @Test
   public void testAppend_String() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertSame(b, b.append((String) null));
@@ -89,6 +100,7 @@ public class SafeHtmlBuilderTest extends TestCase {
     assertEquals("foobar", b.asString());
   }
 
+  @Test
   public void testAppend_StringBuilder() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertSame(b, b.append((StringBuilder) null));
@@ -98,6 +110,7 @@ public class SafeHtmlBuilderTest extends TestCase {
     assertEquals("foobar", b.asString());
   }
 
+  @Test
   public void testAppend_StringBuffer() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertSame(b, b.append((StringBuffer) null));
@@ -107,6 +120,7 @@ public class SafeHtmlBuilderTest extends TestCase {
     assertEquals("foobar", b.asString());
   }
 
+  @Test
   public void testAppend_Object() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertSame(b, b.append((Object) null));
@@ -120,6 +134,7 @@ public class SafeHtmlBuilderTest extends TestCase {
     assertEquals("foobar", b.asString());
   }
 
+  @Test
   public void testAppend_CharSequence() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertSame(b, b.append((CharSequence) null));
@@ -129,6 +144,7 @@ public class SafeHtmlBuilderTest extends TestCase {
     assertEquals("foobar", b.asString());
   }
 
+  @Test
   public void testAppend_SafeHtml() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertSame(b, b.append((SafeHtml) null));
@@ -138,6 +154,7 @@ public class SafeHtmlBuilderTest extends TestCase {
     assertEquals("foobar", b.asString());
   }
 
+  @Test
   public void testHtmlSpecialCharacters() {
     assertEquals("&amp;", escape("&"));
     assertEquals("&lt;", escape("<"));
@@ -155,18 +172,21 @@ public class SafeHtmlBuilderTest extends TestCase {
     assertEquals("&amp;lt;b&amp;gt;", escape("&lt;b&gt;"));
   }
 
+  @Test
   public void testEntityNbsp() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertSame(b, b.nbsp());
     assertEquals("&nbsp;", b.asString());
   }
 
+  @Test
   public void testTagBr() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertSame(b, b.br());
     assertEquals("<br />", b.asString());
   }
 
+  @Test
   public void testTagTableTrTd() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertSame(b, b.openElement("table"));
@@ -179,6 +199,7 @@ public class SafeHtmlBuilderTest extends TestCase {
     assertEquals("<table><tr><td>d&lt;a&gt;ta</td></tr></table>", b.asString());
   }
 
+  @Test
   public void testTagDiv() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertSame(b, b.openDiv());
@@ -187,6 +208,7 @@ public class SafeHtmlBuilderTest extends TestCase {
     assertEquals("<div>d&lt;a&gt;ta</div>", b.asString());
   }
 
+  @Test
   public void testTagAnchor() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertSame(b, b.openAnchor());
@@ -206,6 +228,7 @@ public class SafeHtmlBuilderTest extends TestCase {
     assertEquals("<a href=\"d&lt;a&gt;ta\">go</a>", b.asString());
   }
 
+  @Test
   public void testTagHeightWidth() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertSame(b, b.openElement("img"));
@@ -215,6 +238,7 @@ public class SafeHtmlBuilderTest extends TestCase {
     assertEquals("<img height=\"100\" width=\"42\" />", b.asString());
   }
 
+  @Test
   public void testStyleName() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertSame(b, b.openSpan());
@@ -225,6 +249,7 @@ public class SafeHtmlBuilderTest extends TestCase {
     assertEquals("<span class=\"foo bar\">d&lt;a&gt;ta</span>", b.asString());
   }
 
+  @Test
   public void testRejectJavaScript_AnchorHref() {
     final String href = "javascript:window.close();";
     try {
@@ -235,6 +260,7 @@ public class SafeHtmlBuilderTest extends TestCase {
     }
   }
 
+  @Test
   public void testRejectJavaScript_ImgSrc() {
     final String href = "javascript:window.close();";
     try {
@@ -245,6 +271,7 @@ public class SafeHtmlBuilderTest extends TestCase {
     }
   }
 
+  @Test
   public void testRejectJavaScript_FormAction() {
     final String href = "javascript:window.close();";
     try {

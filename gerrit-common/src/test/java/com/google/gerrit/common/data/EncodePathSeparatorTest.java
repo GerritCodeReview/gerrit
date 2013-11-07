@@ -14,10 +14,12 @@
 
 package com.google.gerrit.common.data;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
-public class EncodePathSeparatorTest extends TestCase {
+public class EncodePathSeparatorTest {
 
+  @Test
   public void testDefaultBehaviour() {
 
     GitWebType gitWebType = GitWebType.fromName(null);
@@ -25,6 +27,7 @@ public class EncodePathSeparatorTest extends TestCase {
     assertEquals("a/b", gitWebType.replacePathSeparator("a/b"));
   }
 
+  @Test
   public void testExclamationMark() {
 
     GitWebType gitWebType = GitWebType.fromName(null);

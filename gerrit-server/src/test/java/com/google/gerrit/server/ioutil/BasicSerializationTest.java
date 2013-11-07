@@ -14,27 +14,31 @@
 
 package com.google.gerrit.server.ioutil;
 
+import org.junit.Test;
+
 import static com.google.gerrit.server.ioutil.BasicSerialization.readFixInt64;
 import static com.google.gerrit.server.ioutil.BasicSerialization.readString;
 import static com.google.gerrit.server.ioutil.BasicSerialization.readVarInt32;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeFixInt64;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeString;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
-
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class BasicSerializationTest extends TestCase {
+public class BasicSerializationTest {
+  @Test
   public void testReadVarInt32() throws IOException {
     assertEquals(0x00000000, readVarInt32(r(b(0))));
     assertEquals(0x00000003, readVarInt32(r(b(3))));
     assertEquals(0x000000ff, readVarInt32(r(b(0x80 | 0x7f, 0x01))));
   }
 
+  @Test
   public void testWriteVarInt32() throws IOException {
     ByteArrayOutputStream out;
 
@@ -51,6 +55,7 @@ public class BasicSerializationTest extends TestCase {
     assertOutput(b(0x80 | 0x7f, 0x01), out);
   }
 
+  @Test
   public void testReadFixInt64() throws IOException {
     assertEquals(0L, readFixInt64(r(b(0, 0, 0, 0, 0, 0, 0, 0))));
     assertEquals(3L, readFixInt64(r(b(0, 0, 0, 0, 0, 0, 0, 3))));
@@ -71,6 +76,7 @@ public class BasicSerializationTest extends TestCase {
         0xff, 0xff, 0xff, 0xff))));
   }
 
+  @Test
   public void testWriteFixInt64() throws IOException {
     ByteArrayOutputStream out;
 
@@ -99,6 +105,7 @@ public class BasicSerializationTest extends TestCase {
     assertOutput(b(0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff), out);
   }
 
+  @Test
   public void testReadString() throws IOException {
     assertNull(readString(r(b(0))));
     assertEquals("a", readString(r(b(1, 'a'))));
@@ -106,6 +113,7 @@ public class BasicSerializationTest extends TestCase {
         readString(r(b(7, 'c', 'o', 'f', 'f', 'e', 'e', '4'))));
   }
 
+  @Test
   public void testWriteString() throws IOException {
     ByteArrayOutputStream out;
 

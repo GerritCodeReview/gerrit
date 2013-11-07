@@ -29,6 +29,8 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.AbstractModule;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.Arrays;
 
@@ -46,9 +48,8 @@ public class GerritCommonTest extends PrologTestCase {
   private ProjectConfig local;
   private Util util;
 
-  @Override
+  @Before
   public void setUp() throws Exception {
-    super.setUp();
     util = new Util();
     load("gerrit", "gerrit_common_test.pl", new AbstractModule() {
       @Override
@@ -86,6 +87,7 @@ public class GerritCommonTest extends PrologTestCase {
     env.set(StoredValues.CHANGE_CONTROL, util.user(local).controlFor(change));
   }
 
+  @Test
   public void testGerritCommon() {
     runPrologBasedTests();
   }

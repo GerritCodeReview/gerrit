@@ -16,12 +16,15 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwtorm.server.OrmException;
-
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import java.util.Arrays;
 
-public class RegexFilePredicateTest extends TestCase {
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+public class RegexFilePredicateTest {
+  @Test
   public void testPrefixOnlyOptimization() throws OrmException {
     RegexFilePredicate p = predicate("^a/b/.*");
     assertTrue(p.match(change("a/b/source.c")));
@@ -31,6 +34,7 @@ public class RegexFilePredicateTest extends TestCase {
     assertFalse(p.match(change("a/bb/source.c")));
   }
 
+  @Test
   public void testPrefixReducesSearchSpace() throws OrmException {
     RegexFilePredicate p = predicate("^a/b/.*\\.[ch]");
     assertTrue(p.match(change("a/b/source.c")));
@@ -40,6 +44,7 @@ public class RegexFilePredicateTest extends TestCase {
     assertTrue(p.match(change("a/b/a.a", "a/b/a.d", "a/b/a.h")));
   }
 
+  @Test
   public void testFileExtension_Constant() throws OrmException {
     RegexFilePredicate p = predicate("^.*\\.res");
     assertTrue(p.match(change("test.res")));
@@ -47,6 +52,7 @@ public class RegexFilePredicateTest extends TestCase {
     assertFalse(p.match(change("test.res.bar")));
   }
 
+  @Test
   public void testFileExtension_CharacterGroup() throws OrmException {
     RegexFilePredicate p = predicate("^.*\\.[ch]");
     assertTrue(p.match(change("test.c")));
@@ -54,6 +60,7 @@ public class RegexFilePredicateTest extends TestCase {
     assertFalse(p.match(change("test.C")));
   }
 
+  @Test
   public void testEndOfString() throws OrmException {
     assertTrue(predicate("^a$").match(change("a")));
     assertFalse(predicate("^a$").match(change("a$")));
@@ -62,6 +69,7 @@ public class RegexFilePredicateTest extends TestCase {
     assertTrue(predicate("^a\\$").match(change("a$")));
   }
 
+  @Test
   public void testExactMatch() throws OrmException {
     RegexFilePredicate p = predicate("^foo.c");
     assertTrue(p.match(change("foo.c")));

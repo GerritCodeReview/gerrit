@@ -26,9 +26,8 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 
-import junit.framework.TestCase;
-
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -36,6 +35,8 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 import javax.sql.DataSource;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * An in-memory test instance of {@link ReviewDb} database.
@@ -160,8 +161,9 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
     }
   }
 
-  public void assertSchemaVersion() throws OrmException {
+  @Test
+  public void testSchemaVersion() throws OrmException {
     final CurrentSchemaVersion act = getSchemaVersion();
-    TestCase.assertEquals(schemaVersion.getVersionNbr(), act.versionNbr);
+    assertEquals(schemaVersion.getVersionNbr(), act.versionNbr);
   }
 }

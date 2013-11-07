@@ -20,8 +20,12 @@ import static com.google.gerrit.server.util.SocketUtil.parse;
 import static com.google.gerrit.server.util.SocketUtil.resolve;
 import static java.net.InetAddress.getByName;
 import static java.net.InetSocketAddress.createUnresolved;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import java.net.Inet4Address;
 import java.net.Inet6Address;
@@ -29,7 +33,8 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 
-public class SocketUtilTest extends TestCase {
+public class SocketUtilTest {
+  @Test
   public void testIsIPv6() throws UnknownHostException {
     final InetAddress ipv6 = getByName("1:2:3:4:5:6:7:8");
     assertTrue(ipv6 instanceof Inet6Address);
@@ -40,12 +45,14 @@ public class SocketUtilTest extends TestCase {
     assertFalse(isIPv6(ipv4));
   }
 
+  @Test
   public void testHostname() {
     assertEquals("*", hostname(new InetSocketAddress(80)));
     assertEquals("localhost", hostname(new InetSocketAddress("localhost", 80)));
     assertEquals("foo", hostname(createUnresolved("foo", 80)));
   }
 
+  @Test
   public void testFormat() throws UnknownHostException {
     assertEquals("*:1234", SocketUtil.format(new InetSocketAddress(1234), 80));
     assertEquals("*", SocketUtil.format(new InetSocketAddress(80), 80));
@@ -64,6 +71,7 @@ public class SocketUtilTest extends TestCase {
         SocketUtil. format(new InetSocketAddress("localhost", 80), 80));
   }
 
+  @Test
   public void testParse() {
     assertEquals(new InetSocketAddress(1234), parse("*:1234", 80));
     assertEquals(new InetSocketAddress(80), parse("*", 80));
@@ -100,6 +108,7 @@ public class SocketUtilTest extends TestCase {
     }
   }
 
+  @Test
   public void testResolve() throws UnknownHostException {
     assertEquals(new InetSocketAddress(1234), resolve("*:1234", 80));
     assertEquals(new InetSocketAddress(80), resolve("*", 80));

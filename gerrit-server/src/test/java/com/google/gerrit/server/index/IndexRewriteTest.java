@@ -19,6 +19,9 @@ import static com.google.gerrit.reviewdb.client.Change.Status.DRAFT;
 import static com.google.gerrit.reviewdb.client.Change.Status.MERGED;
 import static com.google.gerrit.reviewdb.client.Change.Status.NEW;
 import static com.google.gerrit.reviewdb.client.Change.Status.SUBMITTED;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.Change;
@@ -31,22 +34,21 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.OrSource;
 import com.google.gerrit.server.query.change.SqlRewriterImpl;
-
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.EnumSet;
 import java.util.Set;
 
 @SuppressWarnings("unchecked")
-public class IndexRewriteTest extends TestCase {
+public class IndexRewriteTest {
   private FakeIndex index;
   private IndexCollection indexes;
   private ChangeQueryBuilder queryBuilder;
   private IndexRewriteImpl rewrite;
 
-  @Override
+  @Before
   public void setUp() throws Exception {
-    super.setUp();
     index = new FakeIndex(FakeIndex.V2);
     indexes = new IndexCollection();
     indexes.setSearchIndex(index);
@@ -58,26 +60,31 @@ public class IndexRewriteTest extends TestCase {
         new SqlRewriterImpl(null));
   }
 
+  @Test
   public void testIndexPredicate() throws Exception {
     Predicate<ChangeData> in = parse("file:a");
     assertEquals(query(in), rewrite(in));
   }
 
+  @Test
   public void testNonIndexPredicate() throws Exception {
     Predicate<ChangeData> in = parse("foo:a");
     assertSame(in, rewrite(in));
   }
 
+  @Test
   public void testIndexPredicates() throws Exception {
     Predicate<ChangeData> in = parse("file:a file:b");
     assertEquals(query(in), rewrite(in));
   }
 
+  @Test
   public void testNonIndexPredicates() throws Exception {
     Predicate<ChangeData> in = parse("foo:a OR foo:b");
     assertEquals(in, rewrite(in));
   }
 
+  @Test
   public void testOneIndexPredicate() throws Exception {
     Predicate<ChangeData> in = parse("foo:a file:b");
     Predicate<ChangeData> out = rewrite(in);
@@ -87,6 +94,7 @@ public class IndexRewriteTest extends TestCase {
         out.getChildren());
   }
 
+  @Test
   public void testThreeLevelTreeWithAllIndexPredicates() throws Exception {
     Predicate<ChangeData> in =
         parse("-status:abandoned (status:open OR status:merged)");
@@ -95,6 +103,7 @@ public class IndexRewriteTest extends TestCase {
         rewrite.rewrite(in));
   }
 
+  @Test
   public void testThreeLevelTreeWithSomeIndexPredicates() throws Exception {
     Predicate<ChangeData> in = parse("-foo:a (file:b OR file:c)");
     Predicate<ChangeData> out = rewrite(in);
@@ -104,6 +113,7 @@ public class IndexRewriteTest extends TestCase {
         out.getChildren());
   }
 
+  @Test
   public void testMultipleIndexPredicates() throws Exception {
     Predicate<ChangeData> in =
         parse("file:a OR foo:b OR file:c OR foo:d");
@@ -115,6 +125,7 @@ public class IndexRewriteTest extends TestCase {
         out.getChildren());
   }
 
+  @Test
   public void testIndexAndNonIndexPredicates() throws Exception {
     Predicate<ChangeData> in = parse("status:new bar:p file:a");
     Predicate<ChangeData> out = rewrite(in);
@@ -125,6 +136,7 @@ public class IndexRewriteTest extends TestCase {
         out.getChildren());
   }
 
+  @Test
   public void testDuplicateCompoundNonIndexOnlyPredicates() throws Exception {
     Predicate<ChangeData> in =
         parse("(status:new OR status:draft) bar:p file:a");
@@ -136,6 +148,7 @@ public class IndexRewriteTest extends TestCase {
         out.getChildren());
   }
 
+  @Test
   public void testDuplicateCompoundIndexOnlyPredicates() throws Exception {
     Predicate<ChangeData> in =
         parse("(status:new OR file:a) bar:p file:b");
@@ -147,6 +160,7 @@ public class IndexRewriteTest extends TestCase {
         out.getChildren());
   }
 
+  @Test
   public void testLimit() throws Exception {
     Predicate<ChangeData> in = parse("file:a limit:3");
     Predicate<ChangeData> out = rewrite(in);
@@ -157,6 +171,7 @@ public class IndexRewriteTest extends TestCase {
         out.getChildren());
   }
 
+  @Test
   public void testGetPossibleStatus() throws Exception {
     assertEquals(EnumSet.allOf(Change.Status.class), status("file:a"));
     assertEquals(EnumSet.of(NEW), status("is:new"));
@@ -173,6 +188,7 @@ public class IndexRewriteTest extends TestCase {
         status("(is:new is:draft) OR (is:merged OR is:submitted)"));
   }
 
+  @Test
   public void testUnsupportedIndexOperator() throws Exception {
     Predicate<ChangeData> in = parse("status:merged file:a");
     assertEquals(query(in), rewrite(in));
@@ -186,6 +202,7 @@ public class IndexRewriteTest extends TestCase {
         out.getChildren());
   }
 
+  @Test
   public void testNoChangeIndexUsesSqlRewrites() throws Exception {
     Predicate<ChangeData> in = parse("status:open project:p ref:b");
     Predicate<ChangeData> out;

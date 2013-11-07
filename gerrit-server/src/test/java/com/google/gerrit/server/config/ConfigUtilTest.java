@@ -14,17 +14,19 @@
 
 package com.google.gerrit.server.config;
 
+import org.junit.Test;
+
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
-
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
 import java.util.concurrent.TimeUnit;
 
-public class ConfigUtilTest extends TestCase {
+public class ConfigUtilTest {
+  @Test
   public void testTimeUnit() {
     assertEquals(ms(0, MILLISECONDS), parse("0"));
     assertEquals(ms(2, MILLISECONDS), parse("2ms"));

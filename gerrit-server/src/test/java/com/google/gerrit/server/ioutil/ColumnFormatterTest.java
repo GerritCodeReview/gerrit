@@ -14,12 +14,13 @@
 
 package com.google.gerrit.server.ioutil;
 
-import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-public class ColumnFormatterTest extends TestCase {
+public class ColumnFormatterTest {
   /**
    * Holds an in-memory {@link java.io.PrintWriter} object and allows
    * comparisons of its contents to a supplied string via an assert statement.
@@ -35,7 +36,7 @@ public class ColumnFormatterTest extends TestCase {
 
     public void assertEquals(String str) {
       printWriter.flush();
-      TestCase.assertEquals(stringWriter.toString(), str);
+      Assert.assertEquals(stringWriter.toString(), str);
     }
 
     public PrintWriter getPrintWriter() {
@@ -46,6 +47,7 @@ public class ColumnFormatterTest extends TestCase {
   /**
    * Test that only lines with at least one column of text emit output.
    */
+  @Test
   public void testEmptyLine() {
     final PrintWriterComparator comparator = new PrintWriterComparator();
     final ColumnFormatter formatter =
@@ -64,6 +66,7 @@ public class ColumnFormatterTest extends TestCase {
   /**
    * Test that there is no output if no columns are ever added.
    */
+  @Test
   public void testEmptyOutput() {
     final PrintWriterComparator comparator = new PrintWriterComparator();
     final ColumnFormatter formatter =
@@ -78,6 +81,7 @@ public class ColumnFormatterTest extends TestCase {
    * Test that there is no output (nor any exceptions) if we finalize
    * the output immediately after the creation of the {@link ColumnFormatter}.
    */
+  @Test
   public void testNoNextLine() {
     final PrintWriterComparator comparator = new PrintWriterComparator();
     final ColumnFormatter formatter =
@@ -90,6 +94,7 @@ public class ColumnFormatterTest extends TestCase {
    * Test that the text in added columns is escaped while the column separator
    * (which of course shouldn't be escaped) is left alone.
    */
+  @Test
   public void testEscapingTakesPlace() {
     final PrintWriterComparator comparator = new PrintWriterComparator();
     final ColumnFormatter formatter =
@@ -106,6 +111,7 @@ public class ColumnFormatterTest extends TestCase {
    * Test that we get the correct output with multi-line input where the number
    * of columns in each line varies.
    */
+  @Test
   public void testMultiLineDifferentColumnCount() {
     final PrintWriterComparator comparator = new PrintWriterComparator();
     final ColumnFormatter formatter =
@@ -124,6 +130,7 @@ public class ColumnFormatterTest extends TestCase {
   /**
    * Test that we get the correct output with a single column of input.
    */
+  @Test
   public void testOneColumn() {
     final PrintWriterComparator comparator = new PrintWriterComparator();
     final ColumnFormatter formatter =

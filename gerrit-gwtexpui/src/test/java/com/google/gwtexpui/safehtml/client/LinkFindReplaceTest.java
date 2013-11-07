@@ -15,10 +15,15 @@
 package com.google.gwtexpui.safehtml.client;
 
 import static com.google.gwtexpui.safehtml.client.LinkFindReplace.hasValidScheme;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class LinkFindReplaceTest extends TestCase {
+public class LinkFindReplaceTest {
+  @Test
   public void testNoEscaping() {
     String find = "find";
     String link = "link";
@@ -28,12 +33,14 @@ public class LinkFindReplaceTest extends TestCase {
     assertEquals("find = " + find + ", link = " + link, a.toString());
   }
 
+  @Test
   public void testBackreference() {
     assertEquals("<a href=\"/bug?id=123\">issue 123</a>",
         new LinkFindReplace("(bug|issue)\\s*([0-9]+)", "/bug?id=$2")
             .replace("issue 123"));
   }
 
+  @Test
   public void testHasValidScheme() {
     assertTrue(hasValidScheme("/absolute/path"));
     assertTrue(hasValidScheme("relative/path"));
@@ -46,6 +53,7 @@ public class LinkFindReplaceTest extends TestCase {
     assertFalse(hasValidScheme("javascript:alert(1)"));
   }
 
+  @Test
   public void testInvalidSchemeInReplace() {
     try {
       new LinkFindReplace("find", "javascript:alert(1)").replace("find");
@@ -54,6 +62,7 @@ public class LinkFindReplaceTest extends TestCase {
     }
   }
 
+  @Test
   public void testInvalidSchemeWithBackreference() {
     try {
       new LinkFindReplace(".*(script:[^;]*)", "java$1")
@@ -63,11 +72,13 @@ public class LinkFindReplaceTest extends TestCase {
     }
   }
 
+  @Test
   public void testReplaceEscaping() {
     assertEquals("<a href=\"a&quot;&amp;&#39;&lt;&gt;b\">find</a>",
         new LinkFindReplace("find", "a\"&'<>b").replace("find"));
   }
 
+  @Test
   public void testHtmlInFind() {
     String rawFind = "<b>&quot;bold&quot;</b>";
     LinkFindReplace a = new LinkFindReplace(rawFind, "/bold");

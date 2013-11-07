@@ -145,6 +145,7 @@ java_test(
     '//gerrit-common:server',
     '//gerrit-extension-api:api',
     '//gerrit-reviewdb:server',
+    '//lib:args4j',
     '//lib:easymock',
     '//lib:guava',
     '//lib:gwtorm',

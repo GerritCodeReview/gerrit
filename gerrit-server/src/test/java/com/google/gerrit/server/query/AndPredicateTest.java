@@ -15,14 +15,19 @@
 package com.google.gerrit.server.query;
 
 import static com.google.gerrit.server.query.Predicate.and;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class AndPredicateTest extends TestCase {
+public class AndPredicateTest {
   private static final class TestPredicate extends OperatorPredicate<String> {
     private TestPredicate(String name, String value) {
       super(name, value);
@@ -43,6 +48,7 @@ public class AndPredicateTest extends TestCase {
     return new TestPredicate(name, value);
   }
 
+  @Test
   @SuppressWarnings("unchecked")
   public void testChildren() {
     final TestPredicate a = f("author", "alice");
@@ -53,6 +59,7 @@ public class AndPredicateTest extends TestCase {
     assertSame(b, n.getChild(1));
   }
 
+  @Test
   @SuppressWarnings("unchecked")
   public void testChildrenUnmodifiable() {
     final TestPredicate a = f("author", "alice");
@@ -83,6 +90,7 @@ public class AndPredicateTest extends TestCase {
     assertEquals(o + " did not affect child", l, p.getChildren());
   }
 
+  @Test
   @SuppressWarnings("unchecked")
   public void testToString() {
     final TestPredicate a = f("q", "alice");
@@ -92,6 +100,7 @@ public class AndPredicateTest extends TestCase {
     assertEquals("(q:alice q:bob q:charlie)", and(a, b, c).toString());
   }
 
+  @Test
   @SuppressWarnings("unchecked")
   public void testEquals() {
     final TestPredicate a = f("author", "alice");
@@ -107,6 +116,7 @@ public class AndPredicateTest extends TestCase {
     assertFalse(and(a, c).equals(a));
   }
 
+  @Test
   @SuppressWarnings("unchecked")
   public void testHashCode() {
     final TestPredicate a = f("author", "alice");
@@ -118,6 +128,7 @@ public class AndPredicateTest extends TestCase {
     assertFalse(and(a, c).hashCode() == and(a, b).hashCode());
   }
 
+  @Test
   @SuppressWarnings("unchecked")
   public void testCopy() {
     final TestPredicate a = f("author", "alice");

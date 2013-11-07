@@ -14,9 +14,13 @@
 
 package com.google.gwtexpui.safehtml.client;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class SafeHtml_WikifyTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
+
+public class SafeHtml_WikifyTest {
+  @Test
   public void testWikify_OneLine1() {
     final SafeHtml o = html("A  B");
     final SafeHtml n = o.wikify();
@@ -24,6 +28,7 @@ public class SafeHtml_WikifyTest extends TestCase {
     assertEquals("<p>A  B</p>", n.asString());
   }
 
+  @Test
   public void testWikify_OneLine2() {
     final SafeHtml o = html("A  B\n");
     final SafeHtml n = o.wikify();
@@ -31,6 +36,7 @@ public class SafeHtml_WikifyTest extends TestCase {
     assertEquals("<p>A  B\n</p>", n.asString());
   }
 
+  @Test
   public void testWikify_OneParagraph1() {
     final SafeHtml o = html("A\nB");
     final SafeHtml n = o.wikify();
@@ -38,6 +44,7 @@ public class SafeHtml_WikifyTest extends TestCase {
     assertEquals("<p>A\nB</p>", n.asString());
   }
 
+  @Test
   public void testWikify_OneParagraph2() {
     final SafeHtml o = html("A\nB\n");
     final SafeHtml n = o.wikify();
@@ -45,6 +52,7 @@ public class SafeHtml_WikifyTest extends TestCase {
     assertEquals("<p>A\nB\n</p>", n.asString());
   }
 
+  @Test
   public void testWikify_TwoParagraphs() {
     final SafeHtml o = html("A\nB\n\nC\nD");
     final SafeHtml n = o.wikify();
@@ -52,6 +60,7 @@ public class SafeHtml_WikifyTest extends TestCase {
     assertEquals("<p>A\nB</p><p>C\nD</p>", n.asString());
   }
 
+  @Test
   public void testLinkify_SimpleHttp1() {
     final SafeHtml o = html("A http://go.here/ B");
     final SafeHtml n = o.wikify();
@@ -59,6 +68,7 @@ public class SafeHtml_WikifyTest extends TestCase {
     assertEquals("<p>A <a href=\"http://go.here/\" target=\"_blank\">http://go.here/</a> B</p>", n.asString());
   }
 
+  @Test
   public void testLinkify_SimpleHttps2() {
     final SafeHtml o = html("A https://go.here/ B");
     final SafeHtml n = o.wikify();
@@ -66,6 +76,7 @@ public class SafeHtml_WikifyTest extends TestCase {
     assertEquals("<p>A <a href=\"https://go.here/\" target=\"_blank\">https://go.here/</a> B</p>", n.asString());
   }
 
+  @Test
   public void testLinkify_Parens1() {
     final SafeHtml o = html("A (http://go.here/) B");
     final SafeHtml n = o.wikify();
@@ -73,6 +84,7 @@ public class SafeHtml_WikifyTest extends TestCase {
     assertEquals("<p>A (<a href=\"http://go.here/\" target=\"_blank\">http://go.here/</a>) B</p>", n.asString());
   }
 
+  @Test
   public void testLinkify_Parens() {
     final SafeHtml o = html("A http://go.here/#m() B");
     final SafeHtml n = o.wikify();
@@ -80,6 +92,7 @@ public class SafeHtml_WikifyTest extends TestCase {
     assertEquals("<p>A <a href=\"http://go.here/#m()\" target=\"_blank\">http://go.here/#m()</a> B</p>", n.asString());
   }
 
+  @Test
   public void testLinkify_AngleBrackets1() {
     final SafeHtml o = html("A <http://go.here/> B");
     final SafeHtml n = o.wikify();

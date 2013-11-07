@@ -26,6 +26,8 @@ import static com.google.gerrit.server.project.Util.ADMIN;
 import static com.google.gerrit.server.project.Util.DEVS;
 import static com.google.gerrit.server.project.Util.grant;
 import static com.google.gerrit.server.project.Util.doNotInherit;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.PermissionRange;
@@ -33,10 +35,10 @@ import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.ProjectConfig;
+import org.junit.Before;
+import org.junit.Test;
 
-import junit.framework.TestCase;
-
-public class RefControlTest extends TestCase {
+public class RefControlTest {
   private static void assertOwner(String ref, ProjectControl u) {
     assertTrue("OWN " + ref, u.controlForRef(ref).isOwner());
   }
@@ -54,14 +56,14 @@ public class RefControlTest extends TestCase {
     util = new Util();
   }
 
-  @Override
+  @Before
   public void setUp() throws Exception {
-    super.setUp();
     local = new ProjectConfig(localKey);
     local.createInMemory();
     util.add(local);
   }
 
+  @Test
   public void testOwnerProject() {
     grant(local, OWNER, ADMIN, "refs/*");
 
@@ -72,6 +74,7 @@ public class RefControlTest extends TestCase {
     assertTrue("is owner", uAdmin.isOwner());
   }
 
+  @Test
   public void testBranchDelegation1() {
     grant(local, OWNER, ADMIN, "refs/*");
     grant(local, OWNER, DEVS, "refs/heads/x/*");
@@ -88,6 +91,7 @@ public class RefControlTest extends TestCase {
     assertNotOwner("refs/heads/master", uDev);
   }
 
+  @Test
   public void testBranchDelegation2() {
     grant(local, OWNER, ADMIN, "refs/*");
     grant(local, OWNER, DEVS, "refs/heads/x/*");
@@ -116,6 +120,7 @@ public class RefControlTest extends TestCase {
     assertNotOwner("refs/heads/master", uFix);
   }
 
+  @Test
   public void testInheritRead_SingleBranchDeniesUpload() {
     grant(util.getParentConfig(), READ, REGISTERED, "refs/*");
     grant(util.getParentConfig(), PUSH, REGISTERED, "refs/for/refs/*");
@@ -133,6 +138,7 @@ public class RefControlTest extends TestCase {
         u.controlForRef("refs/heads/foobar").canUpload());
   }
 
+  @Test
   public void testInheritRead_SingleBranchDoesNotOverrideInherited() {
     grant(util.getParentConfig(), READ, REGISTERED, "refs/*");
     grant(util.getParentConfig(), PUSH, REGISTERED, "refs/for/refs/*");
@@ -148,6 +154,7 @@ public class RefControlTest extends TestCase {
         u.controlForRef("refs/heads/foobar").canUpload());
   }
 
+  @Test
   public void testInheritDuplicateSections() {
     grant(util.getParentConfig(), READ, ADMIN, "refs/*");
     grant(local, READ, DEVS, "refs/heads/*");
@@ -160,6 +167,7 @@ public class RefControlTest extends TestCase {
     assertTrue("d can read", util.user(local, "d", DEVS).isVisible());
   }
 
+  @Test
   public void testInheritRead_OverrideWithDeny() {
     grant(util.getParentConfig(), READ, REGISTERED, "refs/*");
     grant(local, READ, REGISTERED, "refs/*").setDeny();
@@ -168,6 +176,7 @@ public class RefControlTest extends TestCase {
     assertFalse("can't read", u.isVisible());
   }
 
+  @Test
   public void testInheritRead_AppendWithDenyOfRef() {
     grant(util.getParentConfig(), READ, REGISTERED, "refs/*");
     grant(local, READ, REGISTERED, "refs/heads/*").setDeny();
@@ -179,6 +188,7 @@ public class RefControlTest extends TestCase {
     assertTrue("no master", u.controlForRef("refs/heads/master").isVisible());
   }
 
+  @Test
   public void testInheritRead_OverridesAndDeniesOfRef() {
     grant(util.getParentConfig(), READ, REGISTERED, "refs/*");
     grant(local, READ, REGISTERED, "refs/*").setDeny();
@@ -191,6 +201,7 @@ public class RefControlTest extends TestCase {
     assertTrue("can read", u.controlForRef("refs/heads/foobar").isVisible());
   }
 
+  @Test
   public void testInheritSubmit_OverridesAndDeniesOfRef() {
     grant(util.getParentConfig(), SUBMIT, REGISTERED, "refs/*");
     grant(local, SUBMIT, REGISTERED, "refs/*").setDeny();
@@ -202,6 +213,7 @@ public class RefControlTest extends TestCase {
     assertTrue("can submit", u.controlForRef("refs/heads/foobar").canSubmit());
   }
 
+  @Test
   public void testCannotUploadToAnyRef() {
     grant(util.getParentConfig(), READ, REGISTERED, "refs/*");
     grant(local, READ, DEVS, "refs/heads/*");
@@ -213,6 +225,7 @@ public class RefControlTest extends TestCase {
         u.controlForRef("refs/heads/master").canUpload());
   }
 
+  @Test
   public void testUsernamePatternNonRegex() {
     grant(local, READ, DEVS, "refs/sb/${username}/heads/*");
 
@@ -221,6 +234,7 @@ public class RefControlTest extends TestCase {
     assertTrue("d can read", d.controlForRef("refs/sb/d/heads/foobar").isVisible());
   }
 
+  @Test
   public void testUsernamePatternWithRegex() {
     grant(local, READ, DEVS, "^refs/sb/${username}/heads/.*");
 
@@ -229,6 +243,7 @@ public class RefControlTest extends TestCase {
     assertTrue("d can read", d.controlForRef("refs/sb/dev/heads/foobar").isVisible());
   }
 
+  @Test
   public void testSortWithRegex() {
     grant(local, READ, DEVS, "^refs/heads/.*");
     grant(util.getParentConfig(), READ, ANONYMOUS, "^refs/heads/.*-QA-.*");
@@ -238,6 +253,7 @@ public class RefControlTest extends TestCase {
     assertTrue("d can read", d.controlForRef("refs/heads/foo-QA-bar").isVisible());
   }
 
+  @Test
   public void testBlockRule_ParentBlocksChild() {
     grant(local, PUSH, DEVS, "refs/tags/*");
     grant(util.getParentConfig(), PUSH, ANONYMOUS, "refs/tags/*").setBlock();
@@ -246,6 +262,7 @@ public class RefControlTest extends TestCase {
     assertFalse("u can't force update tag", u.controlForRef("refs/tags/V10").canForceUpdate());
   }
 
+  @Test
   public void testBlockLabelRange_ParentBlocksChild() {
     grant(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
     grant(util.getParentConfig(), LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*").setBlock();
@@ -259,6 +276,7 @@ public class RefControlTest extends TestCase {
     assertFalse("u can't vote 2", range.contains(2));
   }
 
+  @Test
   public void testUnblockNoForce() {
     grant(local, PUSH, ANONYMOUS, "refs/heads/*").setBlock();
     grant(local, PUSH, DEVS, "refs/heads/*");
@@ -267,6 +285,7 @@ public class RefControlTest extends TestCase {
     assertTrue("u can push", u.controlForRef("refs/heads/master").canUpdate());
   }
 
+  @Test
   public void testUnblockForce() {
     PermissionRule r = grant(local, PUSH, ANONYMOUS, "refs/heads/*");
     r.setBlock();
@@ -277,6 +296,7 @@ public class RefControlTest extends TestCase {
     assertTrue("u can force push", u.controlForRef("refs/heads/master").canForceUpdate());
   }
 
+  @Test
   public void testUnblockForceWithAllowNoForce_NotPossible() {
     PermissionRule r = grant(local, PUSH, ANONYMOUS, "refs/heads/*");
     r.setBlock();
@@ -287,6 +307,7 @@ public class RefControlTest extends TestCase {
     assertFalse("u can't force push", u.controlForRef("refs/heads/master").canForceUpdate());
   }
 
+  @Test
   public void testUnblockMoreSpecificRef_Fails() {
     grant(local, PUSH, ANONYMOUS, "refs/heads/*").setBlock();
     grant(local, PUSH, DEVS, "refs/heads/master");
@@ -295,6 +316,7 @@ public class RefControlTest extends TestCase {
     assertFalse("u can't push", u.controlForRef("refs/heads/master").canUpdate());
   }
 
+  @Test
   public void testUnblockLargerScope_Fails() {
     grant(local, PUSH, ANONYMOUS, "refs/heads/master").setBlock();
     grant(local, PUSH, DEVS, "refs/heads/*");
@@ -303,6 +325,7 @@ public class RefControlTest extends TestCase {
     assertFalse("u can't push", u.controlForRef("refs/heads/master").canUpdate());
   }
 
+  @Test
   public void testUnblockInLocal_Fails() {
     grant(util.getParentConfig(), PUSH, ANONYMOUS, "refs/heads/*").setBlock();
     grant(local, PUSH, fixers, "refs/heads/*");
@@ -311,6 +334,7 @@ public class RefControlTest extends TestCase {
     assertFalse("u can't push", f.controlForRef("refs/heads/master").canUpdate());
   }
 
+  @Test
   public void testUnblockInParentBlockInLocal() {
     grant(util.getParentConfig(), PUSH, ANONYMOUS, "refs/heads/*").setBlock();
     grant(util.getParentConfig(), PUSH, DEVS, "refs/heads/*");
@@ -320,6 +344,7 @@ public class RefControlTest extends TestCase {
     assertFalse("u can't push", d.controlForRef("refs/heads/master").canUpdate());
   }
 
+  @Test
   public void testUnblockVisibilityByREGISTEREDUsers() {
     grant(local, READ, ANONYMOUS, "refs/heads/*").setBlock();
     grant(local, READ, REGISTERED, "refs/heads/*");
@@ -328,6 +353,7 @@ public class RefControlTest extends TestCase {
     assertTrue("u can read", u.controlForRef("refs/heads/master").isVisibleByRegisteredUsers());
   }
 
+  @Test
   public void testUnblockInLocalVisibilityByRegisteredUsers_Fails() {
     grant(util.getParentConfig(), READ, ANONYMOUS, "refs/heads/*").setBlock();
     grant(local, READ, REGISTERED, "refs/heads/*");
@@ -336,6 +362,7 @@ public class RefControlTest extends TestCase {
     assertFalse("u can't read", u.controlForRef("refs/heads/master").isVisibleByRegisteredUsers());
   }
 
+  @Test
   public void testUnblockForceEditTopicName() {
     grant(local, EDIT_TOPIC_NAME, ANONYMOUS, "refs/heads/*").setBlock();
     grant(local, EDIT_TOPIC_NAME, DEVS, "refs/heads/*").setForce(true);
@@ -345,6 +372,7 @@ public class RefControlTest extends TestCase {
         .canForceEditTopicName());
   }
 
+  @Test
   public void testUnblockInLocalForceEditTopicName_Fails() {
     grant(util.getParentConfig(), EDIT_TOPIC_NAME, ANONYMOUS, "refs/heads/*")
         .setBlock();
@@ -355,6 +383,7 @@ public class RefControlTest extends TestCase {
         .canForceEditTopicName());
   }
 
+  @Test
   public void testUnblockRange() {
     grant(local, LABEL + "Code-Review", -1, +1, ANONYMOUS, "refs/heads/*").setBlock();
     grant(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
@@ -365,6 +394,7 @@ public class RefControlTest extends TestCase {
     assertTrue("u can vote +2", range.contains(2));
   }
 
+  @Test
   public void testUnblockRangeOnMoreSpecificRef_Fails() {
     grant(local, LABEL + "Code-Review", -1, +1, ANONYMOUS, "refs/heads/*").setBlock();
     grant(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/master");
@@ -375,6 +405,7 @@ public class RefControlTest extends TestCase {
     assertFalse("u can't vote +2", range.contains(-2));
   }
 
+  @Test
   public void testUnblockRangeOnLargerScope_Fails() {
     grant(local, LABEL + "Code-Review", -1, +1, ANONYMOUS, "refs/heads/master").setBlock();
     grant(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
@@ -385,6 +416,7 @@ public class RefControlTest extends TestCase {
     assertFalse("u can't vote +2", range.contains(-2));
   }
 
+  @Test
   public void testUnblockInLocalRange_Fails() {
     grant(util.getParentConfig(), LABEL + "Code-Review", -1, 1, ANONYMOUS,
         "refs/heads/*").setBlock();

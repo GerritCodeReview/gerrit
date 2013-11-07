@@ -1045,10 +1045,6 @@ public class MergeOp {
 
   private void sendMergeFail(final Change c, final ChangeMessage msg,
       final boolean makeNew) {
-    if (isDuplicate(msg)) {
-      return;
-    }
-
     try {
       db.changeMessages().insert(Collections.singleton(msg));
     } catch (OrmException err) {
@@ -1085,6 +1081,11 @@ public class MergeOp {
     } catch (Exception e) {
       log.error("Cannot get submitter", e);
     }
+
+    if (isDuplicate(msg)) {
+      return;
+    }
+
 
     final PatchSetApproval from = submitter;
     workQueue.getDefaultQueue()

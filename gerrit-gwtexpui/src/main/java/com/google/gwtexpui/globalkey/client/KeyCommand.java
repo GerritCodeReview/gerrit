@@ -24,6 +24,7 @@ public abstract class KeyCommand implements KeyPressHandler {
   public static final int M_CTRL = 1 << 16;
   public static final int M_ALT = 2 << 16;
   public static final int M_META = 4 << 16;
+  public static final int M_SHIFT = 8 << 16;
 
   public static boolean same(final KeyCommand a, final KeyCommand b) {
     return a.getClass() == b.getClass() && a.helpText.equals(b.helpText);
@@ -57,6 +58,9 @@ public abstract class KeyCommand implements KeyPressHandler {
     }
     if ((keyMask & M_META) == M_META) {
       modifier(b, KeyConstants.I.keyMeta());
+    }
+    if ((keyMask & M_SHIFT) == M_SHIFT) {
+      modifier(b, KeyConstants.I.keyShift());
     }
 
     final char c = (char) (keyMask & 0xffff);

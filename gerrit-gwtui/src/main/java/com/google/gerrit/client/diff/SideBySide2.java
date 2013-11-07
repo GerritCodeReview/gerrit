@@ -316,10 +316,28 @@ public class SideBySide2 extends Screen {
             (header.hasNext() ? header.next : header.up).go();
           }
         })
-        .on("Shift-Alt-/", new Runnable() {
+        .on("Shift-/", new Runnable() {
           @Override
           public void run() {
             new ShowHelpCommand().onKeyPress(null);
+          }
+        })
+        .on("Ctrl-F", new Runnable() {
+          @Override
+          public void run() {
+            CodeMirror.handleVimKey(cm, "/");
+          }
+        })
+        .on("Space", new Runnable() {
+          @Override
+          public void run() {
+            CodeMirror.handleVimKey(cm, "<PageDown>");
+          }
+        })
+        .on("Ctrl-A", new Runnable() {
+          @Override
+          public void run() {
+            cm.execCommand("selectAll");
           }
         })
         .on("N", maybeNextVimSearch(cm))
@@ -336,9 +354,13 @@ public class SideBySide2 extends Screen {
     keysNavigation.add(new UpToChangeCommand2(revision, 0, 'u'));
     keysNavigation.add(new NoOpKeyCommand(0, 'j', PatchUtil.C.lineNext()));
     keysNavigation.add(new NoOpKeyCommand(0, 'k', PatchUtil.C.linePrev()));
+    keysNavigation.add(new NoOpKeyCommand(0, 'n', PatchUtil.C.chunkNext2()));
+    keysNavigation.add(new NoOpKeyCommand(0, 'p', PatchUtil.C.chunkPrev2()));
 
     keysAction = new KeyCommandSet(Gerrit.C.sectionActions());
     keysAction.add(new NoOpKeyCommand(0, 'o', PatchUtil.C.expandComment()));
+    keysAction.add(new NoOpKeyCommand(
+        KeyCommand.M_SHIFT, 'o', PatchUtil.C.expandAllCommentsOnCurrentLine()));
     keysAction.add(new KeyCommand(0, 'r', PatchUtil.C.toggleReviewed()) {
       @Override
       public void onKeyPress(KeyPressEvent event) {

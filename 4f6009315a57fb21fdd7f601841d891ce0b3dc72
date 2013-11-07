@@ -16,6 +16,24 @@
       "revId": "4f6009315a57fb21fdd7f601841d891ce0b3dc72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bef77598_0be4fd4f",
+        "filename": "gerrit-plugin-gwt-archetype/src/main/resources/META-INF/maven/archetype-metadata.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-07T07:22:24Z",
+      "side": 1,
+      "message": "Would be nice, but I have no idea how this could be done.",
+      "parentUuid": "9efd5175_32dfb07f",
+      "revId": "4f6009315a57fb21fdd7f601841d891ce0b3dc72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

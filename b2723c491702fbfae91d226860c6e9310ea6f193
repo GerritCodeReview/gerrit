@@ -16,6 +16,24 @@
       "revId": "b2723c491702fbfae91d226860c6e9310ea6f193",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e2631f7_2a2d7faf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-07T15:39:41Z",
+      "side": 1,
+      "message": "\u003e Why not to describe this in dev-plugins.txt\n GWT plugins are not yet described, this needs to be done\n first, but doesn\u0027t belong into this change. I plan to \n provide some documentation, but this will be seperate \n changes. I\u0027ll also publish my plugin which uses this, but\n it still needs some more work.\n\n \u003e create a working use case in cookbok-plugin\n This can only be done when \u0027gerrit-plugin-gwtui\u0027 is included \n in the Buck build, because GWT plugins depend on it. If it \n is not built by Buck then the cookbook plugin cannot depend \n on it.",
+      "parentUuid": "9e2631f7_8a162b62",
+      "revId": "b2723c491702fbfae91d226860c6e9310ea6f193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

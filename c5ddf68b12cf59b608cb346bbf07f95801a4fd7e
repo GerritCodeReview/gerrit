@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e2b3dc3_69002518",
+        "filename": "gerrit-plugin-gwtui/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-07T17:32:37Z",
+      "side": 1,
+      "message": "Why not glob this too?\n\n  srcs \u003d glob([SRC + \u0027**/*.java\u0027])",
+      "revId": "c5ddf68b12cf59b608cb346bbf07f95801a4fd7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_d22744c6",
+        "filename": "gerrit-plugin-gwtui/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-07T17:32:37Z",
+      "side": 1,
+      "message": "Missing / after java before **\n\nNeeds to include src/main/resources/**/* to pick up gerrit-plugin-gwtui/src/main/resources/com/google/gerrit/linker/computeUrlForPluginResource.js",
+      "revId": "c5ddf68b12cf59b608cb346bbf07f95801a4fd7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

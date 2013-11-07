@@ -1,0 +1,17 @@
+SRC = 'src/main/java/com/google/gerrit/'
+
+gwt_module(
+  name = 'client',
+  srcs = [
+    SRC + 'client/Plugin.java',
+    SRC + 'linker/GerritPluginLinker.java',
+    SRC + 'rebind/PluginGenerator.java',
+  ],
+  gwtxml = SRC + 'Plugin.gwt.xml',
+  resources = glob(['src/main/java**/*']),
+  deps = [
+    '//lib/gwt:user',
+    '//lib/gwt:dev',
+  ],
+  visibility = ['PUBLIC'],
+)

@@ -582,6 +582,8 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
 
       final List<String> args = new ArrayList<String>();
       addArg(args, "--change", event.change.id);
+      addArg(args, "--project", event.change.project);
+      addArg(args, "--branch", event.change.branch);
       addArg(args, "--changer", getDisplayName(account));
       addArg(args, "--old-topic", oldTopic);
       addArg(args, "--new-topic", event.change.topic);

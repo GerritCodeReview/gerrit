@@ -69,7 +69,6 @@ import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtexpui.globalkey.client.ShowHelpCommand;
 
 import net.codemirror.lib.CodeMirror;
-import net.codemirror.lib.CodeMirror.EventHandler;
 import net.codemirror.lib.CodeMirror.GutterClickHandler;
 import net.codemirror.lib.CodeMirror.LineClassWhere;
 import net.codemirror.lib.CodeMirror.LineHandle;
@@ -111,7 +110,6 @@ public class SideBySide2 extends Screen {
 
   private CodeMirror cmA;
   private CodeMirror cmB;
-  private CodeMirror lastFocused;
   private ScrollSynchronizer scrollingGlue;
   private HandlerRegistration resizeHandler;
   private JsArray<CommentInfo> publishedBase;
@@ -279,15 +277,7 @@ public class SideBySide2 extends Screen {
     cm.on("focus", new Runnable() {
       @Override
       public void run() {
-        lastFocused = cm;
         updateActiveLine(cm).run();
-      }
-    });
-    cm.on("contextmenu", new EventHandler() {
-      @Override
-      public void handle(CodeMirror instance, NativeEvent event) {
-        CodeMirror.setObjectProperty(event, "codemirrorIgnore", true);
-        lastFocused.focus();
       }
     });
     cm.addKeyMap(KeyMap.create()
@@ -316,10 +306,28 @@ public class SideBySide2 extends Screen {
             (header.hasNext() ? header.next : header.up).go();
           }
         })
-        .on("Shift-Alt-/", new Runnable() {
+        .on("Shift-/", new Runnable() {
           @Override
           public void run() {
             new ShowHelpCommand().onKeyPress(null);
+          }
+        })
+        .on("Ctrl-F", new Runnable() {
+          @Override
+          public void run() {
+            CodeMirror.handleVimKey(cm, "/");
+          }
+        })
+        .on("Space", new Runnable() {
+          @Override
+          public void run() {
+            CodeMirror.handleVimKey(cm, "<PageDown>");
+          }
+        })
+        .on("Ctrl-A", new Runnable() {
+          @Override
+          public void run() {
+            cm.execCommand("selectAll");
           }
         })
         .on("N", maybeNextVimSearch(cm))
@@ -336,9 +344,13 @@ public class SideBySide2 extends Screen {
     keysNavigation.add(new UpToChangeCommand2(revision, 0, 'u'));
     keysNavigation.add(new NoOpKeyCommand(0, 'j', PatchUtil.C.lineNext()));
     keysNavigation.add(new NoOpKeyCommand(0, 'k', PatchUtil.C.linePrev()));
+    keysNavigation.add(new NoOpKeyCommand(0, 'n', PatchUtil.C.chunkNext2()));
+    keysNavigation.add(new NoOpKeyCommand(0, 'p', PatchUtil.C.chunkPrev2()));
 
     keysAction = new KeyCommandSet(Gerrit.C.sectionActions());
     keysAction.add(new NoOpKeyCommand(0, 'o', PatchUtil.C.expandComment()));
+    keysAction.add(new NoOpKeyCommand(
+        KeyCommand.M_SHIFT, 'o', PatchUtil.C.expandAllCommentsOnCurrentLine()));
     keysAction.add(new KeyCommand(0, 'r', PatchUtil.C.toggleReviewed()) {
       @Override
       public void onKeyPress(KeyPressEvent event) {

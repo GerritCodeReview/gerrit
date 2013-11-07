@@ -45,7 +45,7 @@ public class Schema_74 extends SchemaVersion {
     // Grab all the groups since we don't have the cache available
     HashMap<AccountGroup.Id, AccountGroup.UUID> allGroups =
         new HashMap<AccountGroup.Id, AccountGroup.UUID>();
-    for( AccountGroup ag : db.accountGroups().all() ) {
+    for (AccountGroup ag : db.accountGroups().all()) {
       allGroups.put(ag.getId(), ag.getGroupUUID());
     }
 
@@ -58,54 +58,58 @@ public class Schema_74 extends SchemaVersion {
 
     // Iterate over all entries in account_group_includes
     Statement oldGroupIncludesStmt = conn.createStatement();
-    ResultSet oldGroupIncludes = oldGroupIncludesStmt.
-        executeQuery("SELECT * FROM account_group_includes");
-    while (oldGroupIncludes.next()) {
-      AccountGroup.Id oldGroupId =
-          new AccountGroup.Id(oldGroupIncludes.getInt("group_id"));
-      AccountGroup.Id oldIncludeId =
-          new AccountGroup.Id(oldGroupIncludes.getInt("include_id"));
-      AccountGroup.UUID uuidFromIncludeId = allGroups.get(oldIncludeId);
+    try {
+      ResultSet oldGroupIncludes = oldGroupIncludesStmt.
+          executeQuery("SELECT * FROM account_group_includes");
+      while (oldGroupIncludes.next()) {
+        AccountGroup.Id oldGroupId =
+            new AccountGroup.Id(oldGroupIncludes.getInt("group_id"));
+        AccountGroup.Id oldIncludeId =
+            new AccountGroup.Id(oldGroupIncludes.getInt("include_id"));
+        AccountGroup.UUID uuidFromIncludeId = allGroups.get(oldIncludeId);
 
-      // If we've got an include, but the group no longer exists, don't bother converting
-      if (uuidFromIncludeId == null) {
-        ui.message("Skipping group_id = \"" + oldIncludeId.get() +
-            "\", not a current group");
-        continue;
-      }
-
-      // Create the new include entry
-      AccountGroupById destIncludeEntry = new AccountGroupById(
-          new AccountGroupById.Key(oldGroupId, uuidFromIncludeId));
-
-      // Iterate over all the audits (for this group)
-      PreparedStatement oldAuditsQuery = conn.prepareStatement(
-          "SELECT * FROM account_group_includes_audit WHERE group_id=? AND include_id=?");
-      oldAuditsQuery.setInt(1, oldGroupId.get());
-      oldAuditsQuery.setInt(2, oldIncludeId.get());
-      ResultSet oldGroupIncludeAudits = oldAuditsQuery.executeQuery();
-      while (oldGroupIncludeAudits.next()) {
-        Account.Id addedBy = new Account.Id(oldGroupIncludeAudits.getInt("added_by"));
-        int removedBy = oldGroupIncludeAudits.getInt("removed_by");
-
-        // Create the new audit entry
-        AccountGroupByIdAud destAuditEntry =
-            new AccountGroupByIdAud(destIncludeEntry, addedBy,
-                oldGroupIncludeAudits.getTimestamp("added_on"));
-
-        // If this was a "removed on" entry, note that
-        if (removedBy > 0) {
-          destAuditEntry.removed(new Account.Id(removedBy),
-              oldGroupIncludeAudits.getTimestamp("removed_on"));
+        // If we've got an include, but the group no longer exists, don't bother converting
+        if (uuidFromIncludeId == null) {
+          ui.message("Skipping group_id = \"" + oldIncludeId.get() +
+              "\", not a current group");
+          continue;
         }
-        newIncludeAudits.add(destAuditEntry);
+
+        // Create the new include entry
+        AccountGroupById destIncludeEntry = new AccountGroupById(
+            new AccountGroupById.Key(oldGroupId, uuidFromIncludeId));
+
+        // Iterate over all the audits (for this group)
+        PreparedStatement oldAuditsQueryStmt = conn.prepareStatement(
+            "SELECT * FROM account_group_includes_audit WHERE group_id=? AND include_id=?");
+        try {
+          oldAuditsQueryStmt.setInt(1, oldGroupId.get());
+          oldAuditsQueryStmt.setInt(2, oldIncludeId.get());
+          ResultSet oldGroupIncludeAudits = oldAuditsQueryStmt.executeQuery();
+          while (oldGroupIncludeAudits.next()) {
+            Account.Id addedBy = new Account.Id(oldGroupIncludeAudits.getInt("added_by"));
+            int removedBy = oldGroupIncludeAudits.getInt("removed_by");
+
+            // Create the new audit entry
+            AccountGroupByIdAud destAuditEntry =
+                new AccountGroupByIdAud(destIncludeEntry, addedBy,
+                    oldGroupIncludeAudits.getTimestamp("added_on"));
+
+            // If this was a "removed on" entry, note that
+            if (removedBy > 0) {
+              destAuditEntry.removed(new Account.Id(removedBy),
+                  oldGroupIncludeAudits.getTimestamp("removed_on"));
+            }
+            newIncludeAudits.add(destAuditEntry);
+          }
+          newIncludes.add(destIncludeEntry);
+        } finally {
+          oldAuditsQueryStmt.close();
+        }
       }
-      newIncludes.add(destIncludeEntry);
-      oldAuditsQuery.close();
-      oldGroupIncludeAudits.close();
+    } finally {
+      oldGroupIncludesStmt.close();
     }
-    oldGroupIncludes.close();
-    oldGroupIncludesStmt.close();
 
     // Now insert all of the new entries to the database
     db.accountGroupById().insert(newIncludes);

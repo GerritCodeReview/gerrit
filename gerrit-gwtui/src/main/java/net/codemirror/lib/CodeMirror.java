@@ -277,11 +277,6 @@ public class CodeMirror extends JavaScriptObject {
     return this.display.scrollbarV;
   }-*/;
 
-  public static final native void setObjectProperty(JavaScriptObject obj,
-      String name, boolean value) /*-{
-    obj[name] = value;
-  }-*/;
-
   public static final native KeyMap cloneKeyMap(String name) /*-{
     var i = $wnd.CodeMirror.keyMap[name];
     var o = {};
@@ -289,6 +284,10 @@ public class CodeMirror extends JavaScriptObject {
       if (i.hasOwnProperty(n))
         o[n] = i[n];
     return o;
+  }-*/;
+
+  public final native void execCommand(String cmd) /*-{
+    this.execCommand(cmd);
   }-*/;
 
   public static final native void addKeyMap(String name, KeyMap km) /*-{

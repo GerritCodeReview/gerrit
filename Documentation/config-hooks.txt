@@ -126,7 +126,7 @@ topic-changed
 Called whenever a change's topic is changed from the Web UI or via the REST API.
 
 ====
-  topic-changed --change <change id> --changer <changer> --old-topic <old topic> --new-topic <new topic>
+  topic-changed --change <change id> --project <project name> --branch <branch> --changer <changer> --old-topic <old topic> --new-topic <new topic>
 ====
 
 cla-signed

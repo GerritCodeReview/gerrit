@@ -291,6 +291,10 @@ public class CodeMirror extends JavaScriptObject {
     return o;
   }-*/;
 
+  public final native void execCommand(String cmd) /*-{
+    this.execCommand(cmd);
+  }-*/;
+
   public static final native void addKeyMap(String name, KeyMap km) /*-{
     $wnd.CodeMirror.keyMap[name] = km;
   }-*/;

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "bef77598_eb2a5190",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-07T17:10:46Z",
+      "side": 1,
+      "message": "\"GWT plugins are not yet described\"\n\nThis change enhances JS API and this is described in great detail in JS API documentation: \"Documentation/js-api.txt\", with a lof of samples. May be add it there?\n\n\"I\u0027ll also publish my plugin which uses this, but it still needs some more work\"\n\n+1. I still hope, we can add a common use case to the cookbook-plugin.\n\n\"If it is not built by Buck then the cookbook plugin cannot depend\"\n\nFixed in\n\n  https://gerrit-review.googlesource.com/51511",
+      "parentUuid": "9e2631f7_2a2d7faf",
+      "revId": "b2723c491702fbfae91d226860c6e9310ea6f193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9efd5175_523cf4e1",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/api/JavaScriptRestApi.java",
         "patchSetId": 1

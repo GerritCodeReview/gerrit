@@ -650,16 +650,17 @@ this can be specified by setting `scope = CapabilityScope.CORE`:
 UI Extension
 ------------
 
-Plugins can contribute their own UI actions on core Gerrit pages.
-This is useful for workflow customization or exposing plugin functionality
-through the UI in addition to SSH commands and the REST API.
+Plugins can contribute UI actions on core Gerrit pages. This is useful
+for workflow customization or exposing plugin functionality through the
+UI in addition to SSH commands and the REST API.
 
-For instance a plugin to integrate Jira with Gerrit changes may contribute its
-own "File bug" button to allow filing a bug from the change page or plugins to
-integrate continuous integration systems may contribute a "Schedule" button to
-allow a CI build to be scheduled manually from the patch set panel.
+For instance a plugin to integrate Jira with Gerrit changes may
+contribute a "File bug" button to allow filing a bug from the change
+page or plugins to integrate continuous integration systems may
+contribute a "Schedule" button to allow a CI build to be scheduled
+manually from the patch set panel.
 
-Two different places on core Gerrit pages are currently supported:
+Two different places on core Gerrit pages are supported:
 
 * Change screen
 * Project info screen
@@ -768,7 +769,8 @@ public class Module extends AbstractModule {
 }
 ----
 
-The module above must be declared in pom.xml for Maven driven plugins:
+The module above must be declared in the `pom.xml` for Maven driven
+plugins:
 
 [source,xml]
 ----
@@ -777,7 +779,7 @@ The module above must be declared in pom.xml for Maven driven plugins:
 </manifestEntries>
 ----
 
-or in the BUCK configuration file for Buck driven plugins:
+or in the `BUCK` configuration file for Buck driven plugins:
 
 [source,python]
 ----
@@ -832,7 +834,8 @@ public class HttpModule extends HttpPluginModule {
 }
 ----
 
-The HTTP module above must be declared in pom.xml for Maven driven plugins:
+The HTTP module above must be declared in the `pom.xml` for Maven
+driven plugins:
 
 [source,xml]
 ----
@@ -841,7 +844,7 @@ The HTTP module above must be declared in pom.xml for Maven driven plugins:
 </manifestEntries>
 ----
 
-or in the BUCK configuration file for Buck driven plugins
+or in the `BUCK` configuration file for Buck driven plugins
 
 [source,python]
 ----
@@ -858,7 +861,7 @@ case.
 The following prerequisities must be met, to satisfy the capability check:
 
 * user is authenticated
-* user is a member of the Administrators group, or
+* user is a member of a group which has the `Administrate Server` capability, or
 * user is a member of a group which has the required capability
 
 The `apply` method is called when the button is clicked. If `UiAction` is
@@ -878,7 +881,7 @@ can be accessed from any REST client, i. e.:
 ====
 
 A special case is to bind an endpoint without a view name.  This is
-particularly useful for DELETE requests:
+particularly useful for `DELETE` requests:
 
 [source,java]
 ----

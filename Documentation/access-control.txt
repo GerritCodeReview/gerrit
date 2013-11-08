@@ -822,6 +822,10 @@ The change owner, branch owners, project owners, and site administrators
 can always edit the topic name (even without having the `Edit Topic Name`
 access right assigned).
 
+Whether the topic can be edited on closed changes can be controlled
+by the 'Force Edit' flag. If this flag is not set the topic can only be
+edited on open changes.
+
 
 Examples of typical roles in a project
 --------------------------------------

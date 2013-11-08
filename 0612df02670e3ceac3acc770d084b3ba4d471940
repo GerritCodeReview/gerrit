@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e1a41b4_861d8a7a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/StarredChanges.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-08T20:06:05Z",
+      "side": 1,
+      "message": "I would have preferred this to use a nested collection, and remove the batching update altogether.",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 21
+      },
+      "revId": "0612df02670e3ceac3acc770d084b3ba4d471940",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

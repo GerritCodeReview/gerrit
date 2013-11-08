@@ -16,6 +16,24 @@
       "revId": "a75e1e48b590e4bfe6923af703a9061623e4aa72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e2631f7_4a8a7351",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/StarredChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-08T07:10:12Z",
+      "side": 1,
+      "message": "Added missing test cases.\n\n\"Also, what happens if you pass the same change in the \"on\" and \"off\" lists?\"\n\noff list wins, because the order of SQL statements:\n\n    db.starredChanges().insert(add);\n    db.starredChanges().deleteKeys(remove);\n\nTest cases was added for this case too.",
+      "parentUuid": "7e2b3dc3_89447962",
+      "revId": "a75e1e48b590e4bfe6923af703a9061623e4aa72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

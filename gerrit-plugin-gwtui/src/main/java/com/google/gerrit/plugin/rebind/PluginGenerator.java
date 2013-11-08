@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.rebind;
+package com.google.gerrit.plugin.rebind;
 
 import java.io.PrintWriter;
 

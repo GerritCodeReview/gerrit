@@ -26,6 +26,7 @@ maven_jar(
   license = 'jgit',
   repository = REPO,
   deps = [':jgit'],
+  unsign = True,
   exclude = [
     'about.html',
     'plugin.properties',
@@ -38,6 +39,7 @@ maven_jar(
   sha1 = 'a8b47bb41cec25b1d128f7d267badbc7dcf6d9aa',
   license = 'DO_NOT_DISTRIBUTE',
   repository = REPO,
+  unsign = True,
   deps = [':jgit'],
 )
 

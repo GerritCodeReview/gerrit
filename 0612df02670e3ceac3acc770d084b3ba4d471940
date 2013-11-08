@@ -40,6 +40,24 @@
       "revId": "0612df02670e3ceac3acc770d084b3ba4d471940",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e2545ef_6737b2ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/StarredChanges.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-08T20:17:56Z",
+      "side": 1,
+      "message": "Sure, we could do it on master, but then the old API has to remain in 2.8.\n\nI\u0027m working on updating this change to what I was thinking. I\u0027ll upload a new revision in a few hours. Let me know if I should send it to master instead.",
+      "parentUuid": "bef77598_0bea3dce",
+      "revId": "0612df02670e3ceac3acc770d084b3ba4d471940",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

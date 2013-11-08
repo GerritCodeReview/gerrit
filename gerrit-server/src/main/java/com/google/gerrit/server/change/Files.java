@@ -37,7 +37,6 @@ import com.google.gerrit.server.change.FileInfoJson.FileInfo;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -45,9 +44,9 @@ import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -219,23 +218,49 @@ class Files implements ChildCollection<RevisionResource, FileResource> {
           List<String> pathList = Lists.newArrayListWithCapacity(sz);
 
           RevWalk rw = new RevWalk(reader);
-          RevTree o = rw.parseCommit(oldList.getNewId()).getTree();
-          RevTree c = rw.parseCommit(curList.getNewId()).getTree();
-          for (PatchListEntry p : curList.getPatches()) {
-            String path = p.getNewName();
-            if (!Patch.COMMIT_MSG.equals(path) && paths.contains(path)) {
-              TreeWalk tw = TreeWalk.forPath(reader, path, o, c);
-              if (tw != null
-                  && tw.getRawMode(0) != 0
-                  && tw.getRawMode(1) != 0
-                  && tw.idEqual(0, 1)) {
-                inserts.add(new AccountPatchReview(
-                    new Patch.Key(
-                        resource.getPatchSet().getId(),
-                        path),
-                      userId));
-                pathList.add(path);
-              }
+          TreeWalk tw = new TreeWalk(reader);
+          tw.setFilter(PathFilterGroup.createFromStrings(paths));
+          tw.setRecursive(true);
+          int o = tw.addTree(rw.parseCommit(oldList.getNewId()).getTree());
+          int c = tw.addTree(rw.parseCommit(curList.getNewId()).getTree());
+
+          int op = -1;
+          if (oldList.getOldId() != null) {
+            op = tw.addTree(rw.parseCommit(oldList.getOldId()).getTree());
+          }
+
+          int cp = -1;
+          if (curList.getOldId() != null) {
+            cp = tw.addTree(rw.parseCommit(curList.getOldId()).getTree());
+          }
+
+          while (tw.next()) {
+            String path = tw.getPathString();
+            if (tw.getRawMode(o) != 0 && tw.getRawMode(c) != 0
+                && tw.idEqual(o, c)
+                && paths.contains(path)) {
+              // File exists in previously reviewed oldList and in curList.
+              // File content is identical.
+              inserts.add(new AccountPatchReview(
+                  new Patch.Key(
+                      resource.getPatchSet().getId(),
+                      path),
+                    userId));
+              pathList.add(path);
+            } else if (op >= 0 && cp >= 0
+                && tw.getRawMode(o) == 0 && tw.getRawMode(c) == 0
+                && tw.getRawMode(op) != 0 && tw.getRawMode(cp) != 0
+                && tw.idEqual(op, cp)
+                && paths.contains(path)) {
+              // File was deleted in previously reviewed oldList and curList.
+              // File exists in ancestor of oldList and curList.
+              // File content is identical in ancestors.
+              inserts.add(new AccountPatchReview(
+                  new Patch.Key(
+                      resource.getPatchSet().getId(),
+                      path),
+                    userId));
+              pathList.add(path);
             }
           }
           db.get().accountPatchReviews().insert(inserts);

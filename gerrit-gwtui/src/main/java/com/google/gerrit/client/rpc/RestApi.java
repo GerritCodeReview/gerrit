@@ -336,6 +336,11 @@ public class RestApi {
     send(PUT, cb);
   }
 
+  public <T extends JavaScriptObject> void put(String content,
+      AsyncCallback<T> cb) {
+    sendRaw(PUT, content, cb);
+  }
+
   public <T extends JavaScriptObject> void put(
       JavaScriptObject content,
       AsyncCallback<T> cb) {

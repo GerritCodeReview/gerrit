@@ -135,6 +135,14 @@ public class ActionContext extends JavaScriptObject {
   }
 
   static final void post(RestApi api, JavaScriptObject in, JavaScriptObject cb) {
+    if (NativeString.is(in)) {
+      post(api, ((NativeString) in).asString(), cb);
+    } else {
+      api.post(in, wrap(cb));
+    }
+  }
+
+  static final void post(RestApi api, String in, JavaScriptObject cb) {
     api.post(in, wrap(cb));
   }
 
@@ -143,6 +151,14 @@ public class ActionContext extends JavaScriptObject {
   }
 
   static final void put(RestApi api, JavaScriptObject in, JavaScriptObject cb) {
+    if (NativeString.is(in)) {
+      put(api, ((NativeString) in).asString(), cb);
+    } else {
+      api.put(in, wrap(cb));
+    }
+  }
+
+  static final void put(RestApi api, String in, JavaScriptObject cb) {
     api.put(in, wrap(cb));
   }
 

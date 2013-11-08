@@ -15,18 +15,21 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.common.data.ToggleStarRequest;
+import com.google.gerrit.client.account.AccountApi;
+import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
-import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.web.bindery.event.shared.Event;
 import com.google.web.bindery.event.shared.HandlerRegistration;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /** Supports the star icon displayed on changes and tracking the status. */
 public class StarredChanges {
@@ -105,57 +108,52 @@ public class StarredChanges {
   public static void toggleStar(
       final Change.Id changeId,
       final boolean newValue) {
-    if (next == null) {
-      next = new ToggleStarRequest();
-    }
-    next.toggle(changeId, newValue);
+    pending.put(changeId, newValue);
     fireChangeStarEvent(changeId, newValue);
     if (!busy) {
-      start();
+      startRequest();
     }
   }
 
-  private static ToggleStarRequest next;
   private static boolean busy;
+  private static final Map<Change.Id, Boolean> pending =
+      new LinkedHashMap<Change.Id, Boolean>(4);
 
-  private static void start() {
-    final ToggleStarRequest req = next;
-    next = null;
+  private static void startRequest() {
     busy = true;
 
-    Util.LIST_SVC.toggleStars(req, new GerritCallback<VoidResult>() {
+    final Change.Id id = pending.keySet().iterator().next();
+    final boolean starred = pending.get(id);
+    RestApi call = AccountApi.self().view("starred.changes").id(id.get());
+    AsyncCallback<ChangeInfo> cb = new AsyncCallback<ChangeInfo>() {
       @Override
-      public void onSuccess(VoidResult result) {
-        if (next != null) {
-          start();
-        } else {
+      public void onSuccess(ChangeInfo result) {
+        pending.remove(id);
+        if (pending.isEmpty()) {
           busy = false;
+        } else {
+          startRequest();
         }
       }
 
       @Override
       public void onFailure(Throwable caught) {
-        rollback(req);
-        if (next != null) {
-          rollback(next);
-          next = null;
+        if (!starred && RestApi.isStatus(caught, 404)) {
+          onSuccess(null);
+          return;
         }
-        busy = false;
-        super.onFailure(caught);
-      }
-    });
-  }
 
-  private static void rollback(ToggleStarRequest req) {
-    if (req.getAddSet() != null) {
-      for (Change.Id id : req.getAddSet()) {
-        fireChangeStarEvent(id, false);
+        for (Map.Entry<Change.Id, Boolean> e : pending.entrySet()) {
+          fireChangeStarEvent(e.getKey(), !e.getValue());
+        }
+        pending.clear();
+        busy = false;
       }
-    }
-    if (req.getRemoveSet() != null) {
-      for (Change.Id id : req.getRemoveSet()) {
-        fireChangeStarEvent(id, true);
-      }
+    };
+    if (starred) {
+      call.put(cb);
+    } else {
+      call.delete(cb);
     }
   }
 

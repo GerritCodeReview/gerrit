@@ -58,6 +58,24 @@
       "revId": "0612df02670e3ceac3acc770d084b3ba4d471940",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e2631f7_8a4e2b51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/StarredChanges.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-08T20:38:58Z",
+      "side": 1,
+      "message": "If you do that, then it can stay on stable-2.8.",
+      "parentUuid": "3e2545ef_6737b2ff",
+      "revId": "0612df02670e3ceac3acc770d084b3ba4d471940",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

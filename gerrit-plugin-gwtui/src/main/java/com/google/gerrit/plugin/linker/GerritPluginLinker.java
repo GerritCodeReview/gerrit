@@ -12,18 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client;
+package com.google.gerrit.plugin.linker;
 
-import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.ext.LinkerContext;
+import com.google.gwt.core.linker.CrossSiteIframeLinker;
 
-/**
- * Base class for writing Gerrit Web UI plugins
- *
- * Writing a plugin:
- * <ol>
- * <li>Declare subtype of Plugin</li>
- * <li>Bind WebUiPlugin to GwtPlugin implementation in Gerrit-Module</li>
- * </ol>
- */
-public abstract class Plugin implements EntryPoint {
+/** Finalizes the module manifest file with the selection script. */
+public final class GerritPluginLinker extends CrossSiteIframeLinker {
+  @Override
+  public String getDescription() {
+    return "Gerrit GWT UI plugin";
+  }
+
+  @Override
+  protected String getJsComputeUrlForResource(LinkerContext context) {
+    return "com/google/gerrit/linker/computeUrlForPluginResource.js";
+  }
 }

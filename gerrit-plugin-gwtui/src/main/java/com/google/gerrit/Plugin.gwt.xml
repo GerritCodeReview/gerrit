@@ -14,10 +14,10 @@
  limitations under the License.
 -->
 <module>
-  <define-linker name="gerrit_plugin" class="com.google.gerrit.linker.GerritPluginLinker"/>
+  <define-linker name="gerrit_plugin" class="com.google.gerrit.plugin.linker.GerritPluginLinker"/>
   <add-linker name="gerrit_plugin"/>
-  <generate-with class="com.google.gerrit.rebind.PluginGenerator">
-    <when-type-assignable class="com.google.gerrit.client.Plugin"/>
+  <generate-with class="com.google.gerrit.plugin.rebind.PluginGenerator">
+    <when-type-assignable class="com.google.gerrit.plugin.client.Plugin"/>
   </generate-with>
-  <source path="client"/>
+  <source path="plugin/client"/>
 </module>

@@ -17,7 +17,9 @@ package com.google.gerrit.server.account;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.change.ChangeResource;
 import com.google.inject.TypeLiteral;
 
 public class AccountResource implements RestResource {
@@ -32,6 +34,9 @@ public class AccountResource implements RestResource {
 
   public static final TypeLiteral<RestView<SshKey>> SSH_KEY_KIND =
       new TypeLiteral<RestView<SshKey>>() {};
+
+  public static final TypeLiteral<RestView<StarredChange>> STARRED_CHANGE_KIND =
+      new TypeLiteral<RestView<StarredChange>>() {};
 
   private final IdentifiedUser user;
 
@@ -88,6 +93,19 @@ public class AccountResource implements RestResource {
 
     public AccountSshKey getSshKey() {
       return sshKey;
+    }
+  }
+
+  public static class StarredChange extends AccountResource {
+    private final ChangeResource change;
+
+    public StarredChange(IdentifiedUser user, ChangeResource change) {
+      super(user);
+      this.change = change;
+    }
+
+    public Change getChange() {
+      return change.getChange();
     }
   }
 }

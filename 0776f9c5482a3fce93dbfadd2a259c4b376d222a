@@ -16,6 +16,24 @@
       "revId": "0776f9c5482a3fce93dbfadd2a259c4b376d222a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bef77598_6baae19e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/api/ApiGlue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-08T11:49:31Z",
+      "side": 1,
+      "message": "I don\u0027t know much about JavaScript, but AFIK you cannot overload functions in JavaScript, e.g. you cannot have two \u0027put\u0027 functions with a different number of parameters. I was told that the way I did it is a common workaround for this, but I\u0027m open for other proposal. How would I pass an empty JavaScriptObject and how would I detect here that it is empty?",
+      "parentUuid": "bef77598_cbc3156e",
+      "revId": "0776f9c5482a3fce93dbfadd2a259c4b376d222a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

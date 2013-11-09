@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "9e2631f7_6ab937b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-09T10:18:24Z",
+      "side": 1,
+      "message": "Done\n\nSplitted into two changes. Turn the default for 2.9 release:\n\n https://gerrit-review.googlesource.com/#/c/51555\n\nRemove the old change screen for 3.0 release: this changed. Commit header was adjusted.",
+      "parentUuid": "7e2b3dc3_49c28140",
+      "revId": "61a838621dd3064b383ccab07d75d5a065193d4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e2b3dc3_a9c69d50",
         "filename": "/COMMIT_MSG",
         "patchSetId": 12
@@ -84,6 +102,24 @@
       "writtenOn": "2013-11-09T06:40:44Z",
       "side": 1,
       "message": "nit: most commits use \"issue\" lowercase.\n\n  $ git log | egrep \u0027Bug: issue \u0027 | wc -l\n     418\n  $ git log | egrep \u0027Bug: Issue \u0027 | wc -l\n      85",
+      "revId": "61a838621dd3064b383ccab07d75d5a065193d4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e2631f7_0ab4fbb9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-09T10:18:24Z",
+      "side": 1,
+      "message": "Done in\n\n https://gerrit-review.googlesource.com/51555",
+      "parentUuid": "7e2b3dc3_a9c69d50",
       "revId": "61a838621dd3064b383ccab07d75d5a065193d4d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

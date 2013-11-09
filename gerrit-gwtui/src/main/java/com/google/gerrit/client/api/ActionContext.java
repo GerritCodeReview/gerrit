@@ -138,6 +138,10 @@ public class ActionContext extends JavaScriptObject {
     api.post(in, wrap(cb));
   }
 
+  static final void put(RestApi api, JavaScriptObject cb) {
+    api.put(wrap(cb));
+  }
+
   static final void put(RestApi api, JavaScriptObject in, JavaScriptObject cb) {
     api.put(in, wrap(cb));
   }

@@ -1,4 +1,5 @@
 include_defs('//tools/build.defs')
+include_defs('//tools/plugins.defs')
 
 java_library(
   name = 'classpath',
@@ -16,5 +17,5 @@ java_library(
     '//lib/asciidoctor:doc_indexer_lib',
     '//lib/prolog:compiler_lib',
     '//Documentation:index_lib',
-  ] + scan_plugins(),
+  ] + [d + '__plugin__compile' for d in list_plugins()],
 )

@@ -87,6 +87,7 @@ def gen_classpath():
   gwt_lib = set()
 
   java_library = re.compile(r'[^/]+/gen/(.*)/lib__[^/]+__output/[^/]+[.]jar$')
+  mock_plugin = re.compile(r'[^/]+/gen/plugins/lib__[^/]+/(.*)__plugin__compile[.]jar$')
   for p in query_classpath(MAIN):
     if p.endswith('-src.jar'):
       # gwt_module() depends on -src.jar for Java to JavaScript compiles.
@@ -98,6 +99,11 @@ def gen_classpath():
       # incorrect versions of classes for Gerrit. Collect into
       # a private grouping for later use.
       gwt_lib.add(p)
+      continue
+
+    m = mock_plugin.match(p)
+    if m:
+      src.add('plugins/%s' % m.group(1))
       continue
 
     m = java_library.match(p)

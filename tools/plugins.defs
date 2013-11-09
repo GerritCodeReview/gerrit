@@ -1,0 +1,111 @@
+# Copyright (C) 2013 The Android Open Source Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+from os import listdir, path
+from xml.dom import minidom
+
+def filter_existing_missing(names):
+  """buck audit parses and resolves all deps even if not reachable
+     from the root(s) passed to audit. Filter dependencies to only
+     the ones that currently exist to allow buck to parse cleanly.
+     TODO(sop): buck should more lazily resolve deps
+  """
+  h, n = [], []
+  for p in names:
+    if path.exists(path.join('plugins', p, 'BUCK')):
+      h.append(p)
+    else:
+      n.append(p)
+  return h, n
+
+def list_plugins():
+  targets = []
+  for n in listdir('plugins'):
+    if path.exists(path.join('plugins', n, 'BUCK')):
+      targets.append('//plugins/%s:%s' % (n, n))
+    elif path.exists(path.join('plugins', n, 'pom.xml')):
+      targets.append('//plugins:%s' % n)
+  return targets
+
+def generate_plugins_from_pom_xml():
+  for n in listdir('plugins'):
+    if path.exists(path.join('plugins', n, 'BUCK')):
+      continue
+    elif path.exists(path.join('plugins', n, 'pom.xml')):
+      _plugin_from_pom_xml(n)
+
+def _plugin_from_pom_xml(name):
+  d = minidom.parse(path.join('plugins', name, 'pom.xml'))
+
+  gerrit_plugin(
+    name = name,
+    srcs = glob([name + '/src/main/java/**/*.java']),
+    resources = glob([name + '/src/main/resources/**/*.java']),
+    deps = _dependencies(d),
+    manifest_entries = _manifest_from_pom_xml(d),
+  )
+
+_DEPS = {}
+def _dependencies(d):
+  need = []
+  for e in d.getElementsByTagName('dependency'):
+    g = _text(e.getElementsByTagName('groupId'))
+    a = _text(e.getElementsByTagName('artifactId'))
+    v = _text(e.getElementsByTagName('version'))
+    if g != 'com.google.gerrit':
+      need.append(':'.join([g, a, v]))
+  if not need:
+    return []
+
+  if not _DEPS:
+    include_defs('//lib/maven.defs')
+
+  deps = []
+  for id in need:
+    n = id.replace(':', '-')
+    if n not in _DEPS:
+      maven_jar(name = n, id = id, license = 'DO_NOT_DISTRIBUTE')
+      _DEPS[n] = True
+    deps.append(':' + n)
+  return deps
+
+def _manifest_from_pom_xml(d):
+  TAGS = [
+    'Implementation-Title',
+    'Implementation-Vendor',
+    'Implementation-Vendor-URL',
+    'Gerrit-ApiType',
+    'Gerrit-ReloadMode',
+    'Gerrit-PluginName',
+    'Gerrit-InitStep',
+    'Gerrit-Module',
+    'Gerrit-SshModule',
+    'Gerrit-HttpModule',
+  ]
+  r = []
+  for tagName in TAGS:
+    t = d.getElementsByTagName(tagName)
+    if t:
+      v = _text(t)
+      if '${' not in v:
+        r.append('%s: %s' % (tagName, v))
+  return r
+
+def _text(e):
+  r = []
+  if e:
+    for n in e[0].childNodes:
+      if n.nodeType == n.TEXT_NODE:
+        r.append(n.data)
+  return ''.join(r)

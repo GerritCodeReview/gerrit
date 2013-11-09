@@ -34,6 +34,24 @@
       "revId": "f070ca77bdaa3874d2805d9b796bcde176a46fe5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bef77598_ebf9b19f",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-09T03:29:23Z",
+      "side": 1,
+      "message": "Can\u0027t wait to see that bug fixed. Once merged, and rebased to stable-2.7 we should create a new patch releases for 2.6.x and 2.7.x.",
+      "parentUuid": "9efd5175_b2a3a0c5",
+      "revId": "f070ca77bdaa3874d2805d9b796bcde176a46fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

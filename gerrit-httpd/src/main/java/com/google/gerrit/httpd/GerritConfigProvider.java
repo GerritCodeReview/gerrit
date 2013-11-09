@@ -127,7 +127,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
         cfg, "change", null, "updateDelay", 30, TimeUnit.SECONDS));
     config.setChangeScreen(cfg.getEnum(
         "gerrit", null, "changeScreen",
-        AccountGeneralPreferences.ChangeScreen.OLD_UI));
+        AccountGeneralPreferences.ChangeScreen.CHANGE_SCREEN2));
 
     config.setReportBugUrl(cfg.getString("gerrit", null, "reportBugUrl"));
     if (config.getReportBugUrl() == null) {

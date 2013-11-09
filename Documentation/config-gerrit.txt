@@ -1372,7 +1372,7 @@ administrator's ticket queue.
 [[gerrit.changeScreen]]gerrit.changeScreen::
 +
 Default change screen UI to direct users to. Valid values are
-`OLD_UI` and `CHANGE_SCREEN2`. Default is `OLD_UI`.
+`OLD_UI` and `CHANGE_SCREEN2`. Default is `CHANGE_SCREEN2`.
 
 [[gitweb]]Section gitweb
 ~~~~~~~~~~~~~~~~~~~~~~~~

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e2b3dc3_49c28140",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T06:40:44Z",
+      "side": 1,
+      "message": "I think this may need to be broken into two commits:\n\n- make cs2 default (leave preferences and code)\n- delete old ChangeScreen\n\nI have agreed to keep the old ChangeScreen on chromium-review.googlesource.com until ~February or March of 2014. So I have to keep or revert that 2nd commit for a few months. :-(\n\nThe first change could be applied in master sooner, and I can use the server wide preference in gerrit.config to make old ChangeScreen default on a few of my servers for a while longer.",
+      "revId": "61a838621dd3064b383ccab07d75d5a065193d4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e2b3dc3_a9c69d50",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T06:40:44Z",
+      "side": 1,
+      "message": "nit: most commits use \"issue\" lowercase.\n\n  $ git log | egrep \u0027Bug: issue \u0027 | wc -l\n     418\n  $ git log | egrep \u0027Bug: Issue \u0027 | wc -l\n      85",
+      "revId": "61a838621dd3064b383ccab07d75d5a065193d4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

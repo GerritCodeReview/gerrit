@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9efd5175_72213887",
+        "filename": "contrib/manage-plugins.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T01:27:39Z",
+      "side": 1,
+      "message": "This is a very complex script. If you want additional plugins why not just clone the repository into the plugins/ subdirectory for Gerrit and add it to your .git/info/exclude file?\n\n  # pwd is top of gerrit\n\n  git clone https://gerrit.googlesource.com/plugins/foo plugins/foo\n  echo /plugins/foo \u003e\u003e.git/info/exclude\n  buck build plugins/foo:foo\n\n:-)",
+      "revId": "ed0666b361a982a9deeb7f505c7878975a6b81f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

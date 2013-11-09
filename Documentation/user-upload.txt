@@ -366,6 +366,15 @@ by setting the merge base SHA-1 using the '%base' argument:
   git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/master%base=$(git rev-parse origin/master)
 ====
 
+It is also possible to specify more than one '%base' argument.
+This may be useful when pushing a merge commit. Note that the '%'
+character has only to be provided once, for the first '%base'
+argument:
+
+====
+  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/master%base=commit-id1,base=commit-id2
+====
+
 
 repo upload
 -----------

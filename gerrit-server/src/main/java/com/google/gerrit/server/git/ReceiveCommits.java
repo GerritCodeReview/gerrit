@@ -981,10 +981,10 @@ public class ReceiveCommits {
     RefControl ctl;
     Set<Account.Id> reviewer = Sets.newLinkedHashSet();
     Set<Account.Id> cc = Sets.newLinkedHashSet();
-    RevCommit baseCommit;
+    List<RevCommit> baseCommit;
 
     @Option(name = "--base", metaVar = "BASE", usage = "merge base of changes")
-    ObjectId base;
+    List<ObjectId> base;
 
     @Option(name = "--topic", metaVar = "NAME", usage = "attach topic to changes")
     String topic;
@@ -1135,20 +1135,24 @@ public class ReceiveCommits {
 
     RevWalk walk = rp.getRevWalk();
     if (magicBranch.base != null) {
-      try {
-        magicBranch.baseCommit = walk.parseCommit(magicBranch.base);
-      } catch (IncorrectObjectTypeException notCommit) {
-        reject(cmd, "base must be a commit");
-        return;
-      } catch (MissingObjectException e) {
-        reject(cmd, "base not found");
-        return;
-      } catch (IOException e) {
-        log.warn(String.format(
-            "Project %s cannot read %s",
-            project.getName(), magicBranch.base.name()), e);
-        reject(cmd, "internal server error");
-        return;
+      magicBranch.baseCommit = Lists.newArrayListWithCapacity(
+          magicBranch.base.size());
+      for (ObjectId id : magicBranch.base) {
+        try {
+          magicBranch.baseCommit.add(walk.parseCommit(id));
+        } catch (IncorrectObjectTypeException notCommit) {
+          reject(cmd, "base must be a commit");
+          return;
+        } catch (MissingObjectException e) {
+          reject(cmd, "base not found");
+          return;
+        } catch (IOException e) {
+          log.warn(String.format(
+              "Project %s cannot read %s",
+              project.getName(), id.name()), e);
+          reject(cmd, "internal server error");
+          return;
+        }
       }
     }
 
@@ -1288,7 +1292,9 @@ public class ReceiveCommits {
       Set<ObjectId> existing = Sets.newHashSet();
       walk.markStart(walk.parseCommit(magicBranch.cmd.getNewId()));
       if (magicBranch.baseCommit != null) {
-        walk.markUninteresting(magicBranch.baseCommit);
+        for (RevCommit c : magicBranch.baseCommit) {
+          walk.markUninteresting(c);
+        }
         assert magicBranch.ctl != null;
         Ref targetRef = allRefs.get(magicBranch.ctl.getRefName());
         if (targetRef != null) {

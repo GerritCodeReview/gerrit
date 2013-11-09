@@ -626,7 +626,8 @@ public class SideBySide2 extends Screen {
     manager.insert(box, index);
     Configuration config = Configuration.create()
       .set("coverGutter", true)
-      .set("insertAt", index);
+      .set("insertAt", index)
+      .set("noHScroll", true);
     LineWidget boxWidget = cm.addLineWidget(line, box.getElement(), config);
     box.setPaddingManager(manager);
     box.setSelfWidgetWrapper(new PaddingWidgetWrapper(boxWidget, box.getElement()));
@@ -793,29 +794,25 @@ public class SideBySide2 extends Screen {
 
   private SkipBar renderSkipHelper(CodeMirror cm, SkippedLine skip) {
     int size = skip.getSize();
-    int markStart = cm == cmA ? skip.getStartA() - 1 : skip.getStartB() - 1;
+    int markStart = cm == cmA ? skip.getStartA() : skip.getStartB();
     int markEnd = markStart + size;
     SkipBar bar = new SkipBar(cm);
     diffTable.add(bar);
-    /**
-     * Due to CodeMirror limitation, there's no way to make the first
-     * line disappear completely, and CodeMirror doesn't like manually
-     * setting the display of a line to "none". The workaround here uses
-     * inline widget for the first line and regular line widgets for others.
-     */
-    Configuration markerConfig;
-    if (markStart == -1) {
-      markerConfig = Configuration.create()
+    Configuration markerConfig = Configuration.create()
+        .set("collapsed", true)
         .set("inclusiveLeft", true)
-        .set("inclusiveRight", true)
-        .set("replacedWith", bar.getElement());
-      cm.addLineClass(0, LineClassWhere.WRAP, DiffTable.style.hideNumber());
+        .set("inclusiveRight", true);
+    Configuration lineWidgetConfig = Configuration.create()
+        .set("coverGutter", true)
+        .set("noHScroll", true);
+    if (markStart == 0) {
+      bar.setWidget(cm.addLineWidget(
+          markEnd + 1, bar.getElement(), lineWidgetConfig.set("above", true)));
     } else {
-      markerConfig = Configuration.create().set("collapsed", true);
-      Configuration config = Configuration.create().set("coverGutter", true);
-      bar.setWidget(cm.addLineWidget(markStart, bar.getElement(), config));
+      bar.setWidget(cm.addLineWidget(
+          markStart - 1, bar.getElement(), lineWidgetConfig));
     }
-    bar.setMarker(cm.markText(CodeMirror.pos(markStart),
+    bar.setMarker(cm.markText(CodeMirror.pos(markStart, 0),
         CodeMirror.pos(markEnd), markerConfig), size);
     return bar;
   }
@@ -894,7 +891,8 @@ public class SideBySide2 extends Screen {
     div.getStyle().setHeight(height, unit);
     Configuration config = Configuration.create()
         .set("coverGutter", true)
-        .set("above", line == -1);
+        .set("above", line == -1)
+        .set("noHScroll", true);
     if (index != null) {
       config = config.set("insertAt", index);
     }

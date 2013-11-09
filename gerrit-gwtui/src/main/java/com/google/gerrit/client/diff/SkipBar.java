@@ -30,7 +30,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 
 import net.codemirror.lib.CodeMirror;
-import net.codemirror.lib.CodeMirror.LineClassWhere;
 import net.codemirror.lib.Configuration;
 import net.codemirror.lib.LineWidget;
 import net.codemirror.lib.TextMarker;
@@ -42,8 +41,10 @@ class SkipBar extends Composite {
   private static final Binder uiBinder = GWT.create(Binder.class);
   private static final int NUM_ROWS_TO_EXPAND = 10;
   private static final int UP_DOWN_THRESHOLD = 30;
-  private static final Configuration COLLAPSED =
-      Configuration.create().set("collapsed", true);
+  private static final Configuration MARKER_CONFIG = Configuration.create()
+      .set("collapsed", true)
+      .set("inclusiveLeft", true)
+      .set("inclusiveRight", true);
 
   private LineWidget widget;
 
@@ -124,11 +125,8 @@ class SkipBar extends Composite {
 
   private void clearMarkerAndWidget() {
     marker.clear();
-    if (widget != null) {
-      widget.clear();
-    } else {
-      cm.removeLineClass(0, LineClassWhere.WRAP, DiffTable.style.hideNumber());
-    }
+    assert (widget != null);
+    widget.clear();
   }
 
   private void expandAll() {
@@ -143,10 +141,12 @@ class SkipBar extends Composite {
     int newStart = oldStart + NUM_ROWS_TO_EXPAND;
     int end = fromTo.getTo().getLine();
     clearMarkerAndWidget();
-    marker = cm.markText(CodeMirror.pos(newStart), CodeMirror.pos(end), COLLAPSED);
-    Configuration config = Configuration.create().set("coverGutter", true);
-    LineWidget newWidget = cm.addLineWidget(newStart, getElement(), config);
-    setWidget(newWidget);
+    marker = cm.markText(
+        CodeMirror.pos(newStart, 0), CodeMirror.pos(end), MARKER_CONFIG);
+    Configuration config = Configuration.create()
+        .set("coverGutter", true)
+        .set("noHScroll", true);
+    setWidget(cm.addLineWidget(newStart - 1, getElement(), config));
     updateSkipNum();
     cm.focus();
   }
@@ -157,17 +157,15 @@ class SkipBar extends Composite {
     int oldEnd = fromTo.getTo().getLine();
     int newEnd = oldEnd - NUM_ROWS_TO_EXPAND;
     marker.clear();
-    if (widget == null) { // First line workaround
-      marker = cm.markText(CodeMirror.pos(-1),
-          CodeMirror.pos(newEnd),
-          Configuration.create()
-            .set("inclusiveLeft", true)
-            .set("inclusiveRight", true)
-            .set("replacedWith", getElement()));
-    } else {
-      marker = cm.markText(CodeMirror.pos(start),
-          CodeMirror.pos(newEnd),
-          COLLAPSED);
+    marker = cm.markText(
+        CodeMirror.pos(start, 0), CodeMirror.pos(newEnd), MARKER_CONFIG);
+    if (start == 0) { // First line workaround
+      Configuration config = Configuration.create()
+          .set("coverGutter", true)
+          .set("noHScroll", true)
+          .set("above", true);
+      widget.clear();
+      setWidget(cm.addLineWidget(newEnd + 1, getElement(), config));
     }
     updateSkipNum();
     cm.focus();

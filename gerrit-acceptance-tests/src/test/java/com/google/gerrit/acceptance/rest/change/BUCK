@@ -38,4 +38,5 @@ java_library(
     '//lib:guava',
     '//gerrit-reviewdb:server',
   ],
+  visibility = ['//gerrit-acceptance-tests/...'],
 )

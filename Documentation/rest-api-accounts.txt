@@ -921,6 +921,84 @@ link:#diff-preferences-info[DiffPreferencesInfo] entity.
   }
 ----
 
+Get Starred Changes
+~~~~~~~~~~~~~~~~~~~
+[verse]
+'GET /accounts/link:#account-id[\{account-id\}]/starred.changes'
+
+Gets the changes starred by the identified user account. This
+URL endpoint is functionally identical to the changes query
+`GET /changes/?q=is:starred`. The result is a list of
+link:rest-api-changes.html#change-info[ChangeInfo] entities.
+
+.Request
+----
+  GET /a/accounts/self/starred.changes
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "kind": "gerritcodereview#change",
+      "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
+      "project": "myProject",
+      "branch": "master",
+      "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9940",
+      "subject": "Implementing Feature X",
+      "status": "NEW",
+      "created": "2013-02-01 09:59:32.126000000",
+      "updated": "2013-02-21 11:16:36.775000000",
+      "mergeable": true,
+      "_sortkey": "0023412400000f7d",
+      "_number": 3965,
+      "owner": {
+        "name": "John Doe"
+      }
+    }
+  ]
+----
+
+Star Change
+~~~~~~~~~~~
+[verse]
+'PUT /accounts/link:#account-id[\{account-id\}]/starred.changes/link:rest-api-changes.html#change-id[\{change-id\}]'
+
+Star a change. Starred changes are returned for the search query
+`is:starred` or `starredby:USER` and automatically notify the user
+whenever updates are made to the change.
+
+.Request
+----
+  PUT /a/accounts/self/starred.changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940 HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
+Unstar Change
+~~~~~~~~~~~~~
+[verse]
+'DELETE /accounts/link:#account-id[\{account-id\}]/starred.changes/link:rest-api-changes#change-id[\{change-id\}]'
+
+Unstar a change. Removes the starred flag, stopping notifications.
+
+.Request
+----
+  DELETE /a/accounts/self/starred.changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940 HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
 
 [[ids]]
 IDs

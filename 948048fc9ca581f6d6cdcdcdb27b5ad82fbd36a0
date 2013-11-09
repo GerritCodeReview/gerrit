@@ -33,6 +33,24 @@
       "revId": "948048fc9ca581f6d6cdcdcdb27b5ad82fbd36a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e1a41b4_26549617",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-11-09T03:07:34Z",
+      "side": 1,
+      "message": "Agreed, this was a super-dirty hack.  I didn\u0027t see any more direct way in GWT to disable an item in a ListBox, though...\n\nThese are the API docs I saw:\nhttp://www.gwtproject.org/javadoc/latest/com/google/gwt/user/client/ui/ListBox.html\n\nand this was the inspiration for the solution:\nhttp://stackoverflow.com/questions/6269878/gwt-listbox-how-to-have-a-listbox-item-disabled\n\nI don\u0027t particularly like mucking around in the DOM, but there\u0027s just not a more direct route I\u0027m aware of.  If you want to point one out, I\u0027ll be happy to fix this.",
+      "parentUuid": "9efd5175_52d87461",
+      "revId": "948048fc9ca581f6d6cdcdcdb27b5ad82fbd36a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

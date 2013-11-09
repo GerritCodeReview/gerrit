@@ -34,6 +34,24 @@
       "revId": "edddef2c1e0810e26678a490cb2734e7e93e513f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_f2a7e89e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T05:41:13Z",
+      "side": 1,
+      "message": "I think I just realized why, it needs the CurrentUser and ReviewDb. Yay.",
+      "parentUuid": "bef77598_ebd09107",
+      "revId": "edddef2c1e0810e26678a490cb2734e7e93e513f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

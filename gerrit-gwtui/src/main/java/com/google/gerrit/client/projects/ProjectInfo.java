@@ -28,6 +28,12 @@ public class ProjectInfo
   public final native String name() /*-{ return this.name; }-*/;
   public final native String description() /*-{ return this.description; }-*/;
 
+  public final Project.State state() {
+    return Project.State.valueOf(getStringState());
+  }
+
+  private final native String getStringState() /*-{ return this.state; }-*/;
+
   @Override
   public final String getDisplayString() {
     if (description() != null) {

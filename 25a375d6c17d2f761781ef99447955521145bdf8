@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9e2631f7_6a8bf705",
+        "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/client/rpc/NativeString.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-09T08:13:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9efd5175_12b54cff",
+      "revId": "25a375d6c17d2f761781ef99447955521145bdf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9efd5175_32b0500f",
         "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/client/rpc/Natives.java",
         "patchSetId": 3
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "9e2631f7_2a81ffe5",
+        "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/client/rpc/Natives.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-09T08:13:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9efd5175_32b0500f",
+      "range": {
+        "startLine": 69,
+        "startChar": 2,
+        "endLine": 95,
+        "endChar": 3
+      },
+      "revId": "25a375d6c17d2f761781ef99447955521145bdf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9efd5175_d2c3c46d",
         "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/client/rpc/RestApi.java",
         "patchSetId": 3
@@ -53,6 +95,24 @@
       "writtenOn": "2013-11-09T01:00:09Z",
       "side": 1,
       "message": "This won\u0027t work. The NativeString type used in the plugin differs from the type used in the main UI code. The main UI will instead send a POST with a JSON payload of {s:\"string\"} instead of just \"string\" like you wanted.",
+      "revId": "25a375d6c17d2f761781ef99447955521145bdf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e2631f7_4a90b330",
+        "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/client/rpc/RestApi.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-09T08:13:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9efd5175_d2c3c46d",
       "revId": "25a375d6c17d2f761781ef99447955521145bdf8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

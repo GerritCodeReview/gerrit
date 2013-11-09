@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9efd5175_f25528af",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/api/ApiGlue.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T18:39:36Z",
+      "side": 1,
+      "message": "We may need more support than just wrapString. In particular I am thinking of the result path where a NativeString is supplied because the server returned a string and not an object.\n\nPerhaps we do:\n\n  JsonString: NativeString.TYPE;\n\nNow plugin code can say:\n\n  if (s instanceof $wnd.Gerrit.JsonString) {\n    s \u003d s.get();\n  }\n\nand package a string:\n\n  s \u003d new $wnd.Gerrit.JsonString(s);",
+      "revId": "9696422ff13271bff275302fc8fbca22dc7f56c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e2b3dc3_698b0506",
+        "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/plugin/client/rpc/RestApi.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T18:39:36Z",
+      "side": 1,
+      "message": "I think plugins may need more support than just wrapString.",
+      "range": {
+        "startLine": 152,
+        "startChar": 27,
+        "endLine": 152,
+        "endChar": 58
+      },
+      "revId": "9696422ff13271bff275302fc8fbca22dc7f56c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_92581ce9",
+        "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/plugin/client/rpc/RestApi.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T18:39:36Z",
+      "side": 1,
+      "message": "Is this necessary? Browsers don\u0027t like $wnd.Gerrit.delete? Yuck.",
+      "range": {
+        "startLine": 163,
+        "startChar": 4,
+        "endLine": 163,
+        "endChar": 24
+      },
+      "revId": "9696422ff13271bff275302fc8fbca22dc7f56c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

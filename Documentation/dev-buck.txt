@@ -175,7 +175,7 @@ The JAR files will also be packaged in:
 To build a specific plugin:
 
 ----
-  buck build plugins/<name>
+  buck build plugins/<name>:<name>
 ----
 
 The output JAR file will be be placed in:
@@ -186,6 +186,22 @@ The output JAR file will be be placed in:
 
 Note that when building an individual plugin, the `core.zip` package
 is not regenerated.
+
+Additional plugins with BUCK files can be added to the build
+environment by cloning the source repository into the plugins
+subdirectory:
+
+----
+  git clone https://gerrit.googlesource.com/plugins/<name> plugins/<name>
+  echo /plugins/<name> >>.git/info/exclude
+----
+
+Additional plugin sources will be automatically added to Eclipse the
+next time project.py is run:
+
+----
+  tools/eclipse/project.py
+----
 
 
 [[documentation]]

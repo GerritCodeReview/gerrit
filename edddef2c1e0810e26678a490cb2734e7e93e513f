@@ -52,6 +52,24 @@
       "revId": "edddef2c1e0810e26678a490cb2734e7e93e513f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e2631f7_8ac3cb40",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-09T05:43:50Z",
+      "side": 1,
+      "message": "Exactly!\n\nAnd to see why and why not , just fetch that:\n\n https://gerrit-review.googlesource.com/#/c/51347\n\nAnd uncomment the three lines:\n\n  @Inject\n  AcceptanceTestRequestScope atrScope;\n\nand whee it is set uped in setUp() to see the failure.",
+      "parentUuid": "9efd5175_f2a7e89e",
+      "revId": "edddef2c1e0810e26678a490cb2734e7e93e513f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9e2631f7_aad84f41",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2276,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-09T03:45:54Z",
+      "side": 1,
+      "message": "Nope [1]:\n\nSSHD has 2 compile-time dependencies:\n\n* MINA Core 2.0.x : http://repo1.maven.org/maven2/org/apache/mina/mina-core/2.0.7/mina-core-2.0.7.jar\n* SLF4J API 1.6.4 : http://repo2.maven.org/maven2/org/slf4j/slf4j-api/1.6.4/slf4j-api-1.6.4.jar\n\nNote that since SSHD 0.9.0, the Mina Core library is optional when running in JDK 1.7 and SSHD will default to using nio2 if available.\n\n[1] http://mina.apache.org/sshd-project/required_dependencies.html",
+      "parentUuid": "9efd5175_f2f9a89f",
+      "revId": "3b782c5b509f682208a5d379e8a8fb180a06511b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e2b3dc3_0943692e",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2013-11-09T03:38:17Z",
       "side": 1,
       "message": "Missing + here",
+      "revId": "3b782c5b509f682208a5d379e8a8fb180a06511b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e2631f7_8ad58b09",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2322,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-09T03:45:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e2b3dc3_0943692e",
       "revId": "3b782c5b509f682208a5d379e8a8fb180a06511b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

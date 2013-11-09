@@ -71,7 +71,7 @@ public class ProgressBar extends Composite {
   public void setValue(final int pComplete) {
     assert 0 <= pComplete && pComplete <= 100;
     value = pComplete;
-    bar.setWidth("" + (2 * pComplete) + "px");
+    bar.setWidth(2 * pComplete + "px");
     msg.setText(callerText + pComplete + "%");
   }
 }

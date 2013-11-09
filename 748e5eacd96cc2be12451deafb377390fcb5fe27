@@ -22,6 +22,24 @@
       "revId": "748e5eacd96cc2be12451deafb377390fcb5fe27",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e1a41b4_4653922d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-11-09T05:36:57Z",
+      "side": 1,
+      "message": "Yeah, I was wondering if we need both these loops now.  They were needed for the DOM hack, but don\u0027t really make sense now.  If they have \"whole file context\", force them to the next smallest amount instead? (It may require a corresponding change when generating the sparse diff, but it should be simple.)",
+      "parentUuid": "3e2545ef_e741e250",
+      "revId": "748e5eacd96cc2be12451deafb377390fcb5fe27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

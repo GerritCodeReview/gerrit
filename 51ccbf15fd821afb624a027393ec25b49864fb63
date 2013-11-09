@@ -1,0 +1,192 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e2b3dc3_e9c6d57f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T01:55:31Z",
+      "side": 1,
+      "message": "otherChange can be null if there is something wrong with the database. Return false in this case:\n\n  if (otherChange \u003d\u003d null) {\n    return false;\n  }",
+      "revId": "51ccbf15fd821afb624a027393ec25b49864fb63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_12438c2e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T01:55:31Z",
+      "side": 1,
+      "message": "It is possible for the changes to be in different projects or different branches. If this is true we shouldn\u0027t attempt to continue with the matching process:\n\n  if (!otherChange.getDest().equals(c.getDest()) {\n    return false;\n  }",
+      "revId": "51ccbf15fd821afb624a027393ec25b49864fb63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e2b3dc3_89b91902",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T01:55:31Z",
+      "side": 1,
+      "message": "Unnecessary. dryRun() accepts a null ObjectInserter.",
+      "revId": "51ccbf15fd821afb624a027393ec25b49864fb63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_723818b7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T01:55:31Z",
+      "side": 1,
+      "message": "This is forcing a database query for every candidate change. Ick. Cache this in an instance member within the Predicate object. The predicate is per-request and is never accessed across threads so its safe to do that:\n\n  private ObjectId testAgainst;\n\n  private ObjectId getTestAgainst() {\n    if (testAgainst \u003d\u003d null) {\n      testAgainst \u003d ObjectId.fromString(\n        new ChangeData(c).currentPatchSet(db).getRevision().get());\n    }\n    return testAgainst;\n  }",
+      "range": {
+        "startLine": 113,
+        "startChar": 26,
+        "endLine": 113,
+        "endChar": 63
+      },
+      "revId": "51ccbf15fd821afb624a027393ec25b49864fb63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_523d14a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T01:55:31Z",
+      "side": 1,
+      "message": "getSubmitType returns null but the create method does not accept null.",
+      "range": {
+        "startLine": 115,
+        "startChar": 51,
+        "endLine": 115,
+        "endChar": 85
+      },
+      "revId": "51ccbf15fd821afb624a027393ec25b49864fb63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_323e90a6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T01:55:31Z",
+      "side": 1,
+      "message": "null",
+      "range": {
+        "startLine": 116,
+        "startChar": 46,
+        "endLine": 116,
+        "endChar": 54
+      },
+      "revId": "51ccbf15fd821afb624a027393ec25b49864fb63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e2b3dc3_29b0ed0e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T01:55:31Z",
+      "side": 1,
+      "message": "We lost information about e",
+      "revId": "51ccbf15fd821afb624a027393ec25b49864fb63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e2b3dc3_c9c3116e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T01:55:31Z",
+      "side": 1,
+      "message": "We lost information about e",
+      "revId": "51ccbf15fd821afb624a027393ec25b49864fb63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_b251e0f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T01:55:31Z",
+      "side": 1,
+      "message": "Caller will wind up throwing NPE.",
+      "revId": "51ccbf15fd821afb624a027393ec25b49864fb63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_924e5c51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T01:55:31Z",
+      "side": 1,
+      "message": "If we have a lot of candidates this is going to be slow on gerrit-review. References are not cached in memory like they are on a typical Gerrit. Even a typical Gerrit may have to spend some time running stat calls to verify loose references are up-to-date in memory each time we consider a candidate change.\n\nThe predicate should be able to cache a Set\u003cObjectId\u003e within an instance member.  The predicate is fixed at creation time to evaluate a single project based on the bound value of \"c\" from the creation loop. This set could be computed on first demand and then reused in future match attempts.",
+      "revId": "51ccbf15fd821afb624a027393ec25b49864fb63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

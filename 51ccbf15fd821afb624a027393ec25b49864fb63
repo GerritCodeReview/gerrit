@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "9efd5175_1211cc1e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T03:05:27Z",
+      "side": 1,
+      "message": "This collection should include predicates for project and branch.",
+      "revId": "51ccbf15fd821afb624a027393ec25b49864fb63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e2b3dc3_e9c6d57f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
         "patchSetId": 12
@@ -116,6 +133,23 @@
         "endLine": 116,
         "endChar": 54
       },
+      "revId": "51ccbf15fd821afb624a027393ec25b49864fb63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_720658e6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T03:05:27Z",
+      "side": 1,
+      "message": "This is perfectly cacheable. For any two commits, any ordering of them will produce the same tree or fail to merge.\n\nUnless one is an ancestor of the other, that merge is likely to fail if the two commits aren\u0027t sorted correctly first.\n\nTake the two ObjectIds and sort them. Use this sorted pair as a disk cache key. Only open the Repository and parse commits and run the merge if there is no cached value. We might need to also include the strategy as part of the cache key, content merge enabled/disabled and fast-forward-only vs. other types will have different results. FF-only might actually care about ordering of the pair, but I think this is a special case. The other strategies shouldn\u0027t care about ordering.",
       "revId": "51ccbf15fd821afb624a027393ec25b49864fb63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

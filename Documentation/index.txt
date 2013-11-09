@@ -60,7 +60,7 @@ Index
 ... How to read stats from the JVM
 .. High availability
 .. Replication
-.. Plugins
+.. link:https://gerrit-review.googlesource.com/#/admin/projects/?filter=plugins%252F[Plugins]
 .. link:dev-design.html[System Design]
 .. link:config-contact.html[User Contact Information]
 .. link:config-reverseproxy.html[Reverse Proxy]

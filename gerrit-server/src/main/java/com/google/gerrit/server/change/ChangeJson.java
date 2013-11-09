@@ -31,6 +31,9 @@ import static com.google.gerrit.common.changes.ListChangesOption.REVIEWED;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
@@ -64,6 +67,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.PatchSetInfo.ParentInfo;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
@@ -77,7 +81,8 @@ import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
@@ -87,6 +92,7 @@ import com.google.inject.Provider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Collections;
@@ -97,6 +103,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.concurrent.ExecutionException;
 
 public class ChangeJson {
   private static final Logger log = LoggerFactory.getLogger(ChangeJson.class);
@@ -122,7 +129,7 @@ public class ChangeJson {
   private final Provider<CurrentUser> userProvider;
   private final AnonymousUser anonymous;
   private final IdentifiedUser.GenericFactory userFactory;
-  private final ChangeControl.GenericFactory changeControlGenericFactory;
+  private final ProjectControl.GenericFactory projectControlFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final FileInfoJson fileInfoJson;
   private final AccountInfo.Loader.Factory accountLoaderFactory;
@@ -131,20 +138,20 @@ public class ChangeJson {
   private final DynamicMap<RestView<ChangeResource>> changes;
   private final Revisions revisions;
 
-  private ChangeControl.Factory changeControlUserFactory;
   private EnumSet<ListChangesOption> options;
   private AccountInfo.Loader accountLoader;
   private ChangeControl lastControl;
   private Set<Change.Id> reviewed;
+  private LoadingCache<Project.NameKey, ProjectControl> projectControls;
 
   @Inject
   ChangeJson(
       Provider<ReviewDb> db,
       LabelNormalizer ln,
-      Provider<CurrentUser> userProvider,
+      Provider<CurrentUser> user,
       AnonymousUser au,
       IdentifiedUser.GenericFactory uf,
-      ChangeControl.GenericFactory ccf,
+      ProjectControl.GenericFactory pcf,
       PatchSetInfoFactory psi,
       FileInfoJson fileInfoJson,
       AccountInfo.Loader.Factory ailf,
@@ -154,10 +161,10 @@ public class ChangeJson {
       Revisions revisions) {
     this.db = db;
     this.labelNormalizer = ln;
-    this.userProvider = userProvider;
+    this.userProvider = user;
     this.anonymous = au;
     this.userFactory = uf;
-    this.changeControlGenericFactory = ccf;
+    this.projectControlFactory = pcf;
     this.patchSetInfoFactory = psi;
     this.fileInfoJson = fileInfoJson;
     this.accountLoaderFactory = ailf;
@@ -167,6 +174,15 @@ public class ChangeJson {
     this.revisions = revisions;
 
     options = EnumSet.noneOf(ListChangesOption.class);
+    projectControls = CacheBuilder.newBuilder()
+      .concurrencyLevel(1)
+      .build(new CacheLoader<Project.NameKey, ProjectControl>() {
+        @Override
+        public ProjectControl load(Project.NameKey key)
+            throws NoSuchProjectException, IOException {
+          return projectControlFactory.controlFor(key, userProvider.get());
+        }
+      });
   }
 
   public ChangeJson addOption(ListChangesOption o) {
@@ -176,11 +192,6 @@ public class ChangeJson {
 
   public ChangeJson addOptions(Collection<ListChangesOption> o) {
     options.addAll(o);
-    return this;
-  }
-
-  public ChangeJson setChangeControlFactory(ChangeControl.Factory cf) {
-    changeControlUserFactory = cf;
     return this;
   }
 
@@ -321,13 +332,12 @@ public class ChangeJson {
     }
 
     try {
-      if (changeControlUserFactory != null) {
-        ctrl = changeControlUserFactory.controlFor(cd.change(db));
-      } else {
-        ctrl = changeControlGenericFactory.controlFor(cd.change(db),
-            userProvider.get());
+      Change change = cd.change(db);
+      if (change == null) {
+        return null;
       }
-    } catch (NoSuchChangeException e) {
+      ctrl = projectControls.get(change.getProject()).controlFor(change);
+    } catch (ExecutionException e) {
       return null;
     }
     lastControl = ctrl;

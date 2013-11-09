@@ -98,7 +98,8 @@ public class QueryProcessor {
   private final ChangeQueryRewriter queryRewriter;
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager repoManager;
-  private final ChangeControl.Factory changeControlFactory;
+  private final ChangeControl.GenericFactory changeControlFactory;
+  private final CurrentUser user;
   private final int maxLimit;
 
   private OutputFormat outputFormat = OutputFormat.TEXT;
@@ -124,13 +125,14 @@ public class QueryProcessor {
       ChangeQueryBuilder.Factory queryBuilder, CurrentUser currentUser,
       ChangeQueryRewriter queryRewriter, Provider<ReviewDb> db,
       GitRepositoryManager repoManager,
-      ChangeControl.Factory changeControlFactory) {
+      ChangeControl.GenericFactory changeControlFactory) {
     this.eventFactory = eventFactory;
     this.queryBuilder = queryBuilder.create(currentUser);
     this.queryRewriter = queryRewriter;
     this.db = db;
     this.repoManager = repoManager;
     this.changeControlFactory = changeControlFactory;
+    this.user = currentUser;
     this.maxLimit = currentUser.getCapabilities()
       .getRange(GlobalCapability.QUERY_LIMIT)
       .getMax();
@@ -303,8 +305,11 @@ public class QueryProcessor {
         List<ChangeData> results = queryChanges(queryString);
         ChangeAttribute c = null;
         for (ChangeData d : results) {
-          LabelTypes labelTypes = changeControlFactory.controlFor(d.getChange())
-              .getLabelTypes();
+          ChangeControl cc = d.changeControl();
+          if (cc == null || cc.getCurrentUser() != user) {
+            cc = changeControlFactory.controlFor(d.change(db), user);
+          }
+          LabelTypes labelTypes = cc.getLabelTypes();
           c = eventFactory.asChangeAttribute(d.getChange());
           eventFactory.extend(c, d.getChange());
           eventFactory.addTrackingIds(c, d.trackingIds(db));
@@ -316,7 +321,7 @@ public class QueryProcessor {
           if (includeSubmitRecords) {
             PatchSet.Id psId = d.getChange().currentPatchSetId();
             PatchSet patchSet = db.get().patchSets().get(psId);
-            List<SubmitRecord> submitResult = d.changeControl().canSubmit( //
+            List<SubmitRecord> submitResult = cc.canSubmit( //
                 db.get(), patchSet, null, false, true, true);
             eventFactory.addSubmitRecords(c, submitResult);
           }

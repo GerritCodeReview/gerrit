@@ -94,6 +94,15 @@ public class ChangeControl {
       return controlFor(change, user);
     }
 
+    public ChangeControl validateFor(Change change, CurrentUser user)
+        throws NoSuchChangeException, OrmException {
+      ChangeControl c = controlFor(change, user);
+      if (!c.isVisible(db.get())) {
+        throw new NoSuchChangeException(c.getChange().getId());
+      }
+      return c;
+    }
+
     public ChangeControl validateFor(Change.Id id, CurrentUser user)
         throws NoSuchChangeException, OrmException {
       ChangeControl c = controlFor(id, user);

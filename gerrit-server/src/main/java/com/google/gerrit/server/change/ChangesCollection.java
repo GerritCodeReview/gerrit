@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.QueryChanges;
@@ -37,17 +38,20 @@ import java.util.List;
 public class ChangesCollection implements
     RestCollection<TopLevelResource, ChangeResource> {
   private final Provider<ReviewDb> db;
-  private final ChangeControl.Factory changeControlFactory;
+  private final Provider<CurrentUser> user;
+  private final ChangeControl.GenericFactory changeControlFactory;
   private final Provider<QueryChanges> queryFactory;
   private final DynamicMap<RestView<ChangeResource>> views;
 
   @Inject
   ChangesCollection(
       Provider<ReviewDb> dbProvider,
-      ChangeControl.Factory changeControlFactory,
+      Provider<CurrentUser> user,
+      ChangeControl.GenericFactory changeControlFactory,
       Provider<QueryChanges> queryFactory,
       DynamicMap<RestView<ChangeResource>> views) {
     this.db = dbProvider;
+    this.user = user;
     this.changeControlFactory = changeControlFactory;
     this.queryFactory = queryFactory;
     this.views = views;
@@ -74,7 +78,7 @@ public class ChangesCollection implements
 
     ChangeControl control;
     try {
-      control = changeControlFactory.validateFor(changes.get(0));
+      control = changeControlFactory.validateFor(changes.get(0), user.get());
     } catch (NoSuchChangeException e) {
       throw new ResourceNotFoundException(id);
     }

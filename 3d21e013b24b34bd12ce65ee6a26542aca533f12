@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bef77598_2b0c5906",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 982,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-09T02:39:07Z",
+      "side": 1,
+      "message": "HTTP/1.1 204 No Content\n\ninstead?",
+      "revId": "3d21e013b24b34bd12ce65ee6a26542aca533f12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bef77598_cbdf9525",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/StarredChanges.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-09T02:39:07Z",
+      "side": 1,
+      "message": "result is not used and shoud not be rendered in the endpoint.",
+      "revId": "3d21e013b24b34bd12ce65ee6a26542aca533f12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bef77598_ebe251ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/StarredChanges.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-09T02:39:07Z",
+      "side": 1,
+      "message": "Why to return change info here? Why not just to return Response.none()?",
+      "revId": "3d21e013b24b34bd12ce65ee6a26542aca533f12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

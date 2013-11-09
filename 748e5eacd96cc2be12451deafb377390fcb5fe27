@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e2545ef_e741e250",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-11-09T05:31:21Z",
+      "side": 1,
+      "message": "This loop wastes time, wonder if we should just rely on the fact that WHOLE_FILE_CONTEXT is the last item in both the array and the ListBox (and make a note on that).",
+      "range": {
+        "startLine": 166,
+        "startChar": 4,
+        "endLine": 166,
+        "endChar": 51
+      },
+      "revId": "748e5eacd96cc2be12451deafb377390fcb5fe27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9efd5175_b2a3a0c5",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T01:03:33Z",
+      "side": 1,
+      "message": "I will build a custom version of SSHD and upload it to our Maven repository, so we can apply the patch for SSHD-254.",
+      "revId": "f070ca77bdaa3874d2805d9b796bcde176a46fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

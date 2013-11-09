@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e2631f7_8afc6b91",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DatabasePubKeyAuth.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-09T04:57:29Z",
+      "side": 0,
+      "message": "But SshUtil must include exacty the same construct now:\n\n s.addCloseSessionListener(...\n\nCheck:\n\n https://gerrit-review.googlesource.com/#/c/51142/13/gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshUtil.java",
+      "revId": "e0e4ac8892a58e6595da547757490fc5ccacba63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

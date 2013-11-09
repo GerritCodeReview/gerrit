@@ -16,6 +16,24 @@
       "revId": "e0e4ac8892a58e6595da547757490fc5ccacba63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_129f0c4e",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DatabasePubKeyAuth.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T04:57:57Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "9e2631f7_8afc6b91",
+      "revId": "e0e4ac8892a58e6595da547757490fc5ccacba63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

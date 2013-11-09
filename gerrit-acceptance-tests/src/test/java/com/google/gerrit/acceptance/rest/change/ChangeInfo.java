@@ -24,4 +24,5 @@ public class ChangeInfo {
   String branch;
   List<ChangeMessageInfo> messages;
   Change.Status status;
+  public Boolean starred;
 }

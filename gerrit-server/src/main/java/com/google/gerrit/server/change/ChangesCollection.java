@@ -58,7 +58,7 @@ public class ChangesCollection implements
   }
 
   @Override
-  public RestView<TopLevelResource> list() {
+  public QueryChanges list() {
     return queryFactory.get();
   }
 

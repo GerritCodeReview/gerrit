@@ -18,6 +18,7 @@ import static com.google.gerrit.server.account.AccountResource.ACCOUNT_KIND;
 import static com.google.gerrit.server.account.AccountResource.CAPABILITY_KIND;
 import static com.google.gerrit.server.account.AccountResource.EMAIL_KIND;
 import static com.google.gerrit.server.account.AccountResource.SSH_KEY_KIND;
+import static com.google.gerrit.server.account.AccountResource.STARRED_CHANGE_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
@@ -30,9 +31,10 @@ public class Module extends RestApiModule {
     bind(Capabilities.class);
 
     DynamicMap.mapOf(binder(), ACCOUNT_KIND);
+    DynamicMap.mapOf(binder(), CAPABILITY_KIND);
     DynamicMap.mapOf(binder(), EMAIL_KIND);
     DynamicMap.mapOf(binder(), SSH_KEY_KIND);
-    DynamicMap.mapOf(binder(), CAPABILITY_KIND);
+    DynamicMap.mapOf(binder(), STARRED_CHANGE_KIND);
 
     put(ACCOUNT_KIND).to(PutAccount.class);
     get(ACCOUNT_KIND).to(GetAccount.class);
@@ -64,6 +66,11 @@ public class Module extends RestApiModule {
     get(ACCOUNT_KIND, "preferences.diff").to(GetDiffPreferences.class);
     put(ACCOUNT_KIND, "preferences.diff").to(SetDiffPreferences.class);
     get(CAPABILITY_KIND).to(GetCapabilities.CheckOne.class);
+
+    child(ACCOUNT_KIND, "starred.changes").to(StarredChanges.class);
+    put(STARRED_CHANGE_KIND).to(StarredChanges.Put.class);
+    delete(STARRED_CHANGE_KIND).to(StarredChanges.Delete.class);
+    bind(StarredChanges.Create.class);
 
     install(new FactoryModuleBuilder().build(CreateAccount.Factory.class));
     install(new FactoryModuleBuilder().build(CreateEmail.Factory.class));

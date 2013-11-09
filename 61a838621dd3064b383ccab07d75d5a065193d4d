@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "7e2b3dc3_c9cdd16d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T06:54:05Z",
+      "side": 1,
+      "message": "My original thinking was 2.9 would also contain the old screen, but the default would be the new one. 2.10 would remove the old screen altogether.\n\nIf we keep to ~2 months between releases, this means we can kill the old screen around the time I agreed to keep it.",
+      "parentUuid": "bef77598_8b710d71",
+      "revId": "61a838621dd3064b383ccab07d75d5a065193d4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e2b3dc3_a9c69d50",
         "filename": "/COMMIT_MSG",
         "patchSetId": 12

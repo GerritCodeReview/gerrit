@@ -16,6 +16,24 @@
       "revId": "75f2a63485f598f6a28e048d9800aa6a2fa1eb1e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bef77598_abc2091c",
+        "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/plugin/client/rpc/RestApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-09T09:27:54Z",
+      "side": 1,
+      "message": "No, not all REST endpoints that we want to invoke from the plugin must be necessarily defined by the plugin. It\u0027s also possible that the plugin wants to invoke a REST endpoint which is defined by Gerrit core and then we do not need the plugin name prefix for the view.\n\nBut I\u0027ve added a new view method that takes the plugin name as parameter.",
+      "parentUuid": "bef77598_4b6725ac",
+      "revId": "75f2a63485f598f6a28e048d9800aa6a2fa1eb1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

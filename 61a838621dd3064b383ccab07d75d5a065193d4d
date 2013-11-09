@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bef77598_8b710d71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-09T06:50:41Z",
+      "side": 1,
+      "message": "\u003e I have agreed to keep the old ChangeScreen on\n \u003e chromium-review.googlesource.com until ~February or March of \n \u003e 2014. So I have to keep or revert that 2nd commit for a few months. :-(\n To be honest for us it would be good too to have another release (2.9)\n which still contains both ChangeScreens ...",
+      "parentUuid": "7e2b3dc3_49c28140",
+      "revId": "61a838621dd3064b383ccab07d75d5a065193d4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e2b3dc3_a9c69d50",
         "filename": "/COMMIT_MSG",
         "patchSetId": 12

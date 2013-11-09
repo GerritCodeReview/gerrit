@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bef77598_4b6725ac",
+        "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/plugin/client/rpc/RestApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-09T08:15:50Z",
+      "side": 1,
+      "message": "May be add here pluginName as first parameter, and prefix it to all view, as\n\n pluginName~viewName\n\nuntill we find a better way to do that.",
+      "revId": "75f2a63485f598f6a28e048d9800aa6a2fa1eb1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

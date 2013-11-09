@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9e2631f7_cacdc36d",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/AbandonInput.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-09T06:19:07Z",
+      "side": 1,
+      "message": "It is undocumented feature. We don\u0027t need it. UI don\u0027t use it. For backwards compatibility we have rejected that change[1]. This is a reattempt to that up. Obviously it needs to be documented in rest-api.\n\n [1] https://gerrit-review.googlesource.com/#/c/48944",
+      "parentUuid": "7e2b3dc3_690665e6",
+      "revId": "f36b2734e2a8fc4fa7cf8b85fe60909e82056912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9efd5175_1286ecfd",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/DeleteDraftPatchSetInput.java",
         "patchSetId": 5
@@ -47,6 +65,24 @@
       "writtenOn": "2013-11-09T05:54:38Z",
       "side": 1,
       "message": "Same as AbandonInput.",
+      "revId": "f36b2734e2a8fc4fa7cf8b85fe60909e82056912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e2631f7_2a9a9f5d",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RestoreInput.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-09T06:19:07Z",
+      "side": 1,
+      "message": "Again, revival of:\n\n https://gerrit-review.googlesource.com/#/c/48944",
+      "parentUuid": "7e2b3dc3_a9ffbd84",
       "revId": "f36b2734e2a8fc4fa7cf8b85fe60909e82056912",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -93,6 +129,42 @@
         "endLine": 22,
         "endChar": 26
       },
+      "revId": "f36b2734e2a8fc4fa7cf8b85fe60909e82056912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bef77598_4b99e564",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-09T06:19:07Z",
+      "side": 1,
+      "message": "Ah, missed it, that API can have methods without args.",
+      "parentUuid": "7e2b3dc3_c9f671ad",
+      "revId": "f36b2734e2a8fc4fa7cf8b85fe60909e82056912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bef77598_6b94a12e",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-09T06:19:07Z",
+      "side": 1,
+      "message": "Sure",
+      "parentUuid": "7e2b3dc3_29b3cdf5",
       "revId": "f36b2734e2a8fc4fa7cf8b85fe60909e82056912",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -185,6 +257,24 @@
         "endLine": 139,
         "endChar": 34
       },
+      "revId": "f36b2734e2a8fc4fa7cf8b85fe60909e82056912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e2631f7_0a9fdb4d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-09T06:19:07Z",
+      "side": 1,
+      "message": "Becasue it looks much better, if it is 4 char to allign with wrapped lines:\n\n gApi.get().changes()\n     .id(patchSet.getId().getParentKey().get())\n     .revision(patchSet.getRevision().get())\n     .review(review);\n\nBut that\u0027s of course cosmetic.",
+      "parentUuid": "7e2b3dc3_09b889ce",
       "revId": "f36b2734e2a8fc4fa7cf8b85fe60909e82056912",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.testutil;
 
+import static org.junit.Assert.assertEquals;
+
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -27,7 +29,6 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.junit.Test;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -35,8 +36,6 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 import javax.sql.DataSource;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * An in-memory test instance of {@link ReviewDb} database.

@@ -31,6 +31,7 @@ import com.google.gerrit.server.config.FactoryModule;
 public class Module extends RestApiModule {
   @Override
   protected void configure() {
+    bind(ChangesCollection.class);
     bind(Revisions.class);
     bind(Reviewers.class);
     bind(Drafts.class);

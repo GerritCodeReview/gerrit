@@ -24,7 +24,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -82,16 +81,12 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
   }
 
   @Inject
-  QueryChanges(ChangeJson json,
-      QueryProcessor qp,
-      ChangeControl.Factory cf,
-      Provider<CurrentUser> user) {
+  QueryChanges(ChangeJson json, QueryProcessor qp, Provider<CurrentUser> user) {
     this.json = json;
     this.imp = qp;
     this.user = user;
 
     options = EnumSet.noneOf(ListChangesOption.class);
-    json.setChangeControlFactory(cf);
   }
 
   public void addQuery(String query) {

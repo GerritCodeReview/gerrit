@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e2631f7_8a146bcc",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-09T22:04:35Z",
+      "side": 1,
+      "message": "I see what you mean to return ChangeApi here, to make the API resource aware. Wouldn\u0027t we need to solve something like ChangeInfoOutput, RevisionInfoOutput anyway? For example to \"see\" more attributes then only id after revert the client would need to hit the database himself.",
+      "revId": "3d49c07ea14e860c528edb61e0a6505b50fe4ba3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

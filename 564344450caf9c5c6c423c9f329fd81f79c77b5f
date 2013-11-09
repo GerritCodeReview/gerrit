@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e2b3dc3_a9a33dc5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChanges.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T02:07:40Z",
+      "side": 1,
+      "message": "Seems like UiBinder isn\u0027t useful here.",
+      "revId": "564344450caf9c5c6c423c9f329fd81f79c77b5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_12ea6cce",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChanges.ui.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T02:07:40Z",
+      "side": 1,
+      "message": "So this file now exists only to carry in some CSS?  Maybe move the CSS out to a CssResource?",
+      "revId": "564344450caf9c5c6c423c9f329fd81f79c77b5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e2b3dc3_49af21ad",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T02:07:40Z",
+      "side": 1,
+      "message": "unncessary",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 6
+      },
+      "revId": "564344450caf9c5c6c423c9f329fd81f79c77b5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_72ef78de",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T02:07:40Z",
+      "side": 1,
+      "message": "unnecessary",
+      "range": {
+        "startLine": 88,
+        "startChar": 2,
+        "endLine": 88,
+        "endChar": 8
+      },
+      "revId": "564344450caf9c5c6c423c9f329fd81f79c77b5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e2b3dc3_89a0f9b9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T02:07:40Z",
+      "side": 1,
+      "message": "This should be a widget itself that is added to the parent\u0027s widget graph. Don\u0027t pass in a container widget.\n\nI think you can use a FlowPanel here for this widget type, and simplify the DOM graph away from the ugly table used by VerticalPanel.",
+      "range": {
+        "startLine": 88,
+        "startChar": 61,
+        "endLine": 88,
+        "endChar": 80
+      },
+      "revId": "564344450caf9c5c6c423c9f329fd81f79c77b5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_b2d8c041",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T02:07:40Z",
+      "side": 1,
+      "message": "No point in dynamically packing all of these objects when only one or two are used at any given point in time. Might as well dynamically pack them on demand.\n\nI only had them all declared in ui.xml because then I didn\u0027t have to write dynamic creation code. But now you have dynamic creation code, so it doesn\u0027t make sense to build them all at creation time.",
+      "range": {
+        "startLine": 96,
+        "startChar": 4,
+        "endLine": 105,
+        "endChar": 20
+      },
+      "revId": "564344450caf9c5c6c423c9f329fd81f79c77b5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

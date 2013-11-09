@@ -34,6 +34,23 @@
       "revId": "6586c20d7c96c4bfb39082ed3fe0ced9bee63975",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e2631f7_4a239337",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-09T21:55:42Z",
+      "side": 1,
+      "message": "Thre is still a lot room for improvement:\n\nThe whole new block above works then and only then, if Buck driven build was imlemented. Only then build against unpublished {pluguin|extension} plugin works and discoverability and Eclipse integration. For example Edwin recent serviseuser plugin can not be \"linked\" to Gerit\u0027s plugin tree, well it could, but it wuldn\u0027t help.\n\nSuggestion: add a new section:\n\nBuilding non core plugins\n------------------------------------\n\nCurrently there are three options how to build and Eclipse integrate external/non core plugins:\n\n* 1 Maven driven build: still the standard and prefered version\n* 2 In Gerit tree Buck driven build: Prerequisite: implemented build with Buck. And put your explanation how to link, build and Eclipse integrat it.\n* 3 [Experimantal]: Out of the Gerrit tree Buck driven build [1], where Eclipse integration is still not solved.\n\n\n [1] https://gerrit-review.googlesource.com/#/c/51225",
+      "revId": "6586c20d7c96c4bfb39082ed3fe0ced9bee63975",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

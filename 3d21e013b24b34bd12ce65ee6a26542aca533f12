@@ -50,6 +50,24 @@
       "revId": "3d21e013b24b34bd12ce65ee6a26542aca533f12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e2b3dc3_492601a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/StarredChanges.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T03:09:00Z",
+      "side": 1,
+      "message": "Eh, fair point. Maybe I shouldn\u0027t return the JSON.",
+      "parentUuid": "bef77598_ebe251ef",
+      "revId": "3d21e013b24b34bd12ce65ee6a26542aca533f12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bef77598_abc68950",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-09T04:58:44Z",
+      "side": 1,
+      "message": "Yupp, that was missing.",
+      "revId": "e4893eb0ff7fba34f9097335f6402fb7ff612e22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

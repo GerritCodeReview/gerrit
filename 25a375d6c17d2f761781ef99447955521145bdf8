@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9efd5175_12b54cff",
+        "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/client/rpc/NativeString.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T01:00:09Z",
+      "side": 1,
+      "message": "This type differs from the one in the main UI code, which means they aren\u0027t interchangeable the way you want them to be. Should we instead somehow try to export the type from the main UI code as part of $wnd.Gerrit so plugins can get a handle on it and have NativeString.is() work when interacting with the RestApi?",
+      "revId": "25a375d6c17d2f761781ef99447955521145bdf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_32b0500f",
+        "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/client/rpc/Natives.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T01:00:09Z",
+      "side": 1,
+      "message": "It seems we don\u0027t need to copy this into the plugin code? The main UI will parse the JSON reply from the server and pass through a parsed JavaScriptObject to the plugin. So I don\u0027t know why a plugin would need this.",
+      "range": {
+        "startLine": 69,
+        "startChar": 2,
+        "endLine": 95,
+        "endChar": 3
+      },
+      "revId": "25a375d6c17d2f761781ef99447955521145bdf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_d2c3c46d",
+        "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/client/rpc/RestApi.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T01:00:09Z",
+      "side": 1,
+      "message": "This won\u0027t work. The NativeString type used in the plugin differs from the type used in the main UI code. The main UI will instead send a POST with a JSON payload of {s:\"string\"} instead of just \"string\" like you wanted.",
+      "revId": "25a375d6c17d2f761781ef99447955521145bdf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

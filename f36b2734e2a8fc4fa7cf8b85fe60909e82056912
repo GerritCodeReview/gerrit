@@ -1,0 +1,193 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e2b3dc3_690665e6",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/AbandonInput.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T05:54:38Z",
+      "side": 1,
+      "message": "This should be true by default to match existing behavior. Or use Boolean and have null mean the same as true.",
+      "revId": "f36b2734e2a8fc4fa7cf8b85fe60909e82056912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_1286ecfd",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/DeleteDraftPatchSetInput.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T05:54:38Z",
+      "side": 1,
+      "message": "Unnecessary input type.",
+      "revId": "f36b2734e2a8fc4fa7cf8b85fe60909e82056912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e2b3dc3_a9ffbd84",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RestoreInput.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T05:54:38Z",
+      "side": 1,
+      "message": "Same as AbandonInput.",
+      "revId": "f36b2734e2a8fc4fa7cf8b85fe60909e82056912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e2b3dc3_c9f671ad",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T05:54:38Z",
+      "side": 1,
+      "message": "no arg?",
+      "range": {
+        "startLine": 22,
+        "startChar": 27,
+        "endLine": 22,
+        "endChar": 54
+      },
+      "revId": "f36b2734e2a8fc4fa7cf8b85fe60909e82056912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e2b3dc3_29b3cdf5",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T05:54:38Z",
+      "side": 1,
+      "message": "Should this be deleteDraft()? Its already scoped to a revision. PatchSet is redundant.",
+      "range": {
+        "startLine": 22,
+        "startChar": 7,
+        "endLine": 22,
+        "endChar": 26
+      },
+      "revId": "f36b2734e2a8fc4fa7cf8b85fe60909e82056912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_728bf805",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T05:54:38Z",
+      "side": 1,
+      "message": "change",
+      "range": {
+        "startLine": 80,
+        "startChar": 49,
+        "endLine": 80,
+        "endChar": 55
+      },
+      "revId": "f36b2734e2a8fc4fa7cf8b85fe60909e82056912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e2b3dc3_89fc7991",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T05:54:38Z",
+      "side": 1,
+      "message": "change",
+      "range": {
+        "startLine": 89,
+        "startChar": 49,
+        "endLine": 89,
+        "endChar": 55
+      },
+      "revId": "f36b2734e2a8fc4fa7cf8b85fe60909e82056912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e2b3dc3_e9f9b59f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T05:54:38Z",
+      "side": 1,
+      "message": "change",
+      "range": {
+        "startLine": 91,
+        "startChar": 49,
+        "endLine": 91,
+        "endChar": 55
+      },
+      "revId": "f36b2734e2a8fc4fa7cf8b85fe60909e82056912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e2b3dc3_09b889ce",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T05:54:38Z",
+      "side": 1,
+      "message": "Why not keep this api?",
+      "range": {
+        "startLine": 139,
+        "startChar": 30,
+        "endLine": 139,
+        "endChar": 34
+      },
+      "revId": "f36b2734e2a8fc4fa7cf8b85fe60909e82056912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

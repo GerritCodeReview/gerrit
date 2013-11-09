@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9efd5175_f2d08807",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/Module.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T04:24:00Z",
+      "side": 1,
+      "message": "These bindings are incorrect.",
+      "range": {
+        "startLine": 24,
+        "startChar": 4,
+        "endLine": 25,
+        "endChar": 32
+      },
+      "revId": "66c475c572182243c543bd89490c4b50d8851f62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

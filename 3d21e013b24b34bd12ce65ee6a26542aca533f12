@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7e2b3dc3_89275999",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 982,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T03:14:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bef77598_2b0c5906",
+      "revId": "3d21e013b24b34bd12ce65ee6a26542aca533f12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bef77598_cbdf9525",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/StarredChanges.java",
         "patchSetId": 11
@@ -30,6 +48,24 @@
       "writtenOn": "2013-11-09T02:39:07Z",
       "side": 1,
       "message": "result is not used and shoud not be rendered in the endpoint.",
+      "revId": "3d21e013b24b34bd12ce65ee6a26542aca533f12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_b2ff2085",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/StarredChanges.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T03:14:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bef77598_cbdf9525",
       "revId": "3d21e013b24b34bd12ce65ee6a26542aca533f12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +101,24 @@
       "side": 1,
       "message": "Eh, fair point. Maybe I shouldn\u0027t return the JSON.",
       "parentUuid": "bef77598_ebe251ef",
+      "revId": "3d21e013b24b34bd12ce65ee6a26542aca533f12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_520b54ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/StarredChanges.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T03:14:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e2b3dc3_492601a1",
       "revId": "3d21e013b24b34bd12ce65ee6a26542aca533f12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

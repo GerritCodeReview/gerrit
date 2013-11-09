@@ -387,7 +387,9 @@ Command implementations must extend the base class SshCommand:
 [source,java]
 ----
 import com.google.gerrit.sshd.SshCommand;
+import com.google.gerrit.sshd.CommandMetaData;
 
+@CommandMetaData(name="print", descr="Print hello command")
 class PrintHello extends SshCommand {
   protected abstract void run() {
     stdout.print("Hello\n");
@@ -421,7 +423,7 @@ import com.google.gerrit.sshd.PluginCommandModule;
 
 class MyCommands extends PluginCommandModule {
   protected void configureCommands() {
-    command("print").to(PrintHello.class);
+    command(PrintHello.class);
   }
 }
 ----
@@ -469,6 +471,30 @@ And the call:
 ----
 $ ssh -p 29418 review.example.com shell ls
 $ ssh -p 29418 review.example.com shell ps
+----
+
+Single command plugins are also supported. In this scenario plugin binds
+SSH command to its own name. `SshModule` must inherit from
+`SingleCommandPluginModule` class:
+
+[source,java]
+----
+public class SshModule extends SingleCommandPluginModule {
+ @Override
+ protected void configure(LinkedBindingBuilder<Command> b) {
+    b.to(ShellCommand.class);
+  }
+}
+----
+
+If the plugin above is deployed under sh.jar file in `$site/plugins`
+directory, generic commands can be called without specifing the
+actual SSH command. Note in the example below, that the called commands
+`ls` and `ps` was not explicitly bound:
+
+----
+$ ssh -p 29418 review.example.com sh ls
+$ ssh -p 29418 review.example.com sh ps
 ----
 
 [[configuration]]

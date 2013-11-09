@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e2b3dc3_6994a52e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T17:14:04Z",
+      "side": 0,
+      "message": "I think its still reasonable to format the JSON before calling the future, the two operations can run in parallel.",
+      "revId": "72d5b01b475d02f7684ef02f4b2c5cc3adb5393c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e2b3dc3_4999e164",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Restore.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T17:14:04Z",
+      "side": 0,
+      "message": "Still reasonable to format the JSON before the future is invoked.",
+      "revId": "72d5b01b475d02f7684ef02f4b2c5cc3adb5393c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

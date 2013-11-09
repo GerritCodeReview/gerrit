@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e2b3dc3_099fe94d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T17:14:04Z",
+      "side": 1,
+      "message": "On HTTP /abandon and /restore accept no body. This results in null being passed to the apply() method, which handles it gracefully by creating an empty input.\n\nI think its common to call /abandon and /restore with no input. Your tests are certainly showing that. Perhaps we should overload abandon() and restore() methods to also have a no-arg form that passes null to apply the same way the HTTP interface does when the client doesn\u0027t supply a body.",
+      "revId": "196385282cbe78b7300bff6408b6e4395a4ad46d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_126d4c8e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T17:14:04Z",
+      "side": 1,
+      "message": "/submit is another API commonly called with no input.",
+      "revId": "196385282cbe78b7300bff6408b6e4395a4ad46d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_7262d89d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T17:14:04Z",
+      "side": 1,
+      "message": "nit: remove line break",
+      "range": {
+        "startLine": 76,
+        "startChar": 14,
+        "endLine": 77,
+        "endChar": 29
+      },
+      "revId": "196385282cbe78b7300bff6408b6e4395a4ad46d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9efd5175_72d3f846",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T00:13:03Z",
+      "side": 1,
+      "message": "This is playing dirty. We shouldn\u0027t dig around in the DOM looking for the first child of anything. Please rework this using GWT widgets or more direct references to elements based on UiBinder annotations.",
+      "revId": "948048fc9ca581f6d6cdcdcdb27b5ad82fbd36a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_52d87461",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-09T00:13:03Z",
+      "side": 1,
+      "message": "ListBox has value and disabled handling built into it. Please use those APIs and not raw DOM.",
+      "revId": "948048fc9ca581f6d6cdcdcdb27b5ad82fbd36a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

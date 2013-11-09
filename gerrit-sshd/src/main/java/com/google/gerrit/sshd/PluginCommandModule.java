@@ -33,8 +33,12 @@ public abstract class PluginCommandModule extends CommandModule {
   @Override
   protected final void configure() {
     Preconditions.checkState(command != null, "@PluginName must be provided");
-    bind(Commands.key(command)).toProvider(new DispatchCommandProvider(command));
+    bindPluginCommand(bind(Commands.key(command)));
     configureCommands();
+  }
+
+  protected void bindPluginCommand(LinkedBindingBuilder<Command> b) {
+    b.toProvider(new DispatchCommandProvider(command));
   }
 
   protected abstract void configureCommands();

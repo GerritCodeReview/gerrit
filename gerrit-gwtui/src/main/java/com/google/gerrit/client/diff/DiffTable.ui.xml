@@ -94,12 +94,6 @@ limitations under the License.
       height: 1.11em;
       cursor: pointer;
     }
-    .hideNumber .CodeMirror-linenumber {
-      color: transparent;
-      background-color: #def;
-      padding-right: 20px;
-      height: 1.3em;
-    }
     .difftable .CodeMirror.cm-keymap-fat-cursor div.CodeMirror-cursor {
       opacity: 0.8;
       z-index: 2;

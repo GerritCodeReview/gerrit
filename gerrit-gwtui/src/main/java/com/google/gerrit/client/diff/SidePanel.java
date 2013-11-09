@@ -125,7 +125,7 @@ class SidePanel extends Composite {
       @Override
       public void onClick(ClickEvent event) {
         cm.setCursor(LineCharacter.create(line));
-        cm.scrollToY(Math.max(0, height - 0.5 * scrollbarHeight));
+        cm.scrollToY(height - 0.5 * scrollbarHeight);
         cm.focus();
       }
     });

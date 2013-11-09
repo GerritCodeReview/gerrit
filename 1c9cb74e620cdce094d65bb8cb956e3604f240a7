@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e2545ef_674e9287",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-11-09T05:05:45Z",
+      "side": 1,
+      "message": "Why is this inside the for loop?",
+      "range": {
+        "startLine": 174,
+        "startChar": 0,
+        "endLine": 183,
+        "endChar": 11
+      },
+      "revId": "1c9cb74e620cdce094d65bb8cb956e3604f240a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

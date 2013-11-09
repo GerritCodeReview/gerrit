@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9e2631f7_4a0c33cc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-09T21:38:32Z",
+      "side": 1,
+      "message": "Done by\n  https://gerrit-review.googlesource.com/51556",
+      "parentUuid": "9efd5175_1211cc1e",
+      "revId": "51ccbf15fd821afb624a027393ec25b49864fb63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e2b3dc3_e9c6d57f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
         "patchSetId": 12
@@ -30,6 +48,24 @@
       "writtenOn": "2013-11-09T01:55:31Z",
       "side": 1,
       "message": "otherChange can be null if there is something wrong with the database. Return false in this case:\n\n  if (otherChange \u003d\u003d null) {\n    return false;\n  }",
+      "revId": "51ccbf15fd821afb624a027393ec25b49864fb63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e2631f7_8aed8ba4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-09T21:38:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e2b3dc3_e9c6d57f",
       "revId": "51ccbf15fd821afb624a027393ec25b49864fb63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9e2631f7_eafa475a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-09T21:38:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9efd5175_12438c2e",
+      "revId": "51ccbf15fd821afb624a027393ec25b49864fb63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e2b3dc3_89b91902",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
         "patchSetId": 12
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "bef77598_cbf79570",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-09T21:38:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e2b3dc3_89b91902",
+      "revId": "51ccbf15fd821afb624a027393ec25b49864fb63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9efd5175_723818b7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
         "patchSetId": 12
@@ -81,6 +153,30 @@
       "writtenOn": "2013-11-09T01:55:31Z",
       "side": 1,
       "message": "This is forcing a database query for every candidate change. Ick. Cache this in an instance member within the Predicate object. The predicate is per-request and is never accessed across threads so its safe to do that:\n\n  private ObjectId testAgainst;\n\n  private ObjectId getTestAgainst() {\n    if (testAgainst \u003d\u003d null) {\n      testAgainst \u003d ObjectId.fromString(\n        new ChangeData(c).currentPatchSet(db).getRevision().get());\n    }\n    return testAgainst;\n  }",
+      "range": {
+        "startLine": 113,
+        "startChar": 26,
+        "endLine": 113,
+        "endChar": 63
+      },
+      "revId": "51ccbf15fd821afb624a027393ec25b49864fb63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e2631f7_caf78370",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-09T21:38:32Z",
+      "side": 1,
+      "message": "Hmm, but this is a static method. It cannot access a non-static member. I\u0027ve added a cache object.\n\nDone",
+      "parentUuid": "9efd5175_723818b7",
       "range": {
         "startLine": 113,
         "startChar": 26,
@@ -116,6 +212,30 @@
     },
     {
       "key": {
+        "uuid": "9e2631f7_2a245f41",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-09T21:38:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9efd5175_523d14a5",
+      "range": {
+        "startLine": 115,
+        "startChar": 51,
+        "endLine": 115,
+        "endChar": 85
+      },
+      "revId": "51ccbf15fd821afb624a027393ec25b49864fb63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9efd5175_323e90a6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
         "patchSetId": 12
@@ -127,6 +247,30 @@
       "writtenOn": "2013-11-09T01:55:31Z",
       "side": 1,
       "message": "null",
+      "range": {
+        "startLine": 116,
+        "startChar": 46,
+        "endLine": 116,
+        "endChar": 54
+      },
+      "revId": "51ccbf15fd821afb624a027393ec25b49864fb63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bef77598_2b245941",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-09T21:38:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9efd5175_323e90a6",
       "range": {
         "startLine": 116,
         "startChar": 46,
@@ -173,6 +317,24 @@
     },
     {
       "key": {
+        "uuid": "9e2631f7_0a299b19",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-09T21:38:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e2b3dc3_29b0ed0e",
+      "revId": "51ccbf15fd821afb624a027393ec25b49864fb63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e2b3dc3_c9c3116e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
         "patchSetId": 12
@@ -184,6 +346,24 @@
       "writtenOn": "2013-11-09T01:55:31Z",
       "side": 1,
       "message": "We lost information about e",
+      "revId": "51ccbf15fd821afb624a027393ec25b49864fb63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bef77598_0b299d19",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-09T21:38:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e2b3dc3_c9c3116e",
       "revId": "51ccbf15fd821afb624a027393ec25b49864fb63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -207,6 +387,24 @@
     },
     {
       "key": {
+        "uuid": "bef77598_6b1e61f1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-09T21:38:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9efd5175_b251e0f5",
+      "revId": "51ccbf15fd821afb624a027393ec25b49864fb63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9efd5175_924e5c51",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
         "patchSetId": 12
@@ -218,6 +416,24 @@
       "writtenOn": "2013-11-09T01:55:31Z",
       "side": 1,
       "message": "If we have a lot of candidates this is going to be slow on gerrit-review. References are not cached in memory like they are on a typical Gerrit. Even a typical Gerrit may have to spend some time running stat calls to verify loose references are up-to-date in memory each time we consider a candidate change.\n\nThe predicate should be able to cache a Set\u003cObjectId\u003e within an instance member.  The predicate is fixed at creation time to evaluate a single project based on the bound value of \"c\" from the creation loop. This set could be computed on first demand and then reused in future match attempts.",
+      "revId": "51ccbf15fd821afb624a027393ec25b49864fb63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bef77598_4b23a537",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-09T21:38:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9efd5175_924e5c51",
       "revId": "51ccbf15fd821afb624a027393ec25b49864fb63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

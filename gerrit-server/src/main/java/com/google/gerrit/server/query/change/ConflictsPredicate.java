@@ -47,9 +47,13 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
       }
 
       List<Predicate<ChangeData>> predicatesForOneChange =
-          Lists.newArrayListWithCapacity(2);
+          Lists.newArrayListWithCapacity(4);
       predicatesForOneChange.add(
           not(new LegacyChangeIdPredicate(db, c.getId())));
+      predicatesForOneChange.add(
+          new ProjectPredicate(db, c.getProject().get()));
+      predicatesForOneChange.add(
+          new RefPredicate(db, c.getDest().get()));
       predicatesForOneChange.add(or(filePredicates));
 
       changePredicates.add(and(predicatesForOneChange));

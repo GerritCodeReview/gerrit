@@ -1,0 +1,387 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9efd5175_720778a9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-10T19:58:37Z",
+      "side": 1,
+      "message": "(optional) alpha-short these modules? They used to be sorted until we added ChangeCache.module.",
+      "revId": "6e287c5153c5c63acda747e0bdff44304cb84834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_92e65ccc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictKey.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-10T19:58:37Z",
+      "side": 1,
+      "message": "ObjectId is comparable. No need to convert to String first.",
+      "range": {
+        "startLine": 34,
+        "startChar": 11,
+        "endLine": 34,
+        "endChar": 60
+      },
+      "revId": "6e287c5153c5c63acda747e0bdff44304cb84834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e2b3dc3_89bf5994",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictKey.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-10T19:58:37Z",
+      "side": 1,
+      "message": "I need the fields exposed as getters. Our servers build a different serialization system for the cache keys we persist.",
+      "revId": "6e287c5153c5c63acda747e0bdff44304cb84834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_f2e368ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictKey.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-10T19:58:37Z",
+      "side": 1,
+      "message": "When mixing hashcodes don\u0027t just add values together. Use \n\n  Objects.hashCode(commit, otherCommit, submitType, contentMerge)",
+      "range": {
+        "startLine": 59,
+        "startChar": 11,
+        "endLine": 62,
+        "endChar": 50
+      },
+      "revId": "6e287c5153c5c63acda747e0bdff44304cb84834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e2b3dc3_09db6909",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsCache.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-10T19:58:37Z",
+      "side": 1,
+      "message": "@Nullable",
+      "revId": "6e287c5153c5c63acda747e0bdff44304cb84834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e2b3dc3_e9cc1553",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsCacheImpl.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-10T19:58:37Z",
+      "side": 1,
+      "message": "This is 10M entries in the cache. Did you mean 10 MiB? If so you need to write a Weigher implementation and bind it to measure the size of each entry. Fortunately the entries are fixed size (approx 140 bytes with most overheads accounted for).  10MiB of memory is about 74,800 items. Maybe its easier to just say that:\n\n  .maximumSize(74,800) // Approximately 10 MiB",
+      "revId": "6e287c5153c5c63acda747e0bdff44304cb84834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_32fdf059",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsCacheImpl.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-10T19:58:37Z",
+      "side": 1,
+      "message": "Don\u0027t supply a loader since you don\u0027t implement loading semantics.",
+      "revId": "6e287c5153c5c63acda747e0bdff44304cb84834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e2b3dc3_c9c95141",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsCacheImpl.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-10T19:58:37Z",
+      "side": 1,
+      "message": "I don\u0027t think you need to make this binding too.",
+      "revId": "6e287c5153c5c63acda747e0bdff44304cb84834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_d2e0e4b0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsCacheImpl.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-10T19:58:37Z",
+      "side": 1,
+      "message": "Just Cache",
+      "range": {
+        "startLine": 44,
+        "startChar": 16,
+        "endLine": 44,
+        "endChar": 28
+      },
+      "revId": "6e287c5153c5c63acda747e0bdff44304cb84834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e2b3dc3_29d62de1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsCacheImpl.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-10T19:58:37Z",
+      "side": 1,
+      "message": "Just Cache",
+      "range": {
+        "startLine": 48,
+        "startChar": 19,
+        "endLine": 48,
+        "endChar": 31
+      },
+      "revId": "6e287c5153c5c63acda747e0bdff44304cb84834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_12026c99",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsCacheImpl.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-10T19:58:37Z",
+      "side": 1,
+      "message": "Don\u0027t use a loader since you don\u0027t implement it.",
+      "revId": "6e287c5153c5c63acda747e0bdff44304cb84834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_520cf4cb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-10T19:58:37Z",
+      "side": 1,
+      "message": "This cache should be per Change in the changes list. So move it down to line 84? If the predicate is given multiple changes and they are in different projects the Cache isn\u0027t going to be very effective.",
+      "revId": "6e287c5153c5c63acda747e0bdff44304cb84834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e2b3dc3_a9e97da0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-10T19:58:37Z",
+      "side": 1,
+      "message": "This could be in your Cache.",
+      "range": {
+        "startLine": 116,
+        "startChar": 10,
+        "endLine": 120,
+        "endChar": 11
+      },
+      "revId": "6e287c5153c5c63acda747e0bdff44304cb84834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_f2fa485a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-10T19:58:37Z",
+      "side": 1,
+      "message": "final not necessary",
+      "range": {
+        "startLine": 136,
+        "startChar": 49,
+        "endLine": 136,
+        "endChar": 54
+      },
+      "revId": "6e287c5153c5c63acda747e0bdff44304cb84834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_d2f74470",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-10T19:58:37Z",
+      "side": 1,
+      "message": "Sets.newHashSet()",
+      "range": {
+        "startLine": 192,
+        "startChar": 49,
+        "endLine": 192,
+        "endChar": 73
+      },
+      "revId": "6e287c5153c5c63acda747e0bdff44304cb84834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e2b3dc3_69d025e2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-10T19:58:37Z",
+      "side": 1,
+      "message": "This could be supplied in the Cache constructor and held as a field.",
+      "range": {
+        "startLine": 228,
+        "startChar": 28,
+        "endLine": 228,
+        "endChar": 49
+      },
+      "revId": "6e287c5153c5c63acda747e0bdff44304cb84834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_92edbca4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-10T19:58:37Z",
+      "side": 1,
+      "message": "This could be supplied in the constructor and held as a field.",
+      "range": {
+        "startLine": 228,
+        "startChar": 51,
+        "endLine": 228,
+        "endChar": 59
+      },
+      "revId": "6e287c5153c5c63acda747e0bdff44304cb84834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_b2f0c07c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-10T19:58:37Z",
+      "side": 1,
+      "message": "final is not necessary",
+      "range": {
+        "startLine": 240,
+        "startChar": 13,
+        "endLine": 240,
+        "endChar": 18
+      },
+      "revId": "6e287c5153c5c63acda747e0bdff44304cb84834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e2b3dc3_49d561d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-10T19:58:37Z",
+      "side": 1,
+      "message": "Skip refs where getObjectId() \u003d\u003d null?",
+      "revId": "6e287c5153c5c63acda747e0bdff44304cb84834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

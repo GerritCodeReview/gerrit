@@ -16,7 +16,7 @@ package com.google.gerrit.client.patches;
 
 class PatchLine {
   static enum Type {
-    DELETE, INSERT, REPLACE, CONTEXT;
+    DELETE, INSERT, REPLACE, CONTEXT
   }
 
   private PatchLine.Type type;

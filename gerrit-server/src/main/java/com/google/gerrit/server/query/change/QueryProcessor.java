@@ -86,7 +86,7 @@ public class QueryProcessor {
       };
 
   public static enum OutputFormat {
-    TEXT, JSON;
+    TEXT, JSON
   }
 
   private final Gson gson = new Gson();

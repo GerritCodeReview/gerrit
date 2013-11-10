@@ -37,7 +37,7 @@ class ScriptRunner {
 
   static final ScriptRunner NOOP = new ScriptRunner(null, null) {
     void run(final ReviewDb db) {
-    };
+    }
   };
 
   ScriptRunner(final String scriptName, final InputStream script) {

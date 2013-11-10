@@ -16,5 +16,5 @@ package com.google.gerrit.client.diff;
 
 /** Enum representing the side on a side-by-side view */
 enum DisplaySide {
-  A, B;
+  A, B
 }

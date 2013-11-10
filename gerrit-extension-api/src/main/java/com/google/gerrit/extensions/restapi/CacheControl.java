@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 public class CacheControl {
 
   public enum Type {
-    NONE, PUBLIC, PRIVATE;
+    NONE, PUBLIC, PRIVATE
   }
 
   public static final CacheControl NONE = new CacheControl(Type.NONE, 0, null);

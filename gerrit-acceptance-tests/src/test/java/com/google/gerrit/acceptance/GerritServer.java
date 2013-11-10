@@ -107,7 +107,7 @@ public class GerritServer {
             serverStarted.reset();
           }
           return null;
-        };
+        }
       });
       serverStarted.await();
       System.out.println("Gerrit Server Started");

@@ -171,7 +171,7 @@ public class ChangeApi {
 
     protected CherryPickInput() {
     }
-  };
+  }
 
   private static class SubmitInput extends JavaScriptObject {
     final native void wait_for_merge(boolean b) /*-{ this.wait_for_merge=b; }-*/;

@@ -32,5 +32,5 @@ public enum CapabilityScope {
   PLUGIN,
 
   /** Scope is the core server. */
-  CORE;
+  CORE
 }

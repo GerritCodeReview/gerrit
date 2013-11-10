@@ -25,7 +25,7 @@ final class DiscoveryResult {
     NO_PROVIDER,
 
     /** The provider was discovered, but something else failed. */
-    ERROR;
+    ERROR
   }
 
   Status status;

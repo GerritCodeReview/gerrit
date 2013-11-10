@@ -29,5 +29,5 @@ public enum AccountVisibility {
    * Other accounts are not visible to the given user unless they are explicitly
    * collaborating on a change.
    */
-  NONE;
+  NONE
 }

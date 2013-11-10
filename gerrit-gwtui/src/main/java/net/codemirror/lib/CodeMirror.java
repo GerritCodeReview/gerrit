@@ -68,7 +68,7 @@ public class CodeMirror extends JavaScriptObject {
   }-*/;
 
   public enum LineClassWhere {
-    TEXT, BACKGROUND, WRAP;
+    TEXT, BACKGROUND, WRAP
   }
 
   public final void addLineClass(int line, LineClassWhere where,
@@ -201,7 +201,7 @@ public class CodeMirror extends JavaScriptObject {
 
   public final FromTo getSelectedRange() {
     return FromTo.create(getCursor("start"), getCursor("end"));
-  };
+  }
 
   public final native void setCursor(LineCharacter lineCh) /*-{
     this.setCursor(lineCh);

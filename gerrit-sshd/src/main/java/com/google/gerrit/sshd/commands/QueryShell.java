@@ -51,7 +51,7 @@ public class QueryShell {
   }
 
   public static enum OutputFormat {
-    PRETTY, JSON, JSON_SINGLE;
+    PRETTY, JSON, JSON_SINGLE
   }
 
   private final BufferedReader in;

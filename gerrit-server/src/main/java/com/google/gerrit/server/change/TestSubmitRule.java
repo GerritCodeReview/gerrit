@@ -47,7 +47,7 @@ import java.util.Map;
 
 public class TestSubmitRule implements RestModifyView<RevisionResource, Input> {
   public enum Filters {
-    RUN, SKIP;
+    RUN, SKIP
   }
 
   public static class Input {

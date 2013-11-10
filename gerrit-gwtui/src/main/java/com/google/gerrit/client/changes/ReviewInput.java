@@ -18,7 +18,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 public class ReviewInput extends JavaScriptObject {
   public static enum NotifyHandling {
-    NONE, OWNER, OWNER_REVIEWERS, ALL;
+    NONE, OWNER, OWNER_REVIEWERS, ALL
   }
 
   public static ReviewInput create() {

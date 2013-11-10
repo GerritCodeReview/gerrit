@@ -49,7 +49,7 @@ class SidePanel extends Composite {
   }
 
   enum GutterType {
-    COMMENT, DRAFT, INSERT, DELETE, EDIT;
+    COMMENT, DRAFT, INSERT, DELETE, EDIT
   }
 
   @UiField

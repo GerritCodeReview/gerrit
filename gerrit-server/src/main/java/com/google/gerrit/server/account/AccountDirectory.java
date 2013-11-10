@@ -34,7 +34,7 @@ public abstract class AccountDirectory {
     AVATARS,
 
     /** Unique user identity to login to Gerrit, may be deprecated. */
-    USERNAME;
+    USERNAME
   }
 
   public abstract void fillAccountInfo(

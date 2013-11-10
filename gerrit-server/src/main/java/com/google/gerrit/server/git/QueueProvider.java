@@ -16,7 +16,7 @@ package com.google.gerrit.server.git;
 
 public interface QueueProvider {
   public static enum QueueType {
-    INTERACTIVE, BATCH;
+    INTERACTIVE, BATCH
   }
 
   public WorkQueue.Executor getQueue(QueueType type);

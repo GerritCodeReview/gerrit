@@ -142,7 +142,7 @@ public final class AccountGroup {
      * who is a member of the owner group. These groups are not treated special
      * in the code.
      */
-    INTERNAL;
+    INTERNAL
   }
 
   /** Common UUID assigned to the "Project Owners" placeholder group. */

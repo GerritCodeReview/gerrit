@@ -35,7 +35,7 @@ public interface ServerInformation {
      * The server is attempting a graceful halt of operations and will exit (or
      * be killed by the operating system) soon.
      */
-    SHUTDOWN;
+    SHUTDOWN
   }
 
   State getState();

@@ -34,7 +34,7 @@ import java.util.jar.Manifest;
 
 public abstract class Plugin {
   public static enum ApiType {
-    EXTENSION, PLUGIN, JS;
+    EXTENSION, PLUGIN, JS
   }
 
   /** Unique key that changes whenever a plugin reloads. */

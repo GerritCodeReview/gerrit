@@ -60,7 +60,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   }
 
   public enum Status {
-    SUBMITTED, MERGED;
+    SUBMITTED, MERGED
   }
 
   public static class Output {

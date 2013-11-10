@@ -241,7 +241,7 @@ public class WorkQueue {
       // prefer to see tasks sorted in: done before running,
       // running before ready, ready before sleeping.
       //
-      DONE, CANCELLED, RUNNING, READY, SLEEPING, OTHER;
+      DONE, CANCELLED, RUNNING, READY, SLEEPING, OTHER
     }
 
     private final Runnable runnable;

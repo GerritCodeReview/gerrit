@@ -74,7 +74,7 @@ public final class Project {
 
     MERGE_ALWAYS,
 
-    CHERRY_PICK;
+    CHERRY_PICK
   }
 
   public static enum State {
@@ -82,13 +82,13 @@ public final class Project {
 
     READ_ONLY,
 
-    HIDDEN;
+    HIDDEN
   }
 
   public static enum InheritableBoolean {
     TRUE,
     FALSE,
-    INHERIT;
+    INHERIT
   }
 
   protected NameKey name;

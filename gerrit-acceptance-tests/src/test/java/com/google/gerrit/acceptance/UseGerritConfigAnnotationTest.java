@@ -37,7 +37,7 @@ public class UseGerritConfigAnnotationTest extends AbstractDaemonTest {
   @Test
   @GerritConfigs({
       @GerritConfig(name="x.y", value="z"),
-      @GerritConfig(name="a.b", value="c"),
+      @GerritConfig(name="a.b", value="c")
   })
   public void testMultiple() {
     assertEquals("z", serverConfig.getString("x", null, "y"));

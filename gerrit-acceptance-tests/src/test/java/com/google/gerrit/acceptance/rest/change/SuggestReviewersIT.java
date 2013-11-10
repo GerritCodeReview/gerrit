@@ -97,7 +97,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   @GerritConfigs(
       {@GerritConfig(name = "suggest.accounts", value = "true"),
        @GerritConfig(name = "suggest.from", value = "1"),
-       @GerritConfig(name = "accounts.visibility", value = "NONE"),
+       @GerritConfig(name = "accounts.visibility", value = "NONE")
       })
   public void suggestReviewersNoResult2() throws GitAPIException, IOException,
       Exception {

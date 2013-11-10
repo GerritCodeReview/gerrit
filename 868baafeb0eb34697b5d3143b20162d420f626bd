@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e2631f7_ca65c378",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-10T20:32:54Z",
+      "side": 1,
+      "message": "That approach should be documented in Documentation/dev-bucks.txt",
+      "revId": "868baafeb0eb34697b5d3143b20162d420f626bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bef77598_8b5bcdbb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-10T20:32:54Z",
+      "side": 1,
+      "message": "May be it worth noting that the target resides in:\n\n buck-out/gen/plugins/reviewers.jar\n\nInstead in:\n\n buck-out/gen/plugins/replication/replication.jar\n\nas this is the case for core plugins.",
+      "revId": "868baafeb0eb34697b5d3143b20162d420f626bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e2631f7_2a329f78",
+        "filename": "tools/plugins.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-10T20:32:54Z",
+      "side": 1,
+      "message": "I wonder if it would make sense in addition to building alien (Maven driven) plugin on the fly, should optionally generate the BUCK file? That way the developer could adjust it.",
+      "revId": "868baafeb0eb34697b5d3143b20162d420f626bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e2631f7_ea688752",
+        "filename": "tools/plugins.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-10T20:32:54Z",
+      "side": 1,
+      "message": "Not expansion of Maven variables is a serious limitation and kind of unexpected and must be mentioned in the commit message. Consider the following pom.xml excerpt:\n\n  [...]\n  \u003cgroupId\u003ecom.googlesource.gerrit.plugins.reviewers\u003c/groupId\u003e\n  \u003cartifactId\u003ereviewers\u003c/artifactId\u003e\n  \u003cversion\u003e2.9-SNAPSHOT\u003c/version\u003e\n  \u003cname\u003ereviewers\u003c/name\u003e\n  [...]\n  \u003cproperties\u003e\n    \u003cGerrit-ApiType\u003eextension\u003c/Gerrit-ApiType\u003e\n    \u003cGerrit-ApiVersion\u003e${project.version}\u003c/Gerrit-ApiVersion\u003e\n  \u003c/properties\u003e\n [...]\n   \u003cGerrit-PluginName\u003e${project.name}\u003c/Gerrit-PluginName\u003e\n   \u003cImplementation-Version\u003e${project.version}\u003c/Implementation-Version\u003e\n   \u003cGerrit-ApiType\u003e${Gerrit-ApiType}\u003c/Gerrit-ApiType\u003e\n   \u003cGerrit-ApiVersion\u003e${Gerrit-ApiVersion}\u003c/Gerrit-ApiVersion\u003e\n\nBecause Maven variabe expansion skipped, Buck driven build errorneously produces:\n\n  Gerrit-ApiType: plugin\n  Implementation-Version: v2.8-rc2-184-g868baaf\n\nWit the result, that the Gerrit-ApiType was reverted to plugin, and plugin name and Implementation-Version were lost.",
+      "revId": "868baafeb0eb34697b5d3143b20162d420f626bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

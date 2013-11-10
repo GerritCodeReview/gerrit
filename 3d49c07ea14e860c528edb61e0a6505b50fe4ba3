@@ -34,6 +34,40 @@
       "revId": "3d49c07ea14e860c528edb61e0a6505b50fe4ba3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_12b42cba",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-10T00:39:50Z",
+      "side": 1,
+      "message": "Unnecessary cast.",
+      "revId": "3d49c07ea14e860c528edb61e0a6505b50fe4ba3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e2b3dc3_2968ed7d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-10T00:39:50Z",
+      "side": 1,
+      "message": "Unnecessary cast.",
+      "revId": "3d49c07ea14e860c528edb61e0a6505b50fe4ba3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

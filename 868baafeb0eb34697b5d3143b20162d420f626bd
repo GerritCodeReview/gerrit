@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "bef77598_cb65d578",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-10T21:26:52Z",
+      "side": 1,
+      "message": "May be it worth noting that this currently doesn\u0027t work with GWT plugins. Trying to compile the latest version of Edwin\u0027s serviceusers plugin fails with:\n\n http://paste.openstack.org/show/51441/",
+      "revId": "868baafeb0eb34697b5d3143b20162d420f626bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bef77598_8b5bcdbb",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

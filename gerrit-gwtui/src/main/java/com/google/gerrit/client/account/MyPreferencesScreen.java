@@ -280,7 +280,7 @@ public class MyPreferencesScreen extends SettingsScreen {
         return;
       }
     }
-    if (currentValue != defaultValue) {
+    if (!currentValue.equals(defaultValue)) {
       setListBox(f, defaultValue, defaultValue);
     }
   }

@@ -190,7 +190,7 @@ public final class GerritLauncher {
     try {
       path = getDistributionArchive();
     } catch (FileNotFoundException e) {
-      if (NOT_ARCHIVED == e.getMessage()) {
+      if (NOT_ARCHIVED.equals(e.getMessage())) {
         // Assume the CLASSPATH was made complete by the calling process,
         // as we are likely being run from within a developer's IDE.
         //

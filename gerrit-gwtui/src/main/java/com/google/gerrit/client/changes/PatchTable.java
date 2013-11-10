@@ -453,7 +453,7 @@ public class PatchTable extends Composite {
           for (Patch p : detail.getPatches()) {
             openWindow(Dispatcher.toPatchUnified(base, p.getKey()));
           }
-        };
+        }
       });
       table.setWidget(row, C_UNIFIED, unified);
     }

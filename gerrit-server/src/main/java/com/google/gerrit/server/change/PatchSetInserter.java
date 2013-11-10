@@ -82,11 +82,11 @@ public class PatchSetInserter {
    * validation.
    */
   public static enum ValidatePolicy {
-    GERRIT, RECEIVE_COMMITS, NONE;
+    GERRIT, RECEIVE_COMMITS, NONE
   }
 
   public static enum ChangeKind {
-    REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE;
+    REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE
   }
 
   private final ChangeHooks hooks;

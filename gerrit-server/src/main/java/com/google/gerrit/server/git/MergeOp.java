@@ -951,7 +951,7 @@ public class MergeOp {
   }
 
   private enum RetryStatus {
-    UNSUBMIT, RETRY_NO_MESSAGE, RETRY_ADD_MESSAGE;
+    UNSUBMIT, RETRY_NO_MESSAGE, RETRY_ADD_MESSAGE
   }
 
   private RetryStatus getRetryStatus(

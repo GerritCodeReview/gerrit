@@ -27,12 +27,12 @@ public final class AccountGeneralPreferences {
 
   /** Preferred scheme type to download a change. */
   public static enum DownloadScheme {
-    ANON_GIT, ANON_HTTP, HTTP, SSH, REPO_DOWNLOAD, DEFAULT_DOWNLOADS;
+    ANON_GIT, ANON_HTTP, HTTP, SSH, REPO_DOWNLOAD, DEFAULT_DOWNLOADS
   }
 
   /** Preferred method to download a change. */
   public static enum DownloadCommand {
-    REPO_DOWNLOAD, PULL, CHECKOUT, CHERRY_PICK, FORMAT_PATCH, DEFAULT_DOWNLOADS;
+    REPO_DOWNLOAD, PULL, CHECKOUT, CHERRY_PICK, FORMAT_PATCH, DEFAULT_DOWNLOADS
   }
 
   public static enum DateFormat {
@@ -69,7 +69,7 @@ public final class AccountGeneralPreferences {
     COLLAPSE_ALL,
     EXPAND_MOST_RECENT,
     EXPAND_RECENT,
-    EXPAND_ALL;
+    EXPAND_ALL
   }
 
   public static enum DiffView {

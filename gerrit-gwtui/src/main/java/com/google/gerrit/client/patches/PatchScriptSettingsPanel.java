@@ -147,7 +147,7 @@ public class PatchScriptSettingsPanel extends Composite {
         }
       }
       toggleEnabledStatus(on);
-    };
+    }
   }
 
   public void setEnableSmallFileFeatures(final boolean on) {

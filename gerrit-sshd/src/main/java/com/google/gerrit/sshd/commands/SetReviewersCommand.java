@@ -118,7 +118,7 @@ public class SetReviewersCommand extends SshCommand {
     DeleteReviewer delete = deleteReviewerProvider.get();
     for (Account.Id reviewer : toRemove) {
       ReviewerResource rsrc = reviewerFactory.create(changeRsrc, reviewer);
-      String error = null;;
+      String error = null;
       try {
         delete.apply(rsrc, new DeleteReviewer.Input());
       } catch (ResourceNotFoundException e) {

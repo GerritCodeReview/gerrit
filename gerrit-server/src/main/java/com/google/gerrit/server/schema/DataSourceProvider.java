@@ -84,7 +84,7 @@ public class DataSourceProvider implements Provider<DataSource>,
   }
 
   public static enum Context {
-    SINGLE_USER, MULTI_USER;
+    SINGLE_USER, MULTI_USER
   }
 
   private DataSource open(final SitePaths site, final Config cfg,

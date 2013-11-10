@@ -37,7 +37,7 @@ public class SubmitRecord {
      * <p>
      * Additional detail may be available in {@link SubmitRecord#errorMessage}.
      */
-    RULE_ERROR;
+    RULE_ERROR
   }
 
   public Status status;
@@ -78,7 +78,7 @@ public class SubmitRecord {
        * The likely cause is access has not been granted correctly by the
        * project owner or site administrator.
        */
-      IMPOSSIBLE;
+      IMPOSSIBLE
     }
 
     public String label;

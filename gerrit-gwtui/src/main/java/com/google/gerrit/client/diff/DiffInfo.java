@@ -93,7 +93,7 @@ public class DiffInfo extends JavaScriptObject {
   }
 
   public enum IntraLineStatus {
-    OFF, OK, TIMEOUT, FAILURE;
+    OFF, OK, TIMEOUT, FAILURE
   }
 
   public static class FileMeta extends JavaScriptObject {

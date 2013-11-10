@@ -16,5 +16,5 @@ package com.google.gerrit.common.changes;
 
 /** The side on which a comment was added. */
 public enum Side {
-  PARENT, REVISION;
+  PARENT, REVISION
 }

@@ -56,7 +56,7 @@ import java.sql.Timestamp;
  */
 public final class Account {
   public static enum FieldName {
-    FULL_NAME, USER_NAME, REGISTER_NEW_EMAIL;
+    FULL_NAME, USER_NAME, REGISTER_NEW_EMAIL
   }
 
   public static final String USER_NAME_PATTERN_FIRST = "[a-zA-Z]";

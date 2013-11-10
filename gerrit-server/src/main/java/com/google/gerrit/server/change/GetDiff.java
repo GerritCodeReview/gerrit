@@ -193,7 +193,7 @@ public class GetDiff implements RestReadView<FileResource> {
   enum IntraLineStatus {
     OK,
     TIMEOUT,
-    FAILURE;
+    FAILURE
   }
 
   private static class Content {

@@ -71,7 +71,7 @@ public abstract class Screen extends View {
   }
 
   private static enum Cols {
-    West, Title, East, FarEast;
+    West, Title, East, FarEast
   }
 
   protected void onInitUI() {

@@ -64,7 +64,7 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
   }
 
   public static enum Status {
-    NO_RULES, COMPILED;
+    NO_RULES, COMPILED
   }
 
   private final File ruleDir;

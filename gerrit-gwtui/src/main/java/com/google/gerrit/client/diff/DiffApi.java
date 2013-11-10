@@ -23,8 +23,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class DiffApi {
   public enum IgnoreWhitespace {
-    NONE, TRAILING, CHANGED, ALL;
-  };
+    NONE, TRAILING, CHANGED, ALL
+  }
 
   public static void list(int id, String revision,
       AsyncCallback<NativeMap<FileInfo>> cb) {

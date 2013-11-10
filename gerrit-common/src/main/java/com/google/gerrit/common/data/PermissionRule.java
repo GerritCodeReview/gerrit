@@ -20,7 +20,7 @@ public class PermissionRule implements Comparable<PermissionRule> {
   public static enum Action {
     ALLOW, DENY, BLOCK,
 
-    INTERACTIVE, BATCH;
+    INTERACTIVE, BATCH
   }
 
   protected Action action = Action.ALLOW;

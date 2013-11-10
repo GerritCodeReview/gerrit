@@ -82,7 +82,7 @@ class EditMessageBox extends Composite {
           public void onSuccess(JavaScriptObject msg) {
             Gerrit.display(PageLinks.toChange(changeId));
             hide();
-          };
+          }
         });
   }
 

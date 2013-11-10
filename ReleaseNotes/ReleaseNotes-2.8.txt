@@ -278,6 +278,15 @@ Delete account SSH key]
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-accounts.html#get-username[
 Get account username]
 
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-accounts.html#get-starred-changes[
+Get starred changes]
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-accounts.html#star-change[
+Star change]
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-accounts.html#unstar-change[
+Unstar change]
+
 Changes
 ^^^^^^^
 

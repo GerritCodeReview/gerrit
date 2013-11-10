@@ -199,11 +199,8 @@ class LibraryDownloader {
     System.err.print("Copying " + jarUrl + " ...");
     File f = url2file(jarUrl);
     if (!f.exists()) {
-      StringBuilder msg = new StringBuilder()
-          .append("\n")
-          .append("Can not find the %s at this location: %s\n")
-          .append("Please provide alternative URL");
-      f = url2file(ui.readString(null, msg.toString(), name, jarUrl));
+      f = url2file(ui.readString(null,
+          "\nCan not find the %s at this location: %s\nPlease provide alternative URL", name, jarUrl));
     }
     Files.copy(f, dst);
   }

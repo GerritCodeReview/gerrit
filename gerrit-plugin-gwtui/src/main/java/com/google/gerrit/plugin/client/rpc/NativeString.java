@@ -22,7 +22,7 @@ public class NativeString extends JavaScriptObject {
   private static final JavaScriptObject TYPE = init();
 
   private static final native JavaScriptObject init()
-  /*-{ return $wnd.Gerrit.JsonString } }-*/;
+  /*-{ return $wnd.Gerrit.JsonString }-*/;
 
   public final native String asString()
   /*-{ return this.get(); }-*/;

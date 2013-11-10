@@ -1,8 +1,26 @@
 include_defs('//gerrit-acceptance-tests/tests.defs')
 
+UTIL_SRCS = [
+  'AccountInfo.java',
+  'ChangeInfo.java',
+  'ChangeMessageInfo.java',
+  'GroupInfo.java',
+  'ProjectConfigInput.java',
+  'SubmitInput.java',
+  'SuggestReviewerInfo.java',
+]
+
+SUBMIT_UTIL_SRCS = [
+  'AbstractSubmit.java',
+  'AbstractSubmitByMerge.java',
+]
+
+NON_TEST = UTIL_SRCS + SUBMIT_UTIL_SRCS
+SUBMIT_TESTS = glob(['Submit*IT.java'], excludes = NON_TEST)
+OTHER_TESTS = glob(['*IT.java'], excludes = SUBMIT_TESTS + NON_TEST)
+
 acceptance_tests(
-  srcs = ['ChangeMessagesIT.java', 'DeleteDraftChangeIT.java',
-          'DeleteDraftPatchSetIT.java'],
+  srcs = OTHER_TESTS,
   deps = [
     ':util',
     '//gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git:util',
@@ -10,18 +28,16 @@ acceptance_tests(
 )
 
 acceptance_tests(
-  srcs = ['SubmitByCherryPickIT.java', 'SubmitByFastForwardIT.java',
-          'SubmitByMergeAlwaysIT.java', 'SubmitByMergeIfNecessaryIT.java',
-          'SubmitByRebaseIfNecessaryIT.java'],
+  srcs = SUBMIT_TESTS,
   deps = [
-    ':submit',
+    ':submit_util',
     '//gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git:util',
   ],
 )
 
 java_library(
-  name = 'submit',
-  srcs = ['AbstractSubmit.java', 'AbstractSubmitByMerge.java'],
+  name = 'submit_util',
+  srcs = SUBMIT_UTIL_SRCS,
   deps = [
     ':util',
     '//gerrit-acceptance-tests:lib',
@@ -31,9 +47,7 @@ java_library(
 
 java_library(
   name = 'util',
-  srcs = ['AccountInfo.java', 'ChangeInfo.java', 'ChangeMessageInfo.java',
-          'GroupInfo.java', 'ProjectConfigInput.java', 'SubmitInput.java',
-          'SuggestReviewerInfo.java'],
+  srcs = UTIL_SRCS,
   deps = [
     '//lib:guava',
     '//gerrit-reviewdb:server',

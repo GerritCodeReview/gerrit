@@ -31,7 +31,6 @@ import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.contact.ContactStore;
 import com.google.gerrit.server.contact.ContactStoreProvider;
@@ -46,7 +45,7 @@ import com.google.inject.servlet.RequestScoped;
 
 import java.net.SocketAddress;
 
-public class WebModule extends FactoryModule {
+public class WebModule extends LifecycleModule {
   private final AuthConfig authConfig;
   private final UrlModule.UrlConfig urlConfig;
   private final boolean wantSSL;
@@ -132,11 +131,6 @@ public class WebModule extends FactoryModule {
     bind(SocketAddress.class).annotatedWith(RemotePeer.class).toProvider(
         HttpRemotePeerProvider.class).in(RequestScoped.class);
 
-    install(new LifecycleModule() {
-      @Override
-      protected void configure() {
-        listener().toInstance(registerInParentInjectors());
-      }
-    });
+    listener().toInstance(registerInParentInjectors());
   }
 }

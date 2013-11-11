@@ -16,13 +16,13 @@ package com.google.gerrit.sshd;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
-import com.google.inject.AbstractModule;
+import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.inject.binder.LinkedBindingBuilder;
 
 import org.apache.sshd.server.Command;
 
 /** Module to register commands in the SSH daemon. */
-public abstract class CommandModule extends AbstractModule {
+public abstract class CommandModule extends LifecycleModule {
   /**
    * Configure a command to be invoked by name.
    *

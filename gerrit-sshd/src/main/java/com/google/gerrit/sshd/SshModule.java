@@ -21,7 +21,6 @@ import com.google.common.collect.Maps;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.RemotePeer;
-import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.AsyncReceiveCommits;
@@ -47,7 +46,7 @@ import java.net.SocketAddress;
 import java.util.Map;
 
 /** Configures standard dependencies for {@link SshDaemon}. */
-public class SshModule extends FactoryModule {
+public class SshModule extends LifecycleModule {
   private final Map<String, String> aliases;
 
   @Inject
@@ -87,25 +86,20 @@ public class SshModule extends FactoryModule {
 
     install(new DefaultCommandModule());
 
-    install(new LifecycleModule() {
-      @Override
-      protected void configure() {
-        bind(ModuleGenerator.class).to(SshAutoRegisterModuleGenerator.class);
-        bind(SshPluginStarterCallback.class);
-        bind(StartPluginListener.class)
-          .annotatedWith(UniqueAnnotations.create())
-          .to(SshPluginStarterCallback.class);
+    bind(ModuleGenerator.class).to(SshAutoRegisterModuleGenerator.class);
+    bind(SshPluginStarterCallback.class);
+    bind(StartPluginListener.class)
+      .annotatedWith(UniqueAnnotations.create())
+      .to(SshPluginStarterCallback.class);
 
-        bind(ReloadPluginListener.class)
-          .annotatedWith(UniqueAnnotations.create())
-          .to(SshPluginStarterCallback.class);
+    bind(ReloadPluginListener.class)
+      .annotatedWith(UniqueAnnotations.create())
+      .to(SshPluginStarterCallback.class);
 
-        listener().toInstance(registerInParentInjectors());
-        listener().to(SshLog.class);
-        listener().to(SshDaemon.class);
-        listener().to(CommandFactoryProvider.class);
-      }
-    });
+    listener().toInstance(registerInParentInjectors());
+    listener().to(SshLog.class);
+    listener().to(SshDaemon.class);
+    listener().to(CommandFactoryProvider.class);
   }
 
   private void configureAliases() {

@@ -27,7 +27,6 @@ import com.google.gerrit.server.cache.MemoryCacheFactory;
 import com.google.gerrit.server.cache.PersistentCacheFactory;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
 import com.google.gerrit.server.config.ConfigUtil;
-import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 
@@ -39,13 +38,7 @@ public class DefaultCacheFactory implements MemoryCacheFactory {
   public static class Module extends LifecycleModule {
     @Override
     protected void configure() {
-      install(new FactoryModule() {
-        @Override
-        protected void configure() {
-          factory(ForwardingRemovalListener.Factory.class);
-        }
-      });
-
+      factory(ForwardingRemovalListener.Factory.class);
       bind(DefaultCacheFactory.class);
       bind(MemoryCacheFactory.class).to(DefaultCacheFactory.class);
       bind(PersistentCacheFactory.class).to(H2CacheFactory.class);

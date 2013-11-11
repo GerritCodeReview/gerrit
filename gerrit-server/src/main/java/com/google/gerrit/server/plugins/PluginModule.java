@@ -16,9 +16,8 @@ package com.google.gerrit.server.plugins;
 
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.inject.AbstractModule;
 
-public class PluginModule extends AbstractModule {
+public class PluginModule extends LifecycleModule {
   @Override
   protected void configure() {
     bind(ServerInformationImpl.class);
@@ -28,11 +27,6 @@ public class PluginModule extends AbstractModule {
     bind(PluginGuiceEnvironment.class);
     bind(PluginLoader.class);
     bind(CopyConfigModule.class);
-    install(new LifecycleModule() {
-      @Override
-      protected void configure() {
-        listener().to(PluginLoader.class);
-      }
-    });
+    listener().to(PluginLoader.class);
   }
 }

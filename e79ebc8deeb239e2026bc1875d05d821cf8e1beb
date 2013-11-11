@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9e2631f7_8acc6bfb",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1088,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-11T10:58:16Z",
+      "side": 1,
+      "message": "Don\u0027t know how a Buck build would look like for a GWT plugin. This still needs to be investigated. Once this is known, it\u0027s a good idea to include this into the cookbook-plugin.",
+      "parentUuid": "9e2631f7_4adb93b6",
+      "revId": "e79ebc8deeb239e2026bc1875d05d821cf8e1beb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e2631f7_eab24779",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 1

@@ -1037,6 +1037,51 @@ Gerrit-ApiType: plugin
 Gerrit-Module: com.googlesource.gerrit.plugins.helloworld.HelloWorldModule
 ----
 
+It is also possible to show some menu entries only if the user has a
+certain capability:
+
+[source,java]
+----
+public class MyTopMenuExtension implements TopMenu {
+  private final String pluginName;
+  private final Provider<CurrentUser> userProvider;
+  private final List<MenuEntry> menuEntries;
+
+  @Inject
+  public MyTopMenuExtension(@PluginName String pluginName,
+      Provider<CurrentUser> userProvider) {
+    this.pluginName = pluginName;
+    this.userProvider = userProvider;
+    menuEntries = new ArrayList<TopMenu.MenuEntry>();
+
+    // add menu entry that is only visible to users with a certain capability
+    if (canSeeMenuEntry()) {
+      menuEntries.add(new MenuEntry("Top Menu Entry", Collections
+          .singletonList(new MenuItem("Gerrit", "http://gerrit.googlecode.com/"))));
+    }
+
+    // add menu entry that is visible to all users (even anonymous users)
+    menuEntries.add(new MenuEntry("Top Menu Entry", Collections
+          .singletonList(new MenuItem("Documentation", "/plugins/myplugin/"))));
+  }
+
+  private boolean canSeeMenuEntry() {
+    if (userProvider.get().isIdentifiedUser()) {
+      CapabilityControl ctl = userProvider.get().getCapabilities();
+      return ctl.canPerform(pluginName + "-" + MyCapability.ID)
+          || ctl.canAdministrateServer();
+    } else {
+      return false;
+    }
+  }
+
+  @Override
+  public List<MenuEntry> getEntries() {
+    return menuEntries;
+  }
+}
+----
+
 [[gwt_ui_extension]]
 GWT UI Extension
 ----------------

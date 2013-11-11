@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "bef77598_abcfa9ee",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1090,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-11T12:03:00Z",
+      "side": 1,
+      "message": "It was definitely a bug to name the GWT module \u0027HelloPlugins\u0027 in gerrit-plugin-gwt-archetype. Instead to proliferate that bug even further, it should be fixed in the gerrit-plugin-gwt-archetype first.",
+      "parentUuid": "bef77598_aba8490b",
+      "revId": "e79ebc8deeb239e2026bc1875d05d821cf8e1beb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e2631f7_caaf830f",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 1

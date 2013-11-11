@@ -1211,6 +1211,27 @@ unique name and must be registered in the GWT module:
 <stylesheet src="hello.css"/>
 ----
 
+If a GWT plugin wants to invoke the Gerrit REST API it can use
+`com.google.gerrit.plugin.client.rpc.RestApi` to contruct the URL
+path and to trigger the REST calls:
+
+[source,java]
+----
+new RestApi("projects").id(projectName).view("myplugin", "myview")
+    .get(new AsyncCallback<JavaScriptObject>() {
+
+  @Override
+  public void onSuccess(JavaScriptObject result) {
+    // TODO
+  }
+
+  @Override
+  public void onFailure(Throwable caught) {
+    // never invoked
+  }
+});
+----
+
 [[http]]
 HTTP Servlets
 -------------

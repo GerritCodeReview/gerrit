@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e2545ef_6785f23f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-11-11T16:11:53Z",
+      "side": 1,
+      "message": "Add a comment that WHOLE_FILE_CONTEXT is the last item?",
+      "range": {
+        "startLine": 166,
+        "startChar": 20,
+        "endLine": 166,
+        "endChar": 44
+      },
+      "revId": "61b1e15298c79179ee078a172aab1facab7871ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

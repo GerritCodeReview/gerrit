@@ -1037,6 +1037,18 @@ Gerrit-ApiType: plugin
 Gerrit-Module: com.googlesource.gerrit.plugins.helloworld.HelloWorldModule
 ----
 
+[[gwt_ui_extension]]
+GWT UI Extension
+----------------
+Plugins can extend the Gerrit UI with own GWT code.
+
+The Maven archetype 'gerrit-plugin-gwt-archetype' can be used to
+generate a GWT plugin skeleton. How to use the Maven plugin archetypes
+is described in the link:#getting-started[Getting started] section.
+
+The generated GWT plugin has a link:#top-menu-extensions[top menu] that
+opens a GWT dialog box when the user clicks on it.
+
 [[http]]
 HTTP Servlets
 -------------

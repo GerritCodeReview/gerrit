@@ -22,6 +22,24 @@
       "revId": "61b1e15298c79179ee078a172aab1facab7871ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e1a41b4_6685ee3f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-11-11T16:16:57Z",
+      "side": 1,
+      "message": "Worthwhile, at least.",
+      "parentUuid": "3e2545ef_6785f23f",
+      "revId": "61b1e15298c79179ee078a172aab1facab7871ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

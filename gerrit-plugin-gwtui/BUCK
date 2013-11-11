@@ -5,7 +5,7 @@ gwt_module(
   srcs = glob([SRC + '**/*.java']),
   gwtxml = SRC + 'Plugin.gwt.xml',
   resources = glob(['src/main/resources/**/*']),
-  deps = [
+  compile_deps = [
     '//lib/gwt:user',
     '//lib/gwt:dev',
   ],

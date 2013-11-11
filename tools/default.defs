@@ -29,24 +29,6 @@ def genantlr(
     out = out,
   )
 
-def gwt_module(
-    name,
-    srcs,
-    gwtxml = None,
-    resources = [],
-    deps = [],
-    visibility = []):
-  if gwtxml:
-    resources = resources + [gwtxml]
-  resources = resources + srcs
-  java_library(
-    name = name,
-    srcs = srcs,
-    deps = deps,
-    resources = resources,
-    visibility = visibility,
-  )
-
 def gwt_application(
     name,
     module_target,
@@ -104,9 +86,30 @@ def java_library2(
     visibility = visibility,
   )
 
+def gwt_module(
+    name,
+    srcs,
+    gwtxml = None,
+    resources = [],
+    deps = [],
+    compile_deps = [],
+    visibility = []):
+  if gwtxml:
+    resources = resources + [gwtxml]
+  resources = resources + srcs
+  java_library2(
+    name = name,
+    srcs = srcs,
+    deps = deps,
+    compile_deps = compile_deps,
+    resources = resources,
+    visibility = visibility,
+  )
+
 def gerrit_extension(
     name,
     deps = [],
+    compile_deps = [],
     srcs = [],
     resources = [],
     manifest_file = None,
@@ -115,6 +118,7 @@ def gerrit_extension(
   gerrit_plugin(
     name = name,
     deps = deps,
+    compile_deps = compile_deps,
     srcs = srcs,
     resources = resources,
     manifest_file = manifest_file,
@@ -126,6 +130,7 @@ def gerrit_extension(
 def gerrit_plugin(
     name,
     deps = [],
+    compile_deps = [],
     srcs = [],
     resources = [],
     manifest_file = None,
@@ -154,7 +159,7 @@ def gerrit_plugin(
     srcs = srcs,
     resources = resources,
     deps = deps,
-    compile_deps = ['//:%s-lib' % type],
+    compile_deps = ['//:%s-lib' % type] + compile_deps,
   )
   java_binary(
     name = name,

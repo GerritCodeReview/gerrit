@@ -71,7 +71,7 @@ limitations under the License.
         <artifactId>gwt-maven-plugin</artifactId>
         <version>${Gwt-Version}</version>
         <configuration>
-          <module>${package}.HelloPlugins</module>
+          <module>${package}.HelloPlugin</module>
           <disableClassMetadata>true</disableClassMetadata>
           <disableCastChecking>true</disableCastChecking>
           <webappDirectory>${project.build.directory}/classes/static</webappDirectory>

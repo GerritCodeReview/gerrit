@@ -20,6 +20,6 @@ import com.google.gerrit.extensions.annotations.Listen;
 @Listen
 public class MyExtension extends GwtPlugin {
   public MyExtension() {
-    super("hello_gwt_plugins");
+    super("hello_gwt_plugin");
   }
 }

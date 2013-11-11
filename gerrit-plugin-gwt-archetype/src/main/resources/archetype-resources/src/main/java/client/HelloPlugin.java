@@ -25,9 +25,9 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import ${package}.HelloMenu;
 
 /**
- * HelloWorld Plugins.
+ * HelloWorld Plugin.
  */
-public class HelloPlugins extends Plugin {
+public class HelloPlugin extends Plugin {
 
   @Override
   public void onModuleLoad() {

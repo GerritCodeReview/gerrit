@@ -14,7 +14,7 @@
 
 package ${package}.client;
 
-import com.google.gerrit.client.Plugin;
+import com.google.gerrit.plugin.client.Plugin;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;

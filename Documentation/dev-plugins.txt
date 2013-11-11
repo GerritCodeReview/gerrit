@@ -1049,6 +1049,193 @@ is described in the link:#getting-started[Getting started] section.
 The generated GWT plugin has a link:#top-menu-extensions[top menu] that
 opens a GWT dialog box when the user clicks on it.
 
+In addition to the Gerrit-Plugin API a GWT plugin depends on
+`gerrit-plugin-gwtui`. This dependency must be specified in the
+`pom.xml`:
+
+[source,xml]
+----
+<dependency>
+  <groupId>com.google.gerrit</groupId>
+  <artifactId>gerrit-plugin-gwtui</artifactId>
+  <version>${Gerrit-ApiVersion}</version>
+</dependency>
+----
+
+A GWT plugin must contain a GWT module file, e.g. `HelloPlugin.gwt.xml`,
+that bundles together all the configuration settings of the GWT plugin:
+
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to="hello_gwt_plugin">
+  <!-- Inherit the core Web Toolkit stuff. -->
+  <inherits name="com.google.gwt.user.User"/>
+  <!-- Other module inherits -->
+  <inherits name="com.google.gerrit.Plugin"/>
+  <inherits name="com.google.gwt.http.HTTP"/>
+  <!-- Using GWT built-in themes adds a number of static -->
+  <!-- resources to the plugin. No theme inherits lines were -->
+  <!-- added in order to make this plugin as simple as possible -->
+  <!-- Specify the app entry point class. -->
+  <entry-point class="${package}.client.HelloPlugin"/>
+  <stylesheet src="hello.css"/>
+</module>
+----
+
+The GWT module must inherit `com.google.gerrit.Plugin` and
+`com.google.gwt.http.HTTP`.
+
+To register the GWT module a `GwtPlugin` needs to be bound.
+
+If no Guice modules are declared in the manifest, the GWT plugin may
+use auto-registration by using the `@Listen` annotation:
+
+[source,java]
+----
+@Listen
+public class MyExtension extends GwtPlugin {
+  public MyExtension() {
+    super("hello_gwt_plugin");
+  }
+}
+----
+
+Otherwise the binding must be done in an `HttpModule`:
+
+[source,java]
+----
+public class HttpModule extends HttpPluginModule {
+
+  @Override
+  protected void configureServlets() {
+    DynamicSet.bind(binder(), WebUiPlugin.class)
+        .toInstance(new GwtPlugin("hello_gwt_plugin"));
+  }
+}
+----
+
+The HTTP module above must be declared in the `pom.xml` for Maven
+driven plugins:
+
+[source,xml]
+----
+<manifestEntries>
+  <Gerrit-HttpModule>com.googlesource.gerrit.plugins.myplugin.HttpModule</Gerrit-HttpModule>
+</manifestEntries>
+----
+
+It is important that the module name that is provided to the
+`GwtPlugin` matches the GWT module contained in the plugin. The name
+of the GWT module can be explicitly set in the GWT module file by
+specifying the `rename-to` attribute on the module.
+
+[source,xml]
+----
+<module rename-to="hello_gwt_plugin">
+----
+
+The actual GWT code must be implemented in a class that extends
+`com.google.gerrit.plugin.client.Plugin`:
+
+[source,java]
+----
+public class HelloPlugin extends Plugin {
+
+  @Override
+  public void onModuleLoad() {
+    // Create the dialog box
+    final DialogBox dialogBox = new DialogBox();
+
+    // The content of the dialog comes from a User specified Preference
+    dialogBox.setText("Hello from GWT Gerrit UI plugin");
+    dialogBox.setAnimationEnabled(true);
+    Button closeButton = new Button("Close");
+    VerticalPanel dialogVPanel = new VerticalPanel();
+    dialogVPanel.setWidth("100%");
+    dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
+    dialogVPanel.add(closeButton);
+
+    closeButton.addClickHandler(new ClickHandler() {
+      public void onClick(ClickEvent event) {
+        dialogBox.hide();
+      }
+    });
+
+    // Set the contents of the Widget
+    dialogBox.setWidget(dialogVPanel);
+
+    RootPanel rootPanel = RootPanel.get(HelloMenu.MENU_ID);
+    rootPanel.getElement().removeAttribute("href");
+    rootPanel.addDomHandler(new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          dialogBox.center();
+          dialogBox.show();
+        }
+    }, ClickEvent.getType());
+  }
+}
+----
+
+This class must be set as entry point in the GWT module:
+
+[source,xml]
+----
+<entry-point class="${package}.client.HelloPlugin"/>
+----
+
+In addition this class must be defined as module in the `pom.xml` for the
+`gwt-maven-plugin` and the `webappDirectory` option of `gwt-maven-plugin`
+must be set to `${project.build.directory}/classes/static`:
+
+[source,xml]
+----
+<plugin>
+  <groupId>org.codehaus.mojo</groupId>
+  <artifactId>gwt-maven-plugin</artifactId>
+  <version>2.5.1</version>
+  <configuration>
+    <module>com.googlesource.gerrit.plugins.myplugin.HelloPlugin</module>
+    <disableClassMetadata>true</disableClassMetadata>
+    <disableCastChecking>true</disableCastChecking>
+    <webappDirectory>${project.build.directory}/classes/static</webappDirectory>
+  </configuration>
+  <executions>
+    <execution>
+      <goals>
+        <goal>compile</goal>
+      </goals>
+    </execution>
+  </executions>
+</plugin>
+----
+
+To attach a GWT widget defined by the plugin to the Gerrit core UI
+`com.google.gwt.user.client.ui.RootPanel` can be used to manipulate the
+Gerrit core widgets:
+
+[source,java]
+----
+RootPanel rootPanel = RootPanel.get(HelloMenu.MENU_ID);
+rootPanel.getElement().removeAttribute("href");
+rootPanel.addDomHandler(new ClickHandler() {
+  @Override
+  public void onClick(ClickEvent event) {
+    dialogBox.center();
+    dialogBox.show();
+  }
+}, ClickEvent.getType());
+----
+
+GWT plugins can come with their own css file. This css file must have a
+unique name and must be registered in the GWT module:
+
+[source,xml]
+----
+<stylesheet src="hello.css"/>
+----
+
 [[http]]
 HTTP Servlets
 -------------

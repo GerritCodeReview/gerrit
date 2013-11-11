@@ -22,6 +22,8 @@ import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import ${package}.HelloMenu;
+
 /**
  * HelloWorld Plugins.
  */
@@ -29,15 +31,6 @@ public class HelloPlugins extends Plugin {
 
   @Override
   public void onModuleLoad() {
-    Button button = new Button("Click me");
-
-    VerticalPanel vPanel = new VerticalPanel();
-    vPanel.setWidth("100%");
-    vPanel.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
-    vPanel.add(button);
-
-    RootPanel.get().add(vPanel);
-
     // Create the dialog box
     final DialogBox dialogBox = new DialogBox();
 
@@ -59,11 +52,14 @@ public class HelloPlugins extends Plugin {
     // Set the contents of the Widget
     dialogBox.setWidget(dialogVPanel);
 
-    button.addClickHandler(new ClickHandler() {
-      public void onClick(ClickEvent event) {
-        dialogBox.center();
-        dialogBox.show();
-      }
-    });
+    RootPanel rootPanel = RootPanel.get(HelloMenu.MENU_ID);
+    rootPanel.getElement().removeAttribute("href");
+    rootPanel.addDomHandler(new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          dialogBox.center();
+          dialogBox.show();
+        }
+    }, ClickEvent.getType());
   }
 }

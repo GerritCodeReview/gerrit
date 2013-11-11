@@ -25,5 +25,5 @@
   <!-- added in order to make this plugin as simple as possible   -->
   <!-- Specify the app entry point class.                         -->
   <entry-point class="${package}.client.HelloPlugins"/>
-  <stylesheet src="plugin.css"/>
+  <stylesheet src="hello.css"/>
 </module>

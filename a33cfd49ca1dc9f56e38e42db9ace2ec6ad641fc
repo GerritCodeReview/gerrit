@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e1a41b4_267bf6a6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffPreferencesPanel.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-11-11T16:09:30Z",
+      "side": 1,
+      "message": "Please update this implementation.",
+      "range": {
+        "startLine": 137,
+        "startChar": 4,
+        "endLine": 156,
+        "endChar": 5
+      },
+      "revId": "a33cfd49ca1dc9f56e38e42db9ace2ec6ad641fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

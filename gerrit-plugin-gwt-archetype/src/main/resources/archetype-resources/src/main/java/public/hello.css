@@ -101,3 +101,6 @@ a, a:visited, a:hover {
   zoom: 1;
 }
 
+#hello_open-dialog-box {
+  cursor: pointer;
+}

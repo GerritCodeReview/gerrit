@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "bef77598_aba8490b",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1090,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-11T10:55:37Z",
+      "side": 1,
+      "message": "I would leave \u0027HelloPlugins\u0027 for now as this is the name that the \u0027gerrit-plugin-gwt-archetype\u0027 generates. I don\u0027t know why it was named like this and we can probably just change it in the archetype and then update this documentation.",
+      "parentUuid": "9e2631f7_eab24779",
+      "revId": "e79ebc8deeb239e2026bc1875d05d821cf8e1beb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e2631f7_caaf830f",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2013-11-11T10:46:26Z",
       "side": 1,
       "message": "hello_gwt_plugin",
+      "revId": "e79ebc8deeb239e2026bc1875d05d821cf8e1beb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e2631f7_6ad65790",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1096,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-11T10:55:37Z",
+      "side": 1,
+      "message": "same as above",
+      "parentUuid": "9e2631f7_caaf830f",
       "revId": "e79ebc8deeb239e2026bc1875d05d821cf8e1beb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "bef77598_8ba58d33",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-11T10:55:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e2631f7_aaa84f0b",
+      "revId": "e79ebc8deeb239e2026bc1875d05d821cf8e1beb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bef77598_2bb57968",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 1
@@ -115,6 +169,24 @@
       "writtenOn": "2013-11-11T10:46:26Z",
       "side": 1,
       "message": "Better to mention, like this is the case with UiAction description, that @Listen construct only works, when no other explicit registration is used.",
+      "revId": "e79ebc8deeb239e2026bc1875d05d821cf8e1beb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bef77598_ebb25179",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1128,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-11T10:55:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e2631f7_8aa58b33",
       "revId": "e79ebc8deeb239e2026bc1875d05d821cf8e1beb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

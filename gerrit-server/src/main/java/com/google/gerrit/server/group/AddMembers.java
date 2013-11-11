@@ -200,7 +200,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     }
 
     @Override
-    public Object apply(GroupResource resource, PutMember.Input input)
+    public AccountInfo apply(GroupResource resource, PutMember.Input input)
         throws AuthException, MethodNotAllowedException,
         UnprocessableEntityException, OrmException {
       AddMembers.Input in = new AddMembers.Input();
@@ -225,7 +225,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     }
 
     @Override
-    public Object apply(MemberResource resource, PutMember.Input input)
+    public AccountInfo apply(MemberResource resource, PutMember.Input input)
         throws OrmException {
       // Do nothing, the user is already a member.
       return get.get().apply(resource);

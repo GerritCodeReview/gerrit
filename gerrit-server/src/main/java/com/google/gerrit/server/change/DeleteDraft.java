@@ -36,7 +36,8 @@ class DeleteDraft implements RestModifyView<DraftResource, Input> {
   }
 
   @Override
-  public Object apply(DraftResource rsrc, Input input) throws OrmException {
+  public Response<CommentInfo> apply(DraftResource rsrc, Input input)
+      throws OrmException {
     db.get().patchComments().delete(Collections.singleton(rsrc.getComment()));
     return Response.none();
   }

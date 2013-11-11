@@ -157,7 +157,7 @@ class StarredChanges implements
 
     @Override
     public Response<?> apply(AccountResource.StarredChange rsrc, EmptyInput in)
-        throws AuthException, OrmException {
+        throws AuthException {
       if (self.get() != rsrc.getUser()) {
         throw new AuthException("not allowed update starred changes");
       }

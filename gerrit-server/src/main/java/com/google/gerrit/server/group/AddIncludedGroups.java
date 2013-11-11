@@ -20,7 +20,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -87,7 +86,7 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
 
   @Override
   public List<GroupInfo> apply(GroupResource resource, Input input)
-      throws MethodNotAllowedException, AuthException, BadRequestException,
+      throws MethodNotAllowedException, AuthException,
       UnprocessableEntityException, OrmException {
     AccountGroup group = resource.toAccountGroup();
     if (group == null) {
@@ -149,7 +148,7 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
 
     @Override
     public GroupInfo apply(GroupResource resource, Input input)
-        throws MethodNotAllowedException, AuthException, BadRequestException,
+        throws AuthException, MethodNotAllowedException,
         UnprocessableEntityException, OrmException {
       AddIncludedGroups.Input in = new AddIncludedGroups.Input();
       in.groups = ImmutableList.of(id);
@@ -173,8 +172,8 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
     }
 
     @Override
-    public Object apply(IncludedGroupResource resource,
-        PutIncludedGroup.Input input) throws MethodNotAllowedException, OrmException {
+    public GroupInfo apply(IncludedGroupResource resource,
+        PutIncludedGroup.Input input) throws OrmException {
       // Do nothing, the group is already included.
       return get.get().apply(resource);
     }

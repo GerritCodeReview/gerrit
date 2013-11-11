@@ -16,9 +16,7 @@ package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.changes.Side;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.Url;
@@ -44,7 +42,7 @@ class CreateDraft implements RestModifyView<RevisionResource, Input> {
 
   @Override
   public Response<CommentInfo> apply(RevisionResource rsrc, Input in)
-      throws AuthException, BadRequestException, ResourceConflictException, OrmException {
+      throws BadRequestException, OrmException {
     if (Strings.isNullOrEmpty(in.path)) {
       throw new BadRequestException("path must be non-empty");
     } else if (in.message == null || in.message.trim().isEmpty()) {

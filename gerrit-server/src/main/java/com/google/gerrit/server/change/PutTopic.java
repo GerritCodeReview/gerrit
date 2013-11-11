@@ -18,9 +18,7 @@ import com.google.common.base.Strings;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
@@ -34,6 +32,7 @@ import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.AtomicUpdate;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -61,9 +60,8 @@ class PutTopic implements RestModifyView<ChangeResource, Input>,
   }
 
   @Override
-  public Object apply(ChangeResource req, Input input)
-      throws BadRequestException, AuthException,
-      ResourceConflictException, Exception {
+  public Response<String> apply(ChangeResource req, Input input)
+      throws AuthException, OrmException, IOException {
     if (input == null) {
       input = new Input();
     }
@@ -123,8 +121,8 @@ class PutTopic implements RestModifyView<ChangeResource, Input>,
       indexFuture.checkedGet();
     }
     return Strings.isNullOrEmpty(newTopicName)
-        ? Response.none()
-        : newTopicName;
+        ? Response.<String>none()
+        : Response.ok(newTopicName);
   }
 
   @Override

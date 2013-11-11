@@ -18,7 +18,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -33,7 +32,7 @@ public class GetHttpPassword implements RestReadView<AccountResource> {
 
   @Override
   public String apply(AccountResource rsrc) throws AuthException,
-      ResourceNotFoundException, OrmException {
+      ResourceNotFoundException {
     if (self.get() != rsrc.getUser()
         && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("not allowed to get http password");

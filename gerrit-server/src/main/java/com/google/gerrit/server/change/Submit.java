@@ -35,6 +35,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ProjectUtil;
+import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.index.ChangeIndexer;
@@ -332,7 +333,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     }
 
     @Override
-    public Object apply(ChangeResource rsrc, SubmitInput input)
+    public ChangeInfo apply(ChangeResource rsrc, SubmitInput input)
         throws AuthException, ResourceConflictException,
         RepositoryNotFoundException, IOException, OrmException {
       PatchSet ps = dbProvider.get().patchSets()

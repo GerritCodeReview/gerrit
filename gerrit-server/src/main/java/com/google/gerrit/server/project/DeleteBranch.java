@@ -59,7 +59,7 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input>{
   }
 
   @Override
-  public Object apply(BranchResource rsrc, Input input) throws AuthException,
+  public Response<?> apply(BranchResource rsrc, Input input) throws AuthException,
       ResourceConflictException, OrmException, IOException {
     if (!rsrc.getControl().controlForRef(rsrc.getBranchKey()).canDelete()) {
       throw new AuthException("Cannot delete branch");

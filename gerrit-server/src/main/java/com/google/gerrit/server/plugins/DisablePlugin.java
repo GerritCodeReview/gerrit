@@ -19,6 +19,7 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.plugins.DisablePlugin.Input;
+import com.google.gerrit.server.plugins.ListPlugins.PluginInfo;
 import com.google.inject.Inject;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
@@ -34,9 +35,9 @@ class DisablePlugin implements RestModifyView<PluginResource, Input> {
   }
 
   @Override
-  public Object apply(PluginResource resource, Input input) {
+  public PluginInfo apply(PluginResource resource, Input input) {
     String name = resource.getName();
     loader.disablePlugins(ImmutableSet.of(name));
-    return new ListPlugins.PluginInfo(loader.get(name));
+    return new PluginInfo(loader.get(name));
   }
 }

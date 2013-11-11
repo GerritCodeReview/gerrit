@@ -19,9 +19,6 @@ import static com.google.common.base.Objects.firstNonNull;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.changes.Side;
-import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -58,8 +55,8 @@ class ListDrafts implements RestReadView<RevisionResource> {
   }
 
   @Override
-  public Object apply(RevisionResource rsrc) throws AuthException,
-      BadRequestException, ResourceConflictException, Exception {
+  public Map<String, List<CommentInfo>> apply(RevisionResource rsrc)
+      throws OrmException {
     Map<String, List<CommentInfo>> out = Maps.newTreeMap();
     AccountInfo.Loader accountLoader =
         includeAuthorInfo() ? accountLoaderFactory.create(true) : null;

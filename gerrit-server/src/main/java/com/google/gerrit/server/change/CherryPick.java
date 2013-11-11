@@ -14,21 +14,28 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gerrit.server.change.CherryPick.Input;
 import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.RefControl;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+
+import java.io.IOException;
 
 class CherryPick implements RestModifyView<RevisionResource, Input>,
     UiAction<RevisionResource> {
@@ -51,9 +58,9 @@ class CherryPick implements RestModifyView<RevisionResource, Input>,
   }
 
   @Override
-  public Object apply(RevisionResource revision, Input input)
+  public ChangeInfo apply(RevisionResource revision, Input input)
       throws AuthException, BadRequestException, ResourceConflictException,
-      Exception {
+      ResourceNotFoundException, OrmException, IOException, EmailException {
     final ChangeControl control = revision.getControl();
 
     if (input.message == null || input.message.trim().isEmpty()) {
@@ -89,6 +96,8 @@ class CherryPick implements RestModifyView<RevisionResource, Input>,
       throw new BadRequestException(e.getMessage());
     } catch (MergeException  e) {
       throw new ResourceConflictException(e.getMessage());
+    } catch (NoSuchChangeException e) {
+      throw new ResourceNotFoundException(e.getMessage());
     }
   }
 

@@ -15,7 +15,9 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.common.changes.ListChangesOption;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -44,7 +46,7 @@ public class GetDetail implements RestReadView<ChangeResource> {
   }
 
   @Override
-  public Object apply(ChangeResource rsrc) throws OrmException {
+  public Response<ChangeInfo> apply(ChangeResource rsrc) throws OrmException {
     return delegate.apply(rsrc);
   }
 }

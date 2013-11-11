@@ -15,7 +15,6 @@
 package com.google.gerrit.server.group;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -47,8 +46,8 @@ public class PutDescription implements RestModifyView<GroupResource, Input> {
   }
 
   @Override
-  public Object apply(GroupResource resource, Input input)
-      throws MethodNotAllowedException, AuthException, NoSuchGroupException,
+  public Response<String> apply(GroupResource resource, Input input)
+      throws AuthException, MethodNotAllowedException,
       ResourceNotFoundException, OrmException {
     if (input == null) {
       input = new Input(); // Delete would set description to null.
@@ -71,7 +70,7 @@ public class PutDescription implements RestModifyView<GroupResource, Input> {
     groupCache.evict(group);
 
     return Strings.isNullOrEmpty(input.description)
-        ? Response.none()
-        : input.description;
+        ? Response.<String>none()
+        : Response.ok(input.description);
   }
 }

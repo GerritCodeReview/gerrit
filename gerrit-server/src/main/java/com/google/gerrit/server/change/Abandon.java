@@ -19,7 +19,6 @@ import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
@@ -69,9 +68,9 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
   }
 
   @Override
-  public Object apply(ChangeResource req, AbandonInput input)
-      throws BadRequestException, AuthException,
-      ResourceConflictException, OrmException, IOException {
+  public ChangeInfo apply(ChangeResource req, AbandonInput input)
+      throws AuthException, ResourceConflictException, OrmException,
+      IOException {
     ChangeControl control = req.getControl();
     IdentifiedUser caller = (IdentifiedUser) control.getCurrentUser();
     Change change = req.getChange();

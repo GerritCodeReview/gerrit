@@ -16,11 +16,10 @@ package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gwtorm.server.OrmException;
 
 class GetTopic implements RestReadView<ChangeResource> {
   @Override
-  public Object apply(ChangeResource rsrc) throws OrmException {
+  public String apply(ChangeResource rsrc) {
     return Strings.nullToEmpty(rsrc.getChange().getTopic());
   }
 }

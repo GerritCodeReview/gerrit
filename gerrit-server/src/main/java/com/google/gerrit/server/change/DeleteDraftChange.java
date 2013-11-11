@@ -58,7 +58,7 @@ public class DeleteDraftChange implements
   }
 
   @Override
-  public Object apply(ChangeResource rsrc, Input input)
+  public Response<?> apply(ChangeResource rsrc, Input input)
       throws ResourceConflictException, AuthException,
       ResourceNotFoundException, OrmException, IOException {
     if (rsrc.getChange().getStatus() != Status.DRAFT) {

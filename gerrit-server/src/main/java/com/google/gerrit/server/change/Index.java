@@ -37,7 +37,7 @@ public class Index implements RestModifyView<ChangeResource, Input> {
   }
 
   @Override
-  public Object apply(ChangeResource rsrc, Input input) throws IOException {
+  public Response<?> apply(ChangeResource rsrc, Input input) throws IOException {
     indexer.index(rsrc.getChange());
     return Response.none();
   }

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.project.ProjectJson.ProjectInfo;
 import com.google.inject.Inject;
 
 class GetProject implements RestReadView<ProjectResource> {
@@ -27,7 +28,7 @@ class GetProject implements RestReadView<ProjectResource> {
   }
 
   @Override
-  public Object apply(ProjectResource rsrc) {
+  public ProjectInfo apply(ProjectResource rsrc) {
     return json.format(rsrc);
   }
 }

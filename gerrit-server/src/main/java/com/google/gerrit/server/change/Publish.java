@@ -59,9 +59,9 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
   }
 
   @Override
-  public Object apply(RevisionResource rsrc, Input input) throws IOException,
-      ResourceNotFoundException, ResourceConflictException,
-      OrmException, AuthException {
+  public Response<?> apply(RevisionResource rsrc, Input input)
+      throws AuthException, ResourceNotFoundException,
+      ResourceConflictException, OrmException, IOException {
     if (!rsrc.getPatchSet().isDraft()) {
       throw new ResourceConflictException("Patch set is not a draft");
     }
@@ -148,9 +148,9 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
     }
 
     @Override
-    public Object apply(ChangeResource rsrc, Input input) throws AuthException,
-        ResourceConflictException, ResourceConflictException, IOException,
-        OrmException, ResourceNotFoundException, AuthException {
+    public Response<?> apply(ChangeResource rsrc, Input input)
+        throws AuthException, ResourceConflictException,
+        ResourceNotFoundException, IOException, OrmException {
       PatchSet ps = dbProvider.get().patchSets()
         .get(rsrc.getChange().currentPatchSetId());
       if (ps == null) {

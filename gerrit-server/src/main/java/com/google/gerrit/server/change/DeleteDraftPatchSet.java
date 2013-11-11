@@ -64,9 +64,9 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
   }
 
   @Override
-  public Object apply(RevisionResource rsrc, Input input)
-      throws ResourceNotFoundException, AuthException, OrmException,
-      IOException, ResourceConflictException {
+  public Response<?> apply(RevisionResource rsrc, Input input)
+      throws AuthException, ResourceNotFoundException,
+      ResourceConflictException, OrmException, IOException {
     PatchSet patchSet = rsrc.getPatchSet();
     PatchSet.Id patchSetId = patchSet.getId();
     Change change = rsrc.getChange();

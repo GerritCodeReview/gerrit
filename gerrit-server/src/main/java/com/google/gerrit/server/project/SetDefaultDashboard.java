@@ -36,6 +36,8 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.kohsuke.args4j.Option;
 
+import java.io.IOException;
+
 class SetDefaultDashboard implements RestModifyView<DashboardResource, Input> {
   private final ProjectCache cache;
   private final MetaDataUpdate.Server updateFactory;
@@ -57,9 +59,9 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, Input> {
   }
 
   @Override
-  public Object apply(DashboardResource resource, Input input)
+  public Response<DashboardInfo> apply(DashboardResource resource, Input input)
       throws AuthException, BadRequestException, ResourceConflictException,
-      Exception {
+      ResourceNotFoundException, IOException {
     if (input == null) {
       input = new Input(); // Delete would set input to null.
     }
@@ -79,6 +81,8 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, Input> {
             IdString.fromUrl(input.id));
       } catch (ResourceNotFoundException e) {
         throw new BadRequestException("dashboard " + input.id + " not found");
+      } catch (ConfigInvalidException e) {
+        throw new ResourceConflictException(e.getMessage());
       }
     }
 
@@ -109,7 +113,7 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, Input> {
         if (target != null) {
           DashboardInfo info = get.get().apply(target);
           info.isDefault = true;
-          return info;
+          return Response.ok(info);
         }
         return Response.none();
       } finally {
@@ -136,14 +140,13 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, Input> {
     }
 
     @Override
-    public Object apply(ProjectResource resource, Input input)
+    public Response<DashboardInfo> apply(ProjectResource resource, Input input)
         throws AuthException, BadRequestException, ResourceConflictException,
-        Exception {
+        ResourceNotFoundException, IOException {
       SetDefaultDashboard set = setDefault.get();
       set.inherited = inherited;
-      return Response.created(set.apply(
-          DashboardResource.projectDefault(resource.getControl()),
-          input));
+      return set.apply(
+          DashboardResource.projectDefault(resource.getControl()), input);
     }
   }
 }

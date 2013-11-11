@@ -72,8 +72,8 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, Input> {
   }
 
   @Override
-  public Object apply(RevisionResource rsrc, Input input) throws OrmException,
-      BadRequestException, AuthException {
+  public List<Record> apply(RevisionResource rsrc, Input input)
+      throws AuthException, BadRequestException, OrmException {
     if (input == null) {
       input = new Input();
     }

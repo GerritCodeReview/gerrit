@@ -20,6 +20,7 @@ import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.Url;
@@ -45,7 +46,7 @@ class GetDashboard implements RestReadView<DashboardResource> {
 
   @Override
   public DashboardInfo apply(DashboardResource resource)
-      throws ResourceNotFoundException, IOException, ConfigInvalidException {
+      throws ResourceNotFoundException, ResourceConflictException, IOException {
     if (inherited && !resource.isProjectDefault()) {
       // inherited flag can only be used with default.
       throw new ResourceNotFoundException("inherited");
@@ -54,7 +55,11 @@ class GetDashboard implements RestReadView<DashboardResource> {
     String project = resource.getControl().getProject().getName();
     if (resource.isProjectDefault()) {
       // The default is not resolved to a definition yet.
-      resource = defaultOf(resource.getControl());
+      try {
+        resource = defaultOf(resource.getControl());
+      } catch (ConfigInvalidException e) {
+        throw new ResourceConflictException(e.getMessage());
+      }
     }
 
     return DashboardsCollection.parse(

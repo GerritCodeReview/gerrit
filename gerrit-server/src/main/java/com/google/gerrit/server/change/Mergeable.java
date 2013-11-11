@@ -35,7 +35,6 @@ import com.google.inject.Provider;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -80,9 +79,8 @@ public class Mergeable implements RestReadView<RevisionResource> {
   }
 
   @Override
-  public MergeableInfo apply(RevisionResource resource)
-      throws ResourceConflictException, BadRequestException, AuthException,
-      OrmException, RepositoryNotFoundException, IOException {
+  public MergeableInfo apply(RevisionResource resource) throws AuthException,
+      ResourceConflictException, BadRequestException, OrmException, IOException {
     Change change = resource.getChange();
     PatchSet ps = resource.getPatchSet();
     MergeableInfo result = new MergeableInfo();

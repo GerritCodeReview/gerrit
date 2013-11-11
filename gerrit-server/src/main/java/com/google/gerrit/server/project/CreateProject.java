@@ -32,6 +32,7 @@ import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.project.CreateProject.Input;
+import com.google.gerrit.server.project.ProjectJson.ProjectInfo;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -82,7 +83,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, Input> {
   }
 
   @Override
-  public Object apply(TopLevelResource resource, Input input)
+  public Response<ProjectInfo> apply(TopLevelResource resource, Input input)
       throws BadRequestException, UnprocessableEntityException,
       ProjectCreationFailedException, IOException {
     if (input == null) {

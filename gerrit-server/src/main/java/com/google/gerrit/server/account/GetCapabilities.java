@@ -36,7 +36,6 @@ import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CurrentUser;
@@ -79,8 +78,7 @@ class GetCapabilities implements RestReadView<AccountResource> {
   }
 
   @Override
-  public Object apply(AccountResource resource)
-      throws BadRequestException, Exception {
+  public Object apply(AccountResource resource) throws AuthException {
     if (self.get() != resource.getUser()
         && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("restricted to administrator");
@@ -178,7 +176,7 @@ class GetCapabilities implements RestReadView<AccountResource> {
 
   static class CheckOne implements RestReadView<AccountResource.Capability> {
     @Override
-    public Object apply(Capability resource) {
+    public BinaryResult apply(Capability resource) {
       return BinaryResult.create("ok\n");
     }
   }

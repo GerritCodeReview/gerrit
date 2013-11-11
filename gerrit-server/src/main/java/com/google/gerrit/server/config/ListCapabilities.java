@@ -19,9 +19,6 @@ import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -43,9 +40,7 @@ public class ListCapabilities implements RestReadView<ConfigResource> {
 
   @Override
   public Map<String, CapabilityInfo> apply(ConfigResource resource)
-      throws AuthException, BadRequestException, ResourceConflictException,
-      IllegalArgumentException, SecurityException, IllegalAccessException,
-      NoSuchFieldException {
+      throws IllegalAccessException, NoSuchFieldException {
     Map<String, CapabilityInfo> output = Maps.newTreeMap();
     collectCoreCapabilities(output);
     collectPluginCapabilities(output);

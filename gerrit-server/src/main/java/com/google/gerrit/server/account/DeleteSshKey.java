@@ -40,7 +40,7 @@ public class DeleteSshKey implements
   }
 
   @Override
-  public Object apply(AccountResource.SshKey rsrc, Input input)
+  public Response<?> apply(AccountResource.SshKey rsrc, Input input)
       throws OrmException {
     dbProvider.get().accountSshKeys()
         .deleteKeys(Collections.singleton(rsrc.getSshKey().getKey()));

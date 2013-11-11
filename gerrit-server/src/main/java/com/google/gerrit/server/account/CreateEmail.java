@@ -78,8 +78,8 @@ public class CreateEmail implements RestModifyView<AccountResource, Input> {
   }
 
   @Override
-  public Object apply(AccountResource rsrc, Input input) throws AuthException,
-      BadRequestException, ResourceConflictException,
+  public Response<EmailInfo> apply(AccountResource rsrc, Input input)
+      throws AuthException, BadRequestException, ResourceConflictException,
       ResourceNotFoundException, OrmException, EmailException,
       MethodNotAllowedException {
     if (self.get() != rsrc.getUser()

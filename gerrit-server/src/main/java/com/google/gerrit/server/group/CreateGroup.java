@@ -24,6 +24,7 @@ import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -79,7 +80,7 @@ class CreateGroup implements RestModifyView<TopLevelResource, Input> {
   @Override
   public GroupInfo apply(TopLevelResource resource, Input input)
       throws AuthException, BadRequestException, UnprocessableEntityException,
-      NameAlreadyUsedException, OrmException {
+      ResourceConflictException, OrmException {
     if (input == null) {
       input = new Input();
     }
@@ -101,6 +102,8 @@ class CreateGroup implements RestModifyView<TopLevelResource, Input> {
           null);
     } catch (PermissionDeniedException e) {
       throw new AuthException(e.getMessage());
+    } catch (NameAlreadyUsedException e) {
+      throw new ResourceConflictException(e.getMessage());
     }
     return json.format(GroupDescriptions.forAccountGroup(group));
   }

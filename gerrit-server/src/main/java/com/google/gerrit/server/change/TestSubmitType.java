@@ -28,7 +28,6 @@ import com.google.gerrit.server.change.TestSubmitRule.Input;
 import com.google.gerrit.server.project.RuleEvalException;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
@@ -54,7 +53,7 @@ public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
 
   @Override
   public SubmitType apply(RevisionResource rsrc, Input input)
-      throws OrmException, BadRequestException, AuthException {
+      throws AuthException, BadRequestException {
     if (input == null) {
       input = new Input();
     }
@@ -120,7 +119,7 @@ public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
 
     @Override
     public SubmitType apply(RevisionResource resource)
-        throws BadRequestException, OrmException, AuthException {
+        throws AuthException, BadRequestException {
       return test.apply(resource, null);
     }
   }

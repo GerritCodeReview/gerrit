@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.plugins.EnablePlugin.Input;
+import com.google.gerrit.server.plugins.ListPlugins.PluginInfo;
 import com.google.inject.Inject;
 
 import java.io.PrintWriter;
@@ -38,7 +39,7 @@ class EnablePlugin implements RestModifyView<PluginResource, Input> {
   }
 
   @Override
-  public Object apply(PluginResource resource, Input input)
+  public PluginInfo apply(PluginResource resource, Input input)
       throws ResourceConflictException {
     String name = resource.getName();
     try {
@@ -51,6 +52,6 @@ class EnablePlugin implements RestModifyView<PluginResource, Input> {
       pw.flush();
       throw new ResourceConflictException(buf.toString());
     }
-    return new ListPlugins.PluginInfo(loader.get(name));
+    return new PluginInfo(loader.get(name));
   }
 }

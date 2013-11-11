@@ -15,8 +15,11 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.change.ReviewerJson.ReviewerInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+
+import java.util.List;
 
 public class GetReviewer implements RestReadView<ReviewerResource> {
   private final ReviewerJson json;
@@ -27,7 +30,7 @@ public class GetReviewer implements RestReadView<ReviewerResource> {
   }
 
   @Override
-  public Object apply(ReviewerResource rsrc) throws OrmException {
+  public List<ReviewerInfo> apply(ReviewerResource rsrc) throws OrmException {
     return json.format(rsrc);
   }
 }

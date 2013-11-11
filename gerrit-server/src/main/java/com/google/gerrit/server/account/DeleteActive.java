@@ -43,7 +43,7 @@ public class DeleteActive implements RestModifyView<AccountResource, Input> {
   }
 
   @Override
-  public Object apply(AccountResource rsrc, Input input)
+  public Response<?> apply(AccountResource rsrc, Input input)
       throws ResourceNotFoundException, OrmException {
     Account a = dbProvider.get().accounts().get(rsrc.getUser().getAccountId());
     if (a == null) {

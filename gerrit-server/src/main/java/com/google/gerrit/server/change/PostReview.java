@@ -98,9 +98,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   }
 
   @Override
-  public Object apply(RevisionResource revision, ReviewInput input)
-      throws AuthException, BadRequestException, OrmException,
-      UnprocessableEntityException, IOException {
+  public Output apply(RevisionResource revision, ReviewInput input)
+      throws AuthException, BadRequestException, UnprocessableEntityException,
+      OrmException, IOException {
     if (input.onBehalfOf != null) {
       revision = onBehalfOf(revision, input);
     }

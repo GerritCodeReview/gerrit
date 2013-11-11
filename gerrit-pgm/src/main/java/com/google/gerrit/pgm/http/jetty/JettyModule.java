@@ -15,9 +15,8 @@
 package com.google.gerrit.pgm.http.jetty;
 
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.inject.AbstractModule;
 
-public class JettyModule extends AbstractModule {
+public class JettyModule extends LifecycleModule {
   private final JettyEnv env;
 
   public JettyModule(final JettyEnv env) {
@@ -28,11 +27,6 @@ public class JettyModule extends AbstractModule {
   protected void configure() {
     bind(JettyEnv.class).toInstance(env);
     bind(JettyServer.class);
-    install(new LifecycleModule() {
-      @Override
-      protected void configure() {
-        listener().to(JettyServer.Lifecycle.class);
-      }
-    });
+    listener().to(JettyServer.Lifecycle.class);
   }
 }

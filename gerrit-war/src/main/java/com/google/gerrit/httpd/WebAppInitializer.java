@@ -196,16 +196,10 @@ public class WebAppInitializer extends GuiceServletContextListener
       final DataSourceType dst = Guice.createInjector(new DataSourceModule(),
           configModule, sitePathModule).getInstance(
             Key.get(DataSourceType.class, Names.named(dbType.toLowerCase())));
-      modules.add(new AbstractModule() {
-        @Override
-        protected void configure() {
-          bind(DataSourceType.class).toInstance(dst);
-        }
-      });
-
       modules.add(new LifecycleModule() {
         @Override
         protected void configure() {
+          bind(DataSourceType.class).toInstance(dst);
           bind(DataSourceProvider.Context.class).toInstance(
               DataSourceProvider.Context.MULTI_USER);
           bind(Key.get(DataSource.class, Names.named("ReviewDb"))).toProvider(

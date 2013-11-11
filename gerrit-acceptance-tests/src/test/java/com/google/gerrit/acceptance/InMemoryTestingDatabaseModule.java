@@ -34,7 +34,6 @@ import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.gwtorm.server.SchemaFactory;
-import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
@@ -46,7 +45,7 @@ import org.eclipse.jgit.lib.Config;
 
 import java.io.File;
 
-class InMemoryTestingDatabaseModule extends AbstractModule {
+class InMemoryTestingDatabaseModule extends LifecycleModule {
   private final Config cfg;
 
   InMemoryTestingDatabaseModule(Config cfg) {
@@ -71,12 +70,7 @@ class InMemoryTestingDatabaseModule extends AbstractModule {
     bind(new TypeLiteral<SchemaFactory<ReviewDb>>() {})
       .to(InMemoryDatabase.class);
 
-    install(new LifecycleModule() {
-      @Override
-      protected void configure() {
-        listener().to(CreateDatabase.class);
-      }
-    });
+    listener().to(CreateDatabase.class);
 
     bind(SitePaths.class);
     bind(TrackingFooters.class)

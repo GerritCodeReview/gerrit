@@ -16,7 +16,6 @@ package com.google.gerrit.lucene;
 
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.IndexCollection;
@@ -45,12 +44,7 @@ public class LuceneIndexModule extends LifecycleModule {
 
   @Override
   protected void configure() {
-    install(new FactoryModule() {
-      @Override
-      public void configure() {
-        factory(LuceneChangeIndex.Factory.class);
-      }
-    });
+    factory(LuceneChangeIndex.Factory.class);
     install(new IndexModule(threads));
     if (singleVersion == null && base == null) {
       install(new MultiVersionModule());
@@ -62,12 +56,7 @@ public class LuceneIndexModule extends LifecycleModule {
   private class MultiVersionModule extends LifecycleModule {
     @Override
     public void configure() {
-      install(new FactoryModule() {
-        @Override
-        public void configure() {
-          factory(OnlineReindexer.Factory.class);
-        }
-      });
+      factory(OnlineReindexer.Factory.class);
       listener().to(LuceneVersionManager.class);
     }
   }

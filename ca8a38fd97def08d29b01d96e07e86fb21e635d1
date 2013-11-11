@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e2631f7_6a5bf76f",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1041,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-11T15:57:04Z",
+      "side": 1,
+      "message": "[Optional]\n\nAlternatively plugin may provide restricted (guarded by capabilities) and common (visible to even not anonymous users, like Documentation).",
+      "revId": "ca8a38fd97def08d29b01d96e07e86fb21e635d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e2631f7_4a60b31a",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1048,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-11T15:57:04Z",
+      "side": 1,
+      "message": "You could have two instead:\n\n  private final List\u003cMenuEntry\u003e restrictedMenuEntries;\n  private final List\u003cMenuEntry\u003e commonMenuEntries;",
+      "revId": "ca8a38fd97def08d29b01d96e07e86fb21e635d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e2631f7_aa44cf8a",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1056,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-11T15:57:04Z",
+      "side": 1,
+      "message": "this would be change to population of both array: restricted and common.\n\n populateMenuEntries();",
+      "revId": "ca8a38fd97def08d29b01d96e07e86fb21e635d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bef77598_4b9285ca",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1074,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-11T15:57:04Z",
+      "side": 1,
+      "message": "here the corresponding array would be returned, dependent on who is currently identified and if at all.",
+      "revId": "ca8a38fd97def08d29b01d96e07e86fb21e635d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

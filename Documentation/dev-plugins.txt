@@ -1236,6 +1236,59 @@ unique name and must be registered in the GWT module:
 <stylesheet src="hello.css"/>
 ----
 
+If a GWT plugin wants to invoke the Gerrit REST API it can use
+`com.google.gerrit.plugin.client.rpc.RestApi` to contruct the URL
+path and to trigger the REST calls.
+
+Example for invoking a Gerrit core REST endpoint:
+
+[source,java]
+----
+new RestApi("projects").id(projectName).view("description")
+    .put("new description", new AsyncCallback<JavaScriptObject>() {
+
+  @Override
+  public void onSuccess(JavaScriptObject result) {
+    // TODO
+  }
+
+  @Override
+  public void onFailure(Throwable caught) {
+    // never invoked
+  }
+});
+----
+
+Example for invoking a REST endpoint defined by a plugin:
+
+[source,java]
+----
+new RestApi("projects").id(projectName).view("myplugin", "myview")
+    .get(new AsyncCallback<JavaScriptObject>() {
+
+  @Override
+  public void onSuccess(JavaScriptObject result) {
+    // TODO
+  }
+
+  @Override
+  public void onFailure(Throwable caught) {
+    // never invoked
+  }
+});
+----
+
+The `onFailure(Throwable)` of the provided callback is never invoked.
+If an error occurs, it is shown in an error dialog.
+
+In order to be able to do REST calls the GWT module must inherit
+`com.google.gwt.json.JSON`:
+
+[source,xml]
+----
+<inherits name="com.google.gwt.json.JSON"/>
+----
+
 [[http]]
 HTTP Servlets
 -------------

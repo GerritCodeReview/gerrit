@@ -34,6 +34,24 @@
       "revId": "ed0666b361a982a9deeb7f505c7878975a6b81f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_72a3f850",
+        "filename": "contrib/manage-plugins.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-12T08:05:10Z",
+      "side": 1,
+      "message": "The problem with this proposed solution is that when you\u0027re switching back and forth between gerrit branches (say master and stable-2.8) you can end up with a non-buildable plugin if it has dependencies that are only on one branch.  This causes for example ./tools/eclipse/project.py to fail.  Then you have to remove the plugin.",
+      "parentUuid": "9e2631f7_cac94341",
+      "revId": "ed0666b361a982a9deeb7f505c7878975a6b81f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

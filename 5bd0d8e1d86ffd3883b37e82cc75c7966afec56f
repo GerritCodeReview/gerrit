@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bef77598_eb77f1e8",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1072,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-12T07:47:10Z",
+      "side": 1,
+      "message": "No, they are not needed. It\u0027s just how it is formatted in the GWT plugin archetype.\n\nI\u0027ve removed the whitespace here.",
+      "parentUuid": "9efd5175_5231946f",
+      "revId": "5bd0d8e1d86ffd3883b37e82cc75c7966afec56f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9efd5175_b24560d0",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "bef77598_cb74b5e7",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1104,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-12T07:47:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9efd5175_b24560d0",
+      "revId": "5bd0d8e1d86ffd3883b37e82cc75c7966afec56f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e2b3dc3_692ca519",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2013-11-12T00:40:33Z",
       "side": 1,
       "message": "s/an/their",
+      "revId": "5bd0d8e1d86ffd3883b37e82cc75c7966afec56f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bef77598_2b51f94f",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1231,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-12T07:47:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e2b3dc3_692ca519",
       "revId": "5bd0d8e1d86ffd3883b37e82cc75c7966afec56f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9e2631f7_0de41550",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1041,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-12T08:18:37Z",
+      "side": 1,
+      "message": "I extended the example so that it has one restricted menu entry and one commonly visible menu entry.",
+      "parentUuid": "9e2631f7_6a5bf76f",
+      "revId": "ca8a38fd97def08d29b01d96e07e86fb21e635d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e2631f7_4a60b31a",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 1

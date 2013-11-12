@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9efd5175_5231946f",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1072,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-12T00:40:33Z",
+      "side": 1,
+      "message": "Is the whitespace before `--\u003e` needed?",
+      "revId": "5bd0d8e1d86ffd3883b37e82cc75c7966afec56f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efd5175_b24560d0",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1104,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-12T00:40:33Z",
+      "side": 1,
+      "message": "s/a/an",
+      "revId": "5bd0d8e1d86ffd3883b37e82cc75c7966afec56f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e2b3dc3_692ca519",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1231,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-12T00:40:33Z",
+      "side": 1,
+      "message": "s/an/their",
+      "revId": "5bd0d8e1d86ffd3883b37e82cc75c7966afec56f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

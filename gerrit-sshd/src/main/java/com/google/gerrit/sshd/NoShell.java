@@ -106,7 +106,7 @@ class NoShell implements Factory<Command> {
       } finally {
         sshScope.set(old);
       }
-      err.write(Constants.encode(message.toString()));
+      err.write(Constants.encode(message));
       err.flush();
 
       in.close();

@@ -51,7 +51,7 @@ public class ReviewerInfo implements Comparable<ReviewerInfo> {
       if (accountInfo.getPreferredEmail() != null) {
         return accountInfo.getPreferredEmail();
       }
-      return accountInfo.getFullName().toString();
+      return accountInfo.getFullName();
     }
     return groupReference.getName();
   }

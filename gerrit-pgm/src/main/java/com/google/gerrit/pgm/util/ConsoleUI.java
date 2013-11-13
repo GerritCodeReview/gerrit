@@ -179,7 +179,7 @@ public abstract class ConsoleUI {
         }
         console.printf("       Supported options are:\n");
         for (final String v : allowedValues) {
-          console.printf("         %s\n", v.toString().toLowerCase());
+          console.printf("         %s\n", v.toLowerCase());
         }
       }
     }

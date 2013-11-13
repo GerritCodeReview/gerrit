@@ -368,7 +368,7 @@ public class GerritDebugLauncher extends ServletContainerLauncher {
 
     AbstractConnector connector = getConnector();
     if (bindAddress != null) {
-      connector.setHost(bindAddress.toString());
+      connector.setHost(bindAddress);
     }
     connector.setPort(port);
 

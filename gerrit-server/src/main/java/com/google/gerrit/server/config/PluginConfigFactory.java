@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.common.collect.Maps;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -21,20 +22,36 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Map;
 
 @Singleton
 public class PluginConfigFactory {
+  private static final Logger log =
+      LoggerFactory.getLogger(PluginConfigFactory.class);
+
+  private final SitePaths site;
   private final Config cfg;
   private final ProjectCache projectCache;
   private final ProjectState.Factory projectStateFactory;
+  private final Map<String, Config> pluginConfigs;
 
   @Inject
-  PluginConfigFactory(@GerritServerConfig Config cfg,
+  PluginConfigFactory(SitePaths site, @GerritServerConfig Config cfg,
       ProjectCache projectCache, ProjectState.Factory projectStateFactory) {
+    this.site = site;
     this.cfg = cfg;
     this.projectCache = projectCache;
     this.projectStateFactory = projectStateFactory;
+    this.pluginConfigs = Maps.newHashMap();
   }
 
   /**
@@ -127,5 +144,39 @@ public class PluginConfigFactory {
       throws NoSuchProjectException {
     return getFromProjectConfig(projectName, pluginName).withInheritance(
         projectStateFactory);
+  }
+
+  /**
+   * Returns the configuration for the specified plugin that is stored in the
+   * plugin configuration file 'etc/<plugin-name>.config'.
+   *
+   * The plugin configuration is only loaded once and is then cached.
+   *
+   * @param pluginName the name of the plugin for which the configuration should
+   *        be returned
+   * @return the plugin configuration from the 'etc/<plugin-name>.config' file
+   */
+  public Config getGlobalPluginConfig(String pluginName) {
+    if (pluginConfigs.containsKey(pluginName)) {
+      return pluginConfigs.get(pluginName);
+    }
+
+    File pluginConfigFile = new File(site.etc_dir, pluginName + ".config");
+    FileBasedConfig cfg = new FileBasedConfig(pluginConfigFile, FS.DETECTED);
+    pluginConfigs.put(pluginName, cfg);
+    if (!cfg.getFile().exists()) {
+      log.info("No " + pluginConfigFile.getAbsolutePath() + "; assuming defaults");
+      return cfg;
+    }
+
+    try {
+      cfg.load();
+    } catch (IOException e) {
+      log.warn("Failed to load " + pluginConfigFile.getAbsolutePath(), e);
+    } catch (ConfigInvalidException e) {
+      log.warn("Failed to load " + pluginConfigFile.getAbsolutePath(), e);
+    }
+
+    return cfg;
   }
 }

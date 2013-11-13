@@ -34,6 +34,24 @@
       "revId": "eb71343ee2844159c6cd44326be2957ad48e89a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be93f568_4be9c527",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-13T13:07:55Z",
+      "side": 1,
+      "message": "In second thought, delete-project plugin uses JS API to redirect to the admin page, after the project was deleted. So that we can probably change the default behaviour and stay on the same page for all other actions that don\u0027t or can\u0027t use JS API, like GC and Replicate:\n\n function(r) {\n      c.hide();\n      window.alert(\u0027The project: \"\u0027\n         + c.project\n         + \u0027\" was deleted.\u0027),\n      Gerrit.go(\u0027/admin/projects/\u0027);\n  }",
+      "parentUuid": "be93f568_0bdfbd7e",
+      "revId": "eb71343ee2844159c6cd44326be2957ad48e89a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

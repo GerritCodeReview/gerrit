@@ -317,6 +317,51 @@ that artifact:
  )
 ----
 
+Building against artifacts from custom Maven repositories
+---------------------------------------------------------
+
+To build against custom Maven repositories, two modes of operations are
+supported: with rewrite in local.properties and without.
+
+Without rewrite the URL of custom Maven repository can be directly passed
+to the maven_jar() function:
+
+[source,python]
+----
+  GERRIT_FORGE = 'http://gerritforge.com/snapshot'
+
+  maven_jar(
+    name = 'gitblit',
+    id = 'com.gitblit:gitblit:1.4.0',
+    sha1 = '1b130dbf5578ace37507430a4a523f6594bf34fa',
+    license = 'Apache2.0',
+    repository = GERRIT_FORGE,
+ )
+----
+
+When the custom URL has to be rewritten, then the same logic as with Gerrit
+known Maven repository is used: Repo name must be defined that matches an entry
+in local.properties file:
+
+----
+  download.GERRIT_FORGE = http://my.company.mirror/gerrit-forge
+----
+
+And corresponding BUCK excerpt:
+
+[source,python]
+----
+  GERRIT_FORGE = 'GERRIT_FORGE:'
+
+  maven_jar(
+    name = 'gitblit',
+    id = 'com.gitblit:gitblit:1.4.0',
+    sha1 = '1b130dbf5578ace37507430a4a523f6594bf34fa',
+    license = 'Apache2.0',
+    repository = GERRIT_FORGE,
+ )
+----
+
 Caching Build Results
 ~~~~~~~~~~~~~~~~~~~~~
 

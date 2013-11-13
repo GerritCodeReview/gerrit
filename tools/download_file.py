@@ -27,6 +27,7 @@ REPO_ROOTS = {
   'GERRIT': 'http://gerrit-maven.storage.googleapis.com',
   'ECLIPSE': 'https://repo.eclipse.org/content/groups/releases',
   'MAVEN_CENTRAL': 'http://repo1.maven.org/maven2',
+  'GERRIT_FORGE': 'http://gerritforge.com/snapshot',
   'MAVEN_LOCAL': 'file://' + path.expanduser('~/.m2/repository'),
 }
 

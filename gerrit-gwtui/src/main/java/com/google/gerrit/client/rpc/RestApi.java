@@ -33,6 +33,7 @@ import com.google.gwt.http.client.URL;
 import com.google.gwt.json.client.JSONException;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
+import com.google.gwt.json.client.JSONString;
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.StatusCodeException;
@@ -128,9 +129,12 @@ public class RestApi {
           if (!background) {
             RpcStatus.INSTANCE.onRpcComplete();
           }
-          cb.onFailure(new StatusCodeException(SC_BAD_RESPONSE, "Expected "
-              + JSON_TYPE + "; received Content-Type: "
-              + res.getHeader("Content-Type")));
+          T data = RestApi.<T>cast(new JSONString(
+              "non json response content was truncated"));
+          cb.onSuccess(data);
+          if (!background) {
+            RpcStatus.INSTANCE.onRpcComplete();
+          }
           return;
         }
 

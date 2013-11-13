@@ -15,7 +15,9 @@
 package com.google.gerrit.extensions.api;
 
 import com.google.gerrit.extensions.api.changes.Changes;
+import com.google.gerrit.extensions.api.projects.Projects;
 
 public interface GerritApi {
   public Changes changes();
+  public Projects projects();
 }

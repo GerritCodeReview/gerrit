@@ -18,9 +18,9 @@ import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.errors.InvalidRevisionException;
+import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -28,7 +28,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.project.CreateBranch.Input;
 import com.google.gerrit.server.project.ListBranches.BranchInfo;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.inject.Inject;
@@ -50,17 +49,10 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-public class CreateBranch implements RestModifyView<ProjectResource, Input> {
+public class CreateBranch implements RestModifyView<ProjectResource, BranchInput> {
   private static final Logger log = LoggerFactory.getLogger(CreateBranch.class);
 
-  static class Input {
-    String ref;
-
-    @DefaultInput
-    String revision;
-  }
-
-  static interface Factory {
+  public static interface Factory {
     CreateBranch create(String ref);
   }
 
@@ -82,11 +74,11 @@ public class CreateBranch implements RestModifyView<ProjectResource, Input> {
   }
 
   @Override
-  public BranchInfo apply(ProjectResource rsrc, Input input)
+  public BranchInfo apply(ProjectResource rsrc, BranchInput input)
       throws BadRequestException, AuthException, ResourceConflictException,
       IOException {
     if (input == null) {
-      input = new Input();
+      input = new BranchInput();
     }
     if (input.ref != null && !ref.equals(input.ref)) {
       throw new BadRequestException("ref must match URL");

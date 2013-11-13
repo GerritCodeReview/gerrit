@@ -12,17 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.api;
+package com.google.gerrit.extensions.api.projects;
 
-import com.google.gerrit.extensions.api.GerritApi;
-import com.google.inject.AbstractModule;
+import com.google.gerrit.extensions.restapi.DefaultInput;
 
-public class Module extends AbstractModule {
-  @Override
-  protected void configure() {
-    bind(GerritApi.class).to(GerritApiImpl.class);
+public class BranchInput {
+  public String ref;
 
-    install(new com.google.gerrit.server.api.changes.Module());
-    install(new com.google.gerrit.server.api.projects.Module());
-  }
+  @DefaultInput
+  public String revision;
 }

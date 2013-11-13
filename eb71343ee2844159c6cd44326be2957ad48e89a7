@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be93f568_0bdfbd7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-13T12:46:23Z",
+      "side": 1,
+      "message": "That is not true for delete-project UiAction from delete-project plugin.",
+      "revId": "eb71343ee2844159c6cd44326be2957ad48e89a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

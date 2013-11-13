@@ -95,9 +95,10 @@ def resolve_url(url, redirects):
   scheme, rest = url[:s], url[s+1:]
   if scheme not in REPO_ROOTS:
     return url
+  root = scheme
   if scheme in redirects:
     root = redirects[scheme]
-  else:
+  elif scheme in REPO_ROOTS:
     root = REPO_ROOTS[scheme]
   root = root.rstrip('/')
   rest = rest.lstrip('/')

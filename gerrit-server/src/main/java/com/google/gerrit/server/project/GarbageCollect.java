@@ -33,6 +33,7 @@ import java.util.Collections;
 @RequiresCapability(GlobalCapability.RUN_GC)
 public class GarbageCollect implements RestModifyView<ProjectResource, Input> {
   public static class Input {
+    public boolean showProgress;
   }
 
   private GarbageCollection.Factory garbageCollectionFactory;
@@ -43,7 +44,7 @@ public class GarbageCollect implements RestModifyView<ProjectResource, Input> {
   }
 
   @Override
-  public BinaryResult apply(final ProjectResource rsrc, Input input) {
+  public BinaryResult apply(final ProjectResource rsrc, final Input input) {
     return new BinaryResult() {
       @Override
       public void writeTo(OutputStream out) throws IOException {
@@ -56,10 +57,10 @@ public class GarbageCollect implements RestModifyView<ProjectResource, Input> {
         };
         try {
           GarbageCollectionResult result = garbageCollectionFactory.create().run(
-              Collections.singletonList(rsrc.getNameKey()), writer);
+              Collections.singletonList(rsrc.getNameKey()), input.showProgress ? writer : null);
+          String msg = "garbage collection was successfully done";
           if (result.hasErrors()) {
             for (GarbageCollectionResult.Error e : result.getErrors()) {
-              String msg;
               switch (e.getType()) {
                 case REPOSITORY_NOT_FOUND:
                   msg = "error: project \"" + e.getProjectName() + "\" not found";
@@ -76,9 +77,9 @@ public class GarbageCollect implements RestModifyView<ProjectResource, Input> {
                   msg = "error: garbage collection for project \"" + e.getProjectName()
                       + "\" failed: " + e.getType();
               }
-              writer.println(msg);
             }
           }
+          writer.println(msg);
         } finally {
           writer.flush();
         }

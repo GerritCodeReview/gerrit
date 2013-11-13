@@ -20,6 +20,7 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.project.GarbageCollect.Input;
 import com.google.inject.Inject;
@@ -31,7 +32,8 @@ import java.io.PrintWriter;
 import java.util.Collections;
 
 @RequiresCapability(GlobalCapability.RUN_GC)
-public class GarbageCollect implements RestModifyView<ProjectResource, Input> {
+public class GarbageCollect implements RestModifyView<ProjectResource, Input>,
+    UiAction<ProjectResource> {
   public static class Input {
     public boolean showProgress;
   }
@@ -87,5 +89,12 @@ public class GarbageCollect implements RestModifyView<ProjectResource, Input> {
     }.setContentType("text/plain")
      .setCharacterEncoding(Charsets.UTF_8.name())
      .disableGzip();
+  }
+
+  @Override
+  public UiAction.Description getDescription(ProjectResource rsrc) {
+    return new UiAction.Description()
+        .setLabel("Run GC")
+        .setTitle("Triggers the Git Garbage Collection for this project.");
   }
 }

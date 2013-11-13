@@ -106,10 +106,15 @@ public class GitUtil {
   }
 
   public static Git cloneProject(String url) throws GitAPIException, IOException {
+    return cloneProject(url, true);
+  }
+
+  public static Git cloneProject(String url, boolean checkout) throws GitAPIException, IOException {
     final File gitDir = TempFileUtil.createTempDirectory();
     final CloneCommand cloneCmd = Git.cloneRepository();
     cloneCmd.setURI(url);
     cloneCmd.setDirectory(gitDir);
+    cloneCmd.setNoCheckout(!checkout);
     return cloneCmd.call();
   }
 

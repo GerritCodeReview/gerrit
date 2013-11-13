@@ -16,6 +16,7 @@ package com.google.gerrit.server.config;
 
 import com.google.common.collect.Maps;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.git.ProjectLevelConfig;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -196,10 +197,45 @@ public class PluginConfigFactory {
    */
   public Config getProjectPluginConfig(Project.NameKey projectName,
       String pluginName) throws NoSuchProjectException {
+    return getPluginConfig(projectName, pluginName).get();
+  }
+
+  /**
+   * Returns the configuration for the specified plugin that is stored in the
+   * '<plugin-name>.config' file in the 'refs/meta/config' branch of the
+   * specified project. Parameters which are not set in the
+   * '<plugin-name>.config' of this project are inherited from the parent
+   * project's '<plugin-name>.config' files.
+   *
+   * E.g.: child project: [mySection "mySubsection"] myKey = childValue
+   *
+   * parent project: [mySection "mySubsection"] myKey = parentValue anotherKey =
+   * someValue
+   *
+   * return: [mySection "mySubsection"] myKey = childValue anotherKey =
+   * someValue
+   *
+   * @param projectName the name of the project for which the plugin
+   *        configuration should be returned
+   * @param pluginName the name of the plugin for which the configuration should
+   *        be returned
+   * @return the plugin configuration from the '<plugin-name>.config' file of
+   *         the specified project with inheriting non-set parameters from the
+   *         parent projects
+   * @throws NoSuchProjectException thrown if the specified project does not
+   *         exist
+   */
+  public Config getProjectPluginConfigWithInheritance(Project.NameKey projectName,
+      String pluginName) throws NoSuchProjectException {
+    return getPluginConfig(projectName, pluginName).getWithInheritance();
+  }
+
+  private ProjectLevelConfig getPluginConfig(Project.NameKey projectName,
+      String pluginName) throws NoSuchProjectException {
     ProjectState projectState = projectCache.get(projectName);
     if (projectState == null) {
       throw new NoSuchProjectException(projectName);
     }
-    return projectState.getConfig(pluginName + ".config").get();
+    return projectState.getConfig(pluginName);
   }
 }

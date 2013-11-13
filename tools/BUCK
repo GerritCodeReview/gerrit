@@ -1,6 +1,7 @@
 python_binary(
   name = 'download_file',
   main = 'download_file.py',
+  deps = [':util'],
   visibility = ['PUBLIC'],
 )
 

@@ -21,19 +21,12 @@ from os import link, makedirs, path, remove
 import shutil
 from subprocess import check_call, CalledProcessError
 from sys import stderr
+from util import resolve_url
 from zipfile import ZipFile, BadZipfile, LargeZipFile
-
-REPO_ROOTS = {
-  'GERRIT': 'http://gerrit-maven.storage.googleapis.com',
-  'ECLIPSE': 'https://repo.eclipse.org/content/groups/releases',
-  'MAVEN_CENTRAL': 'http://repo1.maven.org/maven2',
-  'MAVEN_LOCAL': 'file://' + path.expanduser('~/.m2/repository'),
-}
 
 GERRIT_HOME = path.expanduser('~/.gerritcodereview')
 CACHE_DIR = path.join(GERRIT_HOME, 'buck-cache')
 LOCAL_PROPERTIES = 'local.properties'
-
 
 def hashfile(p):
   d = sha1()
@@ -87,21 +80,6 @@ def cache_entry(args):
     h = sha1(args.u).hexdigest()
   name = '%s-%s' % (path.basename(args.o), h)
   return path.join(CACHE_DIR, name)
-
-def resolve_url(url, redirects):
-  s = url.find(':')
-  if s < 0:
-    return url
-  scheme, rest = url[:s], url[s+1:]
-  if scheme not in REPO_ROOTS:
-    return url
-  if scheme in redirects:
-    root = redirects[scheme]
-  else:
-    root = REPO_ROOTS[scheme]
-  root = root.rstrip('/')
-  rest = rest.lstrip('/')
-  return '/'.join([root, rest])
 
 opts = OptionParser()
 opts.add_option('-o', help='local output file')

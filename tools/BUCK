@@ -1,6 +1,7 @@
 python_binary(
   name = 'download_file',
   main = 'download_file.py',
+  deps = [':util'],
   visibility = ['PUBLIC'],
 )
 
@@ -14,6 +15,13 @@ python_binary(
 python_library(
   name = 'util',
   srcs = ['util.py'],
+  visibility = ['PUBLIC'],
+)
+
+python_library(
+  name = 'util_test',
+  srcs = ['util_test.py'],
+  deps = [':util'],
   visibility = ['PUBLIC'],
 )
 
@@ -31,4 +39,15 @@ genrule(
   deps = [],
   out = 'buck.properties',
   visibility = ['PUBLIC'],
+)
+
+java_test(
+  name = 'python_tests',
+  srcs = glob(['PythonTestCaller.java']),
+  deps = [
+    '//lib:guava',
+    '//lib:junit',
+    ':util',
+    ':util_test',
+  ],
 )

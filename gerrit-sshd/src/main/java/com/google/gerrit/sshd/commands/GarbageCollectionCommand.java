@@ -43,6 +43,9 @@ public class GarbageCollectionCommand extends BaseCommand {
   @Option(name = "--all", usage = "runs the Git garbage collection for all projects")
   private boolean all;
 
+  @Option(name = "--show-progress", usage = "progress information is shown")
+  private boolean showProgress;
+
   @Argument(index = 0, required = false, multiValued = true, metaVar = "NAME",
       usage = "projects for which the Git garbage collection should be run")
   private List<ProjectControl> projects = new ArrayList<ProjectControl>();
@@ -95,7 +98,7 @@ public class GarbageCollectionCommand extends BaseCommand {
     }
 
     GarbageCollectionResult result =
-        garbageCollectionFactory.create().run(projectNames, stdout);
+        garbageCollectionFactory.create().run(projectNames, showProgress ? stdout : null);
     if (result.hasErrors()) {
       for (GarbageCollectionResult.Error e : result.getErrors()) {
         String msg;

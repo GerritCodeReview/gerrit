@@ -552,9 +552,17 @@ Run GC
 
 Run the Git garbage collection for the repository of a project.
 
+Options for the Git garbage collection can be specified in the
+request body as a link:#gc-input[GCInput] entity.
+
 .Request
 ----
   POST /projects/plugins%2Freplication/gc HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "show_progress": true
+  }
 ----
 
 The response is the streamed output of the garbage collection.
@@ -1316,6 +1324,19 @@ in a dashboard.
 |`query`       |The query of the section. +
 Tokens such as `${project}` are not resolved.
 |===========================
+
+[[gc-input]]
+GCInput
+~~~~~~~
+The `GCInput` entity contains information to run the Git garbage
+collection.
+
+[options="header",width="50%",cols="1,^2,4"]
+|=============================
+|Field Name      ||Description
+|`show_progress` |`false` if not set|
+Whether progress information should be shown.
+|=============================
 
 [[head-input]]
 HeadInput

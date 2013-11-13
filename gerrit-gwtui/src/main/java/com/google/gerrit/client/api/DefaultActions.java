@@ -22,6 +22,7 @@ import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -44,7 +45,8 @@ class DefaultActions {
     invoke(action, api, cb);
   }
 
-  static void invokeProjectAction(ActionInfo action, RestApi api) {
+  static void invokeProjectAction(final Project.NameKey project,
+      ActionInfo action, RestApi api) {
     AsyncCallback<JavaScriptObject> cb = new GerritCallback<JavaScriptObject>() {
       @Override
       public void onSuccess(JavaScriptObject msg) {
@@ -54,7 +56,7 @@ class DefaultActions {
             Window.alert(str.asString());
           }
         }
-        Gerrit.display(PageLinks.ADMIN_PROJECTS);
+        Gerrit.display(PageLinks.toProject(project));
       }
     };
     invoke(action, api, cb);

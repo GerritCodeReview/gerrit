@@ -35,7 +35,7 @@ public class ProjectGlue {
       c.button(button);
       ApiGlue.invoke(f, c);
     } else {
-      DefaultActions.invokeProjectAction(action, api);
+      DefaultActions.invokeProjectAction(project, action, api);
     }
   }
 

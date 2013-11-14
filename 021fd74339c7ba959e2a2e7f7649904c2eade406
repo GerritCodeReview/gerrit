@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "decd09a8_1411f468",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-14T09:25:28Z",
+      "side": 1,
+      "message": "Use builder pattern instead of adding another dozen parameters to the ctor?",
+      "revId": "021fd74339c7ba959e2a2e7f7649904c2eade406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fed00d3d_3514f058",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-14T09:25:28Z",
+      "side": 1,
+      "message": "I find class name Cache and var name cache misleading in this context. Can we be more specific? May be ConflictKeyComputeCache or something? In this source file we have already 4 different caches.",
+      "revId": "021fd74339c7ba959e2a2e7f7649904c2eade406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

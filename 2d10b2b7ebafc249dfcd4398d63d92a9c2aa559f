@@ -157,6 +157,24 @@
       "revId": "2d10b2b7ebafc249dfcd4398d63d92a9c2aa559f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "decd09a8_3442b055",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2013-11-14T12:16:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "decd09a8_742148b5",
+      "revId": "2d10b2b7ebafc249dfcd4398d63d92a9c2aa559f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

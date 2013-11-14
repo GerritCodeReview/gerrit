@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fed00d3d_d566dc00",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-14T16:58:52Z",
+      "side": 1,
+      "message": "The new functions should be documented in Documentation/js-api.txt, under the \"action_context_html_helpers\" section.",
+      "revId": "0af3cc59bdf56091f250bf82ccdb12f76406e493",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

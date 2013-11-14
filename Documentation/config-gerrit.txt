@@ -807,9 +807,18 @@ changeMerge.test::
 Controls whether or not the mergeability test of changes is
 enabled.  If enabled, when the change page is loaded, the test is
 triggered. The submit button will be enabled or disabled according to
-the result.
+the result unless `changeMerge.disableSubmit` is set to false.
 +
 By default this is false (test is not enabled).
+
+changeMerge.disableSubmit::
++
+Controls whether or not the submit button should be disabled for non
+mergeable changes. This parameter is only relevant if `changeMerge.test`
+is set to true.
++
+By default this is true (submit button is disabled if change is not
+mergeable).
 
 [[commentlink]]Section commentlink
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

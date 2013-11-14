@@ -121,6 +121,8 @@ class GerritConfigProvider implements Provider<GerritConfig> {
         .getResource("/Documentation/index.html") != null);
     config.setTestChangeMerge(cfg.getBoolean("changeMerge",
         "test", false));
+    config.setTestChangeDisableSubmit(cfg.getBoolean("changeMerge",
+        "disableSubmit", true));
     config.setAnonymousCowardName(anonymousCowardName);
     config.setSuggestFrom(cfg.getInt("suggest", "from", 0));
     config.setChangeUpdateDelay((int) ConfigUtil.getTimeUnit(

@@ -506,8 +506,8 @@ public class ProjectControl {
           } catch (IncorrectObjectTypeException e) {
             continue;
           }
-          if (rw.isMergedInto(commit, tip)
-              && controlForRef(entry.getKey()).canPerform(Permission.READ)) {
+          if (controlForRef(entry.getKey()).canPerform(Permission.READ)
+              && rw.isMergedInto(commit, tip)) {
             return true;
           }
         }

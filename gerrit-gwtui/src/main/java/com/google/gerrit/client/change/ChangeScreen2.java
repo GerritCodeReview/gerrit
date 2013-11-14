@@ -236,6 +236,17 @@ public class ChangeScreen2 extends Screen {
         Gerrit.display(PageLinks.toChange(changeId));
       }
     });
+    keysNavigation.add(new KeyCommand(0, 'n', Util.C.keyNextPatchSet()) {
+        @Override
+        public void onKeyPress(final KeyPressEvent event) {
+          goToSibiling(1);
+        }
+      }, new KeyCommand(0, 'p', Util.C.keyPreviousPatchSet()) {
+        @Override
+        public void onKeyPress(final KeyPressEvent event) {
+          goToSibiling(-1);
+        }
+      });
 
     keysAction = new KeyCommandSet(Gerrit.C.sectionActions());
     keysAction.add(new KeyCommand(0, 'a', Util.C.keyPublishComments()) {
@@ -262,6 +273,51 @@ public class ChangeScreen2 extends Screen {
         }
       });
     }
+  }
+
+  private void goToSibiling(final int offset) {
+    if (offset > 0 && isCurrentRevision()) {
+      return;
+    }
+
+    if (offset < 0 && changeInfo.revision(revision)._number() == 1) {
+      return;
+    }
+
+    if (isCurrentRevision()) {
+      loadChangeInfo(true, new AsyncCallback<ChangeInfo>() {
+        @Override
+        public void onSuccess(ChangeInfo info) {
+          info.revisions().copyKeysIntoChildren("name");
+          goToSibiling(info.revisions().values(), offset);
+        }
+
+        @Override
+        public void onFailure(Throwable caught) {
+        }
+      });
+    } else {
+      goToSibiling(changeInfo.revisions().values(), offset);
+    }
+  }
+
+  private void goToSibiling(JsArray<RevisionInfo> revisions, int offset) {
+    RevisionInfo.sortRevisionInfoByNumber(revisions);
+    for (int i = 0; i < revisions.length(); i++) {
+      if (revision.equals(revisions.get(i).name())) {
+        if (0 <= i + offset && i + offset < revisions.length()) {
+          Gerrit.display(PageLinks.toChange(
+              new PatchSet.Id(changeInfo.legacy_id(),
+              revisions.get(i + offset)._number())));
+          return;
+        }
+        return;
+      }
+    }
+  }
+
+  private boolean isCurrentRevision() {
+    return changeInfo.current_revision().equals(revision);
   }
 
   private void initIncludedInAction(ChangeInfo info) {

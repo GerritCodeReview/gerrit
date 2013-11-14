@@ -239,6 +239,17 @@ public class ChangeScreen2 extends Screen {
         Gerrit.display(PageLinks.toChange(changeId));
       }
     });
+    keysNavigation.add(new KeyCommand(0, 'n', Util.C.keyNextPatchSet()) {
+        @Override
+        public void onKeyPress(final KeyPressEvent event) {
+          gotoSibling(1);
+        }
+      }, new KeyCommand(0, 'p', Util.C.keyPreviousPatchSet()) {
+        @Override
+        public void onKeyPress(final KeyPressEvent event) {
+          gotoSibling(-1);
+        }
+      });
 
     keysAction = new KeyCommandSet(Gerrit.C.sectionActions());
     keysAction.add(new KeyCommand(0, 'a', Util.C.keyPublishComments()) {
@@ -276,6 +287,30 @@ public class ChangeScreen2 extends Screen {
           reviewers.onOpenForm();
         }
       });
+    }
+  }
+
+  private void gotoSibling(final int offset) {
+    if (offset > 0 && changeInfo.current_revision().equals(revision)) {
+      return;
+    }
+
+    if (offset < 0 && changeInfo.revision(revision)._number() == 1) {
+      return;
+    }
+
+    JsArray<RevisionInfo> revisions = changeInfo.revisions().values();
+    RevisionInfo.sortRevisionInfoByNumber(revisions);
+    for (int i = 0; i < revisions.length(); i++) {
+      if (revision.equals(revisions.get(i).name())) {
+        if (0 <= i + offset && i + offset < revisions.length()) {
+          Gerrit.display(PageLinks.toChange(
+              new PatchSet.Id(changeInfo.legacy_id(),
+              revisions.get(i + offset)._number())));
+          return;
+        }
+        return;
+      }
     }
   }
 

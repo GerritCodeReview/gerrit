@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "decd09a8_143fb4cb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-14T12:41:46Z",
+      "side": 1,
+      "message": "I was confused that K is Next and J is Prev and would expect the bindings the other way around. But we sort the patch sets always in reverse order, that why this is the other way around, right?\n\n http://vimhelp.appspot.com/motion.txt.html#motion.txt",
+      "revId": "78f4ef2e96556064293e89a0ad7bb896fa3fe063",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

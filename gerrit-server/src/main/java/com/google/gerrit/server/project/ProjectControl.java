@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.project;
 
-import static org.eclipse.jgit.lib.RefDatabase.ALL;
-
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
@@ -34,6 +32,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
+import com.google.gerrit.server.change.IncludedInResolver;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
@@ -42,8 +41,9 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
-import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -58,7 +58,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Map.Entry;
 
 /** Access control management for a user accessing a project's data. */
 public class ProjectControl {
@@ -494,23 +493,19 @@ public class ProjectControl {
     try {
       Repository repo = repoManager.openRepository(projName);
       try {
-        Map<String, Ref> allRefs = repo.getRefDatabase().getRefs(ALL);
-        for (Entry<String, Ref> entry : allRefs.entrySet()) {
-          String refName = entry.getKey();
-          if (!refName.startsWith("refs/heads") && !refName.startsWith("refs/tags")) {
-            continue;
-          }
-          RevCommit tip;
-          try {
-            tip = rw.parseCommit(entry.getValue().getObjectId());
-          } catch (IncorrectObjectTypeException e) {
-            continue;
-          }
-          if (controlForRef(entry.getKey()).canPerform(Permission.READ)
-              && rw.isMergedInto(commit, tip)) {
-            return true;
+        RefDatabase refDb = repo.getRefDatabase();
+        List<Ref> allRefs = Lists.newLinkedList();
+        allRefs.addAll(refDb.getRefs(Constants.R_HEADS).values());
+        allRefs.addAll(refDb.getRefs(Constants.R_TAGS).values());
+        List<Ref> canReadRefs = Lists.newLinkedList();
+        for (Ref r : allRefs) {
+          if (controlForRef(r.getName()).canPerform(Permission.READ)) {
+            canReadRefs.add(r);
           }
         }
+
+        return !canReadRefs.isEmpty()
+            && IncludedInResolver.includedInOne(repo, rw, commit, canReadRefs);
       } finally {
         repo.close();
       }

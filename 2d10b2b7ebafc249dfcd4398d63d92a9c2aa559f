@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "decd09a8_342bd097",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-11-14T11:09:52Z",
+      "side": 1,
+      "message": "The size (e.g. number of commits) is of course important too, since each ref will take longer time to traverse if there is a complex commit graph tied to it.",
+      "parentUuid": "fed00d3d_551e4c75",
+      "revId": "2d10b2b7ebafc249dfcd4398d63d92a9c2aa559f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fed00d3d_1528d496",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

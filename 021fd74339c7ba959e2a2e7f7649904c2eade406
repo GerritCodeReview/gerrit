@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "fed00d3d_b536c000",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-14T10:11:50Z",
+      "side": 1,
+      "message": "I mean plane java builder pattern not Guice magic. You add the Builder to the ConflictsPredicate class:\n\nclass ConflictsPredicate {\n  public static class Builder {\n     Provider\u003cReviewDb\u003e db;\n     [...]\n     public Builder setDbProvider(Provider\u003cReviewDb\u003e db) {\n       this.db \u003d db;\n       return this;\n     }\n     […]\n     public ConflictsPredicate build() {\n       return new ConflictsPredicate(this);\n     }\n  }\n  private ConflictsPredicate(Builder b) {\n    this.db \u003d b.db;\n    [...]\n  }\n}\n\nAnd use this here:\n\n return new ConflictsPredicate.Builder()\n    .setDbProvider(args.dbProvider)\n    .setPatchListCache(args.patchListCache())\n    […]\n    .build();",
+      "parentUuid": "decd09a8_d4313c0c",
+      "revId": "021fd74339c7ba959e2a2e7f7649904c2eade406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fed00d3d_3514f058",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
         "patchSetId": 19
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "To be honest \u0027ConflictKeyComputeCache\u0027 is confusing me more than just \u0027Cache\u0027. It has nothing to do with computing a ConflictKey. For me \u0027Cache\u0027 is ok since it is an inner class and it\u0027s easy to have a look at its definition while reading this code. If a better name is proposed, I\u0027ll change the name. I can\u0027t find any better name, so I\u0027m staying with just \u0027Cache\u0027 for now.",
       "parentUuid": "fed00d3d_3514f058",
+      "revId": "021fd74339c7ba959e2a2e7f7649904c2eade406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fed00d3d_752148b5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-14T10:11:50Z",
+      "side": 1,
+      "message": "Why not to name that then just Foo or X, and if some one want to understand what is that for, then she should study the code in the inner class?\n\nSeriously, we don\u0027t have comments, we have 4 caches in one source file, and we should name them as specific as possible.",
+      "parentUuid": "fed00d3d_1511f468",
       "revId": "021fd74339c7ba959e2a2e7f7649904c2eade406",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

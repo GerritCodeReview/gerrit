@@ -14,9 +14,6 @@
 
 package com.google.gerrit.pgm.http.jetty;
 
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
-
 import com.google.common.base.Objects;
 import com.google.common.io.ByteStreams;
 import com.google.gerrit.extensions.events.LifecycleListener;
@@ -32,21 +29,24 @@ import com.google.inject.Singleton;
 import com.google.inject.servlet.GuiceFilter;
 import com.google.inject.servlet.GuiceServletContextListener;
 
-import org.eclipse.jetty.io.EndPoint;
 import org.eclipse.jetty.server.Connector;
+import org.eclipse.jetty.server.ForwardedRequestCustomizer;
 import org.eclipse.jetty.server.Handler;
-import org.eclipse.jetty.server.Request;
+import org.eclipse.jetty.server.HttpConfiguration;
+import org.eclipse.jetty.server.HttpConnectionFactory;
+import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.server.SslConnectionFactory;
 import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.server.handler.RequestLogHandler;
-import org.eclipse.jetty.server.nio.SelectChannelConnector;
 import org.eclipse.jetty.server.session.SessionHandler;
-import org.eclipse.jetty.server.ssl.SslSelectChannelConnector;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.util.BlockingArrayQueue;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
@@ -131,9 +131,8 @@ public class JettyServer {
       throws MalformedURLException, IOException {
     this.site = site;
 
-    httpd = new Server();
-    httpd.setConnectors(listen(cfg));
-    httpd.setThreadPool(threadPool(cfg));
+    httpd = new Server(threadPool(cfg));
+    httpd.setConnectors(listen(httpd, cfg));
 
     Handler app = makeContext(env, cfg);
     if (cfg.getBoolean("httpd", "requestLog", !reverseProxy)) {
@@ -145,12 +144,21 @@ public class JettyServer {
     httpd.setHandler(app);
 
     httpd.setStopAtShutdown(false);
-    httpd.setSendDateHeader(true);
-    httpd.setSendServerVersion(false);
-    httpd.setGracefulShutdown((int) MILLISECONDS.convert(1, SECONDS));
+    /*
+     http://dev.eclipse.org/mhonarc/lists/jetty-users/msg03487.html
+
+    Actually, the setGracefulShutdown() has been migrated to ShutdownThread.register(LifeCycle)
+    In reality, the Server.setStopAtShutdown(boolean) simply calls this behavior.
+    With Jetty 9, there is the possibility of having multiple lifecycles active in the same JVM.
+    Such as using Jetty Client, Jetty WebSocket Client, or even having multiple Server instances
+    in the same JVM.
+    So the logic for proper LifeCycle.stop() and Destroyable.destroy() is now generalized for all
+    cases on a Runtime shutdownHook.
+    */
+    //httpd.setGracefulShutdown((int) MILLISECONDS.convert(1, SECONDS));
   }
 
-  private Connector[] listen(final Config cfg) {
+  private Connector[] listen(Server server, Config cfg) {
     // OpenID and certain web-based single-sign-on products can cause
     // some very long headers, especially in the Referer header. We
     // need to use a larger default header size to ensure we have
@@ -168,7 +176,7 @@ public class JettyServer {
     for (int idx = 0; idx < listenUrls.length; idx++) {
       final URI u = listenUrls[idx];
       final int defaultPort;
-      final SelectChannelConnector c;
+      final ServerConnector c;
 
       if (AuthType.CLIENT_SSL_CERT_LDAP.equals(authType) && ! "https".equals(u.getScheme())) {
         throw new IllegalArgumentException("Protocol '" + u.getScheme()
@@ -179,8 +187,11 @@ public class JettyServer {
 
       if ("http".equals(u.getScheme())) {
         defaultPort = 80;
-        c = new SelectChannelConnector();
+        c = new ServerConnector(server, null, null, null, 0, acceptors,
+            new HttpConnectionFactory(defaultConfig(requestHeaderSize)));
+
       } else if ("https".equals(u.getScheme())) {
+        HttpConfiguration config = defaultConfig(requestHeaderSize);
         SslContextFactory ssl = new SslContextFactory();
         final File keystore = getFile(cfg, "sslkeystore", "etc/keystore");
         String password = cfg.getString("httpd", null, "sslkeypassword");
@@ -188,7 +199,7 @@ public class JettyServer {
           password = "gerrit";
         }
         ssl.setKeyStorePath(keystore.getAbsolutePath());
-        ssl.setTrustStore(keystore.getAbsolutePath());
+        ssl.setTrustStorePath(keystore.getAbsolutePath());
         ssl.setKeyStorePassword(password);
         ssl.setTrustStorePassword(password);
 
@@ -203,24 +214,29 @@ public class JettyServer {
         }
 
         defaultPort = 443;
-        c = new SslSelectChannelConnector(ssl);
+
+        config.addCustomizer(new SecureRequestCustomizer());
+        c = new ServerConnector(server,
+            null, null, null, 0, acceptors,
+            new SslConnectionFactory(ssl, "http/1.1"),
+            new HttpConnectionFactory(config));
 
       } else if ("proxy-http".equals(u.getScheme())) {
         defaultPort = 8080;
-        c = new SelectChannelConnector();
-        c.setForwarded(true);
+        HttpConfiguration config = defaultConfig(requestHeaderSize);
+        config.addCustomizer(new ForwardedRequestCustomizer());
+        c = new ServerConnector(server,
+            null, null, null, 0, acceptors,
+            new HttpConnectionFactory(config));
 
       } else if ("proxy-https".equals(u.getScheme())) {
         defaultPort = 8080;
-        c = new SelectChannelConnector() {
-          @Override
-          public void customize(EndPoint endpoint, Request request)
-              throws IOException {
-            request.setScheme("https");
-            super.customize(endpoint, request);
-          }
-        };
-        c.setForwarded(true);
+        HttpConfiguration config = defaultConfig(requestHeaderSize);
+        config.addCustomizer(new ForwardedRequestCustomizer());
+        config.addCustomizer(new SecureRequestCustomizer());
+        c = new ServerConnector(server,
+            null, null, null, 0, acceptors,
+            new HttpConnectionFactory(config));
 
       } else {
         throw new IllegalArgumentException("Protocol '" + u.getScheme() + "' "
@@ -249,14 +265,18 @@ public class JettyServer {
         throw new IllegalArgumentException("Invalid httpd.listenurl " + u, e);
       }
 
-      c.setRequestHeaderSize(requestHeaderSize);
-      c.setAcceptors(acceptors);
       c.setReuseAddress(reuseAddress);
-      c.setStatsOn(false);
-
       connectors[idx] = c;
     }
     return connectors;
+  }
+
+  private HttpConfiguration defaultConfig(int requestHeaderSize) {
+    HttpConfiguration config = new HttpConfiguration();
+    config.setRequestHeaderSize(requestHeaderSize);
+    config.setSendServerVersion(false);
+    config.setSendDateHeader(true);
+    return config;
   }
 
   static boolean isReverseProxied(final URI[] listenUrls) {
@@ -295,11 +315,15 @@ public class JettyServer {
   }
 
   private ThreadPool threadPool(Config cfg) {
-    final QueuedThreadPool pool = new QueuedThreadPool();
+    int minThreads = cfg.getInt("httpd", null, "minthreads", 5);
+    int maxThreads = cfg.getInt("httpd", null, "maxthreads", 25);
+    int maxCapacity = cfg.getInt("httpd", null, "maxqueued", 50);
+    QueuedThreadPool pool = new QueuedThreadPool(
+        maxThreads,
+        minThreads,
+        60000,
+        new BlockingArrayQueue<Runnable>(minThreads, 1, maxCapacity));
     pool.setName("HTTP");
-    pool.setMinThreads(cfg.getInt("httpd", null, "minthreads", 5));
-    pool.setMaxThreads(cfg.getInt("httpd", null, "maxthreads", 25));
-    pool.setMaxQueued(cfg.getInt("httpd", null, "maxqueued", 50));
     return pool;
   }
 

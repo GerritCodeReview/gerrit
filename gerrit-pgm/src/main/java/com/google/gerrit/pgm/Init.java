@@ -56,7 +56,7 @@ public class Init extends BaseInit {
   @Option(name = "--list-plugins", usage = "List available plugins")
   private boolean listPlugins;
 
-  @Option(name = "--install-plugin", usage = "Install given plugin without asking", multiValued = true)
+  @Option(name = "--install-plugin", usage = "Install given plugin without asking")
   private List<String> installPlugins;
 
   @Inject

@@ -24,7 +24,7 @@ import org.kohsuke.args4j.Option;
 public class GetDetail implements RestReadView<ChangeResource> {
   private final GetChange delegate;
 
-  @Option(name = "-o", multiValued = true, usage = "Output options")
+  @Option(name = "-o", usage = "Output options")
   void addOption(ListChangesOption o) {
     delegate.addOption(o);
   }

@@ -159,22 +159,23 @@ public class PluginLoader implements LifecycleListener {
     synchronized (this) {
       Plugin active = running.get(name);
       if (active != null) {
-        fileName = active.getSrcFile().getName();
+        File srcFile = active.getSrcFile();
+        fileName = srcFile.getName();
         log.info(String.format("Replacing plugin %s", active.getName()));
         File old = new File(pluginsDir, ".last_" + fileName);
-        old.delete();
-        active.getSrcFile().renameTo(old);
+        delete(old);
+        renameTo(srcFile, old);
       }
 
-      new File(pluginsDir, fileName + ".disabled").delete();
-      tmp.renameTo(dst);
+      delete(new File(pluginsDir, fileName + ".disabled"));
+      renameTo(tmp, dst);
       try {
         Plugin plugin = runPlugin(name, dst, active);
         if (active == null) {
           log.info(String.format("Installed plugin %s", plugin.getName()));
         }
       } catch (PluginInstallException e) {
-        dst.delete();
+        delete(tmp);
         throw e;
       }
 
@@ -185,7 +186,7 @@ public class PluginLoader implements LifecycleListener {
   public static File storeInTemp(String pluginName, InputStream in,
       SitePaths sitePaths) throws IOException {
     if (!sitePaths.tmp_dir.exists()) {
-      sitePaths.tmp_dir.mkdirs();
+      mkdirs(sitePaths.tmp_dir);
     }
     return asTemp(in, tempNameFor(pluginName), ".jar", sitePaths.tmp_dir);
   }
@@ -210,7 +211,7 @@ public class PluginLoader implements LifecycleListener {
       }
     } finally {
       if (!keep) {
-        tmp.delete();
+        delete(tmp);
       }
     }
   }
@@ -234,7 +235,7 @@ public class PluginLoader implements LifecycleListener {
 
         log.info(String.format("Disabling plugin %s", active.getName()));
         File off = new File(active.getSrcFile() + ".disabled");
-        active.getSrcFile().renameTo(off);
+        renameTo(active.getSrcFile(), off);
 
         unloadPlugin(active);
         try {
@@ -266,7 +267,7 @@ public class PluginLoader implements LifecycleListener {
           n = n.substring(0, n.lastIndexOf('.'));
         }
         File on = new File(pluginsDir, n);
-        off.getSrcFile().renameTo(on);
+        renameTo(off.getSrcFile(), on);
 
         disabled.remove(name);
         runPlugin(name, on, null);
@@ -621,7 +622,7 @@ public class PluginLoader implements LifecycleListener {
           File disabledPlugin = new File(loser + ".disabled");
           elementsToAdd.add(disabledPlugin);
           elementsToRemove.add(loser);
-          loser.renameTo(disabledPlugin);
+          renameTo(loser, disabledPlugin);
         }
         Iterables.removeAll(files, elementsToRemove);
         Iterables.addAll(files, elementsToAdd);
@@ -683,5 +684,33 @@ public class PluginLoader implements LifecycleListener {
           nameOf(srcFile)), srcFile);
     }
     return map;
+  }
+
+  private static void delete(File file) {
+    String absolutePath = file.getAbsolutePath();
+    if (file.delete()) {
+      log.info(String.format("File %s successfully deleted", absolutePath));
+    } else {
+      log.error("Cannot delete file %s", absolutePath);
+    }
+  }
+
+  private static void renameTo(File srcFile, File dstFile) {
+    String srcFileAbsolutePath = srcFile.getAbsolutePath();
+    String dstFileAbsolutePath = dstFile.getAbsolutePath();
+    if (srcFile.renameTo(dstFile)) {
+      log.info(String.format("File %s successfully renamed to %s", srcFileAbsolutePath, dstFileAbsolutePath));
+    } else {
+      log.error(String.format("Cannot rename file %s to %s", srcFileAbsolutePath, dstFileAbsolutePath));
+    }
+  }
+
+  private static void mkdirs(File file) {
+    String absolutePath = file.getAbsolutePath();
+    if (file.mkdirs()) {
+      log.info(String.format("Directory %s successfully created", absolutePath));
+    } else {
+      log.error(String.format("Cannot create directory %s", absolutePath));
+    }
   }
 }

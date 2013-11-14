@@ -60,15 +60,15 @@ public class ReviewInput {
   public String onBehalfOf;
 
   public static enum DraftHandling {
-    DELETE, PUBLISH, KEEP;
+    DELETE, PUBLISH, KEEP
   }
 
   public static enum NotifyHandling {
-    NONE, OWNER, OWNER_REVIEWERS, ALL;
+    NONE, OWNER, OWNER_REVIEWERS, ALL
   }
 
   public static enum Side {
-    PARENT, REVISION;
+    PARENT, REVISION
   }
 
   public static class Comment {

@@ -49,6 +49,7 @@ public class GerritConfig implements Cloneable {
   protected Set<Account.FieldName> editableAccountFields;
   protected boolean documentationAvailable;
   protected boolean testChangeMerge;
+  protected boolean testChangeDisableSubmit;
   protected String anonymousCowardName;
   protected int suggestFrom;
   protected int changeUpdateDelay;
@@ -240,6 +241,14 @@ public class GerritConfig implements Cloneable {
 
   public void setTestChangeMerge(final boolean test) {
     testChangeMerge = test;
+  }
+
+  public boolean testChangeDisableSubmit() {
+    return testChangeDisableSubmit;
+  }
+
+  public void setTestChangeDisableSubmit(final boolean disableSubmit) {
+    testChangeDisableSubmit = disableSubmit;
   }
 
   public String getAnonymousCowardName() {

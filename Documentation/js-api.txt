@@ -425,6 +425,13 @@ functions to make working with DOM based widgets less painful.
   comes with an onkeypress handler installed to play nicely with
   Gerrit's keyboard binding system.
 
+* `select(a,i)`: a new `<select>` element containing one `<option>`
+  element for each entry in the provided array `a`.  The option with
+  the index `i` will be pre-selected in the drop-down-list.
+
+* `selected(s)`: returns the text of the `<option>` element that is
+  currently selected in the provided `<select>` element `s`.
+
 * `span(...)`: a new `<span>` wrapping the (optional) arguments.
 
 * `msg(label)`: a new label.

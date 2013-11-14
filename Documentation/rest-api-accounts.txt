@@ -924,6 +924,7 @@ link:#diff-preferences-info[DiffPreferencesInfo] entity.
   }
 ----
 
+[[get-starred-changes]]
 Get Starred Changes
 ~~~~~~~~~~~~~~~~~~~
 [verse]
@@ -967,6 +968,7 @@ link:rest-api-changes.html#change-info[ChangeInfo] entities.
   ]
 ----
 
+[[star-change]]
 Star Change
 ~~~~~~~~~~~
 [verse]
@@ -986,6 +988,7 @@ whenever updates are made to the change.
   HTTP/1.1 204 No Content
 ----
 
+[[unstar-change]]
 Unstar Change
 ~~~~~~~~~~~~~
 [verse]

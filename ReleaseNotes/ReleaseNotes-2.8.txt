@@ -278,6 +278,15 @@ Delete account SSH key]
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-accounts.html#get-username[
 Get account username]
 
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-accounts.html#get-starred-changes[
+Get starred changes]
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-accounts.html#star-change[
+Star change]
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api-accounts.html#unstar-change[
+Unstar change]
+
 Changes
 ^^^^^^^
 
@@ -741,5 +750,7 @@ Upgrades
 * Update guava to 15.0
 * Update H2 to 1.3.173
 * Update bouncycastle to 1.44
+* Update Apache Mina to 2.0.7
+* Update Apache SSHD to 0.9.0.201311081
 * asciidoctor 0.1.4 is now required to build the documentation
 * jsr305 library was removed

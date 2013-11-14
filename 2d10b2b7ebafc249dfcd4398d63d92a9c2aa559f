@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fed00d3d_352bd097",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-11-14T10:38:14Z",
+      "side": 1,
+      "message": "s/git/Git",
+      "revId": "2d10b2b7ebafc249dfcd4398d63d92a9c2aa559f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fed00d3d_551e4c75",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-11-14T10:38:14Z",
+      "side": 1,
+      "message": "s/Introduced/introduced\n\ns/GIT\u0027s/Gits\nor\ns/GIT\u0027s/Git repositories\n\nLooks like the number of references is important, not the size of the repository. Right? Therefore, the \"large\" in this sentence should be used to qualify the number of references:\n\n\"introduced a performance issue on Git repositories with large number of refs\".",
+      "revId": "2d10b2b7ebafc249dfcd4398d63d92a9c2aa559f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fed00d3d_1528d496",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-11-14T10:38:14Z",
+      "side": 1,
+      "message": "[optional] For me this line would be a bit more understandable if it would be written:\n\n\"whose tips are not reachable from any branch.\"",
+      "revId": "2d10b2b7ebafc249dfcd4398d63d92a9c2aa559f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "decd09a8_742148b5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-11-14T10:38:14Z",
+      "side": 1,
+      "message": "1. \"refs/notes/\" could also be excluded\n\n2. Would it make more sense to check the opposite:\n\n  if (!refName.startsWith(\"refs/heads/\") \u0026\u0026 !refName.startsWith(\"refs/tags/\")) {\n    continue;\n  }\n\nI guess it is more likely that in Gerrit we will introduce a new \"refs/xyz\" namespace which will require change here to add this exception than that Git will introduce a new namespace for branches or tags.\n\nAlternatively, instead of using getAllRefs() and then filtering out what is not necessary, we could use getRefs(Constants.R_HEADS) and getRefs(Constants.R_TAGS) to fetch exactly the (sub)set of references we are interested into.",
+      "revId": "2d10b2b7ebafc249dfcd4398d63d92a9c2aa559f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

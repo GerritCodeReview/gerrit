@@ -1,12 +1,12 @@
 include_defs('//lib/maven.defs')
 
-VERSION = '8.1.7.v20120910'
+VERSION = '9.0.6.v20130930'
 EXCLUDE = ['about.html']
 
 maven_jar(
   name = 'servlet',
   id = 'org.eclipse.jetty:jetty-servlet:' + VERSION,
-  sha1 = '93da01e3ea26e70449e9a1a0affa5c31436be5a0',
+  sha1 = 'b6953af6f857e78fe3c46935fa96f9c80a9cbefd',
   license = 'Apache2.0',
   deps = [
     ':security',
@@ -18,7 +18,7 @@ maven_jar(
 maven_jar(
   name = 'security',
   id = 'org.eclipse.jetty:jetty-security:' + VERSION,
-  sha1 = '8d78beb7a07f4cccee05a3f16a264f1025946258',
+  sha1 = 'b16cd29ad9d3d3cca8176a654adf4b2ddca0eb3e',
   license = 'Apache2.0',
   deps = [':server'],
   exclude = EXCLUDE,
@@ -28,7 +28,7 @@ maven_jar(
 maven_jar(
   name = 'server',
   id = 'org.eclipse.jetty:jetty-server:' + VERSION,
-  sha1 = '6c81f733f28713919e99c2f8952e6ca5178033cd',
+  sha1 = 'd89016c2bcd380f548530fa049295e62601dc564',
   license = 'Apache2.0',
   deps = [
     ':continuation',
@@ -41,7 +41,7 @@ maven_jar(
 maven_jar(
   name = 'continuation',
   id = 'org.eclipse.jetty:jetty-continuation:' + VERSION,
-  sha1 = 'f60cfe6267038000b459508529c88737601081e4',
+  sha1 = '4f942a52a3e996634ff302ab98f46d224b0db9d2',
   license = 'Apache2.0',
   exclude = EXCLUDE,
 )
@@ -49,7 +49,7 @@ maven_jar(
 maven_jar(
   name = 'http',
   id = 'org.eclipse.jetty:jetty-http:' + VERSION,
-  sha1 = '10126433876cd74534695f7f99c4362596555493',
+  sha1 = 'b3a2302717ac1889b4a17ed03e2555f8291121b9',
   license = 'Apache2.0',
   deps = [':io'],
   exclude = EXCLUDE,
@@ -58,7 +58,7 @@ maven_jar(
 maven_jar(
   name = 'io',
   id = 'org.eclipse.jetty:jetty-io:' + VERSION,
-  sha1 = 'a81f746ae1b10c37e1bb0a01d1374c202c0bd549',
+  sha1 = 'f3a66e0507d963c51e280243f0472a5b2eadc8b1',
   license = 'Apache2.0',
   deps = [':util'],
   exclude = EXCLUDE,
@@ -68,7 +68,7 @@ maven_jar(
 maven_jar(
   name = 'util',
   id = 'org.eclipse.jetty:jetty-util:' + VERSION,
-  sha1 = '7eb2004ab2c22fd3b00095bd9ba0f32a9e88f6a5',
+  sha1 = 'f36c9e61559d1154be9b52803ef4f586e401dac6',
   license = 'Apache2.0',
   exclude = EXCLUDE,
   visibility = [],

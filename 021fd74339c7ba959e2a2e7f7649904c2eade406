@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "decd09a8_d4313c0c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-14T09:32:59Z",
+      "side": 1,
+      "message": "This doesn\u0027t work since all the parameters are already needed in the constructor.",
+      "parentUuid": "decd09a8_1411f468",
+      "revId": "021fd74339c7ba959e2a2e7f7649904c2eade406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fed00d3d_3514f058",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
         "patchSetId": 19
@@ -30,6 +48,24 @@
       "writtenOn": "2013-11-14T09:25:28Z",
       "side": 1,
       "message": "I find class name Cache and var name cache misleading in this context. Can we be more specific? May be ConflictKeyComputeCache or something? In this source file we have already 4 different caches.",
+      "revId": "021fd74339c7ba959e2a2e7f7649904c2eade406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fed00d3d_1511f468",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-14T09:32:59Z",
+      "side": 1,
+      "message": "To be honest \u0027ConflictKeyComputeCache\u0027 is confusing me more than just \u0027Cache\u0027. It has nothing to do with computing a ConflictKey. For me \u0027Cache\u0027 is ok since it is an inner class and it\u0027s easy to have a look at its definition while reading this code. If a better name is proposed, I\u0027ll change the name. I can\u0027t find any better name, so I\u0027m staying with just \u0027Cache\u0027 for now.",
+      "parentUuid": "fed00d3d_3514f058",
       "revId": "021fd74339c7ba959e2a2e7f7649904c2eade406",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -657,7 +657,9 @@ public class ChangeScreen2 extends Screen {
         public void onSuccess(NativeString result) {
           if (Gerrit.getConfig().testChangeMerge()) {
             if (canSubmit) {
-              actions.setSubmitEnabled(changeInfo.mergeable());
+              actions.setSubmitEnabled(
+                  !Gerrit.getConfig().disableSubmitIfNotMergeable()
+                  || changeInfo.mergeable());
               if (status == Change.Status.NEW) {
                 statusText.setInnerText(changeInfo.mergeable()
                     ? Util.C.readyToSubmit()

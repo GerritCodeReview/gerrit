@@ -239,6 +239,69 @@ public class ChangeScreen2 extends Screen {
         reload.reload();
       }
     });
+    keysNavigation.add(new KeyCommand(0, 'K', Util.C.keyNextPatchSet()) {
+      @Override
+      public void onKeyPress(final KeyPressEvent event) {
+        if (revision != null) {
+          JsArray<RevisionInfo> revisions = changeInfo.revisions().values();
+          RevisionInfo.sortRevisionInfoByNumber(revisions);
+          boolean found = false;
+          for (RevisionInfo r : Natives.asList(revisions)) {
+            if (revision.equals(r.name())) {
+              found = true;
+              continue;
+            }
+            if (found) {
+              Gerrit.display(PageLinks.toChange(
+                  new PatchSet.Id(changeInfo.legacy_id(), r._number())));
+              break;
+            }
+          }
+        }
+      }
+    });
+    keysNavigation.add(new KeyCommand(0, 'J', Util.C.keyPreviousPatchSet()) {
+      @Override
+      public void onKeyPress(final KeyPressEvent event) {
+        if (revision == null) {
+          revision = changeInfo.current_revision();
+          if (changeInfo.revision(revision)._number() == 1) {
+            return;
+          }
+          loadChangeInfo(false, new AsyncCallback<ChangeInfo>() {
+            @Override
+            public void onSuccess(ChangeInfo info) {
+              goToPreviousPatchSet(info);
+            }
+
+            @Override
+            public void onFailure(Throwable caught) {
+            }
+          });
+        } else {
+          goToPreviousPatchSet(changeInfo);
+        }
+      }
+
+      private void goToPreviousPatchSet(ChangeInfo info) {
+        if (changeInfo.revision(revision)._number() == 1) {
+          return;
+        }
+        JsArray<RevisionInfo> revisions = changeInfo.revisions().values();
+        RevisionInfo.sortRevisionInfoByNumber(revisions);
+        RevisionInfo prevRev = null;
+        for (RevisionInfo r : Natives.asList(revisions)) {
+          if (revision.equals(r.name())) {
+            if (prevRev != null) {
+              Gerrit.display(PageLinks.toChange(
+                  new PatchSet.Id(changeInfo.legacy_id(), prevRev._number())));
+            }
+            break;
+          }
+          prevRev = r;
+        }
+      }
+    });
 
     keysAction = new KeyCommandSet(Gerrit.C.sectionActions());
     keysAction.add(new KeyCommand(0, 'a', Util.C.keyPublishComments()) {

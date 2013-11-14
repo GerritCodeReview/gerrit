@@ -58,7 +58,7 @@ public class IncludedInResolver {
     allTagsAndBranches.addAll(tags);
     allTagsAndBranches.addAll(branches);
     Set<Ref> allMatchingTagsAndBranches =
-        includedIn(repo, rw, commit, allTagsAndBranches);
+        includedIn(repo, rw, commit, allTagsAndBranches, 0);
 
     IncludedInDetail detail = new IncludedInDetail();
     detail
@@ -68,11 +68,15 @@ public class IncludedInResolver {
     return detail;
   }
 
+  public static boolean includedInOne(final Repository repo, final RevWalk rw,
+      final RevCommit commit, final Set<Ref> tipRefs) throws IOException {
+    return !includedIn(repo, rw, commit, tipRefs, 1).isEmpty();
+  }
   /**
    * Resolves which tip refs include the target commit.
    */
   private static Set<Ref> includedIn(final Repository repo, final RevWalk rw,
-      final RevCommit target, final Set<Ref> tipRefs) throws IOException,
+      final RevCommit target, final Set<Ref> tipRefs, int limit) throws IOException,
       MissingObjectException, IncorrectObjectTypeException {
 
     Set<Ref> result = new HashSet<Ref>();
@@ -101,6 +105,9 @@ public class IncludedInResolver {
           result.addAll(tipsAndCommits.get(tip));
           break;
         }
+      }
+      if (0 < limit && limit < result.size()) {
+        break;
       }
       if (!commitFound) {
         rw.markUninteresting(tip);

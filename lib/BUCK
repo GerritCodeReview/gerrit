@@ -121,8 +121,8 @@ maven_jar(
 
 maven_jar(
   name = 'args4j',
-  id = 'args4j:args4j:2.0.16',
-  sha1 = '9f00fb12820743b9e05c686eba543d64dd43f2b1',
+  id = 'args4j:args4j:2.0.26',
+  sha1 = '01ebb18ebb3b379a74207d5af4ea7c8338ebd78b',
   license = 'args4j',
 )
 

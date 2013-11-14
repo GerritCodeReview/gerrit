@@ -24,8 +24,10 @@ import org.kohsuke.args4j.OptionDef;
 import org.kohsuke.args4j.spi.OneArgumentOptionHandler;
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Setter;
+import org.kohsuke.args4j.spi.FieldSetter;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
 
 final class ApproveOption implements Option, Setter<Short> {
   private final String name;
@@ -46,6 +48,16 @@ final class ApproveOption implements Option, Setter<Short> {
   }
 
   @Override
+  public String[] depends() {
+    return new String[] {};
+  }
+
+  @Override
+  public boolean hidden() {
+    return false;
+  }
+
+  @Override
   public Class<? extends OptionHandler<Short>> handler() {
     return Handler.class;
   }
@@ -53,11 +65,6 @@ final class ApproveOption implements Option, Setter<Short> {
   @Override
   public String metaVar() {
     return "N";
-  }
-
-  @Override
-  public boolean multiValued() {
-    return false;
   }
 
   @Override
@@ -82,6 +89,16 @@ final class ApproveOption implements Option, Setter<Short> {
   @Override
   public Class<? extends Annotation> annotationType() {
     return null;
+  }
+
+  @Override
+  public FieldSetter asFieldSetter() {
+    throw new IllegalArgumentException("not implemented");
+  }
+
+  @Override
+  public AnnotatedElement asAnnotatedElement() {
+    throw new IllegalArgumentException("not implemented");
   }
 
   @Override

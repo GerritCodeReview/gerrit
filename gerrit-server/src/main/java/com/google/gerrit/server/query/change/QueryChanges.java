@@ -45,7 +45,7 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
   private boolean reverse;
   private EnumSet<ListChangesOption> options;
 
-  @Option(name = "--query", aliases = {"-q"}, metaVar = "QUERY", multiValued = true, usage = "Query string")
+  @Option(name = "--query", aliases = {"-q"}, metaVar = "QUERY", usage = "Query string")
   private List<String> queries;
 
   @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT", usage = "Maximum number of results to return")
@@ -53,7 +53,7 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
     imp.setLimit(limit);
   }
 
-  @Option(name = "-o", multiValued = true, usage = "Output options per change")
+  @Option(name = "-o", usage = "Output options per change")
   public void addOption(ListChangesOption o) {
     options.add(o);
   }

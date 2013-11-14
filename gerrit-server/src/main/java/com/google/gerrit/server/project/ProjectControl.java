@@ -469,6 +469,10 @@ public class ProjectControl {
       Repository repo = repoManager.openRepository(projName);
       try {
         for (Entry<String, Ref> entry : repo.getAllRefs().entrySet()) {
+          String refName = entry.getKey();
+          if (!refName.startsWith("refs/heads") && !refName.startsWith("refs/tags")) {
+            continue;
+          }
           RevCommit tip;
           try {
             tip = rw.parseCommit(entry.getValue().getObjectId());

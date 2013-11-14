@@ -62,12 +62,12 @@ final class Receive extends AbstractGitCommand {
   private final Set<Account.Id> reviewerId = new HashSet<Account.Id>();
   private final Set<Account.Id> ccId = new HashSet<Account.Id>();
 
-  @Option(name = "--reviewer", aliases = {"--re"}, multiValued = true, metaVar = "EMAIL", usage = "request reviewer for change(s)")
+  @Option(name = "--reviewer", aliases = {"--re"}, metaVar = "EMAIL", usage = "request reviewer for change(s)")
   void addReviewer(final Account.Id id) {
     reviewerId.add(id);
   }
 
-  @Option(name = "--cc", aliases = {}, multiValued = true, metaVar = "EMAIL", usage = "CC user on change(s)")
+  @Option(name = "--cc", aliases = {}, metaVar = "EMAIL", usage = "CC user on change(s)")
   void addCC(final Account.Id id) {
     ccId.add(id);
   }

@@ -109,7 +109,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   @Option(name = "--format", usage = "(deprecated) output format")
   private OutputFormat format = OutputFormat.TEXT;
 
-  @Option(name = "--show-branch", aliases = {"-b"}, multiValued = true,
+  @Option(name = "--show-branch", aliases = {"-b"},
       usage = "displays the sha of each project in the specified branch")
   public void addShowBranch(String branch) {
     showBranch.add(branch);

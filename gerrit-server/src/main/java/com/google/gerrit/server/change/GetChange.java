@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 public class GetChange implements RestReadView<ChangeResource> {
   private final ChangeJson json;
 
-  @Option(name = "-o", multiValued = true, usage = "Output options")
+  @Option(name = "-o", usage = "Output options")
   void addOption(ListChangesOption o) {
     json.addOption(o);
   }

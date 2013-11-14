@@ -59,7 +59,7 @@ class GetCapabilities implements RestReadView<AccountResource> {
   @Option(name = "--format", usage = "(deprecated) output format")
   private OutputFormat format;
 
-  @Option(name = "-q", metaVar = "CAP", multiValued = true, usage = "Capability to inspect")
+  @Option(name = "-q", metaVar = "CAP", usage = "Capability to inspect")
   void addQuery(String name) {
     if (query == null) {
       query = Sets.newHashSet();

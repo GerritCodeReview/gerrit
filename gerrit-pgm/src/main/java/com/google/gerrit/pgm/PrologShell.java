@@ -32,7 +32,7 @@ import java.util.EnumSet;
 import java.util.List;
 
 public class PrologShell extends AbstractProgram {
-  @Option(name = "-s", multiValued = true, metaVar = "FILE.pl", usage = "file to load")
+  @Option(name = "-s", metaVar = "FILE.pl", usage = "file to load")
   private List<String> fileName = new ArrayList<String>();
 
   @Override

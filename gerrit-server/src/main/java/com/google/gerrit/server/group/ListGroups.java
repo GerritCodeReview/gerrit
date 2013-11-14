@@ -96,7 +96,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   @Option(name = "-m", metaVar = "MATCH", usage = "match group substring")
   private String matchSubstring;
 
-  @Option(name = "-o", multiValued = true, usage = "Output options per group")
+  @Option(name = "-o", usage = "Output options per group")
   public void addOption(ListGroupsOption o) {
     options.add(o);
   }

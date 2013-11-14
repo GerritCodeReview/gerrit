@@ -168,6 +168,7 @@ public interface GerritCss extends CssResource {
   String negscore();
   String noLineLineNumber();
   String noborder();
+  String notMergeable();
   String notVotable();
   String outdated();
   String parentsTable();

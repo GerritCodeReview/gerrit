@@ -56,6 +56,7 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.extensions.webui.UiAction;
@@ -75,6 +76,8 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.actions.ActionInfo;
+import com.google.gerrit.server.change.Mergeable.MergeableInfo;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -89,6 +92,7 @@ import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -125,12 +129,14 @@ public class ChangeJson {
       };
 
   private final Provider<ReviewDb> db;
+  private final Config cfg;
   private final LabelNormalizer labelNormalizer;
   private final Provider<CurrentUser> userProvider;
   private final AnonymousUser anonymous;
   private final IdentifiedUser.GenericFactory userFactory;
   private final ProjectControl.GenericFactory projectControlFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
+  private final Provider<Mergeable> mergeable;
   private final FileInfoJson fileInfoJson;
   private final AccountInfo.Loader.Factory accountLoaderFactory;
   private final DynamicMap<DownloadScheme> downloadSchemes;
@@ -147,12 +153,14 @@ public class ChangeJson {
   @Inject
   ChangeJson(
       Provider<ReviewDb> db,
+      @GerritServerConfig Config cfg,
       LabelNormalizer ln,
       Provider<CurrentUser> user,
       AnonymousUser au,
       IdentifiedUser.GenericFactory uf,
       ProjectControl.GenericFactory pcf,
       PatchSetInfoFactory psi,
+      Provider<Mergeable> mergeable,
       FileInfoJson fileInfoJson,
       AccountInfo.Loader.Factory ailf,
       DynamicMap<DownloadScheme> downloadSchemes,
@@ -160,12 +168,14 @@ public class ChangeJson {
       DynamicMap<RestView<ChangeResource>> changes,
       Revisions revisions) {
     this.db = db;
+    this.cfg = cfg;
     this.labelNormalizer = ln;
     this.userProvider = user;
     this.anonymous = au;
     this.userFactory = uf;
     this.projectControlFactory = pcf;
     this.patchSetInfoFactory = psi;
+    this.mergeable = mergeable;
     this.fileInfoJson = fileInfoJson;
     this.accountLoaderFactory = ailf;
     this.downloadSchemes = downloadSchemes;
@@ -252,12 +262,30 @@ public class ChangeJson {
     for (ChangeData cd : changes) {
       ChangeInfo i = out.get(cd.getId());
       if (i == null) {
+        if (cfg.getBoolean("changeMerge", "test", false)) {
+          refreshMergeableFlag(cd);
+        }
         i = toChangeInfo(cd);
         out.put(cd.getId(), i);
       }
       info.add(i);
     }
     return info;
+  }
+
+  private void refreshMergeableFlag(ChangeData cd) throws OrmException {
+    try {
+      MergeableInfo info = mergeable.get().apply(
+          new RevisionResource(new ChangeResource(control(cd)),
+              cd.currentPatchSet(db)));
+      cd.change(db).setMergeable(info.mergeable);
+    } catch (RestApiException e) {
+      log.error("Failed to check mergeability of change "
+          + cd.getChange().getId().get(), e);
+    } catch (IOException e) {
+      log.error("Failed to check mergeability of change "
+          + cd.getChange().getId().get(), e);
+    }
   }
 
   private ChangeInfo toChangeInfo(ChangeData cd) throws OrmException {

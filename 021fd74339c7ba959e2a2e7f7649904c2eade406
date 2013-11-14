@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "fed00d3d_b54da08a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-14T11:44:15Z",
+      "side": 1,
+      "message": "Since all parameters are mandatory and this is the only caller I don\u0027t see a big advantage with the builder pattern. I prefer to leave it as it is.",
+      "parentUuid": "fed00d3d_b536c000",
+      "revId": "021fd74339c7ba959e2a2e7f7649904c2eade406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fed00d3d_3514f058",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
         "patchSetId": 19
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "Why not to name that then just Foo or X, and if some one want to understand what is that for, then she should study the code in the inner class?\n\nSeriously, we don\u0027t have comments, we have 4 caches in one source file, and we should name them as specific as possible.",
       "parentUuid": "fed00d3d_1511f468",
+      "revId": "021fd74339c7ba959e2a2e7f7649904c2eade406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fed00d3d_d5581c4e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-14T11:44:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fed00d3d_752148b5",
       "revId": "021fd74339c7ba959e2a2e7f7649904c2eade406",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

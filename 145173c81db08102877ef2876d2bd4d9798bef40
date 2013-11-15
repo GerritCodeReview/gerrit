@@ -70,6 +70,24 @@
       "revId": "145173c81db08102877ef2876d2bd4d9798bef40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e217d30_192b4b97",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-15T12:18:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "defb49cc_648f6a60",
+      "revId": "145173c81db08102877ef2876d2bd4d9798bef40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

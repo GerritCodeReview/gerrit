@@ -1614,6 +1614,11 @@ a:hover.downloadLink {
   padding-left: 5px;
 }
 
+.pluginProjectConfigInheritedValue {
+  padding-top: 5px;
+  padding-left: 5px;
+}
+
 /** Related Changes */
 .relatedChangesSubject {
   width: 355px;

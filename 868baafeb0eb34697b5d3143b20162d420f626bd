@@ -137,6 +137,24 @@
       "revId": "868baafeb0eb34697b5d3143b20162d420f626bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e1c71fc_5a48d576",
+        "filename": "tools/plugins.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-15T16:05:43Z",
+      "side": 1,
+      "message": "I rechecked it again and you are right \"extension\" is fetched as expected in the test case above. Something went wrong in my original test.",
+      "parentUuid": "defb49cc_a4844244",
+      "revId": "868baafeb0eb34697b5d3143b20162d420f626bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

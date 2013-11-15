@@ -14,6 +14,8 @@
 
 # Rule definitions loaded by default into every BUCK file.
 
+include_defs('//tools/gwt-constants.defs')
+
 def genantlr(
     name,
     srcs,
@@ -128,6 +130,7 @@ def gerrit_plugin(
     deps = [],
     srcs = [],
     resources = [],
+    gwt_module = None,
     manifest_file = None,
     manifest_entries = [],
     type = 'plugin',
@@ -149,20 +152,47 @@ def gerrit_plugin(
     srcs = mf_src,
     out = 'MANIFEST.MF',
   )
+  gwt_deps = []
+  static_jars = []
+  if gwt_module:
+    gwt_deps = GWT_PLUGIN_DEPS
+    static_jars = [':%s-static-jar' % name]
   java_library2(
     name = name + '__plugin',
     srcs = srcs,
     resources = resources,
     deps = deps,
-    compile_deps = ['//:%s-lib' % type],
+    compile_deps = ['//:%s-lib' % type] + gwt_deps,
   )
+  if gwt_module:
+    prebuilt_jar(
+      name = '%s-static-jar' % name,
+      binary_jar = genfile('%s-static.zip' % name),
+      deps = [':%s-static' % name],
+    )
+    genrule(
+      name = '%s-static' % name,
+      cmd = 'mkdir -p $TMP/static' +
+        ';unzip -qd $TMP/static $(location %s)' %
+        ':%s__gwt_application' % name +
+        ';cd $TMP' +
+        ';zip -qr $OUT .',
+      out = '%s-static.zip' % name,
+      deps = [':%s__gwt_application' % name]
+    )
+    gwt_application(
+      name = name + '__gwt_application',
+      module_target = gwt_module,
+      compiler_opts = GWT_COMPILER_OPTS,
+      deps = [':%s__plugin' % name] + gwt_deps,
+    )
   java_binary(
     name = name,
     manifest_file = genfile('MANIFEST.MF'),
     deps = [
       ':%s__plugin' % name,
       ':%s__manifest' % name,
-    ],
+    ] + static_jars,
     visibility = visibility,
   )
 

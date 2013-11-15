@@ -1,0 +1,13 @@
+GWT_COMPILER_OPTS = [
+  '-strict',
+  '-style', 'OBF',
+  '-optimize', '9',
+  '-XdisableClassMetadata',
+  '-XdisableCastChecking',
+  '-XenableClosureCompiler',
+]
+
+GWT_PLUGIN_DEPS = [
+  '//gerrit-plugin-gwtui:client',
+  '//lib/gwt:user',
+]

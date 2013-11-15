@@ -49,6 +49,12 @@ public class ConfigInfo extends JavaScriptObject {
     return SubmitType.valueOf(submit_typeRaw());
   }
 
+  public final native NativeMap<JsArray<ConfigParameterInfo>> pluginConfigParameters()
+  /*-{ return this.plugin_config_parameters; }-*/;
+
+  public final native JsArray<ConfigParameterInfo> pluginConfigParameter(String p)
+  /*-{ return this.plugin_config_parameters[p]; }-*/;
+
   public final native NativeMap<ActionInfo> actions()
   /*-{ return this.actions; }-*/;
 
@@ -136,6 +142,16 @@ public class ConfigInfo extends JavaScriptObject {
     public final native String configured_value() /*-{ return this.configured_value }-*/;
 
     protected MaxObjectSizeLimitInfo() {
+    }
+  }
+
+  public static class ConfigParameterInfo extends JavaScriptObject {
+    public final native String name() /*-{ return this.name; }-*/;
+    public final native String displayName() /*-{ return this.display_name; }-*/;
+    public final native String type() /*-{ return this.type; }-*/;
+    public final native String value() /*-{ return this.value; }-*/;
+
+    protected ConfigParameterInfo() {
     }
   }
 }

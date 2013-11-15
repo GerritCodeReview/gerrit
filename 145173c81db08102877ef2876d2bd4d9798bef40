@@ -34,6 +34,24 @@
       "revId": "145173c81db08102877ef2876d2bd4d9798bef40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e217d30_5921c3b4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-15T08:13:41Z",
+      "side": 1,
+      "message": "I agree, it makes not much sense to show this if the information may be outdated.",
+      "parentUuid": "fefe4dbb_658f6660",
+      "revId": "145173c81db08102877ef2876d2bd4d9798bef40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

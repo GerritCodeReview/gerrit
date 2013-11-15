@@ -64,7 +64,7 @@ class RebaseSorter {
             n.statusCode = CommitMergeStatus.MISSING_DEPENDENCY;
             n.missing = new ArrayList<CodeReviewCommit>();
           }
-          n.missing.add((CodeReviewCommit) c);
+          n.missing.add(c);
         } else {
           contents.add(c);
         }

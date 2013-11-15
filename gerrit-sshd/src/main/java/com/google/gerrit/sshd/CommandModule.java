@@ -72,7 +72,7 @@ public abstract class CommandModule extends LifecycleModule {
    */
   protected void command(final CommandName parent,
       final Class<? extends BaseCommand> clazz) {
-    CommandMetaData meta = (CommandMetaData)clazz.getAnnotation(CommandMetaData.class);
+    CommandMetaData meta = clazz.getAnnotation(CommandMetaData.class);
     if (meta == null) {
       throw new IllegalStateException("no CommandMetaData annotation found");
     }
@@ -91,7 +91,7 @@ public abstract class CommandModule extends LifecycleModule {
    */
   protected void alias(final CommandName parent, final String name,
       final Class<? extends BaseCommand> clazz) {
-    CommandMetaData meta = (CommandMetaData)clazz.getAnnotation(CommandMetaData.class);
+    CommandMetaData meta = clazz.getAnnotation(CommandMetaData.class);
     if (meta == null) {
       throw new IllegalStateException("no CommandMetaData annotation found");
     }

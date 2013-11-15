@@ -114,7 +114,7 @@ class SidePanel extends Composite {
     Label gutter = wrapper.gutter;
     final double height = cm.heightAtLine(line, "local");
     final double scrollbarHeight = cmB.getScrollbarV().getClientHeight();
-    double top = height / (double) cmB.getSizer().getClientHeight() *
+    double top = height / cmB.getSizer().getClientHeight() *
         scrollbarHeight +
         cmB.getScrollbarV().getAbsoluteTop();
     if (top == 0) {

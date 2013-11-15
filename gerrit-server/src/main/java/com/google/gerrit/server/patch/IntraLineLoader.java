@@ -248,12 +248,14 @@ class IntraLineLoader extends CacheLoader<IntraLineDiffKey, IntraLineDiff> {
           //
           if (ab < ae //
               && (ab == 0 || a.charAt(ab - 1) == '\n') //
-              && ae < a.size() && a.charAt(ae) == '\n') {
+              && ae < a.size() && a.charAt(ae - 1) != '\n'
+              && a.charAt(ae) == '\n') {
             ae++;
           }
           if (bb < be //
               && (bb == 0 || b.charAt(bb - 1) == '\n') //
-              && be < b.size() && b.charAt(be) == '\n') {
+              && be < b.size() && b.charAt(be - 1) != '\n'
+              && b.charAt(be) == '\n') {
             be++;
           }
 

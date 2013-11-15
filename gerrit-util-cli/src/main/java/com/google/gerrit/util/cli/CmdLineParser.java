@@ -52,10 +52,13 @@ import org.kohsuke.args4j.spi.BooleanOptionHandler;
 import org.kohsuke.args4j.spi.EnumOptionHandler;
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Setter;
+import org.kohsuke.args4j.spi.FieldSetter;
+
 
 import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -381,6 +384,16 @@ public class CmdLineParser {
     }
 
     @Override
+    public String[] depends() {
+      return new String[] {};
+    }
+
+    @Override
+    public boolean hidden() {
+      return false;
+    }
+
+    @Override
     public String usage() {
       return "display this help text";
     }
@@ -401,11 +414,6 @@ public class CmdLineParser {
     }
 
     @Override
-    public boolean multiValued() {
-      return false;
-    }
-
-    @Override
     public boolean required() {
       return false;
     }
@@ -416,13 +424,23 @@ public class CmdLineParser {
     }
 
     @Override
+    public FieldSetter asFieldSetter() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public AnnotatedElement asAnnotatedElement() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Class<Boolean> getType() {
       return Boolean.class;
     }
 
     @Override
     public boolean isMultiValued() {
-      return multiValued();
+      return false;
     }
   }
 }

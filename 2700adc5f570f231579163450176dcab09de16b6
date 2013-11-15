@@ -16,6 +16,40 @@
       "revId": "2700adc5f570f231579163450176dcab09de16b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fefe4dbb_c50a9a3a",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-15T01:33:09Z",
+      "side": 1,
+      "message": "Given the comment above, delete the code entirely?",
+      "revId": "2700adc5f570f231579163450176dcab09de16b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fefe4dbb_a5ff9ed6",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-15T01:33:09Z",
+      "side": 1,
+      "message": "This appears to be common in every branch. Hoist it above this sequence if if/else if and do it once?",
+      "revId": "2700adc5f570f231579163450176dcab09de16b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

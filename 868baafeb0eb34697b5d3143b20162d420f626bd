@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "defb49cc_8489465e",
+        "filename": "tools/plugins.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-15T08:15:05Z",
+      "side": 1,
+      "message": "I didn\u0027t want to write files back into the source tree from within the build. We could give them a genrule() that they can invoke to make the file in the buck-out/gen tree and they can copy to the source tree.",
+      "parentUuid": "9e2631f7_2a329f78",
+      "revId": "868baafeb0eb34697b5d3143b20162d420f626bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9efd5175_d20e24b8",
         "filename": "tools/plugins.defs",
         "patchSetId": 1
@@ -98,6 +116,24 @@
       "writtenOn": "2013-11-10T20:32:54Z",
       "side": 1,
       "message": "Not expansion of Maven variables is a serious limitation and kind of unexpected and must be mentioned in the commit message. Consider the following pom.xml excerpt:\n\n  [...]\n  \u003cgroupId\u003ecom.googlesource.gerrit.plugins.reviewers\u003c/groupId\u003e\n  \u003cartifactId\u003ereviewers\u003c/artifactId\u003e\n  \u003cversion\u003e2.9-SNAPSHOT\u003c/version\u003e\n  \u003cname\u003ereviewers\u003c/name\u003e\n  [...]\n  \u003cproperties\u003e\n    \u003cGerrit-ApiType\u003eextension\u003c/Gerrit-ApiType\u003e\n    \u003cGerrit-ApiVersion\u003e${project.version}\u003c/Gerrit-ApiVersion\u003e\n  \u003c/properties\u003e\n [...]\n   \u003cGerrit-PluginName\u003e${project.name}\u003c/Gerrit-PluginName\u003e\n   \u003cImplementation-Version\u003e${project.version}\u003c/Implementation-Version\u003e\n   \u003cGerrit-ApiType\u003e${Gerrit-ApiType}\u003c/Gerrit-ApiType\u003e\n   \u003cGerrit-ApiVersion\u003e${Gerrit-ApiVersion}\u003c/Gerrit-ApiVersion\u003e\n\nBecause Maven variabe expansion skipped, Buck driven build errorneously produces:\n\n  Gerrit-ApiType: plugin\n  Implementation-Version: v2.8-rc2-184-g868baaf\n\nWit the result, that the Gerrit-ApiType was reverted to plugin, and plugin name and Implementation-Version were lost.",
+      "revId": "868baafeb0eb34697b5d3143b20162d420f626bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "defb49cc_a4844244",
+        "filename": "tools/plugins.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-15T08:15:05Z",
+      "side": 1,
+      "message": "Hmm. I thought I tested this case and got lucky with ApiType coming in because \u003cGerrit-ApiType\u003e in \u003cproperties\u003e looks like \u003cGerrit-ApiType\u003e in the JAR manifest properties section. Since the code takes the first element with the name, it should have taken the one from \u003cproperties\u003e.",
+      "parentUuid": "9e2631f7_ea688752",
       "revId": "868baafeb0eb34697b5d3143b20162d420f626bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

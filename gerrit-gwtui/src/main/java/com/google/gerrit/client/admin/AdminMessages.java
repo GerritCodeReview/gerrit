@@ -28,4 +28,6 @@ public interface AdminMessages extends Messages {
 
   String effectiveMaxObjectSizeLimit(String effectiveMaxObjectSizeLimit);
   String globalMaxObjectSizeLimit(String globalMaxObjectSizeLimit);
+  String pluginProjectOptionsTitle(String pluginName);
+  String pluginProjectInheritedValue(String value);
 }

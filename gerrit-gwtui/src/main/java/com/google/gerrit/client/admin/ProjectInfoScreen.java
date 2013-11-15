@@ -22,11 +22,13 @@ import com.google.gerrit.client.actions.ActionInfo;
 import com.google.gerrit.client.change.Resources;
 import com.google.gerrit.client.download.DownloadPanel;
 import com.google.gerrit.client.projects.ConfigInfo;
+import com.google.gerrit.client.projects.ConfigInfo.ConfigParameterInfo;
 import com.google.gerrit.client.projects.ConfigInfo.InheritedBooleanInfo;
 import com.google.gerrit.client.projects.ProjectApi;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeMap;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.SmallHeading;
@@ -39,20 +41,29 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
 public class ProjectInfoScreen extends ProjectScreen {
   private boolean isOwner;
 
   private LabeledWidgetsGrid grid;
+  private Panel pluginOptionsPanel;
   private LabeledWidgetsGrid actionsGrid;
 
   // Section: Project Options
@@ -62,6 +73,7 @@ public class ProjectInfoScreen extends ProjectScreen {
   private ListBox contentMerge;
   private NpTextBox maxObjectSizeLimit;
   private Label effectiveMaxObjectSizeLimit;
+  private Map<String, Map<String, Widget>> pluginConfigWidgets;
 
   // Section: Contributor Agreements
   private ListBox contributorAgreements;
@@ -93,10 +105,12 @@ public class ProjectInfoScreen extends ProjectScreen {
 
     initDescription();
     grid = new LabeledWidgetsGrid();
+    pluginOptionsPanel = new FlowPanel();
     actionsGrid = new LabeledWidgetsGrid();
     initProjectOptions();
     initAgreements();
     add(grid);
+    add(pluginOptionsPanel);
     add(saveProject);
     add(actionsGrid);
   }
@@ -140,6 +154,14 @@ public class ProjectInfoScreen extends ProjectScreen {
     signedOffBy.setEnabled(isOwner);
     requireChangeID.setEnabled(isOwner);
     maxObjectSizeLimit.setEnabled(isOwner);
+
+    if (pluginConfigWidgets != null) {
+      for (Map<String, Widget> widgetMap : pluginConfigWidgets.values()) {
+        for (Widget widget : widgetMap.values()) {
+          ((FocusWidget) widget).setEnabled(isOwner);
+        }
+      }
+    }
   }
 
   private void initDescription() {
@@ -323,7 +345,93 @@ public class ProjectInfoScreen extends ProjectScreen {
     }
 
     saveProject.setEnabled(false);
+    initPluginOptions(result);
     initProjectActions(result);
+  }
+
+  private void initPluginOptions(ConfigInfo info) {
+    pluginOptionsPanel.clear();
+    pluginConfigWidgets = new HashMap<String, Map<String, Widget>>();
+
+    for (String pluginName : Natives.keys(info.pluginConfigParameters())) {
+      Map<String, Widget> widgetMap = new HashMap<String, Widget>();
+      pluginConfigWidgets.put(pluginName, widgetMap);
+      LabeledWidgetsGrid g = new LabeledWidgetsGrid();
+      g.addHeader(new SmallHeading(Util.M.pluginProjectOptionsTitle(pluginName)));
+      pluginOptionsPanel.add(g);
+      for (ConfigParameterInfo param : Natives.asList(info
+          .pluginConfigParameter(pluginName))) {
+        if ("STRING".equals(param.type()) || "INT".equals(param.type())
+            || "LONG".equals(param.type())) {
+          NpTextBox textBox = new NpTextBox();
+          if (param.inheritable()) {
+            textBox.setValue(param.configuredValue());
+            Label inheritedLabel =
+                new Label(Util.M.pluginProjectInheritedValue(param
+                    .inheritedValue()));
+            inheritedLabel.setStyleName(Gerrit.RESOURCES.css()
+                .pluginProjectConfigInheritedValue());
+            HorizontalPanel p = new HorizontalPanel();
+            p.add(textBox);
+            p.add(inheritedLabel);
+            g.add(param.displayName() != null ? param.displayName() :
+                param.name(), p);
+          } else {
+            textBox.setValue(param.value());
+            g.add(param.displayName() != null ? param.displayName() :
+                param.name(), textBox);
+          }
+          saveEnabler.listenTo(textBox);
+          widgetMap.put(param.name(), textBox);
+        } else if ("BOOLEAN".equals(param.type())) {
+          CheckBox checkbox = new CheckBox();
+          checkbox.setValue(Boolean.parseBoolean(param.value()));
+          g.add(param.displayName() != null ? param.displayName() :
+              param.name(), checkbox);
+          saveEnabler.listenTo(checkbox);
+          widgetMap.put(param.name(), checkbox);
+        } else if ("LIST".equals(param.type())) {
+          ListBox listBox = new ListBox();
+          if (param.inheritable()) {
+            listBox.addItem(Util.C.inheritListValue());
+            if (param.configuredValue() == null) {
+              listBox.setSelectedIndex(0);
+            }
+            for (int i = 0; i < param.supportedValues().length(); i++) {
+              String sv = param.supportedValues().get(i);
+              listBox.addItem(sv);
+              if (sv.equals(param.configuredValue())) {
+                listBox.setSelectedIndex(i + 1);
+              }
+            }
+            Label inheritedLabel =
+                new Label(Util.M.pluginProjectInheritedValue(param
+                    .inheritedValue()));
+            inheritedLabel.setStyleName(Gerrit.RESOURCES.css()
+                .pluginProjectConfigInheritedValue());
+            HorizontalPanel p = new HorizontalPanel();
+            p.add(listBox);
+            p.add(inheritedLabel);
+            g.add(param.displayName() != null ? param.displayName() :
+                param.name(), p);
+          } else {
+            for (int i = 0; i < param.supportedValues().length(); i++) {
+              String sv = param.supportedValues().get(i);
+              listBox.addItem(sv);
+              if (sv.equals(param.value())) {
+                listBox.setSelectedIndex(i);
+              }
+            }
+            g.add(param.displayName() != null ? param.displayName() :
+                param.name(), listBox);
+          }
+          saveEnabler.listenTo(listBox);
+          widgetMap.put(param.name(), listBox);
+        }
+      }
+    }
+
+    enableForm();
   }
 
   private void initProjectActions(ConfigInfo info) {
@@ -355,7 +463,7 @@ public class ProjectInfoScreen extends ProjectScreen {
         maxObjectSizeLimit.getText().trim(),
         Project.SubmitType.valueOf(submitType.getValue(submitType.getSelectedIndex())),
         Project.State.valueOf(state.getValue(state.getSelectedIndex())),
-        new GerritCallback<ConfigInfo>() {
+        getPluginConfigValues(), new GerritCallback<ConfigInfo>() {
           @Override
           public void onSuccess(ConfigInfo result) {
             enableForm();
@@ -368,6 +476,32 @@ public class ProjectInfoScreen extends ProjectScreen {
             super.onFailure(caught);
           }
         });
+  }
+
+  private Map<String, Map<String, String>> getPluginConfigValues() {
+    Map<String, Map<String, String>> pluginConfigValues =
+        new HashMap<String, Map<String, String>>(pluginConfigWidgets.size());
+    for (Entry<String, Map<String, Widget>> e : pluginConfigWidgets.entrySet()) {
+      Map<String, String> values =
+          new HashMap<String, String>(e.getValue().size());
+      pluginConfigValues.put(e.getKey(), values);
+      for (Entry<String, Widget> e2 : e.getValue().entrySet()) {
+        Widget widget = e2.getValue();
+        if (widget instanceof TextBox) {
+          values.put(e2.getKey(), ((TextBox) widget).getValue().trim());
+        } else if (widget instanceof CheckBox) {
+          values.put(e2.getKey(), Boolean.toString(((CheckBox) widget).getValue()));
+        } else if (widget instanceof ListBox) {
+          ListBox listBox = (ListBox) widget;
+          String value = listBox.getValue(listBox.getSelectedIndex());
+          if ("INHERIT".equals(value)) {
+            value = null;
+          }
+          values.put(e2.getKey(), value);
+        }
+      }
+    }
+    return pluginConfigValues;
   }
 
   public class ProjectDownloadPanel extends DownloadPanel {

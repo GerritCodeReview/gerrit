@@ -22,6 +22,7 @@ import com.google.gerrit.common.ChangeListener;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
+import com.google.gerrit.extensions.config.ProjectConfigEntry;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
@@ -250,6 +251,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), TopMenu.class);
     DynamicMap.mapOf(binder(), DownloadScheme.class);
     DynamicMap.mapOf(binder(), DownloadCommand.class);
+    DynamicMap.mapOf(binder(), ProjectConfigEntry.class);
 
     bind(AnonymousUser.class);
 

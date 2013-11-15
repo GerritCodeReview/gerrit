@@ -66,6 +66,7 @@ public interface AdminConstants extends Constants {
   String headingParentProjectName();
   String columnProjectName();
   String headingAgreements();
+  String inheritListValue();
 
   String headingProjectSubmitType();
   String projectSubmitType_FAST_FORWARD_ONLY();

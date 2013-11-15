@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "defb49cc_242bb297",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GarbageCollectAction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-15T07:44:39Z",
+      "side": 1,
+      "message": "Why extend? Why not just declare these methods in the parent class?",
+      "revId": "ece91ccc4345c2658508a3f7b2b3b04f27e2d76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fefe4dbb_6521a6b5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GarbageCollectAction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-15T07:44:39Z",
+      "side": 1,
+      "message": "indent these lines",
+      "revId": "ece91ccc4345c2658508a3f7b2b3b04f27e2d76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

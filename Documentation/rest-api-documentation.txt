@@ -19,8 +19,9 @@ Documentation Search Endpoints
 [[search-documentation]]
 Search Documentation
 ~~~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'GET /Documentation/'
+--
 
 With `q` parameter, search our documentation index for the terms.
 

@@ -7,10 +7,11 @@ gerrit rename-group - Rename an account group.
 
 SYNOPSIS
 --------
-[verse]
+--
 'ssh' -p <port> <host> 'gerrit rename-group'
   <GROUP>
   <NEWNAME>
+--
 
 DESCRIPTION
 -----------

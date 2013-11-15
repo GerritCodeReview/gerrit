@@ -7,8 +7,9 @@ prolog-shell - Simple interactive Prolog interpreter
 
 SYNOPSIS
 --------
-[verse]
+--
 'java' -jar gerrit.war 'prolog-shell' [-s FILE.pl ...]
+--
 
 DESCRIPTION
 -----------

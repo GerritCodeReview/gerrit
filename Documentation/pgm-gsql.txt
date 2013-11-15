@@ -7,8 +7,9 @@ gsql - Administrative interface to idle database
 
 SYNOPSIS
 --------
-[verse]
+--
 'java' -jar gerrit.war 'gsql' -d <SITE_PATH>
+--
 
 DESCRIPTION
 -----------

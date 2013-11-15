@@ -12,8 +12,9 @@ Group Endpoints
 [[list-groups]]
 List Groups
 ~~~~~~~~~~~
-[verse]
+--
 'GET /groups/'
+--
 
 Lists the groups accessible by the caller. This is the same as
 using the link:cmd-ls-groups.html[ls-groups] command over SSH,
@@ -168,8 +169,9 @@ returned.
 [[get-group]]
 Get Group
 ~~~~~~~~~
-[verse]
+--
 'GET /groups/link:#group-id[\{group-id\}]'
+--
 
 Retrieves a group.
 
@@ -205,8 +207,9 @@ describes the group.
 [[create-group]]
 Create Group
 ~~~~~~~~~~~~
-[verse]
+--
 'PUT /groups/link:#group-name[\{group-name\}]'
+--
 
 Creates a new Gerrit internal group.
 
@@ -257,8 +260,9 @@ response is "`409 Conflict`".
 [[get-group-detail]]
 Get Group Detail
 ~~~~~~~~~~~~~~~~
-[verse]
+--
 'GET /groups/link:#group-id[\{group-id\}]/detail'
+--
 
 Retrieves a group with the direct link:#members[members] and the
 directly link:#includes[included groups].
@@ -310,8 +314,9 @@ describes the group.
 [[get-group-name]]
 Get Group Name
 ~~~~~~~~~~~~~~
-[verse]
+--
 'GET /groups/link:#group-id[\{group-id\}]/name'
+--
 
 Retrieves the name of a group.
 
@@ -333,8 +338,9 @@ Retrieves the name of a group.
 [[rename-group]]
 Rename Group
 ~~~~~~~~~~~~
-[verse]
+--
 'PUT /groups/link:#group-id[\{group-id\}]/name'
+--
 
 Renames a Gerrit internal group.
 
@@ -368,8 +374,9 @@ response is "`409 Conflict`".
 [[get-group-description]]
 Get Group Description
 ~~~~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'GET /groups/link:#group-id[\{group-id\}]/description'
+--
 
 Retrieves the description of a group.
 
@@ -393,8 +400,9 @@ If the group does not have a description an empty string is returned.
 [[set-group-description]]
 Set Group Description
 ~~~~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'PUT /groups/link:#group-id[\{group-id\}]/description'
+--
 
 Sets the description of a Gerrit internal group.
 
@@ -427,8 +435,9 @@ If the description was deleted the response is "`204 No Content`".
 [[delete-group-description]]
 Delete Group Description
 ~~~~~~~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'DELETE /groups/link:#group-id[\{group-id\}]/description'
+--
 
 Deletes the description of a Gerrit internal group.
 
@@ -445,8 +454,9 @@ Deletes the description of a Gerrit internal group.
 [[get-group-options]]
 Get Group Options
 ~~~~~~~~~~~~~~~~~
-[verse]
+--
 'GET /groups/link:#group-id[\{group-id\}]/options'
+--
 
 Retrieves the options of a group.
 
@@ -473,8 +483,9 @@ returned that describes the options of the group.
 [[set-group-options]]
 Set Group Options
 ~~~~~~~~~~~~~~~~~
-[verse]
+--
 'PUT /groups/link:#group-id[\{group-id\}]/options'
+--
 
 Sets the options of a Gerrit internal group.
 
@@ -509,8 +520,9 @@ link:#group-options-info[GroupOptionsInfo] entity.
 [[get-group-owner]]
 Get Group Owner
 ~~~~~~~~~~~~~~~
-[verse]
+--
 'GET /groups/link:#group-id[\{group-id\}]/owner'
+--
 
 Retrieves the owner group of a Gerrit internal group.
 
@@ -546,8 +558,9 @@ describes the owner group.
 [[set-group-owner]]
 Set Group Owner
 ~~~~~~~~~~~~~~~
-[verse]
+--
 'PUT /groups/link:#group-id[\{group-id\}]/owner'
+--
 
 Sets the owner group of a Gerrit internal group.
 
@@ -597,8 +610,9 @@ Group Member Endpoints
 [[group-members]]
 List Group Members
 ~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'GET /groups/link:#group-id[\{group-id\}]/members/'
+--
 
 Lists the direct members of a Gerrit internal group.
 
@@ -682,8 +696,9 @@ are not visible to the calling user are ignored.
 [[get-group-member]]
 Get Group Member
 ~~~~~~~~~~~~~~~~
-[verse]
+--
 'GET /groups/link:#group-id[\{group-id\}]/members/link:rest-api-accounts.html#account-id[\{account-id\}]'
+--
 
 Retrieves a group member.
 
@@ -713,8 +728,9 @@ AccountInfo] entity is returned that describes the group member.
 [[add-group-member]]
 Add Group Member
 ~~~~~~~~~~~~~~~~
-[verse]
+--
 'PUT /groups/link:#group-id[\{group-id\}]/members/link:rest-api-accounts.html#account-id[\{account-id\}]'
+--
 
 Adds a user as member to a Gerrit internal group.
 
@@ -746,13 +762,15 @@ group, but then the HTTP response code is `200 OK`.
 
 Add Group Members
 ~~~~~~~~~~~~~~~~~
-[verse]
+--
 'POST /groups/link:#group-id[\{group-id\}]/members'
+--
 
 OR
 
-[verse]
+--
 'POST /groups/link:#group-id[\{group-id\}]/members.add'
+--
 
 Adds one or several users to a Gerrit internal group.
 
@@ -806,8 +824,9 @@ already a member of the group.
 [[delete-group-member]]
 Delete Group Member
 ~~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'DELETE /groups/link:#group-id[\{group-id\}]/members/link:rest-api-accounts.html#account-id[\{account-id\}]'
+--
 
 Deletes a user from a Gerrit internal group.
 
@@ -824,8 +843,9 @@ Deletes a user from a Gerrit internal group.
 [[delete-group-members]]
 Delete Group Members
 ~~~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'POST /groups/link:#group-id[\{group-id\}]/members.delete'
+--
 
 Delete one or several users from a Gerrit internal group.
 
@@ -857,8 +877,9 @@ Group Include Endpoints
 [[included-groups]]
 List Included Groups
 ~~~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'GET /groups/link:#group-id[\{group-id\}]/groups/'
+--
 
 Lists the directly included groups of a group.
 
@@ -895,8 +916,9 @@ The entries in the list are sorted by group name and UUID.
 [[get-included-group]]
 Get Included Group
 ~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'GET /groups/link:#group-id[\{group-id\}]/groups/link:#group-id[\{group-id\}]'
+--
 
 Retrieves an included group.
 
@@ -931,8 +953,9 @@ describes the included group.
 [[include-group]]
 Include Group
 ~~~~~~~~~~~~~
-[verse]
+--
 'PUT /groups/link:#group-id[\{group-id\}]/groups/link:#group-id[\{group-id\}]'
+--
 
 Includes an internal or external group into a Gerrit internal group.
 External groups must be specified using the UUID.
@@ -971,13 +994,15 @@ group, but then the HTTP response code is `200 OK`.
 [[include-groups]]
 Include Groups
 ~~~~~~~~~~~~~~
-[verse]
+--
 'POST /groups/link:#group-id[\{group-id\}]/groups'
+--
 
 OR
 
-[verse]
+--
 'POST /groups/link:#group-id[\{group-id\}]/groups.add'
+--
 
 Includes one or several groups into a Gerrit internal group.
 
@@ -1040,8 +1065,9 @@ group was already included in the group.
 [[delete-included-group]]
 Delete Included Group
 ~~~~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'DELETE /groups/link:#group-id[\{group-id\}]/groups/link:#group-id[\{group-id\}]'
+--
 
 Deletes an included group from a Gerrit internal group.
 
@@ -1058,8 +1084,9 @@ Deletes an included group from a Gerrit internal group.
 [[delete-included-groups]]
 Delete Included Groups
 ~~~~~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'POST /groups/link:#group-id[\{group-id\}]/groups.delete'
+--
 
 Delete one or several included groups from a Gerrit internal group.
 

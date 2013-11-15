@@ -7,8 +7,9 @@ gerrit stream-events - Monitor events occurring in real time
 
 SYNOPSIS
 --------
-[verse]
+--
 'ssh' -p <port> <host> 'gerrit stream-events'
+--
 
 DESCRIPTION
 -----------

@@ -7,10 +7,11 @@ plugin ls - List the installed plugins.
 
 SYNOPSIS
 --------
-[verse]
+--
 'ssh' -p <port> <host> 'gerrit plugin ls'
   [--all | -a]
   [--format {text | json | json_compact}]
+--
 
 DESCRIPTION
 -----------

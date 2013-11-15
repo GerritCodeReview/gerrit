@@ -7,9 +7,10 @@ plugin reload - Reload/Restart plugins.
 
 SYNOPSIS
 --------
-[verse]
+--
 'ssh' -p <port> <host> 'gerrit plugin reload'
   <NAME> ...
+--
 
 DESCRIPTION
 -----------

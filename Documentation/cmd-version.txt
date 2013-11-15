@@ -7,8 +7,9 @@ gerrit version - Show the version of the currently executing Gerrit server
 
 SYNOPSIS
 --------
-[verse]
+--
 'ssh' -p <port> <host> 'gerrit version'
+--
 
 DESCRIPTION
 -----------

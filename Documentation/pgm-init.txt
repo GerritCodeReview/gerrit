@@ -7,13 +7,14 @@ init - Initialize a new Gerrit server installation
 
 SYNOPSIS
 --------
-[verse]
+--
 'java' -jar gerrit.war 'init'
 	-d <SITE_PATH>
 	[\--batch]
 	[\--no-auto-start]
 	[\--list-plugins]
 	[\--install-plugin=<PLUGIN_NAME>]
+--
 
 DESCRIPTION
 -----------

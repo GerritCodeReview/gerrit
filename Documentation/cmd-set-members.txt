@@ -7,7 +7,7 @@ gerrit set-members - Set group members
 
 SYNOPSIS
 --------
-[verse]
+--
 'ssh' -p <port> <host> 'gerrit set-members'
   [--add USER ...]
   [--remove USER ...]
@@ -15,6 +15,7 @@ SYNOPSIS
   [--exclude GROUP ...]
   [--]
   <GROUP> ...
+--
 
 DESCRIPTION
 -----------

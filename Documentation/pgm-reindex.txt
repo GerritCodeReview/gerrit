@@ -7,8 +7,9 @@ reindex - Rebuild the secondary index
 
 SYNOPSIS
 --------
-[verse]
+--
 'java' -jar gerrit.war 'reindex' [<OPTIONS>]
+--
 
 DESCRIPTION
 -----------

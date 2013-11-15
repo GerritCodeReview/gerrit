@@ -8,8 +8,9 @@ account to lower case
 
 SYNOPSIS
 --------
-[verse]
+--
 'java' -jar gerrit.war 'LocalUsernamesToLowerCase' -d <SITE_PATH>
+--
 
 DESCRIPTION
 -----------

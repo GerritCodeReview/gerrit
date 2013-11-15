@@ -7,7 +7,7 @@ gerrit create-group - Create a new account group.
 
 SYNOPSIS
 --------
-[verse]
+--
 'ssh' -p <port> <host> 'gerrit create-group'
   [--owner <GROUP> | -o <GROUP>]
   [--description <DESC> | -d <DESC>]
@@ -15,6 +15,7 @@ SYNOPSIS
   [--group <GROUP>]
   [--visible-to-all]
   <GROUP>
+--
 
 DESCRIPTION
 -----------

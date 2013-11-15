@@ -7,7 +7,7 @@ gerrit create-project - Create a new hosted project
 
 SYNOPSIS
 --------
-[verse]
+--
 'ssh' -p <port> <host> 'gerrit create-project'
   [--owner <GROUP> ... | -o <GROUP> ...]
   [--parent <NAME> | -p <NAME> ]
@@ -23,6 +23,7 @@ SYNOPSIS
   [--empty-commit]
   [--max-object-size-limit <N>]
   { <NAME> | --name <NAME> }
+--
 
 DESCRIPTION
 -----------

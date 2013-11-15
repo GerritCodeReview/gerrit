@@ -12,8 +12,9 @@ Config Endpoints
 [[get-version]]
 Get Version
 ~~~~~~~~~~~
-[verse]
+--
 'GET /config/server/version'
+--
 
 Returns the version of the Gerrit server.
 
@@ -34,8 +35,9 @@ Returns the version of the Gerrit server.
 [[list-capabilities]]
 List Capabilities
 ~~~~~~~~~~~~~~~~~
-[verse]
+--
 'GET /config/server/capabilities'
+--
 
 Lists the capabilities that are available in the system. There are two
 kinds of capabilities: core and plugin-owned capabilities.
@@ -138,8 +140,9 @@ The entries in the map are sorted by capability ID.
 [[get-top-menus]]
 Get Top Menus
 ~~~~~~~~~~~~~
-[verse]
+--
 'GET /config/server/top-menus'
+--
 
 Returns the list of additional top menu entries.
 

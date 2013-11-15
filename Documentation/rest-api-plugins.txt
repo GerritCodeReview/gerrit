@@ -19,8 +19,9 @@ namespace.
 [[list-plugins]]
 List Plugins
 ~~~~~~~~~~~~
-[verse]
+--
 'GET /plugins/'
+--
 
 Lists the plugins installed on the Gerrit server. Only the enabled
 plugins are returned unless the `all` option is specified.
@@ -59,8 +60,9 @@ by plugin ID.
 [[install-plugin]]
 Install Plugin
 ~~~~~~~~~~~~~~
-[verse]
+--
 'PUT /plugins/link:#plugin-id[\{plugin-id\}]'
+--
 
 Installs a new plugin on the Gerrit server. If a plugin with the
 specified name already exists it is overwritten. Note: if the plugin
@@ -110,8 +112,9 @@ If an existing plugin was overwritten the response is "`200 OK`".
 [[get-plugin-status]]
 Get Plugin Status
 ~~~~~~~~~~~~~~~~~
-[verse]
+--
 'GET /plugins/link:#plugin-id[\{plugin-id\}]/gerrit~status'
+--
 
 Retrieves the status of a plugin on the Gerrit server.
 
@@ -140,8 +143,9 @@ describes the plugin.
 [[enable-plugin]]
 Enable Plugin
 ~~~~~~~~~~~~~
-[verse]
+--
 'POST /plugins/link:#plugin-id[\{plugin-id\}]/gerrit~enable'
+--
 
 Enables a plugin on the Gerrit server.
 
@@ -170,13 +174,15 @@ describes the plugin.
 [[disable-plugin]]
 Disable Plugin
 ~~~~~~~~~~~~~~
-[verse]
+--
 'POST /plugins/link:#plugin-id[\{plugin-id\}]/gerrit~disable'
+--
 
 OR
 
-[verse]
+--
 'DELETE /plugins/link:#plugin-id[\{plugin-id\}]'
+--
 
 Disables a plugin on the Gerrit server.
 
@@ -206,8 +212,9 @@ describes the plugin.
 [[reload-plugin]]
 Reload Plugin
 ~~~~~~~~~~~~~
-[verse]
+--
 'POST /plugins/link:#plugin-id[\{plugin-id\}]/gerrit~reload'
+--
 
 Reloads a plugin on the Gerrit server.
 

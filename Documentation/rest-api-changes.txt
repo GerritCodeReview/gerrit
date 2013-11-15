@@ -12,8 +12,9 @@ Change Endpoints
 [[list-changes]]
 Query Changes
 ~~~~~~~~~~~~~
-[verse]
+--
 'GET /changes/'
+--
 
 Queries changes visible to the caller. The query string must be
 provided by the `q` parameter. The `n` parameter can be used to limit
@@ -361,8 +362,9 @@ default. Optional fields are:
 [[get-change]]
 Get Change
 ~~~~~~~~~~
-[verse]
+--
 'GET /changes/link:#change-id[\{change-id\}]'
+--
 
 Retrieves a change.
 
@@ -408,8 +410,9 @@ describes the change.
 [[get-change-detail]]
 Get Change Detail
 ~~~~~~~~~~~~~~~~~
-[verse]
+--
 'GET /changes/link:#change-id[\{change-id\}]/detail'
+--
 
 Retrieves a change with link:#labels[labels], link:#detailed-labels[
 detailed labels], link:#detailed-accounts[detailed accounts], and
@@ -576,8 +579,9 @@ describes the change.
 [[get-topic]]
 Get Topic
 ~~~~~~~~~
-[verse]
+--
 'GET /changes/link:#change-id[\{change-id\}]/topic'
+--
 
 Retrieves the topic of a change.
 
@@ -601,8 +605,9 @@ If the change does not have a topic an empty string is returned.
 [[set-topic]]
 Set Topic
 ~~~~~~~~~
-[verse]
+--
 'PUT /changes/link:#change-id[\{change-id\}]/topic'
+--
 
 Sets the topic of a change.
 
@@ -636,8 +641,9 @@ If the topic was deleted the response is "`204 No Content`".
 [[delete-topic]]
 Delete Topic
 ~~~~~~~~~~~~
-[verse]
+--
 'DELETE /changes/link:#change-id[\{change-id\}]/topic'
+--
 
 Deletes the topic of a change.
 
@@ -661,8 +667,9 @@ link:#set-topic[PUT] to delete the topic.
 [[abandon-change]]
 Abandon Change
 ~~~~~~~~~~~~~~
-[verse]
+--
 'POST /changes/link:#change-id[\{change-id\}]/abandon'
+--
 
 Abandons a change.
 
@@ -719,8 +726,9 @@ the error message is contained in the response body.
 [[restore-change]]
 Restore Change
 ~~~~~~~~~~~~~~
-[verse]
+--
 'POST /changes/link:#change-id[\{change-id\}]/restore'
+--
 
 Restores a change.
 
@@ -777,8 +785,9 @@ the error message is contained in the response body.
 [[rebase-change]]
 Rebase Change
 ~~~~~~~~~~~~~
-[verse]
+--
 'POST /changes/link:#change-id[\{change-id\}]/rebase'
+--
 
 Rebases a change.
 
@@ -866,8 +875,9 @@ body.
 [[revert-change]]
 Revert Change
 ~~~~~~~~~~~~~
-[verse]
+--
 'POST /changes/link:#change-id[\{change-id\}]/revert'
+--
 
 Reverts a change.
 
@@ -924,8 +934,9 @@ the error message is contained in the response body.
 [[submit-change]]
 Submit Change
 ~~~~~~~~~~~~~
-[verse]
+--
 'POST /changes/link:#change-id[\{change-id\}]/submit'
+--
 
 Submits a change.
 
@@ -987,8 +998,9 @@ message is contained in the response body.
 [[publish-draft-change]]
 Publish Draft Change
 ~~~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'POST /changes/link:#change-id[\{change-id\}]/publish'
+--
 
 Publishes a draft change.
 
@@ -1006,8 +1018,9 @@ Publishes a draft change.
 [[delete-draft-change]]
 Delete Draft Change
 ~~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'DELETE /changes/link:#change-id[\{change-id\}]'
+--
 
 Deletes a draft change.
 
@@ -1025,8 +1038,9 @@ Deletes a draft change.
 [[get-included-in]]
 Get Included In
 ~~~~~~~~~~~~~~~
-[verse]
+--
 'GET /changes/link:#change-id[\{change-id\}]/in'
+--
 
 Retrieves the branches and tags in which a change is included. As result
 an link:#included-in-info[IncludedInInfo] entity is returned.
@@ -1059,8 +1073,9 @@ Reviewer Endpoints
 [[list-reviewers]]
 List Reviewers
 ~~~~~~~~~~~~~~
-[verse]
+--
 'GET /changes/link:#change-id[\{change-id\}]/reviewers/'
+--
 
 Lists the reviewers of a change.
 
@@ -1105,8 +1120,9 @@ As result a list of link:#reviewer-info[ReviewerInfo] entries is returned.
 [[suggest-reviewers]]
 Suggest Reviewers
 ~~~~~~~~~~~~~~~~~
-[verse]
+--
 'GET /changes/link:#change-id[\{change-id\}]/suggest_reviewers?q=J&n=5'
+--
 
 Suggest the reviewers for a given query `q` and result limit `n`. If result
 limit is not passed, then the default 10 is used.
@@ -1147,8 +1163,9 @@ As result a list of link:#suggested-reviewer-info[SuggestedReviewerInfo] entries
 [[get-reviewer]]
 Get Reviewer
 ~~~~~~~~~~~~
-[verse]
+--
 'GET /changes/link:#change-id[\{change-id\}]/reviewers/link:rest-api-accounts.html#account-id[\{account-id\}]'
+--
 
 Retrieves a reviewer of a change.
 
@@ -1182,8 +1199,9 @@ describes the reviewer.
 [[add-reviewer]]
 Add Reviewer
 ~~~~~~~~~~~~
-[verse]
+--
 'POST /changes/link:#change-id[\{change-id\}]/reviewers'
+--
 
 Adds one user or all members of one group as reviewer to the change.
 
@@ -1273,8 +1291,9 @@ To confirm the addition of the reviewers, resend the request with the
 [[delete-reviewer]]
 Delete Reviewer
 ~~~~~~~~~~~~~~~
-[verse]
+--
 'DELETE /changes/link:#change-id[\{change-id\}]/reviewers/link:rest-api-accounts.html#account-id[\{account-id\}]'
+--
 
 Deletes a reviewer from a change.
 
@@ -1295,8 +1314,9 @@ Revision Endpoints
 [[get-commit]]
 Get Commit
 ~~~~~~~~~~
-[verse]
+--
 'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/commit'
+--
 
 Retrieves a parsed commit of a revision.
 
@@ -1344,8 +1364,9 @@ describes the revision.
 [[get-review]]
 Get Review
 ~~~~~~~~~~
-[verse]
+--
 'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/review'
+--
 
 Retrieves a review of a revision.
 
@@ -1477,8 +1498,9 @@ for the current patch set.
 [[set-review]]
 Set Review
 ~~~~~~~~~~
-[verse]
+--
 'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/review'
+--
 
 Sets a review on a revision.
 
@@ -1530,8 +1552,9 @@ describes the applied labels.
 [[rebase-revision]]
 Rebase Revision
 ~~~~~~~~~~~~~~~
-[verse]
+--
 'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/rebase'
+--
 
 Rebases a revision.
 
@@ -1619,8 +1642,9 @@ body.
 [[submit-revision]]
 Submit Revision
 ~~~~~~~~~~~~~~~
-[verse]
+--
 'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/submit'
+--
 
 Submits a revision.
 
@@ -1669,8 +1693,9 @@ message is contained in the response body.
 [[publish-draft-revision]]
 Publish Draft Revision
 ~~~~~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/publish'
+--
 
 Publishes a draft revision.
 
@@ -1688,8 +1713,9 @@ Publishes a draft revision.
 [[delete-draft-revision]]
 Delete Draft Revision
 ~~~~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'DELETE /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]'
+--
 
 Deletes a draft revision.
 
@@ -1707,8 +1733,9 @@ Deletes a draft revision.
 [[get-patch]]
 Get Patch
 ~~~~~~~~~
-[verse]
+--
 'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/patch'
+--
 
 Gets the formatted patch for one revision.
 
@@ -1742,8 +1769,9 @@ for later processing by command line tools.
 [[get-mergeable]]
 Get Mergeable
 ~~~~~~~~~~~~~
-[verse]
+--
 'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/mergeable'
+--
 
 Gets the method the server will use to submit (merge) the change and
 an indicator if the change is currently mergeable.
@@ -1769,8 +1797,9 @@ an indicator if the change is currently mergeable.
 [[get-submit-type]]
 Get Submit Type
 ~~~~~~~~~~~~~~~
-[verse]
+--
 'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/submit_type'
+--
 
 Gets the method the server will use to submit (merge) the change.
 
@@ -1792,8 +1821,9 @@ Gets the method the server will use to submit (merge) the change.
 [[test-submit-type]]
 Test Submit Type
 ~~~~~~~~~~~~~~~~
-[verse]
+--
 'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/test.submit_type'
+--
 
 Tests the submit_type Prolog rule in the project, or the one given.
 
@@ -1823,8 +1853,9 @@ a project-specific rule.
 [[test-submit-rule]]
 Test Submit Rule
 ~~~~~~~~~~~~~~~~
-[verse]
+--
 'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/test.submit_rule'
+--
 
 Tests the submit_rule Prolog rule in the project, or the one given.
 
@@ -1865,8 +1896,9 @@ describing the permutations that satisfy the tested submit rule.
 [[list-drafts]]
 List Drafts
 ~~~~~~~~~~~
-[verse]
+--
 'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/drafts/'
+--
 
 Lists the draft comments of a revision that belong to the calling
 user.
@@ -1911,8 +1943,9 @@ sorted by file path.
 [[create-draft]]
 Create Draft
 ~~~~~~~~~~~~
-[verse]
+--
 'PUT /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/drafts'
+--
 
 Creates a draft comment on a revision.
 
@@ -1954,8 +1987,9 @@ describes the draft comment.
 [[get-draft]]
 Get Draft
 ~~~~~~~~~
-[verse]
+--
 'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/drafts/link:#draft-id[\{draft-id\}]'
+--
 
 Retrieves a draft comment of a revision that belongs to the calling
 user.
@@ -1988,8 +2022,9 @@ describes the draft comment.
 [[update-draft]]
 Update Draft
 ~~~~~~~~~~~~
-[verse]
+--
 'PUT /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/drafts/link:#draft-id[\{draft-id\}]'
+--
 
 Updates a draft comment on a revision.
 
@@ -2031,8 +2066,9 @@ describes the draft comment.
 [[delete-draft]]
 Delete Draft
 ~~~~~~~~~~~~
-[verse]
+--
 'DELETE /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/drafts/link:#draft-id[\{draft-id\}]'
+--
 
 Deletes a draft comment from a revision.
 
@@ -2049,8 +2085,9 @@ Deletes a draft comment from a revision.
 [[list-comments]]
 List Comments
 ~~~~~~~~~~~~~
-[verse]
+--
 'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/comments/'
+--
 
 Lists the published comments of a revision.
 
@@ -2104,8 +2141,9 @@ sorted by file path.
 [[get-comment]]
 Get Comment
 ~~~~~~~~~~~
-[verse]
+--
 'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/comments/link:#comment-id[\{comment-id\}]'
+--
 
 Retrieves a published comment of a revision.
 
@@ -2142,8 +2180,9 @@ describes the published comment.
 [[list-files]]
 List Files
 ~~~~~~~~~~
-[verse]
+--
 'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/files/'
+--
 
 Lists the files that were modified, added or deleted in a revision.
 
@@ -2200,8 +2239,9 @@ need the FileInfo should make two requests.
 [[get-content]]
 Get Content
 ~~~~~~~~~~~
-[verse]
+--
 'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/files/link:#file-id[\{file-id\}]/content'
+--
 
 Gets the content of a file from a certain revision.
 
@@ -2224,8 +2264,9 @@ The content is returned as base64 encoded string.
 [[get-diff]]
 Get Diff
 ~~~~~~~~
-[verse]
+--
 'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/files/link:#file-id[\{file-id\}]/diff'
+--
 
 Gets the diff of a file from a certain revision.
 
@@ -2390,8 +2431,9 @@ in the diff.  Valid values are `ALL` or number of lines.
 [[set-reviewed]]
 Set Reviewed
 ~~~~~~~~~~~~
-[verse]
+--
 'PUT /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/files/link:#file-id[\{file-id\}]/reviewed'
+--
 
 Marks a file of a revision as reviewed by the calling user.
 
@@ -2411,8 +2453,9 @@ response is "`200 OK`".
 [[delete-reviewed]]
 Delete Reviewed
 ~~~~~~~~~~~~~~~
-[verse]
+--
 'DELETE /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/files/link:#file-id[\{file-id\}]/reviewed'
+--
 
 Deletes the reviewed flag of the calling user from a file of a revision.
 
@@ -2429,8 +2472,9 @@ Deletes the reviewed flag of the calling user from a file of a revision.
 [[cherry-pick]]
 Cherry Pick Revision
 ~~~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/cherrypick'
+--
 
 Cherry picks a revision to a destination branch.
 
@@ -2480,8 +2524,9 @@ describes the resulting cherry picked change.
 [[message]]
 Edit Commit Message
 ~~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/message'
+--
 
 Edit commit message.
 

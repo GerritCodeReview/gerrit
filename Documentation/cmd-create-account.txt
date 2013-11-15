@@ -7,7 +7,7 @@ gerrit create-account - Create a new user account.
 
 SYNOPSIS
 --------
-[verse]
+--
 'ssh' -p <port> <host> 'gerrit create-account'
   [--group <GROUP>]
   [--full-name <FULLNAME>]
@@ -15,6 +15,7 @@ SYNOPSIS
   [--ssh-key - | <KEY>]
   [--http-password <PASSWORD>]
   <USERNAME>
+--
 
 DESCRIPTION
 -----------

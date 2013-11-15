@@ -7,8 +7,9 @@ rulec - Compile project-specific Prolog rules to JARs
 
 SYNOPSIS
 --------
-[verse]
+--
 'java' -jar gerrit.war 'rulec' -d <SITE_PATH> [--all | <PROJECT>...]
+--
 
 DESCRIPTION
 -----------

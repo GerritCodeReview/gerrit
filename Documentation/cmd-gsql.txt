@@ -7,10 +7,11 @@ gerrit gsql - Administrative interface to active database
 
 SYNOPSIS
 --------
-[verse]
+--
 'ssh' -p <port> <host> 'gerrit gsql'
   [--format {PRETTY | JSON | JSON_SINGLE}]
   [-c QUERY]
+--
 
 DESCRIPTION
 -----------

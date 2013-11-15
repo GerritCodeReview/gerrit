@@ -7,13 +7,14 @@ gerrit set-reviewers - Add or remove reviewers to a change
 
 SYNOPSIS
 --------
-[verse]
+--
 'ssh' -p <port> <host> 'gerrit set-reviewers'
   [--project <PROJECT> | -p <PROJECT>]
   [--add <REVIEWER> ... | -a <REVIEWER> ...]
   [--remove <REVIEWER> ... | -r <REVIEWER> ...]
   [--]
   {COMMIT | CHANGE-ID}...
+--
 
 DESCRIPTION
 -----------

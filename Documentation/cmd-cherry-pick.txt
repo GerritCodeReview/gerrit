@@ -7,10 +7,11 @@ gerrit-cherry-pick - Download and cherry pick one or more changes
 
 SYNOPSIS
 --------
-[verse]
+--
 'gerrit-cherry-pick' <remote> <changeid>...
 'gerrit-cherry-pick' --continue | --skip | --abort
 'gerrit-cherry-pick' --close <remote>
+--
 
 DESCRIPTION
 -----------

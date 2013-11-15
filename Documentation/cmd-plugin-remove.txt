@@ -9,9 +9,10 @@ plugin rm - Disable plugins.
 
 SYNOPSIS
 --------
-[verse]
+--
 'ssh' -p <port> <host> 'gerrit plugin remove | rm'
   <NAME> ...
+--
 
 DESCRIPTION
 -----------

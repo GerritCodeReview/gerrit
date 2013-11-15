@@ -7,7 +7,7 @@ daemon - Gerrit network server
 
 SYNOPSIS
 --------
-[verse]
+--
 'java' -jar gerrit.war 'daemon'
 	-d <SITE_PATH>
 	[\--enable-httpd | \--disable-httpd]
@@ -17,6 +17,7 @@ SYNOPSIS
 	[\--headless]
 	[\--init]
 	[-s]
+--
 
 DESCRIPTION
 -----------

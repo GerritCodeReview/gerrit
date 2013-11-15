@@ -7,9 +7,10 @@ gerrit show-queue - Display the background work queues, including replication
 
 SYNOPSIS
 --------
-[verse]
+--
 'ssh' -p <port> <host> 'gerrit show-queue'
 'ssh' -p <port> <host> 'ps'
+--
 
 DESCRIPTION
 -----------

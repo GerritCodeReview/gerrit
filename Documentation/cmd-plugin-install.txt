@@ -9,10 +9,11 @@ plugin add - Install/Add a plugin.
 
 SYNOPSIS
 --------
-[verse]
+--
 'ssh' -p <port> <host> 'gerrit plugin install | add'
   [--name <NAME> | -n <NAME>]
   - | <URL> | <PATH>
+--
 
 DESCRIPTION
 -----------

@@ -7,8 +7,9 @@ ScanTrackingIds - Rescan changes to index trackingids
 
 SYNOPSIS
 --------
-[verse]
+--
 'java' -jar gerrit.war 'ScanTrackingIds' -d <SITE_PATH>
+--
 
 DESCRIPTION
 -----------

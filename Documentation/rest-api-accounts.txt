@@ -12,8 +12,9 @@ Account Endpoints
 [[get-account]]
 Get Account
 ~~~~~~~~~~~
-[verse]
+--
 'GET /accounts/link:#account-id[\{account-id\}]'
+--
 
 Returns an account as an link:#account-info[AccountInfo] entity.
 
@@ -40,8 +41,9 @@ Returns an account as an link:#account-info[AccountInfo] entity.
 [[create-account]]
 Create Account
 ~~~~~~~~~~~~~~
-[verse]
+--
 'PUT /accounts/link:#username[\{username\}]'
+--
 
 Creates a new account.
 
@@ -84,8 +86,9 @@ returned that describes the created account.
 [[get-account-name]]
 Get Account Name
 ~~~~~~~~~~~~~~~~
-[verse]
+--
 'GET /accounts/link:#account-id[\{account-id\}]/name'
+--
 
 Retrieves the full name of an account.
 
@@ -109,8 +112,9 @@ If the account does not have a name an empty string is returned.
 [[set-account-name]]
 Set Account Name
 ~~~~~~~~~~~~~~~~
-[verse]
+--
 'PUT /accounts/link:#account-id[\{account-id\}]/name'
+--
 
 Sets the full name of an account.
 
@@ -147,8 +151,9 @@ request is rejected with "`405 Method Not Allowed`".
 [[delete-account-name]]
 Delete Account Name
 ~~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'DELETE /accounts/link:#account-id[\{account-id\}]/name'
+--
 
 Deletes the name of an account.
 
@@ -165,8 +170,9 @@ Deletes the name of an account.
 [[get-username]]
 Get Username
 ~~~~~~~~~~~~
-[verse]
+--
 'GET /accounts/link:#account-id[\{account-id\}]/username'
+--
 
 Retrieves the username of an account.
 
@@ -190,8 +196,9 @@ If the account does not have a username the response is `404 Not Found`.
 [[get-active]]
 Get Active
 ~~~~~~~~~~
-[verse]
+--
 'GET /accounts/link:#account-id[\{account-id\}]/active'
+--
 
 Checks if an account is active.
 
@@ -214,8 +221,9 @@ If the account is inactive the response is `204 No Content`.
 [[set-active]]
 Set Active
 ~~~~~~~~~~
-[verse]
+--
 'PUT /accounts/link:#account-id[\{account-id\}]/active'
+--
 
 Sets the account state to active.
 
@@ -234,8 +242,9 @@ If the account was already active the response is `200 OK`.
 [[delete-active]]
 Delete Active
 ~~~~~~~~~~~~~
-[verse]
+--
 'DELETE /accounts/link:#account-id[\{account-id\}]/active'
+--
 
 Sets the account state to inactive.
 
@@ -254,8 +263,9 @@ If the account was already inactive the response is `404 Not Found`.
 [[get-http-password]]
 Get HTTP Password
 ~~~~~~~~~~~~~~~~~
-[verse]
+--
 'GET /accounts/link:#account-id[\{account-id\}]/password.http'
+--
 
 Retrieves the HTTP password of an account.
 
@@ -279,8 +289,9 @@ If the account does not have an HTTP password the response is `404 Not Found`.
 [[set-http-password]]
 Set/Generate HTTP Password
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'PUT /accounts/link:#account-id[\{account-id\}]/password.http'
+--
 
 Sets/Generates the HTTP password of an account.
 
@@ -315,8 +326,9 @@ If the HTTP password was deleted the response is "`204 No Content`".
 [[delete-http-password]]
 Delete HTTP Password
 ~~~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'DELETE /accounts/link:#account-id[\{account-id\}]/password.http'
+--
 
 Deletes the HTTP password of an account.
 
@@ -333,8 +345,9 @@ Deletes the HTTP password of an account.
 [[list-account-emails]]
 List Account Emails
 ~~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'GET /accounts/link:#account-id[\{account-id\}]/emails'
+--
 
 Returns the email addresses that are configured for the specified user.
 
@@ -367,8 +380,9 @@ link:#email-info[EmailInfo] entities.
 [[get-account-email]]
 Get Account Email
 ~~~~~~~~~~~~~~~~~
-[verse]
+--
 'GET /accounts/link:#account-id[\{account-id\}]/emails/link:#email-id[\{email-id\}]'
+--
 
 Retrieves an email address of a user.
 
@@ -396,8 +410,9 @@ describes the email address.
 [[create-account-email]]
 Create Account Email
 ~~~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'PUT /accounts/link:#account-id[\{account-id\}]/emails/link:#email-id[\{email-id\}]'
+--
 
 Registers a new email address for the user. A verification email is
 sent with a link that needs to be visited to confirm the email address,
@@ -434,8 +449,9 @@ link:#email-info[EmailInfo] entity.
 [[delete-account-email]]
 Delete Account Email
 ~~~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'DELETE /accounts/link:#account-id[\{account-id\}]/emails/link:#email-id[\{email-id\}]'
+--
 
 Deletes an email address of an account.
 
@@ -452,8 +468,9 @@ Deletes an email address of an account.
 [[set-preferred-email]]
 Set Preferred Email
 ~~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'PUT /accounts/link:#account-id[\{account-id\}]/emails/link:#email-id[\{email-id\}]/preferred'
+--
 
 Sets an email address as preferred email address for an account.
 
@@ -473,8 +490,9 @@ account the response is "`200 OK`".
 [[list-ssh-keys]]
 List SSH Keys
 ~~~~~~~~~~~~~
-[verse]
+--
 'GET /accounts/link:#account-id[\{account-id\}]/sshkeys'
+--
 
 Returns the SSH keys of an account.
 
@@ -508,8 +526,9 @@ link:#ssh-key-info[SshKeyInfo] entities.
 [[get-ssh-key]]
 Get SSH Key
 ~~~~~~~~~~~
-[verse]
+--
 'GET /accounts/link:#account-id[\{account-id\}]/sshkeys/link:#ssh-key-id[\{ssh-key-id\}]'
+--
 
 Retrieves an SSH key of a user.
 
@@ -541,8 +560,9 @@ describes the SSH key.
 [[add-ssh-key]]
 Add SSH Key
 ~~~~~~~~~~~
-[verse]
+--
 'POST /accounts/link:#account-id[\{account-id\}]/sshkeys'
+--
 
 Adds an SSH key for a user.
 
@@ -579,8 +599,9 @@ describes the new SSH key.
 [[delete-ssh-key]]
 Delete SSH Key
 ~~~~~~~~~~~~~~
-[verse]
+--
 'DELETE /accounts/link:#account-id[\{account-id\}]/sshkeys/link:#ssh-key-id[\{ssh-key-id\}]'
+--
 
 Deletes an SSH key of a user.
 
@@ -597,8 +618,9 @@ Deletes an SSH key of a user.
 [[list-account-capabilities]]
 List Account Capabilities
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'GET /accounts/link:#account-id[\{account-id\}]/capabilities'
+--
 
 Returns the global capabilities that are enabled for the specified
 user.
@@ -702,8 +724,9 @@ get::/accounts/self/capabilities?q=createGroup
 [[check-account-capability]]
 Check Account Capability
 ~~~~~~~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'GET /accounts/link:#account-id[\{account-id\}]/capabilities/link:#capability-id[\{capability-id\}]'
+--
 
 Checks if a user has a certain global capability.
 
@@ -732,8 +755,9 @@ get::/accounts/self/capabilities/createGroup
 [[list-groups]]
 List Groups
 ~~~~~~~~~~~
-[verse]
+--
 'GET /accounts/link:#account-id[\{account-id\}]/groups/'
+--
 
 Lists all groups that contain the specified user as a member.
 
@@ -794,8 +818,9 @@ get::/accounts/self/groups/
 [[get-avatar]]
 Get Avatar
 ~~~~~~~~~~
-[verse]
+--
 'GET /accounts/link:#account-id[\{account-id\}]/avatar'
+--
 
 Retrieves the avatar image of the user.
 
@@ -818,8 +843,9 @@ The response redirects to the URL of the avatar image.
 [[get-avatar-change-url]]
 Get Avatar Change URL
 ~~~~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'GET /accounts/link:#account-id[\{account-id\}]/avatar.change.url'
+--
 
 Retrieves the URL where the user can change the avatar image.
 
@@ -840,8 +866,9 @@ Retrieves the URL where the user can change the avatar image.
 [[get-diff-preferences]]
 Get Diff Preferences
 ~~~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'GET /accounts/link:#account-id[\{account-id\}]/preferences.diff'
+--
 
 Retrieves the diff preferences of a user.
 
@@ -875,8 +902,9 @@ link:#diff-preferences-info[DiffPreferencesInfo] entity.
 [[set-diff-preferences]]
 Set Diff Preferences
 ~~~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'PUT /accounts/link:#account-id[\{account-id\}]/preferences.diff'
+--
 
 Sets the diff preferences of a user.
 
@@ -927,8 +955,9 @@ link:#diff-preferences-info[DiffPreferencesInfo] entity.
 [[get-starred-changes]]
 Get Starred Changes
 ~~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'GET /accounts/link:#account-id[\{account-id\}]/starred.changes'
+--
 
 Gets the changes starred by the identified user account. This
 URL endpoint is functionally identical to the changes query
@@ -971,8 +1000,9 @@ link:rest-api-changes.html#change-info[ChangeInfo] entities.
 [[star-change]]
 Star Change
 ~~~~~~~~~~~
-[verse]
+--
 'PUT /accounts/link:#account-id[\{account-id\}]/starred.changes/link:rest-api-changes.html#change-id[\{change-id\}]'
+--
 
 Star a change. Starred changes are returned for the search query
 `is:starred` or `starredby:USER` and automatically notify the user
@@ -991,8 +1021,9 @@ whenever updates are made to the change.
 [[unstar-change]]
 Unstar Change
 ~~~~~~~~~~~~~
-[verse]
+--
 'DELETE /accounts/link:#account-id[\{account-id\}]/starred.changes/link:rest-api-changes#change-id[\{change-id\}]'
+--
 
 Unstar a change. Removes the starred flag, stopping notifications.
 

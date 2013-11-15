@@ -7,9 +7,10 @@ plugin enable - Enable plugins.
 
 SYNOPSIS
 --------
-[verse]
+--
 'ssh' -p <port> <host> 'gerrit plugin enable'
   <NAME> ...
+--
 
 DESCRIPTION
 -----------

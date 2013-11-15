@@ -335,10 +335,11 @@ reference in their git.  The format is convenient but still intended to scale to
 hundreds of thousands of patch sets.  To access a given patch set you will
 need the change number and patch set number.
 
-[verse]
+--
 'refs/changes/'<last two digits of change number>/
   <change number>/
   <patch set number>
+--
 
 You can also find these static references linked on the page of each change.
 

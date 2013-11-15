@@ -7,7 +7,7 @@ Gerrit Inspector - Interactive Jython environment for Gerrit
 
 SYNOPSIS
 --------
-[verse]
+--
 'java' -jar gerrit.war 'daemon'
 	-d <SITE_PATH>
 	[\--enable-httpd | \--disable-httpd]
@@ -15,6 +15,7 @@ SYNOPSIS
 	[\--console-log]
 	[\--slave]
 	-s
+--
 
 DESCRIPTION
 -----------

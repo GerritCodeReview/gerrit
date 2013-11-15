@@ -7,9 +7,10 @@ gerrit apropos - Search Gerrit documentation index
 
 SYNOPSIS
 --------
-[verse]
+--
 'ssh' -p <port> <host> 'gerrit apropos'
   <query>
+--
 
 DESCRIPTION
 -----------

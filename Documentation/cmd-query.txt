@@ -7,7 +7,7 @@ gerrit query - Query the change database
 
 SYNOPSIS
 --------
-[verse]
+--
 'ssh' -p <port> <host> 'gerrit query'
   [--format {TEXT | JSON}]
   [--current-patch-set]
@@ -22,6 +22,7 @@ SYNOPSIS
   <query>
   [limit:<n>]
   [resume_sortkey:<sortKey>]
+--
 
 DESCRIPTION
 -----------

@@ -12,8 +12,9 @@ Access Rights Endpoints
 [[list-access]]
 List Access Rights
 ~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'GET /access/?project=link:rest-api-projects.html#project-name[\{project-name\}]'
+--
 
 Lists the access rights for projects. The projects for which the access
 rights should be returned must be specified as `project` options. The

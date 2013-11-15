@@ -7,11 +7,12 @@ gerrit gc - Run the Git garbage collection
 
 SYNOPSIS
 --------
-[verse]
+--
 'ssh' -p <port> <host> 'gerrit gc'
   [--all]
   [--show-progress]
   <NAME> ...
+--
 
 DESCRIPTION
 -----------

@@ -12,8 +12,9 @@ Project Endpoints
 [[list-projects]]
 List Projects
 ~~~~~~~~~~~~~
-[verse]
+--
 'GET /projects/'
+--
 
 Lists the projects accessible by the caller. This is the same as
 using the link:cmd-ls-projects.html[ls-projects] command over SSH,
@@ -97,8 +98,9 @@ E.g. this feature can be used by suggestion client UI's to limit results.
 [[get-project]]
 Get Project
 ~~~~~~~~~~~
-[verse]
+--
 'GET /projects/link:#project-name[\{project-name\}]'
+--
 
 Retrieves a project.
 
@@ -129,8 +131,9 @@ describes the project.
 [[create-project]]
 Create Project
 ~~~~~~~~~~~~~~
-[verse]
+--
 'PUT /projects/link:#project-name[\{project-name\}]'
+--
 
 Creates a new project.
 
@@ -173,8 +176,9 @@ describes the created project.
 [[get-project-description]]
 Get Project Description
 ~~~~~~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'GET /projects/link:#project-name[\{project-name\}]/description'
+--
 
 Retrieves the description of a project.
 
@@ -198,8 +202,9 @@ If the project does not have a description an empty string is returned.
 [[set-project-description]]
 Set Project Description
 ~~~~~~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'PUT /projects/link:#project-name[\{project-name\}]/description'
+--
 
 Sets the description of a project.
 
@@ -234,8 +239,9 @@ If the description was deleted the response is "`204 No Content`".
 [[delete-project-description]]
 Delete Project Description
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'DELETE /projects/link:#project-name[\{project-name\}]/description'
+--
 
 Deletes the description of a project.
 
@@ -260,8 +266,9 @@ link:#set-project-description[PUT] to delete the description.
 [[get-project-parent]]
 Get Project Parent
 ~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'GET /projects/link:#project-name[\{project-name\}]/parent'
+--
 
 Retrieves the name of a project's parent project. For the
 `All-Projects` root project an empty string is returned.
@@ -284,8 +291,9 @@ Retrieves the name of a project's parent project. For the
 [[set-project-parent]]
 Set Project Parent
 ~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'PUT /projects/link:#project-name[\{project-name\}]/parent'
+--
 
 Sets the parent project for a project.
 
@@ -318,8 +326,9 @@ As response the new parent project name is returned.
 [[get-head]]
 Get HEAD
 ~~~~~~~~
-[verse]
+--
 'GET /projects/link:#project-name[\{project-name\}]/HEAD'
+--
 
 Retrieves for a project the name of the branch to which `HEAD` points.
 
@@ -341,8 +350,9 @@ Retrieves for a project the name of the branch to which `HEAD` points.
 [[set-head]]
 Set HEAD
 ~~~~~~~~
-[verse]
+--
 'PUT /projects/link:#project-name[\{project-name\}]/HEAD'
+--
 
 Sets `HEAD` for a project.
 
@@ -374,8 +384,9 @@ As response the new ref to which `HEAD` points is returned.
 [[get-repository-statistics]]
 Get Repository Statistics
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'GET /projects/link:#project-name[\{project-name\}]/statistics.git'
+--
 
 Return statistics for the repository of a project.
 
@@ -408,8 +419,9 @@ link:#repository-statistics-info[RepositoryStatisticsInfo] entity.
 [[get-config]]
 Get Config
 ~~~~~~~~~~
-[verse]
+--
 'GET /projects/link:#project-name[\{project-name\}]/config'
+--
 
 Gets some configuration information about a project. Note that this
 config info is not simply the contents of `project.config`; it generally
@@ -476,8 +488,9 @@ read access to `refs/meta/config`.
 [[set-config]]
 Set Config
 ~~~~~~~~~~
-[verse]
+--
 'PUT /projects/link:#project-name[\{project-name\}]/config'
+--
 
 Sets the configuration of a project.
 
@@ -547,8 +560,9 @@ ConfigInfo] entity.
 [[run-gc]]
 Run GC
 ~~~~~~
-[verse]
+--
 'POST /projects/link:#project-name[\{project-name\}]/gc'
+--
 
 Run the Git garbage collection for the repository of a project.
 
@@ -598,8 +612,9 @@ Branch Endpoints
 [[list-branches]]
 List Branches
 ~~~~~~~~~~~~~
-[verse]
+--
 'GET /projects/link:#project-name[\{project-name\}]/branches/'
+--
 
 List the branches of a project.
 
@@ -642,8 +657,9 @@ returned.
 [[get-branch]]
 Get Branch
 ~~~~~~~~~~
-[verse]
+--
 'GET /projects/link:#project-name[\{project-name\}]/branches/link:#branch-id[\{branch-id\}]'
+--
 
 Retrieves a branch of a project.
 
@@ -671,8 +687,9 @@ describes the branch.
 [[create-branch]]
 Create Branch
 ~~~~~~~~~~~~~
-[verse]
+--
 'PUT /projects/link:#project-name[\{project-name\}]/branches/link:#branch-id[\{branch-id\}]'
+--
 
 Creates a new branch.
 
@@ -709,8 +726,9 @@ describes the created branch.
 [[delete-branch]]
 Delete Branch
 ~~~~~~~~~~~~~
-[verse]
+--
 'DELETE /projects/link:#project-name[\{project-name\}]/branches/link:#branch-id[\{branch-id\}]'
+--
 
 Deletes a branch.
 
@@ -731,8 +749,9 @@ Child Project Endpoints
 [[list-child-projects]]
 List Child Projects
 ~~~~~~~~~~~~~~~~~~~
-[verse]
+--
 'GET /projects/link:#project-name[\{project-name\}]/children/'
+--
 
 List the direct child projects of a project.
 
@@ -836,8 +855,9 @@ are not resolved further.
 [[get-child-project]]
 Get Child Project
 ~~~~~~~~~~~~~~~~~
-[verse]
+--
 'GET /projects/link:#project-name[\{project-name\}]/children/link:#project-name[\{project-name\}]'
+--
 
 Retrieves a child project. If a non-direct child project should be
 retrieved the parameter `recursive` must be set.
@@ -873,8 +893,9 @@ Dashboard Endpoints
 [[list-dashboards]]
 List Dashboards
 ~~~~~~~~~~~~~~~
-[verse]
+--
 'GET /projects/link:#project-name[\{project-name\}]/dashboards/'
+--
 
 List custom dashboards for a project.
 
@@ -927,8 +948,9 @@ get::/projects/All-Projects/dashboards/
 [[get-dashboard]]
 Get Dashboard
 ~~~~~~~~~~~~~
-[verse]
+--
 'GET /projects/link:#project-name[\{project-name\}]/dashboards/link:#dashboard-id[\{dashboard-id\}]'
+--
 
 Retrieves a project dashboard. The dashboard can be defined on that
 project or be inherited from a parent project.
@@ -1010,8 +1032,9 @@ dashboard-id.
 [[set-dashboard]]
 Set Dashboard
 ~~~~~~~~~~~~~
-[verse]
+--
 'PUT /projects/link:#project-name[\{project-name\}]/dashboards/link:#dashboard-id[\{dashboard-id\}]'
+--
 
 Updates/Creates a project dashboard.
 
@@ -1066,8 +1089,9 @@ link:#dashboard-info[DashboardInfo] entity.
 [[delete-dashboard]]
 Delete Dashboard
 ~~~~~~~~~~~~~~~~
-[verse]
+--
 'DELETE /projects/link:#project-name[\{project-name\}]/dashboards/link:#dashboard-id[\{dashboard-id\}]'
+--
 
 Deletes a project dashboard.
 

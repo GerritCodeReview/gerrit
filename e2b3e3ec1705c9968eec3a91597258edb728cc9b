@@ -1,0 +1,256 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fefe4dbb_45734ac0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-15T09:04:02Z",
+      "side": 1,
+      "message": "Widen to Collection\u003cReef\u003e?",
+      "range": {
+        "startLine": 72,
+        "startChar": 36,
+        "endLine": 72,
+        "endChar": 44
+      },
+      "revId": "e2b3e3ec1705c9968eec3a91597258edb728cc9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fefe4dbb_c5cdfaa2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-15T09:04:02Z",
+      "side": 1,
+      "message": "nit: blank line between methods",
+      "range": {
+        "startLine": 74,
+        "startChar": 2,
+        "endLine": 75,
+        "endChar": 5
+      },
+      "revId": "e2b3e3ec1705c9968eec3a91597258edb728cc9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fefe4dbb_25704eb1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-15T09:04:02Z",
+      "side": 1,
+      "message": "Widen to Collection\u003cRef\u003e?",
+      "range": {
+        "startLine": 79,
+        "startChar": 36,
+        "endLine": 79,
+        "endChar": 44
+      },
+      "revId": "e2b3e3ec1705c9968eec3a91597258edb728cc9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fefe4dbb_a5d2fe40",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-15T09:04:02Z",
+      "side": 1,
+      "message": "Sorting the older commits first makes sense in some applications, but not all. In this new one we are probably making a new branch from a relatively recent-ish commit, not an ancient one from years ago. So searching old branches first (like a v1.0 tag) is going to waste a lot of time looking at subgraphs that are completely irrelevant for creating a new branch at the stable-2.8 branch point.\n\nIn the new call site for canReadCommit() used in RefControl.canCreate() from the web UI\u0027s CreateBranch REST API its more probable the input is a newer commit, not an older one.\n\nActually, we have the commit time of the target. Partition tips into two lists:\n\n  A \u003d commits with time \u003e\u003d target.getCommitTime()\n  B \u003d commits with time \u003c  target.getCommitTime()\n\nIt is highly likely target is reachable from A, but not from B.\n\nWithin A I can see some value in looking at the older commits of A first, these are more probably closer to the target, if the target is reachable, and thus minimizes the number of commits examined before the target is found.\n\nWithin B you are really just trying to handle cases arising from clock skew. The descendant tip in B shouldn\u0027t have a newer commit time than the target, but it could.\n\nMaybe just sorting tips by absolute distance of commit time from the target? Commits closer in time will be near the front and more likely to be considered first during the loop, allowing for a possibly earlier abort.",
+      "revId": "e2b3e3ec1705c9968eec3a91597258edb728cc9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "defb49cc_247052b1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-15T09:04:02Z",
+      "side": 1,
+      "message": "This sort of thing is often faster with a RevFlag. They take up no additional memory and are faster to apply and test against commits.",
+      "range": {
+        "startLine": 94,
+        "startChar": 4,
+        "endLine": 95,
+        "endChar": 35
+      },
+      "revId": "e2b3e3ec1705c9968eec3a91597258edb728cc9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "defb49cc_046d56d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-15T09:04:02Z",
+      "side": 1,
+      "message": "only true if commitFound \u003d true in this iteration. So you can cuddle this into the else if:\n\n  if (!commitFound) {\n  } else if (0 \u003c limit \u0026\u0026 limit \u003c result.size()) {\n    break;\n  }",
+      "range": {
+        "startLine": 109,
+        "startChar": 6,
+        "endLine": 109,
+        "endChar": 45
+      },
+      "revId": "e2b3e3ec1705c9968eec3a91597258edb728cc9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "defb49cc_44734ec0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-15T09:04:02Z",
+      "side": 1,
+      "message": "Widen to Collection\u003cRef\u003e?",
+      "range": {
+        "startLine": 139,
+        "startChar": 30,
+        "endLine": 139,
+        "endChar": 38
+      },
+      "revId": "e2b3e3ec1705c9968eec3a91597258edb728cc9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fefe4dbb_e5c8f694",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-15T09:04:02Z",
+      "side": 1,
+      "message": "Guava has a nice Multimap type that can simplify this sort of code.",
+      "revId": "e2b3e3ec1705c9968eec3a91597258edb728cc9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fefe4dbb_056d52d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-15T09:04:02Z",
+      "side": 1,
+      "message": "Set may be overkill here since the input is likely already unique. List may be lighterweight and accomplish the same thing.",
+      "revId": "e2b3e3ec1705c9968eec3a91597258edb728cc9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fefe4dbb_856022e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-15T09:04:02Z",
+      "side": 1,
+      "message": "If I create a branch and a tag with the same name the tags overwrite the branch heads:\n\n  git branch foo\n  git tag foo\n\nInstead of allRefs containing \"refs/heads/foo\" and \"refs/tags/foo\" as keys it has one entry called \"foo\". This is a behavior change from the old code. Maybe a List\u003cRef\u003e with add(getRefs(R_HEADS).values()) is better?\n\nThe tricky part is getRefs(String) trims the prefix its passed. :-)",
+      "range": {
+        "startLine": 501,
+        "startChar": 8,
+        "endLine": 502,
+        "endChar": 55
+      },
+      "revId": "e2b3e3ec1705c9968eec3a91597258edb728cc9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "defb49cc_64764ab2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-15T09:04:02Z",
+      "side": 1,
+      "message": "Ref does not implement equals/hashCode so this is effectively object identity. If the input collection is already unique, a List is just as effective.",
+      "revId": "e2b3e3ec1705c9968eec3a91597258edb728cc9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fefe4dbb_657646b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-15T09:04:02Z",
+      "side": 1,
+      "message": "This is the wrong string because of the prefix trimming above. Use entry.getValue().getName().",
+      "range": {
+        "startLine": 506,
+        "startChar": 14,
+        "endLine": 506,
+        "endChar": 43
+      },
+      "revId": "e2b3e3ec1705c9968eec3a91597258edb728cc9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

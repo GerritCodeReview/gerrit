@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.plugins.InstallPlugin.Input;
+import com.google.gerrit.server.plugins.ListPlugins.PluginInfo;
 import com.google.inject.Inject;
 
 import java.io.IOException;
@@ -52,7 +53,7 @@ class InstallPlugin implements RestModifyView<TopLevelResource, Input> {
   }
 
   @Override
-  public Response<ListPlugins.PluginInfo> apply(TopLevelResource resource,
+  public Response<PluginInfo> apply(TopLevelResource resource,
       Input input) throws BadRequestException, IOException {
     try {
       InputStream in;
@@ -101,7 +102,7 @@ class InstallPlugin implements RestModifyView<TopLevelResource, Input> {
     }
 
     @Override
-    public Response<ListPlugins.PluginInfo> apply(PluginResource resource,
+    public Response<PluginInfo> apply(PluginResource resource,
         Input input) throws BadRequestException, IOException {
       return new InstallPlugin(loader, resource.getName(), false)
         .apply(TopLevelResource.INSTANCE, input);

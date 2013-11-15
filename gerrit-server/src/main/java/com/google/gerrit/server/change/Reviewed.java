@@ -38,7 +38,7 @@ class Reviewed {
     }
 
     @Override
-    public Object apply(FileResource resource, Input input)
+    public Response<String> apply(FileResource resource, Input input)
         throws OrmException {
       ReviewDb db = dbProvider.get();
       AccountPatchReview apr = getExisting(db, resource);
@@ -66,7 +66,7 @@ class Reviewed {
     }
 
     @Override
-    public Object apply(FileResource resource, Input input)
+    public Response<?> apply(FileResource resource, Input input)
         throws OrmException {
       ReviewDb db = dbProvider.get();
       AccountPatchReview apr = getExisting(db, resource);

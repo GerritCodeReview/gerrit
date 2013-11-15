@@ -31,7 +31,7 @@ class ListTopMenus implements RestReadView<ConfigResource> {
   }
 
   @Override
-  public Object apply(ConfigResource resource) {
+  public List<TopMenu.MenuEntry> apply(ConfigResource resource) {
     List<TopMenu.MenuEntry> entries = Lists.newArrayList();
     for (TopMenu extension : extensions) {
       entries.addAll(extension.getEntries());

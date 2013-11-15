@@ -19,6 +19,7 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.server.plugins.ListPlugins.PluginInfo;
 import com.google.gerrit.server.plugins.ReloadPlugin.Input;
 import com.google.inject.Inject;
 
@@ -38,7 +39,7 @@ class ReloadPlugin implements RestModifyView<PluginResource, Input> {
   }
 
   @Override
-  public Object apply(PluginResource resource, Input input) throws ResourceConflictException {
+  public PluginInfo apply(PluginResource resource, Input input) throws ResourceConflictException {
     String name = resource.getName();
     try {
       loader.reload(ImmutableList.of(name));
@@ -52,6 +53,6 @@ class ReloadPlugin implements RestModifyView<PluginResource, Input> {
       pw.flush();
       throw new ResourceConflictException(buf.toString());
     }
-    return new ListPlugins.PluginInfo(loader.get(name));
+    return new PluginInfo(loader.get(name));
   }
 }

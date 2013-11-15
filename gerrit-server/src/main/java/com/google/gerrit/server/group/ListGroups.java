@@ -23,9 +23,6 @@ import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.common.groups.ListGroupsOption;
-import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
@@ -132,8 +129,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   }
 
   @Override
-  public Object apply(TopLevelResource resource) throws AuthException,
-      BadRequestException, ResourceConflictException, Exception {
+  public Object apply(TopLevelResource resource) throws OrmException {
     final Map<String, GroupInfo> output = Maps.newTreeMap();
     for (GroupInfo info : get()) {
       output.put(Objects.firstNonNull(

@@ -24,6 +24,7 @@ import com.google.gerrit.common.data.PatchScript.DisplayMethod;
 import com.google.gerrit.common.data.PatchScript.FileMode;
 import com.google.gerrit.extensions.restapi.CacheControl;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -38,6 +39,7 @@ import com.google.gerrit.server.git.LargeObjectException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.ReplaceEdit;
 import org.kohsuke.args4j.CmdLineException;
@@ -76,8 +78,8 @@ public class GetDiff implements RestReadView<FileResource> {
   }
 
   @Override
-  public Object apply(FileResource resource)
-      throws OrmException, NoSuchChangeException, LargeObjectException, ResourceNotFoundException {
+  public Response<Result> apply(FileResource resource)
+      throws ResourceConflictException, ResourceNotFoundException, OrmException {
     PatchSet.Id basePatchSet = null;
     if (base != null) {
       RevisionResource baseResource = revisions.get().parse(
@@ -89,74 +91,80 @@ public class GetDiff implements RestReadView<FileResource> {
     prefs.setContext(context);
     prefs.setIntralineDifference(intraline);
 
-    PatchScript ps = patchScriptFactoryFactory.create(
-        resource.getRevision().getControl(),
-        resource.getPatchKey().getFileName(),
-        basePatchSet,
-        resource.getPatchKey().getParentKey(),
-        prefs)
-          .call();
+    try {
+      PatchScript ps = patchScriptFactoryFactory.create(
+          resource.getRevision().getControl(),
+          resource.getPatchKey().getFileName(),
+          basePatchSet,
+          resource.getPatchKey().getParentKey(),
+          prefs)
+            .call();
 
-    Content content = new Content(ps);
-    for (Edit edit : ps.getEdits()) {
-      if (edit.getType() == Edit.Type.EMPTY) {
-        continue;
+      Content content = new Content(ps);
+      for (Edit edit : ps.getEdits()) {
+        if (edit.getType() == Edit.Type.EMPTY) {
+          continue;
+        }
+        content.addCommon(edit.getBeginA());
+
+        checkState(content.nextA == edit.getBeginA(),
+            "nextA = %d; want %d", content.nextA, edit.getBeginA());
+        checkState(content.nextB == edit.getBeginB(),
+            "nextB = %d; want %d", content.nextB, edit.getBeginB());
+        switch (edit.getType()) {
+          case DELETE:
+          case INSERT:
+          case REPLACE:
+            List<Edit> internalEdit = edit instanceof ReplaceEdit
+              ? ((ReplaceEdit) edit).getInternalEdits()
+              : null;
+            content.addDiff(edit.getEndA(), edit.getEndB(), internalEdit);
+            break;
+          case EMPTY:
+          default:
+            throw new IllegalStateException();
+        }
       }
-      content.addCommon(edit.getBeginA());
+      content.addCommon(ps.getA().size());
 
-      checkState(content.nextA == edit.getBeginA(),
-          "nextA = %d; want %d", content.nextA, edit.getBeginA());
-      checkState(content.nextB == edit.getBeginB(),
-          "nextB = %d; want %d", content.nextB, edit.getBeginB());
-      switch (edit.getType()) {
-        case DELETE:
-        case INSERT:
-        case REPLACE:
-          List<Edit> internalEdit = edit instanceof ReplaceEdit
-            ? ((ReplaceEdit) edit).getInternalEdits()
-            : null;
-          content.addDiff(edit.getEndA(), edit.getEndB(), internalEdit);
-          break;
-        case EMPTY:
-        default:
-          throw new IllegalStateException();
+      Result result = new Result();
+      if (ps.getDisplayMethodA() != DisplayMethod.NONE) {
+        result.metaA = new FileMeta();
+        result.metaA.name = Objects.firstNonNull(ps.getOldName(), ps.getNewName());
+        result.metaA.setContentType(ps.getFileModeA(), ps.getMimeTypeA());
       }
-    }
-    content.addCommon(ps.getA().size());
 
-    Result result = new Result();
-    if (ps.getDisplayMethodA() != DisplayMethod.NONE) {
-      result.metaA = new FileMeta();
-      result.metaA.name = Objects.firstNonNull(ps.getOldName(), ps.getNewName());
-      result.metaA.setContentType(ps.getFileModeA(), ps.getMimeTypeA());
-    }
-
-    if (ps.getDisplayMethodB() != DisplayMethod.NONE) {
-      result.metaB = new FileMeta();
-      result.metaB.name = ps.getNewName();
-      result.metaB.setContentType(ps.getFileModeB(), ps.getMimeTypeB());
-    }
-
-    if (intraline) {
-      if (ps.hasIntralineTimeout()) {
-        result.intralineStatus = IntraLineStatus.TIMEOUT;
-      } else if (ps.hasIntralineFailure()) {
-        result.intralineStatus = IntraLineStatus.FAILURE;
-      } else {
-        result.intralineStatus = IntraLineStatus.OK;
+      if (ps.getDisplayMethodB() != DisplayMethod.NONE) {
+        result.metaB = new FileMeta();
+        result.metaB.name = ps.getNewName();
+        result.metaB.setContentType(ps.getFileModeB(), ps.getMimeTypeB());
       }
-    }
 
-    result.changeType = ps.getChangeType();
-    if (ps.getPatchHeader().size() > 0) {
-      result.diffHeader = ps.getPatchHeader();
+      if (intraline) {
+        if (ps.hasIntralineTimeout()) {
+          result.intralineStatus = IntraLineStatus.TIMEOUT;
+        } else if (ps.hasIntralineFailure()) {
+          result.intralineStatus = IntraLineStatus.FAILURE;
+        } else {
+          result.intralineStatus = IntraLineStatus.OK;
+        }
+      }
+
+      result.changeType = ps.getChangeType();
+      if (ps.getPatchHeader().size() > 0) {
+        result.diffHeader = ps.getPatchHeader();
+      }
+      result.content = content.lines;
+      Response<Result> r = Response.ok(result);
+      if (resource.isCacheable()) {
+        r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
+      }
+      return r;
+    } catch (NoSuchChangeException e) {
+      throw new ResourceNotFoundException(e.getMessage());
+    } catch (LargeObjectException e) {
+      throw new ResourceConflictException(e.getMessage());
     }
-    result.content = content.lines;
-    Response<Result> r = Response.ok(result);
-    if (resource.isCacheable()) {
-      r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
-    }
-    return r;
   }
 
   static class Result {

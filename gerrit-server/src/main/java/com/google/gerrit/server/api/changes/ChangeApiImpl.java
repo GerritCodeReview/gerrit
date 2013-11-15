@@ -28,7 +28,6 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.Restore;
 import com.google.gerrit.server.change.Revert;
 import com.google.gerrit.server.change.Revisions;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -137,8 +136,6 @@ class ChangeApiImpl implements ChangeApi {
     } catch (EmailException e) {
       throw new RestApiException("Cannot revert change", e);
     } catch (IOException e) {
-      throw new RestApiException("Cannot revert change", e);
-    } catch (NoSuchChangeException e) {
       throw new RestApiException("Cannot revert change", e);
     }
   }

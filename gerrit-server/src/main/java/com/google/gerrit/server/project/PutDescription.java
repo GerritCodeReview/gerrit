@@ -17,7 +17,6 @@ package com.google.gerrit.server.project;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -57,8 +56,8 @@ class PutDescription implements RestModifyView<ProjectResource, Input> {
   }
 
   @Override
-  public Object apply(ProjectResource resource, Input input)
-      throws AuthException, BadRequestException, ResourceConflictException,
+  public Response<String> apply(ProjectResource resource, Input input)
+      throws AuthException, ResourceConflictException,
       ResourceNotFoundException, IOException {
     if (input == null) {
       input = new Input(); // Delete would set description to null.
@@ -92,8 +91,8 @@ class PutDescription implements RestModifyView<ProjectResource, Input> {
             project.getDescription());
 
         return Strings.isNullOrEmpty(project.getDescription())
-            ? Response.none()
-            : project.getDescription();
+            ? Response.<String>none()
+            : Response.ok(project.getDescription());
       } finally {
         md.close();
       }

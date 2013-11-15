@@ -48,7 +48,7 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
   }
 
   @Override
-  public Object apply(AccountResource.Email rsrc, Input input)
+  public Response<?> apply(AccountResource.Email rsrc, Input input)
       throws AuthException, ResourceNotFoundException,
       ResourceConflictException, MethodNotAllowedException, OrmException {
     if (self.get() != rsrc.getUser()

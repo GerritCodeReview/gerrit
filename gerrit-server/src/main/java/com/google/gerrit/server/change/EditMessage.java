@@ -78,8 +78,8 @@ class EditMessage implements RestModifyView<RevisionResource, Input>,
 
   @Override
   public ChangeInfo apply(RevisionResource rsrc, Input input)
-      throws BadRequestException, ResourceConflictException, EmailException,
-      OrmException, ResourceNotFoundException, IOException {
+      throws BadRequestException, ResourceConflictException,
+      ResourceNotFoundException, EmailException, OrmException, IOException {
     if (Strings.isNullOrEmpty(input.message)) {
       throw new BadRequestException("message must be non-empty");
     }

@@ -50,7 +50,7 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
   }
 
   @Override
-  public Object apply(ReviewerResource rsrc, Input input)
+  public Response<?> apply(ReviewerResource rsrc, Input input)
       throws AuthException, ResourceNotFoundException, OrmException,
       IOException {
     ChangeControl control = rsrc.getControl();

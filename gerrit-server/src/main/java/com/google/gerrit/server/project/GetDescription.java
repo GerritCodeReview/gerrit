@@ -20,7 +20,7 @@ import com.google.gerrit.reviewdb.client.Project;
 
 class GetDescription implements RestReadView<ProjectResource> {
   @Override
-  public Object apply(ProjectResource resource) {
+  public String apply(ProjectResource resource) {
     Project project = resource.getControl().getProject();
     return Strings.nullToEmpty(project.getDescription());
   }

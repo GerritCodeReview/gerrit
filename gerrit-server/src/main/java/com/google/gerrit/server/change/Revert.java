@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
@@ -82,8 +83,8 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
 
   @Override
   public ChangeInfo apply(ChangeResource req, RevertInput input)
-      throws AuthException, ResourceConflictException, IOException,
-      NoSuchChangeException, EmailException, OrmException, BadRequestException {
+      throws AuthException, BadRequestException, ResourceConflictException,
+      ResourceNotFoundException, IOException, OrmException, EmailException {
     ChangeControl control = req.getControl();
     Change change = req.getChange();
     if (!control.canAddPatchSet()) {
@@ -108,6 +109,8 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
       return json.format(revertedChangeId);
     } catch (InvalidChangeOperationException e) {
       throw new BadRequestException(e.getMessage());
+    } catch (NoSuchChangeException e) {
+      throw new ResourceNotFoundException(e.getMessage());
     } finally {
       git.close();
     }

@@ -15,16 +15,17 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.collect.Maps;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.change.ReviewerJson.ReviewerInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import java.util.List;
 import java.util.Map;
 
 class ListReviewers implements RestReadView<ChangeResource> {
@@ -42,8 +43,7 @@ class ListReviewers implements RestReadView<ChangeResource> {
   }
 
   @Override
-  public Object apply(ChangeResource rsrc) throws BadRequestException,
-      OrmException {
+  public List<ReviewerInfo> apply(ChangeResource rsrc) throws OrmException {
     Map<Account.Id, ReviewerResource> reviewers = Maps.newLinkedHashMap();
     ReviewDb db = dbProvider.get();
     Change.Id changeId = rsrc.getChange().getId();

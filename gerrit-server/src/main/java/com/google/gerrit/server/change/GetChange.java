@@ -18,6 +18,7 @@ import com.google.gerrit.common.changes.ListChangesOption;
 import com.google.gerrit.extensions.restapi.CacheControl;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -44,15 +45,15 @@ public class GetChange implements RestReadView<ChangeResource> {
   }
 
   @Override
-  public Object apply(ChangeResource rsrc) throws OrmException {
+  public Response<ChangeInfo> apply(ChangeResource rsrc) throws OrmException {
     return cache(json.format(rsrc));
   }
 
-  Object apply(RevisionResource rsrc) throws OrmException {
+  Response<ChangeInfo> apply(RevisionResource rsrc) throws OrmException {
     return cache(json.format(rsrc));
   }
 
-  private Object cache(Object res) {
+  private Response<ChangeInfo> cache(ChangeInfo res) {
     return Response.ok(res)
         .caching(CacheControl.PRIVATE(0, TimeUnit.SECONDS).setMustRevalidate());
   }

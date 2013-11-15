@@ -19,9 +19,7 @@ import com.google.common.io.ByteSource;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RawInput;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
@@ -57,8 +55,7 @@ public class AddSshKey implements RestModifyView<AccountResource, Input> {
 
   @Override
   public Response<SshKeyInfo> apply(AccountResource rsrc, Input input)
-      throws AuthException, MethodNotAllowedException, BadRequestException,
-      ResourceConflictException, OrmException, IOException {
+      throws AuthException, BadRequestException, OrmException, IOException {
     if (self.get() != rsrc.getUser()
         && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("not allowed to add SSH keys");

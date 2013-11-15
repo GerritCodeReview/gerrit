@@ -19,7 +19,6 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -59,8 +58,8 @@ public class SetParent implements RestModifyView<ProjectResource, Input> {
   }
 
   @Override
-  public String apply(final ProjectResource rsrc, Input input) throws AuthException,
-      BadRequestException, ResourceConflictException,
+  public String apply(final ProjectResource rsrc, Input input)
+      throws AuthException, ResourceConflictException,
       ResourceNotFoundException, UnprocessableEntityException, IOException {
     ProjectControl ctl = rsrc.getControl();
     validateParentUpdate(ctl, input.parent);

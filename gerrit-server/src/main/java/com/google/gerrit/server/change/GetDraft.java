@@ -14,15 +14,11 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 
 class GetDraft implements RestReadView<DraftResource> {
   @Override
-  public Object apply(DraftResource rsrc) throws AuthException,
-      BadRequestException, ResourceConflictException, Exception {
+  public CommentInfo apply(DraftResource rsrc) {
     return new CommentInfo(rsrc.getComment(), null);
   }
 }

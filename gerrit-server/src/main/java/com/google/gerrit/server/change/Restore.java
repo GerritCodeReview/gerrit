@@ -69,9 +69,9 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
   }
 
   @Override
-  public Object apply(ChangeResource req, RestoreInput input)
-      throws OrmException, IOException, AuthException,
-      ResourceConflictException {
+  public ChangeInfo apply(ChangeResource req, RestoreInput input)
+      throws AuthException, ResourceConflictException, OrmException,
+      IOException {
     ChangeControl control = req.getControl();
     IdentifiedUser caller = (IdentifiedUser) control.getCurrentUser();
     Change change = req.getChange();

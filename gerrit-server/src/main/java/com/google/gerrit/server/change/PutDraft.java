@@ -15,15 +15,14 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.common.changes.Side;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
-import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.PutDraft.Input;
 import com.google.gerrit.server.util.TimeUtil;
@@ -59,8 +58,8 @@ class PutDraft implements RestModifyView<DraftResource, Input> {
   }
 
   @Override
-  public Object apply(DraftResource rsrc, Input in) throws AuthException,
-      BadRequestException, ResourceConflictException, OrmException {
+  public Response<CommentInfo> apply(DraftResource rsrc, Input in) throws
+      BadRequestException, OrmException {
     PatchLineComment c = rsrc.getComment();
     if (in == null || in.message == null || in.message.trim().isEmpty()) {
       return delete.get().apply(rsrc, null);
@@ -90,7 +89,7 @@ class PutDraft implements RestModifyView<DraftResource, Input> {
     } else {
       db.get().patchComments().update(Collections.singleton(update(c, in)));
     }
-    return new CommentInfo(c, null);
+    return Response.ok(new CommentInfo(c, null));
   }
 
   private PatchLineComment update(PatchLineComment e, Input in) {

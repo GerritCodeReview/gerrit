@@ -28,7 +28,7 @@ class GetParent implements RestReadView<ProjectResource> {
   }
 
   @Override
-  public Object apply(ProjectResource resource) {
+  public String apply(ProjectResource resource) {
     Project project = resource.getControl().getProject();
     Project.NameKey parentName = project.getParent(allProjectsName);
     return parentName != null ? parentName.get() : "";

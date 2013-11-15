@@ -117,13 +117,12 @@ class Files implements ChildCollection<RevisionResource, FileResource> {
     }
 
     @Override
-    public Object apply(RevisionResource resource)
-        throws ResourceNotFoundException, OrmException,
-        PatchListNotAvailableException, BadRequestException, AuthException {
+    public Response<?> apply(RevisionResource resource) throws AuthException,
+        BadRequestException, ResourceNotFoundException, OrmException {
       if (base != null && reviewed) {
         throw new BadRequestException("cannot combine base and reviewed");
       } else if (reviewed) {
-        return reviewed(resource);
+        return Response.ok(reviewed(resource));
       }
 
       PatchSet basePatchSet = null;
@@ -132,17 +131,21 @@ class Files implements ChildCollection<RevisionResource, FileResource> {
             resource.getChangeResource(), IdString.fromDecoded(base));
         basePatchSet = baseResource.getPatchSet();
       }
-      Response<Map<String, FileInfo>> r = Response.ok(fileInfoJson.toFileInfoMap(
-          resource.getChange(),
-          resource.getPatchSet(),
-          basePatchSet));
-      if (resource.isCacheable()) {
-        r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
+      try {
+        Response<Map<String, FileInfo>> r = Response.ok(fileInfoJson.toFileInfoMap(
+            resource.getChange(),
+            resource.getPatchSet(),
+            basePatchSet));
+        if (resource.isCacheable()) {
+          r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
+        }
+        return r;
+      } catch (PatchListNotAvailableException e) {
+        throw new ResourceNotFoundException(e.getMessage());
       }
-      return r;
     }
 
-    private Object reviewed(RevisionResource resource)
+    private List<String> reviewed(RevisionResource resource)
         throws AuthException, OrmException {
       CurrentUser user = self.get();
       if (!(user.isIdentifiedUser())) {

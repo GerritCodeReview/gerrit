@@ -29,7 +29,7 @@ class GetComment implements RestReadView<CommentResource> {
   }
 
   @Override
-  public Object apply(CommentResource rsrc) throws OrmException {
+  public CommentInfo apply(CommentResource rsrc) throws OrmException {
     AccountInfo.Loader accountLoader = accountLoaderFactory.create(true);
     CommentInfo ci = new CommentInfo(rsrc.getComment(), accountLoader);
     accountLoader.fill();

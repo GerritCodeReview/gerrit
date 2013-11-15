@@ -15,12 +15,13 @@
 package com.google.gerrit.server.project;
 
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.project.CreateProject.Input;
 
 public class PutProject implements RestModifyView<ProjectResource, Input> {
   @Override
-  public Object apply(ProjectResource resource, Input input)
+  public Response<?> apply(ProjectResource resource, Input input)
       throws ResourceConflictException {
     throw new ResourceConflictException("Project \"" + resource.getName()
         + "\" already exists");

@@ -89,7 +89,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
   }
 
   @Override
-  public Object apply(TopLevelResource rsrc, Input input)
+  public Response<AccountInfo> apply(TopLevelResource rsrc, Input input)
       throws BadRequestException, ResourceConflictException,
       UnprocessableEntityException, OrmException {
     if (input == null) {

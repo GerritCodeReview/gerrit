@@ -142,8 +142,6 @@ public class SetReviewersCommand extends SshCommand {
       String error;
       try {
         error = post.apply(changeRsrc, input).error;
-      } catch (ResourceNotFoundException e) {
-        error = String.format("could not add %s: not found", reviewer);
       } catch (Exception e) {
         error = String.format("could not add %s: %s", reviewer, e.getMessage());
       }

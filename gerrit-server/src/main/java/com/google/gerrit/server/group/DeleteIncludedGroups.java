@@ -19,7 +19,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -59,8 +58,8 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
   }
 
   @Override
-  public Object apply(GroupResource resource, Input input)
-      throws MethodNotAllowedException, AuthException, BadRequestException,
+  public Response<?> apply(GroupResource resource, Input input)
+      throws AuthException, MethodNotAllowedException,
       UnprocessableEntityException, OrmException {
     AccountGroup internalGroup = resource.toAccountGroup();
     if (internalGroup == null) {
@@ -143,8 +142,8 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
     }
 
     @Override
-    public Object apply(IncludedGroupResource resource, Input input)
-        throws MethodNotAllowedException, AuthException, BadRequestException,
+    public Response<?> apply(IncludedGroupResource resource, Input input)
+        throws AuthException, MethodNotAllowedException,
         UnprocessableEntityException, OrmException {
       AddIncludedGroups.Input in = new AddIncludedGroups.Input();
       in.groups = ImmutableList.of(resource.getMember().get());

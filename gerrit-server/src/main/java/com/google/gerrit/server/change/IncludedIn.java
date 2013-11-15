@@ -47,8 +47,8 @@ class IncludedIn implements RestReadView<ChangeResource> {
   }
 
   @Override
-  public Object apply(ChangeResource rsrc) throws OrmException, IOException,
-      BadRequestException, ResourceConflictException {
+  public IncludedInInfo apply(ChangeResource rsrc) throws BadRequestException,
+      ResourceConflictException, OrmException, IOException {
     ChangeControl ctl = rsrc.getControl();
     PatchSet ps =
         db.patchSets().get(ctl.getChange().currentPatchSetId());

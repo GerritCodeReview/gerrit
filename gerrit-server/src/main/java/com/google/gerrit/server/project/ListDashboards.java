@@ -53,7 +53,7 @@ class ListDashboards implements RestReadView<ProjectResource> {
   }
 
   @Override
-  public Object apply(ProjectResource resource)
+  public List<?> apply(ProjectResource resource)
       throws ResourceNotFoundException, IOException {
     ProjectControl ctl = resource.getControl();
     String project = ctl.getProject().getName();

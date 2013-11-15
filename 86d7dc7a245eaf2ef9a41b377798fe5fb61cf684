@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "defb49cc_c4317e0c",
+        "filename": "tools/download_file.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-15T07:32:36Z",
+      "side": 1,
+      "message": "I don\u0027t want to add every repository to the mapping, especially ones smaller than MAVEN_CENTRAL. Maybe we can instead somehow fix this code path to also handle prefixes in the redirects table.\n\nSomething more like drop each path component and see if the resulting prefix string is in redirects. If so replace the prefix with the redirect. This matches the Git url.insteadof sort of behavior and makes the redirect more flexible. Then you can just use\n\n  maven_repository\u003d\"http://gerritforge.com/snapshot\"\n\nin the gitblit plugin and not worry about the main build even needing to know where that is.",
+      "range": {
+        "startLine": 96,
+        "startChar": 2,
+        "endLine": 100,
+        "endChar": 28
+      },
+      "revId": "86d7dc7a245eaf2ef9a41b377798fe5fb61cf684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

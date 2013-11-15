@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9e1c71fc_7af0390b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/GerritCss.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-15T07:48:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fefe4dbb_85edc235",
+      "revId": "6be3b1d8d47575c48499301793a92d49a2b14ef6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "defb49cc_c4e3be48",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-11-15T01:06:16Z",
       "side": 1,
       "message": "changeTableNotMergeable",
+      "revId": "6be3b1d8d47575c48499301793a92d49a2b14ef6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e1c71fc_1afd7de2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-15T07:48:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "defb49cc_c4e3be48",
       "revId": "6be3b1d8d47575c48499301793a92d49a2b14ef6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9e1c71fc_3afac1eb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-15T07:48:26Z",
+      "side": 1,
+      "message": "I wanted to use the same text that is also shown on ChangeScreen2. There we have \u0027Cannot Merge\u0027, but also \u0027Merge Conflict\u0027. I\u0027ll change it to \u0027Merge Conflict\u0027 here. I don\u0027t want to introduce a third term. \u0027Cannot Merge; needs to be rebased\u0027 seems to be a bit too lengthy.",
+      "parentUuid": "fefe4dbb_65f3e619",
+      "revId": "6be3b1d8d47575c48499301793a92d49a2b14ef6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fefe4dbb_45f0ea0a",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2013-11-15T01:06:16Z",
       "side": 1,
       "message": "notMergeable",
+      "revId": "6be3b1d8d47575c48499301793a92d49a2b14ef6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e1c71fc_da05c52a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
+        "patchSetId": 2
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-15T07:48:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fefe4dbb_45f0ea0a",
       "revId": "6be3b1d8d47575c48499301793a92d49a2b14ef6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

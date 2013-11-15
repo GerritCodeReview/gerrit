@@ -93,6 +93,21 @@ public class ActionContext extends JavaScriptObject {
         e.onkeypress = stopPropagation;
         return e;
       },
+      select: function(a,s) {
+        var e = doc.createElement('select');
+        for (var i = 0; i < a.length; i++) {
+          var o = doc.createElement('option');
+          if (i==s) {
+            o.setAttributeNode(doc.createAttribute("selected"));
+          }
+          o.appendChild(doc.createTextNode(a[i]));
+          e.appendChild(o);
+        }
+        return e;
+      },
+      selected: function(e) {
+        return e.options[e.selectedIndex].text;
+      },
 
       popup: function(e){this._p=@com.google.gerrit.client.api.PopupHelper::popup(Lcom/google/gerrit/client/api/ActionContext;Lcom/google/gwt/dom/client/Element;)(this,e)},
       hide: function() {

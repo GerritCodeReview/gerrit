@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fefe4dbb_c5661a01",
+        "filename": "project.config",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-15T08:27:51Z",
+      "side": 1,
+      "message": "See parent commit about needing to fully specify the label.",
+      "revId": "8485501efdd245f5bd911bb20cf04a6ddcbac8a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

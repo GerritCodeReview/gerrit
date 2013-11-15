@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fefe4dbb_85edc235",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/GerritCss.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-15T01:06:16Z",
+      "side": 1,
+      "message": "notMergeable",
+      "revId": "6be3b1d8d47575c48499301793a92d49a2b14ef6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "defb49cc_c4e3be48",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-15T01:06:16Z",
+      "side": 1,
+      "message": "changeTableNotMergeable",
+      "revId": "6be3b1d8d47575c48499301793a92d49a2b14ef6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fefe4dbb_65f3e619",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-15T01:06:16Z",
+      "side": 1,
+      "message": "changeTableNotMergeable\n\nIt might be better to make this a bit more explicit.  \"Cannot Merge\" could also be because the change does not have the necessary approvals.  Maybe this could be \"Cannot Merge; needs to be rebased\" or something like that?",
+      "revId": "6be3b1d8d47575c48499301793a92d49a2b14ef6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fefe4dbb_45f0ea0a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
+        "patchSetId": 2
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-15T01:06:16Z",
+      "side": 1,
+      "message": "notMergeable",
+      "revId": "6be3b1d8d47575c48499301793a92d49a2b14ef6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

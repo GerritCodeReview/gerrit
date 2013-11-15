@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -25,6 +26,9 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.config.PluginConfig;
+import com.google.gerrit.server.config.PluginConfigFactory;
+import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.TransferConfig;
@@ -34,10 +38,17 @@ import com.google.inject.Provider;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class PutConfig implements RestModifyView<ProjectResource, Input> {
+  private static final Logger log = LoggerFactory.getLogger(PutConfig.class);
+
   public static class Input {
     public String description;
     public InheritableBoolean useContributorAgreements;
@@ -47,6 +58,12 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
     public String maxObjectSizeLimit;
     public SubmitType submitType;
     public Project.State state;
+    public Map<String, List<ConfigValueInput>> pluginConfigValues;
+  }
+
+  public class ConfigValueInput {
+    public String name;
+    public String value;
   }
 
   private final MetaDataUpdate.User metaDataUpdateFactory;
@@ -54,6 +71,8 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
   private final Provider<CurrentUser> self;
   private final ProjectState.Factory projectStateFactory;
   private final TransferConfig config;
+  private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
+  private final PluginConfigFactory cfgFactory;
   private final DynamicMap<RestView<ProjectResource>> views;
   private final Provider<CurrentUser> currentUser;
 
@@ -63,6 +82,8 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
       Provider<CurrentUser> self,
       ProjectState.Factory projectStateFactory,
       TransferConfig config,
+      DynamicMap<ProjectConfigEntry> pluginConfigEntries,
+      PluginConfigFactory cfgFactory,
       DynamicMap<RestView<ProjectResource>> views,
       Provider<CurrentUser> currentUser) {
     this.metaDataUpdateFactory = metaDataUpdateFactory;
@@ -70,6 +91,8 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
     this.self = self;
     this.projectStateFactory = projectStateFactory;
     this.config = config;
+    this.pluginConfigEntries = pluginConfigEntries;
+    this.cfgFactory = cfgFactory;
     this.views = views;
     this.currentUser = currentUser;
   }
@@ -126,6 +149,10 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
         p.setState(input.state);
       }
 
+      if (input.pluginConfigValues != null) {
+        setPluginConfigValues(projectConfig, input.pluginConfigValues);
+      }
+
       md.setMessage("Modified project settings\n");
       try {
         projectConfig.commit(md);
@@ -143,7 +170,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
       ProjectState state = projectStateFactory.create(projectConfig);
       return new ConfigInfo(
           state.controlFor(currentUser.get()),
-          config, views);
+          config, pluginConfigEntries, cfgFactory, views);
     } catch (ConfigInvalidException err) {
       throw new ResourceConflictException("Cannot read project " + projectName, err);
     } catch (IOException err) {
@@ -151,5 +178,40 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
     } finally {
       md.close();
     }
+  }
+
+  private void setPluginConfigValues(ProjectConfig projectConfig,
+      Map<String, List<ConfigValueInput>> pluginConfigValues)
+      throws BadRequestException {
+    for (Entry<String, List<ConfigValueInput>> e : pluginConfigValues.entrySet()) {
+      String pluginName = e.getKey();
+      PluginConfig cfg = projectConfig.getPluginConfig(pluginName);
+      for (ConfigValueInput v : e.getValue()) {
+        ProjectConfigEntry projectConfigEntry =
+            pluginConfigEntries.get(pluginName, v.name);
+        if (projectConfigEntry != null) {
+          if (!isValidParameterName(v.name)) {
+            log.warn(String.format(
+                "Parameter name '%s' must match '^[a-zA-Z0-9]+[a-zA-Z0-9-]*$'", v.name));
+            continue;
+          }
+          if (v.value == null) {
+            cfg.unset(v.name);
+          } else {
+            cfg.setString(v.name, v.value);
+          }
+        } else {
+          throw new BadRequestException(String.format(
+              "The config paramter '%s' of plugin '%s' does not exist.",
+              v.name, pluginName));
+        }
+      }
+    }
+  }
+
+  private static boolean isValidParameterName(String name) {
+    return CharMatcher.JAVA_LETTER_OR_DIGIT
+        .or(CharMatcher.is('-'))
+        .matchesAllOf(name) && !name.startsWith("-");
   }
 }

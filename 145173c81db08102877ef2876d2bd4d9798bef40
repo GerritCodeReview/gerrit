@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fefe4dbb_8589425e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-15T08:10:54Z",
+      "side": 1,
+      "message": "IIRC this is stale data that isn\u0027t always correct.\n\nChangeScreen2 has to update it on each screen load using /changes/{id}/mergeable as the query system does not reevaluate the mergeable field in the database, and updating a branch in MergeOp does not recompute this field for the remaining open changes.",
+      "revId": "145173c81db08102877ef2876d2bd4d9798bef40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -17,17 +17,24 @@ package com.google.gerrit.server.project;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
+import com.google.common.collect.TreeMultimap;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.DynamicMap.Entry;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.actions.ActionInfo;
+import com.google.gerrit.server.config.PluginConfig;
+import com.google.gerrit.server.config.PluginConfigFactory;
+import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.inject.util.Providers;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 public class ConfigInfo {
@@ -41,6 +48,7 @@ public class ConfigInfo {
   public MaxObjectSizeLimitInfo maxObjectSizeLimit;
   public SubmitType submitType;
   public Project.State state;
+  public Map<String, Collection<ConfigParameterInfo>> pluginConfigParameters;
   public Map<String, ActionInfo> actions;
 
   public Map<String, CommentLinkInfo> commentlinks;
@@ -48,6 +56,8 @@ public class ConfigInfo {
 
   public ConfigInfo(ProjectControl control,
       TransferConfig config,
+      DynamicMap<ProjectConfigEntry> pluginConfigEntries,
+      PluginConfigFactory cfgFactory,
       DynamicMap<RestView<ProjectResource>> views) {
     ProjectState projectState = control.getProjectState();
     Project p = control.getProject();
@@ -103,6 +113,9 @@ public class ConfigInfo {
       this.commentlinks.put(cl.name, cl);
     }
 
+    pluginConfigParameters =
+        getPluginConfigParameters(control, pluginConfigEntries, cfgFactory);
+
     actions = Maps.newTreeMap();
     for (UiAction.Description d : UiActions.from(
         views, new ProjectResource(control),
@@ -110,6 +123,57 @@ public class ConfigInfo {
       actions.put(d.getId(), new ActionInfo(d));
     }
     this.theme = projectState.getTheme();
+  }
+
+  private Map<String, Collection<ConfigParameterInfo>> getPluginConfigParameters(
+      ProjectControl control,
+      DynamicMap<ProjectConfigEntry> pluginConfigEntries,
+      PluginConfigFactory cfgFactory) {
+    TreeMultimap<String, ConfigParameterInfo> pluginConfigParameters =
+        TreeMultimap.create();
+    for (Entry<ProjectConfigEntry> e : pluginConfigEntries) {
+      PluginConfig cfg =
+          cfgFactory.getFromProjectConfig(control.getProjectState(),
+              e.getPluginName());
+      PluginConfig cfgWithInheritance =
+          cfgFactory.getFromProjectConfigWithInheritance(
+              control.getProjectState(), e.getPluginName());
+      ProjectConfigEntry configEntry = e.getProvider().get();
+      String configuredValue = cfg.getString(e.getExportName());
+      ConfigParameterInfo configParameter;
+      if (configEntry.isInheritable()) {
+        String value =
+            cfgWithInheritance.getString(e.getExportName(),
+                configEntry.getDefaultValue());
+        ProjectState parent =
+            Iterables.getFirst(control.getProjectState().parents(), null);
+        String inheritedValue = configEntry.getDefaultValue();
+        if (parent != null) {
+          PluginConfig parentCfgWithInheritance =
+              cfgFactory.getFromProjectConfigWithInheritance(parent,
+                  e.getPluginName());
+          inheritedValue =
+              parentCfgWithInheritance.getString(e.getExportName(),
+                  configEntry.getDefaultValue());
+        }
+        configParameter =
+            new ConfigParameterInfo(e.getExportName(),
+                configEntry.getDisplayName(), configEntry.getType(), value,
+                configuredValue, inheritedValue,
+                configEntry.getSupportedValues());
+      } else {
+        String value =
+            configuredValue != null ? configuredValue : configEntry
+                .getDefaultValue();
+        configParameter =
+            new ConfigParameterInfo(e.getExportName(),
+                configEntry.getDisplayName(), configEntry.getType(), value,
+                configEntry.getSupportedValues());
+      }
+
+      pluginConfigParameters.put(e.getPluginName(), configParameter);
+    }
+    return pluginConfigParameters.asMap();
   }
 
   public static class InheritedBooleanInfo {
@@ -122,5 +186,47 @@ public class ConfigInfo {
     public String value;
     public String configuredValue;
     public String inheritedValue;
+  }
+
+  public static class ConfigParameterInfo implements Comparable<ConfigParameterInfo> {
+    public String name;
+    public String displayName;
+    public ProjectConfigEntry.Type type;
+    public String value;
+    public Boolean inheritable;
+    public String configuredValue;
+    public String inheritedValue;
+    public List<String> supportedValues;
+
+    public ConfigParameterInfo(String name, String displayName,
+        ProjectConfigEntry.Type type, String value, List<String> supportedValues) {
+      this(name, displayName, type, value, null, null, null, supportedValues);
+    }
+
+    public ConfigParameterInfo(String name, String displayName,
+        ProjectConfigEntry.Type type, String value, String configuredValue,
+        String inheritedValue, List<String> supportedValues) {
+      this(name, displayName, type, value, true, configuredValue,
+          inheritedValue, supportedValues);
+    }
+
+    private ConfigParameterInfo(String name, String displayName,
+        ProjectConfigEntry.Type type, String value, Boolean inheritable,
+        String configuredValue, String inheritedValue,
+        List<String> supportedValues) {
+      this.name = name;
+      this.displayName = displayName;
+      this.type = type;
+      this.value = value;
+      this.inheritable = inheritable;
+      this.configuredValue = configuredValue;
+      this.inheritedValue = inheritedValue;
+      this.supportedValues = supportedValues;
+    }
+
+    @Override
+    public int compareTo(ConfigParameterInfo other) {
+      return name.compareTo(other.name);
+    }
   }
 }

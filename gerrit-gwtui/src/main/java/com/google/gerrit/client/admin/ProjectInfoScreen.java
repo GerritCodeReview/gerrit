@@ -22,11 +22,13 @@ import com.google.gerrit.client.actions.ActionInfo;
 import com.google.gerrit.client.change.Resources;
 import com.google.gerrit.client.download.DownloadPanel;
 import com.google.gerrit.client.projects.ConfigInfo;
+import com.google.gerrit.client.projects.ConfigInfo.ConfigParameterInfo;
 import com.google.gerrit.client.projects.ConfigInfo.InheritedBooleanInfo;
 import com.google.gerrit.client.projects.ProjectApi;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeMap;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.SmallHeading;
@@ -41,18 +43,26 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
 public class ProjectInfoScreen extends ProjectScreen {
   private boolean isOwner;
 
   private LabeledWidgetsGrid grid;
+  private Panel pluginOptionsPanel;
   private LabeledWidgetsGrid actionsGrid;
 
   // Section: Project Options
@@ -62,6 +72,7 @@ public class ProjectInfoScreen extends ProjectScreen {
   private ListBox contentMerge;
   private NpTextBox maxObjectSizeLimit;
   private Label effectiveMaxObjectSizeLimit;
+  private Map<String, Map<String, FocusWidget>> pluginConfigWidgets;
 
   // Section: Contributor Agreements
   private ListBox contributorAgreements;
@@ -93,10 +104,12 @@ public class ProjectInfoScreen extends ProjectScreen {
 
     initDescription();
     grid = new LabeledWidgetsGrid();
+    pluginOptionsPanel = new FlowPanel();
     actionsGrid = new LabeledWidgetsGrid();
     initProjectOptions();
     initAgreements();
     add(grid);
+    add(pluginOptionsPanel);
     add(saveProject);
     add(actionsGrid);
   }
@@ -140,6 +153,14 @@ public class ProjectInfoScreen extends ProjectScreen {
     signedOffBy.setEnabled(isOwner);
     requireChangeID.setEnabled(isOwner);
     maxObjectSizeLimit.setEnabled(isOwner);
+
+    if (pluginConfigWidgets != null) {
+      for (Map<String, FocusWidget> widgetMap : pluginConfigWidgets.values()) {
+        for (FocusWidget widget : widgetMap.values()) {
+          widget.setEnabled(isOwner);
+        }
+      }
+    }
   }
 
   private void initDescription() {
@@ -323,7 +344,44 @@ public class ProjectInfoScreen extends ProjectScreen {
     }
 
     saveProject.setEnabled(false);
+    initPluginOptions(result);
     initProjectActions(result);
+  }
+
+  private void initPluginOptions(ConfigInfo info) {
+    pluginOptionsPanel.clear();
+    pluginConfigWidgets = new HashMap<String, Map<String, FocusWidget>>();
+
+    for (String pluginName : info.pluginConfig().keySet()) {
+      Map<String, FocusWidget> widgetMap = new HashMap<String, FocusWidget>();
+      pluginConfigWidgets.put(pluginName, widgetMap);
+      LabeledWidgetsGrid g = new LabeledWidgetsGrid();
+      g.addHeader(new SmallHeading(Util.M.pluginProjectOptionsTitle(pluginName)));
+      pluginOptionsPanel.add(g);
+      NativeMap<ConfigParameterInfo> pluginConfig =
+          info.pluginConfig(pluginName);
+      pluginConfig.copyKeysIntoChildren("name");
+      for (ConfigParameterInfo param : Natives.asList(pluginConfig.values())) {
+        FocusWidget w;
+        if ("STRING".equals(param.type())) {
+          w = renderTextBox(g, param);
+        } else {
+          continue;
+        }
+        widgetMap.put(param.name(), w);
+      }
+    }
+
+    enableForm();
+  }
+
+  private TextBox renderTextBox(LabeledWidgetsGrid g, ConfigParameterInfo param) {
+    NpTextBox textBox = new NpTextBox();
+    textBox.setValue(param.value());
+    g.add(param.displayName() != null
+        ? param.displayName() : param.name(), textBox);
+    saveEnabler.listenTo(textBox);
+    return textBox;
   }
 
   private void initProjectActions(ConfigInfo info) {
@@ -355,7 +413,7 @@ public class ProjectInfoScreen extends ProjectScreen {
         maxObjectSizeLimit.getText().trim(),
         Project.SubmitType.valueOf(submitType.getValue(submitType.getSelectedIndex())),
         Project.State.valueOf(state.getValue(state.getSelectedIndex())),
-        new GerritCallback<ConfigInfo>() {
+        getPluginConfigValues(), new GerritCallback<ConfigInfo>() {
           @Override
           public void onSuccess(ConfigInfo result) {
             enableForm();
@@ -368,6 +426,23 @@ public class ProjectInfoScreen extends ProjectScreen {
             super.onFailure(caught);
           }
         });
+  }
+
+  private Map<String, Map<String, String>> getPluginConfigValues() {
+    Map<String, Map<String, String>> pluginConfigValues =
+        new HashMap<String, Map<String, String>>(pluginConfigWidgets.size());
+    for (Entry<String, Map<String, FocusWidget>> e : pluginConfigWidgets.entrySet()) {
+      Map<String, String> values =
+          new HashMap<String, String>(e.getValue().size());
+      pluginConfigValues.put(e.getKey(), values);
+      for (Entry<String, FocusWidget> e2 : e.getValue().entrySet()) {
+        FocusWidget widget = e2.getValue();
+        if (widget instanceof TextBox) {
+          values.put(e2.getKey(), ((TextBox) widget).getValue().trim());
+        }
+      }
+    }
+    return pluginConfigValues;
   }
 
   public class ProjectDownloadPanel extends DownloadPanel {

@@ -17,17 +17,23 @@ package com.google.gerrit.server.project;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
+import com.google.common.collect.TreeMultimap;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.DynamicMap.Entry;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.actions.ActionInfo;
+import com.google.gerrit.server.config.PluginConfig;
+import com.google.gerrit.server.config.PluginConfigFactory;
+import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.inject.util.Providers;
 
+import java.util.Collection;
 import java.util.Map;
 
 public class ConfigInfo {
@@ -41,6 +47,7 @@ public class ConfigInfo {
   public MaxObjectSizeLimitInfo maxObjectSizeLimit;
   public SubmitType submitType;
   public Project.State state;
+  public Map<String, Collection<ConfigParameterInfo>> pluginConfigParameters;
   public Map<String, ActionInfo> actions;
 
   public Map<String, CommentLinkInfo> commentlinks;
@@ -48,6 +55,8 @@ public class ConfigInfo {
 
   public ConfigInfo(ProjectControl control,
       TransferConfig config,
+      DynamicMap<ProjectConfigEntry> pluginConfigEntries,
+      PluginConfigFactory cfgFactory,
       DynamicMap<RestView<ProjectResource>> views) {
     ProjectState projectState = control.getProjectState();
     Project p = control.getProject();
@@ -103,6 +112,9 @@ public class ConfigInfo {
       this.commentlinks.put(cl.name, cl);
     }
 
+    pluginConfigParameters =
+        getPluginConfigParameters(control.getProjectState(), pluginConfigEntries, cfgFactory);
+
     actions = Maps.newTreeMap();
     for (UiAction.Description d : UiActions.from(
         views, new ProjectResource(control),
@@ -110,6 +122,25 @@ public class ConfigInfo {
       actions.put(d.getId(), new ActionInfo(d));
     }
     this.theme = projectState.getTheme();
+  }
+
+  private Map<String, Collection<ConfigParameterInfo>> getPluginConfigParameters(
+      ProjectState project, DynamicMap<ProjectConfigEntry> pluginConfigEntries,
+      PluginConfigFactory cfgFactory) {
+    TreeMultimap<String, ConfigParameterInfo> pluginConfigParameters =
+        TreeMultimap.create();
+    for (Entry<ProjectConfigEntry> e : pluginConfigEntries) {
+      PluginConfig cfg =
+          cfgFactory.getFromProjectConfig(project, e.getPluginName());
+      ProjectConfigEntry configEntry = e.getProvider().get();
+      String value =
+          cfg.getString(e.getExportName(), configEntry.getDefaultValue());
+      ConfigParameterInfo configParameter =
+          new ConfigParameterInfo(e.getExportName(),
+              configEntry.getDisplayName(), configEntry.getType(), value);
+      pluginConfigParameters.put(e.getPluginName(), configParameter);
+    }
+    return pluginConfigParameters.asMap();
   }
 
   public static class InheritedBooleanInfo {
@@ -122,5 +153,25 @@ public class ConfigInfo {
     public String value;
     public String configuredValue;
     public String inheritedValue;
+  }
+
+  public static class ConfigParameterInfo implements Comparable<ConfigParameterInfo> {
+    public String name;
+    public String displayName;
+    public ProjectConfigEntry.Type type;
+    public String value;
+
+    public ConfigParameterInfo(String name, String displayName,
+        ProjectConfigEntry.Type type, String value) {
+      this.name = name;
+      this.displayName = displayName;
+      this.type = type;
+      this.value = value;
+    }
+
+    @Override
+    public int compareTo(ConfigParameterInfo other) {
+      return name.compareTo(other.name);
+    }
   }
 }

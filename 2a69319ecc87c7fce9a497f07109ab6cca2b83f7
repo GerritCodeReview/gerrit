@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "defb49cc_a4ffa2d6",
+        "filename": "gerrit-gwtui/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-15T02:02:45Z",
+      "side": 1,
+      "message": "Needs rebase, master has a new option in this array.",
+      "revId": "2a69319ecc87c7fce9a497f07109ab6cca2b83f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "defb49cc_4417ce5f",
+        "filename": "tools/default.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-15T02:02:45Z",
+      "side": 1,
+      "message": "This is simple, but it allows the UI to accidentally link to server code. We find out later in the GWT module with errors about \"no source found for class Foo\", instead of a simple Java compile error.\n\nI guess we are going for simple for the plugin author, rather than getting them accurate errors by making them tell us which files are GWT UI and which files are server code.",
+      "revId": "2a69319ecc87c7fce9a497f07109ab6cca2b83f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fefe4dbb_c5317a0c",
+        "filename": "tools/default.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-15T02:02:45Z",
+      "side": 1,
+      "message": "nit: no space here",
+      "range": {
+        "startLine": 175,
+        "startChar": 34,
+        "endLine": 175,
+        "endChar": 35
+      },
+      "revId": "2a69319ecc87c7fce9a497f07109ab6cca2b83f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "defb49cc_2414d258",
+        "filename": "tools/default.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-15T02:02:45Z",
+      "side": 1,
+      "message": "nit: be consistent with yourself and put this on the next line",
+      "revId": "2a69319ecc87c7fce9a497f07109ab6cca2b83f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "defb49cc_641aca8b",
+        "filename": "tools/gwt-constants.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-15T02:02:45Z",
+      "side": 1,
+      "message": "missing a new option in master",
+      "revId": "2a69319ecc87c7fce9a497f07109ab6cca2b83f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fefe4dbb_e52c76b4",
+        "filename": "tools/gwt-constants.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-15T02:02:45Z",
+      "side": 1,
+      "message": "two spaces indent not 4",
+      "revId": "2a69319ecc87c7fce9a497f07109ab6cca2b83f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "defb49cc_8404a62b",
+        "filename": "tools/gwt-constants.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-15T02:02:45Z",
+      "side": 1,
+      "message": "no indent",
+      "revId": "2a69319ecc87c7fce9a497f07109ab6cca2b83f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

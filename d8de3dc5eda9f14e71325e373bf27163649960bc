@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fefe4dbb_e56116eb",
+        "filename": "project.config",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-15T08:27:24Z",
+      "side": 1,
+      "message": "I don\u0027t think this works. My understanding of the code is child projects must supply all properties in order to override anything from the parent.\n\nSee getLabelTypes in ProjectState, ~line 377. The type must be fully specified in the child.",
+      "revId": "d8de3dc5eda9f14e71325e373bf27163649960bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

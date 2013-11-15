@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "defb49cc_44f0ee0a",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ApproveOption.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-15T01:28:19Z",
+      "side": 1,
+      "message": "Wouldn\u0027t UnsupportedOperationException be more appropriate here?\n\nOr is IllegalArgumentException expected by this interface?",
+      "revId": "4c6b674685d9b64497ead66c1db5099b3bd77e6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "defb49cc_04faf6ea",
+        "filename": "gerrit-util-cli/src/main/java/com/google/gerrit/util/cli/CmdLineParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-15T01:28:19Z",
+      "side": 1,
+      "message": "UnsupportedOperationException?",
+      "revId": "4c6b674685d9b64497ead66c1db5099b3bd77e6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9e1c71fc_dade2581",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-15T07:34:58Z",
+      "side": 1,
+      "message": "Rumors has it that according to some benchmarks Jetty 9 reveals a 30% performance boost over Jetty 8.\n\nMoreover Jetty-9 implements SPDY protocoll, which must be configured and activated first:\n\n\"[...] The SPDY protocol is being developed primarily by Google to replace HTTP with a particular focus on improving page load latency.  SPDY is already deployed on over 50% of browsers and is the basis of the first draft of the HTTP/2.0 specification being developed by the IETF.    Jetty was the first java server to implement SPDY and Jetty-9 has been re-architected specifically to better handle the multi protocol, TLS, push and multiplexing features of SPDY. [...]\"\n\nSee the whole Greg\u0027s blog [1].\n\n[1] https://webtide.intalio.com/2013/04/the-need-for-spdy-and-why-upgrade-to-jetty-9/",
+      "parentUuid": "fefe4dbb_e505962a",
+      "revId": "2700adc5f570f231579163450176dcab09de16b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fefe4dbb_c50a9a3a",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "7e217d30_d9de3381",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-15T07:34:58Z",
+      "side": 1,
+      "message": "It was put here only for one purpose, that the reviewer tell me: remove that ;-)\n\nDone",
+      "parentUuid": "fefe4dbb_c50a9a3a",
+      "revId": "2700adc5f570f231579163450176dcab09de16b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fefe4dbb_a5ff9ed6",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2013-11-15T01:33:09Z",
       "side": 1,
       "message": "This appears to be common in every branch. Hoist it above this sequence if if/else if and do it once?",
+      "revId": "2700adc5f570f231579163450176dcab09de16b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e1c71fc_fae3e947",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-15T07:34:58Z",
+      "side": 1,
+      "message": "Sorry.\n\nDone",
+      "parentUuid": "fefe4dbb_a5ff9ed6",
       "revId": "2700adc5f570f231579163450176dcab09de16b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

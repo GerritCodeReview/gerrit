@@ -10,6 +10,7 @@ SYNOPSIS
 [verse]
 'ssh' -p <port> <host> 'gerrit gc'
   [--all]
+  [--show-progress]
   <NAME> ...
 
 DESCRIPTION
@@ -45,6 +46,9 @@ OPTIONS
 --all::
 	If specified the Git garbage collection is run for all projects
 	sequentially.
+
+--show-progress::
+	If specified progress information is shown.
 
 EXAMPLES
 --------

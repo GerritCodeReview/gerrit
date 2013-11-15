@@ -58,6 +58,24 @@
       "revId": "d85b687536ea4a3d888bdf5d70c7ec1022177877",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fefe4dbb_85aee2ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-11-15T20:15:04Z",
+      "side": 1,
+      "message": "Ah, I think I\u0027m misunderstanding how attributes work. Maybe it can be tweaked from extensions but not from the command line? (I\u0027m looking at asciidoctor \u0027master\u0027, which includes the fix to https://github.com/asciidoctor/asciidoctor/issues/624)",
+      "parentUuid": "defb49cc_44ba2ef6",
+      "revId": "d85b687536ea4a3d888bdf5d70c7ec1022177877",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

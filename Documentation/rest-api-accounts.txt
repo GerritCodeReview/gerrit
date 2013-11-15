@@ -1114,11 +1114,12 @@ capabilities of a user.
 [options="header",width="50%",cols="1,^1,5"]
 |=================================
 |Field Name          ||Description
+|`accessDatabase`    |not set if `false`|Whether the user has the
+link:access-control.html#capability_accessDatabase[Access Database]
+capability.
 |`administrateServer`|not set if `false`|Whether the user has the
 link:access-control.html#capability_administrateServer[Administrate
 Server] capability.
-|`queryLimit`||The link:access-control.html#capability_queryLimit[Query
-Limit] of the user as link:#query-limit-info[QueryLimitInfo].
 |`createAccount`     |not set if `false`|Whether the user has the
 link:access-control.html#capability_createAccount[Create Account]
 capability.
@@ -1131,21 +1132,31 @@ capability.
 |`emailReviewers`    |not set if `false`|Whether the user has the
 link:access-control.html#capability_emailReviewers[Email Reviewers]
 capability.
-|`killTask`          |not set if `false`|Whether the user has the
-link:access-control.html#capability_kill[Kill Task] capability.
-|`viewCaches`        |not set if `false`|Whether the user has the
-link:access-control.html#capability_viewCaches[View Caches] capability.
 |`flushCaches`       |not set if `false`|Whether the user has the
 link:access-control.html#capability_flushCaches[Flush Caches]
 capability.
+|`killTask`          |not set if `false`|Whether the user has the
+link:access-control.html#capability_kill[Kill Task] capability.
+|`priority`          |not set if `INTERACTIVE`|The name of the thread
+pool used by the user, see link:access-control.html#capability_priority[
+Priority] capability.
+|`queryLimit`        ||The link:access-control.html#capability_queryLimit[
+Query Limit] of the user as link:#query-limit-info[QueryLimitInfo].
+|`runAs`             |not set if `false`|Whether the user has the
+link:access-control.html#capability_runAs[Run As] capability.
+|`runGC`             |not set if `false`|Whether the user has the
+link:access-control.html#capability_runGC[Run Garbage Collection]
+capability.
+|`streamEvents`      |not set if `false`|Whether the user has the
+link:access-control.html#capability_streamEvents[Stream Events]
+capability.
+|`viewCaches`        |not set if `false`|Whether the user has the
+link:access-control.html#capability_viewCaches[View Caches] capability.
 |`viewConnections`   |not set if `false`|Whether the user has the
 link:access-control.html#capability_viewConnections[View Connections]
 capability.
 |`viewQueue`         |not set if `false`|Whether the user has the
 link:access-control.html#capability_viewQueue[View Queue] capability.
-|`runGC`  |not set if `false`|Whether the user has the
-link:access-control.html#capability_runGC[Run Garbage Collection]
-capability.
 |=================================
 
 [[diff-preferences-info]]

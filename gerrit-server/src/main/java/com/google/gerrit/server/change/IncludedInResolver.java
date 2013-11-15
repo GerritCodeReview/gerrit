@@ -87,17 +87,16 @@ public class IncludedInResolver {
       }
     });
 
-    Set<RevCommit> targetReachableFrom = Sets.newHashSet();
-    targetReachableFrom.add(target);
+    RevFlag containsTarget = rw.newFlag("CONTAINS_TARGET");
 
     for (RevCommit tip : tips) {
       boolean commitFound = false;
-      rw.resetRetain(RevFlag.UNINTERESTING);
+      rw.resetRetain(RevFlag.UNINTERESTING, containsTarget);
       rw.markStart(tip);
       for (RevCommit commit : rw) {
-        if (targetReachableFrom.contains(commit)) {
+        if (commit.equals(target) || commit.has(containsTarget)) {
           commitFound = true;
-          targetReachableFrom.add(tip);
+          tip.add(containsTarget);
           result.addAll(tipsAndCommits.get(tip));
           break;
         }

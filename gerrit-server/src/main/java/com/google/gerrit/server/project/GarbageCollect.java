@@ -22,6 +22,8 @@ import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.git.GarbageCollection;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.project.GarbageCollect.Input;
 import com.google.inject.Inject;
 
@@ -38,10 +40,14 @@ public class GarbageCollect implements RestModifyView<ProjectResource, Input>,
     public boolean showProgress;
   }
 
+  private final boolean canGC;
   private GarbageCollection.Factory garbageCollectionFactory;
 
   @Inject
-  GarbageCollect(GarbageCollection.Factory garbageCollectionFactory) {
+  GarbageCollect(
+      GitRepositoryManager repoManager,
+      GarbageCollection.Factory garbageCollectionFactory) {
+    this.canGC = repoManager instanceof LocalDiskRepositoryManager;
     this.garbageCollectionFactory = garbageCollectionFactory;
   }
 
@@ -95,6 +101,7 @@ public class GarbageCollect implements RestModifyView<ProjectResource, Input>,
   public UiAction.Description getDescription(ProjectResource rsrc) {
     return new UiAction.Description()
         .setLabel("Run GC")
-        .setTitle("Triggers the Git Garbage Collection for this project.");
+        .setTitle("Triggers the Git Garbage Collection for this project.")
+        .setVisible(canGC);
   }
 }

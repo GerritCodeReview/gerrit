@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "de7ee924_4cf35f19",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-16T12:14:27Z",
+      "side": 1,
+      "message": "Yes. Actually i started to implement cherry pick and during writing the tests, i had a problem, that branch needs to be created, before cherry pick can be tested. To create a branch REST Api has to be used. I didn\u0027t want to mix new Plugin API \u0026 REST Api in one test, that why i wrote missing parts of Plugin API to actually create a banch and test cherry pick. \n\nTo seperate the two, Cherry-pick extension to Revision API can depend on project API.",
+      "parentUuid": "be26954d_93e89c26",
+      "revId": "73beece7f01ac9ac6b9a62ce7e4f662b45364e5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be26954d_f3e31048",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/BranchInput.java",
         "patchSetId": 2

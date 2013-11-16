@@ -16,6 +16,24 @@
       "revId": "5820c1fce49d2f3ee5531b641d8d5e7d431ea289",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e90e598_cfde5d81",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-16T05:08:05Z",
+      "side": 1,
+      "message": "A number of users complained to me today about how aggressive the completion is. It seems to favor its suggestions rather than user input. Pressing enter sometimes is ignored so the user hits enter again and finds out its actually run some search, focused on the first result, and opened that result. Which is not what they meant to do.\n\nIf we can make the enter and suggestion stuff less aggressive maybe it would work better.",
+      "parentUuid": "7e217d30_994d1b8b",
+      "revId": "5820c1fce49d2f3ee5531b641d8d5e7d431ea289",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

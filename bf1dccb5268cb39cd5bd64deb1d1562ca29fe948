@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e86dd66_d1de0481",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-16T02:04:22Z",
+      "side": 1,
+      "message": "This is pretty slow. Doing it per result is going to make searches unbearably slow. One of the high costs is looking up the branch in the RefDatabase and just seeing if its different from the value stored in the change. Often it is, as another change has merged, so now you have to go into the slow path and run the merge test.\n\nWe really need this to be async updated and not blocking the search path.",
+      "revId": "bf1dccb5268cb39cd5bd64deb1d1562ca29fe948",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e217d30_994d1b8b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-16T05:00:51Z",
+      "side": 1,
+      "message": "Oh really? Never heard anything bad about it. Actually I use this completion often. Can use please make this a user preference and if needed to disable it globally add a server default?",
+      "revId": "5820c1fce49d2f3ee5531b641d8d5e7d431ea289",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be26954d_93e89c26",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-16T01:58:59Z",
+      "side": 1,
+      "message": "this is unrelated to project api? split to another commit?",
+      "revId": "73beece7f01ac9ac6b9a62ce7e4f662b45364e5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be26954d_f3e31048",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/BranchInput.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-16T01:58:59Z",
+      "side": 1,
+      "message": "This should be implied by the surrounding URI context from other API calls.",
+      "revId": "73beece7f01ac9ac6b9a62ce7e4f662b45364e5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be26954d_d3de1481",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/ProjectApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-16T01:58:59Z",
+      "side": 1,
+      "message": "Oh, you had to tackle the idea of PUT on a non-existing resource. :-)\n\nConceptually we should be saying:\n\n  api.projects().name(\"widgets\").branch(\"stable\").create(branchInput);\n\nThis may be harder to implement because the typical implementation for branch(String) would parse the name and see if it exists, and throw if it does not. Yet here we want to make the placeholder URI until the input is ready and we invoke the \"PUT\" action against the collection to make it.\n\nLogically this is exactly what the web UI does, and is what you would expect some sort of HTTP based remote implementation of GerritApi interface to do. So the server internal implementation should do the same thing.",
+      "revId": "73beece7f01ac9ac6b9a62ce7e4f662b45364e5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "defb49cc_84aee6ae",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/Projects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-16T01:58:59Z",
+      "side": 1,
+      "message": "We use id(String) and revision(String) in the change API. I think we should match that here with id(String) or name(String).",
+      "range": {
+        "startLine": 20,
+        "startChar": 13,
+        "endLine": 20,
+        "endChar": 20
+      },
+      "revId": "73beece7f01ac9ac6b9a62ce7e4f662b45364e5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

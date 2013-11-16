@@ -85,9 +85,12 @@ OPTIONS
 	for further details.  These options are only available for the
 	labels that are defined in the 'All-Projects' root project and
 	that are valid for all projects; for other labels, see --label.
+	Votes that are not permitted for the user are silently ignored.
 
 --label::
-	Set a label by name to the value 'N'.
+	Set a label by name to the value 'N'.  Invalid votes (invalid label
+	or invalid value) and votes that are not permitted for the user are
+	silently ignored.
 
 ACCESS
 ------

@@ -339,7 +339,7 @@ public abstract class VersionedMetaData {
         rc.fromText(text);
       } catch (ConfigInvalidException err) {
         throw new ConfigInvalidException("Invalid config file " + fileName
-            + " in commit" + revision.name(), err);
+            + " in commit " + revision.name(), err);
       }
     }
     return rc;

@@ -375,7 +375,11 @@ public class ProjectInfoScreen extends ProjectScreen {
         } else {
           continue;
         }
-        widgetMap.put(param.name(), w);
+        if (param.editable()) {
+          widgetMap.put(param.name(), w);
+        } else {
+          w.setEnabled(false);
+        }
       }
     }
 
@@ -438,8 +442,30 @@ public class ProjectInfoScreen extends ProjectScreen {
       }
     }
 
-    g.add(getDisplayName(param), listBox);
-    saveEnabler.listenTo(listBox);
+    if (param.editable()) {
+      saveEnabler.listenTo(listBox);
+      g.add(getDisplayName(param), listBox);
+    } else {
+      listBox.setEnabled(false);
+
+      if (param.inheritable() && listBox.getSelectedIndex() != 0) {
+        // the inherited value is not selected,
+        // since the listBox is disabled the inherited value cannot be
+        // seen and we have to display it explicitly
+        Label inheritedLabel =
+            new Label(Util.M.pluginProjectInheritedValue(param
+                .inheritedValue()));
+        inheritedLabel.setStyleName(Gerrit.RESOURCES.css()
+            .pluginProjectConfigInheritedValue());
+        HorizontalPanel p = new HorizontalPanel();
+        p.add(listBox);
+        p.add(inheritedLabel);
+        g.add(getDisplayName(param), p);
+      } else {
+        g.add(getDisplayName(param), listBox);
+      }
+    }
+
     return listBox;
   }
 

@@ -874,15 +874,40 @@ public class ReceiveCommits {
               }
 
               for (Entry<ProjectConfigEntry> e : pluginConfigEntries) {
+                PluginConfig pluginCfg = cfg.getPluginConfig(e.getPluginName());
                 ProjectConfigEntry configEntry = e.getProvider().get();
-                if (ProjectConfigEntry.Type.LIST.equals(configEntry.getType())) {
-                  PluginConfig pluginCfg = cfg.getPluginConfig(e.getPluginName());
-                  String value = pluginCfg.getString(e.getExportName());
-                  if (!configEntry.getPermittedValues().contains(value)) {
-                    throw new InvalidConfigurationException("The value '"
-                        + value + "' is not permitted for parameter '"
-                        + e.getExportName() + "' of plugin '"
-                        + e.getPluginName() + "'");
+                String value = pluginCfg.getString(e.getExportName());
+                String oldValue =
+                    projectControl.getProjectState().getConfig()
+                        .getPluginConfig(e.getPluginName())
+                        .getString(e.getExportName());
+                if (value == null) {
+                  if (oldValue != null) {
+                    configEntry.onUpdate(cfg, null);
+                  }
+                } else {
+                  if (!value.equals(oldValue)) {
+                    switch (configEntry.getType()) {
+                      case BOOLEAN:
+                        configEntry.onUpdate(cfg, Boolean.parseBoolean(value));
+                        break;
+                      case INT:
+                        configEntry.onUpdate(cfg, Integer.parseInt(value));
+                        break;
+                      case LONG:
+                        configEntry.onUpdate(cfg, Long.parseLong(value));
+                        break;
+                      case LIST:
+                        if (!configEntry.getPermittedValues().contains(value)) {
+                          throw new InvalidConfigurationException("The value '"
+                              + value + "' is not permitted for parameter '"
+                              + e.getExportName() + "' of plugin '"
+                              + e.getPluginName() + "'");
+                        }
+                      case STRING:
+                      default:
+                        configEntry.onUpdate(cfg, value);
+                    }
                   }
                 }
               }

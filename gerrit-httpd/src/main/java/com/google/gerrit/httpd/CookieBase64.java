@@ -29,7 +29,7 @@ class CookieBase64 {
     o = fill(enc, o, 'A', 'Z');
     o = fill(enc, o, '0', '9');
     enc[o++] = '-';
-    enc[o++] = '.';
+    enc[o] = '.';
   }
 
   private static int fill(final char[] out, int o, final char f, final int l) {

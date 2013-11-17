@@ -97,7 +97,7 @@ public class SubmoduleSectionParser {
           }
 
           final String urlExtractedPath = new URI(url).getPath();
-          String projectName = urlExtractedPath;
+          String projectName;
           int fromIndex = urlExtractedPath.length() - 1;
           while (fromIndex > 0) {
             fromIndex = urlExtractedPath.lastIndexOf('/', fromIndex - 1);

@@ -279,7 +279,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
         }
       });
 
-      boolean couldMerge = false;
+      boolean couldMerge;
       try {
         couldMerge = m.merge(b.getParents());
       } catch (IOException e) {

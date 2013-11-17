@@ -126,7 +126,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
       final AsyncCallback<ChangeDetail> callback) {
     run(callback, new Action<ChangeDetail>() {
       public ChangeDetail run(ReviewDb db) throws OrmException, Failure {
-        ReviewResult result = null;
+        ReviewResult result;
         try {
           result = deleteDraftPatchSetFactory.create(psid).call();
           if (result.getErrors().size() > 0) {

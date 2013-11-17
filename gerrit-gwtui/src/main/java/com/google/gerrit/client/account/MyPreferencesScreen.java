@@ -182,7 +182,6 @@ public class MyPreferencesScreen extends SettingsScreen {
 
     formGrid.setText(row, labelIdx, Util.C.diffViewLabel());
     formGrid.setWidget(row, fieldIdx, diffView);
-    row++;
 
     add(formGrid);
 

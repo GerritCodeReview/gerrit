@@ -69,7 +69,11 @@ public class PluginConfig {
   }
 
   public String getString(String name, String defaultValue) {
-    return Objects.firstNonNull(cfg.getString(PLUGIN, pluginName, name), defaultValue);
+    if (defaultValue == null) {
+      return cfg.getString(PLUGIN, pluginName, name);
+    } else {
+      return Objects.firstNonNull(cfg.getString(PLUGIN, pluginName, name), defaultValue);
+    }
   }
 
   public String[] getStringList(String name) {

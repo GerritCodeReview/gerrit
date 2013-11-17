@@ -1,0 +1,52 @@
+From 41a89b3bd150997bee4a4082cddfeefefa74d70b Mon Sep 17 00:00:00 2001
+From: David Ostrovsky <david@ostrovsky.org>
+Date: Sun, 17 Nov 2013 10:10:45 +0100
+Subject: [PATCH] Bump java source and target level to 7
+
+---
+ src/com/facebook/buck/java/JavacOptions.java | 2 +-
+ src/com/facebook/buck/parser/buck.py         | 8 ++++----
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/src/com/facebook/buck/java/JavacOptions.java b/src/com/facebook/buck/java/JavacOptions.java
+index 56ebaae..94ba217 100644
+--- a/src/com/facebook/buck/java/JavacOptions.java
++++ b/src/com/facebook/buck/java/JavacOptions.java
+@@ -37,7 +37,7 @@ import javax.annotation.Nullable;
+  */
+ public class JavacOptions {
+ 
+-  private static final String DEFAULT_JAVA_TARGET = "6";
++  private static final String DEFAULT_JAVA_TARGET = "7";
+ 
+   // Fields are initialized in order. We need the default java target level to have been set.
+   public static final JavacOptions DEFAULTS = JavacOptions.builder().build();
+diff --git a/src/com/facebook/buck/parser/buck.py b/src/com/facebook/buck/parser/buck.py
+index ef73568..4410894 100644
+--- a/src/com/facebook/buck/parser/buck.py
++++ b/src/com/facebook/buck/parser/buck.py
+@@ -208,8 +208,8 @@ def java_library(
+     srcs=[],
+     resources=[],
+     export_deps=False,
+-    source='6',
+-    target='6',
++    source='7',
++    target='7',
+     proguard_config=None,
+     deps=[],
+     visibility=[],
+@@ -234,8 +234,8 @@ def java_test(
+     srcs=[],
+     labels=[],
+     resources=[],
+-    source='6',
+-    target='6',
++    source='7',
++    target='7',
+     vm_args=[],
+     source_under_test=[],
+     contacts=[],
+-- 
+1.8.1.4
+

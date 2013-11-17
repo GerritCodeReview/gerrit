@@ -132,14 +132,15 @@ public class ConfigInfo {
       PluginConfigFactory cfgFactory, AllProjectsNameProvider allProjects) {
     TreeMap<String, Map<String, ConfigParameterInfo>> pluginConfig = new TreeMap<>();
     for (Entry<ProjectConfigEntry> e : pluginConfigEntries) {
+      ProjectConfigEntry configEntry = e.getProvider().get();
       PluginConfig cfg =
           cfgFactory.getFromProjectConfig(project, e.getPluginName());
-      ProjectConfigEntry configEntry = e.getProvider().get();
       String configuredValue = cfg.getString(e.getExportName());
       ConfigParameterInfo p = new ConfigParameterInfo();
       p.displayName = configEntry.getDisplayName();
       p.type = configEntry.getType();
       p.permittedValues = configEntry.getPermittedValues();
+      p.editable = configEntry.isEditable(project) ? true : null;
       if (configEntry.isInheritable()
           && !allProjects.get().equals(project.getProject().getNameKey())) {
         PluginConfig cfgWithInheritance =
@@ -194,6 +195,7 @@ public class ConfigInfo {
     public String displayName;
     public ProjectConfigEntry.Type type;
     public String value;
+    public Boolean editable;
     public Boolean inheritable;
     public String configuredValue;
     public String inheritedValue;

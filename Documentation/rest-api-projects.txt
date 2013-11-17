@@ -1301,6 +1301,8 @@ The type of the configuration parameter, can be `STRING`, `INT`,
 The value of the configuration parameter as string. If the parameter
 is inheritable this is the effective value which is deduced from
 `configured_value` and `inherited_value`.
+`editable`         |`false` if not set|
+Whether the value is editable.
 |`permitted_values`|optional|
 The list of permitted values, only set if the `type` is `LIST`.
 |`inheritable`     |`false` if not set|

@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e90e598_2ffa89eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-17T02:28:52Z",
+      "side": 1,
+      "message": "like known repositories, and the URL must be defined in local.properties.",
+      "range": {
+        "startLine": 35,
+        "startChar": 10,
+        "endLine": 35,
+        "endChar": 54
+      },
+      "revId": "9c7183e9d03ab90148cf3493ad684c6fe657589c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e90e598_0ffd45e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-17T02:28:52Z",
+      "side": 1,
+      "message": "properties",
+      "range": {
+        "startLine": 37,
+        "startChar": 6,
+        "endLine": 37,
+        "endChar": 15
+      },
+      "revId": "9c7183e9d03ab90148cf3493ad684c6fe657589c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e90e598_6ff0910b",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-17T02:28:52Z",
+      "side": 1,
+      "message": "matches",
+      "range": {
+        "startLine": 343,
+        "startChar": 63,
+        "endLine": 343,
+        "endChar": 69
+      },
+      "revId": "9c7183e9d03ab90148cf3493ad684c6fe657589c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e6ab164_eae30748",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-17T02:28:52Z",
+      "side": 1,
+      "message": "properties",
+      "range": {
+        "startLine": 344,
+        "startChar": 9,
+        "endLine": 344,
+        "endChar": 18
+      },
+      "revId": "9c7183e9d03ab90148cf3493ad684c6fe657589c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e6ab164_8ae84b26",
+        "filename": "tools/util.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-17T02:28:52Z",
+      "side": 1,
+      "message": "nit: no blank line",
+      "revId": "9c7183e9d03ab90148cf3493ad684c6fe657589c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e6ab164_aaed0f35",
+        "filename": "tools/util_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-17T02:28:52Z",
+      "side": 1,
+      "message": "Is it worth making a tiny JUnit test that Buck can invoke by java_test() that forks Python and runs this test? Then we have this test running along with everything else in our test suite.",
+      "range": {
+        "startLine": 20,
+        "startChar": 6,
+        "endLine": 21,
+        "endChar": 35
+      },
+      "revId": "9c7183e9d03ab90148cf3493ad684c6fe657589c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e6ab164_6af0770b",
+        "filename": "tools/util_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-17T02:28:52Z",
+      "side": 1,
+      "message": "Please be consistent about indentation. here you have { in space to the right of ( on the prior line, but below on line 39 you have { on the same column as the ( on the prior line. This looks funny.\n\nI don\u0027t know we have a good Python style here. In Java for a case like this I would put each argument on its own line, with two spaces of additional identation (so under the \"l \u003d \"). Python has PEP 8 and maybe we should try to follow that more?",
+      "revId": "9c7183e9d03ab90148cf3493ad684c6fe657589c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e6ab164_4af33319",
+        "filename": "tools/util_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-17T02:28:52Z",
+      "side": 1,
+      "message": "no space before :",
+      "range": {
+        "startLine": 39,
+        "startChar": 36,
+        "endLine": 39,
+        "endChar": 39
+      },
+      "revId": "9c7183e9d03ab90148cf3493ad684c6fe657589c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

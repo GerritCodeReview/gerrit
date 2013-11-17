@@ -17,7 +17,6 @@ package com.google.gerrit.server.git;
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromApprovals;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
-
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
@@ -50,6 +49,8 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.DynamicMap.Entry;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -74,6 +75,8 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.PluginConfig;
+import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -299,6 +302,7 @@ public class ReceiveCommits {
   private final Provider<Submit> submitProvider;
   private final MergeQueue mergeQueue;
   private final MergeUtil.Factory mergeUtilFactory;
+  private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
 
   private final List<CommitValidationMessage> messages = new ArrayList<CommitValidationMessage>();
   private ListMultimap<Error, String> errors = LinkedListMultimap.create();
@@ -343,7 +347,8 @@ public class ReceiveCommits {
       final SubmoduleOp.Factory subOpFactory,
       final Provider<Submit> submitProvider,
       final MergeQueue mergeQueue,
-      final MergeUtil.Factory mergeUtilFactory) throws IOException {
+      final MergeUtil.Factory mergeUtilFactory,
+      final DynamicMap<ProjectConfigEntry> pluginConfigEntries) throws IOException {
     this.currentUser = (IdentifiedUser) projectControl.getCurrentUser();
     this.db = db;
     this.schemaFactory = schemaFactory;
@@ -383,6 +388,7 @@ public class ReceiveCommits {
     this.submitProvider = submitProvider;
     this.mergeQueue = mergeQueue;
     this.mergeUtilFactory = mergeUtilFactory;
+    this.pluginConfigEntries = pluginConfigEntries;
 
     this.messageSender = new ReceivePackMessageSender();
 
@@ -843,6 +849,39 @@ public class ReceiveCommits {
                 if (projectCache.get(newParent) == null) {
                   reject(cmd, "invalid project configuration: parent does not exist");
                   continue;
+                }
+              }
+
+              for (Entry<ProjectConfigEntry> e : pluginConfigEntries) {
+                PluginConfig pluginCfg = cfg.getPluginConfig(e.getPluginName());
+                ProjectConfigEntry configEntry = e.getProvider().get();
+                String value = pluginCfg.getString(e.getExportName());
+                String oldValue =
+                    projectControl.getProjectState().getConfig()
+                        .getPluginConfig(e.getPluginName())
+                        .getString(e.getExportName());
+                if (value == null) {
+                  if (oldValue != null) {
+                    configEntry.onUpdate(cfg, null);
+                  }
+                } else {
+                  if (!value.equals(oldValue)) {
+                    switch (configEntry.getType()) {
+                      case BOOLEAN:
+                        configEntry.onUpdate(cfg, Boolean.parseBoolean(value));
+                        break;
+                      case INT:
+                        configEntry.onUpdate(cfg, Integer.parseInt(value));
+                        break;
+                      case LONG:
+                        configEntry.onUpdate(cfg, Long.parseLong(value));
+                        break;
+                      case LIST:
+                      case STRING:
+                      default:
+                        configEntry.onUpdate(cfg, value);
+                    }
+                  }
                 }
               }
             } catch (Exception e) {

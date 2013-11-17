@@ -193,29 +193,42 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
                 + "' of the plugin '" + pluginName + "' is invalid.");
             continue;
           }
+          String oldValue = cfg.getString(v.name);
           if (v.value == null) {
-            cfg.unset(v.name);
+            if (oldValue != null) {
+              cfg.unset(v.name);
+              projectConfigEntry.onUpdate(projectConfig, null);
+            }
           } else {
-            try {
-              switch (projectConfigEntry.getType()) {
-                case BOOLEAN:
-                  cfg.setBoolean(v.name, Boolean.parseBoolean(v.value));
-                  break;
-                case INT:
-                  cfg.setInt(v.name, Integer.parseInt(v.value));
-                  break;
-                case LONG:
-                  cfg.setLong(v.name, Long.parseLong(v.value));
-                  break;
-                case STRING:
-                case LIST:
-                default:
-                  cfg.setString(v.name, v.value);
+            if (!v.value.equals(oldValue)) {
+              try {
+                switch (projectConfigEntry.getType()) {
+                  case BOOLEAN:
+                    boolean newBooleanValue = Boolean.parseBoolean(v.value);
+                    cfg.setBoolean(v.name, newBooleanValue);
+                    projectConfigEntry.onUpdate(projectConfig, newBooleanValue);
+                    break;
+                  case INT:
+                    int newIntValue = Integer.parseInt(v.value);
+                    cfg.setInt(v.name, newIntValue);
+                    projectConfigEntry.onUpdate(projectConfig, newIntValue);
+                    break;
+                  case LONG:
+                    long newLongValue = Long.parseLong(v.value);
+                    cfg.setLong(v.name, newLongValue);
+                    projectConfigEntry.onUpdate(projectConfig, newLongValue);
+                    break;
+                  case STRING:
+                  case LIST:
+                  default:
+                    cfg.setString(v.name, v.value);
+                    projectConfigEntry.onUpdate(projectConfig, v.value);
+                }
+              } catch (NumberFormatException ex) {
+                throw new BadRequestException("The value '" + v.value
+                    + "' of config paramter '" + v.name + "' of plugin '"
+                    + pluginName + "' is invalid: " + ex.getMessage());
               }
-            } catch (NumberFormatException ex) {
-              throw new BadRequestException("The value '" + v.value
-                  + "' of config paramter '" + v.name + "' of plugin '"
-                  + pluginName + "' is invalid: " + ex.getMessage());
             }
           }
         } else {

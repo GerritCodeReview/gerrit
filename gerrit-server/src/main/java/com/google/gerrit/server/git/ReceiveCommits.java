@@ -109,6 +109,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
+import org.eclipse.jgit.api.errors.InvalidConfigurationException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
@@ -881,6 +882,12 @@ public class ReceiveCommits {
                             Long.parseLong(value));
                         break;
                       case LIST:
+                        if (!configEntry.getSupportedValues().contains(value)) {
+                          throw new InvalidConfigurationException("The value '"
+                              + value + "' is invalid for parameter '"
+                              + e.getExportName() + "' of plugin '"
+                              + e.getPluginName() + "'");
+                        }
                       case STRING:
                       default:
                         configEntry.onUpdate(project.getName(), value);

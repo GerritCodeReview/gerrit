@@ -70,6 +70,24 @@
       "revId": "5820c1fce49d2f3ee5531b641d8d5e7d431ea289",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e6ab164_4a1a538b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-17T02:49:32Z",
+      "side": 1,
+      "message": "Yea David Ostrovsky is right. We can\u0027t just remove the suggestion feature. But we should try to make the completion a little less aggressive so users are more likely to get the search they meant, rather than the search the completion thinks they wanted.",
+      "parentUuid": "de7ee924_ece32b48",
+      "revId": "5820c1fce49d2f3ee5531b641d8d5e7d431ea289",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

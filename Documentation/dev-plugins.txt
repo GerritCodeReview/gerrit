@@ -710,6 +710,10 @@ class Module extends AbstractModule {
 }
 ----
 
+By overwriting the `onUpdate` method of `ProjectConfigEntry` plugins
+can be notified when this configuration parameter is updated on a
+project.
+
 [[project-specific-configuration]]
 == Project Specific Configuration in own config file
 

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "9e6ab164_6a171760",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-17T02:51:23Z",
+      "side": 1,
+      "message": "Yes, I think that is fair. I would rather see two commits:\n\n* project API with create branch\n* cherry-pick API with test for cherry-pick\n\nThis would be easier to review. And obviously the 2nd depends on the 1st.",
+      "parentUuid": "de7ee924_4cf35f19",
+      "revId": "73beece7f01ac9ac6b9a62ce7e4f662b45364e5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be26954d_f3e31048",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/BranchInput.java",
         "patchSetId": 2

@@ -198,40 +198,52 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
                 "Parameter name '%s' must match '^[a-zA-Z0-9]+[a-zA-Z0-9-]*$'", v.name));
             continue;
           }
+          String oldValue = cfg.getString(v.name);
           if (v.value == null) {
-            cfg.unset(v.name);
+            if (oldValue != null) {
+              cfg.unset(v.name);
+              projectConfigEntry.onUpdate(projectConfig, null);
+            }
           } else {
-            try {
-              switch (projectConfigEntry.getType()) {
-                case BOOLEAN:
-                  cfg.setBoolean(v.name, Boolean.parseBoolean(v.value));
-                  break;
-                case INT:
-                  cfg.setInt(v.name, Integer.parseInt(v.value));
-                  break;
-                case LONG:
-                  cfg.setLong(v.name, Long.parseLong(v.value));
-                  break;
-                case LIST:
-                  if (!projectConfigEntry.getPermittedValues()
-                      .contains(v.value)) {
-                    throw new BadRequestException(String.format(
-                        "The value '%s' is not permitted for parameter '%s' of plugin '"
-                            + pluginName + "'", v.value, v.name));
-                  }
-                case STRING:
-                  cfg.setString(v.name, v.value);
-                  break;
-                default:
-                  log.warn(String.format(
-                      "The type '%s' of parameter '%s' is not supported.",
-                      projectConfigEntry.getType().name(), v.name));
-                  continue;
+            if (!v.value.equals(oldValue)) {
+              try {
+                switch (projectConfigEntry.getType()) {
+                  case BOOLEAN:
+                    boolean newBooleanValue = Boolean.parseBoolean(v.value);
+                    cfg.setBoolean(v.name, newBooleanValue);
+                    projectConfigEntry.onUpdate(projectConfig, newBooleanValue);
+                    break;
+                  case INT:
+                    int newIntValue = Integer.parseInt(v.value);
+                    cfg.setInt(v.name, newIntValue);
+                    projectConfigEntry.onUpdate(projectConfig, newIntValue);
+                    break;
+                  case LONG:
+                    long newLongValue = Long.parseLong(v.value);
+                    cfg.setLong(v.name, newLongValue);
+                    projectConfigEntry.onUpdate(projectConfig, newLongValue);
+                    break;
+                  case LIST:
+                    if (!projectConfigEntry.getPermittedValues().contains(v.value)) {
+                      throw new BadRequestException(String.format(
+                          "The value '%s' is not permitted for parameter '%s' of plugin '"
+                              + pluginName + "'", v.value, v.name));
+                    }
+                  case STRING:
+                    cfg.setString(v.name, v.value);
+                    projectConfigEntry.onUpdate(projectConfig, v.value);
+                    break;
+                  default:
+                    log.warn(String.format(
+                        "The type '%s' of parameter '%s' is not supported.",
+                        projectConfigEntry.getType().name(), v.name));
+                    continue;
+                }
+              } catch (NumberFormatException ex) {
+                throw new BadRequestException(String.format(
+                    "The value '%s' of config paramter '%s' of plugin '%s' is invalid: %s",
+                    v.value, v.name, pluginName, ex.getMessage()));
               }
-            } catch (NumberFormatException ex) {
-              throw new BadRequestException(String.format(
-                  "The value '%s' of config paramter '%s' of plugin '%s' is invalid: %s",
-                  v.value, v.name, pluginName, ex.getMessage()));
             }
           }
         } else {

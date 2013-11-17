@@ -190,6 +190,6 @@ public class Section {
     if (a == null && b == null) {
       return true;
     }
-    return a != null ? a.equals(b) : false;
+    return a != null && a.equals(b);
   }
 }

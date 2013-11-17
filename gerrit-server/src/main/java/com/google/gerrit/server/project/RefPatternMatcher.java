@@ -112,7 +112,7 @@ abstract class RefPatternMatcher {
 
       RefPatternMatcher next =
           getMatcher(template.replace(Collections.singletonMap("username", u)));
-      return next != null ? next.match(ref, username) : false;
+      return next != null && next.match(ref, username);
     }
 
     boolean matchPrefix(String ref) {

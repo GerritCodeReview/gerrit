@@ -105,6 +105,11 @@ Approve the change with commit c0ff33 as "Verified +1"
 	$ ssh -p 29418 review.example.com gerrit review --verified +1 c0ff33
 =====
 
+Vote on the project specific label "mylabel":
+=====
+	$ ssh -p 29418 review.example.com gerrit review --label mylabel=+1 c0ff33
+=====
+
 Append the message "Build Successful". Notice two levels of quoting is
 required, one for the local shell, and another for the argument parser
 inside the Gerrit server:

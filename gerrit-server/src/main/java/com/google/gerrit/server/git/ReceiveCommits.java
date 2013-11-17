@@ -880,16 +880,29 @@ public class ReceiveCommits {
               }
 
               for (Entry<ProjectConfigEntry> e : pluginConfigEntries) {
+                PluginConfig pluginCfg = cfg.getPluginConfig(e.getPluginName());
                 ProjectConfigEntry configEntry = e.getProvider().get();
-                if (ProjectConfigEntry.Type.LIST.equals(configEntry.getType())) {
-                  PluginConfig pluginCfg = cfg.getPluginConfig(e.getPluginName());
-                  String value = pluginCfg.getString(e.getExportName());
-                  if (value != null && !configEntry.getPermittedValues().contains(value)) {
-                    reject(cmd, String.format(
-                        "invalid project configuration: The value '%s' is "
-                            + "not permitted for parameter '%s' of plugin '%s'.",
-                        value, e.getExportName(), e.getPluginName()));
-                  }
+                String value = pluginCfg.getString(e.getExportName());
+                String oldValue =
+                    projectControl.getProjectState().getConfig()
+                        .getPluginConfig(e.getPluginName())
+                        .getString(e.getExportName());
+
+                if ((value == null ? oldValue != null : !value.equals(oldValue)) &&
+                    !configEntry.isEditable(projectControl.getProjectState())) {
+                  reject(cmd, String.format(
+                      "invalid project configuration: Not allowed to set parameter"
+                          + " '%s' of plugin '%s' on project '%s'.",
+                      e.getExportName(), e.getPluginName(), project.getName()));
+                  continue;
+                }
+
+                if (ProjectConfigEntry.Type.LIST.equals(configEntry.getType())
+                    && value != null && !configEntry.getPermittedValues().contains(value)) {
+                  reject(cmd, String.format(
+                      "invalid project configuration: The value '%s' is "
+                          + "not permitted for parameter '%s' of plugin '%s'.",
+                      value, e.getExportName(), e.getPluginName()));
                 }
               }
             } catch (Exception e) {

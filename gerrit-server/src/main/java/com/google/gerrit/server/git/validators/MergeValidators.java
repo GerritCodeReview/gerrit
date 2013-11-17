@@ -145,14 +145,24 @@ public class MergeValidators {
           }
 
           for (Entry<ProjectConfigEntry> e : pluginConfigEntries) {
+            PluginConfig pluginCfg = cfg.getPluginConfig(e.getPluginName());
             ProjectConfigEntry configEntry = e.getProvider().get();
-            if (ProjectConfigEntry.Type.LIST.equals(configEntry.getType())) {
-              PluginConfig pluginCfg = cfg.getPluginConfig(e.getPluginName());
-              String value = pluginCfg.getString(e.getExportName());
-              if (value != null && !configEntry.getPermittedValues().contains(value)) {
-                throw new MergeValidationException(CommitMergeStatus.
-                    INVALID_PROJECT_CONFIGURATION_PLUGIN_VALUE_NOT_PERMITTED);
-              }
+
+            String value = pluginCfg.getString(e.getExportName());
+            String oldValue = destProject.getConfig()
+                .getPluginConfig(e.getPluginName())
+                .getString(e.getExportName());
+
+            if ((value == null ? oldValue != null : !value.equals(oldValue)) &&
+                !configEntry.isEditable(destProject)) {
+              throw new MergeValidationException(CommitMergeStatus.
+                  INVALID_PROJECT_CONFIGURATION_PLUGIN_VALUE_NOT_EDITABLE);
+            }
+
+            if (ProjectConfigEntry.Type.LIST.equals(configEntry.getType())
+                && value != null && !configEntry.getPermittedValues().contains(value)) {
+              throw new MergeValidationException(CommitMergeStatus.
+                  INVALID_PROJECT_CONFIGURATION_PLUGIN_VALUE_NOT_PERMITTED);
             }
           }
         } catch (ConfigInvalidException | IOException e) {

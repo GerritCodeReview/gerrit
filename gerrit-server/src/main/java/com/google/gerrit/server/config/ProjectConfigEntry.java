@@ -17,8 +17,23 @@ package com.google.gerrit.server.config;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
+import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.DynamicMap.Entry;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.inject.Inject;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -125,5 +140,104 @@ public class ProjectConfigEntry {
 
   public boolean isEditable(ProjectState project) {
     return true;
+  }
+
+  public void onUpdate(Project.NameKey project, String oldValue, String newValue) {
+  }
+
+  public void onUpdate(Project.NameKey project, Boolean oldValue, Boolean newValue) {
+  }
+
+  public void onUpdate(Project.NameKey project, Integer oldValue, Integer newValue) {
+  }
+
+  public void onUpdate(Project.NameKey project, Long oldValue, Long newValue) {
+  }
+
+  public static class UpdateChecker implements GitReferenceUpdatedListener {
+    private static final Logger log = LoggerFactory.getLogger(UpdateChecker.class);
+
+    private final MetaDataUpdate.Server metaDataUpdateFactory;
+    private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
+
+    @Inject
+    UpdateChecker(MetaDataUpdate.Server metaDataUpdateFactory,
+        DynamicMap<ProjectConfigEntry> pluginConfigEntries) {
+      this.metaDataUpdateFactory = metaDataUpdateFactory;
+      this.pluginConfigEntries = pluginConfigEntries;
+    }
+
+    @Override
+    public void onGitReferenceUpdated(Event event) {
+      Project.NameKey p = new Project.NameKey(event.getProjectName());
+      if (!event.getRefName().equals(RefNames.REFS_CONFIG)) {
+        return;
+      }
+
+      try {
+        ProjectConfig oldCfg = parseConfig(p, event.getOldObjectId());
+        ProjectConfig newCfg = parseConfig(p, event.getNewObjectId());
+        if (oldCfg != null && newCfg != null) {
+          for (Entry<ProjectConfigEntry> e : pluginConfigEntries) {
+            ProjectConfigEntry configEntry = e.getProvider().get();
+            String newValue = getValue(newCfg, e);
+            String oldValue = getValue(oldCfg, e);
+            if ((newValue == null && oldValue == null)
+                || (newValue != null && newValue.equals(oldValue))) {
+              return;
+            }
+
+            switch (configEntry.getType()) {
+              case BOOLEAN:
+                configEntry.onUpdate(p, toBoolean(oldValue), toBoolean(newValue));
+                break;
+              case INT:
+                configEntry.onUpdate(p, toInt(oldValue), toInt(newValue));
+                break;
+              case LONG:
+                configEntry.onUpdate(p, toLong(oldValue), toLong(newValue));
+                break;
+              case LIST:
+              case STRING:
+              default:
+                configEntry.onUpdate(p, oldValue, newValue);
+            }
+          }
+        }
+      } catch (IOException | ConfigInvalidException e) {
+        log.error(String.format(
+            "Failed to check if plugin config of project %s was updated.",
+            p.get()), e);
+      }
+    }
+
+    private ProjectConfig parseConfig(Project.NameKey p, String idStr)
+        throws IOException, ConfigInvalidException, RepositoryNotFoundException {
+      ObjectId id = ObjectId.fromString(idStr);
+      if (ObjectId.zeroId().equals(id)) {
+        return null;
+      }
+      return ProjectConfig.read(metaDataUpdateFactory.create(p), id);
+    }
+
+    private static String getValue(ProjectConfig cfg, Entry<ProjectConfigEntry> e) {
+      String value = cfg.getPluginConfig(e.getPluginName()).getString(e.getExportName());
+      if (value == null) {
+        value = e.getProvider().get().getDefaultValue();
+      }
+      return value;
+    }
+  }
+
+  private static Boolean toBoolean(String value) {
+    return value != null ? Boolean.parseBoolean(value) : null;
+  }
+
+  private static int toInt(String value) {
+    return value != null ? Integer.parseInt(value) : null;
+  }
+
+  private static long toLong(String value) {
+    return value != null ? Long.parseLong(value) : null;
   }
 }

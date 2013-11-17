@@ -148,7 +148,8 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
       }
 
       if (input.pluginConfigValues != null) {
-        setPluginConfigValues(projectConfig, input.pluginConfigValues);
+        setPluginConfigValues(rsrc.getControl().getProjectState(),
+            projectConfig, input.pluginConfigValues);
       }
 
       md.setMessage("Modified project settings\n");
@@ -177,8 +178,8 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
     }
   }
 
-  private void setPluginConfigValues(ProjectConfig projectConfig,
-      Map<String, Map<String, String>> pluginConfigValues)
+  private void setPluginConfigValues(ProjectState projectState,
+      ProjectConfig projectConfig, Map<String, Map<String, String>> pluginConfigValues)
       throws BadRequestException {
     for (Entry<String, Map<String, String>> e : pluginConfigValues.entrySet()) {
       String pluginName = e.getKey();
@@ -192,41 +193,58 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
                 "Parameter name '%s' must match '^[a-zA-Z0-9]+[a-zA-Z0-9-]*$'", v.getKey()));
             continue;
           }
+          String oldValue = cfg.getString(v.getKey());
           if (v.getValue() != null) {
-            try {
-              switch (projectConfigEntry.getType()) {
-                case BOOLEAN:
-                  cfg.setBoolean(v.getKey(), Boolean.parseBoolean(v.getValue()));
-                  break;
-                case INT:
-                  cfg.setInt(v.getKey(), Integer.parseInt(v.getValue()));
-                  break;
-                case LONG:
-                  cfg.setLong(v.getKey(), Long.parseLong(v.getValue()));
-                  break;
-                case LIST:
-                  if (!projectConfigEntry.getPermittedValues()
-                      .contains(v.getValue())) {
-                    throw new BadRequestException(String.format(
-                        "The value '%s' is not permitted for parameter '%s' of plugin '"
-                            + pluginName + "'", v.getValue(), v.getKey()));
-                  }
-                case STRING:
-                  cfg.setString(v.getKey(), v.getValue());
-                  break;
-                default:
-                  log.warn(String.format(
-                      "The type '%s' of parameter '%s' is not supported.",
-                      projectConfigEntry.getType().name(), v.getKey()));
-                  continue;
+            if (!v.getValue().equals(oldValue)) {
+              if (!projectConfigEntry.isEditable(projectState)) {
+                throw new BadRequestException(String.format(
+                    "Not allowed to set parameter '%s' of plugin '%s' on project '%s'.",
+                    v.getKey(), pluginName, projectState.getProject().getName()));
               }
-            } catch (NumberFormatException ex) {
-              throw new BadRequestException(String.format(
-                  "The value '%s' of config parameter '%s' of plugin '%s' is invalid: %s",
-                  v.getValue(), v.getKey(), pluginName, ex.getMessage()));
+              try {
+                switch (projectConfigEntry.getType()) {
+                  case BOOLEAN:
+                    boolean newBooleanValue = Boolean.parseBoolean(v.getValue());
+                    cfg.setBoolean(v.getKey(), newBooleanValue);
+                    break;
+                  case INT:
+                    int newIntValue = Integer.parseInt(v.getValue());
+                    cfg.setInt(v.getKey(), newIntValue);
+                    break;
+                  case LONG:
+                    long newLongValue = Long.parseLong(v.getValue());
+                    cfg.setLong(v.getKey(), newLongValue);
+                    break;
+                  case LIST:
+                    if (!projectConfigEntry.getPermittedValues().contains(v.getValue())) {
+                      throw new BadRequestException(String.format(
+                          "The value '%s' is not permitted for parameter '%s' of plugin '"
+                              + pluginName + "'", v.getValue(), v.getKey()));
+                    }
+                  case STRING:
+                    cfg.setString(v.getKey(), v.getValue());
+                    break;
+                  default:
+                    log.warn(String.format(
+                        "The type '%s' of parameter '%s' is not supported.",
+                        projectConfigEntry.getType().name(), v.getKey()));
+                    continue;
+                }
+              } catch (NumberFormatException ex) {
+                throw new BadRequestException(String.format(
+                    "The value '%s' of config parameter '%s' of plugin '%s' is invalid: %s",
+                    v.getValue(), v.getKey(), pluginName, ex.getMessage()));
+              }
             }
           } else {
-            cfg.unset(v.getKey());
+            if (oldValue != null) {
+              if (!projectConfigEntry.isEditable(projectState)) {
+                throw new BadRequestException(String.format(
+                    "Not allowed to set parameter '%s' of plugin '%s' on project '%s'.",
+                    v.getKey(), pluginName, projectState.getProject().getName()));
+              }
+              cfg.unset(v.getKey());
+            }
           }
         } else {
           throw new BadRequestException(String.format(

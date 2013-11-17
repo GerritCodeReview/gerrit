@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "de7ee924_0c147758",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-17T20:49:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e90e598_2ffa89eb",
+      "range": {
+        "startLine": 35,
+        "startChar": 10,
+        "endLine": 35,
+        "endChar": 54
+      },
+      "revId": "9c7183e9d03ab90148cf3493ad684c6fe657589c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e90e598_0ffd45e2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2013-11-17T02:28:52Z",
       "side": 1,
       "message": "properties",
+      "range": {
+        "startLine": 37,
+        "startChar": 6,
+        "endLine": 37,
+        "endChar": 15
+      },
+      "revId": "9c7183e9d03ab90148cf3493ad684c6fe657589c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e75e13d_ae3bd7e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-17T20:49:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e90e598_0ffd45e2",
       "range": {
         "startLine": 37,
         "startChar": 6,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "de7ee924_2c113369",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-17T20:49:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e90e598_6ff0910b",
+      "range": {
+        "startLine": 343,
+        "startChar": 63,
+        "endLine": 343,
+        "endChar": 69
+      },
+      "revId": "9c7183e9d03ab90148cf3493ad684c6fe657589c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e6ab164_eae30748",
         "filename": "Documentation/dev-buck.txt",
         "patchSetId": 7
@@ -82,6 +154,30 @@
       "writtenOn": "2013-11-17T02:28:52Z",
       "side": 1,
       "message": "properties",
+      "range": {
+        "startLine": 344,
+        "startChar": 9,
+        "endLine": 344,
+        "endChar": 18
+      },
+      "revId": "9c7183e9d03ab90148cf3493ad684c6fe657589c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e75e13d_4e2113b5",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-17T20:49:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e6ab164_eae30748",
       "range": {
         "startLine": 344,
         "startChar": 9,
@@ -111,6 +207,24 @@
     },
     {
       "key": {
+        "uuid": "de7ee924_cc2c2fb5",
+        "filename": "tools/util.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-17T20:49:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e6ab164_8ae84b26",
+      "revId": "9c7183e9d03ab90148cf3493ad684c6fe657589c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e6ab164_aaed0f35",
         "filename": "tools/util_test.py",
         "patchSetId": 7
@@ -122,6 +236,30 @@
       "writtenOn": "2013-11-17T02:28:52Z",
       "side": 1,
       "message": "Is it worth making a tiny JUnit test that Buck can invoke by java_test() that forks Python and runs this test? Then we have this test running along with everything else in our test suite.",
+      "range": {
+        "startLine": 20,
+        "startChar": 6,
+        "endLine": 21,
+        "endChar": 35
+      },
+      "revId": "9c7183e9d03ab90148cf3493ad684c6fe657589c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de7ee924_ec31eb0b",
+        "filename": "tools/util_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-17T20:49:14Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "9e6ab164_aaed0f35",
       "range": {
         "startLine": 20,
         "startChar": 6,
@@ -151,6 +289,24 @@
     },
     {
       "key": {
+        "uuid": "1e75e13d_6e1e4f76",
+        "filename": "tools/util_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-17T20:49:14Z",
+      "side": 1,
+      "message": "+1 to follow PEP8. Can we may be even activate it during Diffy verification?\n\n http://www.python.org/dev/peps/pep-0008/#indentation",
+      "parentUuid": "9e6ab164_6af0770b",
+      "revId": "9c7183e9d03ab90148cf3493ad684c6fe657589c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e6ab164_4af33319",
         "filename": "tools/util_test.py",
         "patchSetId": 7
@@ -162,6 +318,30 @@
       "writtenOn": "2013-11-17T02:28:52Z",
       "side": 1,
       "message": "no space before :",
+      "range": {
+        "startLine": 39,
+        "startChar": 36,
+        "endLine": 39,
+        "endChar": 39
+      },
+      "revId": "9c7183e9d03ab90148cf3493ad684c6fe657589c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de7ee924_8c362701",
+        "filename": "tools/util_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-17T20:49:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e6ab164_4af33319",
       "range": {
         "startLine": 39,
         "startChar": 36,

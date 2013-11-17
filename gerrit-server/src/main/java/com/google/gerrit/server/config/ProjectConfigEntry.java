@@ -17,6 +17,7 @@ package com.google.gerrit.server.config;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.google.gerrit.server.git.ProjectConfig;
 
 import java.util.Arrays;
 import java.util.List;
@@ -116,6 +117,18 @@ public class ProjectConfigEntry {
 
   public List<String> getPermittedValues() {
     return permittedValues;
+  }
+
+  public void onUpdate(ProjectConfig projectConfig, String newValue) {
+  }
+
+  public void onUpdate(ProjectConfig projectConfig, boolean newValue) {
+  }
+
+  public void onUpdate(ProjectConfig projectConfig, int newValue) {
+  }
+
+  public void onUpdate(ProjectConfig projectConfig, long newValue) {
   }
 
   public enum Type {

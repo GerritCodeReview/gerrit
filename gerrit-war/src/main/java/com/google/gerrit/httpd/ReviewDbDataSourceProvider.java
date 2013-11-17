@@ -72,7 +72,6 @@ final class ReviewDbDataSourceProvider implements Provider<DataSource>,
       Class<?> type = Class.forName("com.mchange.v2.c3p0.DataSources");
       if (type.isInstance(ds)) {
         type.getMethod("destroy", DataSource.class).invoke(null, ds);
-        return;
       }
     } catch (Throwable bad) {
       // Oh well, its not a c3p0 pooled connection.

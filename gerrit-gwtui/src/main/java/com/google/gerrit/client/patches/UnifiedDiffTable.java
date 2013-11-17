@@ -94,7 +94,6 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
           }
           if (idSideB.equals(psId)) {
             borderRowOfFileComment++;
-            return;
           }
       }
     }
@@ -141,7 +140,6 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
           }
           if (idSideB.equals(psId)) {
             borderRowOfFileComment--;
-            return;
           }
       }
     }
@@ -171,7 +169,6 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
 
   protected void createFileCommentEditorOnSideA() {
     createCommentEditor(R_HEAD + 1, PC, R_HEAD, FILE_SIDE_A);
-    return;
   }
 
   protected void createFileCommentEditorOnSideB() {

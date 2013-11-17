@@ -192,40 +192,52 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
                 "Parameter name '%s' must match '^[a-zA-Z0-9]+[a-zA-Z0-9-]*$'", v.getKey()));
             continue;
           }
+          String oldValue = cfg.getString(v.getKey());
           if (v.getValue() == null) {
-            cfg.unset(v.getKey());
+            if (oldValue != null) {
+              cfg.unset(v.getKey());
+              projectConfigEntry.onUpdate(projectConfig, null);
+            }
           } else {
-            try {
-              switch (projectConfigEntry.getType()) {
-                case BOOLEAN:
-                  cfg.setBoolean(v.getKey(), Boolean.parseBoolean(v.getValue()));
-                  break;
-                case INT:
-                  cfg.setInt(v.getKey(), Integer.parseInt(v.getValue()));
-                  break;
-                case LONG:
-                  cfg.setLong(v.getKey(), Long.parseLong(v.getValue()));
-                  break;
-                case LIST:
-                  if (!projectConfigEntry.getPermittedValues()
-                      .contains(v.getValue())) {
-                    throw new BadRequestException(String.format(
-                        "The value '%s' is not permitted for parameter '%s' of plugin '"
-                            + pluginName + "'", v.getValue(), v.getKey()));
-                  }
-                case STRING:
-                  cfg.setString(v.getKey(), v.getValue());
-                  break;
-                default:
-                  log.warn(String.format(
-                      "The type '%s' of parameter '%s' is not supported.",
-                      projectConfigEntry.getType().name(), v.getKey()));
-                  continue;
+            if (!v.getValue().equals(oldValue)) {
+              try {
+                switch (projectConfigEntry.getType()) {
+                  case BOOLEAN:
+                    boolean newBooleanValue = Boolean.parseBoolean(v.getValue());
+                    cfg.setBoolean(v.getKey(), newBooleanValue);
+                    projectConfigEntry.onUpdate(projectConfig, newBooleanValue);
+                    break;
+                  case INT:
+                    int newIntValue = Integer.parseInt(v.getValue());
+                    cfg.setInt(v.getKey(), newIntValue);
+                    projectConfigEntry.onUpdate(projectConfig, newIntValue);
+                    break;
+                  case LONG:
+                    long newLongValue = Long.parseLong(v.getValue());
+                    cfg.setLong(v.getKey(), newLongValue);
+                    projectConfigEntry.onUpdate(projectConfig, newLongValue);
+                    break;
+                  case LIST:
+                    if (!projectConfigEntry.getPermittedValues().contains(v.getValue())) {
+                      throw new BadRequestException(String.format(
+                          "The value '%s' is not permitted for parameter '%s' of plugin '"
+                              + pluginName + "'", v.getValue(), v.getKey()));
+                    }
+                  case STRING:
+                    cfg.setString(v.getKey(), v.getValue());
+                    projectConfigEntry.onUpdate(projectConfig, v.getValue());
+                    break;
+                  default:
+                    log.warn(String.format(
+                        "The type '%s' of parameter '%s' is not supported.",
+                        projectConfigEntry.getType().name(), v.getKey()));
+                    continue;
+                }
+              } catch (NumberFormatException ex) {
+                throw new BadRequestException(String.format(
+                    "The value '%s' of config parameter '%s' of plugin '%s' is invalid: %s",
+                    v.getValue(), v.getKey(), pluginName, ex.getMessage()));
               }
-            } catch (NumberFormatException ex) {
-              throw new BadRequestException(String.format(
-                  "The value '%s' of config parameter '%s' of plugin '%s' is invalid: %s",
-                  v.getValue(), v.getKey(), pluginName, ex.getMessage()));
             }
           }
         } else {

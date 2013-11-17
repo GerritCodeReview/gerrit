@@ -82,6 +82,7 @@ public class ProjectConfig extends VersionedMetaData {
 
   private static final String PROJECT_CONFIG = "project.config";
   private static final String GROUP_LIST = "groups";
+  private static final String RULES = "rules.pl";
 
   private static final String PROJECT = "project";
   private static final String KEY_DESCRIPTION = "description";
@@ -154,6 +155,7 @@ public class ProjectConfig extends VersionedMetaData {
   private List<CommentLinkInfo> commentLinkSections;
   private List<ValidationError> validationErrors;
   private ObjectId rulesId;
+  private String rule;
   private long maxObjectSizeLimit;
   private Map<String, Config> pluginConfigs;
 
@@ -330,6 +332,18 @@ public class ProjectConfig extends VersionedMetaData {
   }
 
   /**
+   * @return the content of the project's rules.pl, if present in the branch.
+   *    Null if it doesn't exist.
+   */
+  public String getRule() {
+    return rule;
+  }
+
+  public void setRule(String rule) {
+    this.rule = rule;
+  }
+
+  /**
    * @return the maxObjectSizeLimit for this project, if set. Zero if this
    *         project doesn't define own maxObjectSizeLimit.
    */
@@ -377,7 +391,8 @@ public class ProjectConfig extends VersionedMetaData {
   protected void onLoad() throws IOException, ConfigInvalidException {
     Map<String, GroupReference> groupsByName = readGroupList();
 
-    rulesId = getObjectId("rules.pl");
+    rulesId = getObjectId(RULES);
+    rule = readUTF8(RULES);
     Config rc = readConfig(PROJECT_CONFIG);
     project = new Project(projectName);
 
@@ -785,6 +800,12 @@ public class ProjectConfig extends VersionedMetaData {
 
     saveConfig(PROJECT_CONFIG, rc);
     saveGroupList();
+
+    if (rule == null) {
+      saveFile(RULES, null);
+    } else {
+      saveFile(RULES, rule.getBytes());
+    }
   }
 
   public static final String validMaxObjectSizeLimit(String value)

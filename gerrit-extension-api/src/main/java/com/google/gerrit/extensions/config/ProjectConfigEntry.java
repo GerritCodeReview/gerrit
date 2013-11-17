@@ -103,6 +103,18 @@ public class ProjectConfigEntry {
     return supportedValues;
   }
 
+  public void onUpdate(String projectName, String newValue) {
+  }
+
+  public void onUpdate(String projectName, boolean newValue) {
+  }
+
+  public void onUpdate(String projectName, int newValue) {
+  }
+
+  public void onUpdate(String projectName, long newValue) {
+  }
+
   public enum Type {
     STRING, INT, LONG, BOOLEAN, LIST
   }

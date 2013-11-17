@@ -193,24 +193,33 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
                 + "' of the plugin '" + pluginName + "' is invalid.");
             continue;
           }
+          String project = projectConfig.getProject().getName();
           if (v.value == null) {
             cfg.unset(v.name);
+            projectConfigEntry.onUpdate(project, null);
           } else {
             try {
               switch (projectConfigEntry.getType()) {
                 case BOOLEAN:
-                  cfg.setBoolean(v.name, Boolean.parseBoolean(v.value));
+                  boolean newBooleanValue = Boolean.parseBoolean(v.value);
+                  cfg.setBoolean(v.name, newBooleanValue);
+                  projectConfigEntry.onUpdate(project, newBooleanValue);
                   break;
                 case INT:
-                  cfg.setInt(v.name, Integer.parseInt(v.value));
+                  int newIntValue = Integer.parseInt(v.value);
+                  cfg.setInt(v.name, newIntValue);
+                  projectConfigEntry.onUpdate(project, newIntValue);
                   break;
                 case LONG:
-                  cfg.setLong(v.name, Long.parseLong(v.value));
+                  long newLongValue = Long.parseLong(v.value);
+                  cfg.setLong(v.name, newLongValue);
+                  projectConfigEntry.onUpdate(project, newLongValue);
                   break;
                 case STRING:
                 case LIST:
                 default:
                   cfg.setString(v.name, v.value);
+                  projectConfigEntry.onUpdate(project, v.value);
               }
             } catch (NumberFormatException ex) {
               throw new BadRequestException("The value '" + v.value

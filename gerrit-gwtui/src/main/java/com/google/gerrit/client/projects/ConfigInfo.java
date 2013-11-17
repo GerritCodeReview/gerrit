@@ -151,6 +151,7 @@ public class ConfigInfo extends JavaScriptObject {
     public final native String displayName() /*-{ return this.display_name; }-*/;
     public final native String type() /*-{ return this.type; }-*/;
     public final native String value() /*-{ return this.value; }-*/;
+    public final native boolean editable() /*-{ return this.editable ? true : false; }-*/;
     public final native boolean inheritable() /*-{ return this.inheritable ? true : false; }-*/;
     public final native String configuredValue() /*-{ return this.configured_value; }-*/;
     public final native String inheritedValue() /*-{ return this.inherited_value; }-*/;

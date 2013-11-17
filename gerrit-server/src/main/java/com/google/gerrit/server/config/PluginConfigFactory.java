@@ -102,6 +102,28 @@ public class PluginConfigFactory {
     if (projectState == null) {
       throw new NoSuchProjectException(projectName);
     }
+    return getFromProjectConfig(projectState, pluginName);
+  }
+
+  /**
+   * Returns the configuration for the specified plugin that is stored in the
+   * 'project.config' file of the specified project.
+   *
+   * The returned plugin configuration provides access to all parameters of the
+   * 'project.config' file that are set in the 'plugin' subsection of the
+   * specified plugin.
+   *
+   * E.g.: [plugin "my-plugin"] myKey = myValue
+   *
+   * @param projectState the project for which the plugin configuration should
+   *        be returned
+   * @param pluginName the name of the plugin for which the configuration should
+   *        be returned
+   * @return the plugin configuration from the 'project.config' file of the
+   *         specified project
+   */
+  public PluginConfig getFromProjectConfig(ProjectState projectState,
+      String pluginName) {
     return projectState.getConfig().getPluginConfig(pluginName);
   }
 
@@ -144,6 +166,37 @@ public class PluginConfigFactory {
       Project.NameKey projectName, String pluginName)
       throws NoSuchProjectException {
     return getFromProjectConfig(projectName, pluginName).withInheritance(
+        projectStateFactory);
+  }
+
+  /**
+   * Returns the configuration for the specified plugin that is stored in the
+   * 'project.config' file of the specified project. Parameters which are not
+   * set in the 'project.config' of this project are inherited from the parent
+   * project's 'project.config' files.
+   *
+   * The returned plugin configuration provides access to all parameters of the
+   * 'project.config' file that are set in the 'plugin' subsection of the
+   * specified plugin.
+   *
+   * E.g.: child project: [plugin "my-plugin"] myKey = childValue
+   *
+   * parent project: [plugin "my-plugin"] myKey = parentValue anotherKey =
+   * someValue
+   *
+   * return: [plugin "my-plugin"] myKey = childValue anotherKey = someValue
+   *
+   * @param projectState the project for which the plugin configuration should
+   *        be returned
+   * @param pluginName the name of the plugin for which the configuration should
+   *        be returned
+   * @return the plugin configuration from the 'project.config' file of the
+   *         specified project with inherited non-set parameters from the parent
+   *         projects
+   */
+  public PluginConfig getFromProjectConfigWithInheritance(
+      ProjectState projectState, String pluginName) {
+    return getFromProjectConfig(projectState, pluginName).withInheritance(
         projectStateFactory);
   }
 
@@ -203,6 +256,23 @@ public class PluginConfigFactory {
   /**
    * Returns the configuration for the specified plugin that is stored in the
    * '<plugin-name>.config' file in the 'refs/meta/config' branch of the
+   * specified project.
+   *
+   * @param projectState the project for which the plugin configuration should
+   *        be returned
+   * @param pluginName the name of the plugin for which the configuration should
+   *        be returned
+   * @return the plugin configuration from the '<plugin-name>.config' file of
+   *         the specified project
+   */
+  public Config getProjectPluginConfig(ProjectState projectState,
+      String pluginName) {
+    return projectState.getConfig(pluginName).get();
+  }
+
+  /**
+   * Returns the configuration for the specified plugin that is stored in the
+   * '<plugin-name>.config' file in the 'refs/meta/config' branch of the
    * specified project. Parameters which are not set in the
    * '<plugin-name>.config' of this project are inherited from the parent
    * project's '<plugin-name>.config' files.
@@ -228,6 +298,34 @@ public class PluginConfigFactory {
   public Config getProjectPluginConfigWithInheritance(Project.NameKey projectName,
       String pluginName) throws NoSuchProjectException {
     return getPluginConfig(projectName, pluginName).getWithInheritance();
+  }
+
+  /**
+   * Returns the configuration for the specified plugin that is stored in the
+   * '<plugin-name>.config' file in the 'refs/meta/config' branch of the
+   * specified project. Parameters which are not set in the
+   * '<plugin-name>.config' of this project are inherited from the parent
+   * project's '<plugin-name>.config' files.
+   *
+   * E.g.: child project: [mySection "mySubsection"] myKey = childValue
+   *
+   * parent project: [mySection "mySubsection"] myKey = parentValue anotherKey =
+   * someValue
+   *
+   * return: [mySection "mySubsection"] myKey = childValue anotherKey =
+   * someValue
+   *
+   * @param projectState the project for which the plugin configuration should
+   *        be returned
+   * @param pluginName the name of the plugin for which the configuration should
+   *        be returned
+   * @return the plugin configuration from the '<plugin-name>.config' file of
+   *         the specified project with inheriting non-set parameters from the
+   *         parent projects
+   */
+  public Config getProjectPluginConfigWithInheritance(ProjectState projectState,
+      String pluginName) {
+    return projectState.getConfig(pluginName).getWithInheritance();
   }
 
   private ProjectLevelConfig getPluginConfig(Project.NameKey projectName,

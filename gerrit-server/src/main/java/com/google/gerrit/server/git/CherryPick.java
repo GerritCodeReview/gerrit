@@ -135,7 +135,7 @@ public class CherryPick extends SubmitStrategy {
     final PatchSetApproval submitAudit =
         args.mergeUtil.getSubmitter(n.change.currentPatchSetId());
 
-    PersonIdent cherryPickCommitterIdent = null;
+    PersonIdent cherryPickCommitterIdent;
     if (submitAudit != null) {
       cherryPickCommitterIdent =
           args.identifiedUserFactory.create(submitAudit.getAccountId())

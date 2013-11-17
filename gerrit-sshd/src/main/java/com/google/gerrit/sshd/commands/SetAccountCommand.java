@@ -287,7 +287,7 @@ final class SetAccountCommand extends BaseCommand {
   private List<String> readSshKey(final List<String> sshKeys)
       throws UnsupportedEncodingException, IOException {
     if (!sshKeys.isEmpty()) {
-      String sshKey = "";
+      String sshKey;
       int idx = sshKeys.indexOf("-");
       if (idx >= 0) {
         sshKey = "";

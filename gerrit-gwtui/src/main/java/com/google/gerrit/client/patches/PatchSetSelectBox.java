@@ -108,7 +108,7 @@ public class PatchSetSelectBox extends Composite {
       linkPanel.add(sideMarker);
     }
 
-    Anchor baseLink = null;
+    Anchor baseLink;
     if (detail.getInfo().getParents().size() > 1) {
       baseLink = createLink(PatchUtil.C.patchBaseAutoMerge(), null);
     } else {

@@ -265,7 +265,6 @@ public class QueryProcessor {
     for (ChangeDataSource s : sources) {
       matches.add(s.read());
     }
-    sources = null;
 
     List<List<ChangeData>> out = Lists.newArrayListWithCapacity(cnt);
     for (int i = 0; i < cnt; i++) {

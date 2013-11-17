@@ -853,7 +853,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
       output = new StringWriter();
       InputStreamReader input = new InputStreamReader(is);
       char[] buffer = new char[4096];
-      int n = 0;
+      int n;
       while ((n = input.read(buffer)) != -1) {
         output.write(buffer, 0, n);
       }

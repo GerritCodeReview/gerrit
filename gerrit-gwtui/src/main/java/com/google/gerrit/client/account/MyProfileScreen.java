@@ -115,6 +115,6 @@ public class MyProfileScreen extends SettingsScreen {
     info.setText(row++, fieldIdx, account.getFullName());
     info.setText(row++, fieldIdx, account.getPreferredEmail());
     info.setText(row++, fieldIdx, mediumFormat(account.getRegisteredOn()));
-    info.setText(row++, fieldIdx, account.getId().toString());
+    info.setText(row, fieldIdx, account.getId().toString());
   }
 }

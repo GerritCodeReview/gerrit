@@ -210,7 +210,7 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
           section.getBranch());
 
       if (THIS_SERVER.equals(new URI(section.getUrl()).getHost())) {
-        String projectNameCandidate = null;
+        String projectNameCandidate;
         final String urlExtractedPath = new URI(section.getUrl()).getPath();
         int fromIndex = urlExtractedPath.length() - 1;
         while (fromIndex > 0) {

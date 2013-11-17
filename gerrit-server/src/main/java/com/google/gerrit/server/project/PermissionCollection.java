@@ -117,7 +117,7 @@ public class PermissionCollection {
 
           for (PermissionRule rule : permission.getRules()) {
             SeenRule s = new SeenRule(section, permission, rule);
-            boolean addRule = false;
+            boolean addRule;
             if (rule.isBlock()) {
               addRule = seenBlockingRules.add(s);
             } else {

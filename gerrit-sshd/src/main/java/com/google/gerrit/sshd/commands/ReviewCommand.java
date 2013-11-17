@@ -411,7 +411,7 @@ public class ReviewCommand extends SshCommand {
     }
 
     for (LabelType type : allProjectsControl.getLabelTypes().getLabelTypes()) {
-      String usage = "";
+      String usage;
       usage = "score for " + type.getName() + "\n";
 
       for (LabelValue v : type.getValues()) {

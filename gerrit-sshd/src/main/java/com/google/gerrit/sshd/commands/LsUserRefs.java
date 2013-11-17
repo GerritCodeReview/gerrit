@@ -75,7 +75,7 @@ public class LsUserRefs extends SshCommand {
 
   @Override
   protected void run() throws Failure {
-    Account userAccount = null;
+    Account userAccount;
     try {
       userAccount = accountResolver.find(userName);
     } catch (OrmException e) {

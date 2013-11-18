@@ -37,7 +37,6 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
-import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -96,7 +95,7 @@ public class PatchSetInserter {
   private final IdentifiedUser user;
   private final GitReferenceUpdated gitRefUpdated;
   private final CommitValidators.Factory commitValidatorsFactory;
-  private final ChangeIndexer indexer;
+  private final MergeabilityChecker mergeabilityChecker;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
   private final MergeUtil.Factory mergeUtilFactory;
 
@@ -122,7 +121,7 @@ public class PatchSetInserter {
       PatchSetInfoFactory patchSetInfoFactory,
       GitReferenceUpdated gitRefUpdated,
       CommitValidators.Factory commitValidatorsFactory,
-      ChangeIndexer indexer,
+      MergeabilityChecker mergeabilityChecker,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
       MergeUtil.Factory mergeUtilFactory,
       @Assisted Repository git,
@@ -138,7 +137,7 @@ public class PatchSetInserter {
     this.user = user;
     this.gitRefUpdated = gitRefUpdated;
     this.commitValidatorsFactory = commitValidatorsFactory;
-    this.indexer = indexer;
+    this.mergeabilityChecker = mergeabilityChecker;
     this.replacePatchSetFactory = replacePatchSetFactory;
     this.mergeUtilFactory = mergeUtilFactory;
 
@@ -317,11 +316,12 @@ public class PatchSetInserter {
     } finally {
       db.rollback();
     }
-    CheckedFuture<?, IOException> e = indexer.indexAsync(updatedChange);
+    CheckedFuture<?, IOException> f =
+        mergeabilityChecker.updateAndIndexAsync(change);
     if (runHooks) {
       hooks.doPatchsetCreatedHook(updatedChange, patchSet, db);
     }
-    e.checkedGet();
+    f.checkedGet();
     return updatedChange;
   }
 

@@ -34,6 +34,24 @@
       "revId": "bf1dccb5268cb39cd5bd64deb1d1562ca29fe948",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e90e598_2f3fe9cb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-18T22:34:21Z",
+      "side": 1,
+      "message": "If you look at gerrit-review its about 280ms round-trip latency for the /megerable REST API call. My workstation is usually about 60ms away from the servers so its ~220ms to perform the check.\n\nThere may be some overhead related to authentication that is already paid for by the /changes/ query, but its quite low compared to the check itself.",
+      "parentUuid": "de7ee924_4c483f77",
+      "revId": "bf1dccb5268cb39cd5bd64deb1d1562ca29fe948",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

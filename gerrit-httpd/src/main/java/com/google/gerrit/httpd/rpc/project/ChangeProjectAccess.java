@@ -71,7 +71,8 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
 
   @Override
   protected ProjectAccess updateProjectConfig(ProjectConfig config,
-      MetaDataUpdate md) throws IOException, NoSuchProjectException, ConfigInvalidException {
+      MetaDataUpdate md, boolean parentProjectUpdate) throws IOException,
+      NoSuchProjectException, ConfigInvalidException {
     config.commit(md);
     projectCache.evict(config.getProject());
     return projectAccessFactory.create(projectName).call();

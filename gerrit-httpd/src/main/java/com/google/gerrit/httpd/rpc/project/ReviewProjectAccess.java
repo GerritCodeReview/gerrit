@@ -17,6 +17,8 @@ package com.google.gerrit.httpd.rpc.project;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -39,6 +41,7 @@ import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.SetParent;
 import com.google.gerrit.server.util.TimeUtil;
@@ -78,6 +81,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
   private final ChangeIndexer indexer;
   private final ChangeHooks hooks;
   private final CreateChangeSender.Factory createChangeSenderFactory;
+  private final ProjectCache projectCache;
 
   @Inject
   ReviewProjectAccess(final ProjectControl.Factory projectControlFactory,
@@ -88,6 +92,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       ChangeControl.GenericFactory changeFactory,
       ChangeIndexer indexer, ChangeHooks hooks,
       CreateChangeSender.Factory createChangeSenderFactory,
+      ProjectCache projectCache,
       AllProjectsNameProvider allProjects,
       Provider<SetParent> setParent,
 
@@ -107,11 +112,13 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
     this.indexer = indexer;
     this.hooks = hooks;
     this.createChangeSenderFactory = createChangeSenderFactory;
+    this.projectCache = projectCache;
   }
 
   @Override
-  protected Change.Id updateProjectConfig(ProjectConfig config, MetaDataUpdate md)
-      throws IOException, OrmException {
+  protected Change.Id updateProjectConfig(ProjectConfig config,
+      MetaDataUpdate md, boolean parentProjectUpdate) throws IOException,
+      OrmException {
     Change.Id changeId = new Change.Id(db.nextChangeId());
     PatchSet ps =
         new PatchSet(new PatchSet.Id(changeId, Change.INITIAL_PATCH_SET_ID));
@@ -158,6 +165,9 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       log.error("Cannot send email for new change " + change.getId(), err);
     }
     addProjectOwnersAsReviewers(change);
+    if (parentProjectUpdate) {
+      addAdministratorsAsReviewers(change);
+    }
     return changeId;
   }
 
@@ -175,7 +185,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
     db.patchSetAncestors().insert(toInsert);
   }
 
-  private void addProjectOwnersAsReviewers(final Change change) {
+  private void addProjectOwnersAsReviewers(Change change) {
     final String projectOwners =
         groupBackend.get(AccountGroup.PROJECT_OWNERS).getName();
     try {
@@ -187,6 +197,24 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
     } catch (Exception e) {
       // one of the owner groups is not visible to the user and this it why it
       // can't be added as reviewer
+    }
+  }
+
+  private void addAdministratorsAsReviewers(Change change) {
+    List<PermissionRule> adminRules =
+        projectCache.getAllProjects().getConfig()
+            .getAccessSection(AccessSection.GLOBAL_CAPABILITIES)
+            .getPermission(GlobalCapability.ADMINISTRATE_SERVER).getRules();
+    for (PermissionRule r : adminRules) {
+      try {
+        ChangeResource rsrc =
+            new ChangeResource(changeFactory.controlFor(change, user));
+        PostReviewers.Input input = new PostReviewers.Input();
+        input.reviewer = r.getGroup().getUUID().get();
+        reviewersProvider.get().apply(rsrc, input);
+      } catch (Exception e) {
+        // ignore
+      }
     }
   }
 }

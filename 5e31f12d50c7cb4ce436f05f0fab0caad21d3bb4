@@ -142,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "1e75e13d_6e8c0f6a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-18T16:27:40Z",
+      "side": 1,
+      "message": "OK, the position on the right is also fine with me. It was just unexpected.\n\nI like the idea of displaying it with CM3, I\u0027m always getting annoying that I can\u0027t see the inline comments on the commit message that I\u0027m trying to fix. But yeah, that\u0027s for later.",
+      "parentUuid": "3e90e598_cf53bd2f",
+      "revId": "5e31f12d50c7cb4ce436f05f0fab0caad21d3bb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e75e13d_ae52f727",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -218,6 +236,24 @@
       "side": 1,
       "message": "Indeed I am slightly sad about moving related changes to the bottom of the middle column. On longer patch series it will require a scroll bar to show the related changes panel, and there is a lot of wasted space on the right side.\n\nI have heard some complaints about how wide CS2 is. With this change its now a bit more tall than it is wide. Given the industry trend on laptop screens that isn\u0027t the best aspect ratio to be targeting; most screens have more horizontal space than vertical space.\n\nIt does open up space for a voting extension table of some sort in that dead space on the \"third column\".",
       "parentUuid": "de7ee924_8c4dc78a",
+      "revId": "5e31f12d50c7cb4ce436f05f0fab0caad21d3bb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e75e13d_0e99cbaa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-18T16:27:40Z",
+      "side": 1,
+      "message": "Personally I liked having Related Changes as a third column, but I can see how the overview is easier with two columns.",
+      "parentUuid": "3e90e598_8f4db58a",
       "revId": "5e31f12d50c7cb4ce436f05f0fab0caad21d3bb4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

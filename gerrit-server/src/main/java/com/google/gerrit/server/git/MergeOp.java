@@ -27,6 +27,7 @@ import com.google.common.base.Objects;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
@@ -144,6 +145,7 @@ public class MergeOp {
   private final ListMultimap<SubmitType, CodeReviewCommit> toMerge;
   private final List<CodeReviewCommit> potentiallyStillSubmittable;
   private final Map<Change.Id, CodeReviewCommit> commits;
+  private final List<Change> toUpdate;
   private ReviewDb db;
   private Repository repo;
   private RevWalk rw;
@@ -202,6 +204,7 @@ public class MergeOp {
     toMerge = ArrayListMultimap.create();
     potentiallyStillSubmittable = new ArrayList<CodeReviewCommit>();
     commits = new HashMap<Change.Id, CodeReviewCommit>();
+    toUpdate = Lists.newArrayList();
   }
 
   private void setDestProject() throws MergeException {
@@ -268,6 +271,8 @@ public class MergeOp {
         toMerge.clear();
         toMerge.putAll(toMergeNextTurn);
       }
+
+      updateChangeStatus(toUpdate);
 
       for (final CodeReviewCommit commit : potentiallyStillSubmittableOnNextRun) {
         final Capable capable = isSubmitStillPossible(commit);
@@ -447,6 +452,7 @@ public class MergeOp {
       if (chg.currentPatchSetId() == null) {
         commits.put(changeId, CodeReviewCommit
             .error(CommitMergeStatus.NO_PATCH_SET));
+        toUpdate.add(chg);
         continue;
       }
 
@@ -460,6 +466,7 @@ public class MergeOp {
           || ps.getRevision().get() == null) {
         commits.put(changeId, CodeReviewCommit
             .error(CommitMergeStatus.NO_PATCH_SET));
+        toUpdate.add(chg);
         continue;
       }
 
@@ -470,6 +477,7 @@ public class MergeOp {
       } catch (IllegalArgumentException iae) {
         commits.put(changeId, CodeReviewCommit
             .error(CommitMergeStatus.NO_PATCH_SET));
+        toUpdate.add(chg);
         continue;
       }
 
@@ -485,6 +493,7 @@ public class MergeOp {
         //
         commits.put(changeId, CodeReviewCommit
             .error(CommitMergeStatus.REVISION_GONE));
+        toUpdate.add(chg);
         continue;
       }
 
@@ -495,6 +504,7 @@ public class MergeOp {
         log.error("Invalid commit " + id.name() + " on " + chg.getKey(), e);
         commits.put(changeId, CodeReviewCommit
             .error(CommitMergeStatus.REVISION_GONE));
+        toUpdate.add(chg);
         continue;
       }
 
@@ -503,6 +513,7 @@ public class MergeOp {
         mergeValidators.validatePreMerge(repo, commit, destProject, destBranch, ps.getId());
       } catch (MergeValidationException mve) {
         commits.put(changeId, CodeReviewCommit.error(mve.getStatus()));
+        toUpdate.add(chg);
         continue;
       }
 
@@ -535,6 +546,7 @@ public class MergeOp {
       if (submitType == null) {
         commits.put(changeId,
             CodeReviewCommit.error(CommitMergeStatus.NO_SUBMIT_TYPE));
+        toUpdate.add(chg);
         continue;
       }
 

@@ -30,7 +30,6 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.RefControl;
@@ -61,7 +60,7 @@ public class ChangeInserter {
   private final ChangeHooks hooks;
   private final ApprovalsUtil approvalsUtil;
   private final TrackingFooters trackingFooters;
-  private final ChangeIndexer indexer;
+  private final MergeabilityChecker mergeabilityChecker;
   private final CreateChangeSender.Factory createChangeSenderFactory;
 
   private final RefControl refControl;
@@ -83,7 +82,7 @@ public class ChangeInserter {
       ChangeHooks hooks,
       ApprovalsUtil approvalsUtil,
       TrackingFooters trackingFooters,
-      ChangeIndexer indexer,
+      MergeabilityChecker mergeabilityChecker,
       CreateChangeSender.Factory createChangeSenderFactory,
       @Assisted RefControl refControl,
       @Assisted Change change,
@@ -93,7 +92,7 @@ public class ChangeInserter {
     this.hooks = hooks;
     this.approvalsUtil = approvalsUtil;
     this.trackingFooters = trackingFooters;
-    this.indexer = indexer;
+    this.mergeabilityChecker = mergeabilityChecker;
     this.createChangeSenderFactory = createChangeSenderFactory;
     this.refControl = refControl;
     this.change = change;
@@ -175,7 +174,8 @@ public class ChangeInserter {
       db.changeMessages().insert(Collections.singleton(changeMessage));
     }
 
-    CheckedFuture<?, IOException> indexFuture = indexer.indexAsync(change);
+    CheckedFuture<?, IOException> f =
+        mergeabilityChecker.updateAndIndexAsync(change);
     gitRefUpdated.fire(change.getProject(), patchSet.getRefName(),
         ObjectId.zeroId(), commit);
 
@@ -196,7 +196,7 @@ public class ChangeInserter {
         log.error("Cannot send email for new change " + change.getId(), err);
       }
     }
-    indexFuture.checkedGet();
+    f.checkedGet();
     return change;
   }
 }

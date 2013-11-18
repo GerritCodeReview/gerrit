@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e75e13d_6e45ef5b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-18T06:40:36Z",
+      "side": 1,
+      "message": "This is really much easier to read. Thanks for working on this!\n\nThe new layout also fixes one issue with replying to a change. I got quite a few complaints that the reply popup directly opens over the commit message so that it cannot be seen anymore while typing the reply.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 52
+      },
+      "revId": "5e31f12d50c7cb4ce436f05f0fab0caad21d3bb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e75e13d_0e422b55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-18T06:40:36Z",
+      "side": 1,
+      "message": "I actually liked that in Loki\u0027s proposal we had a small gap here in the header line so that it\u0027s easier to see that it\u0027s two columns.",
+      "range": {
+        "startLine": 12,
+        "startChar": 52,
+        "endLine": 12,
+        "endChar": 53
+      },
+      "revId": "5e31f12d50c7cb4ce436f05f0fab0caad21d3bb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de7ee924_0c2b1797",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-18T06:40:36Z",
+      "side": 1,
+      "message": "The popup to edit the commit message still opens at the old place on the right.",
+      "range": {
+        "startLine": 13,
+        "startChar": 46,
+        "endLine": 13,
+        "endChar": 50
+      },
+      "revId": "5e31f12d50c7cb4ce436f05f0fab0caad21d3bb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e75e13d_4e483377",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-18T06:40:36Z",
+      "side": 1,
+      "message": "The change state isn\u0027t correctly aligned for me. It appears on the right side outside of this table.",
+      "range": {
+        "startLine": 13,
+        "startChar": 60,
+        "endLine": 13,
+        "endChar": 79
+      },
+      "revId": "5e31f12d50c7cb4ce436f05f0fab0caad21d3bb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e75e13d_ae52f727",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-18T06:40:36Z",
+      "side": 1,
+      "message": "It would be good to have some seperators on the right side. Especially I\u0027m missing the horizontal line that seperates the meta data table from the current votes, as we have it on ChangeScreen2 at the moment. Have you tried putting a border around the meta data table?\n\nAlso there seems to be spacing missing between the current votes and the Related Changes. This might look better once Related Changes are displayed as tab [1].\n\n[1] https://gerrit-review.googlesource.com/50770",
+      "range": {
+        "startLine": 18,
+        "startChar": 53,
+        "endLine": 18,
+        "endChar": 79
+      },
+      "revId": "5e31f12d50c7cb4ce436f05f0fab0caad21d3bb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

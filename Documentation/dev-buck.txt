@@ -432,6 +432,27 @@ port 8888:
   EOF
 ----
 
+Experimental Compile with Java 7
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Buck and Eclipse patches are provided to compile Gerrit sources with Java
+7[1],[2].
+
+To use Buck with Java 7:
+
+* apply this Buck patch on buck tree [1]
+* copy the new SHA1 into gerrit/.buckversion
+* compile Gerrit as usual
+
+To use Eclipse with Java 7 apply this patch [2].
+
+To test if Buck and Eclipse was successfuly set up to use Java 7,
+try this change [3].
+
+[1] https://gerrit-review.googlesource.com/51830
+[2] https://gerrit-review.googlesource.com/51837
+[3] https://gerrit-review.googlesource.com/51838
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

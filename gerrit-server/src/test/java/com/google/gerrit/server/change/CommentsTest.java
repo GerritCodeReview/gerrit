@@ -171,7 +171,7 @@ public class CommentsTest {
       if (expected == null) {
         fail("Expected no comment");
       }
-      CommentInfo actual = (CommentInfo) getComment.apply(commentRes);
+      CommentInfo actual = getComment.apply(commentRes);
       assertComment(expected, actual);
     } catch (ResourceNotFoundException e) {
       if (expected != null) {

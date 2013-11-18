@@ -193,7 +193,7 @@ public class InMemoryModule extends FactoryModule {
           Class.forName("com.google.gerrit.lucene.LuceneIndexModule");
       Constructor<?> c =
           clazz.getConstructor(Integer.class, int.class, String.class);
-      return (Module) c.newInstance(Integer.valueOf(version), 0, (String) null);
+      return (Module) c.newInstance(version, 0, null);
     } catch (ClassNotFoundException e) {
       throw newProvisionException(e);
     } catch (SecurityException e) {

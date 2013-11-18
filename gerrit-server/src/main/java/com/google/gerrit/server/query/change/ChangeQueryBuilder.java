@@ -129,7 +129,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static boolean hasNonTrivialSortKeyAfter(Schema<ChangeData> schema,
       Predicate<ChangeData> p) {
     SortKeyPredicate after =
-        (SortKeyPredicate) find(p, SortKeyPredicate.class, "sortkey_after");
+        find(p, SortKeyPredicate.class, "sortkey_after");
     return after != null && after.getMaxValue(schema) > 0;
   }
 

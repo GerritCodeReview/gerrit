@@ -207,7 +207,7 @@ public class CommitValidators {
           throw new CommitValidationException(errMsg, messages);
         }
       }
-      return Collections.<CommitValidationMessage>emptyList();
+      return Collections.emptyList();
     }
 
     /**
@@ -338,7 +338,7 @@ public class CommitValidators {
               messages);
         }
       }
-      return Collections.<CommitValidationMessage>emptyList();
+      return Collections.emptyList();
     }
   }
 
@@ -358,7 +358,7 @@ public class CommitValidators {
           && !refControl.canUploadMerges()) {
         throw new CommitValidationException("you are not allowed to upload merges");
       }
-      return Collections.<CommitValidationMessage>emptyList();
+      return Collections.emptyList();
     }
   }
 
@@ -423,7 +423,7 @@ public class CommitValidators {
               "not Signed-off-by author/committer/uploader in commit message footer");
         }
       }
-      return Collections.<CommitValidationMessage>emptyList();
+      return Collections.emptyList();
     }
   }
 
@@ -453,7 +453,7 @@ public class CommitValidators {
             currentUser, canonicalWebUrl));
         throw new CommitValidationException("invalid author", messages);
       }
-      return Collections.<CommitValidationMessage>emptyList();
+      return Collections.emptyList();
     }
   }
 
@@ -483,7 +483,7 @@ public class CommitValidators {
             currentUser, canonicalWebUrl));
         throw new CommitValidationException("invalid committer", messages);
       }
-      return Collections.<CommitValidationMessage>emptyList();
+      return Collections.emptyList();
     }
   }
 
@@ -514,7 +514,7 @@ public class CommitValidators {
           && !refControl.canForgeGerritServerIdentity()) {
         throw new CommitValidationException("do not amend merges not made by you");
       }
-      return Collections.<CommitValidationMessage>emptyList();
+      return Collections.emptyList();
     }
   }
 

@@ -129,7 +129,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
       VisibilityControl visibilityControl)
       throws OrmException {
     if (!suggestAccounts) {
-      return Collections.<AccountInfo> emptyList();
+      return Collections.emptyList();
     }
 
     final String a = query;

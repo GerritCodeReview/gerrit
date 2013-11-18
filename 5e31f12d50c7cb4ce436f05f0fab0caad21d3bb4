@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "de1509f5_b4de807f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-18T16:11:28Z",
+      "side": 1,
+      "message": "I forgot about that issue in CS2. This does leave the old message visible during reply.",
+      "parentUuid": "1e75e13d_6e45ef5b",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 52
+      },
+      "revId": "5e31f12d50c7cb4ce436f05f0fab0caad21d3bb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e75e13d_0e422b55",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -94,6 +118,30 @@
     },
     {
       "key": {
+        "uuid": "3e90e598_cf53bd2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-18T16:11:28Z",
+      "side": 1,
+      "message": "Leaving the commit message editor on the right was a mistake that I liked and decided to keep. I forgot to move where it opens, and then I realized I liked having it open to the right of the existing message so you can see the old version and the new version almost side-by-side.\n\nThe next best thing would be to open the message in a pair of CM3 instances with the diffmerge extension in the browser and do a live diff of the two message texts. This is much more work, but would give you a better user experience.\n\nFor now I am inclined to leave the editor opening on the right as it is a slight improvement to see the old version at the same time.",
+      "parentUuid": "de7ee924_0c2b1797",
+      "range": {
+        "startLine": 13,
+        "startChar": 46,
+        "endLine": 13,
+        "endChar": 50
+      },
+      "revId": "5e31f12d50c7cb4ce436f05f0fab0caad21d3bb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e75e13d_ae52f727",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -117,6 +165,30 @@
     },
     {
       "key": {
+        "uuid": "3e90e598_ef58014e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-18T16:11:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e75e13d_ae52f727",
+      "range": {
+        "startLine": 18,
+        "startChar": 53,
+        "endLine": 18,
+        "endChar": 79
+      },
+      "revId": "5e31f12d50c7cb4ce436f05f0fab0caad21d3bb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de7ee924_8c4dc78a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -128,6 +200,24 @@
       "writtenOn": "2013-11-18T07:53:50Z",
       "side": 1,
       "message": "So currently we are using three columns on CS2:\n\nChange meta data | commit message | related changes\n\nThis change changes this to have only two columns. When all three panels are approx. equal in vertical size, like in this change [1], we might not use optimal the place if we are going to drop the third column and we would have a lot of white place.\n\nOn the other side, we could place in the third column another information, like verification status table with verify data per platform/job.\n\n\n[1] https://gerrit-review.googlesource.com/#/c2/51817",
+      "revId": "5e31f12d50c7cb4ce436f05f0fab0caad21d3bb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e90e598_8f4db58a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-18T16:11:28Z",
+      "side": 1,
+      "message": "Indeed I am slightly sad about moving related changes to the bottom of the middle column. On longer patch series it will require a scroll bar to show the related changes panel, and there is a lot of wasted space on the right side.\n\nI have heard some complaints about how wide CS2 is. With this change its now a bit more tall than it is wide. Given the industry trend on laptop screens that isn\u0027t the best aspect ratio to be targeting; most screens have more horizontal space than vertical space.\n\nIt does open up space for a voting extension table of some sort in that dead space on the \"third column\".",
+      "parentUuid": "de7ee924_8c4dc78a",
       "revId": "5e31f12d50c7cb4ce436f05f0fab0caad21d3bb4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

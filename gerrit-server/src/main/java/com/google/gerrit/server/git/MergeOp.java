@@ -1047,16 +1047,6 @@ public class MergeOp {
 
   private void sendMergeFail(final Change c, final ChangeMessage msg,
       final boolean makeNew) {
-    if (isDuplicate(msg)) {
-      return;
-    }
-
-    try {
-      db.changeMessages().insert(Collections.singleton(msg));
-    } catch (OrmException err) {
-      log.warn("Cannot record merge failure message", err);
-    }
-
     if (makeNew) {
       try {
         db.changes().atomicUpdate(c.getId(), new AtomicUpdate<Change>() {
@@ -1079,6 +1069,16 @@ public class MergeOp {
       } catch (OrmException err) {
         log.warn("Cannot update change timestamp", err);
       }
+    }
+
+    if (isDuplicate(msg)) {
+      return;
+    }
+
+    try {
+      db.changeMessages().insert(Collections.singleton(msg));
+    } catch (OrmException err) {
+      log.warn("Cannot record merge failure message", err);
     }
 
     PatchSetApproval submitter = null;

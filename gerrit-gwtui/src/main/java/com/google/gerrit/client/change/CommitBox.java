@@ -28,27 +28,61 @@ import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.UIObject;
+import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 class CommitBox extends Composite {
   interface Binder extends UiBinder<HTMLPanel, CommitBox> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
+  interface Style extends CssResource {
+    String collapsed();
+    String expanded();
+  }
+
+  @UiField Style style;
   @UiField Element commitName;
   @UiField AnchorElement browserLink;
   @UiField InlineHyperlink authorNameEmail;
   @UiField Element authorDate;
   @UiField InlineHyperlink committerNameEmail;
   @UiField Element committerDate;
-  @UiField Element commitMessageText;
+  @UiField CopyableLabel idText;
+  @UiField HTML text;
+  @UiField ScrollPanel scroll;
+  @UiField Button more;
+  private boolean expanded;
 
   CommitBox() {
     initWidget(uiBinder.createAndBindUi(this));
+    addStyleName(style.collapsed());
+  }
+
+  void onShowView() {
+    more.setVisible(scroll.getMaximumVerticalScrollPosition() > 0);
+  }
+
+  @UiHandler("more")
+  void onMore(ClickEvent e) {
+    if (expanded) {
+      removeStyleName(style.expanded());
+      addStyleName(style.collapsed());
+    } else {
+      removeStyleName(style.collapsed());
+      addStyleName(style.expanded());
+    }
+    expanded = !expanded;
   }
 
   void set(CommentLinkProcessor commentLinkProcessor,
@@ -56,14 +90,24 @@ class CommitBox extends Composite {
       String revision) {
     RevisionInfo revInfo = change.revision(revision);
     CommitInfo commit = revInfo.commit();
+    String sub = commit.subject();
+    String msg = commit.message();
+    if (msg.startsWith(sub)) {
+      msg = msg.substring(sub.length());
+      if (msg.length() > 0 && msg.charAt(0) == '\n') {
+        msg = msg.substring(1);
+      }
+    }
 
     commitName.setInnerText(revision);
+    idText.setText("Change-Id: " + change.change_id());
+    idText.setPreviewText(change.change_id());
     formatLink(commit.author(), authorNameEmail,
         authorDate, change.status());
     formatLink(commit.committer(), committerNameEmail,
         committerDate, change.status());
-    commitMessageText.setInnerSafeHtml(commentLinkProcessor.apply(
-        new SafeHtmlBuilder().append(commit.message()).linkify()));
+    text.setHTML(commentLinkProcessor.apply(
+        new SafeHtmlBuilder().append(msg).linkify()));
 
     GitwebLink gw = Gerrit.getGitwebLink();
     if (gw != null && gw.canLink(revInfo)) {
@@ -86,7 +130,7 @@ class CommitBox extends Composite {
     return person.name() + " <" + person.email() + ">";
   }
 
-  public static String owner(GitPerson person) {
+  private static String owner(GitPerson person) {
     if (person.email() != null) {
       return person.email();
     } else if (person.name() != null) {

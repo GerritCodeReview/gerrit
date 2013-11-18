@@ -17,34 +17,82 @@ limitations under the License.
 <ui:UiBinder
     xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
-    xmlns:x='urn:import:com.google.gerrit.client.ui'>
-  <ui:style>
-    .commitHeader {
-      border-spacing: 0;
-      padding: 0;
-      width: 564px;
+    xmlns:x='urn:import:com.google.gerrit.client.ui'
+    xmlns:clippy='urn:import:com.google.gwtexpui.clippy.client'>
+  <ui:image field="toggle" src="more_less.png"/>
+  <ui:style type='com.google.gerrit.client.change.CommitBox.Style'>
+    @eval trimColor com.google.gerrit.client.Gerrit.getTheme().trimColor;
+
+    .collapsed .scroll { height: 250px }
+    .scroll, .more { width: 560px }
+    .scroll {
+      border-right: 1px solid trimColor;
+      border-bottom: 1px solid trimColor;
     }
 
-    .commitHeader th { width: 70px; }
-    .commitHeader td { white-space: pre; }
-
-    .commitMessageBox { margin: 2px; }
-    .commitMessage {
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      border: 1px solid white;
-      background-color: white;
+    .text {
       font-family: monospace;
       white-space: pre;
-      width: 47em;
     }
+
+    .more {
+      height: 8px;
+      line-height: 8px;
+      text-align: center;
+    }
+    .moreButton {
+      padding: 0 5px 0 5px;
+      margin: 0;
+      border: none;
+      height: 8px;
+      background-color: #F7F7F7;
+    }
+    .moreButton:focus {
+      outline: none;
+    }
+
+    @sprite .toggle {
+      gwt-image: "toggle";
+      width: 13px;
+      height: 8px;
+      padding: 0;
+    }
+    .collapsed .toggle { background-position: -13px -8px }
+    .expanded .toggle { background-position: 0px -8px }
+    .collapsed button:hover .toggle { background-position: -13px 0px }
+    .expanded button:hover .toggle { background-position: 0px 0px }
+
+    .header {
+      border-spacing: 0;
+      padding: 0;
+      width: 560px;
+    }
+    .header th { width: 70px; }
+    .header td { white-space: nowrap; }
+    .date { width: 132px; }
+
+    .clippy {
+      position: relative;
+    }
+    .clippy div {
+      position: absolute;
+      top: 0px;
+      right: -16px;
+     }
   </ui:style>
   <g:HTMLPanel>
-    <table class='{style.commitHeader}'>
-      <tr>
-        <th><ui:msg>Commit</ui:msg></th>
-        <td ui:field='commitName'/>
-        <td><a ui:field='browserLink' href=""/></td>
-      </tr>
+    <g:ScrollPanel styleName='{style.scroll}' ui:field='scroll'>
+      <g:HTML styleName='{style.text}' ui:field='text'/>
+    </g:ScrollPanel>
+    <div class='{style.more}'>
+      <g:Button ui:field='more'
+          styleName='{style.moreButton}'
+          title='Expand/Collapse'>
+        <ui:attribute name='title'/>
+        <div class='{style.toggle}'/>
+      </g:Button>
+    </div>
+    <table class='{style.header}'>
       <tr>
         <th><ui:msg>Author</ui:msg></th>
         <td><x:InlineHyperlink ui:field='authorNameEmail'
@@ -52,7 +100,7 @@ limitations under the License.
               <ui:attribute name='title'/>
             </x:InlineHyperlink>
         </td>
-        <td ui:field='authorDate'/>
+        <td ui:field='authorDate' class='{style.date}'/>
       </tr>
       <tr>
         <th><ui:msg>Committer</ui:msg></th>
@@ -61,12 +109,17 @@ limitations under the License.
               <ui:attribute name='title'/>
             </x:InlineHyperlink>
         </td>
-        <td ui:field='committerDate'/>
+        <td ui:field='committerDate' class='{style.date}'/>
+      </tr>
+      <tr>
+        <th><ui:msg>Commit</ui:msg></th>
+        <td ui:field='commitName'/>
+        <td><a ui:field='browserLink' href=""/></td>
+      </tr>
+      <tr>
+        <th><ui:msg>Change-Id</ui:msg></th>
+        <td><clippy:CopyableLabel styleName='{style.clippy}' ui:field='idText'/></td>
       </tr>
     </table>
-
-    <div class='{style.commitMessageBox}'>
-      <div class='{style.commitMessage}' ui:field='commitMessageText'/>
-    </div>
   </g:HTMLPanel>
 </ui:UiBinder>

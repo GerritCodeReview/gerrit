@@ -30,7 +30,7 @@ limitations under the License.
     <div class='{res.style.section}'>
       <c:NpTextArea
          visibleLines='30'
-         characterWidth='72'
+         characterWidth='78'
          styleName='{style.commitMessage}'
          ui:field='message'/>
     </div>

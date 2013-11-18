@@ -22,6 +22,30 @@
       "revId": "6eb1c792a9d1114f73eebd5a8c52144217374fba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e1c011e_f6e80027",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffScreen.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-11-18T13:49:22Z",
+      "side": 1,
+      "message": "Hm, okay.  Seems like a decent idea.  Are you thinking,  maybe something like binding the \"s\" key to this, so it pops up the floating window, and when the user\u0027s done, close it?",
+      "parentUuid": "9e6ab164_aa042f2b",
+      "range": {
+        "startLine": 102,
+        "startChar": 4,
+        "endLine": 105,
+        "endChar": 7
+      },
+      "revId": "6eb1c792a9d1114f73eebd5a8c52144217374fba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

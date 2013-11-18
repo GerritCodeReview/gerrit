@@ -88,6 +88,24 @@
       "revId": "5820c1fce49d2f3ee5531b641d8d5e7d431ea289",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e90e598_6f45f15b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1014392
+      },
+      "writtenOn": "2013-11-18T17:34:25Z",
+      "side": 1,
+      "message": "Removing the enter key handler would probably solve most of the issues. Require the suggestion to be explicitly selected instead of just hitting enter.",
+      "parentUuid": "9e6ab164_4a1a538b",
+      "revId": "5820c1fce49d2f3ee5531b641d8d5e7d431ea289",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -20,7 +20,6 @@ import com.google.gerrit.client.actions.ActionInfo;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
-import com.google.gerrit.client.changes.ChangeInfo.MergeableInfo;
 import com.google.gerrit.client.changes.ChangeInfo.MessageInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.changes.ChangeList;
@@ -571,35 +570,6 @@ public class ChangeScreen2 extends Screen {
       }));
   }
 
-  private void loadMergeable(final Change.Status status, final boolean canSubmit) {
-    if (Gerrit.getConfig().testChangeMerge()) {
-      ChangeApi.revision(changeId.get(), revision)
-        .view("mergeable")
-        .get(new AsyncCallback<MergeableInfo>() {
-          @Override
-          public void onSuccess(MergeableInfo result) {
-            if (canSubmit) {
-              actions.setSubmitEnabled(result.mergeable());
-              if (status == Change.Status.NEW) {
-                statusText.setInnerText(result.mergeable()
-                    ? Util.C.readyToSubmit()
-                    : Util.C.mergeConflict());
-              }
-            }
-            setVisible(notMergeable, !result.mergeable());
-            renderSubmitType(result.submit_type());
-          }
-
-          @Override
-          public void onFailure(Throwable caught) {
-            loadSubmitType(status, canSubmit);
-          }
-        });
-    } else {
-      loadSubmitType(status, canSubmit);
-    }
-  }
-
   private void loadSubmitType(final Change.Status status, final boolean canSubmit) {
     if (canSubmit) {
       actions.setSubmitEnabled(true);
@@ -612,6 +582,18 @@ public class ChangeScreen2 extends Screen {
       .get(new AsyncCallback<NativeString>() {
         @Override
         public void onSuccess(NativeString result) {
+          if (Gerrit.getConfig().testChangeMerge()) {
+            if (canSubmit) {
+              actions.setSubmitEnabled(changeInfo.mergeable());
+              if (status == Change.Status.NEW) {
+                statusText.setInnerText(changeInfo.mergeable()
+                    ? Util.C.readyToSubmit()
+                    : Util.C.mergeConflict());
+              }
+            }
+            setVisible(notMergeable, !changeInfo.mergeable());
+          }
+
           renderSubmitType(result.asString());
         }
 
@@ -685,7 +667,7 @@ public class ChangeScreen2 extends Screen {
       }
     }
     if (current) {
-      loadMergeable(info.status(), canSubmit);
+      loadSubmitType(info.status(), canSubmit);
     }
 
     StringBuilder sb = new StringBuilder();

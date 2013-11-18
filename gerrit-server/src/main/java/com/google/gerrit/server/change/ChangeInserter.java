@@ -62,6 +62,7 @@ public class ChangeInserter {
   private final ApprovalsUtil approvalsUtil;
   private final TrackingFooters trackingFooters;
   private final ChangeIndexer indexer;
+  private final MergeabilityChecker mergeabilityChecker;
   private final CreateChangeSender.Factory createChangeSenderFactory;
 
   private final RefControl refControl;
@@ -84,6 +85,7 @@ public class ChangeInserter {
       ApprovalsUtil approvalsUtil,
       TrackingFooters trackingFooters,
       ChangeIndexer indexer,
+      MergeabilityChecker mergeabilityChecker,
       CreateChangeSender.Factory createChangeSenderFactory,
       @Assisted RefControl refControl,
       @Assisted Change change,
@@ -94,6 +96,7 @@ public class ChangeInserter {
     this.approvalsUtil = approvalsUtil;
     this.trackingFooters = trackingFooters;
     this.indexer = indexer;
+    this.mergeabilityChecker = mergeabilityChecker;
     this.createChangeSenderFactory = createChangeSenderFactory;
     this.refControl = refControl;
     this.change = change;
@@ -175,6 +178,7 @@ public class ChangeInserter {
       db.changeMessages().insert(Collections.singleton(changeMessage));
     }
 
+    mergeabilityChecker.updateAsync(change);
     CheckedFuture<?, IOException> indexFuture = indexer.indexAsync(change);
     gitRefUpdated.fire(change.getProject(), patchSet.getRefName(),
         ObjectId.zeroId(), commit);

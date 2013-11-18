@@ -97,6 +97,7 @@ public class PatchSetInserter {
   private final GitReferenceUpdated gitRefUpdated;
   private final CommitValidators.Factory commitValidatorsFactory;
   private final ChangeIndexer indexer;
+  private final MergeabilityChecker mergeabilityChecker;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
   private final MergeUtil.Factory mergeUtilFactory;
 
@@ -123,6 +124,7 @@ public class PatchSetInserter {
       GitReferenceUpdated gitRefUpdated,
       CommitValidators.Factory commitValidatorsFactory,
       ChangeIndexer indexer,
+      MergeabilityChecker mergeabilityChecker,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
       MergeUtil.Factory mergeUtilFactory,
       @Assisted Repository git,
@@ -139,6 +141,7 @@ public class PatchSetInserter {
     this.gitRefUpdated = gitRefUpdated;
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.indexer = indexer;
+    this.mergeabilityChecker = mergeabilityChecker;
     this.replacePatchSetFactory = replacePatchSetFactory;
     this.mergeUtilFactory = mergeUtilFactory;
 
@@ -317,6 +320,7 @@ public class PatchSetInserter {
     } finally {
       db.rollback();
     }
+    mergeabilityChecker.updateAsync(updatedChange);
     CheckedFuture<?, IOException> e = indexer.indexAsync(updatedChange);
     if (runHooks) {
       hooks.doPatchsetCreatedHook(updatedChange, patchSet, db);

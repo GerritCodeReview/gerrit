@@ -21,8 +21,6 @@ import com.google.inject.Inject;
 
 import org.eclipse.jgit.api.GarbageCollectCommand;
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
@@ -33,7 +31,6 @@ import org.eclipse.jgit.storage.pack.PackConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.Properties;
@@ -91,15 +88,7 @@ public class GarbageCollection {
         result.addError(new GarbageCollectionResult.Error(
             GarbageCollectionResult.Error.Type.REPOSITORY_NOT_FOUND,
             p));
-      } catch (IOException e) {
-        logGcError(writer, p, e);
-        result.addError(new GarbageCollectionResult.Error(
-            GarbageCollectionResult.Error.Type.GC_FAILED, p));
-      } catch (GitAPIException e) {
-        logGcError(writer, p, e);
-        result.addError(new GarbageCollectionResult.Error(
-            GarbageCollectionResult.Error.Type.GC_FAILED, p));
-      } catch (JGitInternalException e) {
+      } catch (Exception e) {
         logGcError(writer, p, e);
         result.addError(new GarbageCollectionResult.Error(
             GarbageCollectionResult.Error.Type.GC_FAILED, p));

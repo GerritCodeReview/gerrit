@@ -811,6 +811,13 @@ the result.
 +
 By default this is false (test is not enabled).
 
+[[changeMerge.threadPoolSize]]changeMerge.threadPoolSize::
++
+Maximum size of the thread pool in which the mergeability flag of open
+changes is updated.
++
+Default is 1.
+
 [[commentlink]]Section commentlink
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Comment links are find/replace strings applied to change descriptions,

@@ -12,9 +12,46 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from os import path
+
 try:
   from subprocess import check_output
 except ImportError:
   from subprocess import Popen, PIPE
   def check_output(*cmd):
     return Popen(*cmd, stdout=PIPE).communicate()[0]
+
+REPO_ROOTS = {
+  'GERRIT': 'http://gerrit-maven.storage.googleapis.com',
+  'ECLIPSE': 'https://repo.eclipse.org/content/groups/releases',
+  'MAVEN_CENTRAL': 'http://repo1.maven.org/maven2',
+  'MAVEN_LOCAL': 'file://' + path.expanduser('~/.m2/repository'),
+}
+
+def resolve_url(url, redirects):
+  """ Resolve URL of a Maven artifact.
+
+  prefix:path is passed as URL. prefix identifies known or custom
+  repositories that can be rewritten in redirects set, passed as
+  second arguments.
+
+  A special case is supported, when prefix neither exists in
+  REPO_ROOTS, no in redirects set: the url is returned as is.
+  This enables plugins to pass custom maven_repository URL as is
+  directly to maven_jar().
+
+  Returns a resolved path for Maven artifact.
+  """
+  s = url.find(':')
+  if s < 0:
+    return url
+  scheme, rest = url[:s], url[s+1:]
+  if scheme in redirects:
+    root = redirects[scheme]
+  elif scheme in REPO_ROOTS:
+    root = REPO_ROOTS[scheme]
+  else:
+    return url
+  root = root.rstrip('/')
+  rest = rest.lstrip('/')
+  return '/'.join([root, rest])

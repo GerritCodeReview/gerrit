@@ -312,7 +312,7 @@ public class ProjectAccessScreen extends ProjectScreen {
 
   private void enable(boolean enabled) {
     commitMessage.setEnabled(enabled);
-    commit.setEnabled(enabled ? !access.getOwnerOf().isEmpty() : false);
+    commit.setEnabled(enabled && !access.getOwnerOf().isEmpty());
     review.setEnabled(enabled ? access.canUpload() : false);
     cancel1.setEnabled(enabled);
     cancel2.setEnabled(enabled);

@@ -33,10 +33,10 @@ class SubmitAction {
         public void onFailure(Throwable err) {
           if (SubmitFailureDialog.isConflict(err)) {
             new SubmitFailureDialog(err.getMessage()).center();
-            redisplay();
           } else {
             super.onFailure(err);
           }
+          redisplay();
         }
 
         private void redisplay() {

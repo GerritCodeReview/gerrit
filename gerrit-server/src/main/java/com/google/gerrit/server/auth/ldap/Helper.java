@@ -198,7 +198,13 @@ import javax.security.auth.login.LoginException;
       final HashMap<String, String> params = new HashMap<String, String>();
 
       if (account == null) {
-        account = findAccount(schema, ctx, username);
+        try {
+          account = findAccount(schema, ctx, username);
+        } catch (AccountException e) {
+          LdapRealm.log.warn("Account " + username +
+              " not found, assuming empty group membership");
+          return Collections.emptySet();
+        }
       }
       for (String name : schema.groupMemberQueryList.get(0).getParameters()) {
         params.put(name, account.get(name));
@@ -215,7 +221,13 @@ import javax.security.auth.login.LoginException;
 
     if (schema.accountMemberField != null) {
       if (account == null) {
-        account = findAccount(schema, ctx, username);
+        try {
+          account = findAccount(schema, ctx, username);
+        } catch (AccountException e) {
+          LdapRealm.log.warn("Account " + username +
+              " not found, assuming empty group membership");
+          return Collections.emptySet();
+        }
       }
 
       final Attribute groupAtt = account.getAll(schema.accountMemberField);

@@ -57,12 +57,10 @@ public class SideBySideTable extends AbstractPatchContentTable {
 
   protected void createFileCommentEditorOnSideA() {
     createCommentEditor(R_HEAD + 1, A, R_HEAD, FILE_SIDE_A);
-    return;
   }
 
   protected void createFileCommentEditorOnSideB() {
     createCommentEditor(R_HEAD + 1, B, R_HEAD, FILE_SIDE_B);
-    return;
   }
 
   @Override

@@ -1179,7 +1179,6 @@ public class ReceiveCommits {
         walk.markStart(h);
         if (walk.next() == null) {
           reject(magicBranch.cmd, "no common ancestry");
-          return;
         }
       } finally {
         walk.reset();
@@ -1188,7 +1187,6 @@ public class ReceiveCommits {
     } catch (IOException e) {
       magicBranch.cmd.setResult(REJECTED_MISSING_OBJECT);
       log.error("Invalid pack upload; one or more objects weren't sent", e);
-      return;
     }
   }
 

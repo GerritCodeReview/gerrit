@@ -467,8 +467,6 @@ public class ChangeJson {
         label.value = score;
       }
     }
-
-    return;
   }
 
   private void setAllApprovals(ChangeData cd,

@@ -132,11 +132,6 @@ class RelatedChanges extends Composite {
       });
   }
 
-  void setMaxHeight(int height) {
-    int h = height - header.getOffsetHeight();
-    scroll.setHeight(h + "px");
-  }
-
   void registerKeys() {
     register = true;
 

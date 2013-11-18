@@ -20,7 +20,7 @@ limitations under the License.
     xmlns:x='urn:import:com.google.gwtexpui.progress.client'>
   <ui:style type='com.google.gerrit.client.change.RelatedChanges.Style'>
     .subject {
-      width: 355px;
+      width: 420px;
       overflow: hidden;
       text-overflow: ellipsis;
       display: inline-block;
@@ -36,7 +36,7 @@ limitations under the License.
       <ui:attribute name='title'/>
       <ui:msg>Related Changes</ui:msg>
     </div>
-    <g:ScrollPanel ui:field='scroll' visible='false'/>
+    <g:ScrollPanel ui:field='scroll' visible='false' height='125px'/>
     <x:ProgressBar ui:field='progress'/>
     <div ui:field='error' aria-hidden='true' style='display: NONE' class='{style.header}'/>
     <div ui:field='none' aria-hidden='true' style='display: NONE' class='{style.header}'>

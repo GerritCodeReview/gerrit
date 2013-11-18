@@ -20,7 +20,7 @@ limitations under the License.
   <ui:style>
     #change_actions {
       padding-top: 2px;
-      padding-bottom: 20px;
+      padding-bottom: 12px;
     }
 
     #change_actions button {

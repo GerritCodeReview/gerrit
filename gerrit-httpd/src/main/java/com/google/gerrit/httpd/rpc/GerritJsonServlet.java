@@ -104,7 +104,6 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
       //
       if (!call.requireXsrfValid() || !session.get().isSignedIn()) {
         call.onFailure(new NotSignedInException());
-        return;
       }
     }
   }

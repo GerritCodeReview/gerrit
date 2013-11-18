@@ -257,6 +257,24 @@
       "revId": "5e31f12d50c7cb4ce436f05f0fab0caad21d3bb4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de7ee924_ec7fab8e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-18T16:39:42Z",
+      "side": 1,
+      "message": "Why not to try this layout change without to sacrifice the third column for related changes? \n\nHaving 15\" wide screen laptop \u0026 30\" desktop monitor here, it works just perfect. Still i understand the user complains that have smaller devices. So because we can not satisfy all users i tend to suggest to make it configurable and preserve the default of having three columns. But beside unsolved persistence problem (we can not easily persist dozen configuration options in database), i guess GWT is not the best technology for making configurable screen layouts?",
+      "parentUuid": "3e90e598_8f4db58a",
+      "revId": "5e31f12d50c7cb4ce436f05f0fab0caad21d3bb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

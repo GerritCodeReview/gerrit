@@ -34,6 +34,24 @@
       "revId": "78f4ef2e96556064293e89a0ad7bb896fa3fe063",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de7ee924_2c3ff3cb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-18T14:21:12Z",
+      "side": 1,
+      "message": "Thanks for the clarification! I am with you to add keyboard shortcut for navigation, but i am concerned if this is going to conflict with future extension of \"Select reference version\" feature.\n\nChad suggested this approach on dev ML list, to add radio button to the revision combo box and allow to select there the base reference version. Wouldn\u0027t keyboard navigation conflict with this extension? Anyway we have to solve this problem then, and not now ;-)",
+      "parentUuid": "1e75e13d_4e8fd35f",
+      "revId": "78f4ef2e96556064293e89a0ad7bb896fa3fe063",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

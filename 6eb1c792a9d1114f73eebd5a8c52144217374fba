@@ -46,6 +46,24 @@
       "revId": "6eb1c792a9d1114f73eebd5a8c52144217374fba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de1509f5_b405e02b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffScreen.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-18T22:46:26Z",
+      "side": 1,
+      "message": "Binding \u0027s\u0027 to open the settings panel would work.",
+      "parentUuid": "1e1c011e_f6e80027",
+      "revId": "6eb1c792a9d1114f73eebd5a8c52144217374fba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

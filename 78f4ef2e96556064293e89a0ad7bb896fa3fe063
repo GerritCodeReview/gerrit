@@ -16,6 +16,24 @@
       "revId": "78f4ef2e96556064293e89a0ad7bb896fa3fe063",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e75e13d_4e8fd35f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-18T14:06:48Z",
+      "side": 1,
+      "message": "Yes, we now always sort the patch sets in reverse order so that the newest patch set is on top. This is why I think K (Up) should navigate to the next (newer) patch set.",
+      "parentUuid": "decd09a8_143fb4cb",
+      "revId": "78f4ef2e96556064293e89a0ad7bb896fa3fe063",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

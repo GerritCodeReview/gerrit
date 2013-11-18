@@ -126,7 +126,6 @@ public class Submit implements RestModifyView<RevisionResource, Input> {
         // If the merge was attempted and it failed the system usually
         // writes a comment as a ChangeMessage and sets status to NEW.
         // Find the relevant message and report that as the conflict.
-        final Timestamp before = rsrc.getChange().getLastUpdatedOn();
         ChangeMessage msg = Iterables.getFirst(Iterables.filter(
           Lists.reverse(dbProvider.get().changeMessages()
               .byChange(change.getId())
@@ -134,8 +133,7 @@ public class Submit implements RestModifyView<RevisionResource, Input> {
           new Predicate<ChangeMessage>() {
             @Override
             public boolean apply(ChangeMessage input) {
-              return input.getAuthor() == null
-                  && input.getWrittenOn().getTime() >= before.getTime();
+              return input.getAuthor() == null;
             }
           }), null);
         if (msg != null) {

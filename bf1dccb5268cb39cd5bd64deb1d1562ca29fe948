@@ -16,6 +16,24 @@
       "revId": "bf1dccb5268cb39cd5bd64deb1d1562ca29fe948",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de7ee924_4c483f77",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-18T13:25:17Z",
+      "side": 1,
+      "message": "I wasn\u0027t aware that already the check whether the mergeability flag needs to be recomputed is that expensive. \n\n \u003e We really need this to be async updated and not blocking \n \u003e the search path.\n I gave this a first try, see [1].\n\n[1] https://gerrit-review.googlesource.com/51840",
+      "parentUuid": "7e86dd66_d1de0481",
+      "revId": "bf1dccb5268cb39cd5bd64deb1d1562ca29fe948",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

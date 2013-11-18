@@ -512,7 +512,6 @@ public class QueryShell {
         obj.addProperty("type", "error");
         obj.addProperty("message", "Unsupported Json variant");
         println(obj.toString());
-        return;
     }
   }
 

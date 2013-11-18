@@ -114,6 +114,23 @@
       "revId": "5e31f12d50c7cb4ce436f05f0fab0caad21d3bb4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de7ee924_8c4dc78a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-18T07:53:50Z",
+      "side": 1,
+      "message": "So currently we are using three columns on CS2:\n\nChange meta data | commit message | related changes\n\nThis change changes this to have only two columns. When all three panels are approx. equal in vertical size, like in this change [1], we might not use optimal the place if we are going to drop the third column and we would have a lot of white place.\n\nOn the other side, we could place in the third column another information, like verification status table with verify data per platform/job.\n\n\n[1] https://gerrit-review.googlesource.com/#/c2/51817",
+      "revId": "5e31f12d50c7cb4ce436f05f0fab0caad21d3bb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

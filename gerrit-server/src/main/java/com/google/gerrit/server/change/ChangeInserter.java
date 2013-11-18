@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import static com.google.gerrit.reviewdb.client.Change.INITIAL_PATCH_SET_ID;
 
 import com.google.common.util.concurrent.CheckedFuture;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.reviewdb.client.Account;
@@ -62,6 +63,7 @@ public class ChangeInserter {
   private final ApprovalsUtil approvalsUtil;
   private final TrackingFooters trackingFooters;
   private final ChangeIndexer indexer;
+  private final MergeabilityChecker mergeabilityChecker;
   private final CreateChangeSender.Factory createChangeSenderFactory;
 
   private final RefControl refControl;
@@ -84,6 +86,7 @@ public class ChangeInserter {
       ApprovalsUtil approvalsUtil,
       TrackingFooters trackingFooters,
       ChangeIndexer indexer,
+      MergeabilityChecker mergeabilityChecker,
       CreateChangeSender.Factory createChangeSenderFactory,
       @Assisted RefControl refControl,
       @Assisted Change change,
@@ -94,6 +97,7 @@ public class ChangeInserter {
     this.approvalsUtil = approvalsUtil;
     this.trackingFooters = trackingFooters;
     this.indexer = indexer;
+    this.mergeabilityChecker = mergeabilityChecker;
     this.createChangeSenderFactory = createChangeSenderFactory;
     this.refControl = refControl;
     this.change = change;
@@ -175,7 +179,23 @@ public class ChangeInserter {
       db.changeMessages().insert(Collections.singleton(changeMessage));
     }
 
-    CheckedFuture<?, IOException> indexFuture = indexer.indexAsync(change);
+    final CheckedFuture<Boolean, IOException> mergeableFuture =
+        mergeabilityChecker.updateAsync(change);
+    mergeableFuture.addListener(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          if (!mergeableFuture.checkedGet()) {
+            indexer.index(change);
+          }
+        } catch (IOException e) {
+          log.error("Failed to update mergeable flag for change "
+              + change.getChangeId(), e);
+          throw new RuntimeException(e);
+        }
+      }
+    }, MoreExecutors.sameThreadExecutor());
+
     gitRefUpdated.fire(change.getProject(), patchSet.getRefName(),
         ObjectId.zeroId(), commit);
 
@@ -196,7 +216,12 @@ public class ChangeInserter {
         log.error("Cannot send email for new change " + change.getId(), err);
       }
     }
-    indexFuture.checkedGet();
+    try {
+      mergeableFuture.checkedGet();
+    } catch (IOException e) {
+      indexer.index(change);
+      throw e;
+    }
     return change;
   }
 }

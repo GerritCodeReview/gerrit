@@ -17,7 +17,6 @@ package com.google.gerrit.server.git;
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromApprovals;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
-
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
@@ -44,6 +43,7 @@ import com.google.common.util.concurrent.CheckedFuture;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.common.ChangeHookRunner.HookResult;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
@@ -68,6 +68,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.MergeabilityChecker;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.change.PatchSetInserter.ChangeKind;
 import com.google.gerrit.server.change.RevisionResource;
@@ -272,6 +273,7 @@ public class ReceiveCommits {
   private final ListeningExecutorService changeUpdateExector;
   private final RequestScopePropagator requestScopePropagator;
   private final ChangeIndexer indexer;
+  private final MergeabilityChecker mergeabilityChecker;
   private final SshInfo sshInfo;
   private final AllProjectsName allProjectsName;
   private final ReceiveConfig receiveConfig;
@@ -335,6 +337,7 @@ public class ReceiveCommits {
       @ChangeUpdateExecutor ListeningExecutorService changeUpdateExector,
       final RequestScopePropagator requestScopePropagator,
       final ChangeIndexer indexer,
+      final MergeabilityChecker mergeabilityChecker,
       final SshInfo sshInfo,
       final AllProjectsName allProjectsName,
       ReceiveConfig config,
@@ -368,6 +371,7 @@ public class ReceiveCommits {
     this.changeUpdateExector = changeUpdateExector;
     this.requestScopePropagator = requestScopePropagator;
     this.indexer = indexer;
+    this.mergeabilityChecker = mergeabilityChecker;
     this.sshInfo = sshInfo;
     this.allProjectsName = allProjectsName;
     this.receiveConfig = config;
@@ -1915,7 +1919,24 @@ public class ReceiveCommits {
       if (cmd.getResult() == NOT_ATTEMPTED) {
         cmd.execute(rp);
       }
-      CheckedFuture<?, IOException> indexFuture = indexer.indexAsync(change);
+
+      final CheckedFuture<Boolean, IOException> mergeableFuture =
+          mergeabilityChecker.updateAsync(change);
+      mergeableFuture.addListener(new Runnable() {
+        @Override
+        public void run() {
+          try {
+            if (!mergeableFuture.checkedGet()) {
+              indexer.index(change);
+            }
+          } catch (IOException e) {
+            log.error("Failed to update mergeable flag for change "
+                + change.getChangeId(), e);
+            throw new RuntimeException(e);
+          }
+        }
+      }, MoreExecutors.sameThreadExecutor());
+
       gitRefUpdated.fire(project.getNameKey(), newPatchSet.getRefName(),
           ObjectId.zeroId(), newCommit);
       hooks.doPatchsetCreatedHook(change, newPatchSet, db);
@@ -1949,7 +1970,12 @@ public class ReceiveCommits {
           return "send-email newpatchset";
         }
       }));
-      indexFuture.checkedGet();
+      try {
+        mergeableFuture.checkedGet();
+      } catch (IOException e) {
+        indexer.index(change);
+        throw e;
+      }
 
       if (magicBranch != null && magicBranch.isSubmit()) {
         submit(changeCtl, newPatchSet);

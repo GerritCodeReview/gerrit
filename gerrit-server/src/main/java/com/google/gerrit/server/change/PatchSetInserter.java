@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.CheckedFuture;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -97,6 +98,7 @@ public class PatchSetInserter {
   private final GitReferenceUpdated gitRefUpdated;
   private final CommitValidators.Factory commitValidatorsFactory;
   private final ChangeIndexer indexer;
+  private final MergeabilityChecker mergeabilityChecker;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
   private final MergeUtil.Factory mergeUtilFactory;
 
@@ -123,6 +125,7 @@ public class PatchSetInserter {
       GitReferenceUpdated gitRefUpdated,
       CommitValidators.Factory commitValidatorsFactory,
       ChangeIndexer indexer,
+      MergeabilityChecker mergeabilityChecker,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
       MergeUtil.Factory mergeUtilFactory,
       @Assisted Repository git,
@@ -139,6 +142,7 @@ public class PatchSetInserter {
     this.gitRefUpdated = gitRefUpdated;
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.indexer = indexer;
+    this.mergeabilityChecker = mergeabilityChecker;
     this.replacePatchSetFactory = replacePatchSetFactory;
     this.mergeUtilFactory = mergeUtilFactory;
 
@@ -215,7 +219,7 @@ public class PatchSetInserter {
     init();
     validate();
 
-    Change updatedChange;
+    final Change updatedChange;
     RefUpdate ru = git.updateRef(patchSet.getRefName());
     ru.setExpectedOldObjectId(ObjectId.zeroId());
     ru.setNewObjectId(commit);
@@ -317,11 +321,31 @@ public class PatchSetInserter {
     } finally {
       db.rollback();
     }
-    CheckedFuture<?, IOException> e = indexer.indexAsync(updatedChange);
+    final CheckedFuture<Boolean, IOException> mergeableFuture =
+        mergeabilityChecker.updateAsync(updatedChange);
+    mergeableFuture.addListener(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          if (!mergeableFuture.checkedGet()) {
+            indexer.index(updatedChange);
+          }
+        } catch (IOException e) {
+          log.error("Failed to update mergeable flag for change "
+              + updatedChange.getChangeId(), e);
+          throw new RuntimeException(e);
+        }
+      }
+    }, MoreExecutors.sameThreadExecutor());
     if (runHooks) {
       hooks.doPatchsetCreatedHook(updatedChange, patchSet, db);
     }
-    e.checkedGet();
+    try {
+      mergeableFuture.checkedGet();
+    } catch (IOException e) {
+      indexer.index(updatedChange);
+      throw e;
+    }
     return updatedChange;
   }
 

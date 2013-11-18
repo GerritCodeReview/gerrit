@@ -162,7 +162,6 @@ public class Submit implements RestModifyView<RevisionResource, Input>,
    */
   public ChangeMessage getConflictMessage(RevisionResource rsrc)
       throws OrmException {
-    final Timestamp before = rsrc.getChange().getLastUpdatedOn();
     ChangeMessage msg = Iterables.getFirst(Iterables.filter(
       Lists.reverse(dbProvider.get().changeMessages()
           .byChange(rsrc.getChange().getId())
@@ -170,8 +169,7 @@ public class Submit implements RestModifyView<RevisionResource, Input>,
       new Predicate<ChangeMessage>() {
         @Override
         public boolean apply(ChangeMessage input) {
-          return input.getAuthor() == null
-              && input.getWrittenOn().getTime() >= before.getTime();
+          return input.getAuthor() == null;
         }
       }), null);
     return msg;

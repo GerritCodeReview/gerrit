@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.base.Objects;
 import com.google.gerrit.common.ProjectUtil;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupDescription;
@@ -25,9 +26,11 @@ import com.google.gerrit.extensions.events.NewProjectCreatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ProjectOwnerGroups;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -40,6 +43,7 @@ import com.google.inject.assistedinject.Assisted;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -66,6 +70,7 @@ public class PerformCreateProject {
     PerformCreateProject create(CreateProjectArgs createProjectArgs);
   }
 
+  private final Config cfg;
   private final Set<AccountGroup.UUID> projectOwnerGroups;
   private final IdentifiedUser currentUser;
   private final GitRepositoryManager repoManager;
@@ -78,13 +83,15 @@ public class PerformCreateProject {
   private final MetaDataUpdate.User metaDataUpdateFactory;
 
   @Inject
-  PerformCreateProject(@ProjectOwnerGroups Set<AccountGroup.UUID> pOwnerGroups,
+  PerformCreateProject(@GerritServerConfig Config cfg,
+      @ProjectOwnerGroups Set<AccountGroup.UUID> pOwnerGroups,
       IdentifiedUser identifiedUser, GitRepositoryManager gitRepoManager,
       GitReferenceUpdated referenceUpdated,
       DynamicSet<NewProjectCreatedListener> createdListener,
       @GerritPersonIdent PersonIdent personIdent, GroupBackend groupBackend,
       MetaDataUpdate.User metaDataUpdateFactory,
       @Assisted CreateProjectArgs createPArgs, ProjectCache pCache) {
+    this.cfg = cfg;
     this.projectOwnerGroups = pOwnerGroups;
     this.currentUser = identifiedUser;
     this.repoManager = gitRepoManager;
@@ -179,7 +186,8 @@ public class PerformCreateProject {
 
       Project newProject = config.getProject();
       newProject.setDescription(createProjectArgs.projectDescription);
-      newProject.setSubmitType(createProjectArgs.submitType);
+      newProject.setSubmitType(Objects.firstNonNull(createProjectArgs.submitType,
+          cfg.getEnum("projects", null, "newProjectsSubmitType", SubmitType.MERGE_IF_NECESSARY)));
       newProject
           .setUseContributorAgreements(createProjectArgs.contributorAgreements);
       newProject.setUseSignedOffBy(createProjectArgs.signedOffBy);

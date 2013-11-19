@@ -2206,6 +2206,18 @@ may force reloading with link:cmd-plugin.html[gerrit plugin reload].
 Default is 1 minute.
 
 
+[[projects]]Section projects
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[projects.newProjectsSubmitType]]projects.newProjectsSubmitType::
++
+The default submit type for newly created projects. Supported values
+are `MERGE_IF_NECESSARY`, `FAST_FORWARD_ONLY`, `REBASE_IF_NECESSARY`,
+`MERGE_ALWAYS` and `CHERRY_PICK`.
++
+By default, `MERGE_IF_NECESSARY`.
+
+
 [[receive]]Section receive
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 This section is used to set who can execute the 'receive-pack' and

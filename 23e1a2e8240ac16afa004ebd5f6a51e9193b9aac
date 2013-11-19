@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ead51ff_b22cc0b3",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/SuggestServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-19T21:55:00Z",
+      "side": 0,
+      "message": "I would prefer to keep this a \u003d query alias. It makes the lookup code below easier to follow.",
+      "revId": "23e1a2e8240ac16afa004ebd5f6a51e9193b9aac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7eb25d5d_51111468",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-19T21:55:00Z",
+      "side": 0,
+      "message": "I would prefer to keep this a \u003d query alias. It makes the lookup code below easier to follow.",
+      "revId": "23e1a2e8240ac16afa004ebd5f6a51e9193b9aac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

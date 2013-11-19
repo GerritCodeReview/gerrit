@@ -184,6 +184,30 @@
     },
     {
       "key": {
+        "uuid": "1e75e13d_6ebacff6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-19T08:21:39Z",
+      "side": 1,
+      "message": "I see this on Mac with Firefox and Chrome. The change state doesn\u0027t seem to be important, I see it for changes that are \u0027In Review\u0027, \u0027Merged\u0027 or \u0027Abandoned\u0027.\n\nHere is the screenshot:\n  http://i.imgur.com/zGzpASP.png",
+      "parentUuid": "de1509f5_141e5474",
+      "range": {
+        "startLine": 13,
+        "startChar": 60,
+        "endLine": 13,
+        "endChar": 79
+      },
+      "revId": "5e31f12d50c7cb4ce436f05f0fab0caad21d3bb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e75e13d_ae52f727",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

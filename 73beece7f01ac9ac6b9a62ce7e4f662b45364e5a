@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "de7ee924_acae83ae",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-19T20:29:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e6ab164_6a171760",
+      "revId": "73beece7f01ac9ac6b9a62ce7e4f662b45364e5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be26954d_f3e31048",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/BranchInput.java",
         "patchSetId": 2
@@ -66,6 +84,24 @@
       "writtenOn": "2013-11-16T01:58:59Z",
       "side": 1,
       "message": "This should be implied by the surrounding URI context from other API calls.",
+      "revId": "73beece7f01ac9ac6b9a62ce7e4f662b45364e5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de7ee924_4ca4bfcd",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/BranchInput.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-19T20:29:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be26954d_f3e31048",
       "revId": "73beece7f01ac9ac6b9a62ce7e4f662b45364e5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -89,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "1e75e13d_0e4c6b57",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/ProjectApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-19T20:29:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be26954d_d3de1481",
+      "revId": "73beece7f01ac9ac6b9a62ce7e4f662b45364e5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "defb49cc_84aee6ae",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/Projects.java",
         "patchSetId": 2
@@ -106,6 +160,24 @@
         "endLine": 20,
         "endChar": 20
       },
+      "revId": "73beece7f01ac9ac6b9a62ce7e4f662b45364e5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e75e13d_2e492748",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/Projects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-19T20:29:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "defb49cc_84aee6ae",
       "revId": "73beece7f01ac9ac6b9a62ce7e4f662b45364e5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

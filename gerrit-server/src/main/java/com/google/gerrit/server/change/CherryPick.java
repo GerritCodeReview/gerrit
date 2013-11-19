@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -25,7 +26,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
-import com.google.gerrit.server.change.CherryPick.Input;
 import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -37,16 +37,11 @@ import com.google.inject.Provider;
 
 import java.io.IOException;
 
-class CherryPick implements RestModifyView<RevisionResource, Input>,
+public class CherryPick implements RestModifyView<RevisionResource, CherryPickInput>,
     UiAction<RevisionResource> {
   private final Provider<ReviewDb> dbProvider;
   private final Provider<CherryPickChange> cherryPickChange;
   private final ChangeJson json;
-
-  static class Input {
-    String message;
-    String destination;
-  }
 
   @Inject
   CherryPick(Provider<ReviewDb> dbProvider,
@@ -58,7 +53,7 @@ class CherryPick implements RestModifyView<RevisionResource, Input>,
   }
 
   @Override
-  public ChangeInfo apply(RevisionResource revision, Input input)
+  public ChangeInfo apply(RevisionResource revision, CherryPickInput input)
       throws AuthException, BadRequestException, ResourceConflictException,
       ResourceNotFoundException, OrmException, IOException, EmailException {
     final ChangeControl control = revision.getControl();

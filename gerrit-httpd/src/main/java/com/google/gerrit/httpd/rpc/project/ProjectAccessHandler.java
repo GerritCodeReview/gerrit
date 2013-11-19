@@ -132,12 +132,18 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
         }
       }
 
+      boolean parentProjectUpdate = false;
       if (!config.getProject().getNameKey().equals(allProjects.get()) &&
           !config.getProject().getParent(allProjects.get()).equals(parentProjectName)) {
+        parentProjectUpdate = true;
         try {
-          setParent.get().validateParentUpdate(projectControl, parentProjectName.get());
+          setParent.get().validateParentUpdate(projectControl,
+              parentProjectName.get(), checkIfOwner);
         } catch (AuthException e) {
-          throw new UpdateParentFailedException(e.getMessage(), e);
+          throw new UpdateParentFailedException(
+              "You are not allowed to change the parent project since you are "
+              + "not an administrator. You may save the modifications for review "
+              + "so that an administrator can approve them.", e);
         } catch (ResourceConflictException e) {
           throw new UpdateParentFailedException(e.getMessage(), e);
         } catch (UnprocessableEntityException e) {
@@ -155,15 +161,15 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
         md.setMessage("Modify access rules\n");
       }
 
-      return updateProjectConfig(config, md);
+      return updateProjectConfig(config, md, parentProjectUpdate);
     } finally {
       md.close();
     }
   }
 
   protected abstract T updateProjectConfig(ProjectConfig config,
-      MetaDataUpdate md) throws IOException, NoSuchProjectException,
-      ConfigInvalidException, OrmException;
+      MetaDataUpdate md, boolean parentProjectUpdate) throws IOException,
+      NoSuchProjectException, ConfigInvalidException, OrmException;
 
   private void replace(ProjectConfig config, Set<String> toDelete,
       AccessSection section) throws NoSuchGroupException {

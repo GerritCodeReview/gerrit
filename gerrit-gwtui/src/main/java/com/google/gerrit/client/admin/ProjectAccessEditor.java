@@ -112,7 +112,7 @@ public class ProjectAccessEditor extends Composite implements
       parentProject.setTargetHistoryToken( //
           Dispatcher.toProjectAdmin(parent, ProjectScreen.ACCESS));
 
-      parentProjectBox.setVisible(editing && value.canChangeParent());
+      parentProjectBox.setVisible(editing);
       parentProjectBox.setProject(value.getProjectName());
       parentProjectBox.setParentProject(value.getInheritsFrom());
       parentProject.setVisible(!parentProjectBox.isVisible());

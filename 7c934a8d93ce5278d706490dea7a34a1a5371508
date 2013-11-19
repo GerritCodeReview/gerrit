@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ead51ff_f2848845",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-19T23:10:41Z",
+      "side": 1,
+      "message": "clarify this is in JGit\u0027s ReceivePack code not Gerrit.",
+      "range": {
+        "startLine": 12,
+        "startChar": 36,
+        "endLine": 12,
+        "endChar": 51
+      },
+      "revId": "7c934a8d93ce5278d706490dea7a34a1a5371508",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7eb25d5d_f14da889",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-19T23:10:41Z",
+      "side": 1,
+      "message": "unnecessary",
+      "range": {
+        "startLine": 13,
+        "startChar": 16,
+        "endLine": 13,
+        "endChar": 27
+      },
+      "revId": "7c934a8d93ce5278d706490dea7a34a1a5371508",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7eb25d5d_d1522429",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-19T23:10:41Z",
+      "side": 1,
+      "message": "Why isn\u0027t this an AdvertiseRefsHook? Linked in below at line 414?",
+      "revId": "7c934a8d93ce5278d706490dea7a34a1a5371508",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ead51ff_b27a00a0",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-19T23:02:22Z",
+      "side": 1,
+      "message": "This I could see returning a RevisionApi, but as a pointer to the newly rebased revision rather than the one the caller invoked on. That\u0027s basically the right behavior and is what /rebase tries to do by giving you back a ChangeInfo with CURRENT_REVISION and CURRENT_COMMIT.",
+      "revId": "78b727ad14a3eb18da18a06ad838fdd9f03e55c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ead51ff_523f54ca",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-19T23:02:22Z",
+      "side": 1,
+      "message": "I don\u0027t know if we should do this. In the HTTP REST API /review returns a tiny payload that tells the caller which labels were actually applied. This is useful if you want to apply a bunch of labels and you aren\u0027t sure which ones you have permission to use.\n\nSo there is already a defined return object from /review. In this API we discarded all return values right now and just return void. But I wonder if the caller would be interested in the set of applied labels like on HTTP, or if the RevisionApi for invoking submit() is the best API to use.",
+      "revId": "78b727ad14a3eb18da18a06ad838fdd9f03e55c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ead51ff_927ffc8f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-19T23:02:22Z",
+      "side": 1,
+      "message": "drop the ps bit",
+      "range": {
+        "startLine": 125,
+        "startChar": 53,
+        "endLine": 125,
+        "endChar": 55
+      },
+      "revId": "78b727ad14a3eb18da18a06ad838fdd9f03e55c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

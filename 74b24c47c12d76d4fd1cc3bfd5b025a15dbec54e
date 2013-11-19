@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7eb25d5d_9131bc0d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-19T22:17:10Z",
+      "side": 1,
+      "message": "This change is brand new. The mergeabilityChecker should have observed a difference in the mergeability field and written out an update. And updated the index. And the index is also updating in another thread.\n\nThis is one of the places where composable futures are very handy. What we really want to say is get a ListenableFuture\u003cBoolean\u003e back from mergeability.update(change). It supplies true if the index was updated, false if not. Then attach a listener to that future that updates the index if the boolean was false (index not updated).\n\nIt slightly defers the index update, but it removes the race around which index update will win. In the gerrit-review system I know the correct one will always win, at the expense of some additional CPU time. But in the Lucene based index I have no idea. I think its racy and we could see the stale mergeability flag win.",
+      "range": {
+        "startLine": 181,
+        "startChar": 4,
+        "endLine": 182,
+        "endChar": 75
+      },
+      "revId": "74b24c47c12d76d4fd1cc3bfd5b025a15dbec54e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

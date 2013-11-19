@@ -132,25 +132,24 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
       return Collections.emptyList();
     }
 
-    final String a = query;
-    final String b = a + MAX_SUFFIX;
+    final String b = query + MAX_SUFFIX;
     final int max = 10;
     final int n = limit <= 0 ? max : Math.min(limit, max);
 
     final LinkedHashMap<Account.Id, AccountInfo> r =
         new LinkedHashMap<Account.Id, AccountInfo>();
-    for (final Account p : db.accounts().suggestByFullName(a, b, n)) {
+    for (final Account p : db.accounts().suggestByFullName(query, b, n)) {
       addSuggestion(r, p, new AccountInfo(p), active, visibilityControl);
     }
     if (r.size() < n) {
-      for (final Account p : db.accounts().suggestByPreferredEmail(a, b,
+      for (final Account p : db.accounts().suggestByPreferredEmail(query, b,
           n - r.size())) {
         addSuggestion(r, p, new AccountInfo(p), active, visibilityControl);
       }
     }
     if (r.size() < n) {
       for (final AccountExternalId e : db.accountExternalIds()
-          .suggestByEmailAddress(a, b, n - r.size())) {
+          .suggestByEmailAddress(query, b, n - r.size())) {
         if (!r.containsKey(e.getAccountId())) {
           final Account p = accountCache.get(e.getAccountId()).getAccount();
           final AccountInfo info = new AccountInfo(p);

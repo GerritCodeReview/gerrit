@@ -73,9 +73,8 @@ public class OptionHandlers {
     return (Class<?>) p.getActualTypeArguments()[0];
   }
 
+  @SuppressWarnings("unchecked")
   private static Binding<OptionHandlerFactory<?>> cast(Binding<?> e) {
-    @SuppressWarnings("unchecked")
-    Binding<OptionHandlerFactory<?>> b = (Binding<OptionHandlerFactory<?>>) e;
-    return b;
+    return (Binding<OptionHandlerFactory<?>>) e;
   }
 }

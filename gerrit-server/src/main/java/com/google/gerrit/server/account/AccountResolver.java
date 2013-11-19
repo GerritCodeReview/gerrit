@@ -180,21 +180,20 @@ public class AccountResolver {
     // and pray we come up with a reasonable result list.
     //
     Set<Account.Id> result = new HashSet<Account.Id>();
-    String a = nameOrEmail;
     String b = nameOrEmail + "\u9fa5";
-    for (Account act : schema.get().accounts().suggestByFullName(a, b, 10)) {
+    for (Account act : schema.get().accounts().suggestByFullName(nameOrEmail, b, 10)) {
       result.add(act.getId());
     }
     for (AccountExternalId extId : schema
         .get()
         .accountExternalIds()
         .suggestByKey(
-            new AccountExternalId.Key(AccountExternalId.SCHEME_USERNAME, a),
+            new AccountExternalId.Key(AccountExternalId.SCHEME_USERNAME, nameOrEmail),
             new AccountExternalId.Key(AccountExternalId.SCHEME_USERNAME, b), 10)) {
       result.add(extId.getAccountId());
     }
     for (AccountExternalId extId : schema.get().accountExternalIds()
-        .suggestByEmailAddress(a, b, 10)) {
+        .suggestByEmailAddress(nameOrEmail, b, 10)) {
       result.add(extId.getAccountId());
     }
     return result;

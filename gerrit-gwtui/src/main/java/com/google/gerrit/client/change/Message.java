@@ -41,6 +41,7 @@ class Message extends Composite {
   }
 
   @UiField Style style;
+  @UiField HTMLPanel header;
   @UiField Element name;
   @UiField Element summary;
   @UiField Element date;
@@ -58,7 +59,7 @@ class Message extends Composite {
     }
 
     initWidget(uiBinder.createAndBindUi(this));
-    addDomHandler(new ClickHandler() {
+    header.addDomHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
         setOpen(!isOpen());

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ead51ff_d204e42c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2212,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-19T21:21:55Z",
+      "side": 1,
+      "message": "repository.*.defaultSubmitType?\n\nSee repository.\u003cname\u003e.ownerGroup for another property we apply to new projects at creation time.",
+      "revId": "b8c4fc569f7b3cd79b96932c2b45a89cf3ba04c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

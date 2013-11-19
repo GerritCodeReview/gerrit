@@ -106,6 +106,7 @@ public interface GerritCss extends CssResource {
   String downloadLinkListCell();
   String downloadLink_Active();
   String drafts();
+  String editHeadButton();
   String emptySection();
   String errorDialog();
   String errorDialogButtons();

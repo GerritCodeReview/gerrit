@@ -70,6 +70,10 @@ public class PageLinks {
     return "/admin/projects/" + p.get() + ",access";
   }
 
+  public static String toProjectBranches(Project.NameKey p) {
+    return "/admin/projects/" + p.get() + ",branches";
+  }
+
   public static String toAccountQuery(String fullname, Status status) {
     return toChangeQuery(op("owner", fullname) + " " + status(status), TOP);
   }

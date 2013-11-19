@@ -136,6 +136,14 @@ public class ProjectApi {
     }
   }
 
+  public static void setHead(Project.NameKey name, String ref,
+      AsyncCallback<NativeString> cb) {
+    RestApi call = project(name).view("HEAD");
+    HeadInput input = HeadInput.create();
+    input.setRef(ref);
+    call.put(input, cb);
+  }
+
   public static RestApi project(Project.NameKey name) {
     return new RestApi("/projects/").id(name.get());
   }
@@ -228,5 +236,16 @@ public class ProjectApi {
     }
 
     final native void setDescription(String d) /*-{ if(d)this.description=d; }-*/;
+  }
+
+  private static class HeadInput extends JavaScriptObject {
+    static HeadInput create() {
+      return createObject().cast();
+    }
+
+    protected HeadInput() {
+    }
+
+    final native void setRef(String r) /*-{ if(r)this.ref=r; }-*/;
   }
 }

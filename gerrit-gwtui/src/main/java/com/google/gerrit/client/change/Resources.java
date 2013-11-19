@@ -25,8 +25,6 @@ public interface Resources extends ClientBundle {
 
   @Source("star_open.png") ImageResource star_open();
   @Source("star_filled.png") ImageResource star_filled();
-  @Source("reload_black.png") ImageResource reload_black();
-  @Source("reload_white.png") ImageResource reload_white();
   @Source("remove_reviewer.png") ImageResource remove_reviewer();
   @Source("common.css") Style style();
 

@@ -55,7 +55,6 @@ import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
-import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -70,15 +69,16 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.EventListener;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ToggleButton;
-import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
+import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtorm.client.KeyUtil;
 
 import java.sql.Timestamp;
@@ -128,13 +128,12 @@ public class ChangeScreen2 extends Screen {
 
   @UiField HTMLPanel headerLine;
   @UiField Style style;
+  @UiField Element commitSubjectText;
   @UiField ToggleButton star;
-  @UiField Reload reload;
-  @UiField AnchorElement permalink;
+  @UiField Anchor permalink;
 
   @UiField Element reviewersText;
   @UiField Reviewers reviewers;
-  @UiField Element changeIdText;
   @UiField Element ownerText;
   @UiField Element statusText;
   @UiField Image projectQuery;
@@ -142,7 +141,6 @@ public class ChangeScreen2 extends Screen {
   @UiField InlineHyperlink branchLink;
   @UiField Element submitActionText;
   @UiField Element notMergeable;
-  @UiField CopyableLabel idText;
   @UiField Topic topic;
   @UiField Element actionText;
   @UiField Element actionDate;
@@ -236,7 +234,7 @@ public class ChangeScreen2 extends Screen {
     keysNavigation.add(new KeyCommand(0, 'R', Util.C.keyReloadChange()) {
       @Override
       public void onKeyPress(final KeyPressEvent event) {
-        reload.reload();
+        Gerrit.display(PageLinks.toChange(changeId));
       }
     });
 
@@ -410,6 +408,12 @@ public class ChangeScreen2 extends Screen {
   @UiHandler("reply")
   void onReply(ClickEvent e) {
     onReply();
+  }
+
+  @UiHandler("permalink")
+  void onReload(ClickEvent e) {
+    e.preventDefault();
+    Gerrit.display(PageLinks.toChange(changeId));
   }
 
   private void onReply() {
@@ -650,6 +654,7 @@ public class ChangeScreen2 extends Screen {
       statusText.setInnerText(Util.toLongString(info.status()));
     }
 
+    renderCommitSubject(info);
     renderOwner(info);
     renderActionTextDate(info);
     renderHistory(info);
@@ -662,10 +667,7 @@ public class ChangeScreen2 extends Screen {
 
     star.setValue(info.starred());
     permalink.setHref(ChangeLink.permalink(changeId));
-    changeIdText.setInnerText(String.valueOf(info.legacy_id()));
-    idText.setText("Change-Id: " + info.change_id());
-    idText.setPreviewText(info.change_id());
-    reload.set(info);
+    permalink.setText(String.valueOf(info.legacy_id()));
     topic.set(info, revision);
     commit.set(commentLinkProcessor, info, revision);
     related.set(info, revision);
@@ -695,6 +697,13 @@ public class ChangeScreen2 extends Screen {
       sb.append(info.subject());
     }
     setWindowTitle(sb.toString());
+  }
+
+  private void renderCommitSubject(ChangeInfo info) {
+    RevisionInfo rev = info.revision(revision);
+    String sub = rev.commit().subject();
+    commitSubjectText.setInnerSafeHtml(commentLinkProcessor.apply(
+      new SafeHtmlBuilder().append(sub).linkify()));
   }
 
   private void renderOwner(ChangeInfo info) {
@@ -755,7 +764,7 @@ public class ChangeScreen2 extends Screen {
       updateAvailable = new UpdateAvailableBar() {
         @Override
         void onShow() {
-          reload.reload();
+          Gerrit.display(PageLinks.toChange(changeId));
         }
 
         void onIgnore(Timestamp newTime) {

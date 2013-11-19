@@ -18,15 +18,14 @@ limitations under the License.
     xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:c='urn:import:com.google.gerrit.client.change'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
-    xmlns:x='urn:import:com.google.gerrit.client.ui'
-    xmlns:clippy='urn:import:com.google.gwtexpui.clippy.client'>
+    xmlns:x='urn:import:com.google.gerrit.client.ui'>
   <ui:with field='ico' type='com.google.gerrit.client.GerritResources'/>
   <ui:with field='res' type='com.google.gerrit.client.change.Resources'/>
   <ui:style type='com.google.gerrit.client.change.ChangeScreen2.Style'>
     @eval textColor com.google.gerrit.client.Gerrit.getTheme().textColor;
     @eval trimColor com.google.gerrit.client.Gerrit.getTheme().trimColor;
 
-    @def INFO_WIDTH 450px;
+    @def COMMIT_WIDTH 560px;
     @def HEADER_HEIGHT 29px;
 
     .headerLine {
@@ -35,60 +34,74 @@ limitations under the License.
       height: HEADER_HEIGHT;
     }
 
-    .idBlock {
+    .subjectLine {
       position: relative;
-      width: INFO_WIDTH;
+      width: COMMIT_WIDTH;
       height: HEADER_HEIGHT;
       background-color: trimColor;
       color: textColor;
       font-family: sans-serif;
       font-weight: bold;
     }
-    .star {
-      cursor: pointer;
-      outline: none;
-      position: absolute;
-      left: 5px;
-      top: 5px;
-    }
-    .idLine, .idStatus {
+    .subjectText {
+      width: 460px;
+      height: HEADER_HEIGHT;
       line-height: HEADER_HEIGHT;
-    }
-    .idLine {
-      position: absolute;
-      top: 0;
-      left: 29px;
-      width: 245px;
-      white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    .idStatus {
+    .subjectButtons {
       position: absolute;
       top: 0;
-      right: 26px;
+      right: 3px;
     }
-    .reload {
+
+    .infoLine {
+      position: absolute;
+      top: 0;
+      left: COMMIT_WIDTH;
+      height: HEADER_HEIGHT;
+      padding-left: 25px;
+    }
+
+    .statusRight {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: HEADER_HEIGHT;
+    }
+    .starChangeStatus {
+      display: inline-block;
+      width: 325px;
+    }
+    .star {
+      position: absolute;
+      top: 5px;
+      left: 0;
+      cursor: pointer;
+      outline: none;
+    }
+    .changeId {
       display: block;
       position: absolute;
-      top: 7px;
-      right: 5px;
-      cursor: pointer;
-    }
-
-    .headerButtons {
-      position: absolute;
       top: 0;
-      left: INFO_WIDTH;
-      height: HEADER_HEIGHT;
-      padding-left: 5px;
+      left: 22px;
+      width: 300px;
+      white-space: nowrap;
+      line-height: HEADER_HEIGHT;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .statusText {
+      font-weight: bold;
     }
 
-    .popdown {
-      position: absolute;
-      top: 2px;
-      right: 0;
+    div.popdown {
+      display: inline-block;
+      margin-top: 2px;
+      margin-left: 5px;
     }
+
     .popdown button {
       cursor: pointer;
       height: 25px;
@@ -110,28 +123,28 @@ limitations under the License.
     .popdown button.selected {
       font-weight: bold;
     }
-    .headerLine button:disabled,
-    .headerTable button:disabled,
+    .popdown button:focus {
+      outline: none;
+    }
+
+    .headerButtons button:disabled,
+    #change_infoTable button:disabled,
     .popdown button:disabled {
       background-color: #999;
       background-image: -webkit-linear-gradient(top, #999, #999);
     }
 
-    .headerTable {
+    .infoTable {
       border-spacing: 0;
     }
 
-    .headerTable th {
+    .infoTable th {
       width: 60px;
       color: #444;
       font-weight: normal;
       vertical-align: top;
       text-align: left;
       padding-right: 5px;
-    }
-
-    .clippy div {
-      float: right;
     }
 
     .queryProject {
@@ -141,7 +154,8 @@ limitations under the License.
 
     .infoColumn {
       width: 440px;
-      padding-right: 10px;
+      padding-left: 17px;
+      padding-right: 17px;
       vertical-align: top;
     }
 
@@ -158,12 +172,16 @@ limitations under the License.
       color: red;
     }
 
-    .commitColumn, .related {
+    .commitColumn, .relatedColumn {
       padding: 0;
       vertical-align: top;
     }
-    .commitColumn {
-      width: 600px;
+    .commitColumn { width: COMMIT_WIDTH; }
+    .relatedColumn { width: 375px; }
+
+    .commitSubjectText {
+      font-family: monospace;
+      white-space: pre;
     }
 
     .labels {
@@ -246,9 +264,12 @@ limitations under the License.
       padding: 5px 10px;
     }
     .sectionHeader .headerButtons {
+      position: absolute;
+      left: 300px;
       top: 2px;
       height: 18px;
       border-left: 1px inset #fff;
+      padding-left: 5px;
       padding-top: 3px;
       padding-bottom: 3px;
     }
@@ -261,57 +282,69 @@ limitations under the License.
 
   <g:HTMLPanel>
     <g:HTMLPanel styleName='{style.headerLine}' ui:field='headerLine'>
-      <div class='{style.idBlock}'>
-        <c:StarIcon ui:field='star' styleName='{style.star}'/>
-        <div class='{style.idLine}'>
-          <ui:msg>Change <span ui:field='changeIdText'/> by <span ui:field='ownerText'/></ui:msg>
-        </div>
-        <div ui:field='statusText' class='{style.idStatus}'/>
-        <a ui:field='permalink' class='{style.reload}'>
-          <c:Reload ui:field='reload'
-              title='Reload the change (Shortcut: R)'>
+      <div class='{style.subjectLine}'>
+        <div class='{style.subjectText}' ui:field='commitSubjectText'/>
+        <div class='{style.subjectButtons} {style.headerButtons}'>
+          <g:Button ui:field='editMessage'
+              styleName=''
+              visible='false'
+              title='Edit commit message (Shortcut: e)'>
             <ui:attribute name='title'/>
-          </c:Reload>
-        </a>
-      </div>
-      <div class='{style.headerButtons}'>
-        <g:Button ui:field='reply'
-            styleName=''
-            title='Reply and score (Shortcut: a)'>
-          <ui:attribute name='title'/>
-          <div><ui:msg>Reply&#8230;</ui:msg></div>
-        </g:Button>
-        <c:QuickApprove ui:field='quickApprove'
-            styleName='{style.quickApprove}'
-            title='Apply score with one click'>
-          <ui:attribute name='title'/>
-        </c:QuickApprove>
-        <g:Button ui:field='editMessage'
-            styleName=''
-            visible='false'
-            title='Edit commit message (Shortcut: e)'>
-          <ui:attribute name='title'/>
-          <div><ui:msg>Edit Message</ui:msg></div>
-        </g:Button>
+            <div><ui:msg>Edit Message</ui:msg></div>
+          </g:Button>
+        </div>
       </div>
 
-      <g:FlowPanel styleName='{style.popdown}'>
-        <g:Button ui:field='includedIn' styleName='' visible="false">
-          <div><ui:msg>Included in</ui:msg></div>
-        </g:Button>
-        <g:Button ui:field='revisions' styleName=''>
-          <div><ui:msg>Revisions</ui:msg></div>
-        </g:Button>
-        <g:Button ui:field='download' styleName=''>
-          <div><ui:msg>Download</ui:msg></div>
-        </g:Button>
-      </g:FlowPanel>
+      <div class='{style.infoLine}'>
+        <div class='{style.headerButtons}'>
+          <g:Button ui:field='reply'
+              styleName=''
+              title='Reply and score (Shortcut: a)'>
+            <ui:attribute name='title'/>
+            <div><ui:msg>Reply&#8230;</ui:msg></div>
+          </g:Button>
+          <c:QuickApprove ui:field='quickApprove'
+              styleName='{style.quickApprove}'
+              title='Apply score with one click'>
+            <ui:attribute name='title'/>
+          </c:QuickApprove>
+        </div>
+      </div>
+
+      <div class='{style.statusRight}'>
+        <div class='{style.starChangeStatus}'>
+          <c:StarIcon ui:field='star' styleName='{style.star}'/>
+          <span class='{style.changeId}'>
+            <ui:msg>Change <g:Anchor ui:field='permalink' title='Reload the change (Shortcut: R)'>
+              <ui:attribute name='title'/>
+            </g:Anchor> - <span ui:field='statusText' class='{style.statusText}'/></ui:msg>
+          </span>
+        </div>
+        <g:FlowPanel styleName='{style.popdown}'>
+          <g:Button ui:field='includedIn' styleName='' visible="false">
+            <div><ui:msg>Included in</ui:msg></div>
+          </g:Button>
+          <g:Button ui:field='revisions' styleName=''>
+            <div><ui:msg>Revisions</ui:msg></div>
+          </g:Button>
+          <g:Button ui:field='download' styleName=''>
+            <div><ui:msg>Download</ui:msg></div>
+          </g:Button>
+        </g:FlowPanel>
+      </div>
     </g:HTMLPanel>
 
-    <table class='{style.headerTable}'>
+    <table class='{style.infoTable}'>
       <tr>
+        <td class='{style.commitColumn}'>
+          <c:CommitBox ui:field='commit'/>
+        </td>
         <td class='{style.infoColumn}'>
           <table id='change_infoTable'>
+            <tr>
+              <th><ui:msg>Owner</ui:msg></th>
+              <td ui:field='ownerText'/>
+            </tr>
             <tr>
               <th><ui:msg>Reviewers</ui:msg></th>
               <td ui:field='reviewersText'/>
@@ -346,6 +379,10 @@ limitations under the License.
               </td>
             </tr>
             <tr>
+              <th><ui:msg>Topic</ui:msg></th>
+              <td><c:Topic ui:field='topic'/></td>
+            </tr>
+            <tr>
               <th><ui:msg>Strategy</ui:msg></th>
               <td>
                 <span ui:field='submitActionText'/>
@@ -357,29 +394,16 @@ limitations under the License.
                 </div>
               </td>
             </tr>
-            <tr><td colspan='2'><c:Actions ui:field='actions'/></td></tr>
             <tr>
               <th ui:field='actionText'/>
               <td ui:field='actionDate'/>
             </tr>
-            <tr>
-              <th><ui:msg>Change-Id</ui:msg></th>
-              <td><clippy:CopyableLabel styleName='{style.clippy}' ui:field='idText'/></td>
-            </tr>
-            <tr>
-              <th><ui:msg>Topic</ui:msg></th>
-              <td><c:Topic ui:field='topic'/></td>
-            </tr>
+            <tr><td colspan='2'><c:Actions ui:field='actions'/></td></tr>
           </table>
           <hr/>
           <c:Labels ui:field='labels' styleName='{style.labels}'/>
         </td>
-
-        <td class='{style.commitColumn}'>
-          <c:CommitBox ui:field='commit'/>
-        </td>
-
-        <td class='{style.related}'>
+        <td class='{style.relatedColumn}'>
           <c:RelatedChanges ui:field='related'/>
         </td>
       </tr>

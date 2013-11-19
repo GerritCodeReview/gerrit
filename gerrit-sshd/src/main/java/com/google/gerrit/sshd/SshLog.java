@@ -25,9 +25,9 @@ import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.IdGenerator;
+import com.google.gerrit.server.util.LogUtil;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gerrit.sshd.SshScope.Context;
-import com.google.gerrit.util.LogUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -89,6 +89,10 @@ class SshLog implements LifecycleListener {
       Appender appender = log.getAppender(LOG_NAME);
       if (appender != null) {
         async.addAppender(appender);
+      } else {
+        log.warn("No appender with the name: "
+            + LOG_NAME
+            + " was found. SSHD logging is disabled");
       }
     }
     async.activateOptions();

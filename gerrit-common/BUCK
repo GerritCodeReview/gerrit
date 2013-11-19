@@ -29,13 +29,6 @@ java_library(
   visibility = ['PUBLIC'],
 )
 
-java_library(
-  name = 'util',
-  srcs = glob([SRC + 'util/**/*.java']),
-  deps = ['//lib:guava'],
-  visibility = ['PUBLIC'],
-)
-
 java_test(
   name = 'client_tests',
   srcs = glob(['src/test/java/**/*.java']),

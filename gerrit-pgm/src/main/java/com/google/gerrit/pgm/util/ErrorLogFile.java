@@ -16,7 +16,7 @@ package com.google.gerrit.pgm.util;
 
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.util.LogUtil;
+import com.google.gerrit.server.util.LogUtil;
 
 import org.apache.log4j.Appender;
 import org.apache.log4j.ConsoleAppender;

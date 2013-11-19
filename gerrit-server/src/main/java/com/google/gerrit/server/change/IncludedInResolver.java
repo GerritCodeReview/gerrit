@@ -14,12 +14,17 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.collect.LinkedListMultimap;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.IncludedInDetail;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
@@ -28,13 +33,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -48,16 +50,14 @@ public class IncludedInResolver {
   public static IncludedInDetail resolve(final Repository repo,
       final RevWalk rw, final RevCommit commit) throws IOException {
 
-    Set<Ref> tags =
-        new HashSet<Ref>(repo.getRefDatabase().getRefs(Constants.R_TAGS)
-            .values());
-    Set<Ref> branches =
-        new HashSet<Ref>(repo.getRefDatabase().getRefs(Constants.R_HEADS)
-            .values());
-    Set<Ref> allTagsAndBranches = new HashSet<Ref>();
+    RefDatabase refDb = repo.getRefDatabase();
+    Collection<Ref> tags = refDb.getRefs(Constants.R_TAGS).values();
+    Collection<Ref> branches = refDb.getRefs(Constants.R_HEADS).values();
+    List<Ref> allTagsAndBranches = Lists.newArrayListWithCapacity(
+        tags.size() + branches.size());
     allTagsAndBranches.addAll(tags);
     allTagsAndBranches.addAll(branches);
-    Set<Ref> allMatchingTagsAndBranches =
+    Set<String> allMatchingTagsAndBranches =
         includedIn(repo, rw, commit, allTagsAndBranches);
 
     IncludedInDetail detail = new IncludedInDetail();
@@ -71,15 +71,15 @@ public class IncludedInResolver {
   /**
    * Resolves which tip refs include the target commit.
    */
-  private static Set<Ref> includedIn(final Repository repo, final RevWalk rw,
-      final RevCommit target, final Set<Ref> tipRefs) throws IOException,
+  private static Set<String> includedIn(final Repository repo, final RevWalk rw,
+      final RevCommit target, final Collection<Ref> tipRefs) throws IOException,
       MissingObjectException, IncorrectObjectTypeException {
 
-    Set<Ref> result = new HashSet<Ref>();
+    Set<String> result = Sets.newHashSet();
 
-    Map<RevCommit, Set<Ref>> tipsAndCommits = parseCommits(repo, rw, tipRefs);
+    Multimap<RevCommit, String> tipsAndCommits = parseCommits(repo, rw, tipRefs);
 
-    List<RevCommit> tips = new ArrayList<RevCommit>(tipsAndCommits.keySet());
+    List<RevCommit> tips = Lists.newArrayList(tipsAndCommits.keySet());
     Collections.sort(tips, new Comparator<RevCommit>() {
       @Override
       public int compare(RevCommit c1, RevCommit c2) {
@@ -87,17 +87,16 @@ public class IncludedInResolver {
       }
     });
 
-    Set<RevCommit> targetReachableFrom = new HashSet<RevCommit>();
-    targetReachableFrom.add(target);
+    RevFlag containsTarget = rw.newFlag("CONTAINS_TARGET");
 
     for (RevCommit tip : tips) {
       boolean commitFound = false;
-      rw.resetRetain(RevFlag.UNINTERESTING);
+      rw.resetRetain(RevFlag.UNINTERESTING, containsTarget);
       rw.markStart(tip);
       for (RevCommit commit : rw) {
-        if (targetReachableFrom.contains(commit)) {
+        if (commit.equals(target) || commit.has(containsTarget)) {
           commitFound = true;
-          targetReachableFrom.add(tip);
+          tip.add(containsTarget);
           result.addAll(tipsAndCommits.get(tip));
           break;
         }
@@ -114,12 +113,12 @@ public class IncludedInResolver {
    * Returns the short names of refs which are as well in the matchingRefs list
    * as well as in the allRef list.
    */
-  private static List<String> getMatchingRefNames(Set<Ref> matchingRefs,
-      Set<Ref> allRefs) {
-    List<String> refNames = new ArrayList<String>();
-    for (Ref matchingRef : matchingRefs) {
-      if (allRefs.contains(matchingRef)) {
-        refNames.add(Repository.shortenRefName(matchingRef.getName()));
+  private static List<String> getMatchingRefNames(Set<String> matchingRefs,
+      Collection<Ref> allRefs) {
+    List<String> refNames = Lists.newArrayListWithCapacity(matchingRefs.size());
+    for (Ref r : allRefs) {
+      if (matchingRefs.contains(r.getName())) {
+        refNames.add(Repository.shortenRefName(r.getName()));
       }
     }
     return refNames;
@@ -128,9 +127,9 @@ public class IncludedInResolver {
   /**
    * Parse commit of ref and store the relation between ref and commit.
    */
-  private static Map<RevCommit, Set<Ref>> parseCommits(final Repository repo,
-      final RevWalk rw, final Set<Ref> refs) throws IOException {
-    Map<RevCommit, Set<Ref>> result = new HashMap<RevCommit, Set<Ref>>();
+  private static Multimap<RevCommit, String> parseCommits(final Repository repo,
+      final RevWalk rw, final Collection<Ref> refs) throws IOException {
+    Multimap<RevCommit, String> result = LinkedListMultimap.create();
     for (Ref ref : refs) {
       final RevCommit commit;
       try {
@@ -147,12 +146,7 @@ public class IncludedInResolver {
             + " points to dangling object " + ref.getObjectId());
         continue;
       }
-      Set<Ref> relatedRefs = result.get(commit);
-      if (relatedRefs == null) {
-        relatedRefs = new HashSet<Ref>();
-        result.put(commit, relatedRefs);
-      }
-      relatedRefs.add(ref);
+      result.put(commit, ref.getName());
     }
     return result;
   }

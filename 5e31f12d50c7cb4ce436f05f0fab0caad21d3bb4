@@ -232,6 +232,30 @@
     },
     {
       "key": {
+        "uuid": "7eb25d5d_b1de807f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-19T20:10:12Z",
+      "side": 1,
+      "message": "Ohh. It depends on screen width. My 15\" retina macbook only has 1430px horizontal width. On that system the star and status fields are far enough to the left of \"Related Changes\" that you don\u0027t see any obviously layout error.\n\nI haven\u0027t had a chance to look at this on my 30\" display on my desktop at work, where the window would be wider. Because the star and status field are anchored to the right of the bar it will move to the right on wider windows and create a situation like you observe where it appears unaligned.",
+      "parentUuid": "9ead51ff_92e37c49",
+      "range": {
+        "startLine": 13,
+        "startChar": 60,
+        "endLine": 13,
+        "endChar": 79
+      },
+      "revId": "5e31f12d50c7cb4ce436f05f0fab0caad21d3bb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e75e13d_ae52f727",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

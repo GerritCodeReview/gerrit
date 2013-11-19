@@ -22,6 +22,132 @@
       "revId": "b24f58d99e553809e66e557f8ff093942a00ea0e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e90e598_2f6da9d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-19T05:40:07Z",
+      "side": 1,
+      "message": "Since the future is never used there is no need to wrap it into a checked type.",
+      "range": {
+        "startLine": 95,
+        "startChar": 6,
+        "endLine": 97,
+        "endChar": 17
+      },
+      "revId": "b24f58d99e553809e66e557f8ff093942a00ea0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e90e598_cfc89d95",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-19T05:40:07Z",
+      "side": 1,
+      "message": "Pull this into a local variable, its used more than once in this try block.",
+      "range": {
+        "startLine": 144,
+        "startChar": 22,
+        "endLine": 144,
+        "endChar": 57
+      },
+      "revId": "b24f58d99e553809e66e557f8ff093942a00ea0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e90e598_efcd61a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-19T05:40:07Z",
+      "side": 1,
+      "message": "context.getCurrentUser()?",
+      "range": {
+        "startLine": 147,
+        "startChar": 50,
+        "endLine": 147,
+        "endChar": 97
+      },
+      "revId": "b24f58d99e553809e66e557f8ff093942a00ea0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de1509f5_9458a44d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-19T05:40:07Z",
+      "side": 1,
+      "message": "Unnecessary assignment.",
+      "revId": "b24f58d99e553809e66e557f8ff093942a00ea0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de1509f5_f44d9889",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-19T05:40:07Z",
+      "side": 1,
+      "message": "We should only update the index if the mergeability boolean changed.",
+      "revId": "b24f58d99e553809e66e557f8ff093942a00ea0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de1509f5_b4532030",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-19T05:40:07Z",
+      "side": 1,
+      "message": "This sort of a pattern is a race that will cause problems for the next commit in your series.\n\nSearch results are served directly from the index. The index needs the updated mergeability flag at indexing time. With both running async the index is likely to be wrong.",
+      "range": {
+        "startLine": 323,
+        "startChar": 4,
+        "endLine": 324,
+        "endChar": 72
+      },
+      "revId": "b24f58d99e553809e66e557f8ff093942a00ea0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

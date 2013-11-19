@@ -208,6 +208,30 @@
     },
     {
       "key": {
+        "uuid": "9ead51ff_92e37c49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-19T20:05:16Z",
+      "side": 1,
+      "message": "I don\u0027t understand what you see wrong here Edwin. The screenshot you shared is identical to what I see and what I meant to have happen.\n\nMaybe we pull the star further left next to related changes?",
+      "parentUuid": "1e75e13d_6ebacff6",
+      "range": {
+        "startLine": 13,
+        "startChar": 60,
+        "endLine": 13,
+        "endChar": 79
+      },
+      "revId": "5e31f12d50c7cb4ce436f05f0fab0caad21d3bb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e75e13d_ae52f727",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

@@ -1725,6 +1725,9 @@ Enable (or disable) the `'$site_path'/logs/httpd_log` request log.
 If enabled, an NCSA combined log format request log file is written
 out by the internal HTTP daemon.
 +
+`log4j.appender` with the name `httpd_log` can be configured to overwrite
+programmatic configuration.
++
 By default, true if httpd.listenUrl uses http:// or https://,
 and false if httpd.listenUrl uses proxy-http:// or proxy-https://.
 
@@ -2710,6 +2713,9 @@ By default, `host/canonical.host.name`
 +
 Enable (or disable) the `'$site_path'/logs/sshd_log` request log.
 If enabled, a request log file is written out by the SSH daemon.
++
+`log4j.appender` with the name `sshd_log` can be configured to overwrite
+programmatic configuration.
 +
 By default, true.
 

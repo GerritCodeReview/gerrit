@@ -17,8 +17,8 @@ package com.google.gerrit.pgm.http.jetty;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.util.LogUtil;
 import com.google.gerrit.server.util.TimeUtil;
-import com.google.gerrit.util.LogUtil;
 
 import org.apache.log4j.Appender;
 import org.apache.log4j.AsyncAppender;
@@ -75,6 +75,10 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
       Appender appender = log.getAppender(LOG_NAME);
       if (appender != null) {
         async.addAppender(appender);
+      } else {
+        log.warn("No appender with the name: "
+            + LOG_NAME
+            + " was found. HTTPD logging is disabled");
       }
     }
     async.activateOptions();

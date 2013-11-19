@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7eb25d5d_311a908a",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ReviewProjectAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-19T21:42:00Z",
+      "side": 1,
+      "message": "Should we modify PostReviewers.Input to accept a list of reviewers so both project owners and administrators are added at once? That way only one email notification is generated instead of two.",
+      "revId": "91fefc45e930e2e7b8ba89d906d81c2da333e84d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

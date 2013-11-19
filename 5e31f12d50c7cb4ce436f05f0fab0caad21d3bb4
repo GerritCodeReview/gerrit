@@ -160,6 +160,30 @@
     },
     {
       "key": {
+        "uuid": "de1509f5_141e5474",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-19T05:13:48Z",
+      "side": 1,
+      "message": "I can\u0027t reproduce this issue Edwin mentioned about the change state being incorrectly aligned. Screenshots? Browser/platform? What state is the change in?",
+      "parentUuid": "1e75e13d_4e483377",
+      "range": {
+        "startLine": 13,
+        "startChar": 60,
+        "endLine": 13,
+        "endChar": 79
+      },
+      "revId": "5e31f12d50c7cb4ce436f05f0fab0caad21d3bb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e75e13d_ae52f727",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -272,6 +296,24 @@
       "side": 1,
       "message": "Why not to try this layout change without to sacrifice the third column for related changes? \n\nHaving 15\" wide screen laptop \u0026 30\" desktop monitor here, it works just perfect. Still i understand the user complains that have smaller devices. So because we can not satisfy all users i tend to suggest to make it configurable and preserve the default of having three columns. But beside unsolved persistence problem (we can not easily persist dozen configuration options in database), i guess GWT is not the best technology for making configurable screen layouts?",
       "parentUuid": "3e90e598_8f4db58a",
+      "revId": "5e31f12d50c7cb4ce436f05f0fab0caad21d3bb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e90e598_6f73b1c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-19T05:13:48Z",
+      "side": 1,
+      "message": "Related Changes is back in the third column on the right.",
+      "parentUuid": "de7ee924_ec7fab8e",
       "revId": "5e31f12d50c7cb4ce436f05f0fab0caad21d3bb4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

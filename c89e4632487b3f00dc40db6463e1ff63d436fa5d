@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7eb25d5d_11178c60",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/ProjectApi.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-19T21:50:45Z",
+      "side": 1,
+      "message": "This should be a BranchApi return type.",
+      "revId": "c89e4632487b3f00dc40db6463e1ff63d436fa5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

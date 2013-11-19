@@ -25,10 +25,13 @@ import com.google.gerrit.client.access.ProjectAccessInfo;
 import com.google.gerrit.client.projects.BranchInfo;
 import com.google.gerrit.client.projects.ProjectApi;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.HintTextBox;
+import com.google.gerrit.client.ui.OnEditEnabler;
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JsArray;
@@ -47,8 +50,11 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.util.Comparator;
@@ -371,7 +377,11 @@ public class ProjectBranchesScreen extends ProjectScreen {
       table.setText(row, 2, k.getShortName());
 
       if (k.revision() != null) {
-        table.setText(row, 3, k.revision());
+        if ("HEAD".equals(k.getShortName())) {
+          setHeadRevision(row, 3, k.revision());
+        } else {
+          table.setText(row, 3, k.revision());
+        }
       } else {
         table.setText(row, 3, "");
       }
@@ -398,6 +408,92 @@ public class ProjectBranchesScreen extends ProjectScreen {
       }
 
       setRowItem(row, k);
+    }
+
+    private void setHeadRevision(final int row, final int column,
+        final String rev) {
+      AccessMap.get(getProjectKey(),
+          new GerritCallback<ProjectAccessInfo>() {
+            @Override
+            public void onSuccess(ProjectAccessInfo result) {
+              if (result.isOwner()) {
+                table.setWidget(row, column, getHeadRevisionWidget(rev));
+              } else {
+                table.setText(row, 3, rev);
+              }
+            }
+          });
+    }
+
+    private Widget getHeadRevisionWidget(final String headRevision) {
+      FlowPanel p = new FlowPanel();
+      final InlineLabel l = new InlineLabel(headRevision);
+      final Image edit = new Image(Gerrit.RESOURCES.edit());
+      edit.addStyleName(Gerrit.RESOURCES.css().editHeadButton());
+
+      final NpTextBox input = new NpTextBox();
+      input.setVisibleLength(35);
+      input.setValue(headRevision);
+      input.setVisible(false);
+      final Button save = new Button();
+      save.setText(Util.C.saveHeadButton());
+      save.setVisible(false);
+      save.setEnabled(false);
+      final Button cancel = new Button();
+      cancel.setText(Util.C.cancelHeadButton());
+      cancel.setVisible(false);
+
+      OnEditEnabler e = new OnEditEnabler(save);
+      e.listenTo(input);
+
+      edit.addClickHandler(new  ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          l.setVisible(false);
+          edit.setVisible(false);
+          input.setVisible(true);
+          save.setVisible(true);
+          cancel.setVisible(true);
+        }
+      });
+      save.addClickHandler(new  ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          save.setEnabled(false);
+          ProjectApi.setHead(getProjectKey(), input.getValue().trim(),
+              new GerritCallback<NativeString>() {
+            @Override
+            public void onSuccess(NativeString result) {
+              Gerrit.display(PageLinks.toProjectBranches(getProjectKey()));
+            }
+
+            @Override
+            public void onFailure(Throwable caught) {
+              super.onFailure(caught);
+              save.setEnabled(true);
+            }
+          });
+        }
+      });
+      cancel.addClickHandler(new  ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          l.setVisible(true);
+          edit.setVisible(true);
+          input.setVisible(false);
+          input.setValue(headRevision);
+          save.setVisible(false);
+          save.setEnabled(false);
+          cancel.setVisible(false);
+        }
+      });
+
+      p.add(l);
+      p.add(edit);
+      p.add(input);
+      p.add(save);
+      p.add(cancel);
+      return p;
     }
 
     boolean hasBranchCanDelete() {

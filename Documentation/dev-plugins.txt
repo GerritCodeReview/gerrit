@@ -364,6 +364,10 @@ Project creation
 +
 Project deletion
 
+* `com.google.gerrit.extensions.events.HeadUpdatedListener`:
++
+Update of HEAD on a project
+
 [[stream-events]]
 Sending Events to the Events Stream
 -----------------------------------

@@ -15,6 +15,8 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.extensions.events.HeadUpdatedListener;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -31,10 +33,14 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
 public class SetHead implements RestModifyView<ProjectResource, Input> {
+  private static final Logger log = LoggerFactory.getLogger(SetHead.class);
+
   static class Input {
     @DefaultInput
     String ref;
@@ -42,15 +48,19 @@ public class SetHead implements RestModifyView<ProjectResource, Input> {
 
   private final GitRepositoryManager repoManager;
   private final Provider<IdentifiedUser> identifiedUser;
+  private final DynamicSet<HeadUpdatedListener> headUpdatedListener;
 
   @Inject
-  SetHead(GitRepositoryManager repoManager, Provider<IdentifiedUser> identifiedUser) {
+  SetHead(GitRepositoryManager repoManager,
+      Provider<IdentifiedUser> identifiedUser,
+      DynamicSet<HeadUpdatedListener> headUpdatedListener) {
     this.repoManager = repoManager;
     this.identifiedUser = identifiedUser;
+    this.headUpdatedListener = headUpdatedListener;
   }
 
   @Override
-  public String apply(ProjectResource rsrc, Input input) throws AuthException,
+  public String apply(final ProjectResource rsrc, Input input) throws AuthException,
       ResourceNotFoundException, BadRequestException,
       UnprocessableEntityException, IOException {
     if (!rsrc.getControl().isOwner()) {
@@ -72,10 +82,12 @@ public class SetHead implements RestModifyView<ProjectResource, Input> {
             "Ref Not Found: %s", ref));
       }
 
-      if (!repo.getRef(Constants.HEAD).getTarget().getName().equals(ref)) {
+      final String oldHead = repo.getRef(Constants.HEAD).getTarget().getName();
+      final String newHead = ref;
+      if (!oldHead.equals(newHead)) {
         final RefUpdate u = repo.updateRef(Constants.HEAD, true);
         u.setRefLogIdent(identifiedUser.get().newRefLogIdent());
-        RefUpdate.Result res = u.link(ref);
+        RefUpdate.Result res = u.link(newHead);
         switch(res) {
           case NO_CHANGE:
           case RENAMED:
@@ -84,6 +96,30 @@ public class SetHead implements RestModifyView<ProjectResource, Input> {
             break;
           default:
             throw new IOException("Setting HEAD failed with " + res);
+        }
+
+        HeadUpdatedListener.Event event = new HeadUpdatedListener.Event() {
+          @Override
+          public String getProjectName() {
+            return rsrc.getNameKey().get();
+          }
+
+          @Override
+          public String getOldHeadName() {
+            return oldHead;
+          }
+
+          @Override
+          public String getNewHeadName() {
+            return newHead;
+          }
+        };
+        for (HeadUpdatedListener l : headUpdatedListener) {
+          try {
+            l.onHeadUpdated(event);
+          } catch (RuntimeException e) {
+            log.warn("Failure in HeadUpdatedListener", e);
+          }
         }
       }
       return ref;

@@ -53,14 +53,14 @@ import java.io.IOException;
 public class CreateBranch implements RestModifyView<ProjectResource, Input> {
   private static final Logger log = LoggerFactory.getLogger(CreateBranch.class);
 
-  static class Input {
-    String ref;
+  public static class Input {
+    public String ref;
 
     @DefaultInput
-    String revision;
+    public String revision;
   }
 
-  static interface Factory {
+  public static interface Factory {
     CreateBranch create(String ref);
   }
 

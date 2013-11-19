@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e75e13d_8eee1be0",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/HttpLog.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-19T21:24:41Z",
+      "side": 1,
+      "message": "This only works, if the name of the appender is equals \"httpd_log\".\nIt should be documented in gerrit.config and may be bring a sample:\n\n  log4j.appender.sshd_log\u003dorg.apache.log4j.RollingFileAppender\n  log4j.appender.sshd_log.File\u003d/home/gerrit/logs/sshd_log\n  log4j.appender.sshd_log.MaxFileSize\u003d1024KB\n  log4j.appender.sshd_log.MaxBackupIndex\u003d42\n  log4j.appender.sshd_log.layout\u003dorg.apache.log4j.PatternLayout\n  log4j.appender.sshd_log.layout.ConversionPattern\u003d%p %t %c - %m%n\n  log4j.logger.com.google.gerrit.sshd.SshLog\u003dDEBUG, sshd_log",
+      "revId": "66252ed8ea3859433b2e9572b9d3bc68e73bdedd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de7ee924_6ca17bbc",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/HttpLog.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-19T21:24:41Z",
+      "side": 1,
+      "message": "Because of the above, we should put an else branch with a warn statement here:\n\n if (appender !\u003d null) {\n        async.addAppender(appender);\n   } else {\n        log.warn(\"No appender with the name sshd_log configured. \" +\n            \"SSHD logging is disabled\");\n   }",
+      "revId": "66252ed8ea3859433b2e9572b9d3bc68e73bdedd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

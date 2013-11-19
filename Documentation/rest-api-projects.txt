@@ -1478,7 +1478,9 @@ Whether an empty initial commit should be created.
 The submit type that should be set for the project
 (`MERGE_IF_NECESSARY`, `REBASE_IF_NECESSARY`, `FAST_FORWARD_ONLY`,
 `MERGE_ALWAYS`, `CHERRY_PICK`). +
-If not set, `MERGE_IF_NECESSARY` is set as submit type.
+If not set, `MERGE_IF_NECESSARY` is set as submit type unless
+link:config-gerrit.html#repository.name.defaultSubmitType[
+repository.<name>.defaultSubmitType] is set to a different value.
 |`branches`                  |optional|
 A list of branches that should be initially created. +
 For the branch names the `refs/heads/` prefix can be omitted.

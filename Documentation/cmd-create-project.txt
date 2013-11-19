@@ -115,8 +115,11 @@ Description values containing spaces should be quoted in single quotes
 * CHERRY_PICK: always cherry-pick the commit.
 
 +
-Defaults to MERGE_IF_NECESSARY.  For more details see
-link:project-setup.html#submit_type[Change Submit Actions].
+Defaults to MERGE_IF_NECESSARY unless
+link:config-gerrit.html#repository.name.defaultSubmitType[
+repository.<name>.defaultSubmitType] is set to a different value.
+For more details see link:project-setup.html#submit_type[
+Change Submit Actions].
 
 --use-content-merge::
 	If enabled, Gerrit will try to perform a 3-way merge of text

@@ -18,7 +18,6 @@ import static com.google.gerrit.reviewdb.client.Change.INITIAL_PATCH_SET_ID;
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromApprovals;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
-
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.OK;
@@ -114,6 +113,7 @@ import org.eclipse.jgit.transport.AdvertiseRefsHook;
 import org.eclipse.jgit.transport.AdvertiseRefsHookChain;
 import org.eclipse.jgit.transport.BaseReceivePack;
 import org.eclipse.jgit.transport.ReceiveCommand;
+import org.eclipse.jgit.transport.RefFilter;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.UploadPack;
@@ -363,6 +363,20 @@ public class ReceiveCommits {
     rp.setAllowDeletes(true);
     rp.setAllowNonFastForwards(true);
     rp.setCheckReceivedObjects(true);
+    rp.setRefFilter(new RefFilter() {
+      @Override
+      public Map<String, Ref> filter(Map<String, Ref> refs) {
+        Map<String, Ref> filteredRefs = Maps.newHashMapWithExpectedSize(refs.size());
+        for (Map.Entry<String, Ref> e : refs.entrySet()) {
+          String name = e.getKey();
+          if (!name.startsWith("refs/changes/")
+              && !name.startsWith(GitRepositoryManager.REFS_CACHE_AUTOMERGE)) {
+            filteredRefs.put(name, e.getValue());
+          }
+        }
+        return filteredRefs;
+      }
+    });
 
     if (!projectControl.allRefsAreVisible()) {
       rp.setCheckReferencedObjectsAreReachable(config.checkReferencedObjectsAreReachable);

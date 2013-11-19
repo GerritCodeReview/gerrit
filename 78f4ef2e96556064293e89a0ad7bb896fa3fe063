@@ -52,6 +52,24 @@
       "revId": "78f4ef2e96556064293e89a0ad7bb896fa3fe063",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de7ee924_acd76330",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-19T09:44:36Z",
+      "side": 1,
+      "message": "I agree that we still need some UI control to switch more easily between the patch sets, but I don\u0027t expect this to conflict with the navigation by keys.",
+      "parentUuid": "de7ee924_2c3ff3cb",
+      "revId": "78f4ef2e96556064293e89a0ad7bb896fa3fe063",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

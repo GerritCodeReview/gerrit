@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1e75e13d_6ea16fbc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-11-19T08:29:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fefe4dbb_45734ac0",
+      "range": {
+        "startLine": 72,
+        "startChar": 36,
+        "endLine": 72,
+        "endChar": 44
+      },
+      "revId": "e2b3e3ec1705c9968eec3a91597258edb728cc9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fefe4dbb_c5cdfaa2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedInResolver.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2013-11-15T09:04:02Z",
       "side": 1,
       "message": "nit: blank line between methods",
+      "range": {
+        "startLine": 74,
+        "startChar": 2,
+        "endLine": 75,
+        "endChar": 5
+      },
+      "revId": "e2b3e3ec1705c9968eec3a91597258edb728cc9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e75e13d_0e9eab7b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-11-19T08:29:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fefe4dbb_c5cdfaa2",
       "range": {
         "startLine": 74,
         "startChar": 2,
@@ -71,6 +119,24 @@
     },
     {
       "key": {
+        "uuid": "9e1c71fc_3a288197",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-11-19T08:29:45Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/51845",
+      "parentUuid": "fefe4dbb_25704eb1",
+      "revId": "e2b3e3ec1705c9968eec3a91597258edb728cc9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fefe4dbb_a5d2fe40",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedInResolver.java",
         "patchSetId": 2
@@ -88,6 +154,24 @@
     },
     {
       "key": {
+        "uuid": "1e75e13d_2e9b678c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-11-19T08:29:45Z",
+      "side": 1,
+      "message": "This is an excellent remark!\n\nI did (almost) as you said. Both A and B are sorted by time. For A this is exactly what you wanted. For B, I think, it also makes sense to sort by time in order to reuse a failure to reach the target from an older commit.",
+      "parentUuid": "fefe4dbb_a5d2fe40",
+      "revId": "e2b3e3ec1705c9968eec3a91597258edb728cc9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "defb49cc_247052b1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedInResolver.java",
         "patchSetId": 2
@@ -99,6 +183,30 @@
       "writtenOn": "2013-11-15T09:04:02Z",
       "side": 1,
       "message": "This sort of thing is often faster with a RevFlag. They take up no additional memory and are faster to apply and test against commits.",
+      "range": {
+        "startLine": 94,
+        "startChar": 4,
+        "endLine": 95,
+        "endChar": 35
+      },
+      "revId": "e2b3e3ec1705c9968eec3a91597258edb728cc9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e75e13d_ce166330",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-11-19T08:29:45Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/51846",
+      "parentUuid": "defb49cc_247052b1",
       "range": {
         "startLine": 94,
         "startChar": 4,
@@ -134,6 +242,30 @@
     },
     {
       "key": {
+        "uuid": "de7ee924_6c73bbc0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-11-19T08:29:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "defb49cc_046d56d7",
+      "range": {
+        "startLine": 109,
+        "startChar": 6,
+        "endLine": 109,
+        "endChar": 45
+      },
+      "revId": "e2b3e3ec1705c9968eec3a91597258edb728cc9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "defb49cc_44734ec0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedInResolver.java",
         "patchSetId": 2
@@ -157,6 +289,24 @@
     },
     {
       "key": {
+        "uuid": "9e1c71fc_da53852f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-11-19T08:29:45Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/51845",
+      "parentUuid": "defb49cc_44734ec0",
+      "revId": "e2b3e3ec1705c9968eec3a91597258edb728cc9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fefe4dbb_e5c8f694",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedInResolver.java",
         "patchSetId": 2
@@ -174,6 +324,24 @@
     },
     {
       "key": {
+        "uuid": "9e1c71fc_9a4d0d8b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-11-19T08:29:45Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/51845",
+      "parentUuid": "fefe4dbb_e5c8f694",
+      "revId": "e2b3e3ec1705c9968eec3a91597258edb728cc9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fefe4dbb_056d52d7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedInResolver.java",
         "patchSetId": 2
@@ -185,6 +353,24 @@
       "writtenOn": "2013-11-15T09:04:02Z",
       "side": 1,
       "message": "Set may be overkill here since the input is likely already unique. List may be lighterweight and accomplish the same thing.",
+      "revId": "e2b3e3ec1705c9968eec3a91597258edb728cc9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e1c71fc_fa58c94d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-11-19T08:29:45Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/51845 by using the LinkedListMultimap for the result variable.",
+      "parentUuid": "fefe4dbb_056d52d7",
       "revId": "e2b3e3ec1705c9968eec3a91597258edb728cc9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -214,6 +400,30 @@
     },
     {
       "key": {
+        "uuid": "de7ee924_2c6db3d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-11-19T08:29:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fefe4dbb_856022e4",
+      "range": {
+        "startLine": 501,
+        "startChar": 8,
+        "endLine": 502,
+        "endChar": 55
+      },
+      "revId": "e2b3e3ec1705c9968eec3a91597258edb728cc9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "defb49cc_64764ab2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
         "patchSetId": 2
@@ -231,6 +441,24 @@
     },
     {
       "key": {
+        "uuid": "de7ee924_ccc8af95",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-11-19T08:29:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "defb49cc_64764ab2",
+      "revId": "e2b3e3ec1705c9968eec3a91597258edb728cc9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fefe4dbb_657646b2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
         "patchSetId": 2
@@ -242,6 +470,30 @@
       "writtenOn": "2013-11-15T09:04:02Z",
       "side": 1,
       "message": "This is the wrong string because of the prefix trimming above. Use entry.getValue().getName().",
+      "range": {
+        "startLine": 506,
+        "startChar": 14,
+        "endLine": 506,
+        "endChar": 43
+      },
+      "revId": "e2b3e3ec1705c9968eec3a91597258edb728cc9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e75e13d_ee1b1f57",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-11-19T08:29:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fefe4dbb_657646b2",
       "range": {
         "startLine": 506,
         "startChar": 14,

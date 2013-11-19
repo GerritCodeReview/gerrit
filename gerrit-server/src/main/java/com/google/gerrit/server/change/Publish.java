@@ -92,7 +92,7 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
   }
 
   private Change updateDraftChange(RevisionResource rsrc) throws OrmException {
-    Change updatedChange = dbProvider.get().changes()
+    return dbProvider.get().changes()
         .atomicUpdate(rsrc.getChange().getId(),
         new AtomicUpdate<Change>() {
       @Override
@@ -104,11 +104,10 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
         return change;
       }
     });
-    return updatedChange;
   }
 
   private PatchSet updateDraftPatchSet(RevisionResource rsrc) throws OrmException {
-    final PatchSet updatedPatchSet = dbProvider.get().patchSets()
+    return dbProvider.get().patchSets()
         .atomicUpdate(rsrc.getPatchSet().getId(),
         new AtomicUpdate<PatchSet>() {
       @Override
@@ -117,7 +116,6 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
         return patchset;
       }
     });
-    return updatedPatchSet;
   }
 
   @Override

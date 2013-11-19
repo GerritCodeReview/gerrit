@@ -299,9 +299,7 @@ public class FromAddressGeneratorProviderTest {
     final Account account = new Account(userId, TimeUtil.nowTs());
     account.setFullName(name);
     account.setPreferredEmail(email);
-    final AccountState s =
-        new AccountState(account, Collections.<AccountGroup.UUID> emptySet(),
-            Collections.<AccountExternalId> emptySet());
-    return s;
+    return new AccountState(account, Collections.<AccountGroup.UUID> emptySet(),
+          Collections.<AccountExternalId> emptySet());
   }
 }

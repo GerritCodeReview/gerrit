@@ -163,7 +163,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
    */
   public ChangeMessage getConflictMessage(RevisionResource rsrc)
       throws OrmException {
-    ChangeMessage msg = Iterables.getFirst(Iterables.filter(
+    return Iterables.getFirst(Iterables.filter(
       Lists.reverse(dbProvider.get().changeMessages()
           .byChange(rsrc.getChange().getId())
           .toList()),
@@ -173,7 +173,6 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
           return input.getAuthor() == null;
         }
       }), null);
-    return msg;
   }
 
   public Change submit(RevisionResource rsrc, IdentifiedUser caller)

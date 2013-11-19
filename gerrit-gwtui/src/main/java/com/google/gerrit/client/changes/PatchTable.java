@@ -219,11 +219,8 @@ public class PatchTable extends Composite {
     if (previousPatchIndex < 0) {
       return null;
     }
-    InlineHyperlink link =
-        createLink(previousPatchIndex, patchType,
-            SafeHtml.asis(Util.C.prevPatchLinkIcon()), null);
-
-    return link;
+    return createLink(previousPatchIndex, patchType,
+        SafeHtml.asis(Util.C.prevPatchLinkIcon()), null);
   }
 
   /**
@@ -234,11 +231,8 @@ public class PatchTable extends Composite {
     if (nextPatchIndex < 0) {
       return null;
     }
-    InlineHyperlink link =
-        createLink(nextPatchIndex, patchType, null,
-            SafeHtml.asis(Util.C.nextPatchLinkIcon()));
-
-    return link;
+    return createLink(nextPatchIndex, patchType, null,
+        SafeHtml.asis(Util.C.nextPatchLinkIcon()));
   }
 
   /**

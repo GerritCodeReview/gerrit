@@ -233,6 +233,7 @@ public class QueryProcessor {
    * there are more than {@code limit} matches and suggest to its own caller
    * that the query could be retried with {@link #setSortkeyBefore(String)}.
    */
+  @SuppressWarnings("unchecked")
   public List<List<ChangeData>> queryChanges(List<String> queries)
       throws OrmException, QueryParseException {
     final Predicate<ChangeData> visibleToMe = queryBuilder.is_visible();
@@ -241,13 +242,11 @@ public class QueryProcessor {
     // Parse and rewrite all queries.
     List<Integer> limits = Lists.newArrayListWithCapacity(cnt);
     List<ChangeDataSource> sources = Lists.newArrayListWithCapacity(cnt);
-    for (int i = 0; i < cnt; i++) {
-      Predicate<ChangeData> q = parseQuery(queries.get(i), visibleToMe);
+    for (String query : queries) {
+      Predicate<ChangeData> q = parseQuery(query, visibleToMe);
       Predicate<ChangeData> s = queryRewriter.rewrite(q);
       if (!(s instanceof ChangeDataSource)) {
-        @SuppressWarnings("unchecked")
-        Predicate<ChangeData> o = Predicate.and(queryBuilder.status_open(), q);
-        q = o;
+        q = Predicate.and(queryBuilder.status_open(), q);
         s = queryRewriter.rewrite(q);
       }
       if (!(s instanceof ChangeDataSource)) {

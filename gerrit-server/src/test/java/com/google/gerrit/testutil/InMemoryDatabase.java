@@ -57,8 +57,7 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
     final Properties p = new Properties();
     p.setProperty("driver", org.h2.Driver.class.getName());
     p.setProperty("url", "jdbc:h2:mem:" + "Test_" + (++dbCnt));
-    final DataSource dataSource = new SimpleDataSource(p);
-    return dataSource;
+    return new SimpleDataSource(p);
   }
 
   /** Drop the database from memory; does nothing if the instance was null. */

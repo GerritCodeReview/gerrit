@@ -17,6 +17,7 @@ package com.google.gerrit.pgm.util;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GarbageCollection;
+import com.google.gerrit.util.LogUtil;
 
 import org.apache.log4j.Appender;
 import org.apache.log4j.DailyRollingFileAppender;
@@ -42,7 +43,7 @@ public class GarbageCollectionLogFile {
     if (!logdir.exists() && !logdir.mkdirs()) {
       throw new Die("Cannot create log directory: " + logdir);
     }
-    if (ErrorLogFile.shouldConfigureLogSystem()) {
+    if (LogUtil.shouldConfigureLogSystem()) {
       initLogSystem(logdir);
     }
 

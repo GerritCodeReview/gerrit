@@ -85,9 +85,11 @@ limitations under the License.
       addStyleNames='{style.closed}'>
     <c:AvatarImage ui:field='avatar' styleName='{style.avatar}'/>
     <div class='{style.contents}'>
-      <div class='{style.name}' ui:field='name'/>
-      <div ui:field='summary' class='{style.summary}'/>
-      <div class='{style.date}' ui:field='date'/>
+      <g:HTMLPanel ui:field='header'>
+        <div class='{style.name}' ui:field='name'/>
+        <div ui:field='summary' class='{style.summary}'/>
+        <div class='{style.date}' ui:field='date'/>
+      </g:HTMLPanel>
       <div ui:field='message'
            aria-hidden='true'
            style='display: NONE'/>

@@ -28,6 +28,7 @@ import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.SubmitStrategyFactory;
+import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -66,16 +67,19 @@ public class Mergeable implements RestReadView<RevisionResource> {
   private final GitRepositoryManager gitManager;
   private final SubmitStrategyFactory submitStrategyFactory;
   private final Provider<ReviewDb> db;
+  private final ChangeIndexer indexer;
 
   @Inject
   Mergeable(TestSubmitType.Get submitType,
       GitRepositoryManager gitManager,
       SubmitStrategyFactory submitStrategyFactory,
-      Provider<ReviewDb> db) {
+      Provider<ReviewDb> db,
+      ChangeIndexer indexer) {
     this.submitType = submitType;
     this.gitManager = gitManager;
     this.submitStrategyFactory = submitStrategyFactory;
     this.db = db;
+    this.indexer = indexer;
   }
 
   @Override
@@ -172,6 +176,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
         c.setMergeable(mergeable);
         c.setLastSha1MergeTested(toRevId(ref));
         db.get().changes().update(Collections.singleton(c));
+        indexer.index(c);
       }
       return mergeable;
     } catch (MergeException e) {

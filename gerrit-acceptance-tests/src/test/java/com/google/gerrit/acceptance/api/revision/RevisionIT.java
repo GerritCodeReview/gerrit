@@ -25,8 +25,10 @@ import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.git.PushOneCommit;
 import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
+import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -63,12 +65,13 @@ public class RevisionIT extends AbstractDaemonTest {
   private TestAccount admin;
   private Git git;
   private ReviewDb db;
+  private Project.NameKey project;
 
   @Before
   public void setUp() throws Exception {
     admin = accounts.admin();
     initSsh(admin);
-    Project.NameKey project = new Project.NameKey("p");
+    project = new Project.NameKey("p");
     SshSession sshSession = new SshSession(server, admin);
     createProject(sshSession, project.get());
     git = cloneProject(sshSession.getUrl() + "/" + project.get());
@@ -106,11 +109,11 @@ public class RevisionIT extends AbstractDaemonTest {
   public void submit() throws GitAPIException,
       IOException, RestApiException {
     PushOneCommit.Result r = createChange();
-    RevisionApi rApi = gApi.changes()
+    gApi.changes()
         .id("p~master~" + r.getChangeId())
-        .current();
-    rApi.review(approve());
-    rApi.submit();
+        .current()
+        .review(approve())
+        .submit();
   }
 
   @Test
@@ -121,6 +124,26 @@ public class RevisionIT extends AbstractDaemonTest {
         .id(r.getChangeId())
         .revision(r.getCommit().name())
         .delete();
+  }
+
+  @Test
+  public void cherryPick() throws GitAPIException,
+      IOException, RestApiException {
+    PushOneCommit.Result r = createChange();
+    CherryPickInput in = new CherryPickInput();
+    in.destination = "foo";
+    in.message = "it goes to stable branch";
+    gApi.projects()
+        .name(project.get())
+        .branch(in.destination)
+        .create(new BranchInput());
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .cherryPick(in)
+        .current()
+        .review(approve())
+        .submit();
   }
 
   private PushOneCommit.Result createChange() throws GitAPIException,

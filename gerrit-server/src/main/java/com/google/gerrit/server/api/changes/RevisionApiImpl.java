@@ -15,10 +15,14 @@
 package com.google.gerrit.server.api.changes;
 
 import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.extensions.api.changes.ChangeApi;
+import com.google.gerrit.extensions.api.changes.Changes;
+import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.change.CherryPick;
 import com.google.gerrit.server.change.DeleteDraftPatchSet;
 import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.change.Rebase;
@@ -36,6 +40,8 @@ class RevisionApiImpl implements RevisionApi {
     RevisionApiImpl create(RevisionResource r);
   }
 
+  private final Changes changes;
+  private final Provider<CherryPick> cherryPick;
   private final Provider<DeleteDraftPatchSet> deleteDraft;
   private final Provider<Rebase> rebase;
   private final Provider<PostReview> review;
@@ -43,11 +49,15 @@ class RevisionApiImpl implements RevisionApi {
   private final RevisionResource revision;
 
   @Inject
-  RevisionApiImpl(Provider<DeleteDraftPatchSet> deleteDraft,
+  RevisionApiImpl(Changes changes,
+      Provider<CherryPick> cherryPick,
+      Provider<DeleteDraftPatchSet> deleteDraft,
       Provider<Rebase> rebase,
       Provider<PostReview> review,
       Provider<Submit> submit,
       @Assisted RevisionResource r) {
+    this.changes = changes;
+    this.cherryPick = cherryPick;
     this.deleteDraft = deleteDraft;
     this.rebase = rebase;
     this.review = review;
@@ -56,9 +66,10 @@ class RevisionApiImpl implements RevisionApi {
   }
 
   @Override
-  public void review(ReviewInput in) throws RestApiException {
+  public RevisionApi review(ReviewInput in) throws RestApiException {
     try {
       review.get().apply(revision, in);
+      return this;
     } catch (OrmException e) {
       throw new RestApiException("Cannot post review", e);
     } catch (IOException e) {
@@ -103,6 +114,19 @@ class RevisionApiImpl implements RevisionApi {
       throw new RestApiException("Cannot rebase ps", e);
     } catch (EmailException e) {
       throw new RestApiException("Cannot rebase ps", e);
+    }
+  }
+
+  @Override
+  public ChangeApi cherryPick(CherryPickInput in) throws RestApiException {
+    try {
+      return changes.id(cherryPick.get().apply(revision, in)._number);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot cherry pick ps", e);
+    } catch (EmailException e) {
+      throw new RestApiException("Cannot cherry pick ps", e);
+    } catch (IOException e) {
+      throw new RestApiException("Cannot cherry pick ps", e);
     }
   }
 }

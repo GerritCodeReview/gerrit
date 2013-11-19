@@ -68,13 +68,12 @@ public class LinkFindReplace implements FindReplace {
       throw new IllegalArgumentException(
           "Invalid scheme (" + toString() + "): " + href);
     }
-    String result = new SafeHtmlBuilder()
+    return new SafeHtmlBuilder()
         .openAnchor()
         .setAttribute("href", href)
         .append(SafeHtml.asis(input))
         .closeAnchor()
         .asString();
-    return result;
   }
 
   @Override

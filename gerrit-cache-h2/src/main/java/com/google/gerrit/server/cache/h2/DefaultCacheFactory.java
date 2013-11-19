@@ -113,8 +113,7 @@ public class DefaultCacheFactory implements MemoryCacheFactory {
 
   @SuppressWarnings({"rawtypes", "unchecked"})
   private static <K, V> CacheBuilder<K, V> newCacheBuilder() {
-    CacheBuilder builder = CacheBuilder.newBuilder();
-    return builder;
+    return (CacheBuilder<K, V>) CacheBuilder.newBuilder();
   }
 
   private static <K, V> Weigher<K, V> unitWeight() {

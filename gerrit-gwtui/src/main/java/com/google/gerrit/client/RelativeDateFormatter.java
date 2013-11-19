@@ -133,12 +133,10 @@ public class RelativeDateFormatter {
   }
 
   private static long upperLimit(long unit) {
-    long limit = unit + unit / 2;
-    return limit;
+    return unit + unit / 2;
   }
 
   private static long round(long n, long unit) {
-    long rounded = (n + unit / 2) / unit;
-    return rounded;
+    return (n + unit / 2) / unit;
   }
 }

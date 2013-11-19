@@ -267,7 +267,6 @@ public class HtmlDomUtil {
     factory.setExpandEntityReferences(false);
     factory.setIgnoringComments(true);
     factory.setCoalescing(true);
-    final DocumentBuilder parser = factory.newDocumentBuilder();
-    return parser;
+    return factory.newDocumentBuilder();
   }
 }

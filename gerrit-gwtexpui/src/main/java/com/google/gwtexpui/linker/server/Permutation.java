@@ -55,15 +55,14 @@ public class Permutation {
    */
   public void inject(Document dom) {
     String moduleName = selector.getModuleName();
-    String moduleFunc = moduleName;
 
     StringBuilder s = new StringBuilder();
     s.append("\n");
-    s.append("function " + moduleFunc + "(){");
+    s.append("function ").append(moduleName).append("(){");
     s.append("var s,l,t");
     s.append(",w=window");
     s.append(",d=document");
-    s.append(",n='" + moduleName + "'");
+    s.append(",n='").append(moduleName).append("'");
     s.append(",f=d.createElement('iframe')");
     s.append(";");
 
@@ -78,7 +77,7 @@ public class Permutation {
     s.append("i.src=n+'/clear.cache.gif';");
     s.append("b=i.src;");
     s.append("b=b.substring(0,b.lastIndexOf('/')+1);");
-    s.append(moduleFunc + "=null;"); // allow us to GC
+    s.append(moduleName).append("=null;"); // allow us to GC
     s.append("f.contentWindow.gwtOnLoad(undefined,n,b);");
     s.append("}");
     s.append("}");
@@ -87,14 +86,14 @@ public class Permutation {
     // exact name here is known to the IFrameLinker and is called by
     // the code in the iframe.
     //
-    s.append(moduleFunc + ".onScriptLoad=function(){");
+    s.append(moduleName).append(".onScriptLoad=function(){");
     s.append("s=1;m();");
     s.append("};");
 
     // Set l true when the browser has finished processing the iframe
     // tag, and everything else on the page.
     //
-    s.append(moduleFunc + ".r=function(){");
+    s.append(moduleName).append(".r=function(){");
     s.append("l=1;m();");
     s.append("};");
 
@@ -110,14 +109,13 @@ public class Permutation {
     // refresh quirks in Safari. We have to use the location.replace trick to
     // avoid FF2 refresh quirks.
     //
-    s.append("f.contentWindow.location.replace(n+'/" + cacheHTML + "');");
+    s.append("f.contentWindow.location.replace(n+'/").append(cacheHTML).append("');");
 
     // defer attribute here is to workaround IE running immediately.
     //
-    s.append("d.write('<script defer=\"defer\">" //
-        + moduleFunc + ".r()</'+'script>');");
+    s.append("d.write('<script defer=\"defer\">").append(moduleName).append(".r()</'+'script>');");
     s.append("}");
-    s.append(moduleFunc + "();");
+    s.append(moduleName).append("();");
     s.append("\n//");
 
     final Element html = dom.getDocumentElement();

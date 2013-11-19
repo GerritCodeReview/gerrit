@@ -317,6 +317,24 @@
       "revId": "5e31f12d50c7cb4ce436f05f0fab0caad21d3bb4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e75e13d_ae60b7e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-19T05:42:54Z",
+      "side": 1,
+      "message": "Thanks for taking developers concerns seriously!!!\n\nI was going to ask you again to reconsider not to drop related changes from thre column layout [1] and movng to two column layout [2] as i saw ps 2 of this change.\n\n* three column [1]: http://imgur.com/Sfaj58e\n* two column [2]: http://imgur.com/huVcPOx",
+      "parentUuid": "3e90e598_6f73b1c0",
+      "revId": "5e31f12d50c7cb4ce436f05f0fab0caad21d3bb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

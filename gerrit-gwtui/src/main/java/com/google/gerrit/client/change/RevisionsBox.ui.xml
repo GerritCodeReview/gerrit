@@ -45,6 +45,7 @@ limitations under the License.
 
     .table tr.current {
       background-color: selectionColor;
+      pointer-events: none;
     }
 
     .legacy_id {

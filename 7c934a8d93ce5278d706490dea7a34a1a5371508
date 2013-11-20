@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "9ead51ff_5296347a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-20T00:22:12Z",
+      "side": 1,
+      "message": "s/to to/to",
+      "range": {
+        "startLine": 12,
+        "startChar": 30,
+        "endLine": 12,
+        "endChar": 35
+      },
+      "revId": "7c934a8d93ce5278d706490dea7a34a1a5371508",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7eb25d5d_f14da889",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

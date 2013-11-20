@@ -262,7 +262,7 @@ fi
 # Add Gerrit properties to Java VM options.
 #####################################################
 
-GERRIT_OPTIONS=`get_config --get-all container.javaOptions`
+GERRIT_OPTIONS=`get_config -z --get-all container.javaOptions`
 if test -n "$GERRIT_OPTIONS" ; then
   JAVA_OPTIONS="$JAVA_OPTIONS $GERRIT_OPTIONS"
 fi

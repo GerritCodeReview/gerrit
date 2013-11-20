@@ -93,6 +93,7 @@ limitations under the License.
       <div ui:field='message'
            aria-hidden='true'
            style='display: NONE'/>
+      <g:FlowPanel ui:field='comments' visible='false'/>
     </div>
   </g:HTMLPanel>
 </ui:UiBinder>

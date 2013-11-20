@@ -31,25 +31,41 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
+import com.google.gerrit.client.changes.ChangeInfo;
+import com.google.gerrit.client.ui.Screen;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.uibinder.client.UiHandler;
 
 class Message extends Composite {
   interface Binder extends UiBinder<HTMLPanel, Message> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   static interface Style extends CssResource {
+    String replyBox();
     String closed();
   }
+
+  private ReplyAction replyAction;
+  private String msg;
+  private Screen screen;
+  private String revision;
+  private ChangeInfo changeInfo;
 
   @UiField Style style;
   @UiField Element name;
   @UiField Element summary;
   @UiField Element date;
   @UiField Element message;
+  @UiField Element buttons;
+  @UiField Button reply;
 
   @UiField(provided = true)
   AvatarImage avatar;
 
-  Message(CommentLinkProcessor clp, MessageInfo info) {
+  Message(CommentLinkProcessor clp, MessageInfo info, String revision, ChangeInfo changeInfo) {
+    this.revision = revision != null && !revision.isEmpty() ? revision : null;
+    this.changeInfo = changeInfo;
     if (info.author() != null) {
       avatar = new AvatarImage(info.author());
       avatar.setSize("", "");
@@ -68,11 +84,12 @@ class Message extends Composite {
     name.setInnerText(authorName(info));
     date.setInnerText(FormatUtil.shortFormatDayTime(info.date()));
     if (info.message() != null) {
-      String msg = info.message().trim();
+      msg = info.message().trim();
       summary.setInnerText(msg);
       message.setInnerSafeHtml(clp.apply(
           new SafeHtmlBuilder().append(msg).wikify()));
     }
+    replyAction = new ReplyAction(changeInfo, revision, null, style, reply, msg);
   }
 
   private boolean isOpen() {
@@ -82,6 +99,9 @@ class Message extends Composite {
   void setOpen(boolean open) {
     UIObject.setVisible(summary, !open);
     UIObject.setVisible(message, open);
+    if (Gerrit.isSignedIn()) {
+    UIObject.setVisible(buttons, open);
+    }
     if (open) {
       removeStyleName(style.closed());
     } else {
@@ -97,5 +117,14 @@ class Message extends Composite {
       return Gerrit.getConfig().getAnonymousCowardName();
     }
     return Util.C.messageNoAuthor();
+  }
+
+  @UiHandler("reply")
+  void onReply(ClickEvent e) {
+    onReply();
+  }
+
+  private void onReply() {
+      replyAction.onReply(msg);
   }
 }

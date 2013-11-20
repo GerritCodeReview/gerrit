@@ -30,7 +30,9 @@ class ReplyAction {
   private final PatchSet.Id psId;
   private final String revision;
   private final ChangeScreen2.Style style;
+  private final Message.Style style2;
   private final Widget replyButton;
+  private String msg;
 
   private NativeMap<LabelInfo> allLabels;
   private NativeMap<JsArrayString> permittedLabels;
@@ -42,12 +44,15 @@ class ReplyAction {
       ChangeInfo info,
       String revision,
       ChangeScreen2.Style style,
-      Widget replyButton) {
+      Message.Style style2,
+      Widget replyButton,
+      String msg) {
     this.psId = new PatchSet.Id(
         info.legacy_id(),
         info.revisions().get(revision)._number());
     this.revision = revision;
     this.style = style;
+    this.style2 = style2;
     this.replyButton = replyButton;
 
     boolean current = revision.equals(info.current_revision());
@@ -57,7 +62,7 @@ class ReplyAction {
         : NativeMap.<JsArrayString> create();
   }
 
-  void onReply() {
+  void onReply(String msg) {
     if (popup != null) {
       popup.hide();
       return;
@@ -68,13 +73,21 @@ class ReplyAction {
           psId,
           revision,
           allLabels,
-          permittedLabels);
+          permittedLabels,
+          msg);
       allLabels = null;
       permittedLabels = null;
     }
 
     final PluginSafePopupPanel p = new PluginSafePopupPanel(true);
+    if(style != null)
+    {
     p.setStyleName(style.replyBox());
+    }
+    else
+    {
+      p.setStyleName(style2.replyBox());
+    }
     p.addAutoHidePartner(replyButton.getElement());
     p.addCloseHandler(new CloseHandler<PopupPanel>() {
       @Override

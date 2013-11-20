@@ -256,6 +256,30 @@
     },
     {
       "key": {
+        "uuid": "3ebc6531_efff81d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-20T13:44:00Z",
+      "side": 1,
+      "message": "Yes, I\u0027m pretty sure this depends on the screen width. Would be nice to have the\n\n  \"\u003cstar\u003e Change \u003cnumber\u003e - \u003cstate\u003e\"\n\nover the table with the change meta data, and not far on the right side of it somewhere over the Related Changes list.",
+      "parentUuid": "7eb25d5d_b1de807f",
+      "range": {
+        "startLine": 13,
+        "startChar": 60,
+        "endLine": 13,
+        "endChar": 79
+      },
+      "revId": "5e31f12d50c7cb4ce436f05f0fab0caad21d3bb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e75e13d_ae52f727",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

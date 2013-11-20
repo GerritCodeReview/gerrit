@@ -114,6 +114,48 @@
     },
     {
       "key": {
+        "uuid": "3ebc6531_0f1e4574",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-20T15:34:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ea1610c_aede177f",
+      "revId": "78f4ef2e96556064293e89a0ad7bb896fa3fe063",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ebc6531_ef366101",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-20T15:34:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ead51ff_f24da889",
+      "range": {
+        "startLine": 242,
+        "startChar": 41,
+        "endLine": 242,
+        "endChar": 44
+      },
+      "revId": "78f4ef2e96556064293e89a0ad7bb896fa3fe063",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ead51ff_5228f497",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
         "patchSetId": 1
@@ -143,6 +185,24 @@
       "side": 1,
       "message": "Yes, I only looked at the loadChangeInfo(...) method \n\n  ChangeList.addOptions(call, EnumSet.of(\n      ListChangesOption.CURRENT_ACTIONS,\n      fg \u0026\u0026 revision !\u003d null\n        ? ListChangesOption.ALL_REVISIONS\n        : ListChangesOption.CURRENT_REVISION));\n\nand concluded from it that \u0027revision \u003d\u003d null\u0027 means we are displaying the current patch set. You are right that \u0027resolveRevisionToDisplay()\u0027 is setting revision also for the current patch set. Does this mean that the UpdateCheckTimer which is using the loadChangeInfo(...) method is always loading all revisions, even if the current revision is displayed?",
       "parentUuid": "9ead51ff_5228f497",
+      "revId": "78f4ef2e96556064293e89a0ad7bb896fa3fe063",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5eb7594c_f0364001",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-20T15:34:25Z",
+      "side": 1,
+      "message": "Ah, I missed that only the current revision is loaded if \u0027fg\u0027 is false.",
+      "parentUuid": "3ebc6531_4f116d68",
       "revId": "78f4ef2e96556064293e89a0ad7bb896fa3fe063",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -212,6 +272,30 @@
     },
     {
       "key": {
+        "uuid": "5eb7594c_50110c68",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-20T15:34:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ead51ff_d2522429",
+      "range": {
+        "startLine": 263,
+        "startChar": 41,
+        "endLine": 263,
+        "endChar": 44
+      },
+      "revId": "78f4ef2e96556064293e89a0ad7bb896fa3fe063",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ead51ff_b2532030",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
         "patchSetId": 1
@@ -240,6 +324,30 @@
       "writtenOn": "2013-11-19T22:40:57Z",
       "side": 1,
       "message": "This code is identical with the other version. I would instead say:\n\n  RevisionInfo findSibling(ChangeInfo info, int offset) {\n    JsArray\u003cRevisionInfo\u003e revisions \u003d changeInfo.revisions.values();\n    RevisionInfo.sortRevisionInfoByNumber(revisions);\n    for (int i \u003d 0; i \u003c revisions.length(); i++) {\n      if (revision.equals(revisions.get(i).name()) {\n        if (0 \u003c\u003d i + offset \u0026\u0026 i + offset \u003c revisions.length()) {\n          return revisions.get(i + offset);\n        }\n        return null;\n      }\n    }\n    return null;\n  }\n\nand then prev is findSibling(info, -1) and next is findSibling(info, 1). Hell we can even say goToSibling(ChangeInfo, int offset) and instead of doing the return invoke Gerrit.display().",
+      "range": {
+        "startLine": 290,
+        "startChar": 8,
+        "endLine": 294,
+        "endChar": 42
+      },
+      "revId": "78f4ef2e96556064293e89a0ad7bb896fa3fe063",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5eb7594c_b02cb8b3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-20T15:34:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7eb25d5d_111e6c74",
       "range": {
         "startLine": 290,
         "startChar": 8,

@@ -592,7 +592,7 @@ public class Dispatcher {
             panel = 0 <= c ? token.substring(c + 1) : "";
           }
 
-          if ("".equals(panel)) {
+          if ("sidebyside".equals(panel)) {
             return new PatchScreen.SideBySide( //
                 id, //
                 patchIndex, //
@@ -610,7 +610,8 @@ public class Dispatcher {
                 top, //
                 baseId //
             );
-          } else if ("cm".equals(panel)) {
+          } else if ("cm".equals(panel)
+              || ("".equals(panel) && isChangeScreen2())) {
             if (Gerrit.isSignedIn()
                 && DiffView.UNIFIED_DIFF.equals(Gerrit.getUserAccount()
                     .getGeneralPreferences().getDiffView())) {
@@ -624,6 +625,14 @@ public class Dispatcher {
               );
             }
             return new SideBySide2(baseId, id.getParentKey(), id.get());
+          } else if ("".equals(panel)) {
+            return new PatchScreen.SideBySide(
+                id,
+                patchIndex,
+                patchSetDetail,
+                patchTable,
+                top,
+                baseId);
           }
         }
 

@@ -42,7 +42,7 @@ limitations under the License.
       <div>
         <c:NpTextArea ui:field='message'
             visibleLines='3'
-            characterWidth='45'/>
+            characterWidth='40'/>
       </div>
       <div>
         <g:Button ui:field='save' styleName='{res.style.button}'>

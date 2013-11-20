@@ -113,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "3ebc6531_4f116d68",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-20T14:05:46Z",
+      "side": 1,
+      "message": "Yes, I only looked at the loadChangeInfo(...) method \n\n  ChangeList.addOptions(call, EnumSet.of(\n      ListChangesOption.CURRENT_ACTIONS,\n      fg \u0026\u0026 revision !\u003d null\n        ? ListChangesOption.ALL_REVISIONS\n        : ListChangesOption.CURRENT_REVISION));\n\nand concluded from it that \u0027revision \u003d\u003d null\u0027 means we are displaying the current patch set. You are right that \u0027resolveRevisionToDisplay()\u0027 is setting revision also for the current patch set. Does this mean that the UpdateCheckTimer which is using the loadChangeInfo(...) method is always loading all revisions, even if the current revision is displayed?",
+      "parentUuid": "9ead51ff_5228f497",
+      "revId": "78f4ef2e96556064293e89a0ad7bb896fa3fe063",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ead51ff_92589c4d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
         "patchSetId": 1

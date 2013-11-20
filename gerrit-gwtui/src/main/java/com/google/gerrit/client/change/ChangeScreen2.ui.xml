@@ -54,6 +54,8 @@ limitations under the License.
       position: absolute;
       top: 0;
       right: 3px;
+      height: HEADER_HEIGHT;
+      line-height: HEADER_HEIGHT;
     }
 
     .infoLine {
@@ -64,6 +66,13 @@ limitations under the License.
       padding-left: 25px;
     }
 
+    .infoLineHeaderButtons {
+      display: inline-block;
+      height: HEADER_HEIGHT;
+      line-height: HEADER_HEIGHT;
+      vertical-align: top;
+      min-width: 200px;
+    }
     .statusRight {
       position: absolute;
       top: 0;
@@ -72,6 +81,8 @@ limitations under the License.
     }
     .starChangeStatus {
       display: inline-block;
+      position: relative;
+      height: HEADER_HEIGHT;
       width: 325px;
     }
     .star {
@@ -296,7 +307,7 @@ limitations under the License.
       </div>
 
       <div class='{style.infoLine}'>
-        <div class='{style.headerButtons}'>
+        <div class='{style.headerButtons} {style.infoLineHeaderButtons}'>
           <g:Button ui:field='reply'
               styleName=''
               title='Reply and score (Shortcut: a)'>
@@ -309,9 +320,6 @@ limitations under the License.
             <ui:attribute name='title'/>
           </c:QuickApprove>
         </div>
-      </div>
-
-      <div class='{style.statusRight}'>
         <div class='{style.starChangeStatus}'>
           <c:StarIcon ui:field='star' styleName='{style.star}'/>
           <span class='{style.changeId}'>
@@ -320,6 +328,9 @@ limitations under the License.
             </g:Anchor> - <span ui:field='statusText' class='{style.statusText}'/></ui:msg>
           </span>
         </div>
+      </div>
+
+      <div class='{style.statusRight}'>
         <g:FlowPanel styleName='{style.popdown}'>
           <g:Button ui:field='includedIn' styleName='' visible="false">
             <div><ui:msg>Included in</ui:msg></div>

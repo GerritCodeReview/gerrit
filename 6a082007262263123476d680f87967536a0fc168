@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ead51ff_f2a928aa",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/gerrit.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-20T18:29:43Z",
+      "side": 1,
+      "message": "get_config only passes $1 and $2 through to Git. So you run `git config -z --get-all` and do not pass container.javaOptions. Which means we build up all options here.\n\nAnd -z uses \\0 as a delimiter. Should we set IFS\u003d\u0027\\0\u0027 or something in shell to break up the values and switch them to spaces?",
+      "range": {
+        "startLine": 265,
+        "startChar": 16,
+        "endLine": 265,
+        "endChar": 26
+      },
+      "revId": "6a082007262263123476d680f87967536a0fc168",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

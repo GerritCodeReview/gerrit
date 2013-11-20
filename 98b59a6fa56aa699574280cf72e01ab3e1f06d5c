@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ebc6531_6ffd51e2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LineComment.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-20T11:52:27Z",
+      "side": 1,
+      "message": "For comments on file level, it is currently showing \u0027Line\u0027 without any line number. Would it be better to show \u0027File\u0027 in this case?",
+      "range": {
+        "startLine": 37,
+        "startChar": 38,
+        "endLine": 37,
+        "endChar": 42
+      },
+      "revId": "98b59a6fa56aa699574280cf72e01ab3e1f06d5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

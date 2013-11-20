@@ -71,7 +71,6 @@ import com.google.gwt.user.client.EventListener;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ToggleButton;
@@ -150,7 +149,7 @@ public class ChangeScreen2 extends Screen {
   @UiField CommitBox commit;
   @UiField RelatedChanges related;
   @UiField FileTable files;
-  @UiField FlowPanel history;
+  @UiField History history;
 
   @UiField Button includedIn;
   @UiField Button revisions;
@@ -520,6 +519,7 @@ public class ChangeScreen2 extends Screen {
 
   private List<NativeMap<JsArray<CommentInfo>>> loadComments(
       RevisionInfo rev, CallbackGroup group) {
+    final int id = rev._number();
     final List<NativeMap<JsArray<CommentInfo>>> r =
         new ArrayList<NativeMap<JsArray<CommentInfo>>>(1);
     ChangeApi.revision(changeId.get(), rev.name())
@@ -528,6 +528,7 @@ public class ChangeScreen2 extends Screen {
         @Override
         public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
           r.add(result);
+          history.addComments(id, result);
         }
 
         @Override
@@ -657,7 +658,6 @@ public class ChangeScreen2 extends Screen {
     renderCommitSubject(info);
     renderOwner(info);
     renderActionTextDate(info);
-    renderHistory(info);
     initIncludedInAction(info);
     initRevisionsAction(info, revision);
     initDownloadAction(info, revision);
@@ -673,6 +673,7 @@ public class ChangeScreen2 extends Screen {
     related.set(info, revision);
     reviewers.set(info);
     quickApprove.set(info, revision);
+    history.set(commentLinkProcessor, changeId, info);
 
     if (Gerrit.isSignedIn()) {
       initEditMessageAction(info, revision);
@@ -734,15 +735,6 @@ public class ChangeScreen2 extends Screen {
     }
     actionText.setInnerText(action);
     actionDate.setInnerText(FormatUtil.relativeFormat(info.updated()));
-  }
-
-  private void renderHistory(ChangeInfo info) {
-    JsArray<MessageInfo> messages = info.messages();
-    if (messages != null) {
-      for (int i = 0; i < messages.length(); i++) {
-        history.add(new Message(commentLinkProcessor, messages.get(i)));
-      }
-    }
   }
 
   void showUpdates(ChangeInfo newInfo) {

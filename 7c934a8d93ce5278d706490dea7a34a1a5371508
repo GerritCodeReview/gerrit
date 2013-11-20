@@ -48,6 +48,42 @@
     },
     {
       "key": {
+        "uuid": "5eb7594c_10f0240a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-11-20T08:40:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ead51ff_f2848845",
+      "revId": "7c934a8d93ce5278d706490dea7a34a1a5371508",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ebc6531_afde197f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-11-20T08:40:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ead51ff_5296347a",
+      "revId": "7c934a8d93ce5278d706490dea7a34a1a5371508",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7eb25d5d_f14da889",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "3ebc6531_8fe35549",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-11-20T08:40:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7eb25d5d_f14da889",
+      "revId": "7c934a8d93ce5278d706490dea7a34a1a5371508",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7eb25d5d_d1522429",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1
@@ -82,6 +136,24 @@
       "writtenOn": "2013-11-19T23:10:41Z",
       "side": 1,
       "message": "Why isn\u0027t this an AdvertiseRefsHook? Linked in below at line 414?",
+      "revId": "7c934a8d93ce5278d706490dea7a34a1a5371508",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5eb7594c_30f3a81a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-11-20T08:40:04Z",
+      "side": 1,
+      "message": "The Hooks are a part of the problem. The refs are not filtered by the hooks until much later, and by then all our refs have been passed to BaseReceivePack.setAdvertisedRefs() several times. Here, the objectIDs (from those refs) are added to advertisedHaves. And while we can filter down our refs later, the advertisedHaves will never shrink and in the end still give JGit a hugely complex graph to walk. \n\nBy setting the filter, I can filter away the worst offenders (refs/changes \u0026 REFS_CACHE_AUTOMERGE) before the objectIDs are actually reaching the advertisedHaves set.\n\n\tpublic void setAdvertisedRefs(Map\u003cString, Ref\u003e allRefs, Set\u003cObjectId\u003e additionalHaves) {\n\t\trefs \u003d allRefs !\u003d null ? allRefs : db.getAllRefs();\n\t\trefs \u003d refFilter.filter(refs);\n\n\t\tRef head \u003d refs.get(Constants.HEAD);\n\t\tif (head !\u003d null \u0026\u0026 head.isSymbolic())\n\t\t\trefs.remove(Constants.HEAD);\n\n\t\tfor (Ref ref : refs.values()) {\n\t\t\tif (ref.getObjectId() !\u003d null)\n\t\t\t\tadvertisedHaves.add(ref.getObjectId());\n\t\t}\n\t\tif (additionalHaves !\u003d null)\n\t\t\tadvertisedHaves.addAll(additionalHaves);\n\t\telse\n\t\t\tadvertisedHaves.addAll(db.getAdditionalHaves());\n\t}\n\nI tried rewriting/moving around the Hooks in https://gerrit-review.googlesource.com/#/c/41762/ . But that solution ended up being unnecessary complex.",
+      "parentUuid": "7eb25d5d_d1522429",
       "revId": "7c934a8d93ce5278d706490dea7a34a1a5371508",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

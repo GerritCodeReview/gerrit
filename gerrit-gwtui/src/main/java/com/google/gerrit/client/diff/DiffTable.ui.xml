@@ -95,8 +95,8 @@ limitations under the License.
       cursor: pointer;
     }
     .difftable .CodeMirror.cm-keymap-fat-cursor div.CodeMirror-cursor {
-      opacity: 0.8;
-      z-index: 2;
+      background: transparent;
+      text-decoration: underline;
     }
     .showtabs .cm-tab:before {
       content: "\00bb";

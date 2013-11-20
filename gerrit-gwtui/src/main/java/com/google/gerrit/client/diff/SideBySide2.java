@@ -212,6 +212,7 @@ public class SideBySide2 extends Screen {
         JsArray<RevisionInfo> list = info.revisions().values();
         RevisionInfo.sortRevisionInfoByNumber(list);
         diffTable.setUpPatchSetNav(list, diff);
+        header.set(info);
       }}));
 
     ConfigInfoCache.get(changeId, group.addFinal(

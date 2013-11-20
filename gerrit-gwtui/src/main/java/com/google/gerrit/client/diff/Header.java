@@ -16,6 +16,7 @@ package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeApi;
+import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ReviewInfo;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.patches.PatchUtil;
@@ -53,6 +54,7 @@ class Header extends Composite {
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   @UiField CheckBox reviewed;
+  @UiField Element project;
   @UiField Element filePath;
 
   @UiField Element noDiff;
@@ -142,6 +144,10 @@ class Header extends Composite {
             }
           });
     }
+  }
+
+  void set(ChangeInfo info) {
+    project.setInnerText(info.project());
   }
 
   void setReviewed(boolean r) {

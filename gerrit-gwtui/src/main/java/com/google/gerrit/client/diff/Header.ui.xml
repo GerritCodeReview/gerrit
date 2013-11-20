@@ -29,6 +29,7 @@ limitations under the License.
     vertical-align: bottom;
   }
   .path {
+    white-space: no-wrap;
   }
   .navigation {
     position: absolute;
@@ -48,7 +49,7 @@ limitations under the License.
         title='Mark file as reviewed (Shortcut: r)'>
       <ui:attribute name='title'/>
     </g:CheckBox>
-    <span ui:field='filePath' class='{style.path}'/>
+    <span class='{style.path}'><span ui:field='project'/> / <span ui:field='filePath'/></span>
 
     <span ui:field='noDiff' class='{style.nodiff}'>
       <ui:msg>No Differences</ui:msg>

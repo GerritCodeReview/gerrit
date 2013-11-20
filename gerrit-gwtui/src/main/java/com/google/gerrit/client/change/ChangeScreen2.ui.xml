@@ -37,6 +37,8 @@ limitations under the License.
       position: relative;
       background-color: trimColor;
       height: HEADER_HEIGHT;
+      margin: 0 -5px;
+      padding: 0 5px;
     }
 
     .idBlock {
@@ -131,7 +133,7 @@ limitations under the License.
       font-weight: normal;
       vertical-align: top;
       text-align: left;
-      padding-right: 5px;
+      padding: 0 5px 0 0;
     }
 
     .clippy div {
@@ -246,7 +248,8 @@ limitations under the License.
       font-weight: bold;
       color: textColor;
       height: 18px;
-      padding: 5px 10px;
+      margin: 0 -5px;
+      padding: 5px 5px;
     }
     .sectionHeader .headerButtons {
       top: 2px;

@@ -159,7 +159,7 @@ limitations under the License.
     }
 
     .queryProject {
-      float: left;
+      float: right;
       cursor: pointer;
     }
 
@@ -368,17 +368,17 @@ limitations under the License.
             </tr>
             <tr>
               <th><ui:msg>Project</ui:msg></th>
-              <td><g:Image
+              <td><x:InlineHyperlink ui:field='projectLink'
+                     title='Go to project'>
+                     <ui:attribute name='title'/>
+                  </x:InlineHyperlink>
+                  <g:Image
                      ui:field='projectQuery'
                      resource='{ico.queryIcon}'
                      styleName='{style.queryProject}'
                      title='Search for changes on this project'>
                     <ui:attribute name='title'/>
                   </g:Image>
-                  <x:InlineHyperlink ui:field='projectLink'
-                     title='Go to project'>
-                     <ui:attribute name='title'/>
-                  </x:InlineHyperlink>
               </td>
             </tr>
             <tr>

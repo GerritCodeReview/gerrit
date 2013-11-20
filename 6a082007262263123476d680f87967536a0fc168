@@ -22,6 +22,30 @@
       "revId": "6a082007262263123476d680f87967536a0fc168",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7eb25d5d_317610b1",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/gerrit.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-11-20T20:23:21Z",
+      "side": 1,
+      "message": "Yeah, this patch totally isn\u0027t right. I was silly and did this by memory instead of finding the change I made before. New PS coming.",
+      "parentUuid": "9ead51ff_f2a928aa",
+      "range": {
+        "startLine": 265,
+        "startChar": 16,
+        "endLine": 265,
+        "endChar": 26
+      },
+      "revId": "6a082007262263123476d680f87967536a0fc168",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

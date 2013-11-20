@@ -136,7 +136,10 @@ class RevisionsBox extends Composite {
 
   private void onOpenRow(int idx) {
     closeParent();
-    Gerrit.display(url(revisions.get(idx)));
+    RevisionInfo r = revisions.get(idx);
+    if (!revision.equals(r.name())) {
+      Gerrit.display(url(r));
+    }
   }
 
   private void render(NativeMap<RevisionInfo> map) {

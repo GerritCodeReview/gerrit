@@ -340,7 +340,7 @@ public class ChangeScreen2 extends Screen {
   @Override
   public void onShowView() {
     super.onShowView();
-
+    commit.onShowView();
     related.setMaxHeight(commit.getElement()
         .getParentElement()
         .getOffsetHeight());

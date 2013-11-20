@@ -432,6 +432,6 @@ limitations under the License.
         </g:Button>
       </div>
     </div>
-    <g:FlowPanel ui:field='history'/>
+    <c:History ui:field='history'/>
   </g:HTMLPanel>
 </ui:UiBinder>

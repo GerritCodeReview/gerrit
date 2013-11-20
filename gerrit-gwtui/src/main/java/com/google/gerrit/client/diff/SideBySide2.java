@@ -464,6 +464,8 @@ public class SideBySide2 extends Screen {
     }
     Configuration cfg = Configuration.create()
       .set("readOnly", true)
+      .set("cursorBlinkRate", 0)
+      .set("cursorHeight", 0.85)
       .set("lineNumbers", true)
       .set("tabSize", pref.getTabSize())
       .set("mode", getContentType(meta))

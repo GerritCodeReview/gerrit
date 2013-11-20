@@ -42,7 +42,7 @@ public class CommentInfo extends JavaScriptObject {
   }
 
   private final native void setId(String id) /*-{ this.id = id; }-*/;
-  private final native void setPath(String path) /*-{ this.path = path; }-*/;
+  public final native void setPath(String path) /*-{ this.path = path; }-*/;
 
   private final void setSide(Side side) {
     setSideRaw(side.toString());
@@ -68,7 +68,7 @@ public class CommentInfo extends JavaScriptObject {
   }
   private final native String sideRaw() /*-{ return this.side }-*/;
 
-  public final native int line() /*-{ return this.line; }-*/;
+  public final native int line() /*-{ return this.line || 0; }-*/;
   public final native String in_reply_to() /*-{ return this.in_reply_to; }-*/;
   public final native String message() /*-{ return this.message; }-*/;
 

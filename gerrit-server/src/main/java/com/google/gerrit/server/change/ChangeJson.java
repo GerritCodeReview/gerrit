@@ -899,33 +899,33 @@ public class ChangeJson {
   }
 
   public static class ChangeInfo {
-    final String kind = "gerritcodereview#change";
-    String id;
-    String project;
-    String branch;
-    String topic;
+    public final String kind = "gerritcodereview#change";
+    public String id;
+    public String project;
+    public String branch;
+    public String topic;
     public String changeId;
     public String subject;
-    Change.Status status;
-    Timestamp created;
-    Timestamp updated;
-    Boolean starred;
-    Boolean reviewed;
-    Boolean mergeable;
+    public Change.Status status;
+    public Timestamp created;
+    public Timestamp updated;
+    public Boolean starred;
+    public Boolean reviewed;
+    public Boolean mergeable;
 
     public String _sortkey;
     public int _number;
 
-    AccountInfo owner;
+    public AccountInfo owner;
 
-    Map<String, ActionInfo> actions;
-    Map<String, LabelInfo> labels;
-    Map<String, Collection<String>> permitted_labels;
-    Collection<AccountInfo> removable_reviewers;
-    Collection<ChangeMessageInfo> messages;
+    public Map<String, ActionInfo> actions;
+    public Map<String, LabelInfo> labels;
+    public Map<String, Collection<String>> permitted_labels;
+    public Collection<AccountInfo> removable_reviewers;
+    public Collection<ChangeMessageInfo> messages;
 
-    String current_revision;
-    Map<String, RevisionInfo> revisions;
+    public String current_revision;
+    public Map<String, RevisionInfo> revisions;
     public Boolean _moreChanges;
 
     void finish() {
@@ -936,21 +936,21 @@ public class ChangeJson {
     }
   }
 
-  static class RevisionInfo {
+  public static class RevisionInfo {
     private transient boolean isCurrent;
-    Boolean draft;
-    Boolean hasDraftComments;
-    int _number;
-    Map<String, FetchInfo> fetch;
-    CommitInfo commit;
-    Map<String, FileInfoJson.FileInfo> files;
-    Map<String, ActionInfo> actions;
+    public Boolean draft;
+    public Boolean hasDraftComments;
+    public int _number;
+    public Map<String, FetchInfo> fetch;
+    public CommitInfo commit;
+    public Map<String, FileInfoJson.FileInfo> files;
+    public Map<String, ActionInfo> actions;
   }
 
-  static class FetchInfo {
-    String url;
-    String ref;
-    Map<String, String> commands;
+  public static class FetchInfo {
+    public String url;
+    public String ref;
+    public Map<String, String> commands;
 
     FetchInfo(String url, String ref) {
       this.url = url;
@@ -965,36 +965,36 @@ public class ChangeJson {
     }
   }
 
-  static class GitPerson {
-    String name;
-    String email;
-    Timestamp date;
-    int tz;
+  public static class GitPerson {
+    public String name;
+    public String email;
+    public Timestamp date;
+    public int tz;
   }
 
-  static class CommitInfo {
-    final String kind = "gerritcodereview#commit";
-    String commit;
-    List<CommitInfo> parents;
-    GitPerson author;
-    GitPerson committer;
-    String subject;
-    String message;
+  public static class CommitInfo {
+    public final String kind = "gerritcodereview#commit";
+    public String commit;
+    public List<CommitInfo> parents;
+    public GitPerson author;
+    public GitPerson committer;
+    public String subject;
+    public String message;
   }
 
-  static class LabelInfo {
+  public static class LabelInfo {
     transient SubmitRecord.Label.Status _status;
 
-    AccountInfo approved;
-    AccountInfo rejected;
-    AccountInfo recommended;
-    AccountInfo disliked;
-    List<ApprovalInfo> all;
+    public AccountInfo approved;
+    public AccountInfo rejected;
+    public AccountInfo recommended;
+    public AccountInfo disliked;
+    public List<ApprovalInfo> all;
 
-    Map<String, String> values;
+    public Map<String, String> values;
 
-    Short value;
-    Boolean optional;
+    public Short value;
+    public Boolean optional;
 
     void addApproval(ApprovalInfo ai) {
       if (all == null) {
@@ -1004,20 +1004,20 @@ public class ChangeJson {
     }
   }
 
-  static class ApprovalInfo extends AccountInfo {
-    Integer value;
-    Timestamp date;
+  public static class ApprovalInfo extends AccountInfo {
+    public Integer value;
+    public Timestamp date;
 
     ApprovalInfo(Account.Id id) {
       super(id);
     }
   }
 
-  static class ChangeMessageInfo {
-    String id;
-    AccountInfo author;
-    Timestamp date;
-    String message;
-    Integer _revisionNumber;
+  public static class ChangeMessageInfo {
+    public String id;
+    public AccountInfo author;
+    public Timestamp date;
+    public String message;
+    public Integer _revisionNumber;
   }
 }

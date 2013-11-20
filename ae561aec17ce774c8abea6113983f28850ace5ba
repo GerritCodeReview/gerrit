@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ebc6531_8f0a3539",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-20T13:26:39Z",
+      "side": 1,
+      "message": "If we have a short commit message, the incorrect image for expanding/collapsing the commit messages is displayed.\n\nFor a short commit message it initially looks like this, note the \\/ expand image below the commit message box:\n\n  http://i.imgur.com/YemlFHq.png\n\nClicking on this image collapses the commit message, but now the /\\ collapse image is displayed:\n\n  http://i.imgur.com/OAqBaH3.png\n\nFor long commit messages it correctly displays the images.",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 36
+      },
+      "revId": "ae561aec17ce774c8abea6113983f28850ace5ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

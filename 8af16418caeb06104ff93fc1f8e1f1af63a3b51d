@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ed63181_4a3f93ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-21T18:18:28Z",
+      "side": 1,
+      "message": "nit: only none line here in the message, not two.",
+      "revId": "8af16418caeb06104ff93fc1f8e1f1af63a3b51d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -250,6 +250,18 @@ public class ChangeScreen2 extends Screen {
         }
       }
     });
+    keysAction.add(new KeyCommand(0, 'x', Util.C.keyExpandAllMessages()) {
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        onExpandAll(null);
+      }
+    });
+    keysAction.add(new KeyCommand(0, 'z', Util.C.keyCollapseAllMessages()) {
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        onCollapseAll(null);
+      }
+    });
     if (Gerrit.isSignedIn()) {
       keysAction.add(new KeyCommand(0, 's', Util.C.changeTableStar()) {
         @Override

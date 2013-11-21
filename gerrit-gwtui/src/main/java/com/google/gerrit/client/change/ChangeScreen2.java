@@ -673,7 +673,6 @@ public class ChangeScreen2 extends Screen {
     related.set(info, revision);
     reviewers.set(info);
     quickApprove.set(info, revision);
-    history.set(commentLinkProcessor, changeId, info);
 
     if (Gerrit.isSignedIn()) {
       initEditMessageAction(info, revision);
@@ -687,6 +686,8 @@ public class ChangeScreen2 extends Screen {
         });
       }
     }
+    history.set(commentLinkProcessor, replyAction, changeId, info);
+
     if (current) {
       loadMergeable(info.status(), canSubmit);
     }

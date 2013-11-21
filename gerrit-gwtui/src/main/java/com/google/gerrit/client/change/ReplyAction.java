@@ -16,6 +16,7 @@ package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
+import com.google.gerrit.client.changes.ChangeInfo.MessageInfo;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JsArrayString;
@@ -58,6 +59,10 @@ class ReplyAction {
   }
 
   void onReply() {
+    onReply(null);
+  }
+
+  void onReply(MessageInfo msg) {
     if (popup != null) {
       popup.hide();
       return;
@@ -71,6 +76,9 @@ class ReplyAction {
           permittedLabels);
       allLabels = null;
       permittedLabels = null;
+    }
+    if (msg != null) {
+      replyBox.replyTo(msg);
     }
 
     final PluginSafePopupPanel p = new PluginSafePopupPanel(true);

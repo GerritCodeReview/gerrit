@@ -231,15 +231,31 @@ public class SideBySide2 extends Screen {
   @Override
   public void onShowView() {
     super.onShowView();
-    resizeCodeMirror();
     Window.enableScrolling(false);
 
-    cmA.setOption("viewportMargin", 10);
-    cmB.setOption("viewportMargin", 10);
+    int rest = Gerrit.getHeaderFooterHeight()
+        + header.getOffsetHeight()
+        + diffTable.getHeaderHeight()
+        + 5; // Estimate
+    final int height = Window.getClientHeight() - rest;
+    onShowView(cmA, height);
+    onShowView(cmB, height);
+    diffTable.sidePanel.adjustGutters(cmB);
     cmB.setCursor(LineCharacter.create(0));
     cmB.focus();
 
     prefetchNextFile();
+  }
+
+  private void onShowView(final CodeMirror cm, final int height) {
+    cm.operation(new Runnable() {
+      @Override
+      public void run() {
+        cm.setHeight(height);
+        cm.setOption("viewportMargin", 10);
+        cm.refresh();
+      }
+    });
   }
 
   @Override
@@ -1246,8 +1262,6 @@ public class SideBySide2 extends Screen {
     int h = Window.getClientHeight() - rest;
     cmA.setHeight(h);
     cmB.setHeight(h);
-    cmA.refresh();
-    cmB.refresh();
     diffTable.sidePanel.adjustGutters(cmB);
   }
 

@@ -61,7 +61,6 @@ limitations under the License.
 
     #change_actions button.submit {
       float: right;
-      color: white;
       background-color: #4d90fe;
       background-image: -webkit-linear-gradient(top, #4d90fe, #4d90fe);
     }

@@ -15,7 +15,9 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ChangeScreen;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.CommentVisibilityStrategy;
@@ -24,26 +26,34 @@ import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.TimeFormat;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 public class GetPreferences implements RestReadView<AccountResource> {
   private final Provider<CurrentUser> self;
+  private final Provider<ReviewDb> db;
 
   @Inject
-  GetPreferences(Provider<CurrentUser> self) {
+  GetPreferences(Provider<CurrentUser> self, Provider<ReviewDb> db) {
     this.self = self;
+    this.db = db;
   }
 
   @Override
-  public PreferenceInfo apply(AccountResource rsrc) throws AuthException {
+  public PreferenceInfo apply(AccountResource rsrc)
+      throws AuthException, ResourceNotFoundException, OrmException {
     if (self.get() != rsrc.getUser()
         && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("restricted to administrator");
     }
-    return new PreferenceInfo(rsrc.getUser().getAccount()
-        .getGeneralPreferences());
+    Account a = db.get().accounts().get(rsrc.getUser().getAccountId());
+    if (a == null) {
+      throw new ResourceNotFoundException();
+    }
+    return new PreferenceInfo(a.getGeneralPreferences());
   }
 
   static class PreferenceInfo {

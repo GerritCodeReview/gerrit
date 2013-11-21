@@ -1242,7 +1242,7 @@ public class SideBySide2 extends Screen {
     int rest = Gerrit.getHeaderFooterHeight()
         + header.getOffsetHeight()
         + diffTable.getHeaderHeight()
-        + 10; // Estimate
+        + 5; // Estimate
     int h = Window.getClientHeight() - rest;
     cmA.setHeight(h);
     cmB.setHeight(h);

@@ -324,7 +324,9 @@ limitations under the License.
           </c:QuickApprove>
         </div>
         <div class='{style.starChangeStatus}'>
-          <c:StarIcon ui:field='star' styleName='{style.star}'/>
+          <c:StarIcon ui:field='star' styleName='{style.star}' title='Star the change (Shortcut: s)'>
+            <ui:attribute name='title'/>
+          </c:StarIcon>
           <span class='{style.changeId}'>
             <ui:msg>Change <g:Anchor ui:field='permalink' title='Reload the change (Shortcut: R)'>
               <ui:attribute name='title'/>

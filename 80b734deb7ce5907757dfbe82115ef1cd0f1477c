@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de98a9f7_9c2c65b4",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-21T08:48:57Z",
+      "side": 1,
+      "message": "These two lines are outdated. There is no need to patch Buck any more, we can do it within our Buck build only.",
+      "revId": "80b734deb7ce5907757dfbe82115ef1cd0f1477c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

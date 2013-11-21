@@ -37,6 +37,7 @@ class DiffTable extends Composite {
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   interface DiffTableStyle extends CssResource {
+    String fullscreen();
     String intralineBg();
     String diff();
     String activeLine();
@@ -107,6 +108,11 @@ class DiffTable extends Composite {
     UIObject.setVisible(fileCommentRow, show
         && (fileCommentPanelA.getBoxCount() > 0
             || fileCommentPanelB.getBoxCount() > 0));
+    if (show) {
+      host.header.removeStyleName(style.fullscreen());
+    } else {
+      host.header.addStyleName(style.fullscreen());
+    }
     host.resizeCodeMirror();
   }
 

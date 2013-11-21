@@ -34,6 +34,24 @@
       "revId": "80b734deb7ce5907757dfbe82115ef1cd0f1477c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e697da1_d9843346",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-21T18:52:43Z",
+      "side": 1,
+      "message": "OK, so i extracted it from my gerrit contrib change and uploaded it as a pull request upstream[1].\n\nSo we can choose, which way to go:\n\n* 1/ patch our fork with my pul request\n* 2/ apply the patch on our local Buck build, letting the Buck as is\n\n[1] https://github.com/facebook/buck/pull/67",
+      "parentUuid": "7edb3dad_49284198",
+      "revId": "80b734deb7ce5907757dfbe82115ef1cd0f1477c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

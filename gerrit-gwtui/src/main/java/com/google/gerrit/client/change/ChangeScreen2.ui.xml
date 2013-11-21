@@ -424,6 +424,10 @@ limitations under the License.
 
     <div class='{style.sectionHeader}'>
       <ui:msg>Files</ui:msg>
+      <div class='{style.statusRight}'>
+        <ui:msg> Reference version: </ui:msg>
+        <g:ListBox ui:field='referenceList' styleName=''/>
+      </div>
     </div>
     <c:FileTable ui:field='files'/>
 

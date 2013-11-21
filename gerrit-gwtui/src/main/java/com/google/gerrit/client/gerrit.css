@@ -1607,17 +1607,17 @@ a:hover.downloadLink {
   text-overflow: ellipsis;
   display: inline-block;
 }
-
 .relatedChangesSubject {
   white-space: nowrap;
 }
-
 .relatedChangesTabPanel .gwt-TabBarItem,
 .relatedChangesTabPanel .gwt-TabBarItem-selected,
 .relatedChangesTabPanel .gwt-TabBarRest {
   background: none repeat scroll 0 0 #FFF !important;
 }
-
+.relatedChangesTabPanel .gwt-TabPanelBottom {
+  padding: 0;
+}
 .relatedChangesTabPanel .gwt-TabBarItem-selected {
   border-bottom-color: #000 !important;
   color: #000 !important;

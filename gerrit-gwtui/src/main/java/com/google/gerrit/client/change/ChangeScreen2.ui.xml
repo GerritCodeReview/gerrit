@@ -281,12 +281,27 @@ limitations under the License.
       left: 300px;
       top: 2px;
       height: 18px;
+      line-height: 18px;
       border-left: 1px inset #fff;
       padding-left: 5px;
       padding-top: 3px;
       padding-bottom: 3px;
     }
     .sectionHeader button { margin-top: 0; }
+
+    .diffBase {
+      display: inline-block;
+      height: 18px;
+      line-height: 18px;
+      font-size: smaller;
+      font-weight: normal;
+      vertical-align: top;
+    }
+    .diffBase select {
+      margin: 0;
+      border: 1px solid #bbb;
+      font-size: smaller;
+    }
 
     .replyBox {
       background-color: trimColor;
@@ -424,6 +439,11 @@ limitations under the License.
 
     <div class='{style.sectionHeader}'>
       <ui:msg>Files</ui:msg>
+      <div class='{style.headerButtons}'>
+        <div class='{style.diffBase}'>
+          <ui:msg>Diff against: <g:ListBox ui:field='diffBase' styleName=''/></ui:msg>
+        </div>
+      </div>
     </div>
     <c:FileTable ui:field='files'/>
 

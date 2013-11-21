@@ -57,6 +57,8 @@ import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.dom.client.SelectElement;
+import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -73,6 +75,7 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
@@ -124,6 +127,7 @@ public class ChangeScreen2 extends Screen {
   private Timestamp lastDisplayedUpdate;
   private UpdateAvailableBar updateAvailable;
   private boolean openReplyBox;
+  private boolean loaded;
 
   @UiField HTMLPanel headerLine;
   @UiField Style style;
@@ -149,6 +153,7 @@ public class ChangeScreen2 extends Screen {
   @UiField CommitBox commit;
   @UiField RelatedChanges related;
   @UiField FileTable files;
+  @UiField ListBox diffBase;
   @UiField History history;
 
   @UiField Button includedIn;
@@ -183,7 +188,7 @@ public class ChangeScreen2 extends Screen {
       @Override
       public void onSuccess(ChangeInfo info) {
         info.init();
-        loadConfigInfo(info);
+        loadConfigInfo(info, null);
       }
     });
   }
@@ -192,9 +197,7 @@ public class ChangeScreen2 extends Screen {
     RestApi call = ChangeApi.detail(changeId.get());
     ChangeList.addOptions(call, EnumSet.of(
       ListChangesOption.CURRENT_ACTIONS,
-      fg && revision != null
-        ? ListChangesOption.ALL_REVISIONS
-        : ListChangesOption.CURRENT_REVISION));
+      ListChangesOption.ALL_REVISIONS));
     if (!fg) {
       call.background();
     }
@@ -447,25 +450,40 @@ public class ChangeScreen2 extends Screen {
     collapseAll.setVisible(false);
   }
 
-  private void loadConfigInfo(final ChangeInfo info) {
+  @UiHandler("diffBase")
+  void onChangeRevision(ChangeEvent e) {
+    int idx = diffBase.getSelectedIndex();
+    if (0 <= idx) {
+      String n = diffBase.getValue(idx);
+      loadConfigInfo(changeInfo, !n.isEmpty() ? n : null);
+    }
+  }
+
+  private void loadConfigInfo(final ChangeInfo info, final String base) {
     info.revisions().copyKeysIntoChildren("name");
     final RevisionInfo rev = resolveRevisionToDisplay(info);
 
     CallbackGroup group = new CallbackGroup();
-    loadDiff(rev, myLastReply(info), group);
+    loadDiff(info.revisions().get(base), rev, myLastReply(info), group);
     loadCommit(rev, group);
+
+    if (loaded) {
+      group.done();
+      return;
+    }
+
     RevisionInfoCache.add(changeId, rev);
     ConfigInfoCache.add(info);
     ConfigInfoCache.get(info.project_name_key(),
-      group.add(new ScreenLoadCallback<ConfigInfoCache.Entry>(this) {
+      group.addFinal(new ScreenLoadCallback<ConfigInfoCache.Entry>(this) {
         @Override
         protected void preDisplay(Entry result) {
+          loaded = true;
           commentLinkProcessor = result.getCommentLinkProcessor();
           setTheme(result.getTheme());
           renderChangeInfo(info);
         }
       }));
-    group.done();
   }
 
   private static Timestamp myLastReply(ChangeInfo info) {
@@ -481,16 +499,19 @@ public class ChangeScreen2 extends Screen {
     return null;
   }
 
-  private void loadDiff(final RevisionInfo rev, final Timestamp myLastReply,
-      CallbackGroup group) {
+  private void loadDiff(final RevisionInfo base, final RevisionInfo rev,
+      final Timestamp myLastReply, CallbackGroup group) {
     final List<NativeMap<JsArray<CommentInfo>>> comments = loadComments(rev, group);
     final List<NativeMap<JsArray<CommentInfo>>> drafts = loadDrafts(rev, group);
     DiffApi.list(changeId.get(),
+      base != null ? base.name() : null,
       rev.name(),
       group.add(new AsyncCallback<NativeMap<FileInfo>>() {
         @Override
         public void onSuccess(NativeMap<FileInfo> m) {
-          files.setRevisions(null, new PatchSet.Id(changeId, rev._number()));
+          files.setRevisions(
+              base != null ? new PatchSet.Id(changeId, base._number()) : null,
+              new PatchSet.Id(changeId, rev._number()));
           files.setValue(m, myLastReply, comments.get(0), drafts.get(0));
         }
 
@@ -657,6 +678,7 @@ public class ChangeScreen2 extends Screen {
     renderCommitSubject(info);
     renderOwner(info);
     renderActionTextDate(info);
+    renderDiffBaseListBox(info);
     initIncludedInAction(info);
     initRevisionsAction(info, revision);
     initDownloadAction(info, revision);
@@ -734,6 +756,28 @@ public class ChangeScreen2 extends Screen {
     }
     actionText.setInnerText(action);
     actionDate.setInnerText(FormatUtil.relativeFormat(info.updated()));
+  }
+
+  private void renderDiffBaseListBox(ChangeInfo info) {
+    JsArray<RevisionInfo> list = info.revisions().values();
+    RevisionInfo.sortRevisionInfoByNumber(list);
+    for (int i = list.length() - 1; i >= 0; i--) {
+      RevisionInfo r = list.get(i);
+      diffBase.addItem(
+        r._number() + ": " + r.name().substring(0, 6),
+        r.name());
+      if (r.name().equals(revision)) {
+        SelectElement.as(diffBase.getElement()).getOptions()
+            .getItem(diffBase.getItemCount() - 1).setDisabled(true);
+      }
+    }
+
+    RevisionInfo rev = info.revisions().get(revision);
+    JsArray<CommitInfo> parents = rev.commit().parents();
+    diffBase.addItem(
+      parents.length() > 1 ? Util.C.autoMerge() : Util.C.baseDiffItem(),
+      "");
+    diffBase.setSelectedIndex(diffBase.getItemCount() - 1);
   }
 
   void showUpdates(ChangeInfo newInfo) {

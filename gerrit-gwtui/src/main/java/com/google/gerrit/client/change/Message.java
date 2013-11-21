@@ -17,6 +17,7 @@ package com.google.gerrit.client.change;
 import com.google.gerrit.client.AvatarImage;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.MessageInfo;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.changes.Util;
@@ -30,6 +31,8 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -47,8 +50,12 @@ class Message extends Composite {
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   static interface Style extends CssResource {
+    String replyBox();
     String closed();
   }
+
+  private ReplyAction replyAction;
+  private String msg;
 
   @UiField Style style;
   @UiField HTMLPanel header;
@@ -57,6 +64,8 @@ class Message extends Composite {
   @UiField Element date;
   @UiField Element message;
   @UiField FlowPanel comments;
+  @UiField Element buttons;
+  @UiField Button reply;
 
   private final History history;
   private final MessageInfo info;
@@ -65,7 +74,8 @@ class Message extends Composite {
   @UiField(provided = true)
   AvatarImage avatar;
 
-  Message(History parent, MessageInfo info) {
+  Message(History parent, MessageInfo info, String revision,
+      ChangeInfo changeInfo) {
     if (info.author() != null) {
       avatar = new AvatarImage(info.author());
       avatar.setSize("", "");
@@ -87,11 +97,13 @@ class Message extends Composite {
     name.setInnerText(authorName(info));
     date.setInnerText(FormatUtil.shortFormatDayTime(info.date()));
     if (info.message() != null) {
-      String msg = info.message().trim();
+      msg = info.message().trim();
       summary.setInnerText(msg);
       message.setInnerSafeHtml(history.getCommentLinkProcessor()
         .apply(new SafeHtmlBuilder().append(msg).wikify()));
     }
+    replyAction =
+        new ReplyAction(changeInfo, revision, null, style, reply, msg);
   }
 
   MessageInfo getMessageInfo() {
@@ -112,6 +124,9 @@ class Message extends Composite {
       }
     }
 
+    if (Gerrit.isSignedIn()) {
+      UIObject.setVisible(buttons, open);
+    }
     UIObject.setVisible(summary, !open);
     UIObject.setVisible(message, open);
     comments.setVisible(open && comments.getWidgetCount() > 0);
@@ -170,5 +185,14 @@ class Message extends Composite {
       return Gerrit.getConfig().getAnonymousCowardName();
     }
     return Util.C.messageNoAuthor();
+  }
+
+  @UiHandler("reply")
+  void onReply(ClickEvent e) {
+    onReply();
+  }
+
+  private void onReply() {
+    replyAction.onReply(msg);
   }
 }

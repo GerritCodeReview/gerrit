@@ -19,6 +19,8 @@ limitations under the License.
     xmlns:c='urn:import:com.google.gerrit.client'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <ui:style type='com.google.gerrit.client.change.Message.Style'>
+    @eval trimColor com.google.gerrit.client.Gerrit.getTheme().trimColor;
+
     .messageBox {
       position: relative;
       width: 1168px;
@@ -78,6 +80,25 @@ limitations under the License.
       top: 0;
       right: 5px;
     }
+
+    .headerButtons button {
+      margin: 6px 3px 0 0;
+      border-color: rgba(0, 0, 0, 0.1);
+      text-align: center;
+      font-size: 11px;
+      font-weight: bold;
+      border: 1px solid;
+      cursor: pointer;
+      color: #444;
+      background-color: #f5f5f5;
+      background-image: -webkit-linear-gradient(top, #f5f5f5, #f1f1f1);
+      -webkit-border-radius: 2px;
+      -webkit-box-sizing: content-box;
+    }
+
+    .replyBox {
+      background-color: trimColor;
+    }
   </ui:style>
 
   <g:HTMLPanel
@@ -93,6 +114,16 @@ limitations under the License.
       <div ui:field='message'
            aria-hidden='true'
            style='display: NONE'/>
+	  <div ui:field='buttons' class='{style.headerButtons}'
+		  aria-hidden='true' style='display: NONE'>
+		  <g:Button ui:field='reply' styleName=''
+			  title='Reply to this comment'>
+			  <ui:attribute name='title' />
+			  <div>
+				  <ui:msg>Reply</ui:msg>
+			  </div>
+		  </g:Button>
+	  </div>
       <g:FlowPanel ui:field='comments' visible='false'/>
     </div>
   </g:HTMLPanel>

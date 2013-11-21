@@ -417,7 +417,7 @@ public class ChangeScreen2 extends Screen {
 
   private void onReply() {
     if (Gerrit.isSignedIn()) {
-      replyAction.onReply();
+      replyAction.onReply(null);
     } else {
       Gerrit.doSignIn(getToken());
     }
@@ -673,11 +673,11 @@ public class ChangeScreen2 extends Screen {
     related.set(info, revision);
     reviewers.set(info);
     quickApprove.set(info, revision);
-    history.set(commentLinkProcessor, changeId, info);
+    history.set(commentLinkProcessor, changeId, info, revision);
 
     if (Gerrit.isSignedIn()) {
       initEditMessageAction(info, revision);
-      replyAction = new ReplyAction(info, revision, style, reply);
+      replyAction = new ReplyAction(info, revision, style, null, reply, null);
       if (topic.canEdit()) {
         keysAction.add(new KeyCommand(0, 't', Util.C.keyEditTopic()) {
           @Override

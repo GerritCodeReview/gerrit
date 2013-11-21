@@ -46,14 +46,15 @@ class History extends FlowPanel {
   private final Map<AuthorRevision, List<CommentInfo>> byAuthor =
       new HashMap<AuthorRevision, List<CommentInfo>>();
 
-  void set(CommentLinkProcessor clp, Change.Id id, ChangeInfo info) {
+  void set(CommentLinkProcessor clp, Change.Id id, ChangeInfo info,
+      String revision) {
     this.clp = clp;
     this.changeId = id;
 
     JsArray<MessageInfo> messages = info.messages();
     if (messages != null) {
       for (MessageInfo msg : Natives.asList(messages)) {
-        Message ui = new Message(this, msg);
+        Message ui = new Message(this, msg, revision, info);
         if (loaded.contains(msg._revisionNumber())) {
           ui.addComments(comments(msg));
         }

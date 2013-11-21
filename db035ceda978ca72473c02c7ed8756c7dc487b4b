@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e49d14f_92defc7f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChanges.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-11-21T19:53:19Z",
+      "side": 1,
+      "message": "After seeing this live on gerrit-review, I think this is noisy. Every change seems to have 10+ conflicting changes, which I think is just an artifact of there being lots of old, unlikely-to-merge but still open changes in the project.\n\nI would prefer something like including \"-age:30d\" and/or \"limit:5\" with a link to the full search without that restriction.",
+      "revId": "db035ceda978ca72473c02c7ed8756c7dc487b4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

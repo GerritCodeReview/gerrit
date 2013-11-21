@@ -52,6 +52,17 @@ public class KeyCommandSet implements KeyPressHandler {
     return map.isEmpty();
   }
 
+  public void add(KeyCommand a, KeyCommand b) {
+    add(a);
+    add(b);
+    pair(a, b);
+  }
+
+  public void pair(KeyCommand a, KeyCommand b) {
+    a.sibling = b;
+    b.sibling = a;
+  }
+
   public void add(final KeyCommand k) {
     assert !map.containsKey(k.keyMask)
          : "Key " + k.describeKeyStroke().asString()

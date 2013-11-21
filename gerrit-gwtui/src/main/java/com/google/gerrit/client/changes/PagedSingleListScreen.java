@@ -67,15 +67,13 @@ public abstract class PagedSingleListScreen extends Screen {
 
     table = new ChangeTable2() {
       {
-        keysNavigation.add(new DoLinkCommand(0, 'p', Util.C
-            .changeTablePagePrev(), prev));
-        keysNavigation.add(new DoLinkCommand(0, 'n', Util.C
-            .changeTablePageNext(), next));
+        keysNavigation.add(
+            new DoLinkCommand(0, 'p', Util.C.changeTablePagePrev(), prev),
+            new DoLinkCommand(0, 'n', Util.C.changeTablePageNext(), next));
 
-        keysNavigation.add(new DoLinkCommand(0, '[', Util.C
-            .changeTablePagePrev(), prev));
-        keysNavigation.add(new DoLinkCommand(0, ']', Util.C
-            .changeTablePageNext(), next));
+        keysNavigation.add(
+            new DoLinkCommand(0, '[', Util.C.changeTablePagePrev(), prev),
+            new DoLinkCommand(0, ']', Util.C.changeTablePageNext(), next));
 
         keysNavigation.add(new KeyCommand(0, 'R', Util.C.keyReloadSearch()) {
           @Override

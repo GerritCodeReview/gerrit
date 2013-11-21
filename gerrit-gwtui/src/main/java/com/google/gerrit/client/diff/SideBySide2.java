@@ -343,10 +343,12 @@ public class SideBySide2 extends Screen {
     super.registerKeys();
 
     keysNavigation.add(new UpToChangeCommand2(revision, 0, 'u'));
-    keysNavigation.add(new NoOpKeyCommand(0, 'j', PatchUtil.C.lineNext()));
-    keysNavigation.add(new NoOpKeyCommand(0, 'k', PatchUtil.C.linePrev()));
-    keysNavigation.add(new NoOpKeyCommand(0, 'n', PatchUtil.C.chunkNext2()));
-    keysNavigation.add(new NoOpKeyCommand(0, 'p', PatchUtil.C.chunkPrev2()));
+    keysNavigation.add(
+        new NoOpKeyCommand(0, 'j', PatchUtil.C.lineNext()),
+        new NoOpKeyCommand(0, 'k', PatchUtil.C.linePrev()));
+    keysNavigation.add(
+        new NoOpKeyCommand(0, 'n', PatchUtil.C.chunkNext2()),
+        new NoOpKeyCommand(0, 'p', PatchUtil.C.chunkPrev2()));
 
     keysAction = new KeyCommandSet(Gerrit.C.sectionActions());
     keysAction.add(new NoOpKeyCommand(0, 'o', PatchUtil.C.expandComment()));

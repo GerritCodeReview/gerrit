@@ -118,9 +118,13 @@ class Header extends Composite {
         FileInfo nextInfo = index == files.length() - 1
             ? null
             : files.get(index + 1);
-        setupNav(prev, '[', PatchUtil.C.previousFileHelp(),
+        KeyCommand p = setupNav(prev, '[', PatchUtil.C.previousFileHelp(),
             index == 0 ? null : files.get(index - 1));
-        setupNav(next, ']', PatchUtil.C.nextFileHelp(), nextInfo);
+        KeyCommand n = setupNav(next, ']', PatchUtil.C.nextFileHelp(),
+            nextInfo);
+        if (p != null && n != null) {
+          keys.pair(p, n);
+        }
         nextPath = nextInfo != null ? nextInfo.path() : null;
       }
     });
@@ -183,25 +187,28 @@ class Header extends Composite {
     return p.toString();
   }
 
-  private void setupNav(InlineHyperlink link, int key, String help, FileInfo info) {
+  private KeyCommand setupNav(InlineHyperlink link, int key, String help, FileInfo info) {
     if (info != null) {
       final String url = url(info);
       link.setTargetHistoryToken(url);
       link.setTitle(FileInfo.getFileName(info.path()));
-      keys.add(new KeyCommand(0, key, help) {
+      KeyCommand k = new KeyCommand(0, key, help) {
         @Override
         public void onKeyPress(KeyPressEvent event) {
           Gerrit.display(url);
         }
-      });
+      };
+      keys.add(k);
       if (link == prev) {
         hasPrev = true;
       } else {
         hasNext = true;
       }
+      return k;
     } else {
       link.getElement().getStyle().setVisibility(Visibility.HIDDEN);
       keys.add(new UpToChangeCommand2(patchSetId, 0, key));
+      return null;
     }
   }
 

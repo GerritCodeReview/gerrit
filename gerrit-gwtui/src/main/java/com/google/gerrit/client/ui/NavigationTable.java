@@ -94,8 +94,9 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
 
   protected NavigationTable(String itemHelpName) {
     this();
-    keysNavigation.add(new PrevKeyCommand(0, 'k', Util.M.helpListPrev(itemHelpName)));
-    keysNavigation.add(new NextKeyCommand(0, 'j', Util.M.helpListNext(itemHelpName)));
+    keysNavigation.add(
+        new PrevKeyCommand(0, 'k', Util.M.helpListPrev(itemHelpName)),
+        new NextKeyCommand(0, 'j', Util.M.helpListNext(itemHelpName)));
     keysNavigation.add(new OpenKeyCommand(0, 'o', Util.M.helpListOpen(itemHelpName)));
     keysNavigation.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER,
                                                   Util.M.helpListOpen(itemHelpName)));

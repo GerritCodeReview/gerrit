@@ -27,11 +27,14 @@ public abstract class KeyCommand implements KeyPressHandler {
   public static final int M_SHIFT = 8 << 16;
 
   public static boolean same(final KeyCommand a, final KeyCommand b) {
-    return a.getClass() == b.getClass() && a.helpText.equals(b.helpText);
+    return a.getClass() == b.getClass()
+        && a.helpText.equals(b.helpText)
+        && a.sibling == b.sibling;
   }
 
   final int keyMask;
   private final String helpText;
+  KeyCommand sibling;
 
   public KeyCommand(final int mask, final int key, final String help) {
     this(mask, (char) key, help);

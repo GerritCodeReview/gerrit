@@ -337,6 +337,7 @@ limitations under the License.
           <g:Button ui:field='includedIn' styleName='' visible="false">
             <div><ui:msg>Included in</ui:msg></div>
           </g:Button>
+          <g:ListBox ui:field='referenceList'/>
           <g:Button ui:field='revisions' styleName=''>
             <div><ui:msg>Revisions</ui:msg></div>
           </g:Button>

@@ -51,6 +51,7 @@ limitations under the License.
       line-height: HEADER_HEIGHT;
       overflow: hidden;
       text-overflow: ellipsis;
+      white-space: nowrap;
     }
     .subjectButtons {
       position: absolute;

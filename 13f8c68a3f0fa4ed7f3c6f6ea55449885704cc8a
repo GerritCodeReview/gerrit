@@ -22,6 +22,30 @@
       "revId": "13f8c68a3f0fa4ed7f3c6f6ea55449885704cc8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7edb3dad_890a3939",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-21T06:37:54Z",
+      "side": 1,
+      "message": "This line:\n\n  pointer-events: none;\n\nprevents the revision from being clicked on, which is what was allowing the page to be reloaded from the current revision.",
+      "parentUuid": "de98a9f7_1cf3f519",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 54
+      },
+      "revId": "13f8c68a3f0fa4ed7f3c6f6ea55449885704cc8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

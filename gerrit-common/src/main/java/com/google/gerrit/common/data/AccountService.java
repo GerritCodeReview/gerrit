@@ -34,9 +34,6 @@ public interface AccountService extends RemoteJsonService {
   @SignInRequired
   void myAccount(AsyncCallback<Account> callback);
 
-  @SignInRequired
-  void myDiffPreferences(AsyncCallback<AccountDiffPreference> callback);
-
   @Audit
   @SignInRequired
   void changePreferences(AccountGeneralPreferences pref,

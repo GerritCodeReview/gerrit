@@ -16,28 +16,39 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 public class GetDiffPreferences implements RestReadView<AccountResource> {
-
   private final Provider<CurrentUser> self;
+  private final Provider<ReviewDb> db;
 
   @Inject
-  GetDiffPreferences(Provider<CurrentUser> self) {
+  GetDiffPreferences(Provider<CurrentUser> self, Provider<ReviewDb> db) {
     this.self = self;
+    this.db = db;
   }
 
   @Override
-  public DiffPreferencesInfo apply(AccountResource rsrc) throws AuthException {
+  public DiffPreferencesInfo apply(AccountResource rsrc)
+      throws AuthException, OrmException {
     if (self.get() != rsrc.getUser()
         && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("restricted to administrator");
     }
-    return DiffPreferencesInfo.parse(rsrc.getUser().getAccountDiffPreference());
+
+    Account.Id userId = rsrc.getUser().getAccountId();
+    AccountDiffPreference a = db.get().accountDiffPreferences().get(userId);
+    if (a == null) {
+      a = new AccountDiffPreference(userId);
+    }
+    return DiffPreferencesInfo.parse(a);
   }
 
   static class DiffPreferencesInfo {

@@ -69,7 +69,12 @@ class AccountServiceImpl extends BaseServiceImplementation implements
   }
 
   public void myAccount(final AsyncCallback<Account> callback) {
-    callback.onSuccess(currentUser.get().getAccount());
+    run(callback, new Action<Account>() {
+      @Override
+      public Account run(ReviewDb db) throws OrmException {
+        return db.accounts().get(currentUser.get().getAccountId());
+      }
+    });
   }
 
   @Override

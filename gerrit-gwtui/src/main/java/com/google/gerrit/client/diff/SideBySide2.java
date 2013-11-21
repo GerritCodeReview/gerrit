@@ -132,7 +132,6 @@ public class SideBySide2 extends Screen {
   private KeyCommandSet keysNavigation;
   private KeyCommandSet keysAction;
   private KeyCommandSet keysComment;
-  private KeyCommandSet keysOpenByEnter;
   private List<HandlerRegistration> handlers;
   private List<Runnable> deferred;
 
@@ -351,6 +350,8 @@ public class SideBySide2 extends Screen {
     keysNavigation.add(new NoOpKeyCommand(0, 'p', PatchUtil.C.chunkPrev2()));
 
     keysAction = new KeyCommandSet(Gerrit.C.sectionActions());
+    keysAction.add(new NoOpKeyCommand(0, KeyCodes.KEY_ENTER,
+        PatchUtil.C.expandComment()));
     keysAction.add(new NoOpKeyCommand(0, 'o', PatchUtil.C.expandComment()));
     keysAction.add(new NoOpKeyCommand(
         KeyCommand.M_SHIFT, 'o', PatchUtil.C.expandAllCommentsOnCurrentLine()));
@@ -367,10 +368,6 @@ public class SideBySide2 extends Screen {
       }
     });
 
-    keysOpenByEnter = new KeyCommandSet(Gerrit.C.sectionNavigation());
-    keysOpenByEnter.add(new NoOpKeyCommand(0, KeyCodes.KEY_ENTER,
-        PatchUtil.C.expandComment()));
-
     if (Gerrit.isSignedIn()) {
       keysAction.add(new NoOpKeyCommand(0, 'c', PatchUtil.C.commentInsert()));
       keysComment = new KeyCommandSet(PatchUtil.C.commentEditorSet());
@@ -383,11 +380,10 @@ public class SideBySide2 extends Screen {
     }
     removeKeyHandlerRegs();
     handlers.add(GlobalKey.add(this, keysNavigation));
-    handlers.add(GlobalKey.add(this, keysAction));
-    handlers.add(GlobalKey.add(this, keysOpenByEnter));
     if (keysComment != null) {
       handlers.add(GlobalKey.add(this, keysComment));
     }
+    handlers.add(GlobalKey.add(this, keysAction));
   }
 
   private GerritCallback<NativeMap<JsArray<CommentInfo>>> getCommentCallback(

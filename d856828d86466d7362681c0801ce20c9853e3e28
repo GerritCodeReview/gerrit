@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e53d9fc_d0e87c27",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/History.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-11-21T22:35:01Z",
+      "side": 1,
+      "message": "always call start()",
+      "revId": "d856828d86466d7362681c0801ce20c9853e3e28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e49d14f_92051c2c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/History.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-11-21T22:35:01Z",
+      "side": 1,
+      "message": "if you reworked the code a little, you could have all the conditions for \"start()\" in one spot. For example:\n\n  if (active \u003e\u003d 2 || toLoad.isEmpty() || !isAttached()) {\n    return;\n  }",
+      "revId": "d856828d86466d7362681c0801ce20c9853e3e28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e53d9fc_f0ed8034",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/History.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-11-21T22:35:01Z",
+      "side": 1,
+      "message": "This statement becomes:\n\n  --active;\n  start();",
+      "revId": "d856828d86466d7362681c0801ce20c9853e3e28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

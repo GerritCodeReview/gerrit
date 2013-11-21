@@ -23,6 +23,10 @@ limitations under the License.
     @external .cm-keymap-fat-cursor, CodeMirror-cursor;
     @external .cm-searching, .cm-trailingspace, .cm-tab;
 
+    .fullscreen {
+      border-bottom: 1px solid #ddd;
+    }
+
     .difftable { max-width: 1484px; }
     .difftable .CodeMirror-lines { padding: 0; }
     .difftable .CodeMirror pre {

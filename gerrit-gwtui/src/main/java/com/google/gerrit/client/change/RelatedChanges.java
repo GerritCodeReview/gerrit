@@ -190,6 +190,7 @@ class RelatedChanges extends TabPanel {
     StringBuilder conflictsQuery = new StringBuilder();
     conflictsQuery.append("status:open");
     conflictsQuery.append(" conflicts:").append(info.legacy_id().get());
+    conflictsQuery.append(" -age:1month");
     ChangeList.query(conflictsQuery.toString(),
         EnumSet.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_COMMIT),
         new AsyncCallback<ChangeList>() {

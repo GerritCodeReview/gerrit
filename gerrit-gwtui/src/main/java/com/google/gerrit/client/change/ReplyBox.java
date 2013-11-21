@@ -18,6 +18,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo.ApprovalInfo;
 import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
+import com.google.gerrit.client.changes.ChangeInfo.MessageInfo;
 import com.google.gerrit.client.changes.ReviewInput;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeMap;
@@ -27,6 +28,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -38,6 +40,7 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
@@ -102,8 +105,18 @@ class ReplyBox extends Composite {
     Scheduler.get().scheduleDeferred(new ScheduledCommand() {
       @Override
       public void execute() {
+        Window.scrollTo(0, 0);
         message.setFocus(true);
       }});
+    Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
+      @Override
+      public boolean execute() {
+        String t = message.getText();
+        if (t != null) {
+          message.setCursorPos(t.length());
+        }
+        return false;
+      }}, 0);
   }
 
   @UiHandler("message")
@@ -153,6 +166,34 @@ class ReplyBox extends Composite {
   @UiHandler("cancel")
   void onCancel(ClickEvent e) {
     hide();
+  }
+
+  void replyTo(MessageInfo msg) {
+    if (msg.message() != null) {
+      String t = message.getText();
+      String m = quote(msg);
+      if (t == null || t.isEmpty()) {
+        t = m;
+      } else if (t.endsWith("\n\n")) {
+        t += m;
+      } else if (t.endsWith("\n")) {
+        t += "\n" + m;
+      } else {
+        t += "\n\n" + m;
+      }
+      message.setText(t + "\n\n");
+    }
+  }
+
+  private static String quote(MessageInfo msg) {
+    String m = msg.message().trim();
+    if (m.startsWith("Patch Set ")) {
+      int i = m.indexOf('\n');
+      if (i > 0) {
+        m = m.substring(i + 1).trim();
+      }
+    }
+    return "> " + m.replaceAll("\\n", "\\\n> ");
   }
 
   private void hide() {

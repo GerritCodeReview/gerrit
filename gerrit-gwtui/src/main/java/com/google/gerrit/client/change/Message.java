@@ -25,11 +25,14 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style.Visibility;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -55,6 +58,7 @@ class Message extends Composite {
   @UiField Element name;
   @UiField Element summary;
   @UiField Element date;
+  @UiField Button reply;
   @UiField Element message;
   @UiField FlowPanel comments;
 
@@ -91,6 +95,19 @@ class Message extends Composite {
       summary.setInnerText(msg);
       message.setInnerSafeHtml(history.getCommentLinkProcessor()
         .apply(new SafeHtmlBuilder().append(msg).wikify()));
+    } else {
+      reply.getElement().getStyle().setVisibility(Visibility.HIDDEN);
+    }
+  }
+
+  @UiHandler("reply")
+  void onReply(ClickEvent e) {
+    e.stopPropagation();
+
+    if (Gerrit.isSignedIn()) {
+      history.replyTo(info);
+    } else {
+      Gerrit.doSignIn(com.google.gwt.user.client.History.getToken());
     }
   }
 

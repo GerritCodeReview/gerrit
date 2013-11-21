@@ -39,12 +39,10 @@ class ScrollSynchronizer {
 
   private void updateScreenHeader(ScrollInfo si) {
     if (si.getTop() == 0 && !Gerrit.isHeaderVisible()) {
-      Gerrit.setHeaderVisible(true);
-      diffTable.updateFileCommentVisibility(false);
+      diffTable.setHeaderVisible(true);
     } else if (si.getTop() > 0.5 * si.getClientHeight()
         && Gerrit.isHeaderVisible()) {
-      Gerrit.setHeaderVisible(false);
-      diffTable.updateFileCommentVisibility(true);
+      diffTable.setHeaderVisible(false);
     }
   }
 

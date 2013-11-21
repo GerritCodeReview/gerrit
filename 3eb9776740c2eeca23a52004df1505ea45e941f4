@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de98a9f7_bc0a0139",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-21T07:31:35Z",
+      "side": 1,
+      "message": "It is still undocumented. Would it be now the right time to fix that?",
+      "revId": "3eb9776740c2eeca23a52004df1505ea45e941f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

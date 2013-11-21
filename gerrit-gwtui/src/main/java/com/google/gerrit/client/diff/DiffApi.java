@@ -26,11 +26,13 @@ public class DiffApi {
     NONE, TRAILING, CHANGED, ALL;
   };
 
-  public static void list(int id, String revision,
+  public static void list(int id, String base, String revision,
       AsyncCallback<NativeMap<FileInfo>> cb) {
-    ChangeApi.revision(id, revision)
-      .view("files")
-      .get(NativeMap.copyKeysIntoChildren("path", cb));
+    RestApi api = ChangeApi.revision(id, revision).view("files");
+    if (base != null) {
+      api.addParameter("base", base);
+    }
+    api.get(NativeMap.copyKeysIntoChildren("path", cb));
   }
 
   public static DiffApi diff(PatchSet.Id id, String path) {

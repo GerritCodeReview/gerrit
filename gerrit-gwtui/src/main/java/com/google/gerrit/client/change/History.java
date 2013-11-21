@@ -46,6 +46,9 @@ class History extends FlowPanel {
   private final Map<AuthorRevision, List<CommentInfo>> byAuthor =
       new HashMap<AuthorRevision, List<CommentInfo>>();
 
+  private final List<Integer> toLoad = new ArrayList<Integer>(4);
+  private int active;
+
   void set(CommentLinkProcessor clp, Change.Id id, ChangeInfo info) {
     this.clp = clp;
     this.changeId = id;
@@ -58,6 +61,25 @@ class History extends FlowPanel {
           ui.addComments(comments(msg));
         }
         add(ui);
+      }
+      autoOpen(ChangeScreen2.myLastReply(info));
+    }
+  }
+
+  private void autoOpen(Timestamp lastReply) {
+    if (lastReply == null) {
+      for (Widget child : getChildren()) {
+        ((Message) child).autoOpen();
+      }
+    } else {
+      for (int i = getChildren().size() - 1; i >= 0; i--) {
+        Message ui = (Message) getChildren().get(i);
+        MessageInfo msg = ui.getMessageInfo();
+        if (lastReply.compareTo(msg.date()) < 0) {
+          ui.autoOpen();
+        } else {
+          break;
+        }
       }
     }
   }
@@ -89,22 +111,38 @@ class History extends FlowPanel {
     }
   }
 
-  void load(final int revisionNumber) {
+  void load(int revisionNumber) {
     if (revisionNumber > 0 && loaded.add(revisionNumber)) {
-      ChangeApi.revision(new PatchSet.Id(changeId, revisionNumber))
-        .view("comments")
-        .get(new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
-          @Override
-          public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
-            addComments(revisionNumber, result);
-            update(revisionNumber);
-          }
-
-          @Override
-          public void onFailure(Throwable caught) {
-          }
-        });
+      toLoad.add(revisionNumber);
+      if (active < 2) {
+        start();
+      }
     }
+  }
+
+  private void start() {
+    final int revisionNumber = toLoad.remove(0);
+    active++;
+    ChangeApi.revision(new PatchSet.Id(changeId, revisionNumber))
+      .view("comments")
+      .get(new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
+        @Override
+        public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
+          addComments(revisionNumber, result);
+          update(revisionNumber);
+          if (--active < 2 && !toLoad.isEmpty() && isAttached()) {
+            start();
+          }
+        }
+
+        @Override
+        public void onFailure(Throwable caught) {
+          loaded.remove(revisionNumber);
+          loaded.removeAll(toLoad);
+          toLoad.clear();
+          active--;
+        }
+      });
   }
 
   private void update(int revisionNumber) {

@@ -61,6 +61,7 @@ class Message extends Composite {
   private final History history;
   private final MessageInfo info;
   private List<CommentInfo> commentList;
+  private boolean autoOpen;
 
   @UiField(provided = true)
   AvatarImage avatar;
@@ -122,6 +123,15 @@ class Message extends Composite {
     }
   }
 
+  void autoOpen() {
+    if (commentList == null) {
+      autoOpen = true;
+      history.load(info._revisionNumber());
+    } else if (!commentList.isEmpty()) {
+      setOpen(true);
+    }
+  }
+
   void addComments(List<CommentInfo> list) {
     if (isOpen()) {
       renderComments(list);
@@ -129,6 +139,9 @@ class Message extends Composite {
       commentList = Collections.emptyList();
     } else {
       commentList = list;
+      if (autoOpen && !commentList.isEmpty()) {
+        setOpen(true);
+      }
     }
   }
 

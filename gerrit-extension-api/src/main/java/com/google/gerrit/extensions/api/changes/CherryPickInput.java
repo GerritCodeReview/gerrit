@@ -14,15 +14,7 @@
 
 package com.google.gerrit.extensions.api.changes;
 
-import com.google.gerrit.extensions.restapi.RestApiException;
-
-public interface RevisionApi {
-  void delete() throws RestApiException;
-  void review(ReviewInput in) throws RestApiException;
-
-  /** {@code submit} with {@link SubmitInput#waitForMerge} set to true. */
-  void submit() throws RestApiException;
-  void submit(SubmitInput in) throws RestApiException;
-  ChangeApi cherryPick(CherryPickInput in) throws RestApiException;
-  ChangeApi rebase() throws RestApiException;
+public class CherryPickInput {
+  public String message;
+  public String destination;
 }

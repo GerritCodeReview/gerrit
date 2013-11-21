@@ -423,55 +423,72 @@ public class SideBySide2 extends Screen {
     };
   }
 
-  private void display(DiffInfo diffInfo) {
-    cmA = displaySide(diffInfo.meta_a(), diffInfo.text_a(), diffTable.cmA);
-    cmB = displaySide(diffInfo.meta_b(), diffInfo.text_b(), diffTable.cmB);
-
+  private void display(final DiffInfo diffInfo) {
     skips = new ArrayList<SkippedLine>();
     linePaddingOnOtherSideMap = new HashMap<LineHandle, LinePaddingWidgetWrapper>();
     diffChunks = new ArrayList<DiffChunkInfo>();
-    render(diffInfo);
     lineActiveBoxMap = new HashMap<LineHandle, CommentBox>();
     linePublishedBoxesMap = new HashMap<LineHandle, List<PublishedBox>>();
     linePaddingManagerMap = new HashMap<LineHandle, PaddingManager>();
     if (publishedBase != null || publishedRevision != null) {
       publishedMap = new HashMap<String, PublishedBox>();
     }
-    if (publishedBase != null) {
-      renderPublished(publishedBase);
+
+    if (pref.isShowTabs()) {
+      diffTable.addStyleName(DiffTable.style.showtabs());
     }
-    if (publishedRevision != null) {
-      renderPublished(publishedRevision);
-    }
-    if (draftsBase != null) {
-      renderDrafts(draftsBase);
-    }
-    if (draftsRevision != null) {
-      renderDrafts(draftsRevision);
-    }
-    renderSkips();
+
+    cmA = createCodeMirror(diffInfo.meta_a(), diffInfo.text_a(), diffTable.cmA);
+    cmB = createCodeMirror(diffInfo.meta_b(), diffInfo.text_b(), diffTable.cmB);
+
+    cmA.operation(new Runnable() {
+      @Override
+      public void run() {
+        cmB.operation(new Runnable() {
+          @Override
+          public void run() {
+            // Estimate initial CM3 height, fixed up in onShowView.
+            int height = Window.getClientHeight()
+                - (Gerrit.getHeaderFooterHeight() + 18);
+            cmA.setHeight(height);
+            cmB.setHeight(height);
+
+            render(diffInfo);
+            if (publishedBase != null) {
+              renderPublished(publishedBase);
+            }
+            if (publishedRevision != null) {
+              renderPublished(publishedRevision);
+            }
+            if (draftsBase != null) {
+              renderDrafts(draftsBase);
+            }
+            if (draftsRevision != null) {
+              renderDrafts(draftsRevision);
+            }
+            renderSkips();
+          }
+        });
+      }
+    });
+
     registerCmEvents(cmA);
     registerCmEvents(cmB);
 
     scrollingGlue = GWT.create(ScrollSynchronizer.class);
     scrollingGlue.init(diffTable, cmA, cmB, mapper);
-
     resizeHandler = Window.addResizeHandler(new ResizeHandler() {
       @Override
       public void onResize(ResizeEvent event) {
         resizeCodeMirror();
       }
     });
-    if (pref.isShowTabs()) {
-      diffTable.addStyleName(DiffTable.style.showtabs());
-    }
   }
 
-  private CodeMirror displaySide(DiffInfo.FileMeta meta, String contents,
-      Element ele) {
-    if (meta == null) {
-      contents = "";
-    }
+  private CodeMirror createCodeMirror(
+      DiffInfo.FileMeta meta,
+      String contents,
+      Element parent) {
     Configuration cfg = Configuration.create()
       .set("readOnly", true)
       .set("cursorBlinkRate", 0)
@@ -483,17 +500,12 @@ public class SideBySide2 extends Screen {
       .set("styleSelectedText", true)
       .set("showTrailingSpace", pref.isShowWhitespaceErrors())
       .set("keyMap", "vim_ro")
-      .set("value", contents)
-      /**
-       * Without this, CM won't put line widgets too far down in the right spot,
-       * and padding widgets will be informed of wrong offset height. Reset to
-       * 10 (default) after initial rendering.
-       */
-      .setInfinity("viewportMargin");
-    int h = Gerrit.getHeaderFooterHeight() + 18 /* reviewed estimate */;
-    CodeMirror cm = CodeMirror.create(ele, cfg);
-    cm.setHeight(Window.getClientHeight() - h);
-    return cm;
+      .set("value", meta != null ? contents : "");
+    // Without this, CM will put line widgets too far down in the right spot,
+    // and padding widgets will be informed of wrong offset height. Reset to
+    // 10 (default) after initial rendering.
+    cfg.setInfinity("viewportMargin");
+    return CodeMirror.create(parent, cfg);
   }
 
   private void render(DiffInfo diff) {

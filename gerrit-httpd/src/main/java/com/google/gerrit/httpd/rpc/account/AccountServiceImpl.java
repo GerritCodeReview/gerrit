@@ -72,16 +72,6 @@ class AccountServiceImpl extends BaseServiceImplementation implements
     callback.onSuccess(currentUser.get().getAccount());
   }
 
-  @Override
-  public void myDiffPreferences(AsyncCallback<AccountDiffPreference> callback) {
-    run(callback, new Action<AccountDiffPreference>() {
-      @Override
-      public AccountDiffPreference run(ReviewDb db) throws OrmException {
-        return currentUser.get().getAccountDiffPreference();
-      }
-    });
-  }
-
   public void changePreferences(final AccountGeneralPreferences pref,
       final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {

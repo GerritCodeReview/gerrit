@@ -507,9 +507,9 @@ public class CommitValidators {
     // If there are no SSH keys, the commit-msg hook must be installed via
     // HTTP(S)
     if (hostKeys.isEmpty()) {
-      String p = ".git/hooks/commit-msg";
+      String p = "$gitdir/hooks/commit-msg";
       return String.format(
-          "  curl -o %s %s/tools/hooks/commit-msg ; chmod +x %s", p,
+          "  gitdir=$(git rev-parse --git-dir) curl -o %s %s/tools/hooks/commit-msg ; chmod +x %s", p,
           getGerritUrl(canonicalWebUrl), p);
     }
 
@@ -530,7 +530,7 @@ public class CommitValidators {
       sshPort = 22;
     }
 
-    return String.format("  scp -p -P %d %s@%s:hooks/commit-msg .git/hooks/",
+    return String.format("  gitdir=$(git rev-parse --git-dir) scp -p -P %d %s@%s:hooks/commit-msg $gitdir/hooks/",
         sshPort, currentUser.getUserName(), sshHost);
   }
 

@@ -231,15 +231,27 @@ public class SideBySide2 extends Screen {
   @Override
   public void onShowView() {
     super.onShowView();
-    resizeCodeMirror();
     Window.enableScrolling(false);
 
-    cmA.setOption("viewportMargin", 10);
-    cmB.setOption("viewportMargin", 10);
+    final int height = getCodeMirrorHeight();
+    onShowView(cmA, height);
+    onShowView(cmB, height);
+    diffTable.sidePanel.adjustGutters(cmB);
     cmB.setCursor(LineCharacter.create(0));
     cmB.focus();
 
     prefetchNextFile();
+  }
+
+  private void onShowView(final CodeMirror cm, final int height) {
+    cm.operation(new Runnable() {
+      @Override
+      public void run() {
+        cm.setHeight(height);
+        cm.setOption("viewportMargin", 10);
+        cm.refresh();
+      }
+    });
   }
 
   @Override
@@ -1240,16 +1252,18 @@ public class SideBySide2 extends Screen {
   }
 
   void resizeCodeMirror() {
+    int height = getCodeMirrorHeight();
+    cmA.setHeight(height);
+    cmB.setHeight(height);
+    diffTable.sidePanel.adjustGutters(cmB);
+  }
+
+  private int getCodeMirrorHeight() {
     int rest = Gerrit.getHeaderFooterHeight()
         + header.getOffsetHeight()
         + diffTable.getHeaderHeight()
-        + 10; // Estimate
-    int h = Window.getClientHeight() - rest;
-    cmA.setHeight(h);
-    cmB.setHeight(h);
-    cmA.refresh();
-    cmB.refresh();
-    diffTable.sidePanel.adjustGutters(cmB);
+        + 5; // Estimate
+    return Window.getClientHeight() - rest;
   }
 
   static void setHeightInPx(Element ele, double height) {

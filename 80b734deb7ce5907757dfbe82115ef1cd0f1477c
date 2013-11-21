@@ -16,6 +16,24 @@
       "revId": "80b734deb7ce5907757dfbe82115ef1cd0f1477c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7edb3dad_49284198",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-21T17:03:20Z",
+      "side": 1,
+      "message": "Did you propose an update to BUCK to set the source/target properties on all java_library() rules?\n\nI need to update our Buck fork anyway, but have just been too busy this week to rebase our outstanding patches. So its still possible to apply your buck patch if that is the simplest approach.",
+      "parentUuid": "de98a9f7_9c2c65b4",
+      "revId": "80b734deb7ce5907757dfbe82115ef1cd0f1477c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,24 @@
       "revId": "1401fca101c86fe1963618c26304ae7483a63c53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e697da1_d94d138a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/GetDiffPreferencesIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-21T10:33:30Z",
+      "side": 1,
+      "message": "Sure this could be done.\n\nIt\u0027s not here because at the point in time when I was writing this test the REST endpoint for changing the properties didn\u0027t exist yet.",
+      "parentUuid": "7e697da1_99539b30",
+      "revId": "1401fca101c86fe1963618c26304ae7483a63c53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

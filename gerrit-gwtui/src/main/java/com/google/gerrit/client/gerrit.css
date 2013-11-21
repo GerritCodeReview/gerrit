@@ -1595,6 +1595,7 @@ a:hover.downloadLink {
 }
 
 /** ProjectSettings */
-.maxObjectSizeLimitPanel td {
-  padding-right: 5px;
+.maxObjectSizeLimitEffectiveLabel {
+  padding-top: 5px;
+  padding-left: 5px;
 }

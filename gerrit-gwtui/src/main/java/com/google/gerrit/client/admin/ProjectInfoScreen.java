@@ -190,8 +190,9 @@ public class ProjectInfoScreen extends ProjectScreen {
     maxObjectSizeLimit = new NpTextBox();
     saveEnabler.listenTo(maxObjectSizeLimit);
     effectiveMaxObjectSizeLimit = new Label();
+    effectiveMaxObjectSizeLimit.setStyleName(
+        Gerrit.RESOURCES.css().maxObjectSizeLimitEffectiveLabel());
     HorizontalPanel p = new HorizontalPanel();
-    p.setStyleName(Gerrit.RESOURCES.css().maxObjectSizeLimitPanel());
     p.add(maxObjectSizeLimit);
     p.add(effectiveMaxObjectSizeLimit);
     grid.addHtml(Util.C.headingMaxObjectSizeLimit(), p);

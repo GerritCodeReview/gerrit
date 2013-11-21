@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de98a9f7_1cf3f519",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-21T06:35:15Z",
+      "side": 1,
+      "message": "Is this description still accurate? The change is only changing some style, isn\u0027t it?",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 54
+      },
+      "revId": "13f8c68a3f0fa4ed7f3c6f6ea55449885704cc8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

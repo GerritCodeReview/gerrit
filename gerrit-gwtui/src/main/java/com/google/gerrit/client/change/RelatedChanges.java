@@ -60,8 +60,8 @@ class RelatedChanges extends TabPanel {
     FlowPanel panel = new FlowPanel();
     add(panel, title);
     selectedTab = -1;
-    TabBar tabBar = getTabBar();
 
+    TabBar tabBar = getTabBar();
     tabBar.addSelectionHandler(new SelectionHandler<Integer>() {
       @Override
       public void onSelection(SelectionEvent<Integer> event) {
@@ -221,9 +221,9 @@ class RelatedChanges extends TabPanel {
   }
 
   void setMaxHeight(int height) {
-    this.maxHeight = height;
+    maxHeight = height - getTabBar().getOffsetHeight();
     for (int i = 0; i < getTabBar().getTabCount(); i++) {
-      tabs.get(i).setMaxHeight(height);
+      tabs.get(i).setMaxHeight(maxHeight);
     }
   }
 

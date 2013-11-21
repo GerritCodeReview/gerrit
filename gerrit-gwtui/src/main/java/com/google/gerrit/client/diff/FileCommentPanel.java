@@ -74,11 +74,11 @@ class FileCommentPanel extends Composite {
   void addFileComment(CommentBox box) {
     boxes.add(box);
     body.add(box);
-    table.updateFileCommentVisibility(false);
+    table.setHeaderVisible(true);
   }
 
   void onRemoveDraftBox(DraftBox box) {
     boxes.remove(box);
-    table.updateFileCommentVisibility(false);
+    table.setHeaderVisible(true);
   }
 }

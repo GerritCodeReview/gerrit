@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.diff;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
@@ -36,6 +37,7 @@ class DiffTable extends Composite {
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   interface DiffTableStyle extends CssResource {
+    String fullscreen();
     String intralineBg();
     String diff();
     String activeLine();
@@ -100,13 +102,16 @@ class DiffTable extends Composite {
     this.host = host;
   }
 
-  void updateFileCommentVisibility(boolean forceHide) {
-    UIObject.setVisible(patchSetNavRow, !forceHide);
-    if (forceHide || (fileCommentPanelA.getBoxCount() == 0 &&
-        fileCommentPanelB.getBoxCount() == 0)) {
-      UIObject.setVisible(fileCommentRow, false);
+  void setHeaderVisible(boolean show) {
+    Gerrit.setHeaderVisible(show);
+    UIObject.setVisible(patchSetNavRow, show);
+    UIObject.setVisible(fileCommentRow, show
+        && (fileCommentPanelA.getBoxCount() > 0
+            || fileCommentPanelB.getBoxCount() > 0));
+    if (show) {
+      host.header.removeStyleName(style.fullscreen());
     } else {
-      UIObject.setVisible(fileCommentRow, true);
+      host.header.addStyleName(style.fullscreen());
     }
     host.resizeCodeMirror();
   }
@@ -117,7 +122,7 @@ class DiffTable extends Composite {
 
   void createOrEditFileComment(DisplaySide side) {
     getPanelFromSide(side).createOrEditFileComment();
-    updateFileCommentVisibility(false);
+    setHeaderVisible(true);
   }
 
   void addFileCommentBox(CommentBox box) {

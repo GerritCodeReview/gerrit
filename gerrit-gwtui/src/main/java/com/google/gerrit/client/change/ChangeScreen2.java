@@ -498,7 +498,7 @@ public class ChangeScreen2 extends Screen {
       }));
   }
 
-  private static Timestamp myLastReply(ChangeInfo info) {
+  static Timestamp myLastReply(ChangeInfo info) {
     if (Gerrit.isSignedIn() && info.messages() != null) {
       int self = Gerrit.getUserAccountInfo()._account_id();
       for (int i = info.messages().length() - 1; i >= 0; i--) {

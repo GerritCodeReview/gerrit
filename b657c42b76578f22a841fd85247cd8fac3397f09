@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "de98a9f7_3c45115d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-21T19:25:09Z",
+      "side": 1,
+      "message": "Done, but Futures.chain(...) is now called Futures.transform(...).",
+      "parentUuid": "9ed63181_8a586b4d",
+      "revId": "b657c42b76578f22a841fd85247cd8fac3397f09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7edb3dad_e94db589",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
         "patchSetId": 4
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "de98a9f7_1c485576",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-21T19:25:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7edb3dad_e94db589",
+      "range": {
+        "startLine": 194,
+        "startChar": 10,
+        "endLine": 194,
+        "endChar": 39
+      },
+      "revId": "b657c42b76578f22a841fd85247cd8fac3397f09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7edb3dad_8958794d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
         "patchSetId": 4
@@ -53,6 +95,30 @@
       "writtenOn": "2013-11-21T17:22:00Z",
       "side": 1,
       "message": "Throws ResourceConflictException on closed changes. I don\u0027t think callers care, we should return false on that.",
+      "range": {
+        "startLine": 152,
+        "startChar": 29,
+        "endLine": 152,
+        "endChar": 44
+      },
+      "revId": "b657c42b76578f22a841fd85247cd8fac3397f09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e697da1_b97f7f8f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-21T19:25:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7edb3dad_8958794d",
       "range": {
         "startLine": 152,
         "startChar": 29,

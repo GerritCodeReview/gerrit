@@ -70,6 +70,7 @@ class ReplyBox extends Composite {
   private final String revision;
   private ReviewInput in = ReviewInput.create();
   private Runnable lgtm;
+  private String msg;
 
   @UiField Styles style;
   @UiField NpTextArea message;
@@ -83,9 +84,11 @@ class ReplyBox extends Composite {
       PatchSet.Id psId,
       String revision,
       NativeMap<LabelInfo> all,
-      NativeMap<JsArrayString> permitted) {
+      NativeMap<JsArrayString> permitted,
+      String msg) {
     this.psId = psId;
     this.revision = revision;
+    this.msg = msg;
     initWidget(uiBinder.createAndBindUi(this));
 
     List<String> names = new ArrayList<String>(permitted.keySet());
@@ -102,6 +105,9 @@ class ReplyBox extends Composite {
     Scheduler.get().scheduleDeferred(new ScheduledCommand() {
       @Override
       public void execute() {
+        if (msg != null) {
+          message.setText(msg.replaceAll("\\n", "\\\n" + "> "));
+        }
         message.setFocus(true);
       }});
   }

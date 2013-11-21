@@ -34,6 +34,24 @@
       "revId": "db035ceda978ca72473c02c7ed8756c7dc487b4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e4edd57_f1ed8834",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChanges.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-21T20:29:01Z",
+      "side": 1,
+      "message": "If I now look at this, the query is actually not exactly returning what I intended.\n\nWhat I wanted is to show all open changes which cannot be merged anymore if the current change is merged, but which have no merge conflict at the moment.\n\nThis second condition is not covered yet. I guess I can fix this if we have the mergeability flag always updated.\n\nThe intention is really that before merging a change you can see if it conflicts with another change that is maybe more important and should be merged first. So that the less important change needs to do the rebase.",
+      "parentUuid": "7e4edd57_91defc7f",
+      "revId": "db035ceda978ca72473c02c7ed8756c7dc487b4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

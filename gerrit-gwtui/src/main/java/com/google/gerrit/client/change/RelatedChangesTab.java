@@ -170,9 +170,9 @@ class RelatedChangesTab {
       table.setWidth("");
 
       keysNavigation.setName(Gerrit.C.sectionNavigation());
-      keysNavigation.add(new PrevKeyCommand(0, 'K',
-          Resources.C.previousChange()));
-      keysNavigation.add(new NextKeyCommand(0, 'J', Resources.C.nextChange()));
+      keysNavigation.add(
+          new PrevKeyCommand(0, 'K', Resources.C.previousChange()),
+          new NextKeyCommand(0, 'J', Resources.C.nextChange()));
       keysNavigation.add(new OpenKeyCommand(0, 'O', Resources.C.openChange()));
     }
 

@@ -17,17 +17,17 @@ package com.google.gwtexpui.globalkey.client;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtexpui.user.client.PluginSafePopupPanel;
@@ -36,8 +36,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class KeyHelpPopup extends PluginSafePopupPanel implements
@@ -164,13 +166,17 @@ public class KeyHelpPopup extends PluginSafePopupPanel implements
   private int formatKeys(final Grid lists, int row, final int col,
       final KeyCommandSet set, final SafeHtml prefix) {
     final CellFormatter fmt = lists.getCellFormatter();
-    final int initialRow = row;
     final List<KeyCommand> keys = sort(set);
     if (lists.getRowCount() < row + keys.size()) {
       lists.resizeRows(row + keys.size());
     }
+
+    Map<KeyCommand, Integer> rows = new HashMap<KeyCommand, Integer>();
     FORMAT_KEYS: for (int i = 0; i < keys.size(); i++) {
       final KeyCommand k = keys.get(i);
+      if (rows.containsKey(k)) {
+        continue;
+      }
 
       if (k instanceof CompoundKeyCommand) {
         final SafeHtmlBuilder b = new SafeHtmlBuilder();
@@ -181,7 +187,7 @@ public class KeyHelpPopup extends PluginSafePopupPanel implements
 
       for (int prior = 0; prior < i; prior++) {
         if (KeyCommand.same(keys.get(prior), k)) {
-          final int r = initialRow + prior;
+          final int r = rows.get(keys.get(prior));
           final SafeHtmlBuilder b = new SafeHtmlBuilder();
           b.append(SafeHtml.get(lists, r, col + 0));
           b.append(" ");
@@ -195,23 +201,29 @@ public class KeyHelpPopup extends PluginSafePopupPanel implements
           }
           b.append(k.describeKeyStroke());
           SafeHtml.set(lists, r, col + 0, b);
+          rows.put(k, r);
           continue FORMAT_KEYS;
         }
       }
 
+      SafeHtmlBuilder b = new SafeHtmlBuilder();
+      String t = k.getHelpText();
       if (prefix != null) {
-        final SafeHtmlBuilder b = new SafeHtmlBuilder();
         b.append(prefix);
         b.append(" ");
         b.append(KeyConstants.I.thenOtherKey());
         b.append(" ");
-        b.append(k.describeKeyStroke());
-        SafeHtml.set(lists, row, col + 0, b);
-      } else {
-        SafeHtml.set(lists, row, col + 0, k.describeKeyStroke());
       }
+      b.append(k.describeKeyStroke());
+      if (k.sibling != null) {
+        b.append(" / ").append(k.sibling.describeKeyStroke());
+        t += " / " + k.sibling.getHelpText();
+        rows.put(k.sibling, row);
+      }
+      SafeHtml.set(lists, row, col + 0, b);
       lists.setText(row, col + 1, ":");
-      lists.setText(row, col + 2, k.getHelpText());
+      lists.setText(row, col + 2, t);
+      rows.put(k, row);
 
       fmt.addStyleName(row, col + 0, KeyResources.I.css().helpKeyStroke());
       fmt.addStyleName(row, col + 1, KeyResources.I.css().helpSeparator());
@@ -226,12 +238,7 @@ public class KeyHelpPopup extends PluginSafePopupPanel implements
     Collections.sort(keys, new Comparator<KeyCommand>() {
       @Override
       public int compare(KeyCommand arg0, KeyCommand arg1) {
-        if (arg0.keyMask < arg1.keyMask) {
-          return -1;
-        } else if (arg0.keyMask > arg1.keyMask) {
-          return 1;
-        }
-        return 0;
+        return arg0.getHelpText().compareTo(arg1.getHelpText());
       }
     });
     return keys;

@@ -224,8 +224,9 @@ class FileTable extends FlowPanel {
       this.list = list;
       table.setWidth("");
 
-      keysNavigation.add(new PrevKeyCommand(0, 'k', Util.C.patchTablePrev()));
-      keysNavigation.add(new NextKeyCommand(0, 'j', Util.C.patchTableNext()));
+      keysNavigation.add(
+          new PrevKeyCommand(0, 'k', Util.C.patchTablePrev()),
+          new NextKeyCommand(0, 'j', Util.C.patchTableNext()));
       keysNavigation.add(new OpenKeyCommand(0, 'o', Util.C.patchTableOpenDiff()));
       keysNavigation.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER,
           Util.C.patchTableOpenDiff()));

@@ -23,7 +23,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-
 public final class SshLogLayout extends Layout {
 
   private static final String P_SESSION = "session";
@@ -78,31 +77,18 @@ public final class SshLogLayout extends Layout {
     if (rounded != lastTimeMillis) {
       synchronized (calendar) {
         final int start = sbuf.length();
-
         calendar.setTimeInMillis(rounded);
         sbuf.append(calendar.get(Calendar.YEAR));
         sbuf.append('-');
-        final int month = calendar.get(Calendar.MONTH) + 1;
-        if (month < 10) sbuf.append('0');
-        sbuf.append(month);
+        sbuf.append(toTwoDigits(calendar.get(Calendar.MONTH) + 1));
         sbuf.append('-');
-        final int day = calendar.get(Calendar.DAY_OF_MONTH);
-        if (day < 10) sbuf.append('0');
-        sbuf.append(day);
-
+        sbuf.append(toTwoDigits(calendar.get(Calendar.DAY_OF_MONTH)));
         sbuf.append(' ');
-        final int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        if (hour < 10) sbuf.append('0');
-        sbuf.append(hour);
+        sbuf.append(toTwoDigits(calendar.get(Calendar.HOUR_OF_DAY)));
         sbuf.append(':');
-        final int mins = calendar.get(Calendar.MINUTE);
-        if (mins < 10) sbuf.append('0');
-        sbuf.append(mins);
+        sbuf.append(toTwoDigits(calendar.get(Calendar.MINUTE)));
         sbuf.append(':');
-        final int secs = calendar.get(Calendar.SECOND);
-        if (secs < 10) sbuf.append('0');
-        sbuf.append(secs);
-
+        sbuf.append(toTwoDigits(calendar.get(Calendar.SECOND)));
         sbuf.append(',');
         sbuf.getChars(start, sbuf.length(), lastTimeString, 0);
         lastTimeMillis = rounded;
@@ -110,13 +96,11 @@ public final class SshLogLayout extends Layout {
     } else {
       sbuf.append(lastTimeString);
     }
-    if (millis < 100) {
-      sbuf.append('0');
-    }
-    if (millis < 10) {
-      sbuf.append('0');
-    }
-    sbuf.append(millis);
+    sbuf.append(String.format("%03d", millis));
+  }
+
+  private String toTwoDigits(int input) {
+    return String.format("%02d", input);
   }
 
   private void req(String key, StringBuffer buf, LoggingEvent event) {

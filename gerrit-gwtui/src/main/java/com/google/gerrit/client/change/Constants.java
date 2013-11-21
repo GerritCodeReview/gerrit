@@ -26,4 +26,6 @@ interface Constants extends com.google.gwt.i18n.client.Constants {
   String author();
   String draft();
   String draftCommentsTooltip();
+
+  String relatedChangesTooltip();
 }

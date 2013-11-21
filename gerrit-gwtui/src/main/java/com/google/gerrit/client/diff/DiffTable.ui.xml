@@ -63,7 +63,7 @@ limitations under the License.
     .b .intralineBg { background-color: #dfd; }
 
     .fileCommentRow {
-      background-color: #eee;
+      background-color: #f7f7f7;
       line-height: 1;
     }
     .fileCommentCell {

@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "1e3de19e_6e28cf98",
+        "filename": "Documentation/intro-change-screen.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-22T08:00:44Z",
+      "side": 1,
+      "message": "\"In the \u0027Diff against\u0027 dropdown, base reference version\"",
+      "range": {
+        "startLine": 209,
+        "startChar": 0,
+        "endLine": 209,
+        "endChar": 49
+      },
+      "revId": "f4d4a09c0dbb34bb3ec9c04aa915afd150e0ce74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e3de19e_ae31d70c",
         "filename": "Documentation/intro-change-screen.txt",
         "patchSetId": 1
@@ -64,6 +87,75 @@
         "startChar": 70,
         "endLine": 210,
         "endChar": 77
+      },
+      "revId": "f4d4a09c0dbb34bb3ec9c04aa915afd150e0ce74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e3de19e_ce4d438a",
+        "filename": "Documentation/intro-change-screen.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-22T08:00:44Z",
+      "side": 1,
+      "message": "\"the file table list\"",
+      "range": {
+        "startLine": 210,
+        "startChar": 0,
+        "endLine": 210,
+        "endChar": 15
+      },
+      "revId": "f4d4a09c0dbb34bb3ec9c04aa915afd150e0ce74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e58e519_6f28d198",
+        "filename": "Documentation/intro-change-screen.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-22T08:00:44Z",
+      "side": 1,
+      "message": "s/compare/compared",
+      "range": {
+        "startLine": 210,
+        "startChar": 70,
+        "endLine": 210,
+        "endChar": 77
+      },
+      "revId": "f4d4a09c0dbb34bb3ec9c04aa915afd150e0ce74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e58e519_4f2b0d96",
+        "filename": "Documentation/intro-change-screen.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-22T08:00:44Z",
+      "side": 1,
+      "message": "s/file/files",
+      "range": {
+        "startLine": 210,
+        "startChar": 47,
+        "endLine": 210,
+        "endChar": 51
       },
       "revId": "f4d4a09c0dbb34bb3ec9c04aa915afd150e0ce74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -117,6 +209,29 @@
     },
     {
       "key": {
+        "uuid": "3e58e519_8f533530",
+        "filename": "Documentation/intro-change-screen.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-22T08:00:44Z",
+      "side": 1,
+      "message": "s/syde/side",
+      "range": {
+        "startLine": 211,
+        "startChar": 61,
+        "endLine": 211,
+        "endChar": 65
+      },
+      "revId": "f4d4a09c0dbb34bb3ec9c04aa915afd150e0ce74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e58e519_ef3be1e8",
         "filename": "Documentation/intro-change-screen.txt",
         "patchSetId": 1
@@ -133,6 +248,75 @@
         "startChar": 0,
         "endLine": 212,
         "endChar": 6
+      },
+      "revId": "f4d4a09c0dbb34bb3ec9c04aa915afd150e0ce74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e3de19e_ee52ff28",
+        "filename": "Documentation/intro-change-screen.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-22T08:00:44Z",
+      "side": 1,
+      "message": "s/remembers/remember",
+      "range": {
+        "startLine": 212,
+        "startChar": 37,
+        "endLine": 212,
+        "endChar": 46
+      },
+      "revId": "f4d4a09c0dbb34bb3ec9c04aa915afd150e0ce74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e3de19e_0e482b76",
+        "filename": "Documentation/intro-change-screen.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-22T08:00:44Z",
+      "side": 1,
+      "message": "\"The history table\"",
+      "range": {
+        "startLine": 219,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 13
+      },
+      "revId": "f4d4a09c0dbb34bb3ec9c04aa915afd150e0ce74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e58e519_cf4d3d8a",
+        "filename": "Documentation/intro-change-screen.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-22T08:00:44Z",
+      "side": 1,
+      "message": "s/shows/show\n\ns/hides/hide",
+      "range": {
+        "startLine": 220,
+        "startChar": 21,
+        "endLine": 220,
+        "endChar": 32
       },
       "revId": "f4d4a09c0dbb34bb3ec9c04aa915afd150e0ce74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -179,6 +363,29 @@
         "startChar": 30,
         "endLine": 222,
         "endChar": 38
+      },
+      "revId": "f4d4a09c0dbb34bb3ec9c04aa915afd150e0ce74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e58e519_af58f94c",
+        "filename": "Documentation/intro-change-screen.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-22T08:00:44Z",
+      "side": 1,
+      "message": "s/it/them",
+      "range": {
+        "startLine": 222,
+        "startChar": 54,
+        "endLine": 222,
+        "endChar": 56
       },
       "revId": "f4d4a09c0dbb34bb3ec9c04aa915afd150e0ce74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

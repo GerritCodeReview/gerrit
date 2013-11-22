@@ -222,7 +222,7 @@ class RelatedChanges extends TabPanel {
   }
 
   void setMaxHeight(int height) {
-    maxHeight = height - getTabBar().getOffsetHeight();
+    maxHeight = height - (getTabBar().getOffsetHeight() + 2 /* padding */);
     for (int i = 0; i < getTabBar().getTabCount(); i++) {
       tabs.get(i).setMaxHeight(maxHeight);
     }

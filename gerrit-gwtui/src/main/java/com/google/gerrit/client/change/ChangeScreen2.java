@@ -77,6 +77,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.ToggleButton;
+import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
@@ -134,6 +135,7 @@ public class ChangeScreen2 extends Screen {
   @UiField Element commitSubjectText;
   @UiField ToggleButton star;
   @UiField Anchor permalink;
+  @UiField(provided=true) CopyableLabel permalinkCopy;
 
   @UiField Element reviewersText;
   @UiField Reviewers reviewers;
@@ -174,6 +176,7 @@ public class ChangeScreen2 extends Screen {
     this.changeId = changeId;
     this.revision = revision != null && !revision.isEmpty() ? revision : null;
     this.openReplyBox = openReplyBox;
+    this.permalinkCopy = new CopyableLabel("", false);
     add(uiBinder.createAndBindUi(this));
   }
 
@@ -701,6 +704,7 @@ public class ChangeScreen2 extends Screen {
     star.setValue(info.starred());
     permalink.setHref(ChangeLink.permalink(changeId));
     permalink.setText(String.valueOf(info.legacy_id()));
+    permalinkCopy.setText(ChangeLink.permalink(changeId));
     topic.set(info, revision);
     commit.set(commentLinkProcessor, info, revision);
     related.set(info, revision);

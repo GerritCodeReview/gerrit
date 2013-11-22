@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e58e519_2f45e95c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2330,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-22T10:34:52Z",
+      "side": 1,
+      "message": "There are quite a few places now where the valid submit types are listed.\n\nIt might be a good idea to make a list in one place and then refer to it from other parts of the documentation.  Then we don\u0027t need to update it in several places when a new one is added.",
+      "range": {
+        "startLine": 2329,
+        "startChar": 4,
+        "endLine": 2330,
+        "endChar": 33
+      },
+      "revId": "a79ea550cc9391fcde48e1498d000ab9849610af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

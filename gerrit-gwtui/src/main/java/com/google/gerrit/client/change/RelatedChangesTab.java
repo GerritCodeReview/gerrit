@@ -174,7 +174,7 @@ class RelatedChangesTab {
       this.list = list;
       table.setWidth("");
 
-      keysNavigation.setName(Resources.C.relatedChanges());
+      keysNavigation.setName(Resources.C.dependentChanges());
       keysNavigation.add(
           new PrevKeyCommand(0, 'K', Resources.C.previousChange()),
           new NextKeyCommand(0, 'J', Resources.C.nextChange()));

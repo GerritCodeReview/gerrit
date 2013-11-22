@@ -28,8 +28,8 @@ interface Constants extends com.google.gwt.i18n.client.Constants {
   String draftCommentsTooltip();
 
   String notAvailable();
-  String relatedChanges();
-  String relatedChangesTooltip();
+  String dependentChanges();
+  String dependentChangesTooltip();
   String conflictingChanges();
   String conflictingChangesTooltip();
   String cherryPicks();

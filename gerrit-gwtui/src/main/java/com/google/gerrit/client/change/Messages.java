@@ -15,8 +15,8 @@
 package com.google.gerrit.client.change;
 
 public interface Messages extends com.google.gwt.i18n.client.Messages {
-  String relatedChanges(int count);
-  String relatedChanges(String count);
+  String dependentChanges(int count);
+  String dependentChanges(String count);
   String conflictingChanges(int count);
   String conflictingChanges(String count);
   String cherryPicks(int count);

@@ -113,6 +113,17 @@ limitations under the License.
     .statusText {
       font-weight: bold;
     }
+    .relatedChanges {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 550px;
+      width: 200px;
+      white-space: nowrap;
+      line-height: HEADER_HEIGHT;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
     div.popdown {
       display: inline-block;
@@ -351,6 +362,11 @@ limitations under the License.
               <ui:attribute name='title'/>
             </g:Anchor> - <span ui:field='statusText' class='{style.statusText}'/></ui:msg>
           </span>
+        </div>
+        <div class='{style.relatedChanges}'>
+          <div class='{style.statusText}' title='Dependent, same topic, conflicting and cherry-picked changes'>
+            <ui:msg>Related changes</ui:msg>
+          </div>
         </div>
       </div>
 

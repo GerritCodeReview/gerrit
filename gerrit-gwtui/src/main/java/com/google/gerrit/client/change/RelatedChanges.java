@@ -41,7 +41,7 @@ import java.util.List;
 
 class RelatedChanges extends TabPanel {
   private List<RelatedChangesTab> tabs;
-  private RelatedChangesTab relatedChangesTab;
+  private RelatedChangesTab dependentChangesTab;
   private RelatedChangesTab conflictingChangesTab;
   private RelatedChangesTab cherryPicksTab;
   private RelatedChangesTab sameTopicTab;
@@ -168,22 +168,22 @@ class RelatedChanges extends TabPanel {
   }
 
   private void setForOpenChange(final ChangeInfo info, final String revision) {
-    relatedChangesTab = createTab(Resources.C.relatedChanges(),
-        Resources.C.relatedChangesTooltip());
+    dependentChangesTab = createTab(Resources.C.dependentChanges(),
+        Resources.C.dependentChangesTooltip());
 
     ChangeApi.revision(info.legacy_id().get(), revision).view("related")
         .get(new AsyncCallback<RelatedInfo>() {
           @Override
           public void onSuccess(RelatedInfo result) {
-            relatedChangesTab.setTitle(Resources.M.relatedChanges(result.changes().length()));
-            relatedChangesTab.setChanges(info.project(), revision, result.changes());
+            dependentChangesTab.setTitle(Resources.M.dependentChanges(result.changes().length()));
+            dependentChangesTab.setChanges(info.project(), revision, result.changes());
           }
 
           @Override
           public void onFailure(Throwable err) {
-            relatedChangesTab.setTitle(
-                Resources.M.relatedChanges(Resources.C.notAvailable()));
-            relatedChangesTab.setError(err.getMessage());
+            dependentChangesTab.setTitle(
+                Resources.M.dependentChanges(Resources.C.notAvailable()));
+            dependentChangesTab.setError(err.getMessage());
           }
         });
 

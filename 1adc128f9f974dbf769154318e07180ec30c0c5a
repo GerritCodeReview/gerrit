@@ -94,6 +94,30 @@
     },
     {
       "key": {
+        "uuid": "7e4edd57_f189085d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-22T07:27:48Z",
+      "side": 1,
+      "message": "This is to prevent that the RuntimeException is wrapped into an IOException as it would be done by the MAPPER in the following catch block. \n\nActually I just copied this from ChangeIndexer#index(ChangeData).",
+      "parentUuid": "1e3de19e_ae0ab738",
+      "range": {
+        "startLine": 147,
+        "startChar": 4,
+        "endLine": 148,
+        "endChar": 14
+      },
+      "revId": "1adc128f9f974dbf769154318e07180ec30c0c5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e3de19e_8e05fb2b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
         "patchSetId": 5

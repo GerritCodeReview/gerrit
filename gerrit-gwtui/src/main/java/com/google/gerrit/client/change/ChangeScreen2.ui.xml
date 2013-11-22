@@ -29,6 +29,10 @@ limitations under the License.
     @def INFO_WIDTH 450px;
     @def HEADER_HEIGHT 29px;
 
+    .cs2 {
+      margin-bottom: 1em;
+    }
+
     .headerLine {
       position: relative;
       background-color: trimColor;
@@ -258,7 +262,7 @@ limitations under the License.
     }
   </ui:style>
 
-  <g:HTMLPanel>
+  <g:HTMLPanel styleName='{style.cs2}'>
     <g:HTMLPanel styleName='{style.headerLine}' ui:field='headerLine'>
       <div class='{style.idBlock}'>
         <c:StarIcon ui:field='star' styleName='{style.star}'/>

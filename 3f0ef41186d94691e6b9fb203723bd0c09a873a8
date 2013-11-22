@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e49d14f_121a0c8a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-22T02:47:44Z",
+      "side": 1,
+      "message": "If loaded is true you can abort this stuff too and instead call group.done().",
+      "range": {
+        "startLine": 470,
+        "startChar": 4,
+        "endLine": 472,
+        "endChar": 48
+      },
+      "revId": "3f0ef41186d94691e6b9fb203723bd0c09a873a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e49d14f_f204a82c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-22T02:47:44Z",
+      "side": 1,
+      "message": "This list should be added backwards, so it matches the order in the Revisions dropdown.",
+      "revId": "3f0ef41186d94691e6b9fb203723bd0c09a873a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe39edb4_4dfdd9e1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 758,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-22T02:47:44Z",
+      "side": 1,
+      "message": "I think its cleaner to addItem(\"Base\", \"\").",
+      "revId": "3f0ef41186d94691e6b9fb203723bd0c09a873a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe39edb4_ededa534",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-22T02:47:44Z",
+      "side": 1,
+      "message": "Use {style.headerButtons} instead. It will position the widget about 1/3 across the table instead of on the faaaaaaaaar right edge where you can\u0027t see it or easily get to it with the mouse.",
+      "revId": "3f0ef41186d94691e6b9fb203723bd0c09a873a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe39edb4_0df3d119",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-22T02:47:44Z",
+      "side": 1,
+      "message": "The box should be inside of the \u003cui:msg\u003e so a translator could reorder these things later if they had to.",
+      "revId": "3f0ef41186d94691e6b9fb203723bd0c09a873a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e53d9fc_50fd6ce1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffApi.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-22T02:47:44Z",
+      "side": 1,
+      "message": "This version is now unused.",
+      "revId": "3f0ef41186d94691e6b9fb203723bd0c09a873a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe39edb4_2df08d0a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffApi.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-22T02:47:44Z",
+      "side": 1,
+      "message": "base should be between id and revision.",
+      "range": {
+        "startLine": 36,
+        "startChar": 27,
+        "endLine": 36,
+        "endChar": 42
+      },
+      "revId": "3f0ef41186d94691e6b9fb203723bd0c09a873a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -242,17 +242,29 @@ class SshLog implements LifecycleListener {
   }
 
   void audit(Context ctx, Object result, String cmd) {
-    final String sid = extractSessionId(ctx);
-    final long created = extractCreated(ctx);
-    auditService.dispatch(new SshAuditEvent(sid, extractCurrentUser(ctx), cmd,
-        created, null, result));
+    audit(ctx, result, cmd, null);
   }
 
   void audit(Context ctx, Object result, DispatchCommand cmd) {
-    final String sid = extractSessionId(ctx);
-    final long created = extractCreated(ctx);
-    auditService.dispatch(new SshAuditEvent(sid, extractCurrentUser(ctx),
-        extractWhat(cmd), created, extractParameters(cmd), result));
+    audit(ctx, result, extractWhat(cmd), extractParameters(cmd));
+  }
+
+  private void audit(Context ctx, Object result, String cmd, Multimap<String, ?> params) {
+    String sessionId;
+    CurrentUser currentUser;
+    long created;
+    if (ctx == null) {
+      sessionId = null;
+      currentUser = null;
+      created = TimeUtil.nowMs();
+    } else {
+      SshSession session = ctx.getSession();
+      sessionId = IdGenerator.format(session.getSessionId());
+      currentUser = session.getCurrentUser();
+      created = ctx.created;
+    }
+    auditService.dispatch(new SshAuditEvent(sessionId, currentUser,
+        cmd, created, params, result));
   }
 
   private String extractWhat(DispatchCommand dcmd) {
@@ -260,30 +272,7 @@ class SshLog implements LifecycleListener {
     String[] args = dcmd.getArguments();
     if (args.length > 1) {
       return commandName + "." + args[1];
-    } else {
-      return commandName;
     }
-  }
-
-  private long extractCreated(final Context ctx) {
-    return (ctx != null) ? ctx.created : TimeUtil.nowMs();
-  }
-
-  private CurrentUser extractCurrentUser(final Context ctx) {
-    if (ctx != null) {
-      SshSession session = ctx.getSession();
-      return (session == null) ? null : session.getCurrentUser();
-    } else {
-      return null;
-    }
-  }
-
-  private String extractSessionId(final Context ctx) {
-    if (ctx != null) {
-      SshSession session = ctx.getSession();
-      return (session == null) ? null : IdGenerator.format(session.getSessionId());
-    } else {
-      return null;
-    }
+    return commandName;
   }
 }

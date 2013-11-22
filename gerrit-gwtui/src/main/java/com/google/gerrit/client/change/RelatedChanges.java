@@ -136,6 +136,7 @@ class RelatedChanges extends TabPanel {
       topicQuery.append(" project:").append(info.project());
       topicQuery.append(" branch:").append(info.branch());
       topicQuery.append(" topic:\"").append(info.topic()).append("\"");
+      topicQuery.append(" -change:").append(info.legacy_id().get());
       ChangeList.query(topicQuery.toString(),
           EnumSet.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_COMMIT),
           new AsyncCallback<ChangeList>() {

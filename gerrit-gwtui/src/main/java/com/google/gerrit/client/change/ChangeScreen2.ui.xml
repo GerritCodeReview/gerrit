@@ -18,7 +18,8 @@ limitations under the License.
     xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:c='urn:import:com.google.gerrit.client.change'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
-    xmlns:x='urn:import:com.google.gerrit.client.ui'>
+    xmlns:x='urn:import:com.google.gerrit.client.ui'
+    xmlns:clippy='urn:import:com.google.gwtexpui.clippy.client'>
   <ui:with field='ico' type='com.google.gerrit.client.GerritResources'/>
   <ui:with field='res' type='com.google.gerrit.client.change.Resources'/>
   <ui:style type='com.google.gerrit.client.change.ChangeScreen2.Style'>
@@ -99,11 +100,16 @@ limitations under the License.
       cursor: pointer;
       outline: none;
     }
+    .copyPermalink {
+      position: absolute;
+      top: 7px;
+      left: 18px;
+    }
     .changeId {
       display: block;
       position: absolute;
       top: 0;
-      left: 22px;
+      left: 39px;
       width: 300px;
       white-space: nowrap;
       line-height: HEADER_HEIGHT;
@@ -346,6 +352,7 @@ limitations under the License.
           <c:StarIcon ui:field='star' styleName='{style.star}' title='Star the change (Shortcut: s)'>
             <ui:attribute name='title'/>
           </c:StarIcon>
+          <clippy:CopyableLabel styleName='{style.copyPermalink}' ui:field='permalinkCopy'/>
           <span class='{style.changeId}'>
             <ui:msg>Change <g:Anchor ui:field='permalink' title='Reload the change (Shortcut: R)'>
               <ui:attribute name='title'/>

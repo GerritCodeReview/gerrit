@@ -93,6 +93,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_HAS = "has";
   public static final String FIELD_LABEL = "label";
   public static final String FIELD_LIMIT = "limit";
+  public static final String FIELD_MERGEABLE = "mergeable";
   public static final String FIELD_MESSAGE = "message";
   public static final String FIELD_OWNER = "owner";
   public static final String FIELD_OWNERIN = "ownerin";
@@ -280,7 +281,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> is(String value) {
+  public Predicate<ChangeData> is(String value) throws QueryParseException {
     if ("starred".equalsIgnoreCase(value)) {
       return new IsStarredByPredicate(args.dbProvider, currentUser);
     }
@@ -303,6 +304,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
     if ("reviewer".equalsIgnoreCase(value)) {
       return new ReviewerPredicate(args.dbProvider, self());
+    }
+
+    if ("mergeable".equalsIgnoreCase(value)) {
+      requireIndex(FIELD_IS, "mergeable");
+      return new IsMergeablePredicate(args.dbProvider);
     }
 
     try {

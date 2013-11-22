@@ -187,38 +187,40 @@ class RelatedChanges extends TabPanel {
           }
         });
 
-    StringBuilder conflictsQuery = new StringBuilder();
-    conflictsQuery.append("status:open");
-    conflictsQuery.append(" conflicts:").append(info.legacy_id().get());
-    conflictsQuery.append(" -age:1month");
-    ChangeList.query(conflictsQuery.toString(),
-        EnumSet.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_COMMIT),
-        new AsyncCallback<ChangeList>() {
-          @Override
-          public void onSuccess(ChangeList result) {
-            if (result.length() > 0) {
-              getTab().setTitle(Resources.M.conflictingChanges(result.length()));
-              getTab().setChanges(info.project(), revision,
-                  convertChangeList(result));
+    if (Gerrit.getConfig().hasIndex()) {
+      StringBuilder conflictsQuery = new StringBuilder();
+      conflictsQuery.append("status:open");
+      conflictsQuery.append(" conflicts:").append(info.legacy_id().get());
+      conflictsQuery.append(" -age:1month");
+      ChangeList.query(conflictsQuery.toString(),
+          EnumSet.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_COMMIT),
+          new AsyncCallback<ChangeList>() {
+            @Override
+            public void onSuccess(ChangeList result) {
+              if (result.length() > 0) {
+                getTab().setTitle(Resources.M.conflictingChanges(result.length()));
+                getTab().setChanges(info.project(), revision,
+                    convertChangeList(result));
+              }
             }
-          }
 
-          @Override
-          public void onFailure(Throwable err) {
-            getTab().setTitle(
-                Resources.M.conflictingChanges(Resources.C.notAvailable()));
-            getTab().setError(err.getMessage());
-          }
-
-          private RelatedChangesTab getTab() {
-            if (conflictingChangesTab == null) {
-              conflictingChangesTab =
-                  createTab(Resources.C.conflictingChanges(),
-                      Resources.C.conflictingChangesTooltip());
+            @Override
+            public void onFailure(Throwable err) {
+              getTab().setTitle(
+                  Resources.M.conflictingChanges(Resources.C.notAvailable()));
+              getTab().setError(err.getMessage());
             }
-            return conflictingChangesTab;
-          }
-        });
+
+            private RelatedChangesTab getTab() {
+              if (conflictingChangesTab == null) {
+                conflictingChangesTab =
+                    createTab(Resources.C.conflictingChanges(),
+                        Resources.C.conflictingChangesTooltip());
+              }
+              return conflictingChangesTab;
+            }
+          });
+    }
   }
 
   void setMaxHeight(int height) {

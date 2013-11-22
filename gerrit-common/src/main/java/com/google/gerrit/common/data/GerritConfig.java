@@ -53,6 +53,7 @@ public class GerritConfig implements Cloneable {
   protected int suggestFrom;
   protected int changeUpdateDelay;
   protected AccountGeneralPreferences.ChangeScreen changeScreen;
+  protected boolean index;
 
   public String getLoginUrl() {
     return loginUrl;
@@ -279,5 +280,13 @@ public class GerritConfig implements Cloneable {
 
   public void setChangeScreen(AccountGeneralPreferences.ChangeScreen ui) {
     this.changeScreen = ui;
+  }
+
+  public boolean hasIndex() {
+    return index;
+  }
+
+  public void setIndex(boolean index) {
+    this.index = index;
   }
 }

@@ -26,6 +26,7 @@ import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.DownloadConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.contact.ContactStore;
+import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.mail.EmailSender;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.inject.Inject;
@@ -128,6 +129,8 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     config.setChangeScreen(cfg.getEnum(
         "gerrit", null, "changeScreen",
         AccountGeneralPreferences.ChangeScreen.CHANGE_SCREEN2));
+    config.setIndex(!IndexType.SQL.equals(
+        cfg.getEnum("index", null, "type", IndexType.SQL)));
 
     config.setReportBugUrl(cfg.getString("gerrit", null, "reportBugUrl"));
     if (config.getReportBugUrl() == null) {

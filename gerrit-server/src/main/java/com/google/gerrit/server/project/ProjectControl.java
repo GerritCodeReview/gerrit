@@ -490,6 +490,10 @@ public class ProjectControl {
   }
 
   public boolean canReadCommit(RevWalk rw, RevCommit commit) {
+    if (controlForRef("refs/*").canPerform(Permission.READ)) {
+      return true;
+    }
+
     Project.NameKey projName = state.getProject().getNameKey();
     try {
       Repository repo = repoManager.openRepository(projName);
@@ -521,6 +525,6 @@ public class ProjectControl {
               commit.name(), projName.get());
       log.error(msg, e);
     }
-    return controlForRef("refs/*").canPerform(Permission.READ);
+    return false;
   }
 }

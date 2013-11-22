@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3e58e519_af0ab938",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/History.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-22T07:21:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e53d9fc_d0e87c27",
+      "revId": "d856828d86466d7362681c0801ce20c9853e3e28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e49d14f_92051c2c",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/History.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "3e58e519_cffffdd5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/History.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-22T07:21:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e49d14f_92051c2c",
+      "revId": "d856828d86466d7362681c0801ce20c9853e3e28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5e53d9fc_f0ed8034",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/History.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2013-11-21T22:35:01Z",
       "side": 1,
       "message": "This statement becomes:\n\n  --active;\n  start();",
+      "revId": "d856828d86466d7362681c0801ce20c9853e3e28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e58e519_ef04c12c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/History.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-22T07:21:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e53d9fc_f0ed8034",
       "revId": "d856828d86466d7362681c0801ce20c9853e3e28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.client.change;
 
+import static com.google.gerrit.common.PageLinks.op;
+
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
@@ -97,9 +99,9 @@ class RelatedChanges extends TabPanel {
     }
 
     StringBuilder cherryPicksQuery = new StringBuilder();
-    cherryPicksQuery.append(" project:").append(info.project());
-    cherryPicksQuery.append(" change:").append(info.change_id());
-    cherryPicksQuery.append(" -change:").append(info.legacy_id().get());
+    cherryPicksQuery.append(op("project", info.project()));
+    cherryPicksQuery.append(" ").append(op("change", info.change_id()));
+    cherryPicksQuery.append(" ").append(op("-change", info.legacy_id().get()));
     ChangeList.query(cherryPicksQuery.toString(),
         EnumSet.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_COMMIT),
         new AsyncCallback<ChangeList>() {
@@ -133,9 +135,9 @@ class RelatedChanges extends TabPanel {
     if (info.topic() != null && !"".equals(info.topic())) {
       StringBuilder topicQuery = new StringBuilder();
       topicQuery.append("status:open");
-      topicQuery.append(" project:").append(info.project());
-      topicQuery.append(" branch:").append(info.branch());
-      topicQuery.append(" topic:").append(info.topic());
+      topicQuery.append(" ").append(op("project", info.project()));
+      topicQuery.append(" ").append(op("branch", info.branch()));
+      topicQuery.append(" ").append(op("topic", info.topic()));
       ChangeList.query(topicQuery.toString(),
           EnumSet.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_COMMIT),
           new AsyncCallback<ChangeList>() {
@@ -189,7 +191,7 @@ class RelatedChanges extends TabPanel {
 
     StringBuilder conflictsQuery = new StringBuilder();
     conflictsQuery.append("status:open");
-    conflictsQuery.append(" conflicts:").append(info.legacy_id().get());
+    conflictsQuery.append(" ").append(op("conflicts", info.legacy_id().get()));
     conflictsQuery.append(" -age:1month");
     ChangeList.query(conflictsQuery.toString(),
         EnumSet.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_COMMIT),

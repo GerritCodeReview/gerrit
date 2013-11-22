@@ -127,6 +127,10 @@ public class PageLinks {
     }
   }
 
+  public static String op(String op, int value) {
+    return op + ":" + value;
+  }
+
   public static String op(String op, String value) {
     if (isSingleWord(value)) {
       return op + ":" + value;

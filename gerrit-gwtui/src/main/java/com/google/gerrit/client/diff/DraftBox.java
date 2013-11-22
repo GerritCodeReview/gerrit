@@ -63,6 +63,7 @@ class DraftBox extends CommentBox {
   private CommentInfo comment;
   private PublishedBox replyToBox;
   private Timer expandTimer;
+  private boolean autoClosed;
 
   @UiField Widget header;
   @UiField Element summary;
@@ -105,7 +106,12 @@ class DraftBox extends CommentBox {
       @Override
       public void onClick(ClickEvent event) {
         if (!isEdit()) {
-          setOpen(!isOpen());
+          if (autoClosed && !isOpen()) {
+            setOpen(true);
+            setEdit(true);
+          } else {
+            setOpen(!isOpen());
+          }
         }
       }
     }, ClickEvent.getType());
@@ -129,6 +135,7 @@ class DraftBox extends CommentBox {
   }
 
   private void set(CommentInfo info) {
+    autoClosed = info.message() != null && info.message().length() < 70;
     date.setInnerText(FormatUtil.shortFormatDayTime(info.updated()));
     if (info.message() != null) {
       String msg = info.message().trim();
@@ -275,11 +282,9 @@ class DraftBox extends CommentBox {
       public void onSuccess(CommentInfo result) {
         enableEdit(true);
         set(result);
-        if (result.message().length() < 70) {
-          UIObject.setVisible(p_edit, false);
+        setEdit(false);
+        if (autoClosed) {
           setOpen(false);
-        } else {
-          setEdit(false);
         }
       }
 
@@ -311,6 +316,9 @@ class DraftBox extends CommentBox {
       removeUI();
     } else {
       setEdit(false);
+      if (autoClosed) {
+        setOpen(false);
+      }
       getCm().focus();
     }
   }
@@ -349,6 +357,9 @@ class DraftBox extends CommentBox {
         return;
       } else {
         setEdit(false);
+        if (autoClosed) {
+          setOpen(false);
+        }
         getCm().focus();
         return;
       }

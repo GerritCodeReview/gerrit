@@ -22,6 +22,30 @@
       "revId": "a79ea550cc9391fcde48e1498d000ab9849610af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e4edd57_317390c1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2330,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-22T12:41:53Z",
+      "side": 1,
+      "message": "I actually find it better to immediately see the allowed values for a parameter without being redirected to another page where I have spend a lot of time until I find the needed information.\n\nSubmit types are not very frequently added so I don\u0027t think it\u0027s such a big problem to have the list in different places. If a new submit type is introduced doing one grep is enough to find all the places.\n\nStill I\u0027m not against changing this, but this could be done in an own change. Actually the one place where the submit types are described exists already (project-setup.html#submit_type), but it misses the technical names which is why I can\u0027t redirect there.",
+      "parentUuid": "3e58e519_2f45e95c",
+      "range": {
+        "startLine": 2329,
+        "startChar": 4,
+        "endLine": 2330,
+        "endChar": 33
+      },
+      "revId": "a79ea550cc9391fcde48e1498d000ab9849610af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

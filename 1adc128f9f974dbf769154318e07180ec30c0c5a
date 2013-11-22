@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "5e53d9fc_d05b1c36",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-22T12:27:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e3de19e_6efa8fec",
+      "range": {
+        "startLine": 76,
+        "startChar": 41,
+        "endLine": 76,
+        "endChar": 58
+      },
+      "revId": "1adc128f9f974dbf769154318e07180ec30c0c5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e58e519_4ffdcde1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
         "patchSetId": 5
@@ -142,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "5e53d9fc_f06020e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-22T12:27:59Z",
+      "side": 1,
+      "message": "Cool :-)\n\nDone",
+      "parentUuid": "1e3de19e_2e17a760",
+      "range": {
+        "startLine": 147,
+        "startChar": 4,
+        "endLine": 148,
+        "endChar": 14
+      },
+      "revId": "1adc128f9f974dbf769154318e07180ec30c0c5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e3de19e_8e05fb2b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
         "patchSetId": 5
@@ -153,6 +201,24 @@
       "writtenOn": "2013-11-22T06:56:19Z",
       "side": 1,
       "message": "This is becoming a bit of a rat\u0027s nest. What happens if a branch has 2000 changes (see above) and we submit 2 changes onto it in \"rapid\" succession? Each change will be put into the queue twice. For most changes they will become updated to the 2nd branch tip during the first update, and the second update is a (costly) no-op.\n\nIdeally we would only enqueue each change once. Or at least approximately once.",
+      "revId": "1adc128f9f974dbf769154318e07180ec30c0c5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e53d9fc_307388c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-22T12:27:59Z",
+      "side": 1,
+      "message": "I\u0027ve added a simple queue that avoids that too many changes are put several times into the work queue. If a single change is scheduled for an update it might still be twice in the queue, but in this case we need to return a ListenableFuture to the caller. Getting a ListenableFuture out of the queue for an already scheduled change is not supported by that simple queue. But the simple queue should be good enough to protect the important case here where we schedule all open changes of a branch for updating the mergeability flag.\n\nDone",
+      "parentUuid": "1e3de19e_8e05fb2b",
       "revId": "1adc128f9f974dbf769154318e07180ec30c0c5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

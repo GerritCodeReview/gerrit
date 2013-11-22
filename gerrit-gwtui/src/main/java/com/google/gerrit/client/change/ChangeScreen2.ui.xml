@@ -28,6 +28,10 @@ limitations under the License.
     @def COMMIT_WIDTH 560px;
     @def HEADER_HEIGHT 29px;
 
+    .cs2 {
+      margin-bottom: 1em;
+    }
+
     .headerLine {
       position: relative;
       background-color: trimColor;
@@ -294,7 +298,7 @@ limitations under the License.
     }
   </ui:style>
 
-  <g:HTMLPanel>
+  <g:HTMLPanel styleName='{style.cs2}'>
     <g:HTMLPanel styleName='{style.headerLine}' ui:field='headerLine'>
       <div class='{style.subjectLine}'>
         <div class='{style.subjectText}' ui:field='commitSubjectText'/>

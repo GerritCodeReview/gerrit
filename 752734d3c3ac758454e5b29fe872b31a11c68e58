@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e53d9fc_502bac95",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-22T02:44:04Z",
+      "side": 1,
+      "message": "Include \u003cui:attribute name\u003d\u0027title\u0027/\u003e as the first child.",
+      "range": {
+        "startLine": 326,
+        "startChar": 63,
+        "endLine": 326,
+        "endChar": 68
+      },
+      "revId": "752734d3c3ac758454e5b29fe872b31a11c68e58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

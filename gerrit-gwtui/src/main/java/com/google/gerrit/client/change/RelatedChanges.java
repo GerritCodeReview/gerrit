@@ -105,10 +105,10 @@ class RelatedChanges extends TabPanel {
         new AsyncCallback<ChangeList>() {
           @Override
           public void onSuccess(ChangeList result) {
-            if (result.length() > 0) {
-              getTab().setTitle(Resources.M.cherryPicks(result.length()));
-              getTab().setChanges(info.project(), revision,
-                  convertChangeList(result));
+            JsArray<ChangeAndCommit> changes = convertChangeList(result);
+            if (changes.length() > 0) {
+              getTab().setTitle(Resources.M.cherryPicks(changes.length()));
+              getTab().setChanges(info.project(), revision, changes);
             }
           }
 
@@ -141,10 +141,10 @@ class RelatedChanges extends TabPanel {
           new AsyncCallback<ChangeList>() {
             @Override
             public void onSuccess(ChangeList result) {
-              if (result.length() > 0) {
-                getTab().setTitle(Resources.M.sameTopic(result.length()));
-                getTab().setChanges(info.project(), revision,
-                    convertChangeList(result));
+              JsArray<ChangeAndCommit> changes = convertChangeList(result);
+              if (changes.length() > 0) {
+                getTab().setTitle(Resources.M.sameTopic(changes.length()));
+                getTab().setChanges(info.project(), revision, changes);
               }
             }
 
@@ -196,10 +196,10 @@ class RelatedChanges extends TabPanel {
         new AsyncCallback<ChangeList>() {
           @Override
           public void onSuccess(ChangeList result) {
-            if (result.length() > 0) {
-              getTab().setTitle(Resources.M.conflictingChanges(result.length()));
-              getTab().setChanges(info.project(), revision,
-                  convertChangeList(result));
+            JsArray<ChangeAndCommit> changes = convertChangeList(result);
+            if (changes.length() > 0) {
+              getTab().setTitle(Resources.M.conflictingChanges(changes.length()));
+              getTab().setChanges(info.project(), revision, changes);
             }
           }
 
@@ -231,14 +231,16 @@ class RelatedChanges extends TabPanel {
   private JsArray<ChangeAndCommit> convertChangeList(ChangeList l) {
     JsArray<ChangeAndCommit> arr = JavaScriptObject.createArray().cast();
     for (ChangeInfo i : Natives.asList(l)) {
-      RevisionInfo currentRevision = i.revision(i.current_revision());
-      ChangeAndCommit c = ChangeAndCommit.create();
-      c.set_id(i.id());
-      c.set_commit(currentRevision.commit());
-      c.set_change_number(i.legacy_id().get());
-      c.set_revision_number(currentRevision._number());
-      c.set_branch(i.branch());
-      arr.push(c);
+      if (i.current_revision() != null && i.revisions().containsKey(i.current_revision())) {
+        RevisionInfo currentRevision = i.revision(i.current_revision());
+        ChangeAndCommit c = ChangeAndCommit.create();
+        c.set_id(i.id());
+        c.set_commit(currentRevision.commit());
+        c.set_change_number(i.legacy_id().get());
+        c.set_revision_number(currentRevision._number());
+        c.set_branch(i.branch());
+        arr.push(c);
+      }
     }
     return arr;
   }

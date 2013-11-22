@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e4edd57_716d18d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-22T15:58:28Z",
+      "side": 1,
+      "message": "I\u0027m not sure if this is the best name for this operator. Suggestions are welcome. Maybe better \u0027has:conflicts\u0027?",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 17
+      },
+      "revId": "4edb5a23fb4f536ecb073fb2784fe66e3fd92d94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1616,7 +1616,7 @@ a:hover.downloadLink {
   background: none repeat scroll 0 0 #FFF !important;
 }
 .relatedChangesTabPanel .gwt-TabPanelBottom {
-  padding: 0;
+  padding: 2px 0 0 0;
 }
 .relatedChangesTabPanel .gwt-TabBarItem-selected {
   border-bottom-color: #000 !important;

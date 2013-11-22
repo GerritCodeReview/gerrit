@@ -22,6 +22,7 @@ limitations under the License.
     .messageBox {
       position: relative;
       width: 1168px;
+      padding: 2px 0 2px 0;
       border-left: 1px solid #e3e9ff;
       border-right: 1px solid #e3e9ff;
       border-bottom: 1px solid #e3e9ff;
@@ -36,8 +37,10 @@ limitations under the License.
     }
     .closed .avatar {
       position: absolute;
-      width: 16px;
-      height: 16px;
+      top: 0;
+      left: -1px;
+      width: 20px;
+      height: 20px;
     }
 
     .contents {

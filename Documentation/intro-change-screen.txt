@@ -54,6 +54,16 @@ Download commands
 The download commands are moved to the 'Download' drop down box.  Patch files
 can be downloaded as base64 encoded or zipped versions.
 
+[[included-in]]
+Included in
+-----------
+
+To see the branches a specific change was merged into and the list of the tags
+a change was tagged with, use the 'Included In' drop down on the change header,
+to the left of the 'Revisions' drop down.
+
+Note that this list is only visible on merged changes.
+
 [[quick-approve]]
 Quick approve
 -------------
@@ -170,12 +180,14 @@ screen to notify the user that the change was updated.
 The default delay is 30 seconds.  It can be configured with the
 link:config-gerrit.html[change.updateDelay] setting.
 
-[[depends-on-needed-by]]
-"Depends on" and "Needed by"
-----------------------------
+[[related-changes]]
+"Related changes"
+-----------------
 
-Dependencies and dependent changes are listed in the 'Related Changes' drop
-down.
+A tab control on the third column shows the related changes:
+Dependencies and dependent changes are listed on the 'Related Changes' tab.
+Changes that are conflicting with the current change are listed on the
+'Conflicts With' tab.
 
 Key bindings:  "J" & "K" to navigate between the related changes. "O" to
 open the currently selected related change.
@@ -190,15 +202,24 @@ box to the left of the filename.
 Key bindings: "j" & "k" to navigate in the file table, and "r" to toggle the
 'reviewed' flag.
 
-[[included-in]]
-Included in
------------
+[[diff-against]]
+Diff against
+------------
 
-To see the branches a specific change was merged into and the list of the tags
-a change was tagged with, use the 'Included In' drop down on the change header,
-to the left of the 'Revisions' drop down.
+In 'Diff against' dropdown base reference version can be selected. On select
+file table list is reloaded and shows only the file that were changed compare
+to this reference version. The base version is passed to the syde by side
+dialog, so that code mirror windows "remembers" the base reference version
+choice made on the change screen.
 
-Note that this list is only visible on merged changes.
+[[history]]
+History
+-------
+
+History table shows change messages and inline file comments. Expand All and
+Collapse All buttons shows/hides the messages.
+
+Key bindings: "x" expands the messages, "z" collapses it again.
 
 [[missing-features]]
 Missing features
@@ -208,7 +229,6 @@ Several features have not been implemented yet:
 
 * Permalink a change
 * Allow to see if a reviewer can't vote on a label
-* Allow to select a reference version as base for the comparison
 * Change diff view preferences
 
 GERRIT

@@ -26,6 +26,7 @@ import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.DownloadConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.contact.ContactStore;
+import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.mail.EmailSender;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.inject.Inject;
@@ -49,6 +50,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   private final GitWebConfig gitWebConfig;
   private final AllProjectsName wildProject;
   private final SshInfo sshInfo;
+  private final IndexCollection indexCollection;
 
   private EmailSender emailSender;
   private final ContactStore contactStore;
@@ -59,6 +61,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   GerritConfigProvider(final Realm r, @GerritServerConfig final Config gsc,
       final AuthConfig ac, final GitWebConfig gwc, final AllProjectsName wp,
       final SshInfo si, final ContactStore cs,
+      final IndexCollection ic,
       final ServletContext sc, final DownloadConfig dc,
       final @AnonymousCowardName String acn) {
     realm = r;
@@ -67,6 +70,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     downloadConfig = dc;
     gitWebConfig = gwc;
     sshInfo = si;
+    indexCollection = ic;
     wildProject = wp;
     contactStore = cs;
     servletContext = sc;
@@ -128,6 +132,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     config.setChangeScreen(cfg.getEnum(
         "gerrit", null, "changeScreen",
         AccountGeneralPreferences.ChangeScreen.CHANGE_SCREEN2));
+    config.setIndex(indexCollection.getSearchIndex() != null);
 
     config.setReportBugUrl(cfg.getString("gerrit", null, "reportBugUrl"));
     if (config.getReportBugUrl() == null) {

@@ -54,6 +54,16 @@ Download commands
 The download commands are moved to the 'Download' drop down box.  Patch files
 can be downloaded as base64 encoded or zipped versions.
 
+[[included-in]]
+Included in
+-----------
+
+To see the branches a specific change was merged into and the list of the tags
+a change was tagged with, use the 'Included In' drop down on the change header,
+to the left of the 'Revisions' drop down.
+
+Note that this list is only visible on merged changes.
+
 [[quick-approve]]
 Quick approve
 -------------
@@ -86,7 +96,6 @@ during the vote.
 
 Key bindings: "a" to open the drop down. "ESC" to close it.
 
-
 [[edit-commit-message]]
 Edit commit message
 -------------------
@@ -95,6 +104,14 @@ To edit the commit message use the 'Edit Message' button on the change header,
 which will open a drop-down editor box.
 
 Key bindings: "e" to open the drop down. "ESC" to close it.
+
+[[star-change]]
+
+Star change icon allows to star the change, so that "starredby:self" query can
+retrieve the ctarred changes later. If the change is aleady starred, then
+clicking the icon again unstars the change.
+
+Key bindings: "s" to star/unstar the change.
 
 [[edit-change-topic]]
 Edit change topic
@@ -170,9 +187,9 @@ screen to notify the user that the change was updated.
 The default delay is 30 seconds.  It can be configured with the
 link:config-gerrit.html[change.updateDelay] setting.
 
-[[depends-on-needed-by]]
-"Depends on" and "Needed by"
-----------------------------
+[[related-changes]]
+Related changes
+---------------
 
 Dependencies and dependent changes are listed in the 'Related Changes' drop
 down.
@@ -190,15 +207,24 @@ box to the left of the filename.
 Key bindings: "j" & "k" to navigate in the file table, and "r" to toggle the
 'reviewed' flag.
 
-[[included-in]]
-Included in
------------
+[[diff-against]]
+Diff against
+------------
 
-To see the branches a specific change was merged into and the list of the tags
-a change was tagged with, use the 'Included In' drop down on the change header,
-to the left of the 'Revisions' drop down.
+In the 'Diff against' dropdown, base reference version can be selected. On
+selecting an entry the file table list is reloaded and shows only the files
+that were changed compared to this reference version. The selected revision
+is passed to the side by side view, so that code mirror windows "remember"
+the base reference version choice made on the change screen.
 
-Note that this list is only visible on merged changes.
+[[history]]
+History
+-------
+
+The history table shows change messages and inline file comments. Expand All and
+Collapse All buttons show/hide the messages.
+
+Key bindings: "x" expands all messages, "z" collapses them again.
 
 [[missing-features]]
 Missing features
@@ -208,7 +234,6 @@ Several features have not been implemented yet:
 
 * Permalink a change
 * Allow to see if a reviewer can't vote on a label
-* Allow to select a reference version as base for the comparison
 * Change diff view preferences
 
 GERRIT

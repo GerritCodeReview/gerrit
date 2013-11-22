@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "5e53d9fc_f0d7402f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-22T14:15:31Z",
+      "side": 1,
+      "message": "During documenting the new CS2 in this change[1] i stumbled over the \"related changes\" tab control, that has different tabs for\n\n* related changed\n* conflict changes\n* same topic changes\n* cherry-pick changes\n\nSo now actually all four different tabs are related changes and i think is right to call the whole tab control: related changes, but then we have a problem to call the first tab with the same name.\n\nSo may be the name\n\n\"Dependent changes\" is better for the tab that was called first related changes until additional tabs were introduced and the first tabs was not renamed to better fir the new situation? In fact the REST API endpoint still called \"related\" and would better be renamed to \"dependent\"\n\nSo we would have something like that:\n\n\nRelated changes tab control\n\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n\nshows four different tabs:\n\n* Dependent changes\n* conflict changes (only enabled when secondary index on the site is activated)\n* same topic changes\n* cherry-pick changes\n\nNote, that the different tabs can have the same changes listed in them.\n\n[1] https://gerrit-review.googlesource.com/#/c/51975",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 19
+      },
+      "revId": "ad7cea7ea511b996a8f13adf65ea755acde3508b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5e53d9fc_b0cdb8a3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

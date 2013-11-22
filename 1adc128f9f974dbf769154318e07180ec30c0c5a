@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e3de19e_6efa8fec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-22T06:56:19Z",
+      "side": 1,
+      "message": "queue.createQueue() causes problems on gerrit-review. Because the server is virtual hosted this creates a thread per host, which is not ideal for us. Look at the pattern used by ReceiveCommitsExecutor and its ReceiveCommitsExecutorModule. We supply different WorkQueue.Executor instances in our environment using a different Guice module.",
+      "range": {
+        "startLine": 76,
+        "startChar": 41,
+        "endLine": 76,
+        "endChar": 58
+      },
+      "revId": "1adc128f9f974dbf769154318e07180ec30c0c5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e3de19e_4efdd3e1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-22T06:56:19Z",
+      "side": 1,
+      "message": "This may need to be configurable. gerrit-review has hundreds of changes open for the master branch. Every time we submit a change on gerrit-review every one of those changes needs to be rechecked. I might need more than 1 thread to get through the mess we have.\n\nWith only 1 thread a single branch in a single project can choke the queue if it has enough changes open. Assuming each change clears in 100ms (a fast estimate?) with 2000 changes open its going to take at least 4 seconds to process that branch. At 500ms/change (slow!) its 17 seconds.\n\nIf submits happen often enough, the queue will never catch up.",
+      "range": {
+        "startLine": 76,
+        "startChar": 59,
+        "endLine": 76,
+        "endChar": 60
+      },
+      "revId": "1adc128f9f974dbf769154318e07180ec30c0c5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e58e519_4ffdcde1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-22T06:56:19Z",
+      "side": 1,
+      "message": "Yes, this is what I meant. Thanks. :-)",
+      "range": {
+        "startLine": 129,
+        "startChar": 11,
+        "endLine": 130,
+        "endChar": 45
+      },
+      "revId": "1adc128f9f974dbf769154318e07180ec30c0c5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e3de19e_ae0ab738",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-22T06:56:19Z",
+      "side": 1,
+      "message": "Unnecessary.",
+      "range": {
+        "startLine": 147,
+        "startChar": 4,
+        "endLine": 148,
+        "endChar": 14
+      },
+      "revId": "1adc128f9f974dbf769154318e07180ec30c0c5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e3de19e_8e05fb2b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-22T06:56:19Z",
+      "side": 1,
+      "message": "This is becoming a bit of a rat\u0027s nest. What happens if a branch has 2000 changes (see above) and we submit 2 changes onto it in \"rapid\" succession? Each change will be put into the queue twice. For most changes they will become updated to the 2nd branch tip during the first update, and the second update is a (costly) no-op.\n\nIdeally we would only enqueue each change once. Or at least approximately once.",
+      "revId": "1adc128f9f974dbf769154318e07180ec30c0c5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

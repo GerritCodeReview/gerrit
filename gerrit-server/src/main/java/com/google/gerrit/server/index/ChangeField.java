@@ -349,6 +349,17 @@ public class ChangeField {
         }
       };
 
+  /** Whether the change is mergeable. */
+  public static final FieldDef<ChangeData, String> MERGEABLE =
+      new FieldDef.Single<ChangeData, String>(
+          ChangeQueryBuilder.FIELD_MERGEABLE, FieldType.EXACT, false) {
+        @Override
+        public String get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return input.change(args.db).isMergeable() ? "1" : null;
+        }
+      };
+
   private static <T> List<byte[]> toProtos(ProtobufCodec<T> codec, Collection<T> objs)
       throws OrmException {
     List<byte[]> result = Lists.newArrayListWithCapacity(objs.size());

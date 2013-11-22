@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5e53d9fc_30baa8f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-22T19:25:50Z",
+      "side": 1,
+      "message": "Actually when adding the new tabs I was thinking about renaming the first tab to something like \"Dependencies\". I finally didn\u0027t do it because from a Dependencies tab you would expect to see open changes on which the current change depends and open changes that depend on the current change. This is what is displayed for normal changes in the Related Changes tab. However for merge commits it shows also the closed changes that are going to be merged into the destination branch by accepting the merge commit. It is kind of a dependency too, but not in the sense of \"these changes have to be submitted in order to submit this change\". I guess this is the reason why it was called Related Changes in the first place. I\u0027m not against renaming the tab and also \u0027Dependencies\u0027 might just be fine, but while looking for a better name we should keep in mind what it shows for merge commits.",
+      "parentUuid": "5e53d9fc_f0d7402f",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 19
+      },
+      "revId": "ad7cea7ea511b996a8f13adf65ea755acde3508b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5e53d9fc_b0cdb8a3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

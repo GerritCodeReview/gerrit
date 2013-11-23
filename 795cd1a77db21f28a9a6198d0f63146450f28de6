@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "be1cd552_63faa2ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-23T22:13:41Z",
+      "side": 1,
+      "message": "Yes, loosing performance on queries would be bad.",
+      "parentUuid": "be43f532_8b532d30",
+      "revId": "795cd1a77db21f28a9a6198d0f63146450f28de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de1fc943_a4e3c248",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2013-11-23T20:16:27Z",
       "side": 1,
       "message": "use Integer. That way if its never assigned its not included in the JSON. With int the JSON will contain \"insertions: 0\" if changedLines was null above.",
+      "range": {
+        "startLine": 925,
+        "startChar": 11,
+        "endLine": 925,
+        "endChar": 14
+      },
+      "revId": "795cd1a77db21f28a9a6198d0f63146450f28de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3e75e93_e2ee462d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 925,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-23T22:13:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de1fc943_a4e3c248",
       "range": {
         "startLine": 925,
         "startChar": 11,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "a3e75e93_a2f83ef1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-23T22:13:41Z",
+      "side": 1,
+      "message": "Yes, I was tempted to add this operator but then I wasn\u0027t sure if \u0027\u003c\u0027 and \u0027\u003e\u0027 would work...\n\nWhat exactly do you mean by \u0027serialize ChangedLines into the secondary index\u0027? Adding a new ChangeField is only needed for a search operator, isn\u0027t it? Do you mean to store it a field of the Change class?",
+      "parentUuid": "fe22cd88_e5edb634",
+      "revId": "795cd1a77db21f28a9a6198d0f63146450f28de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe22cd88_c5e8ba27",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 1
@@ -70,6 +130,24 @@
       "writtenOn": "2013-11-23T20:16:27Z",
       "side": 1,
       "message": "There are other paths that will fill currentFiles to be !\u003d null, but those don\u0027t set changedLines object. Behavior will depend on the order methods are invoked; not good.\n\nUse changedLines here instead?",
+      "revId": "795cd1a77db21f28a9a6198d0f63146450f28de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be1cd552_03f3ae19",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-23T22:13:41Z",
+      "side": 1,
+      "message": "Copy\u0026Paste mistake...\n\nDone",
+      "parentUuid": "fe22cd88_c5e8ba27",
       "revId": "795cd1a77db21f28a9a6198d0f63146450f28de6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "a3e75e93_c2fb42ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-23T22:13:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe22cd88_a5e3be48",
+      "revId": "795cd1a77db21f28a9a6198d0f63146450f28de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de1fc943_c4e8be27",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 1
@@ -110,6 +206,24 @@
         "endLine": 273,
         "endChar": 51
       },
+      "revId": "795cd1a77db21f28a9a6198d0f63146450f28de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be1cd552_23f0aa0a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-23T22:13:41Z",
+      "side": 1,
+      "message": "Actually it seems we already have this information inside of PatchList :)\n\nDone",
+      "parentUuid": "de1fc943_c4e8be27",
       "revId": "795cd1a77db21f28a9a6198d0f63146450f28de6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

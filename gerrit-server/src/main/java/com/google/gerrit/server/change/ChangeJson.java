@@ -77,6 +77,7 @@ import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.actions.ActionInfo;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.LabelNormalizer;
+import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
@@ -84,6 +85,7 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
@@ -137,6 +139,7 @@ public class ChangeJson {
   private final DynamicMap<DownloadCommand> downloadCommands;
   private final DynamicMap<RestView<ChangeResource>> changes;
   private final Revisions revisions;
+  private final PatchListCache patchListCache;
 
   private EnumSet<ListChangesOption> options;
   private AccountInfo.Loader accountLoader;
@@ -158,7 +161,8 @@ public class ChangeJson {
       DynamicMap<DownloadScheme> downloadSchemes,
       DynamicMap<DownloadCommand> downloadCommands,
       DynamicMap<RestView<ChangeResource>> changes,
-      Revisions revisions) {
+      Revisions revisions,
+      PatchListCache patchListCache) {
     this.db = db;
     this.labelNormalizer = ln;
     this.userProvider = user;
@@ -172,6 +176,7 @@ public class ChangeJson {
     this.downloadCommands = downloadCommands;
     this.changes = changes;
     this.revisions = revisions;
+    this.patchListCache = patchListCache;
 
     options = EnumSet.noneOf(ListChangesOption.class);
     projectControls = CacheBuilder.newBuilder()
@@ -268,6 +273,11 @@ public class ChangeJson {
     out.topic = in.getTopic();
     out.changeId = in.getKey().get();
     out.mergeable = in.getStatus() != Change.Status.MERGED ? in.isMergeable() : null;
+    ChangedLines changedLines = cd.changedLines(db, patchListCache);
+    if (changedLines != null) {
+      out.insertions = changedLines.insertions;
+      out.deletions = changedLines.deletions;
+    }
     out.subject = in.getSubject();
     out.status = in.getStatus();
     out.owner = accountLoader.get(in.getOwner());
@@ -912,6 +922,8 @@ public class ChangeJson {
     public Boolean starred;
     public Boolean reviewed;
     public Boolean mergeable;
+    public Integer insertions;
+    public Integer deletions;
 
     public String _sortkey;
     public int _number;

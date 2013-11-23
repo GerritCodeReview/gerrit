@@ -1,20 +1,33 @@
 SRC = 'src/main/java/com/google/gerrit/'
+SRCS = glob([SRC + '**/*.java'])
+
+DEPS = [
+  '//lib/gwt:user',
+  '//lib/gwt:dev',
+]
 
 gwt_module(
-  name = 'client',
-  srcs = glob([SRC + '**/*.java']),
+  name = 'gwtui-api',
+  srcs = SRCS,
   gwtxml = SRC + 'Plugin.gwt.xml',
   resources = glob(['src/main/resources/**/*']),
-  deps = [
-    '//lib/gwt:user',
-    '//lib/gwt:dev',
-  ],
+  deps = DEPS,
   visibility = ['PUBLIC'],
 )
 
 java_library(
-  name = 'src',
+  name = 'gwtui-api-src',
   srcs = [],
   resources = glob(['src/main/**/*']),
+  visibility = ['PUBLIC'],
+)
+
+java_doc(
+  name = 'gwtui-api-javadoc',
+  title = 'Gerrit Review GWT Extension API Documentation',
+  pkg = 'com.google.gerrit.plugin',
+  paths = ['$SRCDIR/src/main/java'],
+  srcs = SRCS,
+  deps = DEPS,
   visibility = ['PUBLIC'],
 )

@@ -58,7 +58,7 @@ maven_jar(
     'javax/annotation/WillCloseWhenClosed.java',
     'javax/annotation/WillNotClose.java',
   ],
-  visibility = [],
+  visibility = ['PUBLIC'],
 )
 
 maven_jar(
@@ -92,5 +92,5 @@ maven_jar(
   id = 'javax.inject:javax.inject:1',
   sha1 = '6975da39a7040257bd51d21a231b76c915872d38',
   license = 'Apache2.0',
-  visibility = ['//lib/guice:guice'],
+  visibility = ['PUBLIC'],
 )

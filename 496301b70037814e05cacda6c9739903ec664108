@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe22cd88_05f3b219",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCheckQueue.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-23T20:34:23Z",
+      "side": 1,
+      "message": "package access",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 6
+      },
+      "revId": "496301b70037814e05cacda6c9739903ec664108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de1fc943_24f0b20a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCheckQueue.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-23T20:34:23Z",
+      "side": 1,
+      "message": "pending? You don\u0027t need a long name in such a small class.",
+      "range": {
+        "startLine": 27,
+        "startChar": 31,
+        "endLine": 27,
+        "endChar": 72
+      },
+      "revId": "496301b70037814e05cacda6c9739903ec664108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe22cd88_25f0ae0a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCheckQueue.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-23T20:34:23Z",
+      "side": 1,
+      "message": "package access",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 8
+      },
+      "revId": "496301b70037814e05cacda6c9739903ec664108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de1fc943_04f3b619",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCheckQueue.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-23T20:34:23Z",
+      "side": 1,
+      "message": "package access",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 8
+      },
+      "revId": "496301b70037814e05cacda6c9739903ec664108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

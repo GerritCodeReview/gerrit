@@ -69,7 +69,7 @@ limitations under the License.
       position: absolute;
       top: 0;
       left: 120px;
-      width: 915px;
+      width: 880px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -79,7 +79,25 @@ limitations under the License.
       white-space: nowrap;
       position: absolute;
       top: 0;
-      right: 5px;
+      right: 18px;
+    }
+
+    .reply {
+      position: absolute;
+      top: 0;
+      right: 1px;
+      cursor: pointer;
+      outline: none;
+      border: none;
+      background: transparent;
+      margin: 0;
+      padding: 0;
+      line-height: 15px;
+      font-family: Arial Unicode MS, sans-serif;
+      font-size: 18px;
+    }
+    .closed .reply {
+      visibility: HIDDEN;
     }
   </ui:style>
 
@@ -92,6 +110,12 @@ limitations under the License.
         <div class='{style.name}' ui:field='name'/>
         <div ui:field='summary' class='{style.summary}'/>
         <div class='{style.date}' ui:field='date'/>
+        <g:Button styleName='{style.reply}'
+            ui:field='reply'
+            title='Reply to this message'>
+          <ui:attribute name='title'/>
+          <div>&#x21a9;</div>
+        </g:Button>
       </g:HTMLPanel>
       <div ui:field='message'
            aria-hidden='true'

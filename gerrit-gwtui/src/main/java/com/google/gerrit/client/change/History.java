@@ -40,14 +40,17 @@ import java.util.Set;
 
 class History extends FlowPanel {
   private CommentLinkProcessor clp;
+  private ReplyAction replyAction;
   private Change.Id changeId;
 
   private final Set<Integer> loaded = new HashSet<Integer>();
   private final Map<AuthorRevision, List<CommentInfo>> byAuthor =
       new HashMap<AuthorRevision, List<CommentInfo>>();
 
-  void set(CommentLinkProcessor clp, Change.Id id, ChangeInfo info) {
+  void set(CommentLinkProcessor clp, ReplyAction ra,
+      Change.Id id, ChangeInfo info) {
     this.clp = clp;
+    this.replyAction = ra;
     this.changeId = id;
 
     JsArray<MessageInfo> messages = info.messages();
@@ -68,6 +71,10 @@ class History extends FlowPanel {
 
   Change.Id getChangeId() {
     return changeId;
+  }
+
+  void replyTo(MessageInfo info) {
+    replyAction.onReply(info);
   }
 
   void addComments(int id, NativeMap<JsArray<CommentInfo>> map) {

@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe22cd88_2517ce60",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-23T22:43:29Z",
+      "side": 1,
+      "message": "typos",
+      "range": {
+        "startLine": 10,
+        "startChar": 17,
+        "endLine": 10,
+        "endChar": 32
+      },
+      "revId": "f13a25aae7fa06663344c7b300efb5ab73a6e403",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe22cd88_4514ca59",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-23T22:43:29Z",
+      "side": 1,
+      "message": "Should we do base !\u003d null \u0026\u0026 !base.isEmpty() ? base : null the way we do on the line below for revision?",
+      "range": {
+        "startLine": 177,
+        "startChar": 16,
+        "endLine": 177,
+        "endChar": 20
+      },
+      "revId": "f13a25aae7fa06663344c7b300efb5ab73a6e403",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de1fc943_241ef274",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 712,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-23T22:43:29Z",
+      "side": 1,
+      "message": "Duplicated below. We should have this in a shared method.",
+      "range": {
+        "startLine": 703,
+        "startChar": 11,
+        "endLine": 712,
+        "endChar": 5
+      },
+      "revId": "f13a25aae7fa06663344c7b300efb5ab73a6e403",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de1fc943_442bee95",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-23T22:43:29Z",
+      "side": 1,
+      "message": "Maybe we should set base to the resolved revision\u0027s name() like we do in the method for the normal revision. Then we have consistent behavior for matching below when building the pick list.",
+      "revId": "f13a25aae7fa06663344c7b300efb5ab73a6e403",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

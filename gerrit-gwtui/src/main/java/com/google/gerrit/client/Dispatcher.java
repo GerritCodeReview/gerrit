@@ -105,9 +105,14 @@ public class Dispatcher {
     return toPatch("", diffBase, id);
   }
 
-  public static String toPatchSideBySide2(PatchSet.Id diffBase,
+  public static String toSideBySide(PatchSet.Id diffBase,
       PatchSet.Id revision, String fileName) {
-    return toPatch("cm", diffBase, revision, fileName);
+    return toPatch("", diffBase, revision, fileName);
+  }
+
+  public static String toUnified(PatchSet.Id diffBase,
+      PatchSet.Id revision, String fileName) {
+    return toPatch("unified", diffBase, revision, fileName);
   }
 
   public static String toPatchUnified(final Patch.Key id) {

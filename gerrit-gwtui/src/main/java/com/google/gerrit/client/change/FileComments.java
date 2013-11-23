@@ -14,10 +14,10 @@
 
 package com.google.gerrit.client.change;
 
+import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -28,7 +28,6 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwtorm.client.KeyUtil;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -71,13 +70,6 @@ class FileComments extends Composite {
   }
 
   private static String url(PatchSet.Id ps, CommentInfo info) {
-    // TODO(sop): Switch to Dispatcher.toPatchSideBySide.
-    Change.Id c = ps.getParentKey();
-    return new StringBuilder()
-      .append("/c/").append(c.get()).append('/')
-      .append(ps.get()).append('/')
-      .append(KeyUtil.encode(info.path()))
-      .append(",cm")
-      .toString();
+    return Dispatcher.toSideBySide(null, ps, info.path());
   }
 }

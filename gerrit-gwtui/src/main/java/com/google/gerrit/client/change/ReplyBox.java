@@ -193,7 +193,7 @@ class ReplyBox extends Composite {
         m = m.substring(i + 1).trim();
       }
     }
-    return "> " + m.replaceAll("\\n", "\\\n> ");
+    return " > " + m.replaceAll("\\n", "\\\n > ");
   }
 
   private void hide() {

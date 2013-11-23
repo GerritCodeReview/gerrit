@@ -269,8 +269,10 @@ class RelatedChangesTab {
         if (url.startsWith("#")) {
           sb.setAttribute("onclick", OPEN + "(event," + row + ")");
         }
-        sb.append(info.commit().subject()
-            + (showBranches ? " (" + info.branch() + ")" : ""));
+        if (showBranches) {
+          sb.append(info.branch()).append(": ");
+        }
+        sb.append(info.commit().subject());
         sb.closeAnchor();
       } else {
         sb.append(info.commit().subject());

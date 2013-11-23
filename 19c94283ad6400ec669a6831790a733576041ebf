@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e37bdc3_8905f92b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-23T00:52:47Z",
+      "side": 1,
+      "message": "Use conditionals to avoid the inner string concat with the subject.",
+      "range": {
+        "startLine": 272,
+        "startChar": 8,
+        "endLine": 273,
+        "endChar": 39
+      },
+      "revId": "19c94283ad6400ec669a6831790a733576041ebf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

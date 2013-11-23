@@ -2326,6 +2326,14 @@ to be the default owner of new projects.
 Currently only the repository name `*` is supported.
 This is a wildcard designating all repositories.
 
+[[repository.name.defaultSubmitType]]repository.<name>.defaultSubmitType::
++
+The default submit type for newly created projects. Supported values
+are `MERGE_IF_NECESSARY`, `FAST_FORWARD_ONLY`, `REBASE_IF_NECESSARY`,
+`MERGE_ALWAYS` and `CHERRY_PICK`.
++
+By default, `MERGE_IF_NECESSARY`.
+
 [[repository.name.ownerGroup]]repository.<name>.ownerGroup::
 +
 A name of a group which exists in the database. Zero, one or many

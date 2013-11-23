@@ -63,9 +63,8 @@ final class CreateProjectCommand extends SshCommand {
   @Option(name = "--description", aliases = {"-d"}, metaVar = "DESCRIPTION", usage = "description of project")
   private String projectDescription = "";
 
-  @Option(name = "--submit-type", aliases = {"-t"}, usage = "project submit type\n"
-      + "(default: MERGE_IF_NECESSARY)")
-  private SubmitType submitType = SubmitType.MERGE_IF_NECESSARY;
+  @Option(name = "--submit-type", aliases = {"-t"}, usage = "project submit type")
+  private SubmitType submitType;
 
   @Option(name = "--contributor-agreements", usage = "if contributor agreement is required")
   private InheritableBoolean contributorAgreements = InheritableBoolean.INHERIT;

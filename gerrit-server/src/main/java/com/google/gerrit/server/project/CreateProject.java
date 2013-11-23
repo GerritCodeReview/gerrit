@@ -101,8 +101,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, Input> {
     args.createEmptyCommit = input.createEmptyCommit;
     args.permissionsOnly = input.permissionsOnly;
     args.projectDescription = Strings.emptyToNull(input.description);
-    args.submitType =
-        Objects.firstNonNull(input.submitType, SubmitType.MERGE_IF_NECESSARY);
+    args.submitType = input.submitType;
     args.branch = input.branches;
     if (input.owners != null) {
       List<AccountGroup.UUID> ownerIds =

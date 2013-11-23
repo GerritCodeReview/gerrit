@@ -16,6 +16,103 @@
       "revId": "795cd1a77db21f28a9a6198d0f63146450f28de6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de1fc943_a4e3c248",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 925,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-23T20:16:27Z",
+      "side": 1,
+      "message": "use Integer. That way if its never assigned its not included in the JSON. With int the JSON will contain \"insertions: 0\" if changedLines was null above.",
+      "range": {
+        "startLine": 925,
+        "startChar": 11,
+        "endLine": 925,
+        "endChar": 14
+      },
+      "revId": "795cd1a77db21f28a9a6198d0f63146450f28de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe22cd88_e5edb634",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-23T20:16:27Z",
+      "side": 1,
+      "message": "One way we can make this cheaper would be to serialize ChangedLines into the secondary index along with the other properties stored there for Change. This may even open up the idea of having the index have operators for size of change so you can search for changes impacting \u003c 500 lines for example.\n\nI might actually find such an operator useful when I have 10 minutes available for a code review and am looking for something \"cheap\" to work on.",
+      "revId": "795cd1a77db21f28a9a6198d0f63146450f28de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe22cd88_c5e8ba27",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-23T20:16:27Z",
+      "side": 1,
+      "message": "There are other paths that will fill currentFiles to be !\u003d null, but those don\u0027t set changedLines object. Behavior will depend on the order methods are invoked; not good.\n\nUse changedLines here instead?",
+      "revId": "795cd1a77db21f28a9a6198d0f63146450f28de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe22cd88_a5e3be48",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-23T20:16:27Z",
+      "side": 1,
+      "message": "I think we should return null if the cache entry cannot be computed.",
+      "revId": "795cd1a77db21f28a9a6198d0f63146450f28de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de1fc943_c4e8be27",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-23T20:16:27Z",
+      "side": 1,
+      "message": "Since this loop now runs on every search result maybe we should instead modify the cache object to include these two summations in the PatchList itself.",
+      "range": {
+        "startLine": 272,
+        "startChar": 8,
+        "endLine": 273,
+        "endChar": 51
+      },
+      "revId": "795cd1a77db21f28a9a6198d0f63146450f28de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

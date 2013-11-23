@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe22cd88_a531fe0c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 923,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-23T23:21:22Z",
+      "side": 1,
+      "message": "This appears to be breaking the Reply and Done boxes. The new widget is invisible until the redraw event is fired, which doesn\u0027t happen unless the user does something to screw with the height, such as show and hide the developer tools.",
+      "revId": "e07d21e7fb208cebb057b5dbb2abc81eb86cb9fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

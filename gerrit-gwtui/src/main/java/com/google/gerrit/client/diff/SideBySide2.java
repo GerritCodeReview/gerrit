@@ -599,6 +599,7 @@ public class SideBySide2 extends Screen {
       return box;
     }
     addCommentBox(info, box);
+    box.setVisible(true);
     LineHandle handle = cm.getLineHandle(info.line() - 1);
     lineActiveBoxMap.put(handle, box);
     return box;
@@ -648,8 +649,8 @@ public class SideBySide2 extends Screen {
       box.setDiffChunkInfo(myChunk);
     }
     box.setGutterWrapper(diffTable.sidePanel.addGutter(cm, info.line() - 1,
-        box instanceof DraftBox ?
-            SidePanel.GutterType.DRAFT
+        box instanceof DraftBox
+          ? SidePanel.GutterType.DRAFT
           : SidePanel.GutterType.COMMENT));
     return box;
   }

@@ -93,6 +93,30 @@
       "revId": "ad7cea7ea511b996a8f13adf65ea755acde3508b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e37bdc3_e9ed9534",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-23T00:36:44Z",
+      "side": 1,
+      "message": "I think this change is missing its current revision. CS2 explodes and fails to open a change if the current revision is missing. The code doesn\u0027t know how to handle this case and just NPEs in the browser.\n\nThe old ChangeScreen managed to display these sorts of broken changes, in a partially broken way. Maybe CS2 needs to at least throw up an error dialog.",
+      "parentUuid": "5e53d9fc_b0cdb8a3",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 41
+      },
+      "revId": "ad7cea7ea511b996a8f13adf65ea755acde3508b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

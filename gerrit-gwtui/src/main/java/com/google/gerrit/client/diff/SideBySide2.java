@@ -59,10 +59,11 @@ import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
@@ -234,24 +235,13 @@ public class SideBySide2 extends Screen {
     Window.enableScrolling(false);
 
     final int height = getCodeMirrorHeight();
-    onShowView(cmA, height);
-    onShowView(cmB, height);
+    cmA.setHeight(height);
+    cmB.setHeight(height);
     diffTable.sidePanel.adjustGutters(cmB);
     cmB.setCursor(LineCharacter.create(0));
     cmB.focus();
 
     prefetchNextFile();
-  }
-
-  private void onShowView(final CodeMirror cm, final int height) {
-    cm.operation(new Runnable() {
-      @Override
-      public void run() {
-        cm.setHeight(height);
-        cm.setOption("viewportMargin", 10);
-        cm.refresh();
-      }
-    });
   }
 
   @Override
@@ -502,10 +492,6 @@ public class SideBySide2 extends Screen {
       .set("showTrailingSpace", pref.isShowWhitespaceErrors())
       .set("keyMap", "vim_ro")
       .set("value", meta != null ? contents : "");
-    // Without this, CM will put line widgets too far down in the right spot,
-    // and padding widgets will be informed of wrong offset height. Reset to
-    // 10 (default) after initial rendering.
-    cfg.setInfinity("viewportMargin");
     return CodeMirror.create(parent, cfg);
   }
 
@@ -654,7 +640,7 @@ public class SideBySide2 extends Screen {
       .set("coverGutter", true)
       .set("insertAt", index)
       .set("noHScroll", true);
-    LineWidget boxWidget = cm.addLineWidget(line, box.getElement(), config);
+    LineWidget boxWidget = addLineWidget(cm, line, box, config);
     box.setPaddingManager(manager);
     box.setSelfWidgetWrapper(new PaddingWidgetWrapper(boxWidget, box.getElement()));
     box.setParent(this);
@@ -832,11 +818,11 @@ public class SideBySide2 extends Screen {
         .set("coverGutter", true)
         .set("noHScroll", true);
     if (markStart == 0) {
-      bar.setWidget(cm.addLineWidget(
-          markEnd + 1, bar.getElement(), lineWidgetConfig.set("above", true)));
+      bar.setWidget(addLineWidget(
+          cm, markEnd + 1, bar, lineWidgetConfig.set("above", true)));
     } else {
-      bar.setWidget(cm.addLineWidget(
-          markStart - 1, bar.getElement(), lineWidgetConfig));
+      bar.setWidget(addLineWidget(
+          cm, markStart - 1, bar, lineWidgetConfig));
     }
     bar.setMarker(cm.markText(CodeMirror.pos(markStart, 0),
         CodeMirror.pos(markEnd), markerConfig), size);
@@ -913,8 +899,8 @@ public class SideBySide2 extends Screen {
 
   private PaddingWidgetWrapper addPaddingWidget(CodeMirror cm,
       int line, double height, Unit unit, Integer index) {
-    Element div = DOM.createDiv();
-    div.getStyle().setHeight(height, unit);
+    SimplePanel padding = new SimplePanel();
+    padding.getElement().getStyle().setHeight(height, unit);
     Configuration config = Configuration.create()
         .set("coverGutter", true)
         .set("above", line == -1)
@@ -922,8 +908,28 @@ public class SideBySide2 extends Screen {
     if (index != null) {
       config = config.set("insertAt", index);
     }
-    LineWidget widget = cm.addLineWidget(line == -1 ? 0 : line, div, config);
-    return new PaddingWidgetWrapper(widget, div);
+    LineWidget widget = addLineWidget(cm, line == -1 ? 0 : line, padding, config);
+    return new PaddingWidgetWrapper(widget, padding.getElement());
+  }
+
+  /**
+   * A LineWidget needs to be added to diffTable in order to respond to browser
+   * events, but CodeMirror doesn't render the widget until the containing line
+   * is scrolled into viewportMargin, causing it to appear at the bottom of the
+   * DOM upon loading. Fix by hiding the widget until it is first scrolled into
+   * view (when CodeMirror fires a "redraw" event on the widget).
+   */
+  private LineWidget addLineWidget(CodeMirror cm, int line,
+      final Widget widget, Configuration options) {
+    widget.setVisible(false);
+    LineWidget lineWidget = cm.addLineWidget(line, widget.getElement(), options);
+    lineWidget.onFirstRedraw(new Runnable() {
+      @Override
+      public void run() {
+        widget.setVisible(true);
+      }
+    });
+    return lineWidget;
   }
 
   private void clearActiveLine(CodeMirror cm) {

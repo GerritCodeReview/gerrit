@@ -116,6 +116,7 @@ public class ChangeScreen2 extends Screen {
   }
 
   private final Change.Id changeId;
+  private String base;
   private String revision;
   private ChangeInfo changeInfo;
   private CommentLinkProcessor commentLinkProcessor;
@@ -170,9 +171,10 @@ public class ChangeScreen2 extends Screen {
   private RevisionsAction revisionsAction;
   private DownloadAction downloadAction;
 
-  public ChangeScreen2(Change.Id changeId, String revision, boolean openReplyBox) {
+  public ChangeScreen2(Change.Id changeId, String base, String revision, boolean openReplyBox) {
     this.changeId = changeId;
-    this.revision = revision != null && !revision.isEmpty() ? revision : null;
+    this.base = normalize(base);
+    this.revision = normalize(revision);
     this.openReplyBox = openReplyBox;
     add(uiBinder.createAndBindUi(this));
   }
@@ -188,7 +190,7 @@ public class ChangeScreen2 extends Screen {
       @Override
       public void onSuccess(ChangeInfo info) {
         info.init();
-        loadConfigInfo(info, null);
+        loadConfigInfo(info, base);
       }
     });
   }
@@ -509,9 +511,10 @@ public class ChangeScreen2 extends Screen {
   private void loadConfigInfo(final ChangeInfo info, final String base) {
     info.revisions().copyKeysIntoChildren("name");
     final RevisionInfo rev = resolveRevisionToDisplay(info);
+    final RevisionInfo b = resolveRevisionOrPatchSetId(info, base, null);
 
     CallbackGroup group = new CallbackGroup();
-    loadDiff(info.revisions().get(base), rev, myLastReply(info), group);
+    loadDiff(b, rev, myLastReply(info), group);
     loadCommit(rev, group);
 
     if (loaded) {
@@ -677,20 +680,10 @@ public class ChangeScreen2 extends Screen {
   }
 
   private RevisionInfo resolveRevisionToDisplay(ChangeInfo info) {
-    if (revision == null) {
-      revision = info.current_revision();
-    } else if (!info.revisions().containsKey(revision)) {
-      JsArray<RevisionInfo> list = info.revisions().values();
-      for (int i = 0; i < list.length(); i++) {
-        RevisionInfo r = list.get(i);
-        if (revision.equals(String.valueOf(r._number()))) {
-          revision = r.name();
-          break;
-        }
-      }
-    }
-    RevisionInfo rev = revision != null ? info.revision(revision) : null;
+    RevisionInfo rev = resolveRevisionOrPatchSetId(info, revision,
+        info.current_revision());
     if (rev != null) {
+      revision = rev.name();
       return rev;
     }
 
@@ -708,6 +701,36 @@ public class ChangeScreen2 extends Screen {
           Resources.M.changeWithNoRevisions(info.legacy_id().get())).center();
       throw new IllegalStateException("no revision, cannot proceed");
     }
+  }
+
+  /**
+   *
+   * Resolve a revision or patch set id string to RevisionInfo.
+   * When this view is created from the changes table, revision
+   * is passed as a real revision.
+   * When this view is created from side by side (by closing it with 'u')
+   * patch set id is passed.
+   *
+   * @param info change info
+   * @param revOrId revision or patch set id
+   * @param defaultValue value returned when rev is null
+   * @return resolved revision or default value
+   */
+  private RevisionInfo resolveRevisionOrPatchSetId(ChangeInfo info,
+      String revOrId, String defaultValue) {
+    if (revOrId == null) {
+      revOrId = defaultValue;
+    } else if (!info.revisions().containsKey(revOrId)) {
+      JsArray<RevisionInfo> list = info.revisions().values();
+      for (int i = 0; i < list.length(); i++) {
+        RevisionInfo r = list.get(i);
+        if (revOrId.equals(String.valueOf(r._number()))) {
+          revOrId = r.name();
+          break;
+        }
+      }
+    }
+    return revOrId != null ? info.revision(revOrId) : null;
   }
 
   private void renderChangeInfo(ChangeInfo info) {
@@ -811,6 +834,7 @@ public class ChangeScreen2 extends Screen {
   private void renderDiffBaseListBox(ChangeInfo info) {
     JsArray<RevisionInfo> list = info.revisions().values();
     RevisionInfo.sortRevisionInfoByNumber(list);
+    int selectedIdx = list.length();
     for (int i = list.length() - 1; i >= 0; i--) {
       RevisionInfo r = list.get(i);
       diffBase.addItem(
@@ -820,6 +844,9 @@ public class ChangeScreen2 extends Screen {
         SelectElement.as(diffBase.getElement()).getOptions()
             .getItem(diffBase.getItemCount() - 1).setDisabled(true);
       }
+      if (base != null && base.equals(String.valueOf(r._number()))) {
+        selectedIdx = diffBase.getItemCount() - 1;
+      }
     }
 
     RevisionInfo rev = info.revisions().get(revision);
@@ -827,7 +854,8 @@ public class ChangeScreen2 extends Screen {
     diffBase.addItem(
       parents.length() > 1 ? Util.C.autoMerge() : Util.C.baseDiffItem(),
       "");
-    diffBase.setSelectedIndex(diffBase.getItemCount() - 1);
+
+    diffBase.setSelectedIndex(selectedIdx);
   }
 
   void showUpdates(ChangeInfo newInfo) {
@@ -871,5 +899,9 @@ public class ChangeScreen2 extends Screen {
       updateCheck.schedule();
       handlers.add(UserActivityMonitor.addValueChangeHandler(updateCheck));
     }
+  }
+
+  private static String normalize(String r) {
+    return r != null && !r.isEmpty() ? r : null;
   }
 }

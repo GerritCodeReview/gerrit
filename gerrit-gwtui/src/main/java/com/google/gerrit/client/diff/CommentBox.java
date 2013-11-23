@@ -17,8 +17,6 @@ package com.google.gerrit.client.diff;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.diff.PaddingManager.PaddingWidgetWrapper;
 import com.google.gerrit.client.diff.SidePanel.GutterWrapper;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
@@ -82,9 +80,9 @@ abstract class CommentBox extends Composite {
     if (!getCommentInfo().has_line()) {
       return;
     }
-    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+    parent.defer(new Runnable() {
       @Override
-      public void execute() {
+      public void run() {
         assert selfWidgetWrapper != null;
         selfWidgetWrapper.getWidget().changed();
         if (diffChunkInfo != null) {

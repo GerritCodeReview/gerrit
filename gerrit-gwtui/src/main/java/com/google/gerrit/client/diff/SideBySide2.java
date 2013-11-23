@@ -132,6 +132,7 @@ public class SideBySide2 extends Screen {
   private KeyCommandSet keysAction;
   private KeyCommandSet keysComment;
   private List<HandlerRegistration> handlers;
+  private List<Runnable> deferred;
 
   public SideBySide2(
       PatchSet.Id base,
@@ -603,6 +604,7 @@ public class SideBySide2 extends Screen {
   }
 
   CommentBox addCommentBox(CommentInfo info, CommentBox box) {
+    box.setParent(this);
     diffTable.add(box);
     DisplaySide side = box.getSide();
     CodeMirror cm = getCmFromSide(side);
@@ -641,7 +643,6 @@ public class SideBySide2 extends Screen {
     LineWidget boxWidget = cm.addLineWidget(line, box.getElement(), config);
     box.setPaddingManager(manager);
     box.setSelfWidgetWrapper(new PaddingWidgetWrapper(boxWidget, box.getElement()));
-    box.setParent(this);
     if (otherChunk == null) {
       box.setDiffChunkInfo(myChunk);
     }
@@ -944,9 +945,9 @@ public class SideBySide2 extends Screen {
          * key (or j/k) is held down. Performance on Chrome is fine
          * without the deferral.
          */
-        Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+        defer(new Runnable() {
           @Override
-          public void execute() {
+          public void run() {
             LineHandle handle = cm.getLineHandleVisualStart(
                 cm.getCursor("end").getLine());
             if (cm.hasActiveLine() && cm.getActiveLine().equals(handle)) {
@@ -1181,6 +1182,33 @@ public class SideBySide2 extends Screen {
     return (index + diffChunks.size()) % diffChunks.size();
   }
 
+  void defer(Runnable thunk) {
+    if (deferred == null) {
+      final ArrayList<Runnable> list = new ArrayList<Runnable>();
+      deferred = list;
+      Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+        @Override
+        public void execute() {
+          deferred = null;
+          cmA.operation(new Runnable() {
+            @Override
+            public void run() {
+              cmB.operation(new Runnable() {
+                @Override
+                public void run() {
+                  for (Runnable thunk : list) {
+                    thunk.run();
+                  }
+                }
+              });
+            }
+          });
+        }
+      });
+    }
+    deferred.add(thunk);
+  }
+
   void resizePaddingOnOtherSide(DisplaySide mySide, int line) {
     CodeMirror cm = getCmFromSide(mySide);
     LineHandle handle = cm.getLineHandle(line);
@@ -1236,9 +1264,9 @@ public class SideBySide2 extends Screen {
           lineActiveBoxMap.get(handle).resizePaddingWidget();
         }
         if (linePaddingOnOtherSideMap.containsKey(handle)) {
-          Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+          defer(new Runnable() {
             @Override
-            public void execute() {
+            public void run() {
               resizePaddingOnOtherSide(side, instance.getLineNumber(handle));
             }
           });

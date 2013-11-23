@@ -1,0 +1,158 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de1fc943_64faaaec",
+        "filename": "BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-23T21:06:00Z",
+      "side": 1,
+      "message": "Maybe we drop these ln rules and just reference the target inside in the package.",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 0
+      },
+      "revId": "d865ba24afbbdc6013ab6ba7de1788899c05fa6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de1fc943_c4ffded5",
+        "filename": "gerrit-extension-api/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-23T21:06:00Z",
+      "side": 1,
+      "message": "same glob as java_doc() below. Pull into a variable and reuse the value.",
+      "range": {
+        "startLine": 30,
+        "startChar": 9,
+        "endLine": 30,
+        "endChar": 34
+      },
+      "revId": "d865ba24afbbdc6013ab6ba7de1788899c05fa6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de1fc943_e404da2c",
+        "filename": "gerrit-plugin-api/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-23T21:06:00Z",
+      "side": 1,
+      "message": "Ick. I don\u0027t want to do this. :-(",
+      "revId": "d865ba24afbbdc6013ab6ba7de1788899c05fa6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de1fc943_041ad689",
+        "filename": "gerrit-plugin-api/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-23T21:06:00Z",
+      "side": 1,
+      "message": "Can we instead pass \u0027:api\u0027 which is a composite JAR of everything in the transitive closure? It means the doc has to defer creation until that JAR is ready, but it simplifies the build rules significantly because we don\u0027t need the transitive closure defined in the BUCK file above.\n\nAn alternative is to make java_doc() rule more complex by taking its real logic and throwing it into a .py file and using java_doc() only to write a genrule() that invokes a python_binary(). The python_binary() can then recurse into buck using buck query classpath to get the classpath of a target and composite the classpath handed into the javadoc binary from that query output. This is how tools/eclipse/project.py and tools/pack_war.py work.\n\nAnother option is to use $DEPS in the genrule(). This is how gwt_application() works. However upstream buck wants to deprecate $DEPS because the string it creates is huge for some targets.",
+      "revId": "d865ba24afbbdc6013ab6ba7de1788899c05fa6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de1fc943_8405e62b",
+        "filename": "gerrit-plugin-gwtui/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-23T21:06:00Z",
+      "side": 1,
+      "message": "This is the same as the new glob in java_doc(). Put it into a variable and share the variable with both rules.",
+      "revId": "d865ba24afbbdc6013ab6ba7de1788899c05fa6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de1fc943_a40ae238",
+        "filename": "gerrit-plugin-gwtui/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-23T21:06:00Z",
+      "side": 1,
+      "message": "Put this into a DEPS variable and reuse the value above in gwt_module() too?",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 3
+      },
+      "revId": "d865ba24afbbdc6013ab6ba7de1788899c05fa6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe22cd88_65faa6ec",
+        "filename": "tools/default.defs",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-23T21:06:00Z",
+      "side": 1,
+      "message": "Gerrit has always required at least Java 6. Link to the Java 6 API?",
+      "revId": "d865ba24afbbdc6013ab6ba7de1788899c05fa6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe22cd88_8505e22b",
+        "filename": "tools/maven/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-23T21:06:00Z",
+      "side": 1,
+      "message": "Instead of using rules at the root maybe we should just use the rules inside of the packages?",
+      "revId": "d865ba24afbbdc6013ab6ba7de1788899c05fa6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

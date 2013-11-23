@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "7e37bdc3_6911a568",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Message.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-23T01:39:23Z",
+      "side": 1,
+      "message": "I replied on the mailing list, and almost have a UI change done that puts the arrow on the right of the date. I will merge that into this change shortly.",
+      "parentUuid": "7e4edd57_d15b2436",
+      "revId": "d16d41b23d164246e92aa76645f2437bb975a4d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5e53d9fc_b031380d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.java",
         "patchSetId": 3

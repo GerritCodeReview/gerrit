@@ -85,6 +85,8 @@ public class ChangeInfo extends JavaScriptObject {
   public final native String topic() /*-{ return this.topic; }-*/;
   public final native String change_id() /*-{ return this.change_id; }-*/;
   public final native boolean mergeable() /*-{ return this.mergeable; }-*/;
+  public final native int insertions() /*-{ return this.insertions; }-*/;
+  public final native int deletions() /*-{ return this.deletions; }-*/;
   private final native String statusRaw() /*-{ return this.status; }-*/;
   public final native String subject() /*-{ return this.subject; }-*/;
   public final native AccountInfo owner() /*-{ return this.owner; }-*/;

@@ -1054,10 +1054,11 @@ public class SideBySide2 extends Screen {
   private Runnable upToChange(final boolean openReplyBox) {
     return new Runnable() {
       public void run() {
+        String b = base != null ? String.valueOf(base.get()) : null;
         String rev = String.valueOf(revision.get());
         Gerrit.display(
           PageLinks.toChange(changeId, rev),
-          new ChangeScreen2(changeId, rev, openReplyBox));
+          new ChangeScreen2(changeId, b, rev, openReplyBox));
       }
     };
   }

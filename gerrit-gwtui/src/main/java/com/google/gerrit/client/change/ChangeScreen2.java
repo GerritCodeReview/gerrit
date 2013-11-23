@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.change;
 
+import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.actions.ActionInfo;
@@ -706,7 +707,25 @@ public class ChangeScreen2 extends Screen {
         }
       }
     }
-    return info.revision(revision);
+    RevisionInfo rev = revision != null ? info.revision(revision) : null;
+    if (rev != null) {
+      return rev;
+    }
+
+    // the revision is not visible to the calling user (maybe it is a draft?)
+    // or the change is corrupt, take the last revision that was returned,
+    // if no revision was returned display an error
+    JsArray<RevisionInfo> revisions = info.revisions().values();
+    if (revisions.length() > 0) {
+      RevisionInfo.sortRevisionInfoByNumber(revisions);
+      rev = revisions.get(revisions.length() - 1);
+      revision = rev.name();
+      return rev;
+    } else {
+      new ErrorDialog(
+          Resources.M.changeWithNoRevisions(info.legacy_id().get())).center();
+      throw new IllegalStateException("no revision, cannot proceed");
+    }
   }
 
   private void renderChangeInfo(ChangeInfo info) {

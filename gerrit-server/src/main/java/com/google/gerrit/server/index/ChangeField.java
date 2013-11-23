@@ -360,6 +360,21 @@ public class ChangeField {
         }
       };
 
+  /** Whether the change is submittable. */
+  public static final FieldDef<ChangeData, String> SUBMITTABLE =
+      new FieldDef.Single<ChangeData, String>(
+          ChangeQueryBuilder.FIELD_SUBMITTABLE, FieldType.EXACT, false) {
+        @Override
+        public String get(ChangeData input, FillArgs args) throws OrmException {
+          if (input.isSubmittable(args.db, args.changeControlFactory,
+              args.userFactory)) {
+            return "1";
+          } else {
+            return null;
+          }
+        }
+      };
+
   private static <T> List<byte[]> toProtos(ProtobufCodec<T> codec, Collection<T> objs)
       throws OrmException {
     List<byte[]> result = Lists.newArrayListWithCapacity(objs.size());

@@ -104,6 +104,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_REVIEWERIN = "reviewerin";
   public static final String FIELD_STARREDBY = "starredby";
   public static final String FIELD_STATUS = "status";
+  public static final String FIELD_SUBMITTABLE = "submittable";
   public static final String FIELD_TOPIC = "topic";
   public static final String FIELD_TR = "tr";
   public static final String FIELD_VISIBLETO = "visibleto";
@@ -309,6 +310,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     if ("mergeable".equalsIgnoreCase(value)) {
       requireIndex(FIELD_IS, "mergeable");
       return new IsMergeablePredicate(args.dbProvider);
+    }
+
+    if ("submittable".equalsIgnoreCase(value)) {
+      requireIndex(FIELD_IS, "submittable");
+      return new IsSubmittablePredicate(args.dbProvider,
+          args.changeControlGenericFactory, args.userFactory);
     }
 
     try {

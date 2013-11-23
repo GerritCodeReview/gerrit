@@ -15,9 +15,11 @@
 package com.google.gerrit.server.index;
 
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -62,16 +64,22 @@ public abstract class FieldDef<I, T> {
     final GitRepositoryManager repoManager;
     final TrackingFooters trackingFooters;
     final PatchListCache patchListCache;
+    final IdentifiedUser.GenericFactory userFactory;
+    final ChangeControl.GenericFactory changeControlFactory;
 
     @Inject
     FillArgs(Provider<ReviewDb> db,
         GitRepositoryManager repoManager,
         TrackingFooters trackingFooters,
-        PatchListCache patchListCache) {
+        PatchListCache patchListCache,
+        IdentifiedUser.GenericFactory userFactory,
+        ChangeControl.GenericFactory changeControlFactory) {
       this.db = db;
       this.repoManager = repoManager;
       this.trackingFooters = trackingFooters;
       this.patchListCache = patchListCache;
+      this.userFactory = userFactory;
+      this.changeControlFactory = changeControlFactory;
     }
   }
 

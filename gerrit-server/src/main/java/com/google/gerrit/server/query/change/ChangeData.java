@@ -14,10 +14,14 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.gerrit.common.data.SubmitRecord.Status.OK;
+
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
+import com.google.common.base.Predicate;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -33,12 +37,14 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.TrackingId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Provider;
@@ -447,6 +453,29 @@ public class ChangeData {
       }
     }
     return allApprovals;
+  }
+
+  public boolean isSubmittable(Provider<ReviewDb> db,
+      ChangeControl.GenericFactory changeControlFactory,
+      IdentifiedUser.GenericFactory userFactory) throws OrmException {
+    try {
+      Change c = change(db);
+      ChangeControl changeControl =
+          changeControlFactory.controlFor(c,
+              userFactory.create(c.getOwner()));
+      List<SubmitRecord> results =
+          changeControl.canSubmit(db.get(),
+              currentPatchSet(db));
+      return Iterables.tryFind(results, new Predicate<SubmitRecord>() {
+        @Override
+        public boolean apply(SubmitRecord input) {
+          return input.status == OK;
+        }
+      }).isPresent();
+    } catch (NoSuchChangeException e) {
+      // cannot happen
+      return false;
+    }
   }
 
   public Collection<PatchLineComment> comments(Provider<ReviewDb> db)

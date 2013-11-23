@@ -24,6 +24,16 @@ public class LineWidget extends JavaScriptObject {
 
   public final native void clear() /*-{ this.clear(); }-*/;
   public final native void changed() /*-{ this.changed(); }-*/;
+
+  public static final native void onFirstRedraw(
+      LineWidget widget, Runnable thunk) /*-{
+    var handler = $entry(function() {
+      thunk.@java.lang.Runnable::run()();
+      widget.off("redraw", handler);
+    });
+    widget.on("redraw", handler);
+  }-*/;
+
   public final native JavaScriptObject getLine() /*-{ return this.line; }-*/;
 
   protected LineWidget() {

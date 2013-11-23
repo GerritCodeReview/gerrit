@@ -69,4 +69,6 @@ public interface ChangeMessages extends Messages {
   String years0MonthsAgo(long years, String yearLabel);
   String yearsMonthsAgo(long years, String yearLabel, long months,
       String monthLabel);
+
+  String insertionsAndDeletions(int insertions, int deletions);
 }

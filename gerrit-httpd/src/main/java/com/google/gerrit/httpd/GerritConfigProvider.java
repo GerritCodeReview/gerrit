@@ -133,6 +133,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
         "gerrit", null, "changeScreen",
         AccountGeneralPreferences.ChangeScreen.CHANGE_SCREEN2));
     config.setIndex(indexCollection.getSearchIndex() != null);
+    config.setLargeChangeSize(cfg.getInt("change", "largeChange", 500));
 
     config.setReportBugUrl(cfg.getString("gerrit", null, "reportBugUrl"));
     if (config.getReportBugUrl() == null) {

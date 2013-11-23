@@ -538,6 +538,11 @@ a:hover {
   color: #222 !important;
 }
 
+.changeTable .changeSize {
+  height: 10px;
+  display: inline-block;
+}
+
 .accountDashboard.changeTable tr {
   color: #444444;
 }
@@ -555,6 +560,10 @@ a:hover {
 .accountDashboard.changeTable .activeRow,
 .accountDashboard.changeTable .activeRow a {
   background: selectionColor !important;
+}
+
+.changeTable .cSIZE {
+  width: 70px;
 }
 
 .changeTable .cSUBJECT div {

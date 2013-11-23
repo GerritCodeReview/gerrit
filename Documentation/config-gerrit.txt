@@ -770,6 +770,17 @@ Default is 5 minutes.
 [[change]]Section change
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
+[[change.largeChange]]change.largeChange::
++
+Number of changed lines from which on a change is considered as a large
+change. The number of changed lines of a change is the sum of the lines
+that were inserted and deleted in the change.
++
+The specified value is used to visualize the change sizes in the web UI
+in change tables and user dashboards.
++
+By default 500.
+
 [[change.updateDelay]]change.updateDelay::
 +
 How often in seconds the web interface should poll for updates to the

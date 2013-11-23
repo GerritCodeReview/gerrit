@@ -48,10 +48,6 @@ public class CodeMirror extends JavaScriptObject {
     this.setOption(option, val);
   }-*/;
 
-  public final native void setOptionToInfinity(String option) /*-{
-    this.setOption(option, Infinity);
-  }-*/;
-
   public final native void setValue(String v) /*-{ this.setValue(v); }-*/;
 
   public final native void setWidth(double w) /*-{ this.setSize(w, null); }-*/;

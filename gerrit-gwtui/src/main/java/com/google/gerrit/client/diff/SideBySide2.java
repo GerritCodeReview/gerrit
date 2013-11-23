@@ -234,24 +234,13 @@ public class SideBySide2 extends Screen {
     Window.enableScrolling(false);
 
     final int height = getCodeMirrorHeight();
-    onShowView(cmA, height);
-    onShowView(cmB, height);
+    cmA.setHeight(height);
+    cmB.setHeight(height);
     diffTable.sidePanel.adjustGutters(cmB);
     cmB.setCursor(LineCharacter.create(0));
     cmB.focus();
 
     prefetchNextFile();
-  }
-
-  private void onShowView(final CodeMirror cm, final int height) {
-    cm.operation(new Runnable() {
-      @Override
-      public void run() {
-        cm.setHeight(height);
-        cm.setOption("viewportMargin", 10);
-        cm.refresh();
-      }
-    });
   }
 
   @Override
@@ -501,10 +490,6 @@ public class SideBySide2 extends Screen {
       .set("showTrailingSpace", pref.isShowWhitespaceErrors())
       .set("keyMap", "vim_ro")
       .set("value", meta != null ? contents : "");
-    // Without this, CM will put line widgets too far down in the right spot,
-    // and padding widgets will be informed of wrong offset height. Reset to
-    // 10 (default) after initial rendering.
-    cfg.setInfinity("viewportMargin");
     return CodeMirror.create(parent, cfg);
   }
 

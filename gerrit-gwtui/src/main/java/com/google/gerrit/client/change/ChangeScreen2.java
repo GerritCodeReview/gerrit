@@ -117,6 +117,7 @@ public class ChangeScreen2 extends Screen {
   }
 
   private final Change.Id changeId;
+  private String base;
   private String revision;
   private ChangeInfo changeInfo;
   private CommentLinkProcessor commentLinkProcessor;
@@ -171,8 +172,9 @@ public class ChangeScreen2 extends Screen {
   private RevisionsAction revisionsAction;
   private DownloadAction downloadAction;
 
-  public ChangeScreen2(Change.Id changeId, String revision, boolean openReplyBox) {
+  public ChangeScreen2(Change.Id changeId, String base, String revision, boolean openReplyBox) {
     this.changeId = changeId;
+    this.base = base;
     this.revision = revision != null && !revision.isEmpty() ? revision : null;
     this.openReplyBox = openReplyBox;
     add(uiBinder.createAndBindUi(this));
@@ -189,7 +191,7 @@ public class ChangeScreen2 extends Screen {
       @Override
       public void onSuccess(ChangeInfo info) {
         info.init();
-        loadConfigInfo(info, null);
+        loadConfigInfo(info, base);
       }
     });
   }
@@ -510,9 +512,10 @@ public class ChangeScreen2 extends Screen {
   private void loadConfigInfo(final ChangeInfo info, final String base) {
     info.revisions().copyKeysIntoChildren("name");
     final RevisionInfo rev = resolveRevisionToDisplay(info);
+    final RevisionInfo b = resolveBase(info, base);
 
     CallbackGroup group = new CallbackGroup();
-    loadDiff(info.revisions().get(base), rev, myLastReply(info), group);
+    loadDiff(b, rev, myLastReply(info), group);
     loadCommit(rev, group);
 
     if (loaded) {
@@ -728,6 +731,23 @@ public class ChangeScreen2 extends Screen {
     }
   }
 
+  private RevisionInfo resolveBase(ChangeInfo info, String rev) {
+    if (rev == null) {
+      return null;
+    }
+    if (!info.revisions().containsKey(rev)) {
+      JsArray<RevisionInfo> list = info.revisions().values();
+      for (int i = 0; i < list.length(); i++) {
+        RevisionInfo r = list.get(i);
+        if (rev.equals(String.valueOf(r._number()))) {
+          rev = r.name();
+          break;
+        }
+      }
+    }
+    return info.revision(rev);
+  }
+
   private void renderChangeInfo(ChangeInfo info) {
     changeInfo = info;
     lastDisplayedUpdate = info.updated();
@@ -828,6 +848,7 @@ public class ChangeScreen2 extends Screen {
   private void renderDiffBaseListBox(ChangeInfo info) {
     JsArray<RevisionInfo> list = info.revisions().values();
     RevisionInfo.sortRevisionInfoByNumber(list);
+    int selectedIdx = -1;
     for (int i = list.length() - 1; i >= 0; i--) {
       RevisionInfo r = list.get(i);
       diffBase.addItem(
@@ -837,6 +858,11 @@ public class ChangeScreen2 extends Screen {
         SelectElement.as(diffBase.getElement()).getOptions()
             .getItem(diffBase.getItemCount() - 1).setDisabled(true);
       }
+      if (base != null) {
+        if (base.equals(String.valueOf(r._number()))) {
+          selectedIdx = i;
+        }
+      }
     }
 
     RevisionInfo rev = info.revisions().get(revision);
@@ -844,7 +870,11 @@ public class ChangeScreen2 extends Screen {
     diffBase.addItem(
       parents.length() > 1 ? Util.C.autoMerge() : Util.C.baseDiffItem(),
       "");
-    diffBase.setSelectedIndex(diffBase.getItemCount() - 1);
+    if (base != null) {
+      diffBase.setSelectedIndex(selectedIdx - 1);
+    } else {
+      diffBase.setSelectedIndex(diffBase.getItemCount() - 1);
+    }
   }
 
   void showUpdates(ChangeInfo newInfo) {

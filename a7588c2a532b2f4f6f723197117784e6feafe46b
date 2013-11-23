@@ -34,6 +34,24 @@
       "revId": "a7588c2a532b2f4f6f723197117784e6feafe46b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e37bdc3_492b0196",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-23T17:42:39Z",
+      "side": 1,
+      "message": "Thanks for the heads up, I will update CodeMirror.",
+      "parentUuid": "de46e941_2cf0930a",
+      "revId": "a7588c2a532b2f4f6f723197117784e6feafe46b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

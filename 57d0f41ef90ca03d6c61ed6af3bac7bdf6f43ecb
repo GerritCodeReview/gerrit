@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e2cb97a_c8e8cf27",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Message.ui.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-23T07:06:24Z",
+      "side": 1,
+      "message": "In Firefox (on Mac) the reply icon is not correctly aligned. It appears to be displayed to low:\n\n  http://i.imgur.com/HZaBIh7.png\n\nIn Chrome it looks fine.",
+      "range": {
+        "startLine": 82,
+        "startChar": 4,
+        "endLine": 95,
+        "endChar": 5
+      },
+      "revId": "57d0f41ef90ca03d6c61ed6af3bac7bdf6f43ecb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

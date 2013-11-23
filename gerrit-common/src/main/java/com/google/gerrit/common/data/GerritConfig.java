@@ -54,6 +54,7 @@ public class GerritConfig implements Cloneable {
   protected int changeUpdateDelay;
   protected AccountGeneralPreferences.ChangeScreen changeScreen;
   protected boolean index;
+  protected int largeChangeSize;
 
   public String getLoginUrl() {
     return loginUrl;
@@ -288,5 +289,13 @@ public class GerritConfig implements Cloneable {
 
   public void setIndex(boolean index) {
     this.index = index;
+  }
+
+  public int getLargeChangeSize() {
+    return largeChangeSize;
+  }
+
+  public void setLargeChangeSize(int largeChangeSize) {
+    this.largeChangeSize = largeChangeSize;
   }
 }

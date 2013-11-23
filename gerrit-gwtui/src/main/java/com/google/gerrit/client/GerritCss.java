@@ -41,6 +41,7 @@ public interface GerritCss extends CssResource {
   String cAPPROVAL();
   String cLastUpdate();
   String cOWNER();
+  String cSIZE();
   String cSUBJECT();
   String cellsNextToFileComment();
   String changeComments();
@@ -49,6 +50,7 @@ public interface GerritCss extends CssResource {
   String changeScreen();
   String changeScreenDescription();
   String changeScreenStarIcon();
+  String changeSize();
   String changeTable();
   String changeTablePrevNextLinks();
   String changeTypeCell();

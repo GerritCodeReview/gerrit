@@ -1,0 +1,98 @@
+SRCS = [
+  'gerrit-server/src/main/java/',
+  'gerrit-httpd/src/main/java/',
+  'gerrit-sshd/src/main/java/'
+]
+
+PLUGIN_API = [
+  '//gerrit-server:server',
+  '//gerrit-pgm:init-api',
+  '//gerrit-sshd:sshd',
+  '//gerrit-httpd:httpd',
+]
+
+DEPS = PLUGIN_API + [
+  '//gerrit-antlr:query_exception',
+  '//gerrit-antlr:query_parser',
+  '//gerrit-common:server',
+  '//gerrit-extension-api:api',
+  '//gerrit-patch-commonsnet:commons-net',
+  '//gerrit-patch-jgit:server',
+  '//gerrit-prettify:server',
+  '//gerrit-reviewdb:server',
+  '//gerrit-util-cli:cli',
+  '//gerrit-util-ssl:ssl',
+  '//lib:args4j',
+  '//lib:automaton',
+  '//lib:gson',
+  '//lib:guava',
+  '//lib:gwtjsonrpc',
+  '//lib:gwtorm',
+  '//lib:jsch',
+  '//lib:juniversalchardet',
+  '//lib:mime-util',
+  '//lib:ow2-asm',
+  '//lib:ow2-asm-tree',
+  '//lib:ow2-asm-util',
+  '//lib:parboiled-core',
+  '//lib:pegdown',
+  '//lib:protobuf',
+  '//lib:velocity',
+  '//lib/antlr:java_runtime',
+  '//lib/commons:codec',
+  '//lib/commons:dbcp',
+  '//lib/commons:lang',
+  '//lib/commons:net',
+  '//lib/guice:guice-assistedinject',
+  '//lib/guice:guice-servlet',
+  '//lib/jgit:jgit',
+  '//lib/joda:joda-time',
+  '//lib/prolog:prolog-cafe',
+  '//lib/lucene:analyzers-common',
+  '//lib/lucene:core',
+  '//lib/lucene:query-parser',
+  '//lib/bouncycastle:bcprov',
+  '//lib/bouncycastle:bcpg',
+  '//lib:servlet-api-3_0',
+  '//lib/log:api',
+  '//lib/log:log4j',
+  '//lib/mina:core',
+  '//lib/mina:sshd',
+  '//lib/jgit:jgit-servlet',
+  '//gerrit-gwtexpui:server',
+  '//gerrit-gwtexpui:linker_server',
+  '//gerrit-cache-h2:cache-h2',
+  '//lib/guice:javax-inject',
+  '//lib/guice:guice_library'
+]
+
+java_binary(
+  name = 'api',
+  deps = [':lib'],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'lib',
+  deps = PLUGIN_API + ['//lib:servlet-api-3_0'],
+  export_deps = True,
+  visibility = [],
+)
+
+java_binary(
+  name = 'api-src',
+  deps = [
+    '//gerrit-extension-api:api-src',
+  ] + [d + '-src' for d in PLUGIN_API],
+  visibility = ['PUBLIC'],
+)
+
+java_doc(
+  name = 'api-javadoc',
+  title = 'Gerrit Review Plugin API Documentation',
+  pkg = 'com.google.gerrit',
+  paths = [n for n in SRCS],
+  srcs = glob([n + '**/*.java' for n in SRCS]),
+  deps = DEPS,
+  visibility = ['PUBLIC'],
+)

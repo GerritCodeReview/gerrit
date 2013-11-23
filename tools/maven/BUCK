@@ -17,6 +17,11 @@ maven_package(
     'gerrit-plugin-api': '//:plugin-api-src',
     'gerrit-plugin-gwtui': '//:plugin-gwtui-src',
   },
+  doc = {
+    'gerrit-extension-api': '//:extension-api-javadoc',
+    'gerrit-plugin-api': '//:plugin-api-javadoc',
+    'gerrit-plugin-gwtui': '//:plugin-gwtui-javadoc',
+  },
 )
 
 python_binary(

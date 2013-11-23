@@ -193,7 +193,24 @@ class ReplyBox extends Composite {
         m = m.substring(i + 1).trim();
       }
     }
-    return "> " + m.replaceAll("\\n", "\\\n> ");
+    StringBuilder quotedMsg = new StringBuilder();
+    for (String line : m.split("\\n")) {
+      line = line.trim();
+      while (line.length() > 67) {
+        int i = line.lastIndexOf(' ', 67);
+        if (i < 50) {
+          i = line.indexOf(' ', 67);
+        }
+        if (i > 0) {
+          quotedMsg.append(" > ").append(line.substring(0, i)).append("\n");
+          line = line.substring(i + 1);
+        } else {
+          break;
+        }
+      }
+      quotedMsg.append(" > ").append(line).append("\n");
+    }
+    return quotedMsg.toString().substring(0, quotedMsg.length() - 1); // remove last '\n'
   }
 
   private void hide() {

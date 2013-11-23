@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e2cb97a_68fa83ec",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-11-23T14:11:59Z",
+      "side": 1,
+      "message": "Overall the code is more compat but less straightforward and more obscure.\n\nThe recurrent use of the form:\nx \u003d y \u003d\u003d z ? a:b\n\n... makes the method hard to read :-(\n\nPrevious form was possibly longer but with more \"self-describing\" function names. Never sacrify the readbility for a more compact code.",
+      "revId": "929803673d920ecd2528657183e942d7e3fd56a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

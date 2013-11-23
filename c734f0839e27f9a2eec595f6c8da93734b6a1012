@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be43f532_4bfdc5e1",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritConfigProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-23T00:42:27Z",
+      "side": 1,
+      "message": "This is going to crash in our environment. We set index.type to string value that does not appear in the IndexType enum. cfg.getEnum() will throw IllegalArgumentException.\n\nBetter test is to use IndexCollection.getSearchIndex() !\u003d null. This is how the query system determines if the index exists for operator support, and is how the error message you are trying to suppress gets generated.",
+      "revId": "c734f0839e27f9a2eec595f6c8da93734b6a1012",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

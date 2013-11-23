@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e37bdc3_2945ed5c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-23T17:56:42Z",
+      "side": 1,
+      "message": "We can also return null from this method if the loop in the else if case above fails to find the entry. I think you should pull the error dialog and fallback logic down here instead.",
+      "revId": "b706cd69406cb6023298bb74ba4bf4bfe57e3e19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

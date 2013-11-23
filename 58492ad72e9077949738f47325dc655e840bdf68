@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e37bdc3_2917ad60",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-23T01:05:25Z",
+      "side": 1,
+      "message": "I don\u0027t think this is going to work on narrow displays like a 15\" MacBook.\n\nOn my MacBook when I have Chrome full-width there is *just* enough space to write something like \"Change 12345678 - Submitted, Merge Pending\" in this header bar before we start to get close to the Revisions and Download boxes.\n\nGranted 12,345,678 is a lot of changes. But we know of servers in the 1xx,000 range already. Only 2 characters of extra space in the proportional width font isn\u0027t much to work from. Especially when some status strings can be things like \"Need $label\", where the project can make long names like Copyright-Reviewed-And-Cleared.",
+      "revId": "58492ad72e9077949738f47325dc655e840bdf68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -491,7 +491,7 @@ public class Dispatcher {
     if (rest.isEmpty()) {
       Gerrit.display(token, panel== null
           ? (isChangeScreen2()
-              ? new ChangeScreen2(id, null, false)
+              ? new ChangeScreen2(id, null, null, false)
               : new ChangeScreen(id))
           : new NotFoundScreen());
       return;
@@ -524,7 +524,7 @@ public class Dispatcher {
     } else {
       if (panel == null) {
         Gerrit.display(token, isChangeScreen2()
-            ? new ChangeScreen2(id, String.valueOf(ps.get()), false)
+            ? new ChangeScreen2(id, null, String.valueOf(ps.get()), false)
             : new ChangeScreen(id));
       } else if ("publish".equals(panel)) {
         publish(ps);

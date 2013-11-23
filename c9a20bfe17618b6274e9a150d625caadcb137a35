@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e31c5d1_8705e62b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-23T08:14:09Z",
+      "side": 1,
+      "message": "Add the footer\n\n  Bug: issue 2068\n\nto link to the corresponding issue [1].\n\n[1] http://code.google.com/p/gerrit/issues/detail?id\u003d2068",
+      "revId": "c9a20bfe17618b6274e9a150d625caadcb137a35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

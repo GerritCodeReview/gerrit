@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de46e941_2cf0930a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-11-23T07:41:44Z",
+      "side": 1,
+      "message": "Shawn: In case you haven\u0027t noticed the issue, the line number on the first line after the SkipBar is missing, since it\u0027s hidden behind the SkipBar. CodeMirror has fixed it upstream in https://github.com/marijnh/CodeMirror/commit/410bf3dc309105bb8dcf10e40f1678957314dea3 .",
+      "revId": "a7588c2a532b2f4f6f723197117784e6feafe46b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

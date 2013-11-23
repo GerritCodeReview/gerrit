@@ -7,6 +7,24 @@ gwt_module(
   visibility = ['PUBLIC'],
 )
 
+java_binary(
+  name = 'extension-api',
+  deps = [':extension-lib'],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'extension-lib',
+  deps = [
+    ':api',
+    '//lib/guice:guice',
+    '//lib/guice:guice-servlet',
+    '//lib:servlet-api-3_0',
+  ],
+  export_deps = True,
+  visibility = ['PUBLIC'],
+)
+
 java_library2(
   name = 'api',
   srcs = glob([SRC + '**/*.java']),
@@ -17,5 +35,18 @@ java_library2(
 java_sources(
   name = 'api-src',
   srcs = glob([SRC + '**/*.java']),
+  visibility = ['PUBLIC'],
+)
+
+java_doc(
+  name = 'api-javadoc',
+  title = 'Gerrit Review Extension API Documentation',
+  pkg = 'com.google.gerrit.extensions',
+  paths = ['$SRCDIR/src/main/java'],
+  srcs = glob([SRC + '**/*.java']),
+  deps = [
+    '//lib/guice:javax-inject',
+    '//lib/guice:guice_library'
+  ],
   visibility = ['PUBLIC'],
 )

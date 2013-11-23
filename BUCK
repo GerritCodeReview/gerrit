@@ -9,10 +9,13 @@ gerrit_war(name = 'release',  docs = True, context = ['//plugins:core.zip'])
 API_DEPS = [
   ':extension-api',
   ':extension-api-src',
+  ':extension-api-javadoc',
   ':plugin-api',
   ':plugin-api-src',
+  ':plugin-api-javadoc',
   ':plugin-gwtui',
   ':plugin-gwtui-src',
+  ':plugin-gwtui-javadoc',
 ]
 
 genrule(
@@ -25,22 +28,12 @@ genrule(
   out = 'api.zip',
 )
 
-java_binary(
+genrule(
   name = 'extension-api',
-  deps = [':extension-lib'],
+  cmd = 'ln -s $(location //gerrit-extension-api:extension-api) $OUT',
+  deps = ['//gerrit-extension-api:extension-api'],
+  out = 'extension-api.jar',
   visibility = ['//tools/maven:'],
-)
-
-java_library(
-  name = 'extension-lib',
-  deps = [
-    '//gerrit-extension-api:api',
-    '//lib/guice:guice',
-    '//lib/guice:guice-servlet',
-    '//lib:servlet-api-3_0',
-  ],
-  export_deps = True,
-  visibility = ['PUBLIC'],
 )
 
 genrule(
@@ -51,31 +44,35 @@ genrule(
   visibility = ['//tools/maven:'],
 )
 
-PLUGIN_API = [
-  '//gerrit-server:server',
-  '//gerrit-pgm:init-api',
-  '//gerrit-sshd:sshd',
-  '//gerrit-httpd:httpd',
-]
-
-java_binary(
-  name = 'plugin-api',
-  deps = [':plugin-lib'],
+genrule(
+  name = 'extension-api-javadoc',
+  cmd = 'ln -s $(location //gerrit-extension-api:api-javadoc) $OUT',
+  deps = ['//gerrit-extension-api:api-javadoc'],
+  out = 'extension-api-javadoc.jar',
   visibility = ['//tools/maven:'],
 )
 
-java_library(
-  name = 'plugin-lib',
-  deps = PLUGIN_API + ['//lib:servlet-api-3_0'],
-  export_deps = True,
-  visibility = ['PUBLIC'],
+genrule(
+  name = 'plugin-api',
+  cmd = 'ln -s $(location //gerrit-plugin-api:api) $OUT',
+  deps = ['//gerrit-plugin-api:api'],
+  out = 'plugin-api.jar',
+  visibility = ['//tools/maven:'],
 )
 
-java_binary(
+genrule(
   name = 'plugin-api-src',
-  deps = [
-    '//gerrit-extension-api:api-src',
-  ] + [d + '-src' for d in PLUGIN_API],
+  cmd = 'ln -s $(location //gerrit-plugin-api:api-src) $OUT',
+  deps = ['//gerrit-plugin-api:api-src'],
+  out = 'plugin-api-src.jar',
+  visibility = ['//tools/maven:'],
+)
+
+genrule(
+  name = 'plugin-api-javadoc',
+  cmd = 'ln -s $(location //gerrit-plugin-api:api-javadoc) $OUT',
+  deps = ['//gerrit-plugin-api:api-javadoc'],
+  out = 'plugin-api-javadoc.jar',
   visibility = ['//tools/maven:'],
 )
 
@@ -92,5 +89,13 @@ genrule(
   cmd = 'ln -s $(location //gerrit-plugin-gwtui:src) $OUT',
   deps = ['//gerrit-plugin-gwtui:src'],
   out = 'plugin-gwtui-src.jar',
+  visibility = ['//tools/maven:'],
+)
+
+genrule(
+  name = 'plugin-gwtui-javadoc',
+  cmd = 'ln -s $(location //gerrit-plugin-gwtui:api-javadoc) $OUT',
+  deps = ['//gerrit-plugin-gwtui:api-javadoc'],
+  out = 'plugin-gwtui-javadoc.jar',
   visibility = ['//tools/maven:'],
 )

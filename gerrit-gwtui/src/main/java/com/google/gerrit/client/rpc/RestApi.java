@@ -149,9 +149,12 @@ public class RestApi {
           return;
         }
 
-        cb.onSuccess(data);
-        if (!background) {
-          RpcStatus.INSTANCE.onRpcComplete();
+        try {
+          cb.onSuccess(data);
+        } finally {
+          if (!background) {
+            RpcStatus.INSTANCE.onRpcComplete();
+          }
         }
 
       } else {

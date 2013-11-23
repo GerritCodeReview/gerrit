@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e37bdc3_897a59a0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 925,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-23T18:25:14Z",
+      "side": 1,
+      "message": "Why a static method?",
+      "range": {
+        "startLine": 925,
+        "startChar": 4,
+        "endLine": 925,
+        "endChar": 39
+      },
+      "revId": "4abceaa9aeebb99def144f38abd3dbf40c595cd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e37bdc3_a97f1d8f",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/LineWidget.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-23T18:25:14Z",
+      "side": 1,
+      "message": "instance method?",
+      "revId": "4abceaa9aeebb99def144f38abd3dbf40c595cd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

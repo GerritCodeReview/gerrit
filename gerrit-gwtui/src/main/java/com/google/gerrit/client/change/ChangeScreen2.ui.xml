@@ -86,16 +86,16 @@ limitations under the License.
       right: 0;
       height: HEADER_HEIGHT;
     }
-    .starChangeStatus {
+    .idAndStatus {
       display: inline-block;
       position: relative;
       height: HEADER_HEIGHT;
-      width: 325px;
+      width: 300px;
     }
     .star {
       position: absolute;
       top: 5px;
-      left: 0;
+      right: 2px;
       cursor: pointer;
       outline: none;
     }
@@ -118,6 +118,7 @@ limitations under the License.
       display: inline-block;
       margin-top: 2px;
       margin-left: 5px;
+      margin-right: 25px;
     }
 
     .popdown button {
@@ -125,8 +126,9 @@ limitations under the License.
       height: 25px;
       border: none;
       border-left: 2px solid #fff;
+      border-right: 2px solid #fff;
       background-color: trimColor;
-      margin: 0;
+      margin: 0 0 0 -2px;
       padding-left: 2px;
       padding-right: 2px;
       min-width: 100px;
@@ -342,10 +344,7 @@ limitations under the License.
             <ui:attribute name='title'/>
           </c:QuickApprove>
         </div>
-        <div class='{style.starChangeStatus}'>
-          <c:StarIcon ui:field='star' styleName='{style.star}' title='Star the change (Shortcut: s)'>
-            <ui:attribute name='title'/>
-          </c:StarIcon>
+        <div class='{style.idAndStatus}'>
           <span class='{style.changeId}'>
             <ui:msg>Change <g:Anchor ui:field='permalink' title='Reload the change (Shortcut: R)'>
               <ui:attribute name='title'/>
@@ -366,6 +365,9 @@ limitations under the License.
             <div><ui:msg>Download</ui:msg></div>
           </g:Button>
         </g:FlowPanel>
+        <c:StarIcon ui:field='star' styleName='{style.star}' title='Star the change (Shortcut: s)'>
+          <ui:attribute name='title'/>
+        </c:StarIcon>
       </div>
     </g:HTMLPanel>
 

@@ -139,6 +139,24 @@
     },
     {
       "key": {
+        "uuid": "a3e75e93_62e3564b",
+        "filename": "tools/default.defs",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-23T21:18:23Z",
+      "side": 1,
+      "message": "In the first version of this change i even had here Java 7 API, but it was another URL, so i changed it back.",
+      "parentUuid": "fe22cd88_65faa6ec",
+      "revId": "d865ba24afbbdc6013ab6ba7de1788899c05fa6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe22cd88_8505e22b",
         "filename": "tools/maven/BUCK",
         "patchSetId": 2

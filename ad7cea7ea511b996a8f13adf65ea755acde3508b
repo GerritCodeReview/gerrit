@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "3e31c5d1_a7e3ca48",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-23T05:54:48Z",
+      "side": 1,
+      "message": "I tend to agree with this view :)",
+      "parentUuid": "7e4edd57_f1d7482f",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 19
+      },
+      "revId": "ad7cea7ea511b996a8f13adf65ea755acde3508b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5e53d9fc_b0cdb8a3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -108,6 +132,30 @@
       "side": 1,
       "message": "I think this change is missing its current revision. CS2 explodes and fails to open a change if the current revision is missing. The code doesn\u0027t know how to handle this case and just NPEs in the browser.\n\nThe old ChangeScreen managed to display these sorts of broken changes, in a partially broken way. Maybe CS2 needs to at least throw up an error dialog.",
       "parentUuid": "5e53d9fc_b0cdb8a3",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 41
+      },
+      "revId": "ad7cea7ea511b996a8f13adf65ea755acde3508b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e31c5d1_c7e8be27",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-23T05:54:48Z",
+      "side": 1,
+      "message": "We definitely need to handle missing current revisions. This one change might just be broken since it returns no revision at all which should not be the case for a change in state NEW. But there is another more regular situation where we do not get a current revision. If we have a normal change with several published patch sets, but the current patch set is a draft patch set. Then for a user that is not yet reviewer on this change the draft patch set (aka the current revision) is not visible and hence it is not returned. In such a case the new Change Screen fails to load... :-(",
+      "parentUuid": "7e37bdc3_e9ed9534",
       "range": {
         "startLine": 17,
         "startChar": 0,

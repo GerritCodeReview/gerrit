@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.change;
 
+import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.CommentInfo;
@@ -25,7 +26,6 @@ import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.NavigationTable;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -50,7 +50,6 @@ import com.google.gwt.user.client.ui.impl.HyperlinkImpl;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.progress.client.ProgressBar;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
-import com.google.gwtorm.client.KeyUtil;
 
 import java.sql.Timestamp;
 
@@ -203,16 +202,9 @@ class FileTable extends FlowPanel {
   }
 
   private String url(FileInfo info) {
-    // TODO(sop): Switch to Dispatcher.toPatchSideBySide.
-    Change.Id c = curr.getParentKey();
-    StringBuilder p = new StringBuilder();
-    p.append("/c/").append(c).append('/');
-    if (base != null) {
-      p.append(base.get()).append("..");
-    }
-    p.append(curr.get()).append('/').append(KeyUtil.encode(info.path()));
-    p.append(info.binary() ? ",unified" : ",cm");
-    return p.toString();
+    return info.binary()
+      ? Dispatcher.toUnified(base, curr, info.path())
+      : Dispatcher.toSideBySide(base, curr, info.path());
   }
 
   private final class MyTable extends NavigationTable<FileInfo> {

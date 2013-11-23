@@ -108,7 +108,7 @@ class PatchSetSelectBox2 extends Composite {
     if (sideA) {
       assert other.idActive != null;
     }
-    return new InlineHyperlink(label, Dispatcher.toPatchSideBySide2(
+    return new InlineHyperlink(label, Dispatcher.toSideBySide(
         sideA ? id : other.idActive,
         sideA ? other.idActive : id,
         path));

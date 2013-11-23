@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.diff;
 
+import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
@@ -26,7 +27,6 @@ import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
@@ -47,7 +47,6 @@ import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
-import com.google.gwtorm.client.KeyUtil;
 
 class Header extends Composite {
   interface Binder extends UiBinder<HTMLPanel, Header> {}
@@ -176,15 +175,9 @@ class Header extends Composite {
   }
 
   private String url(FileInfo info) {
-    Change.Id c = patchSetId.getParentKey();
-    StringBuilder p = new StringBuilder();
-    p.append("/c/").append(c).append('/');
-    if (base != null) {
-      p.append(base.get()).append("..");
-    }
-    p.append(patchSetId.get()).append('/').append(KeyUtil.encode(info.path()));
-    p.append(info.binary() ? ",unified" : ",cm");
-    return p.toString();
+    return info.binary()
+      ? Dispatcher.toUnified(base, patchSetId, info.path())
+      : Dispatcher.toSideBySide(base, patchSetId, info.path());
   }
 
   private KeyCommand setupNav(InlineHyperlink link, int key, String help, FileInfo info) {

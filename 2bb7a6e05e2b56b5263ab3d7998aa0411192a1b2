@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de46e941_cce8ef27",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-11-23T05:27:10Z",
+      "side": 0,
+      "message": "IIRC to render the widgets in the right spot, the refresh has to happen when viewportMargin is Infinity. Setting it back to 10 then refresh is like a NoOp. I think the infinite viewportMargin is what causes large files to load slowly.\n\nWe may be able to get around the issue by hiding those widgets that are out of viewportMargin initially, and make them visible when they are about to be scrolled into view. Not sure if that works but will give it a try.",
+      "range": {
+        "startLine": 251,
+        "startChar": 8,
+        "endLine": 252,
+        "endChar": 21
+      },
+      "revId": "2bb7a6e05e2b56b5263ab3d7998aa0411192a1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

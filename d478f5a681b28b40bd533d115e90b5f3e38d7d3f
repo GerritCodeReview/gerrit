@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e304f603_1c89955a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 832,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-24T21:24:40Z",
+      "side": 1,
+      "message": "I don\u0027t understand why this needs to be a configuration option. Your argument in the commit message suggests the submit button should always be available, because the server isn\u0027t currently able to identify the merge commit was submitted and depends on the conflicting change. After reading the commit I had the conclusion the Submit button should always be available if the rules are satisfied.\n\nWould another solution to this problem be making the \"Cannot Merge\" information more descriptive? When there is a conflict the status shows \"Merge Conflict\". We should help the user to understand the status faster than having to click Submit first.\n\nIn the case of the conflict being resolved by uploading a merge commit, we should implement topic based submit. I was thinking about doing this myself this weekend if I can get around to it. The idea is to have /submit on a change also submit the parents if they aren\u0027t yet submitted. So you can one click submit the merge, and it would drag in the ancestors automatically even if they have merge conflicts.",
+      "revId": "d478f5a681b28b40bd533d115e90b5f3e38d7d3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

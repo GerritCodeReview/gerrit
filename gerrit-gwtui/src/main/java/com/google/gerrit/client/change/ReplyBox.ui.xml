@@ -21,9 +21,7 @@ limitations under the License.
   <ui:with field='res' type='com.google.gerrit.client.change.Resources'/>
   <ui:style type='com.google.gerrit.client.change.ReplyBox.Styles'>
     .replyBox {
-      max-height: 260px;
     }
-
     .label_name {
       font-weight: bold;
       text-align: left;
@@ -42,6 +40,13 @@ limitations under the License.
       bottom: 5px;
       right: 5px;
     }
+    .comments {
+      max-height: 275px;
+      width: 526px;
+    }
+    .comments p {
+      margin: 5px 0 5px 0;
+    }
   </ui:style>
   <g:HTMLPanel styleName='{style.replyBox}'>
     <div class='{res.style.section}'>
@@ -53,6 +58,11 @@ limitations under the License.
     <div class='{res.style.section}' ui:field='labelsParent'>
       <g:Grid ui:field='labelsTable'/>
     </div>
+    <g:ScrollPanel ui:field='commentsPanel'
+        styleName='{style.comments}'
+        addStyleNames='{res.style.section}'>
+      <g:FlowPanel ui:field='comments'/>
+    </g:ScrollPanel>
     <div class='{res.style.section}' style='position: relative'>
       <g:Button ui:field='send'
           title='Send reply (Shortcut: Ctrl-Enter)'

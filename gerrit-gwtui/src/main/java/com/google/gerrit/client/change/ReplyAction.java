@@ -18,6 +18,7 @@ import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
 import com.google.gerrit.client.changes.ChangeInfo.MessageInfo;
 import com.google.gerrit.client.rpc.NativeMap;
+import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -31,6 +32,7 @@ class ReplyAction {
   private final PatchSet.Id psId;
   private final String revision;
   private final ChangeScreen2.Style style;
+  private final CommentLinkProcessor clp;
   private final Widget replyButton;
 
   private NativeMap<LabelInfo> allLabels;
@@ -43,12 +45,14 @@ class ReplyAction {
       ChangeInfo info,
       String revision,
       ChangeScreen2.Style style,
+      CommentLinkProcessor clp,
       Widget replyButton) {
     this.psId = new PatchSet.Id(
         info.legacy_id(),
         info.revisions().get(revision)._number());
     this.revision = revision;
     this.style = style;
+    this.clp = clp;
     this.replyButton = replyButton;
 
     boolean current = revision.equals(info.current_revision());
@@ -66,6 +70,7 @@ class ReplyAction {
 
     if (replyBox == null) {
       replyBox = new ReplyBox(
+          clp,
           psId,
           revision,
           allLabels,

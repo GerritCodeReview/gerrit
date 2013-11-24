@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03f82a37_7d553714",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/annotations/CapabilityScope.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-24T21:03:55Z",
+      "side": 1,
+      "message": "javadoc made this easier to use with {@code ...}.",
+      "range": {
+        "startLine": 27,
+        "startChar": 14,
+        "endLine": 27,
+        "endChar": 20
+      },
+      "revId": "315e20a1f4764c7f050eb9731d8932ac8e7b50a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e304f603_fc482977",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/annotations/RequiresCapability.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-24T21:03:55Z",
+      "side": 1,
+      "message": "{@code}",
+      "range": {
+        "startLine": 24,
+        "startChar": 17,
+        "endLine": 24,
+        "endChar": 23
+      },
+      "revId": "315e20a1f4764c7f050eb9731d8932ac8e7b50a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e304f603_dc456d5f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/annotations/RequiresCapability.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-24T21:03:55Z",
+      "side": 1,
+      "message": "{@code}",
+      "range": {
+        "startLine": 25,
+        "startChar": 3,
+        "endLine": 25,
+        "endChar": 9
+      },
+      "revId": "315e20a1f4764c7f050eb9731d8932ac8e7b50a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e304f603_bc42a153",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/Predicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-24T21:03:55Z",
+      "side": 1,
+      "message": "@param \u003cT\u003e\n\nhttp://stackoverflow.com/questions/2015972/is-there-a-javadoc-tag-for-documentating-generic-type-parameters",
+      "range": {
+        "startLine": 43,
+        "startChar": 3,
+        "endLine": 43,
+        "endChar": 23
+      },
+      "revId": "315e20a1f4764c7f050eb9731d8932ac8e7b50a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03f82a37_5d5a7b44",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/QueryRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-24T21:03:55Z",
+      "side": 1,
+      "message": "@param \u003cT\u003e",
+      "range": {
+        "startLine": 54,
+        "startChar": 3,
+        "endLine": 54,
+        "endChar": 23
+      },
+      "revId": "315e20a1f4764c7f050eb9731d8932ac8e7b50a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

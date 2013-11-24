@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a3103e3f_1a3bddea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-24T16:31:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c301b2f4_9b26cbcb",
+      "revId": "a965fb9cab84899335661f229f7c57928cdb2eca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c301b2f4_bb29879d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-11-24T16:12:14Z",
       "side": 1,
       "message": "problems",
+      "revId": "a965fb9cab84899335661f229f7c57928cdb2eca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3103e3f_fa1f096f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-24T16:31:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c301b2f4_bb29879d",
       "revId": "a965fb9cab84899335661f229f7c57928cdb2eca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "c301b2f4_1b54fb14",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-24T16:31:06Z",
+      "side": 1,
+      "message": "Good idea. I will do this in an own change.",
+      "parentUuid": "a3103e3f_9a112d6c",
+      "revId": "a965fb9cab84899335661f229f7c57928cdb2eca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3103e3f_7a2c19b2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "a3103e3f_da1c457d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-24T16:31:06Z",
+      "side": 1,
+      "message": "I\u0027m not sure that this is a good workflow. Maybe we should not further spread it by describing it in details in the documentation. I actually think it\u0027s preferred to resolve conflicts by rebasing the changes. It\u0027s just that some people are used to work like this and they are complaining that it\u0027s not working anymore. But yes, it could be documented.",
+      "parentUuid": "a3103e3f_7a2c19b2",
+      "revId": "a965fb9cab84899335661f229f7c57928cdb2eca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c301b2f4_7b553f14",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GerritConfig.java",
         "patchSetId": 2
@@ -81,6 +153,24 @@
       "writtenOn": "2013-11-24T16:12:14Z",
       "side": 1,
       "message": "Actually this option doesn\u0027t test anything, so may be better name it:\n\n  disableSubmitIfNotMergeable",
+      "revId": "a965fb9cab84899335661f229f7c57928cdb2eca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c301b2f4_fb482f77",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GerritConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-24T16:31:06Z",
+      "side": 1,
+      "message": "Hmm, by the name I wanted to express that this parameter belongs to the testChangeMerge parameter above....\n\nBut probably the name you suggest is better.\n\nDone",
+      "parentUuid": "c301b2f4_7b553f14",
       "revId": "a965fb9cab84899335661f229f7c57928cdb2eca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

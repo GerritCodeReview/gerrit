@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03f82a37_bd14df5b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-24T08:09:19Z",
+      "side": 1,
+      "message": "Unlike isMergeable this is dynamic. A change in submit rule or access controls impacts the result that is stored in the index.",
+      "revId": "ce39c56f8926475f8c370b7b068abbb88b42b54e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

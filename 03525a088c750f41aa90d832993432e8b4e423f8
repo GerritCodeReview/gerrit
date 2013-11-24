@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e304f603_7c7ad9a1",
+        "filename": "tools/build.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-24T21:08:21Z",
+      "side": 1,
+      "message": "Do not declare rules inside of a .defs file.",
+      "revId": "03525a088c750f41aa90d832993432e8b4e423f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

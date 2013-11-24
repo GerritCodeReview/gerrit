@@ -708,7 +708,7 @@ See also link:cmd-flush-caches.html[gerrit flush-caches].
 [[cache_options]]Cache Options
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-cache.diff_intraline.maxIdleWorkers::
+[[cache.diff_intraline.maxIdleWorkers]]cache.diff_intraline.maxIdleWorkers::
 +
 Number of idle worker threads to maintain for the intraline difference
 computations.  There is no upper bound on how many concurrent requests
@@ -717,7 +717,7 @@ load, only this many will remain idle afterwards.
 +
 Default is 1.5x number of available CPUs.
 
-cache.diff_intraline.timeout::
+[[cache.diff_intraline.timeout]]cache.diff_intraline.timeout::
 +
 Maximum number of milliseconds to wait for intraline difference data
 before giving up and disabling it for a particular file pair.  This is
@@ -740,7 +740,7 @@ If a unit suffix is not specified, `milliseconds` is assumed.
 +
 Default is 5 seconds.
 
-cache.diff_intraline.enabled::
+[[cache.diff_intraline.enabled]]cache.diff_intraline.enabled::
 +
 Boolean to enable or disable the computation of intraline differences
 when populating a diff cache entry.  This flag is provided primarily
@@ -751,7 +751,7 @@ configuration.
 +
 Default is true, enabled.
 
-cache.projects.checkFrequency::
+[[cache.projects.checkFrequency]]cache.projects.checkFrequency::
 +
 How often project configuration should be checked for update from Git.
 Gerrit Code Review caches project access rules and configuration in
@@ -803,7 +803,7 @@ Default is 30 seconds.
 [[changeMerge]]Section changeMerge
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-changeMerge.checkFrequency::
+[[changeMerge.checkFrequency]]changeMerge.checkFrequency::
 +
 How often the database should be rescanned for changes that have been
 submitted but not merged due to transient errors. Values can be
@@ -813,7 +813,7 @@ master node startup.
 +
 Default is 300 seconds (5 minutes).
 
-changeMerge.test::
+[[changeMerge.test]]changeMerge.test::
 +
 Controls whether or not the mergeability test of changes is
 enabled.  If enabled, when the change page is loaded, the test is

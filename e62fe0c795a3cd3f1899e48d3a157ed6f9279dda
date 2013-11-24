@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a3103e3f_1aed1d33",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsMergeablePredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-24T07:47:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03f82a37_9df803f2",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 8
+      },
+      "revId": "e62fe0c795a3cd3f1899e48d3a157ed6f9279dda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03f82a37_7d077734",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsMergeablePredicate.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2013-11-24T07:44:36Z",
       "side": 1,
       "message": "return c !\u003d null \u0026\u0026 c.isMergeable();",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 26
+      },
+      "revId": "e62fe0c795a3cd3f1899e48d3a157ed6f9279dda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c301b2f4_fbf14f11",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsMergeablePredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-24T07:47:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03f82a37_7d077734",
       "range": {
         "startLine": 35,
         "startChar": 4,

@@ -193,8 +193,8 @@ class RelatedChanges extends TabPanel {
     if (Gerrit.getConfig().hasIndex()) {
       StringBuilder conflictsQuery = new StringBuilder();
       conflictsQuery.append("status:open");
+      conflictsQuery.append(" is:mergeable");
       conflictsQuery.append(" ").append(op("conflicts", info.legacy_id().get()));
-      conflictsQuery.append(" -age:1month");
       ChangeList.query(conflictsQuery.toString(),
           EnumSet.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_COMMIT),
           new AsyncCallback<ChangeList>() {

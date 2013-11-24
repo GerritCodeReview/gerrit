@@ -49,7 +49,31 @@ public class IncludedInResolver {
 
   public static IncludedInDetail resolve(final Repository repo,
       final RevWalk rw, final RevCommit commit) throws IOException {
+    return new IncludedInResolver(repo, rw, commit).resolve();
+  }
 
+  public static boolean includedInOne(final Repository repo, final RevWalk rw,
+      final RevCommit commit, final Collection<Ref> refs) throws IOException {
+    return new IncludedInResolver(repo, rw, commit).includedInOne(refs);
+  }
+
+  private final Repository repo;
+  private final RevWalk rw;
+  private final RevCommit target;
+
+  private final RevFlag containsTarget;
+  private Multimap<RevCommit, String> commitToRef;
+  private List<RevCommit> tipsByCommitTime;
+
+  private IncludedInResolver(final Repository repo, final RevWalk rw,
+      final RevCommit target) {
+    this.repo = repo;
+    this.rw = rw;
+    this.target = target;
+    this.containsTarget = rw.newFlag("CONTAINS_TARGET");
+  }
+
+  private IncludedInDetail resolve() throws IOException {
     RefDatabase refDb = repo.getRefDatabase();
     Collection<Ref> tags = refDb.getRefs(Constants.R_TAGS).values();
     Collection<Ref> branches = refDb.getRefs(Constants.R_HEADS).values();
@@ -57,8 +81,8 @@ public class IncludedInResolver {
         tags.size() + branches.size());
     allTagsAndBranches.addAll(tags);
     allTagsAndBranches.addAll(branches);
-    Set<String> allMatchingTagsAndBranches =
-        includedIn(repo, rw, commit, allTagsAndBranches);
+    parseCommits(allTagsAndBranches);
+    Set<String> allMatchingTagsAndBranches = includedIn(tipsByCommitTime, 0);
 
     IncludedInDetail detail = new IncludedInDetail();
     detail
@@ -68,27 +92,22 @@ public class IncludedInResolver {
     return detail;
   }
 
+  private boolean includedInOne(final Collection<Ref> refs) throws IOException {
+    parseCommits(refs);
+    List<RevCommit> before = Lists.newLinkedList();
+    List<RevCommit> after = Lists.newLinkedList();
+    partition(before, after);
+    // It is highly likely that the target is reachable from the "after" set
+    // Within the "before" set we are trying to handle cases arising from clock skew
+    return !includedIn(after, 1).isEmpty() || !includedIn(before, 1).isEmpty();
+  }
+
   /**
    * Resolves which tip refs include the target commit.
    */
-  private static Set<String> includedIn(final Repository repo, final RevWalk rw,
-      final RevCommit target, final Collection<Ref> tipRefs) throws IOException,
-      MissingObjectException, IncorrectObjectTypeException {
-
+  private Set<String> includedIn(final Collection<RevCommit> tips, int limit)
+      throws IOException, MissingObjectException, IncorrectObjectTypeException {
     Set<String> result = Sets.newHashSet();
-
-    Multimap<RevCommit, String> tipsAndCommits = parseCommits(repo, rw, tipRefs);
-
-    List<RevCommit> tips = Lists.newArrayList(tipsAndCommits.keySet());
-    Collections.sort(tips, new Comparator<RevCommit>() {
-      @Override
-      public int compare(RevCommit c1, RevCommit c2) {
-        return c1.getCommitTime() - c2.getCommitTime();
-      }
-    });
-
-    RevFlag containsTarget = rw.newFlag("CONTAINS_TARGET");
-
     for (RevCommit tip : tips) {
       boolean commitFound = false;
       rw.resetRetain(RevFlag.UNINTERESTING, containsTarget);
@@ -97,16 +116,49 @@ public class IncludedInResolver {
         if (commit.equals(target) || commit.has(containsTarget)) {
           commitFound = true;
           tip.add(containsTarget);
-          result.addAll(tipsAndCommits.get(tip));
+          result.addAll(commitToRef.get(tip));
           break;
         }
       }
       if (!commitFound) {
         rw.markUninteresting(tip);
+      } else if (0 < limit && limit < result.size()) {
+        break;
       }
     }
-
     return result;
+  }
+
+  /**
+   * Partition the reference tips into two sets:
+   * <ul>
+   * <li> before = commits with time <  target.getCommitTime()
+   * <li> after  = commits with time >= target.getCommitTime()
+   * </ul>
+   *
+   * Each of the before/after lists is sorted by the the commit time.
+   *
+   * @param before
+   * @param after
+   */
+  private void partition(final List<RevCommit> before,
+      final List<RevCommit> after) {
+    int insertionPoint = Collections.binarySearch(tipsByCommitTime, target,
+        new Comparator<RevCommit>() {
+      @Override
+      public int compare(RevCommit c1, RevCommit c2) {
+        return c1.getCommitTime() - c2.getCommitTime();
+      }
+    });
+    if (insertionPoint < 0) {
+      insertionPoint = - (insertionPoint + 1);
+    }
+    if (0 < insertionPoint) {
+      before.addAll(tipsByCommitTime.subList(0, insertionPoint));
+    }
+    if (insertionPoint < tipsByCommitTime.size()) {
+      after.addAll(tipsByCommitTime.subList(insertionPoint, tipsByCommitTime.size()));
+    }
   }
 
   /**
@@ -127,9 +179,11 @@ public class IncludedInResolver {
   /**
    * Parse commit of ref and store the relation between ref and commit.
    */
-  private static Multimap<RevCommit, String> parseCommits(final Repository repo,
-      final RevWalk rw, final Collection<Ref> refs) throws IOException {
-    Multimap<RevCommit, String> result = LinkedListMultimap.create();
+  private void parseCommits(final Collection<Ref> refs) throws IOException {
+    if (commitToRef != null) {
+      return;
+    }
+    commitToRef = LinkedListMultimap.create();
     for (Ref ref : refs) {
       final RevCommit commit;
       try {
@@ -146,8 +200,18 @@ public class IncludedInResolver {
             + " points to dangling object " + ref.getObjectId());
         continue;
       }
-      result.put(commit, ref.getName());
+      commitToRef.put(commit, ref.getName());
     }
-    return result;
+    tipsByCommitTime = Lists.newArrayList(commitToRef.keySet());
+    sortOlderFirst(tipsByCommitTime);
+  }
+
+  private void sortOlderFirst(final List<RevCommit> tips) {
+    Collections.sort(tips, new Comparator<RevCommit>() {
+      @Override
+      public int compare(RevCommit c1, RevCommit c2) {
+        return c1.getCommitTime() - c2.getCommitTime();
+      }
+    });
   }
 }

@@ -21,7 +21,7 @@ java_library(
   name = 'lib',
   deps = PLUGIN_API + ['//lib:servlet-api-3_0'],
   export_deps = True,
-  visibility = [],
+  visibility = ['PUBLIC'],
 )
 
 java_binary(

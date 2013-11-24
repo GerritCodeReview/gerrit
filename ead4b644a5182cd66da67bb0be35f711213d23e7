@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e304f603_7c553914",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-24T20:56:36Z",
+      "side": 1,
+      "message": "This reference and the \"Patch set 1: \" that appears in change messages are the only place we use patch set on the new change screen. The RevisionsBox uses \"PS\" but doesn\u0027t define this abbreviation.\n\nI\u0027m not sure what problem we are trying to solve here.",
+      "range": {
+        "startLine": 453,
+        "startChar": 23,
+        "endLine": 453,
+        "endChar": 32
+      },
+      "revId": "ead4b644a5182cd66da67bb0be35f711213d23e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

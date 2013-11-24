@@ -50,6 +50,8 @@ Query for open changes of watched projects:
       "created": "2012-07-17 07:18:30.854000000",
       "updated": "2012-07-17 07:19:27.766000000",
       "mergeable": true,
+      "insertions": 26,
+      "deletions": 10,
       "_sortkey": "001e7057000006dc",
       "_number": 1756,
       "owner": {
@@ -67,6 +69,8 @@ Query for open changes of watched projects:
       "created": "2012-07-17 07:18:30.884000000",
       "updated": "2012-07-17 07:18:30.885000000",
       "mergeable": true,
+      "insertions": 12,
+      "deletions": 18,
       "_sortkey": "001e7056000006dd",
       "_number": 1757,
       "owner": {
@@ -121,6 +125,8 @@ Query that retrieves changes for a user's dashboard:
         "created": "2012-07-17 07:18:30.854000000",
         "updated": "2012-07-17 07:19:27.766000000",
         "mergeable": true,
+        "insertions": 4,
+        "deletions": 7,
         "_sortkey": "001e7057000006dc",
         "_number": 1756,
         "owner": {
@@ -263,6 +269,8 @@ default. Optional fields are:
       "created": "2012-04-25 00:52:25.580000000",
       "updated": "2012-04-25 00:52:25.586000000",
       "mergeable": true,
+      "insertions": 16,
+      "deletions": 7,
       "_sortkey": "001c9bf400000061",
       "_number": 97,
       "owner": {
@@ -399,6 +407,8 @@ describes the change.
     "created": "2013-02-01 09:59:32.126000000",
     "updated": "2013-02-21 11:16:36.775000000",
     "mergeable": true,
+    "insertions": 34,
+    "deletions": 101,
     "_sortkey": "0023412400000f7d",
     "_number": 3965,
     "owner": {
@@ -449,6 +459,8 @@ describes the change.
     "created": "2013-02-01 09:59:32.126000000",
     "updated": "2013-02-21 11:16:36.775000000",
     "mergeable": true,
+    "insertions": 126,
+    "deletions": 11,
     "_sortkey": "0023412400000f7d",
     "_number": 3965,
     "owner": {
@@ -702,6 +714,8 @@ describes the abandoned change.
     "created": "2013-02-01 09:59:32.126000000",
     "updated": "2013-02-21 11:16:36.775000000",
     "mergeable": true,
+    "insertions": 3,
+    "deletions": 310,
     "_sortkey": "0023412400000f7d",
     "_number": 3965,
     "owner": {
@@ -761,6 +775,8 @@ describes the restored change.
     "created": "2013-02-01 09:59:32.126000000",
     "updated": "2013-02-21 11:16:36.775000000",
     "mergeable": true,
+    "insertions": 2,
+    "deletions": 13,
     "_sortkey": "0023412400000f7d",
     "_number": 3965,
     "owner": {
@@ -818,6 +834,8 @@ is included.
     "created": "2013-02-01 09:59:32.126000000",
     "updated": "2013-02-21 11:16:36.775000000",
     "mergeable": false,
+    "insertions": 33,
+    "deletions": 9,
     "_sortkey": "0024cf9a000012bf",
     "_number": 4799,
     "owner": {
@@ -910,6 +928,8 @@ describes the reverting change.
     "created": "2013-02-01 09:59:32.126000000",
     "updated": "2013-02-21 11:16:36.775000000",
     "mergeable": true,
+    "insertions": 6,
+    "deletions": 4,
     "_sortkey": "0023412400000f7d",
     "_number": 3965,
     "owner": {
@@ -1402,6 +1422,8 @@ for the current patch set.
     "created": "2013-02-01 09:59:32.126000000",
     "updated": "2013-02-21 11:16:36.775000000",
     "mergeable": true,
+    "insertions": 34,
+    "deletions": 45,
     "_sortkey": "0023412400000f7d",
     "_number": 3965,
     "owner": {
@@ -1585,6 +1607,8 @@ is included.
     "created": "2013-02-01 09:59:32.126000000",
     "updated": "2013-02-21 11:16:36.775000000",
     "mergeable": false,
+    "insertions": 21,
+    "deletions": 21,
     "_sortkey": "0024cf9a000012bf",
     "_number": 4799,
     "owner": {
@@ -2513,6 +2537,8 @@ describes the resulting cherry picked change.
     "created": "2013-02-01 09:59:32.126000000",
     "updated": "2013-02-21 11:16:36.775000000",
     "mergeable": true,
+    "insertions": 12,
+    "deletions": 11,
     "_sortkey": "0023412400000f7d",
     "_number": 3965,
     "owner": {
@@ -2564,6 +2590,8 @@ describes the change.
     "created": "2013-02-01 09:59:32.126000000",
     "updated": "2013-02-21 11:16:36.775000000",
     "mergeable": true,
+    "insertions": 261,
+    "deletions": 101,
     "_sortkey": "0023412400000f7d",
     "_number": 3965,
     "owner": {
@@ -2759,6 +2787,10 @@ Only set if link:#reviewed[reviewed] is requested.
 |`mergeable`          |optional|
 Whether the change is mergeable. +
 Not set for merged changes.
+|`insertions`         ||
+Number of inserted lines.
+|`deletions`          ||
+Number of deleted lines.
 |`_sortkey`           ||The sortkey of the change.
 |`_number`            ||The legacy numeric ID of the change.
 |`owner`              ||

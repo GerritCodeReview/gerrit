@@ -153,6 +153,7 @@ public class ChangeData {
   private ChangeControl changeControl;
   private List<ChangeMessage> messages;
   private List<SubmitRecord> submitRecords;
+  private ChangedLines changedLines;
   private boolean patchesLoaded;
 
   public ChangeData(final Change.Id id) {
@@ -241,6 +242,31 @@ public class ChangeData {
       currentFiles = Collections.unmodifiableList(r);
     }
     return currentFiles;
+  }
+
+  public ChangedLines changedLines(Provider<ReviewDb> db,
+      PatchListCache cache) throws OrmException {
+    if (changedLines == null) {
+      Change c = change(db);
+      if (c == null) {
+        return null;
+      }
+
+      PatchSet ps = currentPatchSet(db);
+      if (ps == null) {
+        return null;
+      }
+
+      PatchList p;
+      try {
+        p = cache.get(c, ps);
+      } catch (PatchListNotAvailableException e) {
+        return null;
+      }
+
+      changedLines = new ChangedLines(p.getInsertions(), p.getDeletions());
+    }
+    return changedLines;
   }
 
   public Change.Id getId() {
@@ -484,5 +510,15 @@ public class ChangeData {
   @Override
   public String toString() {
     return Objects.toStringHelper(this).addValue(getId()).toString();
+  }
+
+  public static class ChangedLines {
+    public final int insertions;
+    public final int deletions;
+
+    ChangedLines(int insertions, int deletions) {
+      this.insertions = insertions;
+      this.deletions = deletions;
+    }
   }
 }

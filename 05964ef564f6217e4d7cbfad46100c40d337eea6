@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e304f603_3c369104",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 848,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-24T20:47:35Z",
+      "side": 1,
+      "message": "if (base !\u003d null \u0026\u0026 base.equals(...))",
+      "range": {
+        "startLine": 847,
+        "startChar": 6,
+        "endLine": 848,
+        "endChar": 53
+      },
+      "revId": "05964ef564f6217e4d7cbfad46100c40d337eea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03f82a37_fd1f076f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 849,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-24T20:47:35Z",
+      "side": 1,
+      "message": "diffBase.getItemCount() -1 would be more clear here.",
+      "range": {
+        "startLine": 849,
+        "startChar": 24,
+        "endLine": 849,
+        "endChar": 45
+      },
+      "revId": "05964ef564f6217e4d7cbfad46100c40d337eea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

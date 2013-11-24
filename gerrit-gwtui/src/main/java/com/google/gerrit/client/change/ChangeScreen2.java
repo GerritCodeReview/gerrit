@@ -75,6 +75,7 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
@@ -153,6 +154,7 @@ public class ChangeScreen2 extends Screen {
   @UiField CommitBox commit;
   @UiField RelatedChanges related;
   @UiField FileTable files;
+  @UiField InlineLabel patchSet;
   @UiField ListBox diffBase;
   @UiField History history;
 
@@ -817,6 +819,7 @@ public class ChangeScreen2 extends Screen {
         r._number() + ": " + r.name().substring(0, 6),
         r.name());
       if (r.name().equals(revision)) {
+        patchSet.setText(Integer.toString(r._number()));
         SelectElement.as(diffBase.getElement()).getOptions()
             .getItem(diffBase.getItemCount() - 1).setDisabled(true);
       }

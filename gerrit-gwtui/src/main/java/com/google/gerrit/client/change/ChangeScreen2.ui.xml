@@ -450,7 +450,7 @@ limitations under the License.
       <ui:msg>Files</ui:msg>
       <div class='{style.headerButtons}'>
         <div class='{style.diffBase}'>
-          <ui:msg>Diff against: <g:ListBox ui:field='diffBase' styleName=''/></ui:msg>
+          <ui:msg>Diff patch set <g:InlineLabel ui:field='patchSet'/> against: <g:ListBox ui:field='diffBase' styleName=''/></ui:msg>
         </div>
       </div>
     </div>

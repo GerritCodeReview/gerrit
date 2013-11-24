@@ -69,13 +69,13 @@ public class PerformCreateGroup {
    * Creates a new group.
    *
    * @param groupName the name for the new group
-   * @param groupDescription the description of the new group, <code>null</code>
+   * @param groupDescription the description of the new group, {@code null}
    *        if no description
-   * @param visibleToAll <code>true</code> to make the group visible to all
-   *        registered users, if <code>false</code> the group is only visible to
+   * @param visibleToAll {@code true} to make the group visible to all
+   *        registered users, if {@code false} the group is only visible to
    *        the group owners and Gerrit administrators
    * @param ownerGroupId the group that should own the new group, if
-   *        <code>null</code> the new group will own itself
+   *        {@code null} the new group will own itself
    * @param initialMembers initial members to be added to the new group
    * @param initialGroups initial groups to include in the new group
    * @return the id of the new group

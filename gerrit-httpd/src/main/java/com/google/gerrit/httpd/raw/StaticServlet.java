@@ -57,7 +57,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-/** Sends static content from the site 's <code>static/</code> subdirectory. */
+/** Sends static content from the site 's {@code static/} subdirectory. */
 @SuppressWarnings("serial")
 @Singleton
 public class StaticServlet extends HttpServlet {

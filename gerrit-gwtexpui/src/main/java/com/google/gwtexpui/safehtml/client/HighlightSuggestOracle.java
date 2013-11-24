@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * Suggestions supplied by the implementation of
  * {@link #onRequestSuggestions(Request, Callback)} are modified to wrap all
  * occurrences of the {@link SuggestOracle.Request#getQuery()} substring in HTML
- * <code>&lt;strong&gt;</code> tags, so they can be emphasized to the user.
+ * {@code &lt;strong&gt;} tags, so they can be emphasized to the user.
  */
 public abstract class HighlightSuggestOracle extends SuggestOracle {
   private static String escape(String ds) {

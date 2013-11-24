@@ -19,7 +19,7 @@ public interface FilteredUserInterface {
    * Return the value by which the user interface is currently filtered.
    *
    * @return value by which the user interface is currently filtered,
-   *         <code>null</code> or empty String if currently no filter is applied
+   *         {@code null} or empty String if currently no filter is applied
    */
   public String getCurrentFilter();
 }

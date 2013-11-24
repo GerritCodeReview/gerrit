@@ -31,7 +31,7 @@ public class RawFindReplace implements FindReplace {
   /**
    * @param find regular expression pattern to match substrings with.
    * @param replace replacement expression. Capture groups within
-   *        <code>find</code> can be referenced with <code>$<i>n</i></code>.
+   *        {@code find} can be referenced with {@code $<i>n</i>}.
    */
   public RawFindReplace(String find, String replace) {
     this.pat = RegExp.compile(find);

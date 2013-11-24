@@ -129,10 +129,10 @@ public class FormatUtil {
    * <p>
    * Example output:
    * <ul>
-   * <li><code>A U. Thor &lt;author@example.com&gt;</code>: full populated</li>
-   * <li><code>A U. Thor (12)</code>: missing email address</li>
-   * <li><code>Anonymous Coward &lt;author@example.com&gt;</code>: missing name</li>
-   * <li><code>Anonymous Coward (12)</code>: missing name and email address</li>
+   * <li>{@code A U. Thor &lt;author@example.com&gt;}: full populated</li>
+   * <li>{@code A U. Thor (12)}: missing email address</li>
+   * <li>{@code Anonymous Coward &lt;author@example.com&gt;}: missing name</li>
+   * <li>{@code Anonymous Coward (12)}: missing name and email address</li>
    * </ul>
    */
   public static String nameEmail(AccountInfo info) {

@@ -28,7 +28,7 @@ public interface DataSourceType {
 
   /**
    * Return a ScriptRunner that runs the index script. Must not return
-   * <code>null</code>, but may return a ScriptRunner that does nothing.
+   * {@code null}, but may return a ScriptRunner that does nothing.
    *
    * @throws IOException
    */

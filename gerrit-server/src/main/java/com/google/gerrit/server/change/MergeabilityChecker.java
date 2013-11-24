@@ -109,8 +109,8 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
    *
    * @param change the change for which the mergeability flag should be updated
    * @return CheckedFuture that updates the mergeability flag of the change and
-   *         returns <code>true</code> if the mergeability flag was updated and
-   *         the change was reindexed, and <code>false</code> if the
+   *         returns {@code true} if the mergeability flag was updated and
+   *         the change was reindexed, and {@code false} if the
    *         mergeability flag was not updated and the change was not reindexed
    */
   public CheckedFuture<Boolean, IOException> updateAsync(Change change) {

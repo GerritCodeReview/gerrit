@@ -51,7 +51,7 @@ public final class MagicBranch {
         || refName.startsWith(NEW_CHANGE);
   }
 
-  /** Returns the ref name prefix for a magic branch, <code>null</code> if the branch is not magic */
+  /** Returns the ref name prefix for a magic branch, {@code null} if the branch is not magic */
   public static String getMagicRefNamePrefix(String refName) {
     if (refName.startsWith(NEW_DRAFT_CHANGE)) {
       return NEW_DRAFT_CHANGE;

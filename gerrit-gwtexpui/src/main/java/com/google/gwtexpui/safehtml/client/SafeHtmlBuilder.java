@@ -165,8 +165,8 @@ public class SafeHtmlBuilder extends SafeHtml {
    * Open an element, appending "<tagName>" to the buffer.
    * <p>
    * After the element is open the attributes may be manipulated until the next
-   * <code>append</code>, <code>openElement</code>, <code>closeSelf</code> or
-   * <code>closeElement</code> call.
+   * {@code append}, {@code openElement}, {@code closeSelf} or
+   * {@code closeElement} call.
    *
    * @param tagName name of the HTML element to open.
    */

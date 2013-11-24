@@ -71,7 +71,7 @@ public class SshUtil {
    * Convert an RFC 4716 style key to an OpenSSH style key.
    *
    * @param keyStr the key string to convert.
-   * @return <code>keyStr</code> if conversion failed; otherwise the converted
+   * @return {@code keyStr} if conversion failed; otherwise the converted
    *         key, in OpenSSH key format.
    */
   public static String toOpenSshPublicKey(final String keyStr) {

@@ -33,15 +33,15 @@ public interface SubmoduleSubscriptionAccess extends
       throws OrmException;
 
   /**
-   * Fetches all <code>SubmoduleSubscription</code>s in which some branch of
-   * <code>superProject</code> subscribes a branch.
+   * Fetches all {@code SubmoduleSubscription}s in which some branch of
+   * {@code superProject} subscribes a branch.
    *
    * Use {@link #bySuperProject(Branch.NameKey)} to fetch for a branch instead
    * of a project.
    *
    * @param superProject the project to fetch subscriptions for
-   * @return <code>SubmoduleSubscription</code>s that are subscribed by some
-   * branch of <code>superProject</code>.
+   * @return {@code SubmoduleSubscription}s that are subscribed by some
+   * branch of {@code superProject}.
    * @throws OrmException
    */
   @Query("WHERE key.superProject.projectName = ?")
@@ -53,15 +53,15 @@ public interface SubmoduleSubscriptionAccess extends
       throws OrmException;
 
   /**
-   * Fetches all <code>SubmoduleSubscription</code>s in which some branch of
-   * <code>submodule</code> is subscribed.
+   * Fetches all {@code SubmoduleSubscription}s in which some branch of
+   * {@code submodule} is subscribed.
    *
    * Use {@link #bySubmodule(Branch.NameKey)} to fetch for a branch instead of
    * a project.
    *
    * @param submodule the project to fetch subscriptions for.
-   * @return <code>SubmoduleSubscription</code>s that subscribe some branch of
-   * <code>submodule</code>.
+   * @return {@code SubmoduleSubscription}s that subscribe some branch of
+   * {@code submodule}.
    * @throws OrmException
    */
   @Query("WHERE submodule.projectName = ?")

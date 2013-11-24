@@ -259,7 +259,7 @@ public class GerritDebugLauncher extends ServletContainerLauncher {
   protected final class MyWebAppContext extends WebAppContext {
     /**
      * Parent ClassLoader for the Jetty web app, which can only load JVM
-     * classes. We would just use <code>null</code> for the parent ClassLoader
+     * classes. We would just use {@code null} for the parent ClassLoader
      * except this makes Jetty unhappy.
      */
     private final ClassLoader bootStrapOnlyClassLoader =

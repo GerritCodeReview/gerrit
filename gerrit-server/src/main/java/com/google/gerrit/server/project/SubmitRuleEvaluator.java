@@ -88,7 +88,7 @@ public class SubmitRuleEvaluator {
    *        rule.
    * @param filterRuleWrapperName The name of the rule used to evaluate the
    *        filter rule.
-   * @param skipSubmitFilters if <code>true</code> submit filter will not be
+   * @param skipSubmitFilters if {@code true} submit filter will not be
    *        applied
    * @param rules when non-null the rules will be read from this input stream
    *        instead of refs/meta/config:rules.pl file

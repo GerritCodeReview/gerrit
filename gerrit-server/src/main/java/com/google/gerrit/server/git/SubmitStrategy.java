@@ -125,8 +125,8 @@ public abstract class SubmitStrategy {
    * @param mergeTip the mergeTip
    * @param toMerge the commit for which it should be checked whether it can be
    *        merged or not
-   * @return <code>true</code> if the given commit can be merged, otherwise
-   *         <code>false</code>
+   * @return {@code true} if the given commit can be merged, otherwise
+   *         {@code false}
    * @throws MergeException
    */
   public abstract boolean dryRun(CodeReviewCommit mergeTip,
@@ -140,7 +140,7 @@ public abstract class SubmitStrategy {
    * Do only call this method after the {@link #run(CodeReviewCommit, List)}
    * method has been invoked.
    *
-   * @return the ref log identity, may be <code>null</code>
+   * @return the ref log identity, may be {@code null}
    */
   public final PersonIdent getRefLogIdent() {
     return refLogIdent;
@@ -168,9 +168,9 @@ public abstract class SubmitStrategy {
    *
    * May be overwritten by subclasses.
    *
-   * @return <code>true</code> if a merge that failed with
+   * @return {@code true} if a merge that failed with
    *         {@link Result#LOCK_FAILURE} should be retried, otherwise
-   *         <code>false</code>
+   *         {@code false}
    */
   public boolean retryOnLockFailure() {
     return true;

@@ -44,7 +44,7 @@ public class Hyperlink extends com.google.gwt.user.client.ui.Hyperlink {
    * Creates a hyperlink with its text and target history token specified.
    *
    * @param text the hyperlink's text
-   * @param asHTML <code>true</code> to treat the specified text as html
+   * @param asHTML {@code true} to treat the specified text as html
    * @param token the history token to which it will link
    * @see #setTargetHistoryToken
    */

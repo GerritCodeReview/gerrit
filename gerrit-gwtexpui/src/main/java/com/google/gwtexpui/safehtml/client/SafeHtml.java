@@ -213,7 +213,7 @@ public abstract class SafeHtml
   }
 
   /**
-   * Replace first occurrence of <code>regex</code> with <code>repl</code> .
+   * Replace first occurrence of {@code regex} with {@code repl} .
    * <p>
    * <b>WARNING:</b> This replacement is being performed against an otherwise
    * safe HTML string. The caller must ensure that the replacement does not
@@ -221,7 +221,7 @@ public abstract class SafeHtml
    *
    * @param regex regular expression pattern to match the substring with.
    * @param repl replacement expression. Capture groups within
-   *        <code>regex</code> can be referenced with <code>$<i>n</i></code>.
+   *        {@code regex} can be referenced with {@code $<i>n</i>}.
    * @return a new string, after the replacement has been made.
    */
   public SafeHtml replaceFirst(final String regex, final String repl) {
@@ -229,7 +229,7 @@ public abstract class SafeHtml
   }
 
   /**
-   * Replace each occurrence of <code>regex</code> with <code>repl</code> .
+   * Replace each occurrence of {@code regex} with {@code repl} .
    * <p>
    * <b>WARNING:</b> This replacement is being performed against an otherwise
    * safe HTML string. The caller must ensure that the replacement does not
@@ -237,7 +237,7 @@ public abstract class SafeHtml
    *
    * @param regex regular expression pattern to match substrings with.
    * @param repl replacement expression. Capture groups within
-   *        <code>regex</code> can be referenced with <code>$<i>n</i></code>.
+   *        {@code regex} can be referenced with {@code $<i>n</i>}.
    * @return a new string, after the replacements have been made.
    */
   public SafeHtml replaceAll(final String regex, final String repl) {

@@ -46,7 +46,7 @@ public class ProjectNode implements TreeNode, Comparable<ProjectNode> {
   /**
    * Returns the project parent name.
    *
-   * @return Project parent name, <code>null</code> for the 'All-Projects' root
+   * @return Project parent name, {@code null} for the 'All-Projects' root
    *         project
    */
   public Project.NameKey getParentName() {

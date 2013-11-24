@@ -50,9 +50,9 @@ public class GroupInfoCache {
    * <p>
    * The return value can take on one of three forms:
    * <ul>
-   * <li><code>null</code>, if <code>id == null</code>.</li>
-   * <li>a valid info block, if <code>id</code> was loaded.</li>
-   * <li>an anonymous info block, if <code>id</code> was not loaded.</li>
+   * <li>{@code null}, if {@code id == null}.</li>
+   * <li>a valid info block, if {@code id} was loaded.</li>
+   * <li>an anonymous info block, if {@code id} was not loaded.</li>
    * </ul>
    *
    * @param uuid the id desired.

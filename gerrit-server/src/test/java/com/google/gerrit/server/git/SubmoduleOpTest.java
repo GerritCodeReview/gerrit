@@ -820,7 +820,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
    * subscriptions.
    * <p>
    * In this test a commit is created and considered merged to
-   * <code>mergedBranch</code> branch.
+   * {@code mergedBranch} branch.
    * </p>
    * <p>
    * The destination project the commit was merged is not considered to be a
@@ -846,7 +846,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
    * Subscriptions table.
    * <p>
    * In this test a commit is created and considered merged to
-   * <code>mergedBranch</code> branch.
+   * {@code mergedBranch} branch.
    * </p>
    * <p>
    * The destination project the commit was merged is not considered to be a
@@ -859,7 +859,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
    * @param extractedSubscriptions The subscription rows extracted from
    *        gitmodules file.
    * @param previousSubscriptions The subscription rows to be considering as
-   *        existing and pointing as target to the <code>mergedBranch</code>
+   *        existing and pointing as target to the {@code mergedBranch}
    *        before updating the table.
    * @throws Exception If an exception occurs.
    */

@@ -50,7 +50,7 @@ public interface SuggestService extends RemoteJsonService {
    * Suggests reviewers. A reviewer can be a user or a group. Inactive users,
    * the system groups {@link AccountGroup#ANONYMOUS_USERS} and
    * {@link AccountGroup#REGISTERED_USERS} and groups that have more than the
-   * configured <code>addReviewer.maxAllowed</code> members are not suggested as
+   * configured {@code addReviewer.maxAllowed} members are not suggested as
    * reviewers.
    * @param changeId the change for which reviewers should be suggested
    */

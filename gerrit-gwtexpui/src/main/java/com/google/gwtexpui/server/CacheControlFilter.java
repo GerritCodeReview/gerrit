@@ -35,7 +35,7 @@ import javax.servlet.http.HttpServletResponse;
  * URL changes, so user agents would request a different resource. We force
  * these resources to have very long expiration times.
  * <p>
- * To use, add the following block to your <code>web.xml</code>:
+ * To use, add the following block to your {@code web.xml}:
  *
  * <pre>
  * &lt;filter&gt;

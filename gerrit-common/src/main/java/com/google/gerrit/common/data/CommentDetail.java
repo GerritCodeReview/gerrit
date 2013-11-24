@@ -148,7 +148,7 @@ public class CommentDetail {
   }
 
   /**
-   * Add the comments to <code>outResult</code>, depth first
+   * Add the comments to {@code outResult}, depth first
    */
   private static void addChildren(Map<String, List<PatchLineComment>> parentMap,
       List<PatchLineComment> children, List<PatchLineComment> outResult) {

@@ -53,7 +53,7 @@ public class BaseServiceImplementation {
   }
 
   /**
-   * Executes <code>action.run</code> with an active ReviewDb connection.
+   * Executes {@code action.run} with an active ReviewDb connection.
    * <p>
    * A database handle is automatically opened and closed around the action's
    * {@link Action#run(ReviewDb)} method. OrmExceptions are caught and passed

@@ -179,7 +179,7 @@ public class MultiProgressMonitor {
    * <p>
    * Must be called from the main thread, <em>not</em> a worker thread. Once a
    * worker thread calls {@link #end()}, the future has an additional
-   * <code>maxInterval</code> to finish before it is forcefully cancelled and
+   * {@code maxInterval} to finish before it is forcefully cancelled and
    * {@link ExecutionException} is thrown.
    *
    * @param workerFuture a future that returns when worker threads are finished.

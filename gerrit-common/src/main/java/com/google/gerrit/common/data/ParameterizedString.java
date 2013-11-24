@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/** Performs replacements on strings such as <code>Hello ${user}</code>. */
+/** Performs replacements on strings such as {@code Hello ${user}}. */
 public class ParameterizedString {
   /** Obtain a string which has no parameters and always produces the value. */
   public static ParameterizedString asis(final String constant) {

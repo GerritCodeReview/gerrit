@@ -51,7 +51,7 @@ public interface PatchDetailService extends RemoteJsonService {
    *        {@link AsyncCallback#onSuccess(Object)} is invoked and the change
    *        details are passed as parameter; if the change gets deleted because
    *        the draft patch set that was deleted was the only patch set in the
-   *        change, then <code>null</code> is passed as result to
+   *        change, then {@code null} is passed as result to
    *        {@link AsyncCallback#onSuccess(Object)}
    */
   @Audit

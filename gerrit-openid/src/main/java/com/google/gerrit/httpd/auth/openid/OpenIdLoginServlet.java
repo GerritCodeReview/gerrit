@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Handles the <code>/OpenID</code> URL for web based single-sign-on. */
+/** Handles the {@code /OpenID} URL for web based single-sign-on. */
 @SuppressWarnings("serial")
 @Singleton
 class OpenIdLoginServlet extends HttpServlet {

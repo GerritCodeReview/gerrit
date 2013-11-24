@@ -16,13 +16,13 @@ package com.google.gerrit.server.change;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.git.WorkQueue.Executor;
 import com.google.inject.BindingAnnotation;
 
 import java.lang.annotation.Retention;
 
 /**
- * Marker on the global {@link WorkQueue.Executor} used by
+ * Marker on the global {@link Executor} used by
  * {@link MergeabilityChecker}.
  */
 @Retention(RUNTIME)

@@ -21,8 +21,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Annotation on {@link com.google.gerrit.sshd.SshCommand} or
- * {@link com.google.gerrit.httpd.restapi.RestApiServlet} declaring a
+ * Annotation on <code>com.google.gerrit.sshd.SshCommand</code> or
+ * <code>com.google.gerrit.httpd.restapi.RestApiServlet</code> declaring a
  * capability must be granted.
  */
 @Target({ElementType.TYPE})

@@ -51,7 +51,7 @@ import java.util.Map;
  * Rewrite methods are applied in order by declared name, so naming methods with
  * a numeric prefix to ensure a specific ordering (if required) is suggested.
  *
- * @type <T> type of object the predicate can evaluate in memory.
+ * {@literal @type} <T> type of object the predicate can evaluate in memory.
  */
 public abstract class QueryRewriter<T> {
   /**

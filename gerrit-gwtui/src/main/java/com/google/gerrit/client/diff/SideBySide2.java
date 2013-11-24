@@ -808,7 +808,7 @@ public class SideBySide2 extends Screen {
   private SkipBar renderSkipHelper(CodeMirror cm, SkippedLine skip) {
     int size = skip.getSize();
     int markStart = cm == cmA ? skip.getStartA() : skip.getStartB();
-    int markEnd = markStart + size;
+    int markEnd = markStart + size - 1;
     SkipBar bar = new SkipBar(cm);
     diffTable.add(bar);
     Configuration markerConfig = Configuration.create()

@@ -190,7 +190,7 @@ class RelatedChanges extends TabPanel {
           }
         });
 
-    if (Gerrit.getConfig().hasIndex()) {
+    if (Gerrit.getConfig().hasIndex() && info.mergeable()) {
       StringBuilder conflictsQuery = new StringBuilder();
       conflictsQuery.append("status:open");
       conflictsQuery.append(" is:mergeable");

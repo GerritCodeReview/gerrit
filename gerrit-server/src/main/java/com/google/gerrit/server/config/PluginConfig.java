@@ -15,6 +15,7 @@
 package com.google.gerrit.server.config;
 
 import com.google.common.base.Objects;
+import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
@@ -22,6 +23,7 @@ import com.google.gerrit.server.project.ProjectState;
 import org.eclipse.jgit.lib.Config;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 public class PluginConfig {
@@ -76,27 +78,63 @@ public class PluginConfig {
     }
   }
 
+  public void setString(String name, String value) {
+    if (Strings.isNullOrEmpty(value)) {
+      cfg.unset(PLUGIN, pluginName, name);
+    } else {
+      cfg.setString(PLUGIN, pluginName, name, value);
+    }
+  }
+
   public String[] getStringList(String name) {
     return cfg.getStringList(PLUGIN, pluginName, name);
+  }
+
+  public void setStringList(String name, List<String> values) {
+    if (values == null || values.isEmpty()) {
+      cfg.unset(PLUGIN, pluginName, name);
+    } else {
+      cfg.setStringList(PLUGIN, pluginName, name, values);
+    }
   }
 
   public int getInt(String name, int defaultValue) {
     return cfg.getInt(PLUGIN, pluginName, name, defaultValue);
   }
 
+  public void setInt(String name, int value) {
+    cfg.setInt(PLUGIN, pluginName, name, value);
+  }
+
   public long getLong(String name, long defaultValue) {
     return cfg.getLong(PLUGIN, pluginName, name, defaultValue);
+  }
+
+  public void setLong(String name, long value) {
+    cfg.setLong(PLUGIN, pluginName, name, value);
   }
 
   public boolean getBoolean(String name, boolean defaultValue) {
     return cfg.getBoolean(PLUGIN, pluginName, name, defaultValue);
   }
 
+  public void setBoolean(String name, boolean value) {
+    cfg.setBoolean(PLUGIN, pluginName, name, value);
+  }
+
   public <T extends Enum<?>> T getEnum(String name, T defaultValue) {
     return cfg.getEnum(PLUGIN, pluginName, name, defaultValue);
   }
 
+  public <T extends Enum<?>> void setEnum(String name, T value) {
+    cfg.setEnum(PLUGIN, pluginName, name, value);
+  }
+
   public <T extends Enum<?>> T getEnum(T[] all, String name, T defaultValue) {
     return cfg.getEnum(all, PLUGIN, pluginName, name, defaultValue);
+  }
+
+  public void unset(String name) {
+    cfg.unset(PLUGIN, pluginName, name);
   }
 }

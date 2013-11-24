@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c301b2f4_9b26cbcb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-24T16:12:14Z",
+      "side": 1,
+      "message": "mergeable",
+      "revId": "a965fb9cab84899335661f229f7c57928cdb2eca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c301b2f4_bb29879d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-24T16:12:14Z",
+      "side": 1,
+      "message": "problems",
+      "revId": "a965fb9cab84899335661f229f7c57928cdb2eca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3103e3f_9a112d6c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-24T16:12:14Z",
+      "side": 1,
+      "message": "We could add tooltip to that button as to why the button is disabled, a lá:\n\n  \"Chane is not megeable: reabase and resolve conflicts.\"",
+      "revId": "a965fb9cab84899335661f229f7c57928cdb2eca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3103e3f_7a2c19b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-24T16:12:14Z",
+      "side": 1,
+      "message": "This workflow/scenario should be described in more prominent place then only in this commit message.",
+      "revId": "a965fb9cab84899335661f229f7c57928cdb2eca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c301b2f4_7b553f14",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GerritConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-24T16:12:14Z",
+      "side": 1,
+      "message": "Actually this option doesn\u0027t test anything, so may be better name it:\n\n  disableSubmitIfNotMergeable",
+      "revId": "a965fb9cab84899335661f229f7c57928cdb2eca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

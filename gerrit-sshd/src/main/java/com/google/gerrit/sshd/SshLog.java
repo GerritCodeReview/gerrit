@@ -67,6 +67,11 @@ class SshLog implements LifecycleListener {
     this.context = context;
     this.auditService = auditService;
 
+    if (!config.getBoolean("sshd", "requestLog", true)) {
+      async = null;
+      return;
+    }
+
     async = new AsyncAppender();
     async.setBlocking(true);
     async.setBufferSize(config.getInt("core", "asyncLoggingBufferSize", 64));

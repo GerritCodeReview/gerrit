@@ -128,9 +128,9 @@ public final class PatchLineComment {
     key = id;
     lineNbr = line;
     author = a;
-    this.parentUuid = parentUuid;
+    setParentUuid(parentUuid);
     setStatus(Status.DRAFT);
-    updated(when);
+    setWrittenOn(when);
   }
 
   public PatchLineComment.Key getKey() {
@@ -175,10 +175,6 @@ public final class PatchLineComment {
 
   public void setMessage(final String s) {
     message = s;
-  }
-
-  public void updated(Timestamp when) {
-    writtenOn = when;
   }
 
   public void setWrittenOn(Timestamp ts) {

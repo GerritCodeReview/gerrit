@@ -308,7 +308,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
                   ChangeUtil.messageUUID(db.get())),
               c.line,
               rsrc.getAccountId(),
-              parent, TimeUtil.nowTs());
+              parent, timestamp);
         } else if (parent != null) {
           e.setParentUuid(parent);
         }

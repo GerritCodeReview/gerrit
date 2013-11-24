@@ -106,7 +106,7 @@ class SaveDraft extends Handler<PatchLineComment> {
         if (!me.equals(comment.getAuthor())) {
           throw new NoSuchChangeException(changeId);
         }
-        comment.updated(TimeUtil.nowTs());
+        comment.setWrittenOn(TimeUtil.nowTs());
         db.patchComments().update(Collections.singleton(comment));
         db.commit();
         return comment;

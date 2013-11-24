@@ -17,7 +17,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
-/** {@link ContactStoreConnection} with an underlying {@HttpURLConnection}. */
+/** {@link ContactStoreConnection} with an underlying {@literal @HttpURLConnection}. */
 public class HttpContactStoreConnection implements ContactStoreConnection {
   public static Module module() {
     return new AbstractModule() {

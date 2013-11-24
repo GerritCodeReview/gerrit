@@ -24,7 +24,7 @@ import com.google.gerrit.server.index.ChangeIndexer;
 
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
@@ -164,12 +164,12 @@ public abstract class SubmitStrategy {
 
   /**
    * Returns whether a merge that failed with
-   * {@link RefUpdate.Result#LOCK_FAILURE} should be retried.
+   * {@link Result#LOCK_FAILURE} should be retried.
    *
    * May be overwritten by subclasses.
    *
    * @return <code>true</code> if a merge that failed with
-   *         {@link RefUpdate.Result#LOCK_FAILURE} should be retried, otherwise
+   *         {@link Result#LOCK_FAILURE} should be retried, otherwise
    *         <code>false</code>
    */
   public boolean retryOnLockFailure() {

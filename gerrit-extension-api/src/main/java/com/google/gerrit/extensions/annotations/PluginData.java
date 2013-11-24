@@ -29,7 +29,7 @@ import java.lang.annotation.Target;
  * a directory where it can store configuration or other data that is private:
  *
  * <pre>
- * @Inject
+ * {@literal @Inject}
  * MyType(@PluginData java.io.File myDir) {
  *   new FileInputStream(new File(myDir, &quot;my.config&quot;));
  * }

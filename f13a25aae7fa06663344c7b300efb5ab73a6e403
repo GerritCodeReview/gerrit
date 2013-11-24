@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "a3103e3f_da17a55f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-24T15:38:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe22cd88_2517ce60",
+      "revId": "f13a25aae7fa06663344c7b300efb5ab73a6e403",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe22cd88_4514ca59",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
         "patchSetId": 1
@@ -42,6 +60,24 @@
         "endLine": 177,
         "endChar": 20
       },
+      "revId": "f13a25aae7fa06663344c7b300efb5ab73a6e403",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3103e3f_fa1a6987",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-24T15:38:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe22cd88_4514ca59",
       "revId": "f13a25aae7fa06663344c7b300efb5ab73a6e403",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "c301b2f4_7b2c1fb2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 712,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-24T15:38:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de1fc943_241ef274",
+      "revId": "f13a25aae7fa06663344c7b300efb5ab73a6e403",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de1fc943_442bee95",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
         "patchSetId": 1
@@ -82,6 +136,24 @@
       "writtenOn": "2013-11-23T22:43:29Z",
       "side": 1,
       "message": "Maybe we should set base to the resolved revision\u0027s name() like we do in the method for the normal revision. Then we have consistent behavior for matching below when building the pick list.",
+      "revId": "f13a25aae7fa06663344c7b300efb5ab73a6e403",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c301b2f4_5b31630a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-24T15:38:31Z",
+      "side": 1,
+      "message": "But we are getting patchSetId from SideBySide2 view. I described the situation  in the javadoc of new utility function.",
+      "parentUuid": "de1fc943_442bee95",
       "revId": "f13a25aae7fa06663344c7b300efb5ab73a6e403",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

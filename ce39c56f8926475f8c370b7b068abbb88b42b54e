@@ -16,6 +16,24 @@
       "revId": "ce39c56f8926475f8c370b7b068abbb88b42b54e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c301b2f4_5b0cc354",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-24T08:16:33Z",
+      "side": 1,
+      "message": "Changing the access controls should have no effect, we are only checking if all approvals are there, but not if anyone actually has the permission to submit.\n\nYes, changes in the submit rule are a problem :( Will abandon the change for now.",
+      "parentUuid": "03f82a37_bd14df5b",
+      "revId": "ce39c56f8926475f8c370b7b068abbb88b42b54e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -11,6 +11,7 @@ SYNOPSIS
 'ssh' -p <port> <host> 'gerrit review'
   [--project <PROJECT> | -p <PROJECT>]
   [--message <MESSAGE> | -m <MESSAGE>]
+  [--notify <NOTIFYHANDLING> | -n <NOTIFYHANDLING>]
   [--submit | -s]
   [--abandon | --restore]
   [--publish]
@@ -50,6 +51,18 @@ OPTIONS
 -m::
 	Optional cover letter to include as part of the message
 	sent to reviewers when the approval states are updated.
+
+--notify::
+-n::
+	Who to send email notifications to after the review is stored.
+	This option only applies for storing the review, but not for any
+	other action (abandon, restore etc.) done by this command.
++
+* NONE: send no email
+* OWNER: send email to change owners
+* OWNER_REVIEWERS: send email to change owners and reviewers
+* ALL: send email to all (change owners, reviewers, watchers and any
+  user who has starred the change)
 
 --help::
 -h::

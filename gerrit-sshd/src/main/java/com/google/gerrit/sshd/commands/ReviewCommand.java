@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.RestoreInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -92,6 +93,9 @@ public class ReviewCommand extends SshCommand {
 
   @Option(name = "--message", aliases = "-m", usage = "cover message to publish on change(s)", metaVar = "MESSAGE")
   private String changeComment;
+
+  @Option(name = "--notify", aliases = "-n", usage = "Who to send email notifications to after the review is stored.", metaVar = "NOTIFYHANDLING")
+  private NotifyHandling notify;
 
   @Option(name = "--abandon", usage = "abandon the specified change(s)")
   private boolean abandonChange;
@@ -210,6 +214,7 @@ public class ReviewCommand extends SshCommand {
 
     ReviewInput review = new ReviewInput();
     review.message = Strings.emptyToNull(changeComment);
+    review.notify = notify;
     review.labels = Maps.newTreeMap();
     review.drafts = ReviewInput.DraftHandling.PUBLISH;
     review.strictLabels = false;

@@ -123,33 +123,36 @@ The output executable WAR will be placed in:
 Extension and Plugin API JAR Files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To build the extension and plugin API JAR files:
+To build the extension, plugin and GWT API JAR files:
 
 ----
   buck build api
 ----
 
-The output JAR files will be placed in:
+Java binaries, Java sources and Java docs are generated into corresponding
+project directories in buck-out/gen, here as example for plugin API:
 
 ----
-  buck-out/gen/{extension,plugin}-api.jar
+  buck-out/gen/gerrit-plugin-api/plugin-api.jar
+  buck-out/gen/gerrit-plugin-api/plugin-api-src.jar
+  buck-out/gen/gerrit-plugin-api/plugin-api-javadoc.jar
 ----
 
-Install {extension,plugin}-api to the local maven repository:
+Install {extension,plugin,gwt}-api to the local maven repository:
 
 ----
   buck build api_install
 ----
 
-Deploy {extension,plugin}-api to the remote maven repository
+Deploy {extension,plugin,gwt}-api to the remote maven repository
 
 ----
   buck build api_deploy
 ----
 
 The type of the repo is induced from the Gerrit version name, i.e.
-* 2.8-SNAPSHOT: snapshot repo
-* 2.8: release repo
+* 2.9-SNAPSHOT: snapshot repo
+* 2.9: release repo
 
 Plugins
 ~~~~~~~

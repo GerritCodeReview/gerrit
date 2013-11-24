@@ -47,12 +47,16 @@ Patch sets are always sorted in descending order. The option to switch between
 ascending and reverse patch set sorting order is not supported on the new change
 screen.
 
+Key bindings: "n" & "p" to navigate between the patch sets.
+
 [[download-commands]]
 Download commands
 -----------------
 
 The download commands are moved to the 'Download' drop down box.  Patch files
-can be downloaded as base64 encoded or zipped versions.
+can be downloaded as base64 encoded or zipped versions. Download-plugin must
+be installed to see the download actions. If download plugin is not installed,
+only patch files hyperlinks are shown.
 
 [[included-in]]
 Included in
@@ -115,9 +119,11 @@ Key bindings: "s" to star/unstar the change.
 
 [[permalink-change]]
 
-Right to the star change icon is "Change <change link>" control that serves
-for two purposes: reload the change and permalink the change. To permalink,
+Hyperlink "Change <change link>" is a control that serves for two purposes:
+reload the change and permalink the change. To permalink,
 Right mouse click -> Copy Link Address.
+
+Key bindings: "R" to reload the change.
 
 [[edit-change-topic]]
 Edit change topic
@@ -164,6 +170,16 @@ Range comments are supported on Codemirror's 'Side By Side' screen.  Highlight
 lines with the mouse and then click the bottom-most line number to create a
 range comment for the highlighted lines.
 
+Key bindings:
++
+* n / p next diff chunk / previous diff chunk
+* ] / [ next file / previous file
+* u up to change
+* c create a new inline comment
+* / search in the current file
+* <Shift> + o expand or collapse all comments on current line
+* <Enter> or o expand or collapse comment
+
 [[reviewers]]
 Reviewers
 ---------
@@ -197,13 +213,39 @@ link:config-gerrit.html[change.updateDelay] setting.
 "Related changes"
 -----------------
 
-A tab control on the third column shows the related changes:
-Dependencies and dependent changes are listed on the 'Related Changes' tab.
-Changes that are conflicting with the current change are listed on the
-'Conflicts With' tab.
-
-Key bindings:  "J" & "K" to navigate between the related changes. "O" to
-open the currently selected related change.
+A tab control on the third column shows the related changes. There are 4
+different tabs:
++
+* Related Changes
++
+This tab page shows open changes on which the current change depends and open
+changes that depend on the current change. For merge commits it shows also the
+closed changes that are going to be merged into the destination branch by
+accepting the merge commit. It is kind of a dependency too, but not in the
+sense of "these changes have to be submitted in order to submit this change".
++
+* Same Topic Changes
++
++ Changes that share the same topic are listed on this tab page. Only changes
+in status opened are currently shown.
++
+* Cherry-Picks Changes
++
++ Changes with the same change id for the current project are listed on this
+tab page. Note that also abandoned or merged changes can be shown. Currently
+the status of the listed changes is not shown.
++
+* Conflicts With Changes
++
+Changes that are conflicting with the current change are listed on this
+tab. Only the changes that are mergeable are currently shown. Non mergeable
+changes are filtered out.
++
+This tab is only active if secondary index is enabled
+(link:config-gerrit.html#index.type[index.type] set to `LUCENE` or `SOLR`).
++
+Key bindings: "J" & "K" to navigate between the related changes. "O" to
+open the currently selected change on one of the related changes tab page.
 
 [[file-table]]
 File table
@@ -212,8 +254,9 @@ File table
 The user can now manually toggle the 'reviewed' flag per file using the check
 box to the left of the filename.
 
-Key bindings: "j" & "k" to navigate in the file table, and "r" to toggle the
-'reviewed' flag.
+Key bindings: "j" & "k" to navigate in the file table, "r" to toggle the
+'reviewed' flag, and "o" or "Enter" to open diff in codemirror or unified diff
+view.
 
 [[diff-against]]
 Diff against

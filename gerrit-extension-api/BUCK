@@ -10,12 +10,12 @@ gwt_module(
 
 java_binary(
   name = 'extension-api',
-  deps = [':extension-lib'],
+  deps = [':lib'],
   visibility = ['PUBLIC'],
 )
 
 java_library(
-  name = 'extension-lib',
+  name = 'lib',
   deps = [
     ':api',
     '//lib/guice:guice',
@@ -23,7 +23,7 @@ java_library(
     '//lib:servlet-api-3_0',
   ],
   export_deps = True,
-  visibility = [],
+  visibility = ['PUBLIC'],
 )
 
 java_library2(

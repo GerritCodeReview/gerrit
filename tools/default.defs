@@ -162,7 +162,7 @@ def gerrit_plugin(
     srcs = srcs,
     resources = resources,
     deps = deps,
-    compile_deps = ['//:%s-lib' % type] + gwt_deps,
+    compile_deps = ['//gerrit-%s-api:lib' % type] + gwt_deps,
   )
   if gwt_module:
     prebuilt_jar(

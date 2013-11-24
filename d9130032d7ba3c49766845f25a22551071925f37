@@ -22,6 +22,30 @@
       "revId": "d9130032d7ba3c49766845f25a22551071925f37",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c301b2f4_7bde5f82",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-24T05:21:45Z",
+      "side": 1,
+      "message": "I can\u0027t believe I left this in the code ... :(",
+      "parentUuid": "03f82a37_5de39b4a",
+      "range": {
+        "startLine": 267,
+        "startChar": 6,
+        "endLine": 271,
+        "endChar": 7
+      },
+      "revId": "d9130032d7ba3c49766845f25a22551071925f37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

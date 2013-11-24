@@ -40,7 +40,7 @@ import java.util.List;
  * other predicates should override {@link #getChildren()} to return the list of
  * children nested within the predicate.
  *
- * @type <T> type of object the predicate can evaluate in memory.
+ * @param <T> type of object the predicate can evaluate in memory.
  */
 public abstract class Predicate<T> {
   /** A predicate that matches any input, always, with no cost. */

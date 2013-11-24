@@ -29,7 +29,7 @@ import java.lang.annotation.Target;
  * the canonical web URL under which the plugin is available:
  *
  * <pre>
- *  @Inject
+ *  {@literal @Inject}
  *  MyType(@PluginCanonicalWebUrl String myUrl) {
  *  ...
  *  }

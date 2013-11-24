@@ -8,14 +8,19 @@ maven_package(
   url = 's3://gerrit-api@commondatastorage.googleapis.com/%s' % TYPE,
   version = GERRIT_VERSION,
   jar = {
-    'gerrit-extension-api': '//:extension-api',
-    'gerrit-plugin-api': '//:plugin-api',
-    'gerrit-plugin-gwtui': '//:plugin-gwtui',
+    'gerrit-extension-api': '//gerrit-extension-api:extension-api',
+    'gerrit-plugin-api': '//gerrit-plugin-api:plugin-api',
+    'gerrit-plugin-gwtui': '//gerrit-plugin-gwtui:gwtui-api',
   },
   src = {
-    'gerrit-extension-api': '//:extension-api-src',
-    'gerrit-plugin-api': '//:plugin-api-src',
-    'gerrit-plugin-gwtui': '//:plugin-gwtui-src',
+    'gerrit-extension-api': '//gerrit-extension-api:extension-api-src',
+    'gerrit-plugin-api': '//gerrit-plugin-api:plugin-api-src',
+    'gerrit-plugin-gwtui': '//gerrit-plugin-gwtui:gwtui-api-src',
+  },
+  doc = {
+    'gerrit-extension-api': '//gerrit-extension-api:extension-api-javadoc',
+    'gerrit-plugin-api': '//gerrit-plugin-api:plugin-api-javadoc',
+    'gerrit-plugin-gwtui': '//gerrit-plugin-gwtui:gwtui-api-javadoc',
   },
 )
 

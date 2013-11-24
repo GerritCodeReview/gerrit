@@ -1,0 +1,47 @@
+SRCS = [
+  'gerrit-server/src/main/java/',
+  'gerrit-httpd/src/main/java/',
+  'gerrit-sshd/src/main/java/'
+]
+
+PLUGIN_API = [
+  '//gerrit-server:server',
+  '//gerrit-pgm:init-api',
+  '//gerrit-sshd:sshd',
+  '//gerrit-httpd:httpd',
+]
+
+java_binary(
+  name = 'plugin-api',
+  deps = [':lib'],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'lib',
+  deps = PLUGIN_API + ['//lib:servlet-api-3_0'],
+  export_deps = True,
+  visibility = [],
+)
+
+java_binary(
+  name = 'plugin-api-src',
+  deps = [
+    '//gerrit-extension-api:extension-api-src',
+  ] + [d + '-src' for d in PLUGIN_API],
+  visibility = ['PUBLIC'],
+)
+
+java_doc(
+  name = 'plugin-api-javadoc',
+  title = 'Gerrit Review Plugin API Documentation',
+  pkg = 'com.google.gerrit',
+  paths = [n for n in SRCS],
+  srcs = glob([n + '**/*.java' for n in SRCS]),
+  deps = [
+    ':plugin-api',
+    '//lib/bouncycastle:bcprov',
+    '//lib/bouncycastle:bcpg',
+  ],
+  visibility = ['PUBLIC'],
+)

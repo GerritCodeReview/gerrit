@@ -28,19 +28,19 @@ import java.lang.annotation.Target;
  * Plugins or extensions using auto-registration should apply this annotation to
  * any non-abstract class they want exported for access.
  * <p>
- * For SSH commands the @Export annotation names the subcommand:
+ * For SSH commands the {@literal @Export} annotation names the subcommand:
  *
  * <pre>
- *   @Export("print")
+ *   {@literal @Export("print")}
  *   class MyCommand extends SshCommand {
  * </pre>
  *
- * For HTTP servlets, the @Export annotation names the URL the servlet is bound
- * to, relative to the plugin or extension's namespace within the Gerrit
- * container.
+ * For HTTP servlets, the {@literal @Export} annotation names the URL the
+ * servlet is bound to, relative to the plugin or extension's namespace within
+ * the Gerrit container.
  *
  * <pre>
- *  @Export("/index.html")
+ *  {@literal @Export("/index.html")}
  *  class ShowIndexHtml extends HttpServlet {
  * </pre>
  */

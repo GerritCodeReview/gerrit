@@ -7,12 +7,15 @@ gerrit_war(name = 'withdocs', docs = True)
 gerrit_war(name = 'release',  docs = True, context = ['//plugins:core.zip'])
 
 API_DEPS = [
-  ':extension-api',
-  ':extension-api-src',
-  ':plugin-api',
-  ':plugin-api-src',
-  ':plugin-gwtui',
-  ':plugin-gwtui-src',
+  '//gerrit-extension-api:extension-api',
+  '//gerrit-extension-api:extension-api-src',
+  '//gerrit-extension-api:extension-api-javadoc',
+  '//gerrit-plugin-api:plugin-api',
+  '//gerrit-plugin-api:plugin-api-src',
+  '//gerrit-plugin-api:plugin-api-javadoc',
+  '//gerrit-plugin-gwtui:gwtui-api',
+  '//gerrit-plugin-gwtui:gwtui-api-src',
+  '//gerrit-plugin-gwtui:gwtui-api-javadoc',
 ]
 
 genrule(
@@ -23,74 +26,4 @@ genrule(
     ['zip -q0 $OUT *']),
   deps = API_DEPS,
   out = 'api.zip',
-)
-
-java_binary(
-  name = 'extension-api',
-  deps = [':extension-lib'],
-  visibility = ['//tools/maven:'],
-)
-
-java_library(
-  name = 'extension-lib',
-  deps = [
-    '//gerrit-extension-api:api',
-    '//lib/guice:guice',
-    '//lib/guice:guice-servlet',
-    '//lib:servlet-api-3_0',
-  ],
-  export_deps = True,
-  visibility = ['PUBLIC'],
-)
-
-genrule(
-  name = 'extension-api-src',
-  cmd = 'ln -s $(location //gerrit-extension-api:api-src) $OUT',
-  deps = ['//gerrit-extension-api:api-src'],
-  out = 'extension-api-src.jar',
-  visibility = ['//tools/maven:'],
-)
-
-PLUGIN_API = [
-  '//gerrit-server:server',
-  '//gerrit-pgm:init-api',
-  '//gerrit-sshd:sshd',
-  '//gerrit-httpd:httpd',
-]
-
-java_binary(
-  name = 'plugin-api',
-  deps = [':plugin-lib'],
-  visibility = ['//tools/maven:'],
-)
-
-java_library(
-  name = 'plugin-lib',
-  deps = PLUGIN_API + ['//lib:servlet-api-3_0'],
-  export_deps = True,
-  visibility = ['PUBLIC'],
-)
-
-java_binary(
-  name = 'plugin-api-src',
-  deps = [
-    '//gerrit-extension-api:api-src',
-  ] + [d + '-src' for d in PLUGIN_API],
-  visibility = ['//tools/maven:'],
-)
-
-genrule(
-  name = 'plugin-gwtui',
-  cmd = 'ln -s $(location //gerrit-plugin-gwtui:client) $OUT',
-  deps = ['//gerrit-plugin-gwtui:client'],
-  out = 'plugin-gwtui.jar',
-  visibility = ['//tools/maven:'],
-)
-
-genrule(
-  name = 'plugin-gwtui-src',
-  cmd = 'ln -s $(location //gerrit-plugin-gwtui:src) $OUT',
-  deps = ['//gerrit-plugin-gwtui:src'],
-  out = 'plugin-gwtui-src.jar',
-  visibility = ['//tools/maven:'],
 )

@@ -1,10 +1,29 @@
 SRC = 'src/main/java/com/google/gerrit/extensions/'
+SRCS = glob([SRC + '**/*.java'])
 
 gwt_module(
   name = 'client',
   srcs = glob([SRC + 'webui/GerritTopMenu.java']),
   gwtxml = SRC + 'Extensions.gwt.xml',
   visibility = ['PUBLIC'],
+)
+
+java_binary(
+  name = 'extension-api',
+  deps = [':extension-lib'],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'extension-lib',
+  deps = [
+    ':api',
+    '//lib/guice:guice',
+    '//lib/guice:guice-servlet',
+    '//lib:servlet-api-3_0',
+  ],
+  export_deps = True,
+  visibility = [],
 )
 
 java_library2(
@@ -15,7 +34,20 @@ java_library2(
 )
 
 java_sources(
-  name = 'api-src',
-  srcs = glob([SRC + '**/*.java']),
+  name = 'extension-api-src',
+  srcs = SRCS,
+  visibility = ['PUBLIC'],
+)
+
+java_doc(
+  name = 'extension-api-javadoc',
+  title = 'Gerrit Review Extension API Documentation',
+  pkg = 'com.google.gerrit.extensions',
+  paths = ['$SRCDIR/src/main/java'],
+  srcs = SRCS,
+  deps = [
+    '//lib/guice:javax-inject',
+    '//lib/guice:guice_library'
+  ],
   visibility = ['PUBLIC'],
 )

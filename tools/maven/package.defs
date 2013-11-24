@@ -17,11 +17,12 @@ def maven_package(
     repository = None,
     url = None,
     jar = {},
-    src = {}):
+    src = {},
+    doc = {}):
   cmd = ['$(exe //tools/maven:mvn)', '-v', version, '-o', '$OUT']
   dep = []
 
-  for type,d in [('jar', jar), ('java-source', src)]:
+  for type,d in [('jar', jar), ('java-source', src), ('javadoc', doc)]:
     for a,t in d.iteritems():
       cmd.append('-s %s:%s:$(location %s)' % (a,type,t))
       dep.append(t)

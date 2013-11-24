@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.collect.ImmutableBiMap;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexPredicate;
@@ -29,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Predicate for a {@link Change.Status}.
+ * Predicate for a {@link Status}.
  * <p>
  * The actual name of this operator can differ, it usually comes as {@code
  * status:} but may also be {@code is:} to help do-what-i-meanery for end-users

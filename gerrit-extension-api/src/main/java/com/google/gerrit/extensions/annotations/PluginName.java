@@ -29,7 +29,7 @@ import java.lang.annotation.Target;
  * the name that an administrator has installed the plugin or extension under:
  *
  * <pre>
- *  @Inject
+ *  {@literal @Inject}
  *  MyType(@PluginName String myName) {
  *  ...
  *  }

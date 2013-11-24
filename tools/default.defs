@@ -206,3 +206,36 @@ def java_sources(
     resources = srcs,
     visibility = visibility,
   )
+
+def java_doc(
+    name,
+    title,
+    pkg,
+    paths,
+    srcs = [],
+    deps = [],
+    visibility = []
+  ):
+  genrule(
+    name = name,
+    cmd = ' '.join([
+      'javadoc',
+      '-quiet',
+      '-protected',
+      '-encoding UTF-8',
+      '-charset UTF-8',
+      '-notimestamp',
+      '-windowtitle "' + title + '"',
+      '-link http://docs.oracle.com/javase/7/docs/api',
+      '-subpackages ' + pkg,
+      '-sourcepath ',
+      ':'.join([n for n in paths]),
+      ' -classpath ',
+      ':'.join(['$(location %s)' % n for n in deps]),
+      '-d $TMP',
+    ]) + ';jar cf $OUT -C $TMP .',
+    srcs = srcs,
+    deps = deps,
+    out = name + '.jar',
+    visibility = visibility,
+)

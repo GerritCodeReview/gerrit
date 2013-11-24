@@ -145,6 +145,7 @@ java_test(
     '//gerrit-common:server',
     '//gerrit-extension-api:api',
     '//gerrit-reviewdb:server',
+    '//gerrit-server/src/main/prolog:common',
     '//lib:args4j',
     '//lib:easymock',
     '//lib:guava',

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03f82a37_3d368f04",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-11-24T11:04:11Z",
+      "side": 0,
+      "message": "this checking logic is missing in right part.",
+      "revId": "23e1a2e8240ac16afa004ebd5f6a51e9193b9aac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

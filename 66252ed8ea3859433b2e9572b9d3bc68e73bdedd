@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e304f603_5c315d0a",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/HttpLog.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-11-24T11:04:11Z",
+      "side": 1,
+      "message": "here it should be log4j.appender.httpd_log",
+      "parentUuid": "1e75e13d_8eee1be0",
+      "revId": "66252ed8ea3859433b2e9572b9d3bc68e73bdedd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de7ee924_6ca17bbc",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/HttpLog.java",
         "patchSetId": 3

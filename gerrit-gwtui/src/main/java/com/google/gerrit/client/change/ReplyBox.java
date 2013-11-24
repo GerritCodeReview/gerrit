@@ -19,13 +19,20 @@ import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo.ApprovalInfo;
 import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
 import com.google.gerrit.client.changes.ChangeInfo.MessageInfo;
+import com.google.gerrit.client.changes.CommentApi;
+import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.changes.ReviewInput;
+import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeMap;
+import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.LabelValue;
+import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
@@ -41,13 +48,16 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RadioButton;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
@@ -69,6 +79,7 @@ class ReplyBox extends Composite {
     String label_value();
   }
 
+  private final CommentLinkProcessor clp;
   private final PatchSet.Id psId;
   private final String revision;
   private ReviewInput in = ReviewInput.create();
@@ -81,12 +92,16 @@ class ReplyBox extends Composite {
   @UiField Button send;
   @UiField CheckBox email;
   @UiField Button cancel;
+  @UiField ScrollPanel commentsPanel;
+  @UiField FlowPanel comments;
 
   ReplyBox(
+      CommentLinkProcessor clp,
       PatchSet.Id psId,
       String revision,
       NativeMap<LabelInfo> all,
       NativeMap<JsArrayString> permitted) {
+    this.clp = clp;
     this.psId = psId;
     this.revision = revision;
     initWidget(uiBinder.createAndBindUi(this));
@@ -102,6 +117,19 @@ class ReplyBox extends Composite {
 
   @Override
   protected void onLoad() {
+    commentsPanel.setVisible(false);
+    CommentApi.drafts(psId, new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
+      @Override
+      public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
+        attachComments(result);
+        displayComments(result);
+      }
+
+      @Override
+      public void onFailure(Throwable caught) {
+      }
+    });
+
     Scheduler.get().scheduleDeferred(new ScheduledCommand() {
       @Override
       public void execute() {
@@ -150,6 +178,7 @@ class ReplyBox extends Composite {
   @UiHandler("send")
   void onSend(ClickEvent e) {
     in.message(message.getText().trim());
+    in.prePost();
     ChangeApi.revision(psId.getParentKey().get(), revision)
       .view("review")
       .post(in, new GerritCallback<ReviewInput>() {
@@ -338,5 +367,39 @@ class ReplyBox extends Composite {
     return values.size() == 2
         && values.contains((short) 0)
         && values.contains((short) 1);
+  }
+
+  private void attachComments(NativeMap<JsArray<CommentInfo>> result) {
+    in.drafts(ReviewInput.DraftHandling.KEEP);
+    in.comments(result);
+  }
+
+  private void displayComments(NativeMap<JsArray<CommentInfo>> m) {
+    comments.clear();
+
+    JsArray<CommentInfo> l = m.get(Patch.COMMIT_MSG);
+    if (l != null) {
+      comments.add(new FileComments(clp, psId,
+          Util.C.commitMessage(), copyPath(Patch.COMMIT_MSG, l)));
+    }
+
+    List<String> paths = new ArrayList<String>(m.keySet());
+    Collections.sort(paths);
+
+    for (String path : paths) {
+      if (!path.equals(Patch.COMMIT_MSG)) {
+        comments.add(new FileComments(clp, psId,
+            path, copyPath(path, m.get(path))));
+      }
+    }
+
+    commentsPanel.setVisible(comments.getWidgetCount() > 0);
+  }
+
+  private static List<CommentInfo> copyPath(String path, JsArray<CommentInfo> l) {
+    for (int i = 0; i < l.length(); i++) {
+      l.get(i).setPath(path);
+    }
+    return Natives.asList(l);
   }
 }

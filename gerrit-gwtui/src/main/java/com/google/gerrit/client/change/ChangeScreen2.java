@@ -763,7 +763,8 @@ public class ChangeScreen2 extends Screen {
 
     if (Gerrit.isSignedIn()) {
       initEditMessageAction(info, revision);
-      replyAction = new ReplyAction(info, revision, style, reply);
+      replyAction = new ReplyAction(info, revision,
+          style, commentLinkProcessor, reply);
       if (topic.canEdit()) {
         keysAction.add(new KeyCommand(0, 't', Util.C.keyEditTopic()) {
           @Override

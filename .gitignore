@@ -15,3 +15,4 @@
 /local.properties
 *.pyc
 /gwt-unitCache
+/UNIT_TEST_GERRIT_SITE/

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c301b2f4_3b845744",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-24T19:38:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3103e3f_ba29919d",
+      "range": {
+        "startLine": 10,
+        "startChar": 22,
+        "endLine": 10,
+        "endChar": 31
+      },
+      "revId": "190f42987f0765b5b4c86c051d477bc00f003f8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3103e3f_5a5a7544",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "a3103e3f_1a54fd14",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 862,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-24T19:38:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3103e3f_5a5a7544",
+      "range": {
+        "startLine": 860,
+        "startChar": 4,
+        "endLine": 862,
+        "endChar": 27
+      },
+      "revId": "190f42987f0765b5b4c86c051d477bc00f003f8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c301b2f4_7b7adfa1",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2013-11-24T17:09:02Z",
       "side": 1,
       "message": "This method is only used if to navigate by keys up to the change. If I click on the arrow up link the base version is still not persisted.",
+      "range": {
+        "startLine": 1057,
+        "startChar": 19,
+        "endLine": 1057,
+        "endChar": 29
+      },
+      "revId": "190f42987f0765b5b4c86c051d477bc00f003f8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3103e3f_fa482977",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1057,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-24T19:38:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c301b2f4_7b7adfa1",
       "range": {
         "startLine": 1057,
         "startChar": 19,

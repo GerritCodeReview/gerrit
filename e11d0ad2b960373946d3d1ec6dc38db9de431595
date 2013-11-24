@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e304f603_dc17ad5f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-24T08:23:57Z",
+      "side": 1,
+      "message": "nit: blank line after method",
+      "revId": "e11d0ad2b960373946d3d1ec6dc38db9de431595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

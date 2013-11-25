@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c31a9266_b329b89d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-25T14:56:30Z",
+      "side": 1,
+      "message": "Hard coded configurations are problematic, because they are not obvious.\n\nMay be we can find a way to make it dynamically configurable, for example as a checkbox in a header or a drop done where the above and other condition can be specified.\n\nFor example Atlassian\u0027s Agile board uses so called quick filters concept,\nwhere you can customize which filter you want to apply to your board:\n\n http://imgur.com/4cMTFqL",
+      "revId": "af12f486d50b2ddf4e0e59fda73b79b8d18782af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

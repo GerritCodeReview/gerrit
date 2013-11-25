@@ -17,6 +17,7 @@ package com.google.gerrit.client.change;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeApi;
+import com.google.gerrit.client.changes.ChangeInfo.MessageInfo;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.changes.ReviewInfo;
 import com.google.gerrit.client.changes.Util;
@@ -152,7 +153,7 @@ class FileTable extends FlowPanel {
   }
 
   void setValue(NativeMap<FileInfo> fileMap,
-      Timestamp myLastReply,
+      MessageInfo myLastReply,
       NativeMap<JsArray<CommentInfo>> comments,
       NativeMap<JsArray<CommentInfo>> drafts) {
     JsArray<FileInfo> list = fileMap.values();
@@ -369,12 +370,12 @@ class FileTable extends FlowPanel {
 
     private DisplayCommand(NativeMap<FileInfo> map,
         JsArray<FileInfo> list,
-        Timestamp myLastReply,
+        MessageInfo myLastReply,
         NativeMap<JsArray<CommentInfo>> comments,
         NativeMap<JsArray<CommentInfo>> drafts) {
       this.table = new MyTable(map, list);
       this.list = list;
-      this.myLastReply = myLastReply;
+      this.myLastReply = myLastReply != null ? myLastReply.date() : null;
       this.comments = comments;
       this.drafts = drafts;
       this.hasUser = Gerrit.isSignedIn();

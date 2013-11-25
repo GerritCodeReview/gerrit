@@ -32,7 +32,6 @@ import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.diff.DiffApi;
 import com.google.gerrit.client.diff.FileInfo;
 import com.google.gerrit.client.projects.ConfigInfoCache;
-import com.google.gerrit.client.projects.ConfigInfoCache.Entry;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeMap;
@@ -128,7 +127,6 @@ public class ChangeScreen2 extends Screen {
   private Timestamp lastDisplayedUpdate;
   private UpdateAvailableBar updateAvailable;
   private boolean openReplyBox;
-  private boolean loaded;
 
   @UiField HTMLPanel headerLine;
   @UiField Style style;
@@ -193,6 +191,7 @@ public class ChangeScreen2 extends Screen {
       @Override
       public void onSuccess(ChangeInfo info) {
         info.init();
+        ConfigInfoCache.add(info);
         loadConfigInfo(info, base);
       }
     });
@@ -532,45 +531,86 @@ public class ChangeScreen2 extends Screen {
     int idx = diffBase.getSelectedIndex();
     if (0 <= idx) {
       String n = diffBase.getValue(idx);
-      loadConfigInfo(changeInfo, !n.isEmpty() ? n : null);
+      RevisionInfo base = resolveRevisionOrPatchSetId(
+          changeInfo,
+          !n.isEmpty() ? n : null,
+          null);
+      RevisionInfoCache.add(changeId, base);
+      MessageInfo last = myLastReply(changeInfo);
+      CallbackGroup group = new CallbackGroup();
+      loadDiff(base, changeInfo.revision(revision), last, group);
+      group.done();
     }
   }
 
-  private void loadConfigInfo(final ChangeInfo info, final String base) {
-    info.revisions().copyKeysIntoChildren("name");
-    final RevisionInfo rev = resolveRevisionToDisplay(info);
-    final RevisionInfo b = resolveRevisionOrPatchSetId(info, base, null);
-
+  private void loadConfigInfo(final ChangeInfo info, final String baseName) {
     CallbackGroup group = new CallbackGroup();
-    loadDiff(b, rev, myLastReply(info), group);
-    loadCommit(rev, group);
+    final MessageInfo last = myLastReply(info);
+    final RevisionInfo rev = resolveRevisionToDisplay(info);
 
-    if (loaded) {
-      group.done();
-      return;
+    final RevisionInfo base;
+    boolean loadDiff = true;
+    if (baseName != null) {
+      base = resolveRevisionOrPatchSetId(info, baseName, null);
+    } else if (last != null
+        && 0 < last._revisionNumber()
+        && last._revisionNumber() < rev._number()) {
+      base = resolveRevisionOrPatchSetId(info,
+          Integer.toString(last._revisionNumber()), null);
+      if (base != null) {
+        loadDiff = false;
+        loadCommit(base, group);
+      }
+    } else {
+      base = null;
     }
 
+    loadCommit(rev, group);
+    RevisionInfoCache.add(changeId, base);
     RevisionInfoCache.add(changeId, rev);
-    ConfigInfoCache.add(info);
-    ConfigInfoCache.get(info.project_name_key(),
-      group.addFinal(new ScreenLoadCallback<ConfigInfoCache.Entry>(this) {
+
+    final ScreenLoadCallback<ConfigInfoCache.Entry> display =
+      new ScreenLoadCallback<ConfigInfoCache.Entry>(this) {
         @Override
-        protected void preDisplay(Entry result) {
-          loaded = true;
+        protected void preDisplay(ConfigInfoCache.Entry result) {
           commentLinkProcessor = result.getCommentLinkProcessor();
           setTheme(result.getTheme());
           renderChangeInfo(info);
         }
-      }));
+      };
+
+    final AsyncCallback<ConfigInfoCache.Entry> cb;
+    if (loadDiff) {
+      loadDiff(base, rev, last, group);
+      cb = display;
+    } else {
+      cb =  new GerritCallback<ConfigInfoCache.Entry>() {
+        @Override
+        public void onSuccess(ConfigInfoCache.Entry result) {
+          CallbackGroup group = new CallbackGroup();
+          RevisionInfo b = null;
+          if (sameParents(base, rev)) {
+            String baseId = Integer.toString(base._number());
+            ChangeScreen2.this.base = baseId;
+            setToken(PageLinks.toChange(changeId, baseId,
+                Integer.toString(rev._number())));
+            b = base;
+          }
+          loadDiff(b, rev, last, group);
+          group.addFinal(display).onSuccess(result);
+        }
+      };
+    }
+    ConfigInfoCache.get(info.project_name_key(), group.addFinal(cb));
   }
 
-  static Timestamp myLastReply(ChangeInfo info) {
+  static MessageInfo myLastReply(ChangeInfo info) {
     if (Gerrit.isSignedIn() && info.messages() != null) {
       int self = Gerrit.getUserAccountInfo()._account_id();
       for (int i = info.messages().length() - 1; i >= 0; i--) {
         MessageInfo m = info.messages().get(i);
         if (m.author() != null && m.author()._account_id() == self) {
-          return m.date();
+          return m;
         }
       }
     }
@@ -578,7 +618,7 @@ public class ChangeScreen2 extends Screen {
   }
 
   private void loadDiff(final RevisionInfo base, final RevisionInfo rev,
-      final Timestamp myLastReply, CallbackGroup group) {
+      final MessageInfo myLastReply, CallbackGroup group) {
     final List<NativeMap<JsArray<CommentInfo>>> comments = loadComments(rev, group);
     final List<NativeMap<JsArray<CommentInfo>>> drafts = loadDrafts(rev, group);
     DiffApi.list(changeId.get(),
@@ -658,18 +698,20 @@ public class ChangeScreen2 extends Screen {
   }
 
   private void loadCommit(final RevisionInfo rev, CallbackGroup group) {
-    ChangeApi.revision(changeId.get(), rev.name())
-      .view("commit")
-      .get(group.add(new AsyncCallback<CommitInfo>() {
-        @Override
-        public void onSuccess(CommitInfo info) {
-          rev.set_commit(info);
-        }
+    if (rev.commit() == null) {
+      ChangeApi.revision(changeId.get(), rev.name())
+        .view("commit")
+        .get(group.add(new AsyncCallback<CommitInfo>() {
+          @Override
+          public void onSuccess(CommitInfo info) {
+            rev.set_commit(info);
+          }
 
-        @Override
-        public void onFailure(Throwable caught) {
-        }
-      }));
+          @Override
+          public void onFailure(Throwable caught) {
+          }
+        }));
+    }
   }
 
   private void loadSubmitType(final Change.Status status, final boolean canSubmit) {
@@ -865,14 +907,13 @@ public class ChangeScreen2 extends Screen {
     int selectedIdx = list.length();
     for (int i = list.length() - 1; i >= 0; i--) {
       RevisionInfo r = list.get(i);
-      diffBase.addItem(
-        r._number() + ": " + r.name().substring(0, 6),
-        r.name());
+      String id = String.valueOf(r._number());
+      diffBase.addItem(id + ": " + r.name().substring(0, 6), r.name());
       if (r.name().equals(revision)) {
         SelectElement.as(diffBase.getElement()).getOptions()
             .getItem(diffBase.getItemCount() - 1).setDisabled(true);
       }
-      if (base != null && base.equals(String.valueOf(r._number()))) {
+      if (base != null && (base.equals(r.name()) || base.equals(id))) {
         selectedIdx = diffBase.getItemCount() - 1;
       }
     }
@@ -931,5 +972,22 @@ public class ChangeScreen2 extends Screen {
 
   private static String normalize(String r) {
     return r != null && !r.isEmpty() ? r : null;
+  }
+
+  private static boolean sameParents(RevisionInfo a, RevisionInfo b) {
+    if (a != null && b != null && a.commit() != null && b.commit() != null) {
+      JsArray<CommitInfo> aParents = a.commit().parents();
+      JsArray<CommitInfo> bParents = b.commit().parents();
+      if (aParents != null && bParents != null
+          && aParents.length() == bParents.length()) {
+        for (int i = 0; i < aParents.length(); i++) {
+          if (!aParents.get(i).commit().equals(bParents.get(i).commit())) {
+            return false;
+          }
+        }
+        return true;
+      }
+    }
+    return false;
   }
 }

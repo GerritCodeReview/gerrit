@@ -16,6 +16,24 @@
       "revId": "7e4d30b2edaad2ac07ec42c1cbd1d6c994820b40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e31dd65d_b4fbe0ed",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2013-11-25T08:30:44Z",
+      "side": 1,
+      "message": "Nothing wrong. I didn\u0027t even change this line (see line 381 before the change), so it was there before. My patch is about removing code duplication and making the audit part more readable.  \nIf this is not the case I think it should be abandoned.",
+      "parentUuid": "03210a95_f51a7887",
+      "revId": "7e4d30b2edaad2ac07ec42c1cbd1d6c994820b40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

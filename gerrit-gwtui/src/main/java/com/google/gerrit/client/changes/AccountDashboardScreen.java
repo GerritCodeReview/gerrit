@@ -89,7 +89,7 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
           ? EnumSet.of(ListChangesOption.REVIEWED)
           : EnumSet.noneOf(ListChangesOption.class),
         "is:open owner:" + who,
-        "is:open reviewer:" + who + " -owner:" + who,
+        "is:open reviewer:" + who + " -owner:" + who + " is:mergeable",
         "is:closed owner:" + who + " -age:4w limit:10");
   }
 

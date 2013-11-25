@@ -1,10 +1,12 @@
 include_defs('//lib/maven.defs')
 
+VERSION = '4.6.0'
+
 maven_jar(
   name = 'core',
-  id = 'org.apache.lucene:lucene-core:4.4.0',
-  bin_sha1 = 'a9a0b553d5f2444aea3340b22753ea4bbddaa0af',
-  src_sha1 = 'd321e15f688066a3c3598607303e0de452a076da',
+  id = 'org.apache.lucene:lucene-core:' + VERSION,
+  bin_sha1 = 'f1d974facaea30a3a0c1752a24097af5a7d40e60',
+  src_sha1 = '19d4eb5def4bc2517a00b50f7a875b7ce33988a7',
   license = 'Apache2.0',
   exclude = [
     'META-INF/LICENSE.txt',
@@ -14,9 +16,9 @@ maven_jar(
 
 maven_jar(
   name = 'analyzers-common',
-  id = 'org.apache.lucene:lucene-analyzers-common:4.4.0',
-  bin_sha1 = 'f58f6b727293b2d4392064db8c91fdf1d0eb4ffe',
-  src_sha1 = '60176bb63009f41104b42656b20c81b66313e7b5',
+  id = 'org.apache.lucene:lucene-analyzers-common:' + VERSION,
+  bin_sha1 = '25dda6706bcb7a741f25f57cdbec6c2f36adc557',
+  src_sha1 = '04866d0e36e3ef708d099014752ad4fef61d4243',
   license = 'Apache2.0',
   exclude = [
     'META-INF/LICENSE.txt',
@@ -25,33 +27,9 @@ maven_jar(
 )
 
 maven_jar(
-  name = 'highlighter',
-  id = 'org.apache.lucene:lucene-highlighter:4.4.0',
-  bin_sha1 = 'c55f402683388c0a71a1dfaaff198873dfe5b1e4',
-  src_sha1 = '3a99f84e4b6a8f74c34b2f2bd076c9b2b46fff2e',
-  license = 'Apache2.0',
-)
-
-maven_jar(
-  name = 'queries',
-  id = 'org.apache.lucene:lucene-queries:4.4.0',
-  bin_sha1 = 'c9010f4852345ba2a65163fdeb17b7b653e4a3c4',
-  src_sha1 = 'eefbcd43e66747a412a9f186d183d187405374b8',
-  license = 'Apache2.0',
-)
-
-maven_jar(
   name = 'query-parser',
-  id = 'org.apache.lucene:lucene-queryparser:4.4.0',
-  bin_sha1 = 'e2fca26d9c64f3aad7b8a3461dbab14782107a06',
-  src_sha1 = 'f23e42ab90b5b7eb888d394282eba65362e88606',
-  license = 'Apache2.0',
-)
-
-maven_jar(
-  name = 'spellchecker',
-  id = 'org.apache.lucene:lucene-spellchecker:3.6.2',
-  bin_sha1 = '15db0c0cfee44e275f15ad046e46b9a05910ad24',
-  src_sha1 = 'bbecb3fb725ae594101c165a72c102296007c203',
+  id = 'org.apache.lucene:lucene-queryparser:' + VERSION,
+  bin_sha1 = 'ef35f1eb55e50725777162e376e7b5222f45f7fa',
+  src_sha1 = 'e99e3b298e83461c03ef6eb66ab9798a4b712dc6',
   license = 'Apache2.0',
 )

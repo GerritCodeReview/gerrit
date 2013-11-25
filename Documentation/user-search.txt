@@ -82,7 +82,7 @@ as a legacy numerical 'ID' such as 15183, or a newer style Change-Id
 that was scraped out of the commit message.
 
 [[owner]]
-owner:'USER'::
+owner:'USER', o:'USER'::
 +
 Changes originally submitted by 'USER'. The special case of
 `owner:self` will find changes owned by the caller.
@@ -93,7 +93,7 @@ ownerin:'GROUP'::
 Changes originally submitted by a user in 'GROUP'.
 
 [[reviewer]]
-reviewer:'USER'::
+reviewer:'USER', r:'USER'::
 +
 Changes that have been, or need to be, reviewed by 'USER'. The
 special case of `reviewer:self` will find changes where the caller
@@ -110,7 +110,7 @@ commit:'SHA1'::
 Changes where 'SHA1' is one of the patch sets of the change.
 
 [[project]]
-project:'PROJECT'::
+project:'PROJECT', p:'PROJECT'::
 +
 Changes occurring in 'PROJECT'. If 'PROJECT' starts with `^` it
 matches project names by regular expression.  The
@@ -187,13 +187,13 @@ comment:'TEXT'::
 Changes that match 'TEXT' string in any comment left by a reviewer.
 
 [[file]]
-file:^'REGEX'::
+file:'PATH', f:'PATH'::
 +
-Matches any change where REGEX matches a file that was affected
-by the change.  The regular expression pattern must start with
-`^`.  For example, to match all XML files use `file:^.*\.xml$`.
-The link:http://www.brics.dk/automaton/[dk.brics.automaton
-library] is used for the evaluation of such patterns.
+Matches any change touching file at 'PATH'. By default exact path
+matching is used, but regular expressions can be enabled by starting
+with `^`.  For example, to match all XML files use `file:^.*\.xml$`.
+The link:http://www.brics.dk/automaton/[dk.brics.automaton library]
+is used for the evaluation of such patterns.
 +
 The `^` required at the beginning of the regular expression not only
 denotes a regular expression, but it also has the usual meaning of

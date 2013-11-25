@@ -23,7 +23,7 @@ import static org.junit.Assert.assertTrue;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
-import com.google.gerrit.acceptance.AbstractDaemonTestWithSecondaryIndex;
+import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
@@ -49,7 +49,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.Set;
 
-public class ConflictsOperatorIT extends AbstractDaemonTestWithSecondaryIndex {
+public class ConflictsOperatorIT extends AbstractDaemonTest {
 
   @Inject
   private AccountCreator accounts;

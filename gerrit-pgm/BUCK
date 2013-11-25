@@ -54,6 +54,7 @@ java_library2(
     ':init-api',
     '//gerrit-common:server',
     '//gerrit-extension-api:api',
+    '//gerrit-lucene:lucene',
     '//gerrit-reviewdb:server',
     '//gerrit-server:server',
     '//gerrit-util-cli:cli',

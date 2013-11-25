@@ -419,7 +419,7 @@ limitations under the License.
               <th><ui:msg>Topic</ui:msg></th>
               <td><c:Topic ui:field='topic'/></td>
             </tr>
-            <tr>
+            <tr ui:field='strategy'>
               <th><ui:msg>Strategy</ui:msg></th>
               <td>
                 <span ui:field='submitActionText'/>

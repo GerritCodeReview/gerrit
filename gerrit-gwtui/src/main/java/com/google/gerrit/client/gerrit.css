@@ -569,6 +569,7 @@ a:hover {
 
 .changeTable .cSIZE {
   width: 70px;
+  text-align: right;
 }
 
 .changeTable .cSUBJECT div {

@@ -1861,14 +1861,9 @@ A link:http://lucene.apache.org/[Lucene] index is used.
 * `SOLR`
 +
 A link:http://lucene.apache.org/solr/[Solr] index is used.
-+
-* `SQL`
-+
-No secondary index.  Not all query operators are supported.  Other
-query operators are routed through the standard SQL query engine.
 
 +
-By default, `SQL`.
+By default, `LUCENE`.
 
 [[ldap]]Section ldap
 ~~~~~~~~~~~~~~~~~~~~

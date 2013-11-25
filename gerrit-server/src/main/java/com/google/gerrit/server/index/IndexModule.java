@@ -19,6 +19,7 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.query.change.BasicChangeRewrites;
 import com.google.gerrit.server.query.change.ChangeQueryRewriter;
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
@@ -37,14 +38,14 @@ import org.eclipse.jgit.lib.Config;
  */
 public class IndexModule extends LifecycleModule {
   public enum IndexType {
-    SQL, LUCENE, SOLR
+    LUCENE, SOLR
   }
 
   /** Type of secondary index. */
   public static IndexType getIndexType(Injector injector) {
     Config cfg = injector.getInstance(
         Key.get(Config.class, GerritServerConfig.class));
-    return cfg.getEnum("index", null, "type", IndexType.SQL);
+    return cfg.getEnum("index", null, "type", IndexType.LUCENE);
   }
 
   private final int threads;
@@ -63,7 +64,7 @@ public class IndexModule extends LifecycleModule {
   @Override
   protected void configure() {
     bind(ChangeQueryRewriter.class).to(IndexRewriteImpl.class);
-    bind(IndexRewriteImpl.BasicRewritesImpl.class);
+    bind(BasicChangeRewrites.class);
     bind(IndexCollection.class);
     listener().to(IndexCollection.class);
     install(new FactoryModuleBuilder()

@@ -55,7 +55,7 @@ import com.google.gerrit.server.contact.HttpContactStoreConnection;
 import com.google.gerrit.server.git.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.IndexModule;
-import com.google.gerrit.server.index.NoIndexModule;
+import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.mail.SmtpEmailSender;
 import com.google.gerrit.server.patch.IntraLineWorkerPool;
@@ -310,18 +310,7 @@ public class Daemon extends SiteProgram {
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new PluginRestApiModule());
-    AbstractModule changeIndexModule;
-    switch (IndexModule.getIndexType(cfgInjector)) {
-      case LUCENE:
-        changeIndexModule = luceneModule != null ? luceneModule : new LuceneIndexModule();
-        break;
-      case SOLR:
-        changeIndexModule = new SolrIndexModule();
-        break;
-      default:
-        changeIndexModule = new NoIndexModule();
-    }
-    modules.add(changeIndexModule);
+    modules.add(createIndexModule());
     if (Objects.firstNonNull(httpd, true)) {
       modules.add(new CanonicalWebUrlModule() {
         @Override
@@ -352,6 +341,18 @@ public class Daemon extends SiteProgram {
       }
     });
     return cfgInjector.createChildInjector(modules);
+  }
+
+  private AbstractModule createIndexModule() {
+    IndexType indexType = IndexModule.getIndexType(cfgInjector);
+    switch (indexType) {
+      case LUCENE:
+        return luceneModule != null ? luceneModule : new LuceneIndexModule();
+      case SOLR:
+        return new SolrIndexModule();
+      default:
+        throw new IllegalStateException("unsupported index.type = " + indexType);
+    }
   }
 
   private void initSshd() {

@@ -167,6 +167,7 @@ public class ChangeScreen2 extends Screen {
   @UiField Button collapseAll;
   @UiField Button editMessage;
   @UiField QuickApprove quickApprove;
+
   private ReplyAction replyAction;
   private EditMessageAction editMessageAction;
   private IncludedInAction includedInAction;
@@ -337,6 +338,7 @@ public class ChangeScreen2 extends Screen {
       RevisionInfo.sortRevisionInfoByNumber(revList);
       currentPatchSet = revList.get(revList.length() - 1)._number();
     }
+
     int currentlyViewedPatchSet = info.revision(revision)._number();
     revisionsText.setInnerText(Resources.M.revisions(
         currentlyViewedPatchSet, currentPatchSet));

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e31dd65d_9426a4cb",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 816,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-25T15:00:26Z",
+      "side": 0,
+      "message": "Do we have a workflow for discontinuation of configuration options?\n\nAm minimum i would expect, that something like that is announced in ReleaseNotes.",
+      "revId": "b376b5bfc857c4728fa54f6134a95c026d2e770e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

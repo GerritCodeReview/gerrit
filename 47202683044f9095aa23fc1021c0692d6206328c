@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "833a5ac3_d1ee642d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-11-25T16:23:37Z",
+      "side": 1,
+      "message": "Optional: include the value?",
+      "revId": "47202683044f9095aa23fc1021c0692d6206328c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e31dd65d_9411046c",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitIndex.java",
         "patchSetId": 1
@@ -18,6 +35,53 @@
         "startChar": 24,
         "endLine": 42,
         "endChar": 35
+      },
+      "revId": "47202683044f9095aa23fc1021c0692d6206328c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "833a5ac3_b1fbe0ed",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-11-25T16:23:37Z",
+      "side": 1,
+      "message": "This is a bug. Prior to this change, if you started the server with indexing enabled but before any indexes were ready, it should have started the online reindexing process (which would have completed nearly instantly).\n\nAfter (or arguably as a prerequisite to) this change, we need to change the setup to block startup until index preparation is done the first time, since there is no non-index implementation to fall back on.\n\nI also wonder if we should build a schema upgrade into this change that checks that an index is built and if not, runs reindex. (Though maybe this is unnecessary if we think the \"run Reindex\" error message is equally informative as the \"run Init\" message.)",
+      "parentUuid": "e31dd65d_9411046c",
+      "range": {
+        "startLine": 42,
+        "startChar": 24,
+        "endLine": 42,
+        "endChar": 35
+      },
+      "revId": "47202683044f9095aa23fc1021c0692d6206328c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "833a5ac3_91f8dcf1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexRewriteImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-11-25T16:23:37Z",
+      "side": 1,
+      "message": "SqlRewritesImpl was the only other implementation of BasicChangeRewrites, right? So you could just make that class non-abstract and drop this implementation.",
+      "range": {
+        "startLine": 268,
+        "startChar": 41,
+        "endLine": 268,
+        "endChar": 60
       },
       "revId": "47202683044f9095aa23fc1021c0692d6206328c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

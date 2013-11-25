@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c31a9266_1354ec14",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-25T22:15:01Z",
+      "side": 1,
+      "message": "The problem with that else branch is, that it is also does its magic, when it is not expected. Consider the following sequence of events:\n\n 1. User comments on ps 3 on a change with 4 ps\n 2. User opens that change\n 3. Diff against ps 3 is opened\n 4. User changes to Diff against to be Base\n 5. User jumps to the file foo in SideBySide view\n 6. User jumps back with \u0027u\u0027\n 7. diff against ps 3 is opened\n\nBug or feature: because currently we do not differentiate between calling loadConfigInfo with null from the scratch or calling it back from the SideBySide2 view.\n\nMay be we should save an origin state from where we are coming to ChangeScreen2. If we are coming from SideBySide2 view then we shouldn\u0027t do any magic even if base \u003d\u003d null.",
+      "revId": "972b2583d3c9b6100f162de5ca6224127a815855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

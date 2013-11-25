@@ -70,6 +70,24 @@
       "revId": "ead4b644a5182cd66da67bb0be35f711213d23e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c31a9266_13062c35",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-25T10:24:55Z",
+      "side": 1,
+      "message": "\u003eSince the space in the header is rare I didn\u0027t want to put it there\n\nHow is replacing currently shown:\n\n \"Not current\"\n\nwith \n\n \"Patch Set 42\"\n\nis a matter of spaces? Because \"not current\" tries to tell me that i am not on the latest ps, failing to tell me exactly on what ps i am now. Because it is very important information it belongs to the Header.\n\nActually it was already in change header, if you would check the very first version of CS2 that was merged to master: Revisions was implemented as a list box and \"1: 4711\" was shown.\n\nLater it was changed to drop down, to include more information but the current ps was lost.\n\nRecently keyboard bindings were added to switch between ps in Revisions.\nSo that we clearly have to show the ps on CS2. At least on Files section header like suggested in this change. Or like i suggested on the change header.\n\n\n\u003e Using \"PS\" for \"patch set\" is actually bad. I heard already many opinions that this abbreviation is not obvious and we should rather write \"patch set\".\n\n+1 to replace PS abbreviation with Patch Set like it was on the old change string.",
+      "parentUuid": "c31a9266_530ca454",
+      "revId": "ead4b644a5182cd66da67bb0be35f711213d23e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

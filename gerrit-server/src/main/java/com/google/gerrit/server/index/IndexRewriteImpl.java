@@ -33,7 +33,6 @@ import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryRewriter;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gerrit.server.query.change.OrSource;
-import com.google.gerrit.server.query.change.SqlRewriterImpl;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -125,27 +124,21 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
 
   private final IndexCollection indexes;
   private final Provider<ReviewDb> db;
-  private final BasicRewritesImpl basicRewrites;
-  private final SqlRewriterImpl sqlRewriter;
+  private final BasicChangeRewrites basicRewrites;
 
   @Inject
   IndexRewriteImpl(IndexCollection indexes,
       Provider<ReviewDb> db,
-      BasicRewritesImpl basicRewrites,
-      SqlRewriterImpl sqlRewriter) {
+      BasicChangeRewrites basicRewrites) {
     this.indexes = indexes;
     this.db = db;
     this.basicRewrites = basicRewrites;
-    this.sqlRewriter = sqlRewriter;
   }
 
   @Override
   public Predicate<ChangeData> rewrite(Predicate<ChangeData> in)
       throws QueryParseException {
     ChangeIndex index = indexes.getSearchIndex();
-    if (index == null) {
-      return sqlRewriter.rewrite(in);
-    }
     in = basicRewrites.rewrite(in);
     int limit = ChangeQueryBuilder.hasLimit(in)
         ? ChangeQueryBuilder.getLimit(in)
@@ -270,15 +263,5 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
            p instanceof AndPredicate
         || p instanceof OrPredicate
         || p instanceof NotPredicate);
-  }
-
-  static class BasicRewritesImpl extends BasicChangeRewrites {
-    private static final QueryRewriter.Definition<ChangeData, BasicRewritesImpl> mydef =
-        new QueryRewriter.Definition<ChangeData, BasicRewritesImpl>(
-            BasicRewritesImpl.class, SqlRewriterImpl.BUILDER);
-    @Inject
-    BasicRewritesImpl(Provider<ReviewDb> db, IndexCollection indexes) {
-      super(mydef, db, indexes);
-    }
   }
 }

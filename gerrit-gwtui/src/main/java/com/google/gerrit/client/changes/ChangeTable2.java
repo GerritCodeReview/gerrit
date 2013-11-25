@@ -206,7 +206,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     Change.Status status = c.status();
     if (status != Change.Status.NEW) {
       table.setText(row, C_STATUS, Util.toLongString(status));
-    } else if (Gerrit.getConfig().testChangeMerge() && !c.mergeable()) {
+    } else if (!c.mergeable()) {
       table.setText(row, C_STATUS, Util.C.changeTableNotMergeable());
       table.getCellFormatter().addStyleName(row, C_STATUS, Gerrit.RESOURCES.css().notMergeable());
     }

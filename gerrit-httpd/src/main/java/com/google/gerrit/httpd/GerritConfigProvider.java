@@ -123,8 +123,6 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     config.setWildProject(wildProject);
     config.setDocumentationAvailable(servletContext
         .getResource("/Documentation/index.html") != null);
-    config.setTestChangeMerge(cfg.getBoolean("changeMerge",
-        "test", false));
     config.setAnonymousCowardName(anonymousCowardName);
     config.setSuggestFrom(cfg.getInt("suggest", "from", 0));
     config.setChangeUpdateDelay((int) ConfigUtil.getTimeUnit(

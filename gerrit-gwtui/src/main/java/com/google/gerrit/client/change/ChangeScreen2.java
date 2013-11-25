@@ -662,7 +662,7 @@ public class ChangeScreen2 extends Screen {
 
   private void loadSubmitType(final Change.Status status, final boolean canSubmit) {
     if (canSubmit) {
-      actions.setSubmitEnabled(true);
+      actions.setSubmitEnabled();
       if (status == Change.Status.NEW) {
         statusText.setInnerText(Util.C.readyToSubmit());
       }
@@ -672,17 +672,14 @@ public class ChangeScreen2 extends Screen {
       .get(new AsyncCallback<NativeString>() {
         @Override
         public void onSuccess(NativeString result) {
-          if (Gerrit.getConfig().testChangeMerge()) {
-            if (canSubmit) {
-              actions.setSubmitEnabled(changeInfo.mergeable());
-              if (status == Change.Status.NEW) {
-                statusText.setInnerText(changeInfo.mergeable()
-                    ? Util.C.readyToSubmit()
-                    : Util.C.mergeConflict());
-              }
+          if (canSubmit) {
+            if (status == Change.Status.NEW) {
+              statusText.setInnerText(changeInfo.mergeable()
+                  ? Util.C.readyToSubmit()
+                  : Util.C.mergeConflict());
             }
-            setVisible(notMergeable, !changeInfo.mergeable());
           }
+          setVisible(notMergeable, !changeInfo.mergeable());
 
           renderSubmitType(result.asString());
         }

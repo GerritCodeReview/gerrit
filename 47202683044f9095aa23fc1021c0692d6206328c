@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e31dd65d_9411046c",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-25T10:22:40Z",
+      "side": 1,
+      "message": "After initializing a new site, I always need to run the reindex program in order to create the (initial) index.\n\n  $ java -jar buck-out/gen/gerrit.war init -d ~/temp/site --batch\n  Generating SSH host key ... rsa(simple)... done\n  Initialized /Users/d044411/temp/site\n  Executing /Users/d044411/temp/site/bin/gerrit.sh start\n  Starting Gerrit Code Review: FAILED\n  error: cannot start Gerrit: exit status 1\n\n  $ vi ~/temp/site/logs/error_log\n  [2013-11-25 11:14:44,271] ERROR com.google.gerrit.pgm.Daemon : Unable to start daemon\n  com.google.inject.ProvisionException: Guice provision errors:\n\n  1) No index versions ready; run Reindex\n\nThis is also the reason why most of the acceptance tests fail for me.\n\nWould be cool if the index is automatically created for a new site, but this is not working for me.",
+      "range": {
+        "startLine": 42,
+        "startChar": 24,
+        "endLine": 42,
+        "endChar": 35
+      },
+      "revId": "47202683044f9095aa23fc1021c0692d6206328c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e31dd65d_b414005c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-25T10:22:40Z",
+      "side": 1,
+      "message": "Do we still need this? If having an index is now required regular expressions for the file operator are now always allowed, aren\u0027t they?",
+      "range": {
+        "startLine": 204,
+        "startChar": 2,
+        "endLine": 204,
+        "endChar": 33
+      },
+      "revId": "47202683044f9095aa23fc1021c0692d6206328c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e31dd65d_d4177c5f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-25T10:22:40Z",
+      "side": 1,
+      "message": "Remove this?",
+      "range": {
+        "startLine": 380,
+        "startChar": 6,
+        "endLine": 382,
+        "endChar": 7
+      },
+      "revId": "47202683044f9095aa23fc1021c0692d6206328c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

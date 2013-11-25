@@ -189,7 +189,7 @@ limitations under the License.
     .notMergeable {
       float: right;
       font-weight: bold;
-      color: red;
+      color: #d00;
     }
 
     .commitColumn, .relatedColumn {

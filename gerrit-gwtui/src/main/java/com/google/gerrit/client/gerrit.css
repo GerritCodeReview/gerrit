@@ -545,7 +545,7 @@ a:hover {
 
 .changeTable .notMergeable {
   font-weight: bold;
-  color: red;
+  color: #d00;
 }
 
 .accountDashboard.changeTable tr {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e31dd65d_34e8f022",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectAccessEditor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-11-25T06:04:00Z",
+      "side": 0,
+      "message": "normal users without \u0027Administrate Server\u0027 power still can not update parent project\n  with this feature because in ProjectAccessFactory.call() still checking \n ---  \n detail.setCanChangeParent(pc.getCurrentUser().getCapabilities()\n        .canAdministrateServer());\n ---",
+      "revId": "ebc0a5c51a16b5a949f6a8f3e1f9a1961687d94a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

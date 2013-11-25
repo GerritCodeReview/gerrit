@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2329ae85_6edeaf82",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1149,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-11-25T23:07:18Z",
+      "side": 1,
+      "message": "This is the line you\u0027re looking for.",
+      "range": {
+        "startLine": 1149,
+        "startChar": 59,
+        "endLine": 1149,
+        "endChar": 61
+      },
+      "revId": "1a682c4d7c9dd6a4f905c1a634669e14a9d3cbe3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

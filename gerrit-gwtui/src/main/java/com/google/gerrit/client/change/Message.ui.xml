@@ -48,7 +48,8 @@ limitations under the License.
       position: relative;
     }
 
-    .contents p {
+    .contents p,
+    .contents blockquote {
       -webkit-margin-before: 0;
       -webkit-margin-after: 0.3em;
     }

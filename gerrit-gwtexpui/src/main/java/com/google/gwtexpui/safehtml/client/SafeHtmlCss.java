@@ -17,6 +17,7 @@ package com.google.gwtexpui.safehtml.client;
 import com.google.gwt.resources.client.CssResource;
 
 public interface SafeHtmlCss extends CssResource {
-  String wikiPreFormat();
   String wikiList();
+  String wikiPreFormat();
+  String wikiQuote();
 }

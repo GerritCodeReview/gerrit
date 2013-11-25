@@ -28,12 +28,12 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
-import com.google.gerrit.server.query.RewritePredicate;
 import com.google.gerrit.server.query.change.AndSource;
+import com.google.gerrit.server.query.change.BasicChangeRewrites;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.OrSource;
-import com.google.gerrit.server.query.change.SqlRewriterImpl;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -56,8 +56,7 @@ public class IndexRewriteTest {
     rewrite = new IndexRewriteImpl(
         indexes,
         null,
-        new IndexRewriteImpl.BasicRewritesImpl(null, indexes),
-        new SqlRewriterImpl(null));
+        new BasicChangeRewrites(null, indexes));
   }
 
   @Test
@@ -200,19 +199,6 @@ public class IndexRewriteTest {
           query(in.getChild(0)),
           in.getChild(1)),
         out.getChildren());
-  }
-
-  @Test
-  public void testNoChangeIndexUsesSqlRewrites() throws Exception {
-    Predicate<ChangeData> in = parse("status:open project:p ref:b");
-    Predicate<ChangeData> out;
-
-    out = rewrite(in);
-    assertTrue(out instanceof AndPredicate || out instanceof IndexedChangeQuery);
-
-    indexes.setSearchIndex(null);
-    out = rewrite(in);
-    assertTrue(out instanceof RewritePredicate);
   }
 
   private Predicate<ChangeData> parse(String query) throws QueryParseException {

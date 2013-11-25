@@ -42,7 +42,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PerThreadRequestScope;
 import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.IndexModule.IndexType;
-import com.google.gerrit.server.index.NoIndexModule;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.mail.SmtpEmailSender;
 import com.google.gerrit.server.schema.Current;
@@ -84,6 +83,10 @@ public class InMemoryModule extends FactoryModule {
     cfg.setString("user", null, "email", "gerrit@localhost");
     cfg.setBoolean("sendemail", null, "enable", false);
     cfg.setString("cache", null, "directory", null);
+    //
+    cfg.setString("index", null, "type", "lucene");
+    cfg.setBoolean("index", "lucene", "testInmemory", true);
+    cfg.setInt("index", "lucene", "testVersion", 4);
     return cfg;
   }
 
@@ -160,7 +163,7 @@ public class InMemoryModule extends FactoryModule {
 
     IndexType indexType = null;
     try {
-      indexType = cfg.getEnum("index", null, "type", IndexType.SQL);
+      indexType = cfg.getEnum("index", null, "type", IndexType.LUCENE);
     } catch (IllegalArgumentException e) {
       // Custom index type, caller must provide their own module.
     }
@@ -168,9 +171,6 @@ public class InMemoryModule extends FactoryModule {
       switch (indexType) {
         case LUCENE:
           install(luceneIndexModule());
-          break;
-        case SQL:
-          install(new NoIndexModule());
           break;
         default:
           throw new ProvisionException(

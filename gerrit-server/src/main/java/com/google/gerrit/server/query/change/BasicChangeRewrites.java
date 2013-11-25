@@ -24,17 +24,22 @@ import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.query.IntPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryRewriter;
+import com.google.inject.Inject;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;
 
-public abstract class BasicChangeRewrites extends QueryRewriter<ChangeData> {
-  protected static final ChangeQueryBuilder BUILDER = new ChangeQueryBuilder(
+public class BasicChangeRewrites extends QueryRewriter<ChangeData> {
+  private static final ChangeQueryBuilder BUILDER = new ChangeQueryBuilder(
       new ChangeQueryBuilder.Arguments( //
           new InvalidProvider<ReviewDb>(), //
           new InvalidProvider<ChangeQueryRewriter>(), //
           null, null, null, null, null, null, null, //
           null, null, null, null, null, null, null), null);
+
+  private static final QueryRewriter.Definition<ChangeData, BasicChangeRewrites> mydef =
+      new QueryRewriter.Definition<ChangeData, BasicChangeRewrites>(
+          BasicChangeRewrites.class, BUILDER);
 
   static Schema<ChangeData> schema(@Nullable IndexCollection indexes) {
     ChangeIndex index = indexes != null ? indexes.getSearchIndex() : null;
@@ -44,10 +49,9 @@ public abstract class BasicChangeRewrites extends QueryRewriter<ChangeData> {
   protected final Provider<ReviewDb> dbProvider;
   private final IndexCollection indexes;
 
-  protected BasicChangeRewrites(
-      Definition<ChangeData, ? extends QueryRewriter<ChangeData>> def,
-      Provider<ReviewDb> dbProvider, IndexCollection indexes) {
-    super(def);
+  @Inject
+  public BasicChangeRewrites(Provider<ReviewDb> dbProvider, IndexCollection indexes) {
+    super(mydef);
     this.dbProvider = dbProvider;
     this.indexes = indexes;
   }

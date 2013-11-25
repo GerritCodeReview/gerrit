@@ -18,7 +18,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.Daemon;
 import com.google.gerrit.pgm.Init;
-import com.google.gerrit.pgm.Reindex;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.ChangeSchemas;
@@ -51,12 +50,6 @@ public class GerritServer {
 
   /** Returns fully started Gerrit server */
   static GerritServer start(Config base, boolean memory) throws Exception {
-    return start(base, memory, false);
-  }
-
-  /** Returns fully started Gerrit server */
-  static GerritServer start(Config base, boolean memory, boolean index)
-      throws Exception {
     final CyclicBarrier serverStarted = new CyclicBarrier(2);
     final Daemon daemon = new Daemon(new Runnable() {
       public void run() {
@@ -78,25 +71,16 @@ public class GerritServer {
       mergeTestConfig(cfg);
       cfg.setBoolean("httpd", null, "requestLog", false);
       cfg.setBoolean("sshd", null, "requestLog", false);
-      if (index) {
-        cfg.setString("index", null, "type", "lucene");
-        cfg.setBoolean("index", "lucene", "testInmemory", true);
-        daemon.setLuceneModule(new LuceneIndexModule(
-            ChangeSchemas.getLatest().getVersion(),
-            Runtime.getRuntime().availableProcessors(), null));
-      }
+      cfg.setBoolean("index", "lucene", "testInmemory", true);
+      daemon.setLuceneModule(new LuceneIndexModule(
+          ChangeSchemas.getLatest().getVersion(),
+          Runtime.getRuntime().availableProcessors(), null));
       daemon.setDatabaseForTesting(ImmutableList.<Module>of(
           new InMemoryTestingDatabaseModule(cfg)));
       daemon.start();
     } else {
       Config cfg = base != null ? base : new Config();
-      if (index) {
-        cfg.setString("index", null, "type", "lucene");
-      }
       site = initSite(cfg);
-      if (index) {
-        reindex(site);
-      }
       daemonService = Executors.newSingleThreadExecutor();
       daemonService.submit(new Callable<Void>() {
         public Void call() throws Exception {
@@ -135,15 +119,6 @@ public class GerritServer {
     mergeTestConfig(cfg);
     cfg.save();
     return tmp;
-  }
-
-  /** Runs the reindex command. Works only if the site is not currently running. */
-  private static void reindex(File site) throws Exception {
-    Reindex reindex = new Reindex();
-    int rc = reindex.main(new String[] {"-d", site.getPath()});
-    if (rc != 0) {
-      throw new RuntimeException("Reindex failed");
-    }
   }
 
   private static void mergeTestConfig(Config cfg)

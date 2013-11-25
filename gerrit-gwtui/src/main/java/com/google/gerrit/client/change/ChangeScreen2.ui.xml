@@ -426,7 +426,9 @@ limitations under the License.
                 <div ui:field='notMergeable'
                      class='{style.notMergeable}'
                      style='display: none'
-                     aria-hidden='true'>
+                     aria-hidden='true'
+                     title='The change cannot be merged due to a path conflict. Rebase the change locally and upload the rebased commit for review.'>
+                  <ui:attribute name='title'/>
                   <ui:msg>Cannot Merge</ui:msg>
                 </div>
               </td>

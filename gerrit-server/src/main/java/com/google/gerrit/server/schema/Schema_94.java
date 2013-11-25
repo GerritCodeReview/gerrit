@@ -22,6 +22,9 @@ import com.google.inject.Provider;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+
 public class Schema_94 extends SchemaVersion {
   @Inject
   Schema_94(Provider<Schema_93> prior) {

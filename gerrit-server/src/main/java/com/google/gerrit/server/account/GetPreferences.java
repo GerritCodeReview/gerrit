@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DateFormat;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.PreselectDiffAgainst;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.TimeFormat;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -179,6 +180,25 @@ public class GetPreferences implements RestReadView<AccountResource> {
         String defaultValue) {
       String val = cfg.getString(MY, subsection, key);
       return !Strings.isNullOrEmpty(val) ? val : defaultValue;
+    PreselectDiffAgainst preselectRevision;
+
+    PreferenceInfo(AccountGeneralPreferences p) {
+      changesPerPage = p.getMaximumPageSize();
+      showSiteHeader = p.isShowSiteHeader() ? true : null;
+      useFlashClipboard = p.isUseFlashClipboard() ? true : null;
+      downloadScheme = p.getDownloadUrl();
+      downloadCommand = p.getDownloadCommand();
+      copySelfOnEmail = p.isCopySelfOnEmails() ? true : null;
+      dateFormat = p.getDateFormat();
+      timeFormat = p.getTimeFormat();
+      reversePatchSetOrder = p.isReversePatchSetOrder() ? true : null;
+      showUsernameInReviewCategory = p.isShowUsernameInReviewCategory() ? true : null;
+      relativeDateInChangeTable = p.isRelativeDateInChangeTable() ? true : null;
+      sizeBarInChangeTable = p.isSizeBarInChangeTable() ? true : null;
+      commentVisibilityStrategy = p.getCommentVisibilityStrategy();
+      diffView = p.getDiffView();
+      changeScreen = p.getChangeScreen();
+      preselectRevision = p.getPreselectRevision();
     }
   }
 }

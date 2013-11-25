@@ -37,6 +37,7 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.project.SetParent;
+import com.google.gwt.thirdparty.guava.common.base.Objects;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
@@ -138,7 +139,8 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
         parentProjectUpdate = true;
         try {
           setParent.get().validateParentUpdate(projectControl,
-              parentProjectName.get(), checkIfOwner);
+              Objects.firstNonNull(parentProjectName, allProjects.get()).get(),
+              checkIfOwner);
         } catch (AuthException e) {
           throw new UpdateParentFailedException(
               "You are not allowed to change the parent project since you are "

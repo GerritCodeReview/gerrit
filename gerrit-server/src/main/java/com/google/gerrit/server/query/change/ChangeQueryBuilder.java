@@ -337,6 +337,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
+  public Predicate<ChangeData> p(String name) {
+    return project(name);
+  }
+
+  @Operator
   public Predicate<ChangeData> project(String name) {
     if (name.startsWith("^"))
       return new RegexProjectPredicate(args.dbProvider, name);
@@ -374,6 +379,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     if (ref.startsWith("^"))
       return new RegexRefPredicate(args.dbProvider, ref);
     return new RefPredicate(args.dbProvider, ref);
+  }
+
+  @Operator
+  public Predicate<ChangeData> f(String file) throws QueryParseException {
+    return file(file);
   }
 
   @Operator
@@ -536,6 +546,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
+  public Predicate<ChangeData> o(String who)
+      throws QueryParseException, OrmException {
+    return owner(who);
+  }
+
+  @Operator
   public Predicate<ChangeData> owner(String who) throws QueryParseException,
       OrmException {
     Set<Account.Id> m = parseAccount(who);
@@ -554,6 +570,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       throw error("Group " + group + " not found");
     }
     return new OwnerinPredicate(args.dbProvider, args.userFactory, g.getUUID());
+  }
+
+  @Operator
+  public Predicate<ChangeData> r(String who)
+      throws QueryParseException, OrmException {
+    return reviewer(who);
   }
 
   @Operator

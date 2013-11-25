@@ -160,7 +160,7 @@ class RevisionsBox extends Composite {
     sb.openTr()
       .openTh()
           .setStyleName(style.legacy_id())
-          .append(Resources.C.ps())
+          .append(Resources.C.patchSet())
           .closeTh()
       .openTh().append(Resources.C.commit()).closeTh()
       .openTh().append(Resources.C.date()).closeTh()

@@ -8,6 +8,6 @@ GWT_COMPILER_OPTS = [
 ]
 
 GWT_PLUGIN_DEPS = [
-  '//gerrit-plugin-gwtui:client',
+  '//gerrit-plugin-gwtui:gwtui-api',
   '//lib/gwt:user',
 ]

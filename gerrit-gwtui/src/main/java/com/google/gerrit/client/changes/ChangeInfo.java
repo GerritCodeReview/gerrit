@@ -38,6 +38,9 @@ import java.util.TreeSet;
 
 public class ChangeInfo extends JavaScriptObject {
   public final void init() {
+    if (revisions() != null) {
+      revisions().copyKeysIntoChildren("name");
+    }
     if (all_labels() != null) {
       all_labels().copyKeysIntoChildren("_name");
     }

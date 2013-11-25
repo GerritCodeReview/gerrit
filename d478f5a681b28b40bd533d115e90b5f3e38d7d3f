@@ -33,6 +33,24 @@
       "revId": "d478f5a681b28b40bd533d115e90b5f3e38d7d3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c31a9266_93111c6c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 832,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-25T12:44:04Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t understand why this needs to be a configuration option.\n\nProbably it doesn\u0027t need to be configurable. I just didn\u0027t want to\nchange behaviour that works well for others. IIRC Sony Mobile really\nwanted to hide the Submit in this case. \n\n \u003e Your argument in the commit message suggests the submit button\n \u003e should always be available, because the server isn\u0027t currently able\n \u003e to identify the merge commit was submitted and depends on the\n \u003e conflicting change. After reading the commit I had the conclusion\n \u003e the Submit button should always be available if the rules are\n \u003e satisfied.\n\nWill do this in the next patch set :)\n\nIf we make it the default behaviour to always show the Submit button\n(if the approvals allow submit and the user can submit), then we\nshould probaby remove the \u0027changeMerge.test\u0027 configuration completely.\nWe now anyway always compute the change mergeability.\n\n \u003e Would another solution to this problem be making the \"Cannot Merge\"\n \u003e information more descriptive? When there is a conflict the status\n \u003e shows \"Merge Conflict\". We should help the user to understand the\n \u003e status faster than having to click Submit first.\n\nWhat I described about confused users is more about the old change\nscreen. There it was really easy to miss the \"Can Merge: No\" in the\nchange meta data table. With the new change screen this already much\nbetter. The red \"Cannot Merge\" and the \"Merge Conflict\" status can\nhardly be overlooked. Maybe we can just add a tooltip on both that\nrecommends to rebase.\n\n \u003e In the case of the conflict being resolved by uploading a merge\n \u003e commit, we should implement topic based submit. I was thinking\n \u003e about doing this myself this weekend if I can get around to it.\n \u003e The idea is to have /submit on a change also submit the parents if\n \u003e they aren\u0027t yet submitted. So you can one click submit the merge,\n \u003e and it would drag in the ancestors automatically even if they have\n \u003e merge conflicts.\n\nThis sounds like a good idea to me. Maybe this will cease the topic\nreview discussions.",
+      "parentUuid": "e304f603_1c89955a",
+      "revId": "d478f5a681b28b40bd533d115e90b5f3e38d7d3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

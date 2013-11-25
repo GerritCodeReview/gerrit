@@ -59,7 +59,7 @@ public final class Account {
     FULL_NAME, USER_NAME, REGISTER_NEW_EMAIL
   }
 
-  public static final String USER_NAME_PATTERN_FIRST = "[a-zA-Z]";
+  public static final String USER_NAME_PATTERN_FIRST = "[a-zA-Z0-9]";
   public static final String USER_NAME_PATTERN_REST = "[a-zA-Z0-9._-]";
   public static final String USER_NAME_PATTERN_LAST = "[a-zA-Z0-9]";
 

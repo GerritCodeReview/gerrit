@@ -560,6 +560,8 @@ Fix handling of projects with trailing ".git" suffix.
 
 * Don't allow project owners to delete branches if force push is blocked.
 
+* Allow usernames to begin with digit.
+
 
 Configuration
 ~~~~~~~~~~~~~

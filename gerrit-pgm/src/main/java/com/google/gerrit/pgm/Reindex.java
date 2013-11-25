@@ -35,8 +35,6 @@ import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexModule;
-import com.google.gerrit.server.index.IndexModule.IndexType;
-import com.google.gerrit.server.index.NoIndexModule;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DataSourceType;
@@ -91,9 +89,6 @@ public class Reindex extends SiteProgram {
   public int run() throws Exception {
     mustHaveValidSite();
     dbInjector = createDbInjector(MULTI_USER);
-    if (IndexModule.getIndexType(dbInjector) == IndexType.SQL) {
-      throw die("index.type must be configured (or not SQL)");
-    }
     limitThreads();
     if (version == null) {
       version = ChangeSchemas.getLatest().getVersion();
@@ -144,7 +139,7 @@ public class Reindex extends SiteProgram {
         changeIndexModule = new SolrIndexModule(false, threads, outputBase);
         break;
       default:
-        changeIndexModule = new NoIndexModule();
+        throw new IllegalStateException("unsupported index.type");
     }
     modules.add(changeIndexModule);
     modules.add(new ReviewDbModule());

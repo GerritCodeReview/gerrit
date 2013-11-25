@@ -33,7 +33,7 @@ import com.google.gerrit.server.query.change.AndSource;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.OrSource;
-import com.google.gerrit.server.query.change.SqlRewriterImpl;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -56,8 +56,7 @@ public class IndexRewriteTest {
     rewrite = new IndexRewriteImpl(
         indexes,
         null,
-        new IndexRewriteImpl.BasicRewritesImpl(null, indexes),
-        new SqlRewriterImpl(null));
+        new IndexRewriteImpl.BasicRewritesImpl(null, indexes));
   }
 
   @Test

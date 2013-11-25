@@ -37,14 +37,14 @@ import org.eclipse.jgit.lib.Config;
  */
 public class IndexModule extends LifecycleModule {
   public enum IndexType {
-    SQL, LUCENE, SOLR
+    LUCENE, SOLR
   }
 
   /** Type of secondary index. */
   public static IndexType getIndexType(Injector injector) {
     Config cfg = injector.getInstance(
         Key.get(Config.class, GerritServerConfig.class));
-    return cfg.getEnum("index", null, "type", IndexType.SQL);
+    return cfg.getEnum("index", null, "type", IndexType.LUCENE);
   }
 
   private final int threads;

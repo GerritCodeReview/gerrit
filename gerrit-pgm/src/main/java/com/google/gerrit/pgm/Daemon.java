@@ -55,7 +55,6 @@ import com.google.gerrit.server.contact.HttpContactStoreConnection;
 import com.google.gerrit.server.git.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.IndexModule;
-import com.google.gerrit.server.index.NoIndexModule;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.mail.SmtpEmailSender;
 import com.google.gerrit.server.patch.IntraLineWorkerPool;
@@ -319,7 +318,7 @@ public class Daemon extends SiteProgram {
         changeIndexModule = new SolrIndexModule();
         break;
       default:
-        changeIndexModule = new NoIndexModule();
+        throw new IllegalStateException("unsupported index.type");
     }
     modules.add(changeIndexModule);
     if (Objects.firstNonNull(httpd, true)) {

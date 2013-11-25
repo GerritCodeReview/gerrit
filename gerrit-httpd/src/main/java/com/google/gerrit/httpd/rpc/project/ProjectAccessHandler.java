@@ -16,6 +16,7 @@ package com.google.gerrit.httpd.rpc.project;
 
 import static com.google.gerrit.common.ProjectAccessUtil.mergeSections;
 
+import com.google.common.base.Objects;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
@@ -138,7 +139,8 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
         parentProjectUpdate = true;
         try {
           setParent.get().validateParentUpdate(projectControl,
-              parentProjectName.get(), checkIfOwner);
+              Objects.firstNonNull(parentProjectName, allProjects.get()).get(),
+              checkIfOwner);
         } catch (AuthException e) {
           throw new UpdateParentFailedException(
               "You are not allowed to change the parent project since you are "

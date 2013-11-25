@@ -376,9 +376,6 @@ public class PublishCommentScreen extends AccountScreen implements
     }
 
     submit.setVisible(r.canSubmit());
-    if (Gerrit.getConfig().testChangeMerge()) {
-      submit.setEnabled(r.getChange().isMergeable());
-    }
   }
 
   private void onSend(final boolean submit) {

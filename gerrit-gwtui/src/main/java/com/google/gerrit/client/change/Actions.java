@@ -137,8 +137,8 @@ class Actions extends Composite {
     return ids;
   }
 
-  void setSubmitEnabled(boolean ok) {
-    submit.setVisible(ok && canSubmit);
+  void setSubmitEnabled() {
+    submit.setVisible(canSubmit);
   }
 
   boolean isSubmitEnabled() {

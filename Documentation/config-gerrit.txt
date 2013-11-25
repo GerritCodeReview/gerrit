@@ -813,15 +813,6 @@ master node startup.
 +
 Default is 300 seconds (5 minutes).
 
-[[changeMerge.test]]changeMerge.test::
-+
-Controls whether or not the mergeability test of changes is
-enabled.  If enabled, when the change page is loaded, the test is
-triggered. The submit button will be enabled or disabled according to
-the result.
-+
-By default this is false (test is not enabled).
-
 [[changeMerge.threadPoolSize]]changeMerge.threadPoolSize::
 +
 Maximum size of the thread pool in which the mergeability flag of open

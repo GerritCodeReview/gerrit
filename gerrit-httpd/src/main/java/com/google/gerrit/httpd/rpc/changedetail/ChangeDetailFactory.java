@@ -88,7 +88,6 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
   private Map<PatchSet.Id, PatchSet> patchsetsById;
 
   private final Mergeable mergeable;
-  private boolean testMerge;
 
   private List<PatchSetAncestor> currentPatchSetAncestors;
   private List<PatchSet> currentDepPatchSets;
@@ -112,7 +111,6 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     this.aic = accountInfoCacheFactory.create();
 
     this.mergeable = mergeable;
-    this.testMerge = cfg.getBoolean("changeMerge", "test", false);
 
     this.changeId = id;
   }
@@ -231,8 +229,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
   private void load() throws OrmException, NoSuchChangeException,
       NoSuchProjectException {
     final Change.Status status = detail.getChange().getStatus();
-    if ((status.equals(Change.Status.NEW) || status.equals(Change.Status.DRAFT)) &&
-        testMerge) {
+    if ((status.equals(Change.Status.NEW) || status.equals(Change.Status.DRAFT))) {
       try {
         detail.getChange().setMergeable(mergeable.apply(new RevisionResource(
             new ChangeResource(control),

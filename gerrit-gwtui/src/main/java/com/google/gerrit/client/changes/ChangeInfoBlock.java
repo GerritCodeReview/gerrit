@@ -60,11 +60,7 @@ public class ChangeInfoBlock extends Composite {
   private final Grid table;
 
   public ChangeInfoBlock() {
-    if (Gerrit.getConfig().testChangeMerge()) {
-      table = new Grid(R_CNT, 2);
-    } else {
-      table = new Grid(R_CNT - 1, 2);
-    }
+    table = new Grid(R_CNT, 2);
     table.setStyleName(Gerrit.RESOURCES.css().infoBlock());
     table.addStyleName(Gerrit.RESOURCES.css().changeInfoBlock());
 
@@ -77,9 +73,7 @@ public class ChangeInfoBlock extends Composite {
     initRow(R_UPDATED, Util.C.changeInfoBlockUpdated());
     initRow(R_STATUS, Util.C.changeInfoBlockStatus());
     initRow(R_SUBMIT_TYPE, Util.C.changeInfoBlockSubmitType());
-    if (Gerrit.getConfig().testChangeMerge()) {
-      initRow(R_MERGE_TEST, Util.C.changeInfoBlockCanMerge());
-    }
+    initRow(R_MERGE_TEST, Util.C.changeInfoBlockCanMerge());
 
     final CellFormatter fmt = table.getCellFormatter();
     fmt.addStyleName(0, 0, Gerrit.RESOURCES.css().topmost());
@@ -128,14 +122,12 @@ public class ChangeInfoBlock extends Composite {
     }
     table.setText(R_SUBMIT_TYPE, 1, submitType);
     final Change.Status status = chg.getStatus();
-    if (Gerrit.getConfig().testChangeMerge()) {
-      if (status.equals(Change.Status.NEW) || status.equals(Change.Status.DRAFT)) {
-        table.getRowFormatter().setVisible(R_MERGE_TEST, true);
-        table.setText(R_MERGE_TEST, 1, chg.isMergeable() ? Util.C
-            .changeInfoBlockCanMergeYes() : Util.C.changeInfoBlockCanMergeNo());
-      } else {
-        table.getRowFormatter().setVisible(R_MERGE_TEST, false);
-      }
+    if (status.equals(Change.Status.NEW) || status.equals(Change.Status.DRAFT)) {
+      table.getRowFormatter().setVisible(R_MERGE_TEST, true);
+      table.setText(R_MERGE_TEST, 1, chg.isMergeable() ? Util.C
+          .changeInfoBlockCanMergeYes() : Util.C.changeInfoBlockCanMergeNo());
+    } else {
+      table.getRowFormatter().setVisible(R_MERGE_TEST, false);
     }
 
     if (status.isClosed()) {

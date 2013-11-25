@@ -312,10 +312,6 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
       final Button b =
           new Button(Util.M
               .submitPatchSet(detail.getPatchSet().getPatchSetId()));
-      if (Gerrit.getConfig().testChangeMerge()) {
-        b.setEnabled(changeDetail.getChange().isMergeable());
-      }
-
       b.addClickHandler(new ClickHandler() {
         @Override
         public void onClick(final ClickEvent event) {

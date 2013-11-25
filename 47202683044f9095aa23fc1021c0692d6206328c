@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "23244ea3_b67088b3",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-25T22:50:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "833a5ac3_d1ee642d",
+      "revId": "47202683044f9095aa23fc1021c0692d6206328c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e31dd65d_9411046c",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitIndex.java",
         "patchSetId": 1
@@ -66,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "833a5ac3_3101301d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-25T22:50:00Z",
+      "side": 1,
+      "message": "I fixed the init of a new site by immediately creating the lucene index in this step.",
+      "parentUuid": "833a5ac3_b1fbe0ed",
+      "range": {
+        "startLine": 42,
+        "startChar": 24,
+        "endLine": 42,
+        "endChar": 35
+      },
+      "revId": "47202683044f9095aa23fc1021c0692d6206328c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "833a5ac3_91f8dcf1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexRewriteImpl.java",
         "patchSetId": 1
@@ -77,6 +119,30 @@
       "writtenOn": "2013-11-25T16:23:37Z",
       "side": 1,
       "message": "SqlRewritesImpl was the only other implementation of BasicChangeRewrites, right? So you could just make that class non-abstract and drop this implementation.",
+      "range": {
+        "startLine": 268,
+        "startChar": 41,
+        "endLine": 268,
+        "endChar": 60
+      },
+      "revId": "47202683044f9095aa23fc1021c0692d6206328c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23244ea3_d67304bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexRewriteImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-25T22:50:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "833a5ac3_91f8dcf1",
       "range": {
         "startLine": 268,
         "startChar": 41,
@@ -112,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "03210a95_f576f8b0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-25T22:50:00Z",
+      "side": 1,
+      "message": "Nope, this is dead code. Deleted.",
+      "parentUuid": "e31dd65d_b414005c",
+      "range": {
+        "startLine": 204,
+        "startChar": 2,
+        "endLine": 204,
+        "endChar": 33
+      },
+      "revId": "47202683044f9095aa23fc1021c0692d6206328c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e31dd65d_d4177c5f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 1
@@ -123,6 +213,30 @@
       "writtenOn": "2013-11-25T10:22:40Z",
       "side": 1,
       "message": "Remove this?",
+      "range": {
+        "startLine": 380,
+        "startChar": 6,
+        "endLine": 382,
+        "endChar": 7
+      },
+      "revId": "47202683044f9095aa23fc1021c0692d6206328c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23244ea3_966d8cd9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-25T22:50:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e31dd65d_d4177c5f",
       "range": {
         "startLine": 380,
         "startChar": 6,

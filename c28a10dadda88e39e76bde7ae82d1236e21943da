@@ -16,6 +16,24 @@
       "revId": "c28a10dadda88e39e76bde7ae82d1236e21943da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e31dd65d_b442c053",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-25T15:21:02Z",
+      "side": 1,
+      "message": "\u003e locally? Isn\u0027t that clear until we don\u0027t support inline \n \u003e editing? \n\nNo, I\u0027m sure we have users that expect that they could click on the rebase button.\n\nIt\u0027s the same text that we display on submit if the merge fails due to a path conflict.",
+      "parentUuid": "e31dd65d_f4483877",
+      "revId": "c28a10dadda88e39e76bde7ae82d1236e21943da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

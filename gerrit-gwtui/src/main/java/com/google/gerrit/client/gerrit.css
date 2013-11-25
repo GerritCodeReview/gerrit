@@ -541,6 +541,7 @@ a:hover {
 .changeTable .changeSize {
   height: 10px;
   display: inline-block;
+  opacity: 0.6;
 }
 
 .changeTable .notMergeable {

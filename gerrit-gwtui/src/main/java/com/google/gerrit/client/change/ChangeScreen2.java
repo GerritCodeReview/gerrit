@@ -159,6 +159,7 @@ public class ChangeScreen2 extends Screen {
 
   @UiField Button includedIn;
   @UiField Button revisions;
+  @UiField Element revisionsText;
   @UiField Button download;
   @UiField Button reply;
   @UiField Button expandAll;
@@ -326,6 +327,18 @@ public class ChangeScreen2 extends Screen {
   }
 
   private void initRevisionsAction(ChangeInfo info, String revision) {
+    int currentPatchSet;
+    if (info.current_revision() != null
+        && info.revisions().containsKey(info.current_revision())) {
+      currentPatchSet = info.revision(info.current_revision())._number();
+    } else {
+      JsArray<RevisionInfo> revList = info.revisions().values();
+      RevisionInfo.sortRevisionInfoByNumber(revList);
+      currentPatchSet = revList.get(revList.length() - 1)._number();
+    }
+    int currentlyViewedPatchSet = info.revision(revision)._number();
+    revisionsText.setInnerText(Resources.M.revisions(
+        currentlyViewedPatchSet, currentPatchSet));
     revisionsAction = new RevisionsAction(
         info.legacy_id(), revision,
         style, headerLine, revisions);

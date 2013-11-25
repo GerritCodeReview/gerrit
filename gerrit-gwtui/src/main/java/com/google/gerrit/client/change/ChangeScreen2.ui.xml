@@ -359,7 +359,7 @@ limitations under the License.
             <div><ui:msg>Included in</ui:msg></div>
           </g:Button>
           <g:Button ui:field='revisions' styleName=''>
-            <div><ui:msg>Revisions</ui:msg></div>
+            <div ui:field='revisionsText'/>
           </g:Button>
           <g:Button ui:field='download' styleName=''>
             <div><ui:msg>Download</ui:msg></div>

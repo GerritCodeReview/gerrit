@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03210a95_f51a7887",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-25T01:40:11Z",
+      "side": 1,
+      "message": "What\u0027s wrong with:\n\n if (session !\u003d null) {\n   return session.getCurrentUser();\n }\n return null;\n\n?\n\nI find this much more readable, and no less efficient.",
+      "revId": "7e4d30b2edaad2ac07ec42c1cbd1d6c994820b40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

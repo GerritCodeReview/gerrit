@@ -16,6 +16,24 @@
       "revId": "b376b5bfc857c4728fa54f6134a95c026d2e770e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e31dd65d_545a4c44",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 816,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-25T15:04:03Z",
+      "side": 0,
+      "message": "Sure, it should be mentioned in the release notes.\n\nIt\u0027s not really a discontinuation. For those who had this enabled nothing much changes since this functionality is now enabled by default. For those who didn\u0027t set this, it is like introducing a new feature as we do with every second change.",
+      "parentUuid": "e31dd65d_9426a4cb",
+      "revId": "b376b5bfc857c4728fa54f6134a95c026d2e770e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

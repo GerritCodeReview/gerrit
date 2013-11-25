@@ -52,6 +52,10 @@ public abstract class SafeHtml
               return "wikiPreFormat";
             }
 
+            public String wikiQuote() {
+              return "wikiQuote";
+            }
+
             public boolean ensureInjected() {
               return false;
             }
@@ -139,7 +143,10 @@ public abstract class SafeHtml
   public SafeHtml wikify() {
     final SafeHtmlBuilder r = new SafeHtmlBuilder();
     for (final String p : linkify().asString().split("\n\n")) {
-      if (isPreFormat(p)) {
+      if (isQuote(p)) {
+        wikifyQuote(r, p);
+
+      } else if (isPreFormat(p)) {
         r.openElement("p");
         for (final String line : p.split("\n")) {
           r.openSpan();
@@ -200,6 +207,31 @@ public abstract class SafeHtml
     } else if (in_p) {
       r.closeElement("p");
     }
+  }
+
+  private void wikifyQuote(SafeHtmlBuilder r, String p) {
+    r.openElement("blockquote");
+    r.setStyleName(RESOURCES.css().wikiQuote());
+    if (p.startsWith("&gt; ")) {
+      p = p.substring(5);
+    } else if (p.startsWith(" &gt; ")) {
+      p = p.substring(6);
+    }
+    p = p.replaceAll("\\n ?&gt; ", "\n");
+    for (String e : p.split("\n\n")) {
+      if (isQuote(e)) {
+        SafeHtmlBuilder b = new SafeHtmlBuilder();
+        wikifyQuote(b, e);
+        r.append(b);
+      } else {
+        r.append(asis(e));
+      }
+    }
+    r.closeElement("blockquote");
+  }
+
+  private static boolean isQuote(String p) {
+    return p.startsWith("&gt; ") || p.startsWith(" &gt; ");
   }
 
   private static boolean isPreFormat(final String p) {

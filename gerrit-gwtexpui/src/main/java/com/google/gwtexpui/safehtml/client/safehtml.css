@@ -13,11 +13,17 @@
  * limitations under the License.
  */
 
+.wikiList {
+}
+
 .wikiPreFormat {
   white-space: pre;
   font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
   font-size: small;
 }
 
-.wikiList {
+.wikiQuote {
+  margin-left: 0;
+  border-left: 1px solid #888;
+  padding-left: 5px;
 }

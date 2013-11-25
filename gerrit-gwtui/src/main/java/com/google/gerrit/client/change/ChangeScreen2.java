@@ -143,6 +143,7 @@ public class ChangeScreen2 extends Screen {
   @UiField Image projectQuery;
   @UiField InlineHyperlink projectLink;
   @UiField InlineHyperlink branchLink;
+  @UiField Element strategy;
   @UiField Element submitActionText;
   @UiField Element notMergeable;
   @UiField Topic topic;
@@ -796,6 +797,8 @@ public class ChangeScreen2 extends Screen {
 
     if (current) {
       loadSubmitType(info.status(), canSubmit);
+    } else {
+      setVisible(strategy, false);
     }
 
     StringBuilder sb = new StringBuilder();

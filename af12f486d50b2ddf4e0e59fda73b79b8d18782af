@@ -16,6 +16,23 @@
       "revId": "af12f486d50b2ddf4e0e59fda73b79b8d18782af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23244ea3_f68de066",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/AccountDashboardScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-25T18:24:26Z",
+      "side": 1,
+      "message": "I would love to make the user dashboard fully configurable. But we don\u0027t have a good preference store to really do that.\n\nAn alternative would be to add a new section that shows the -is:mergeable changes you a reviewer on. Maybe.",
+      "revId": "af12f486d50b2ddf4e0e59fda73b79b8d18782af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

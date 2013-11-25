@@ -14,7 +14,6 @@
 
 package com.google.gerrit.reviewdb.server;
 
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -42,14 +41,6 @@ public interface ChangeAccess extends Access<Change, Change.Id> {
   @Query("WHERE dest.projectName = ?")
   ResultSet<Change> byProject(Project.NameKey p) throws OrmException;
 
-  @Deprecated
-  @Query("WHERE owner = ? AND open = true ORDER BY createdOn, changeId")
-  ResultSet<Change> byOwnerOpen(Account.Id id) throws OrmException;
-
-  @Deprecated
-  @Query("WHERE owner = ? AND open = false ORDER BY lastUpdatedOn")
-  ResultSet<Change> byOwnerClosedAll(Account.Id id) throws OrmException;
-
   @Query("WHERE dest = ? AND status = '" + Change.STATUS_SUBMITTED
       + "' ORDER BY lastUpdatedOn")
   ResultSet<Change> submitted(Branch.NameKey dest) throws OrmException;
@@ -57,64 +48,16 @@ public interface ChangeAccess extends Access<Change, Change.Id> {
   @Query("WHERE status = '" + Change.STATUS_SUBMITTED + "'")
   ResultSet<Change> allSubmitted() throws OrmException;
 
-  @Deprecated
-  @Query("WHERE open = true AND sortKey > ? ORDER BY sortKey LIMIT ?")
-  ResultSet<Change> allOpenPrev(String sortKey, int limit) throws OrmException;
-
-  @Deprecated
-  @Query("WHERE open = true AND sortKey < ? ORDER BY sortKey DESC LIMIT ?")
-  ResultSet<Change> allOpenNext(String sortKey, int limit) throws OrmException;
-
   @Query("WHERE open = true AND dest.projectName = ?")
   ResultSet<Change> byProjectOpenAll(Project.NameKey p) throws OrmException;
 
   @Query("WHERE open = true AND dest = ?")
   ResultSet<Change> byBranchOpenAll(Branch.NameKey p) throws OrmException;
 
-  @Deprecated
-  @Query("WHERE open = true AND dest.projectName = ? AND sortKey > ?"
-      + " ORDER BY sortKey LIMIT ?")
-  ResultSet<Change> byProjectOpenPrev(Project.NameKey p, String sortKey,
-      int limit) throws OrmException;
-
   @Query("WHERE open = true AND dest.projectName = ? AND sortKey < ?"
       + " ORDER BY sortKey DESC LIMIT ?")
   ResultSet<Change> byProjectOpenNext(Project.NameKey p, String sortKey,
       int limit) throws OrmException;
-
-  @Deprecated
-  @Query("WHERE open = false AND status = ? AND dest.projectName = ? AND sortKey > ?"
-      + " ORDER BY sortKey LIMIT ?")
-  ResultSet<Change> byProjectClosedPrev(char status, Project.NameKey p,
-      String sortKey, int limit) throws OrmException;
-
-  @Deprecated
-  @Query("WHERE open = false AND status = ? AND dest.projectName = ? AND sortKey < ?"
-      + " ORDER BY sortKey DESC LIMIT ?")
-  ResultSet<Change> byProjectClosedNext(char status, Project.NameKey p,
-      String sortKey, int limit) throws OrmException;
-
-  @Deprecated
-  @Query("WHERE open = false AND status = ? AND sortKey > ? ORDER BY sortKey LIMIT ?")
-  ResultSet<Change> allClosedPrev(char status, String sortKey, int limit)
-      throws OrmException;
-
-  @Deprecated
-  @Query("WHERE open = false AND status = ? AND sortKey < ? ORDER BY sortKey DESC LIMIT ?")
-  ResultSet<Change> allClosedNext(char status, String sortKey, int limit)
-      throws OrmException;
-
-  @Deprecated
-  @Query("WHERE open = false AND status = ? AND dest = ? AND sortKey > ?"
-      + " ORDER BY sortKey LIMIT ?")
-  ResultSet<Change> byBranchClosedPrev(char status, Branch.NameKey p,
-      String sortKey, int limit) throws OrmException;
-
-  @Deprecated
-  @Query("WHERE open = false AND status = ? AND dest = ? AND sortKey < ?"
-      + " ORDER BY sortKey DESC LIMIT ?")
-  ResultSet<Change> byBranchClosedNext(char status, Branch.NameKey p,
-      String sortKey, int limit) throws OrmException;
 
   @Query
   ResultSet<Change> all() throws OrmException;

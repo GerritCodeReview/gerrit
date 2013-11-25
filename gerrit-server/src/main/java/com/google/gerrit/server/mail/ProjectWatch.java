@@ -202,7 +202,6 @@ public class ProjectWatch {
     }
 
     if (filter != null) {
-      qb.setAllowFileRegex(true);
       Predicate<ChangeData> filterPredicate = qb.parse(filter);
       if (p == null) {
         p = filterPredicate;

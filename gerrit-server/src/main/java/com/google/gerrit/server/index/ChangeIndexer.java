@@ -15,7 +15,6 @@
 package com.google.gerrit.server.index;
 
 import com.google.common.base.Function;
-import com.google.common.util.concurrent.Callables;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListeningExecutorService;
@@ -37,24 +36,6 @@ public abstract class ChangeIndexer {
     ChangeIndexer create(ChangeIndex index);
     ChangeIndexer create(IndexCollection indexes);
   }
-
-  /** Instance indicating secondary index is disabled. */
-  public static final ChangeIndexer DISABLED = new ChangeIndexer(null) {
-    @Override
-    public CheckedFuture<?, IOException> indexAsync(ChangeData cd) {
-      return Futures.immediateCheckedFuture(null);
-    }
-
-    @Override
-    protected Callable<?> indexTask(ChangeData cd) {
-      return Callables.returning(null);
-    }
-
-    @Override
-    protected Callable<?> deleteTask(ChangeData cd) {
-      return Callables.returning(null);
-    }
-  };
 
   private static final Function<Exception, IOException> MAPPER =
       new Function<Exception, IOException>() {

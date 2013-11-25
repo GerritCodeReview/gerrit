@@ -1852,17 +1852,12 @@ A link:http://lucene.apache.org/[Lucene] index is used.
 * `SOLR`
 +
 A link:http://lucene.apache.org/solr/[Solr] index is used.
-+
-* `SQL`
-+
-No secondary index.  Not all query operators are supported.  Other
-query operators are routed through the standard SQL query engine.
 
 +
-By default, `SQL`.
+By default, `LUCENE`.
 +
-After enabling the secondary index, the index must be built using
-the link:pgm-reindex.html[reindex program] before restarting the
+After changing the secondary index type, the index must be rebuilt
+using the link:pgm-reindex.html[reindex program] before restarting the
 Gerrit server.
 
 [[ldap]]Section ldap

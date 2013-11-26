@@ -40,6 +40,7 @@ import com.google.inject.Provider;
 
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -203,8 +204,9 @@ public class ChangeBatchIndexer {
       @Override
       public Void call() throws Exception {
         Multimap<ObjectId, ChangeData> byId = ArrayListMultimap.create();
-        Repository repo = repoManager.openRepository(project);
+        Repository repo = null;
         try {
+          repo = repoManager.openRepository(project);
           Map<String, Ref> refs = repo.getRefDatabase().getRefs(ALL);
           for (Change c : db.get().changes().byProject(project)) {
             Ref r = refs.get(c.currentPatchSetId().toRefName());
@@ -214,8 +216,12 @@ public class ChangeBatchIndexer {
           }
           new ProjectIndexer(indexer, byId, repo, done, failed, verboseWriter)
               .call();
+        } catch(RepositoryNotFoundException rnfe) {
+          log.error(rnfe.getMessage());
         } finally {
-          repo.close();
+          if (repo != null) {
+            repo.close();
+          }
           // TODO(dborowitz): Opening all repositories in a live server may be
           // wasteful; see if we can determine which ones it is safe to close
           // with RepositoryCache.close(repo).

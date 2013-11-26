@@ -33,6 +33,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.Mergeable.MergeableInfo;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.SubmitInfoUpdatedListener;
 import com.google.gerrit.server.git.WorkQueue.Executor;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
@@ -51,7 +52,8 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
-public class MergeabilityChecker implements GitReferenceUpdatedListener {
+public class MergeabilityChecker implements GitReferenceUpdatedListener,
+    SubmitInfoUpdatedListener {
   private final ThreadLocalRequestContext tl;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final ChangeControl.GenericFactory changeControlFactory;
@@ -95,11 +97,23 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
   };
 
   @Override
-  public void onGitReferenceUpdated(Event event) {
+  public void onGitReferenceUpdated(GitReferenceUpdatedListener.Event event) {
     String ref = event.getRefName();
     if (ref.startsWith(Constants.R_HEADS) || ref.equals(GitRepositoryManager.REF_CONFIG)) {
       executor.submit(new RefUpdateTask(schemaFactory,
           new Project.NameKey(event.getProjectName()), ref));
+    }
+  }
+
+  @Override
+  public void onSubmitInfoUpdate(SubmitInfoUpdatedListener.Event event) {
+    try {
+      new ProjectUpdateTask(schemaFactory, event.getProjectName()).call();
+    } catch (Exception e) {
+      Throwables.propagateIfPossible(e);
+      throw new RuntimeException(
+          "Failed to update mergeability flags for project: "
+              + event.getProjectName().get(), e);
     }
   }
 
@@ -116,6 +130,10 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
   public CheckedFuture<Boolean, IOException> updateAsync(Change change) {
     return Futures.makeChecked(
         executor.submit(new ChangeUpdateTask(schemaFactory, change)), MAPPER);
+  }
+
+  private void forceUpdateAsync(Change change) {
+    executor.submit(new ChangeUpdateTask(schemaFactory, change, true));
   }
 
   /**
@@ -155,12 +173,19 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
   private class ChangeUpdateTask implements Callable<Boolean> {
     private final SchemaFactory<ReviewDb> schemaFactory;
     private final Change change;
+    private final boolean force;
 
     private ReviewDb reviewDb;
 
     ChangeUpdateTask(SchemaFactory<ReviewDb> schemaFactory, Change change) {
+      this(schemaFactory, change, false);
+    }
+
+    ChangeUpdateTask(SchemaFactory<ReviewDb> schemaFactory, Change change,
+        boolean force) {
       this.schemaFactory = schemaFactory;
       this.change = change;
+      this.force = force;
     }
 
     @Override
@@ -194,7 +219,9 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
       ReviewDb db = context.getReviewDbProvider().get();
       try {
         PatchSet ps = db.patchSets().get(change.currentPatchSetId());
-        MergeableInfo info = mergeable.get().apply(new RevisionResource(new ChangeResource(
+        Mergeable m = mergeable.get();
+        m.setForce(force);
+        MergeableInfo info = m.apply(new RevisionResource(new ChangeResource(
             changeControlFactory.controlFor(change, context.getCurrentUser())), ps));
         return change.isMergeable() != info.mergeable;
       } catch (ResourceConflictException e) {
@@ -234,6 +261,33 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
 
       for (Change change : mergeabilityCheckQueue.addAll(openChanges)) {
         updateAsync(change);
+      }
+      return null;
+    }
+  }
+
+  private class ProjectUpdateTask implements Callable<Void> {
+    private final SchemaFactory<ReviewDb> schemaFactory;
+    private final Project.NameKey project;
+
+    ProjectUpdateTask(SchemaFactory<ReviewDb> schemaFactory,
+        Project.NameKey project) {
+      this.schemaFactory = schemaFactory;
+      this.project = project;
+    }
+
+    @Override
+    public Void call() throws Exception {
+      List<Change> openChanges;
+      ReviewDb db = schemaFactory.open();
+      try {
+        openChanges = db.changes().byProjectOpenAll(project).toList();
+      } finally {
+        db.close();
+      }
+
+      for (Change change : openChanges) {
+        forceUpdateAsync(change);
       }
       return null;
     }

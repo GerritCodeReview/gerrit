@@ -248,6 +248,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), ProjectDeletedListener.class);
     DynamicSet.setOf(binder(), HeadUpdatedListener.class);
     DynamicSet.setOf(binder(), SubmitInfoUpdatedListener.class);
+    DynamicSet.bind(binder(), SubmitInfoUpdatedListener.class).to(MergeabilityChecker.class);
     DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(ChangeCache.class);
     DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(MergeabilityChecker.class);
     DynamicSet.setOf(binder(), ChangeListener.class);

@@ -70,6 +70,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
     Boolean reversePatchSetOrder;
     Boolean showUsernameInReviewCategory;
     Boolean relativeDateInChangeTable;
+    Boolean preselectPriorRevision;
     CommentVisibilityStrategy commentVisibilityStrategy;
     DiffView diffView;
     ChangeScreen changeScreen;
@@ -86,6 +87,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
       reversePatchSetOrder = p.isReversePatchSetOrder() ? true : null;
       showUsernameInReviewCategory = p.isShowUsernameInReviewCategory() ? true : null;
       relativeDateInChangeTable = p.isRelativeDateInChangeTable() ? true : null;
+      preselectPriorRevision = p.isPreselectPriorRevision() ? true : null;
       commentVisibilityStrategy = p.getCommentVisibilityStrategy();
       diffView = p.getDiffView();
       changeScreen = p.getChangeScreen();

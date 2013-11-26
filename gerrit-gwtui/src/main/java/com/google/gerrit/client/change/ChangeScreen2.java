@@ -538,6 +538,10 @@ public class ChangeScreen2 extends Screen {
     CallbackGroup group = new CallbackGroup();
     final MessageInfo last = myLastReply(info);
     final RevisionInfo rev = resolveRevisionToDisplay(info);
+    boolean preselectPriorRevision = Gerrit.isSignedIn() && Gerrit
+        .getUserAccount()
+        .getGeneralPreferences()
+        .isPreselectPriorRevision();
 
     final RevisionInfo base;
     boolean loadDiff = true;
@@ -545,6 +549,7 @@ public class ChangeScreen2 extends Screen {
       base = resolveRevisionOrPatchSetId(info, baseName, null);
     } else if (panel == null
         && last != null
+        && preselectPriorRevision
         && 0 < last._revisionNumber()
         && last._revisionNumber() < rev._number()) {
       base = resolveRevisionOrPatchSetId(info,

@@ -152,6 +152,9 @@ public final class AccountGeneralPreferences {
   @Column(id = 15, length = 20, notNull = false)
   protected String changeScreen;
 
+  @Column(id = 16)
+  protected boolean preselectPriorRevision;
+
   public AccountGeneralPreferences() {
   }
 
@@ -294,6 +297,14 @@ public final class AccountGeneralPreferences {
     changeScreen = ui != null ? ui.name() : null;
   }
 
+  public boolean isPreselectPriorRevision() {
+    return preselectPriorRevision;
+  }
+
+  public void setPreselectPriorRevision(boolean preselectPriorRevision) {
+    this.preselectPriorRevision = preselectPriorRevision;
+  }
+
   public void resetToDefaults() {
     maximumPageSize = DEFAULT_PAGESIZE;
     showSiteHeader = true;
@@ -309,5 +320,6 @@ public final class AccountGeneralPreferences {
     commentVisibilityStrategy = null;
     diffView = null;
     changeScreen = null;
+    preselectPriorRevision = false;
   }
 }

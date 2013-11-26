@@ -45,6 +45,7 @@ public class MyPreferencesScreen extends SettingsScreen {
   private CheckBox reversePatchSetOrder;
   private CheckBox showUsernameInReviewCategory;
   private CheckBox relativeDateInChangeTable;
+  private CheckBox preselectPriorRevision;
   private ListBox maximumPageSize;
   private ListBox dateFormat;
   private ListBox timeFormat;
@@ -62,6 +63,9 @@ public class MyPreferencesScreen extends SettingsScreen {
     copySelfOnEmails = new CheckBox(Util.C.copySelfOnEmails());
     reversePatchSetOrder = new CheckBox(Util.C.reversePatchSetOrder());
     showUsernameInReviewCategory = new CheckBox(Util.C.showUsernameInReviewCategory());
+    relativeDateInChangeTable = new CheckBox(Util.C.showRelativeDateInChangeTable());
+    preselectPriorRevision = new CheckBox(Util.C.preselectPriorRevision());
+
     maximumPageSize = new ListBox();
     for (final short v : PAGESIZE_CHOICES) {
       maximumPageSize.addItem(Util.M.rowsPerPage(v), String.valueOf(v));
@@ -135,9 +139,7 @@ public class MyPreferencesScreen extends SettingsScreen {
       dateTimePanel.add(timeFormat);
     }
 
-    relativeDateInChangeTable = new CheckBox(Util.C.showRelativeDateInChangeTable());
-
-    final Grid formGrid = new Grid(11, 2);
+    final Grid formGrid = new Grid(12, 2);
 
     int row = 0;
     formGrid.setText(row, labelIdx, "");
@@ -170,6 +172,10 @@ public class MyPreferencesScreen extends SettingsScreen {
 
     formGrid.setText(row, labelIdx, "");
     formGrid.setWidget(row, fieldIdx, relativeDateInChangeTable);
+    row++;
+
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, preselectPriorRevision);
     row++;
 
     formGrid.setText(row, labelIdx, Util.C.commentVisibilityLabel());
@@ -205,6 +211,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     e.listenTo(dateFormat);
     e.listenTo(timeFormat);
     e.listenTo(relativeDateInChangeTable);
+    e.listenTo(preselectPriorRevision);
     e.listenTo(commentVisibilityStrategy);
     e.listenTo(changeScreen);
     e.listenTo(diffView);
@@ -230,6 +237,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     dateFormat.setEnabled(on);
     timeFormat.setEnabled(on);
     relativeDateInChangeTable.setEnabled(on);
+    preselectPriorRevision.setEnabled(on);
     commentVisibilityStrategy.setEnabled(on);
     changeScreen.setEnabled(on);
     diffView.setEnabled(on);
@@ -247,6 +255,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     setListBox(timeFormat, AccountGeneralPreferences.TimeFormat.HHMM_12, //
         p.getTimeFormat());
     relativeDateInChangeTable.setValue(p.isRelativeDateInChangeTable());
+    preselectPriorRevision.setValue(p.isPreselectPriorRevision());
     setListBox(commentVisibilityStrategy,
         AccountGeneralPreferences.CommentVisibilityStrategy.EXPAND_RECENT,
         p.getCommentVisibilityStrategy());
@@ -324,6 +333,7 @@ public class MyPreferencesScreen extends SettingsScreen {
         AccountGeneralPreferences.TimeFormat.HHMM_12,
         AccountGeneralPreferences.TimeFormat.values()));
     p.setRelativeDateInChangeTable(relativeDateInChangeTable.getValue());
+    p.setPreselectPriorRevision(preselectPriorRevision.getValue());
     p.setCommentVisibilityStrategy(getListBox(commentVisibilityStrategy,
         CommentVisibilityStrategy.EXPAND_RECENT,
         CommentVisibilityStrategy.values()));

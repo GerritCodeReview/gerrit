@@ -15,12 +15,15 @@
 package com.google.gerrit.server.index;
 
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+
+import org.eclipse.jgit.lib.Config;
 
 /**
  * Definition of a field stored in the secondary index.
@@ -62,16 +65,19 @@ public abstract class FieldDef<I, T> {
     final GitRepositoryManager repoManager;
     final TrackingFooters trackingFooters;
     final PatchListCache patchListCache;
+    final Config cfg;
 
     @Inject
     FillArgs(Provider<ReviewDb> db,
         GitRepositoryManager repoManager,
         TrackingFooters trackingFooters,
-        PatchListCache patchListCache) {
+        PatchListCache patchListCache,
+        @GerritServerConfig Config cfg) {
       this.db = db;
       this.repoManager = repoManager;
       this.trackingFooters = trackingFooters;
       this.patchListCache = patchListCache;
+      this.cfg = cfg;
     }
   }
 

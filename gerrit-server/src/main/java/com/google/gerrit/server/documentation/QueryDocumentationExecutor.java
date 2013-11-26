@@ -45,7 +45,7 @@ public class QueryDocumentationExecutor {
       LoggerFactory.getLogger(QueryDocumentationExecutor.class);
 
   private static final String INDEX_PATH = "index.zip";
-  private static final Version LUCENE_VERSION = Version.LUCENE_44;
+  private static final Version LUCENE_VERSION = Version.LUCENE_46;
 
   private IndexSearcher searcher;
   private QueryParser parser;

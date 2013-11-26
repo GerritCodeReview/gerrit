@@ -118,6 +118,9 @@ public class ChangeSchemas {
         ChangeField.APPROVAL,
         ChangeField.MERGEABLE);
 
+  // For upgrade to Lucene 4.6.0 index format only.
+  static final Schema<ChangeData> V6 = release(V5.getFields().values());
+
   private static Schema<ChangeData> release(Collection<FieldDef<ChangeData, ?>> fields) {
     return new Schema<ChangeData>(true, fields);
   }

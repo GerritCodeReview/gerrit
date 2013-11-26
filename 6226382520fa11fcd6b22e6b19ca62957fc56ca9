@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "e33236f0_2ce8b322",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-11-26T02:57:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c44377e0_1dc57348",
+      "revId": "6226382520fa11fcd6b22e6b19ca62957fc56ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "844dff11_1bab3bb2",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/LabelType.java",
         "patchSetId": 18
@@ -166,6 +184,24 @@
     },
     {
       "key": {
+        "uuid": "e33236f0_0cedf732",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/LabelType.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-11-26T02:57:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c44377e0_7ddfd723",
+      "revId": "6226382520fa11fcd6b22e6b19ca62957fc56ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "844dff11_db295367",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 18
@@ -201,6 +237,24 @@
       "side": 1,
       "message": "please refer the Line 663 of https://gerrit-review.googlesource.com/#/c/49273/18/gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java\n\n label.setRefPatterns(getStringListOrNull(rc, LABEL, name, KEY_Branch));\n\nthat is why I only use \u0027\u0027refs \u003d\u003d null \u0027\u0027 here\n\nanyway  I agree \"refs \u003d\u003d null or refs.isEmpty() \" is better here.\n\nDone",
       "parentUuid": "844dff11_db295367",
+      "revId": "6226382520fa11fcd6b22e6b19ca62957fc56ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c32ff28a_6bdea182",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-11-26T02:57:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c44377e0_9db0a3f4",
       "revId": "6226382520fa11fcd6b22e6b19ca62957fc56ca9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -277,6 +331,24 @@
       "side": 1,
       "message": "yes. :) the answer is here https://gerrit-review.googlesource.com/#/c/49190/14..16/gerrit-server/src/test/java/com/google/gerrit/rules/GerritCommonTest.java",
       "parentUuid": "844dff11_fb2e8f6c",
+      "revId": "6226382520fa11fcd6b22e6b19ca62957fc56ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e33236f0_ecf18b11",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/rules/GerritCommonTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-11-26T02:57:52Z",
+      "side": 1,
+      "message": "Done\n\n\n let me copy them here\n\n\nDave Borowitz\t\t09-24 1:09 AM\nAre you actually testing anything by setting these new config values on these labels? Or by using labels other than the default set for that matter? Not that this is necessarily a problem, just wondering for the purposes of this review.\nReply ...Reply \u0027Done\u0027\n\t\t\nBruce Zu\t\t09-24 2:16 PM\noh,  I want provide all available cases of label\u0027s scope here \n without changing the result of this Test class.  \n --\u0027CR\u0027 is project scope (default) and be taken with All_Project, \n     so \u0027CR\u0027 will be available for \u0027change\u0027, line 80.\n --\u0027V\u0027 is branch special scope, and its branch scope is same as label access control scope, \n    later with line 74, \u0027V\u0027 will be available for \u0027change\u0027 too.\n --\u0027Q\u0027 is branch special scope, but only for \"refs/heads/develop\", given line 75, \n    so \u0027Q\u0027 will not be available for \u0027change\u0027 .\nThus \u0027CR\u0027 and \u0027V\u0027 will be available for \u0027change\u0027,\n this is the same result with that of this Test class before this commit.",
+      "parentUuid": "c44377e0_3de94fc7",
       "revId": "6226382520fa11fcd6b22e6b19ca62957fc56ca9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

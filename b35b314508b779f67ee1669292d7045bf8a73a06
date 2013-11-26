@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "23c52e24_4ede7382",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-11-26T18:16:50Z",
+      "side": 1,
+      "message": "Please document what these values mean.\n\nIt would also be nice if you could just specify the number in the predicate.",
+      "revId": "b35b314508b779f67ee1669292d7045bf8a73a06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a383dec3_22844e44",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeSizePredicate.java",
         "patchSetId": 2
@@ -48,6 +65,24 @@
       "writtenOn": "2013-11-26T14:05:10Z",
       "side": 1,
       "message": "+1",
+      "parentUuid": "a383dec3_42895259",
+      "revId": "b35b314508b779f67ee1669292d7045bf8a73a06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03c2ea1d_4dde7982",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeSizePredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-11-26T18:16:50Z",
+      "side": 1,
+      "message": "It is possible at the Lucene level to do range queries on numeric fields; we just don\u0027t have that support in the query generation code (except for special-casing the age and sortkey operators.)\n\nYou also have the problem that if this config value changes, it essentially invalidates the whole index, but there is no way for the index code to know that this value has changed between runs. (If we were just translating this to a numeric query based on the current value of the field, you wouldn\u0027t have this problem.)\n\nIMHO this should wait on numeric support in the index schema code.",
       "parentUuid": "a383dec3_42895259",
       "revId": "b35b314508b779f67ee1669292d7045bf8a73a06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

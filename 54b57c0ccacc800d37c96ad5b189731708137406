@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "83889ae3_214f6e82",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/LuceneQueryChangesTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-26T09:35:25Z",
+      "side": 1,
+      "message": "I see, thanks. Can you please revert my last change then?",
+      "parentUuid": "83889ae3_2101ae1c",
+      "revId": "54b57c0ccacc800d37c96ad5b189731708137406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83889ae3_e1f18611",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryModule.java",
         "patchSetId": 5

@@ -1860,6 +1860,10 @@ query operators are routed through the standard SQL query engine.
 
 +
 By default, `SQL`.
++
+After enabling the secondary index, the index must be built using
+the link:pgm-reindex.html[reindex program] before restarting the
+Gerrit server.
 
 [[ldap]]Section ldap
 ~~~~~~~~~~~~~~~~~~~~

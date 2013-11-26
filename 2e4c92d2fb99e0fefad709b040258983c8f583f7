@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03266ab5_cd17e95f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-26T03:33:15Z",
+      "side": 1,
+      "message": "Mention that the default is now Lucene?",
+      "revId": "2e4c92d2fb99e0fefad709b040258983c8f583f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

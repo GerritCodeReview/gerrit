@@ -153,6 +153,7 @@ public class Daemon extends SiteProgram {
 
   @Override
   public int run() throws Exception {
+    mustHaveValidJRE();
     if (doInit) {
       try {
         new Init(getSitePath()).run();
@@ -425,5 +426,16 @@ public class Daemon extends SiteProgram {
     final List<Module> modules = new ArrayList<Module>();
     modules.add(new JettyModule(new JettyEnv(webInjector)));
     return webInjector.createChildInjector(modules);
+  }
+
+  private static void mustHaveValidJRE() {
+    String p = System.getProperty("java.version");
+    String v = p.substring(0, 3);
+    Float f = Float.valueOf(v);
+    if (f.floatValue() < (float) 1.7) {
+      String m = String.format("Java version too low: %s", p);
+      log.error(m);
+      throw die(m);
+    }
   }
 }

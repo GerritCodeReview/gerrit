@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "23528e23_6607ee34",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-26T06:41:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03266ab5_cd17e95f",
+      "revId": "2e4c92d2fb99e0fefad709b040258983c8f583f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23528e23_66dece82",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitIndex.java",
         "patchSetId": 2
@@ -30,6 +48,47 @@
       "writtenOn": "2013-11-26T05:49:15Z",
       "side": 1,
       "message": "2013",
+      "revId": "2e4c92d2fb99e0fefad709b040258983c8f583f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "034f4a7f_05edd232",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-26T06:41:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23528e23_66dece82",
+      "revId": "2e4c92d2fb99e0fefad709b040258983c8f583f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "034f4a7f_e5f19611",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-26T06:41:49Z",
+      "side": 1,
+      "message": "It would be nice to prevent auto startup in this case.",
+      "range": {
+        "startLine": 81,
+        "startChar": 6,
+        "endLine": 82,
+        "endChar": 57
+      },
       "revId": "2e4c92d2fb99e0fefad709b040258983c8f583f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

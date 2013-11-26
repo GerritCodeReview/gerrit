@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03266ab5_edf18511",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-26T01:05:22Z",
+      "side": 1,
+      "message": "ErrorDialog is not imported.",
+      "revId": "e786675f23f1312eae7f2621feefea373a491403",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "633f26b6_500cac54",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 668,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-26T01:05:22Z",
+      "side": 1,
+      "message": "This constant is defined in a file that does not exist on the stable-2.8 branch.",
+      "revId": "e786675f23f1312eae7f2621feefea373a491403",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

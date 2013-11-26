@@ -22,6 +22,24 @@
       "revId": "54b57c0ccacc800d37c96ad5b189731708137406",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a383dec3_6207b634",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryModule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-26T08:13:04Z",
+      "side": 1,
+      "message": "Done,\n\n cfg.setBoolean(\"index\", \"lucene\", \"testInmemory\", true);\n\nis still needed.",
+      "parentUuid": "83889ae3_e1f18611",
+      "revId": "54b57c0ccacc800d37c96ad5b189731708137406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

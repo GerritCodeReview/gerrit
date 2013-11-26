@@ -17,6 +17,7 @@ package com.google.gerrit.testutil;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.common.net.InetAddresses;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.DisabledChangeHooks;
 import com.google.gerrit.reviewdb.client.AuthType;
@@ -69,10 +70,8 @@ import org.eclipse.jgit.lib.PersonIdent;
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
-import java.net.UnknownHostException;
 
 public class InMemoryModule extends FactoryModule {
   public static Config newDefaultConfig() {
@@ -120,12 +119,8 @@ public class InMemoryModule extends FactoryModule {
 
     bind(File.class).annotatedWith(SitePath.class).toInstance(new File("."));
     bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(cfg);
-    try {
-      bind(SocketAddress.class).annotatedWith(RemotePeer.class)
-          .toInstance(new InetSocketAddress(InetAddress.getLocalHost(), 1234));
-    } catch (UnknownHostException e) {
-      throw newProvisionException(e);
-    }
+    bind(SocketAddress.class).annotatedWith(RemotePeer.class).toInstance(
+        new InetSocketAddress(InetAddresses.forString("127.0.0.1"), 1234));
     bind(PersonIdent.class)
         .annotatedWith(GerritPersonIdent.class)
         .toProvider(GerritPersonIdentProvider.class);

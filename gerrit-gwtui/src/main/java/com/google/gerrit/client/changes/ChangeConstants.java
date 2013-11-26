@@ -48,7 +48,6 @@ public interface ChangeConstants extends Constants {
   String changeTableColumnBranch();
   String changeTableColumnLastUpdate();
   String changeTableNone();
-  String changeTableNotMergeable();
 
   String changeItemHelp();
   String changeTableStar();

@@ -16,6 +16,47 @@
       "revId": "972b2583d3c9b6100f162de5ca6224127a815855",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83889ae3_815afa41",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-26T09:42:14Z",
+      "side": 1,
+      "message": "Yes, I think David is right about this.",
+      "parentUuid": "c31a9266_1354ec14",
+      "revId": "972b2583d3c9b6100f162de5ca6224127a815855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83889ae3_61557614",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-26T09:42:14Z",
+      "side": 1,
+      "message": "Unrelated to this change, but should we always update the token when the selection of the \u0027Diff against\u0027 base is changed? I mean also if the user manually selects another base.",
+      "range": {
+        "startLine": 583,
+        "startChar": 12,
+        "endLine": 584,
+        "endChar": 50
+      },
+      "revId": "972b2583d3c9b6100f162de5ca6224127a815855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

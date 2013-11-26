@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "435dc230_47e3ce4a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/DiffPreferencesInput.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-11-26T07:07:37Z",
+      "side": 1,
+      "message": "Confirmed.",
+      "parentUuid": "83633af1_69dea582",
+      "revId": "d76d9e54981ae72cc345f0404d65a582c0d05366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a35e7e29_6ade9782",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/DiffPreferencesInput.java",
         "patchSetId": 14
@@ -48,6 +66,30 @@
       "writtenOn": "2013-11-26T04:55:23Z",
       "side": 1,
       "message": "return void",
+      "range": {
+        "startLine": 59,
+        "startChar": 23,
+        "endLine": 59,
+        "endChar": 26
+      },
+      "revId": "d76d9e54981ae72cc345f0404d65a582c0d05366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63580642_e8f17311",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/DiffPreferencesInput.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-11-26T07:07:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a35e7e29_6ade9782",
       "range": {
         "startLine": 59,
         "startChar": 23,
@@ -77,6 +119,24 @@
     },
     {
       "key": {
+        "uuid": "e34b1672_84f8a6f1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffPreferences.css",
+        "patchSetId": 14
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-11-26T07:07:37Z",
+      "side": 1,
+      "message": "See comment in ShowDiffPreferencesCommand.java.",
+      "parentUuid": "83633af1_89f8b9f1",
+      "revId": "d76d9e54981ae72cc345f0404d65a582c0d05366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83633af1_a9fb7ded",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffPreferences.css",
         "patchSetId": 14
@@ -88,6 +148,24 @@
       "writtenOn": "2013-11-26T04:55:23Z",
       "side": 1,
       "message": "200? 200 is above CM3 but below the help dialog.",
+      "revId": "d76d9e54981ae72cc345f0404d65a582c0d05366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63580642_c8eeaf2d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffPreferences.css",
+        "patchSetId": 14
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-11-26T07:07:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83633af1_a9fb7ded",
       "revId": "d76d9e54981ae72cc345f0404d65a582c0d05366",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -111,6 +189,24 @@
     },
     {
       "key": {
+        "uuid": "435dc230_27e8da22",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffScreen.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-11-26T07:07:37Z",
+      "side": 1,
+      "message": "Was pulling some code out for Unified2 in the future, but yeah, will drop for now.",
+      "parentUuid": "83633af1_49e3e14a",
+      "revId": "d76d9e54981ae72cc345f0404d65a582c0d05366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83633af1_29e8ad22",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffScreen.java",
         "patchSetId": 14
@@ -122,6 +218,24 @@
       "writtenOn": "2013-11-26T04:55:23Z",
       "side": 1,
       "message": "Unused.",
+      "revId": "d76d9e54981ae72cc345f0404d65a582c0d05366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "435dc230_470cee54",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffScreen.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-11-26T07:07:37Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "83633af1_29e8ad22",
       "revId": "d76d9e54981ae72cc345f0404d65a582c0d05366",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -145,6 +259,24 @@
     },
     {
       "key": {
+        "uuid": "435dc230_e7f1a211",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/ShowDiffPreferencesCommand.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-11-26T07:07:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83633af1_09ede932",
+      "revId": "d76d9e54981ae72cc345f0404d65a582c0d05366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83633af1_c9eeb12d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/ShowDiffPreferencesCommand.java",
         "patchSetId": 14
@@ -156,6 +288,24 @@
       "writtenOn": "2013-11-26T04:55:23Z",
       "side": 1,
       "message": "Why is this static? Shouldn\u0027t it be instance?",
+      "revId": "d76d9e54981ae72cc345f0404d65a582c0d05366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "435dc230_c7ee9e2d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/ShowDiffPreferencesCommand.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-11-26T07:07:37Z",
+      "side": 1,
+      "message": "Done. I think it was copied from ShowHelpCommand.",
+      "parentUuid": "83633af1_c9eeb12d",
       "revId": "d76d9e54981ae72cc345f0404d65a582c0d05366",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -179,6 +329,24 @@
     },
     {
       "key": {
+        "uuid": "435dc230_a7fbaaed",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/ShowDiffPreferencesCommand.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-11-26T07:07:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83633af1_e9f17511",
+      "revId": "d76d9e54981ae72cc345f0404d65a582c0d05366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a35e7e29_4ae3d34a",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/ShowDiffPreferencesCommand.java",
         "patchSetId": 14
@@ -190,6 +358,30 @@
       "writtenOn": "2013-11-26T04:55:23Z",
       "side": 1,
       "message": "This is probably overkill. Scrolling is disabled on the page when CM3 is visible. Can\u0027t we just use some CSS bit like this?\n\n  position: fixed;\n  left: 50px;\n  top: 150px;",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 62,
+        "endChar": 7
+      },
+      "revId": "d76d9e54981ae72cc345f0404d65a582c0d05366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63580642_a8fb7bed",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/ShowDiffPreferencesCommand.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-11-26T07:07:37Z",
+      "side": 1,
+      "message": "Simply calling settings.show() doesn\u0027t work. The visibility is still \"hidden\".",
+      "parentUuid": "a35e7e29_4ae3d34a",
       "range": {
         "startLine": 54,
         "startChar": 4,
@@ -225,6 +417,30 @@
     },
     {
       "key": {
+        "uuid": "63580642_480cff54",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-11-26T07:07:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a35e7e29_2ae89f22",
+      "range": {
+        "startLine": 305,
+        "startChar": 12,
+        "endLine": 305,
+        "endChar": 54
+      },
+      "revId": "d76d9e54981ae72cc345f0404d65a582c0d05366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a35e7e29_0aeddb32",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
         "patchSetId": 14
@@ -236,6 +452,30 @@
       "writtenOn": "2013-11-26T04:55:23Z",
       "side": 1,
       "message": "no spaces after/before ()",
+      "range": {
+        "startLine": 428,
+        "startChar": 7,
+        "endLine": 428,
+        "endChar": 37
+      },
+      "revId": "d76d9e54981ae72cc345f0404d65a582c0d05366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "435dc230_87f8a6f1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-11-26T07:07:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a35e7e29_0aeddb32",
       "range": {
         "startLine": 428,
         "startChar": 7,
@@ -271,6 +511,30 @@
     },
     {
       "key": {
+        "uuid": "c348d27a_83f89ef1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-11-26T07:07:37Z",
+      "side": 1,
+      "message": "See change in updateDiffPrefs().",
+      "parentUuid": "63580642_68dea382",
+      "range": {
+        "startLine": 433,
+        "startChar": 6,
+        "endLine": 441,
+        "endChar": 9
+      },
+      "revId": "d76d9e54981ae72cc345f0404d65a582c0d05366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63580642_48e3df4a",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
         "patchSetId": 14
@@ -282,6 +546,30 @@
       "writtenOn": "2013-11-26T04:55:23Z",
       "side": 1,
       "message": "Do these in an operation so CM3 can defer updating its DOM.\n\nYou can also update the mode to react to syntax highlighting changes.",
+      "range": {
+        "startLine": 516,
+        "startChar": 4,
+        "endLine": 519,
+        "endChar": 49
+      },
+      "revId": "d76d9e54981ae72cc345f0404d65a582c0d05366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63580642_6807c334",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-11-26T07:07:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63580642_48e3df4a",
       "range": {
         "startLine": 516,
         "startChar": 4,
@@ -311,6 +599,24 @@
     },
     {
       "key": {
+        "uuid": "e34b1672_6407ea34",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-11-26T07:07:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "435dc230_67ded282",
+      "revId": "d76d9e54981ae72cc345f0404d65a582c0d05366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63580642_28e8ab22",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
         "patchSetId": 14
@@ -322,6 +628,30 @@
       "writtenOn": "2013-11-26T04:55:23Z",
       "side": 1,
       "message": "This is one of the dumbest options we have to support but, OK.",
+      "range": {
+        "startLine": 780,
+        "startChar": 6,
+        "endLine": 782,
+        "endChar": 7
+      },
+      "revId": "d76d9e54981ae72cc345f0404d65a582c0d05366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e34b1672_440cee54",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-11-26T07:07:37Z",
+      "side": 1,
+      "message": "Yeah...",
+      "parentUuid": "63580642_28e8ab22",
       "range": {
         "startLine": 780,
         "startChar": 6,

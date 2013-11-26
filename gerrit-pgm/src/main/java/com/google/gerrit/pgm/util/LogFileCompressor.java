@@ -19,7 +19,6 @@ import static java.util.concurrent.TimeUnit.HOURS;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
 
@@ -97,11 +96,9 @@ public class LogFileCompressor implements Runnable {
 
   private boolean isLive(final File entry) {
     final String name = entry.getName();
-    return ErrorLogFile.LOG_NAME.equals(name) //
-        || GarbageCollection.LOG_NAME.equals(name) //
-        || "sshd_log".equals(name) //
-        || "httpd_log".equals(name) //
-        || "gerrit.run".equals(name) //
+    return name.endsWith("_log")
+        || name.endsWith(".log")
+        || name.endsWith(".run")
         || name.endsWith(".pid");
   }
 

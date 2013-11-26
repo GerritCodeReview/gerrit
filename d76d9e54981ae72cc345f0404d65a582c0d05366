@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "435dc230_07edd632",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/DiffPreferencesInput.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-26T05:08:49Z",
+      "side": 1,
+      "message": "I noticed the same problem here.\n\nhttps://gerrit-review.googlesource.com/#/c/52085/1/gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml\n\nI\u0027ve added it in the tracker:\nhttps://code.google.com/p/gerrit/issues/detail?id\u003d2277",
+      "parentUuid": "83633af1_69dea582",
+      "revId": "d76d9e54981ae72cc345f0404d65a582c0d05366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a35e7e29_6ade9782",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/DiffPreferencesInput.java",
         "patchSetId": 14

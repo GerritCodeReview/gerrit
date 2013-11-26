@@ -46,6 +46,29 @@
       "revId": "af0f211d735a0e8038622ceaacd77db93df3461f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83889ae3_e148a677",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeSizePredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-11-26T11:35:45Z",
+      "side": 1,
+      "message": "This is a logarithmic scale. The code could be written something like:\n\n  size \u003d log2(n/(threshold/4) + 1)\n  if (size \u003c Value.values().size()) {\n    return Value.values()[size];\n  } else {\n    return XL;\n  }\n\nDon\u0027t know what is more readable.",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 7
+      },
+      "revId": "af0f211d735a0e8038622ceaacd77db93df3461f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

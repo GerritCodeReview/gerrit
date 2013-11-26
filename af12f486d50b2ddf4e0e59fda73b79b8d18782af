@@ -19,6 +19,47 @@
     },
     {
       "key": {
+        "uuid": "633f26b6_10ed0433",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-26T00:43:33Z",
+      "side": 1,
+      "message": "I agree.\n\nFor me it would be more useful to be able to filter out the ones that can\u0027t be merged.",
+      "parentUuid": "c31a9266_b329b89d",
+      "revId": "af12f486d50b2ddf4e0e59fda73b79b8d18782af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03266ab5_4de3f94a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-26T00:43:33Z",
+      "side": 1,
+      "message": "why",
+      "range": {
+        "startLine": 20,
+        "startChar": 19,
+        "endLine": 20,
+        "endChar": 22
+      },
+      "revId": "af12f486d50b2ddf4e0e59fda73b79b8d18782af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23244ea3_f68de066",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/AccountDashboardScreen.java",
         "patchSetId": 1

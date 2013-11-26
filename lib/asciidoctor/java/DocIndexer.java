@@ -43,7 +43,7 @@ import java.util.List;
 import java.util.zip.ZipOutputStream;
 
 public class DocIndexer {
-  private static final Version LUCENE_VERSION = Version.LUCENE_44;
+  private static final Version LUCENE_VERSION = Version.LUCENE_46;
 
   @Option(name = "-z", usage = "output zip file")
   private String zipFile;

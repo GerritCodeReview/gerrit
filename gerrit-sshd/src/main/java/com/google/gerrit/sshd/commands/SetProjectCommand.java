@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.reviewdb.client.Project;
@@ -22,6 +23,8 @@ import com.google.gerrit.reviewdb.client.Project.State;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.git.SubmitInfoUpdatedListener.SubmitInfo;
+import com.google.gerrit.server.git.SubmitRuleUpdated;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.CommandMetaData;
@@ -117,6 +120,9 @@ final class SetProjectCommand extends SshCommand {
   @Inject
   private ProjectCache projectCache;
 
+  @Inject
+  private SubmitRuleUpdated submitRuleUpdated;
+
   @Override
   protected void run() throws Failure {
     Project ctlProject = projectControl.getProject();
@@ -125,6 +131,7 @@ final class SetProjectCommand extends SshCommand {
     final StringBuilder err = new StringBuilder();
 
     try {
+      SubmitInfo oldSubmitInfo = new SubmitInfo(projectControl.getProjectState());
       MetaDataUpdate md = metaDataUpdateFactory.create(nameKey);
       try {
         ProjectConfig config = ProjectConfig.read(md);
@@ -156,6 +163,11 @@ final class SetProjectCommand extends SshCommand {
         }
         md.setMessage("Project settings updated");
         config.commit(md);
+        submitRuleUpdated.fire(
+            project.getNameKey(),
+            oldSubmitInfo,
+            new SubmitInfo(config, Iterables.getFirst(projectControl
+                .getProjectState().parents(), null)));
       } finally {
         md.close();
       }

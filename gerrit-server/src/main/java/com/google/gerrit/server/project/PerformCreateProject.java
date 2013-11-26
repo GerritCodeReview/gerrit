@@ -37,6 +37,8 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.RepositoryCaseMismatchException;
+import com.google.gerrit.server.git.SubmitInfoUpdatedListener.SubmitInfo;
+import com.google.gerrit.server.git.SubmitRuleUpdated;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -81,6 +83,8 @@ public class PerformCreateProject {
   private final ProjectCache projectCache;
   private final GroupBackend groupBackend;
   private final MetaDataUpdate.User metaDataUpdateFactory;
+  private final ProjectState.Factory projectStateFactory;
+  private final SubmitRuleUpdated submitRuleUpdated;
 
   @Inject
   PerformCreateProject(@GerritServerConfig Config cfg,
@@ -90,7 +94,9 @@ public class PerformCreateProject {
       DynamicSet<NewProjectCreatedListener> createdListener,
       @GerritPersonIdent PersonIdent personIdent, GroupBackend groupBackend,
       MetaDataUpdate.User metaDataUpdateFactory,
-      @Assisted CreateProjectArgs createPArgs, ProjectCache pCache) {
+      @Assisted CreateProjectArgs createPArgs, ProjectCache pCache,
+      ProjectState.Factory projectStateFactory,
+      SubmitRuleUpdated submitRuleUpdated) {
     this.cfg = cfg;
     this.projectOwnerGroups = pOwnerGroups;
     this.currentUser = identifiedUser;
@@ -102,6 +108,8 @@ public class PerformCreateProject {
     this.projectCache = pCache;
     this.groupBackend = groupBackend;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
+    this.projectStateFactory = projectStateFactory;
+    this.submitRuleUpdated = submitRuleUpdated;
   }
 
   public Project createProject() throws ProjectCreationFailedException {
@@ -214,6 +222,8 @@ public class PerformCreateProject {
 
       md.setMessage("Created project\n");
       config.commit(md);
+      submitRuleUpdated.fire(newProject.getNameKey(), null, new SubmitInfo(
+          projectStateFactory.create(config)));
     } finally {
       md.close();
     }

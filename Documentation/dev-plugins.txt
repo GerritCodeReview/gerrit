@@ -368,6 +368,11 @@ Project deletion
 +
 Update of HEAD on a project
 
+* `com.google.gerrit.server.git.SubmitInfoUpdatedListener`:
++
+Update of project submit type, project content merge setting or project
+submit rule.
+
 [[stream-events]]
 Sending Events to the Events Stream
 -----------------------------------

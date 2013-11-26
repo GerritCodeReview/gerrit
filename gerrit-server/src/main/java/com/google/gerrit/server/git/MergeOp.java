@@ -49,6 +49,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.SubmitInfoUpdatedListener.SubmitInfo;
 import com.google.gerrit.server.git.validators.MergeValidationException;
 import com.google.gerrit.server.git.validators.MergeValidators;
 import com.google.gerrit.server.index.ChangeIndexer;
@@ -163,6 +164,7 @@ public class MergeOp {
   private final WorkQueue workQueue;
   private final RequestScopePropagator requestScopePropagator;
   private final ChangeIndexer indexer;
+  private final SubmitRuleUpdated submitRuleUpdated;
 
   @Inject
   MergeOp(final GitRepositoryManager grm, final SchemaFactory<ReviewDb> sf,
@@ -179,7 +181,8 @@ public class MergeOp {
       final WorkQueue workQueue,
       final RequestScopePropagator requestScopePropagator,
       final ChangeIndexer indexer,
-      final MergeValidators.Factory mergeValidatorsFactory) {
+      final MergeValidators.Factory mergeValidatorsFactory,
+      final SubmitRuleUpdated submitRuleUpdated) {
     repoManager = grm;
     schemaFactory = sf;
     labelNormalizer = fs;
@@ -200,6 +203,7 @@ public class MergeOp {
     this.requestScopePropagator = requestScopePropagator;
     this.indexer = indexer;
     this.mergeValidatorsFactory = mergeValidatorsFactory;
+    this.submitRuleUpdated = submitRuleUpdated;
     destBranch = branch;
     toMerge = ArrayListMultimap.create();
     potentiallyStillSubmittable = new ArrayList<CodeReviewCommit>();
@@ -582,11 +586,15 @@ public class MergeOp {
     }
 
     if (mergeTip != null && (branchTip == null || branchTip != mergeTip)) {
+      SubmitInfo oldSubmitInfo = null;
+      SubmitInfo newSubmitInfo = null;
       if (GitRepositoryManager.REF_CONFIG.equals(branchUpdate.getName())) {
         try {
+          oldSubmitInfo = new SubmitInfo(destProject);
           ProjectConfig cfg =
               new ProjectConfig(destProject.getProject().getNameKey());
           cfg.load(repo, mergeTip);
+          newSubmitInfo = new SubmitInfo(cfg, Iterables.getFirst(destProject.parents(), null));
         } catch (Exception e) {
           throw new MergeException("Submit would store invalid"
               + " project configuration " + mergeTip.name() + " for "
@@ -625,6 +633,7 @@ public class MergeOp {
               account = accountCache.get(submitter.getAccountId()).getAccount();
             }
             hooks.doRefUpdatedHook(destBranch, branchUpdate, account);
+            submitRuleUpdated.fire(destProject.getProject().getNameKey(), oldSubmitInfo, newSubmitInfo);
             break;
 
           case LOCK_FAILURE:

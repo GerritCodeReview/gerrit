@@ -37,6 +37,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.CheckedFuture;
@@ -78,6 +79,7 @@ import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
+import com.google.gerrit.server.git.SubmitInfoUpdatedListener.SubmitInfo;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.git.validators.CommitValidators;
@@ -300,6 +302,9 @@ public class ReceiveCommits {
   private final Provider<Submit> submitProvider;
   private final MergeQueue mergeQueue;
   private final MergeUtil.Factory mergeUtilFactory;
+  private final SubmitRuleUpdated submitRuleUpdated;
+  private final Map<ReceiveCommand, SubmitInfo> oldSubmitInfo;
+  private final Map<ReceiveCommand, SubmitInfo> newSubmitInfo;
 
   private final List<CommitValidationMessage> messages = new ArrayList<CommitValidationMessage>();
   private ListMultimap<Error, String> errors = LinkedListMultimap.create();
@@ -345,7 +350,8 @@ public class ReceiveCommits {
       final SubmoduleOp.Factory subOpFactory,
       final Provider<Submit> submitProvider,
       final MergeQueue mergeQueue,
-      final MergeUtil.Factory mergeUtilFactory) throws IOException {
+      final MergeUtil.Factory mergeUtilFactory,
+      final SubmitRuleUpdated submitRuleUpdated) throws IOException {
     this.currentUser = (IdentifiedUser) projectControl.getCurrentUser();
     this.db = db;
     this.schemaFactory = schemaFactory;
@@ -386,6 +392,10 @@ public class ReceiveCommits {
     this.submitProvider = submitProvider;
     this.mergeQueue = mergeQueue;
     this.mergeUtilFactory = mergeUtilFactory;
+    this.submitRuleUpdated = submitRuleUpdated;
+
+    this.oldSubmitInfo = Maps.newHashMap();
+    this.newSubmitInfo = Maps.newHashMap();
 
     this.messageSender = new ReceivePackMessageSender();
 
@@ -568,6 +578,7 @@ public class ReceiveCommits {
           ProjectState ps = projectCache.get(project.getNameKey());
           repoManager.setProjectDescription(project.getNameKey(), //
               ps.getProject().getDescription());
+          submitRuleUpdated.fire(project.getNameKey(), oldSubmitInfo.get(c), newSubmitInfo.get(c));
         }
 
         if (!MagicBranch.isMagicBranch(c.getRefName())) {
@@ -814,6 +825,8 @@ public class ReceiveCommits {
           case CREATE:
           case UPDATE:
           case UPDATE_NONFASTFORWARD:
+            ProjectState projectState = projectCache.get(project.getNameKey());
+            oldSubmitInfo.put(cmd, new SubmitInfo(projectState));
             try {
               ProjectConfig cfg = new ProjectConfig(project.getNameKey());
               cfg.load(repo, cmd.getNewId());
@@ -848,6 +861,7 @@ public class ReceiveCommits {
                   continue;
                 }
               }
+              newSubmitInfo.put(cmd, new SubmitInfo(cfg, Iterables.getFirst(projectState.parents(), null)));
             } catch (Exception e) {
               reject(cmd, "invalid project configuration");
               log.error("User " + currentUser.getUserName()

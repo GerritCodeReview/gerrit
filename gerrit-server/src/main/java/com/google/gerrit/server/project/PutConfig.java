@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -27,6 +28,8 @@ import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.git.SubmitInfoUpdatedListener.SubmitInfo;
+import com.google.gerrit.server.git.SubmitRuleUpdated;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.project.PutConfig.Input;
 import com.google.inject.Inject;
@@ -56,6 +59,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
   private final TransferConfig config;
   private final DynamicMap<RestView<ProjectResource>> views;
   private final Provider<CurrentUser> currentUser;
+  private final SubmitRuleUpdated submitRuleUpdated;
 
   @Inject
   PutConfig(MetaDataUpdate.User metaDataUpdateFactory,
@@ -64,7 +68,8 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
       ProjectState.Factory projectStateFactory,
       TransferConfig config,
       DynamicMap<RestView<ProjectResource>> views,
-      Provider<CurrentUser> currentUser) {
+      Provider<CurrentUser> currentUser,
+      SubmitRuleUpdated submitRuleUpdated) {
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.projectCache = projectCache;
     this.self = self;
@@ -72,6 +77,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
     this.config = config;
     this.views = views;
     this.currentUser = currentUser;
+    this.submitRuleUpdated = submitRuleUpdated;
   }
 
   @Override
@@ -126,11 +132,15 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
         p.setState(input.state);
       }
 
+      ProjectState projectState = rsrc.getControl().getProjectState();
+      SubmitInfo oldSubmitInfo = new SubmitInfo(projectState);
       md.setMessage("Modified project settings\n");
       try {
         projectConfig.commit(md);
         (new PerRequestProjectControlCache(projectCache, self.get()))
             .evict(projectConfig.getProject());
+        submitRuleUpdated.fire(projectName, oldSubmitInfo, new SubmitInfo(
+            projectConfig, Iterables.getFirst(projectState.parents(), null)));
       } catch (IOException e) {
         if (e.getCause() instanceof ConfigInvalidException) {
           throw new ResourceConflictException("Cannot update " + projectName

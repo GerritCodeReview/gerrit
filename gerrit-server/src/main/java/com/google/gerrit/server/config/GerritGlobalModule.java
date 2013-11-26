@@ -80,6 +80,8 @@ import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.NotesBranchUtil;
 import com.google.gerrit.server.git.ReloadSubmitQueueOp;
+import com.google.gerrit.server.git.SubmitInfoUpdatedListener;
+import com.google.gerrit.server.git.SubmitRuleUpdated;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
@@ -237,6 +239,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(new com.google.gerrit.server.project.Module());
 
     bind(GitReferenceUpdated.class);
+    bind(SubmitRuleUpdated.class);
     DynamicMap.mapOf(binder(), new TypeLiteral<Cache<?, ?>>() {});
     DynamicSet.setOf(binder(), CacheRemovalListener.class);
     DynamicMap.mapOf(binder(), CapabilityDefinition.class);
@@ -244,6 +247,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), NewProjectCreatedListener.class);
     DynamicSet.setOf(binder(), ProjectDeletedListener.class);
     DynamicSet.setOf(binder(), HeadUpdatedListener.class);
+    DynamicSet.setOf(binder(), SubmitInfoUpdatedListener.class);
     DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(ChangeCache.class);
     DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(MergeabilityChecker.class);
     DynamicSet.setOf(binder(), ChangeListener.class);

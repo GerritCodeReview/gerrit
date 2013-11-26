@@ -25,6 +25,12 @@ public class LineWidget extends JavaScriptObject {
   public final native void clear() /*-{ this.clear(); }-*/;
   public final native void changed() /*-{ this.changed(); }-*/;
 
+  public final native void onRedraw(Runnable thunk) /*-{
+    this.on("redraw", $entry(function() {
+      thunk.@java.lang.Runnable::run()();
+    }));
+  }-*/;
+
   public final native void onFirstRedraw(Runnable thunk) /*-{
     var w = this;
     var h = $entry(function() {

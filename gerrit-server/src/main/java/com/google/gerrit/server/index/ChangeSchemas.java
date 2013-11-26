@@ -120,6 +120,30 @@ public class ChangeSchemas {
         ChangeField.APPROVAL,
         ChangeField.MERGEABLE);
 
+  @SuppressWarnings("unchecked")
+  static final Schema<ChangeData> V6 = release(
+        ChangeField.LEGACY_ID,
+        ChangeField.ID,
+        ChangeField.STATUS,
+        ChangeField.PROJECT,
+        ChangeField.REF,
+        ChangeField.TOPIC,
+        ChangeField.UPDATED,
+        ChangeField.SORTKEY,
+        ChangeField.FILE,
+        ChangeField.OWNER,
+        ChangeField.REVIEWER,
+        ChangeField.COMMIT,
+        ChangeField.TR,
+        ChangeField.LABEL,
+        ChangeField.REVIEWED,
+        ChangeField.COMMIT_MESSAGE,
+        ChangeField.COMMENT,
+        ChangeField.CHANGE,
+        ChangeField.APPROVAL,
+        ChangeField.MERGEABLE,
+        ChangeField.SIZE);
+
   private static Schema<ChangeData> release(Collection<FieldDef<ChangeData, ?>> fields) {
     return new Schema<ChangeData>(true, fields);
   }

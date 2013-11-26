@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
+import com.google.gerrit.server.query.change.ChangeSizePredicate;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gwtorm.protobuf.CodecFactory;
 import com.google.gwtorm.protobuf.ProtobufCodec;
@@ -77,6 +78,18 @@ public class ChangeField {
             throws OrmException {
           return ChangeStatusPredicate.VALUES.get(
               input.change(args.db).getStatus());
+        }
+      };
+
+  /** Change size */
+  public static final FieldDef<ChangeData, String> SIZE =
+      new FieldDef.Single<ChangeData, String>(ChangeQueryBuilder.FIELD_SIZE,
+          FieldType.EXACT, false) {
+        @Override
+        public String get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return ChangeSizePredicate.Value.from(input.changedLines(
+              args.db, args.patchListCache), args.cfg).name();
         }
       };
 

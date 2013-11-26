@@ -31,6 +31,7 @@ import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.SubmitStrategyFactory;
 import com.google.gerrit.server.index.ChangeIndex;
@@ -50,6 +51,7 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
+import org.eclipse.jgit.lib.Config;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -102,6 +104,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_REF = "ref";
   public static final String FIELD_REVIEWER = "reviewer";
   public static final String FIELD_REVIEWERIN = "reviewerin";
+  public static final String FIELD_SIZE = "size";
   public static final String FIELD_STARREDBY = "starredby";
   public static final String FIELD_STATUS = "status";
   public static final String FIELD_TOPIC = "topic";
@@ -157,6 +160,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final IndexCollection indexes;
     final SubmitStrategyFactory submitStrategyFactory;
     final ConflictsCache conflictsCache;
+    final Config cfg;
 
     @Inject
     @VisibleForTesting
@@ -175,7 +179,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         Provider<ListChildProjects> listChildProjects,
         IndexCollection indexes,
         SubmitStrategyFactory submitStrategyFactory,
-        ConflictsCache conflictsCache) {
+        ConflictsCache conflictsCache,
+        @GerritServerConfig Config cfg) {
       this.dbProvider = dbProvider;
       this.rewriter = rewriter;
       this.userFactory = userFactory;
@@ -192,6 +197,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.indexes = indexes;
       this.submitStrategyFactory = submitStrategyFactory;
       this.conflictsCache = conflictsCache;
+      this.cfg = cfg;
     }
   }
 
@@ -318,6 +324,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     throw new IllegalArgumentException();
+  }
+
+  @Operator
+  public Predicate<ChangeData> size(String size) {
+    return new ChangeSizePredicate(args.dbProvider, args.patchListCache,
+        args.cfg, size);
   }
 
   @Operator

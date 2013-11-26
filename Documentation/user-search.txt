@@ -290,6 +290,12 @@ status:abandoned::
 +
 Change has been abandoned.
 
+[[size]]
+size:'SIZE'::
++
+True if the change size equals the given 'SIZE'. The possible
+values for the 'SIZE' are: `XS`, `S`, `M`, `L`, `XL`.
+
 
 Argument Quoting
 ----------------

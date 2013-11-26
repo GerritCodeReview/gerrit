@@ -87,8 +87,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class SideBySide2 extends Screen {
   interface Binder extends UiBinder<FlowPanel, SideBySide2> {}
@@ -127,6 +129,7 @@ public class SideBySide2 extends Screen {
   private Map<LineHandle, LinePaddingWidgetWrapper> linePaddingOnOtherSideMap;
   private List<DiffChunkInfo> diffChunks;
   private List<SkippedLine> skips;
+  private Set<DraftBox> unsaved;
   private int context;
 
   private KeyCommandSet keysNavigation;
@@ -150,6 +153,7 @@ public class SideBySide2 extends Screen {
     }
     context = pref.getContext();
 
+    unsaved = new HashSet<DraftBox>();
     handlers = new ArrayList<HandlerRegistration>(6);
     // TODO: Re-implement necessary GlobalKey bindings.
     addDomHandler(GlobalKey.STOP_PROPAGATION, KeyPressEvent.getType());
@@ -248,6 +252,7 @@ public class SideBySide2 extends Screen {
   protected void onUnload() {
     super.onUnload();
 
+    saveAllDrafts();
     removeKeyHandlerRegs();
     if (resizeHandler != null) {
       resizeHandler.removeHandler();
@@ -602,7 +607,7 @@ public class SideBySide2 extends Screen {
     return box;
   }
 
-  CommentBox addCommentBox(CommentInfo info, CommentBox box) {
+  CommentBox addCommentBox(CommentInfo info, final CommentBox box) {
     box.setParent(this);
     diffTable.add(box);
     DisplaySide side = box.getSide();
@@ -649,6 +654,17 @@ public class SideBySide2 extends Screen {
         box instanceof DraftBox
           ? SidePanel.GutterType.DRAFT
           : SidePanel.GutterType.COMMENT));
+    if (box instanceof DraftBox) {
+      boxWidget.onRedraw(new Runnable() {
+        @Override
+        public void run() {
+          DraftBox draftBox = (DraftBox) box;
+          if (draftBox.isEdit()) {
+            draftBox.editArea.setFocus(true);
+          }
+        }
+      });
+    }
     return box;
   }
 
@@ -659,6 +675,22 @@ public class SideBySide2 extends Screen {
       List<PublishedBox> list = linePublishedBoxesMap.get(handle);
       lineActiveBoxMap.put(handle, list.get(list.size() - 1));
     }
+    unsaved.remove(box);
+  }
+
+  void updateUnsaved(DraftBox box, boolean isEdit) {
+    if (isEdit) {
+      unsaved.add(box);
+    } else {
+      unsaved.remove(box);
+    }
+  }
+
+  private void saveAllDrafts() {
+    for (DraftBox box : unsaved) {
+      box.save();
+    }
+    unsaved.clear();
   }
 
   void addFileCommentBox(CommentBox box) {
@@ -1054,6 +1086,7 @@ public class SideBySide2 extends Screen {
   private Runnable upToChange(final boolean openReplyBox) {
     return new Runnable() {
       public void run() {
+        saveAllDrafts();
         String b = base != null ? String.valueOf(base.get()) : null;
         String rev = String.valueOf(revision.get());
         Gerrit.display(

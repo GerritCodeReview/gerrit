@@ -175,7 +175,7 @@ class DraftBox extends CommentBox {
     resizePaddingWidget();
   }
 
-  private boolean isEdit() {
+  boolean isEdit() {
     return UIObject.isVisible(p_edit);
   }
 
@@ -205,6 +205,7 @@ class DraftBox extends CommentBox {
     } else {
       expandTimer.cancel();
     }
+    parent.updateUnsaved(this, edit);
     resizePaddingWidget();
   }
 
@@ -257,10 +258,10 @@ class DraftBox extends CommentBox {
   @UiHandler("save")
   void onSave(ClickEvent e) {
     e.stopPropagation();
-    onSave();
+    save();
   }
 
-  private void onSave() {
+  void save() {
     String message = editArea.getValue().trim();
     if (message.length() == 0) {
       return;
@@ -342,7 +343,7 @@ class DraftBox extends CommentBox {
         case 's':
         case 'S':
           e.preventDefault();
-          onSave();
+          save();
           return;
       }
     } else if (e.getNativeKeyCode() == KeyCodes.KEY_ESCAPE && !isDirty()) {

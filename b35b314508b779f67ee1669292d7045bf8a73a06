@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a383dec3_22844e44",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeSizePredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-26T13:03:27Z",
+      "side": 1,
+      "message": "Would it make sense additionally provide a similar predicate, but with custom threshold to overwrite configuration change.largeChange or 500 LoC if the configuration option wasn\u0027t defined, e. g.:\n\n sizeWithThreshold:XL@5000",
+      "revId": "b35b314508b779f67ee1669292d7045bf8a73a06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

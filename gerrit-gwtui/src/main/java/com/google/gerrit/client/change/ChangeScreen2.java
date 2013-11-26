@@ -127,6 +127,7 @@ public class ChangeScreen2 extends Screen {
   private Timestamp lastDisplayedUpdate;
   private UpdateAvailableBar updateAvailable;
   private boolean openReplyBox;
+  private String panel;
 
   @UiField HTMLPanel headerLine;
   @UiField Style style;
@@ -172,11 +173,13 @@ public class ChangeScreen2 extends Screen {
   private RevisionsAction revisionsAction;
   private DownloadAction downloadAction;
 
-  public ChangeScreen2(Change.Id changeId, String base, String revision, boolean openReplyBox) {
+  public ChangeScreen2(Change.Id changeId, String base,
+      String revision, boolean openReplyBox, String panel) {
     this.changeId = changeId;
     this.base = normalize(base);
     this.revision = normalize(revision);
     this.openReplyBox = openReplyBox;
+    this.panel = panel;
     add(uiBinder.createAndBindUi(this));
   }
 
@@ -540,7 +543,8 @@ public class ChangeScreen2 extends Screen {
     boolean loadDiff = true;
     if (baseName != null) {
       base = resolveRevisionOrPatchSetId(info, baseName, null);
-    } else if (last != null
+    } else if (panel == null
+        && last != null
         && 0 < last._revisionNumber()
         && last._revisionNumber() < rev._number()) {
       base = resolveRevisionOrPatchSetId(info,

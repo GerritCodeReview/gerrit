@@ -67,6 +67,7 @@ public final class GerritLauncher {
       System.err.println();
       System.err.println("The most commonly used commands are:");
       System.err.println("  init           Initialize a Gerrit installation");
+      System.err.println("  reindex        Rebuild the secondary index");
       System.err.println("  daemon         Run the Gerrit network daemons");
       System.err.println("  gsql           Run the interactive query console");
       System.err.println("  version        Display the build version number");

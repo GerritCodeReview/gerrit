@@ -25,18 +25,22 @@ import javax.inject.Singleton;
 @Singleton
 class MergeabilityCheckQueue {
   private final Set<Change.Id> pending = Sets.newHashSet();
+  private final Set<Change.Id> forcePending = Sets.newHashSet();
 
-  synchronized Set<Change> addAll(Collection<Change> changes) {
+  synchronized Set<Change> addAll(Collection<Change> changes, boolean force) {
     Set<Change> r = Sets.newLinkedHashSetWithExpectedSize(changes.size());
     for (Change c : changes) {
-      if (pending.add(c.getId())) {
+      if (force ? forcePending.add(c.getId()) : pending.add(c.getId())) {
         r.add(c);
       }
     }
     return r;
   }
 
-  synchronized void updatingMergeabilityFlag(Change change) {
+  synchronized void updatingMergeabilityFlag(Change change, boolean force) {
+    if (force) {
+      forcePending.remove(change.getId());
+    }
     pending.remove(change.getId());
   }
 }

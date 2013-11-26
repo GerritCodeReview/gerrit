@@ -69,6 +69,8 @@ public class Mergeable implements RestReadView<RevisionResource> {
   private final Provider<ReviewDb> db;
   private final ChangeIndexer indexer;
 
+  private boolean force;
+
   @Inject
   Mergeable(TestSubmitType.Get submitType,
       GitRepositoryManager gitManager,
@@ -80,6 +82,10 @@ public class Mergeable implements RestReadView<RevisionResource> {
     this.submitStrategyFactory = submitStrategyFactory;
     this.db = db;
     this.indexer = indexer;
+  }
+
+  public void setForce(boolean force) {
+    this.force = force;
   }
 
   @Override
@@ -103,7 +109,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
     try {
       Map<String, Ref> refs = git.getRefDatabase().getRefs(RefDatabase.ALL);
       Ref ref = refs.get(change.getDest().get());
-      if (isStale(change, ref)) {
+      if (force || isStale(change, ref)) {
         result.mergeable =
             refresh(change, ps, result.submitType, git, refs, ref);
       }

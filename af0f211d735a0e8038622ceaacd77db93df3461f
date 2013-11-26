@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e34b1672_6455aa14",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeSizePredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-26T10:49:39Z",
+      "side": 1,
+      "message": "Threshold",
+      "range": {
+        "startLine": 34,
+        "startChar": 21,
+        "endLine": 34,
+        "endChar": 29
+      },
+      "revId": "af0f211d735a0e8038622ceaacd77db93df3461f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

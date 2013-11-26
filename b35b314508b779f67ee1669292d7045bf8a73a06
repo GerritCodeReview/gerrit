@@ -16,6 +16,24 @@
       "revId": "b35b314508b779f67ee1669292d7045bf8a73a06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a383dec3_42895259",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeSizePredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-11-26T13:32:33Z",
+      "side": 1,
+      "message": "What exactly would your example mean? To find all XL changes assuming 5000 changed lines is the value for the change.largeChange? Effectively, this means that I am searching for changes with more than 10000 changed lines.\n\nI would rather have something as simple as:\n\n  size:200\n\nwhich would find all changes with \u003c\u003d200 changed lines.\nDon\u0027t know if this is possible with our Lucene indexing.",
+      "parentUuid": "a383dec3_22844e44",
+      "revId": "b35b314508b779f67ee1669292d7045bf8a73a06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

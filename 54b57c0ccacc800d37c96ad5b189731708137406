@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "83889ae3_2101ae1c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/LuceneQueryChangesTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-26T08:27:47Z",
+      "side": 1,
+      "message": "Sorry, I think I didn\u0027t express clearly what I meant.\n\nWe cannot simple delete this class as this removes all Lucene query tests.\n\nWhat I meant is: If the InMemoryModule is now always configuring Lucene, than all tests are done with Lucene. In this case having AbstractIndexQueryChangesTest that is a base class for testing different index types doesn\u0027t make much sense. If we want to test different index types the InMemoryModule should stay neutral to the index type.\n\nIf we would only want to test Lucene we could configure Lucene in InMemoryModule and change AbstractIndexQueryChangesTest to be not abstract and to only test Lucene. Only in this case we can delete LuceneQueryChangesTest which is the only implementation of AbstractIndexQueryChangesTest (that we see).\n\nHowever as Shawn commented there are tests for other index types (internal to Google for the index type used for gerrit-review.googlesource.com). This means we cannot do these changes and we must find another way to fix com.google.gerrit.server.schema.SchemaCreatorTest and\ncom.google.gerrit.server.schema.SchemaUpdaterTest.",
+      "revId": "54b57c0ccacc800d37c96ad5b189731708137406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83889ae3_e1f18611",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryModule.java",
         "patchSetId": 5

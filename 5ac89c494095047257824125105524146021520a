@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c348d27a_c317b65f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffPreferencesPopup.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-11-26T07:21:25Z",
+      "side": 1,
+      "message": "Haven\u0027t looked at this file closely. Should these styles be fixed?",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 96
+      },
+      "revId": "5ac89c494095047257824125105524146021520a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

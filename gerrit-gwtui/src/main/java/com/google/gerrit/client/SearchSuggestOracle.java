@@ -122,6 +122,10 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
     suggestions.add("size:M");
     suggestions.add("size:L");
     suggestions.add("size:XL");
+    suggestions.add("size:&lt;S");
+    suggestions.add("size:&lt;M");
+    suggestions.add("size:&lt;L");
+    suggestions.add("size:&lt;XL");
 
     suggestions.add("AND");
     suggestions.add("OR");

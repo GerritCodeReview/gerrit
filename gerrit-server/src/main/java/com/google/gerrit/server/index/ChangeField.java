@@ -26,6 +26,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeSizePredicate;
+import com.google.gerrit.server.query.change.ChangeSizePredicate.Value;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gwtorm.protobuf.CodecFactory;
 import com.google.gwtorm.protobuf.ProtobufCodec;
@@ -36,6 +37,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -82,14 +84,21 @@ public class ChangeField {
       };
 
   /** Change size */
-  public static final FieldDef<ChangeData, String> SIZE =
-      new FieldDef.Single<ChangeData, String>(ChangeQueryBuilder.FIELD_SIZE,
+  public static final FieldDef<ChangeData, Iterable<String>> SIZE =
+      new FieldDef.Repeatable<ChangeData, String>(ChangeQueryBuilder.FIELD_SIZE,
           FieldType.EXACT, false) {
         @Override
-        public String get(ChangeData input, FillArgs args)
+        public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
-          return ChangeSizePredicate.Value.from(input.changedLines(
-              args.db, args.patchListCache), args.cfg).name();
+          Value v = ChangeSizePredicate.Value.from(input.changedLines(
+              args.db, args.patchListCache), args.cfg);
+          int len = ChangeSizePredicate.Value.values().length;
+          List<String> result = Lists.newArrayListWithCapacity(len - v.ordinal());
+          result.add(v.name());
+          for (int i = v.ordinal() + 1; i < len; i++) {
+            result.add("<" + ChangeSizePredicate.Value.values()[i].name());
+          }
+          return result;
         }
       };
 

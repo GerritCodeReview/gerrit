@@ -58,6 +58,8 @@ import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.dom.client.SelectElement;
+import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -73,6 +75,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
@@ -113,6 +116,7 @@ public class ChangeScreen2 extends Screen {
   }
 
   private final Change.Id changeId;
+  private String base;
   private String revision;
   private ChangeInfo changeInfo;
   private CommentLinkProcessor commentLinkProcessor;
@@ -124,6 +128,7 @@ public class ChangeScreen2 extends Screen {
   private Timestamp lastDisplayedUpdate;
   private UpdateAvailableBar updateAvailable;
   private boolean openReplyBox;
+  private boolean loaded;
 
   @UiField HTMLPanel headerLine;
   @UiField Style style;
@@ -151,6 +156,7 @@ public class ChangeScreen2 extends Screen {
   @UiField CommitBox commit;
   @UiField RelatedChanges related;
   @UiField FileTable files;
+  @UiField ListBox diffBase;
   @UiField History history;
 
   @UiField Button includedIn;
@@ -167,9 +173,10 @@ public class ChangeScreen2 extends Screen {
   private RevisionsAction revisionsAction;
   private DownloadAction downloadAction;
 
-  public ChangeScreen2(Change.Id changeId, String revision, boolean openReplyBox) {
+  public ChangeScreen2(Change.Id changeId, String base, String revision, boolean openReplyBox) {
     this.changeId = changeId;
-    this.revision = revision != null && !revision.isEmpty() ? revision : null;
+    this.base = normalize(base);
+    this.revision = normalize(revision);
     this.openReplyBox = openReplyBox;
     add(uiBinder.createAndBindUi(this));
   }
@@ -185,7 +192,7 @@ public class ChangeScreen2 extends Screen {
       @Override
       public void onSuccess(ChangeInfo info) {
         info.init();
-        loadConfigInfo(info);
+        loadConfigInfo(info, base);
       }
     });
   }
@@ -194,9 +201,7 @@ public class ChangeScreen2 extends Screen {
     RestApi call = ChangeApi.detail(changeId.get());
     ChangeList.addOptions(call, EnumSet.of(
       ListChangesOption.CURRENT_ACTIONS,
-      fg && revision != null
-        ? ListChangesOption.ALL_REVISIONS
-        : ListChangesOption.CURRENT_REVISION));
+      ListChangesOption.ALL_REVISIONS));
     if (!fg) {
       call.background();
     }
@@ -444,25 +449,41 @@ public class ChangeScreen2 extends Screen {
     collapseAll.setVisible(false);
   }
 
-  private void loadConfigInfo(final ChangeInfo info) {
+  @UiHandler("diffBase")
+  void onChangeRevision(ChangeEvent e) {
+    int idx = diffBase.getSelectedIndex();
+    if (0 <= idx) {
+      String n = diffBase.getValue(idx);
+      loadConfigInfo(changeInfo, !n.isEmpty() ? n : null);
+    }
+  }
+
+  private void loadConfigInfo(final ChangeInfo info, final String base) {
     info.revisions().copyKeysIntoChildren("name");
     final RevisionInfo rev = resolveRevisionToDisplay(info);
+    final RevisionInfo b = resolveRevisionOrPatchSetId(info, base, null);
 
     CallbackGroup group = new CallbackGroup();
-    loadDiff(rev, myLastReply(info), group);
+    loadDiff(b, rev, myLastReply(info), group);
     loadCommit(rev, group);
+
+    if (loaded) {
+      group.done();
+      return;
+    }
+
     RevisionInfoCache.add(changeId, rev);
     ConfigInfoCache.add(info);
     ConfigInfoCache.get(info.project_name_key(),
-      group.add(new ScreenLoadCallback<ConfigInfoCache.Entry>(this) {
+      group.addFinal(new ScreenLoadCallback<ConfigInfoCache.Entry>(this) {
         @Override
         protected void preDisplay(Entry result) {
+          loaded = true;
           commentLinkProcessor = result.getCommentLinkProcessor();
           setTheme(result.getTheme());
           renderChangeInfo(info);
         }
       }));
-    group.done();
   }
 
   private static Timestamp myLastReply(ChangeInfo info) {
@@ -478,16 +499,19 @@ public class ChangeScreen2 extends Screen {
     return null;
   }
 
-  private void loadDiff(final RevisionInfo rev, final Timestamp myLastReply,
-      CallbackGroup group) {
+  private void loadDiff(final RevisionInfo base, final RevisionInfo rev,
+      final Timestamp myLastReply, CallbackGroup group) {
     final List<NativeMap<JsArray<CommentInfo>>> comments = loadComments(rev, group);
     final List<NativeMap<JsArray<CommentInfo>>> drafts = loadDrafts(rev, group);
     DiffApi.list(changeId.get(),
+      base != null ? base.name() : null,
       rev.name(),
       group.add(new AsyncCallback<NativeMap<FileInfo>>() {
         @Override
         public void onSuccess(NativeMap<FileInfo> m) {
-          files.setRevisions(null, new PatchSet.Id(changeId, rev._number()));
+          files.setRevisions(
+              base != null ? new PatchSet.Id(changeId, base._number()) : null,
+              new PatchSet.Id(changeId, rev._number()));
           files.setValue(m, myLastReply, comments.get(0), drafts.get(0));
         }
 
@@ -623,19 +647,57 @@ public class ChangeScreen2 extends Screen {
   }
 
   private RevisionInfo resolveRevisionToDisplay(ChangeInfo info) {
-    if (revision == null) {
-      revision = info.current_revision();
-    } else if (!info.revisions().containsKey(revision)) {
+    RevisionInfo rev = resolveRevisionOrPatchSetId(info, revision,
+        info.current_revision());
+    if (rev != null) {
+      revision = rev.name();
+      return rev;
+    }
+
+    // the revision is not visible to the calling user (maybe it is a draft?)
+    // or the change is corrupt, take the last revision that was returned,
+    // if no revision was returned display an error
+    JsArray<RevisionInfo> revisions = info.revisions().values();
+    if (revisions.length() > 0) {
+      RevisionInfo.sortRevisionInfoByNumber(revisions);
+      rev = revisions.get(revisions.length() - 1);
+      revision = rev.name();
+      return rev;
+    } else {
+      new ErrorDialog(
+          Resources.M.changeWithNoRevisions(info.legacy_id().get())).center();
+      throw new IllegalStateException("no revision, cannot proceed");
+    }
+  }
+
+  /**
+   *
+   * Resolve a revision or patch set id string to RevisionInfo.
+   * When this view is created from the changes table, revision
+   * is passed as a real revision.
+   * When this view is created from side by side (by closing it with 'u')
+   * patch set id is passed.
+   *
+   * @param info change info
+   * @param revOrId revision or patch set id
+   * @param defaultValue value returned when rev is null
+   * @return resolved revision or default value
+   */
+  private RevisionInfo resolveRevisionOrPatchSetId(ChangeInfo info,
+      String revOrId, String defaultValue) {
+    if (revOrId == null) {
+      revOrId = defaultValue;
+    } else if (!info.revisions().containsKey(revOrId)) {
       JsArray<RevisionInfo> list = info.revisions().values();
       for (int i = 0; i < list.length(); i++) {
         RevisionInfo r = list.get(i);
-        if (revision.equals(String.valueOf(r._number()))) {
-          revision = r.name();
+        if (revOrId.equals(String.valueOf(r._number()))) {
+          revOrId = r.name();
           break;
         }
       }
     }
-    return info.revision(revision);
+    return revOrId != null ? info.revision(revOrId) : null;
   }
 
   private void renderChangeInfo(ChangeInfo info) {
@@ -653,6 +715,7 @@ public class ChangeScreen2 extends Screen {
 
     renderOwner(info);
     renderActionTextDate(info);
+    renderDiffBaseListBox(info);
     initIncludedInAction(info);
     initRevisionsAction(info, revision);
     initDownloadAction(info, revision);
@@ -728,6 +791,33 @@ public class ChangeScreen2 extends Screen {
     actionDate.setInnerText(FormatUtil.relativeFormat(info.updated()));
   }
 
+  private void renderDiffBaseListBox(ChangeInfo info) {
+    JsArray<RevisionInfo> list = info.revisions().values();
+    RevisionInfo.sortRevisionInfoByNumber(list);
+    int selectedIdx = list.length();
+    for (int i = list.length() - 1; i >= 0; i--) {
+      RevisionInfo r = list.get(i);
+      diffBase.addItem(
+        r._number() + ": " + r.name().substring(0, 6),
+        r.name());
+      if (r.name().equals(revision)) {
+        SelectElement.as(diffBase.getElement()).getOptions()
+            .getItem(diffBase.getItemCount() - 1).setDisabled(true);
+      }
+      if (base != null && base.equals(String.valueOf(r._number()))) {
+        selectedIdx = diffBase.getItemCount() - 1;
+      }
+    }
+
+    RevisionInfo rev = info.revisions().get(revision);
+    JsArray<CommitInfo> parents = rev.commit().parents();
+    diffBase.addItem(
+      parents.length() > 1 ? Util.C.autoMerge() : Util.C.baseDiffItem(),
+      "");
+
+    diffBase.setSelectedIndex(selectedIdx);
+  }
+
   void showUpdates(ChangeInfo newInfo) {
     if (!isAttached() || newInfo.updated().equals(lastDisplayedUpdate)) {
       return;
@@ -769,5 +859,9 @@ public class ChangeScreen2 extends Screen {
       updateCheck.schedule();
       handlers.add(UserActivityMonitor.addValueChangeHandler(updateCheck));
     }
+  }
+
+  private static String normalize(String r) {
+    return r != null && !r.isEmpty() ? r : null;
   }
 }

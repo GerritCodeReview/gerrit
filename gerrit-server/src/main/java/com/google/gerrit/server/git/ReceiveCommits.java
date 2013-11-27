@@ -38,6 +38,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.CheckedFuture;
@@ -126,6 +127,7 @@ import org.eclipse.jgit.transport.AdvertiseRefsHook;
 import org.eclipse.jgit.transport.AdvertiseRefsHookChain;
 import org.eclipse.jgit.transport.BaseReceivePack;
 import org.eclipse.jgit.transport.ReceiveCommand;
+import org.eclipse.jgit.transport.RefFilter;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.ServiceMayNotContinueException;
@@ -390,6 +392,20 @@ public class ReceiveCommits {
     rp.setAllowDeletes(true);
     rp.setAllowNonFastForwards(true);
     rp.setCheckReceivedObjects(true);
+    rp.setRefFilter(new RefFilter() {
+      @Override
+      public Map<String, Ref> filter(Map<String, Ref> refs) {
+        Map<String, Ref> filteredRefs = Maps.newHashMapWithExpectedSize(refs.size());
+        for (Map.Entry<String, Ref> e : refs.entrySet()) {
+          String name = e.getKey();
+          if (!name.startsWith("refs/changes/")
+              && !name.startsWith(GitRepositoryManager.REFS_CACHE_AUTOMERGE)) {
+            filteredRefs.put(name, e.getValue());
+          }
+        }
+        return filteredRefs;
+      }
+    });
 
     if (!projectControl.allRefsAreVisible()) {
       rp.setCheckReferencedObjectsAreReachable(config.checkReferencedObjectsAreReachable);

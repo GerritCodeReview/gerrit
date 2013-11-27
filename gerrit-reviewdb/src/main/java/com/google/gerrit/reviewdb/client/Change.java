@@ -236,7 +236,7 @@ public final class Change {
      * period while the merge queue fires and the destination branch is updated.
      * However, if a dependency commit (a {@link PatchSetAncestor}, directly or
      * transitively) is not yet merged into the branch, the change will hang in
-     * the SUBMITTED state indefinately.
+     * the SUBMITTED state indefinitely.
      *
      * <p>
      * Changes in the SUBMITTED state can be moved to:

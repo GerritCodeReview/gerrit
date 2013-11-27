@@ -8,6 +8,10 @@ link:https://gerrit-releases.storage.googleapis.com/gerrit-2.9.war[
 https://gerrit-releases.storage.googleapis.com/gerrit-2.9.war]
 
 
+*WARNING:* Support for Java 1.6 has been discontinued.
+As of Gerrit 2.9, Java 1.7 is required.
+
+
 Schema Change
 -------------
 

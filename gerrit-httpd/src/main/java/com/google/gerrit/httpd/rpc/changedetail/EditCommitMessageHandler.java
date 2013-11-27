@@ -27,6 +27,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.CommitMessageEditedSender;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -61,6 +62,7 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
   private final GitRepositoryManager gitManager;
   private final PersonIdent myIdent;
   private final PatchSetInserter.Factory patchSetInserterFactory;
+  private final ChangeIndexer indexer;
 
   @Inject
   EditCommitMessageHandler(final ChangeControl.Factory changeControlFactory,
@@ -71,7 +73,8 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
       @Assisted @Nullable final String message,
       final GitRepositoryManager gitManager,
       @GerritPersonIdent final PersonIdent myIdent,
-      final PatchSetInserter.Factory patchSetInserterFactory) {
+      final PatchSetInserter.Factory patchSetInserterFactory,
+      ChangeIndexer indexer) {
     this.changeControlFactory = changeControlFactory;
     this.db = db;
     this.currentUser = currentUser;
@@ -82,6 +85,7 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
     this.gitManager = gitManager;
     this.myIdent = myIdent;
     this.patchSetInserterFactory = patchSetInserterFactory;
+    this.indexer = indexer;
   }
 
   @Override
@@ -104,9 +108,11 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
       throw new NoSuchChangeException(changeId, e);
     }
     try {
-      ChangeUtil.editCommitMessage(patchSetId, control.getRefControl(),
-          currentUser, message, db, commitMessageEditedSenderFactory, git,
-          myIdent, patchSetInserterFactory);
+      Change change =
+          ChangeUtil.editCommitMessage(patchSetId, control.getRefControl(),
+              currentUser, message, db, commitMessageEditedSenderFactory, git,
+              myIdent, patchSetInserterFactory);
+      indexer.index(change);
       return changeDetailFactory.create(changeId).call();
     } finally {
       git.close();

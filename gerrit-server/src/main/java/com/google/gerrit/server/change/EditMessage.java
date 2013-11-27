@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
@@ -30,6 +31,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gerrit.server.change.EditMessage.Input;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.CommitMessageEditedSender;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -55,6 +57,7 @@ class EditMessage implements RestModifyView<RevisionResource, Input>,
   private final PersonIdent myIdent;
   private final PatchSetInserter.Factory patchSetInserterFactory;
   private final ChangeJson json;
+  private final ChangeIndexer indexer;
 
   static class Input {
     @DefaultInput
@@ -67,13 +70,14 @@ class EditMessage implements RestModifyView<RevisionResource, Input>,
       final GitRepositoryManager gitManager,
       final PatchSetInserter.Factory patchSetInserterFactory,
       @GerritPersonIdent final PersonIdent myIdent,
-      ChangeJson json) {
+      ChangeJson json, ChangeIndexer indexer) {
     this.dbProvider = dbProvider;
     this.commitMessageEditedSenderFactory = commitMessageEditedSenderFactory;
     this.gitManager = gitManager;
     this.myIdent = myIdent;
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.json = json;
+    this.indexer = indexer;
   }
 
   @Override
@@ -92,13 +96,15 @@ class EditMessage implements RestModifyView<RevisionResource, Input>,
     }
 
     try {
-      return json.format(ChangeUtil.editCommitMessage(
+      Change change = ChangeUtil.editCommitMessage(
           rsrc.getPatchSet().getId(),
           rsrc.getControl().getRefControl(),
           (IdentifiedUser) rsrc.getControl().getCurrentUser(),
           input.message, dbProvider.get(),
           commitMessageEditedSenderFactory, git, myIdent,
-          patchSetInserterFactory));
+          patchSetInserterFactory);
+      indexer.index(change);
+      return json.format(change);
     } catch (InvalidChangeOperationException e) {
       throw new BadRequestException(e.getMessage());
     } catch (MissingObjectException e) {

@@ -332,7 +332,7 @@ public class ChangeUtil {
     }
   }
 
-  public static Change.Id editCommitMessage(final PatchSet.Id patchSetId,
+  public static Change editCommitMessage(final PatchSet.Id patchSetId,
       final RefControl refControl, final IdentifiedUser user,
       final String message, final ReviewDb db,
       final CommitMessageEditedSender.Factory commitMessageEditedSenderFactory,
@@ -403,7 +403,7 @@ public class ChangeUtil {
           .setDraft(originalPS.isDraft())
           .insert();
 
-      return change.getId();
+      return change;
     } finally {
       revWalk.release();
     }

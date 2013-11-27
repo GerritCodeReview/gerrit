@@ -205,6 +205,8 @@ into the pop-up text field activates auto completion of user or group names.
 
 To remove reviewers click on the 'x' icon in the reviewer's "chip".
 
+Votable categories are shown as a tooltip for each reviewer.
+
 Key bindings:  "c" to add a reviewer. "ESC" to close the drop down.
 
 [[auto-refresh]]

@@ -123,4 +123,17 @@ public class ApprovalDetail {
     Integer v = values.get(label);
     return v != null ? v : 0;
   }
+
+  public Set<String> votable() {
+    Set<String> s = new HashSet<String>();
+    if (values == null || votable == null) {
+      return s;
+    }
+    for (String label: values.keySet()) {
+      if (votable.contains(label)) {
+        s.add(label);
+      }
+    }
+    return s;
+  }
 }

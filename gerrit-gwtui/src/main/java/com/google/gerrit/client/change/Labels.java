@@ -25,6 +25,7 @@ import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.common.data.ApprovalDetail;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -176,7 +177,7 @@ class Labels extends Grid {
       }
       html.append(val).append(" ");
       html.append(formatUserList(style, m.get(v),
-          Collections.<Integer> emptySet()));
+          Collections.<Integer> emptySet(), null));
       html.closeSpan();
     }
     return html.toBlockWidget();
@@ -222,7 +223,8 @@ class Labels extends Grid {
 
   static SafeHtml formatUserList(ChangeScreen2.Style style,
       Collection<? extends AccountInfo> in,
-      Set<Integer> removable) {
+      Set<Integer> removable,
+      Map<Integer, ApprovalDetail> votable) {
     List<AccountInfo> users = new ArrayList<AccountInfo>(in);
     Collections.sort(users, new Comparator<AccountInfo>() {
       @Override
@@ -261,9 +263,24 @@ class Labels extends Grid {
         name = Integer.toString(ai._account_id());
       }
 
+      String votableCategories = "";
+      if (votable != null) {
+        Set<String> votableSet = votable.get(ai._account_id()).votable();
+        if (!votableSet.isEmpty()) {
+          StringBuilder sb = new StringBuilder(Util.C.votable());
+          for (Iterator<String> it = votableSet.iterator(); it.hasNext();) {
+            sb.append(it.next());
+            if (it.hasNext()) {
+              sb.append(", ");
+            }
+          }
+          votableCategories = sb.toString();
+        }
+      }
       html.openSpan()
           .setAttribute("role", "listitem")
           .setAttribute(DATA_ID, ai._account_id())
+          .setAttribute("title", votableCategories)
           .setStyleName(style.label_user());
       if (img != null) {
         html.openElement("img")

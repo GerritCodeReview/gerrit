@@ -180,6 +180,9 @@ link:cmd-show-queue.html[ps]::
 link:cmd-suexec.html[suexec]::
 	Execute a command as any registered user account.
 
+link:cmd-update-mergeability.html[update-mergeability]::
+	Update mergeability flag for all changes for a specific ref.
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

@@ -80,7 +80,7 @@ public class ProjectConfig extends VersionedMetaData {
   private static final String KEY_LINK = "link";
   private static final String KEY_ENABLED = "enabled";
 
-  private static final String PROJECT_CONFIG = "project.config";
+  public static final String PROJECT_CONFIG = "project.config";
   private static final String GROUP_LIST = "groups";
 
   private static final String PROJECT = "project";

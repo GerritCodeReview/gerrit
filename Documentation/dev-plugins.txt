@@ -280,6 +280,41 @@ and accessing / changing configuration settings using Section.Factory.
 In addition to the standard Gerrit init injections, plugins receive
 the @PluginName String injection containing their own plugin name.
 
+During their initialization plugins may get access to the
+`project.config` file of the `All-Projects` project and they are able
+to store configuration parameters in it. For this a plugin `InitStep`
+can get `com.google.gerrit.pgm.init.AllProjectsConfig` injected:
+
+[source,java]
+----
+  public class MyInitStep implements InitStep {
+    private final String pluginName;
+    private final ConsoleUI ui;
+    private final AllProjectsConfig allProjectsConfig;
+
+    public MyInitStep(@PluginName String pluginName, ConsoleUI ui,
+        AllProjectsConfig allProjectsConfig) {
+      this.pluginName = pluginName;
+      this.ui = ui;
+      this.allProjectsConfig = allProjectsConfig;
+    }
+
+    @Override
+    public void run() throws Exception {
+      ui.message("\n");
+      ui.header(pluginName + " Integration");
+      boolean enabled = ui.yesno(true, "By default enabled for all projects");
+      Config cfg = allProjectsConfig.load();
+      if (enabled) {
+        cfg.setBoolean("plugin", pluginName, "enabled", enabled);
+      } else {
+        cfg.unset("plugin", pluginName, "enabled");
+      }
+      allProjectsConfig.save(pluginName, "Initialize " + pluginName + " Integration");
+    }
+  }
+----
+
 Bear in mind that the Plugin's InitStep class will be loaded but
 the standard Gerrit runtime environment is not available and the plugin's
 own Guice modules were not initialized.

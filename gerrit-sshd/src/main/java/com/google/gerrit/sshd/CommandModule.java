@@ -14,8 +14,6 @@
 
 package com.google.gerrit.sshd;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Strings;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.inject.binder.LinkedBindingBuilder;
 
@@ -98,11 +96,8 @@ public abstract class CommandModule extends LifecycleModule {
     bind(Commands.key(parent, name, description(meta))).to(clazz);
   }
 
-  @SuppressWarnings("deprecation")
   private static String description(CommandMetaData meta) {
-    return Objects.firstNonNull(
-        Strings.emptyToNull(meta.description()),
-        meta.descr());
+    return meta.description();
   }
 
   /**

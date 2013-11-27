@@ -601,16 +601,7 @@ public class Dispatcher {
             panel = 0 <= c ? token.substring(c + 1) : "";
           }
 
-          if ("sidebyside".equals(panel)) {
-            return new PatchScreen.SideBySide( //
-                id, //
-                patchIndex, //
-                patchSetDetail, //
-                patchTable, //
-                top, //
-                baseId //
-            );
-          } else if ("unified".equals(panel)) {
+          if ("unified".equals(panel)) {
             return new PatchScreen.Unified( //
                 id, //
                 patchIndex, //
@@ -634,14 +625,14 @@ public class Dispatcher {
               );
             }
             return new SideBySide2(baseId, id.getParentKey(), id.get());
-          } else if ("".equals(panel)) {
-            return new PatchScreen.SideBySide(
-                id,
-                patchIndex,
-                patchSetDetail,
-                patchTable,
-                top,
-                baseId);
+          } else if ("".equals(panel) || "sidebyside".equals(panel)) {
+            return new PatchScreen.SideBySide(//
+                id, //
+                patchIndex,//
+                patchSetDetail,//
+                patchTable,//
+                top,//
+                baseId);//
           }
         }
 

@@ -176,7 +176,7 @@ class Labels extends Grid {
       }
       html.append(val).append(" ");
       html.append(formatUserList(style, m.get(v),
-          Collections.<Integer> emptySet()));
+          Collections.<Integer> emptySet(), null));
       html.closeSpan();
     }
     return html.toBlockWidget();
@@ -222,7 +222,8 @@ class Labels extends Grid {
 
   static SafeHtml formatUserList(ChangeScreen2.Style style,
       Collection<? extends AccountInfo> in,
-      Set<Integer> removable) {
+      Set<Integer> removable,
+      Map<Integer, VotableInfo> votable) {
     List<AccountInfo> users = new ArrayList<>(in);
     Collections.sort(users, new Comparator<AccountInfo>() {
       @Override
@@ -261,13 +262,26 @@ class Labels extends Grid {
         name = Integer.toString(ai._account_id());
       }
 
+      String votableCategories = "";
+      if (votable != null) {
+        Set<String> votableSet = votable.get(ai._account_id()).votable();
+        if (!votableSet.isEmpty()) {
+          StringBuilder sb = new StringBuilder(Util.C.votable());
+          sb.append(" ");
+          for (Iterator<String> it = votableSet.iterator(); it.hasNext();) {
+            sb.append(it.next());
+            if (it.hasNext()) {
+              sb.append(", ");
+            }
+          }
+          votableCategories = sb.toString();
+        }
+      }
       html.openSpan()
           .setAttribute("role", "listitem")
           .setAttribute(DATA_ID, ai._account_id())
+          .setAttribute("title", getTitle(ai, votableCategories))
           .setStyleName(style.label_user());
-      if (ai.email() != null) {
-        html.setAttribute("title", ai.email());
-      }
       if (img != null) {
         html.openElement("img")
             .setStyleName(style.avatar())
@@ -294,5 +308,16 @@ class Labels extends Grid {
       }
     }
     return html;
+  }
+
+  private static String getTitle(AccountInfo ai, String votableCategories) {
+    String title = ai.email() != null ? ai.email() : "";
+    if (!votableCategories.isEmpty()) {
+      if (!title.isEmpty()) {
+        title += " ";
+      }
+      title += votableCategories;
+    }
+    return title;
   }
 }

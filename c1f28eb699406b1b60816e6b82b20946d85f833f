@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "63b486b0_0801471c",
+        "filename": "Documentation/intro-change-screen.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-27T11:02:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3cb723b_8bfbeded",
+      "revId": "c1f28eb699406b1b60816e6b82b20946d85f833f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3ceb64a_0c01571c",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
       "writtenOn": "2013-11-27T10:51:00Z",
       "side": 1,
       "message": "Shouldn\u0027t this be a string constant?",
+      "revId": "c1f28eb699406b1b60816e6b82b20946d85f833f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63b486b0_680c8355",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-27T11:02:33Z",
+      "side": 1,
+      "message": "It could be a string constant, but we use it only once in code. And i have seen negative reviews by Shawn, claiming that a string constant not wanted if it is used only once, e. g.[1].\n\n[1] https://gerrit-review.googlesource.com/#/c/50827/8/gerrit-server/src/main/java/com/google/gerrit/server/query/doc/DocQueryLucene.java",
+      "parentUuid": "e3ceb64a_0c01571c",
       "revId": "c1f28eb699406b1b60816e6b82b20946d85f833f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

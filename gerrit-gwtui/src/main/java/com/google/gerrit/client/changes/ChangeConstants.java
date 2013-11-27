@@ -212,4 +212,6 @@ public interface ChangeConstants extends Constants {
   String oneWeekAgo();
   String oneMonthAgo();
   String oneYearAgo();
+
+  String nonVotable();
 }

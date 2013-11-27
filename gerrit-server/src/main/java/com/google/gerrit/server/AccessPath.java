@@ -25,9 +25,6 @@ public enum AccessPath {
   /** Access through the old JSON-RPC interface. */
   JSON_RPC,
 
-  /** Access by a web cookie. This path is not protected like REST_API. */
-  WEB_BROWSER,
-
   /** Access through an SSH command that is not invoked by Git. */
   SSH_COMMAND,
 

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3ceb64a_ccf10f12",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/EditCommitMessageHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-27T06:55:12Z",
+      "side": 1,
+      "message": "Is this RPC still used?  I thought we\u0027d removed them all.",
+      "revId": "1a63539d990d5f9d60b49e6a7a445704b4fda847",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3cb723b_2bed1933",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EditMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-27T06:55:12Z",
+      "side": 1,
+      "message": "Would it be better to call the indexer from in the patch set inserter?  Then we don\u0027t have to remember to do it in every place the patch set inserter is used.",
+      "revId": "1a63539d990d5f9d60b49e6a7a445704b4fda847",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

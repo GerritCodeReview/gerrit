@@ -103,6 +103,10 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
     }
   }
 
+  public void updateAndIndex(Project.NameKey p, String ref) {
+    executor.submit(new RefUpdateTask(schemaFactory, p, ref));
+  }
+
   /**
    * Updates the mergeability flag of the change asynchronously. If the
    * mergeability flag is updated the change is reindexed.

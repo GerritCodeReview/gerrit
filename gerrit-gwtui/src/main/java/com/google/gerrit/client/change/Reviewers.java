@@ -28,6 +28,8 @@ import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.HintTextBox;
+import com.google.gerrit.common.data.ApprovalDetail;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
@@ -231,10 +233,36 @@ class Reviewers extends Composite {
       }
     }
 
-    SafeHtml rHtml = Labels.formatUserList(style, r.values(), removable);
-    SafeHtml ccHtml = Labels.formatUserList(style, cc.values(), removable);
+    Map<Integer, ApprovalDetail> votable = votable(info);
+
+    SafeHtml rHtml = Labels.formatUserList(style,
+        r.values(), removable, votable);
+    SafeHtml ccHtml = Labels.formatUserList(style,
+        cc.values(), removable, votable);
 
     reviewersText.setInnerSafeHtml(rHtml);
     ccText.setInnerSafeHtml(ccHtml);
+  }
+
+  private static Map<Integer, ApprovalDetail> votable(ChangeInfo change) {
+    Map<Integer, ApprovalDetail> d = new HashMap<Integer, ApprovalDetail>();
+    for (String name : change.labels()) {
+      LabelInfo label = change.label(name);
+      if (label.all() != null) {
+        for (ApprovalInfo ai : Natives.asList(label.all())) {
+          int id = ai._account_id();
+          ApprovalDetail ad = d.get(id);
+          if (ad == null) {
+            ad = new ApprovalDetail(new Account.Id(id));
+            d.put(id, ad);
+          }
+          if (ai.has_value()) {
+            ad.votable(name);
+          }
+          ad.value(name, ai.has_value() ? ai.value() : 0);
+        }
+      }
+    }
+    return d;
   }
 }

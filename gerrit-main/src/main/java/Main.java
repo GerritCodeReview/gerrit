@@ -31,11 +31,11 @@ public final class Main {
 
   private static boolean onSupportedJavaVersion() {
     final String version = System.getProperty("java.specification.version");
-    if (1.6 <= parse(version)) {
+    if (1.7 <= parse(version)) {
       return true;
 
     } else {
-      System.err.println("fatal: Gerrit Code Review requires Java 6 or later");
+      System.err.println("fatal: Gerrit Code Review requires Java 7 or later");
       System.err.println("       (trying to run on Java " + version + ")");
       return false;
     }

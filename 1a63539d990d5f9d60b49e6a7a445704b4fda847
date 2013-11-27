@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "63b486b0_28ed2b33",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/EditCommitMessageHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-27T06:59:21Z",
+      "side": 1,
+      "message": "Yes, I\u0027m pretty sure that the old change screen is using it.",
+      "parentUuid": "e3ceb64a_ccf10f12",
+      "revId": "1a63539d990d5f9d60b49e6a7a445704b4fda847",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3cb723b_2bed1933",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EditMessage.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-11-27T06:55:12Z",
       "side": 1,
       "message": "Would it be better to call the indexer from in the patch set inserter?  Then we don\u0027t have to remember to do it in every place the patch set inserter is used.",
+      "revId": "1a63539d990d5f9d60b49e6a7a445704b4fda847",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43b942a9_87fbe6ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EditMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-27T06:59:21Z",
+      "side": 1,
+      "message": "Actually patch set inserter is expected to update the index, and it normally does. We should check why in this case this isn\u0027t working and fix it there.",
+      "parentUuid": "c3cb723b_2bed1933",
       "revId": "1a63539d990d5f9d60b49e6a7a445704b4fda847",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

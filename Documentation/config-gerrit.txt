@@ -587,7 +587,7 @@ that change updates are not communicated between Gerrit servers. Hence
 this cache should be disabled in an multi-master/multi-slave setup.
 +
 The cache should be flushed whenever the database changes table is modified
-outside of gerrit.
+outside of Gerrit.
 
 cache `"diff"`::
 +
@@ -786,7 +786,7 @@ By default 500.
 How often in seconds the web interface should poll for updates to the
 currently open change.  The poller relies on the client's browser
 cache to use If-Modified-Since and respect `304 Not Modified` HTTP
-reponses.  This allows for fast polls, often under 8 milliseconds.
+responses.  This allows for fast polls, often under 8 milliseconds.
 +
 With a configured 30 second delay a server with 4900 active users will
 typically need to dedicate 1 CPU to the update check.  4900 users
@@ -959,7 +959,7 @@ configuration:
 +
 Used on Gerrit slave installations. If set to true the Gerrit JVM is
 called with the '--slave' switch, enabling slave mode. If no value is
-set (or any other value), gerrit defaults to master mode.
+set (or any other value), Gerrit defaults to master mode.
 
 [[container.user]]container.user::
 +
@@ -2358,7 +2358,7 @@ in the database are ignored.
 
 [[rules.enable]]rules.enable::
 +
-If true, Gerrit will load and excute 'rules.pl' files in each
+If true, Gerrit will load and execute 'rules.pl' files in each
 project's refs/meta/config branch, if present. When set to false,
 only the default internal rules will be used.
 +

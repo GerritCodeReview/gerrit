@@ -317,7 +317,7 @@ public class PatchSetInserter {
       db.rollback();
     }
     CheckedFuture<?, IOException> f =
-        mergeabilityChecker.updateAndIndexAsync(change);
+        mergeabilityChecker.updateAndIndexAsync(updatedChange);
     if (runHooks) {
       hooks.doPatchsetCreatedHook(updatedChange, patchSet, db);
     }

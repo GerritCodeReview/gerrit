@@ -231,10 +231,35 @@ class Reviewers extends Composite {
       }
     }
 
-    SafeHtml rHtml = Labels.formatUserList(style, r.values(), removable);
-    SafeHtml ccHtml = Labels.formatUserList(style, cc.values(), removable);
+    Map<Integer, VotableInfo> votable = votable(info);
+
+    SafeHtml rHtml = Labels.formatUserList(style,
+        r.values(), removable, votable);
+    SafeHtml ccHtml = Labels.formatUserList(style,
+        cc.values(), removable, votable);
 
     reviewersText.setInnerSafeHtml(rHtml);
     ccText.setInnerSafeHtml(ccHtml);
+  }
+
+  private static Map<Integer, VotableInfo> votable(ChangeInfo change) {
+    Map<Integer, VotableInfo> d = new HashMap<>();
+    for (String name : change.labels()) {
+      LabelInfo label = change.label(name);
+      if (label.all() != null) {
+        for (ApprovalInfo ai : Natives.asList(label.all())) {
+          int id = ai._account_id();
+          VotableInfo ad = d.get(id);
+          if (ad == null) {
+            ad = new VotableInfo();
+            d.put(id, ad);
+          }
+          if (ai.has_value()) {
+            ad.votable(name);
+          }
+        }
+      }
+    }
+    return d;
   }
 }

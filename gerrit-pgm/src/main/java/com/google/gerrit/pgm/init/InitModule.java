@@ -48,6 +48,7 @@ public class InitModule extends FactoryModule {
     }
     step().to(InitIndex.class);
     step().to(InitAuth.class);
+    step().to(InitLabels.class);
     step().to(InitSendEmail.class);
     if (standalone) {
       step().to(InitContainer.class);

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23c52e24_8e145b5c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-27T04:20:41Z",
+      "side": 1,
+      "message": "Aside from remembering edit should we save and restore the cursor position? Or is the browser doing that automatically for us?",
+      "revId": "6d04032f762f147a29c34f893c1d11d609eed648",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83889ae3_c19b2288",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1089,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-27T04:20:41Z",
+      "side": 1,
+      "message": "This is the timing race David mentioned. I would modify this to pass a CallbackGroup to saveAllDrafts, pass that to each DraftBox.save().\n\nIf unsaved is non-empty then add final callback that jumps up to the change page. This allows you to wait the proper time required for the unsaved drafts to save.",
+      "revId": "6d04032f762f147a29c34f893c1d11d609eed648",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

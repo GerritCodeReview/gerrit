@@ -54,9 +54,9 @@ import java.io.IOException;
  */
 public abstract class VersionedMetaData {
   private RevCommit revision;
-  private ObjectReader reader;
-  private ObjectInserter inserter;
-  private DirCache newTree;
+  protected ObjectReader reader;
+  protected ObjectInserter inserter;
+  protected DirCache newTree;
 
   /** @return name of the reference storing this configuration. */
   protected abstract String getRefName();
@@ -319,7 +319,7 @@ public abstract class VersionedMetaData {
     };
   }
 
-  private DirCache readTree(RevTree tree) throws IOException,
+  protected DirCache readTree(RevTree tree) throws IOException,
       MissingObjectException, IncorrectObjectTypeException {
     DirCache dc = DirCache.newInCore();
     if (tree != null) {

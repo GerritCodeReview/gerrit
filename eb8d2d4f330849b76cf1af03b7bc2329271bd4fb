@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23c52e24_4e075334",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-27T03:55:36Z",
+      "side": 1,
+      "message": "Look at Main.java. You want to use java.specification.version, not java.version. This is a x.y format so you can more easily parse it. Actually, maybe you should just say this in Main.java that we need at least 1.7 for any program in our WAR, Jetty or not, if we are going to move to Java 7 across the board (which we want to do).\n\nhttps://gerrit.googlesource.com/gerrit/+/HEAD/gerrit-main/src/main/java/Main.java",
+      "revId": "eb8d2d4f330849b76cf1af03b7bc2329271bd4fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

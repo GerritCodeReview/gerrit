@@ -79,6 +79,7 @@ public class Init extends BaseInit {
   protected boolean beforeInit(SiteInit init) throws Exception {
     ErrorLogFile.errorOnlyConsole();
 
+    skipPlugins = true;
     if (!skipPlugins) {
       final List<PluginData> plugins =
           InitPlugins.listPluginsAndRemoveTempFiles(init.site);

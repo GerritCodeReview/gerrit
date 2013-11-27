@@ -152,6 +152,10 @@ public class AllProjectsCreator {
     LabelType cr = initCodeReviewLabel(config);
     grant(config, heads, cr, -1, 1, registered);
     grant(config, heads, cr, -2, 2, admin, owners);
+    if (Boolean.getBoolean("InitLabels.Verified")) {
+      LabelType vrfy = initVerifiedLabel(config);
+      grant(config, heads, vrfy, -1, 1, admin);
+    }
     grant(config, heads, Permission.CREATE, admin, owners);
     grant(config, heads, Permission.PUSH, admin, owners);
     grant(config, heads, Permission.SUBMIT, admin, owners);
@@ -218,6 +222,15 @@ public class AllProjectsCreator {
         new LabelValue((short) -2, "Do not submit")));
     type.setAbbreviation("CR");
     type.setCopyMinScore(true);
+    c.getLabelSections().put(type.getName(), type);
+    return type;
+  }
+
+  private static LabelType initVerifiedLabel(ProjectConfig c) {
+    LabelType type = new LabelType("Verified", ImmutableList.of(
+        new LabelValue((short) 1, "Verified"),
+        new LabelValue((short) 0, "No score"),
+        new LabelValue((short) -1, "Fails")));
     c.getLabelSections().put(type.getName(), type);
     return type;
   }

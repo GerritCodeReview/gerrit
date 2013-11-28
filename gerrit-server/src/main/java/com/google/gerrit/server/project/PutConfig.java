@@ -192,7 +192,28 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
           if (v.getValue() == null) {
             cfg.unset(v.getKey());
           } else {
-            cfg.setString(v.getKey(), v.getValue());
+            try {
+              switch (projectConfigEntry.getType()) {
+                case INT:
+                  cfg.setInt(v.getKey(), Integer.parseInt(v.getValue()));
+                  break;
+                case LONG:
+                  cfg.setLong(v.getKey(), Long.parseLong(v.getValue()));
+                  break;
+                case STRING:
+                  cfg.setString(v.getKey(), v.getValue());
+                  break;
+                default:
+                  log.warn(String.format(
+                      "The type '%s' of parameter '%s' is not supported.",
+                      projectConfigEntry.getType().name(), v.getKey()));
+                  continue;
+              }
+            } catch (NumberFormatException ex) {
+              throw new BadRequestException(String.format(
+                  "The value '%s' of config parameter '%s' of plugin '%s' is invalid: %s",
+                  v.getValue(), v.getKey(), pluginName, ex.getMessage()));
+            }
           }
         } else {
           throw new BadRequestException(String.format(

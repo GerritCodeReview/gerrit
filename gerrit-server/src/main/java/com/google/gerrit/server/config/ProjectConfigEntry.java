@@ -19,7 +19,7 @@ import com.google.gerrit.extensions.annotations.ExtensionPoint;
 @ExtensionPoint
 public class ProjectConfigEntry {
   public enum Type {
-    STRING
+    STRING, INT, LONG
   }
 
   private final String displayName;
@@ -27,9 +27,21 @@ public class ProjectConfigEntry {
   private final Type type;
 
   public ProjectConfigEntry(String displayName, String defaultValue) {
+    this(displayName, defaultValue, Type.STRING);
+  }
+
+  public ProjectConfigEntry(String displayName, int defaultValue) {
+    this(displayName, Integer.toString(defaultValue), Type.INT);
+  }
+
+  public ProjectConfigEntry(String displayName, long defaultValue) {
+    this(displayName, Long.toString(defaultValue), Type.LONG);
+  }
+
+  private ProjectConfigEntry(String displayName, String defaultValue, Type type) {
     this.displayName = displayName;
     this.defaultValue = defaultValue;
-    this.type = Type.STRING;
+    this.type = type;
   }
 
   public String getDisplayName() {

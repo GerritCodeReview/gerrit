@@ -369,6 +369,9 @@ public class ProjectInfoScreen extends ProjectScreen {
           w = renderTextBox(g, param);
         } else if ("BOOLEAN".equals(param.type())) {
           w = renderCheckBox(g, param);
+        } else if ("LIST".equals(param.type())
+            && param.permittedValues() != null) {
+          w = renderListBox(g, param);
         } else {
           continue;
         }
@@ -394,6 +397,21 @@ public class ProjectInfoScreen extends ProjectScreen {
     g.add(getDisplayName(param), checkBox);
     saveEnabler.listenTo(checkBox);
     return checkBox;
+  }
+
+  private ListBox renderListBox(LabeledWidgetsGrid g,
+      ConfigParameterInfo param) {
+    ListBox listBox = new ListBox();
+    for (int i = 0; i < param.permittedValues().length(); i++) {
+      String sv = param.permittedValues().get(i);
+      listBox.addItem(sv);
+      if (sv.equals(param.value())) {
+        listBox.setSelectedIndex(i);
+      }
+    }
+    g.add(getDisplayName(param), listBox);
+    saveEnabler.listenTo(listBox);
+    return listBox;
   }
 
   private String getDisplayName(ConfigParameterInfo param) {
@@ -457,6 +475,10 @@ public class ProjectInfoScreen extends ProjectScreen {
           values.put(e2.getKey(), ((TextBox) widget).getValue().trim());
         } else if (widget instanceof CheckBox) {
           values.put(e2.getKey(), Boolean.toString(((CheckBox) widget).getValue()));
+        } else if (widget instanceof ListBox) {
+          ListBox listBox = (ListBox) widget;
+          String value = listBox.getValue(listBox.getSelectedIndex());
+          values.put(e2.getKey(), value);
         }
       }
     }

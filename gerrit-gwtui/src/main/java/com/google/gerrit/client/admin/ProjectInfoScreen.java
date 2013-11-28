@@ -382,14 +382,22 @@ public class ProjectInfoScreen extends ProjectScreen {
                 ? param.displayName() : param.name(), textBox);
           }
           saveEnabler.listenTo(textBox);
-          widgetMap.put(param.name(), textBox);
+          if (param.editable()) {
+            widgetMap.put(param.name(), textBox);
+          } else {
+            textBox.setEnabled(false);
+          }
         } else if ("BOOLEAN".equals(param.type())) {
           CheckBox checkbox = new CheckBox();
           checkbox.setValue(Boolean.parseBoolean(param.value()));
           g.add(param.displayName() != null
               ? param.displayName() : param.name(), checkbox);
           saveEnabler.listenTo(checkbox);
-          widgetMap.put(param.name(), checkbox);
+          if (param.editable()) {
+            widgetMap.put(param.name(), checkbox);
+          } else {
+            checkbox.setEnabled(false);
+          }
         } else if ("LIST".equals(param.type())
             && param.permittedValues() != null) {
           ListBox listBox = new ListBox();
@@ -416,10 +424,33 @@ public class ProjectInfoScreen extends ProjectScreen {
             }
           }
 
-          g.add(param.displayName() != null
-              ? param.displayName() : param.name(), listBox);
           saveEnabler.listenTo(listBox);
-          widgetMap.put(param.name(), listBox);
+          if (param.editable()) {
+            g.add(param.displayName() != null
+                ? param.displayName() : param.name(), listBox);
+            widgetMap.put(param.name(), listBox);
+          } else {
+            listBox.setEnabled(false);
+
+            if (param.inheritable() && listBox.getSelectedIndex() != 0) {
+              // the inherited value is not selected,
+              // since the listBox is disabled the inherited value cannot be
+              // seen and we have to display it explicitly
+              Label inheritedLabel =
+                  new Label(Util.M.pluginProjectInheritedValue(param
+                      .inheritedValue()));
+              inheritedLabel.setStyleName(Gerrit.RESOURCES.css()
+                  .pluginProjectConfigInheritedValue());
+              HorizontalPanel p = new HorizontalPanel();
+              p.add(listBox);
+              p.add(inheritedLabel);
+              g.add(param.displayName() != null ? param.displayName() :
+                  param.name(), p);
+            } else {
+              g.add(param.displayName() != null
+                  ? param.displayName() : param.name(), listBox);
+            }
+          }
         }
       }
     }

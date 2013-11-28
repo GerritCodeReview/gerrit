@@ -134,9 +134,9 @@ public class ConfigInfo {
     TreeMultimap<String, ConfigParameterInfo> pluginConfigParameters =
         TreeMultimap.create();
     for (Entry<ProjectConfigEntry> e : pluginConfigEntries) {
+      ProjectConfigEntry configEntry = e.getProvider().get();
       PluginConfig cfg =
           cfgFactory.getFromProjectConfig(project, e.getPluginName());
-      ProjectConfigEntry configEntry = e.getProvider().get();
       String configuredValue = cfg.getString(e.getExportName());
       ConfigParameterInfo configParameter;
       if (configEntry.isInheritable()
@@ -160,14 +160,15 @@ public class ConfigInfo {
         configParameter =
             new ConfigParameterInfo(e.getExportName(),
                 configEntry.getDisplayName(), configEntry.getType(), value,
-                configuredValue, inheritedValue,
-                configEntry.getPermittedValues());
+                configEntry.isEditable(project), configuredValue,
+                inheritedValue, configEntry.getPermittedValues());
       } else {
         String value =
             configuredValue != null ? configuredValue : configEntry.getDefaultValue();
         configParameter =
             new ConfigParameterInfo(e.getExportName(),
                 configEntry.getDisplayName(), configEntry.getType(), value,
+                configEntry.isEditable(project),
                 configEntry.getPermittedValues());
       }
       pluginConfigParameters.put(e.getPluginName(), configParameter);
@@ -192,31 +193,36 @@ public class ConfigInfo {
     public String displayName;
     public ProjectConfigEntry.Type type;
     public String value;
+    public Boolean editable;
     public Boolean inheritable;
     public String configuredValue;
     public String inheritedValue;
     public List<String> permittedValues;
 
     public ConfigParameterInfo(String name, String displayName,
-        ProjectConfigEntry.Type type, String value, List<String> permittedValues) {
-      this(name, displayName, type, value, null, null, null, permittedValues);
+        ProjectConfigEntry.Type type, String value, boolean editable,
+        List<String> permittedValues) {
+      this(name, displayName, type, value, editable, null, null, null,
+          permittedValues);
     }
 
     public ConfigParameterInfo(String name, String displayName,
-        ProjectConfigEntry.Type type, String value, String configuredValue,
-        String inheritedValue, List<String> permittedValues) {
-      this(name, displayName, type, value, true, configuredValue,
+        ProjectConfigEntry.Type type, String value, boolean editable,
+        String configuredValue, String inheritedValue,
+        List<String> permittedValues) {
+      this(name, displayName, type, value, editable, true, configuredValue,
           inheritedValue, permittedValues);
     }
 
     private ConfigParameterInfo(String name, String displayName,
-        ProjectConfigEntry.Type type, String value, Boolean inheritable,
-        String configuredValue, String inheritedValue,
+        ProjectConfigEntry.Type type, String value, boolean editable,
+        Boolean inheritable, String configuredValue, String inheritedValue,
         List<String> permittedValues) {
       this.name = name;
       this.displayName = displayName;
       this.type = type;
       this.value = value;
+      this.editable = editable ? editable : null;
       this.inheritable = inheritable;
       this.configuredValue = configuredValue;
       this.inheritedValue = inheritedValue;

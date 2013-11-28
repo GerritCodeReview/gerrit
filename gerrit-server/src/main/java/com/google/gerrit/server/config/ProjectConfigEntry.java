@@ -17,6 +17,7 @@ package com.google.gerrit.server.config;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.project.ProjectState;
 
 import java.util.List;
 
@@ -126,6 +127,10 @@ public class ProjectConfigEntry {
 
   public List<String> getPermittedValues() {
     return permittedValues;
+  }
+
+  public boolean isEditable(ProjectState project) {
+    return true;
   }
 
   public void onUpdate(ProjectConfig projectConfig, String newValue) {

@@ -153,7 +153,8 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
       }
 
       if (input.pluginConfigValues != null) {
-        setPluginConfigValues(projectConfig, input.pluginConfigValues);
+        setPluginConfigValues(rsrc.getControl().getProjectState(),
+            projectConfig, input.pluginConfigValues);
       }
 
       md.setMessage("Modified project settings\n");
@@ -182,8 +183,8 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
     }
   }
 
-  private void setPluginConfigValues(ProjectConfig projectConfig,
-      Map<String, List<ConfigValueInput>> pluginConfigValues)
+  private void setPluginConfigValues(ProjectState projectState,
+      ProjectConfig projectConfig, Map<String, List<ConfigValueInput>> pluginConfigValues)
       throws BadRequestException {
     for (Entry<String, List<ConfigValueInput>> e : pluginConfigValues.entrySet()) {
       String pluginName = e.getKey();
@@ -199,11 +200,21 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
           String oldValue = cfg.getString(v.name);
           if (v.value == null) {
             if (oldValue != null) {
+              if (!projectConfigEntry.isEditable(projectState)) {
+                throw new BadRequestException("Not allowed to set parameter '"
+                    + v.name + "' of plugin '" + pluginName + "' on project '"
+                    + projectState.getProject().getName() + "'.");
+              }
               cfg.unset(v.name);
               projectConfigEntry.onUpdate(projectConfig, null);
             }
           } else {
             if (!v.value.equals(oldValue)) {
+              if (!projectConfigEntry.isEditable(projectState)) {
+                throw new BadRequestException("Not allowed to set parameter '"
+                    + v.name + "' of plugin '" + pluginName + "' on project '"
+                    + projectState.getProject().getName() + "'.");
+              }
               try {
                 switch (projectConfigEntry.getType()) {
                   case BOOLEAN:

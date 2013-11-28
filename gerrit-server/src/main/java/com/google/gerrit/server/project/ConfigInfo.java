@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.actions.ActionInfo;
+import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
@@ -58,6 +59,7 @@ public class ConfigInfo {
       TransferConfig config,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       PluginConfigFactory cfgFactory,
+      AllProjectsNameProvider allProjects,
       DynamicMap<RestView<ProjectResource>> views) {
     ProjectState projectState = control.getProjectState();
     Project p = control.getProject();
@@ -114,7 +116,8 @@ public class ConfigInfo {
     }
 
     pluginConfigParameters =
-        getPluginConfigParameters(control.getProjectState(), pluginConfigEntries, cfgFactory);
+        getPluginConfigParameters(control.getProjectState(),
+            pluginConfigEntries, cfgFactory, allProjects);
 
     actions = Maps.newTreeMap();
     for (UiAction.Description d : UiActions.from(
@@ -127,21 +130,53 @@ public class ConfigInfo {
 
   private Map<String, Collection<ConfigParameterInfo>> getPluginConfigParameters(
       ProjectState project, DynamicMap<ProjectConfigEntry> pluginConfigEntries,
-      PluginConfigFactory cfgFactory) {
+      PluginConfigFactory cfgFactory, AllProjectsNameProvider allProjects) {
     TreeMultimap<String, ConfigParameterInfo> pluginConfigParameters =
         TreeMultimap.create();
     for (Entry<ProjectConfigEntry> e : pluginConfigEntries) {
       PluginConfig cfg =
           cfgFactory.getFromProjectConfig(project, e.getPluginName());
       ProjectConfigEntry configEntry = e.getProvider().get();
-      ConfigParameterInfo configParameter =
-          new ConfigParameterInfo(e.getExportName(),
-              configEntry.getDisplayName(), configEntry.getType(),
-              cfg.getString(e.getExportName(), configEntry.getDefaultValue()),
-              configEntry.getPermittedValues());
+      String configuredValue = cfg.getString(e.getExportName());
+      ConfigParameterInfo configParameter;
+      if (configEntry.isInheritable()
+          && !allProjects.get().equals(project.getProject().getNameKey())) {
+        PluginConfig cfgWithInheritance =
+            cfgFactory.getFromProjectConfigWithInheritance(project,
+                e.getPluginName());
+        configParameter =
+            new ConfigParameterInfo(e.getExportName(),
+                configEntry.getDisplayName(), configEntry.getType(),
+                cfgWithInheritance.getString(e.getExportName(),
+                    configEntry.getDefaultValue()), configuredValue,
+                getInheritedValue(project, cfgFactory, e),
+                configEntry.getPermittedValues());
+      } else {
+        configParameter =
+            new ConfigParameterInfo(e.getExportName(),
+                configEntry.getDisplayName(), configEntry.getType(),
+                configuredValue != null ? configuredValue : configEntry.getDefaultValue(),
+                configEntry.getPermittedValues());
+      }
       pluginConfigParameters.put(e.getPluginName(), configParameter);
     }
     return pluginConfigParameters.asMap();
+  }
+
+  private String getInheritedValue(ProjectState project,
+      PluginConfigFactory cfgFactory, Entry<ProjectConfigEntry> e) {
+    ProjectConfigEntry configEntry = e.getProvider().get();
+    ProjectState parent = Iterables.getFirst(project.parents(), null);
+    String inheritedValue = configEntry.getDefaultValue();
+    if (parent != null) {
+      PluginConfig parentCfgWithInheritance =
+          cfgFactory.getFromProjectConfigWithInheritance(parent,
+              e.getPluginName());
+      inheritedValue =
+          parentCfgWithInheritance.getString(e.getExportName(),
+              configEntry.getDefaultValue());
+    }
+    return inheritedValue;
   }
 
   public static class InheritedBooleanInfo {
@@ -161,14 +196,34 @@ public class ConfigInfo {
     public String displayName;
     public ProjectConfigEntry.Type type;
     public String value;
+    public Boolean inheritable;
+    public String configuredValue;
+    public String inheritedValue;
     public List<String> permittedValues;
 
     public ConfigParameterInfo(String name, String displayName,
         ProjectConfigEntry.Type type, String value, List<String> permittedValues) {
+      this(name, displayName, type, value, null, null, null, permittedValues);
+    }
+
+    public ConfigParameterInfo(String name, String displayName,
+        ProjectConfigEntry.Type type, String value, String configuredValue,
+        String inheritedValue, List<String> permittedValues) {
+      this(name, displayName, type, value, true, configuredValue,
+          inheritedValue, permittedValues);
+    }
+
+    private ConfigParameterInfo(String name, String displayName,
+        ProjectConfigEntry.Type type, String value, Boolean inheritable,
+        String configuredValue, String inheritedValue,
+        List<String> permittedValues) {
       this.name = name;
       this.displayName = displayName;
       this.type = type;
       this.value = value;
+      this.inheritable = inheritable;
+      this.configuredValue = configuredValue;
+      this.inheritedValue = inheritedValue;
       this.permittedValues = permittedValues;
     }
 

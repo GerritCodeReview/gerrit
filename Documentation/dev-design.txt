@@ -455,7 +455,7 @@ Scalability
 -----------
 
 Gerrit is designed for a very large scale open source project, or
-large commerical development project.  Roughly this amounts to
+large commercial development project.  Roughly this amounts to
 parameters such as the following:
 
 .Design Parameters
@@ -614,7 +614,7 @@ Disk Usage
 
 The average size of a revision in the Linux kernel once compressed by
 Git is 2,327 bytes, or roughly 2 KiB.  Over the course of a year a
-Gerrit server running with the estimated maxium parameters above might
+Gerrit server running with the estimated maximum parameters above might
 see an introduction of 1.4 GiB over the total set of 10,000 projects
 hosted in that server.  This figure assumes the majority of the content
 is human written source code, and not large binary blobs such as disk

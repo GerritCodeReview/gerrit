@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "231a8eb4_463b92e9",
+        "filename": "tools/buck.defs",
+        "patchSetId": 8
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-28T22:45:54Z",
+      "side": 1,
+      "message": "haha. I was thinking about this sort of hack in another context.",
+      "revId": "b4b30cb93759d7d843f7b6d691921215fdb1dbf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

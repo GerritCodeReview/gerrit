@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "231a8eb4_060cfa53",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-28T07:16:44Z",
+      "side": 1,
+      "message": "Can be combined to a single if-statement.",
+      "range": {
+        "startLine": 390,
+        "startChar": 8,
+        "endLine": 391,
+        "endChar": 35
+      },
+      "revId": "29506ae7ae84b4b2a03069a84e0b1e3991966d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03174a8c_e5fb96ec",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-28T07:16:44Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 396,
+        "startChar": 8,
+        "endLine": 397,
+        "endChar": 34
+      },
+      "revId": "29506ae7ae84b4b2a03069a84e0b1e3991966d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

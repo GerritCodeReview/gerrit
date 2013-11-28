@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3ceb64a_ec45eb5e",
+        "filename": "Documentation/config-login-register.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-28T03:04:29Z",
+      "side": 1,
+      "message": "Nit: Add another `-` here.  The number of `-` should match the length of the line above.",
+      "revId": "9e4fddb6b9850252f91b08e4e33eabdd39f77805",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

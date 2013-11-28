@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.git.TransferConfig;
@@ -29,16 +30,19 @@ public class GetConfig implements RestReadView<ProjectResource> {
   private final TransferConfig config;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
   private final PluginConfigFactory cfgFactory;
+  private final AllProjectsNameProvider allProjects;
   private final DynamicMap<RestView<ProjectResource>> views;
 
   @Inject
   public GetConfig(TransferConfig config,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       PluginConfigFactory cfgFactory,
+      AllProjectsNameProvider allProjects,
       DynamicMap<RestView<ProjectResource>> views,
       Provider<CurrentUser> currentUser) {
     this.config = config;
     this.pluginConfigEntries = pluginConfigEntries;
+    this.allProjects = allProjects;
     this.cfgFactory = cfgFactory;
     this.views = views;
   }
@@ -46,6 +50,6 @@ public class GetConfig implements RestReadView<ProjectResource> {
   @Override
   public ConfigInfo apply(ProjectResource resource) {
     return new ConfigInfo(resource.getControl(), config,
-        pluginConfigEntries, cfgFactory, views);
+        pluginConfigEntries, cfgFactory, allProjects, views);
   }
 }

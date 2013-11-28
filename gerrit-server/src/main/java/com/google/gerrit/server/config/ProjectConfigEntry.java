@@ -34,6 +34,10 @@ public class ProjectConfigEntry {
     this(displayName, Long.toString(defaultValue), Type.LONG);
   }
 
+  public ProjectConfigEntry(String displayName, boolean defaultValue) {
+    this(displayName, Boolean.toString(defaultValue), Type.BOOLEAN);
+  }
+
   private ProjectConfigEntry(String displayName, String defaultValue, Type type) {
     this.displayName = displayName;
     this.defaultValue = defaultValue;
@@ -53,6 +57,6 @@ public class ProjectConfigEntry {
   }
 
   public enum Type {
-    STRING, INT, LONG
+    STRING, INT, LONG, BOOLEAN
   }
 }

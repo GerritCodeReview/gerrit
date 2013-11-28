@@ -192,6 +192,9 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
           if (v.getValue() != null) {
             try {
               switch (projectConfigEntry.getType()) {
+                case BOOLEAN:
+                  cfg.setBoolean(v.getKey(), Boolean.parseBoolean(v.getValue()));
+                  break;
                 case INT:
                   cfg.setInt(v.getKey(), Integer.parseInt(v.getValue()));
                   break;

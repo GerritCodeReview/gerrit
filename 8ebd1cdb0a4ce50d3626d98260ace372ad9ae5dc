@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03174a8c_0531920b",
+        "filename": "gerrit-acceptance-tests/.settings/org.eclipse.jdt.core.prefs",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-28T22:55:39Z",
+      "side": 1,
+      "message": "These files in each project directory exist only as left-overs from the Maven poop era. You can delete them. The only one that matters is the one in the top level \".settings\" directory.",
+      "revId": "8ebd1cdb0a4ce50d3626d98260ace372ad9ae5dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

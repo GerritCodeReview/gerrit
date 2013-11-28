@@ -16,6 +16,24 @@
       "revId": "9e4fddb6b9850252f91b08e4e33eabdd39f77805",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3cb723b_cb1fb56f",
+        "filename": "Documentation/config-login-register.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-28T03:25:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3ceb64a_ec45eb5e",
+      "revId": "9e4fddb6b9850252f91b08e4e33eabdd39f77805",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

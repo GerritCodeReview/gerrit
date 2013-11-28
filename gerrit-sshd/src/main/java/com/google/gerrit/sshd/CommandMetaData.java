@@ -28,8 +28,4 @@ import java.lang.annotation.Target;
 public @interface CommandMetaData {
   String name();
   String description() default "";
-
-  /** @deprecated use description intead. */
-  @Deprecated
-  String descr() default "";
 }

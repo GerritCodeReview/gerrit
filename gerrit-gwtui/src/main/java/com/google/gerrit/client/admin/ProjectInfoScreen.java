@@ -30,6 +30,7 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
+import com.google.gerrit.client.ui.NpIntTextBox;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
@@ -364,7 +365,9 @@ public class ProjectInfoScreen extends ProjectScreen {
       for (ConfigParameterInfo param : Natives.asList(pluginConfig.values())) {
         FocusWidget w;
         if ("STRING".equals(param.type())) {
-          w = renderTextBox(g, param);
+          w = renderTextBox(g, param, false);
+        } else if ("INT".equals(param.type()) || "LONG".equals(param.type())) {
+          w = renderTextBox(g, param, true);
         } else {
           continue;
         }
@@ -375,8 +378,9 @@ public class ProjectInfoScreen extends ProjectScreen {
     enableForm();
   }
 
-  private TextBox renderTextBox(LabeledWidgetsGrid g, ConfigParameterInfo param) {
-    NpTextBox textBox = new NpTextBox();
+  private TextBox renderTextBox(LabeledWidgetsGrid g,
+      ConfigParameterInfo param, boolean numbersOnly) {
+    NpTextBox textBox = numbersOnly ? new NpIntTextBox() : new NpTextBox();
     textBox.setValue(param.value());
     g.add(param.displayName() != null
         ? param.displayName() : param.name(), textBox);

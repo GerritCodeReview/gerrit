@@ -48,6 +48,8 @@ to include information about all reviewers added on the change.
 * New link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/cmd-apropos.html[
 `apropos` command] to search the Gerrit documentation.
 
+* Deprecated `@CommandMetaData(descr)` has been discontinued. As of Gerrit 2.9
+  `@CommandMetaData(description)` annotation must be used.
 
 REST API
 ~~~~~~~~

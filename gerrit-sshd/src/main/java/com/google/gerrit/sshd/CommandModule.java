@@ -14,8 +14,6 @@
 
 package com.google.gerrit.sshd;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Strings;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.inject.binder.LinkedBindingBuilder;
 
@@ -76,7 +74,7 @@ public abstract class CommandModule extends LifecycleModule {
     if (meta == null) {
       throw new IllegalStateException("no CommandMetaData annotation found");
     }
-    bind(Commands.key(parent, meta.name(), description(meta))).to(clazz);
+    bind(Commands.key(parent, meta.name(), meta.description())).to(clazz);
   }
 
   /**
@@ -95,14 +93,7 @@ public abstract class CommandModule extends LifecycleModule {
     if (meta == null) {
       throw new IllegalStateException("no CommandMetaData annotation found");
     }
-    bind(Commands.key(parent, name, description(meta))).to(clazz);
-  }
-
-  @SuppressWarnings("deprecation")
-  private static String description(CommandMetaData meta) {
-    return Objects.firstNonNull(
-        Strings.emptyToNull(meta.description()),
-        meta.descr());
+    bind(Commands.key(parent, name, meta.description())).to(clazz);
   }
 
   /**

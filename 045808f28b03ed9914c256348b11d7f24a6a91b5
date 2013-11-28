@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3ceb64a_ac11236b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-28T00:59:02Z",
+      "side": 1,
+      "message": "The trailing // are not needed any more.\n\nBut perhaps they can be removed in a separate change.",
+      "revId": "045808f28b03ed9914c256348b11d7f24a6a91b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

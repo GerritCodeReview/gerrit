@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
@@ -67,6 +68,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
   private final TransferConfig config;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
   private final PluginConfigFactory cfgFactory;
+  private final AllProjectsNameProvider allProjects;
   private final DynamicMap<RestView<ProjectResource>> views;
   private final Provider<CurrentUser> currentUser;
 
@@ -78,6 +80,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
       TransferConfig config,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       PluginConfigFactory cfgFactory,
+      AllProjectsNameProvider allProjects,
       DynamicMap<RestView<ProjectResource>> views,
       Provider<CurrentUser> currentUser) {
     this.metaDataUpdateFactory = metaDataUpdateFactory;
@@ -87,6 +90,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
     this.config = config;
     this.pluginConfigEntries = pluginConfigEntries;
     this.cfgFactory = cfgFactory;
+    this.allProjects = allProjects;
     this.views = views;
     this.currentUser = currentUser;
   }
@@ -162,9 +166,8 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
       }
 
       ProjectState state = projectStateFactory.create(projectConfig);
-      return new ConfigInfo(
-          state.controlFor(currentUser.get()),
-          config, pluginConfigEntries, cfgFactory, views);
+      return new ConfigInfo(state.controlFor(currentUser.get()), config,
+          pluginConfigEntries, cfgFactory, allProjects, views);
     } catch (ConfigInvalidException err) {
       throw new ResourceConflictException("Cannot read project " + projectName, err);
     } catch (IOException err) {

@@ -625,7 +625,7 @@ public class ReceiveCommits {
             new Predicate<ReplaceRequest>() {
               @Override
               public boolean apply(ReplaceRequest input) {
-                return !input.skip;
+                return !input.skip && input.inputCommand.getResult() == OK;
               }
             });
     if (!Iterables.isEmpty(updated)) {

@@ -526,6 +526,10 @@ link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/cmd-s
 * The link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/cmd-show-queue.html[
 `show-queue` command] now shows the time that a task was added to the queue.
 
+* The deprecated `approve` alias of the `review` command is removed.
+
+* The 'CHANGEID,PATCHSET' format for specifying a patch set in the `review` command
+is no longer considered to be a 'legacy' feature that will be removed in future.
 
 Daemon
 ~~~~~~

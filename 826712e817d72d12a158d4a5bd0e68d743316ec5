@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "231a8eb4_2655b615",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-28T22:57:29Z",
+      "side": 1,
+      "message": "inline this method now that it is trivial?",
+      "revId": "826712e817d72d12a158d4a5bd0e68d743316ec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

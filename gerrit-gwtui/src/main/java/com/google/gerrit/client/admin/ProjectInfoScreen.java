@@ -387,8 +387,21 @@ public class ProjectInfoScreen extends ProjectScreen {
   private TextBox renderTextBox(LabeledWidgetsGrid g,
       ConfigParameterInfo param, boolean numbersOnly) {
     NpTextBox textBox = numbersOnly ? new NpIntTextBox() : new NpTextBox();
-    textBox.setValue(param.value());
-    g.add(getDisplayName(param), textBox);
+    if (param.inheritable()) {
+      textBox.setValue(param.configuredValue());
+      Label inheritedLabel =
+          new Label(Util.M.pluginProjectInheritedValue(param
+              .inheritedValue()));
+      inheritedLabel.setStyleName(Gerrit.RESOURCES.css()
+          .pluginProjectConfigInheritedValue());
+      HorizontalPanel p = new HorizontalPanel();
+      p.add(textBox);
+      p.add(inheritedLabel);
+      g.add(getDisplayName(param), p);
+    } else {
+      textBox.setValue(param.value());
+      g.add(getDisplayName(param), textBox);
+    }
     saveEnabler.listenTo(textBox);
     return textBox;
   }
@@ -405,13 +418,29 @@ public class ProjectInfoScreen extends ProjectScreen {
   private ListBox renderListBox(LabeledWidgetsGrid g,
       ConfigParameterInfo param) {
     ListBox listBox = new ListBox();
-    for (int i = 0; i < param.permittedValues().length(); i++) {
-      String sv = param.permittedValues().get(i);
-      listBox.addItem(sv);
-      if (sv.equals(param.value())) {
-        listBox.setSelectedIndex(i);
+    if (param.inheritable()) {
+      listBox.addItem(
+          Util.M.pluginProjectInheritedListValue(param.inheritedValue()));
+      if (param.configuredValue() == null) {
+        listBox.setSelectedIndex(0);
+      }
+      for (int i = 0; i < param.permittedValues().length(); i++) {
+        String pv = param.permittedValues().get(i);
+        listBox.addItem(pv);
+        if (pv.equals(param.configuredValue())) {
+          listBox.setSelectedIndex(i + 1);
+        }
+      }
+    } else {
+      for (int i = 0; i < param.permittedValues().length(); i++) {
+        String pv = param.permittedValues().get(i);
+        listBox.addItem(pv);
+        if (pv.equals(param.value())) {
+          listBox.setSelectedIndex(i);
+        }
       }
     }
+
     g.add(getDisplayName(param), listBox);
     saveEnabler.listenTo(listBox);
     return listBox;
@@ -480,7 +509,10 @@ public class ProjectInfoScreen extends ProjectScreen {
           values.put(e2.getKey(), Boolean.toString(((CheckBox) widget).getValue()));
         } else if (widget instanceof ListBox) {
           ListBox listBox = (ListBox) widget;
-          String value = listBox.getValue(listBox.getSelectedIndex());
+          // the inherited value is at index 0,
+          // if it is selected no value should be set on this project
+          String value = listBox.getSelectedIndex() > 0
+              ? listBox.getValue(listBox.getSelectedIndex()) : null;
           values.put(e2.getKey(), value);
         }
       }

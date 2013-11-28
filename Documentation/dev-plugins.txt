@@ -667,6 +667,9 @@ class Module extends AbstractModule {
   @Override
   protected void configure() {
     bind(ProjectConfigEntry.class)
+        .annotatedWith(Exports.named("enabled"))
+        .toInstance(new ProjectConfigEntry("Enable Greeting", true));
+    bind(ProjectConfigEntry.class)
         .annotatedWith(Exports.named("language"))
         .toInstance(new ProjectConfigEntry("Language of Greeting", "ENGLISH"));
   }

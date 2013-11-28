@@ -41,6 +41,7 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusWidget;
@@ -368,6 +369,13 @@ public class ProjectInfoScreen extends ProjectScreen {
               ? param.displayName() : param.name(), textBox);
           saveEnabler.listenTo(textBox);
           widgetMap.put(param.name(), textBox);
+        } else if ("BOOLEAN".equals(param.type())) {
+          CheckBox checkbox = new CheckBox();
+          checkbox.setValue(Boolean.parseBoolean(param.value()));
+          g.add(param.displayName() != null
+              ? param.displayName() : param.name(), checkbox);
+          saveEnabler.listenTo(checkbox);
+          widgetMap.put(param.name(), checkbox);
         }
       }
     }
@@ -430,6 +438,8 @@ public class ProjectInfoScreen extends ProjectScreen {
         Widget widget = e2.getValue();
         if (widget instanceof TextBox) {
           values.put(e2.getKey(), ((TextBox) widget).getValue().trim());
+        } else if (widget instanceof CheckBox) {
+          values.put(e2.getKey(), Boolean.toString(((CheckBox) widget).getValue()));
         }
       }
     }

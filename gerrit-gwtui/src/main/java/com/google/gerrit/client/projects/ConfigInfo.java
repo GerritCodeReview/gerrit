@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.core.client.JsArrayString;
 import com.google.gwtexpui.safehtml.client.FindReplace;
 import com.google.gwtexpui.safehtml.client.LinkFindReplace;
 import com.google.gwtexpui.safehtml.client.RawFindReplace;
@@ -150,6 +151,7 @@ public class ConfigInfo extends JavaScriptObject {
     public final native String displayName() /*-{ return this.display_name; }-*/;
     public final native String type() /*-{ return this.type; }-*/;
     public final native String value() /*-{ return this.value; }-*/;
+    public final native JsArrayString permittedValues()  /*-{ return this.permitted_values; }-*/;
 
     protected ConfigParameterInfo() {
     }

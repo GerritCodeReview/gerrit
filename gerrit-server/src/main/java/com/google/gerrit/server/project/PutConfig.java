@@ -201,6 +201,13 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
                 case LONG:
                   cfg.setLong(v.getKey(), Long.parseLong(v.getValue()));
                   break;
+                case LIST:
+                  if (!projectConfigEntry.getPermittedValues()
+                      .contains(v.getValue())) {
+                    throw new BadRequestException(String.format(
+                        "The value '%s' is not permitted for parameter '%s' of plugin '"
+                            + pluginName + "'", v.getValue(), v.getKey()));
+                  }
                 case STRING:
                   cfg.setString(v.getKey(), v.getValue());
                   break;

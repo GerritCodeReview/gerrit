@@ -16,6 +16,24 @@
       "revId": "8ebd1cdb0a4ce50d3626d98260ace372ad9ae5dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3cbde64_a21fbe6f",
+        "filename": "gerrit-acceptance-tests/.settings/org.eclipse.jdt.core.prefs",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-28T23:17:04Z",
+      "side": 1,
+      "message": "Done\n\nin the follow-up change",
+      "parentUuid": "03174a8c_0531920b",
+      "revId": "8ebd1cdb0a4ce50d3626d98260ace372ad9ae5dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

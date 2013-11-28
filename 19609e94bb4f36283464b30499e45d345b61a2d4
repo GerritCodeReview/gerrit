@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "231a8eb4_26077635",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/MasterCommandModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-28T06:56:29Z",
+      "side": 1,
+      "message": "Unnecessary added blank line is still here.",
+      "revId": "19609e94bb4f36283464b30499e45d345b61a2d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

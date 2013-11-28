@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "231a8eb4_06319a0b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DraftBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-28T20:58:07Z",
+      "side": 1,
+      "message": "Why did we move this into the callback? Doing the cm focus immediately during save allowed the user to start navigating the editor again to another line while the save is happening. I use this feature a lot when I hit Ctrl-S to save a draft and want to move to another line while the save is processing.",
+      "revId": "cca711d1db960becafc76d30964665ea4c58c12c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

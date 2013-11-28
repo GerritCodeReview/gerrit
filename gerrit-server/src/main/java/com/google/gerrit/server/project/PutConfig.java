@@ -196,7 +196,23 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
           if (v.value == null) {
             cfg.unset(v.name);
           } else {
-            cfg.setString(v.name, v.value);
+            try {
+              switch (projectConfigEntry.getType()) {
+                case INT:
+                  cfg.setInt(v.name, Integer.parseInt(v.value));
+                  break;
+                case LONG:
+                  cfg.setLong(v.name, Long.parseLong(v.value));
+                  break;
+                case STRING:
+                default:
+                  cfg.setString(v.name, v.value);
+              }
+            } catch (NumberFormatException ex) {
+              throw new BadRequestException("The value '" + v.value
+                  + "' of config paramter '" + v.name + "' of plugin '"
+                  + pluginName + "' is invalid: " + ex.getMessage());
+            }
           }
         } else {
           throw new BadRequestException("The config paramter '" + v.name

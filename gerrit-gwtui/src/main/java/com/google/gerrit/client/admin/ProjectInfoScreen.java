@@ -360,7 +360,8 @@ public class ProjectInfoScreen extends ProjectScreen {
       pluginOptionsPanel.add(g);
       for (ConfigParameterInfo param : Natives.asList(
           info.pluginConfigParameter(pluginName))) {
-        if ("STRING".equals(param.type())) {
+        if ("STRING".equals(param.type()) || "INT".equals(param.type())
+            || "LONG".equals(param.type())) {
           NpTextBox textBox = new NpTextBox();
           textBox.setValue(param.value());
           g.add(param.displayName() != null

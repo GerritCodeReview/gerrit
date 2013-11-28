@@ -28,6 +28,18 @@ public class ProjectConfigEntry {
     this.type = Type.STRING;
   }
 
+  public ProjectConfigEntry(String displayName, int defaultValue) {
+    this.displayName = displayName;
+    this.defaultValue = Integer.toString(defaultValue);
+    this.type = Type.INT;
+  }
+
+  public ProjectConfigEntry(String displayName, long defaultValue) {
+    this.displayName = displayName;
+    this.defaultValue = Long.toString(defaultValue);
+    this.type = Type.LONG;
+  }
+
   public String getDisplayName() {
     return displayName;
   }
@@ -41,6 +53,6 @@ public class ProjectConfigEntry {
   }
 
   public enum Type {
-    STRING
+    STRING, INT, LONG
   }
 }

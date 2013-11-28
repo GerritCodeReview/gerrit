@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "231a8eb4_c62662cc",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-28T22:56:33Z",
+      "side": 1,
+      "message": "unclear there is any gain here. The code is actually 1 line longer now, right?",
+      "revId": "95fd49e697b16d5a4542015285b8950eb77ddde1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

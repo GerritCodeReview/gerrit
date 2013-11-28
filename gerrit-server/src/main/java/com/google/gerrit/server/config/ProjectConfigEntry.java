@@ -14,38 +14,63 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
+
+import java.util.Arrays;
+import java.util.List;
 
 @ExtensionPoint
 public class ProjectConfigEntry {
   public enum Type {
-    STRING, INT, LONG, BOOLEAN
+    STRING, INT, LONG, BOOLEAN, LIST
   }
 
   private final String displayName;
   private final String defaultValue;
   private final Type type;
+  private final List<String> permittedValues;
 
   public ProjectConfigEntry(String displayName, String defaultValue) {
-    this(displayName, defaultValue, Type.STRING);
+    this(displayName, defaultValue, Type.STRING, null);
   }
 
   public ProjectConfigEntry(String displayName, int defaultValue) {
-    this(displayName, Integer.toString(defaultValue), Type.INT);
+    this(displayName, Integer.toString(defaultValue), Type.INT, null);
   }
 
   public ProjectConfigEntry(String displayName, long defaultValue) {
-    this(displayName, Long.toString(defaultValue), Type.LONG);
+    this(displayName, Long.toString(defaultValue), Type.LONG, null);
   }
 
   public ProjectConfigEntry(String displayName, boolean defaultValue) {
-    this(displayName, Boolean.toString(defaultValue), Type.BOOLEAN);
+    this(displayName, Boolean.toString(defaultValue), Type.BOOLEAN, null);
   }
 
-  private ProjectConfigEntry(String displayName, String defaultValue, Type type) {
+  public ProjectConfigEntry(String displayName, String defaultValue,
+      List<String> permittedValues) {
+    this(displayName, defaultValue, Type.LIST, permittedValues);
+  }
+
+  public <T extends Enum<?>> ProjectConfigEntry(String displayName,
+      T defaultValue, Class<T> permittedValues) {
+    this(displayName, defaultValue.name(), Type.LIST, Lists.transform(
+        Arrays.asList(permittedValues.getEnumConstants()),
+        new Function<Enum<?>, String>() {
+          @Override
+          public String apply(Enum<?> e) {
+            return e.name();
+          }
+        }));
+  }
+
+  private ProjectConfigEntry(String displayName, String defaultValue,
+      Type type, List<String> permittedValues) {
     this.displayName = displayName;
     this.defaultValue = defaultValue;
     this.type = type;
+    this.permittedValues = permittedValues;
   }
 
   public String getDisplayName() {
@@ -58,5 +83,9 @@ public class ProjectConfigEntry {
 
   public Type getType() {
     return type;
+  }
+
+  public List<String> getPermittedValues() {
+    return permittedValues;
   }
 }

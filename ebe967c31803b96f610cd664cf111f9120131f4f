@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "03174a8c_45ed4a32",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-28T05:57:13Z",
+      "side": 1,
+      "message": "There is currently work in progress to add REST API support in the trigger plugin.",
+      "range": {
+        "startLine": 12,
+        "startChar": 49,
+        "endLine": 13,
+        "endChar": 14
+      },
+      "revId": "ebe967c31803b96f610cd664cf111f9120131f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2407f353_50f18c14",
         "filename": "contrib/gerrit-ssh-http-adapter.py",
         "patchSetId": 1
@@ -47,6 +70,40 @@
       "writtenOn": "2013-09-23T12:51:35Z",
       "side": 1,
       "message": "No authentication handler is being given in the `get`, so the requests library will fall back to using HTTP basic authentication with credentials from the user\u0027s .netrc, if any exist.\n\nAssuming the user has put the generated http username and password in their .netrc, this will work with gerrit-review.googlesource.com, because the username and password are already hashed and the server accepts them via basic authentication.  I.e. requests can put the .netrc credentials in a `requests.auth.HTTPBasicAuth` handler.\n\nHowever, this will not work with a Gerrit server running \"out of the box\", which generates plain text passwords which must be hashed on the client side before sending.  I.e. the authentication must be done with a `requests.auth.HTTPDigestAuth` handler.",
+      "revId": "ebe967c31803b96f610cd664cf111f9120131f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03174a8c_65e84624",
+        "filename": "contrib/gerrit-ssh-http-adapter.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-28T05:57:13Z",
+      "side": 1,
+      "message": "Call `response.raise_for_status()` before trying to read the content from the response.",
+      "revId": "ebe967c31803b96f610cd664cf111f9120131f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "231a8eb4_e6fb9eec",
+        "filename": "contrib/gerrit-ssh-http-adapter.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-28T05:57:13Z",
+      "side": 1,
+      "message": "If the exception is named here and saved in a variable, the error message can be included in the log below.",
       "revId": "ebe967c31803b96f610cd664cf111f9120131f4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -361,7 +361,8 @@ public class ProjectInfoScreen extends ProjectScreen {
       for (ConfigParameterInfo param : Natives.asList(
           info.pluginConfigParameter(pluginName))) {
         FocusWidget w;
-        if ("STRING".equals(param.type())) {
+        if ("STRING".equals(param.type()) || "INT".equals(param.type())
+            || "LONG".equals(param.type())) {
           w = renderTextBox(g, param);
         } else {
           continue;

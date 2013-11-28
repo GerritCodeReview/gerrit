@@ -1295,10 +1295,12 @@ parameter.
 |`display_name`    |optional|
 The display name of the configuration parameter.
 |`type`            ||
-The type of the configuration parameter, can be `STRING`, `INT`, `LONG`
-or `BOOLEAN`.
+The type of the configuration parameter, can be `STRING`, `INT`,
+`LONG`, `BOOLEAN` or `LIST`.
 |`value`           |optional|
 The value of the configuration parameter as string.
+|`permitted_values`|optional|
+The list of permitted values, only set if the `type` is `LIST`.
 |===============================
 
 [[dashboard-info]]

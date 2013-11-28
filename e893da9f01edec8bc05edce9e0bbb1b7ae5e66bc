@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3cb723b_ab11096b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitLabels.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-28T01:21:26Z",
+      "side": 1,
+      "message": "I haven\u0027t tested this, but what happens if the user is running init on an existing site, which already has the Verified label, and he selects \"yes\" on this option?",
+      "revId": "e893da9f01edec8bc05edce9e0bbb1b7ae5e66bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

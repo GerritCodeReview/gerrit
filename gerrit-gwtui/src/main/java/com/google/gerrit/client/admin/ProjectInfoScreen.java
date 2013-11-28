@@ -42,6 +42,7 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusWidget;
@@ -368,6 +369,8 @@ public class ProjectInfoScreen extends ProjectScreen {
           w = renderTextBox(g, param, false);
         } else if ("INT".equals(param.type()) || "LONG".equals(param.type())) {
           w = renderTextBox(g, param, true);
+        } else if ("BOOLEAN".equals(param.type())) {
+          w = renderCheckBox(g, param);
         } else {
           continue;
         }
@@ -382,10 +385,22 @@ public class ProjectInfoScreen extends ProjectScreen {
       ConfigParameterInfo param, boolean numbersOnly) {
     NpTextBox textBox = numbersOnly ? new NpIntTextBox() : new NpTextBox();
     textBox.setValue(param.value());
-    g.add(param.displayName() != null
-        ? param.displayName() : param.name(), textBox);
+    g.add(getDisplayName(param), textBox);
     saveEnabler.listenTo(textBox);
     return textBox;
+  }
+
+  private CheckBox renderCheckBox(LabeledWidgetsGrid g,
+      ConfigParameterInfo param) {
+    CheckBox checkBox = new CheckBox(getDisplayName(param));
+    checkBox.setValue(Boolean.parseBoolean(param.value()));
+    g.add(null, checkBox);
+    saveEnabler.listenTo(checkBox);
+    return checkBox;
+  }
+
+  private String getDisplayName(ConfigParameterInfo param) {
+    return param.displayName() != null ? param.displayName() : param.name();
   }
 
   private void initProjectActions(ConfigInfo info) {
@@ -443,6 +458,8 @@ public class ProjectInfoScreen extends ProjectScreen {
         FocusWidget widget = e2.getValue();
         if (widget instanceof TextBox) {
           values.put(e2.getKey(), ((TextBox) widget).getValue().trim());
+        } else if (widget instanceof CheckBox) {
+          values.put(e2.getKey(), Boolean.toString(((CheckBox) widget).getValue()));
         }
       }
     }

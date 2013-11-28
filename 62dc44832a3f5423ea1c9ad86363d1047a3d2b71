@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "83d09a10_212c8eb1",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-28T22:49:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03174a8c_c5f81af3",
+      "revId": "62dc44832a3f5423ea1c9ad86363d1047a3d2b71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03174a8c_25076e35",
         "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
         "patchSetId": 2
@@ -42,6 +60,24 @@
         "endLine": 52,
         "endChar": 24
       },
+      "revId": "62dc44832a3f5423ea1c9ad86363d1047a3d2b71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d09a10_4131920a",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-28T22:49:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03174a8c_25076e35",
       "revId": "62dc44832a3f5423ea1c9ad86363d1047a3d2b71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

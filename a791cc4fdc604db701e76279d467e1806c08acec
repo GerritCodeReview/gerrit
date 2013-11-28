@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "231a8eb4_a6488676",
+        "filename": "gerrit-plugin-archetype/src/main/resources/archetype-resources/.settings/org.eclipse.jdt.core.prefs",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-28T23:22:52Z",
+      "side": 0,
+      "message": "I think we want to keep these to feed into new plugins.",
+      "revId": "a791cc4fdc604db701e76279d467e1806c08acec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

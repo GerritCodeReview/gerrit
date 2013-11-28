@@ -363,7 +363,8 @@ public class ProjectInfoScreen extends ProjectScreen {
       pluginConfig.copyKeysIntoChildren("name");
       for (ConfigParameterInfo param : Natives.asList(pluginConfig.values())) {
         FocusWidget w;
-        if ("STRING".equals(param.type())) {
+        if ("STRING".equals(param.type()) || "INT".equals(param.type())
+            || "LONG".equals(param.type())) {
           w = renderTextBox(g, param);
         } else {
           continue;

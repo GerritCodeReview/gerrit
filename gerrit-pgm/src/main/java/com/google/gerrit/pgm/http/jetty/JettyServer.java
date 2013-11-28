@@ -32,11 +32,13 @@ import com.google.inject.Singleton;
 import com.google.inject.servlet.GuiceFilter;
 import com.google.inject.servlet.GuiceServletContextListener;
 
+import org.eclipse.jetty.http.HttpScheme;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.ForwardedRequestCustomizer;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
+import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
@@ -222,7 +224,14 @@ public class JettyServer {
       } else if ("proxy-https".equals(u.getScheme())) {
         defaultPort = 8080;
         config.addCustomizer(new ForwardedRequestCustomizer());
-        config.addCustomizer(new SecureRequestCustomizer());
+        config.addCustomizer(new HttpConfiguration.Customizer() {
+          @Override
+          public void customize(Connector connector,
+              HttpConfiguration channelConfig, Request request) {
+            request.setScheme(HttpScheme.HTTPS.asString());
+            request.setSecure(true);
+          }
+        });
         c = new ServerConnector(server,
             null, null, null, 0, acceptors,
             new HttpConnectionFactory(config));

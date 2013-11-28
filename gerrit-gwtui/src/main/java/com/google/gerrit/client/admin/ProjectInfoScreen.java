@@ -364,9 +364,23 @@ public class ProjectInfoScreen extends ProjectScreen {
         if ("STRING".equals(param.type()) || "INT".equals(param.type())
             || "LONG".equals(param.type())) {
           NpTextBox textBox = new NpTextBox();
-          textBox.setValue(param.value());
-          g.add(param.displayName() != null
-              ? param.displayName() : param.name(), textBox);
+          if (param.inheritable()) {
+            textBox.setValue(param.configuredValue());
+            Label inheritedLabel =
+                new Label(Util.M.pluginProjectInheritedValue(param
+                    .inheritedValue()));
+            inheritedLabel.setStyleName(Gerrit.RESOURCES.css()
+                .pluginProjectConfigInheritedValue());
+            HorizontalPanel p = new HorizontalPanel();
+            p.add(textBox);
+            p.add(inheritedLabel);
+            g.add(param.displayName() != null ? param.displayName() :
+                param.name(), p);
+          } else {
+            textBox.setValue(param.value());
+            g.add(param.displayName() != null
+                ? param.displayName() : param.name(), textBox);
+          }
           saveEnabler.listenTo(textBox);
           widgetMap.put(param.name(), textBox);
         } else if ("BOOLEAN".equals(param.type())) {
@@ -379,13 +393,29 @@ public class ProjectInfoScreen extends ProjectScreen {
         } else if ("LIST".equals(param.type())
             && param.permittedValues() != null) {
           ListBox listBox = new ListBox();
-          for (int i = 0; i < param.permittedValues().length(); i++) {
-            String sv = param.permittedValues().get(i);
-            listBox.addItem(sv);
-            if (sv.equals(param.value())) {
-              listBox.setSelectedIndex(i);
+          if (param.inheritable()) {
+            listBox.addItem(
+                Util.M.pluginProjectInheritedListValue(param.inheritedValue()));
+            if (param.configuredValue() == null) {
+              listBox.setSelectedIndex(0);
+            }
+            for (int i = 0; i < param.permittedValues().length(); i++) {
+              String pv = param.permittedValues().get(i);
+              listBox.addItem(pv);
+              if (pv.equals(param.configuredValue())) {
+                listBox.setSelectedIndex(i + 1);
+              }
+            }
+          } else {
+            for (int i = 0; i < param.permittedValues().length(); i++) {
+              String pv = param.permittedValues().get(i);
+              listBox.addItem(pv);
+              if (pv.equals(param.value())) {
+                listBox.setSelectedIndex(i);
+              }
             }
           }
+
           g.add(param.displayName() != null
               ? param.displayName() : param.name(), listBox);
           saveEnabler.listenTo(listBox);
@@ -457,6 +487,9 @@ public class ProjectInfoScreen extends ProjectScreen {
         } else if (widget instanceof ListBox) {
           ListBox listBox = (ListBox) widget;
           String value = listBox.getValue(listBox.getSelectedIndex());
+          if (value.matches(Util.M.pluginProjectInheritedListValue(".*"))) {
+            value = null;
+          }
           values.put(e2.getKey(), value);
         }
       }

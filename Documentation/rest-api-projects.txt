@@ -1308,6 +1308,16 @@ The type of the configuration parameter, can be `STRING`, `INT`,
 The value of the configuration parameter as string.
 |`permitted_values`|optional|
 The list of permitted values, only set if the `type` is `LIST`.
+|`inheritable`     |`false` if not set|
+Whether the configuration parameter can be inherited.
+|`configured_value`|optional|
+The value of the configuration parameter that is configured on this
+project, only set if `inheritable` is true.
+|`inherited_value` |optional|
+The inherited value of the configuration parameter, only set if
+`inheritable` is true.
+|`supported_value` |optional|
+The list of supported values, only set if the `type` is `LIST`.
 |===============================
 
 [[config-value-input]]

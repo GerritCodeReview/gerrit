@@ -32,6 +32,7 @@ import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.inject.util.Providers;
 
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -135,6 +136,7 @@ public class ConfigInfo {
       p.displayName = configEntry.getDisplayName();
       p.type = configEntry.getType();
       p.value = cfg.getString(e.getExportName(), configEntry.getDefaultValue());
+      p.permittedValues = configEntry.getPermittedValues();
       Map<String, ConfigParameterInfo> pc = pluginConfig.get(e.getPluginName());
       if (pc == null) {
         pc = new TreeMap<>();
@@ -161,5 +163,6 @@ public class ConfigInfo {
     public String displayName;
     public ProjectConfigEntry.Type type;
     public String value;
+    public List<String> permittedValues;
   }
 }

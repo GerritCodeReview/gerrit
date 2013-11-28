@@ -10,6 +10,7 @@ SYNOPSIS
 --
 'ssh' -p <port> <host> 'gerrit review'
   [--project <PROJECT> | -p <PROJECT>]
+  [--branch <BRANCH> | -b <BRANCH>]
   [--message <MESSAGE> | -m <MESSAGE>]
   [--notify <NOTIFYHANDLING> | -n <NOTIFYHANDLING>]
   [--submit | -s]
@@ -34,6 +35,9 @@ If a patch set is specified with the 'COMMIT' format, the complete
 or abbreviated commit SHA-1 may be used.  If the same commit is available
 in multiple projects the `--project` option may be used to limit where
 Gerrit searches for the change to only the contents of the specified project.
+If the same commit is available in multiple branches the `--branch` option
+may be used to limit where Gerrit searches for changes to only the specified
+branch.
 
 
 OPTIONS
@@ -42,6 +46,12 @@ OPTIONS
 --project::
 -p::
 	Name of the project the intended changes are contained
+	within.  This option must be supplied before the commit
+	SHA-1 in order to take effect.
+
+--branch::
+-b::
+	Name of the branch the intended changes are contained
 	within.  This option must be supplied before the commit
 	SHA-1 in order to take effect.
 

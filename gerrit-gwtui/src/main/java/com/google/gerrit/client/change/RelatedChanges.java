@@ -171,22 +171,30 @@ class RelatedChanges extends TabPanel {
   }
 
   private void setForOpenChange(final ChangeInfo info, final String revision) {
-    relatedChangesTab = createTab(Resources.C.relatedChanges(),
-        Resources.C.relatedChangesTooltip());
-
     ChangeApi.revision(info.legacy_id().get(), revision).view("related")
         .get(new AsyncCallback<RelatedInfo>() {
           @Override
           public void onSuccess(RelatedInfo result) {
-            relatedChangesTab.setTitle(Resources.M.relatedChanges(result.changes().length()));
-            relatedChangesTab.setChanges(info.project(), revision, result.changes());
+            if (result.changes().length() > 0) {
+              getTab().setTitle(Resources.M.relatedChanges(result.changes().length()));
+              getTab().setChanges(info.project(), revision, result.changes());
+            }
           }
 
           @Override
           public void onFailure(Throwable err) {
-            relatedChangesTab.setTitle(
+            getTab().setTitle(
                 Resources.M.relatedChanges(Resources.C.notAvailable()));
-            relatedChangesTab.setError(err.getMessage());
+            getTab().setError(err.getMessage());
+          }
+
+          private RelatedChangesTab getTab() {
+            if (relatedChangesTab == null) {
+              relatedChangesTab =
+                  createTab(Resources.C.relatedChanges(),
+                      Resources.C.relatedChangesTooltip());
+            }
+            return relatedChangesTab;
           }
         });
 

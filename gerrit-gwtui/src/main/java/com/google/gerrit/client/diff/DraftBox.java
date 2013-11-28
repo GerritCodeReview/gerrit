@@ -18,6 +18,7 @@ import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.changes.CommentInput;
+import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -175,7 +176,7 @@ class DraftBox extends CommentBox {
     resizePaddingWidget();
   }
 
-  private boolean isEdit() {
+  boolean isEdit() {
     return UIObject.isVisible(p_edit);
   }
 
@@ -205,6 +206,7 @@ class DraftBox extends CommentBox {
     } else {
       expandTimer.cancel();
     }
+    parent.updateUnsaved(this, edit);
     resizePaddingWidget();
   }
 
@@ -257,10 +259,10 @@ class DraftBox extends CommentBox {
   @UiHandler("save")
   void onSave(ClickEvent e) {
     e.stopPropagation();
-    onSave();
+    save(null);
   }
 
-  private void onSave() {
+  void save(CallbackGroup group) {
     String message = editArea.getValue().trim();
     if (message.length() == 0) {
       return;
@@ -280,6 +282,7 @@ class DraftBox extends CommentBox {
         if (autoClosed) {
           setOpen(false);
         }
+        parent.updateUnsaved(DraftBox.this, false);
       }
 
       @Override
@@ -289,9 +292,10 @@ class DraftBox extends CommentBox {
       }
     };
     if (original.id() == null) {
-      CommentApi.createDraft(psId, input, cb);
+      CommentApi.createDraft(psId, input, group == null ? cb : group.add(cb));
     } else {
-      CommentApi.updateDraft(psId, original.id(), input, cb);
+      CommentApi.updateDraft(
+          psId, original.id(), input, group == null ? cb : group.add(cb));
     }
     getCm().focus();
   }
@@ -342,7 +346,7 @@ class DraftBox extends CommentBox {
         case 's':
         case 'S':
           e.preventDefault();
-          onSave();
+          save(null);
           return;
       }
     } else if (e.getNativeKeyCode() == KeyCodes.KEY_ESCAPE && !isDirty()) {

@@ -23,13 +23,15 @@ limitations under the License.
       position: relative;
     }
     .location {
-      position: absolute;
+      position: relative;
       top: 0;
       left: 0;
       font-weight: bold;
+      display: inline-block
     }
     .message {
-      margin-left: 100px;
+      margin-left: 6px;
+      display: inline-block
     }
   </ui:style>
 

@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.actions.ActionInfo;
+import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
@@ -57,6 +58,7 @@ public class ConfigInfo {
       TransferConfig config,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       PluginConfigFactory cfgFactory,
+      AllProjectsNameProvider allProjects,
       DynamicMap<RestView<ProjectResource>> views) {
     ProjectState projectState = control.getProjectState();
     Project p = control.getProject();
@@ -113,7 +115,8 @@ public class ConfigInfo {
     }
 
     pluginConfig =
-        getPluginConfig(control.getProjectState(), pluginConfigEntries, cfgFactory);
+        getPluginConfig(control.getProjectState(), pluginConfigEntries,
+            cfgFactory, allProjects);
 
     actions = Maps.newTreeMap();
     for (UiAction.Description d : UiActions.from(
@@ -126,17 +129,29 @@ public class ConfigInfo {
 
   private Map<String, Map<String, ConfigParameterInfo>> getPluginConfig(
       ProjectState project, DynamicMap<ProjectConfigEntry> pluginConfigEntries,
-      PluginConfigFactory cfgFactory) {
+      PluginConfigFactory cfgFactory, AllProjectsNameProvider allProjects) {
     TreeMap<String, Map<String, ConfigParameterInfo>> pluginConfig = new TreeMap<>();
     for (Entry<ProjectConfigEntry> e : pluginConfigEntries) {
       PluginConfig cfg =
           cfgFactory.getFromProjectConfig(project, e.getPluginName());
       ProjectConfigEntry configEntry = e.getProvider().get();
+      String configuredValue = cfg.getString(e.getExportName());
       ConfigParameterInfo p = new ConfigParameterInfo();
       p.displayName = configEntry.getDisplayName();
       p.type = configEntry.getType();
-      p.value = cfg.getString(e.getExportName(), configEntry.getDefaultValue());
       p.permittedValues = configEntry.getPermittedValues();
+      if (configEntry.isInheritable()
+          && !allProjects.get().equals(project.getProject().getNameKey())) {
+        PluginConfig cfgWithInheritance =
+            cfgFactory.getFromProjectConfigWithInheritance(project,
+                e.getPluginName());
+        p.inheritable = true;
+        p.value = cfgWithInheritance.getString(e.getExportName(), configEntry.getDefaultValue());
+        p.configuredValue = configuredValue;
+        p.inheritedValue = getInheritedValue(project, cfgFactory, e);
+      } else {
+        p.value = configuredValue != null ? configuredValue : configEntry.getDefaultValue();
+      }
       Map<String, ConfigParameterInfo> pc = pluginConfig.get(e.getPluginName());
       if (pc == null) {
         pc = new TreeMap<>();
@@ -145,6 +160,22 @@ public class ConfigInfo {
       pc.put(e.getExportName(), p);
     }
     return pluginConfig;
+  }
+
+  private String getInheritedValue(ProjectState project,
+      PluginConfigFactory cfgFactory, Entry<ProjectConfigEntry> e) {
+    ProjectConfigEntry configEntry = e.getProvider().get();
+    ProjectState parent = Iterables.getFirst(project.parents(), null);
+    String inheritedValue = configEntry.getDefaultValue();
+    if (parent != null) {
+      PluginConfig parentCfgWithInheritance =
+          cfgFactory.getFromProjectConfigWithInheritance(parent,
+              e.getPluginName());
+      inheritedValue =
+          parentCfgWithInheritance.getString(e.getExportName(),
+              configEntry.getDefaultValue());
+    }
+    return inheritedValue;
   }
 
   public static class InheritedBooleanInfo {
@@ -163,6 +194,9 @@ public class ConfigInfo {
     public String displayName;
     public ProjectConfigEntry.Type type;
     public String value;
+    public Boolean inheritable;
+    public String configuredValue;
+    public String inheritedValue;
     public List<String> permittedValues;
   }
 }

@@ -1298,8 +1298,20 @@ The display name of the configuration parameter.
 The type of the configuration parameter, can be `STRING`, `INT`,
 `LONG`, `BOOLEAN` or `LIST`.
 |`value`           |optional|
-The value of the configuration parameter as string.
+The value of the configuration parameter as string. If the parameter
+is inheritable this is the effective value which is deduced from
+`configured_value` and `inherited_value`.
 |`permitted_values`|optional|
+The list of permitted values, only set if the `type` is `LIST`.
+|`inheritable`     |`false` if not set|
+Whether the configuration parameter can be inherited.
+|`configured_value`|optional|
+The value of the configuration parameter that is configured on this
+project, only set if `inheritable` is true.
+|`inherited_value` |optional|
+The inherited value of the configuration parameter, only set if
+`inheritable` is true.
+|`permitted_values` |optional|
 The list of permitted values, only set if the `type` is `LIST`.
 |===============================
 

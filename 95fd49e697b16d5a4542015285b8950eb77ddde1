@@ -16,6 +16,24 @@
       "revId": "95fd49e697b16d5a4542015285b8950eb77ddde1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3cbde64_4231920a",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-28T22:58:49Z",
+      "side": 1,
+      "message": "Right.\n\nThe only reason i uploaded it to check, that Diffy has JDK 1.7 installed.",
+      "parentUuid": "231a8eb4_c62662cc",
+      "revId": "95fd49e697b16d5a4542015285b8950eb77ddde1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

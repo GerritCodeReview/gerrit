@@ -688,15 +688,21 @@ parameter. The export name must be a valid Git variable name. The
 variable name is case-insensitive, allows only alphanumeric characters
 and '-', and must start with an alphabetic character.
 
-The example below shows how the parameter `plugin.helloworld.language`
-is bound to be editable from the WebUI. "Preferred Language" is
-provided as display name and "en" is set as default value.
+The example below shows how the parameters `plugin.helloworld.enabled`
+and `plugin.helloworld.language` are bound to be editable from the
+WebUI. For the parameter `plugin.helloworld.enabled` "Enable Greeting"
+is provided as display name and the default value is set to `true`.
+For the parameter `plugin.helloworld.language` "Preferred Language"
+is provided as display name and "en" is set as default value.
 
 [source,java]
 ----
 class Module extends AbstractModule {
   @Override
   protected void configure() {
+    bind(ProjectConfigEntry.class)
+        .annotatedWith(Exports.named("enabled"))
+        .toInstance(new ProjectConfigEntry("Enable Greeting", true));
     bind(ProjectConfigEntry.class)
         .annotatedWith(Exports.named("language"))
         .toInstance(new ProjectConfigEntry("Preferred Language", "en"));

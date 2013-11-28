@@ -28,33 +28,61 @@ public class ProjectConfigEntry {
   }
 
   private final String displayName;
+  private final boolean inheritable;
   private final String defaultValue;
   private final Type type;
   private final List<String> permittedValues;
 
   public ProjectConfigEntry(String displayName, String defaultValue) {
-    this(displayName, defaultValue, Type.STRING, null);
+    this(displayName, defaultValue, false);
+  }
+
+  public ProjectConfigEntry(String displayName, String defaultValue,
+      boolean inheritable) {
+    this(displayName, defaultValue, Type.STRING, null, inheritable);
   }
 
   public ProjectConfigEntry(String displayName, int defaultValue) {
-    this(displayName, Integer.toString(defaultValue), Type.INT, null);
+    this(displayName, defaultValue, false);
+  }
+
+  public ProjectConfigEntry(String displayName, int defaultValue,
+      boolean inheritable) {
+    this(displayName, Integer.toString(defaultValue), Type.INT, null,
+        inheritable);
   }
 
   public ProjectConfigEntry(String displayName, long defaultValue) {
-    this(displayName, Long.toString(defaultValue), Type.LONG, null);
+    this(displayName, defaultValue, false);
   }
 
+  public ProjectConfigEntry(String displayName, long defaultValue,
+      boolean inheritable) {
+    this(displayName, Long.toString(defaultValue), Type.LONG, null, inheritable);
+  }
+
+  // For inheritable boolean use 'LIST' type with InheritableBoolean
   public ProjectConfigEntry(String displayName, boolean defaultValue) {
-    this(displayName, Boolean.toString(defaultValue), Type.BOOLEAN, null);
+    this(displayName, Boolean.toString(defaultValue), Type.BOOLEAN, null, false);
   }
 
   public ProjectConfigEntry(String displayName, String defaultValue,
       List<String> permittedValues) {
-    this(displayName, defaultValue, Type.LIST, permittedValues);
+    this(displayName, defaultValue, permittedValues, false);
+  }
+
+  public ProjectConfigEntry(String displayName, String defaultValue,
+      List<String> permittedValues, boolean inheritable) {
+    this(displayName, defaultValue, Type.LIST, permittedValues, inheritable);
   }
 
   public <T extends Enum<?>> ProjectConfigEntry(String displayName,
       T defaultValue, Class<T> permittedValues) {
+    this(displayName, defaultValue, permittedValues, false);
+  }
+
+  public <T extends Enum<?>> ProjectConfigEntry(String displayName,
+      T defaultValue, Class<T> permittedValues, boolean inheritable) {
     this(displayName, defaultValue.name(), Type.LIST, Lists.transform(
         Arrays.asList(permittedValues.getEnumConstants()),
         new Function<Enum<?>, String>() {
@@ -62,19 +90,24 @@ public class ProjectConfigEntry {
           public String apply(Enum<?> e) {
             return e.name();
           }
-        }));
+        }), inheritable);
   }
 
   private ProjectConfigEntry(String displayName, String defaultValue,
-      Type type, List<String> permittedValues) {
+      Type type, List<String> permittedValues, boolean inheritable) {
     this.displayName = displayName;
     this.defaultValue = defaultValue;
     this.type = type;
     this.permittedValues = permittedValues;
+    this.inheritable = inheritable;
   }
 
   public String getDisplayName() {
     return displayName;
+  }
+
+  public boolean isInheritable() {
+    return inheritable;
   }
 
   public String getDefaultValue() {

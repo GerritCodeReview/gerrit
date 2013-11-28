@@ -148,7 +148,8 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
       }
 
       if (input.pluginConfigValues != null) {
-        setPluginConfigValues(projectConfig, input.pluginConfigValues);
+        setPluginConfigValues(rsrc.getControl().getProjectState(),
+            projectConfig, input.pluginConfigValues);
       }
 
       md.setMessage("Modified project settings\n");
@@ -177,8 +178,8 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
     }
   }
 
-  private void setPluginConfigValues(ProjectConfig projectConfig,
-      Map<String, Map<String, String>> pluginConfigValues)
+  private void setPluginConfigValues(ProjectState projectState,
+      ProjectConfig projectConfig, Map<String, Map<String, String>> pluginConfigValues)
       throws BadRequestException {
     for (Entry<String, Map<String, String>> e : pluginConfigValues.entrySet()) {
       String pluginName = e.getKey();
@@ -195,11 +196,21 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
           String oldValue = cfg.getString(v.getKey());
           if (v.getValue() == null) {
             if (oldValue != null) {
+              if (!projectConfigEntry.isEditable(projectState)) {
+                throw new BadRequestException(String.format(
+                    "Not allowed to set parameter '%s' of plugin '%s' on project '%s'.",
+                    v.getKey(), pluginName, projectState.getProject().getName()));
+              }
               cfg.unset(v.getKey());
               projectConfigEntry.onUpdate(projectConfig, null);
             }
           } else {
             if (!v.getValue().equals(oldValue)) {
+              if (!projectConfigEntry.isEditable(projectState)) {
+                throw new BadRequestException(String.format(
+                    "Not allowed to set parameter '%s' of plugin '%s' on project '%s'.",
+                    v.getKey(), pluginName, projectState.getProject().getName()));
+              }
               try {
                 switch (projectConfigEntry.getType()) {
                   case BOOLEAN:

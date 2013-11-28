@@ -1331,6 +1331,8 @@ The type of the configuration parameter, can be `STRING`, `INT`,
 `LONG`, `BOOLEAN` or `LIST`.
 |`value`           |optional|
 The value of the configuration parameter as string.
+`editable`         |`false` if not set|
+Whether the value is editable.
 |`permitted_values`|optional|
 The list of permitted values, only set if the `type` is `LIST`.
 |`inheritable`     |`false` if not set|

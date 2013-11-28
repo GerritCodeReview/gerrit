@@ -878,10 +878,22 @@ public class ReceiveCommits {
                         .getString(e.getExportName());
                 if (value == null) {
                   if (oldValue != null) {
+                    if (!configEntry.isEditable(projectControl.getProjectState())) {
+                      reject(cmd, String.format(
+                          "invalid project configuration: Not allowed to set parameter"
+                              + " '%s' of plugin '%s' on project '%s'.",
+                          e.getExportName(), e.getPluginName(), project.getName()));
+                    }
                     configEntry.onUpdate(cfg, null);
                   }
                 } else {
                   if (!value.equals(oldValue)) {
+                    if (!configEntry.isEditable(projectControl.getProjectState())) {
+                      reject(cmd, String.format(
+                          "invalid project configuration: Not allowed to set parameter"
+                              + " '%s' of plugin '%s' on project '%s'.",
+                          e.getExportName(), e.getPluginName(), project.getName()));
+                    }
                     switch (configEntry.getType()) {
                       case BOOLEAN:
                         configEntry.onUpdate(cfg, Boolean.parseBoolean(value));

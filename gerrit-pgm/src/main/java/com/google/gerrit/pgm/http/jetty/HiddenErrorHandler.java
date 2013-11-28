@@ -18,9 +18,9 @@ import com.google.common.base.Charsets;
 import com.google.common.base.Strings;
 import com.google.gwtexpui.server.CacheHeaders;
 
-import org.eclipse.jetty.http.HttpHeader;
+import org.eclipse.jetty.http.HttpHeaders;
 import org.eclipse.jetty.http.HttpStatus;
-import org.eclipse.jetty.server.HttpConnection;
+import org.eclipse.jetty.server.AbstractHttpConnection;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.ErrorHandler;
 import org.slf4j.Logger;
@@ -37,8 +37,8 @@ class HiddenErrorHandler extends ErrorHandler {
 
   public void handle(String target, Request baseRequest,
       HttpServletRequest req, HttpServletResponse res) throws IOException {
-    HttpConnection conn = HttpConnection.getCurrentConnection();
-    baseRequest.setHandled(true);
+    AbstractHttpConnection conn = AbstractHttpConnection.getCurrentConnection();
+    conn.getRequest().setHandled(true);
     try {
       log(req);
     } finally {
@@ -46,11 +46,10 @@ class HiddenErrorHandler extends ErrorHandler {
     }
   }
 
-  private void reply(HttpConnection conn, HttpServletResponse res)
+  private void reply(AbstractHttpConnection conn, HttpServletResponse res)
       throws IOException {
     byte[] msg = message(conn);
-    res.setHeader(HttpHeader.CONTENT_TYPE.asString(),
-        "text/plain; charset=ISO-8859-1");
+    res.setHeader(HttpHeaders.CONTENT_TYPE, "text/plain; charset=ISO-8859-1");
     res.setContentLength(msg.length);
     try {
       CacheHeaders.setNotCacheable(res);
@@ -64,11 +63,10 @@ class HiddenErrorHandler extends ErrorHandler {
     }
   }
 
-  private static byte[] message(HttpConnection conn) {
-    String msg = conn.getHttpChannel().getResponse().getReason();
+  private static byte[] message(AbstractHttpConnection conn) {
+    String msg = conn.getResponse().getReason();
     if (msg == null) {
-      msg = HttpStatus.getMessage(conn.getHttpChannel()
-          .getResponse().getStatus());
+      msg = HttpStatus.getMessage(conn.getResponse().getStatus());
     }
     return msg.getBytes(Charsets.ISO_8859_1);
   }

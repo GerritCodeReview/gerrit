@@ -54,9 +54,6 @@ see link:user-upload.html#test_ssh[Testing Your SSH Connection].
 link:cmd-apropos.html[gerrit apropos]::
 	Search Gerrit documentation index.
 
-'gerrit approve'::
-	'Deprecated alias for `gerrit review`.'
-
 link:cmd-ban-commit.html[gerrit ban-commit]::
 	Bans a commit from a project's repository.
 

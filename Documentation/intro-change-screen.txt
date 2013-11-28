@@ -95,7 +95,7 @@ Reply button
 ------------
 
 This button corresponds to the 'Review' button the on patch set panel on the old
-change screen.  The only new feature: the user can optionaly send an email
+change screen.  The only new feature: the user can optionally send an email
 during the vote.
 
 Key bindings: "a" to open the drop down. "ESC" to close it.
@@ -112,7 +112,7 @@ Key bindings: "e" to open the drop down. "ESC" to close it.
 [[star-change]]
 
 Star change icon allows to star the change, so that "starredby:self" query can
-retrieve the ctarred changes later. If the change is aleady starred, then
+retrieve the starred changes later. If the change is already starred, then
 clicking the icon again unstars the change.
 
 Key bindings: "s" to star/unstar the change.

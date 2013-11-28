@@ -1,6 +1,6 @@
 [[usersetup]]
-Inital Login
-------------
+Initial Login
+-------------
 It's time to exit the gerrit2 account as you now have Gerrit running on your
 host and setup your first workspace.
 

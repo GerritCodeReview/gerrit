@@ -27,16 +27,14 @@ Updates the current user's approval status of the specified patch
 sets and/or submits them for merging, sending out email
 notifications and updating the database.
 
-Patch sets should be specified as complete or abbreviated commit
-SHA-1s.  If the same commit is available in multiple projects the
---project option may be used to limit where Gerrit searches for
-the change to only the contents of the specified project.
+Patch sets may be specified in 'CHANGEID,PATCHSET' format, such as
+'8242,2', or 'COMMIT' format.
 
-For current backward compatibility with user tools patch sets may
-also be specified in the legacy 'CHANGEID,PATCHSET' format, such as
-'8242,2'.  Support for this legacy format is planned to be removed
-in a future edition of Gerrit Code Review.  Use of commit SHA-1s
-is strongly encouraged.
+If a patch set is specified with the 'COMMIT' format, the complete
+or abbreviated commit SHA-1 may be used.  If the same commit is available
+in multiple projects the `--project` option may be used to limit where
+Gerrit searches for the change to only the contents of the specified project.
+
 
 OPTIONS
 -------

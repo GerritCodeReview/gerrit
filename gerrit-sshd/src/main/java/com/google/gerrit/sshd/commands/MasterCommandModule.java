@@ -36,8 +36,6 @@ public class MasterCommandModule extends CommandModule {
     command(gerrit, Receive.class);
     command(gerrit, AdminSetParent.class);
     command(gerrit, ReviewCommand.class);
-    // deprecated alias to review command
-    alias(gerrit, "approve", ReviewCommand.class);
     command(gerrit, SetAccountCommand.class);
     command(gerrit, SetMembersCommand.class);
     command(gerrit, SetProjectCommand.class);

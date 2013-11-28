@@ -34,6 +34,7 @@ import com.google.gerrit.server.git.TransferConfig;
 import com.google.inject.util.Providers;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 public class ConfigInfo {
@@ -137,7 +138,8 @@ public class ConfigInfo {
           cfg.getString(e.getExportName(), configEntry.getDefaultValue());
       ConfigParameterInfo configParameter =
           new ConfigParameterInfo(e.getExportName(),
-              configEntry.getDisplayName(), configEntry.getType(), value);
+              configEntry.getDisplayName(), configEntry.getType(), value,
+              configEntry.getPermittedValues());
       pluginConfigParameters.put(e.getPluginName(), configParameter);
     }
     return pluginConfigParameters.asMap();
@@ -160,13 +162,15 @@ public class ConfigInfo {
     public String displayName;
     public ProjectConfigEntry.Type type;
     public String value;
+    public List<String> permittedValues;
 
     public ConfigParameterInfo(String name, String displayName,
-        ProjectConfigEntry.Type type, String value) {
+        ProjectConfigEntry.Type type, String value, List<String> permittedValues) {
       this.name = name;
       this.displayName = displayName;
       this.type = type;
       this.value = value;
+      this.permittedValues = permittedValues;
     }
 
     @Override

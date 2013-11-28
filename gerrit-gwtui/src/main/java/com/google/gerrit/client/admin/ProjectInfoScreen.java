@@ -376,6 +376,20 @@ public class ProjectInfoScreen extends ProjectScreen {
               ? param.displayName() : param.name(), checkbox);
           saveEnabler.listenTo(checkbox);
           widgetMap.put(param.name(), checkbox);
+        } else if ("LIST".equals(param.type())
+            && param.permittedValues() != null) {
+          ListBox listBox = new ListBox();
+          for (int i = 0; i < param.permittedValues().length(); i++) {
+            String sv = param.permittedValues().get(i);
+            listBox.addItem(sv);
+            if (sv.equals(param.value())) {
+              listBox.setSelectedIndex(i);
+            }
+          }
+          g.add(param.displayName() != null
+              ? param.displayName() : param.name(), listBox);
+          saveEnabler.listenTo(listBox);
+          widgetMap.put(param.name(), listBox);
         }
       }
     }
@@ -440,6 +454,10 @@ public class ProjectInfoScreen extends ProjectScreen {
           values.put(e2.getKey(), ((TextBox) widget).getValue().trim());
         } else if (widget instanceof CheckBox) {
           values.put(e2.getKey(), Boolean.toString(((CheckBox) widget).getValue()));
+        } else if (widget instanceof ListBox) {
+          ListBox listBox = (ListBox) widget;
+          String value = listBox.getValue(listBox.getSelectedIndex());
+          values.put(e2.getKey(), value);
         }
       }
     }

@@ -16,6 +16,24 @@
       "revId": "b4b30cb93759d7d843f7b6d691921215fdb1dbf4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d09a10_61369605",
+        "filename": "tools/buck.defs",
+        "patchSetId": 8
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-28T22:53:02Z",
+      "side": 1,
+      "message": "I consider this as a praise? ;-)",
+      "parentUuid": "231a8eb4_463b92e9",
+      "revId": "b4b30cb93759d7d843f7b6d691921215fdb1dbf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -91,6 +91,9 @@ public class ReviewCommand extends SshCommand {
   @Option(name = "--project", aliases = "-p", usage = "project containing the specified patch set(s)")
   private ProjectControl projectControl;
 
+  @Option(name = "--branch", aliases = "-b", usage = "branch containing the specified patch set(s)")
+  private String branch;
+
   @Option(name = "--message", aliases = "-m", usage = "cover message to publish on change(s)", metaVar = "MESSAGE")
   private String changeComment;
 
@@ -354,7 +357,7 @@ public class ReviewCommand extends SshCommand {
       final Set<PatchSet> matches = new HashSet<PatchSet>();
       for (final PatchSet ps : patches) {
         final Change change = db.changes().get(ps.getId().getParentKey());
-        if (inProject(change)) {
+        if (inProject(change) && inBranch(change)) {
           matches.add(ps);
         }
       }
@@ -382,11 +385,15 @@ public class ReviewCommand extends SshCommand {
       if (patchSet == null) {
         throw error("\"" + patchIdentity + "\" no such patch set");
       }
-      if (projectControl != null) {
+      if (projectControl != null || branch != null) {
         final Change change = db.changes().get(patchSetId.getParentKey());
         if (!inProject(change)) {
           throw error("change " + change.getId() + " not in project "
               + projectControl.getProject().getName());
+        }
+        if (!inBranch(change)) {
+          throw error("change " + change.getId() + " not in branch "
+              + change.getDest().get());
         }
       }
       return patchSet;
@@ -401,6 +408,14 @@ public class ReviewCommand extends SshCommand {
       return true;
     }
     return projectControl.getProject().getNameKey().equals(change.getProject());
+  }
+
+  private boolean inBranch(final Change change) {
+    if (branch == null) {
+      // No --branch option, so they want every branch.
+      return true;
+    }
+    return change.getDest().get().equals(branch);
   }
 
   @Override

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "231a8eb4_a6f1a612",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-28T05:40:20Z",
+      "side": 1,
+      "message": "Can you add a bit of explanation here about how this works?",
+      "revId": "4dcf22bd9e0fd4fef8e8c3187bdcd770a32cbd17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03174a8c_05e3524b",
+        "filename": "tools/buck.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-28T05:40:20Z",
+      "side": 1,
+      "message": "Missing copyright header.",
+      "revId": "4dcf22bd9e0fd4fef8e8c3187bdcd770a32cbd17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

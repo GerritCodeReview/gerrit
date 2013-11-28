@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83d09a10_c117625f",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-28T14:25:57Z",
+      "side": 1,
+      "message": "s/toString()/get()",
+      "range": {
+        "startLine": 417,
+        "startChar": 28,
+        "endLine": 417,
+        "endChar": 38
+      },
+      "revId": "54ecc8136fa9689c8c4b0987c31283fd3c1ba1af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

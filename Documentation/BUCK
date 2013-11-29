@@ -63,6 +63,7 @@ genrule(
   name = 'index',
   cmd = '$(exe //lib/asciidoctor:doc_indexer) ' +
       '-z $OUT ' +
+      '--tmp $TMP ' +
       '--prefix "%s/" ' % DOC_DIR +
       '--in-ext ".txt" ' +
       '--out-ext ".html" ' +

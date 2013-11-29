@@ -12,6 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import com.google.common.io.ByteStreams;
+
+import org.asciidoctor.Asciidoctor;
+import org.asciidoctor.AttributesBuilder;
+import org.asciidoctor.Options;
+import org.asciidoctor.OptionsBuilder;
+import org.asciidoctor.SafeMode;
+import org.asciidoctor.internal.JRubyAsciidoctor;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -22,20 +35,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-
-import com.google.common.io.ByteStreams;
-
-import org.asciidoctor.Asciidoctor;
-import org.asciidoctor.AttributesBuilder;
-import org.asciidoctor.Options;
-import org.asciidoctor.OptionsBuilder;
-import org.asciidoctor.SafeMode;
-import org.asciidoctor.internal.JRubyAsciidoctor;
-
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.Option;
 
 public class AsciiDoctor {
 
@@ -53,6 +52,9 @@ public class AsciiDoctor {
 
   @Option(name = "--out-ext", usage = "extension for output files")
   private String outExt = ".html";
+
+  @Option(name = "--tmp", usage = "temporary output path")
+  private File tmpdir;
 
   @Option(name = "-a", usage =
       "a list of attributes, in the form key or key=value pair")
@@ -135,29 +137,15 @@ public class AsciiDoctor {
         // have to add css files into the SRCS.
         continue;
       }
-      String outName = mapInFileToOutFile(inputFile, inExt, outExt);
-      File out = new File(outName);
-      Options options = createOptions(out);
-      renderInput(options, inputFile);
 
+      String outName = mapInFileToOutFile(inputFile, inExt, outExt);
+      File out = new File(tmpdir, outName);
+      out.getParentFile().mkdirs();
+      Options options = createOptions(out);
+      renderInput(options, new File(inputFile));
       zipFile(out, outName, zip);
     }
     zip.close();
-  }
-
-  public static void zipDir(File dir, String prefix, ZipOutputStream zip)
-      throws IOException {
-    for (File file : dir.listFiles()) {
-      String name = file.getName();
-      if (!prefix.isEmpty()) {
-        name = prefix + "/" + name;
-      }
-      if (file.isDirectory()) {
-        zipDir(file, name, zip);
-      } else {
-        zipFile(file, name, zip);
-      }
-    }
   }
 
   public static void zipFile(File file, String name, ZipOutputStream zip)
@@ -169,9 +157,9 @@ public class AsciiDoctor {
     zip.closeEntry();
   }
 
-  private void renderInput(Options options, String inputFile) {
+  private void renderInput(Options options, File inputFile) {
     Asciidoctor asciidoctor = JRubyAsciidoctor.create();
-    asciidoctor.renderFile(new File(inputFile), options);
+    asciidoctor.renderFile(inputFile, options);
   }
 
   public static void main(String[] args) {

@@ -9,6 +9,7 @@
 *.sublime-*
 /gerrit-package-plugins
 /.buckconfig.local
+/.buckjavaargs
 /.buckd
 /buck-cache
 /buck-out

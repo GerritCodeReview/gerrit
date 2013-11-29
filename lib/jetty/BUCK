@@ -30,11 +30,10 @@ maven_jar(
   id = 'org.eclipse.jetty:jetty-server:' + VERSION,
   sha1 = 'd89016c2bcd380f548530fa049295e62601dc564',
   license = 'Apache2.0',
-  deps = [
+  exported_deps = [
     ':continuation',
     ':http',
   ],
-  export_deps = True,
   exclude = EXCLUDE,
 )
 
@@ -51,7 +50,7 @@ maven_jar(
   id = 'org.eclipse.jetty:jetty-http:' + VERSION,
   sha1 = 'b3a2302717ac1889b4a17ed03e2555f8291121b9',
   license = 'Apache2.0',
-  deps = [':io'],
+  exported_deps = [':io'],
   exclude = EXCLUDE,
 )
 
@@ -60,7 +59,7 @@ maven_jar(
   id = 'org.eclipse.jetty:jetty-io:' + VERSION,
   sha1 = 'f3a66e0507d963c51e280243f0472a5b2eadc8b1',
   license = 'Apache2.0',
-  deps = [':util'],
+  exported_deps = [':util'],
   exclude = EXCLUDE,
   visibility = [],
 )

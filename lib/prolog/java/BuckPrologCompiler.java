@@ -23,18 +23,21 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
 
 public class BuckPrologCompiler {
+  private static File tmpdir;
+
   public static void main(String[] argv) throws IOException, CompileException {
-    File out = new File(argv[argv.length - 1]);
+    int i = 0;
+    tmpdir = new File(argv[i++]);
+    File out = new File(argv[i++]);
     File java = tmpdir("java");
-    for (int i = 0; i < argv.length - 1; i++) {
-      File src = new File(argv[i]);
-      new Compiler().prologToJavaSource(src.getPath(), java.getPath());
+    for (; i < argv.length; i++) {
+      new Compiler().prologToJavaSource(argv[i], java.getPath());
     }
     jar(out, java);
   }
 
   private static File tmpdir(String name) throws IOException {
-    File d = File.createTempFile(name + "_", "");
+    File d = File.createTempFile(name + "_", "", tmpdir);
     if (!d.delete() || !d.mkdir()) {
       throw new IOException("Cannot mkdir " + d);
     }
@@ -42,7 +45,7 @@ public class BuckPrologCompiler {
   }
 
   private static void jar(File jar, File classes) throws IOException {
-    File tmp = File.createTempFile("prolog", ".jar", jar.getParentFile());
+    File tmp = File.createTempFile("prolog", ".jar", tmpdir);
     try {
       JarOutputStream out = new JarOutputStream(new FileOutputStream(tmp));
       try {

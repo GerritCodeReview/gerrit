@@ -363,18 +363,14 @@ public class Daemon extends SiteProgram {
 
   private Injector createSshInjector() {
     final List<Module> modules = new ArrayList<Module>();
-    if (sshd) {
-      modules.add(sysInjector.getInstance(SshModule.class));
-      if (!test) {
-        modules.add(new SshHostKeyModule());
-      }
-      if (slave) {
-        modules.add(new SlaveCommandModule());
-      } else {
-        modules.add(new MasterCommandModule());
-      }
+    modules.add(sysInjector.getInstance(SshModule.class));
+    if (!test) {
+      modules.add(new SshHostKeyModule());
+    }
+    if (slave) {
+      modules.add(new SlaveCommandModule());
     } else {
-      modules.add(new NoSshModule());
+      modules.add(new MasterCommandModule());
     }
     return sysInjector.createChildInjector(modules);
   }

@@ -14,21 +14,14 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.TrackingId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexPredicate;
-import com.google.gwtorm.server.ListResultSet;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Provider;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-
-class TrackingIdPredicate extends IndexPredicate<ChangeData> implements
-    ChangeDataSource {
+class TrackingIdPredicate extends IndexPredicate<ChangeData> {
   private final Provider<ReviewDb> db;
 
   TrackingIdPredicate(Provider<ReviewDb> db, String trackingId) {
@@ -46,34 +39,10 @@ class TrackingIdPredicate extends IndexPredicate<ChangeData> implements
     return false;
   }
 
-  @SuppressWarnings("deprecation")
-  @Override
-  public ResultSet<ChangeData> read() throws OrmException {
-    HashSet<Change.Id> ids = new HashSet<Change.Id>();
-    for (TrackingId sc : db.get().trackingIds() //
-        .byTrackingId(new TrackingId.Id(getValue()))) {
-      ids.add(sc.getChangeId());
-    }
-
-    ArrayList<ChangeData> r = new ArrayList<ChangeData>(ids.size());
-    for (Change.Id id : ids) {
-      r.add(new ChangeData(id));
-    }
-    return new ListResultSet<ChangeData>(r);
-  }
-
-  @Override
-  public boolean hasChange() {
-    return false;
-  }
-
-  @Override
-  public int getCardinality() {
-    return ChangeCosts.CARD_TRACKING_IDS;
-  }
-
   @Override
   public int getCost() {
-    return ChangeCosts.cost(ChangeCosts.TR_SCAN, getCardinality());
+    return ChangeCosts.cost(
+        ChangeCosts.TR_SCAN,
+        ChangeCosts.CARD_TRACKING_IDS);
   }
 }

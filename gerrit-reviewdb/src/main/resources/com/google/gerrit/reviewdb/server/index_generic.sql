@@ -69,23 +69,11 @@ ON account_project_watches (project_name);
 
 -- *********************************************************************
 -- ChangeAccess
---    covers:             byOwnerOpen
-CREATE INDEX changes_byOwnerOpen
-ON changes (open, owner_account_id, created_on, change_id);
-
---    covers:             byOwnerClosed
-CREATE INDEX changes_byOwnerClosed
-ON changes (open, owner_account_id, last_updated_on);
-
 --    covers:             submitted, allSubmitted
 CREATE INDEX changes_submitted
 ON changes (status, dest_project_name, dest_branch_name, last_updated_on);
 
---    covers:             allOpenPrev, allOpenNext
-CREATE INDEX changes_allOpen
-ON changes (open, sort_key);
-
---    covers:             byProjectOpenPrev, byProjectOpenNext
+--    covers:             byProjectOpenAll
 CREATE INDEX changes_byProjectOpen
 ON changes (open, dest_project_name, sort_key);
 
@@ -93,28 +81,8 @@ ON changes (open, dest_project_name, sort_key);
 CREATE INDEX changes_byProject
 ON changes (dest_project_name);
 
---    covers:             allClosedPrev, allClosedNext
-CREATE INDEX changes_allClosed
-ON changes (open, status, sort_key);
-
---    covers:             byBranchClosedPrev, byBranchClosedNext
-CREATE INDEX changes_byBranchClosed
-ON changes (status, dest_project_name, dest_branch_name, sort_key);
-
 CREATE INDEX changes_key
 ON changes (change_key);
-
-
--- *********************************************************************
--- PatchSetApprovalAccess
---    @PrimaryKey covers: byPatchSet, byPatchSetUser
---    covers:             openByUser
-CREATE INDEX patch_set_approvals_openByUser
-ON patch_set_approvals (change_open, account_id);
-
---    covers:             closedByUser
-CREATE INDEX patch_set_approvals_closedByU
-ON patch_set_approvals (change_open, account_id, change_sort_key);
 
 
 -- *********************************************************************

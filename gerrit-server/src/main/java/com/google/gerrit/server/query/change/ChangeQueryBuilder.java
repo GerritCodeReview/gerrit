@@ -201,7 +201,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   private final Arguments args;
   private final CurrentUser currentUser;
-  private boolean allowFileRegex;
 
   @Inject
   public ChangeQueryBuilder(Arguments args, @Assisted CurrentUser currentUser) {
@@ -217,10 +216,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     super(def);
     this.args = args;
     this.currentUser = currentUser;
-  }
-
-  public void setAllowFileRegex(boolean on) {
-    allowFileRegex = on;
   }
 
   @Operator
@@ -243,7 +238,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> comment(String value) throws QueryParseException {
-    ChangeIndex index = requireIndex(FIELD_COMMENT, value);
+    ChangeIndex index = args.indexes.getSearchIndex();
     return new CommentPredicate(args.dbProvider, index, value);
   }
 
@@ -307,7 +302,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     if ("mergeable".equalsIgnoreCase(value)) {
-      requireIndex(FIELD_IS, "mergeable");
       return new IsMergeablePredicate(args.dbProvider);
     }
 
@@ -329,7 +323,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> conflicts(String value) throws OrmException,
       QueryParseException {
-    requireIndex(FIELD_CONFLICTS, value);
     return new ConflictsPredicate(args.dbProvider, args.patchListCache,
         args.submitStrategyFactory, args.changeControlGenericFactory,
         args.userFactory, args.repoManager, args.projectCache,
@@ -389,12 +382,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> file(String file) throws QueryParseException {
     if (file.startsWith("^")) {
-      if (!allowFileRegex) {
-        requireIndex(FIELD_FILE, file);
-      }
       return new RegexFilePredicate(args.dbProvider, args.patchListCache, file);
     } else {
-      requireIndex(FIELD_FILE, file);
       return new EqualsFilePredicate(args.dbProvider, args.patchListCache, file);
     }
   }
@@ -456,10 +445,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> message(String text) throws QueryParseException {
     ChangeIndex index = args.indexes.getSearchIndex();
-    if (index == null) {
-      return new LegacyMessagePredicate(args.dbProvider, args.repoManager, text);
-    }
-
     return new MessagePredicate(args.dbProvider, index, text);
   }
 
@@ -752,14 +737,5 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       return ((IdentifiedUser) currentUser).getAccountId();
     }
     throw new IllegalArgumentException();
-  }
-
-  private ChangeIndex requireIndex(String field, String value)
-      throws QueryParseException {
-    ChangeIndex idx = args.indexes.getSearchIndex();
-    if (idx == null) {
-      throw error("secondary index must be enabled for " + field + ":" + value);
-    }
-    return idx;
   }
 }

@@ -16,7 +16,6 @@ package com.google.gerrit.server.index;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -39,11 +38,7 @@ public class IndexCollection implements LifecycleListener {
     this.searchIndex = new AtomicReference<ChangeIndex>();
   }
 
-  /**
-   * @return the current search index version, or null if the secondary index is
-   *     disabled.
-   */
-  @Nullable
+  /** @return the current search index version. */
   public ChangeIndex getSearchIndex() {
     return searchIndex.get();
   }

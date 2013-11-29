@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "83d09a10_61205685",
+        "filename": "Documentation/cmd-plugin-install.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-11-29T15:43:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e991882_f2fa68ea",
+      "revId": "dd535be1fd1756ff6167b831de709110fa7e63ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5e991882_921cbc7f",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 14
@@ -30,6 +48,24 @@
       "writtenOn": "2013-10-20T10:27:10Z",
       "side": 1,
       "message": "Can you please be more verbose on JA plugin? May be we should start its own documentation file dev-plugins-js.txt? Or may be extend JS-API.txt?\n\nI have still many questions:\n\n* How should i verify that cange? Can you upload or point to an example of such JS plugin? What can we do from it?\n* Can JS plugin access JS API? Can it send requests?\n* Can JS plugin retrieve its own name?\n* Can we communicate with such a plugin from UiAction? From JS-API?",
+      "revId": "dd535be1fd1756ff6167b831de709110fa7e63ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3cbde64_e2c54676",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-11-29T15:43:02Z",
+      "side": 1,
+      "message": "IMO, being more verbose on JS plugins shouldn\u0027t be part of this commit. It is already big and quite old. Also it main purpose is to extend Gerrit deploy plugin mechanism to accept not only jar files but also plain text files.\n\nVerification is simple, just drop any file with \"js\" extension into $site/plugins directory with simple alert window (eg. alert(\u0027Greetings from standalone JS plugin\u0027);)\n\nRest of yours questions are related to JavaScript architecture and our JS-plugin architecture. They are not connected to this change. But since they was asked here I\u0027ll also answer them.\n\nIMO we shouldn\u0027t provide any sandbox environment for JS plugins (this would be really hard and IMO counterproductive for plugin architecture). When you are in JavaScript land you have access to all functions, classes and data that was loaded by given page. Therefore such plugin will be able to access JS API and send requests.\n\nGWT plugins are nothing more then compiled Java to JavaScript. Getting plugin name should be also working for JS plugins, if not it should be easy to implement this.\n\nAFAIK UiActions are server side extensions. If they can send JavaScript code to browser then they can also \"communicate\" git JS plugins (of course this should be manually implemented by developer). Also since JS plugin work on client side it can arbitrary modify any web page element, this means that it could also modify UiAction handler.",
+      "parentUuid": "5e991882_921cbc7f",
       "revId": "dd535be1fd1756ff6167b831de709110fa7e63ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -88,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "a3cbde64_a2bb3ef7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-11-29T15:43:02Z",
+      "side": 1,
+      "message": "Done. I\u0027ve removed exception from line 143 therefore this condition will not always false",
+      "parentUuid": "5e991882_52033423",
+      "revId": "dd535be1fd1756ff6167b831de709110fa7e63ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5e991882_7208383d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 14
@@ -105,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "a3cbde64_c2b842fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-11-29T15:43:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e991882_7208383d",
+      "revId": "dd535be1fd1756ff6167b831de709110fa7e63ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5e991882_1209ac43",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 14
@@ -116,6 +188,24 @@
       "writtenOn": "2013-10-20T10:27:10Z",
       "side": 1,
       "message": "rename jar to plugin or file?",
+      "revId": "dd535be1fd1756ff6167b831de709110fa7e63ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d09a10_411b5257",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-11-29T15:43:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e991882_1209ac43",
       "revId": "dd535be1fd1756ff6167b831de709110fa7e63ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

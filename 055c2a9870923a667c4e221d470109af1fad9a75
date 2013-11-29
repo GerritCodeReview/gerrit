@@ -16,6 +16,24 @@
       "revId": "055c2a9870923a667c4e221d470109af1fad9a75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3cbde64_82d71a32",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-11-29T15:43:02Z",
+      "side": 0,
+      "message": "IMO, this would be neglected since all build system always produce files with \".jar\" extensions and I really doubt that somebody would remove it on purpose. This is rather insane sanity check.\n\nBut I can revert this back to previous implementation.",
+      "parentUuid": "5e991882_320eb04c",
+      "revId": "055c2a9870923a667c4e221d470109af1fad9a75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -37,7 +37,7 @@ Running the Daemon
 Duplicate the existing launch configuration:
 
 * Run -> Debug Configurations ...
-* Java Application -> `buck_daemon_ui_*`
+* Java Application -> `gerrit_daemon`
 * Right click, Duplicate
 
 * Modify the name to be unique.

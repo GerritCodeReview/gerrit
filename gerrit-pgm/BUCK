@@ -90,6 +90,7 @@ java_library2(
     '//gerrit-cache-h2:cache-h2',
     '//gerrit-common:server',
     '//gerrit-extension-api:api',
+    '//gerrit-gwtexpui:linker_server',
     '//gerrit-gwtexpui:server',
     '//gerrit-httpd:httpd',
     '//gerrit-lucene:lucene',

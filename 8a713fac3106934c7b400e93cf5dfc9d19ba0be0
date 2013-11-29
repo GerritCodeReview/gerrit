@@ -16,6 +16,24 @@
       "revId": "8a713fac3106934c7b400e93cf5dfc9d19ba0be0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d09a10_a176deaf",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-11-29T11:23:16Z",
+      "side": 1,
+      "message": "OK, will add a Plugins section.",
+      "parentUuid": "03174a8c_a576beaf",
+      "revId": "8a713fac3106934c7b400e93cf5dfc9d19ba0be0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -31,7 +31,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MergeUtil;
@@ -54,7 +53,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.merge.ThreeWayMerger;
-import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -89,7 +87,6 @@ public class PatchSetInserter {
   }
 
   private final ChangeHooks hooks;
-  private final TrackingFooters trackingFooters;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ReviewDb db;
   private final IdentifiedUser user;
@@ -116,7 +113,6 @@ public class PatchSetInserter {
 
   @Inject
   public PatchSetInserter(ChangeHooks hooks,
-      TrackingFooters trackingFooters,
       ReviewDb db,
       PatchSetInfoFactory patchSetInfoFactory,
       GitReferenceUpdated gitRefUpdated,
@@ -131,7 +127,6 @@ public class PatchSetInserter {
       @Assisted Change change,
       @Assisted RevCommit commit) {
     this.hooks = hooks;
-    this.trackingFooters = trackingFooters;
     this.db = db;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.user = user;
@@ -287,9 +282,6 @@ public class PatchSetInserter {
         ApprovalsUtil.copyLabels(db, refControl.getProjectControl()
             .getLabelTypes(), currentPatchSetId, patchSet, changeKind);
       }
-
-      final List<FooterLine> footerLines = commit.getFooterLines();
-      ChangeUtil.updateTrackingIds(db, updatedChange, trackingFooters, footerLines);
       db.commit();
 
       if (changeMessage != null) {

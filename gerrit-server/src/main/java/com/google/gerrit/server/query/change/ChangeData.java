@@ -30,7 +30,6 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.client.TrackingId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -148,7 +147,6 @@ public class ChangeData {
   private List<PatchSetApproval> currentApprovals;
   private List<String> currentFiles;
   private Collection<PatchLineComment> comments;
-  private Collection<TrackingId> trackingIds;
   private CurrentUser visibleTo;
   private ChangeControl changeControl;
   private List<ChangeMessage> messages;
@@ -481,14 +479,6 @@ public class ChangeData {
       comments = db.get().patchComments().byChange(legacyId).toList();
     }
     return comments;
-  }
-
-  public Collection<TrackingId> trackingIds(Provider<ReviewDb> db)
-      throws OrmException {
-    if (trackingIds == null) {
-      trackingIds = db.get().trackingIds().byChange(legacyId).toList();
-    }
-    return trackingIds;
   }
 
   public List<ChangeMessage> messages(Provider<ReviewDb> db)

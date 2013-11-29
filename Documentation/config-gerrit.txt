@@ -2868,10 +2868,7 @@ tracking systems, parsed out of the commit message and
 saved in Gerrit's database.
 
 After making changes to this section, existing changes
-must be reindexed with link:pgm-reindex.html[reindex]
-if index.type is `LUCENE` or `SOLR`; or with
-link:pgm-ScanTrackingIds.html[ScanTrackingIds] if index.type
-is unset or `SQL`.
+must be reindexed with link:pgm-reindex.html[reindex].
 
 The tracking ids are searchable using tr:<tracking id> or
 bug:<tracking id>.

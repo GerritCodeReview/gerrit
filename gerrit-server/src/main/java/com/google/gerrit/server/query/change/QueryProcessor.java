@@ -22,6 +22,7 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.PatchSetAttribute;
 import com.google.gerrit.server.data.QueryStatsAttribute;
@@ -99,6 +100,7 @@ public class QueryProcessor {
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager repoManager;
   private final ChangeControl.GenericFactory changeControlFactory;
+  private final TrackingFooters trackingFooters;
   private final CurrentUser user;
   private final int maxLimit;
 
@@ -125,12 +127,14 @@ public class QueryProcessor {
       ChangeQueryBuilder.Factory queryBuilder, CurrentUser currentUser,
       ChangeQueryRewriter queryRewriter, Provider<ReviewDb> db,
       GitRepositoryManager repoManager,
+      TrackingFooters trackingFooters,
       ChangeControl.GenericFactory changeControlFactory) {
     this.eventFactory = eventFactory;
     this.queryBuilder = queryBuilder.create(currentUser);
     this.queryRewriter = queryRewriter;
     this.db = db;
     this.repoManager = repoManager;
+    this.trackingFooters = trackingFooters;
     this.changeControlFactory = changeControlFactory;
     this.user = currentUser;
     this.maxLimit = currentUser.getCapabilities()
@@ -307,10 +311,15 @@ public class QueryProcessor {
           if (cc == null || cc.getCurrentUser() != user) {
             cc = changeControlFactory.controlFor(d.change(db), user);
           }
+
           LabelTypes labelTypes = cc.getLabelTypes();
           c = eventFactory.asChangeAttribute(d.getChange());
           eventFactory.extend(c, d.getChange());
-          eventFactory.addTrackingIds(c, d.trackingIds(db));
+
+          if (!trackingFooters.isEmpty()) {
+            eventFactory.addTrackingIds(c,
+                trackingFooters.extract(d.commitFooters(repoManager, db)));
+          }
 
           if (includeAllReviewers) {
             eventFactory.addAllReviewers(c, d.getChange());

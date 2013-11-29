@@ -31,6 +31,7 @@ import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.SubmitStrategyFactory;
 import com.google.gerrit.server.index.ChangeIndex;
@@ -157,6 +158,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final IndexCollection indexes;
     final SubmitStrategyFactory submitStrategyFactory;
     final ConflictsCache conflictsCache;
+    final TrackingFooters trackingFooters;
 
     @Inject
     @VisibleForTesting
@@ -175,7 +177,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         Provider<ListChildProjects> listChildProjects,
         IndexCollection indexes,
         SubmitStrategyFactory submitStrategyFactory,
-        ConflictsCache conflictsCache) {
+        ConflictsCache conflictsCache,
+        TrackingFooters trackingFooters) {
       this.dbProvider = dbProvider;
       this.rewriter = rewriter;
       this.userFactory = userFactory;
@@ -192,6 +195,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.indexes = indexes;
       this.submitStrategyFactory = submitStrategyFactory;
       this.conflictsCache = conflictsCache;
+      this.trackingFooters = trackingFooters;
     }
   }
 
@@ -586,7 +590,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> tr(String trackingId) {
-    return new TrackingIdPredicate(args.dbProvider, trackingId);
+    return new TrackingIdPredicate(args.dbProvider, args.trackingFooters,
+        args.repoManager, trackingId);
   }
 
   @Operator

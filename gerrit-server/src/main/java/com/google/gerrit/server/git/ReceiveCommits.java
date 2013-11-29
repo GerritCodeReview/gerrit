@@ -75,7 +75,6 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
@@ -127,9 +126,9 @@ import org.eclipse.jgit.transport.AdvertiseRefsHook;
 import org.eclipse.jgit.transport.AdvertiseRefsHookChain;
 import org.eclipse.jgit.transport.BaseReceivePack;
 import org.eclipse.jgit.transport.ReceiveCommand;
-import org.eclipse.jgit.transport.RefFilter;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.ReceivePack;
+import org.eclipse.jgit.transport.RefFilter;
 import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.eclipse.jgit.transport.UploadPack;
 import org.kohsuke.args4j.CmdLineException;
@@ -266,7 +265,6 @@ public class ReceiveCommits {
   private final ProjectCache projectCache;
   private final String canonicalWebUrl;
   private final CommitValidators.Factory commitValidatorsFactory;
-  private final TrackingFooters trackingFooters;
   private final TagCache tagCache;
   private final AccountCache accountCache;
   private final ChangeInserter.Factory changeInserterFactory;
@@ -333,7 +331,6 @@ public class ReceiveCommits {
       final CommitValidators.Factory commitValidatorsFactory,
       @CanonicalWebUrl final String canonicalWebUrl,
       @GerritPersonIdent final PersonIdent gerritIdent,
-      final TrackingFooters trackingFooters,
       final WorkQueue workQueue,
       @ChangeUpdateExecutor ListeningExecutorService changeUpdateExector,
       final RequestScopePropagator requestScopePropagator,
@@ -363,7 +360,6 @@ public class ReceiveCommits {
     this.projectCache = projectCache;
     this.repoManager = repoManager;
     this.canonicalWebUrl = canonicalWebUrl;
-    this.trackingFooters = trackingFooters;
     this.tagCache = tagCache;
     this.accountCache = accountCache;
     this.changeInserterFactory = changeInserterFactory;
@@ -1871,9 +1867,6 @@ public class ReceiveCommits {
                 .messageUUID(db)), me, newPatchSet.getCreatedOn(), newPatchSet.getId());
         msg.setMessage("Uploaded patch set " + newPatchSet.getPatchSetId() + ".");
         db.changeMessages().insert(Collections.singleton(msg));
-        if (change.currentPatchSetId().equals(priorPatchSet)) {
-          ChangeUtil.updateTrackingIds(db, change, trackingFooters, footerLines);
-        }
 
         if (mergedIntoRef == null) {
           // Change should be new, so it can go through review again.

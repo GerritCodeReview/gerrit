@@ -22,6 +22,53 @@
       "revId": "a04918fbb63934e05e3566ce032b842886e4f7ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03174a8c_654fa681",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-29T02:15:23Z",
+      "side": 1,
+      "message": "Doesn\u0027t everyone?",
+      "parentUuid": "231a8eb4_86458a60",
+      "range": {
+        "startLine": 7,
+        "startChar": 41,
+        "endLine": 7,
+        "endChar": 55
+      },
+      "revId": "a04918fbb63934e05e3566ce032b842886e4f7ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "231a8eb4_868aaa4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-29T02:15:23Z",
+      "side": 1,
+      "message": "left-over",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 25
+      },
+      "revId": "a04918fbb63934e05e3566ce032b842886e4f7ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

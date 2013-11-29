@@ -1726,6 +1726,7 @@ public class ReceiveCommits {
       if (newCommit == priorCommit) {
         // Ignore requests to make the change its current state.
         skip = true;
+        reject(inputCommand, "commit already exists");
         return false;
       }
 

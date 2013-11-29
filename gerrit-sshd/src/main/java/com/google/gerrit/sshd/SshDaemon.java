@@ -404,6 +404,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         new HMACSHA196.Factory()));
   }
 
+  @SafeVarargs
   private static <T> List<NamedFactory<T>> filter(final Config cfg,
       final String key, final NamedFactory<T>... avail) {
     final ArrayList<NamedFactory<T>> def = new ArrayList<NamedFactory<T>>();
@@ -460,6 +461,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     return def;
   }
 
+  @SafeVarargs
   private static <T> NamedFactory<T> find(final String name,
       final NamedFactory<T>... avail) {
     for (final NamedFactory<T> n : avail) {

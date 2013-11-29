@@ -27,6 +27,7 @@ public class AndPredicate<T> extends Predicate<T> {
   private final List<Predicate<T>> children;
   private final int cost;
 
+  @SafeVarargs
   protected AndPredicate(final Predicate<T>... that) {
     this(Arrays.asList(that));
   }

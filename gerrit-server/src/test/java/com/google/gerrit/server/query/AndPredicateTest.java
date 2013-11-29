@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query;
 
+import static com.google.common.collect.ImmutableList.of;
 import static com.google.gerrit.server.query.Predicate.and;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -23,7 +24,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -70,23 +70,23 @@ public class AndPredicateTest {
       n.getChildren().clear();
     } catch (RuntimeException e) {
     }
-    assertChildren("clear", n, list(a, b));
+    assertChildren("clear", n, of(a, b));
 
     try {
       n.getChildren().remove(0);
     } catch (RuntimeException e) {
     }
-    assertChildren("remove(0)", n, list(a, b));
+    assertChildren("remove(0)", n, of(a, b));
 
     try {
       n.getChildren().iterator().remove();
     } catch (RuntimeException e) {
     }
-    assertChildren("remove(0)", n, list(a, b));
+    assertChildren("remove(0)", n, of(a, b));
   }
 
   private static void assertChildren(String o, Predicate<String> p,
-      final List<Predicate<String>> l) {
+      List<? extends Predicate<String>> l) {
     assertEquals(o + " did not affect child", l, p.getChildren());
   }
 
@@ -134,8 +134,8 @@ public class AndPredicateTest {
     final TestPredicate a = f("author", "alice");
     final TestPredicate b = f("author", "bob");
     final TestPredicate c = f("author", "charlie");
-    final List<Predicate<String>> s2 = list(a, b);
-    final List<Predicate<String>> s3 = list(a, b, c);
+    final List<TestPredicate> s2 = of(a, b);
+    final List<TestPredicate> s3 = of(a, b, c);
     final Predicate<String> n2 = and(a, b);
 
     assertNotSame(n2, n2.copy(s2));
@@ -147,9 +147,5 @@ public class AndPredicateTest {
     } catch (IllegalArgumentException e) {
       assertEquals("Need at least two predicates", e.getMessage());
     }
-  }
-
-  private static List<Predicate<String>> list(final Predicate<String>... predicates) {
-    return Arrays.asList(predicates);
   }
 }

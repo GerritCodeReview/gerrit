@@ -310,9 +310,9 @@ public class ChangeJson {
     if (has(ALL_REVISIONS) || has(CURRENT_REVISION) || limited != null) {
       out.revisions = revisions(cd);
       if (out.revisions != null) {
-        for (String commit : out.revisions.keySet()) {
-          if (out.revisions.get(commit).isCurrent) {
-            out.current_revision = commit;
+        for (Map.Entry<String, RevisionInfo> entry : out.revisions.entrySet()) {
+          if (entry.getValue().isCurrent) {
+            out.current_revision = entry.getKey();
             break;
           }
         }

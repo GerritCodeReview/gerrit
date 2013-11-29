@@ -69,9 +69,7 @@ class RevisionApiImpl implements RevisionApi {
   public void review(ReviewInput in) throws RestApiException {
     try {
       review.get().apply(revision, in);
-    } catch (OrmException e) {
-      throw new RestApiException("Cannot post review", e);
-    } catch (IOException e) {
+    } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot post review", e);
     }
   }
@@ -87,9 +85,7 @@ class RevisionApiImpl implements RevisionApi {
   public void submit(SubmitInput in) throws RestApiException {
     try {
       submit.get().apply(revision, in);
-    } catch (OrmException e) {
-      throw new RestApiException("Cannot submit change", e);
-    } catch (IOException e) {
+    } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot submit change", e);
     }
   }
@@ -98,9 +94,7 @@ class RevisionApiImpl implements RevisionApi {
   public void delete() throws RestApiException {
     try {
       deleteDraft.get().apply(revision, null);
-    } catch (OrmException e) {
-      throw new RestApiException("Cannot delete draft ps", e);
-    } catch (IOException e) {
+    } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot delete draft ps", e);
     }
   }
@@ -109,9 +103,7 @@ class RevisionApiImpl implements RevisionApi {
   public ChangeApi rebase() throws RestApiException {
     try {
       return changes.id(rebase.get().apply(revision, null)._number);
-    } catch (OrmException e) {
-      throw new RestApiException("Cannot rebase ps", e);
-    } catch (EmailException e) {
+    } catch (OrmException | EmailException e) {
       throw new RestApiException("Cannot rebase ps", e);
     }
   }
@@ -120,11 +112,7 @@ class RevisionApiImpl implements RevisionApi {
   public ChangeApi cherryPick(CherryPickInput in) throws RestApiException {
     try {
       return changes.id(cherryPick.get().apply(revision, in)._number);
-    } catch (OrmException e) {
-      throw new RestApiException("Cannot cherry pick", e);
-    } catch (EmailException e) {
-      throw new RestApiException("Cannot cherry pick", e);
-    } catch (IOException e) {
+    } catch (OrmException | EmailException | IOException e) {
       throw new RestApiException("Cannot cherry pick", e);
     }
   }

@@ -222,8 +222,8 @@ public class ChangeField {
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
           try {
-            return args.trackingFooters.extract(
-                input.commitFooters(args.repoManager, args.db));
+            return Sets.newHashSet(args.trackingFooters.extract(
+                input.commitFooters(args.repoManager, args.db)).values());
           } catch (IOException e) {
             throw new OrmException(e);
           }

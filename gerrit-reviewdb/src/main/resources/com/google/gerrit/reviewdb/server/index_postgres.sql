@@ -158,20 +158,6 @@ WHERE status = 'd';
 CREATE INDEX patch_set_ancestors_desc
 ON patch_set_ancestors (ancestor_revision);
 
-
--- *********************************************************************
--- ProjectAccess
---    @PrimaryKey covers: all, suggestByName
---    covers:             ownedByGroup
-
-
--- *********************************************************************
--- TrackingIdAccess
---
-CREATE INDEX tracking_ids_byTrkKey
-ON tracking_ids (tracking_key);
-
-
 -- *********************************************************************
 -- StarredChangeAccess
 --    @PrimaryKey covers: byAccount

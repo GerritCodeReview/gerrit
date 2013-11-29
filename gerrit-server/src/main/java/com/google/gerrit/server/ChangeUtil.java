@@ -28,13 +28,10 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetAncestor;
 import com.google.gerrit.reviewdb.client.RevId;
-import com.google.gerrit.reviewdb.client.TrackingId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.PatchSetInserter;
-import com.google.gerrit.server.config.TrackingFooter;
-import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -64,7 +61,6 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -78,11 +74,8 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.regex.Matcher;
 
 public class ChangeUtil {
   /**
@@ -147,59 +140,6 @@ public class ChangeUtil {
   public static void updated(final Change c) {
     c.setLastUpdatedOn(TimeUtil.nowTs());
     computeSortKey(c);
-  }
-
-  public static void updateTrackingIds(ReviewDb db, Change change,
-      TrackingFooters trackingFooters, List<FooterLine> footerLines)
-      throws OrmException {
-    if (trackingFooters.getTrackingFooters().isEmpty() || footerLines.isEmpty()) {
-      return;
-    }
-
-    final Set<TrackingId> want = new HashSet<TrackingId>();
-    final Set<TrackingId> have = new HashSet<TrackingId>( //
-        db.trackingIds().byChange(change.getId()).toList());
-
-    for (final TrackingFooter footer : trackingFooters.getTrackingFooters()) {
-      for (final FooterLine footerLine : footerLines) {
-        if (footerLine.matches(footer.footerKey())) {
-          // supporting multiple tracking-ids on a single line
-          final Matcher m = footer.match().matcher(footerLine.getValue());
-          while (m.find()) {
-            if (m.group().isEmpty()) {
-              continue;
-            }
-
-            String idstr;
-            if (m.groupCount() > 0) {
-              idstr = m.group(1);
-            } else {
-              idstr = m.group();
-            }
-
-            if (idstr.isEmpty()) {
-              continue;
-            }
-            if (idstr.length() > TrackingId.TRACKING_ID_MAX_CHAR) {
-              continue;
-            }
-
-            want.add(new TrackingId(change.getId(), idstr, footer.system()));
-          }
-        }
-      }
-    }
-
-    // Only insert the rows we don't have, and delete rows we don't match.
-    //
-    final Set<TrackingId> toInsert = new HashSet<TrackingId>(want);
-    final Set<TrackingId> toDelete = new HashSet<TrackingId>(have);
-
-    toInsert.removeAll(have);
-    toDelete.removeAll(want);
-
-    db.trackingIds().insert(toInsert);
-    db.trackingIds().delete(toDelete);
   }
 
   public static void insertAncestors(ReviewDb db, PatchSet.Id id, RevCommit src)
@@ -433,7 +373,6 @@ public class ChangeUtil {
 
     db.changeMessages().delete(db.changeMessages().byChange(changeId));
     db.starredChanges().delete(db.starredChanges().byChange(changeId));
-    db.trackingIds().delete(db.trackingIds().byChange(changeId));
     db.changes().delete(Collections.singleton(change));
     indexer.delete(change);
   }

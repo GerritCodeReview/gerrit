@@ -28,7 +28,6 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -59,7 +58,6 @@ public class ChangeInserter {
   private final GitReferenceUpdated gitRefUpdated;
   private final ChangeHooks hooks;
   private final ApprovalsUtil approvalsUtil;
-  private final TrackingFooters trackingFooters;
   private final MergeabilityChecker mergeabilityChecker;
   private final CreateChangeSender.Factory createChangeSenderFactory;
 
@@ -81,7 +79,6 @@ public class ChangeInserter {
       GitReferenceUpdated gitRefUpdated,
       ChangeHooks hooks,
       ApprovalsUtil approvalsUtil,
-      TrackingFooters trackingFooters,
       MergeabilityChecker mergeabilityChecker,
       CreateChangeSender.Factory createChangeSenderFactory,
       @Assisted RefControl refControl,
@@ -91,7 +88,6 @@ public class ChangeInserter {
     this.gitRefUpdated = gitRefUpdated;
     this.hooks = hooks;
     this.approvalsUtil = approvalsUtil;
-    this.trackingFooters = trackingFooters;
     this.mergeabilityChecker = mergeabilityChecker;
     this.createChangeSenderFactory = createChangeSenderFactory;
     this.refControl = refControl;
@@ -162,7 +158,6 @@ public class ChangeInserter {
       ChangeUtil.insertAncestors(db, patchSet.getId(), commit);
       db.patchSets().insert(Collections.singleton(patchSet));
       db.changes().insert(Collections.singleton(change));
-      ChangeUtil.updateTrackingIds(db, change, trackingFooters, commit.getFooterLines());
       LabelTypes labelTypes = refControl.getProjectControl().getLabelTypes();
       approvalsUtil.addReviewers(db, labelTypes, change, patchSet, patchSetInfo,
           reviewers, Collections.<Account.Id> emptySet());

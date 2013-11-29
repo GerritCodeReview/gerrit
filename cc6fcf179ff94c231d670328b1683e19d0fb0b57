@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "231a8eb4_8673cabf",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LineComment.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-29T06:15:56Z",
+      "side": 1,
+      "message": "Aren\u0027t these unnecessary if we are using relative position?",
+      "range": {
+        "startLine": 27,
+        "startChar": 6,
+        "endLine": 28,
+        "endChar": 14
+      },
+      "revId": "cc6fcf179ff94c231d670328b1683e19d0fb0b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03174a8c_c53f7ac8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LineComment.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-29T06:15:56Z",
+      "side": 1,
+      "message": "This works, but it doesn\u0027t get the messages nicely aligned. Instead they have a ragged edge based on the line number they appear on. Messages in a file on Line 1 and Line 2314 won\u0027t align on the left edge of their message anymore. Instead they have a ragged edge where the 2nd messages on line 2314 is like 2em further to the right. If another file has messages on Line 1 and Line 388 you get another ragged edge:\n\n  some/path:\n  Line 1: Foo!\n  Line 2134: Bar!\n  \n  other/file:\n  Line 1: Foo!\n  Line 388: Bar!\n\nIck?",
+      "revId": "cc6fcf179ff94c231d670328b1683e19d0fb0b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a3cbde64_a276deaf",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-29T14:28:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e75e13d_0e146b58",
+      "revId": "c1f7fc868d66f978516ca364b4e7c3017ee784ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e75e13d_2e112769",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/config/ProjectConfigEntry.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2013-11-17T17:40:34Z",
       "side": 1,
       "message": "That too verbose and too much code repetitions. You have 5 times:\n\n this.displayName \u003d displayName;\n\nInstead define one generic ctor:\n\n  private ProjectConfigEntry(String n, boolean i, Type t, String v, List\u003cString\u003e l) {\n    this.displayName \u003d n;\n    this.inheritable \u003d i;\n    this.type \u003d t;\n    this.defaultValue \u003d v;\n    this.supportedValues \u003d l;\n  }\n\nand call it from each specialized ctor:\n\n  public ProjectConfigEntry(String displayName, boolean inheritable,\n      String defaultValue) {\n    this(displayName, inheritable, Type.STRING, defaultValue, null);\n  }\n\n  public ProjectConfigEntry(String displayName, boolean inheritable,\n      int defaultValue) {\n    this(displayName, inheritable, Type.INT, Integer.toString(defaultValue), null);\n  }\n\n[...]",
+      "range": {
+        "startLine": 23,
+        "startChar": 13,
+        "endLine": 23,
+        "endChar": 31
+      },
+      "revId": "c1f7fc868d66f978516ca364b4e7c3017ee784ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d09a10_a1a41ed0",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/config/ProjectConfigEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-29T14:28:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e75e13d_2e112769",
       "range": {
         "startLine": 23,
         "startChar": 13,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "83d09a10_81b0fa0e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-29T14:28:07Z",
+      "side": 1,
+      "message": "Very good idea!\n\nDone.",
+      "parentUuid": "de7ee924_4c1a7f8b",
+      "revId": "c1f7fc868d66f978516ca364b4e7c3017ee784ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e75e13d_8efffbd6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ConfigInfo.java",
         "patchSetId": 1
@@ -70,6 +130,24 @@
       "writtenOn": "2013-11-17T17:40:34Z",
       "side": 1,
       "message": "This can be simplified. You have ConfigParameterInfo ctor that get all parameter, so we could use it. The lines 143 - 174 in your version can be replaced with:\n\n pluginConfigParameters.put(e.getPluginName(),\n    new ConfigParameterInfo(e.getExportName(),\n        configEntry.getDisplayName(),\n        configEntry.getType(),\n        configEntry.isInheritable()\n        ? cfgWithInheritance.getString(e.getExportName(),\n            configEntry.getDefaultValue())\n        : Objects.firstNonNull(configuredValue, configEntry\n            .getDefaultValue()),\n         configEntry.isInheritable() ? configuredValue : null,\n         configEntry.isInheritable()\n         ? getInheritedValue(control, cfgFactory, e, configEntry)\n         : null,\n         configEntry.getSupportedValues()));",
+      "revId": "c1f7fc868d66f978516ca364b4e7c3017ee784ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d09a10_61abf6a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ConfigInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-29T14:28:07Z",
+      "side": 1,
+      "message": "Basically done, but I kept an if-else block for inheritable or not, because not it\u0027s not just configEntry.isInheritable() but also one more condition and repeating this condition 3 times would be too much. But it really looks much cleaner now.",
+      "parentUuid": "1e75e13d_8efffbd6",
       "revId": "c1f7fc868d66f978516ca364b4e7c3017ee784ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "a3cbde64_22c80e91",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ConfigInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-29T14:28:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de7ee924_2cfa93eb",
+      "revId": "c1f7fc868d66f978516ca364b4e7c3017ee784ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de7ee924_cc050f2b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ConfigInfo.java",
         "patchSetId": 1
@@ -104,6 +200,24 @@
       "writtenOn": "2013-11-17T17:40:34Z",
       "side": 1,
       "message": "It can be done shorter and inlined:\n\n Objects.firstNonNull(configuredValue, configEntry.getDefaultValue()",
+      "revId": "c1f7fc868d66f978516ca364b4e7c3017ee784ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d09a10_a1bb3ef7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ConfigInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-29T14:28:07Z",
+      "side": 1,
+      "message": "Unfortunately Objects.firstNonNull cannot be used here. Objects.firstNonNull fails with an exception if both values are null, and null as default value is allowed.\n\nInlining -\u003e Done.",
+      "parentUuid": "de7ee924_cc050f2b",
       "revId": "c1f7fc868d66f978516ca364b4e7c3017ee784ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -133,6 +247,30 @@
     },
     {
       "key": {
+        "uuid": "83d09a10_c1b842fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ConfigInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-29T14:28:07Z",
+      "side": 1,
+      "message": "Also the two inner clases above are public. Having it public allows plugins to see this class if they programmaitally invoke the GetConfig REST endpoint.",
+      "parentUuid": "1e75e13d_ce2c23b5",
+      "range": {
+        "startLine": 191,
+        "startChar": 22,
+        "endLine": 191,
+        "endChar": 41
+      },
+      "revId": "c1f7fc868d66f978516ca364b4e7c3017ee784ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de7ee924_6c173b60",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetConfig.java",
         "patchSetId": 1
@@ -144,6 +282,24 @@
       "writtenOn": "2013-11-17T17:40:34Z",
       "side": 1,
       "message": "Please create an unit test with tests for added functionality for each ProjectConfigEntry type. It is easy to extend Guice binding from unit test and reflect all different ProjectConfigEntry types you\u0027ve introduced.\n\nCheck working unit test for capabilities, that does just that:\n\nhttps://gerrit-review.googlesource.com/#/c/46970/21/gerrit-server/src/test/java/com/google/gerrit/server/config/ListCapabilitiesTest.java",
+      "revId": "c1f7fc868d66f978516ca364b4e7c3017ee784ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d09a10_41b6f20d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-29T14:28:07Z",
+      "side": 1,
+      "message": "Unfortunately this is not so straight-forward as with ListCapabilities. GetConfig needs some more things injected and those things need more other things injected. Not sure if it\u0027s worth the effort to configure a Guice module which can create all those things.",
+      "parentUuid": "de7ee924_6c173b60",
       "revId": "c1f7fc868d66f978516ca364b4e7c3017ee784ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -173,6 +329,30 @@
     },
     {
       "key": {
+        "uuid": "83d09a10_e1c54676",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-29T14:28:07Z",
+      "side": 1,
+      "message": "Otherwise a plugin that instanciates the Input above couldn\u0027t add any ConfigValueInput\u0027s.",
+      "parentUuid": "de7ee924_8cff07d7",
+      "range": {
+        "startLine": 63,
+        "startChar": 15,
+        "endLine": 63,
+        "endChar": 31
+      },
+      "revId": "c1f7fc868d66f978516ca364b4e7c3017ee784ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de7ee924_6cf09b0b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
         "patchSetId": 1
@@ -184,6 +364,24 @@
       "writtenOn": "2013-11-17T17:40:34Z",
       "side": 1,
       "message": "May be extract/reuse the function ListCapabilities.isPluginNameSane, which extends java variable CharMatcher\u0027s idiom:\n\n CharMatcher.JAVA_LETTER_OR_DIGIT\n   .or(CharMatcher.is(\u0027-\u0027)\n   .matchesAllOf(pluginName);",
+      "revId": "c1f7fc868d66f978516ca364b4e7c3017ee784ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3cbde64_c273e2be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-29T14:28:07Z",
+      "side": 1,
+      "message": "Thanks, I will use CharMatcher.",
+      "parentUuid": "de7ee924_6cf09b0b",
       "revId": "c1f7fc868d66f978516ca364b4e7c3017ee784ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -207,6 +405,24 @@
     },
     {
       "key": {
+        "uuid": "83d09a10_01c30a71",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-29T14:28:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de7ee924_0cfd57e2",
+      "revId": "c1f7fc868d66f978516ca364b4e7c3017ee784ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e75e13d_6e172f60",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
         "patchSetId": 1
@@ -218,6 +434,24 @@
       "writtenOn": "2013-11-17T17:40:34Z",
       "side": 1,
       "message": "Error in default case? In case some one would extend it with say short and forget to extend this code?",
+      "revId": "c1f7fc868d66f978516ca364b4e7c3017ee784ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3cbde64_026eaad3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-29T14:28:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e75e13d_6e172f60",
       "revId": "c1f7fc868d66f978516ca364b4e7c3017ee784ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -241,6 +475,24 @@
     },
     {
       "key": {
+        "uuid": "a3cbde64_e270e6b4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-29T14:28:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de7ee924_ec0a4b3a",
+      "revId": "c1f7fc868d66f978516ca364b4e7c3017ee784ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e75e13d_4e1a738b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
         "patchSetId": 1
@@ -252,6 +504,24 @@
       "writtenOn": "2013-11-17T17:40:34Z",
       "side": 1,
       "message": "String.format()",
+      "revId": "c1f7fc868d66f978516ca364b4e7c3017ee784ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d09a10_21b1ee14",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-29T14:28:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e75e13d_4e1a738b",
       "revId": "c1f7fc868d66f978516ca364b4e7c3017ee784ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

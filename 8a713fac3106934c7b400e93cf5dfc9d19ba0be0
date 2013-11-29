@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03174a8c_a576beaf",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-29T10:38:27Z",
+      "side": 1,
+      "message": "This should go under a separate section for plugins.",
+      "revId": "8a713fac3106934c7b400e93cf5dfc9d19ba0be0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3cbde64_425a7244",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-29T06:07:07Z",
+      "side": 1,
+      "message": "Should we change the dev-bucks.txt. documentation and adjust the download section then?\n\n Clone the git and build it: git clone https://gerrit.googlesource.com/buck\n\nto \n\n Clone the git and build it: git clone git@github.com:facebook/buck.git",
+      "revId": "d064248b500dd91783ff4a01a32071c1e3bcd658",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d09a10_a1489e76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-29T06:07:07Z",
+      "side": 1,
+      "message": "Should we update the corresponding section in dev-bucks.txt:\n\n User-specific configuration can be placed in one of the following files:\n`/etc/buck.conf`, `$HOME/.buck/buck.conf` or `$HOME/.buckrc`.\n [...]",
+      "revId": "d064248b500dd91783ff4a01a32071c1e3bcd658",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

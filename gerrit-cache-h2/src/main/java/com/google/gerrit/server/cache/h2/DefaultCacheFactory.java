@@ -111,7 +111,7 @@ public class DefaultCacheFactory implements MemoryCacheFactory {
     return !Strings.isNullOrEmpty(cfg.getString("cache", name, var));
   }
 
-  @SuppressWarnings({"rawtypes", "unchecked"})
+  @SuppressWarnings("unchecked")
   private static <K, V> CacheBuilder<K, V> newCacheBuilder() {
     return (CacheBuilder<K, V>) CacheBuilder.newBuilder();
   }

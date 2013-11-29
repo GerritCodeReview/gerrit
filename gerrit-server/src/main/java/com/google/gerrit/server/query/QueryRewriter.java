@@ -97,7 +97,7 @@ public abstract class QueryRewriter<T> {
   }
 
   /** Combine the passed predicates into a single AND node. */
-  public Predicate<T> and(Predicate<T>... that) {
+  public Predicate<T> and(@SuppressWarnings("unchecked") Predicate<T>... that) {
     return and(Arrays.asList(that));
   }
 
@@ -107,7 +107,7 @@ public abstract class QueryRewriter<T> {
   }
 
   /** Combine the passed predicates into a single OR node. */
-  public Predicate<T> or(Predicate<T>... that) {
+  public Predicate<T> or(@SuppressWarnings("unchecked") Predicate<T>... that) {
     return or(Arrays.asList(that));
   }
 

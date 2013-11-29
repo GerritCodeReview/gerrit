@@ -27,6 +27,7 @@ public class OrPredicate<T> extends Predicate<T> {
   private final List<Predicate<T>> children;
   private final int cost;
 
+  @SafeVarargs
   protected OrPredicate(final Predicate<T>... that) {
     this(Arrays.asList(that));
   }

@@ -50,6 +50,7 @@ public abstract class Predicate<T> {
   }
 
   /** Combine the passed predicates into a single AND node. */
+  @SafeVarargs
   public static <T> Predicate<T> and(final Predicate<T>... that) {
     if (that.length == 1) {
       return that[0];
@@ -67,6 +68,7 @@ public abstract class Predicate<T> {
   }
 
   /** Combine the passed predicates into a single OR node. */
+  @SafeVarargs
   public static <T> Predicate<T> or(final Predicate<T>... that) {
     if (that.length == 1) {
       return that[0];

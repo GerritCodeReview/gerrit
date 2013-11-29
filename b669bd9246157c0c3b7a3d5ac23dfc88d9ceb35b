@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03174a8c_2555ae15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-29T02:00:18Z",
+      "side": 1,
+      "message": "an",
+      "range": {
+        "startLine": 16,
+        "startChar": 52,
+        "endLine": 16,
+        "endChar": 53
+      },
+      "revId": "b669bd9246157c0c3b7a3d5ac23dfc88d9ceb35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "231a8eb4_067fda90",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-29T02:00:18Z",
+      "side": 1,
+      "message": "Should this functionality limit the plugin to setting its own settings?\n\nOtherwise there would be the possibility for the plugin to overwrite other project-wide settings.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 18
+      },
+      "revId": "b669bd9246157c0c3b7a3d5ac23dfc88d9ceb35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -2,19 +2,19 @@ include_defs('//lib/maven.defs')
 
 # This version must match the version that also appears in
 # gerrit-pgm/src/main/resources/com/google/gerrit/pgm/libraries.config
-VERSION = '1.44'
+VERSION = '1.49'
 
 maven_jar(
   name = 'bcprov',
-  id = 'org.bouncycastle:bcprov-jdk16:' + VERSION,
-  sha1 = '6327a5f7a3dc45e0fd735adb5d08c5a74c05c20c',
+  id = 'org.bouncycastle:bcprov-jdk15on:' + VERSION,
+  sha1 = 'f5155f04330459104b79923274db5060c1057b99',
   license = 'DO_NOT_DISTRIBUTE', #'bouncycastle'
 )
 
 maven_jar(
   name = 'bcpg',
-  id = 'org.bouncycastle:bcpg-jdk16:' + VERSION,
-  sha1 = 'ee14f5a29cb3cf9c1edec034ab16e1bbd26e9647',
+  id = 'org.bouncycastle:bcpg-jdk15on:' + VERSION,
+  sha1 = '081d84be5b125e1997ab0e2244d1a2276b5de76c',
   license = 'DO_NOT_DISTRIBUTE', #'bouncycastle'
   deps = [':bcprov'],
 )

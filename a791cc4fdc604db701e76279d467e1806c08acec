@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "03174a8c_057fd290",
+        "filename": "gerrit-acceptance-tests/.settings/org.eclipse.jdt.core.prefs",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-29T06:37:34Z",
+      "side": 0,
+      "message": "Actually there are 4 files in each directory you can delete:\n\n $ git ls-files gerrit-acceptance-tests/.settings/\n gerrit-acceptance-tests/.settings/org.eclipse.core.resources.prefs\n gerrit-acceptance-tests/.settings/org.eclipse.core.runtime.prefs\n gerrit-acceptance-tests/.settings/org.eclipse.jdt.core.prefs\n gerrit-acceptance-tests/.settings/org.eclipse.jdt.ui.prefs\n\n:-)",
+      "revId": "a791cc4fdc604db701e76279d467e1806c08acec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "231a8eb4_a6488676",
         "filename": "gerrit-plugin-archetype/src/main/resources/archetype-resources/.settings/org.eclipse.jdt.core.prefs",
         "patchSetId": 2

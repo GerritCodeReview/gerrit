@@ -50,6 +50,7 @@ import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.GerritGlobalModule;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.MasterNodeStartup;
 import com.google.gerrit.server.contact.HttpContactStoreConnection;
 import com.google.gerrit.server.git.ReceiveCommitsExecutorModule;
@@ -65,6 +66,7 @@ import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
 import com.google.gerrit.server.ssh.NoSshKeyCache;
 import com.google.gerrit.server.ssh.NoSshModule;
+import com.google.gerrit.server.ssh.SshAddressesModule;
 import com.google.gerrit.solr.SolrIndexModule;
 import com.google.gerrit.sshd.SshHostKeyModule;
 import com.google.gerrit.sshd.SshKeyCacheImpl;
@@ -74,10 +76,12 @@ import com.google.gerrit.sshd.commands.SlaveCommandModule;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.Stage;
 
+import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -269,6 +273,7 @@ public class Daemon extends SiteProgram {
       .setCfgInjector(cfgInjector);
     manager.add(dbInjector, cfgInjector, sysInjector);
 
+    sshd &= !sshdOff();
     if (sshd) {
       initSshd();
     }
@@ -283,6 +288,11 @@ public class Daemon extends SiteProgram {
   @VisibleForTesting
   public void stop() {
     manager.stop();
+  }
+
+  private boolean sshdOff() {
+    Config cfg = cfgInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
+    return new SshAddressesModule().getListenAddresses(cfg).isEmpty();
   }
 
   private String myVersion() {

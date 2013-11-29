@@ -16,6 +16,52 @@
       "revId": "95bbc216ecb4c8e7411cf591a5c1f59fa446d0f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "231a8eb4_86b8eafb",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-29T08:16:31Z",
+      "side": 1,
+      "message": "Is the double dot intentional?",
+      "range": {
+        "startLine": 415,
+        "startChar": 44,
+        "endLine": 415,
+        "endChar": 46
+      },
+      "revId": "95bbc216ecb4c8e7411cf591a5c1f59fa446d0f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "231a8eb4_e6c55e76",
+        "filename": "lib/prolog/prolog.defs",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-11-29T08:16:31Z",
+      "side": 1,
+      "message": "Tab",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 1
+      },
+      "revId": "95bbc216ecb4c8e7411cf591a5c1f59fa446d0f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

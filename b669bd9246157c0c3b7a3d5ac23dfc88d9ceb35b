@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "83d09a10_614f7681",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-29T05:51:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03174a8c_2555ae15",
+      "range": {
+        "startLine": 16,
+        "startChar": 52,
+        "endLine": 16,
+        "endChar": 53
+      },
+      "revId": "b669bd9246157c0c3b7a3d5ac23dfc88d9ceb35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "231a8eb4_067fda90",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2013-11-29T02:00:18Z",
       "side": 1,
       "message": "Should this functionality limit the plugin to setting its own settings?\n\nOtherwise there would be the possibility for the plugin to overwrite other project-wide settings.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 18
+      },
+      "revId": "b669bd9246157c0c3b7a3d5ac23dfc88d9ceb35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d09a10_415a7244",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-29T05:51:06Z",
+      "side": 1,
+      "message": "No, this is just an example and it\u0027s intended that plugins can also change all other parameters. E.g. this is useful if a plugin wants to install a new label type.\n\nIn all places where plugins have access to the configuration they can always modify everthing (e.g. during init they have full access to gerrit.config). In the end we cannot forbid plugins to do whatever they want, since they have access to the review site and all git repositories.",
+      "parentUuid": "231a8eb4_067fda90",
       "range": {
         "startLine": 19,
         "startChar": 0,

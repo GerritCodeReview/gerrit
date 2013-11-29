@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3cbde64_62abf6a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPick.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-29T19:12:50Z",
+      "side": 1,
+      "message": "Is it intended to change the response from \u0027Not Found\u0027 to \u0027Conflict\u0027 in case of NoSuchChangeException?",
+      "range": {
+        "startLine": 92,
+        "startChar": 30,
+        "endLine": 92,
+        "endChar": 51
+      },
+      "revId": "7a1d41347bab00c2099f671baec6263b12253bc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d09a10_01314ad5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EditMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-29T19:12:50Z",
+      "side": 1,
+      "message": "This changes the response for PatchSetInfoNotAvailableException from \u0027Not Found\u0027 to \u0027Conflict\u0027. Is this intended?",
+      "range": {
+        "startLine": 105,
+        "startChar": 34,
+        "endLine": 105,
+        "endChar": 67
+      },
+      "revId": "7a1d41347bab00c2099f671baec6263b12253bc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3cbde64_82b0fa0e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-29T19:12:50Z",
+      "side": 1,
+      "message": "Change of response code. Intended?",
+      "range": {
+        "startLine": 163,
+        "startChar": 13,
+        "endLine": 163,
+        "endChar": 34
+      },
+      "revId": "7a1d41347bab00c2099f671baec6263b12253bc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

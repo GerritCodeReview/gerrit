@@ -59,13 +59,14 @@ public class GetContent implements RestReadView<FileResource> {
         }
         try {
           final ObjectLoader object = repo.open(tw.getObjectId(0));
-          return new BinaryResult() {
+          @SuppressWarnings("resource")
+          BinaryResult result = new BinaryResult() {
             @Override
             public void writeTo(OutputStream os) throws IOException {
               object.copyTo(os);
             }
-          }.setContentLength(object.getSize())
-           .base64();
+          };
+          return result.setContentLength(object.getSize()).base64();
         } finally {
           tw.release();
         }

@@ -181,8 +181,7 @@ public class JettyServer {
 
       if ("http".equals(u.getScheme())) {
         defaultPort = 80;
-        c = new ServerConnector(server, null, null, null, 0, acceptors,
-            new HttpConnectionFactory(config));
+        c = newServerConnector(server, acceptors, config);
 
       } else if ("https".equals(u.getScheme())) {
         SslContextFactory ssl = new SslContextFactory();
@@ -217,9 +216,7 @@ public class JettyServer {
       } else if ("proxy-http".equals(u.getScheme())) {
         defaultPort = 8080;
         config.addCustomizer(new ForwardedRequestCustomizer());
-        c = new ServerConnector(server,
-            null, null, null, 0, acceptors,
-            new HttpConnectionFactory(config));
+        c = newServerConnector(server, acceptors, config);
 
       } else if ("proxy-https".equals(u.getScheme())) {
         defaultPort = 8080;
@@ -232,9 +229,7 @@ public class JettyServer {
             request.setSecure(true);
           }
         });
-        c = new ServerConnector(server,
-            null, null, null, 0, acceptors,
-            new HttpConnectionFactory(config));
+        c = newServerConnector(server, acceptors, config);
 
       } else {
         throw new IllegalArgumentException("Protocol '" + u.getScheme() + "' "
@@ -267,6 +262,12 @@ public class JettyServer {
       connectors[idx] = c;
     }
     return connectors;
+  }
+
+  private static ServerConnector newServerConnector(Server server,
+      int acceptors, HttpConfiguration config) {
+    return new ServerConnector(server, null, null, null, 0, acceptors,
+        new HttpConnectionFactory(config));
   }
 
   private HttpConfiguration defaultConfig(int requestHeaderSize) {

@@ -54,6 +54,7 @@ public class JythonShell {
     StringBuilder classPath = new StringBuilder();
     final ClassLoader cl = getClass().getClassLoader();
     if (cl instanceof java.net.URLClassLoader) {
+      @SuppressWarnings("resource")
       URLClassLoader ucl = (URLClassLoader) cl;
       for (URL u : ucl.getURLs()) {
         if ("file".equals(u.getProtocol())) {

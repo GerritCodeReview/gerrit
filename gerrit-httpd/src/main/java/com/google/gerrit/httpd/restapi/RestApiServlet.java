@@ -16,9 +16,7 @@ package com.google.gerrit.httpd.restapi;
 
 import static com.google.common.base.Charsets.UTF_8;
 import static com.google.common.base.Preconditions.checkNotNull;
-
 import static java.math.RoundingMode.CEILING;
-
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_CONFLICT;
 import static javax.servlet.http.HttpServletResponse.SC_CREATED;
@@ -974,6 +972,7 @@ public class RestApiServlet extends HttpServlet {
     return asBinaryResult(buf).setContentType(bin.getContentType());
   }
 
+  @SuppressWarnings("resource")
   private static BinaryResult asBinaryResult(final TemporaryBuffer.Heap buf) {
     return new BinaryResult() {
       @Override

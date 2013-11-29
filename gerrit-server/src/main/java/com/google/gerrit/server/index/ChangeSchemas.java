@@ -30,7 +30,7 @@ import java.util.Map;
 
 /** Secondary index schemas for changes. */
 public class ChangeSchemas {
-  @SuppressWarnings({"unchecked", "deprecation"})
+  @SuppressWarnings("deprecation")
   static final Schema<ChangeData> V1 = release(
         ChangeField.LEGACY_ID,
         ChangeField.ID,
@@ -50,7 +50,7 @@ public class ChangeSchemas {
         ChangeField.COMMIT_MESSAGE,
         ChangeField.COMMENT);
 
-  @SuppressWarnings({"unchecked", "deprecation"})
+  @SuppressWarnings("deprecation")
   static final Schema<ChangeData> V2 = release(
         ChangeField.LEGACY_ID,
         ChangeField.ID,
@@ -72,7 +72,6 @@ public class ChangeSchemas {
         ChangeField.CHANGE,
         ChangeField.APPROVAL);
 
-  @SuppressWarnings("unchecked")
   static final Schema<ChangeData> V3 = release(
         ChangeField.LEGACY_ID,
         ChangeField.ID,
@@ -97,7 +96,6 @@ public class ChangeSchemas {
   // For upgrade to Lucene 4.4.0 index format only.
   static final Schema<ChangeData> V4 = release(V3.getFields().values());
 
-  @SuppressWarnings("unchecked")
   static final Schema<ChangeData> V5 = release(
         ChangeField.LEGACY_ID,
         ChangeField.ID,
@@ -124,10 +122,12 @@ public class ChangeSchemas {
     return new Schema<ChangeData>(true, fields);
   }
 
+  @SafeVarargs
   private static Schema<ChangeData> release(FieldDef<ChangeData, ?>... fields) {
     return release(Arrays.asList(fields));
   }
 
+  @SafeVarargs
   @SuppressWarnings("unused")
   private static Schema<ChangeData> developer(FieldDef<ChangeData, ?>... fields) {
     return new Schema<ChangeData>(false, Arrays.asList(fields));

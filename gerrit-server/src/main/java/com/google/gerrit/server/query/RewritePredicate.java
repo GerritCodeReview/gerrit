@@ -14,7 +14,8 @@
 
 package com.google.gerrit.server.query;
 
-import java.util.Arrays;
+import com.google.common.collect.ImmutableList;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -24,10 +25,10 @@ public abstract class RewritePredicate<T> extends Predicate<T> {
   private String name = getClass().getSimpleName();
   private List<Predicate<T>> children = Collections.emptyList();
 
-  protected void init(String name, Predicate<T>... args) {
+  protected void init(String name, @SuppressWarnings("unchecked") Predicate<T>... args) {
     this.init = true;
     this.name = name;
-    this.children = Arrays.asList(args);
+    this.children = ImmutableList.copyOf(args);
   }
 
   @Override

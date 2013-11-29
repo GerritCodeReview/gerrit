@@ -99,9 +99,7 @@ class ChangeApiImpl implements ChangeApi {
   public void abandon(AbandonInput in) throws RestApiException {
     try {
       abandon.get().apply(change, in);
-    } catch (OrmException e) {
-      throw new RestApiException("Cannot abandon change", e);
-    } catch (IOException e) {
+    } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot abandon change", e);
     }
   }
@@ -115,9 +113,7 @@ class ChangeApiImpl implements ChangeApi {
   public void restore(RestoreInput in) throws RestApiException {
     try {
       restore.get().apply(change, in);
-    } catch (OrmException e) {
-      throw new RestApiException("Cannot restore change", e);
-    } catch (IOException e) {
+    } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot restore change", e);
     }
   }
@@ -131,11 +127,7 @@ class ChangeApiImpl implements ChangeApi {
   public ChangeApi revert(RevertInput in) throws RestApiException {
     try {
       return changeApi.id(revert.get().apply(change, in)._number);
-    } catch (OrmException e) {
-      throw new RestApiException("Cannot revert change", e);
-    } catch (EmailException e) {
-      throw new RestApiException("Cannot revert change", e);
-    } catch (IOException e) {
+    } catch (OrmException | EmailException | IOException e) {
       throw new RestApiException("Cannot revert change", e);
     }
   }

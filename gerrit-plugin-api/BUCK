@@ -1,14 +1,14 @@
 SRCS = [
   'gerrit-server/src/main/java/',
   'gerrit-httpd/src/main/java/',
-  'gerrit-sshd/src/main/java/'
+  'gerrit-sshd/src/main/java/',
 ]
 
 PLUGIN_API = [
-  '//gerrit-server:server',
-  '//gerrit-pgm:init-api',
-  '//gerrit-sshd:sshd',
   '//gerrit-httpd:httpd',
+  '//gerrit-pgm:init-api',
+  '//gerrit-server:server',
+  '//gerrit-sshd:sshd',
 ]
 
 java_binary(
@@ -19,8 +19,22 @@ java_binary(
 
 java_library(
   name = 'lib',
-  deps = PLUGIN_API + ['//lib:servlet-api-3_0'],
-  export_deps = True,
+  exported_deps = PLUGIN_API + [
+    '//gerrit-common:server',
+    '//gerrit-extension-api:api',
+    '//gerrit-reviewdb:server',
+    '//lib:args4j',
+    '//lib:guava',
+    '//lib:gwtorm',
+    '//lib:jsch',
+    '//lib:servlet-api-3_0',
+    '//lib/guice:guice',
+    '//lib/guice:guice-assistedinject',
+    '//lib/guice:guice-servlet',
+    '//lib/jgit:jgit',
+    '//lib/log:api',
+    '//lib/mina:sshd',
+  ],
   visibility = ['PUBLIC'],
 )
 

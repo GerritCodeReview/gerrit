@@ -3,7 +3,7 @@ include_defs('//gerrit-acceptance-tests/tests.defs')
 java_library(
   name = 'lib',
   srcs = glob(['src/test/java/com/google/gerrit/acceptance/*.java']),
-  deps = [
+  exported_deps = [
     '//gerrit-common:server',
     '//gerrit-extension-api:api',
     '//gerrit-launcher:launcher',
@@ -34,7 +34,6 @@ java_library(
     '//lib/jgit:junit',
     '//lib/mina:sshd',
   ],
-  export_deps = True,
   visibility = [
     '//tools/eclipse:classpath',
     '//gerrit-acceptance-tests/...',

@@ -39,6 +39,24 @@
       "revId": "cc6fcf179ff94c231d670328b1683e19d0fb0b57",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d09a10_01406a4a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LineComment.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-11-29T07:29:39Z",
+      "side": 1,
+      "message": "after compare in Chrome and Firefox\n ----\n A\u003e There is not long space in Chrome but not aligned\n   http://imgur.com/yHTIeqa\n   http://imgur.com/kiNkjvF\n\n B\u003e Aligned but there is long space in Chrome\n   http://imgur.com/DKWZMvu\n   http://imgur.com/jYZkaP6\n ----\nI agree with you to select B is better , please review it in patchset 2",
+      "parentUuid": "03174a8c_c53f7ac8",
+      "revId": "cc6fcf179ff94c231d670328b1683e19d0fb0b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

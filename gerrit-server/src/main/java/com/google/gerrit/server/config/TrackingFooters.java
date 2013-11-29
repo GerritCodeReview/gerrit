@@ -14,12 +14,12 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.common.collect.Sets;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 
 import org.eclipse.jgit.revwalk.FooterLine;
 
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Matcher;
 
 public class TrackingFooters {
@@ -33,8 +33,12 @@ public class TrackingFooters {
     return trackingFooters;
   }
 
-  public Set<String> extract(List<FooterLine> lines) {
-    Set<String> r = Sets.newHashSet();
+  public boolean isEmpty() {
+    return trackingFooters.isEmpty();
+  }
+
+  public Multimap<String, String> extract(List<FooterLine> lines) {
+    Multimap<String, String> r = ArrayListMultimap.create();
     for (FooterLine footer : lines) {
       for (TrackingFooter config : trackingFooters) {
         if (footer.matches(config.footerKey())) {
@@ -44,7 +48,7 @@ public class TrackingFooters {
                 ? m.group(1)
                 : m.group();
             if (!id.isEmpty()) {
-              r.add(id);
+              r.put(config.system(), id);
             }
           }
         }

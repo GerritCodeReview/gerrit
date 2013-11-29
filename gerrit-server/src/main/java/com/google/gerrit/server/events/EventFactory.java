@@ -15,6 +15,7 @@
 package com.google.gerrit.server.events;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
@@ -30,7 +31,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetAncestor;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RevId;
-import com.google.gerrit.reviewdb.client.TrackingId;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -292,11 +292,16 @@ public class EventFactory {
     return d;
   }
 
-  public void addTrackingIds(ChangeAttribute a, Collection<TrackingId> ids) {
-    if (!ids.isEmpty()) {
-      a.trackingIds = new ArrayList<TrackingIdAttribute>(ids.size());
-      for (TrackingId t : ids) {
-        a.trackingIds.add(asTrackingIdAttribute(t));
+  public void addTrackingIds(ChangeAttribute a, Multimap<String, String> set) {
+    if (!set.isEmpty()) {
+      a.trackingIds = new ArrayList<TrackingIdAttribute>(set.size());
+      for (Map.Entry<String, Collection<String>> e : set.asMap().entrySet()) {
+        for (String id : e.getValue()) {
+          TrackingIdAttribute t = new TrackingIdAttribute();
+          t.system = e.getKey();
+          t.id = id;
+          a.trackingIds.add(t);
+        }
       }
     }
   }
@@ -377,13 +382,6 @@ public class EventFactory {
         ca.comments.add(asMessageAttribute(message));
       }
     }
-  }
-
-  public TrackingIdAttribute asTrackingIdAttribute(TrackingId id) {
-    TrackingIdAttribute a = new TrackingIdAttribute();
-    a.system = id.getSystem();
-    a.id = id.getTrackingId();
-    return a;
   }
 
   /**

@@ -109,18 +109,6 @@ ON patch_set_ancestors (ancestor_revision);
 
 
 -- *********************************************************************
--- ProjectAccess
---    @PrimaryKey covers: all, suggestByName
-
-
--- *********************************************************************
--- TrackingIdAccess
---
-CREATE INDEX tracking_ids_byTrkKey
-ON tracking_ids (tracking_key);
-
-
--- *********************************************************************
 -- StarredChangeAccess
 --    @PrimaryKey covers: byAccount
 

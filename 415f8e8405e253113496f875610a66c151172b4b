@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "231a8eb4_a629a66f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/AccessPath.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-29T20:46:41Z",
+      "side": 0,
+      "message": "Unfortunately this was used by gerrit-review glue. Oh well. I think we can map authenticated by cookie requests to UNKNOWN instead since there shouldn\u0027t be any difference inside of access control code.",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 13
+      },
+      "revId": "415f8e8405e253113496f875610a66c151172b4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

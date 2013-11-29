@@ -352,7 +352,6 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     return r.toString();
   }
 
-  @SuppressWarnings("unchecked")
   private void initProviderBouncyCastle() {
     setKeyExchangeFactories(Arrays.<NamedFactory<KeyExchange>> asList(
         new DHG14.Factory(), new DHG1.Factory()));
@@ -360,7 +359,6 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         new BouncyCastleRandom.Factory()));
   }
 
-  @SuppressWarnings("unchecked")
   private void initProviderJce() {
     setKeyExchangeFactories(Arrays
         .<NamedFactory<KeyExchange>> asList(new DHG1.Factory()));
@@ -472,13 +470,11 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     return null;
   }
 
-  @SuppressWarnings("unchecked")
   private void initSignatures() {
     setSignatureFactories(Arrays.<NamedFactory<Signature>> asList(
         new SignatureDSA.Factory(), new SignatureRSA.Factory()));
   }
 
-  @SuppressWarnings("unchecked")
   private void initCompression() {
     // Always disable transparent compression. The majority of our data
     // transfer is highly compressed Git pack files. We cannot make them
@@ -488,7 +484,6 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         .<NamedFactory<Compression>> asList(new CompressionNone.Factory()));
   }
 
-  @SuppressWarnings("unchecked")
   private void initChannels() {
     setChannelFactories(Arrays.<NamedFactory<Channel>> asList(
         new ChannelSession.Factory(), //

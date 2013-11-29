@@ -26,6 +26,7 @@ import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.TimeUtil;
+import com.google.gwtexpui.linker.server.UserAgentRule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
@@ -557,60 +558,53 @@ public class JettyServer {
     }
     dir = dir.getParentFile(); // pop classes
 
-    if ("buck-out".equals(dir.getName())) {
-      final File dstwar = makeWarTempDir();
-      String pkg = "gerrit-gwtui";
-      String target = targetForBrowser(System.getProperty("gerrit.browser"));
-      final File gen = new File(dir, "gen");
-      String out = new File(new File(gen, pkg), target).getAbsolutePath();
-      final File zip = new File(out + ".zip");
-      final File root = dir.getParentFile();
-      final String name = "//" + pkg + ":" + target;
-
-      File ui = new File(dstwar, "gerrit_ui");
-      File p = new File(ui, "permutations");
-      mkdir(ui);
-      p.createNewFile();
-      p.deleteOnExit();
-
-      app.addFilter(new FilterHolder(new Filter() {
-        private long last;
-
-        @Override
-        public void doFilter(ServletRequest request, ServletResponse res,
-            FilterChain chain) throws IOException, ServletException {
-          HttpServletRequest req = (HttpServletRequest) request;
-          build(root, gen, name);
-          if (last != zip.lastModified()) {
-            last = zip.lastModified();
-            unpack(zip, dstwar);
-          }
-          chain.doFilter(req, res);
-        }
-
-        @Override
-        public void init(FilterConfig config) {
-        }
-        @Override
-        public void destroy() {
-        }
-      }), "/", EnumSet.of(DispatcherType.REQUEST));
-      return Resource.newResource(dstwar.toURI());
-    } else if ("target".equals(dir.getName())) {
-      return useMavenDeveloperBuild(dir);
-    } else {
+    if (!"buck-out".equals(dir.getName())) {
       throw new FileNotFoundException("Cannot find web root from " + u);
     }
-  }
 
-  private static String targetForBrowser(String browser) {
-    if (browser == null || browser.isEmpty()) {
-      return "ui_dbg";
-    } else if (browser.startsWith("ui_")) {
-      return browser;
-    } else {
-      return "ui_" + browser;
-    }
+    final File gen = new File(dir, "gen");
+    final File root = dir.getParentFile();
+    final File dstwar = makeWarTempDir();
+    File ui = new File(dstwar, "gerrit_ui");
+    File p = new File(ui, "permutations");
+    mkdir(ui);
+    p.createNewFile();
+    p.deleteOnExit();
+
+    app.addFilter(new FilterHolder(new Filter() {
+      private final UserAgentRule rule = new UserAgentRule();
+      private String lastTarget;
+      private long lastTime;
+
+      @Override
+      public void doFilter(ServletRequest request, ServletResponse res,
+          FilterChain chain) throws IOException, ServletException {
+        String pkg = "gerrit-gwtui";
+        String target = "ui_" + rule.select((HttpServletRequest) request);
+        File zip = new File(new File(gen, pkg), target + ".zip");
+
+        synchronized (this) {
+          build(root, gen, "//" + pkg + ":" + target);
+
+          if (!target.equals(lastTarget) || lastTime != zip.lastModified()) {
+            lastTarget = target;
+            lastTime = zip.lastModified();
+            unpack(zip, dstwar);
+          }
+        }
+
+        chain.doFilter(request, res);
+      }
+
+      @Override
+      public void init(FilterConfig config) {
+      }
+
+      @Override
+      public void destroy() {
+      }
+    }), "/", EnumSet.of(DispatcherType.REQUEST));
+    return Resource.newResource(dstwar.toURI());
   }
 
   private static void build(File root, File gen, String target)
@@ -662,26 +656,5 @@ public class JettyServer {
       in.close();
     }
     return properties;
-  }
-
-  private Resource useMavenDeveloperBuild(File dir) throws IOException {
-    dir = dir.getParentFile(); // pop target
-    dir = dir.getParentFile(); // pop the module we are in
-
-    // Drop down into gerrit-gwtui to find the WAR assets we need.
-    //
-    dir = new File(new File(dir, "gerrit-gwtui"), "target");
-    final File[] entries = dir.listFiles();
-    if (entries == null) {
-      throw new FileNotFoundException("No " + dir);
-    }
-    for (File e : entries) {
-      if (e.isDirectory() /* must be a directory */
-          && e.getName().startsWith("gerrit-gwtui-")
-          && new File(e, "gerrit_ui/gerrit_ui.nocache.js").isFile()) {
-        return Resource.newResource(e.toURI());
-      }
-    }
-    throw new FileNotFoundException("No " + dir + "/gerrit-gwtui-*");
   }
 }

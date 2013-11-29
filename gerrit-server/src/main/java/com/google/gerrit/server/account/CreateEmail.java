@@ -124,10 +124,7 @@ public class CreateEmail implements RestModifyView<AccountResource, Input> {
       try {
         registerNewEmailFactory.create(email).send();
         info.pendingConfirmation = true;
-      } catch (EmailException e) {
-        log.error("Cannot send email verification message to " + email, e);
-        throw e;
-      } catch (RuntimeException e) {
+      } catch (EmailException | RuntimeException e) {
         log.error("Cannot send email verification message to " + email, e);
         throw e;
       }

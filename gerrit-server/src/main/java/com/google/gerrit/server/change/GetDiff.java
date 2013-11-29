@@ -160,9 +160,7 @@ public class GetDiff implements RestReadView<FileResource> {
         r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
       }
       return r;
-    } catch (NoSuchChangeException e) {
-      throw new ResourceNotFoundException(e.getMessage());
-    } catch (LargeObjectException e) {
+    } catch (NoSuchChangeException | LargeObjectException e) {
       throw new ResourceConflictException(e.getMessage());
     }
   }

@@ -179,13 +179,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
         indexer.index(c);
       }
       return mergeable;
-    } catch (MergeException e) {
-      return false;
-    } catch (IOException e) {
-      log.error(String.format(
-          "Cannot merge test change %d", change.getId().get()), e);
-      return false;
-    } catch (NoSuchProjectException e) {
+    } catch (MergeException | IOException | NoSuchProjectException e) {
       log.error(String.format(
           "Cannot merge test change %d", change.getId().get()), e);
       return false;

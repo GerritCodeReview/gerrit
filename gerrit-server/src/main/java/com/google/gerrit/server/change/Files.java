@@ -162,9 +162,7 @@ class Files implements ChildCollection<RevisionResource, FileResource> {
           if (!o.isEmpty()) {
             try {
               r = copy(Sets.newHashSet(o), old, resource, userId);
-            } catch (IOException e) {
-              log.warn("Cannot copy patch review flags", e);
-            } catch (PatchListNotAvailableException e) {
+            } catch (IOException | PatchListNotAvailableException e) {
               log.warn("Cannot copy patch review flags", e);
             }
             break;

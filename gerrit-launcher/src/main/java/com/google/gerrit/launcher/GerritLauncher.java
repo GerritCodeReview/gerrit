@@ -556,6 +556,50 @@ public final class GerritLauncher {
     }
   }
 
+  /**
+   * Locate the path of the {@code buck-out} directory in a source tree.
+   *
+   * @throws FileNotFoundException if the directory cannot be found.
+   */
+  public static File getDeveloperBuckOut() throws FileNotFoundException {
+    // Find ourselves in the CLASSPATH, we should be a loose class file.
+    Class<GerritLauncher> self = GerritLauncher.class;
+    URL u = self.getResource(self.getSimpleName() + ".class");
+    if (u == null) {
+      throw new FileNotFoundException("Cannot find class " + self.getName());
+    } else if (!"file".equals(u.getProtocol())) {
+      throw new FileNotFoundException("Cannot find extract path from " + u);
+    }
+
+    // Pop up to the top level classes folder that contains us.
+    File dir = new File(u.getPath());
+    String myName = self.getName();
+    for (;;) {
+      int dot = myName.lastIndexOf('.');
+      if (dot < 0) {
+        dir = dir.getParentFile();
+        break;
+      }
+      myName = myName.substring(0, dot);
+      dir = dir.getParentFile();
+    }
+
+    dir = popdir(u, dir, "classes");
+    dir = popdir(u, dir, "eclipse");
+    if ("buck-out".equals(dir.getName())) {
+      return dir;
+    }
+    throw new FileNotFoundException("Cannot find buck-out from " + u);
+  }
+
+  private static File popdir(URL u, File dir, String name)
+      throws FileNotFoundException {
+    if (dir.getName().equals(name)) {
+      return dir.getParentFile();
+    }
+    throw new FileNotFoundException("Cannot find buck-out from " + u);
+  }
+
   private GerritLauncher() {
   }
 }

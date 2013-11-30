@@ -72,12 +72,14 @@ def gen_classpath():
     impl = minidom.getDOMImplementation()
     return impl.createDocument(None, 'classpath', None)
 
-  def classpathentry(kind, path, src=None):
+  def classpathentry(kind, path, src=None, out=None):
     e = doc.createElement('classpathentry')
     e.setAttribute('kind', kind)
     e.setAttribute('path', path)
     if src:
       e.setAttribute('sourcepath', src)
+    if out:
+      e.setAttribute('output', out)
     doc.documentElement.appendChild(e)
 
   doc = make_classpath()
@@ -112,16 +114,29 @@ def gen_classpath():
       gwt_src.add(m.group(1))
 
   for s in sorted(src):
+    out = None
+
+    if s.startswith('lib/'):
+      out = 'buck-out/eclipse/lib'
+    elif s.startswith('plugins/'):
+      out = 'buck-out/eclipse/' + s
+
     p = path.join(s, 'java')
     if path.exists(p):
-      classpathentry('src', p)
+      classpathentry('src', p, out=out)
       continue
 
     for env in ['main', 'test']:
+      o = None
+      if out:
+        o = out + '/' + env
+      elif env == 'test':
+        o = 'buck-out/eclipse/test'
+
       for srctype in ['java', 'resources']:
         p = path.join(s, 'src', env, srctype)
         if path.exists(p):
-          classpathentry('src', p)
+          classpathentry('src', p, out=o)
 
   for libs in [lib, gwt_lib]:
     for j in sorted(libs):
@@ -133,14 +148,15 @@ def gen_classpath():
       classpathentry('lib', j, s)
 
   for s in sorted(gwt_src):
-    classpathentry('lib', path.join(ROOT, s, 'src', 'main', 'java'))
+    p = path.join(ROOT, s, 'src', 'main', 'java')
+    classpathentry('lib', p, out='buck-out/eclipse/gwtsrc')
 
   classpathentry('con', JRE)
-  classpathentry('output', 'buck-out/classes')
+  classpathentry('output', 'buck-out/eclipse/classes')
 
   p = path.join(ROOT, '.classpath')
   with open(p, 'w') as fd:
-    doc.writexml(fd, addindent='  ', newl='\n', encoding='UTF-8')
+    doc.writexml(fd, addindent='\t', newl='\n', encoding='UTF-8')
 
 try:
   if args.src:

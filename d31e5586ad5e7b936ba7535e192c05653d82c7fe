@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3cbde64_828f1a0f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-30T22:12:26Z",
+      "side": 1,
+      "message": "We offer base64 encoded or zip compressed patch files in download commands because Wndows lacks native support for base64 decoding program. May be we could add this choice it here too?\n\n encode\u003d base64 | zip\n\nfailing to default base64 if this parameter is not provided?",
+      "revId": "d31e5586ad5e7b936ba7535e192c05653d82c7fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

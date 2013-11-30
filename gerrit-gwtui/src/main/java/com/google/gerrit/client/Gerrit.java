@@ -92,7 +92,6 @@ import com.google.gwtjsonrpc.client.impl.ResultDeserializer;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -446,38 +445,13 @@ public class Gerrit implements EntryPoint {
     }
   }
 
-  private static ArrayList<JavaScriptObject> historyHooks;
   private static Anchor signInAnchor;
 
-  private static native void initHistoryHooks()
-  /*-{ $wnd['gerrit_addHistoryHook'] = function(h) { @com.google.gerrit.client.Gerrit::addHistoryHook(Lcom/google/gwt/core/client/JavaScriptObject;)(h); }; }-*/;
-
-  static void addHistoryHook(final JavaScriptObject hook) {
-    if (historyHooks == null) {
-      historyHooks = new ArrayList<JavaScriptObject>();
-      History.addValueChangeHandler(new ValueChangeHandler<String>() {
-        @Override
-        public void onValueChange(ValueChangeEvent<String> event) {
-          dispatchHistoryHooks(event.getValue());
-        }
-      });
-    }
-    historyHooks.add(hook);
-  }
-
-  private static native void callHistoryHook(JavaScriptObject hook, String url)
-  /*-{ hook(url); }-*/;
-
-  private static void dispatchHistoryHooks(final String historyToken) {
+  private static void dispatchHistoryHooks(String token) {
     if (signInAnchor != null) {
-      signInAnchor.setHref(loginRedirect(historyToken));
+      signInAnchor.setHref(loginRedirect(token));
     }
-    if (historyHooks != null) {
-      final String url = Location.getPath() + "#" + historyToken;
-      for (final JavaScriptObject hook : historyHooks) {
-        callHistoryHook(hook, url);
-      }
-    }
+    ApiGlue.fireEvent("history", token);
   }
 
   private static void populateBottomMenu(RootPanel btmmenu, HostPageData hpd) {
@@ -572,15 +546,15 @@ public class Gerrit implements EntryPoint {
     gStarting.getElement().getParentElement().removeChild(
         gStarting.getElement());
     RootPanel.detachNow(gStarting);
+    ApiGlue.init();
 
     applyUserPreferences();
-    initHistoryHooks();
     populateBottomMenu(bottomMenu, hpd);
     refreshMenuBar();
 
     History.addValueChangeHandler(new ValueChangeHandler<String>() {
       @Override
-      public void onValueChange(final ValueChangeEvent<String> event) {
+      public void onValueChange(ValueChangeEvent<String> event) {
         display(event.getValue());
       }
     });
@@ -607,7 +581,6 @@ public class Gerrit implements EntryPoint {
   }
 
   private void loadPlugins(HostPageData hpd, final String token) {
-    ApiGlue.init();
     if (hpd.plugins != null && !hpd.plugins.isEmpty()) {
       for (final String url : hpd.plugins) {
         ScriptInjector.fromUrl(url)

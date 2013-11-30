@@ -16,6 +16,24 @@
       "revId": "294aaa10dd4039aafd799eedd9e8a327752b5b95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "231a8eb4_269bf661",
+        "filename": "gerrit-gwtexpui/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-30T09:43:41Z",
+      "side": 1,
+      "message": "Why do you expect javac to be invoked?\n\nIts a gwt_module(). Not java_library(). Its ultimate consumer is the GWT compiler, which produces JS not bytecode.",
+      "parentUuid": "a3cbde64_820c7a04",
+      "revId": "294aaa10dd4039aafd799eedd9e8a327752b5b95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

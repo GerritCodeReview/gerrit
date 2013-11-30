@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3cbde64_42b7d2e0",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-30T17:29:24Z",
+      "side": 1,
+      "message": "It would be even more cooler, if we could linkify the error message and put a href behind file references:\n\n [-] PARSING BUILD FILES...FINISHED 0.6s\n/home/davido/projects/gerrit/gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java:202: error: not a statement\n    foo;\n    ^",
+      "revId": "80d9cdbb8847c6c75930933bebb78fde96f7b33d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

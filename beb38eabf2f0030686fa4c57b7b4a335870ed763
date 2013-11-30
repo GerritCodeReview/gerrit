@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "231a8eb4_e6fa7e91",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-30T01:41:01Z",
+      "side": 1,
+      "message": "Based on the comment in ChangeSchemas:\n\n  // For upgrade to Lucene 4.4.0 index format only.\n  static final Schema\u003cChangeData\u003e V4 \u003d release(V3.getFields().values())\n\nThis class requires us to rev the ChangeSchema every time we rev Lucene (insane, not every ChangeIndex uses Lucene), and looking at the existing code V4 and V5 should still use LUCENE_44 not LUCENE_46 as this change causes.",
+      "range": {
+        "startLine": 118,
+        "startChar": 4,
+        "endLine": 126,
+        "endChar": 5
+      },
+      "revId": "beb38eabf2f0030686fa4c57b7b4a335870ed763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

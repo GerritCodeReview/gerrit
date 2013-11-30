@@ -70,6 +70,24 @@
       "revId": "01a3c013025e86790f1a30fcf635f465186f6fd3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03174a8c_a5007ec7",
+        "filename": "tools/maven/mvn.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-30T19:04:15Z",
+      "side": 1,
+      "message": "Just make __import__.py and add it to the python_library srcs list.",
+      "parentUuid": "83d09a10_21800ee2",
+      "revId": "01a3c013025e86790f1a30fcf635f465186f6fd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

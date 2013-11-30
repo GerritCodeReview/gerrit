@@ -1,13 +1,15 @@
 SRCS = 'src/main/java/com/google/gerrit/pgm/'
 
 INIT_API_SRCS = [SRCS + n for n in [
+  'init/AllProjectsConfig.java',
+  'init/AllProjectsNameOnInitProvider.java',
+  'util/ConsoleUI.java',
+  'util/Die.java',
   'init/InitFlags.java',
   'init/InitStep.java',
   'init/InitStep.java',
   'init/InstallPlugins.java',
   'init/Section.java',
-  'util/ConsoleUI.java',
-  'util/Die.java',
 ]]
 
 java_library(
@@ -16,6 +18,7 @@ java_library(
   deps = [
     '//gerrit-common:server',
     '//gerrit-server:server',
+    '//lib:guava',
     '//lib/guice:guice',
     '//lib/guice:guice-assistedinject',
     '//lib/jgit:jgit',

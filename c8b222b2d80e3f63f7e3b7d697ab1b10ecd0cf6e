@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a3cbde64_a2525ef7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-30T06:12:04Z",
+      "side": 1,
+      "message": "Having administrators modifying refs/meta/config behind Gerrits back is bad and should be discouraged. To me this is on the same level as an administrator doing direct modifications in the database. Yes, he can do it, but he must be aware that he needs to flush the caches or restart Gerrit. With refs/meta/config it\u0027s the same. If it is modified outside of Gerrit the administrator must be aware that he needs to flush the caches and reindex the changes.\n\nI only wonder how this was not a problem before. If a change was not mergeable with the current submit type and changeMerge.test was set then the submit button of this change was hidden. If now the submit type was changed behind Gerrits back the mergeability flag was never recomputed and the change stayed unsubmittable even if with the new submit type it could now be merged. Only when the destination brach was updated the Mergeable REST endpoint would understand that the information is stale and do the recomputation. At least now the situation is improved in the sense that the submit button is always there and you can try to submit the change although Gerrit thinks it is not mergeable.\n\n \u003e Gerrit learns of the update \"later\"\n\nI guess this is because the ProjectConfig is cached and nobody flushed the project from the cache when refs/meta/config was updated outside of Gerrit?\n\nRegarding the multi master setup I can see how the mergeability recomputation can lead to duplicate computations and the different servers, but I\u0027m not sure how this can be prevented.",
+      "parentUuid": "03174a8c_453eeaa2",
+      "revId": "c8b222b2d80e3f63f7e3b7d697ab1b10ecd0cf6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "231a8eb4_86fd8a8d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-11-30T01:33:30Z",
       "side": 1,
       "message": "This already listens to GitReferenceUpdatedListener. Why do we need a new complicated listener type when it should be sufficient to just use the existing listener registration?",
+      "revId": "c8b222b2d80e3f63f7e3b7d697ab1b10ecd0cf6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d09a10_610776e2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-30T06:12:04Z",
+      "side": 1,
+      "message": "Right, I will change it and do the check in the onGitRefernceUpdated(...) method.",
+      "parentUuid": "231a8eb4_86fd8a8d",
       "revId": "c8b222b2d80e3f63f7e3b7d697ab1b10ecd0cf6e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

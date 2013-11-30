@@ -84,7 +84,16 @@ public class AllProjectsConfig extends VersionedMetaData {
     throw new UnsupportedOperationException();
   }
 
+  void save(String message) throws IOException {
+    save(new PersonIdent("Gerrit Initialization", "init@gerrit"), message);
+  }
+
   public void save(String pluginName, String message) throws IOException {
+    save(new PersonIdent(pluginName, pluginName + "@gerrit"),
+        "Update from plugin " + pluginName + ": " + message);
+  }
+
+  private void save(PersonIdent ident, String msg) throws IOException {
     Repository repo = new FileRepository(path);
     try {
       inserter = repo.newObjectInserter();
@@ -101,8 +110,6 @@ public class AllProjectsConfig extends VersionedMetaData {
             return;
           }
 
-          PersonIdent ident = new PersonIdent(pluginName, pluginName + "@gerrit");
-          String msg = "Update from plugin " + pluginName + ": " + message;
           CommitBuilder commit = new CommitBuilder();
           commit.setAuthor(ident);
           commit.setCommitter(ident);

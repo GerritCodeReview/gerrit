@@ -18,10 +18,15 @@ import com.google.gerrit.client.actions.ActionButton;
 import com.google.gerrit.client.actions.ActionInfo;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
+import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gwt.core.client.JavaScriptObject;
 
 public class ChangeGlue {
+  public static void fireShowChange(ChangeInfo change, RevisionInfo rev) {
+    ApiGlue.fireEvent("showchange", change, rev);
+  }
+
   public static void onAction(
       ChangeInfo change,
       ActionInfo action,

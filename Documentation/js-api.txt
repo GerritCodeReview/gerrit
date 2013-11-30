@@ -129,6 +129,30 @@ self.put(
   function (r) {});
 ----
 
+[[self_on]]
+self.on()
+~~~~~~~~~
+Register a JavaScript callback to be invoked when events occur within
+the web interface.
+
+.Signature
+[source,javascript]
+----
+Gerrit.on(event, callback);
+----
+
+* event: A supported event type. See below for description.
+
+* callback: JavaScript function to be invoked when event happens.
+  Arguments may be passed to this function, depending on the event.
+
+Supported events:
+
+* `showchange`: Invoked when a change is made visible. A
+  link:rest-api-changes.html#change-info[ChangeInfo] and
+  link:rest-api-changes.html#revision-info[RevisionInfo]
+  are passed as arguments.
+
 [[self_onAction]]
 self.onAction()
 ~~~~~~~~~~~~~~~

@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -42,17 +41,21 @@ public class GetContent implements RestReadView<FileResource> {
   @Override
   public BinaryResult apply(FileResource rsrc)
       throws ResourceNotFoundException, IOException {
-    Project.NameKey project =
-        rsrc.getRevision().getControl().getProject().getNameKey();
+    return apply(rsrc.getRevision().getControl().getProject().getNameKey(),
+        rsrc.getRevision().getPatchSet().getRevision().get(),
+        rsrc.getPatchKey().get());
+  }
+
+  public BinaryResult apply(Project.NameKey project, String revstr, String path)
+      throws ResourceNotFoundException, IOException {
     Repository repo = repoManager.openRepository(project);
     try {
       RevWalk rw = new RevWalk(repo);
       try {
         RevCommit commit =
-            rw.parseCommit(ObjectId.fromString(rsrc.getRevision().getPatchSet()
-                .getRevision().get()));
+            rw.parseCommit(repo.resolve(revstr));
         TreeWalk tw =
-            TreeWalk.forPath(rw.getObjectReader(), rsrc.getPatchKey().get(),
+            TreeWalk.forPath(rw.getObjectReader(), path,
                 commit.getTree().getId());
         if (tw == null) {
           throw new ResourceNotFoundException();

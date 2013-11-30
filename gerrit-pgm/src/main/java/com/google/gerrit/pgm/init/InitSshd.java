@@ -73,8 +73,10 @@ class InitSshd implements InitStep {
 
     if (site.ssh_rsa.exists() || site.ssh_dsa.exists()) {
       libraries.bouncyCastle.downloadRequired();
+      libraries.bouncyCastleSSL.downloadRequired();
     } else if (!site.ssh_key.exists()) {
       libraries.bouncyCastle.downloadOptional();
+      libraries.bouncyCastleSSL.downloadOptional();
     }
 
     generateSshHostKeys();

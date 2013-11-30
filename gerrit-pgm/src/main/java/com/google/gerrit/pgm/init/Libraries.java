@@ -38,6 +38,7 @@ class Libraries {
   private final Provider<LibraryDownloader> downloadProvider;
 
   /* final */LibraryDownloader bouncyCastle;
+  /* final */LibraryDownloader bouncyCastleSSL;
   /* final */LibraryDownloader mysqlDriver;
   /* final */LibraryDownloader oracleDriver;
 

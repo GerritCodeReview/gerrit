@@ -13,4 +13,5 @@
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="Main"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="daemon --console-log --show-stack-trace -d ${resource_loc:/gerrit}/../test_site"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="gerrit"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dgerrit.buck-out=${project_loc:/gerrit/buck-out}"/>
 </launchConfiguration>

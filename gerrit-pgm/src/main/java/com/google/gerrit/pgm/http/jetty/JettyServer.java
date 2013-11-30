@@ -77,7 +77,6 @@ import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.Enumeration;
@@ -537,39 +536,12 @@ public class JettyServer {
 
   private Resource useDeveloperBuild(ServletContextHandler app)
       throws IOException {
-    // Find ourselves in the CLASSPATH. We should be a loose class file.
-    //
-    URL u = getClass().getResource(getClass().getSimpleName() + ".class");
-    if (u == null) {
-      throw new FileNotFoundException("Cannot find web application root");
-    }
-    if (!"file".equals(u.getProtocol())) {
-      throw new FileNotFoundException("Cannot find web root from " + u);
+    String buckOut = System.getProperty("gerrit.buck-out");
+    if (buckOut == null) {
+      throw new IOException("-Dgerrit.buck-out must be set");
     }
 
-    // Pop up to the top level classes folder that contains us.
-    //
-    File dir = new File(u.getPath());
-    String myName = getClass().getName();
-    for (;;) {
-      int dot = myName.lastIndexOf('.');
-      if (dot < 0) {
-        dir = dir.getParentFile();
-        break;
-      }
-      myName = myName.substring(0, dot);
-      dir = dir.getParentFile();
-    }
-
-    if (!dir.getName().equals("classes")) {
-      throw new FileNotFoundException("Cannot find web root from " + u);
-    }
-    dir = dir.getParentFile(); // pop classes
-
-    if (!"buck-out".equals(dir.getName())) {
-      throw new FileNotFoundException("Cannot find web root from " + u);
-    }
-
+    final File dir = new File(buckOut);
     final File gen = new File(dir, "gen");
     final File root = dir.getParentFile();
     final File dstwar = makeWarTempDir();

@@ -34,6 +34,24 @@
       "revId": "80d9cdbb8847c6c75930933bebb78fde96f7b33d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3cbde64_22800ee2",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-30T19:37:45Z",
+      "side": 1,
+      "message": "Yeah, it can be done later if at all.",
+      "parentUuid": "03174a8c_05b7d2e1",
+      "revId": "80d9cdbb8847c6c75930933bebb78fde96f7b33d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

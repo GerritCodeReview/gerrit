@@ -14,8 +14,6 @@
 
 package com.google.gerrit.common.auth;
 
-import com.google.gerrit.common.errors.NotSignedInException;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -24,8 +22,9 @@ import java.lang.annotation.Target;
 /**
  * Annotation indicating a service method requires a current user.
  * <p>
- * If there is no current user then {@link NotSignedInException} will be given
- * to the callback's onFailure method.
+ * If there is no current user then
+ * {@code com.google.gerrit.common.errors.NotSignedInException} will be given to
+ * the callback's onFailure method.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

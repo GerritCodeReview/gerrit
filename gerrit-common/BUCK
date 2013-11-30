@@ -1,10 +1,23 @@
 SRC = 'src/main/java/com/google/gerrit/'
 
+ANNOTATIONS = [
+  SRC + 'common/Nullable.java',
+  SRC + 'common/audit/Audit.java',
+  SRC + 'common/auth/SignInRequired.java',
+]
+
+java_library(
+  name = 'annotations',
+  srcs = ANNOTATIONS,
+  visibility = ['PUBLIC'],
+)
+
 gwt_module(
   name = 'client',
   srcs = glob([SRC + 'common/**/*.java']),
   gwtxml = SRC + 'Common.gwt.xml',
   deps = [
+    ':annotations',
     '//gerrit-patch-jgit:client',
     '//gerrit-prettify:client',
     '//gerrit-reviewdb:client',
@@ -17,8 +30,9 @@ gwt_module(
 
 java_library(
   name = 'server',
-  srcs = glob([SRC + 'common/**/*.java']),
+  srcs = glob([SRC + 'common/**/*.java'], excludes = ANNOTATIONS),
   deps = [
+    ':annotations',
     '//gerrit-patch-jgit:server',
     '//gerrit-prettify:server',
     '//gerrit-reviewdb:server',

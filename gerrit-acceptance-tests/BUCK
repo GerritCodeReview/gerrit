@@ -4,6 +4,7 @@ java_library(
   name = 'lib',
   srcs = glob(['src/test/java/com/google/gerrit/acceptance/*.java']),
   exported_deps = [
+    '//gerrit-common:annotations',
     '//gerrit-common:server',
     '//gerrit-extension-api:api',
     '//gerrit-launcher:launcher',

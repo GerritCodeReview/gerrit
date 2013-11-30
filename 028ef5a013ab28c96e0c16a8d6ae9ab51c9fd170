@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "231a8eb4_26693682",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_86.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-30T19:45:28Z",
+      "side": 1,
+      "message": "Also add group.setType(AccountGroup.Type.SYSTEM)",
+      "revId": "028ef5a013ab28c96e0c16a8d6ae9ab51c9fd170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03174a8c_65bcc6c2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_86.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-30T19:45:28Z",
+      "side": 1,
+      "message": "add break so we use the first group rather than the last.",
+      "revId": "028ef5a013ab28c96e0c16a8d6ae9ab51c9fd170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

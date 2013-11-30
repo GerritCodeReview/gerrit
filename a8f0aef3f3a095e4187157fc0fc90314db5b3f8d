@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3cbde64_220d6e02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-30T09:04:42Z",
+      "side": 1,
+      "message": "How cool ist that?\n\nOr it query yourself, if the Gerrit plugin is in charge for build queue, like it is the case with buildbot plugin.\n\nNeedless to say, that the community have been waiting for years for this feature ;-)",
+      "revId": "a8f0aef3f3a095e4187157fc0fc90314db5b3f8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

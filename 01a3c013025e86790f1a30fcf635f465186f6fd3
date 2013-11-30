@@ -88,6 +88,24 @@
       "revId": "01a3c013025e86790f1a30fcf635f465186f6fd3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3cbde64_c2abe26b",
+        "filename": "tools/maven/mvn.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-30T19:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03174a8c_a5007ec7",
+      "revId": "01a3c013025e86790f1a30fcf635f465186f6fd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -148,6 +148,11 @@ Gerrit.on(event, callback);
 
 Supported events:
 
+* `history`: Invoked when the view is changed to a new page within the
+  Gerrit web application.  The token after "#" is passed as the
+  argument to the callback function, for example "/c/42/" while
+  showing change 42.
+
 * `showchange`: Invoked when a change is made visible. A
   link:rest-api-changes.html#change-info[ChangeInfo] and
   link:rest-api-changes.html#revision-info[RevisionInfo]

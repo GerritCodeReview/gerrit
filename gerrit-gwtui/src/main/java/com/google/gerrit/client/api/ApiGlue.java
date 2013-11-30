@@ -26,6 +26,7 @@ public class ApiGlue {
   public static void init() {
     init0();
     ActionContext.init();
+    addHistoryHook();
   }
 
   private static native void init0() /*-{
@@ -110,6 +111,14 @@ public class ApiGlue {
     $wnd.Gerrit = Gerrit;
   }-*/;
 
+  /** Install deprecated {@code gerrit_addHistoryHook()} function. */
+  private static native void addHistoryHook() /*-{
+    $wnd.gerrit_addHistoryHook = function(h) {
+      var p = @com.google.gwt.user.client.Window.Location::getPath()();
+      $wnd.Gerrit.on('history', function(t) { h(p + "#" + t) })
+     };
+  }-*/;
+
   private static void install(JavaScriptObject cb, JavaScriptObject p) {
     try {
       pluginName = PluginName.get();
@@ -141,6 +150,13 @@ public class ApiGlue {
   static final native void invoke(JavaScriptObject f, JavaScriptObject a) /*-{ f(a); }-*/;
   static final native void invoke(JavaScriptObject f, JavaScriptObject a, JavaScriptObject b) /*-{ f(a,b) }-*/;
   static final native void invoke(JavaScriptObject f, String a) /*-{ f(a); }-*/;
+
+  public static final void fireEvent(String event, String a) {
+    JsArray<JavaScriptObject> h = getEventHandlers(event);
+    for (int i = 0; i < h.length(); i++) {
+      invoke(h.get(i), a);
+    }
+  }
 
   static final void fireEvent(String event, JavaScriptObject a, JavaScriptObject b) {
     JsArray<JavaScriptObject> h = getEventHandlers(event);

@@ -36,7 +36,7 @@ public class ApiGlue {
       getPluginName: @com.google.gerrit.client.api.ApiGlue::getPluginName(),
       install: function (f) {
         var p = new Plugin(this.getPluginName());
-        @com.google.gerrit.client.api.ApiGlue::install(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(f,p);
+        @com.google.gerrit.client.api.ApiGlue::install(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gerrit/client/api/JsUiPlugin;)(f,p);
       },
 
       go: @com.google.gerrit.client.api.ApiGlue::go(Ljava/lang/String;),
@@ -119,9 +119,9 @@ public class ApiGlue {
      };
   }-*/;
 
-  private static void install(JavaScriptObject cb, JavaScriptObject p) {
+  private static void install(JavaScriptObject cb, JsUiPlugin p) {
     try {
-      pluginName = PluginName.get();
+      pluginName = p.name();
       invoke(cb, p);
     } finally {
       pluginName = null;

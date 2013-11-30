@@ -41,7 +41,7 @@ public class LibrariesTest extends TestCase {
       }
     });
 
-    assertNotNull(lib.bouncyCastle);
+    assertNotNull(lib.bouncyCastleProvider);
     assertNotNull(lib.mysqlDriver);
 
     verify(ui);

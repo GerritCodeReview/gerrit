@@ -101,14 +101,11 @@ class EditMessage implements RestModifyView<RevisionResource, Input>,
           patchSetInserterFactory));
     } catch (InvalidChangeOperationException e) {
       throw new BadRequestException(e.getMessage());
-    } catch (MissingObjectException e) {
-      throw new ResourceConflictException(e.getMessage());
-    } catch (IncorrectObjectTypeException e) {
-      throw new ResourceConflictException(e.getMessage());
-    } catch (PatchSetInfoNotAvailableException e) {
-      throw new ResourceConflictException(e.getMessage());
     } catch (NoSuchChangeException e) {
       throw new ResourceNotFoundException();
+    } catch (MissingObjectException | IncorrectObjectTypeException
+        | PatchSetInfoNotAvailableException e) {
+      throw new ResourceConflictException(e.getMessage());
     } finally {
       git.close();
     }

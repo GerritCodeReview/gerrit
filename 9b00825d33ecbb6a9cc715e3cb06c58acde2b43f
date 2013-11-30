@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "83d09a10_c1fda28c",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-30T06:29:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "231a8eb4_c6f782a9",
+      "range": {
+        "startLine": 295,
+        "startChar": 11,
+        "endLine": 295,
+        "endChar": 18
+      },
+      "revId": "9b00825d33ecbb6a9cc715e3cb06c58acde2b43f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "231a8eb4_26b2d6f1",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/AllProjectsConfig.java",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "a3cbde64_e24c665a",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/AllProjectsConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-30T06:29:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "231a8eb4_26b2d6f1",
+      "range": {
+        "startLine": 121,
+        "startChar": 8,
+        "endLine": 123,
+        "endChar": 9
+      },
+      "revId": "9b00825d33ecbb6a9cc715e3cb06c58acde2b43f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03174a8c_e54c365a",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/AllProjectsNameOnInitProvider.java",
         "patchSetId": 3
@@ -59,6 +107,30 @@
       "writtenOn": "2013-11-30T01:51:09Z",
       "side": 1,
       "message": "name \u003d Objects.firstNonNull(\n  Strings.emptyToNull(n), AllProjectsNameProvider.DEFAULT);",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 13
+      },
+      "revId": "9b00825d33ecbb6a9cc715e3cb06c58acde2b43f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3cbde64_024a2a3b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/AllProjectsNameOnInitProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-30T06:29:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03174a8c_e54c365a",
       "range": {
         "startLine": 27,
         "startChar": 4,

@@ -20,6 +20,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
 import java.util.Arrays;
@@ -55,7 +56,7 @@ public class PluginConfig {
           parent.getConfig().getPluginConfig(pluginName)
               .withInheritance(projectStateFactory);
       Set<String> allNames = cfg.getNames(PLUGIN, pluginName);
-      cfg = new Config(cfg);
+      cfg = copyConfig(cfg);
       for (String name : parentPluginConfig.cfg.getNames(PLUGIN, pluginName)) {
         if (!allNames.contains(name)) {
           cfg.setStringList(PLUGIN, pluginName, name, Arrays
@@ -64,6 +65,17 @@ public class PluginConfig {
       }
     }
     return this;
+  }
+
+  private static Config copyConfig(Config cfg) {
+    Config copiedCfg = new Config();
+    try {
+      copiedCfg.fromText(cfg.toText());
+    } catch (ConfigInvalidException e) {
+      // cannot happen
+      throw new IllegalStateException(e);
+    }
+    return copiedCfg;
   }
 
   public String getString(String name) {

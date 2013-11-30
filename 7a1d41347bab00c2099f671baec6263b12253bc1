@@ -49,6 +49,24 @@
     },
     {
       "key": {
+        "uuid": "a3cbde64_e2e1c6ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPick.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-30T08:41:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3cbde64_62abf6a0",
+      "revId": "7a1d41347bab00c2099f671baec6263b12253bc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83d09a10_01314ad5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EditMessage.java",
         "patchSetId": 1
@@ -72,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "83d09a10_a1c5fe48",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EditMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-30T08:41:44Z",
+      "side": 1,
+      "message": "The response for NoSuchChangeException was changed.\n\nDone",
+      "parentUuid": "83d09a10_01314ad5",
+      "revId": "7a1d41347bab00c2099f671baec6263b12253bc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3cbde64_82b0fa0e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
         "patchSetId": 1
@@ -89,6 +125,24 @@
         "endLine": 163,
         "endChar": 34
       },
+      "revId": "7a1d41347bab00c2099f671baec6263b12253bc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d09a10_81c1da3d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-30T08:41:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3cbde64_82b0fa0e",
       "revId": "7a1d41347bab00c2099f671baec6263b12253bc1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

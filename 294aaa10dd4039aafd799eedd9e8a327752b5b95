@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3cbde64_820c7a04",
+        "filename": "gerrit-gwtexpui/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-30T09:39:46Z",
+      "side": 1,
+      "message": "As a consumer of gwt_library when passing \"**/*.java\" to srcs i expect that javac is called and the sources get compiled.\n\nBecause nothing is more disappointing then unfullfilled expectations, i suggest\nto drop srcs from gwt_module and move all artifacts we are passing today there to the resources parameter.",
+      "revId": "294aaa10dd4039aafd799eedd9e8a327752b5b95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

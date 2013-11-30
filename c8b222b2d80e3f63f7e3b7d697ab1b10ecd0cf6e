@@ -69,6 +69,24 @@
       "revId": "c8b222b2d80e3f63f7e3b7d697ab1b10ecd0cf6e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d09a10_21b2cef1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-11-30T07:20:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83d09a10_610776e2",
+      "revId": "c8b222b2d80e3f63f7e3b7d697ab1b10ecd0cf6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

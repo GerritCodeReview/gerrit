@@ -41,12 +41,10 @@ def gwt_module(
     visibility = []):
   if gwtxml:
     resources = resources + [gwtxml]
-  resources = resources + srcs
   java_library(
     name = name,
-    srcs = srcs,
     deps = deps,
-    resources = resources,
+    resources = srcs + resources,
     visibility = visibility,
   )
 

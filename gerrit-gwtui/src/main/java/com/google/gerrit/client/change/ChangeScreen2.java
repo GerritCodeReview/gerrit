@@ -18,6 +18,7 @@ import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.actions.ActionInfo;
+import com.google.gerrit.client.api.ChangeGlue;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
@@ -421,6 +422,7 @@ public class ChangeScreen2 extends Screen {
       }
     }
 
+    ChangeGlue.onShowChange(changeInfo);
     startPoller();
   }
 

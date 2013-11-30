@@ -22,6 +22,10 @@ import com.google.gerrit.client.rpc.RestApi;
 import com.google.gwt.core.client.JavaScriptObject;
 
 public class ChangeGlue {
+  public static void onShowChange(ChangeInfo change) {
+    ApiGlue.fireEvent("showchange", change);
+  }
+
   public static void onAction(
       ChangeInfo change,
       ActionInfo action,

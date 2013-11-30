@@ -183,7 +183,7 @@ class Actions extends Composite {
 
   @UiHandler("submit")
   void onSubmit(ClickEvent e) {
-    SubmitAction.call(changeId, revision);
+    SubmitAction.call(changeInfo, changeInfo.revision(revision));
   }
 
   @UiHandler("cherrypick")

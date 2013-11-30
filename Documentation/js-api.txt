@@ -153,6 +153,13 @@ Supported events:
   link:rest-api-changes.html#revision-info[RevisionInfo]
   are passed as arguments.
 
+* `submitchange`: Invoked when the submit button is clicked
+  on a change. A link:rest-api-changes.html#change-info[ChangeInfo]
+  and link:rest-api-changes.html#revision-info[RevisionInfo] are
+  passed as arguments. Similar to a form submit validation, the
+  function must return true to allow the operation to continue, or
+  false to prevent it.
+
 [[self_onAction]]
 self.onAction()
 ~~~~~~~~~~~~~~~

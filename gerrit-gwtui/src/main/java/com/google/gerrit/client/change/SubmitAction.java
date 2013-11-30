@@ -15,7 +15,10 @@
 package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.api.ChangeGlue;
 import com.google.gerrit.client.changes.ChangeApi;
+import com.google.gerrit.client.changes.ChangeInfo;
+import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.changes.SubmitFailureDialog;
 import com.google.gerrit.client.changes.SubmitInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -23,25 +26,29 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
 
 class SubmitAction {
-  static void call(final Change.Id id, String revision) {
-    ChangeApi.submit(id.get(), revision,
-      new GerritCallback<SubmitInfo>() {
-        public void onSuccess(SubmitInfo result) {
-          redisplay();
-        }
-
-        public void onFailure(Throwable err) {
-          if (SubmitFailureDialog.isConflict(err)) {
-            new SubmitFailureDialog(err.getMessage()).center();
-          } else {
-            super.onFailure(err);
+  static void call(ChangeInfo changeInfo, RevisionInfo revisionInfo) {
+    if (ChangeGlue.onSubmitChange(changeInfo, revisionInfo)) {
+      final Change.Id changeId = changeInfo.legacy_id();
+      ChangeApi.submit(
+        changeId.get(), revisionInfo.name(),
+        new GerritCallback<SubmitInfo>() {
+          public void onSuccess(SubmitInfo result) {
+            redisplay();
           }
-          redisplay();
-        }
 
-        private void redisplay() {
-          Gerrit.display(PageLinks.toChange(id));
-        }
-      });
+          public void onFailure(Throwable err) {
+            if (SubmitFailureDialog.isConflict(err)) {
+              new SubmitFailureDialog(err.getMessage()).center();
+            } else {
+              super.onFailure(err);
+            }
+            redisplay();
+          }
+
+          private void redisplay() {
+            Gerrit.display(PageLinks.toChange(changeId));
+          }
+        });
+    }
   }
 }

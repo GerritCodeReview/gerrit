@@ -52,6 +52,24 @@
       "revId": "01a3c013025e86790f1a30fcf635f465186f6fd3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d09a10_21800ee2",
+        "filename": "tools/maven/mvn.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-30T18:59:38Z",
+      "side": 1,
+      "message": "Oh, actually\n\n from tools.util import check_output\n\ndoes work. The only problem is, that __init__.py is not get copied by Buck under PYTHONPATH:\n\n PYTHONPATH\u003d/home/davido/projects/gerrit/./buck-out/gen/tools/__pylib_util\n\nCopying it manually makes  from tools.util import check_output work.",
+      "parentUuid": "03174a8c_c5de5a29",
+      "revId": "01a3c013025e86790f1a30fcf635f465186f6fd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

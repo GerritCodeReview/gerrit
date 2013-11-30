@@ -159,8 +159,8 @@ public class ChangeScreen2 extends Screen {
   @UiField History history;
 
   @UiField Button includedIn;
-  @UiField Button revisions;
-  @UiField Element revisionsText;
+  @UiField Button patchSets;
+  @UiField Element patchSetsText;
   @UiField Button download;
   @UiField Button reply;
   @UiField Button expandAll;
@@ -171,7 +171,7 @@ public class ChangeScreen2 extends Screen {
   private ReplyAction replyAction;
   private EditMessageAction editMessageAction;
   private IncludedInAction includedInAction;
-  private RevisionsAction revisionsAction;
+  private PatchSetsAction patchSetsAction;
   private DownloadAction downloadAction;
 
   public ChangeScreen2(Change.Id changeId, String base, String revision, boolean openReplyBox) {
@@ -340,11 +340,11 @@ public class ChangeScreen2 extends Screen {
     }
 
     int currentlyViewedPatchSet = info.revision(revision)._number();
-    revisionsText.setInnerText(Resources.M.revisions(
+    patchSetsText.setInnerText(Resources.M.patchSets(
         currentlyViewedPatchSet, currentPatchSet));
-    revisionsAction = new RevisionsAction(
+    patchSetsAction = new PatchSetsAction(
         info.legacy_id(), revision,
-        style, headerLine, revisions);
+        style, headerLine, patchSets);
   }
 
   private void initDownloadAction(ChangeInfo info, String revision) {
@@ -466,9 +466,9 @@ public class ChangeScreen2 extends Screen {
     downloadAction.show();
   }
 
-  @UiHandler("revisions")
-  void onRevision(ClickEvent e) {
-    revisionsAction.show();
+  @UiHandler("patchSets")
+  void onPatchSets(ClickEvent e) {
+    patchSetsAction.show();
   }
 
   @UiHandler("reply")

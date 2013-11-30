@@ -18,17 +18,17 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 
-class RevisionsAction extends RightSidePopdownAction {
-  private final RevisionsBox revisionBox;
+class PatchSetsAction extends RightSidePopdownAction {
+  private final PatchSetsBox revisionBox;
 
-  RevisionsAction(
+  PatchSetsAction(
       Change.Id changeId,
       String revision,
       ChangeScreen2.Style style,
       UIObject relativeTo,
       Widget downloadButton) {
     super(style, relativeTo, downloadButton);
-    this.revisionBox = new RevisionsBox(changeId, revision);
+    this.revisionBox = new PatchSetsBox(changeId, revision);
   }
 
   Widget getWidget() {

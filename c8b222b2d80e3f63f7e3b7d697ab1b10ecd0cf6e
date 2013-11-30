@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03174a8c_453eeaa2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-30T01:33:30Z",
+      "side": 1,
+      "message": "One of the problems is this event is not fired when the admin updates refs/meta/config externally from Gerrit. This can happen during administrative updates of the project.config file, and is one of our concerns in the *.googlesource.com environment.\n\nSometimes admins update refs/meta/config \"directly\" and Gerrit learns of the update \"later\" and starts using the new branch, but doesn\u0027t fire this listener. If it did fire in multiple masters, that could be bad as it would duplicate a lot of activity refreshing mergeable in multiple servers at once.",
+      "revId": "c8b222b2d80e3f63f7e3b7d697ab1b10ecd0cf6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "231a8eb4_86fd8a8d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-30T01:33:30Z",
+      "side": 1,
+      "message": "This already listens to GitReferenceUpdatedListener. Why do we need a new complicated listener type when it should be sufficient to just use the existing listener registration?",
+      "revId": "c8b222b2d80e3f63f7e3b7d697ab1b10ecd0cf6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

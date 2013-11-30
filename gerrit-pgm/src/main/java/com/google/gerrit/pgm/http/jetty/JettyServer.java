@@ -17,7 +17,10 @@ package com.google.gerrit.pgm.http.jetty;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.common.base.Charsets;
 import com.google.common.base.Objects;
+import com.google.common.escape.Escaper;
+import com.google.common.html.HtmlEscapers;
 import com.google.common.io.ByteStreams;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.launcher.GerritLauncher;
@@ -27,6 +30,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtexpui.linker.server.UserAgentRule;
+import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
@@ -58,6 +62,7 @@ import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.util.thread.ThreadPool;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.util.RawParseUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -68,6 +73,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
+import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -90,6 +96,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Singleton
 public class JettyServer {
@@ -582,10 +589,16 @@ public class JettyServer {
           FilterChain chain) throws IOException, ServletException {
         String pkg = "gerrit-gwtui";
         String target = "ui_" + rule.select((HttpServletRequest) request);
+        String rule = "//" + pkg + ":" + target;
         File zip = new File(new File(gen, pkg), target + ".zip");
 
         synchronized (this) {
-          build(root, gen, "//" + pkg + ":" + target);
+          try {
+            build(root, gen, rule);
+          } catch (BuildFailureException e) {
+            displayFailure(rule, e.why, (HttpServletResponse) res);
+            return;
+          }
 
           if (!target.equals(lastTarget) || lastTime != zip.lastModified()) {
             lastTarget = target;
@@ -595,6 +608,24 @@ public class JettyServer {
         }
 
         chain.doFilter(request, res);
+      }
+
+      private void displayFailure(String rule, byte[] why, HttpServletResponse res)
+          throws IOException {
+        res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        res.setContentType("text/html");
+        res.setCharacterEncoding(Charsets.UTF_8.name());
+        CacheHeaders.setNotCacheable(res);
+
+        Escaper html = HtmlEscapers.htmlEscaper();
+        PrintWriter w = res.getWriter();
+        w.write("<html><title>BUILD FAILED</title><body>");
+        w.format("<h1>%s FAILED</h1>", html.escape(rule));
+        w.write("<pre>");
+        w.write(html.escape(RawParseUtils.decode(why)));
+        w.write("</pre>");
+        w.write("</body></html>");
+        w.close();
       }
 
       @Override
@@ -609,7 +640,7 @@ public class JettyServer {
   }
 
   private static void build(File root, File gen, String target)
-      throws IOException {
+      throws IOException, BuildFailureException {
     log.info("buck build " + target);
     Properties properties = loadBuckProperties(gen);
     String buck = Objects.firstNonNull(properties.getProperty("buck"), "buck");
@@ -637,9 +668,7 @@ public class JettyServer {
       throw new InterruptedIOException("interrupted waiting for " + buck);
     }
     if (status != 0) {
-      System.err.write(out);
-      System.err.println();
-      System.exit(status);
+      throw new BuildFailureException(out);
     }
 
     long time = TimeUtil.nowMs() - start;
@@ -657,5 +686,14 @@ public class JettyServer {
       in.close();
     }
     return properties;
+  }
+
+  @SuppressWarnings("serial")
+  private static class BuildFailureException extends Exception {
+    final byte[] why;
+
+    BuildFailureException(byte[] why) {
+      this.why = why;
+    }
   }
 }

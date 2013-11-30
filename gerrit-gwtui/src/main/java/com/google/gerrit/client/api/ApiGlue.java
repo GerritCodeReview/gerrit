@@ -16,6 +16,7 @@ package com.google.gerrit.client.api;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 
@@ -40,9 +41,12 @@ public class ApiGlue {
       go: @com.google.gerrit.client.api.ApiGlue::go(Ljava/lang/String;),
       refresh: @com.google.gerrit.client.api.ApiGlue::refresh(),
 
+      events: {},
       change_actions: {},
       revision_actions: {},
       project_actions: {},
+
+      on: function (e,f){(this.events[e] || (this.events[e]=[])).push(f)},
       onAction: function (t,n,c){this._onAction(this.getPluginName(),t,n,c)},
       _onAction: function (p,t,n,c) {
         var i = p+'~'+n;
@@ -135,7 +139,18 @@ public class ApiGlue {
 
   static final native void invoke(JavaScriptObject f) /*-{ f(); }-*/;
   static final native void invoke(JavaScriptObject f, JavaScriptObject a) /*-{ f(a); }-*/;
+  static final native void invoke(JavaScriptObject f, JavaScriptObject a, JavaScriptObject b) /*-{ f(a,b) }-*/;
   static final native void invoke(JavaScriptObject f, String a) /*-{ f(a); }-*/;
+
+  static final void fireEvent(String event, JavaScriptObject a, JavaScriptObject b) {
+    JsArray<JavaScriptObject> h = getEventHandlers(event);
+    for (int i = 0; i < h.length(); i++) {
+      invoke(h.get(i), a, b);
+    }
+  }
+
+  static final native JsArray<JavaScriptObject> getEventHandlers(String e)
+  /*-{ return $wnd.Gerrit.events[e] || [] }-*/;
 
   private ApiGlue() {
   }

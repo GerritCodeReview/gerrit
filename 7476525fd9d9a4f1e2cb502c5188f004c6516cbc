@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "231a8eb4_066eba89",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-30T19:48:45Z",
+      "side": 1,
+      "message": "Thanks, that explains things for me. I picked a totally different unit test that doesn\u0027t depend on JettyServer. Fail. :-)",
+      "parentUuid": "83d09a10_a1733e78",
+      "revId": "7476525fd9d9a4f1e2cb502c5188f004c6516cbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3cbde64_c2c2023e",
         "filename": "tools/eclipse/gerrit_daemon.launch",
         "patchSetId": 3

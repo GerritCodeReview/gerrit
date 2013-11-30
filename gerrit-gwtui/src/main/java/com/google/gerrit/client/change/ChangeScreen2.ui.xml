@@ -441,6 +441,7 @@ limitations under the License.
           </table>
           <hr/>
           <c:Labels ui:field='labels' styleName='{style.labels}'/>
+          <div id='change_plugins'/>
         </td>
         <td class='{style.relatedColumn}'>
           <c:RelatedChanges ui:field='related'/>

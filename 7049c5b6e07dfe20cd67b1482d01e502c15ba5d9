@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "231a8eb4_66bccec2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityControl.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-30T02:08:22Z",
+      "side": 1,
+      "message": "canProjectOwnersPerform()",
+      "range": {
+        "startLine": 215,
+        "startChar": 17,
+        "endLine": 215,
+        "endChar": 46
+      },
+      "revId": "7049c5b6e07dfe20cd67b1482d01e502c15ba5d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "231a8eb4_46c1d23a",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/GarbageCollectionCommand.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-30T02:08:22Z",
+      "side": 1,
+      "message": "gc can affect more than one project at once. What if I am the owner of 4 projects and I want to gc all of them with my new \"runGC granted to Project Owners\" powers? I can only do that by calling gerrit gc 4 times?",
+      "revId": "7049c5b6e07dfe20cd67b1482d01e502c15ba5d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03174a8c_25e48e02",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/GarbageCollectionCommand.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-30T02:08:22Z",
+      "side": 1,
+      "message": "This is ugly. I think we should instead find a way to defer the capability check until after argument parsing is completed.",
+      "revId": "7049c5b6e07dfe20cd67b1482d01e502c15ba5d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

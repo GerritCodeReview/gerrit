@@ -18,3 +18,11 @@ maven_jar(
   license = 'DO_NOT_DISTRIBUTE', #'bouncycastle'
   deps = [':bcprov'],
 )
+
+maven_jar(
+  name = 'bcpkix',
+  id = 'org.bouncycastle:bcpkix-jdk15on:' + VERSION,
+  sha1 = '924cc7ad2f589630c97b918f044296ebf1bb6855',
+  license = 'DO_NOT_DISTRIBUTE', #'bouncycastle'
+  deps = [':bcprov'],
+)

@@ -37,7 +37,8 @@ class Libraries {
 
   private final Provider<LibraryDownloader> downloadProvider;
 
-  /* final */LibraryDownloader bouncyCastle;
+  /* final */LibraryDownloader bouncyCastleProvider;
+  /* final */LibraryDownloader bouncyCastleSSL;
   /* final */LibraryDownloader mysqlDriver;
   /* final */LibraryDownloader oracleDriver;
 
@@ -58,29 +59,41 @@ class Libraries {
       throw new RuntimeException(e.getMessage(), e);
     }
 
-    for (final Field f : Libraries.class.getDeclaredFields()) {
+    for (Field f : Libraries.class.getDeclaredFields()) {
+      if ((f.getModifiers() & Modifier.STATIC) == 0
+          && f.getType() == LibraryDownloader.class) {
+        try {
+          f.set(this, downloadProvider.get());
+        } catch (IllegalArgumentException | IllegalAccessException e) {
+          throw new IllegalStateException("Cannot initialize " + f.getName());
+        }
+      }
+    }
+
+    for (Field f : Libraries.class.getDeclaredFields()) {
       if ((f.getModifiers() & Modifier.STATIC) == 0
           && f.getType() == LibraryDownloader.class) {
         try {
           init(f, cfg);
-        } catch (IllegalArgumentException e) {
-          throw new IllegalStateException("Cannot initialize " + f.getName());
-        } catch (IllegalAccessException e) {
-          throw new IllegalStateException("Cannot initialize " + f.getName());
+        } catch (IllegalArgumentException | IllegalAccessException
+            | NoSuchFieldException | SecurityException e) {
+          throw new IllegalStateException("Cannot configure " + f.getName());
         }
       }
     }
   }
 
-  private void init(final Field field, final Config cfg)
-      throws IllegalArgumentException, IllegalAccessException {
-    final String n = field.getName();
-    final LibraryDownloader dl = downloadProvider.get();
+  private void init(Field field, Config cfg) throws IllegalArgumentException,
+      IllegalAccessException, NoSuchFieldException, SecurityException {
+    String n = field.getName();
+    LibraryDownloader dl = (LibraryDownloader) field.get(this);
     dl.setName(get(cfg, n, "name"));
     dl.setJarUrl(get(cfg, n, "url"));
     dl.setSHA1(get(cfg, n, "sha1"));
     dl.setRemove(get(cfg, n, "remove"));
-    field.set(this, dl);
+    for (String d : cfg.getStringList("library", n, "needs")) {
+      dl.addNeeds((LibraryDownloader) getClass().getDeclaredField(d).get(this));
+    }
   }
 
   private static String get(Config cfg, String name, String key) {

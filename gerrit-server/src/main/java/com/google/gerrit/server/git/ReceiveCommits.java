@@ -1728,6 +1728,20 @@ public class ReceiveCommits {
         return false;
       }
 
+      final RevWalk walk = rp.getRevWalk();
+      walk.reset();
+      walk.sort(RevSort.TOPO);
+      walk.sort(RevSort.REVERSE, true);
+
+      Set<ObjectId> existing = Sets.newHashSet();
+      walk.markStart(walk.parseCommit(inputCommand.getNewId()));
+      markHeadsAsUninteresting(walk, existing, changeCtl.getRefControl()
+          .getRefName());
+      if (existing.contains(walk.parseCommit(inputCommand.getNewId()))) {
+        reject(inputCommand, "no new changes");
+        return false;
+      }
+
       for (RevCommit prior : revisions.keySet()) {
         // Don't allow a change to directly depend upon itself. This is a
         // very common error due to users making a new commit rather than

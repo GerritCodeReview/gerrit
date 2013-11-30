@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03174a8c_c5de5a29",
+        "filename": "tools/maven/mvn.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-30T18:46:48Z",
+      "side": 1,
+      "message": "Why not just say from tools.util import check_output? Is it because we are missing tools/__init__.py?",
+      "revId": "01a3c013025e86790f1a30fcf635f465186f6fd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

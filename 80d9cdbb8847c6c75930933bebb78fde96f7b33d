@@ -16,6 +16,24 @@
       "revId": "80d9cdbb8847c6c75930933bebb78fde96f7b33d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03174a8c_05b7d2e1",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-30T19:31:02Z",
+      "side": 1,
+      "message": "Hyperlinking is cool, but you still have to open the file in an editor. Unless you configure mime handling in the browser to have *.java and *.ui.xml open your editor...",
+      "parentUuid": "a3cbde64_42b7d2e0",
+      "revId": "80d9cdbb8847c6c75930933bebb78fde96f7b33d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -21,10 +21,21 @@ import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
 
 public class ChangeGlue {
   public static void fireShowChange(ChangeInfo change, RevisionInfo rev) {
     ApiGlue.fireEvent("showchange", change, rev);
+  }
+
+  public static boolean onSubmitChange(ChangeInfo change, RevisionInfo rev) {
+    JsArray<JavaScriptObject> h = ApiGlue.getEventHandlers("submitchange");
+    for (int i = 0; i < h.length(); i++) {
+      if (!invoke(h.get(i), change, rev)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   public static void onAction(
@@ -47,6 +58,10 @@ public class ChangeGlue {
   private static final native JavaScriptObject get(String id) /*-{
     return $wnd.Gerrit.change_actions[id];
   }-*/;
+
+  private static final native boolean invoke(JavaScriptObject h,
+      ChangeInfo a, RevisionInfo r)
+  /*-{ return h(a,r) }-*/;
 
   private ChangeGlue() {
   }

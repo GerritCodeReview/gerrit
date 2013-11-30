@@ -149,4 +149,8 @@ public class PluginConfig {
   public void unset(String name) {
     cfg.unset(PLUGIN, pluginName, name);
   }
+
+  public Set<String> getNames() {
+    return cfg.getNames(PLUGIN, pluginName);
+  }
 }

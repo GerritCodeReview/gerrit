@@ -68,6 +68,7 @@ java_library2(
   compile_deps = [
     '//lib/bouncycastle:bcprov',
     '//lib/bouncycastle:bcpg',
+    '//lib/bouncycastle:bcpkix',
   ],
   visibility = ['PUBLIC'],
 )

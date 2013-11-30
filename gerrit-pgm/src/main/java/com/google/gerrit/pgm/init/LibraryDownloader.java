@@ -40,6 +40,8 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 
 /** Get optional or required 3rd party library files into $site_path/lib. */
 class LibraryDownloader {
@@ -51,13 +53,17 @@ class LibraryDownloader {
   private String jarUrl;
   private String sha1;
   private String remove;
+  private List<LibraryDownloader> needs;
+  private LibraryDownloader neededBy;
   private File dst;
   private boolean download; // download or copy
+  private boolean exists;
 
   @Inject
   LibraryDownloader(ConsoleUI ui, SitePaths site) {
     this.ui = ui;
     this.lib_dir = site.lib_dir;
+    this.needs = new ArrayList<>(2);
   }
 
   void setName(final String name) {
@@ -77,14 +83,25 @@ class LibraryDownloader {
     this.remove = remove;
   }
 
+  void addNeeds(LibraryDownloader lib) {
+    needs.add(lib);
+  }
+
   void downloadRequired() {
-    this.required = true;
+    setRequired(true);
     download();
   }
 
   void downloadOptional() {
-    this.required = false;
+    required = false;
     download();
+  }
+
+  private void setRequired(boolean r) {
+    required = r;
+    for (LibraryDownloader d : needs) {
+      d.setRequired(r);
+    }
   }
 
   private void download() {
@@ -102,8 +119,17 @@ class LibraryDownloader {
     }
 
     dst = new File(lib_dir, jarName);
-    if (!dst.exists() && shouldGet()) {
+    if (dst.exists()) {
+      exists = true;
+    } else if (shouldGet()) {
       doGet();
+    }
+
+    if (exists) {
+      for (LibraryDownloader d : needs) {
+        d.neededBy = this;
+        d.downloadRequired();
+      }
     }
   }
 
@@ -115,7 +141,11 @@ class LibraryDownloader {
       final StringBuilder msg = new StringBuilder();
       msg.append("\n");
       msg.append("Gerrit Code Review is not shipped with %s\n");
-      if (required) {
+      if (neededBy != null) {
+        msg.append(String.format(
+            "** This library is required by %s. **\n",
+            neededBy.name));
+      } else if (required) {
         msg.append("**  This library is required for your configuration. **\n");
       } else {
         msg.append("  If available, Gerrit can take advantage of features\n");
@@ -171,6 +201,7 @@ class LibraryDownloader {
     }
 
     if (dst.exists()) {
+      exists = true;
       IoUtil.loadJARs(dst);
     }
   }

@@ -42,7 +42,7 @@ public class LibrariesTest {
       }
     });
 
-    assertNotNull(lib.bouncyCastle);
+    assertNotNull(lib.bouncyCastleProvider);
     assertNotNull(lib.mysqlDriver);
 
     verify(ui);

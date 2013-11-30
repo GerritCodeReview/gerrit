@@ -16,6 +16,24 @@
       "revId": "01a3c013025e86790f1a30fcf635f465186f6fd3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3cbde64_229bae61",
+        "filename": "tools/maven/mvn.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-30T18:50:39Z",
+      "side": 1,
+      "message": "That was my first try. It didin\u0027t work. Then i added  __init__.py under tools. While Buck even picked that fiel under temp directory structure, still no luck to make\n\n from tools.util import check_output\n\nwork. What am i missing?",
+      "parentUuid": "03174a8c_c5de5a29",
+      "revId": "01a3c013025e86790f1a30fcf635f465186f6fd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,308 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "231a8eb4_c6494248",
+        "filename": "Documentation/cmd-plugin-install.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-30T01:06:00Z",
+      "side": 1,
+      "message": "parameter",
+      "range": {
+        "startLine": 47,
+        "startChar": 58,
+        "endLine": 47,
+        "endChar": 68
+      },
+      "revId": "30f127613ee7fe10e8d4cdd0c747e238e5846b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03174a8c_051b5258",
+        "filename": "Documentation/cmd-plugin-install.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-30T01:06:00Z",
+      "side": 1,
+      "message": "I don\u0027t like this requirement from a user point of view. The name of the plugin is the name we are installing under, not the type.\n\nIf you need to specify the type can we have auto-detection or have a type argument? A JAR file is quite different from a JS file. The server could try to open the stream as a ZipFile and if that fails assume its JS?",
+      "range": {
+        "startLine": 47,
+        "startChar": 48,
+        "endLine": 48,
+        "endChar": 50
+      },
+      "revId": "30f127613ee7fe10e8d4cdd0c747e238e5846b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "231a8eb4_06e99ad8",
+        "filename": "Documentation/cmd-plugin-install.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-30T01:06:00Z",
+      "side": 1,
+      "message": "Missing ending period.",
+      "range": {
+        "startLine": 48,
+        "startChar": 39,
+        "endLine": 48,
+        "endChar": 50
+      },
+      "revId": "30f127613ee7fe10e8d4cdd0c747e238e5846b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "231a8eb4_26e49602",
+        "filename": "Documentation/cmd-plugin-install.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-30T01:06:00Z",
+      "side": 1,
+      "message": "end",
+      "range": {
+        "startLine": 48,
+        "startChar": 1,
+        "endLine": 48,
+        "endChar": 5
+      },
+      "revId": "30f127613ee7fe10e8d4cdd0c747e238e5846b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "231a8eb4_66ee8ee2",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-30T01:06:00Z",
+      "side": 1,
+      "message": "nit but I would have preferred this to be if (jar !\u003d null). The jar case is the more typical distribution format, and most Java programmers are used to reading if (!\u003dnull) else.",
+      "range": {
+        "startLine": 283,
+        "startChar": 6,
+        "endLine": 285,
+        "endChar": 14
+      },
+      "revId": "30f127613ee7fe10e8d4cdd0c747e238e5846b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "231a8eb4_46f392ca",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-30T01:06:00Z",
+      "side": 1,
+      "message": "This method sends the JS for any URL under /plugins/{name}/static/. If the plugin requests /static/logo.gif it gets back its JS rather than 404. That is... confusing for the JS developer. I think we should only return the JS for one name under /static/ and 404 for any other.",
+      "revId": "30f127613ee7fe10e8d4cdd0c747e238e5846b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03174a8c_45254a93",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JsPlugin.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-30T01:06:00Z",
+      "side": 1,
+      "message": "You don\u0027t need to create a LifecycleManager. There is nothing to start/stop. The base class Plugin apparently supports a null manager.",
+      "revId": "30f127613ee7fe10e8d4cdd0c747e238e5846b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "231a8eb4_260db602",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JsPlugin.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-30T01:06:00Z",
+      "side": 1,
+      "message": "Eh? We should be able to reload JavaScript plugins trivially. They have no Java based registrations that are wedged.",
+      "range": {
+        "startLine": 92,
+        "startChar": 2,
+        "endLine": 95,
+        "endChar": 3
+      },
+      "revId": "30f127613ee7fe10e8d4cdd0c747e238e5846b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "231a8eb4_c6de6229",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JsPlugin.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-30T01:06:00Z",
+      "side": 1,
+      "message": "package or private access is acceptable since the inner class is private",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 101,
+        "endChar": 10
+      },
+      "revId": "30f127613ee7fe10e8d4cdd0c747e238e5846b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03174a8c_a5299e6f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JsPlugin.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-30T01:06:00Z",
+      "side": 1,
+      "message": "DynamicSet.bind(binder(), WebUiPlugin.class).toInstance(...)",
+      "range": {
+        "startLine": 109,
+        "startChar": 6,
+        "endLine": 109,
+        "endChar": 71
+      },
+      "revId": "30f127613ee7fe10e8d4cdd0c747e238e5846b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "231a8eb4_e6e1deed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-30T01:06:00Z",
+      "side": 1,
+      "message": "name.substring(ext) is equivalent and shorter to write.",
+      "range": {
+        "startLine": 491,
+        "startChar": 21,
+        "endLine": 491,
+        "endChar": 55
+      },
+      "revId": "30f127613ee7fe10e8d4cdd0c747e238e5846b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "231a8eb4_86d46a0d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-30T01:06:00Z",
+      "side": 1,
+      "message": "loadJsPlugin does not need thmp so why did we make it above?",
+      "revId": "30f127613ee7fe10e8d4cdd0c747e238e5846b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "231a8eb4_a6d7e610",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-30T01:06:00Z",
+      "side": 1,
+      "message": "Include srcPlugin.getName() in the message?",
+      "range": {
+        "startLine": 511,
+        "startChar": 33,
+        "endLine": 511,
+        "endChar": 58
+      },
+      "revId": "30f127613ee7fe10e8d4cdd0c747e238e5846b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03174a8c_65204685",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-30T01:06:00Z",
+      "side": 1,
+      "message": "InvalidPluginException",
+      "range": {
+        "startLine": 511,
+        "startChar": 16,
+        "endLine": 511,
+        "endChar": 32
+      },
+      "revId": "30f127613ee7fe10e8d4cdd0c747e238e5846b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

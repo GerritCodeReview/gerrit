@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "83d09a10_a1733e78",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-30T19:44:27Z",
+      "side": 1,
+      "message": "ChangeIT.java, open in Eclipse, select abandon() method, right mouse click, popup menu appears, select Run as, select 1 JUnit test:\n\n com.google.inject.CreationException: Guice creation errors:\n\n1) Error injecting constructor, java.io.IOException: -Dgerrit.buck-out must be set\n  at com.google.gerrit.pgm.http.jetty.JettyServer.\u003cinit\u003e(JettyServer.java:141)\n  at com.google.gerrit.pgm.http.jetty.JettyModule.configure(JettyModule.java:29)\n  while locating com.google.gerrit.pgm.http.jetty.JettyServer\n\n1 error\n\tat com.google.inject.internal.Errors.throwCreationExceptionIfErrorsExist(Errors.java:448)\n\tat com.google.inject.internal.InternalInjectorCreator.injectDynamically(InternalInjectorCreator.java:184)\n\tat com.google.inject.internal.InternalInjectorCreator.build(InternalInjectorCreator.java:110)\n\tat com.google.inject.internal.InjectorImpl.createChildInjector(InjectorImpl.java:230)\n\tat com.google.gerrit.pgm.Daemon.createHttpdInjector(Daemon.java:434)\n\tat com.google.gerrit.pgm.Daemon.initHttpd(Daemon.java:399)\n\tat com.google.gerrit.pgm.Daemon.start(Daemon.java:282)\n\tat com.google.gerrit.acceptance.GerritServer.start(GerritServer.java:80)\n\tat com.google.gerrit.acceptance.AbstractDaemonTest.startServer(AbstractDaemonTest.java:63)\n\tat com.google.gerrit.acceptance.AbstractDaemonTest.beforeTest(AbstractDaemonTest.java:58)\n\tat com.google.gerrit.acceptance.AbstractDaemonTest.access$1(AbstractDaemonTest.java:57)\n\tat com.google.gerrit.acceptance.AbstractDaemonTest$1$1.evaluate(AbstractDaemonTest.java:34)\n\tat org.junit.rules.RunRules.evaluate(RunRules.java:20)\n\tat org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:271)\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:70)\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:50)\n\tat org.junit.runners.ParentRunner$3.run(ParentRunner.java:238)\n\tat org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63)\n\tat org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236)\n\tat org.junit.runners.ParentRunner.access$000(ParentRunner.java:53)\n\tat org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229)\n\tat org.junit.runners.ParentRunner.run(ParentRunner.java:309)\n\tat org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:50)\n\tat org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)\n\tat org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:467)\n\tat org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:683)\n\tat org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:390)\n\tat org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:197)\nCaused by: java.io.IOException: -Dgerrit.buck-out must be set\n\tat com.google.gerrit.pgm.http.jetty.JettyServer.useDeveloperBuild(JettyServer.java:541)\n\tat com.google.gerrit.pgm.http.jetty.JettyServer.getBaseResource(JettyServer.java:455)\n\tat com.google.gerrit.pgm.http.jetty.JettyServer.makeContext(JettyServer.java:394)\n\tat com.google.gerrit.pgm.http.jetty.JettyServer.makeContext(JettyServer.java:357)\n\tat com.google.gerrit.pgm.http.jetty.JettyServer.\u003cinit\u003e(JettyServer.java:149)\n\tat sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)\n\tat sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)\n\tat sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)\n\tat java.lang.reflect.Constructor.newInstance(Constructor.java:526)\n\tat com.google.inject.internal.DefaultConstructionProxyFactory$2.newInstance(DefaultConstructionProxyFactory.java:86)\n\tat com.google.inject.internal.ConstructorInjector.provision(ConstructorInjector.java:108)\n\tat com.google.inject.internal.ConstructorInjector.construct(ConstructorInjector.java:88)\n\tat com.google.inject.internal.ConstructorBindingImpl$Factory.get(ConstructorBindingImpl.java:269)\n\tat com.google.inject.internal.ProviderToInternalFactoryAdapter$1.call(ProviderToInternalFactoryAdapter.java:46)\n\tat com.google.inject.internal.InjectorImpl.callInContext(InjectorImpl.java:1058)\n\tat com.google.inject.internal.ProviderToInternalFactoryAdapter.get(ProviderToInternalFactoryAdapter.java:40)\n\tat com.google.inject.Scopes$1$1.get(Scopes.java:65)\n\tat com.google.inject.internal.InternalFactoryToProviderAdapter.get(InternalFactoryToProviderAdapter.java:41)\n\tat com.google.inject.internal.InternalInjectorCreator$1.call(InternalInjectorCreator.java:205)\n\tat com.google.inject.internal.InternalInjectorCreator$1.call(InternalInjectorCreator.java:199)\n\tat com.google.inject.internal.InjectorImpl.callInContext(InjectorImpl.java:1051)\n\tat com.google.inject.internal.InternalInjectorCreator.loadEagerSingletons(InternalInjectorCreator.java:199)\n\tat com.google.inject.internal.InternalInjectorCreator.injectDynamically(InternalInjectorCreator.java:180)\n\t... 26 more",
+      "parentUuid": "231a8eb4_468f1210",
+      "revId": "7476525fd9d9a4f1e2cb502c5188f004c6516cbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3cbde64_c2c2023e",
         "filename": "tools/eclipse/gerrit_daemon.launch",
         "patchSetId": 3
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "I assume you only renamed it in the launch config and not in the Java code?",
       "parentUuid": "a3cbde64_c2c2023e",
+      "revId": "7476525fd9d9a4f1e2cb502c5188f004c6516cbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d09a10_818f1a0f",
+        "filename": "tools/eclipse/gerrit_daemon.launch",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-30T19:44:27Z",
+      "side": 1,
+      "message": "OK, i missed tools/eclipse/project.py\n\nSo, cleaned all, rebuild, run tools/eclipse/project.py and using the new gerrit_daemon failing to start here:\n\n http://paste.openstack.org/show/54210/",
+      "parentUuid": "03174a8c_e5fa7691",
       "revId": "7476525fd9d9a4f1e2cb502c5188f004c6516cbc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -18,6 +18,7 @@ import static com.google.gerrit.server.project.BranchResource.BRANCH_KIND;
 import static com.google.gerrit.server.project.ChildProjectResource.CHILD_PROJECT_KIND;
 import static com.google.gerrit.server.project.DashboardResource.DASHBOARD_KIND;
 import static com.google.gerrit.server.project.ProjectResource.PROJECT_KIND;
+import static com.google.gerrit.server.project.FileResource.FILE_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
@@ -33,6 +34,7 @@ public class Module extends RestApiModule {
     DynamicMap.mapOf(binder(), CHILD_PROJECT_KIND);
     DynamicMap.mapOf(binder(), BRANCH_KIND);
     DynamicMap.mapOf(binder(), DASHBOARD_KIND);
+    DynamicMap.mapOf(binder(), FILE_KIND);
 
     put(PROJECT_KIND).to(PutProject.class);
     get(PROJECT_KIND).to(GetProject.class);
@@ -57,6 +59,8 @@ public class Module extends RestApiModule {
     get(BRANCH_KIND).to(GetBranch.class);
     delete(BRANCH_KIND).to(DeleteBranch.class);
     install(new FactoryModuleBuilder().build(CreateBranch.Factory.class));
+    child(BRANCH_KIND, "files").to(FilesCollection.class);
+    get(FILE_KIND, "content").to(GetContent.class);
 
     child(PROJECT_KIND, "dashboards").to(DashboardsCollection.class);
     get(DASHBOARD_KIND).to(GetDashboard.class);

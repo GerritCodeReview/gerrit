@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83d09a10_e15626bb",
+        "filename": "tools/eclipse/gerrit_daemon.launch",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-30T22:37:20Z",
+      "side": 1,
+      "message": "Doesn\u0027t work here:\n\n http://imgur.com/F3hohNF\n\nMy workflow sequence is:\n\n* buck clean\n* buck build gerrit\n* tools/eclipse/project.py\n* refresh gerrit project in Eclipse\n* launch gerrit_daemon.launch",
+      "revId": "c453f0d2a46c75986ea94a3d97b25afccd5e4e18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

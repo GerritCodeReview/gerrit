@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03174a8c_653966b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-30T01:27:47Z",
+      "side": 1,
+      "message": "I am not a fan of this because it is so specific. The more generalized approach is to listen to GitReferenceUpdatedListener, filter for refs/meta/config and compare the two models given the SHA-1s received in the event. If the model differs in a significant way to the listener, then act.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 65
+      },
+      "revId": "5eab1cc5e33697aebf6de4053767cb8ebc102ce2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03174a8c_0544f234",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-30T01:27:47Z",
+      "side": 1,
+      "message": "It should be impossible to have more than one update of refs/meta/config in a single request. So this doesn\u0027t need a Map.",
+      "range": {
+        "startLine": 306,
+        "startChar": 0,
+        "endLine": 307,
+        "endChar": 62
+      },
+      "revId": "5eab1cc5e33697aebf6de4053767cb8ebc102ce2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03174a8c_253f6ea2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformCreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-30T01:27:47Z",
+      "side": 1,
+      "message": "Why do we need to fire this on project creation? Wouldn\u0027t a project created listener be more appropriate? Especially for something like replication plugin to glue into?",
+      "revId": "5eab1cc5e33697aebf6de4053767cb8ebc102ce2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

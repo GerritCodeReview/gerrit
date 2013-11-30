@@ -16,13 +16,12 @@ java_binary(
 
 java_library(
   name = 'lib',
-  deps = [
+  exported_deps = [
     ':api',
     '//lib/guice:guice',
     '//lib/guice:guice-servlet',
     '//lib:servlet-api-3_0',
   ],
-  export_deps = True,
   visibility = ['PUBLIC'],
 )
 

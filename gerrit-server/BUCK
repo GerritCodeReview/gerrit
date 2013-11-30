@@ -118,7 +118,6 @@ java_library(
     '//lib/guice:guice',
     '//lib/prolog:prolog-cafe',
   ],
-  export_deps = True,
 )
 
 java_test(
@@ -127,7 +126,14 @@ java_test(
   resources = glob(['src/test/resources/com/google/gerrit/rules/**/*']),
   deps = [
     ':prolog_test_case',
+    ':server',
+    '//gerrit-common:server',
+    '//gerrit-reviewdb:server',
     '//gerrit-server/src/main/prolog:common',
+    '//lib:gwtorm',
+    '//lib:junit',
+    '//lib/guice:guice',
+    '//lib/prolog:prolog-cafe',
   ],
 )
 

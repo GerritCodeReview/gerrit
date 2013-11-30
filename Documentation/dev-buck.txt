@@ -412,26 +412,13 @@ run `buck` as usual:
 Override Buck's settings
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-User-specific configuration can be placed in one of the following files:
-`/etc/buck.conf`, `$HOME/.buck/buck.conf` or `$HOME/.buckrc`.
-
-For example to override Buck's default 1GB heap size:
-
-----
-  cat > $HOME/.buckrc <<EOF
-  export BUCK_EXTRA_JAVA_ARGS="\
-  -XX:MaxPermSize=512m \
-  -Xms8000m \
-  -Xmx16000m"
-  EOF
-----
-
-Or to debug BUCK, set `BUCK_DEBUG_MODE` to anything non-empty, then connect to
-port 8888:
+Additional JVM args for Buck can be set in `.buckjavaargs` in the
+project root directory. For example to override Buck's default 1GB
+heap size:
 
 ----
-  cat > $HOME/.buckrc <<EOF
-  export BUCK_DEBUG_MODE="yes"
+  cat > .buckjavaargs <<EOF
+  -XX:MaxPermSize=512m -Xms8000m -Xmx16000m
   EOF
 ----
 

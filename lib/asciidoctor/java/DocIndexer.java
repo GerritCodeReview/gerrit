@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import com.google.common.io.Files;
 import com.google.gerrit.server.documentation.Constants;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -48,6 +47,9 @@ public class DocIndexer {
   @Option(name = "-z", usage = "output zip file")
   private String zipFile;
 
+  @Option(name = "--tmp", usage = "temporary output path")
+  private File tmpdir;
+
   @Option(name = "--prefix", usage = "prefix for the html filepath")
   private String prefix = "";
 
@@ -74,8 +76,7 @@ public class DocIndexer {
       return;
     }
 
-    File tmp = Files.createTempDir();
-    NIOFSDirectory directory = new NIOFSDirectory(tmp);
+    NIOFSDirectory directory = new NIOFSDirectory(tmpdir);
     IndexWriterConfig config = new IndexWriterConfig(
         LUCENE_VERSION,
         new StandardAnalyzer(LUCENE_VERSION, CharArraySet.EMPTY_SET));
@@ -108,8 +109,23 @@ public class DocIndexer {
     iwriter.close();
 
     ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(zipFile));
-    AsciiDoctor.zipDir(tmp, "", zip);
+    zipDir(tmpdir, "", zip);
     zip.close();
+  }
+
+  private static void zipDir(File dir, String prefix, ZipOutputStream zip)
+      throws IOException {
+    for (File file : dir.listFiles()) {
+      String name = file.getName();
+      if (!prefix.isEmpty()) {
+        name = prefix + "/" + name;
+      }
+      if (file.isDirectory()) {
+        zipDir(file, name, zip);
+      } else {
+        AsciiDoctor.zipFile(file, name, zip);
+      }
+    }
   }
 
   public static void main(String[] args) {

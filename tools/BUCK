@@ -14,7 +14,10 @@ python_binary(
 
 python_library(
   name = 'util',
-  srcs = ['util.py'],
+  srcs = [
+    'util.py',
+    '__init__.py'
+  ],
   visibility = ['PUBLIC'],
 )
 

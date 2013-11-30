@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "83d09a10_41a0b28d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/GarbageCollectionCommand.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-30T09:50:57Z",
+      "side": 1,
+      "message": "Yeah, that is kind ugly too, but for one it was only an example, for another i didn\u0027t find another way to solve it.\n\nMy temptation was to restrict thewhole feature to REST API and UiAction, because they are resource aware, and SSH command are not.",
+      "parentUuid": "231a8eb4_46c1d23a",
+      "revId": "7049c5b6e07dfe20cd67b1482d01e502c15ba5d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03174a8c_25e48e02",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/GarbageCollectionCommand.java",
         "patchSetId": 12
@@ -53,6 +71,24 @@
       "writtenOn": "2013-11-30T02:08:22Z",
       "side": 1,
       "message": "This is ugly. I think we should instead find a way to defer the capability check until after argument parsing is completed.",
+      "revId": "7049c5b6e07dfe20cd67b1482d01e502c15ba5d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d09a10_6195b62a",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/GarbageCollectionCommand.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-11-30T09:50:57Z",
+      "side": 1,
+      "message": "Yupp.",
+      "parentUuid": "03174a8c_25e48e02",
       "revId": "7049c5b6e07dfe20cd67b1482d01e502c15ba5d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

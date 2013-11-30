@@ -38,15 +38,20 @@ def gwt_module(
     gwtxml = None,
     resources = [],
     deps = [],
+    compile_deps = [],
     visibility = []):
   if gwtxml:
     resources = resources + [gwtxml]
-  resources = resources + srcs
   java_library(
     name = name,
+    deps = deps + compile_deps,
+    resources = srcs + resources,
+    visibility = visibility,
+  )
+  java_library(
+    name = name + '_lib',
     srcs = srcs,
-    deps = deps,
-    resources = resources,
+    deps = [':' + name] + [d + '_lib' for d in deps] + compile_deps,
     visibility = visibility,
   )
 

@@ -9,6 +9,7 @@ java_library2(
   resources = RESOURCES,
   deps = [
     '//gerrit-antlr:query_exception',
+    '//gerrit-common:annotations',
     '//gerrit-common:server',
     '//gerrit-extension-api:api',
     '//gerrit-gwtexpui:linker_server',

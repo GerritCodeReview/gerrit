@@ -358,8 +358,8 @@ limitations under the License.
           <g:Button ui:field='includedIn' styleName='' visible="false">
             <div><ui:msg>Included in</ui:msg></div>
           </g:Button>
-          <g:Button ui:field='revisions' styleName=''>
-            <div ui:field='revisionsText'/>
+          <g:Button ui:field='patchSets' styleName=''>
+            <div ui:field='patchSetsText'/>
           </g:Button>
           <g:Button ui:field='download' styleName=''>
             <div><ui:msg>Download</ui:msg></div>

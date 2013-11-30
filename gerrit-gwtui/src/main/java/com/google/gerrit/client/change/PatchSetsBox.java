@@ -50,8 +50,8 @@ import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import java.util.Collections;
 import java.util.EnumSet;
 
-class RevisionsBox extends Composite {
-  interface Binder extends UiBinder<HTMLPanel, RevisionsBox> {}
+class PatchSetsBox extends Composite {
+  interface Binder extends UiBinder<HTMLPanel, PatchSetsBox> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   private static final String OPEN;
@@ -64,13 +64,13 @@ class RevisionsBox extends Composite {
 
   private static final native void init(String o) /*-{
     $wnd[o] = $entry(function(e,i) {
-      return @com.google.gerrit.client.change.RevisionsBox::onOpen(Lcom/google/gwt/dom/client/NativeEvent;I)(e,i);
+      return @com.google.gerrit.client.change.PatchSetsBox::onOpen(Lcom/google/gwt/dom/client/NativeEvent;I)(e,i);
     });
   }-*/;
 
   private static boolean onOpen(NativeEvent e, int idx) {
     if (link.handleAsClick(e.<Event> cast())) {
-      RevisionsBox t = getRevisionBox(e);
+      PatchSetsBox t = getRevisionBox(e);
       if (t != null) {
         t.onOpenRow(idx);
         e.preventDefault();
@@ -80,12 +80,12 @@ class RevisionsBox extends Composite {
     return true;
   }
 
-  private static RevisionsBox getRevisionBox(NativeEvent event) {
+  private static PatchSetsBox getRevisionBox(NativeEvent event) {
     com.google.gwt.user.client.Element e = event.getEventTarget().cast();
     for (e = DOM.getParent(e); e != null; e = DOM.getParent(e)) {
       EventListener l = DOM.getEventListener(e);
-      if (l instanceof RevisionsBox) {
-        return (RevisionsBox) l;
+      if (l instanceof PatchSetsBox) {
+        return (PatchSetsBox) l;
       }
     }
     return null;
@@ -106,7 +106,7 @@ class RevisionsBox extends Composite {
   @UiField FlexTable table;
   @UiField Style style;
 
-  RevisionsBox(Change.Id changeId, String revision) {
+  PatchSetsBox(Change.Id changeId, String revision) {
     this.changeId = changeId;
     this.revision = revision;
     initWidget(uiBinder.createAndBindUi(this));

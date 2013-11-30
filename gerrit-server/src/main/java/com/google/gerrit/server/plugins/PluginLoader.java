@@ -504,9 +504,21 @@ public class PluginLoader implements LifecycleListener {
             Plugin.ApiType.PLUGIN));
       }
 
-      URL[] urls = {tmp.toURI().toURL()};
-      ClassLoader parentLoader = parentFor(type);
-      ClassLoader pluginLoader = new URLClassLoader(urls, parentLoader);
+      List<URL> urls = new ArrayList<>(2);
+      String buckOut = System.getProperty("gerrit.buck-out");
+      if (buckOut != null) {
+        File classes = new File(
+            new File(buckOut),
+            "eclipse/plugins/" + name + "/main");
+        if (classes.isDirectory()) {
+          urls.add(classes.toURI().toURL());
+        }
+      }
+      urls.add(tmp.toURI().toURL());
+
+      ClassLoader pluginLoader = new URLClassLoader(
+          urls.toArray(new URL[urls.size()]),
+          parentFor(type));
       Class<? extends Module> sysModule = load(sysName, pluginLoader);
       Class<? extends Module> sshModule = load(sshName, pluginLoader);
       Class<? extends Module> httpModule = load(httpName, pluginLoader);

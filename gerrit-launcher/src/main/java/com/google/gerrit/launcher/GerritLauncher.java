@@ -29,6 +29,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.JarURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.security.CodeSource;
@@ -192,10 +193,7 @@ public final class GerritLauncher {
       path = getDistributionArchive();
     } catch (FileNotFoundException e) {
       if (NOT_ARCHIVED.equals(e.getMessage())) {
-        // Assume the CLASSPATH was made complete by the calling process,
-        // as we are likely being run from within a developer's IDE.
-        //
-        return GerritLauncher.class.getClassLoader();
+        return useDevClasspath();
       }
       throw e;
     }
@@ -554,6 +552,33 @@ public final class GerritLauncher {
     } catch (IOException e) {
       return gerrithome;
     }
+  }
+
+  private static ClassLoader useDevClasspath() throws MalformedURLException {
+    ClassLoader cl = GerritLauncher.class.getClassLoader();
+    String buckOut = System.getProperty("gerrit.buck-out");
+    if (buckOut == null) {
+      return cl;
+    }
+
+    File out = new File(buckOut);
+    List<URL> dirs = new ArrayList<URL>();
+    dirs.add(new File(out, "eclipse/classes").toURI().toURL());
+    for (URL u : ((URLClassLoader) cl).getURLs()) {
+      if (includeJar(u)) {
+        dirs.add(u);
+      }
+    }
+    return new URLClassLoader(
+        dirs.toArray(new URL[dirs.size()]),
+        ClassLoader.getSystemClassLoader().getParent());
+  }
+
+  private static boolean includeJar(URL u) {
+    String path = u.getPath();
+    return path.endsWith(".jar")
+        && !path.endsWith("-src.jar")
+        && !path.contains("/buck-out/gen/lib/gwt/");
   }
 
   private GerritLauncher() {

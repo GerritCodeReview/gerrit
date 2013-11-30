@@ -4,7 +4,7 @@ gwt_module(
   name = 'client',
   srcs = glob([SRC + 'client/**/*.java']),
   gwtxml = SRC + 'ReviewDB.gwt.xml',
-  deps = [
+  compile_deps = [
     '//lib:gwtorm',
     '//lib:gwtorm_src'
   ],

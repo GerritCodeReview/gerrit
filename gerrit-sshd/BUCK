@@ -6,6 +6,7 @@ java_library2(
   deps = [
     '//gerrit-extension-api:api',
     '//gerrit-cache-h2:cache-h2',
+    '//gerrit-common:annotations',
     '//gerrit-common:server',
     '//gerrit-patch-jgit:server',
     '//gerrit-reviewdb:server',

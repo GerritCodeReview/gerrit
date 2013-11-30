@@ -11,16 +11,18 @@ gwt_module(
   deps = [
     ':SafeHtml',
     ':UserAgent',
+  ],
+  compile_deps = [
     '//lib/gwt:user',
     '//lib:LICENSE-clippy',
   ],
   visibility = ['PUBLIC'],
 )
 
-gwt_module(
+java_library(
   name = 'CSS',
   srcs = glob([SRC + 'css/rebind/*.java']),
-  gwtxml = SRC + 'css/CSS.gwt.xml',
+  resources = [SRC + 'css/CSS.gwt.xml'],
   deps = ['//lib/gwt:dev'],
   visibility = ['PUBLIC'],
 )
@@ -36,15 +38,15 @@ gwt_module(
   deps = [
     ':SafeHtml',
     ':UserAgent',
-    '//lib/gwt:user',
   ],
+  compile_deps = ['//lib/gwt:user'],
   visibility = ['PUBLIC'],
 )
 
-gwt_module(
+java_library(
   name = 'Linker',
   srcs = glob([SRC + 'linker/rebind/*.java']),
-  gwtxml = SRC + 'linker/ServerPlannedIFrameLinker.gwt.xml',
+  resources = [SRC + 'linker/ServerPlannedIFrameLinker.gwt.xml'],
   deps = ['//lib/gwt:dev'],
   visibility = ['PUBLIC'],
 )
@@ -61,7 +63,7 @@ gwt_module(
   srcs = glob([SRC + 'progress/client/*.java']),
   gwtxml = SRC + 'progress/Progress.gwt.xml',
   resources = [SRC + 'progress/client/progress.css'],
-  deps = ['//lib/gwt:user'],
+  compile_deps = ['//lib/gwt:user'],
   visibility = ['PUBLIC'],
 )
 
@@ -70,7 +72,7 @@ gwt_module(
   srcs = glob([SRC + 'safehtml/client/*.java']),
   gwtxml = SRC + 'safehtml/SafeHtml.gwt.xml',
   resources = [SRC + 'safehtml/client/safehtml.css'],
-  deps = ['//lib/gwt:user'],
+  compile_deps = ['//lib/gwt:user'],
   visibility = ['PUBLIC'],
 )
 
@@ -80,19 +82,19 @@ java_test(
     'src/test/java/com/google/gwtexpui/safehtml/client/**/*.java',
   ]),
   deps = [
-    ':SafeHtml',
+    ':SafeHtml_lib',
     '//lib:junit',
     '//lib/gwt:user',
     '//lib/gwt:dev',
   ],
-  source_under_test = [':SafeHtml'],
+  source_under_test = [':SafeHtml_lib'],
 )
 
 gwt_module(
   name = 'UserAgent',
   srcs = glob([SRC + 'user/client/*.java']),
   gwtxml = SRC + 'user/User.gwt.xml',
-  deps = ['//lib/gwt:user'],
+  compile_deps = ['//lib/gwt:user'],
   visibility = ['PUBLIC'],
 )
 

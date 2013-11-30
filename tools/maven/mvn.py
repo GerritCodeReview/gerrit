@@ -16,7 +16,8 @@
 from __future__ import print_function
 from optparse import OptionParser
 from os import path
-from sys import stderr
+import sys
+sys.path.append('tools')
 from util import check_output
 
 opts = OptionParser()

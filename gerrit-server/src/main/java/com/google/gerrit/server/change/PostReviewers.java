@@ -48,6 +48,7 @@ import com.google.gerrit.server.change.ReviewerJson.PostResult;
 import com.google.gerrit.server.change.ReviewerJson.ReviewerInfo;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.GroupsCollection;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.project.ChangeControl;
@@ -305,8 +306,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
   }
 
   public static boolean isLegalReviewerGroup(AccountGroup.UUID groupUUID) {
-    return !(AccountGroup.ANONYMOUS_USERS.equals(groupUUID)
-             || AccountGroup.REGISTERED_USERS.equals(groupUUID));
+    return !SystemGroupBackend.isSystemGroup(groupUUID);
   }
 
   private PatchSetApproval dummyApproval(ChangeControl ctl,

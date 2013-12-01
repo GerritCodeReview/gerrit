@@ -14,16 +14,14 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.util.ServerRequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
-
-import java.util.Collections;
-import java.util.HashSet;
 
 public class GitUploadPackGroupsProvider extends GroupSetProvider {
   @Inject
@@ -36,10 +34,9 @@ public class GitUploadPackGroupsProvider extends GroupSetProvider {
     // If no group was set, default to "registered users" and "anonymous"
     //
     if (groupIds.isEmpty()) {
-      HashSet<AccountGroup.UUID> all = new HashSet<AccountGroup.UUID>();
-      all.add(AccountGroup.REGISTERED_USERS);
-      all.add(AccountGroup.ANONYMOUS_USERS);
-      groupIds = Collections.unmodifiableSet(all);
+      groupIds = ImmutableSet.of(
+          SystemGroupBackend.REGISTERED_USERS,
+          SystemGroupBackend.ANONYMOUS_USERS);
     }
   }
 }

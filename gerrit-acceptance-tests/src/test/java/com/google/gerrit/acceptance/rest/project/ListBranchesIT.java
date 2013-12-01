@@ -37,6 +37,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -212,7 +213,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
     ProjectConfig config = ProjectConfig.read(md);
     AccessSection s = config.getAccessSection(ref, true);
     Permission p = s.getPermission(Permission.READ, true);
-    AccountGroup adminGroup = groupCache.get(AccountGroup.REGISTERED_USERS);
+    AccountGroup adminGroup = groupCache.get(SystemGroupBackend.REGISTERED_USERS);
     PermissionRule rule = new PermissionRule(config.resolve(adminGroup));
     rule.setBlock();
     p.add(rule);

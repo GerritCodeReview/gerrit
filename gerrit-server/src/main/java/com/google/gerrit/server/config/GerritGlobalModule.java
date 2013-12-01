@@ -87,6 +87,7 @@ import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.git.validators.MergeValidationListener;
 import com.google.gerrit.server.git.validators.MergeValidators;
 import com.google.gerrit.server.git.validators.MergeValidators.ProjectConfigValidator;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.CommitMessageEditedSender;
 import com.google.gerrit.server.mail.CreateChangeSender;
@@ -204,6 +205,7 @@ public class GerritGlobalModule extends FactoryModule {
 
     bind(InternalGroupBackend.class).in(SINGLETON);
     DynamicSet.bind(binder(), GroupBackend.class).to(InternalGroupBackend.class);
+    DynamicSet.bind(binder(), GroupBackend.class).to(SystemGroupBackend.class);
 
     bind(FileTypeRegistry.class).to(MimeUtilFileTypeRegistry.class);
     bind(ToolsCatalog.class);

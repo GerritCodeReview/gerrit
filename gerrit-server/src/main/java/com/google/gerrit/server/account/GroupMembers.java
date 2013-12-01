@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.server.OrmException;
@@ -66,7 +67,7 @@ public class GroupMembers {
   private Set<Account> listAccounts(final AccountGroup.UUID groupUUID,
       final Project.NameKey project, final Set<AccountGroup.UUID> seen)
       throws NoSuchGroupException, OrmException, NoSuchProjectException, IOException {
-    if (AccountGroup.PROJECT_OWNERS.equals(groupUUID)) {
+    if (SystemGroupBackend.PROJECT_OWNERS.equals(groupUUID)) {
       return getProjectOwners(project, seen);
     } else {
       AccountGroup group = groupCache.get(groupUUID);
@@ -81,7 +82,7 @@ public class GroupMembers {
   private Set<Account> getProjectOwners(final Project.NameKey project,
       final Set<AccountGroup.UUID> seen) throws NoSuchProjectException,
       NoSuchGroupException, OrmException, IOException {
-    seen.add(AccountGroup.PROJECT_OWNERS);
+    seen.add(SystemGroupBackend.PROJECT_OWNERS);
     if (project == null) {
       return Collections.emptySet();
     }

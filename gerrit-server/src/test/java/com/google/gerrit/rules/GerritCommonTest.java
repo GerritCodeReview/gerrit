@@ -17,10 +17,10 @@ package com.google.gerrit.rules;
 import static com.google.gerrit.common.data.Permission.LABEL;
 import static com.google.gerrit.server.project.Util.value;
 import static com.google.gerrit.server.project.Util.category;
-import static com.google.gerrit.server.project.Util.REGISTERED;
 import static com.google.gerrit.server.project.Util.grant;
 
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gerrit.common.data.LabelType;
@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.AbstractModule;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -72,8 +73,8 @@ public class GerritCommonTest extends PrologTestCase {
     local.getLabelSections().put(V.getName(), V);
     local.getLabelSections().put(Q.getName(), Q);
     util.add(local);
-    grant(local, LABEL + V.getName(), -1, +1, REGISTERED, "refs/heads/*");
-    grant(local, LABEL + Q.getName(), -1, +1, REGISTERED, "refs/heads/master");
+    grant(local, LABEL + V.getName(), -1, +1, SystemGroupBackend.REGISTERED_USERS, "refs/heads/*");
+    grant(local, LABEL + Q.getName(), -1, +1, SystemGroupBackend.REGISTERED_USERS, "refs/heads/master");
   }
 
   @Override

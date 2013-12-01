@@ -20,7 +20,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.StarredChange;
@@ -35,6 +34,7 @@ import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
@@ -174,8 +174,8 @@ public class IdentifiedUser extends CurrentUser {
 
   private static final GroupMembership registeredGroups =
       new ListGroupMembership(ImmutableSet.of(
-          AccountGroup.ANONYMOUS_USERS,
-          AccountGroup.REGISTERED_USERS));
+          SystemGroupBackend.ANONYMOUS_USERS,
+          SystemGroupBackend.REGISTERED_USERS));
 
   private final Provider<String> canonicalUrl;
   private final AccountCache accountCache;

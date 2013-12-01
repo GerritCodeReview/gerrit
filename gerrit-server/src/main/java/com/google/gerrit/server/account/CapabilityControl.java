@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.git.QueueProvider;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -203,8 +204,8 @@ public class CapabilityControl {
   }
 
   private static boolean isGenericGroup(GroupReference group) {
-    return AccountGroup.ANONYMOUS_USERS.equals(group.getUUID())
-        || AccountGroup.REGISTERED_USERS.equals(group.getUUID());
+    return SystemGroupBackend.ANONYMOUS_USERS.equals(group.getUUID())
+        || SystemGroupBackend.REGISTERED_USERS.equals(group.getUUID());
   }
 
   /** True if the user has this permission. Works only for non labels. */

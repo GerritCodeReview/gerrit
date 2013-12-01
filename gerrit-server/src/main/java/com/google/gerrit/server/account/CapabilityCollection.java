@@ -20,7 +20,7 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.group.SystemGroupBackend;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -86,9 +86,8 @@ public class CapabilityCollection {
     return r != null ? r : Collections.<PermissionRule> emptyList();
   }
 
-  private static final GroupReference anonymous = new GroupReference(
-      AccountGroup.ANONYMOUS_USERS,
-      "Anonymous Users");
+  private static final GroupReference anonymous = SystemGroupBackend
+      .getGroup(SystemGroupBackend.ANONYMOUS_USERS);
 
   private static void configureDefaults(Map<String, List<PermissionRule>> out,
       AccessSection section) {

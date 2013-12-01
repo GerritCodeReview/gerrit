@@ -172,9 +172,7 @@ public class GroupCacheImpl implements GroupCache {
 
   private static AccountGroup missing(AccountGroup.Id key) {
     AccountGroup.NameKey name = new AccountGroup.NameKey("Deleted Group" + key);
-    AccountGroup g = new AccountGroup(name, key, null);
-    g.setType(AccountGroup.Type.SYSTEM);
-    return g;
+    return new AccountGroup(name, key, null);
   }
 
   static class ByIdLoader extends

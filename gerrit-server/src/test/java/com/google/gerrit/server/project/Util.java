@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
@@ -54,9 +57,6 @@ import java.util.Map;
 import java.util.Set;
 
 public class Util {
-  public static AccountGroup.UUID ANONYMOUS = AccountGroup.ANONYMOUS_USERS;
-  public static AccountGroup.UUID CHANGE_OWNER = AccountGroup.CHANGE_OWNER;
-  public static AccountGroup.UUID REGISTERED = AccountGroup.REGISTERED_USERS;
   public static AccountGroup.UUID ADMIN = new AccountGroup.UUID("test.admin");
   public static AccountGroup.UUID DEVS = new AccountGroup.UUID("test.devs");
 
@@ -237,8 +237,8 @@ public class Util {
       super(capabilityControlFactory);
       username = name;
       ArrayList<AccountGroup.UUID> groupIds = Lists.newArrayList(groupId);
-      groupIds.add(REGISTERED);
-      groupIds.add(ANONYMOUS);
+      groupIds.add(REGISTERED_USERS);
+      groupIds.add(ANONYMOUS_USERS);
       groups = new ListGroupMembership(groupIds);
     }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "231a8eb4_66d16ee6",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitLabels.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-01T01:22:35Z",
+      "side": 1,
+      "message": "This seems to break new site creation:\n\n fatal: InitInjector failed\n fatal: Guice creation errors:\n fatal: \n fatal: 1) Error injecting constructor, java.lang.IllegalStateException: gerrit.basePath must be configured\n fatal:   at com.google.gerrit.pgm.init.AllProjectsConfig.\u003cinit\u003e(AllProjectsConfig.java:48)\n fatal:   while locating com.google.gerrit.pgm.init.AllProjectsConfig\n fatal:     for parameter 1 at com.google.gerrit.pgm.init.InitLabels.\u003cinit\u003e(InitLabels.java:36)\n fatal:   at com.google.gerrit.pgm.init.InitLabels.class(InitLabels.java:36)\n fatal:   while locating com.google.gerrit.pgm.init.InitLabels\n fatal:   while locating com.google.gerrit.pgm.init.InitStep annotated with @com.google.inject.internal.UniqueAnnotations$Internal(value\u003d7)\n fatal: Caused by: java.lang.IllegalStateException: gerrit.basePath must be configured\n fatal:  at com.google.gerrit.pgm.init.AllProjectsConfig.\u003cinit\u003e(AllProjectsConfig.java:52)\n fatal:  at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)\n fatal:  at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)\n fatal:  at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)\n fatal:  at java.lang.reflect.Constructor.newInstance(Constructor.java:526)",
+      "revId": "0a7f8e79eb9e8d54739d8d3c40dea93e789b5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

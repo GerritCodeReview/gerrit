@@ -34,6 +34,24 @@
       "revId": "c453f0d2a46c75986ea94a3d97b25afccd5e4e18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3cbde64_2269ee81",
+        "filename": "tools/eclipse/gerrit_daemon.launch",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-01T06:39:04Z",
+      "side": 1,
+      "message": "No, i don\u0027t. To not have the problem, you are trying to solve in this change i cloned Gerrit tree unrecursively. Unitll now it just worked.\n\nCan\u0027t we induce this directory per code, or provide a define path only untill buck-out or eclipse and add plugins dir in code manually?\nThat works also in workspace without plugins:\n\n -Dgerrit.eclipse-classes\u003d${resource_loc:/gerrit/buck-out}/eclipse\"",
+      "parentUuid": "231a8eb4_06b35ad5",
+      "revId": "c453f0d2a46c75986ea94a3d97b25afccd5e4e18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

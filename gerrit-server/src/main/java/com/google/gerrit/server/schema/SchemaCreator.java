@@ -48,11 +48,7 @@ public class SchemaCreator {
   private final int versionNbr;
 
   private AccountGroup admin;
-  private AccountGroup anonymous;
-  private AccountGroup registered;
-  private AccountGroup owners;
   private AccountGroup batch;
-  private AccountGroup changeOwner;
 
   @Inject
   public SchemaCreator(SitePaths site,
@@ -111,52 +107,16 @@ public class SchemaCreator {
   private SystemConfig initSystemConfig(final ReviewDb c) throws OrmException {
     admin = newGroup(c, "Administrators", null);
     admin.setDescription("Gerrit Site Administrators");
-    admin.setType(AccountGroup.Type.INTERNAL);
     c.accountGroups().insert(Collections.singleton(admin));
     c.accountGroupNames().insert(
         Collections.singleton(new AccountGroupName(admin)));
 
-    anonymous =
-        newGroup(c, "Anonymous Users", AccountGroup.ANONYMOUS_USERS);
-    anonymous.setDescription("Any user, signed-in or not");
-    anonymous.setOwnerGroupUUID(admin.getGroupUUID());
-    anonymous.setType(AccountGroup.Type.SYSTEM);
-    c.accountGroups().insert(Collections.singleton(anonymous));
-    c.accountGroupNames().insert(
-        Collections.singleton(new AccountGroupName(anonymous)));
-
-    registered =
-        newGroup(c, "Registered Users", AccountGroup.REGISTERED_USERS);
-    registered.setDescription("Any signed-in user");
-    registered.setOwnerGroupUUID(admin.getGroupUUID());
-    registered.setType(AccountGroup.Type.SYSTEM);
-    c.accountGroups().insert(Collections.singleton(registered));
-    c.accountGroupNames().insert(
-        Collections.singleton(new AccountGroupName(registered)));
-
     batch = newGroup(c, "Non-Interactive Users", null);
     batch.setDescription("Users who perform batch actions on Gerrit");
     batch.setOwnerGroupUUID(admin.getGroupUUID());
-    batch.setType(AccountGroup.Type.INTERNAL);
     c.accountGroups().insert(Collections.singleton(batch));
     c.accountGroupNames().insert(
         Collections.singleton(new AccountGroupName(batch)));
-
-    owners = newGroup(c, "Project Owners", AccountGroup.PROJECT_OWNERS);
-    owners.setDescription("Any owner of the project");
-    owners.setOwnerGroupUUID(admin.getGroupUUID());
-    owners.setType(AccountGroup.Type.SYSTEM);
-    c.accountGroups().insert(Collections.singleton(owners));
-    c.accountGroupNames().insert(
-        Collections.singleton(new AccountGroupName(owners)));
-
-    changeOwner = newGroup(c, "Change Owner", AccountGroup.CHANGE_OWNER);
-    changeOwner.setDescription("The owner of a change");
-    changeOwner.setOwnerGroupUUID(admin.getGroupUUID());
-    changeOwner.setType(AccountGroup.Type.SYSTEM);
-    c.accountGroups().insert(Collections.singleton(changeOwner));
-    c.accountGroupNames().insert(
-        Collections.singleton(new AccountGroupName(changeOwner)));
 
     final SystemConfig s = SystemConfig.create();
     try {

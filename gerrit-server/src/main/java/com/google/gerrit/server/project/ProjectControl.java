@@ -37,6 +37,7 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -471,9 +472,9 @@ public class ProjectControl {
   }
 
   boolean match(AccountGroup.UUID uuid, boolean isChangeOwner) {
-    if (AccountGroup.PROJECT_OWNERS.equals(uuid)) {
+    if (SystemGroupBackend.PROJECT_OWNERS.equals(uuid)) {
       return isDeclaredOwner();
-    } else if (AccountGroup.CHANGE_OWNER.equals(uuid)) {
+    } else if (SystemGroupBackend.CHANGE_OWNER.equals(uuid)) {
       return isChangeOwner;
     } else {
       return user.getEffectiveGroups().contains(uuid);

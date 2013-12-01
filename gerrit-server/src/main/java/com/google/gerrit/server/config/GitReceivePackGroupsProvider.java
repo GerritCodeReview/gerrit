@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.util.ServerRequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Inject;
@@ -35,7 +35,7 @@ public class GitReceivePackGroupsProvider extends GroupSetProvider {
     // If no group was set, default to "registered users"
     //
     if (groupIds.isEmpty()) {
-      groupIds = Collections.singleton(AccountGroup.REGISTERED_USERS);
+      groupIds = Collections.singleton(SystemGroupBackend.REGISTERED_USERS);
     }
   }
 }

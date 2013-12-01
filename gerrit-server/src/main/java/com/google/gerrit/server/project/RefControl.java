@@ -22,12 +22,12 @@ import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.common.errors.InvalidNameException;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.group.SystemGroupBackend;
 
 import dk.brics.automaton.RegExp;
 
@@ -125,8 +125,7 @@ public class RefControl {
     for (PermissionRule rule : access) {
       if (rule.isBlock()) {
         blocks.add(relevant.getRuleProps(rule));
-      } else if (rule.getGroup().getUUID().equals(AccountGroup.ANONYMOUS_USERS)
-          || rule.getGroup().getUUID().equals(AccountGroup.REGISTERED_USERS)) {
+      } else if (SystemGroupBackend.isAnonymousOrRegistered(rule.getGroup())) {
         allows.add(relevant.getRuleProps(rule));
       }
     }

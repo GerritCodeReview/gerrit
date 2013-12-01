@@ -118,7 +118,7 @@ public class AccountCacheImpl implements AccountCache {
   private static AccountState missing(Account.Id accountId) {
     Account account = new Account(accountId, TimeUtil.nowTs());
     Collection<AccountExternalId> ids = Collections.emptySet();
-    Set<AccountGroup.UUID> anon = ImmutableSet.of(AccountGroup.ANONYMOUS_USERS);
+    Set<AccountGroup.UUID> anon = ImmutableSet.of();
     return new AccountState(account, anon, ids);
   }
 
@@ -167,13 +167,10 @@ public class AccountCacheImpl implements AccountCache {
       for (AccountGroupMember g : db.accountGroupMembers().byAccount(who)) {
         final AccountGroup.Id groupId = g.getAccountGroupId();
         final AccountGroup group = groupCache.get(groupId);
-        if (group != null && group.getType() == AccountGroup.Type.INTERNAL) {
+        if (group != null) {
           internalGroups.add(group.getGroupUUID());
         }
       }
-
-      internalGroups.add(AccountGroup.REGISTERED_USERS);
-      internalGroups.add(AccountGroup.ANONYMOUS_USERS);
       internalGroups = Collections.unmodifiableSet(internalGroups);
 
       return new AccountState(account, internalGroups, externalIds);

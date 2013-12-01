@@ -19,7 +19,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -37,6 +36,7 @@ import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -187,7 +187,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
 
   private void addProjectOwnersAsReviewers(Change change) {
     final String projectOwners =
-        groupBackend.get(AccountGroup.PROJECT_OWNERS).getName();
+        groupBackend.get(SystemGroupBackend.PROJECT_OWNERS).getName();
     try {
       ChangeResource rsrc =
           new ChangeResource(changeFactory.controlFor(change, user));

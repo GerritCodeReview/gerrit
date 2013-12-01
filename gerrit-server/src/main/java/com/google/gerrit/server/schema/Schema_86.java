@@ -14,105 +14,12 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.gerrit.common.data.AccessSection;
-import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.common.data.PermissionRule.Action;
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupName;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.account.GroupUUID;
-import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.MetaDataUpdate;
-import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Repository;
-
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-
 public class Schema_86 extends SchemaVersion {
-  private final AllProjectsName allProjects;
-  private final GitRepositoryManager mgr;
-  private final PersonIdent serverUser;
-
   @Inject
-  Schema_86(Provider<Schema_85> prior,
-      AllProjectsName allProjects,
-      GitRepositoryManager mgr,
-      @GerritPersonIdent PersonIdent serverUser) {
+  Schema_86(Provider<Schema_85> prior) {
     super(prior);
-    this.allProjects = allProjects;
-    this.mgr = mgr;
-    this.serverUser = serverUser;
-  }
-
-  @Override
-  protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException {
-    Repository git;
-    try {
-      git = mgr.openRepository(allProjects);
-    } catch (IOException e) {
-      throw new OrmException(e);
-    }
-
-    try {
-      MetaDataUpdate md =
-          new MetaDataUpdate(GitReferenceUpdated.DISABLED, allProjects, git);
-      ProjectConfig config = ProjectConfig.read(md);
-
-      // Create the CHANGE OWNER group.
-      AccountGroup.UUID adminGroupUUID = findAdminGroup(db, config);
-      createGroup(db, "Change Owner", adminGroupUUID,
-            "The owner of a change");
-    } catch (IOException e) {
-      throw new OrmException(e);
-    } catch (ConfigInvalidException e) {
-      throw new OrmException(e);
-    } finally {
-      git.close();
-    }
-  }
-
-  private AccountGroup createGroup(ReviewDb db, String groupName,
-      AccountGroup.UUID adminGroupUUID, String description) throws OrmException {
-    AccountGroup.Id groupId = new AccountGroup.Id(db.nextAccountGroupId());
-    AccountGroup.NameKey nameKey = new AccountGroup.NameKey(groupName);
-    AccountGroup.UUID uuid = GroupUUID.make(groupName, serverUser);
-    AccountGroup group = new AccountGroup(nameKey, groupId, uuid);
-    group.setOwnerGroupUUID(adminGroupUUID);
-    group.setDescription(description);
-    group.setType(AccountGroup.Type.SYSTEM);
-
-    AccountGroupName gn = new AccountGroupName(group);
-    // first insert the group name to validate that the group name hasn't
-    // already been used to create another group
-    db.accountGroupNames().insert(Collections.singleton(gn));
-    db.accountGroups().insert(Collections.singleton(group));
-    return group;
-  }
-
-  private static AccountGroup.UUID findAdminGroup(
-      ReviewDb db, ProjectConfig cfg) {
-    List<PermissionRule> rules = cfg
-        .getAccessSection(AccessSection.GLOBAL_CAPABILITIES)
-        .getPermission(GlobalCapability.ADMINISTRATE_SERVER)
-        .getRules();
-
-    for (PermissionRule rule : rules) {
-      if (rule.getAction() == Action.ALLOW) {
-        return rule.getGroup().getUUID();
-      }
-    }
-    throw new IllegalStateException("no administrator group found");
   }
 }

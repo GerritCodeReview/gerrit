@@ -193,11 +193,8 @@ public class Schema_69 extends SchemaVersion {
 
     for (AccountGroup.UUID uuid : resolveToUpdate) {
       AccountGroup group = resolveGroups.get(uuid);
-      group.setType(AccountGroup.Type.INTERNAL);
-      toUpdate.add(group);
-
       ui.message(String.format(
-          "*** Group has no DN and is inuse. Updated to be INTERNAL: %s",
+          "*** Group has no DN and is inuse: %s",
           group.getName()));
     }
 

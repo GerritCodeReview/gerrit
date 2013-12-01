@@ -2,6 +2,63 @@
   "comments": [
     {
       "key": {
+        "uuid": "a3cbde64_22ae4e6b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2013-12-01T21:38:49Z",
+      "side": 1,
+      "message": "update",
+      "revId": "2e4098c2128c561cc0b7e2e74f28d177a6b17317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d09a10_611f76eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2013-12-01T21:38:49Z",
+      "side": 1,
+      "message": "update",
+      "range": {
+        "startLine": 16,
+        "startChar": 3,
+        "endLine": 16,
+        "endChar": 14
+      },
+      "revId": "2e4098c2128c561cc0b7e2e74f28d177a6b17317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d09a10_21256e3f",
+        "filename": "Documentation/intro-change-screen.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2013-12-01T21:38:49Z",
+      "side": 1,
+      "message": "Update",
+      "revId": "2e4098c2128c561cc0b7e2e74f28d177a6b17317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83d09a10_01f78a73",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
         "patchSetId": 5

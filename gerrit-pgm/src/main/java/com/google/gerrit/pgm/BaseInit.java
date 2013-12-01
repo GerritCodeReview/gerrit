@@ -89,6 +89,8 @@ public class BaseInit extends SiteProgram {
 
       run = createSiteRun(init);
       run.upgradeSchema();
+
+      init.initializer.postRun();
     } catch (Exception failure) {
       if (init.flags.deleteOnFailure) {
         recursiveDelete(getSitePath());

@@ -38,23 +38,19 @@ import java.io.IOException;
 
 public class AllProjectsConfig extends VersionedMetaData {
   private final String project;
-  private final File path;
+  private final SitePaths site;
+  private final InitFlags flags;
 
   private Config cfg;
   private ObjectId revision;
 
   @Inject
   AllProjectsConfig(AllProjectsNameOnInitProvider allProjects, SitePaths site,
-      Section.Factory sections) {
-    project = allProjects.get();
-    File basePath = site.resolve(sections.get("gerrit", null).get("basePath"));
-    if (basePath == null) {
-      throw new IllegalStateException("gerrit.basePath must be configured");
-    }
-    path = FileKey.resolve(new File(basePath, project), FS.DETECTED);
-    if (path == null) {
-      throw new IllegalStateException(project + " project not found");
-    }
+      InitFlags flags) {
+    this.project = allProjects.get();
+    this.site = site;
+    this.flags = flags;
+
   }
 
   @Override
@@ -62,7 +58,20 @@ public class AllProjectsConfig extends VersionedMetaData {
     return GitRepositoryManager.REF_CONFIG;
   }
 
+  private File getPath() {
+    File basePath = site.resolve(flags.cfg.getString("gerrit", null, "basePath"));
+    if (basePath == null) {
+      throw new IllegalStateException("gerrit.basePath must be configured");
+    }
+    return FileKey.resolve(new File(basePath, project), FS.DETECTED);
+  }
+
   public Config load() throws IOException, ConfigInvalidException {
+    File path = getPath();
+    if (path == null) {
+      return null;
+    }
+
     Repository repo = new FileRepository(path);
     try {
       load(repo);
@@ -85,6 +94,11 @@ public class AllProjectsConfig extends VersionedMetaData {
   }
 
   public void save(String pluginName, String message) throws IOException {
+    File path = getPath();
+    if (path == null) {
+      throw new IOException("All-Projects does not exist.");
+    }
+
     Repository repo = new FileRepository(path);
     try {
       inserter = repo.newObjectInserter();

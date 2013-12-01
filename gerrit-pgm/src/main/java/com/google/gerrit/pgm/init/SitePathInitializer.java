@@ -109,6 +109,19 @@ public class SitePathInitializer {
     }
   }
 
+  public void postRun() throws Exception {
+    for (InitStep step : steps) {
+      if (!(step instanceof PostInitStep)) {
+        continue;
+      }
+      if (step instanceof InitPlugins
+          && flags.skipPlugins) {
+        continue;
+      }
+      ((PostInitStep)step).postRun();
+    }
+  }
+
   private void extractMailExample(String orig) throws Exception {
     File ex = new File(site.mail_dir, orig + ".example");
     extract(ex, OutgoingEmail.class, orig);

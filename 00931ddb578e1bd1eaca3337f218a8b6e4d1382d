@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83d09a10_61b856ae",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-01T09:39:13Z",
+      "side": 1,
+      "message": "Why is this needed?\n\nSetting this makes the condition in the next line always false and the code in this block is never executed.",
+      "range": {
+        "startLine": 82,
+        "startChar": 4,
+        "endLine": 82,
+        "endChar": 23
+      },
+      "revId": "00931ddb578e1bd1eaca3337f218a8b6e4d1382d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d09a10_81bd5a9f",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitLabels.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-01T09:39:13Z",
+      "side": 1,
+      "message": "I think it\u0027s possible to change AllProjectsConfig so that it still can be injected, see [1].\n\n[1] https://gerrit-review.googlesource.com/#/c/52446/1/gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/AllProjectsConfig.java",
+      "range": {
+        "startLine": 37,
+        "startChar": 27,
+        "endLine": 37,
+        "endChar": 44
+      },
+      "revId": "00931ddb578e1bd1eaca3337f218a8b6e4d1382d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3cbde64_8268fa7b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitLabels.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-01T09:39:13Z",
+      "side": 1,
+      "message": "This will work, but it\u0027s a solution that is specific to installing the Verified label. We can\u0027t add a system property for every action that needs to be executed after the site is created. I think it would be better to have a more generic solution, see [1].\n\n[1] https://gerrit-review.googlesource.com/52446",
+      "range": {
+        "startLine": 64,
+        "startChar": 8,
+        "endLine": 64,
+        "endChar": 75
+      },
+      "revId": "00931ddb578e1bd1eaca3337f218a8b6e4d1382d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

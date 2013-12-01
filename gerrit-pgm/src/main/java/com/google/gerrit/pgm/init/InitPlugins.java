@@ -34,7 +34,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 @Singleton
-public class InitPlugins implements InitStep {
+public class InitPlugins implements InitStep, PostInitStep {
   private static final String PLUGIN_DIR = "WEB-INF/plugins/";
   private static final String JAR = ".jar";
 
@@ -115,6 +115,11 @@ public class InitPlugins implements InitStep {
     initPlugins();
   }
 
+  @Override
+  public void postRun() throws Exception {
+    postInitPlugins();
+  }
+
   private void installPlugins() throws IOException {
     List<PluginData> plugins = listPlugins(site);
     for (PluginData plugin : plugins) {
@@ -161,6 +166,14 @@ public class InitPlugins implements InitStep {
   private void initPlugins() throws Exception {
     for (InitStep initStep : pluginLoader.getInitSteps()) {
       initStep.run();
+    }
+  }
+
+  private void postInitPlugins() throws Exception {
+    for (InitStep initStep : pluginLoader.getInitSteps()) {
+      if (initStep instanceof PostInitStep) {
+        ((PostInitStep)initStep).postRun();
+      }
     }
   }
 

@@ -175,4 +175,8 @@ class InitIndex implements InitStep {
       };
     }
   }
+
+  @Override
+  public void postRun() throws Exception {
+  }
 }

@@ -17,4 +17,7 @@ package com.google.gerrit.pgm.init;
 /** A single step in the site initialization process. */
 public interface InitStep {
   public void run() throws Exception;
+
+  /** Executed after the site has been initialized */
+  public void postRun() throws Exception;
 }

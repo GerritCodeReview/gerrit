@@ -115,6 +115,11 @@ public class InitPlugins implements InitStep {
     initPlugins();
   }
 
+  @Override
+  public void postRun() throws Exception {
+    postInitPlugins();
+  }
+
   private void installPlugins() throws IOException {
     List<PluginData> plugins = listPlugins(site);
     for (PluginData plugin : plugins) {
@@ -161,6 +166,12 @@ public class InitPlugins implements InitStep {
   private void initPlugins() throws Exception {
     for (InitStep initStep : pluginLoader.getInitSteps()) {
       initStep.run();
+    }
+  }
+
+  private void postInitPlugins() throws Exception {
+    for (InitStep initStep : pluginLoader.getInitSteps()) {
+      initStep.postRun();
     }
   }
 

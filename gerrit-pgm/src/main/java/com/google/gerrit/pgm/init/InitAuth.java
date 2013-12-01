@@ -107,4 +107,8 @@ class InitAuth implements InitStep {
       auth.setSecure("restTokenPrivateKey", SignedToken.generateRandomKey());
     }
   }
+
+  @Override
+  public void postRun() throws Exception {
+  }
 }

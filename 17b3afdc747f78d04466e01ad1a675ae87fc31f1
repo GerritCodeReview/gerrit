@@ -16,6 +16,24 @@
       "revId": "17b3afdc747f78d04466e01ad1a675ae87fc31f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3cbde64_a2c17e1c",
+        "filename": "Documentation/intro-change-screen.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-02T06:43:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "231a8eb4_c694a274",
+      "revId": "17b3afdc747f78d04466e01ad1a675ae87fc31f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "430ce277_ef70a1b4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/UserAgent.gwt.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1014572
+      },
+      "writtenOn": "2013-12-02T23:15:52Z",
+      "side": 1,
+      "message": "you also want to remove the IE6 binding, since we disabled IE6 by default with GWT 2.6 and trunk already started to delete IE6 related code. So GWT does not support IE6/7 anymore",
+      "revId": "9689df9b0dc737dc667f6337a7b08693c9d8a0aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

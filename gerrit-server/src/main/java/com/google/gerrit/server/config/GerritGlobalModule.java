@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
+import com.google.gerrit.extensions.events.PluginLifecycleListener;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -251,6 +252,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), MergeValidationListener.class);
     DynamicItem.itemOf(binder(), AvatarProvider.class);
     DynamicSet.setOf(binder(), LifecycleListener.class);
+    DynamicSet.setOf(binder(), PluginLifecycleListener.class);
     DynamicSet.setOf(binder(), TopMenu.class);
     DynamicMap.mapOf(binder(), DownloadScheme.class);
     DynamicMap.mapOf(binder(), DownloadCommand.class);

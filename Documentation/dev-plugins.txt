@@ -403,6 +403,14 @@ Project deletion
 +
 Update of HEAD on a project
 
+* `com.google.gerrit.extensions.events.PluginLifecycleListener`:
++
+Loading and unloading of a plugin.
++
+For convenience `com.google.gerrit.extensions.events.MyPluginLifecycleListener`
+can be extended to only get informed about loading and unloading of the
+own plugin.
+
 [[stream-events]]
 Sending Events to the Events Stream
 -----------------------------------

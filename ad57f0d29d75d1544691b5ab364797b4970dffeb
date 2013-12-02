@@ -16,6 +16,24 @@
       "revId": "ad57f0d29d75d1544691b5ab364797b4970dffeb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d09a10_8132ba74",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 7
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-02T09:17:05Z",
+      "side": 1,
+      "message": "I thought about it, we can do that, I decided to put it here, and even added a comment for reviewers on previous ps that this trailing white space is needed.\n\nFeel free to change it.",
+      "parentUuid": "03174a8c_a55cfedc",
+      "revId": "ad57f0d29d75d1544691b5ab364797b4970dffeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

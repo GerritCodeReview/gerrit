@@ -87,6 +87,24 @@
     },
     {
       "key": {
+        "uuid": "83d09a10_21980e1b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/PostInitStep.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-02T11:32:47Z",
+      "side": 1,
+      "message": "Yes, I agree that it would be cleaner to just add another method in InitStep. But since we are not using Java 8 yet, this would mean to break all existing implementations. I can easy adapt all InitSteps in core, but I\u0027m concerned about the plugins. I wonder if it\u0027s really worth breaking this?",
+      "parentUuid": "a3cbde64_02e22ab8",
+      "revId": "ff1b4c33856ab2a69c9c1e44132bcb920ff3ce52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83d09a10_c143e2c8",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/PostInitStep.java",
         "patchSetId": 2
@@ -98,6 +116,24 @@
       "writtenOn": "2013-12-02T10:13:10Z",
       "side": 1,
       "message": "Wrong name: we create Site, Database, Index, Plugins, for all of them you may want to differentiate pre and post methods:\n\n* postSiteInitRun()\n* postDatabaseInitRun()\n* postSecondarayIndexInitRun()\n* postPluginInitRun()\n* ...",
+      "revId": "ff1b4c33856ab2a69c9c1e44132bcb920ff3ce52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3cbde64_a2efbe99",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/PostInitStep.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-02T11:32:47Z",
+      "side": 1,
+      "message": "\u003e postSiteInitRun()\n \u003e postDatabaseInitRun()\n \u003e postSecondarayIndexInitRun()\n \u003e postPluginInitRun()\n\nThis is just overkill and I don\u0027t think that we need this. I\u0027m even not sure we can easily differentiate between these steps. First all init steps are executed then the site is created. Some things need to be done after the site was created, but what\u0027s the use of having hooks for steps within the site initialization?",
+      "parentUuid": "83d09a10_c143e2c8",
       "revId": "ff1b4c33856ab2a69c9c1e44132bcb920ff3ce52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

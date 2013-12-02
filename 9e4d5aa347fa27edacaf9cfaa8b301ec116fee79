@@ -22,6 +22,30 @@
       "revId": "9e4d5aa347fa27edacaf9cfaa8b301ec116fee79",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03174a8c_c5c81a3d",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-02T15:24:18Z",
+      "side": 1,
+      "message": "Yes, it turns out Eclipse formats the file using tab by default. I tried to figure out the output attribute by adding a path in Eclipse and diff\u0027ing the .classpath file with the one made by this program. That didn\u0027t go well because Eclipse switched to tab. :-)",
+      "parentUuid": "03174a8c_4568aa7a",
+      "range": {
+        "startLine": 159,
+        "startChar": 32,
+        "endLine": 159,
+        "endChar": 34
+      },
+      "revId": "9e4d5aa347fa27edacaf9cfaa8b301ec116fee79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "03174a8c_05019295",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_69.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-02T18:25:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "231a8eb4_26fc965b",
+      "range": {
+        "startLine": 197,
+        "startChar": 38,
+        "endLine": 197,
+        "endChar": 43
+      },
+      "revId": "f856102230e13f909213b970d1b9bc742813b3ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83d09a10_610696af",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_87.java",
         "patchSetId": 2
@@ -53,6 +77,24 @@
       "writtenOn": "2013-12-01T17:27:28Z",
       "side": 1,
       "message": "This should be the last time we need removed column \"group_type\". It should be deleted after invocation of this method around line 49 in this class.",
+      "revId": "f856102230e13f909213b970d1b9bc742813b3ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03174a8c_650686af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_87.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-02T18:25:16Z",
+      "side": 1,
+      "message": "gwtorm automatically deletes columns that are unused.",
+      "parentUuid": "83d09a10_01e22ab8",
       "revId": "f856102230e13f909213b970d1b9bc742813b3ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

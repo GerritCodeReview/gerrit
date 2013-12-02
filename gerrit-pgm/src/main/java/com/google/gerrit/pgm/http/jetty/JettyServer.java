@@ -17,7 +17,10 @@ package com.google.gerrit.pgm.http.jetty;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.common.base.Charsets;
 import com.google.common.base.Objects;
+import com.google.common.escape.Escaper;
+import com.google.common.html.HtmlEscapers;
 import com.google.common.io.ByteStreams;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.launcher.GerritLauncher;
@@ -26,6 +29,8 @@ import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.TimeUtil;
+import com.google.gwtexpui.linker.server.UserAgentRule;
+import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
@@ -57,6 +62,7 @@ import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.util.thread.ThreadPool;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.util.RawParseUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,10 +73,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
+import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.Enumeration;
@@ -89,6 +95,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Singleton
 public class JettyServer {
@@ -444,7 +451,7 @@ public class JettyServer {
       try {
         baseResource = unpackWar(GerritLauncher.getDistributionArchive());
       } catch (FileNotFoundException err) {
-        if (err.getMessage() == GerritLauncher.NOT_ARCHIVED) {
+        if (GerritLauncher.NOT_ARCHIVED.equals(err.getMessage())) {
           baseResource = useDeveloperBuild(app);
         } else {
           throw err;
@@ -529,93 +536,78 @@ public class JettyServer {
 
   private Resource useDeveloperBuild(ServletContextHandler app)
       throws IOException {
-    // Find ourselves in the CLASSPATH. We should be a loose class file.
-    //
-    URL u = getClass().getResource(getClass().getSimpleName() + ".class");
-    if (u == null) {
-      throw new FileNotFoundException("Cannot find web application root");
-    }
-    if (!"file".equals(u.getProtocol())) {
-      throw new FileNotFoundException("Cannot find web root from " + u);
-    }
+    final File dir = GerritLauncher.getDeveloperBuckOut();
+    final File gen = new File(dir, "gen");
+    final File root = dir.getParentFile();
+    final File dstwar = makeWarTempDir();
+    File ui = new File(dstwar, "gerrit_ui");
+    File p = new File(ui, "permutations");
+    mkdir(ui);
+    p.createNewFile();
+    p.deleteOnExit();
 
-    // Pop up to the top level classes folder that contains us.
-    //
-    File dir = new File(u.getPath());
-    String myName = getClass().getName();
-    for (;;) {
-      int dot = myName.lastIndexOf('.');
-      if (dot < 0) {
-        dir = dir.getParentFile();
-        break;
-      }
-      myName = myName.substring(0, dot);
-      dir = dir.getParentFile();
-    }
+    app.addFilter(new FilterHolder(new Filter() {
+      private final UserAgentRule rule = new UserAgentRule();
+      private String lastTarget;
+      private long lastTime;
 
-    if (!dir.getName().equals("classes")) {
-      throw new FileNotFoundException("Cannot find web root from " + u);
-    }
-    dir = dir.getParentFile(); // pop classes
+      @Override
+      public void doFilter(ServletRequest request, ServletResponse res,
+          FilterChain chain) throws IOException, ServletException {
+        String pkg = "gerrit-gwtui";
+        String target = "ui_" + rule.select((HttpServletRequest) request);
+        String rule = "//" + pkg + ":" + target;
+        File zip = new File(new File(gen, pkg), target + ".zip");
 
-    if ("buck-out".equals(dir.getName())) {
-      final File dstwar = makeWarTempDir();
-      String pkg = "gerrit-gwtui";
-      String target = targetForBrowser(System.getProperty("gerrit.browser"));
-      final File gen = new File(dir, "gen");
-      String out = new File(new File(gen, pkg), target).getAbsolutePath();
-      final File zip = new File(out + ".zip");
-      final File root = dir.getParentFile();
-      final String name = "//" + pkg + ":" + target;
+        synchronized (this) {
+          try {
+            build(root, gen, rule);
+          } catch (BuildFailureException e) {
+            displayFailure(rule, e.why, (HttpServletResponse) res);
+            return;
+          }
 
-      File ui = new File(dstwar, "gerrit_ui");
-      File p = new File(ui, "permutations");
-      mkdir(ui);
-      p.createNewFile();
-      p.deleteOnExit();
-
-      app.addFilter(new FilterHolder(new Filter() {
-        private long last;
-
-        @Override
-        public void doFilter(ServletRequest request, ServletResponse res,
-            FilterChain chain) throws IOException, ServletException {
-          HttpServletRequest req = (HttpServletRequest) request;
-          build(root, gen, name);
-          if (last != zip.lastModified()) {
-            last = zip.lastModified();
+          if (!target.equals(lastTarget) || lastTime != zip.lastModified()) {
+            lastTarget = target;
+            lastTime = zip.lastModified();
             unpack(zip, dstwar);
           }
-          chain.doFilter(req, res);
         }
 
-        @Override
-        public void init(FilterConfig config) {
-        }
-        @Override
-        public void destroy() {
-        }
-      }), "/", EnumSet.of(DispatcherType.REQUEST));
-      return Resource.newResource(dstwar.toURI());
-    } else if ("target".equals(dir.getName())) {
-      return useMavenDeveloperBuild(dir);
-    } else {
-      throw new FileNotFoundException("Cannot find web root from " + u);
-    }
-  }
+        chain.doFilter(request, res);
+      }
 
-  private static String targetForBrowser(String browser) {
-    if (browser == null || browser.isEmpty()) {
-      return "ui_dbg";
-    } else if (browser.startsWith("ui_")) {
-      return browser;
-    } else {
-      return "ui_" + browser;
-    }
+      private void displayFailure(String rule, byte[] why, HttpServletResponse res)
+          throws IOException {
+        res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        res.setContentType("text/html");
+        res.setCharacterEncoding(Charsets.UTF_8.name());
+        CacheHeaders.setNotCacheable(res);
+
+        Escaper html = HtmlEscapers.htmlEscaper();
+        PrintWriter w = res.getWriter();
+        w.write("<html><title>BUILD FAILED</title><body>");
+        w.format("<h1>%s FAILED</h1>", html.escape(rule));
+        w.write("<pre>");
+        w.write(html.escape(RawParseUtils.decode(why)));
+        w.write("</pre>");
+        w.write("</body></html>");
+        w.close();
+      }
+
+      @Override
+      public void init(FilterConfig config) {
+      }
+
+      @Override
+      public void destroy() {
+      }
+    }), "/", EnumSet.of(DispatcherType.REQUEST));
+    return Resource.newResource(dstwar.toURI());
   }
 
   private static void build(File root, File gen, String target)
-      throws IOException {
+      throws IOException, BuildFailureException {
     log.info("buck build " + target);
     Properties properties = loadBuckProperties(gen);
     String buck = Objects.firstNonNull(properties.getProperty("buck"), "buck");
@@ -643,9 +635,7 @@ public class JettyServer {
       throw new InterruptedIOException("interrupted waiting for " + buck);
     }
     if (status != 0) {
-      System.err.write(out);
-      System.err.println();
-      System.exit(status);
+      throw new BuildFailureException(out);
     }
 
     long time = TimeUtil.nowMs() - start;
@@ -665,24 +655,12 @@ public class JettyServer {
     return properties;
   }
 
-  private Resource useMavenDeveloperBuild(File dir) throws IOException {
-    dir = dir.getParentFile(); // pop target
-    dir = dir.getParentFile(); // pop the module we are in
+  @SuppressWarnings("serial")
+  private static class BuildFailureException extends Exception {
+    final byte[] why;
 
-    // Drop down into gerrit-gwtui to find the WAR assets we need.
-    //
-    dir = new File(new File(dir, "gerrit-gwtui"), "target");
-    final File[] entries = dir.listFiles();
-    if (entries == null) {
-      throw new FileNotFoundException("No " + dir);
+    BuildFailureException(byte[] why) {
+      this.why = why;
     }
-    for (File e : entries) {
-      if (e.isDirectory() /* must be a directory */
-          && e.getName().startsWith("gerrit-gwtui-")
-          && new File(e, "gerrit_ui/gerrit_ui.nocache.js").isFile()) {
-        return Resource.newResource(e.toURI());
-      }
-    }
-    throw new FileNotFoundException("No " + dir + "/gerrit-gwtui-*");
   }
 }

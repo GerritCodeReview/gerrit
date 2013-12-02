@@ -29,6 +29,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.JarURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.security.CodeSource;
@@ -192,10 +193,7 @@ public final class GerritLauncher {
       path = getDistributionArchive();
     } catch (FileNotFoundException e) {
       if (NOT_ARCHIVED.equals(e.getMessage())) {
-        // Assume the CLASSPATH was made complete by the calling process,
-        // as we are likely being run from within a developer's IDE.
-        //
-        return GerritLauncher.class.getClassLoader();
+        return useDevClasspath();
       }
       throw e;
     }
@@ -554,6 +552,73 @@ public final class GerritLauncher {
     } catch (IOException e) {
       return gerrithome;
     }
+  }
+
+  /**
+   * Locate the path of the {@code buck-out} directory in a source tree.
+   *
+   * @throws FileNotFoundException if the directory cannot be found.
+   */
+  public static File getDeveloperBuckOut() throws FileNotFoundException {
+    // Find ourselves in the CLASSPATH, we should be a loose class file.
+    Class<GerritLauncher> self = GerritLauncher.class;
+    URL u = self.getResource(self.getSimpleName() + ".class");
+    if (u == null) {
+      throw new FileNotFoundException("Cannot find class " + self.getName());
+    } else if (!"file".equals(u.getProtocol())) {
+      throw new FileNotFoundException("Cannot find extract path from " + u);
+    }
+
+    // Pop up to the top level classes folder that contains us.
+    File dir = new File(u.getPath());
+    String myName = self.getName();
+    for (;;) {
+      int dot = myName.lastIndexOf('.');
+      if (dot < 0) {
+        dir = dir.getParentFile();
+        break;
+      }
+      myName = myName.substring(0, dot);
+      dir = dir.getParentFile();
+    }
+
+    dir = popdir(u, dir, "classes");
+    dir = popdir(u, dir, "eclipse");
+    if ("buck-out".equals(dir.getName())) {
+      return dir;
+    }
+    throw new FileNotFoundException("Cannot find buck-out from " + u);
+  }
+
+  private static File popdir(URL u, File dir, String name)
+      throws FileNotFoundException {
+    if (dir.getName().equals(name)) {
+      return dir.getParentFile();
+    }
+    throw new FileNotFoundException("Cannot find buck-out from " + u);
+  }
+
+  private static ClassLoader useDevClasspath()
+      throws MalformedURLException, FileNotFoundException {
+    File out = getDeveloperBuckOut();
+    List<URL> dirs = new ArrayList<URL>();
+    dirs.add(new File(new File(out, "eclipse"), "classes").toURI().toURL());
+    ClassLoader cl = GerritLauncher.class.getClassLoader();
+    for (URL u : ((URLClassLoader) cl).getURLs()) {
+      if (includeJar(u)) {
+        dirs.add(u);
+      }
+    }
+    return new URLClassLoader(
+        dirs.toArray(new URL[dirs.size()]),
+        ClassLoader.getSystemClassLoader().getParent());
+  }
+
+  private static boolean includeJar(URL u) {
+    String path = u.getPath();
+    return path.endsWith(".jar")
+        && !path.endsWith("-src.jar")
+        && !path.contains("/buck-out/gen/lib/gwt/");
   }
 
   private GerritLauncher() {

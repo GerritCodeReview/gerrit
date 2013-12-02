@@ -504,9 +504,22 @@ public class PluginLoader implements LifecycleListener {
             Plugin.ApiType.PLUGIN));
       }
 
-      URL[] urls = {tmp.toURI().toURL()};
-      ClassLoader parentLoader = parentFor(type);
-      ClassLoader pluginLoader = new URLClassLoader(urls, parentLoader);
+      List<URL> urls = new ArrayList<>(2);
+      String overlay = System.getProperty("gerrit.plugin-classes");
+      if (overlay != null) {
+        File classes = new File(new File(new File(overlay), name), "main");
+        if (classes.isDirectory()) {
+          log.info(String.format(
+              "plugin %s: including %s",
+              name, classes.getPath()));
+          urls.add(classes.toURI().toURL());
+        }
+      }
+      urls.add(tmp.toURI().toURL());
+
+      ClassLoader pluginLoader = new URLClassLoader(
+          urls.toArray(new URL[urls.size()]),
+          parentFor(type));
       Class<? extends Module> sysModule = load(sysName, pluginLoader);
       Class<? extends Module> sshModule = load(sshName, pluginLoader);
       Class<? extends Module> httpModule = load(httpName, pluginLoader);

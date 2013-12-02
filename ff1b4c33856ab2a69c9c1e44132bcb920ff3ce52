@@ -105,6 +105,24 @@
     },
     {
       "key": {
+        "uuid": "a3cbde64_a2189e00",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/PostInitStep.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-02T12:56:32Z",
+      "side": 1,
+      "message": "If the only alternative to have these ugly casts and loose clean code and extensibility: we would take the same approach once we are on Java 8, then certainly yes.\n\nThe benefit from from breaking InitStep and adding new method to it you would more then obviously indicate to the plugin authors that we\u0027ve added new feature: ability to have site initialization actions. Without the breakage nobody is going to notice it ;-)\n\nBTW: the buildbot plugin was broken in every major Gerrit release until now, and has to be adjusted. Not to mention to be adjusted for all these new and shiny features. With Java 8 we would break less.",
+      "parentUuid": "83d09a10_21980e1b",
+      "revId": "ff1b4c33856ab2a69c9c1e44132bcb920ff3ce52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83d09a10_c143e2c8",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/PostInitStep.java",
         "patchSetId": 2

@@ -38,6 +38,8 @@ import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
 import org.bouncycastle.openpgp.PGPPublicKeyRingCollection;
 import org.bouncycastle.openpgp.PGPUtil;
+import org.bouncycastle.openpgp.operator.bc.BcPGPDataEncryptorBuilder;
+import org.bouncycastle.openpgp.operator.bc.BcPublicKeyKeyEncryptionMethodGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -177,9 +179,14 @@ class EncryptedContactStore implements ContactStore {
       final byte[] rawText) throws NoSuchProviderException, PGPException,
       IOException {
     final byte[] zText = compress(name, date, rawText);
+    final BcPGPDataEncryptorBuilder builder =
+        new BcPGPDataEncryptorBuilder(PGPEncryptedData.CAST5)
+            .setSecureRandom(prng);
     final PGPEncryptedDataGenerator cpk =
-        new PGPEncryptedDataGenerator(PGPEncryptedData.CAST5, true, prng, "BC");
-    cpk.addMethod(dest);
+        new PGPEncryptedDataGenerator(builder);
+    final BcPublicKeyKeyEncryptionMethodGenerator methodGenerator =
+        new BcPublicKeyKeyEncryptionMethodGenerator(dest);
+    cpk.addMethod(methodGenerator);
 
     final ByteArrayOutputStream buf = new ByteArrayOutputStream();
     final ArmoredOutputStream aout = new ArmoredOutputStream(buf);

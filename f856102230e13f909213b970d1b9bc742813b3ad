@@ -221,6 +221,24 @@
       "revId": "f856102230e13f909213b970d1b9bc742813b3ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "231a8eb4_c63dc242",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_87.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-02T19:07:41Z",
+      "side": 1,
+      "message": "The schema upgrade drops the column after the migrateData method executes.",
+      "parentUuid": "a3cbde64_22980e1b",
+      "revId": "f856102230e13f909213b970d1b9bc742813b3ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

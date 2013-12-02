@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03174a8c_656326a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-02T07:44:03Z",
+      "side": 1,
+      "message": "Editing the commit message from the UI seems to change the line ending of the final line in the commit message.\n\n(I fixed this once before; I wonder if that got reverted somehow)",
+      "revId": "ff1b4c33856ab2a69c9c1e44132bcb920ff3ce52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

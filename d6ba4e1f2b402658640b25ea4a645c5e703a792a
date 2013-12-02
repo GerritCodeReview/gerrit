@@ -16,6 +16,24 @@
       "revId": "d6ba4e1f2b402658640b25ea4a645c5e703a792a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "231a8eb4_4659d2c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-02T15:50:49Z",
+      "side": 1,
+      "message": "Done, added a small remark to Documentation/config-themes.txt.",
+      "parentUuid": "83d09a10_a15c1edd",
+      "revId": "d6ba4e1f2b402658640b25ea4a645c5e703a792a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

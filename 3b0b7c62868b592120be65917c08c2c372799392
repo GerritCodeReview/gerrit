@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "231a8eb4_06019a95",
+        "filename": "Documentation/js-api.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-02T06:38:37Z",
+      "side": 1,
+      "message": "Nit: add a comma after \u0027validation\u0027",
+      "range": {
+        "startLine": 159,
+        "startChar": 58,
+        "endLine": 159,
+        "endChar": 59
+      },
+      "revId": "3b0b7c62868b592120be65917c08c2c372799392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

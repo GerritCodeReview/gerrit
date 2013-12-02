@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "03174a8c_85ec62a6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-02T18:38:45Z",
+      "side": 1,
+      "message": "No, I tried that. isSystemGroup() matches Change Owner and Project Owners, which should not be mapped into the queue differently like above.\n\nChange to isAnonymousOrRegistered.",
+      "parentUuid": "231a8eb4_2633f67e",
+      "revId": "f856102230e13f909213b970d1b9bc742813b3ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "231a8eb4_06387a55",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "03174a8c_e5f9d666",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-02T18:38:45Z",
+      "side": 1,
+      "message": "Java 7 requires the case label to be constant. I can\u0027t do this unless I pull the constant out of the Account.UUID wrapper and expose both the public static final String and the public static final AccountGroup.UUID.\n\nExposing the raw string seems worse than exposing the UUID wrapper type so no switch.",
+      "parentUuid": "231a8eb4_06387a55",
+      "revId": "f856102230e13f909213b970d1b9bc742813b3ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "231a8eb4_662dee13",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2013-12-02T18:31:57Z",
       "side": 1,
       "message": "I see this logic all over the code. Why not move the check into SystemGroupBackend.\n\n  SystemGroupBackend.isAnonymousOrRegistered(String uuid)",
+      "revId": "f856102230e13f909213b970d1b9bc742813b3ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03174a8c_c5f65a76",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-02T18:38:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "231a8eb4_662dee13",
       "revId": "f856102230e13f909213b970d1b9bc742813b3ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

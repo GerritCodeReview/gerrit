@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "83d09a10_617bf60a",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPlugins.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-02T14:23:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83d09a10_a146ded9",
+      "revId": "ff1b4c33856ab2a69c9c1e44132bcb920ff3ce52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3cbde64_820b9ab2",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPlugins.java",
         "patchSetId": 2
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "83d09a10_8180fa98",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPlugins.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-02T14:23:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3cbde64_820b9ab2",
+      "revId": "ff1b4c33856ab2a69c9c1e44132bcb920ff3ce52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3cbde64_620696af",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPlugins.java",
         "patchSetId": 2
@@ -64,6 +100,24 @@
       "writtenOn": "2013-12-02T10:13:10Z",
       "side": 1,
       "message": "no cast.",
+      "revId": "ff1b4c33856ab2a69c9c1e44132bcb920ff3ce52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3cbde64_02106ad4",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPlugins.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-02T14:23:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3cbde64_620696af",
       "revId": "ff1b4c33856ab2a69c9c1e44132bcb920ff3ce52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -123,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "a3cbde64_224aceea",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/PostInitStep.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-02T14:23:47Z",
+      "side": 1,
+      "message": "Ok, then I\u0027m adding this method to InitStep.",
+      "parentUuid": "a3cbde64_a2189e00",
+      "revId": "ff1b4c33856ab2a69c9c1e44132bcb920ff3ce52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83d09a10_c143e2c8",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/PostInitStep.java",
         "patchSetId": 2
@@ -175,6 +247,24 @@
     },
     {
       "key": {
+        "uuid": "a3cbde64_424fd2f9",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/SitePathInitializer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-02T14:23:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3cbde64_22fc8e5b",
+      "revId": "ff1b4c33856ab2a69c9c1e44132bcb920ff3ce52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3cbde64_42019294",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/SitePathInitializer.java",
         "patchSetId": 2
@@ -186,6 +276,24 @@
       "writtenOn": "2013-12-02T10:13:10Z",
       "side": 1,
       "message": "no cast",
+      "revId": "ff1b4c33856ab2a69c9c1e44132bcb920ff3ce52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d09a10_a1741e1a",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/SitePathInitializer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-02T14:23:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3cbde64_42019294",
       "revId": "ff1b4c33856ab2a69c9c1e44132bcb920ff3ce52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -22,7 +22,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.account.GroupUUID;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -87,8 +86,8 @@ public class Schema_86 extends SchemaVersion {
       AccountGroup.UUID adminGroupUUID, String description) throws OrmException {
     AccountGroup.Id groupId = new AccountGroup.Id(db.nextAccountGroupId());
     AccountGroup.NameKey nameKey = new AccountGroup.NameKey(groupName);
-    AccountGroup.UUID uuid = GroupUUID.make(groupName, serverUser);
-    AccountGroup group = new AccountGroup(nameKey, groupId, uuid);
+    AccountGroup group =
+        new AccountGroup(nameKey, groupId, AccountGroup.CHANGE_OWNER);
     group.setOwnerGroupUUID(adminGroupUUID);
     group.setDescription(description);
     group.setType(AccountGroup.Type.SYSTEM);

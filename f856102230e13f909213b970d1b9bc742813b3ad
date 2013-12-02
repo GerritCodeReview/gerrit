@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "231a8eb4_2633f67e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-12-02T18:31:57Z",
+      "side": 1,
+      "message": "Can this be swapped with:\n  SystemGroupBackend.isSystemGroup(group.getUUID())",
+      "revId": "f856102230e13f909213b970d1b9bc742813b3ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "231a8eb4_06387a55",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-12-02T18:31:57Z",
+      "side": 1,
+      "message": "you can do a switch on the string in java 7",
+      "revId": "f856102230e13f909213b970d1b9bc742813b3ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "231a8eb4_662dee13",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-12-02T18:31:57Z",
+      "side": 1,
+      "message": "I see this logic all over the code. Why not move the check into SystemGroupBackend.\n\n  SystemGroupBackend.isAnonymousOrRegistered(String uuid)",
+      "revId": "f856102230e13f909213b970d1b9bc742813b3ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "231a8eb4_26fc965b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_69.java",
         "patchSetId": 2

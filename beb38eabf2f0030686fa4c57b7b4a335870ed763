@@ -22,6 +22,30 @@
       "revId": "beb38eabf2f0030686fa4c57b7b4a335870ed763",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "231a8eb4_a646c6d9",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-02T18:40:19Z",
+      "side": 1,
+      "message": "Yeah this is a mess. You need to add another else case here, not just replace the existing one. Schema versions 1-3 are LUCENE_43, 4-5 are LUCENE_44, and 6+ is LUCENE_46.\n\nThere are a couple ways we can deal with this long-term if Lucene continues to churn.\n\nOne is to record the Lucene index version in the index directory and always force a reindex if Lucene has upgraded. We have to be careful to do this in a way that supports online upgrades, which would probably mean separate directories like changes_0005.lucene_44 vs. changes_0005.lucene_46.\n\nAnother is to change the schema interface to support \"minor\" versions that are specific to a particular index implementation. We already do this for the implementation used by googlesource.com (which has a some knobs we\u0027ve had to tweak without revving the upstream schema version). I\u0027m not sure what this would look like in the public interface but in practice it would probably boil down to something similar to the previous suggestion, now that I think about it.",
+      "parentUuid": "231a8eb4_e6fa7e91",
+      "range": {
+        "startLine": 118,
+        "startChar": 4,
+        "endLine": 126,
+        "endChar": 5
+      },
+      "revId": "beb38eabf2f0030686fa4c57b7b4a335870ed763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

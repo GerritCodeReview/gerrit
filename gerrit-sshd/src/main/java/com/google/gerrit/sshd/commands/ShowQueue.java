@@ -16,6 +16,7 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.git.TaskInfoFactory;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.ProjectTask;
 import com.google.gerrit.server.git.WorkQueue.Task;
@@ -72,31 +73,10 @@ final class ShowQueue extends SshCommand {
 
   @Override
   protected void run() {
-    final List<Task<?>> pending = workQueue.getTasks();
-    Collections.sort(pending, new Comparator<Task<?>>() {
-      public int compare(Task<?> a, Task<?> b) {
-        final Task.State aState = a.getState();
-        final Task.State bState = b.getState();
-
-        if (aState != bState) {
-          return aState.ordinal() - bState.ordinal();
-        }
-
-        final long aDelay = a.getDelay(TimeUnit.MILLISECONDS);
-        final long bDelay = b.getDelay(TimeUnit.MILLISECONDS);
-
-        if (aDelay < bDelay) {
-          return -1;
-        } else if (aDelay > bDelay) {
-          return 1;
-        }
-        return format(a).compareTo(format(b));
-      }
-    });
-
     taskNameWidth = wide ? Integer.MAX_VALUE : columns - 8 - 12 - 8 - 4;
+    final List<QueueTaskInfo> pending = getSortedTaskInfoList();
 
-    stdout.print(String.format("%-8s %-12s %-8s %s\n", //
+    stdout.print(String.format("%-8s %-12s %-8s %s\n",
         "Task", "State", "", "Command"));
     stdout.print("----------------------------------------------"
         + "--------------------------------\n");
@@ -105,9 +85,9 @@ final class ShowQueue extends SshCommand {
     final long now = System.currentTimeMillis();
     final boolean viewAll = currentUser.getCapabilities().canViewQueue();
 
-    for (final Task<?> task : pending) {
-      final long delay = task.getDelay(TimeUnit.MILLISECONDS);
-      final Task.State state = task.getState();
+    for (final QueueTaskInfo taskInfo : pending) {
+      final long delay = taskInfo.getDelay();
+      final Task.State state = taskInfo.getTaskState();
 
       final String start;
       switch (state) {
@@ -131,11 +111,9 @@ final class ShowQueue extends SshCommand {
       String remoteName = null;
 
       if (!viewAll) {
-        if (task instanceof ProjectTask<?>) {
-          projectName = ((ProjectTask<?>)task).getProjectNameKey();
-          remoteName = ((ProjectTask<?>)task).getRemoteName();
-          hasCustomizedPrint = ((ProjectTask<?>)task).hasCustomizedPrint();
-        }
+        projectName = taskInfo.getProjectNameKey();
+        remoteName = taskInfo.getRemoteName();
+        hasCustomizedPrint = taskInfo.hasCustomizedPrint();
 
         ProjectState e = null;
         if (projectName != null) {
@@ -151,8 +129,10 @@ final class ShowQueue extends SshCommand {
 
       // Shows information about tasks depending on the user rights
       if (viewAll || (!hasCustomizedPrint && regularUserCanSee)) {
-        stdout.print(String.format("%8s %-12s %-8s %s\n", //
-            id(task.getTaskId()), start, "", format(task)));
+        stdout.print(String.format(
+            "%8s %-12s %-8s %s\n",
+            id(taskInfo.getTaskId()), start, "",
+            taskInfo.getTaskString(taskNameWidth)));
       } else if (regularUserCanSee) {
         if (remoteName == null) {
           remoteName = projectName.get();
@@ -160,8 +140,8 @@ final class ShowQueue extends SshCommand {
           remoteName = remoteName + "/" + projectName;
         }
 
-        stdout.print(String.format("%8s %-12s %-8s %s\n", //
-            id(task.getTaskId()), start, "", remoteName));
+        stdout.print(String.format("%8s %-12s %-8s %s\n",
+            id(taskInfo.getTaskId()), start, "", remoteName));
       }
     }
     stdout.print("----------------------------------------------"
@@ -174,6 +154,36 @@ final class ShowQueue extends SshCommand {
     stdout.print("  " + numberOfPendingTasks + " tasks\n");
   }
 
+  private List<QueueTaskInfo> getSortedTaskInfoList() {
+    final List<QueueTaskInfo> taskInfos =
+        workQueue.getTaskInfos(new TaskInfoFactory<QueueTaskInfo>() {
+          @Override
+          public QueueTaskInfo getTaskInfo(Task<?> task) {
+            return new QueueTaskInfo(task);
+          }
+        });
+    Collections.sort(taskInfos, new Comparator<QueueTaskInfo>() {
+      @Override
+      public int compare(QueueTaskInfo aTaskInfo, QueueTaskInfo bTaskInfo) {
+        Task.State aState = aTaskInfo.getTaskState();
+        Task.State bState = bTaskInfo.getTaskState();
+        if (aState != bState) {
+          return aState.ordinal() - bState.ordinal();
+        }
+
+        long aDelay = aTaskInfo.getDelay();
+        long bDelay = bTaskInfo.getDelay();
+        if (aDelay != bDelay) {
+          return Long.signum(aDelay - bDelay);
+        }
+
+        return aTaskInfo.getTaskString(taskNameWidth)
+            .compareTo(bTaskInfo.getTaskString(taskNameWidth));
+      }
+    });
+    return taskInfos;
+  }
+
   private static String id(final int id) {
     return IdGenerator.format(id);
   }
@@ -184,15 +194,6 @@ final class ShowQueue extends SshCommand {
       return new SimpleDateFormat("HH:mm:ss.SSS").format(when);
     }
     return new SimpleDateFormat("MMM-dd HH:mm").format(when);
-  }
-
-  private String format(final Task<?> task) {
-    String s = task.toString();
-    if (s.length() < taskNameWidth) {
-      return s;
-    } else {
-      return s.substring(0, taskNameWidth);
-    }
   }
 
   private static String format(final Task.State state) {
@@ -209,6 +210,59 @@ final class ShowQueue extends SshCommand {
         return "sleeping";
       default:
         return state.toString();
+    }
+  }
+
+  private static class QueueTaskInfo {
+    private long delay;
+    private Task.State state;
+    private Task<?> task;
+
+    QueueTaskInfo(Task<?> task) {
+      this.task = task;
+      this.delay = task.getDelay(TimeUnit.MILLISECONDS);
+      this.state = task.getState();
+    }
+
+    String getRemoteName() {
+      if (task instanceof ProjectTask) {
+        return ((ProjectTask<?>) task).getRemoteName();
+      }
+      return null;
+    }
+
+    Project.NameKey getProjectNameKey() {
+      if (task instanceof ProjectTask<?>) {
+        return ((ProjectTask<?>) task).getProjectNameKey();
+      }
+      return null;
+    }
+
+    boolean hasCustomizedPrint() {
+      if (task instanceof ProjectTask<?>) {
+        return ((ProjectTask<?>) task).hasCustomizedPrint();
+      }
+      return false;
+    }
+
+    int getTaskId() {
+      return task.getTaskId();
+    }
+
+    long getDelay() {
+      return delay;
+    }
+
+    Task.State getTaskState() {
+      return state;
+    }
+
+    String getTaskString(int maxLength) {
+      String s = task.toString();
+      if (s.length() < maxLength) {
+        return s;
+      }
+      return s.substring(0, maxLength);
     }
   }
 }

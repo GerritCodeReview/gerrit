@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03174a8c_a55cfedc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 7
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-02T08:56:45Z",
+      "side": 1,
+      "message": "Don\u0027t we usually add spaces programatically when the output string is built?",
+      "revId": "ad57f0d29d75d1544691b5ab364797b4970dffeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

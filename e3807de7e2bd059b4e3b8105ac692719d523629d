@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83d09a10_01014a5f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-02T16:45:41Z",
+      "side": 1,
+      "message": "Do we support originalName with extension or we don\u0027t?\n\nIf we don\u0027t then throw IllegalArgumentException here and remove this if.\nIf we do, then the line 159 seems to be wrong, as you add \".jar\" to fileName var and still use originalName var on line 159.\n\nI would personally prefer to preserve backward compatibility as i already mentioned in my previous review. So i still suggest to add a new optional plugin_type parameter to install plugin command, e. g.:\n\n enum {\n JAR\n JS,\n // future extension\n JYTHON,\n GROOVY,\n JRUBY,\n …\n }\n\nand fall back to plugin_type \u003d jar if nothing provided. Consequently this method would get type enum.",
+      "revId": "e3807de7e2bd059b4e3b8105ac692719d523629d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

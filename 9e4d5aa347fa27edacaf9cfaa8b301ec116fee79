@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03174a8c_4568aa7a",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-02T08:55:25Z",
+      "side": 1,
+      "message": "Any particular reason to change indent to tab instead of spaces?",
+      "range": {
+        "startLine": 159,
+        "startChar": 32,
+        "endLine": 159,
+        "endChar": 34
+      },
+      "revId": "9e4d5aa347fa27edacaf9cfaa8b301ec116fee79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

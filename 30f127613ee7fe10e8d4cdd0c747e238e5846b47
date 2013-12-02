@@ -94,6 +94,30 @@
     },
     {
       "key": {
+        "uuid": "a3cbde64_621f76eb",
+        "filename": "Documentation/cmd-plugin-install.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-02T12:19:45Z",
+      "side": 1,
+      "message": "This requirement was recently changed. Now we would assume Jar plugin as default and only file with file name ending with \"*.js\" will be recognized as Js-plugins.",
+      "parentUuid": "03174a8c_051b5258",
+      "range": {
+        "startLine": 47,
+        "startChar": 48,
+        "endLine": 48,
+        "endChar": 50
+      },
+      "revId": "30f127613ee7fe10e8d4cdd0c747e238e5846b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "231a8eb4_66ee8ee2",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
         "patchSetId": 15
@@ -105,6 +129,30 @@
       "writtenOn": "2013-11-30T01:06:00Z",
       "side": 1,
       "message": "nit but I would have preferred this to be if (jar !\u003d null). The jar case is the more typical distribution format, and most Java programmers are used to reading if (!\u003dnull) else.",
+      "range": {
+        "startLine": 283,
+        "startChar": 6,
+        "endLine": 285,
+        "endChar": 14
+      },
+      "revId": "30f127613ee7fe10e8d4cdd0c747e238e5846b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d09a10_61a2164f",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-02T12:19:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "231a8eb4_66ee8ee2",
       "range": {
         "startLine": 283,
         "startChar": 6,
@@ -134,6 +182,24 @@
     },
     {
       "key": {
+        "uuid": "83d09a10_81a71a5c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-02T12:19:45Z",
+      "side": 1,
+      "message": "What about setting \"application/javascript\" only for files that name ends with \".js\"?",
+      "parentUuid": "231a8eb4_46f392ca",
+      "revId": "30f127613ee7fe10e8d4cdd0c747e238e5846b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03174a8c_45254a93",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JsPlugin.java",
         "patchSetId": 15
@@ -151,6 +217,24 @@
     },
     {
       "key": {
+        "uuid": "a3cbde64_c2ecc2a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JsPlugin.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-02T12:19:45Z",
+      "side": 1,
+      "message": "Have a look on my second comment in patch set 10.\n\nAfter removing LifecycleManger plugin will not be registered.",
+      "parentUuid": "03174a8c_45254a93",
+      "revId": "30f127613ee7fe10e8d4cdd0c747e238e5846b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "231a8eb4_260db602",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JsPlugin.java",
         "patchSetId": 15
@@ -162,6 +246,30 @@
       "writtenOn": "2013-11-30T01:06:00Z",
       "side": 1,
       "message": "Eh? We should be able to reload JavaScript plugins trivially. They have no Java based registrations that are wedged.",
+      "range": {
+        "startLine": 92,
+        "startChar": 2,
+        "endLine": 95,
+        "endChar": 3
+      },
+      "revId": "30f127613ee7fe10e8d4cdd0c747e238e5846b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d09a10_c18842c7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JsPlugin.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-02T12:19:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "231a8eb4_260db602",
       "range": {
         "startLine": 92,
         "startChar": 2,
@@ -197,6 +305,30 @@
     },
     {
       "key": {
+        "uuid": "a3cbde64_e2f9c666",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JsPlugin.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-02T12:19:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "231a8eb4_c6de6229",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 101,
+        "endChar": 10
+      },
+      "revId": "30f127613ee7fe10e8d4cdd0c747e238e5846b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03174a8c_a5299e6f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JsPlugin.java",
         "patchSetId": 15
@@ -208,6 +340,30 @@
       "writtenOn": "2013-11-30T01:06:00Z",
       "side": 1,
       "message": "DynamicSet.bind(binder(), WebUiPlugin.class).toInstance(...)",
+      "range": {
+        "startLine": 109,
+        "startChar": 6,
+        "endLine": 109,
+        "endChar": 71
+      },
+      "revId": "30f127613ee7fe10e8d4cdd0c747e238e5846b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d09a10_a18b3ec1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JsPlugin.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-02T12:19:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03174a8c_a5299e6f",
       "range": {
         "startLine": 109,
         "startChar": 6,
@@ -243,6 +399,30 @@
     },
     {
       "key": {
+        "uuid": "a3cbde64_02f78a73",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-02T12:19:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "231a8eb4_e6e1deed",
+      "range": {
+        "startLine": 491,
+        "startChar": 21,
+        "endLine": 491,
+        "endChar": 55
+      },
+      "revId": "30f127613ee7fe10e8d4cdd0c747e238e5846b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "231a8eb4_86d46a0d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 15
@@ -254,6 +434,24 @@
       "writtenOn": "2013-11-30T01:06:00Z",
       "side": 1,
       "message": "loadJsPlugin does not need thmp so why did we make it above?",
+      "revId": "30f127613ee7fe10e8d4cdd0c747e238e5846b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d09a10_e19546e0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-02T12:19:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "231a8eb4_86d46a0d",
       "revId": "30f127613ee7fe10e8d4cdd0c747e238e5846b47",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -299,6 +497,54 @@
         "startChar": 16,
         "endLine": 511,
         "endChar": 32
+      },
+      "revId": "30f127613ee7fe10e8d4cdd0c747e238e5846b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3cbde64_422a720e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-02T12:19:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03174a8c_65204685",
+      "range": {
+        "startLine": 511,
+        "startChar": 16,
+        "endLine": 511,
+        "endChar": 32
+      },
+      "revId": "30f127613ee7fe10e8d4cdd0c747e238e5846b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3cbde64_22256e3f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-02T12:19:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "231a8eb4_a6d7e610",
+      "range": {
+        "startLine": 511,
+        "startChar": 33,
+        "endLine": 511,
+        "endChar": 58
       },
       "revId": "30f127613ee7fe10e8d4cdd0c747e238e5846b47",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

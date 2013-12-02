@@ -81,13 +81,7 @@ public final class AccountGroup {
 
   /** @return true if the UUID is for a group managed within Gerrit. */
   public static boolean isInternalGroup(AccountGroup.UUID uuid) {
-    return uuid.get().startsWith("global:")
-        || uuid.get().matches("^[0-9a-f]{40}$");
-  }
-
-  /** @return true if the UUID is for a system group managed within Gerrit. */
-  public static boolean isSystemGroup(AccountGroup.UUID uuid) {
-    return uuid.get().startsWith("global:");
+    return uuid.get().matches("^[0-9a-f]{40}$");
   }
 
   /** Synthetic key to link to within the database */
@@ -122,45 +116,6 @@ public final class AccountGroup {
     }
   }
 
-  public static enum Type {
-    /**
-     * System defined and managed group, e.g. anonymous users.
-     * <p>
-     * These groups must be explicitly named by {@link SystemConfig} and are
-     * specially handled throughout the code. In UI contexts their membership is
-     * not displayed. When computing effective group membership for any given
-     * user account, these groups are automatically handled using specialized
-     * branch conditions.
-     */
-    SYSTEM,
-
-    /**
-     * Group defined within our database.
-     * <p>
-     * An internal group has its membership fully enumerated in the database.
-     * The membership can be viewed and edited through the web UI by any user
-     * who is a member of the owner group. These groups are not treated special
-     * in the code.
-     */
-    INTERNAL
-  }
-
-  /** Common UUID assigned to the "Project Owners" placeholder group. */
-  public static final AccountGroup.UUID PROJECT_OWNERS =
-      new AccountGroup.UUID("global:Project-Owners");
-
-  /** Common UUID assigned to the "Change Owner" placeholder group. */
-  public static final AccountGroup.UUID CHANGE_OWNER =
-      new AccountGroup.UUID("global:Change-Owner");
-
-  /** Common UUID assigned to the "Anonymous Users" group. */
-  public static final AccountGroup.UUID ANONYMOUS_USERS =
-      new AccountGroup.UUID("global:Anonymous-Users");
-
-  /** Common UUID assigned to the "Registered Users" group. */
-  public static final AccountGroup.UUID REGISTERED_USERS =
-      new AccountGroup.UUID("global:Registered-Users");
-
   /** Unique name of this group within the system. */
   @Column(id = 1)
   protected NameKey name;
@@ -172,10 +127,6 @@ public final class AccountGroup {
   /** A textual description of the group's purpose. */
   @Column(id = 4, length = Integer.MAX_VALUE, notNull = false)
   protected String description;
-
-  /** Is the membership managed by some external means? */
-  @Column(id = 5, length = 8)
-  protected String groupType;
 
   @Column(id = 7)
   protected boolean visibleToAll;
@@ -202,7 +153,6 @@ public final class AccountGroup {
     visibleToAll = false;
     groupUUID = uuid;
     ownerGroupUUID = groupUUID;
-    setType(Type.INTERNAL);
   }
 
   public AccountGroup.Id getId() {
@@ -235,14 +185,6 @@ public final class AccountGroup {
 
   public void setOwnerGroupUUID(final AccountGroup.UUID uuid) {
     ownerGroupUUID = uuid;
-  }
-
-  public Type getType() {
-    return Type.valueOf(groupType);
-  }
-
-  public void setType(final Type t) {
-    groupType = t.name();
   }
 
   public void setVisibleToAll(final boolean visibleToAll) {

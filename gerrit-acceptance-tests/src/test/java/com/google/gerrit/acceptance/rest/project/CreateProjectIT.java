@@ -34,6 +34,7 @@ import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gson.Gson;
@@ -152,16 +153,16 @@ public class CreateProjectIT extends AbstractDaemonTest {
     final String newProjectName = "newProject";
     ProjectInput in = new ProjectInput();
     in.owners = Lists.newArrayListWithCapacity(3);
-    in.owners.add("Administrators"); // by name
-    in.owners.add(groupUuid("Registered Users").get()); // by group UUID
-    in.owners.add(Integer.toString(groupCache.get(new AccountGroup.NameKey("Anonymous Users"))
-        .getId().get())); // by legacy group ID
+    in.owners.add("Anonymous Users"); // by name
+    in.owners.add(SystemGroupBackend.REGISTERED_USERS.get()); // by UUID
+    in.owners.add(Integer.toString(groupCache.get(
+        new AccountGroup.NameKey("Administrators")).getId().get())); // by ID
     session.put("/projects/" + newProjectName, in);
     ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
     Set<AccountGroup.UUID> expectedOwnerIds = Sets.newHashSetWithExpectedSize(3);
+    expectedOwnerIds.add(SystemGroupBackend.ANONYMOUS_USERS);
+    expectedOwnerIds.add(SystemGroupBackend.REGISTERED_USERS);
     expectedOwnerIds.add(groupUuid("Administrators"));
-    expectedOwnerIds.add(groupUuid("Registered Users"));
-    expectedOwnerIds.add(groupUuid("Anonymous Users"));
     assertProjectOwners(expectedOwnerIds, projectState);
   }
 

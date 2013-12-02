@@ -803,8 +803,7 @@ public class Dispatcher {
               // for external and system groups the members cannot be
               // shown in the web UI).
               //
-              if (AccountGroup.isInternalGroup(group.getGroupUUID())
-                  && !AccountGroup.isSystemGroup(group.getGroupUUID())) {
+              if (AccountGroup.isInternalGroup(group.getGroupUUID())) {
                 Gerrit.display(toGroup(group.getGroupId(), AccountGroupScreen.MEMBERS),
                     new AccountGroupMembersScreen(group, token));
               } else {

@@ -43,6 +43,7 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.schema.Schema_77.LegacyLabelTypes;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
@@ -124,14 +125,14 @@ class Schema_53 extends SchemaVersion {
     List<AccountGroup> groups = db.accountGroups().all().toList();
     for (AccountGroup g : groups) {
       if (g.getId().equals(systemConfig.ownerGroupId)) {
-        g.setGroupUUID(AccountGroup.PROJECT_OWNERS);
+        g.setGroupUUID(SystemGroupBackend.PROJECT_OWNERS);
         projectOwners = GroupReference.forGroup(g);
 
       } else if (g.getId().equals(systemConfig.anonymousGroupId)) {
-        g.setGroupUUID(AccountGroup.ANONYMOUS_USERS);
+        g.setGroupUUID(SystemGroupBackend.ANONYMOUS_USERS);
 
       } else if (g.getId().equals(systemConfig.registeredGroupId)) {
-        g.setGroupUUID(AccountGroup.REGISTERED_USERS);
+        g.setGroupUUID(SystemGroupBackend.REGISTERED_USERS);
 
       } else {
         g.setGroupUUID(GroupUUID.make(g.getName(), serverUser));

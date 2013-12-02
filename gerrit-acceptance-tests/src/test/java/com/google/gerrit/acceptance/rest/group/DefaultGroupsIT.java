@@ -41,13 +41,13 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * An example test that tests presence of system groups in a newly initialized
+ * An example test that tests presence of default groups in a newly initialized
  * review site.
  *
  * The test shows how to perform these checks via SSH, REST or using Gerrit
  * internals.
  */
-public class SystemGroupsIT extends AbstractDaemonTest {
+public class DefaultGroupsIT extends AbstractDaemonTest {
 
   @Inject
   private SchemaFactory<ReviewDb> reviewDbProvider;
@@ -64,20 +64,16 @@ public class SystemGroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void systemGroupsCreated_ssh() throws JSchException, IOException {
+  public void defaultGroupsCreated_ssh() throws JSchException, IOException {
     SshSession session = new SshSession(server, admin);
     String result = session.exec("gerrit ls-groups");
     assertTrue(result.contains("Administrators"));
-    assertTrue(result.contains("Anonymous Users"));
-    assertTrue(result.contains("Change Owner"));
     assertTrue(result.contains("Non-Interactive Users"));
-    assertTrue(result.contains("Project Owners"));
-    assertTrue(result.contains("Registered Users"));
     session.close();
   }
 
   @Test
-  public void systemGroupsCreated_rest() throws IOException {
+  public void defaultGroupsCreated_rest() throws IOException {
     RestSession session = new RestSession(server, admin);
     RestResponse r = session.get("/groups/");
     Gson gson = new Gson();
@@ -85,15 +81,11 @@ public class SystemGroupsIT extends AbstractDaemonTest {
         gson.fromJson(r.getReader(), new TypeToken<Map<String, GroupInfo>>() {}.getType());
     Set<String> names = result.keySet();
     assertTrue(names.contains("Administrators"));
-    assertTrue(names.contains("Anonymous Users"));
-    assertTrue(names.contains("Change Owner"));
     assertTrue(names.contains("Non-Interactive Users"));
-    assertTrue(names.contains("Project Owners"));
-    assertTrue(names.contains("Registered Users"));
   }
 
   @Test
-  public void systemGroupsCreated_internals() throws OrmException {
+  public void defaultGroupsCreated_internals() throws OrmException {
     ReviewDb db = reviewDbProvider.open();
     try {
       Set<String> names = Sets.newHashSet();
@@ -101,11 +93,7 @@ public class SystemGroupsIT extends AbstractDaemonTest {
         names.add(g.getName());
       }
       assertTrue(names.contains("Administrators"));
-      assertTrue(names.contains("Anonymous Users"));
-      assertTrue(names.contains("Change Owner"));
       assertTrue(names.contains("Non-Interactive Users"));
-      assertTrue(names.contains("Project Owners"));
-      assertTrue(names.contains("Registered Users"));
     } finally {
       db.close();
     }

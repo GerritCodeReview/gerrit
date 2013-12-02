@@ -149,8 +149,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
 
   @Override
   protected void display(final GroupInfo group, final boolean canModify) {
-    if (AccountGroup.isInternalGroup(group.getGroupUUID())
-        && !AccountGroup.isSystemGroup(group.getGroupUUID())) {
+    if (AccountGroup.isInternalGroup(group.getGroupUUID())) {
       members.display(Natives.asList(group.members()));
       includes.display(Natives.asList(group.includes()));
     } else {

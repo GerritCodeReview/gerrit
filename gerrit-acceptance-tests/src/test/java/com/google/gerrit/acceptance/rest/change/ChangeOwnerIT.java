@@ -31,12 +31,11 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -68,9 +67,6 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
 
   @Inject
   private ProjectCache projectCache;
-
-  @Inject
-  private GroupCache groupCache;
 
   private TestAccount owner;
   private TestAccount dev;
@@ -138,10 +134,8 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
     ProjectConfig config = ProjectConfig.read(md);
     AccessSection s = config.getAccessSection("refs/heads/*", true);
     Permission p = s.getPermission(LABEL + "Code-Review", true);
-    AccountGroup changeOwnerGroup = groupCache
-        .get(new AccountGroup.NameKey("Change Owner"));
     PermissionRule rule = new PermissionRule(config
-        .resolve(changeOwnerGroup));
+        .resolve(SystemGroupBackend.getGroup(SystemGroupBackend.CHANGE_OWNER)));
     rule.setMin(-2);
     rule.setMax(+2);
     p.add(rule);

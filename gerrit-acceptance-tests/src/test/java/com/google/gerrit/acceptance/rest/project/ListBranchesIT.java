@@ -31,12 +31,11 @@ import com.google.gerrit.acceptance.git.PushOneCommit;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -69,9 +68,6 @@ public class ListBranchesIT extends AbstractDaemonTest {
 
   @Inject
   private ProjectCache projectCache;
-
-  @Inject
-  private GroupCache groupCache;
 
   @Inject
   private SchemaFactory<ReviewDb> reviewDbProvider;
@@ -212,8 +208,8 @@ public class ListBranchesIT extends AbstractDaemonTest {
     ProjectConfig config = ProjectConfig.read(md);
     AccessSection s = config.getAccessSection(ref, true);
     Permission p = s.getPermission(Permission.READ, true);
-    AccountGroup adminGroup = groupCache.get(AccountGroup.REGISTERED_USERS);
-    PermissionRule rule = new PermissionRule(config.resolve(adminGroup));
+    PermissionRule rule = new PermissionRule(config.resolve(
+        SystemGroupBackend.getGroup(SystemGroupBackend.REGISTERED_USERS)));
     rule.setBlock();
     p.add(rule);
     config.commit(md);

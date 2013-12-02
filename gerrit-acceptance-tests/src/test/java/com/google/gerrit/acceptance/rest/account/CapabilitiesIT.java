@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest.account;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -27,11 +28,10 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -53,9 +53,6 @@ public class CapabilitiesIT extends AbstractDaemonTest {
 
   @Inject
   private MetaDataUpdate.Server metaDataUpdateFactory;
-
-  @Inject
-  private GroupCache groupCache;
 
   @Inject
   private ProjectCache projectCache;
@@ -113,6 +110,7 @@ public class CapabilitiesIT extends AbstractDaemonTest {
       if (GlobalCapability.PRIORITY.equals(c)) {
         assertFalse(info.priority);
       } else if (GlobalCapability.QUERY_LIMIT.equals(c)) {
+        assertNotNull("missing queryLimit", info.queryLimit);
         assertEquals(0, info.queryLimit.min);
         assertEquals(500, info.queryLimit.max);
       } else if (GlobalCapability.ACCESS_DATABASE.equals(c)) {
@@ -138,11 +136,9 @@ public class CapabilitiesIT extends AbstractDaemonTest {
         continue;
       }
       Permission p = s.getPermission(c, true);
-      AccountGroup projectOwnersGroup = groupCache.get(
-          new AccountGroup.NameKey("Registered Users"));
-      PermissionRule rule = new PermissionRule(
-          config.resolve(projectOwnersGroup));
-      p.add(rule);
+      p.add(new PermissionRule(
+          config.resolve(SystemGroupBackend.getGroup(
+              SystemGroupBackend.REGISTERED_USERS))));
     }
     config.commit(md);
     projectCache.evict(config.getProject());

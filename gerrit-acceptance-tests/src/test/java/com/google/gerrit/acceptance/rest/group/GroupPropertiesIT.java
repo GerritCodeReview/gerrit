@@ -14,9 +14,8 @@
 
 package com.google.gerrit.acceptance.rest.group;
 
-import static com.google.gerrit.acceptance.rest.group.GroupAssert.toBoolean;
 import static com.google.gerrit.acceptance.rest.group.GroupAssert.assertGroupInfo;
-
+import static com.google.gerrit.acceptance.rest.group.GroupAssert.toBoolean;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -26,8 +25,10 @@ import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
@@ -69,8 +70,12 @@ public class GroupPropertiesIT extends AbstractDaemonTest {
     r.consume();
 
     // set name with name conflict
+    String newGroupName = "newGroup";
+    r = session.put("/groups/" + newGroupName);
+    r.consume();
+    assertEquals(HttpStatus.SC_CREATED, r.getStatusCode());
     GroupNameInput in = new GroupNameInput();
-    in.name = "Registered Users";
+    in.name = newGroupName;
     r = session.put(url, in);
     assertEquals(HttpStatus.SC_CONFLICT, r.getStatusCode());
     r.consume();
@@ -178,8 +183,12 @@ public class GroupPropertiesIT extends AbstractDaemonTest {
     GroupInfo newOwner = (new Gson()).fromJson(r.getReader(), new TypeToken<GroupInfo>() {}.getType());
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     assertEquals(in.owner, newOwner.name);
-    adminGroup = groupCache.get(adminGroupName);
-    assertGroupInfo(groupCache.get(adminGroup.getOwnerGroupUUID()), newOwner);
+    assertEquals(
+        SystemGroupBackend.getGroup(SystemGroupBackend.REGISTERED_USERS).getName(),
+        newOwner.name);
+    assertEquals(
+        SystemGroupBackend.REGISTERED_USERS.get(),
+        Url.decode(newOwner.id));
     r.consume();
 
     // set owner by UUID

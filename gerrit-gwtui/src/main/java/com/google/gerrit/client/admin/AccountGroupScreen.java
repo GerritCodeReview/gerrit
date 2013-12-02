@@ -37,8 +37,7 @@ public abstract class AccountGroupScreen extends MenuScreen {
 
     link(Util.C.groupTabGeneral(), getTabToken(token, INFO));
     link(Util.C.groupTabMembers(), membersTabToken,
-        AccountGroup.isInternalGroup(group.getGroupUUID())
-        && !AccountGroup.isSystemGroup(group.getGroupUUID()));
+        AccountGroup.isInternalGroup(group.getGroupUUID()));
   }
 
   private String getTabToken(final String token, final String tab) {

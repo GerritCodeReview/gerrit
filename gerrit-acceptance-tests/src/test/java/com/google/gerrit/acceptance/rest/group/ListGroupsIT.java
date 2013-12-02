@@ -16,6 +16,8 @@ package com.google.gerrit.acceptance.rest.group;
 
 import static com.google.gerrit.acceptance.rest.group.GroupAssert.assertGroupInfo;
 import static com.google.gerrit.acceptance.rest.group.GroupAssert.assertGroups;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
@@ -35,6 +37,7 @@ import com.google.inject.Inject;
 
 import com.jcraft.jsch.JSchException;
 
+import org.apache.http.HttpStatus;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -79,13 +82,29 @@ public class ListGroupsIT extends AbstractDaemonTest {
   @Test
   public void testOnlyVisibleGroupsReturned() throws OrmException,
       JSchException, IOException {
-    Set<String> expectedGroups = Sets.newHashSet();
-    expectedGroups.add("Anonymous Users");
-    expectedGroups.add("Registered Users");
     TestAccount user = accounts.create("user", "user@example.com", "User");
-    RestResponse r = new RestSession(server, user).get("/groups/");
+    RestSession userSession = new RestSession(server, user);
+
+    String newGroupName = "newGroup";
+    GroupInput in = new GroupInput();
+    in.description = "a hidden group";
+    in.visible_to_all = false;
+    in.owner_id = groupCache.get(new AccountGroup.NameKey("Administrators"))
+        .getGroupUUID().get();
+    session.put("/groups/" + newGroupName, in).consume();
+
+    Set<String> expectedGroups = Sets.newHashSet(newGroupName);
+    RestResponse r = userSession.get("/groups/");
     Map<String, GroupInfo> result =
         (new Gson()).fromJson(r.getReader(), new TypeToken<Map<String, GroupInfo>>() {}.getType());
+    assertTrue("no groups visible", result.isEmpty());
+
+    assertEquals(HttpStatus.SC_CREATED, session.put(
+        String.format("/groups/%s/members/%s", newGroupName, user.username)
+      ).getStatusCode());
+
+    r = userSession.get("/groups/");
+    result = (new Gson()).fromJson(r.getReader(), new TypeToken<Map<String, GroupInfo>>() {}.getType());
     assertGroups(expectedGroups, result.keySet());
   }
 

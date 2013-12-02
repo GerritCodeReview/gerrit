@@ -75,14 +75,8 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
     if (ownerGroup != null) {
       detail.setOwnerGroup(GroupReference.forGroup(ownerGroup));
     }
-    switch (group.getType()) {
-      case INTERNAL:
-        detail.setMembers(loadMembers());
-        detail.setIncludes(loadIncludes());
-        break;
-      case SYSTEM:
-        break;
-    }
+    detail.setMembers(loadMembers());
+    detail.setIncludes(loadIncludes());
     detail.setAccounts(aic.create());
     detail.setCanModify(control.isOwner());
     return detail;

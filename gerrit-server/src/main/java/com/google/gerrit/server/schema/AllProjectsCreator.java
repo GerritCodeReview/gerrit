@@ -24,7 +24,6 @@ import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -33,6 +32,10 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.group.SystemGroupBackend;
+
+import static com.google.gerrit.server.group.SystemGroupBackend.*;
+
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -65,15 +68,9 @@ public class AllProjectsCreator {
     this.allProjectsName = allProjectsName;
     this.serverUser = serverUser;
 
-    this.anonymous = new GroupReference(
-        AccountGroup.ANONYMOUS_USERS,
-        "Anonymous Users");
-    this.registered = new GroupReference(
-        AccountGroup.REGISTERED_USERS,
-        "Registered Users");
-    this.owners = new GroupReference(
-        AccountGroup.PROJECT_OWNERS,
-        "Project Owners");
+    this.anonymous = SystemGroupBackend.getGroup(ANONYMOUS_USERS);
+    this.registered = SystemGroupBackend.getGroup(REGISTERED_USERS);
+    this.owners = SystemGroupBackend.getGroup(PROJECT_OWNERS);
   }
 
   public AllProjectsCreator setAdministrators(GroupReference admin) {

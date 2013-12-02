@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -21,10 +23,12 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.AccountsSection;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /** Access control management for one account's access to other accounts. */
@@ -106,8 +110,6 @@ public class AccountControl {
         return true;
       case SAME_GROUP: {
         Set<AccountGroup.UUID> usersGroups = groupsOf(otherUser);
-        usersGroups.remove(AccountGroup.ANONYMOUS_USERS);
-        usersGroups.remove(AccountGroup.REGISTERED_USERS);
         for (PermissionRule rule : accountsSection.getSameGroupVisibility()) {
           if (rule.isBlock() || rule.isDeny()) {
             usersGroups.remove(rule.getGroup().getUUID());
@@ -121,8 +123,6 @@ public class AccountControl {
       }
       case VISIBLE_GROUP: {
         Set<AccountGroup.UUID> usersGroups = groupsOf(otherUser);
-        usersGroups.remove(AccountGroup.ANONYMOUS_USERS);
-        usersGroups.remove(AccountGroup.REGISTERED_USERS);
         for (AccountGroup.UUID usersGroup : usersGroups) {
           try {
             if (groupControlFactory.controlFor(usersGroup).isVisible()) {
@@ -143,6 +143,13 @@ public class AccountControl {
   }
 
   private Set<AccountGroup.UUID> groupsOf(Account.Id account) {
-    return userFactory.create(account).getEffectiveGroups().getKnownGroups();
+    return new HashSet<>(Sets.filter(
+      userFactory.create(account).getEffectiveGroups().getKnownGroups(),
+      new Predicate<AccountGroup.UUID>() {
+        @Override
+        public boolean apply(AccountGroup.UUID in) {
+          return !SystemGroupBackend.isSystemGroup(in);
+        }
+      }));
   }
 }

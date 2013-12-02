@@ -19,7 +19,6 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
@@ -27,6 +26,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.git.QueueProvider;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -177,7 +177,7 @@ public class CapabilityControl {
       if (match(groups, r)) {
         switch (r.getAction()) {
           case INTERACTIVE:
-            if (!isGenericGroup(r.getGroup())) {
+            if (!SystemGroupBackend.isAnonymousOrRegistered(r.getGroup())) {
               return QueueProvider.QueueType.INTERACTIVE;
             }
             break;
@@ -200,11 +200,6 @@ public class CapabilityControl {
     } else {
       return QueueProvider.QueueType.INTERACTIVE;
     }
-  }
-
-  private static boolean isGenericGroup(GroupReference group) {
-    return AccountGroup.ANONYMOUS_USERS.equals(group.getUUID())
-        || AccountGroup.REGISTERED_USERS.equals(group.getUUID());
   }
 
   /** True if the user has this permission. Works only for non labels. */

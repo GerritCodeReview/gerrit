@@ -214,8 +214,7 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
     ownerTxt.setText(group.owner() != null?group.owner():Util.M.deletedReference(group.getOwnerUUID().get()));
     descTxt.setText(group.description());
     visibleToAllCheckBox.setValue(group.options().isVisibleToAll());
-    setMembersTabVisible(AccountGroup.isInternalGroup(group.getGroupUUID())
-        && !AccountGroup.isSystemGroup(group.getGroupUUID()));
+    setMembersTabVisible(AccountGroup.isInternalGroup(group.getGroupUUID()));
 
     enableForm(canModify);
     saveName.setVisible(canModify);

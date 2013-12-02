@@ -72,9 +72,6 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   @Option(name = "--visible-to-all", usage = "to list only groups that are visible to all registered users")
   private boolean visibleToAll;
 
-  @Option(name = "--type", usage = "type of group")
-  private AccountGroup.Type groupType;
-
   @Option(name = "--user", aliases = {"-u"},
       usage = "user for which the groups should be listed")
   private Account.Id user;
@@ -214,8 +211,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
           continue;
         }
       }
-      if ((visibleToAll && !group.isVisibleToAll())
-          || (groupType != null && !groupType.equals(group.getType()))) {
+      if (visibleToAll && !group.isVisibleToAll()) {
         continue;
       }
       if (!groupsToInspect.isEmpty()

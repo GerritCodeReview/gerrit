@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3be12c6_b31c787c",
+        "filename": "tools/plugins.defs",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-03T09:09:29Z",
+      "side": 1,
+      "message": "Is it worth putting this in a try...except block just in case the XML doesn\u0027t parse?",
+      "range": {
+        "startLine": 49,
+        "startChar": 6,
+        "endLine": 49,
+        "endChar": 19
+      },
+      "revId": "7f284505addc799010221fe9015f17644d2dca5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

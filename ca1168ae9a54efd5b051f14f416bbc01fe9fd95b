@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3cbde64_021a2ac5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/contact/EncryptedContactStore.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-03T11:36:15Z",
+      "side": 1,
+      "message": "[optional]\n\nExtract the previous 9 lines in its own function:\n\n private PGPEncryptedDataGenerator cpk() {\n   […]\n   BcPGPDataEncryptorBuilder builder \u003d […]\n   [...]\n   return cpk;\n }",
+      "revId": "ca1168ae9a54efd5b051f14f416bbc01fe9fd95b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d09a10_a195feb2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/contact/EncryptedContactStore.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-03T11:36:15Z",
+      "side": 1,
+      "message": "And inline here the call to this new method:\n\n  OutputStream cout \u003d cpk().open(aout, zText.length);",
+      "revId": "ca1168ae9a54efd5b051f14f416bbc01fe9fd95b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

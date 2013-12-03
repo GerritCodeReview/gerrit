@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "e3c15653_941f6470",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-03T08:51:29Z",
+      "side": 1,
+      "message": "Done here too.",
+      "range": {
+        "startLine": 396,
+        "startChar": 33,
+        "endLine": 396,
+        "endChar": 43
+      },
+      "revId": "54ecc8136fa9689c8c4b0987c31283fd3c1ba1af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83d09a10_c117625f",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
         "patchSetId": 2
@@ -13,6 +36,30 @@
       "writtenOn": "2013-11-28T14:25:57Z",
       "side": 1,
       "message": "s/toString()/get()",
+      "range": {
+        "startLine": 417,
+        "startChar": 28,
+        "endLine": 417,
+        "endChar": 38
+      },
+      "revId": "54ecc8136fa9689c8c4b0987c31283fd3c1ba1af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3be12c6_733bc0e9",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-03T08:51:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83d09a10_c117625f",
       "range": {
         "startLine": 417,
         "startChar": 28,

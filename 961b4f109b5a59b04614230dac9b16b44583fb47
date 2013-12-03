@@ -22,6 +22,30 @@
       "revId": "961b4f109b5a59b04614230dac9b16b44583fb47",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3c15653_94484477",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-03T15:06:37Z",
+      "side": 1,
+      "message": "Reverted back to how it was in PS 3.",
+      "parentUuid": "83d09a10_e19f06cd",
+      "range": {
+        "startLine": 360,
+        "startChar": 8,
+        "endLine": 360,
+        "endChar": 52
+      },
+      "revId": "961b4f109b5a59b04614230dac9b16b44583fb47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

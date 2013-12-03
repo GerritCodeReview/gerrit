@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3be12c6_d342d454",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/GuiceDebug.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-03T15:11:12Z",
+      "side": 1,
+      "message": "Missing copyright header.",
+      "revId": "01a3c2f4fceb09d944a2ff20b46063b313f95866",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

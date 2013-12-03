@@ -54,6 +54,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -121,7 +122,7 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
         ProjectConfig newCfg = parseConfig(p, event.getNewObjectId());
         if (recheckMerges(oldCfg, newCfg)) {
           try {
-            new ProjectUpdateTask(schemaFactory, p).call();
+            new ProjectUpdateTask(schemaFactory, p, true).call();
           } catch (Exception e) {
             String msg = "Failed to update mergeability flags for project " + p.get()
                 + " on update of " + GitRepositoryManager.REF_CONFIG;
@@ -170,12 +171,13 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
    *         mergeability flag was not updated and the change was not reindexed
    */
   public CheckedFuture<Boolean, IOException> updateAsync(Change change) {
-    return Futures.makeChecked(
-        executor.submit(new ChangeUpdateTask(schemaFactory, change)), MAPPER);
+    return updateAsync(change, false);
   }
 
-  private void updateAsync(Change change, boolean force) {
-    executor.submit(new ChangeUpdateTask(schemaFactory, change, force));
+  private CheckedFuture<Boolean, IOException> updateAsync(Change change, boolean force) {
+    return Futures.makeChecked(
+        executor.submit(new ChangeUpdateTask(schemaFactory, change, force)),
+        MAPPER);
   }
 
   /**
@@ -205,7 +207,19 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
 
   public boolean update(Change change) throws IOException {
     try {
-      return new ChangeUpdateTask(schemaFactory, change).call();
+      return new ChangeUpdateTask(schemaFactory, change, false).call();
+    } catch (Exception e) {
+      Throwables.propagateIfPossible(e);
+      throw MAPPER.apply(e);
+    }
+  }
+
+  public void update(Project.NameKey project) throws IOException {
+    try {
+      for (CheckedFuture<?, IOException> f : new ProjectUpdateTask(
+          schemaFactory, project, false).call()) {
+        f.checkedGet();
+      }
     } catch (Exception e) {
       Throwables.propagateIfPossible(e);
       throw MAPPER.apply(e);
@@ -218,10 +232,6 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
     private final boolean force;
 
     private ReviewDb reviewDb;
-
-    ChangeUpdateTask(SchemaFactory<ReviewDb> schemaFactory, Change change) {
-      this(schemaFactory, change, false);
-    }
 
     ChangeUpdateTask(SchemaFactory<ReviewDb> schemaFactory, Change change,
         boolean force) {
@@ -279,7 +289,8 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
     }
   }
 
-  private abstract class UpdateTask implements Callable<Void> {
+  private abstract class UpdateTask implements
+      Callable<List<CheckedFuture<Boolean, IOException>>> {
     private final SchemaFactory<ReviewDb> schemaFactory;
     private final boolean force;
 
@@ -289,7 +300,7 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
     }
 
     @Override
-    public Void call() throws Exception {
+    public List<CheckedFuture<Boolean, IOException>> call() throws Exception {
       List<Change> openChanges;
       ReviewDb db = schemaFactory.open();
       try {
@@ -298,10 +309,12 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
         db.close();
       }
 
+      List<CheckedFuture<Boolean, IOException>> futures =
+          new ArrayList<>(openChanges.size());
       for (Change change : mergeabilityCheckQueue.addAll(openChanges, force)) {
-        updateAsync(change, force);
+        futures.add(updateAsync(change, force));
       }
-      return null;
+      return futures;
     }
 
     protected abstract List<Change> loadChanges(ReviewDb db) throws OrmException;
@@ -326,8 +339,8 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
     private final Project.NameKey project;
 
     ProjectUpdateTask(SchemaFactory<ReviewDb> schemaFactory,
-        Project.NameKey project) {
-      super(schemaFactory, true);
+        Project.NameKey project, boolean force) {
+      super(schemaFactory, force);
       this.project = project;
     }
 

@@ -35,7 +35,7 @@ Release Highlights
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/intro-change-screen.html[
 New change screen] with completely redesigned UI and fully using the REST API.
 
-* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/config-gerrit.html#index[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/config-gerrit.html#__a_id_index_a_section_index[
 Secondary indexing with Lucene and Solr].
 
 * Lots of new link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/rest-api.html[
@@ -69,7 +69,7 @@ Indexing and Search
 ~~~~~~~~~~~~~~~~~~~
 
 Gerrit can be configured to use a
-link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/config-gerrit.html#index[
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/config-gerrit.html#__a_id_index_a_section_index[
 secondary index] with Lucene or Solr.
 
 Existing search operations use the secondary index, when enabled, to increase
@@ -86,6 +86,11 @@ link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/user-
 `file` operator] can be used to find changes on the specified file.
 
 * Regular expressions are allowed in `file` searches.
+
+
+*WARNING:* After enabling the secondary index, the index must be built using the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/pgm-reindex.html[
+reindex program before restarting the Gerrit server.
 
 
 Configuration

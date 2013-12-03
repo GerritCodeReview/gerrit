@@ -18,8 +18,8 @@ import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_U
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.extensions.events.LifecycleListener;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
@@ -27,17 +27,25 @@ import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.cache.CacheRemovalListener;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
+import com.google.gerrit.server.change.MergeabilityChecksExecutorModule;
+import com.google.gerrit.server.config.AuthConfigModule;
+import com.google.gerrit.server.config.CanonicalWebUrlModule;
+import com.google.gerrit.server.config.CanonicalWebUrlProvider;
+import com.google.gerrit.server.config.GerritGlobalModuleBase;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.ChangeBatchIndexer;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexModule;
-import com.google.gerrit.server.patch.PatchListCacheImpl;
+import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
+import com.google.gerrit.server.mail.SmtpEmailSender;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DataSourceType;
+import com.google.gerrit.server.ssh.NoSshKeyCache;
 import com.google.gerrit.solr.SolrIndexModule;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -57,6 +65,7 @@ import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -83,12 +92,14 @@ public class Reindex extends SiteProgram {
 
   private Injector dbInjector;
   private Injector sysInjector;
+  private Injector cfgInjector;
   private ChangeIndex index;
 
   @Override
   public int run() throws Exception {
     mustHaveValidSite();
     dbInjector = createDbInjector(MULTI_USER);
+    cfgInjector = createCfgInjector();
     limitThreads();
     if (version == null) {
       version = ChangeSchemas.getLatest().getVersion();
@@ -127,9 +138,14 @@ public class Reindex extends SiteProgram {
     }
   }
 
+  private Injector createCfgInjector() {
+    final List<Module> modules = new ArrayList<Module>();
+    modules.add(new AuthConfigModule());
+    return dbInjector.createChildInjector(modules);
+  }
+
   private Injector createSysInjector() {
     List<Module> modules = Lists.newArrayList();
-    modules.add(PatchListCacheImpl.module());
     AbstractModule changeIndexModule;
     switch (IndexModule.getIndexType(dbInjector)) {
       case LUCENE:
@@ -143,18 +159,37 @@ public class Reindex extends SiteProgram {
     }
     modules.add(changeIndexModule);
     modules.add(new ReviewDbModule());
-    modules.add(new AbstractModule() {
-      @SuppressWarnings("rawtypes")
+    modules.add(new ChangeHookRunner.Module());
+    modules.add(new MergeabilityChecksExecutorModule());
+    modules.add(cfgInjector.getInstance(GerritGlobalModuleBase.class));
+    modules.add(new DefaultCacheFactory.Module());
+    modules.add(new SmtpEmailSender.Module());
+    modules.add(new SignedTokenEmailTokenVerifier.Module());
+    modules.add(NoSshKeyCache.module());
+    modules.add(new CanonicalWebUrlModule() {
       @Override
-      protected void configure() {
-        // Plugins are not loaded and we're just running through each change
-        // once, so don't worry about cache removal.
-        bind(new TypeLiteral<DynamicSet<CacheRemovalListener>>() {})
-            .toInstance(DynamicSet.<CacheRemovalListener> emptySet());
-        install(new DefaultCacheFactory.Module());
+      protected Class<? extends Provider<String>> provider() {
+        return CanonicalWebUrlProvider.class;
       }
     });
-    return dbInjector.createChildInjector(modules);
+    modules.add(new AbstractModule() {
+      @Override
+      protected void configure() {
+        bind(CurrentUser.class).toProvider(new Provider<CurrentUser>() {
+          @Override
+          public CurrentUser get() {
+            return null;
+          }
+        });
+        bind(IdentifiedUser.class).toProvider(new Provider<IdentifiedUser>() {
+          @Override
+          public IdentifiedUser get() {
+            return null;
+          }
+        });
+      }
+    });
+   return cfgInjector.createChildInjector(modules);
   }
 
   private class ReviewDbModule extends LifecycleModule {

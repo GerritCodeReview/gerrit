@@ -61,7 +61,7 @@ final class ProxyUtil {
       return;
     }
 
-    final URL u = new URL((s.indexOf("://") == -1) ? "http://" + s : s);
+    final URL u = new URL((!s.contains("://")) ? "http://" + s : s);
     if (!"http".equals(u.getProtocol())) {
       throw new MalformedURLException("Invalid http_proxy: " + s
           + ": Only http supported.");

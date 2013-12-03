@@ -33,7 +33,7 @@ public final class HostPlatform {
           }
         });
     return osDotName != null
-        && osDotName.toLowerCase().indexOf("windows") != -1;
+        && osDotName.toLowerCase().contains("windows");
   }
 
   private HostPlatform() {

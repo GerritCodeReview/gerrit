@@ -931,7 +931,7 @@ public class RestApiServlet extends HttpServlet {
   private static boolean acceptsGzip(HttpServletRequest req) {
     if (req != null) {
       String accepts = req.getHeader(HttpHeaders.ACCEPT_ENCODING);
-      return accepts != null && accepts.indexOf("gzip") != -1;
+      return accepts != null && accepts.contains("gzip");
     }
     return false;
   }

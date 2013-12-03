@@ -80,7 +80,7 @@ public class Schema_81 extends SchemaVersion {
         public boolean accept(File pathname) {
           String n = pathname.getName();
           return (n.endsWith(".jar") || n.endsWith(".jar.disabled"))
-              && pathname.isFile() && n.indexOf("replication") >= 0;
+              && pathname.isFile() && n.contains("replication");
         }
       });
     }

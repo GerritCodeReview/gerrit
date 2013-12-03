@@ -58,6 +58,11 @@ class RelatedChanges extends TabPanel {
   }
 
   private RelatedChangesTab createTab(String title, String tooltip) {
+    return createTab(title, tooltip, null);
+  }
+
+  private RelatedChangesTab createTab(String title, String tooltip,
+      Integer index) {
     setVisible(true);
     FlowPanel panel = new FlowPanel();
     add(panel, title);
@@ -75,13 +80,13 @@ class RelatedChanges extends TabPanel {
       }
     });
 
-    int index = tabBar.getTabCount() - 1;
+    index = index != null ? index : tabBar.getTabCount() - 1;
     Tab tab = tabBar.getTab(index);
     tab.setWordWrap(false);
     ((Composite) tab).setTitle(tooltip);
     RelatedChangesTab relatedChangesTab =
         new RelatedChangesTab(this, index, panel);
-    tabs.add(relatedChangesTab);
+    tabs.add(index, relatedChangesTab);
     relatedChangesTab.setMaxHeight(maxHeight);
     if (index == 0) {
       selectTab(0);
@@ -192,7 +197,7 @@ class RelatedChanges extends TabPanel {
             if (relatedChangesTab == null) {
               relatedChangesTab =
                   createTab(Resources.C.relatedChanges(),
-                      Resources.C.relatedChangesTooltip());
+                      Resources.C.relatedChangesTooltip(), 0);
             }
             return relatedChangesTab;
           }

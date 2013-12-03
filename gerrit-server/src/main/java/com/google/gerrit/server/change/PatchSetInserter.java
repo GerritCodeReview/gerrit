@@ -95,6 +95,7 @@ public class PatchSetInserter {
   private final MergeabilityChecker mergeabilityChecker;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
   private final MergeUtil.Factory mergeUtilFactory;
+  private final ApprovalsUtil approvalsUtil;
 
   private final Repository git;
   private final RevWalk revWalk;
@@ -120,6 +121,7 @@ public class PatchSetInserter {
       MergeabilityChecker mergeabilityChecker,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
       MergeUtil.Factory mergeUtilFactory,
+      ApprovalsUtil approvalsUtil,
       @Assisted Repository git,
       @Assisted RevWalk revWalk,
       @Assisted RefControl refControl,
@@ -135,6 +137,7 @@ public class PatchSetInserter {
     this.mergeabilityChecker = mergeabilityChecker;
     this.replacePatchSetFactory = replacePatchSetFactory;
     this.mergeUtilFactory = mergeUtilFactory;
+    this.approvalsUtil = approvalsUtil;
 
     this.git = git;
     this.revWalk = revWalk;
@@ -279,7 +282,7 @@ public class PatchSetInserter {
         ChangeKind changeKind =
             getChangeKind(mergeUtilFactory, projectState, git, priorCommit, commit);
 
-        ApprovalsUtil.copyLabels(db, refControl.getProjectControl()
+        approvalsUtil.copyLabels(refControl.getProjectControl()
             .getLabelTypes(), currentPatchSetId, patchSet, changeKind);
       }
       db.commit();

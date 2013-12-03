@@ -70,8 +70,7 @@ public abstract class EmailHeader {
     final byte[] encoded = value.getBytes("UTF-8");
 
     r.append("=?UTF-8?Q?");
-    for (int i = 0; i < encoded.length; i++) {
-      byte b = encoded[i];
+    for (byte b : encoded) {
       if (b == ' ') {
         r.append('_');
 

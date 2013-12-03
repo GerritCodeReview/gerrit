@@ -477,8 +477,8 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   }
 
   private static boolean hasValidRef(List<Ref> refs) {
-    for (int i = 0; i < refs.size(); i++) {
-      if (refs.get(i) != null) {
+    for (Ref ref : refs) {
+      if (ref != null) {
         return true;
       }
     }

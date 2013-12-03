@@ -177,8 +177,7 @@ class History extends FlowPanel {
     Timestamp when = msg.date();
     List<CommentInfo> match = new ArrayList<CommentInfo>();
     List<CommentInfo> other = new ArrayList<CommentInfo>();
-    for (int i = 0; i < list.size(); i++) {
-      CommentInfo c = list.get(i);
+    for (CommentInfo c : list) {
       if (c.updated().compareTo(when) <= 0) {
         match.add(c);
       } else {

@@ -455,16 +455,15 @@ public class QueryShell {
     }
 
     int rowCnt = 0;
-    final int colCnt = columnMap.length;
     while (alreadyOnRow || rs.next()) {
       final JsonObject row = new JsonObject();
       final JsonObject cols = new JsonObject();
-      for (int c = 0; c < colCnt; c++) {
-        String v = columnMap[c].apply(rs);
+      for (Function function : columnMap) {
+        String v = function.apply(rs);
         if (v == null) {
           continue;
         }
-        cols.addProperty(columnMap[c].name.toLowerCase(), v);
+        cols.addProperty(function.name.toLowerCase(), v);
       }
       row.addProperty("type", "row");
       row.add("columns", cols);

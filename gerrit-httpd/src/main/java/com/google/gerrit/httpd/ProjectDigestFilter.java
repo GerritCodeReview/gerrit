@@ -223,8 +223,7 @@ class ProjectDigestFilter implements Filter {
 
   private static String LHEX(byte[] bin) {
     StringBuilder r = new StringBuilder(bin.length * 2);
-    for (int i = 0; i < bin.length; i++) {
-      byte b = bin[i];
+    for (byte b : bin) {
       r.append(LHEX[(b >>> 4) & 0x0f]);
       r.append(LHEX[b & 0x0f]);
     }

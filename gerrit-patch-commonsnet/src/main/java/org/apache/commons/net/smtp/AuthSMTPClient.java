@@ -176,9 +176,9 @@ public class AuthSMTPClient extends SMTPClient {
 
   private String toHex(final byte[] b) {
     final StringBuilder sec = new StringBuilder();
-    for (int i = 0; i < b.length; i++) {
-      final int u = (b[i] >> 4) & 0xf;
-      final int l = b[i] & 0xf;
+    for (byte c : b) {
+      final int u = (c >> 4) & 0xf;
+      final int l = c & 0xf;
       sec.append(hexchar[u]);
       sec.append(hexchar[l]);
     }

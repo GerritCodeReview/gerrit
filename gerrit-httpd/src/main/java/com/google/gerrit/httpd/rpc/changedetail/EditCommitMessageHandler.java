@@ -21,12 +21,9 @@ import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.PatchSetInserter;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.mail.CommitMessageEditedSender;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -39,9 +36,7 @@ import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
 
@@ -51,37 +46,28 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
   }
 
   private final ChangeControl.Factory changeControlFactory;
-  private final ReviewDb db;
-  private final IdentifiedUser currentUser;
   private final ChangeDetailFactory.Factory changeDetailFactory;
-  private final CommitMessageEditedSender.Factory commitMessageEditedSenderFactory;
+  private final ChangeUtil changeUtil;
   private final PatchSet.Id patchSetId;
   @Nullable
   private final String message;
-  private final GitRepositoryManager gitManager;
   private final PersonIdent myIdent;
-  private final PatchSetInserter.Factory patchSetInserterFactory;
 
   @Inject
-  EditCommitMessageHandler(final ChangeControl.Factory changeControlFactory,
-      final ReviewDb db, final IdentifiedUser currentUser,
-      final ChangeDetailFactory.Factory changeDetailFactory,
-      final CommitMessageEditedSender.Factory commitMessageEditedSenderFactory,
-      @Assisted final PatchSet.Id patchSetId,
-      @Assisted @Nullable final String message,
-      final GitRepositoryManager gitManager,
-      @GerritPersonIdent final PersonIdent myIdent,
-      final PatchSetInserter.Factory patchSetInserterFactory) {
+  EditCommitMessageHandler(ChangeControl.Factory changeControlFactory,
+      ChangeDetailFactory.Factory changeDetailFactory,
+      CommitMessageEditedSender.Factory commitMessageEditedSenderFactory,
+      @Assisted PatchSet.Id patchSetId,
+      @Assisted @Nullable String message,
+      ChangeUtil changeUtil,
+      @GerritPersonIdent PersonIdent myIdent,
+      PatchSetInserter.Factory patchSetInserterFactory) {
     this.changeControlFactory = changeControlFactory;
-    this.db = db;
-    this.currentUser = currentUser;
     this.changeDetailFactory = changeDetailFactory;
-    this.commitMessageEditedSenderFactory = commitMessageEditedSenderFactory;
+    this.changeUtil = changeUtil;
     this.patchSetId = patchSetId;
     this.message = message;
-    this.gitManager = gitManager;
     this.myIdent = myIdent;
-    this.patchSetInserterFactory = patchSetInserterFactory;
   }
 
   @Override
@@ -89,27 +75,13 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
       EmailException, NoSuchEntityException, PatchSetInfoNotAvailableException,
       MissingObjectException, IncorrectObjectTypeException, IOException,
       InvalidChangeOperationException, NoSuchProjectException {
-
-    final Change.Id changeId = patchSetId.getParentKey();
-    final ChangeControl control = changeControlFactory.validateFor(changeId);
+    Change.Id changeId = patchSetId.getParentKey();
+    ChangeControl control = changeControlFactory.validateFor(changeId);
     if (!control.canAddPatchSet()) {
       throw new InvalidChangeOperationException(
           "Not allowed to add new Patch Sets to: " + changeId.toString());
     }
-
-    final Repository git;
-    try {
-      git = gitManager.openRepository(db.changes().get(changeId).getProject());
-    } catch (RepositoryNotFoundException e) {
-      throw new NoSuchChangeException(changeId, e);
-    }
-    try {
-      ChangeUtil.editCommitMessage(patchSetId, control.getRefControl(),
-          currentUser, message, db, commitMessageEditedSenderFactory, git,
-          myIdent, patchSetInserterFactory);
-      return changeDetailFactory.create(changeId).call();
-    } finally {
-      git.close();
-    }
+    changeUtil.editCommitMessage(control, patchSetId, message, myIdent);
+    return changeDetailFactory.create(changeId).call();
   }
 }

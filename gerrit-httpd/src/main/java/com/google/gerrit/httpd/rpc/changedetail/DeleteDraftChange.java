@@ -19,9 +19,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtjsonrpc.common.VoidResult;
@@ -38,39 +35,28 @@ class DeleteDraftChange extends Handler<VoidResult> {
 
   private final ChangeControl.Factory changeControlFactory;
   private final ReviewDb db;
-  private final GitRepositoryManager gitManager;
-  private final GitReferenceUpdated gitRefUpdated;
-  private final ChangeIndexer indexer;
-
+  private final ChangeUtil changeUtil;
   private final PatchSet.Id patchSetId;
 
   @Inject
-  DeleteDraftChange(final ReviewDb db,
-      final ChangeControl.Factory changeControlFactory,
-      final GitRepositoryManager gitManager,
-      final GitReferenceUpdated gitRefUpdated,
-      final ChangeIndexer indexer,
-      @Assisted final PatchSet.Id patchSetId) {
+  DeleteDraftChange(ReviewDb db,
+      ChangeControl.Factory changeControlFactory,
+      ChangeUtil changeUtil,
+      @Assisted PatchSet.Id patchSetId) {
     this.changeControlFactory = changeControlFactory;
     this.db = db;
-    this.gitManager = gitManager;
-    this.gitRefUpdated = gitRefUpdated;
-    this.indexer = indexer;
-
+    this.changeUtil = changeUtil;
     this.patchSetId = patchSetId;
   }
 
   @Override
   public VoidResult call() throws NoSuchChangeException, OrmException, IOException {
-
-    final Change.Id changeId = patchSetId.getParentKey();
-    final ChangeControl control = changeControlFactory.validateFor(changeId);
+    Change.Id changeId = patchSetId.getParentKey();
+    ChangeControl control = changeControlFactory.validateFor(changeId);
     if (!control.canDeleteDraft(db)) {
       throw new NoSuchChangeException(changeId);
     }
-
-    ChangeUtil.deleteDraftChange(patchSetId, gitManager, gitRefUpdated, db,
-        indexer);
+    changeUtil.deleteDraftChange(patchSetId);
     return VoidResult.INSTANCE;
   }
 }

@@ -389,7 +389,7 @@ the link:cmd-stream-events.html[gerrit stream-events] command.
 
 * `com.google.gerrit.extensions.events.LifecycleListener`:
 +
-Gerrit server startup and shutdown
+Plugin start and stop
 
 * `com.google.gerrit.extensions.events.NewProjectCreatedListener`:
 +

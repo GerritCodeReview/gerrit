@@ -34,6 +34,24 @@
       "revId": "685af77b59774d36315b864b63ad0b25302d3e4d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3c15653_345a1044",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/contact/EncryptedContactStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-03T10:57:24Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "c3be12c6_335a2844",
+      "revId": "685af77b59774d36315b864b63ad0b25302d3e4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -45,13 +45,13 @@ public class UserAgentRule implements Rule {
 
     ua = ua.toLowerCase();
 
-    if (ua.indexOf("opera") != -1) {
+    if (ua.contains("opera")) {
       return "opera";
 
-    } else if (ua.indexOf("webkit") != -1) {
+    } else if (ua.contains("webkit")) {
       return "safari";
 
-    } else if (ua.indexOf("msie") != -1) {
+    } else if (ua.contains("msie")) {
       // GWT 2.0 uses document.documentMode here, which we can't do
       // on the server side.
 
@@ -73,7 +73,7 @@ public class UserAgentRule implements Rule {
       }
       return null;
 
-    } else if (ua.indexOf("gecko") != -1) {
+    } else if (ua.contains("gecko")) {
       Matcher m = gecko.matcher(ua);
       if (m.matches() && m.groupCount() == 2) {
         if (makeVersion(m) >= 1008) {

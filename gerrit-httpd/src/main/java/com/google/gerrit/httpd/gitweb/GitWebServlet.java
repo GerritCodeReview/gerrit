@@ -123,7 +123,7 @@ class GitWebServlet extends HttpServlet {
 
     if (!_env.envMap.containsKey("SystemRoot")) {
       String os = System.getProperty("os.name");
-      if (os != null && os.toLowerCase().indexOf("windows") != -1) {
+      if (os != null && os.toLowerCase().contains("windows")) {
         String sysroot = System.getenv("SystemRoot");
         if (sysroot == null || sysroot.isEmpty()) {
           sysroot = "C:\\WINDOWS";

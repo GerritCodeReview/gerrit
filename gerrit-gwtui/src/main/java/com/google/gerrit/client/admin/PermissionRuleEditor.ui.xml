@@ -78,7 +78,7 @@ limitations under the License.
     <g:Widget ui:field='max' styleName='{style.minmax}'/>
   </span>
 
-  <q:Hyperlink ui:field='groupNameLink' styleName='{style.groupName}'/>
+  <g:Anchor ui:field='groupNameLink' styleName='{style.groupName}'/>
   <span ui:field='groupNameSpan' styleName='{style.groupName}'/>
   <g:CheckBox ui:field='force' addStyleNames='{style.forcePush}'/>
   <g:Anchor

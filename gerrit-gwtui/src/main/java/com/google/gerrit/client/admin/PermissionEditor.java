@@ -18,6 +18,7 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.SuggestUtil;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.common.data.GroupInfo;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
@@ -26,6 +27,7 @@ import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.common.data.RefConfigSection;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
@@ -55,6 +57,7 @@ import com.google.gwt.user.client.ui.ValueLabel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class PermissionEditor extends Composite implements Editor<Permission>,
     ValueAwareEditor<Permission> {
@@ -101,6 +104,7 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
   DivElement deleted;
 
   private final Project.NameKey projectName;
+  private final Map<AccountGroup.UUID, GroupInfo> groupInfo;
   private final boolean readOnly;
   private final AccessSection section;
   private final LabelTypes labelTypes;
@@ -115,6 +119,7 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
     this.readOnly = readOnly;
     this.section = section;
     this.projectName = projectAccess.getProjectName();
+    this.groupInfo = projectAccess.getGroupInfo();
     this.labelTypes = labelTypes;
 
     PermissionNameRenderer nameRenderer =
@@ -314,7 +319,7 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
     @Override
     public PermissionRuleEditor create(int index) {
       PermissionRuleEditor subEditor =
-          new PermissionRuleEditor(readOnly, section, value, validRange);
+          new PermissionRuleEditor(readOnly, groupInfo, section, value, validRange);
       ruleContainer.insert(subEditor, index);
       return subEditor;
     }

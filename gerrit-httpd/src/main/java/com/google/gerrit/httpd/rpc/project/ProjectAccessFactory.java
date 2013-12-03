@@ -14,7 +14,11 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.common.data.GroupInfo;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.ProjectAccess;
@@ -112,8 +116,8 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     final RefControl metaConfigControl = pc.controlForRef(GitRepositoryManager.REF_CONFIG);
     List<AccessSection> local = new ArrayList<AccessSection>();
     Set<String> ownerOf = new HashSet<String>();
-    Map<AccountGroup.UUID, Boolean> visibleGroups =
-        new HashMap<AccountGroup.UUID, Boolean>();
+    Map<AccountGroup.UUID, GroupInfo> groupInfo = new HashMap<>();
+    Map<AccountGroup.UUID, Boolean> visibleGroups = new HashMap<>();
 
     for (AccessSection section : config.getAccessSections()) {
       String name = section.getName();
@@ -206,8 +210,34 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     detail.setCanChangeParent(pc.getCurrentUser().getCapabilities()
         .canAdministrateServer());
     detail.setConfigVisible(pc.isOwner() || metaConfigControl.isVisible());
+    detail.setGroupInfo(buildGroupInfo(local));
     detail.setLabelTypes(pc.getLabelTypes());
     return detail;
+  }
+
+  private Map<AccountGroup.UUID, GroupInfo> buildGroupInfo(List<AccessSection> local) {
+    Map<AccountGroup.UUID, GroupInfo> infos = new HashMap<>();
+    for (AccessSection section : local) {
+      for (Permission permission : section.getPermissions()) {
+        for (PermissionRule rule : permission.getRules()) {
+          if (rule.getGroup() != null) {
+            AccountGroup.UUID uuid = rule.getGroup().getUUID();
+            if (uuid != null && !infos.containsKey(uuid)) {
+              GroupDescription.Basic group = groupBackend.get(uuid);
+              infos.put(uuid, group != null ? new GroupInfo(group) : null);
+            }
+          }
+        }
+      }
+    }
+    return Maps.filterEntries(
+      infos,
+      new Predicate<Map.Entry<AccountGroup.UUID, GroupInfo>>() {
+        @Override
+        public boolean apply(Map.Entry<AccountGroup.UUID, GroupInfo> in) {
+          return in.getValue() != null;
+        }
+      });
   }
 
   private ProjectControl open() throws NoSuchProjectException {

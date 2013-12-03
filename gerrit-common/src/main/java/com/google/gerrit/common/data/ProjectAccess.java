@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 
 import java.util.List;
@@ -31,6 +32,7 @@ public class ProjectAccess {
   protected boolean canChangeParent;
   protected LabelTypes labelTypes;
   protected Map<String, String> capabilities;
+  protected Map<AccountGroup.UUID, GroupInfo> groupInfo;
 
   public ProjectAccess() {
   }
@@ -130,5 +132,13 @@ public class ProjectAccess {
 
   public void setCapabilities(Map<String, String> capabilities) {
     this.capabilities = capabilities;
+  }
+
+  public Map<AccountGroup.UUID, GroupInfo> getGroupInfo() {
+    return groupInfo;
+  }
+
+  public void setGroupInfo(Map<AccountGroup.UUID, GroupInfo> m) {
+    groupInfo = m;
   }
 }

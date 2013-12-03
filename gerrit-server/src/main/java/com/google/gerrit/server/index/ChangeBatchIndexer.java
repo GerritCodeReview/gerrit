@@ -23,6 +23,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.AsyncFunction;
+import com.google.common.util.concurrent.CheckedFuture;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
@@ -30,6 +31,7 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.change.MergeabilityChecker;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
@@ -108,16 +110,19 @@ public class ChangeBatchIndexer {
   private final GitRepositoryManager repoManager;
   private final ListeningExecutorService executor;
   private final ChangeIndexer.Factory indexerFactory;
+  private final MergeabilityChecker checker;
 
   @Inject
   ChangeBatchIndexer(Provider<ReviewDb> db,
       GitRepositoryManager repoManager,
       @IndexExecutor ListeningExecutorService executor,
-      ChangeIndexer.Factory indexerFactory) {
+      ChangeIndexer.Factory indexerFactory,
+      MergeabilityChecker checker) {
     this.db = db;
     this.repoManager = repoManager;
     this.executor = executor;
     this.indexerFactory = indexerFactory;
+    this.checker = checker;
   }
 
   public Result indexAll(ChangeIndex index, Iterable<Project.NameKey> projects,
@@ -190,7 +195,15 @@ public class ChangeBatchIndexer {
               return Futures.immediateFuture(null);
             }
       }));
-    } catch (ExecutionException e) {
+
+      // TODO(davido): include indexing of mergeable field in MPM above
+      for (Project.NameKey project : projects) {
+        List<CheckedFuture<?, IOException>> f = checker.reindexProject(project);
+        for (CheckedFuture<?, IOException> checkedFuture : f) {
+          checkedFuture.checkedGet();
+        }
+      }
+    } catch (ExecutionException | IOException e) {
       log.error("Error in batch indexer", e);
       ok.set(false);
     }

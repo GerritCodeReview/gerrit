@@ -16,6 +16,24 @@
       "revId": "685af77b59774d36315b864b63ad0b25302d3e4d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3be12c6_335a2844",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/contact/EncryptedContactStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-03T10:52:33Z",
+      "side": 0,
+      "message": "The constructor used here is deprecated in favor of one that takes a PGPDataEncryptorBuilder [1].\n\nAs far as I understand the provider is no longer a parameter because it now takes a builder that builds the appropriate type, i.e. in this case BcPGPDataEncryptorBuilder.\n\nI missed that there was also a new constructor with an oldFormat parameter.  Good catch.  I\u0027ll fix that.\n\n[1] http://www.borelly.net/cb/docs/javaBC-1.4.8/pg/org/bouncycastle/openpgp/PGPEncryptedDataGenerator.html",
+      "parentUuid": "83d09a10_618cd6ac",
+      "revId": "685af77b59774d36315b864b63ad0b25302d3e4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

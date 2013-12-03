@@ -88,6 +88,11 @@ link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/user-
 * Regular expressions are allowed in `file` searches.
 
 
+*WARNING:* After enabling the secondary index, the index must be built using the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/pgm-reindex.html[
+reindex program before restarting the Gerrit server.
+
+
 Configuration
 ~~~~~~~~~~~~~
 

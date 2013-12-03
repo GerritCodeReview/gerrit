@@ -132,10 +132,10 @@ public class GroupControl {
      * server administrators.
      */
     return (accountGroup != null && accountGroup.isVisibleToAll())
-      || user instanceof InternalUser
-      || user.getEffectiveGroups().contains(group.getGroupUUID())
-      || isOwner()
-      || user.getCapabilities().canAdministrateServer();
+      || (user != null && (user instanceof InternalUser
+          || user.getEffectiveGroups().contains(group.getGroupUUID())
+          || isOwner()
+          || user.getCapabilities().canAdministrateServer()));
   }
 
   public boolean isOwner() {

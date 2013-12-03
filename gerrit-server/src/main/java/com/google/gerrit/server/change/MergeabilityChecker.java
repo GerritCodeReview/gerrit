@@ -47,6 +47,7 @@ import com.google.inject.ProvisionException;
 import org.eclipse.jgit.lib.Constants;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -104,8 +105,7 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
   }
 
   /**
-   * Updates the mergeability flag of the change asynchronously. If the
-   * mergeability flag is updated the change is reindexed.
+   * Updates the mergeability flag of the change asynchronously.
    *
    * @param change the change for which the mergeability flag should be updated
    * @return CheckedFuture that updates the mergeability flag of the change and
@@ -146,6 +146,16 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
   public boolean update(Change change) throws IOException {
     try {
       return new ChangeUpdateTask(schemaFactory, change).call();
+    } catch (Exception e) {
+      Throwables.propagateIfPossible(e);
+      throw MAPPER.apply(e);
+    }
+  }
+
+  public List<CheckedFuture<?, IOException>> update(
+      Project.NameKey project) throws IOException {
+    try {
+      return new ProjectUpdateTask(schemaFactory, project).call();
     } catch (Exception e) {
       Throwables.propagateIfPossible(e);
       throw MAPPER.apply(e);
@@ -236,6 +246,31 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
         updateAsync(change);
       }
       return null;
+    }
+  }
+
+  private class ProjectUpdateTask {
+    private final Project.NameKey project;
+
+    ProjectUpdateTask(SchemaFactory<ReviewDb> schemaFactory,
+        Project.NameKey project) {
+      this.project = project;
+    }
+
+    public List<CheckedFuture<?, IOException>> call() throws Exception {
+      List<Change> openChanges;
+      ReviewDb db = schemaFactory.open();
+      try {
+        openChanges = db.changes().byProjectOpenAll(project).toList();
+      } finally {
+        db.close();
+      }
+      List<CheckedFuture<?, IOException>> futures =
+          new ArrayList<>(openChanges.size());
+      for (Change change : mergeabilityCheckQueue.addAll(openChanges)) {
+        futures.add(updateAsync(change));
+      }
+      return futures;
     }
   }
 }

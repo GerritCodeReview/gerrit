@@ -23,6 +23,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.AsyncFunction;
+import com.google.common.util.concurrent.CheckedFuture;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
@@ -30,6 +31,7 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.change.MergeabilityChecker;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
@@ -108,16 +110,19 @@ public class ChangeBatchIndexer {
   private final GitRepositoryManager repoManager;
   private final ListeningExecutorService executor;
   private final ChangeIndexer.Factory indexerFactory;
+  private final MergeabilityChecker checker;
 
   @Inject
   ChangeBatchIndexer(Provider<ReviewDb> db,
       GitRepositoryManager repoManager,
       @IndexExecutor ListeningExecutorService executor,
-      ChangeIndexer.Factory indexerFactory) {
+      ChangeIndexer.Factory indexerFactory,
+      MergeabilityChecker checker) {
     this.db = db;
     this.repoManager = repoManager;
     this.executor = executor;
     this.indexerFactory = indexerFactory;
+    this.checker = checker;
   }
 
   public Result indexAll(ChangeIndex index, Iterable<Project.NameKey> projects,
@@ -182,6 +187,11 @@ public class ChangeBatchIndexer {
     }
 
     try {
+      for (Project.NameKey project : projects) {
+        for (CheckedFuture<?, IOException> f : checker.update(project)) {
+          f.checkedGet();
+        }
+      }
       mpm.waitFor(Futures.transform(Futures.successfulAsList(futures),
           new AsyncFunction<List<?>, Void>() {
             @Override
@@ -190,7 +200,7 @@ public class ChangeBatchIndexer {
               return Futures.immediateFuture(null);
             }
       }));
-    } catch (ExecutionException e) {
+    } catch (ExecutionException | IOException e) {
       log.error("Error in batch indexer", e);
       ok.set(false);
     }

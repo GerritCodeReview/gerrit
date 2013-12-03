@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83d09a10_2182ce7b",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-03T09:34:12Z",
+      "side": 1,
+      "message": "To be consequent with ourself, either add this comment here, or remove the project option comment on the line 407.\n\n    // No --branch option, so they want every branch.",
+      "revId": "f22d7b0c9d701f8370e1dc4851e984a73262c41f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

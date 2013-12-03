@@ -49,14 +49,14 @@ limitations under the License.
     }
   </ui:style>
   <g:HTMLPanel styleName='{style.replyBox}'>
+    <div class='{res.style.section}' ui:field='labelsParent'>
+      <g:Grid ui:field='labelsTable'/>
+    </div>
     <div class='{res.style.section}'>
       <c:NpTextArea
          visibleLines='5'
          characterWidth='70'
          ui:field='message'/>
-    </div>
-    <div class='{res.style.section}' ui:field='labelsParent'>
-      <g:Grid ui:field='labelsTable'/>
     </div>
     <g:ScrollPanel ui:field='commentsPanel'
         styleName='{style.comments}'

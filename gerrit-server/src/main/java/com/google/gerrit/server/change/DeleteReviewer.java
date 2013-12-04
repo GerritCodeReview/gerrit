@@ -23,17 +23,21 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.DeleteReviewer.Input;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
@@ -42,11 +46,14 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
 
   private final Provider<ReviewDb> dbProvider;
   private final ChangeIndexer indexer;
+  private final IdentifiedUser.GenericFactory userFactory;
 
   @Inject
-  DeleteReviewer(Provider<ReviewDb> dbProvider, ChangeIndexer indexer) {
+  DeleteReviewer(Provider<ReviewDb> dbProvider, ChangeIndexer indexer,
+      IdentifiedUser.GenericFactory userFactory) {
     this.dbProvider = dbProvider;
     this.indexer = indexer;
+    this.userFactory = userFactory;
   }
 
   @Override
@@ -56,12 +63,20 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
     ChangeControl control = rsrc.getControl();
     Change.Id changeId = rsrc.getChange().getId();
     ReviewDb db = dbProvider.get();
+    StringBuilder msg = new StringBuilder();
+    msg.append("Removed the following approvals:\n\n");
     db.changes().beginTransaction(changeId);
     try {
       List<PatchSetApproval> del = Lists.newArrayList();
       for (PatchSetApproval a : approvals(db, rsrc)) {
         if (control.canRemoveReviewer(a)) {
           del.add(a);
+          if (a.getValue() != 0) {
+            msg.append("* ")
+                .append(a.getLabel()).append(formatLabelValue(a.getValue()))
+                .append(" by ").append(userFactory.create(a.getAccountId()).getNameEmail())
+                .append("\n");
+          }
         } else {
           throw new AuthException("delete not permitted");
         }
@@ -71,12 +86,29 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
       }
       ChangeUtil.bumpRowVersionNotLastUpdatedOn(rsrc.getChange().getId(), db);
       db.patchSetApprovals().delete(del);
+
+      ChangeMessage changeMessage =
+          new ChangeMessage(new ChangeMessage.Key(rsrc.getChange().getId(),
+              ChangeUtil.messageUUID(db)),
+              ((IdentifiedUser) control.getCurrentUser()).getAccountId(),
+              TimeUtil.nowTs(), rsrc.getChange().currentPatchSetId());
+      changeMessage.setMessage(msg.toString());
+      db.changeMessages().insert(Collections.singleton(changeMessage));
+
       db.commit();
     } finally {
       db.rollback();
     }
     indexer.index(rsrc.getChange());
     return Response.none();
+  }
+
+  private static String formatLabelValue(short value) {
+    if (value > 0) {
+      return "+" + value;
+    } else {
+      return Short.toString(value);
+    }
   }
 
   private Iterable<PatchSetApproval> approvals(ReviewDb db,

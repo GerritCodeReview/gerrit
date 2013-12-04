@@ -1,4 +1,5 @@
 // Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -33,10 +34,10 @@ import java.util.List;
  * A table used to specify which two patch sets should be diff'ed.
  */
 class HistoryTable extends FancyFlexTable<Patch> {
-  private final PatchScreen screen;
+  private final AbstractPatchScreen screen;
   final List<HistoryRadio> all = new ArrayList<>();
 
-  HistoryTable(final PatchScreen parent) {
+  HistoryTable(final AbstractPatchScreen parent) {
     setStyleName(Gerrit.RESOURCES.css().patchHistoryTable());
     screen = parent;
     table.setWidth("auto");

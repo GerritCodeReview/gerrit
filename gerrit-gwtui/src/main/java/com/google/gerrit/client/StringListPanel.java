@@ -181,7 +181,7 @@ public class StringListPanel extends FlowPanel implements HasEnabled {
     }
 
     @Override
-    protected List<String> getRowItem(int row) {
+    public List<String> getRowItem(int row) {
       List<String> v = new ArrayList<>();
       for (int i = 0; i < inputs.size(); i++) {
         v.add(table.getText(row, i + 1));

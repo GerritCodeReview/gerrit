@@ -51,7 +51,6 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
         }
       };
 
-  protected boolean isFileCommentBorderRowExist;
   // Cursors.
   protected int rowOfTableHeaderB;
   protected int borderRowOfFileComment;
@@ -226,7 +225,11 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
         appendTextDifferences(script, nc, lines);
       }
     } else {
-      appendNoDifferences(nc);
+      if (isAllMode) {
+        diffParent.setVisible(false);
+      } else {
+        appendNoDifferences(nc);
+      }
     }
 
     resetHtml(nc);
@@ -401,6 +404,8 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
         continue;
       }
     }
+
+    showInAllModeIfFileCommentPresent();
   }
 
   private void defaultStyle(final int row, final CellFormatter fmt) {

@@ -62,7 +62,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
     public Map<String, List<ConfigValueInput>> pluginConfigValues;
   }
 
-  public class ConfigValueInput {
+  public static class ConfigValueInput {
     public String name;
     public String value;
   }

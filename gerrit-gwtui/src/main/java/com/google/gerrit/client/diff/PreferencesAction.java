@@ -20,7 +20,7 @@ import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 
-class PreferencesAction{
+class PreferencesAction {
   private final SideBySide2 view;
   private final DiffPreferences prefs;
   private PopupPanel popup;

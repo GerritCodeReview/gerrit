@@ -14,7 +14,6 @@
 
 package com.google.gerrit.client.diff;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.diff.LineMapper.LineOnOtherInfo;
 import com.google.gwt.user.client.Timer;
 
@@ -38,10 +37,10 @@ class ScrollSynchronizer {
   }
 
   private void updateScreenHeader(ScrollInfo si) {
-    if (si.getTop() == 0 && !Gerrit.isHeaderVisible()) {
+    if (si.getTop() == 0 && !diffTable.isHeaderVisible()) {
       diffTable.setHeaderVisible(true);
     } else if (si.getTop() > 0.5 * si.getClientHeight()
-        && Gerrit.isHeaderVisible()) {
+        && diffTable.isHeaderVisible()) {
       diffTable.setHeaderVisible(false);
     }
   }

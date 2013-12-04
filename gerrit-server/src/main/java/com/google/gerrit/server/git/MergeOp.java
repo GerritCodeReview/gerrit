@@ -15,12 +15,10 @@
 package com.google.gerrit.server.git;
 
 import static com.google.gerrit.server.git.MergeUtil.getSubmitter;
-
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
-
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
 import com.google.common.base.Objects;
@@ -44,7 +42,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
@@ -899,7 +896,6 @@ public class MergeOp {
             submitter = a;
           }
         }
-        a.cache(c);
       }
       db.patchSetApprovals().update(approvals);
       db.patchSetApprovals().deleteKeys(toDelete);
@@ -1149,7 +1145,6 @@ public class MergeOp {
             change.currentPatchSetId());
         msg.setMessage("Project was deleted.");
         db.changeMessages().insert(Collections.singleton(msg));
-        new ApprovalsUtil(db).syncChangeStatus(change);
         db.commit();
         indexer.index(change);
       }

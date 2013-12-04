@@ -106,9 +106,7 @@ public class LabelNormalizer {
   }
 
   private PatchSetApproval copy(PatchSetApproval src, ChangeControl ctl) {
-    PatchSetApproval dest = new PatchSetApproval(src.getPatchSetId(), src);
-    dest.cache(ctl.getChange());
-    return dest;
+    return new PatchSetApproval(src.getPatchSetId(), src);
   }
 
   private PermissionRange getRange(ChangeControl ctl, LabelType lt,

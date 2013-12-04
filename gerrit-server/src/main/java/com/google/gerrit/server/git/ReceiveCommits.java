@@ -2261,8 +2261,6 @@ public class ReceiveCommits {
     change.setStatus(Change.Status.MERGED);
     ChangeUtil.updated(change);
 
-    approvalsUtil.syncChangeStatus(change);
-
     final StringBuilder msgBuf = new StringBuilder();
     msgBuf.append("Change has been successfully pushed");
     if (!mergedIntoRef.equals(change.getDest().get())) {

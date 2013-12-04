@@ -394,7 +394,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       } else if (c != null && c.getValue() != ent.getValue()) {
         c.setValue(ent.getValue());
         c.setGranted(timestamp);
-        c.cache(change);
         upd.add(c);
         labelDelta.add(format(normName, c.getValue()));
         categories.put(normName, c.getValue());
@@ -407,7 +406,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
                 lt.getLabelId()),
             ent.getValue(), TimeUtil.nowTs());
         c.setGranted(timestamp);
-        c.cache(change);
         ins.add(c);
         labelDelta.add(format(normName, c.getValue()));
         categories.put(normName, c.getValue());
@@ -436,7 +434,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
                 .getLabelId()),
             (short) 0, TimeUtil.nowTs());
         c.setGranted(timestamp);
-        c.cache(change);
         ins.add(c);
       } else {
         // Pick a random label that is about to be deleted and keep it.
@@ -444,7 +441,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         PatchSetApproval c = i.next();
         c.setValue((short) 0);
         c.setGranted(timestamp);
-        c.cache(change);
         i.remove();
         upd.add(c);
       }

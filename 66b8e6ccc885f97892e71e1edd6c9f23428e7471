@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03a82aa1_9dec0338",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-12-04T19:29:24Z",
+      "side": 1,
+      "message": "nit: Extra whitespace.",
+      "range": {
+        "startLine": 14,
+        "startChar": 37,
+        "endLine": 14,
+        "endChar": 38
+      },
+      "revId": "66b8e6ccc885f97892e71e1edd6c9f23428e7471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03a82aa1_dde28b46",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PreferencesAction.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-12-04T19:29:24Z",
+      "side": 1,
+      "message": "nit: Missing space.",
+      "range": {
+        "startLine": 23,
+        "startChar": 23,
+        "endLine": 23,
+        "endChar": 24
+      },
+      "revId": "66b8e6ccc885f97892e71e1edd6c9f23428e7471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03a82aa1_7df25717",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PreferencesBox.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-12-04T19:29:24Z",
+      "side": 1,
+      "message": "Should we care about NumberFormatException?",
+      "range": {
+        "startLine": 154,
+        "startChar": 39,
+        "endLine": 154,
+        "endChar": 47
+      },
+      "revId": "66b8e6ccc885f97892e71e1edd6c9f23428e7471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03a82aa1_bde7bf54",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PreferencesBox.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-12-04T19:29:24Z",
+      "side": 1,
+      "message": "This is not very intuitive. On the other hand we don\u0027t want a lengthy hint like \"Lines of context (empty for whole file)\".\n\nShould we just document it?",
+      "range": {
+        "startLine": 155,
+        "startChar": 15,
+        "endLine": 155,
+        "endChar": 39
+      },
+      "revId": "66b8e6ccc885f97892e71e1edd6c9f23428e7471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

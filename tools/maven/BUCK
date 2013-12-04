@@ -5,7 +5,7 @@ TYPE = 'snapshot' if GERRIT_VERSION.endswith('-SNAPSHOT') else 'release'
 
 maven_package(
   repository = 'gerrit-api-repository',
-  url = 's3://gerrit-api@commondatastorage.googleapis.com/%s' % TYPE,
+  url = 'gs://gerrit-api/%s' % TYPE,
   version = GERRIT_VERSION,
   jar = {
     'gerrit-extension-api': '//:extension-api',

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e396b657_6cedbb32",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/GuiceLogger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-04T00:19:04Z",
+      "side": 1,
+      "message": "Should be named GuiceLogger, or the file should be renamed to match the class name.",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 23
+      },
+      "revId": "2e8e6f8e52cc958e35acb3c7475135c52c6468a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

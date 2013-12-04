@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "038aea2e_edf8c5f2",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-04T00:23:48Z",
+      "side": 1,
+      "message": "We are doing it very wrong if we need a SMTP client in reindex.",
+      "revId": "38f2aee1187c96f1ab50f218d797fff8ecd41bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e396b657_8cf10713",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModuleBase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-04T00:23:48Z",
+      "side": 1,
+      "message": "Missing copyright header.",
+      "revId": "38f2aee1187c96f1ab50f218d797fff8ecd41bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e396b657_ecf8cbf2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeBatchIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-04T00:23:48Z",
+      "side": 1,
+      "message": "This should probably run first. We want the mergeable field updated in the Change record before the index even tries to rebuild its document data. Doing it after means we update the index twice for many of the open changes, which is a huge waste of time.",
+      "revId": "38f2aee1187c96f1ab50f218d797fff8ecd41bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

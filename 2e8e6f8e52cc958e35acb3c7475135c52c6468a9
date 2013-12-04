@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e396b657_aceec32b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-04T00:23:48Z",
+      "side": 0,
+      "message": "So basically everything is needed in both contexts? What is the point of doing this split when we left behind only one thing, the thread local request support.",
+      "revId": "2e8e6f8e52cc958e35acb3c7475135c52c6468a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

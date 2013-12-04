@@ -20,6 +20,7 @@ class CapabilityInfo {
   public boolean createAccount;
   public boolean createGroup;
   public boolean createProject;
+  public boolean createBranch;
   public boolean emailReviewers;
   public boolean flushCaches;
   public boolean generateHttpPassword;

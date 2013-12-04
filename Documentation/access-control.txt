@@ -1208,6 +1208,15 @@ either link:cmd-create-project.html[create new git projects via ssh]
 or via the web UI.
 
 
+[[capability_createBranch]]
+Create Branch
+~~~~~~~~~~~~~~
+
+Allow branch creation.  This capability allows the granted group to
+either link:cmd-create-branch.html[create new branches ssh]
+or via the web UI.
+
+
 [[capability_emailReviewers]]
 Email Reviewers
 ~~~~~~~~~~~~~~~

@@ -44,6 +44,9 @@ public class GlobalCapability {
   /** Can create any project on the server. */
   public static final String CREATE_PROJECT = "createProject";
 
+  /** Can create any branch on the server. */
+  public static final String CREATE_BRANCH = "createBranch";
+
   /**
    * Denotes who may email change reviewers and watchers.
    * <p>
@@ -98,6 +101,7 @@ public class GlobalCapability {
     NAMES_ALL.add(CREATE_ACCOUNT);
     NAMES_ALL.add(CREATE_GROUP);
     NAMES_ALL.add(CREATE_PROJECT);
+    NAMES_ALL.add(CREATE_BRANCH);
     NAMES_ALL.add(EMAIL_REVIEWERS);
     NAMES_ALL.add(FLUSH_CACHES);
     NAMES_ALL.add(KILL_TASK);

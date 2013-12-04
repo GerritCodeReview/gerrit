@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e396b657_6c069b36",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-04T01:02:43Z",
+      "side": 1,
+      "message": "nit: don\u0027t insert yet another blank line here. 1 is enough.",
+      "revId": "cccb5b2e122c9773e1486f8735649cd33b969b40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e396b657_8c1ae786",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-04T01:02:43Z",
+      "side": 1,
+      "message": "Why is it necessary to reset the text into the CM instances? Is this happening when the whitespace difference changes and we think we need to reload the files?\n\nEven on a whitespace setting change the content won\u0027t be different.",
+      "range": {
+        "startLine": 470,
+        "startChar": 6,
+        "endLine": 471,
+        "endChar": 38
+      },
+      "revId": "cccb5b2e122c9773e1486f8735649cd33b969b40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "038aea2e_ed11a56a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SidePanel.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-04T01:02:43Z",
+      "side": 1,
+      "message": "add gutters.clear() after the loop?",
+      "revId": "cccb5b2e122c9773e1486f8735649cd33b969b40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "038aea2e_cd14e95d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SkipBar.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-04T01:02:43Z",
+      "side": 1,
+      "message": "I find it awkward the skip bars have a list of each other. Really this should be handled in the SideBySide2 or the DiffTable and the SkipBar should be passed one of those objects in its constructor, and its onExpandAll() should call a method on that to unregister itself from the list when its disposed of.",
+      "revId": "cccb5b2e122c9773e1486f8735649cd33b969b40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

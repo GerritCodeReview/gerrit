@@ -22,6 +22,47 @@
       "revId": "5f88589617a6e035a7e256bddb7ef9aa7462fd2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "038aea2e_ad8a3d4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-04T09:51:55Z",
+      "side": 1,
+      "message": "Hmm. Good question. Maybe not?",
+      "parentUuid": "e3c15653_5436ac04",
+      "range": {
+        "startLine": 4,
+        "startChar": 12,
+        "endLine": 4,
+        "endChar": 57
+      },
+      "revId": "5f88589617a6e035a7e256bddb7ef9aa7462fd2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e396b657_ec3febc7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-04T09:51:55Z",
+      "side": 1,
+      "message": "With this change the tab order is now confused. The box opens with the message text area focused. I can enter a cover letter. Press tab, and now I am on Send. I haven\u0027t selected a score yet.\n\nWith the old ordering tab put me on the Code-Review line and I can use the left/right arrow keys to score -1/+1 easily, or +2 with two right arrows. Tab again and I am on Verified. Tab once more and I am on Send.\n\nI like your reasoning for the ordering. But now our keyboard behavior for quick voting with messages is broken.",
+      "revId": "5f88589617a6e035a7e256bddb7ef9aa7462fd2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

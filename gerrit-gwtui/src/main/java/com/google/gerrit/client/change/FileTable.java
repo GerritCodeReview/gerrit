@@ -421,7 +421,7 @@ public class FileTable extends FlowPanel {
     }
 
     @Override
-    protected FileInfo getRowItem(int row) {
+    public FileInfo getRowItem(int row) {
       if (1 <= row && row <= list.length()) {
         return list.get(row - 1);
       }

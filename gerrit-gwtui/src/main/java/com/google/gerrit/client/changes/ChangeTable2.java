@@ -1,4 +1,5 @@
 // Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -65,6 +66,28 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
   private int columns;
   private List<String> labelNames;
 
+  private class KeyNavigation extends DefaultKeyNavigation {
+
+    public KeyNavigation(Widget parent, String itemHelpName) {
+      super(parent);
+
+      setKeyHelp(Action.NEXT, com.google.gerrit.client.ui.Util.M
+          .helpListNext(itemHelpName));
+      setKeyHelp(Action.PREV, com.google.gerrit.client.ui.Util.M
+          .helpListPrev(itemHelpName));
+      setKeyHelp(Action.OPEN, com.google.gerrit.client.ui.Util.M
+          .helpListOpen(itemHelpName));
+    }
+
+    @Override
+    public void initializeKeys() {
+      super.initializeKeys();
+      if (Gerrit.isSignedIn()) {
+        keysAction.add(new StarKeyCommand(0, 's', Util.C.changeTableStar()));
+      }
+    }
+  }
+
   public ChangeTable2() {
     super(Util.C.changeItemHelp());
     columns = useNewFeatures ? BASE_COLUMNS : BASE_COLUMNS - 1;
@@ -72,6 +95,8 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
 
     if (Gerrit.isSignedIn()) {
       keysAction.add(new StarKeyCommand(0, 's', Util.C.changeTableStar()));
+      keyNavigation = new KeyNavigation(this, Util.C.changeItemHelp());
+      keyNavigation.initializeKeys();
     }
 
     sections = new ArrayList<>();

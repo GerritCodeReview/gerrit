@@ -1,4 +1,5 @@
 // Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -31,6 +32,8 @@ import com.google.gerrit.client.config.ConfigServerApi;
 import com.google.gerrit.client.extensions.TopMenu;
 import com.google.gerrit.client.extensions.TopMenuItem;
 import com.google.gerrit.client.extensions.TopMenuList;
+import com.google.gerrit.client.patches.AbstractPatchScreen;
+//import com.google.gerrit.client.patches.AllInOnePatchScreen;
 import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -125,7 +128,7 @@ public class Gerrit implements EntryPoint {
   private static SearchPanel searchPanel;
   private static final Dispatcher dispatcher = new Dispatcher();
   private static ViewSite<Screen> body;
-  private static PatchScreen patchScreen;
+  private static AbstractPatchScreen patchScreen;
   private static String lastChangeListToken;
   private static String lastViewToken;
 
@@ -205,8 +208,10 @@ public class Gerrit implements EntryPoint {
    */
   public static void updateMenus(Screen view) {
     LinkMenuBar diffBar = menuBars.get(GerritTopMenu.DIFFERENCES.menuName);
+//    if ((view instanceof PatchScreen)
+//        || (view instanceof AllInOnePatchScreen)) {
     if (view instanceof PatchScreen) {
-      patchScreen = (PatchScreen) view;
+      patchScreen = (AbstractPatchScreen) view;
       menuLeft.setVisible(diffBar, true);
       menuLeft.selectTab(menuLeft.getWidgetIndex(diffBar));
     } else {
@@ -941,7 +946,7 @@ public class Gerrit implements EntryPoint {
   }
 
   private static void addDiffLink(final LinkMenuBar m, final String text,
-      final PatchScreen.Type type) {
+      final AbstractPatchScreen.Type type) {
     m.addItem(new LinkMenuItem(text, "") {
         @Override
         public void go() {

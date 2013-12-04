@@ -737,6 +737,16 @@ a:hover {
   color: #006000;
 }
 
+.diffFileName {
+  font-family: mono-font;
+  font-size: 9pt;
+  background: trimColor;
+  font-weight: bold;
+  text-align: center;
+  padding: 4px 4px;
+  border: 1px solid #B0BDCC;
+}
+
 .patchContentTable tr.commentHolder {
   background: #E5ECF9;
 }

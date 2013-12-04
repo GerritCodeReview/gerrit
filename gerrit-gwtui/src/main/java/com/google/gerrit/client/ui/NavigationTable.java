@@ -1,4 +1,5 @@
 // Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,7 +20,6 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
@@ -28,7 +28,6 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
@@ -81,16 +80,43 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
         }
       };
 
+  protected class DefaultKeyNavigation extends AbstractKeyNavigation {
+    public DefaultKeyNavigation(Widget parent) {
+      super(parent);
+    }
+
+    @Override
+    protected void onNext() {
+      ensurePointerVisible();
+      onDown();
+    }
+
+    @Override
+    protected void onPrev() {
+      ensurePointerVisible();
+      onUp();
+    }
+
+    @Override
+    protected void onOpen() {
+      if (0 <= currentRow && currentRow < table.getRowCount()) {
+        if (getRowItem(currentRow) != null) {
+          onOpenRow(currentRow);
+        }
+      }
+    }
+  }
+
   private final Image pointer;
   protected final KeyCommandSet keysNavigation;
   protected final KeyCommandSet keysAction;
-  private HandlerRegistration regNavigation;
-  private HandlerRegistration regAction;
   private int currentRow = -1;
   private String saveId;
 
   private boolean computedScrollType;
   private ScrollPanel parentScrollPanel;
+
+  protected AbstractKeyNavigation keyNavigation;
 
   protected NavigationTable(String itemHelpName) {
     this();
@@ -112,7 +138,7 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
 
   protected abstract Object getRowItemKey(RowItem item);
 
-  private void onUp() {
+  public void onUp() {
     for (int row = currentRow - 1; row >= 0; row--) {
       if (getRowItem(row) != null) {
         movePointerTo(row);
@@ -121,7 +147,7 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
     }
   }
 
-  private void onDown() {
+  public void onDown() {
     final int max = table.getRowCount();
     for (int row = currentRow + 1; row < max; row++) {
       if (getRowItem(row) != null) {
@@ -145,6 +171,15 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
    * @param row row number.
    * @param column column number.
    */
+  public void onOpenCurrent() {
+    if (0 <= currentRow && currentRow < table.getRowCount()) {
+      if (getRowItem(currentRow) != null) {
+        onOpenRow(currentRow);
+      }
+    }
+  }
+
+  /** Invoked when the user double clicks on a table cell. */
   protected void onCellDoubleClick(int row, int column) {
     onOpenRow(row);
   }
@@ -160,11 +195,15 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
     movePointerTo(row);
   }
 
-  protected int getCurrentRow() {
+  public int getCurrentRow() {
     return currentRow;
   }
 
-  protected void ensurePointerVisible() {
+  public int getMaxRows() {
+    return table.getRowCount();
+  }
+
+  public void ensurePointerVisible() {
     final int max = table.getRowCount();
     int row = currentRow;
     final int init = row;
@@ -196,6 +235,29 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
       movePointerTo(row, false);
     }
   }
+
+  public void hideCursor() {
+    final int noCursor = -1;
+    if (currentRow != noCursor) {
+      final CellFormatter fmt = table.getCellFormatter();
+      final Element tr = DOM.getParent(fmt.getElement(currentRow, C_ARROW));
+      UIObject.setStyleName(tr, Gerrit.RESOURCES.css().activeRow(), false);
+
+      table.setWidget(currentRow, C_ARROW, null);
+      pointer.removeFromParent();
+    }
+  }
+
+  public void showCursor() {
+    final int noCursor = -1;
+    if (currentRow != noCursor) {
+      final CellFormatter fmt = table.getCellFormatter();
+      table.setWidget(currentRow, C_ARROW, pointer);
+      final Element tr = DOM.getParent(fmt.getElement(currentRow, C_ARROW));
+      UIObject.setStyleName(tr, Gerrit.RESOURCES.css().activeRow(), true);
+    }
+  }
+
 
   protected void movePointerTo(final int newRow) {
     movePointerTo(newRow, true);
@@ -322,21 +384,11 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
   }
 
   public void setRegisterKeys(final boolean on) {
-    if (on && isAttached()) {
-      if (regNavigation == null) {
-        regNavigation = GlobalKey.add(this, keysNavigation);
-      }
-      if (regAction == null) {
-        regAction = GlobalKey.add(this, keysAction);
-      }
-    } else {
-      if (regNavigation != null) {
-        regNavigation.removeHandler();
-        regNavigation = null;
-      }
-      if (regAction != null) {
-        regAction.removeHandler();
-        regAction = null;
+    if (keyNavigation != null) {
+      if (on && isAttached()) {
+        keyNavigation.setRegisterKeys(true);
+      } else {
+        keyNavigation.setRegisterKeys(false);
       }
     }
   }

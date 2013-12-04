@@ -125,6 +125,40 @@
       "revId": "1b6a82cf5cda2d32bdb70f17fa793fc30228f35b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "839c1a85_41fc52e5",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateBranchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-04T09:37:51Z",
+      "side": 1,
+      "message": "As mentioned on this thread [1] you should use the new Gerrit API here:\n\n @Inject GerritAPI gApi;\n\n[1] https://groups.google.com/forum/#!topic/repo-discuss/BDN6KaQ7Olo",
+      "revId": "1b6a82cf5cda2d32bdb70f17fa793fc30228f35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3b1b20e_9b052b2a",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateBranchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-04T09:37:51Z",
+      "side": 1,
+      "message": "With the new API:\n\n  BranchInput in \u003d new BranchInput();\n  in.revision \u003d revision;\n  gApi.projects()\n      .name(project.getProject().getNameKey().get())\n      .branch(ref)\n      .create(in);",
+      "revId": "1b6a82cf5cda2d32bdb70f17fa793fc30228f35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

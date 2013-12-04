@@ -59,9 +59,6 @@ public class CommitValidators {
 
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
 
-  private static final String GIT_HOOKS_COMMIT_MSG =
-      "`git rev-parse --git-dir`/hooks/commit-msg";
-
   public interface Factory {
     CommitValidators create(RefControl refControl, SshInfo sshInfo,
         Repository repo);
@@ -268,11 +265,11 @@ public class CommitValidators {
 
       // If there are no SSH keys, the commit-msg hook must be installed via
       // HTTP(S)
-      String p = GIT_HOOKS_COMMIT_MSG;
       if (hostKeys.isEmpty()) {
+        String p = "${gitdir}/hooks/commit-msg";
         return String.format(
-            "  curl -Lo %s %s/tools/hooks/commit-msg ; chmod +x %s", p,
-            getGerritUrl(canonicalWebUrl), p);
+          "  gitdir=$(git rev-parse --git-dir); curl -o %s %s/tools/hooks/commit-msg ; chmod +x %s", p,
+          getGerritUrl(canonicalWebUrl), p);
       }
 
       // SSH keys exist, so the hook can be installed with scp.
@@ -292,8 +289,8 @@ public class CommitValidators {
         sshPort = 22;
       }
 
-      return String.format("  scp -p -P %d %s@%s:hooks/commit-msg %s",
-          sshPort, user.getUserName(), sshHost, p);
+      return String.format("  gitdir=$(git rev-parse --git-dir); scp -p -P %d %s@%s:hooks/commit-msg ${gitdir}/hooks/",
+          sshPort, user.getUserName(), sshHost);
     }
   }
 

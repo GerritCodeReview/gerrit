@@ -52,6 +52,24 @@
       "revId": "4aa448e5559abec7d208c05e58003dd83dac0145",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3b1b20e_fb542f1a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-04T20:04:27Z",
+      "side": 1,
+      "message": "I don\u0027t mind if it\u0027s reverted as long as the SSH command uses the code of the REST endpoint implementation, because this is where I\u0027m adding new functionality in the follow-up commit. And this functionality I didn\u0027t want to implement in two places (in the REST endpoint and again in the SSH command). That\u0027s the whole motivation for this change.",
+      "parentUuid": "c3b1b20e_3b2a9791",
+      "revId": "4aa448e5559abec7d208c05e58003dd83dac0145",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e396b657_4c847f45",
+        "filename": "tools/default.defs",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-12-04T14:57:39Z",
+      "side": 1,
+      "message": "with this change \nthe \u0027buck targets\u0027  will run in to \n\n\nBUILD FAILED: No such build target: //lib/gwt:user_lib.",
+      "revId": "05cb0533780fd181e2cd5e4fdf9c61f586f30935",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

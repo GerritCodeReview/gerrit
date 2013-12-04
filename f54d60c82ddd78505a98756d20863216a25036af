@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3b1b20e_fb2b0f99",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1210,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-04T14:42:08Z",
+      "side": 1,
+      "message": "Remove this?",
+      "revId": "f54d60c82ddd78505a98756d20863216a25036af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

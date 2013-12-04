@@ -16,6 +16,7 @@ package com.google.gerrit.server.api.changes;
 
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
+import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.api.changes.RestoreInput;
@@ -25,6 +26,7 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.Abandon;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.change.Restore;
 import com.google.gerrit.server.change.Revert;
 import com.google.gerrit.server.change.Revisions;
@@ -47,6 +49,7 @@ class ChangeApiImpl implements ChangeApi {
   private final Provider<Abandon> abandon;
   private final Provider<Revert> revert;
   private final Provider<Restore> restore;
+  private final Provider<PostReviewers> postReviewers;
 
   @Inject
   ChangeApiImpl(Changes changeApi,
@@ -55,6 +58,7 @@ class ChangeApiImpl implements ChangeApi {
       Provider<Abandon> abandon,
       Provider<Revert> revert,
       Provider<Restore> restore,
+      Provider<PostReviewers> postReviewers,
       @Assisted ChangeResource change) {
     this.changeApi = changeApi;
     this.revert = revert;
@@ -62,6 +66,7 @@ class ChangeApiImpl implements ChangeApi {
     this.revisionApi = revisionApi;
     this.abandon = abandon;
     this.restore = restore;
+    this.postReviewers = postReviewers;
     this.change = change;
   }
 
@@ -129,6 +134,15 @@ class ChangeApiImpl implements ChangeApi {
       return changeApi.id(revert.get().apply(change, in)._number);
     } catch (OrmException | EmailException | IOException e) {
       throw new RestApiException("Cannot revert change", e);
+    }
+  }
+
+  @Override
+  public void addReviewer(AddReviewerInput in) throws RestApiException {
+    try {
+      postReviewers.get().apply(change, in);
+    } catch (OrmException | EmailException | IOException e) {
+      throw new RestApiException("Cannot add change reviewer", e);
     }
   }
 }

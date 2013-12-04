@@ -32,6 +32,7 @@ import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.LineCharacter;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /** The Widget that handles the scrollbar gutters */
@@ -135,12 +136,27 @@ class SidePanel extends Composite {
     gutters.remove(wrapper);
   }
 
+  @SuppressWarnings("incomplete-switch")
+  void clearDiffGutters() {
+    for (Iterator<GutterWrapper> i = gutters.iterator(); i.hasNext();) {
+      GutterWrapper wrapper = i.next();
+      switch (wrapper.type) {
+        case INSERT:
+        case DELETE:
+        case EDIT:
+          wrapper.gutter.removeFromParent();
+          i.remove();
+      }
+    }
+  }
+
   static class GutterWrapper {
     private SidePanel host;
     private Label gutter;
     private CodeMirror cm;
     private int line;
     private HandlerRegistration regClick;
+    private GutterType type;
 
     GutterWrapper(SidePanel host, Label anchor, CodeMirror cm, int line,
         GutterType type) {
@@ -148,6 +164,7 @@ class SidePanel extends Composite {
       this.gutter = anchor;
       this.cm = cm;
       this.line = line;
+      this.type = type;
     }
 
     private void replaceClickHandler(ClickHandler newHandler) {

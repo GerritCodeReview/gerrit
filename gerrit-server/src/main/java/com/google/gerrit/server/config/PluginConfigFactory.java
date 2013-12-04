@@ -17,6 +17,8 @@ package com.google.gerrit.server.config;
 import com.google.common.collect.Maps;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.ProjectLevelConfig;
+import com.google.gerrit.server.plugins.Plugin;
+import com.google.gerrit.server.plugins.ReloadPluginListener;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -35,7 +37,7 @@ import java.io.IOException;
 import java.util.Map;
 
 @Singleton
-public class PluginConfigFactory {
+public class PluginConfigFactory implements ReloadPluginListener {
   private static final Logger log =
       LoggerFactory.getLogger(PluginConfigFactory.class);
 
@@ -210,7 +212,7 @@ public class PluginConfigFactory {
    *        be returned
    * @return the plugin configuration from the 'etc/<plugin-name>.config' file
    */
-  public Config getGlobalPluginConfig(String pluginName) {
+  public synchronized Config getGlobalPluginConfig(String pluginName) {
     if (pluginConfigs.containsKey(pluginName)) {
       return pluginConfigs.get(pluginName);
     }
@@ -335,5 +337,10 @@ public class PluginConfigFactory {
       throw new NoSuchProjectException(projectName);
     }
     return projectState.getConfig(pluginName);
+  }
+
+  @Override
+  public synchronized void onReloadPlugin(Plugin oldPlugin, Plugin newPlugin) {
+    pluginConfigs.remove(oldPlugin.getName());
   }
 }

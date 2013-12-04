@@ -19,6 +19,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -191,7 +192,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
     try {
       ChangeResource rsrc =
           new ChangeResource(changeFactory.controlFor(change, user));
-      PostReviewers.Input input = new PostReviewers.Input();
+      AddReviewerInput input = new AddReviewerInput();
       input.reviewer = projectOwners;
       reviewersProvider.get().apply(rsrc, input);
     } catch (Exception e) {
@@ -209,7 +210,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       try {
         ChangeResource rsrc =
             new ChangeResource(changeFactory.controlFor(change, user));
-        PostReviewers.Input input = new PostReviewers.Input();
+        AddReviewerInput input = new AddReviewerInput();
         input.reviewer = r.getGroup().getUUID().get();
         reviewersProvider.get().apply(rsrc, input);
       } catch (Exception e) {

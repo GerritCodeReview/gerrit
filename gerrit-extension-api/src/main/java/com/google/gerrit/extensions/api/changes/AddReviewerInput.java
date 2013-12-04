@@ -14,23 +14,15 @@
 
 package com.google.gerrit.extensions.api.changes;
 
-import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.DefaultInput;
 
-public interface ChangeApi {
-  String id();
+public class AddReviewerInput {
+  @DefaultInput
+  public String reviewer;
+  public Boolean confirmed;
 
-  RevisionApi current() throws RestApiException;
-  RevisionApi revision(int id) throws RestApiException;
-  RevisionApi revision(String id) throws RestApiException;
-
-  void abandon() throws RestApiException;
-  void abandon(AbandonInput in) throws RestApiException;
-
-  void restore() throws RestApiException;
-  void restore(RestoreInput in) throws RestApiException;
-
-  ChangeApi revert() throws RestApiException;
-  ChangeApi revert(RevertInput in) throws RestApiException;
-
-  void addReviewer(AddReviewerInput in) throws RestApiException;
+  public boolean confirmed() {
+    return (confirmed != null) ? confirmed : false;
+  }
 }
+

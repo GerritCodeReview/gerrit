@@ -296,6 +296,18 @@ public class SideBySide2 extends Screen {
         .on("'o'", toggleOpenBox(cm))
         .on("Enter", toggleOpenBox(cm))
         .on("'c'", insertNewDraft(cm))
+        .on("'i'", new Runnable() {
+          public void run() {
+            switch (getIntraLineStatus()) {
+              case OFF:
+              case OK:
+                toggleShowIntraline();
+                break;
+              default:
+                break;
+            }
+          }
+        })
         .on("Alt-U", new Runnable() {
           public void run() {
             cm.getInputField().blur();
@@ -388,6 +400,15 @@ public class SideBySide2 extends Screen {
         prefsAction.show();
       }
     });
+    if (getIntraLineStatus() == DiffInfo.IntraLineStatus.OFF
+        || getIntraLineStatus() == DiffInfo.IntraLineStatus.OK) {
+      keysAction.add(new KeyCommand(0, 'i', PatchUtil.C.toggleIntraline()) {
+        @Override
+        public void onKeyPress(KeyPressEvent event) {
+          toggleShowIntraline();
+        }
+      });
+    }
 
     if (Gerrit.isSignedIn()) {
       keysAction.add(new NoOpKeyCommand(0, 'c', PatchUtil.C.commentInsert()));
@@ -524,6 +545,12 @@ public class SideBySide2 extends Screen {
     } else {
       diffTable.addStyleName(DiffTable.style.noIntraline());
     }
+  }
+
+  private void toggleShowIntraline() {
+    prefs.intralineDifference(!prefs.intralineDifference());
+    setShowIntraline(prefs.intralineDifference());
+    prefsAction.update();
   }
 
   void setSyntaxHighlighting(final boolean b) {

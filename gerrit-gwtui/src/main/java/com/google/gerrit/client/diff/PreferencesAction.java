@@ -31,6 +31,12 @@ class PreferencesAction {
     this.prefs = prefs;
   }
 
+  void update() {
+    if (current != null) {
+      current.set(prefs);
+    }
+  }
+
   void show() {
     if (popup != null) {
       // Already open? Close the dialog.

@@ -1533,6 +1533,9 @@ Whether the usage of Change-Ids is required for the project (`TRUE`,
 |`max_object_size_limit`     |optional|
 Max allowed Git object size for this project.
 Common unit suffixes of 'k', 'm', or 'g' are supported.
+|`plugin_config_values`      |optional|
+Plugin configuration values as map which maps the plugin name to a map
+of parameter names to values.
 |=========================================
 
 [[project-parent-input]]

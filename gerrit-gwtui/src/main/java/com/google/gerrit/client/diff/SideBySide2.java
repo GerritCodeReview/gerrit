@@ -236,6 +236,9 @@ public class SideBySide2 extends Screen {
   public void onShowView() {
     super.onShowView();
     Window.enableScrolling(false);
+    if (prefs.hideTopMenu()) {
+      Gerrit.setHeaderVisible(false);
+    }
 
     final int height = getCodeMirrorHeight();
     cmA.setHeight(height);
@@ -1517,6 +1520,10 @@ public class SideBySide2 extends Screen {
           && meta.content_type() != null
         ? ModeInjector.getContentType(meta.content_type())
         : null;
+  }
+
+  DiffPreferences getPrefs() {
+    return prefs;
   }
 
   CodeMirror getCmA() {

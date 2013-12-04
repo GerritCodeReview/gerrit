@@ -90,6 +90,7 @@ class DiffTable extends Composite {
   static DiffTableStyle style;
 
   private SideBySide2 host;
+  private boolean headerVisible;
 
   DiffTable(SideBySide2 host, PatchSet.Id base, PatchSet.Id revision, String path) {
     patchSetSelectBoxA = new PatchSetSelectBox2(
@@ -103,8 +104,13 @@ class DiffTable extends Composite {
     this.host = host;
   }
 
+  boolean isHeaderVisible() {
+    return headerVisible;
+  }
+
   void setHeaderVisible(boolean show) {
-    Gerrit.setHeaderVisible(show);
+    headerVisible = show;
+    Gerrit.setHeaderVisible(show && !host.getPrefs().hideTopMenu());
     UIObject.setVisible(patchSetNavRow, show);
     UIObject.setVisible(fileCommentRow, show
         && (fileCommentPanelA.getBoxCount() > 0

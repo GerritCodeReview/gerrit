@@ -71,15 +71,21 @@ public class DiffPreferences extends JavaScriptObject {
   }
   private final native String ignoreWhitespaceRaw() /*-{ return this.ignore_whitespace }-*/;
 
-  public final native int tabSize() /*-{ return this.tab_size }-*/;
-  public final native int context() /*-{ return this.context }-*/;
-  public final native boolean intralineDifference() /*-{ return this.intraline_difference }-*/;
-  public final native boolean showLineEndings() /*-{ return this.show_line_endings }-*/;
-  public final native boolean showTabs() /*-{ return this.show_tabs }-*/;
-  public final native boolean showWhitespaceErrors() /*-{ return this.show_whitespace_errors }-*/;
-  public final native boolean syntaxHighlighting() /*-{ return this.syntax_highlighting }-*/;
-  public final native boolean hideTopMenu() /*-{ return this.hide_top_menu }-*/;
-  public final native boolean expandAllComments() /*-{ return this.expand_all_comments }-*/;
+  public final int tabSize() {return get("tab_size", 8); }
+  public final int context() {return get("context", 10); }
+  public final boolean intralineDifference() { return get("intraline_difference", true); }
+  public final boolean showLineEndings() { return get("show_line_endings", true); }
+  public final boolean showTabs() { return get("show_tabs", true); }
+  public final boolean showWhitespaceErrors() { return get("show_whitespace_errors", true); }
+  public final boolean syntaxHighlighting() { return get("syntax_highlighting", true); }
+  public final native boolean hideTopMenu() /*-{ return this.hide_top_menu || false }-*/;
+  public final native boolean expandAllComments() /*-{ return this.expand_all_comments || false }-*/;
+
+  private final native int get(String n, int d)
+  /*-{ return this.hasOwnProperty(n) ? this[n] : d }-*/;
+
+  private final native boolean get(String n, boolean d)
+  /*-{ return this.hasOwnProperty(n) ? this[n] : d }-*/;
 
   protected DiffPreferences() {
   }

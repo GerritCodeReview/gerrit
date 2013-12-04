@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.project.CreateProject;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.PutConfig.ConfigValueInput;
 import com.google.gerrit.server.project.SuggestParentCandidates;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
@@ -39,7 +40,10 @@ import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /** Create a new project. **/
 @RequiresCapability(GlobalCapability.CREATE_PROJECT)
@@ -115,6 +119,9 @@ final class CreateProjectCommand extends SshCommand {
   @Option(name = "--max-object-size-limit", usage = "max Git object size for this project")
   private String maxObjectSizeLimit;
 
+  @Option(name = "--plugin-config", usage = "plugin configuration parameter with format '<plugin-name>.<parameter-name>=<value>'")
+ private List<String> pluginConfigValues;
+
   private String projectName;
 
   @Argument(index = 0, metaVar = "NAME", usage = "name of project to be created")
@@ -165,6 +172,9 @@ final class CreateProjectCommand extends SshCommand {
         input.branches = branch;
         input.createEmptyCommit = createEmptyCommit;
         input.maxObjectSizeLimit = maxObjectSizeLimit;
+        if (pluginConfigValues != null) {
+          input.pluginConfigValues = parsePluginConfigValues(pluginConfigValues);
+        }
 
         createProjectFactory.get().create(projectName)
             .apply(TopLevelResource.INSTANCE, input);
@@ -180,5 +190,35 @@ final class CreateProjectCommand extends SshCommand {
         | NoSuchProjectException | OrmException err) {
       throw new UnloggedFailure(1, "fatal: " + err.getMessage(), err);
     }
+  }
+
+  private Map<String, List<ConfigValueInput>> parsePluginConfigValues(
+      List<String> pluginConfigValues) throws UnloggedFailure {
+    Map<String, List<ConfigValueInput>> m = new HashMap<>();
+    for (String pluginConfigValue : pluginConfigValues) {
+      String[] s = pluginConfigValue.split("=");
+      if (s.length != 2) {
+        throw new UnloggedFailure(1, "Invalid plugin config value '"
+            + pluginConfigValue
+            + "', expected format '<plugin-name>.<parameter-name>=<value>'");
+      }
+      ConfigValueInput input = new ConfigValueInput();
+      input.value = s[1];
+      s = s[0].split("\\.");
+      if (s.length != 2) {
+        throw new UnloggedFailure(1, "Invalid plugin config value '"
+            + pluginConfigValue
+            + "', expected format '<plugin-name>.<parameter-name>=<value>'");
+      }
+      String pluginName = s[0];
+      input.name = s[1];
+      List<ConfigValueInput> l = m.get(pluginName);
+      if (l == null) {
+        l = new ArrayList<>();
+        m.put(pluginName, l);
+      }
+      l.add(input);
+    }
+    return m;
   }
 }

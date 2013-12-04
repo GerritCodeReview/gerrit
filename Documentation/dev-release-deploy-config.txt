@@ -3,7 +3,7 @@ Deploy Gerrit Artifacts
 
 Gerrit Artifacts are stored on
 link:https://developers.google.com/storage/[Google Cloud Storage].
-Via the link:https://code.google.com/apis/console/[API Console] the
+Via the link:https://code.google.com/apis/console/?noredirect[API Console] the
 Gerrit maintainers have access to the `Gerrit Code Review` project.
 This projects host several buckets for storing Gerrit artifacts:
 
@@ -26,7 +26,7 @@ Deploy Configuration in Maven `settings.xml`
 
 To upload artifacts to a bucket the user must authenticate with a
 username and password. The username and password need to be retrieved
-from the link:https://code.google.com/apis/console/[API Console]:
+from the link:https://code.google.com/apis/console/?noredirect[API Console]:
 
 * Go to the `Gerrit Code Review` project
 * In the menu on the left select `Google Cloud Storage` >

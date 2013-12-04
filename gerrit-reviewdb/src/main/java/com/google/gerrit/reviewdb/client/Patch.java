@@ -1,4 +1,5 @@
 // Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,6 +22,8 @@ import com.google.gwtorm.client.StringKey;
 public final class Patch {
   /** Magical file name which represents the commit message. */
   public static final String COMMIT_MSG = "/COMMIT_MSG";
+  /** Magical file name which represents the whole file set in patch. */
+  public static final String ALL = "/ALL";
 
   public static class Key extends StringKey<PatchSet.Id> {
     private static final long serialVersionUID = 1L;

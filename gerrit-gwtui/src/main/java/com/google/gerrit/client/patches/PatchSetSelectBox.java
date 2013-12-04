@@ -1,4 +1,5 @@
 // Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -69,6 +70,7 @@ public class PatchSetSelectBox extends Composite {
   PatchScreen.Type screenType;
   Map<Integer, Anchor> links;
   private Label patchSet;
+  boolean isAllMode;
 
   @UiField
   HTMLPanel linkPanel;
@@ -76,9 +78,10 @@ public class PatchSetSelectBox extends Composite {
   @UiField
   BoxStyle style;
 
-  public PatchSetSelectBox(Side side, final PatchScreen.Type type) {
+  public PatchSetSelectBox(Side side, final PatchScreen.Type type, final boolean isAllMode) {
     this.side = side;
     this.screenType = type;
+    this.isAllMode = isAllMode;
 
     initWidget(uiBinder.createAndBindUi(this));
   }
@@ -160,7 +163,13 @@ public class PatchSetSelectBox extends Composite {
           idSideB = id;
         }
 
-        Patch.Key keySideB = new Patch.Key(idSideB, patchKey.get());
+        Patch.Key keySideB = null;
+        if (!isAllMode) {
+          keySideB = new Patch.Key(idSideB, patchKey.get());
+        }
+        else {
+          keySideB = new Patch.Key(idSideB, Patch.ALL);
+        }
 
         switch (screenType) {
           case SIDE_BY_SIDE:

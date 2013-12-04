@@ -1,4 +1,5 @@
 // Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -83,6 +84,7 @@ import com.google.gerrit.client.editor.EditScreen;
 import com.google.gerrit.client.groups.GroupApi;
 import com.google.gerrit.client.groups.GroupInfo;
 import com.google.gerrit.client.patches.PatchScreen;
+import com.google.gerrit.client.patches.AbstractPatchScreen;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.Screen;
@@ -106,6 +108,16 @@ import com.google.gwtorm.client.KeyUtil;
 public class Dispatcher {
   public static final String COOKIE_CS2 = "gerrit_cs2";
   public static boolean changeScreen2;
+
+  public static String toPatchAll(final AbstractPatchScreen.Type type,
+      final PatchSet.Id diffBase, final PatchSetDetail detail) {
+    Patch.Key id = new Patch.Key(detail.getPatchSet().getId(), Patch.ALL);
+    if (type == AbstractPatchScreen.Type.SIDE_BY_SIDE) {
+      return toPatchSideBySide(diffBase, id);
+    } else {
+      return toPatchUnified(diffBase, id);
+    }
+  }
 
   public static String toPatchSideBySide(final Patch.Key id) {
     return toPatch("", null, id);
@@ -391,6 +403,15 @@ public class Dispatcher {
       return toPatchUnified(Patch.Key.parse(skip(token)));
     }
 
+    if (/* LEGACY URL */matchPrefix("patch,all_sidebyside,", token)) {
+      token += "," + Patch.ALL;
+      return toPatchSideBySide(Patch.Key.parse(skip(token)));
+    }
+    if (/* LEGACY URL */matchPrefix("patch,all_unified,", token)) {
+      token += "," + Patch.ALL;
+      return toPatchUnified(Patch.Key.parse(skip(token)));
+    }
+
     return null;
   }
 
@@ -673,7 +694,7 @@ public class Dispatcher {
   public static void patch(String token, PatchSet.Id baseId,
       Patch.Key id, DisplaySide side, int line,
       int patchIndex, PatchSetDetail patchSetDetail,
-      PatchTable patchTable, PatchScreen.TopView topView,
+      final PatchTable patchTable, final AbstractPatchScreen.TopView topView,
       String panelType) {
     if (id == null) {
       Gerrit.display(token, new NotFoundScreen());
@@ -697,13 +718,26 @@ public class Dispatcher {
         }
         sbs2(token, baseId, id, side, line, false);
         return;
+      } else {
+        if (!id.get().equals(Patch.ALL)) {
+          sbs1(token, baseId, id, patchIndex, patchSetDetail, patchTable, topView,
+              PatchScreen.Type.SIDE_BY_SIDE);
+        }
+        else {
+          sbs1(token, baseId, id, patchIndex, patchSetDetail, patchTable, topView,
+              PatchScreen.Type.All_SIDE_BY_SIDE);
+        }
       }
-      sbs1(token, baseId, id, patchIndex, patchSetDetail, patchTable, topView,
-          PatchScreen.Type.SIDE_BY_SIDE);
       return;
     } else if ("unified".equals(panel)) {
-      sbs1(token, baseId, id, patchIndex, patchSetDetail, patchTable, topView,
-          PatchScreen.Type.UNIFIED);
+      if (!id.get().equals(Patch.ALL)) {
+        sbs1(token, baseId, id, patchIndex, patchSetDetail, patchTable, topView,
+            PatchScreen.Type.UNIFIED);
+      }
+      else {
+        sbs1(token, baseId, id, patchIndex, patchSetDetail, patchTable, topView,
+            PatchScreen.Type.ALL_UNIFIED);
+      }
       return;
     } else if ("cm".equals(panel)) {
       if (Gerrit.isSignedIn()
@@ -724,6 +758,7 @@ public class Dispatcher {
       return;
     }
     Gerrit.display(token, new NotFoundScreen());
+
   }
 
   private static void sbs1(final String token, final PatchSet.Id baseId,
@@ -743,6 +778,14 @@ public class Dispatcher {
             break;
           case UNIFIED:
             Gerrit.display(token, new PatchScreen.Unified(id, patchIndex,
+                patchSetDetail, patchTable, top, baseId));
+            break;
+          case All_SIDE_BY_SIDE:
+            Gerrit.display(token, new PatchScreen.AllSideBySide(id, patchIndex,
+                patchSetDetail, patchTable, top, baseId));
+            break;
+          case ALL_UNIFIED:
+            Gerrit.display(token, new PatchScreen.AllUnified(id, patchIndex,
                 patchSetDetail, patchTable, top, baseId));
             break;
         }

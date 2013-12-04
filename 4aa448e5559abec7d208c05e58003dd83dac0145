@@ -70,6 +70,24 @@
       "revId": "4aa448e5559abec7d208c05e58003dd83dac0145",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3b1b20e_bb4ea782",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-04T20:05:42Z",
+      "side": 1,
+      "message": "Thanks. Now it makes sense.",
+      "parentUuid": "c3b1b20e_fb542f1a",
+      "revId": "4aa448e5559abec7d208c05e58003dd83dac0145",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

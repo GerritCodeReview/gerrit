@@ -201,7 +201,12 @@ public class SideBySideTable extends AbstractPatchContentTable {
       }
     }
     if (!hasDifferences(script)) {
-      appendNoDifferences(nc);
+      if (isAllMode) {
+        diffParent.setVisible(false);
+      }
+      else {
+        appendNoDifferences(nc);
+      }
     }
     resetHtml(nc);
     populateTableHeader(script, detail);
@@ -337,6 +342,8 @@ public class SideBySideTable extends AbstractPatchContentTable {
       row = finish(ai, row, A, expandComments);
       row = finish(bi, row, B, expandComments);
     }
+
+    showInAllModeIfFileCommentPresent();
   }
 
   private void defaultStyle(final int row, final CellFormatter fmt) {

@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43bf82de_f754401a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-04T23:13:39Z",
+      "side": 1,
+      "message": "Should this be past tense, \"Removed the following approvals:\"",
+      "revId": "73e99524da7ca8ba2c22662461b14f2dab1b011b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43bf82de_d7593c50",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-04T23:13:39Z",
+      "side": 1,
+      "message": "When an approval is granted we say \"Code-Review+2\" in the message.\n\nWhen it is removed you say \"Code-Review 2\". Can we make this consistent and use the same format we use when it was granted?",
+      "revId": "73e99524da7ca8ba2c22662461b14f2dab1b011b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63bac6ef_78494179",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-04T23:13:39Z",
+      "side": 1,
+      "message": "db.commit() must be after the insert.",
+      "revId": "73e99524da7ca8ba2c22662461b14f2dab1b011b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43bf82de_b74ec882",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-04T23:13:39Z",
+      "side": 1,
+      "message": "This must be before db.commit",
+      "revId": "73e99524da7ca8ba2c22662461b14f2dab1b011b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

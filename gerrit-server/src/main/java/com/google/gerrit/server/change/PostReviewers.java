@@ -25,9 +25,9 @@ import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -43,7 +43,6 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.account.GroupMembers;
-import com.google.gerrit.server.change.PostReviewers.Input;
 import com.google.gerrit.server.change.ReviewerJson.PostResult;
 import com.google.gerrit.server.change.ReviewerJson.ReviewerInfo;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -67,22 +66,12 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Set;
 
-public class PostReviewers implements RestModifyView<ChangeResource, Input> {
+public class PostReviewers implements RestModifyView<ChangeResource, AddReviewerInput> {
   private static final Logger log = LoggerFactory
       .getLogger(PostReviewers.class);
 
   public static final int DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK = 10;
   public static final int DEFAULT_MAX_REVIEWERS = 20;
-
-  public static class Input {
-    @DefaultInput
-    public String reviewer;
-    Boolean confirmed;
-
-    boolean confirmed() {
-      return Objects.firstNonNull(confirmed, false);
-    }
-  }
 
   private final AccountsCollection accounts;
   private final ReviewerResource.Factory reviewerFactory;
@@ -131,7 +120,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
   }
 
   @Override
-  public PostResult apply(ChangeResource rsrc, Input input)
+  public PostResult apply(ChangeResource rsrc, AddReviewerInput input)
       throws AuthException, BadRequestException, UnprocessableEntityException,
       OrmException, EmailException, IOException {
     if (input.reviewer == null) {
@@ -159,7 +148,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
     return result;
   }
 
-  private PostResult putGroup(ChangeResource rsrc, Input input)
+  private PostResult putGroup(ChangeResource rsrc, AddReviewerInput input)
       throws BadRequestException,
       UnprocessableEntityException, OrmException, EmailException, IOException {
     GroupDescription.Basic group = groupsCollection.get().parseInternal(input.reviewer);

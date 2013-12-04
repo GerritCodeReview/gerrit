@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -137,7 +138,7 @@ public class SetReviewersCommand extends SshCommand {
     //
     PostReviewers post = postReviewersProvider.get();
     for (String reviewer : toAdd) {
-      PostReviewers.Input input = new PostReviewers.Input();
+      AddReviewerInput input = new AddReviewerInput();
       input.reviewer = reviewer;
       String error;
       try {

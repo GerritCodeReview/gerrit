@@ -25,6 +25,7 @@ import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.git.PushOneCommit;
 import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -61,12 +62,15 @@ public class ChangeIT extends AbstractDaemonTest {
   private IdentifiedUser.GenericFactory identifiedUserFactory;
 
   private TestAccount admin;
+  private TestAccount user;
+
   private Git git;
   private ReviewDb db;
 
   @Before
   public void setUp() throws Exception {
     admin = accounts.admin();
+    user = accounts.user();
     initSsh(admin);
     Project.NameKey project = new Project.NameKey("p");
     SshSession sshSession = new SshSession(server, admin);
@@ -129,6 +133,17 @@ public class ChangeIT extends AbstractDaemonTest {
         .id("p~master~" + r.getChangeId())
         .revision(r.getCommit().name())
         .rebase();
+  }
+
+  @Test
+  public void addReviewer() throws GitAPIException,
+      IOException, RestApiException {
+    PushOneCommit.Result r = createChange();
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = user.email;
+    gApi.changes()
+        .id("p~master~" + r.getChangeId())
+        .addReviewer(in);
   }
 
   private PushOneCommit.Result createChange() throws GitAPIException,

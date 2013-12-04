@@ -45,7 +45,7 @@ class SectionMatcher extends RefPatternMatcher {
   }
 
   @Override
-  boolean match(String ref, String username) {
+  public boolean match(String ref, String username) {
     return this.matcher.match(ref, username);
   }
 }

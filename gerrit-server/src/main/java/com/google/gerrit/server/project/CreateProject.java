@@ -45,19 +45,19 @@ import java.util.List;
 @RequiresCapability(GlobalCapability.CREATE_PROJECT)
 public class CreateProject implements RestModifyView<TopLevelResource, Input> {
   public static class Input {
-    String name;
-    String parent;
-    String description;
-    boolean permissionsOnly;
-    boolean createEmptyCommit;
-    SubmitType submitType;
-    List<String> branches;
-    List<String> owners;
-    InheritableBoolean useContributorAgreements;
-    InheritableBoolean useSignedOffBy;
-    InheritableBoolean useContentMerge;
-    InheritableBoolean requireChangeId;
-    String maxObjectSizeLimit;
+    public String name;
+    public String parent;
+    public String description;
+    public boolean permissionsOnly;
+    public boolean createEmptyCommit;
+    public SubmitType submitType;
+    public List<String> branches;
+    public List<String> owners;
+    public InheritableBoolean useContributorAgreements;
+    public InheritableBoolean useSignedOffBy;
+    public InheritableBoolean useContentMerge;
+    public InheritableBoolean requireChangeId;
+    public String maxObjectSizeLimit;
   }
 
   public static interface Factory {

@@ -14,24 +14,31 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.errors.ProjectCreationFailedException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
-import com.google.gerrit.server.project.PerformCreateProject;
-import com.google.gerrit.server.project.CreateProjectArgs;
+import com.google.gerrit.server.project.CreateProject;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.SuggestParentCandidates;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
+import java.io.IOException;
 import java.util.List;
 
 /** Create a new project. **/
@@ -120,35 +127,47 @@ final class CreateProjectCommand extends SshCommand {
   }
 
   @Inject
-  private PerformCreateProject.Factory factory;
+  private Provider<CreateProject.Factory> createProjectFactory;
 
   @Inject
   private SuggestParentCandidates.Factory suggestParentCandidatesFactory;
 
   @Override
-  protected void run() throws Exception {
+  protected void run() throws UnloggedFailure {
     try {
       if (!suggestParent) {
         if (projectName == null) {
           throw new UnloggedFailure(1, "fatal: Project name is required.");
         }
-        final CreateProjectArgs args = new CreateProjectArgs();
-        args.setProjectName(projectName);
-        args.ownerIds = ownerIds;
-        args.newParent = newParent;
-        args.permissionsOnly = permissionsOnly;
-        args.projectDescription = projectDescription;
-        args.submitType = submitType;
-        args.contributorAgreements = contributorAgreements;
-        args.signedOffBy = signedOffBy;
-        args.contentMerge = contentMerge;
-        args.changeIdRequired = requireChangeID;
-        args.branch = branch;
-        args.createEmptyCommit = createEmptyCommit;
-        args.maxObjectSizeLimit = maxObjectSizeLimit;
 
-        final PerformCreateProject createProject = factory.create(args);
-        createProject.createProject();
+        CreateProject.Input input = new CreateProject.Input();
+        input.name = projectName;
+        if (ownerIds != null) {
+          input.owners =
+              Lists.transform(ownerIds,
+                  new Function<AccountGroup.UUID, String>() {
+                    @Override
+                    public String apply(AccountGroup.UUID uuid) {
+                      return uuid.get();
+                    }
+                  });
+        }
+        if (newParent != null) {
+          input.parent = newParent.getProject().getName();
+        }
+        input.permissionsOnly = permissionsOnly;
+        input.description = projectDescription;
+        input.submitType = submitType;
+        input.useContributorAgreements = contributorAgreements;
+        input.useSignedOffBy = signedOffBy;
+        input.useContentMerge = contentMerge;
+        input.requireChangeId = requireChangeID;
+        input.branches = branch;
+        input.createEmptyCommit = createEmptyCommit;
+        input.maxObjectSizeLimit = maxObjectSizeLimit;
+
+        createProjectFactory.get().create(projectName)
+            .apply(TopLevelResource.INSTANCE, input);
       } else {
         List<Project.NameKey> parentCandidates =
             suggestParentCandidatesFactory.create().getNameKeys();
@@ -157,7 +176,8 @@ final class CreateProjectCommand extends SshCommand {
           stdout.print(parent + "\n");
         }
       }
-    } catch (ProjectCreationFailedException err) {
+    } catch (RestApiException | ProjectCreationFailedException | IOException
+        | NoSuchProjectException | OrmException err) {
       throw new UnloggedFailure(1, "fatal: " + err.getMessage(), err);
     }
   }

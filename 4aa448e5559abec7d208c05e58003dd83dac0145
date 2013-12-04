@@ -16,6 +16,24 @@
       "revId": "4aa448e5559abec7d208c05e58003dd83dac0145",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3b1b20e_7b201fb3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-04T19:50:07Z",
+      "side": 1,
+      "message": "Why not? We do it for quite some SSH commands. Going via the GerritApi is not really needed, it\u0027s just another indirection.\n\nBut if this API for project creation would have been there already, I would have used it ;-)",
+      "parentUuid": "839c1a85_01552a14",
+      "revId": "4aa448e5559abec7d208c05e58003dd83dac0145",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

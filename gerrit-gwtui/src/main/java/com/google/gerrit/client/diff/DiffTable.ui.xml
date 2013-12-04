@@ -65,6 +65,8 @@ limitations under the License.
     .b .diff { background-color: #9f9; }
     .a .intralineBg { background-color: #fee; }
     .b .intralineBg { background-color: #dfd; }
+    .noIntraline .a .intralineBg { background-color: #faa; }
+    .noIntraline .b .intralineBg { background-color: #9f9; }
 
     .fileCommentRow {
       background-color: #f7f7f7;
@@ -103,7 +105,7 @@ limitations under the License.
       text-decoration: underline;
       z-index: 2;
     }
-    .showtabs .cm-tab:before {
+    .showTabs .cm-tab:before {
       content: "\00bb";
       color: #f00;
     }

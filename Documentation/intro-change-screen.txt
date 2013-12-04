@@ -284,7 +284,6 @@ Missing features
 Several features have not been implemented yet:
 
 * Allow to see if a reviewer can't vote on a label
-* Change diff view preferences
 
 GERRIT
 ------

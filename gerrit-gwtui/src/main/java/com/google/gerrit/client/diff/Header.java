@@ -43,6 +43,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
@@ -218,7 +219,7 @@ class Header extends Composite {
     return nextPath;
   }
 
-  void removeNoDiff() {
-    noDiff.removeFromParent();
+  void setNoDiff(boolean visible) {
+    UIObject.setVisible(noDiff, visible);
   }
 }

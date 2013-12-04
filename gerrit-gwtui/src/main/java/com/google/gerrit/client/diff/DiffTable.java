@@ -40,10 +40,11 @@ class DiffTable extends Composite {
     String fullscreen();
     String intralineBg();
     String diff();
+    String noIntraline();
     String activeLine();
     String range();
     String rangeHighlight();
-    String showtabs();
+    String showTabs();
   }
 
   @UiField

@@ -33,6 +33,11 @@ public class AccountApi {
     return new RestApi("/accounts/").view("self");
   }
 
+  public static void putDiffPreferences(DiffPreferences in,
+      AsyncCallback<DiffPreferences> cb) {
+    self().view("preferences.diff").put(in, cb);
+  }
+
   /** Retrieve the username */
   public static void getUsername(String account, AsyncCallback<NativeString> cb) {
     new RestApi("/accounts/").id(account).view("username").get(cb);

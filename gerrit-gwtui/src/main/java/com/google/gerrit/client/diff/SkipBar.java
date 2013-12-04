@@ -46,8 +46,6 @@ class SkipBar extends Composite {
       .set("inclusiveLeft", true)
       .set("inclusiveRight", true);
 
-  private LineWidget widget;
-
   interface SkipBarStyle extends CssResource {
     String noExpand();
   }
@@ -64,13 +62,16 @@ class SkipBar extends Composite {
   @UiField
   SkipBarStyle style;
 
+  private final SideBySide2 parent;
+  private final CodeMirror cm;
+  private LineWidget widget;
   private TextMarker marker;
   private SkipBar otherBar;
-  private CodeMirror cm;
   private int numSkipLines;
 
-  SkipBar(CodeMirror cmInstance) {
-    cm = cmInstance;
+  SkipBar(SideBySide2 parent, final CodeMirror cm) {
+    this.parent = parent;
+    this.cm = cm;
     skipNum = new Anchor(true);
     upArrow = new Anchor(true);
     downArrow = new Anchor(true);
@@ -129,10 +130,9 @@ class SkipBar extends Composite {
     widget.clear();
   }
 
-  private void expandAll() {
+  void expandAll() {
     clearMarkerAndWidget();
     removeFromParent();
-    cm.focus();
   }
 
   private void expandBefore() {
@@ -148,7 +148,6 @@ class SkipBar extends Composite {
         .set("noHScroll", true);
     setWidget(cm.addLineWidget(newStart - 1, getElement(), config));
     updateSkipNum();
-    cm.focus();
   }
 
   private void expandAfter() {
@@ -168,24 +167,27 @@ class SkipBar extends Composite {
       setWidget(cm.addLineWidget(newEnd + 1, getElement(), config));
     }
     updateSkipNum();
-    cm.focus();
   }
 
   @UiHandler("skipNum")
   void onExpandAll(ClickEvent e) {
+    parent.remove(this);
     otherBar.expandAll();
     expandAll();
+    cm.focus();
   }
 
   @UiHandler("upArrow")
   void onExpandBefore(ClickEvent e) {
     otherBar.expandBefore();
     expandBefore();
+    cm.focus();
   }
 
   @UiHandler("downArrow")
   void onExpandAfter(ClickEvent e) {
     otherBar.expandAfter();
     expandAfter();
+    cm.focus();
   }
 }

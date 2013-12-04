@@ -23,37 +23,26 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gerrit.server.change.EditMessage.Input;
-import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.mail.CommitMessageEditedSender;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
 
 class EditMessage implements RestModifyView<RevisionResource, Input>,
     UiAction<RevisionResource> {
-
-  private final Provider<ReviewDb> dbProvider;
-  private final CommitMessageEditedSender.Factory commitMessageEditedSenderFactory;
-  private final GitRepositoryManager gitManager;
+  private final ChangeUtil changeUtil;
   private final PersonIdent myIdent;
-  private final PatchSetInserter.Factory patchSetInserterFactory;
   private final ChangeJson json;
 
   static class Input {
@@ -62,17 +51,11 @@ class EditMessage implements RestModifyView<RevisionResource, Input>,
   }
 
   @Inject
-  EditMessage(final Provider<ReviewDb> dbProvider,
-      final CommitMessageEditedSender.Factory commitMessageEditedSenderFactory,
-      final GitRepositoryManager gitManager,
-      final PatchSetInserter.Factory patchSetInserterFactory,
-      @GerritPersonIdent final PersonIdent myIdent,
+  EditMessage(ChangeUtil changeUtil,
+      @GerritPersonIdent PersonIdent myIdent,
       ChangeJson json) {
-    this.dbProvider = dbProvider;
-    this.commitMessageEditedSenderFactory = commitMessageEditedSenderFactory;
-    this.gitManager = gitManager;
+    this.changeUtil = changeUtil;
     this.myIdent = myIdent;
-    this.patchSetInserterFactory = patchSetInserterFactory;
     this.json = json;
   }
 
@@ -83,22 +66,12 @@ class EditMessage implements RestModifyView<RevisionResource, Input>,
     if (Strings.isNullOrEmpty(input.message)) {
       throw new BadRequestException("message must be non-empty");
     }
-
-    final Repository git;
     try {
-      git = gitManager.openRepository(rsrc.getChange().getProject());
-    } catch (RepositoryNotFoundException e) {
-      throw new ResourceNotFoundException(e.getMessage());
-    }
-
-    try {
-      return json.format(ChangeUtil.editCommitMessage(
+      return json.format(changeUtil.editCommitMessage(
+          rsrc.getControl(),
           rsrc.getPatchSet().getId(),
-          rsrc.getControl().getRefControl(),
-          (IdentifiedUser) rsrc.getControl().getCurrentUser(),
-          input.message, dbProvider.get(),
-          commitMessageEditedSenderFactory, git, myIdent,
-          patchSetInserterFactory));
+          input.message,
+          myIdent));
     } catch (InvalidChangeOperationException e) {
       throw new BadRequestException(e.getMessage());
     } catch (NoSuchChangeException e) {
@@ -106,8 +79,6 @@ class EditMessage implements RestModifyView<RevisionResource, Input>,
     } catch (MissingObjectException | IncorrectObjectTypeException
         | PatchSetInfoNotAvailableException e) {
       throw new ResourceConflictException(e.getMessage());
-    } finally {
-      git.close();
     }
   }
 

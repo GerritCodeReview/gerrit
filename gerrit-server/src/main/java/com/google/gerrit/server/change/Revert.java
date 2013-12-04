@@ -15,7 +15,6 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -26,59 +25,33 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
-import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.validators.CommitValidators;
-import com.google.gerrit.server.mail.RevertedSender;
-import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
 
 public class Revert implements RestModifyView<ChangeResource, RevertInput>,
     UiAction<ChangeResource> {
-  private final ChangeHooks hooks;
-  private final RevertedSender.Factory revertedSenderFactory;
-  private final CommitValidators.Factory commitValidatorsFactory;
-  private final Provider<ReviewDb> dbProvider;
   private final ChangeJson json;
-  private final GitRepositoryManager gitManager;
+  private final ChangeUtil changeUtil;
   private final PersonIdent myIdent;
-  private final PatchSetInfoFactory patchSetInfoFactory;
-  private final ChangeInserter.Factory changeInserterFactory;
 
   @Inject
-  Revert(ChangeHooks hooks,
-      RevertedSender.Factory revertedSenderFactory,
-      final CommitValidators.Factory commitValidatorsFactory,
-      Provider<ReviewDb> dbProvider,
-      ChangeJson json,
-      GitRepositoryManager gitManager,
-      final PatchSetInfoFactory patchSetInfoFactory,
-      @GerritPersonIdent final PersonIdent myIdent,
-      final ChangeInserter.Factory changeInserterFactory) {
-    this.hooks = hooks;
-    this.revertedSenderFactory = revertedSenderFactory;
-    this.commitValidatorsFactory = commitValidatorsFactory;
-    this.dbProvider = dbProvider;
+  Revert(ChangeJson json,
+      ChangeUtil changeUtil,
+      @GerritPersonIdent PersonIdent myIdent) {
     this.json = json;
-    this.gitManager = gitManager;
+    this.changeUtil = changeUtil;
     this.myIdent = myIdent;
-    this.changeInserterFactory = changeInserterFactory;
-    this.patchSetInfoFactory = patchSetInfoFactory;
   }
 
   @Override
@@ -93,26 +66,17 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
       throw new ResourceConflictException("change is " + status(change));
     }
 
-    final Repository git = gitManager.openRepository(control.getProject().getNameKey());
     try {
-      CommitValidators commitValidators =
-          commitValidatorsFactory.create(control.getRefControl(), new NoSshInfo(), git);
-
       Change.Id revertedChangeId =
-          ChangeUtil.revert(control.getRefControl(), change.currentPatchSetId(),
-              (IdentifiedUser) control.getCurrentUser(),
-              commitValidators,
-              Strings.emptyToNull(input.message), dbProvider.get(),
-              revertedSenderFactory, hooks, git, patchSetInfoFactory,
-              myIdent, changeInserterFactory);
+          changeUtil.revert(control, change.currentPatchSetId(),
+              Strings.emptyToNull(input.message),
+              myIdent, new NoSshInfo());
 
       return json.format(revertedChangeId);
     } catch (InvalidChangeOperationException e) {
       throw new BadRequestException(e.getMessage());
     } catch (NoSuchChangeException e) {
       throw new ResourceNotFoundException(e.getMessage());
-    } finally {
-      git.close();
     }
   }
 

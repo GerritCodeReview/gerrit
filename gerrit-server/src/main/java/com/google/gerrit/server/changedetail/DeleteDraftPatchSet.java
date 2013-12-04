@@ -20,8 +20,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
@@ -37,44 +35,38 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 public class DeleteDraftPatchSet implements Callable<ReviewResult> {
-
   public interface Factory {
     DeleteDraftPatchSet create(PatchSet.Id patchSetId);
   }
 
   private final ChangeControl.Factory changeControlFactory;
   private final ReviewDb db;
-  private final GitRepositoryManager gitManager;
-  private final GitReferenceUpdated gitRefUpdated;
   private final PatchSetInfoFactory patchSetInfoFactory;
-  private final ChangeIndexer indexer;
-
+  private final ChangeUtil changeUtil;
   private final PatchSet.Id patchSetId;
 
   @Inject
   DeleteDraftPatchSet(ChangeControl.Factory changeControlFactory,
-      ReviewDb db, GitRepositoryManager gitManager,
-      GitReferenceUpdated gitRefUpdated, PatchSetInfoFactory patchSetInfoFactory,
+      ReviewDb db,
+      PatchSetInfoFactory patchSetInfoFactory,
       ChangeIndexer indexer,
-      @Assisted final PatchSet.Id patchSetId) {
+      ChangeUtil changeUtil,
+      @Assisted PatchSet.Id patchSetId) {
     this.changeControlFactory = changeControlFactory;
     this.db = db;
-    this.gitManager = gitManager;
-    this.gitRefUpdated = gitRefUpdated;
     this.patchSetInfoFactory = patchSetInfoFactory;
-    this.indexer = indexer;
-
+    this.changeUtil = changeUtil;
     this.patchSetId = patchSetId;
   }
 
   @Override
   public ReviewResult call() throws NoSuchChangeException, OrmException {
-    final ReviewResult result = new ReviewResult();
+    ReviewResult result = new ReviewResult();
 
-    final Change.Id changeId = patchSetId.getParentKey();
+    Change.Id changeId = patchSetId.getParentKey();
     result.setChangeId(changeId);
-    final ChangeControl control = changeControlFactory.validateFor(changeId);
-    final PatchSet patch = db.patchSets().get(patchSetId);
+    ChangeControl control = changeControlFactory.validateFor(changeId);
+    PatchSet patch = db.patchSets().get(patchSetId);
     if (patch == null) {
       throw new NoSuchChangeException(changeId);
     }
@@ -89,10 +81,10 @@ public class DeleteDraftPatchSet implements Callable<ReviewResult> {
           ReviewResult.Error.Type.DELETE_NOT_PERMITTED));
       return result;
     }
-    final Change change = control.getChange();
+    Change change = control.getChange();
 
     try {
-      ChangeUtil.deleteOnlyDraftPatchSet(patch, change, gitManager, gitRefUpdated, db);
+      changeUtil.deleteOnlyDraftPatchSet(patch, change);
     } catch (IOException e) {
       result.addError(new ReviewResult.Error(
           ReviewResult.Error.Type.GIT_ERROR, e.getMessage()));
@@ -101,8 +93,7 @@ public class DeleteDraftPatchSet implements Callable<ReviewResult> {
     List<PatchSet> restOfPatches = db.patchSets().byChange(changeId).toList();
     if (restOfPatches.size() == 0) {
       try {
-        ChangeUtil.deleteDraftChange(patchSetId, gitManager, gitRefUpdated, db,
-            indexer);
+        changeUtil.deleteDraftChange(patchSetId);
         result.setChangeId(null);
       } catch (IOException e) {
         result.addError(new ReviewResult.Error(

@@ -51,6 +51,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
   private final ChangeHooks hooks;
   private final AbandonedSender.Factory abandonedSenderFactory;
   private final Provider<ReviewDb> dbProvider;
+  private final Provider<ApprovalsUtil> approvals;
   private final ChangeJson json;
   private final ChangeIndexer indexer;
 
@@ -58,11 +59,13 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
   Abandon(ChangeHooks hooks,
       AbandonedSender.Factory abandonedSenderFactory,
       Provider<ReviewDb> dbProvider,
+      Provider<ApprovalsUtil> approvals,
       ChangeJson json,
       ChangeIndexer indexer) {
     this.hooks = hooks;
     this.abandonedSenderFactory = abandonedSenderFactory;
     this.dbProvider = dbProvider;
+    this.approvals = approvals;
     this.json = json;
     this.indexer = indexer;
   }
@@ -103,7 +106,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
       }
       message = newMessage(input, caller, change);
       db.changeMessages().insert(Collections.singleton(message));
-      new ApprovalsUtil(db).syncChangeStatus(change);
+      approvals.get().syncChangeStatus(change);
       db.commit();
     } finally {
       db.rollback();

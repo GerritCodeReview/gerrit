@@ -26,9 +26,6 @@ import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.DeleteDraftPatchSet.Input;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -45,22 +42,16 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
   }
 
   protected final Provider<ReviewDb> dbProvider;
-  private final GitRepositoryManager gitManager;
-  private final GitReferenceUpdated gitRefUpdated;
   private final PatchSetInfoFactory patchSetInfoFactory;
-  private final ChangeIndexer indexer;
+  private final ChangeUtil changeUtil;
 
   @Inject
   public DeleteDraftPatchSet(Provider<ReviewDb> dbProvider,
-      GitRepositoryManager gitManager,
-      GitReferenceUpdated gitRefUpdated,
       PatchSetInfoFactory patchSetInfoFactory,
-      ChangeIndexer indexer) {
+      ChangeUtil changeUtil) {
     this.dbProvider = dbProvider;
-    this.gitManager = gitManager;
-    this.gitRefUpdated = gitRefUpdated;
     this.patchSetInfoFactory = patchSetInfoFactory;
-    this.indexer = indexer;
+    this.changeUtil = changeUtil;
   }
 
   @Override
@@ -104,8 +95,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
   private void deleteDraftPatchSet(PatchSet patchSet, Change change)
       throws ResourceNotFoundException, OrmException, IOException {
     try {
-      ChangeUtil.deleteOnlyDraftPatchSet(patchSet,
-          change, gitManager, gitRefUpdated, dbProvider.get());
+      changeUtil.deleteOnlyDraftPatchSet(patchSet, change);
     } catch (NoSuchChangeException e) {
       throw new ResourceNotFoundException(e.getMessage());
     }
@@ -130,8 +120,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
   private void deleteDraftChange(PatchSet.Id patchSetId)
       throws OrmException, IOException, ResourceNotFoundException {
     try {
-      ChangeUtil.deleteDraftChange(patchSetId,
-          gitManager, gitRefUpdated, dbProvider.get(), indexer);
+      changeUtil.deleteDraftChange(patchSetId);
     } catch (NoSuchChangeException e) {
       throw new ResourceNotFoundException(e.getMessage());
     }

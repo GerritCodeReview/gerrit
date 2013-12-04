@@ -75,6 +75,7 @@ public class ChangeInserter {
 
   @Inject
   ChangeInserter(Provider<ReviewDb> dbProvider,
+      Provider<ApprovalsUtil> approvals,
       PatchSetInfoFactory patchSetInfoFactory,
       GitReferenceUpdated gitRefUpdated,
       ChangeHooks hooks,
@@ -159,7 +160,7 @@ public class ChangeInserter {
       db.patchSets().insert(Collections.singleton(patchSet));
       db.changes().insert(Collections.singleton(change));
       LabelTypes labelTypes = refControl.getProjectControl().getLabelTypes();
-      approvalsUtil.addReviewers(db, labelTypes, change, patchSet, patchSetInfo,
+      approvalsUtil.addReviewers(labelTypes, change, patchSet, patchSetInfo,
           reviewers, Collections.<Account.Id> emptySet());
       db.commit();
     } finally {

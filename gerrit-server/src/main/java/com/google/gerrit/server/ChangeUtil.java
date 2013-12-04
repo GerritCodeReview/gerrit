@@ -21,7 +21,6 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.primitives.Ints;
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -38,21 +37,24 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.index.ChangeIndexer;
-import com.google.gerrit.server.mail.CommitMessageEditedSender;
 import com.google.gerrit.server.mail.RevertedSender;
-import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmConcurrencyException;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -118,7 +120,7 @@ public class ChangeUtil {
     return u + '_' + l;
   }
 
-  public static void touch(final Change change, ReviewDb db)
+  public static void touch(Change change, ReviewDb db)
       throws OrmException {
     try {
       updated(change);
@@ -137,14 +139,14 @@ public class ChangeUtil {
     }
   }
 
-  public static void updated(final Change c) {
+  public static void updated(Change c) {
     c.setLastUpdatedOn(TimeUtil.nowTs());
     computeSortKey(c);
   }
 
   public static void insertAncestors(ReviewDb db, PatchSet.Id id, RevCommit src)
       throws OrmException {
-    final int cnt = src.getParentCount();
+    int cnt = src.getParentCount();
     List<PatchSetAncestor> toInsert = new ArrayList<PatchSetAncestor>(cnt);
     for (int p = 0; p < cnt; p++) {
       PatchSetAncestor a =
@@ -155,268 +157,7 @@ public class ChangeUtil {
     db.patchSetAncestors().insert(toInsert);
   }
 
-  public static Change.Id revert(RefControl refControl, PatchSet.Id patchSetId,
-      IdentifiedUser user, CommitValidators commitValidators, String message,
-      ReviewDb db, RevertedSender.Factory revertedSenderFactory,
-      ChangeHooks hooks, Repository git,
-      PatchSetInfoFactory patchSetInfoFactory, PersonIdent myIdent,
-      ChangeInserter.Factory changeInserterFactory)
-          throws NoSuchChangeException, EmailException,
-      OrmException, MissingObjectException, IncorrectObjectTypeException,
-      IOException, InvalidChangeOperationException {
-    final Change.Id changeId = patchSetId.getParentKey();
-    final PatchSet patch = db.patchSets().get(patchSetId);
-    if (patch == null) {
-      throw new NoSuchChangeException(changeId);
-    }
-    final Change changeToRevert = db.changes().get(changeId);
-
-    final RevWalk revWalk = new RevWalk(git);
-    try {
-      RevCommit commitToRevert =
-          revWalk.parseCommit(ObjectId.fromString(patch.getRevision().get()));
-
-      PersonIdent authorIdent =
-          user.newCommitterIdent(myIdent.getWhen(), myIdent.getTimeZone());
-
-      RevCommit parentToCommitToRevert = commitToRevert.getParent(0);
-      revWalk.parseHeaders(parentToCommitToRevert);
-
-      CommitBuilder revertCommitBuilder = new CommitBuilder();
-      revertCommitBuilder.addParentId(commitToRevert);
-      revertCommitBuilder.setTreeId(parentToCommitToRevert.getTree());
-      revertCommitBuilder.setAuthor(authorIdent);
-      revertCommitBuilder.setCommitter(authorIdent);
-
-      if (message == null) {
-        message = MessageFormat.format(
-            ChangeMessages.get().revertChangeDefaultMessage,
-            changeToRevert.getSubject(), patch.getRevision().get());
-      }
-
-      final ObjectId computedChangeId =
-          ChangeIdUtil.computeChangeId(parentToCommitToRevert.getTree(),
-              commitToRevert, authorIdent, myIdent, message);
-      revertCommitBuilder.setMessage(ChangeIdUtil.insertId(message, computedChangeId, true));
-
-      RevCommit revertCommit;
-      final ObjectInserter oi = git.newObjectInserter();
-      try {
-        ObjectId id = oi.insert(revertCommitBuilder);
-        oi.flush();
-        revertCommit = revWalk.parseCommit(id);
-      } finally {
-        oi.release();
-      }
-
-      final Change change = new Change(
-          new Change.Key("I" + computedChangeId.name()),
-          new Change.Id(db.nextChangeId()),
-          user.getAccountId(),
-          changeToRevert.getDest(),
-          TimeUtil.nowTs());
-      change.setTopic(changeToRevert.getTopic());
-      ChangeInserter ins =
-          changeInserterFactory.create(refControl, change, revertCommit);
-      PatchSet ps = ins.getPatchSet();
-
-      String ref = refControl.getRefName();
-      final String cmdRef =
-          MagicBranch.NEW_PUBLISH_CHANGE
-              + ref.substring(ref.lastIndexOf('/') + 1);
-      CommitReceivedEvent commitReceivedEvent =
-          new CommitReceivedEvent(new ReceiveCommand(ObjectId.zeroId(),
-              revertCommit.getId(), cmdRef), refControl.getProjectControl()
-              .getProject(), refControl.getRefName(), revertCommit, user);
-
-      try {
-        commitValidators.validateForGerritCommits(commitReceivedEvent);
-      } catch (CommitValidationException e) {
-        throw new InvalidChangeOperationException(e.getMessage());
-      }
-
-      final RefUpdate ru = git.updateRef(ps.getRefName());
-      ru.setExpectedOldObjectId(ObjectId.zeroId());
-      ru.setNewObjectId(revertCommit);
-      ru.disableRefLog();
-      if (ru.update(revWalk) != RefUpdate.Result.NEW) {
-        throw new IOException(String.format(
-            "Failed to create ref %s in %s: %s", ps.getRefName(),
-            change.getDest().getParentKey().get(), ru.getResult()));
-      }
-
-      final ChangeMessage cmsg = new ChangeMessage(
-          new ChangeMessage.Key(changeId, ChangeUtil.messageUUID(db)),
-          user.getAccountId(), TimeUtil.nowTs(), patchSetId);
-      final StringBuilder msgBuf =
-          new StringBuilder("Patch Set " + patchSetId.get() + ": Reverted");
-      msgBuf.append("\n\n");
-      msgBuf.append("This patchset was reverted in change: " + change.getKey().get());
-      cmsg.setMessage(msgBuf.toString());
-
-      ins.setMessage(cmsg).insert();
-
-      try {
-        final RevertedSender cm = revertedSenderFactory.create(change);
-        cm.setFrom(user.getAccountId());
-        cm.setChangeMessage(cmsg);
-        cm.send();
-      } catch (Exception err) {
-        log.error("Cannot send email for revert change " + change.getId(),
-            err);
-      }
-
-      return change.getId();
-    } finally {
-      revWalk.release();
-    }
-  }
-
-  public static Change.Id editCommitMessage(final PatchSet.Id patchSetId,
-      final RefControl refControl, final IdentifiedUser user,
-      final String message, final ReviewDb db,
-      final CommitMessageEditedSender.Factory commitMessageEditedSenderFactory,
-      Repository git, PersonIdent myIdent,
-      PatchSetInserter.Factory patchSetInserterFactory)
-      throws NoSuchChangeException, EmailException, OrmException,
-      MissingObjectException, IncorrectObjectTypeException, IOException,
-      InvalidChangeOperationException, PatchSetInfoNotAvailableException {
-    final Change.Id changeId = patchSetId.getParentKey();
-    final PatchSet originalPS = db.patchSets().get(patchSetId);
-    if (originalPS == null) {
-      throw new NoSuchChangeException(changeId);
-    }
-
-    if (message == null || message.length() == 0) {
-      throw new InvalidChangeOperationException(
-          "The commit message cannot be empty");
-    }
-
-    final RevWalk revWalk = new RevWalk(git);
-    try {
-      RevCommit commit =
-          revWalk.parseCommit(ObjectId.fromString(originalPS.getRevision()
-              .get()));
-      if (commit.getFullMessage().equals(message)) {
-        throw new InvalidChangeOperationException(
-            "New commit message cannot be same as existing commit message");
-      }
-
-      Date now = myIdent.getWhen();
-      Change change = db.changes().get(changeId);
-      PersonIdent authorIdent =
-          user.newCommitterIdent(now, myIdent.getTimeZone());
-
-      CommitBuilder commitBuilder = new CommitBuilder();
-      commitBuilder.setTreeId(commit.getTree());
-      commitBuilder.setParentIds(commit.getParents());
-      commitBuilder.setAuthor(commit.getAuthorIdent());
-      commitBuilder.setCommitter(authorIdent);
-      commitBuilder.setMessage(message);
-
-      RevCommit newCommit;
-      final ObjectInserter oi = git.newObjectInserter();
-      try {
-        ObjectId id = oi.insert(commitBuilder);
-        oi.flush();
-        newCommit = revWalk.parseCommit(id);
-      } finally {
-        oi.release();
-      }
-
-      PatchSet.Id id = nextPatchSetId(git, change.currentPatchSetId());
-      final PatchSet newPatchSet = new PatchSet(id);
-      newPatchSet.setCreatedOn(new Timestamp(now.getTime()));
-      newPatchSet.setUploader(user.getAccountId());
-      newPatchSet.setRevision(new RevId(newCommit.name()));
-
-      final String msg =
-          "Patch Set " + newPatchSet.getPatchSetId()
-              + ": Commit message was updated";
-
-      change = patchSetInserterFactory
-          .create(git, revWalk, refControl, user, change, newCommit)
-          .setPatchSet(newPatchSet)
-          .setMessage(msg)
-          .setCopyLabels(true)
-          .setValidatePolicy(RECEIVE_COMMITS)
-          .setDraft(originalPS.isDraft())
-          .insert();
-
-      return change.getId();
-    } finally {
-      revWalk.release();
-    }
-  }
-
-  public static void deleteDraftChange(PatchSet.Id patchSetId,
-      GitRepositoryManager gitManager,
-      GitReferenceUpdated gitRefUpdated, ReviewDb db, ChangeIndexer indexer)
-      throws NoSuchChangeException, OrmException, IOException {
-    final Change.Id changeId = patchSetId.getParentKey();
-    deleteDraftChange(changeId, gitManager, gitRefUpdated, db, indexer);
-  }
-
-  public static void deleteDraftChange(Change.Id changeId,
-      GitRepositoryManager gitManager,
-      GitReferenceUpdated gitRefUpdated, ReviewDb db, ChangeIndexer indexer)
-      throws NoSuchChangeException, OrmException, IOException {
-    Change change = db.changes().get(changeId);
-    if (change == null || change.getStatus() != Change.Status.DRAFT) {
-      throw new NoSuchChangeException(changeId);
-    }
-
-    for (PatchSet ps : db.patchSets().byChange(changeId)) {
-      // These should all be draft patch sets.
-      deleteOnlyDraftPatchSet(ps, change, gitManager, gitRefUpdated, db);
-    }
-
-    db.changeMessages().delete(db.changeMessages().byChange(changeId));
-    db.starredChanges().delete(db.starredChanges().byChange(changeId));
-    db.changes().delete(Collections.singleton(change));
-    indexer.delete(change);
-  }
-
-  public static void deleteOnlyDraftPatchSet(final PatchSet patch,
-      final Change change, GitRepositoryManager gitManager,
-      final GitReferenceUpdated gitRefUpdated, final ReviewDb db)
-      throws NoSuchChangeException, OrmException, IOException {
-    final PatchSet.Id patchSetId = patch.getId();
-    if (!patch.isDraft()) {
-      throw new NoSuchChangeException(patchSetId.getParentKey());
-    }
-
-    Repository repo = gitManager.openRepository(change.getProject());
-    try {
-      RefUpdate update = repo.updateRef(patch.getRefName());
-      update.setForceUpdate(true);
-      update.disableRefLog();
-      switch (update.delete()) {
-        case NEW:
-        case FAST_FORWARD:
-        case FORCED:
-        case NO_CHANGE:
-          // Successful deletion.
-          break;
-        default:
-          throw new IOException("Failed to delete ref " + patch.getRefName() +
-              " in " + repo.getDirectory() + ": " + update.getResult());
-      }
-      gitRefUpdated.fire(change.getProject(), update);
-    } finally {
-      repo.close();
-    }
-
-    db.accountPatchReviews().delete(db.accountPatchReviews().byPatchSet(patchSetId));
-    db.changeMessages().delete(db.changeMessages().byPatchSet(patchSetId));
-    db.patchComments().delete(db.patchComments().byPatchSet(patchSetId));
-    db.patchSetApprovals().delete(db.patchSetApprovals().byPatchSet(patchSetId));
-    db.patchSetAncestors().delete(db.patchSetAncestors().byPatchSet(patchSetId));
-
-    db.patchSets().delete(Collections.singleton(patch));
-  }
-
-  public static String sortKey(long lastUpdatedMs, int id){
+  public static String sortKey(long lastUpdatedMs, int id) {
     long lastUpdatedMins = MINUTES.convert(lastUpdatedMs, MILLISECONDS);
     long minsSinceEpoch = lastUpdatedMins - SORT_KEY_EPOCH_MINS;
     StringBuilder r = new StringBuilder(16);
@@ -451,6 +192,310 @@ public class ChangeUtil {
   public static PatchSet.Id nextPatchSetId(Repository git, PatchSet.Id id)
       throws IOException {
     return nextPatchSetId(git.getRefDatabase().getRefs(RefDatabase.ALL), id);
+  }
+
+  private final Provider<CurrentUser> userProvider;
+  private final CommitValidators.Factory commitValidatorsFactory;
+  private final Provider<ReviewDb> db;
+  private final RevertedSender.Factory revertedSenderFactory;
+  private final ChangeInserter.Factory changeInserterFactory;
+  private final PatchSetInserter.Factory patchSetInserterFactory;
+  private final GitRepositoryManager gitManager;
+  private final GitReferenceUpdated gitRefUpdated;
+  private final ChangeIndexer indexer;
+
+  @Inject
+  ChangeUtil(Provider<CurrentUser> userProvider,
+      CommitValidators.Factory commitValidatorsFactory,
+      Provider<ReviewDb> db,
+      RevertedSender.Factory revertedSenderFactory,
+      ChangeInserter.Factory changeInserterFactory,
+      PatchSetInserter.Factory patchSetInserterFactory,
+      GitRepositoryManager gitManager,
+      GitReferenceUpdated gitRefUpdated,
+      ChangeIndexer indexer) {
+    this.userProvider = userProvider;
+    this.commitValidatorsFactory = commitValidatorsFactory;
+    this.db = db;
+    this.revertedSenderFactory = revertedSenderFactory;
+    this.changeInserterFactory = changeInserterFactory;
+    this.patchSetInserterFactory = patchSetInserterFactory;
+    this.gitManager = gitManager;
+    this.gitRefUpdated = gitRefUpdated;
+    this.indexer = indexer;
+  }
+
+  public Change.Id revert(ChangeControl ctl, PatchSet.Id patchSetId,
+      String message, PersonIdent myIdent, SshInfo sshInfo)
+      throws NoSuchChangeException, EmailException, OrmException,
+      MissingObjectException, IncorrectObjectTypeException, IOException,
+      InvalidChangeOperationException {
+    Change.Id changeId = patchSetId.getParentKey();
+    PatchSet patch = db.get().patchSets().get(patchSetId);
+    if (patch == null) {
+      throw new NoSuchChangeException(changeId);
+    }
+    Change changeToRevert = db.get().changes().get(changeId);
+
+    Repository git;
+    try {
+      git = gitManager.openRepository(ctl.getChange().getProject());
+    } catch (RepositoryNotFoundException e) {
+      throw new NoSuchChangeException(changeId, e);
+    }
+    try {
+      RevWalk revWalk = new RevWalk(git);
+      try {
+        RevCommit commitToRevert =
+            revWalk.parseCommit(ObjectId.fromString(patch.getRevision().get()));
+
+        PersonIdent authorIdent =
+            user().newCommitterIdent(myIdent.getWhen(), myIdent.getTimeZone());
+
+        RevCommit parentToCommitToRevert = commitToRevert.getParent(0);
+        revWalk.parseHeaders(parentToCommitToRevert);
+
+        CommitBuilder revertCommitBuilder = new CommitBuilder();
+        revertCommitBuilder.addParentId(commitToRevert);
+        revertCommitBuilder.setTreeId(parentToCommitToRevert.getTree());
+        revertCommitBuilder.setAuthor(authorIdent);
+        revertCommitBuilder.setCommitter(authorIdent);
+
+        if (message == null) {
+          message = MessageFormat.format(
+              ChangeMessages.get().revertChangeDefaultMessage,
+              changeToRevert.getSubject(), patch.getRevision().get());
+        }
+
+        ObjectId computedChangeId =
+            ChangeIdUtil.computeChangeId(parentToCommitToRevert.getTree(),
+                commitToRevert, authorIdent, myIdent, message);
+        revertCommitBuilder.setMessage(
+            ChangeIdUtil.insertId(message, computedChangeId, true));
+
+        RevCommit revertCommit;
+        ObjectInserter oi = git.newObjectInserter();
+        try {
+          ObjectId id = oi.insert(revertCommitBuilder);
+          oi.flush();
+          revertCommit = revWalk.parseCommit(id);
+        } finally {
+          oi.release();
+        }
+
+        RefControl refControl = ctl.getRefControl();
+        Change change = new Change(
+            new Change.Key("I" + computedChangeId.name()),
+            new Change.Id(db.get().nextChangeId()),
+            user().getAccountId(),
+            changeToRevert.getDest(),
+            TimeUtil.nowTs());
+        change.setTopic(changeToRevert.getTopic());
+        ChangeInserter ins =
+            changeInserterFactory.create(refControl, change, revertCommit);
+        PatchSet ps = ins.getPatchSet();
+
+        String ref = refControl.getRefName();
+        String cmdRef = MagicBranch.NEW_PUBLISH_CHANGE
+            + ref.substring(ref.lastIndexOf('/') + 1);
+        CommitReceivedEvent commitReceivedEvent = new CommitReceivedEvent(
+            new ReceiveCommand(ObjectId.zeroId(), revertCommit.getId(), cmdRef),
+            refControl.getProjectControl().getProject(),
+            refControl.getRefName(), revertCommit, user());
+
+        try {
+          commitValidatorsFactory.create(refControl, sshInfo, git)
+              .validateForGerritCommits(commitReceivedEvent);
+        } catch (CommitValidationException e) {
+          throw new InvalidChangeOperationException(e.getMessage());
+        }
+
+        RefUpdate ru = git.updateRef(ps.getRefName());
+        ru.setExpectedOldObjectId(ObjectId.zeroId());
+        ru.setNewObjectId(revertCommit);
+        ru.disableRefLog();
+        if (ru.update(revWalk) != RefUpdate.Result.NEW) {
+          throw new IOException(String.format(
+              "Failed to create ref %s in %s: %s", ps.getRefName(),
+              change.getDest().getParentKey().get(), ru.getResult()));
+        }
+
+        ChangeMessage cmsg = new ChangeMessage(
+            new ChangeMessage.Key(changeId, messageUUID(db.get())),
+            user().getAccountId(), TimeUtil.nowTs(), patchSetId);
+        StringBuilder msgBuf =
+            new StringBuilder("Patch Set " + patchSetId.get() + ": Reverted");
+        msgBuf.append("\n\n");
+        msgBuf.append("This patchset was reverted in change: " + change.getKey().get());
+        cmsg.setMessage(msgBuf.toString());
+
+        ins.setMessage(cmsg).insert();
+
+        try {
+          RevertedSender cm = revertedSenderFactory.create(change);
+          cm.setFrom(user().getAccountId());
+          cm.setChangeMessage(cmsg);
+          cm.send();
+        } catch (Exception err) {
+          log.error("Cannot send email for revert change " + change.getId(),
+              err);
+        }
+
+        return change.getId();
+      } finally {
+        revWalk.release();
+      }
+    } finally {
+      git.close();
+    }
+  }
+
+  public Change.Id editCommitMessage(ChangeControl ctl, PatchSet.Id patchSetId,
+      String message, PersonIdent myIdent)
+      throws NoSuchChangeException, EmailException, OrmException,
+      MissingObjectException, IncorrectObjectTypeException, IOException,
+      InvalidChangeOperationException, PatchSetInfoNotAvailableException {
+    Change.Id changeId = patchSetId.getParentKey();
+    PatchSet originalPS = db.get().patchSets().get(patchSetId);
+    if (originalPS == null) {
+      throw new NoSuchChangeException(changeId);
+    }
+
+    if (message == null || message.length() == 0) {
+      throw new InvalidChangeOperationException(
+          "The commit message cannot be empty");
+    }
+
+    Repository git;
+    try {
+      git = gitManager.openRepository(ctl.getChange().getProject());
+    } catch (RepositoryNotFoundException e) {
+      throw new NoSuchChangeException(changeId, e);
+    }
+    try {
+      RevWalk revWalk = new RevWalk(git);
+      try {
+        RevCommit commit =
+            revWalk.parseCommit(ObjectId.fromString(originalPS.getRevision()
+                .get()));
+        if (commit.getFullMessage().equals(message)) {
+          throw new InvalidChangeOperationException(
+              "New commit message cannot be same as existing commit message");
+        }
+
+        Date now = myIdent.getWhen();
+        Change change = db.get().changes().get(changeId);
+        PersonIdent authorIdent =
+            user().newCommitterIdent(now, myIdent.getTimeZone());
+
+        CommitBuilder commitBuilder = new CommitBuilder();
+        commitBuilder.setTreeId(commit.getTree());
+        commitBuilder.setParentIds(commit.getParents());
+        commitBuilder.setAuthor(commit.getAuthorIdent());
+        commitBuilder.setCommitter(authorIdent);
+        commitBuilder.setMessage(message);
+
+        RevCommit newCommit;
+        ObjectInserter oi = git.newObjectInserter();
+        try {
+          ObjectId id = oi.insert(commitBuilder);
+          oi.flush();
+          newCommit = revWalk.parseCommit(id);
+        } finally {
+          oi.release();
+        }
+
+        PatchSet.Id id = nextPatchSetId(git, change.currentPatchSetId());
+        PatchSet newPatchSet = new PatchSet(id);
+        newPatchSet.setCreatedOn(new Timestamp(now.getTime()));
+        newPatchSet.setUploader(user().getAccountId());
+        newPatchSet.setRevision(new RevId(newCommit.name()));
+
+        String msg = "Patch Set " + newPatchSet.getPatchSetId()
+            + ": Commit message was updated";
+
+        change = patchSetInserterFactory
+            .create(git, revWalk, ctl.getRefControl(), user(), change, newCommit)
+            .setPatchSet(newPatchSet)
+            .setMessage(msg)
+            .setCopyLabels(true)
+            .setValidatePolicy(RECEIVE_COMMITS)
+            .setDraft(originalPS.isDraft())
+            .insert();
+
+        return change.getId();
+      } finally {
+        revWalk.release();
+      }
+    } finally {
+      git.close();
+    }
+  }
+
+  public void deleteDraftChange(PatchSet.Id patchSetId)
+      throws NoSuchChangeException, OrmException, IOException {
+    deleteDraftChange(patchSetId.getParentKey());
+  }
+
+  public void deleteDraftChange(Change.Id changeId)
+      throws NoSuchChangeException, OrmException, IOException {
+    ReviewDb db = this.db.get();
+    Change change = db.changes().get(changeId);
+    if (change == null || change.getStatus() != Change.Status.DRAFT) {
+      throw new NoSuchChangeException(changeId);
+    }
+
+    for (PatchSet ps : db.patchSets().byChange(changeId)) {
+      // These should all be draft patch sets.
+      deleteOnlyDraftPatchSet(ps, change);
+    }
+
+    db.changeMessages().delete(db.changeMessages().byChange(changeId));
+    db.starredChanges().delete(db.starredChanges().byChange(changeId));
+    db.changes().delete(Collections.singleton(change));
+    indexer.delete(change);
+  }
+
+  public void deleteOnlyDraftPatchSet(PatchSet patch, Change change)
+      throws NoSuchChangeException, OrmException, IOException {
+    PatchSet.Id patchSetId = patch.getId();
+    if (!patch.isDraft()) {
+      throw new NoSuchChangeException(patchSetId.getParentKey());
+    }
+
+    Repository repo = gitManager.openRepository(change.getProject());
+    try {
+      RefUpdate update = repo.updateRef(patch.getRefName());
+      update.setForceUpdate(true);
+      update.disableRefLog();
+      switch (update.delete()) {
+        case NEW:
+        case FAST_FORWARD:
+        case FORCED:
+        case NO_CHANGE:
+          // Successful deletion.
+          break;
+        default:
+          throw new IOException("Failed to delete ref " + patch.getRefName() +
+              " in " + repo.getDirectory() + ": " + update.getResult());
+      }
+      gitRefUpdated.fire(change.getProject(), update);
+    } finally {
+      repo.close();
+    }
+
+    ReviewDb db = this.db.get();
+    db.accountPatchReviews().delete(db.accountPatchReviews().byPatchSet(patchSetId));
+    db.changeMessages().delete(db.changeMessages().byPatchSet(patchSetId));
+    db.patchComments().delete(db.patchComments().byPatchSet(patchSetId));
+    db.patchSetApprovals().delete(db.patchSetApprovals().byPatchSet(patchSetId));
+    db.patchSetAncestors().delete(db.patchSetAncestors().byPatchSet(patchSetId));
+
+    db.patchSets().delete(Collections.singleton(patch));
+  }
+
+  private IdentifiedUser user() {
+    return (IdentifiedUser) userProvider.get();
   }
 
   private static PatchSet.Id nextPatchSetId(PatchSet.Id id) {

@@ -103,7 +103,7 @@ public class PatchSetNotificationSender {
       recipients.remove(me);
 
       if (newChange) {
-        approvalsUtil.addReviewers(db, labelTypes,
+        approvalsUtil.addReviewers(labelTypes,
             updatedChange, updatedPatchSet, info,
             recipients.getReviewers(), Collections.<Account.Id> emptySet());
         try {
@@ -122,7 +122,7 @@ public class PatchSetNotificationSender {
                 updatedChange.getId()).toList();
         final MailRecipients oldRecipients =
             getRecipientsFromApprovals(patchSetApprovals);
-        approvalsUtil.addReviewers(db, labelTypes, updatedChange,
+        approvalsUtil.addReviewers(labelTypes, updatedChange,
             updatedPatchSet, info, recipients.getReviewers(),
             oldRecipients.getAll());
         final ChangeMessage msg =

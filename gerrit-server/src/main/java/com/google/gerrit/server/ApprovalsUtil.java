@@ -70,11 +70,11 @@ public class ApprovalsUtil {
    *
    * @throws OrmException
    */
-  public static void copyLabels(ReviewDb db, LabelTypes labelTypes,
+  public void copyLabels(LabelTypes labelTypes,
       PatchSet.Id source, PatchSet dest, ChangeKind changeKind) throws OrmException {
     Iterable<PatchSetApproval> sourceApprovals =
         db.patchSetApprovals().byPatchSet(source);
-    copyLabels(db, labelTypes, sourceApprovals, source, dest, changeKind);
+    copyLabels(labelTypes, sourceApprovals, source, dest, changeKind);
   }
 
   /**
@@ -82,7 +82,7 @@ public class ApprovalsUtil {
    *
    * @throws OrmException
    */
-  public static void copyLabels(ReviewDb db, LabelTypes labelTypes,
+  public void copyLabels(LabelTypes labelTypes,
       Iterable<PatchSetApproval> sourceApprovals, PatchSet.Id source,
       PatchSet dest, ChangeKind changeKind) throws OrmException {
     List<PatchSetApproval> copied = Lists.newArrayList();
@@ -107,7 +107,7 @@ public class ApprovalsUtil {
     db.patchSetApprovals().insert(copied);
   }
 
-  public void addReviewers(ReviewDb db, LabelTypes labelTypes, Change change,
+  public void addReviewers(LabelTypes labelTypes, Change change,
       PatchSet ps, PatchSetInfo info, Set<Account.Id> wantReviewers,
       Set<Account.Id> existingReviewers) throws OrmException {
     List<LabelType> allTypes = labelTypes.getLabelTypes();

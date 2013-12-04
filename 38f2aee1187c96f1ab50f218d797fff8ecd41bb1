@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c3b1b20e_7bf25f17",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-04T07:31:49Z",
+      "side": 1,
+      "message": "Because of MergeabilityChecker, that depends on almoust everything, we need all that. We don\u0027t change packaging and build process for that. This is all there.\n\nAs stated in the commit message, because we divide the worlds now, we can furhter optimize it, moving things out of base module that reindex pgm and daemon share.",
+      "parentUuid": "038aea2e_edf8c5f2",
+      "revId": "38f2aee1187c96f1ab50f218d797fff8ecd41bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e396b657_8cf10713",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModuleBase.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "c3b1b20e_5befa329",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModuleBase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-04T07:31:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e396b657_8cf10713",
+      "revId": "38f2aee1187c96f1ab50f218d797fff8ecd41bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e396b657_ecf8cbf2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeBatchIndexer.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2013-12-04T00:23:48Z",
       "side": 1,
       "message": "This should probably run first. We want the mergeable field updated in the Change record before the index even tries to rebuild its document data. Doing it after means we update the index twice for many of the open changes, which is a huge waste of time.",
+      "revId": "38f2aee1187c96f1ab50f218d797fff8ecd41bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "839c1a85_81f25a14",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeBatchIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-04T07:31:49Z",
+      "side": 1,
+      "message": "Done.\n\nNow it only does database part in MergeabilityChecker, letting out the reindexing part.",
+      "parentUuid": "e396b657_ecf8cbf2",
       "revId": "38f2aee1187c96f1ab50f218d797fff8ecd41bb1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

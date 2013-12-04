@@ -16,6 +16,24 @@
       "revId": "2e8e6f8e52cc958e35acb3c7475135c52c6468a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "839c1a85_a1ec3e37",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-04T07:31:49Z",
+      "side": 0,
+      "message": "Well, that one thing was redefined in reindex und can not be included twice. As stated in the commit message we can optimize it.",
+      "parentUuid": "e396b657_aceec32b",
+      "revId": "2e8e6f8e52cc958e35acb3c7475135c52c6468a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

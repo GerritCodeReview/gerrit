@@ -40,8 +40,6 @@ public class LineWidget extends JavaScriptObject {
     w.on("redraw", h);
   }-*/;
 
-  public final native JavaScriptObject getLine() /*-{ return this.line; }-*/;
-
   protected LineWidget() {
   }
 }

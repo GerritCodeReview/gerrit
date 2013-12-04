@@ -19,9 +19,10 @@ import static com.google.gerrit.common.data.Permission.PUSH;
 import static com.google.gerrit.common.data.Permission.PUSH_TAG;
 
 import com.google.gerrit.client.Dispatcher;
-import com.google.gerrit.client.ui.Hyperlink;
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.common.data.GroupInfo;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
@@ -35,6 +36,8 @@ import com.google.gwt.editor.client.Editor;
 import com.google.gwt.editor.client.EditorDelegate;
 import com.google.gwt.editor.client.ValueAwareEditor;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.text.shared.Renderer;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -49,6 +52,7 @@ import com.google.gwt.user.client.ui.ValueListBox;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class PermissionRuleEditor extends Composite implements
     Editor<PermissionRule>, ValueAwareEditor<PermissionRule> {
@@ -70,7 +74,7 @@ public class PermissionRuleEditor extends Composite implements
   CheckBox force;
 
   @UiField
-  Hyperlink groupNameLink;
+  Anchor groupNameLink;
   @UiField
   SpanElement groupNameSpan;
   @UiField
@@ -87,10 +91,16 @@ public class PermissionRuleEditor extends Composite implements
   @UiField
   SpanElement rangeEditor;
 
+  private Map<AccountGroup.UUID, GroupInfo> groupInfo;
   private boolean isDeleted;
+  private HandlerRegistration clickHandler;
 
-  public PermissionRuleEditor(boolean readOnly, AccessSection section,
-      Permission permission, PermissionRange.WithDefaults validRange) {
+  public PermissionRuleEditor(boolean readOnly,
+      Map<AccountGroup.UUID, GroupInfo> groupInfo,
+      AccessSection section,
+      Permission permission,
+      PermissionRange.WithDefaults validRange) {
+    this.groupInfo = groupInfo;
     action = new ValueListBox<PermissionRule.Action>(actionRenderer);
 
     if (validRange != null && 10 < validRange.getRangeSize()) {
@@ -181,12 +191,37 @@ public class PermissionRuleEditor extends Composite implements
 
   @Override
   public void setValue(PermissionRule value) {
+    if (clickHandler != null) {
+      clickHandler.removeHandler();
+      clickHandler = null;
+    }
+
     GroupReference ref = value.getGroup();
+    GroupInfo info = groupInfo != null && ref.getUUID() != null
+        ? groupInfo.get(ref.getUUID())
+        : null;
 
     boolean link;
     if (ref.getUUID() != null && AccountGroup.isInternalGroup(ref.getUUID())) {
+      final String token = Dispatcher.toGroup(ref.getUUID());
       groupNameLink.setText(ref.getName());
-      groupNameLink.setTargetHistoryToken(Dispatcher.toGroup(ref.getUUID()));
+      groupNameLink.setHref("#" + token);
+      groupNameLink.setTitle(info != null ? info.getDescription() : null);
+      groupNameLink.setTarget(null);
+      clickHandler = groupNameLink.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          event.preventDefault();
+          event.stopPropagation();
+          Gerrit.display(token);
+        }
+      });
+      link = true;
+    } else if (info != null && info.getUrl() != null) {
+      groupNameLink.setText(ref.getName());
+      groupNameLink.setHref(info.getUrl());
+      groupNameLink.setTitle(info.getDescription());
+      groupNameLink.setTarget("_blank");
       link = true;
     } else {
       groupNameSpan.setInnerText(ref.getName());

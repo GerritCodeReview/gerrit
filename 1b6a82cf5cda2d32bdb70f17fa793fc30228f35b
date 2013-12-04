@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "839c1a85_41157255",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1213,
+      "author": {
+        "id": 1013492
+      },
+      "writtenOn": "2013-12-04T14:36:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "038aea2e_8d482177",
+      "range": {
+        "startLine": 1213,
+        "startChar": 13,
+        "endLine": 1213,
+        "endChar": 14
+      },
+      "revId": "1b6a82cf5cda2d32bdb70f17fa793fc30228f35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e396b657_6c54db16",
         "filename": "Documentation/cmd-create-branch.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2013-12-04T09:30:42Z",
       "side": 1,
       "message": "Too many \u003d",
+      "range": {
+        "startLine": 2,
+        "startChar": 20,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "1b6a82cf5cda2d32bdb70f17fa793fc30228f35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3b1b20e_1b123b6f",
+        "filename": "Documentation/cmd-create-branch.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1013492
+      },
+      "writtenOn": "2013-12-04T14:36:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e396b657_6c54db16",
       "range": {
         "startLine": 2,
         "startChar": 20,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "839c1a85_012c0ab0",
+        "filename": "Documentation/cmd-create-branch.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013492
+      },
+      "writtenOn": "2013-12-04T14:36:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "038aea2e_ad45dd5f",
+      "range": {
+        "startLine": 14,
+        "startChar": 8,
+        "endLine": 14,
+        "endChar": 10
+      },
+      "revId": "1b6a82cf5cda2d32bdb70f17fa793fc30228f35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "038aea2e_ed3fe5c7",
         "filename": "Documentation/cmd-create-branch.txt",
         "patchSetId": 1
@@ -82,6 +154,24 @@
       "writtenOn": "2013-12-04T09:30:42Z",
       "side": 1,
       "message": "Isn\u0027t the revision mandatory?  If not, it should be described in the documentation what the default behaviour is when revision is not specified.",
+      "revId": "1b6a82cf5cda2d32bdb70f17fa793fc30228f35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "839c1a85_611d1676",
+        "filename": "Documentation/cmd-create-branch.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1013492
+      },
+      "writtenOn": "2013-12-04T14:36:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "038aea2e_ed3fe5c7",
       "revId": "1b6a82cf5cda2d32bdb70f17fa793fc30228f35b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "839c1a85_e130060a",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GlobalCapability.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1013492
+      },
+      "writtenOn": "2013-12-04T14:36:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3b1b20e_fb066f36",
+      "range": {
+        "startLine": 48,
+        "startChar": 29,
+        "endLine": 48,
+        "endChar": 42
+      },
+      "revId": "1b6a82cf5cda2d32bdb70f17fa793fc30228f35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e396b657_8c482777",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateBranchCommand.java",
         "patchSetId": 1
@@ -122,6 +236,24 @@
       "writtenOn": "2013-12-04T09:30:42Z",
       "side": 1,
       "message": "Missing copyright header.",
+      "revId": "1b6a82cf5cda2d32bdb70f17fa793fc30228f35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "839c1a85_c13502f8",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateBranchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013492
+      },
+      "writtenOn": "2013-12-04T14:36:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e396b657_8c482777",
       "revId": "1b6a82cf5cda2d32bdb70f17fa793fc30228f35b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -145,6 +277,24 @@
     },
     {
       "key": {
+        "uuid": "839c1a85_a13afee3",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateBranchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1013492
+      },
+      "writtenOn": "2013-12-04T14:36:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "839c1a85_41fc52e5",
+      "revId": "1b6a82cf5cda2d32bdb70f17fa793fc30228f35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3b1b20e_9b052b2a",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateBranchCommand.java",
         "patchSetId": 1
@@ -156,6 +306,24 @@
       "writtenOn": "2013-12-04T09:37:51Z",
       "side": 1,
       "message": "With the new API:\n\n  BranchInput in \u003d new BranchInput();\n  in.revision \u003d revision;\n  gApi.projects()\n      .name(project.getProject().getNameKey().get())\n      .branch(ref)\n      .create(in);",
+      "revId": "1b6a82cf5cda2d32bdb70f17fa793fc30228f35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "839c1a85_81201ab4",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateBranchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1013492
+      },
+      "writtenOn": "2013-12-04T14:36:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3b1b20e_9b052b2a",
       "revId": "1b6a82cf5cda2d32bdb70f17fa793fc30228f35b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

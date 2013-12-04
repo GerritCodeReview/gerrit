@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -302,10 +301,8 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       PatchSet.Id patchSetId, Account.Id reviewerId) {
     LabelId id =
         Iterables.getLast(ctl.getLabelTypes().getLabelTypes()).getLabelId();
-    PatchSetApproval dummyApproval = new PatchSetApproval(
+    return new PatchSetApproval(
         new PatchSetApproval.Key(patchSetId, reviewerId, id), (short) 0,
         TimeUtil.nowTs());
-    dummyApproval.cache(ctl.getChange());
-    return dummyApproval;
   }
 }

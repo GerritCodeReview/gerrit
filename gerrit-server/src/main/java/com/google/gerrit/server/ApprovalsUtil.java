@@ -48,21 +48,8 @@ public class ApprovalsUtil {
   private final ReviewDb db;
 
   @Inject
-  public ApprovalsUtil(ReviewDb db) {
+  ApprovalsUtil(ReviewDb db) {
     this.db = db;
-  }
-
-  /**
-   * Resync the changeOpen status which is cached in the approvals table for
-   * performance reasons
-   */
-  public void syncChangeStatus(final Change change) throws OrmException {
-    final List<PatchSetApproval> approvals =
-        db.patchSetApprovals().byChange(change.getId()).toList();
-    for (PatchSetApproval a : approvals) {
-      a.cache(change);
-    }
-    db.patchSetApprovals().update(approvals);
   }
 
   /**
@@ -135,11 +122,9 @@ public class ApprovalsUtil {
     List<PatchSetApproval> cells = Lists.newArrayListWithCapacity(need.size());
     LabelId labelId = Iterables.getLast(allTypes).getLabelId();
     for (Account.Id account : need) {
-      PatchSetApproval psa = new PatchSetApproval(
+      cells.add(new PatchSetApproval(
           new PatchSetApproval.Key(ps.getId(), account, labelId),
-          (short) 0, TimeUtil.nowTs());
-      psa.cache(change);
-      cells.add(psa);
+          (short) 0, TimeUtil.nowTs()));
     }
     db.patchSetApprovals().insert(cells);
   }

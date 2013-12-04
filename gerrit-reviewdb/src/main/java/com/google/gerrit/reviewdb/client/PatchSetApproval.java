@@ -129,20 +129,11 @@ public final class PatchSetApproval {
   @Column(id = 3)
   protected Timestamp granted;
 
-  /** <i>Cached copy of Change.open.</i> */
-  @Column(id = 4)
-  protected boolean changeOpen;
-
-  /** <i>Cached copy of Change.sortKey</i>; only if {@link #changeOpen} = false */
-  @Column(id = 5, length = 16, notNull = false)
-  protected String changeSortKey;
-
   protected PatchSetApproval() {
   }
 
   public PatchSetApproval(PatchSetApproval.Key k, short v, Timestamp ts) {
     key = k;
-    changeOpen = true;
     setValue(v);
     setGranted(ts);
   }
@@ -150,7 +141,6 @@ public final class PatchSetApproval {
   public PatchSetApproval(final PatchSet.Id psId, final PatchSetApproval src) {
     key =
         new PatchSetApproval.Key(psId, src.getAccountId(), src.getLabelId());
-    changeOpen = true;
     value = src.getValue();
     granted = src.granted;
   }
@@ -185,11 +175,6 @@ public final class PatchSetApproval {
 
   public void setGranted(Timestamp ts) {
     granted = ts;
-  }
-
-  public void cache(final Change c) {
-    changeOpen = c.open;
-    changeSortKey = c.sortKey;
   }
 
   public String getLabel() {

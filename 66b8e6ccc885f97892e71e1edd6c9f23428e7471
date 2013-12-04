@@ -119,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "03a82aa1_3dfccfe4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PreferencesBox.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-12-04T19:36:33Z",
+      "side": 1,
+      "message": "In a quick test, I found that it also responds to \".\" and \"\u0027\" / \"\"\".  Not that it seems to cause issues, mind you, but it was weird.",
+      "parentUuid": "e396b657_cc978f76",
+      "range": {
+        "startLine": 154,
+        "startChar": 39,
+        "endLine": 154,
+        "endChar": 47
+      },
+      "revId": "66b8e6ccc885f97892e71e1edd6c9f23428e7471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03a82aa1_bde7bf54",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PreferencesBox.java",
         "patchSetId": 5
@@ -154,6 +178,30 @@
       "side": 1,
       "message": "I agree. I thought about adding a checkbox next to this text field that you can toggle for whole file, which would clear out and disable the text box. Didn\u0027t get to it last night.",
       "parentUuid": "03a82aa1_bde7bf54",
+      "range": {
+        "startLine": 155,
+        "startChar": 15,
+        "endLine": 155,
+        "endChar": 39
+      },
+      "revId": "66b8e6ccc885f97892e71e1edd6c9f23428e7471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23ab6e9f_3efcc9e4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PreferencesBox.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-12-04T19:36:33Z",
+      "side": 1,
+      "message": "One other question related... while this is great, what will happen if the user sets, say, 12 lines of context and switches back to the old ChangeScreen?",
+      "parentUuid": "038aea2e_ed6d25d8",
       "range": {
         "startLine": 155,
         "startChar": 15,

@@ -15,7 +15,13 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.event.dom.client.DomEvent;
+import com.google.gwt.event.dom.client.KeyCodeEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.KeyEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
@@ -34,31 +40,50 @@ public class NpIntTextBox extends NpTextBox {
   }
 
   private void init() {
+    addKeyDownHandler(new KeyDownHandler() {
+      @Override
+      public void onKeyDown(KeyDownEvent event) {
+        int code = event.getNativeKeyCode();
+        onKey(event, code, code);
+      }
+    });
     addKeyPressHandler(new KeyPressHandler() {
       @Override
       public void onKeyPress(KeyPressEvent event) {
-        char c = event.getCharCode();
-        if (c < '0' || '9' < c) {
-          final int nativeCode = event.getNativeEvent().getKeyCode();
-          switch (nativeCode) {
-            case KeyCodes.KEY_BACKSPACE:
-            case KeyCodes.KEY_LEFT:
-            case KeyCodes.KEY_RIGHT:
-            case KeyCodes.KEY_HOME:
-            case KeyCodes.KEY_END:
-            case KeyCodes.KEY_TAB:
-            case KeyCodes.KEY_DELETE:
-              break;
-
-            default:
-              if (!event.isAnyModifierKeyDown()) {
-                event.preventDefault();
-              }
-              break;
-          }
-        }
+        int charCode = event.getCharCode();
+        int keyCode = event.getNativeEvent().getKeyCode();
+        onKey(event, charCode, keyCode);
       }
     });
+  }
+
+  private void onKey(KeyEvent<?> event, int charCode, int keyCode) {
+    if ('0' <= charCode && charCode <= '9') {
+      if (event.isAnyModifierKeyDown()) {
+        event.preventDefault();
+      }
+    } else {
+      switch (keyCode) {
+        case KeyCodes.KEY_BACKSPACE:
+        case KeyCodes.KEY_LEFT:
+        case KeyCodes.KEY_RIGHT:
+        case KeyCodes.KEY_HOME:
+        case KeyCodes.KEY_END:
+        case KeyCodes.KEY_TAB:
+        case KeyCodes.KEY_DELETE:
+          break;
+
+        default:
+          // Allow copy and paste using ctl-c/ctrl-v,
+          // or whatever the platform's convention is.
+          if (!(event.isControlKeyDown()
+              || event.isMetaKeyDown()
+              || event.isAltKeyDown())) {
+            event.preventDefault();
+          }
+          break;
+      }
+    }
   }
 
   public int getIntValue() {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3b1b20e_3b43b75b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-04T22:41:14Z",
+      "side": 1,
+      "message": "Ha, this is the first option Emacs users are missing in Gerrit ;-)\n\nNice to have it in.",
+      "revId": "e28460d7a967d0949fc862e710b914b4efcbfe43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

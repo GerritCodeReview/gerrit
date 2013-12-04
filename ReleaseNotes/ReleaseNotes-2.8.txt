@@ -4,8 +4,8 @@ Release notes for Gerrit 2.8
 
 Gerrit 2.8 is now available:
 
-link:https://gerrit-releases.storage.googleapis.com/gerrit-2.8-rc0.war[
-https://gerrit-releases.storage.googleapis.com/gerrit-2.8-rc0.war]
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.8.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.8.war]
 
 
 Schema Change
@@ -90,7 +90,7 @@ link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/user-
 
 *WARNING:* After enabling the secondary index, the index must be built using the
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/pgm-reindex.html[
-reindex program before restarting the Gerrit server.
+reindex program] before restarting the Gerrit server.
 
 
 Configuration

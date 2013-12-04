@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "23ab6e9f_fedd4184",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-12-04T02:57:53Z",
+      "side": 1,
+      "message": "Hmm, good point.  I may have to test that.  I was thinking we\u0027d need to reset the text for whitespace and intraline difference changes (since we actually have to request new data back from the server on either of those).",
+      "parentUuid": "e396b657_8c1ae786",
+      "range": {
+        "startLine": 470,
+        "startChar": 6,
+        "endLine": 471,
+        "endChar": 38
+      },
+      "revId": "cccb5b2e122c9773e1486f8735649cd33b969b40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "038aea2e_ed11a56a",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SidePanel.java",
         "patchSetId": 21

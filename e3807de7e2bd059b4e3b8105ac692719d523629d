@@ -34,6 +34,41 @@
       "revId": "e3807de7e2bd059b4e3b8105ac692719d523629d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "839c1a85_c100621b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-04T14:18:10Z",
+      "side": 1,
+      "message": "\"If it is not, then we would append \".jar\" and assume that we are dealing with regular java based jar extension.\"\n\n\nBut then i think you should use fileName variable on the line 159",
+      "parentUuid": "839c1a85_01076a34",
+      "revId": "e3807de7e2bd059b4e3b8105ac692719d523629d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "839c1a85_a1055e29",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-04T14:18:10Z",
+      "side": 1,
+      "message": "Shouldn\u0027t it be:\n\n String fileExtension \u003d getExtension(fileName);",
+      "revId": "e3807de7e2bd059b4e3b8105ac692719d523629d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

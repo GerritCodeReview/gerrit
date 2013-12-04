@@ -32,6 +32,7 @@ public class DiffPreferences extends JavaScriptObject {
     p.showTabs(in.isShowTabs());
     p.showWhitespaceErrors(in.isShowWhitespaceErrors());
     p.syntaxHighlighting(in.isSyntaxHighlighting());
+    p.hideTopMenu(in.isHideTopMenu());
     p.expandAllComments(in.isExpandAllComments());
     return p;
   }
@@ -45,6 +46,7 @@ public class DiffPreferences extends JavaScriptObject {
     p.setShowTabs(showTabs());
     p.setShowWhitespaceErrors(showWhitespaceErrors());
     p.setSyntaxHighlighting(syntaxHighlighting());
+    p.setHideTopMenu(hideTopMenu());
     p.setExpandAllComments(expandAllComments());
   }
 
@@ -60,6 +62,7 @@ public class DiffPreferences extends JavaScriptObject {
   public final native void showTabs(boolean s) /*-{ this.show_tabs = s }-*/;
   public final native void showWhitespaceErrors(boolean s) /*-{ this.show_whitespace_errors = s }-*/;
   public final native void syntaxHighlighting(boolean s) /*-{ this.syntax_highlighting = s }-*/;
+  public final native void hideTopMenu(boolean s) /*-{ this.hide_top_menu = s }-*/;
   public final native void expandAllComments(boolean e) /*-{ this.expand_all_comments = e }-*/;
 
   public final Whitespace ignoreWhitespace() {
@@ -75,6 +78,7 @@ public class DiffPreferences extends JavaScriptObject {
   public final native boolean showTabs() /*-{ return this.show_tabs }-*/;
   public final native boolean showWhitespaceErrors() /*-{ return this.show_whitespace_errors }-*/;
   public final native boolean syntaxHighlighting() /*-{ return this.syntax_highlighting }-*/;
+  public final native boolean hideTopMenu() /*-{ return this.hide_top_menu }-*/;
   public final native boolean expandAllComments() /*-{ return this.expand_all_comments }-*/;
 
   protected DiffPreferences() {

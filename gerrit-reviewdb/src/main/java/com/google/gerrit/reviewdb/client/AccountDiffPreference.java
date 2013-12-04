@@ -116,6 +116,9 @@ public class AccountDiffPreference {
   @Column(id = 15)
   protected boolean showLineEndings;
 
+  @Column(id = 16)
+  protected boolean hideTopMenu;
+
   protected AccountDiffPreference() {
   }
 
@@ -139,6 +142,7 @@ public class AccountDiffPreference {
     this.context = p.context;
     this.retainHeader = p.retainHeader;
     this.manualReview = p.manualReview;
+    this.hideTopMenu = p.hideTopMenu;
   }
 
   public Account.Id getAccountId() {
@@ -258,5 +262,13 @@ public class AccountDiffPreference {
 
   public void setManualReview(boolean manual) {
     manualReview = manual;
+  }
+
+  public void setHideTopMenu(boolean hide) {
+    hideTopMenu = hide;
+  }
+
+  public boolean isHideTopMenu() {
+    return hideTopMenu;
   }
 }

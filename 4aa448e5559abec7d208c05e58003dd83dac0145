@@ -34,6 +34,24 @@
       "revId": "4aa448e5559abec7d208c05e58003dd83dac0145",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3b1b20e_3b2a9791",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-04T20:00:19Z",
+      "side": 1,
+      "message": "\u003e But if this API for project creation would have been there already, I would have used it ;-)\n\n;-)\n\nWell, you are changing the code, and your change would be reverted from the guy who would add ProjectAPI.create() method...\n\n;-)",
+      "parentUuid": "c3b1b20e_7b201fb3",
+      "revId": "4aa448e5559abec7d208c05e58003dd83dac0145",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

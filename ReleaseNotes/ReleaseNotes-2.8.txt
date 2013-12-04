@@ -4,8 +4,8 @@ Release notes for Gerrit 2.8
 
 Gerrit 2.8 is now available:
 
-link:https://gerrit-releases.storage.googleapis.com/gerrit-2.8-rc0.war[
-https://gerrit-releases.storage.googleapis.com/gerrit-2.8-rc0.war]
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.8.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.8.war]
 
 
 Schema Change

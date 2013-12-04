@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "038aea2e_0d7a71a0",
+        "filename": "tools/maven/fake_pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-04T09:31:55Z",
+      "side": 1,
+      "message": "use gs://",
+      "revId": "14a3b078ab4e74b295f159725f58e4aa2255f23b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "038aea2e_2d7f2d91",
+        "filename": "tools/maven/fake_pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-04T09:31:55Z",
+      "side": 1,
+      "message": "gs-maven-wagon",
+      "revId": "14a3b078ab4e74b295f159725f58e4aa2255f23b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

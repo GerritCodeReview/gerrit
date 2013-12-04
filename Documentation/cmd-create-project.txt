@@ -19,6 +19,7 @@ gerrit create-project - Create a new hosted project
   [[--branch <REF> | -b <REF>] ...]
   [--empty-commit]
   [--max-object-size-limit <N>]
+  [--plugin-config <PARAM> ...]
   { <NAME> | --name <NAME> }
 --
 
@@ -151,6 +152,14 @@ Change Submit Actions].
 	and cannot be used to increase that globally set limit.
 +
 Common unit suffixes of 'k', 'm', or 'g' are supported.
+
+--plugin-config::
+	A plugin configuration parameter that should be set for this
+	project. The plugin configuration parameter must be specified in
+	the format '<plugin-name>.<parameter-name>=<value>'. Only
+	parameters that are explicitly declared by a plugin can be set.
+	Multiple `--plugin-config` options can be specified to set multiple
+	plugin parameters.
 
 
 == EXAMPLES

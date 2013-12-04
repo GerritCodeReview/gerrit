@@ -69,6 +69,24 @@
       "revId": "e3807de7e2bd059b4e3b8105ac692719d523629d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "839c1a85_811b7a8c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-04T14:30:35Z",
+      "side": 1,
+      "message": "yes it should...\n\nI really don\u0027t like working on more then 3 months old patches... and this one is more then on year old :/",
+      "parentUuid": "839c1a85_a1055e29",
+      "revId": "e3807de7e2bd059b4e3b8105ac692719d523629d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

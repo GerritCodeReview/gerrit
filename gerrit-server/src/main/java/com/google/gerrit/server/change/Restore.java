@@ -26,7 +26,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
@@ -52,7 +51,6 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
   private final ChangeHooks hooks;
   private final RestoredSender.Factory restoredSenderFactory;
   private final Provider<ReviewDb> dbProvider;
-  private final Provider<ApprovalsUtil> approvals;
   private final ChangeJson json;
   private final ChangeIndexer indexer;
 
@@ -60,13 +58,11 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
   Restore(ChangeHooks hooks,
       RestoredSender.Factory restoredSenderFactory,
       Provider<ReviewDb> dbProvider,
-      Provider<ApprovalsUtil> approvals,
       ChangeJson json,
       ChangeIndexer indexer) {
     this.hooks = hooks;
     this.restoredSenderFactory = restoredSenderFactory;
     this.dbProvider = dbProvider;
-    this.approvals = approvals;
     this.json = json;
     this.indexer = indexer;
   }
@@ -107,7 +103,6 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
       }
       message = newMessage(input, caller, change);
       db.changeMessages().insert(Collections.singleton(message));
-      approvals.get().syncChangeStatus(change);
       db.commit();
     } finally {
       db.rollback();

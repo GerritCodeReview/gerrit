@@ -25,7 +25,6 @@ import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
@@ -51,7 +50,6 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
   private final ChangeHooks hooks;
   private final AbandonedSender.Factory abandonedSenderFactory;
   private final Provider<ReviewDb> dbProvider;
-  private final Provider<ApprovalsUtil> approvals;
   private final ChangeJson json;
   private final ChangeIndexer indexer;
 
@@ -59,13 +57,11 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
   Abandon(ChangeHooks hooks,
       AbandonedSender.Factory abandonedSenderFactory,
       Provider<ReviewDb> dbProvider,
-      Provider<ApprovalsUtil> approvals,
       ChangeJson json,
       ChangeIndexer indexer) {
     this.hooks = hooks;
     this.abandonedSenderFactory = abandonedSenderFactory;
     this.dbProvider = dbProvider;
-    this.approvals = approvals;
     this.json = json;
     this.indexer = indexer;
   }
@@ -106,7 +102,6 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
       }
       message = newMessage(input, caller, change);
       db.changeMessages().insert(Collections.singleton(message));
-      approvals.get().syncChangeStatus(change);
       db.commit();
     } finally {
       db.rollback();

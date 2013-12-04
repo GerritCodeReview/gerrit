@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "43bf82de_d7e25c46",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PreferencesBox.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-04T20:58:19Z",
+      "side": 1,
+      "message": "I think https://gerrit-review.googlesource.com/52541 fixes this.",
+      "parentUuid": "03a82aa1_fd066736",
+      "range": {
+        "startLine": 154,
+        "startChar": 39,
+        "endLine": 154,
+        "endChar": 47
+      },
+      "revId": "66b8e6ccc885f97892e71e1edd6c9f23428e7471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03a82aa1_bde7bf54",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PreferencesBox.java",
         "patchSetId": 5

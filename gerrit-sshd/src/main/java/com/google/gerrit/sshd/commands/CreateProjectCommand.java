@@ -39,7 +39,9 @@ import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /** Create a new project. **/
 @RequiresCapability(GlobalCapability.CREATE_PROJECT)
@@ -115,6 +117,9 @@ final class CreateProjectCommand extends SshCommand {
   @Option(name = "--max-object-size-limit", usage = "max Git object size for this project")
   private String maxObjectSizeLimit;
 
+  @Option(name = "--plugin-config", usage = "plugin configuration parameter with format '<plugin-name>.<parameter-name>=<value>'")
+  private List<String> pluginConfigValues;
+
   private String projectName;
 
   @Argument(index = 0, metaVar = "NAME", usage = "name of project to be created")
@@ -164,6 +169,9 @@ final class CreateProjectCommand extends SshCommand {
         input.branches = branch;
         input.createEmptyCommit = createEmptyCommit;
         input.maxObjectSizeLimit = maxObjectSizeLimit;
+        if (pluginConfigValues != null) {
+          input.pluginConfigValues = parsePluginConfigValues(pluginConfigValues);
+        }
 
         createProjectFactory.get().create(projectName)
             .apply(TopLevelResource.INSTANCE, input);
@@ -179,5 +187,29 @@ final class CreateProjectCommand extends SshCommand {
         | NoSuchProjectException | OrmException err) {
       throw new UnloggedFailure(1, "fatal: " + err.getMessage(), err);
     }
+  }
+
+  private Map<String, Map<String, String>> parsePluginConfigValues(
+      List<String> pluginConfigValues) throws UnloggedFailure {
+    Map<String, Map<String, String>> m = new HashMap<>();
+    for (String pluginConfigValue : pluginConfigValues) {
+      String[] s = pluginConfigValue.split("=");
+      String[] s2 = s[0].split("\\.");
+      if (s.length != 2 || s2.length != 2) {
+        throw new UnloggedFailure(1, "Invalid plugin config value '"
+            + pluginConfigValue
+            + "', expected format '<plugin-name>.<parameter-name>=<value>'");
+      }
+      String value = s[1];
+      String pluginName = s2[0];
+      String paramName = s2[1];
+      Map<String, String> l = m.get(pluginName);
+      if (l == null) {
+        l = new HashMap<>();
+        m.put(pluginName, l);
+      }
+      l.put(paramName, value);
+    }
+    return m;
   }
 }

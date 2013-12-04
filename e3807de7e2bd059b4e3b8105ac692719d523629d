@@ -16,6 +16,24 @@
       "revId": "e3807de7e2bd059b4e3b8105ac692719d523629d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "839c1a85_01076a34",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-04T11:59:03Z",
+      "side": 1,
+      "message": "Yes, we do support originalName with extension. If originalName ends with \".jar\" or \".js\" then we won\u0027t change it. If it is not, then we would append \".jar\" and assume that we are dealing with regular java based jar extension.\n\nIMO, enum here doesn\u0027t make sense. Plugin system is already complicated with Java and JS plugins. Other then that, one can still use groovy, jython plugin if they will properly initialize environment. Actually few weeks ago I was integrating Jython support into our plugins and it works fine (except of performance, therefore we dropped that idea).\n\nI wouldn\u0027t squeeze additional changes into this patch. It already huge and old! Adding plugin type parameter will make it even bigger. If we agree on having something like that it should be done in separate change. For now I would focus on polishing this one and improving it later on.",
+      "parentUuid": "83d09a10_01014a5f",
+      "revId": "e3807de7e2bd059b4e3b8105ac692719d523629d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,4 +1,5 @@
 // Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -50,7 +51,7 @@ public abstract class FancyFlexTable<RowItem> extends Composite {
     return new MyFlexTable();
   }
 
-  protected RowItem getRowItem(final int row) {
+  public RowItem getRowItem(final int row) {
     return FancyFlexTable.<RowItem> getRowItem(table.getCellFormatter()
         .getElement(row, 0));
   }

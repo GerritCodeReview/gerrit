@@ -1,4 +1,5 @@
 // Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,16 +19,12 @@ import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.RpcStatus;
-import com.google.gerrit.client.changes.CommitMessageBlock;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.projects.ConfigInfoCache;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
-import com.google.gerrit.client.ui.CommentLinkProcessor;
-import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
-import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.prettify.client.ClientSideFormatter;
@@ -38,17 +35,13 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 
-public abstract class PatchScreen extends Screen implements
-    CommentEditorContainer {
+public abstract class PatchScreen extends AbstractPatchScreen {
   static final PrettyFactory PRETTY = ClientSideFormatter.FACTORY;
   static final short LARGE_FILE_CONTEXT = 100;
 
@@ -65,9 +58,10 @@ public abstract class PatchScreen extends Screen implements
     }
 
     @Override
-    public PatchScreen.Type getPatchScreenType() {
-      return PatchScreen.Type.SIDE_BY_SIDE;
+    public AbstractPatchScreen.Type getPatchScreenType() {
+      return AbstractPatchScreen.Type.SIDE_BY_SIDE;
     }
+
   }
 
   public static class Unified extends PatchScreen {
@@ -83,43 +77,19 @@ public abstract class PatchScreen extends Screen implements
     }
 
     @Override
-    public PatchScreen.Type getPatchScreenType() {
-      return PatchScreen.Type.UNIFIED;
+    public AbstractPatchScreen.Type getPatchScreenType() {
+      return AbstractPatchScreen.Type.UNIFIED;
     }
   }
 
-  /**
-   * What should be displayed in the top of the screen
-   */
-  public static enum TopView {
-    MAIN, COMMIT, PREFERENCES, PATCH_SETS, FILES
-  }
-
-  protected final Patch.Key patchKey;
-  protected PatchSetDetail patchSetDetail;
-  protected PatchTable fileList;
-  protected PatchSet.Id idSideA;
-  protected PatchSet.Id idSideB;
-  protected PatchScriptSettingsPanel settingsPanel;
-  protected TopView topView;
-  protected CommentLinkProcessor commentLinkProcessor;
-
   private ReviewedPanels reviewedPanels;
-  private HistoryTable historyTable;
-  private FlowPanel topPanel;
-  private FlowPanel contentPanel;
   private AbstractPatchContentTable contentTable;
-  private CommitMessageBlock commitMessageBlock;
-  private NavLinks topNav;
-  private NavLinks bottomNav;
 
-  private int rpcSequence;
   private PatchScript lastScript;
+  private int rpcSequence;
 
   /** The index of the file we are currently looking at among the fileList */
   private int patchIndex;
-  private ListenableAccountDiffPreference prefs;
-  private HandlerRegistration prefsHandler;
 
   /** Keys that cause an action on this screen */
   private KeyCommandSet keysNavigation;
@@ -129,33 +99,14 @@ public abstract class PatchScreen extends Screen implements
   private boolean intralineFailure;
   private boolean intralineTimeout;
 
-  /**
-   * How this patch should be displayed in the patch screen.
-   */
-  public static enum Type {
-    UNIFIED, SIDE_BY_SIDE
-  }
-
   protected PatchScreen(final Patch.Key id, final int patchIndex,
       final PatchSetDetail detail, final PatchTable patchTable,
       final TopView top, final PatchSet.Id baseId) {
-    patchKey = id;
-    patchSetDetail = detail;
-    fileList = patchTable;
-    topView = top;
-
-    idSideA = baseId; // null here means we're diff'ing from the Base
-    idSideB = id.getParentKey();
+    super(id, detail, patchTable, top, baseId);
     this.patchIndex = patchIndex;
 
-    prefs = fileList != null
-        ? fileList.getPreferences()
-        : new ListenableAccountDiffPreference();
-    if (Gerrit.isSignedIn()) {
-      prefs.reset();
-    }
     reviewedPanels = new ReviewedPanels();
-    settingsPanel = new PatchScriptSettingsPanel(prefs);
+    reviewedPanels.populate(patchKey, fileList, patchIndex, getPatchScreenType());
   }
 
   @Override
@@ -168,7 +119,8 @@ public abstract class PatchScreen extends Screen implements
     lastScript = null;
   }
 
-  private void update(AccountDiffPreference dp) {
+  @Override
+  protected void update(AccountDiffPreference dp) {
     // Did the user just turn on auto-review?
     if (!reviewedPanels.getValue() && prefs.getOld().isManualReview()
         && !dp.isManualReview()) {
@@ -232,6 +184,7 @@ public abstract class PatchScreen extends Screen implements
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
     keysNavigation.add(new UpToChangeCommand(patchKey.getParentKey(), 0, 'u'));
     keysNavigation.add(new FileListCmd(0, 'f', PatchUtil.C.fileList()));
+    createNavs(keysNavigation);
 
     if (Gerrit.isSignedIn()) {
       keysAction = new KeyCommandSet(Gerrit.C.sectionActions());
@@ -241,28 +194,11 @@ public abstract class PatchScreen extends Screen implements
           .markAsReviewedAndGoToNext()));
     }
 
-    historyTable = new HistoryTable(this);
-
-    commitMessageBlock = new CommitMessageBlock();
-
-    topPanel = new FlowPanel();
-    add(topPanel);
-
     contentTable = createContentTable();
     contentTable.fileList = fileList;
-
-    topNav = new NavLinks(keysNavigation, patchKey.getParentKey());
-    bottomNav = new NavLinks(null, patchKey.getParentKey());
+    createContentPanel();
 
     add(topNav);
-    contentPanel = new FlowPanel();
-    if (getPatchScreenType() == PatchScreen.Type.SIDE_BY_SIDE) {
-      contentPanel.setStyleName(//
-          Gerrit.RESOURCES.css().sideBySideScreenSideBySideTable());
-    } else {
-      contentPanel.setStyleName(Gerrit.RESOURCES.css().unifiedTable());
-    }
-
     contentPanel.add(contentTable);
     add(contentPanel);
     add(bottomNav);
@@ -336,8 +272,6 @@ public abstract class PatchScreen extends Screen implements
 
   protected abstract AbstractPatchContentTable createContentTable();
 
-  public abstract PatchScreen.Type getPatchScreenType();
-
   public PatchSet.Id getSideA() {
     return idSideA;
   }
@@ -356,10 +290,6 @@ public abstract class PatchScreen extends Screen implements
 
   public PatchTable getFileList() {
     return fileList;
-  }
-
-  public TopView getTopView() {
-    return topView;
   }
 
   protected void refresh(final boolean isFirst) {
@@ -491,7 +421,7 @@ public abstract class PatchScreen extends Screen implements
 
     if (Gerrit.isSignedIn()) {
       boolean isReviewed = false;
-      if (isFirst && !prefs.get().isManualReview()) {
+      if (isFirst && !prefs.get().isManualReview() && patchIndex >= 0) {
         isReviewed = true;
         reviewedPanels.setReviewedByCurrentUser(isReviewed);
       } else {
@@ -512,15 +442,6 @@ public abstract class PatchScreen extends Screen implements
   @Override
   public void onShowView() {
     super.onShowView();
-    if (prefsHandler == null) {
-      prefsHandler = prefs.addValueChangeHandler(
-          new ValueChangeHandler<AccountDiffPreference>() {
-            @Override
-            public void onValueChange(ValueChangeEvent<AccountDiffPreference> event) {
-              update(event.getValue());
-            }
-          });
-    }
     if (intralineFailure) {
       intralineFailure = false;
       new ErrorDialog(PatchUtil.C.intralineFailure()).show();
@@ -528,26 +449,6 @@ public abstract class PatchScreen extends Screen implements
       intralineTimeout = false;
       new ErrorDialog(PatchUtil.C.intralineTimeout()).setText(
           Gerrit.C.warnTitle()).show();
-    }
-    if (topView != null && prefs.get().isRetainHeader()) {
-      setTopView(topView);
-    }
-  }
-
-  public void setTopView(TopView tv) {
-    topView = tv;
-    topPanel.clear();
-    switch(tv) {
-      case COMMIT:      topPanel.add(commitMessageBlock);
-        break;
-      case PREFERENCES: topPanel.add(settingsPanel);
-        break;
-      case PATCH_SETS:  topPanel.add(historyTable);
-        break;
-      case FILES:       topPanel.add(fileList);
-        break;
-      case MAIN:
-        break;
     }
   }
 

@@ -1,4 +1,5 @@
 // Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,6 +22,7 @@ import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.PatchLink;
+import com.google.gerrit.client.ui.AbstractKeyNavigation.Action;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -31,7 +33,6 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
@@ -97,6 +98,10 @@ public class PatchTable extends Composite {
     this(new ListenableAccountDiffPreference());
   }
 
+  public List<Patch> getPatchList() {
+    return patchList;
+  }
+
   public int indexOf(Patch.Key patch) {
     Integer i = patchMap().get(patch);
     return i != null ? i : -1;
@@ -130,6 +135,10 @@ public class PatchTable extends Composite {
 
   public PatchSet.Id getBase() {
     return base;
+  }
+
+  public void setBase(final PatchSet.Id psId) {
+    base = psId;
   }
 
   public void setSavePointerId(final String id) {
@@ -169,6 +178,12 @@ public class PatchTable extends Composite {
   public void movePointerTo(final Patch.Key k) {
     if (myTable != null) {
       myTable.movePointerTo(k);
+    }
+  }
+
+  public void movePointerToLast() {
+    if (myTable != null) {
+      myTable.movePointerToLast();
     }
   }
 
@@ -310,6 +325,10 @@ public class PatchTable extends Composite {
     return listenablePrefs;
   }
 
+  public void setPreferences(ListenableAccountDiffPreference prefs) {
+    listenablePrefs = prefs;
+  }
+
   private class MyTable extends NavigationTable<Patch> {
     private static final int C_PATH = 2;
     private static final int C_DRAFT = 3;
@@ -318,13 +337,13 @@ public class PatchTable extends Composite {
     private int activeRow = -1;
 
     MyTable() {
-      keysNavigation.add(new PrevKeyCommand(0, 'k', Util.C.patchTablePrev()));
-      keysNavigation.add(new NextKeyCommand(0, 'j', Util.C.patchTableNext()));
-      keysNavigation.add(new OpenKeyCommand(0, 'o', Util.C.patchTableOpenDiff()));
-      keysNavigation.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER, Util.C
-          .patchTableOpenDiff()));
-      keysNavigation.add(new OpenUnifiedDiffKeyCommand(0, 'O', Util.C
-          .patchTableOpenUnifiedDiff()));
+      keyNavigation = new DefaultKeyNavigation(this);
+      keyNavigation.setKeyHelp(Action.NEXT, Util.C.patchTableNext());
+      keyNavigation.setKeyHelp(Action.PREV, Util.C.patchTablePrev());
+      keyNavigation.setKeyHelp(Action.OPEN, Util.C.patchTableOpenDiff());
+      keyNavigation.addNavigationKey(new OpenUnifiedDiffKeyCommand(0, 'O',
+          Util.C.patchTableOpenUnifiedDiff()));
+      keyNavigation.initializeKeys();
 
       table.addClickHandler(new ClickHandler() {
         @Override
@@ -381,6 +400,10 @@ public class PatchTable extends Composite {
     @Override
     public void movePointerTo(Object oldId) {
       super.movePointerTo(oldId);
+    }
+
+    public void movePointerToLast() {
+      super.movePointerTo(this.getMaxRows() - 1);
     }
 
     /** Activates / Deactivates the key navigation and the highlighting of the current row for this table */
@@ -446,8 +469,14 @@ public class PatchTable extends Composite {
       sideBySide.addClickHandler(new ClickHandler() {
         @Override
         public void onClick(ClickEvent event) {
-          for (Patch p : detail.getPatches()) {
-            openWindow(Dispatcher.toPatchSideBySide(base, p.getKey()));
+          if (!Gerrit.getConfig().isUseOnePageReview()) {
+            for (Patch p : detail.getPatches()) {
+              openWindow(Dispatcher.toPatchSideBySide(base, p.getKey()));
+            }
+          } else {
+            Patch.Key id = new Patch.Key(detail.getPatchSet().getId(), Patch.ALL);
+            final String token = Dispatcher.toPatchSideBySide(base, id);
+            Gerrit.display(token);
           }
         }
       });
@@ -458,8 +487,14 @@ public class PatchTable extends Composite {
       unified.addClickHandler(new ClickHandler() {
         @Override
         public void onClick(ClickEvent event) {
-          for (Patch p : detail.getPatches()) {
-            openWindow(Dispatcher.toPatchUnified(base, p.getKey()));
+          if (!Gerrit.getConfig().isUseOnePageReview()) {
+            for (Patch p : detail.getPatches()) {
+              openWindow(Dispatcher.toPatchUnified(base, p.getKey()));
+            }
+          } else {
+            Patch.Key id = new Patch.Key(detail.getPatchSet().getId(), Patch.ALL);
+            final String token = Dispatcher.toPatchUnified(base, id);
+            Gerrit.display(token);
           }
         }
       });

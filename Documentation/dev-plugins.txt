@@ -744,6 +744,50 @@ Project owners can edit the project configuration by fetching the
 `refs/meta/config` branch, editing the `<plugin-name>.config` file and
 pushing the commit back.
 
+React on changes in project configuration
+-----------------------------------------
+
+If a plugin wants to react on changes in the project configuration, it
+can implement a `GitReferenceUpdatedListener` and filter on events for
+the `refs/meta/config` branch:
+
+[source,java]
+----
+public class MyListener implements GitReferenceUpdatedListener {
+
+  private final MetaDataUpdate.Server metaDataUpdateFactory;
+
+  @Inject
+  MyListener(MetaDataUpdate.Server metaDataUpdateFactory) {
+    this.metaDataUpdateFactory = metaDataUpdateFactory;
+  }
+
+  @Override
+  public void onGitReferenceUpdated(Event event) {
+    if (event.getRefName().equals(GitRepositoryManager.REF_CONFIG)) {
+      Project.NameKey p = new Project.NameKey(event.getProjectName());
+      try {
+        ProjectConfig oldCfg =
+            ProjectConfig.read(metaDataUpdateFactory.create(p),
+                ObjectId.fromString(event.getOldObjectId()));
+        ProjectConfig newCfg =
+            ProjectConfig.read(metaDataUpdateFactory.create(p),
+                ObjectId.fromString(event.getNewObjectId()));
+
+        if (!oldCfg.getProject().getSubmitType().equals(
+            newCfg.getProject().getSubmitType())) {
+          // submit type has changed
+          ...
+        }
+      } catch (IOException | ConfigInvalidException e) {
+        ...
+      }
+    }
+  }
+}
+----
+
+
 [[capabilities]]
 Plugin Owned Capabilities
 -------------------------

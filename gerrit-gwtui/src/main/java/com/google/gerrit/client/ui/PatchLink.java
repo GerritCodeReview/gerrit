@@ -1,4 +1,5 @@
 // Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,7 +17,8 @@ package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.changes.PatchTable;
-import com.google.gerrit.client.patches.PatchScreen;
+import com.google.gerrit.client.patches.AbstractPatchScreen;
+import com.google.gerrit.client.patches.AllInOnePatchScreen;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -27,7 +29,7 @@ public class PatchLink extends InlineHyperlink {
   protected int patchIndex;
   protected PatchSetDetail patchSetDetail;
   protected PatchTable parentPatchTable;
-  protected PatchScreen.TopView topView;
+  protected AbstractPatchScreen.TopView topView;
 
   /**
    * @param text The text of this link
@@ -41,13 +43,12 @@ public class PatchLink extends InlineHyperlink {
   protected PatchLink(String text, PatchSet.Id base, Patch.Key patchKey,
       int patchIndex, String historyToken,
       PatchSetDetail patchSetDetail, PatchTable parentPatchTable,
-      PatchScreen.TopView topView) {
+      AbstractPatchScreen.TopView topView) {
     super(text, historyToken);
     this.base = base;
     this.patchKey = patchKey;
     this.patchIndex = patchIndex;
     this.patchSetDetail = patchSetDetail;
-    this.parentPatchTable = parentPatchTable;
     this.parentPatchTable = parentPatchTable;
     this.topView = topView;
   }
@@ -57,9 +58,9 @@ public class PatchLink extends InlineHyperlink {
    * @param type The type of the link to create (unified/side-by-side)
    * @param patchScreen The patchScreen to grab contents to link to from
    */
-  public PatchLink(String text, PatchScreen.Type type, PatchScreen patchScreen) {
+  public PatchLink(String text, AbstractPatchScreen.Type type, AbstractPatchScreen patchScreen) {
     this(text, //
-        patchScreen.getSideA(), //
+        patchScreen.getFileList().getBase(), //
         patchScreen.getPatchKey(), //
         patchScreen.getPatchIndex(), //
         Dispatcher.toPatch(type, patchScreen.getPatchKey()), //
@@ -67,6 +68,23 @@ public class PatchLink extends InlineHyperlink {
         patchScreen.getFileList(), //
         patchScreen.getTopView() //
         );
+  }
+
+  public static class All extends PatchLink {
+    public All(final String text, final AbstractPatchScreen.Type type,
+        final AllInOnePatchScreen patchScreen) {
+      super(text, //
+          patchScreen.getFileList().getBase(),
+          patchScreen.getPatchKey(), //
+          patchScreen.getPatchIndex(), //
+          Dispatcher.toPatchAll(type,
+              patchScreen.getPatchKey().getParentKey(),
+              patchScreen.getPatchSetDetail()), //
+          patchScreen.getPatchSetDetail(), //
+          patchScreen.getFileList(), //
+          patchScreen.getTopView()  //
+          );
+    }
   }
 
   @Override

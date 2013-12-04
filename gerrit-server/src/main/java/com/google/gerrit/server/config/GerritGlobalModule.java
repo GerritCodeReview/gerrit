@@ -102,6 +102,7 @@ import com.google.gerrit.server.mail.VelocityRuntimeProvider;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.patch.PatchScriptFactory;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.plugins.ReloadPluginListener;
 import com.google.gerrit.server.project.AccessControlModule;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.CommentLinkInfo;
@@ -121,6 +122,7 @@ import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.TypeLiteral;
+import com.google.inject.internal.UniqueAnnotations;
 
 import org.apache.velocity.runtime.RuntimeInstance;
 
@@ -270,5 +272,9 @@ public class GerritGlobalModule extends FactoryModule {
 
     bind(new TypeLiteral<List<CommentLinkInfo>>() {})
         .toProvider(CommentLinkProvider.class).in(SINGLETON);
+
+    bind(ReloadPluginListener.class)
+        .annotatedWith(UniqueAnnotations.create())
+        .to(PluginConfigFactory.class);
   }
 }

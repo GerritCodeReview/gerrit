@@ -382,6 +382,7 @@ class ReplyBox extends Composite {
   }
 
   private void displayComments(NativeMap<JsArray<CommentInfo>> m) {
+    send.setEnabled(false);
     comments.clear();
 
     JsArray<CommentInfo> l = m.get(Patch.COMMIT_MSG);
@@ -401,6 +402,7 @@ class ReplyBox extends Composite {
     }
 
     commentsPanel.setVisible(comments.getWidgetCount() > 0);
+    send.setEnabled(true);
   }
 
   private static List<CommentInfo> copyPath(String path, JsArray<CommentInfo> l) {

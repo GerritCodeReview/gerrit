@@ -33,7 +33,7 @@ public class LabelType {
     return new LabelType(name, values);
   }
 
-  private static String checkName(String name) {
+  public static String checkName(String name) {
     if ("SUBM".equals(name)) {
       throw new IllegalArgumentException(
           "Reserved label name \"" + name + "\"");

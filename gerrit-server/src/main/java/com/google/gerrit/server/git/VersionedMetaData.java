@@ -213,7 +213,7 @@ public abstract class VersionedMetaData {
         doSave(config, commit);
 
         final ObjectId res = newTree.writeTree(inserter);
-        if (res.equals(srcTree)) {
+        if (res.equals(srcTree) && !update.allowEmpty()) {
           // If there are no changes to the content, don't create the commit.
           return;
         }

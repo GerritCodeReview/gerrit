@@ -936,6 +936,15 @@ public class SideBySide2 extends Screen {
       SkipBar.link(barA, barB);
       skipBars.add(barA);
       skipBars.add(barB);
+
+      if (skip.getStartA() == 0 || skip.getStartB() == 0) {
+        barA.upArrow.setVisible(false);
+        barB.upArrow.setVisible(false);
+      } else if (skip.getStartA() + skip.getSize() == lineA
+          || skip.getStartB() + skip.getSize() == lineB) {
+        barA.downArrow.setVisible(false);
+        barB.downArrow.setVisible(false);
+      }
     }
   }
 

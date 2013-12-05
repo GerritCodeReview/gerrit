@@ -42,8 +42,11 @@ limitations under the License.
       -moz-border-radius: 10px;
     }
 
-    .dialog .box { margin: 10px; }
+    .box { margin: 10px; }
     .box .gwt-TextBox { padding: 0; }
+    .context { vertical-align: bottom; }
+    .contextParent { display: inline; }
+
     .table tr { min-height: 23px; }
     .table th,
     .table td {
@@ -161,9 +164,11 @@ limitations under the License.
       </tr>
       <tr>
         <th><ui:msg>Lines of Context</ui:msg></th>
-        <td><x:NpIntTextBox ui:field='context'
+        <td><ui:msg><g:SimplePanel styleName='{style.contextParent}' ui:field='contextParent'><x:NpIntTextBox ui:field='context'
+            addStyleNames='{style.context}'
             visibleLength='4'
-            alignment='RIGHT'/></td>
+            alignment='RIGHT'/></g:SimplePanel>
+          or <g:CheckBox ui:field='contextEntireFile'>entire file</g:CheckBox></ui:msg></td>
       </tr>
       <tr>
         <th><ui:msg>Intraline Difference</ui:msg></th>

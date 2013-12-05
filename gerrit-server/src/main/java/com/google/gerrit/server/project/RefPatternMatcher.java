@@ -20,7 +20,7 @@ import dk.brics.automaton.Automaton;
 import java.util.Collections;
 import java.util.regex.Pattern;
 
-abstract class RefPatternMatcher {
+public abstract class RefPatternMatcher {
   public static RefPatternMatcher getMatcher(String pattern) {
     if (pattern.contains("${")) {
       return new ExpandParameters(pattern);
@@ -33,7 +33,7 @@ abstract class RefPatternMatcher {
     }
   }
 
-  abstract boolean match(String ref, String username);
+  public abstract boolean match(String ref, String username);
 
   private static class Exact extends RefPatternMatcher {
     private final String expect;
@@ -43,7 +43,7 @@ abstract class RefPatternMatcher {
     }
 
     @Override
-    boolean match(String ref, String username) {
+    public boolean match(String ref, String username) {
       return expect.equals(ref);
     }
   }
@@ -56,7 +56,7 @@ abstract class RefPatternMatcher {
     }
 
     @Override
-    boolean match(String ref, String username) {
+    public boolean match(String ref, String username) {
       return ref.startsWith(prefix);
     }
   }
@@ -69,7 +69,7 @@ abstract class RefPatternMatcher {
     }
 
     @Override
-    boolean match(String ref, String username) {
+    public boolean match(String ref, String username) {
       return pattern.matcher(ref).matches();
     }
   }
@@ -98,7 +98,7 @@ abstract class RefPatternMatcher {
     }
 
     @Override
-    boolean match(String ref, String username) {
+    public boolean match(String ref, String username) {
       if (!ref.startsWith(prefix) || username == null) {
         return false;
       }

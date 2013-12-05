@@ -80,7 +80,7 @@ public class LabelTypes {
       }
 
       private int position(String name) {
-        Integer p = positions.get(name);
+        Integer p = positions.get(name.toLowerCase());
         return p != null ? p : positions.size();
       }
     };
@@ -92,7 +92,7 @@ public class LabelTypes {
       if (labelTypes != null) {
         int i = 0;
         for (LabelType t : labelTypes) {
-          positions.put(t.getName(), i++);
+          positions.put(t.getName().toLowerCase(), i++);
         }
       }
     }

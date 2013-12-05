@@ -687,7 +687,6 @@ public class SideBySide2 extends Screen {
   }
 
   CommentBox addCommentBox(CommentInfo info, final CommentBox box) {
-    box.setParent(this);
     diffTable.add(box);
     DisplaySide side = box.getSide();
     CodeMirror cm = getCmFromSide(side);

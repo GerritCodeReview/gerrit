@@ -36,7 +36,7 @@ abstract class CommentBox extends Composite {
 
   private PaddingManager widgetManager;
   private PaddingWidgetWrapper selfWidgetWrapper;
-  private SideBySide2 parent;
+  private SideBySide2 diffScreen;
   private CodeMirror cm;
   private DisplaySide side;
   private DiffChunkInfo diffChunkInfo;
@@ -80,13 +80,13 @@ abstract class CommentBox extends Composite {
     if (!getCommentInfo().has_line()) {
       return;
     }
-    parent.defer(new Runnable() {
+    diffScreen.defer(new Runnable() {
       @Override
       public void run() {
         assert selfWidgetWrapper != null;
         selfWidgetWrapper.getWidget().changed();
         if (diffChunkInfo != null) {
-          parent.resizePaddingOnOtherSide(side, diffChunkInfo.getEnd());
+          diffScreen.resizePaddingOnOtherSide(side, diffChunkInfo.getEnd());
         } else {
           assert widgetManager != null;
           widgetManager.resizePaddingWidget();
@@ -124,8 +124,12 @@ abstract class CommentBox extends Composite {
     this.diffChunkInfo = info;
   }
 
-  void setParent(SideBySide2 parent) {
-    this.parent = parent;
+  SideBySide2 getDiffScreen() {
+    return diffScreen;
+  }
+
+  void setDiffScreen(SideBySide2 diffScreen) {
+    this.diffScreen = diffScreen;
   }
 
   void setGutterWrapper(GutterWrapper wrapper) {

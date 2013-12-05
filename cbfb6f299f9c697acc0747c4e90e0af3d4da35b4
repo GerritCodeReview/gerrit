@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43bf82de_57740ca7",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-05T02:06:20Z",
+      "side": 1,
+      "message": "If you\u0027re changing this you might as well remove the trailing // at the same time; this convention is no longer used.",
+      "range": {
+        "startLine": 134,
+        "startChar": 34,
+        "endLine": 134,
+        "endChar": 37
+      },
+      "revId": "cbfb6f299f9c697acc0747c4e90e0af3d4da35b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

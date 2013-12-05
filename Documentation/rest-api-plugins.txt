@@ -46,14 +46,16 @@ by plugin ID.
     "delete-project": {
       "kind": "gerritcodereview#plugin",
       "id": "delete-project",
-      "version": "2.9-SNAPSHOT"
+      "version": "2.9-SNAPSHOT",
+      "linkified": true
     },
     "reviewers-by-blame": {
       "kind": "gerritcodereview#plugin",
       "id": "reviewers-by-blame",
       "version": "2.9-SNAPSHOT",
+      "linkified": true,
       "disabled": true
-    }
+    },
   }
 ----
 
@@ -267,6 +269,7 @@ The `PluginInfo` entity describes a plugin.
 |`id`      ||The ID of the plugin.
 |`version` ||The version of the plugin.
 |`disabled`|not set if `false`|Whether the plugin is disabled.
+|`linkified`|not set if `false`|Whether the plugin name presented as a href.
 |=======================
 
 [[plugin-input]]

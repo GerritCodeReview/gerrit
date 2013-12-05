@@ -97,6 +97,7 @@ public class MetaDataUpdate {
   private final Project.NameKey projectName;
   private final Repository db;
   private final CommitBuilder commit;
+  private boolean allowEmpty;
 
   @Inject
   public MetaDataUpdate(GitReferenceUpdated gitRefUpdated,
@@ -118,6 +119,10 @@ public class MetaDataUpdate {
         getCommitBuilder().getCommitter().getTimeZone()));
   }
 
+  public void setAllowEmpty(boolean allowEmpty) {
+    this.allowEmpty = allowEmpty;
+  }
+
   /** Close the cached Repository handle. */
   public void close() {
     getRepository().close();
@@ -129,6 +134,10 @@ public class MetaDataUpdate {
 
   Repository getRepository() {
     return db;
+  }
+
+  boolean allowEmpty() {
+    return allowEmpty;
   }
 
   public CommitBuilder getCommitBuilder() {

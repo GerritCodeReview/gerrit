@@ -91,7 +91,7 @@ class ReplyBox extends Composite {
   @UiField TextArea message;
   @UiField Element labelsParent;
   @UiField Grid labelsTable;
-  @UiField Button send;
+  @UiField Button post;
   @UiField CheckBox email;
   @UiField Button cancel;
   @UiField ScrollPanel commentsPanel;
@@ -124,7 +124,7 @@ class ReplyBox extends Composite {
           if ((e.getCharCode() == '\n' || e.getCharCode() == KEY_ENTER)
               && e.isControlKeyDown()) {
             e.preventDefault();
-            onSend(null);
+            onPost(null);
           }
         }
       },
@@ -134,18 +134,18 @@ class ReplyBox extends Composite {
   @Override
   protected void onLoad() {
     commentsPanel.setVisible(false);
-    send.setEnabled(false);
+    post.setEnabled(false);
     CommentApi.drafts(psId, new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
       @Override
       public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
         attachComments(result);
         displayComments(result);
-        send.setEnabled(true);
+        post.setEnabled(true);
       }
 
       @Override
       public void onFailure(Throwable caught) {
-        send.setEnabled(true);
+        post.setEnabled(true);
       }
     });
 
@@ -189,8 +189,8 @@ class ReplyBox extends Composite {
     }
   }
 
-  @UiHandler("send")
-  void onSend(ClickEvent e) {
+  @UiHandler("post")
+  void onPost(ClickEvent e) {
     in.message(message.getText().trim());
     in.prePost();
     ChangeApi.revision(psId.getParentKey().get(), revision)

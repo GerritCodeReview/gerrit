@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43bf82de_77bcb0ef",
+        "filename": "tools/maven/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-05T07:17:45Z",
+      "side": 1,
+      "message": "Try just \u0027gs://gerrit-api/%s\u0027 ?",
+      "range": {
+        "startLine": 8,
+        "startChar": 9,
+        "endLine": 8,
+        "endChar": 58
+      },
+      "revId": "66fde9c8471a6f278f1280c16cd18d87c053b73b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

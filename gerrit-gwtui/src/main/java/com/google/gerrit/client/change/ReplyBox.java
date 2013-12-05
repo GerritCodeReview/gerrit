@@ -118,15 +118,18 @@ class ReplyBox extends Composite {
   @Override
   protected void onLoad() {
     commentsPanel.setVisible(false);
+    send.setEnabled(false);
     CommentApi.drafts(psId, new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
       @Override
       public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
         attachComments(result);
         displayComments(result);
+        send.setEnabled(true);
       }
 
       @Override
       public void onFailure(Throwable caught) {
+        send.setEnabled(true);
       }
     });
 

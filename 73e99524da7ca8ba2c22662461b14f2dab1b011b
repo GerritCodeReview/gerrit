@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "839c1a85_618bd652",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-05T08:38:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43bf82de_f754401a",
+      "revId": "73e99524da7ca8ba2c22662461b14f2dab1b011b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43bf82de_d7593c50",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-12-04T23:13:39Z",
       "side": 1,
       "message": "When an approval is granted we say \"Code-Review+2\" in the message.\n\nWhen it is removed you say \"Code-Review 2\". Can we make this consistent and use the same format we use when it was granted?",
+      "revId": "73e99524da7ca8ba2c22662461b14f2dab1b011b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "839c1a85_4198d2a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-05T08:38:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43bf82de_d7593c50",
       "revId": "73e99524da7ca8ba2c22662461b14f2dab1b011b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "c3b1b20e_7b8edf63",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-05T08:38:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63bac6ef_78494179",
+      "revId": "73e99524da7ca8ba2c22662461b14f2dab1b011b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43bf82de_b74ec882",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2013-12-04T23:13:39Z",
       "side": 1,
       "message": "This must be before db.commit",
+      "revId": "73e99524da7ca8ba2c22662461b14f2dab1b011b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "839c1a85_2195ce6d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-05T08:38:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43bf82de_b74ec882",
       "revId": "73e99524da7ca8ba2c22662461b14f2dab1b011b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

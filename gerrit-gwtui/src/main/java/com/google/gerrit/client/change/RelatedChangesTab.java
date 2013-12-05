@@ -31,12 +31,14 @@ import com.google.gwt.user.client.EventListener;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.InlineLabel;
+import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.impl.HyperlinkImpl;
 import com.google.gwtexpui.progress.client.ProgressBar;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
-class RelatedChangesTab {
+class RelatedChangesTab implements IsWidget {
   private static final String OPEN;
   private static final HyperlinkImpl link = GWT.create(HyperlinkImpl.class);
 
@@ -74,8 +76,6 @@ class RelatedChangesTab {
     return null;
   }
 
-  private final RelatedChanges parent;
-  private final int index;
   private final FlowPanel panel;
   private final ScrollPanel scroll;
   private final ProgressBar progress;
@@ -85,10 +85,8 @@ class RelatedChangesTab {
   private MyTable table;
   private boolean register;
 
-  RelatedChangesTab(RelatedChanges parent, int index, FlowPanel panel) {
-    this.parent = parent;
-    this.index = index;
-    this.panel = panel;
+  RelatedChangesTab() {
+    this.panel = new FlowPanel();
 
     scroll = new ScrollPanel();
     scroll.setVisible(false);
@@ -98,8 +96,9 @@ class RelatedChangesTab {
     panel.add(progress);
   }
 
-  void setTitle(String title) {
-    parent.setTabTitle(index, title);
+  @Override
+  public Widget asWidget() {
+    return this.panel;
   }
 
   void setShowBranches(boolean showBranches) {
@@ -229,7 +228,7 @@ class RelatedChangesTab {
     }
 
     public boolean execute() {
-      boolean attachedNow = parent.isAttached();
+      boolean attachedNow = panel.isAttached();
       if (!attached && attachedNow) {
         // Remember that we have been attached at least once. If
         // later we find we aren't attached we should stop running.

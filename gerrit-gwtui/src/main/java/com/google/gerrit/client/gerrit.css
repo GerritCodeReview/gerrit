@@ -1638,3 +1638,6 @@ a:hover.downloadLink {
   border-bottom-color: #000 !important;
   color: #000 !important;
 }
+.relatedChangesTabPanel .gwt-TabBarItem-disabled {
+  display: none;
+}

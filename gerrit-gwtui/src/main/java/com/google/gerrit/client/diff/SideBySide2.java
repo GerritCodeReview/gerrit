@@ -49,6 +49,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
@@ -248,11 +249,21 @@ public class SideBySide2 extends Screen {
         cmB.setHeight(height);
         cmA.refresh();
         cmB.refresh();
-        cmB.setCursor(LineCharacter.create(0));
-        cmB.focus();
       }
     });
     diffTable.sidePanel.adjustGutters(cmB);
+
+    int line = 0;
+    if (!diffChunks.isEmpty()) {
+      DiffChunkInfo d = diffChunks.get(0);
+      CodeMirror cm = getCmFromSide(d.getSide());
+      line = d.getStart();
+      if (cm.lineAtHeight(height - 20) < line) {
+        cm.scrollToY(cm.heightAtLine(line, "local") - 0.5 * height);
+      }
+    }
+    cmB.setCursor(LineCharacter.create(line));
+    cmB.focus();
 
     prefetchNextFile();
   }

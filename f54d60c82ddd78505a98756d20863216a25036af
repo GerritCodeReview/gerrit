@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "839c1a85_01c88a90",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2013-12-05T10:45:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43bf82de_179c547f",
+      "revId": "f54d60c82ddd78505a98756d20863216a25036af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3b1b20e_fb2b0f99",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 2
@@ -90,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "839c1a85_e1cc86a6",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1210,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2013-12-05T10:45:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3b1b20e_fb2b0f99",
+      "revId": "f54d60c82ddd78505a98756d20863216a25036af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63bac6ef_1895a56d",
         "filename": "Documentation/cmd-create-branch.txt",
         "patchSetId": 2
@@ -101,6 +137,30 @@
       "writtenOn": "2013-12-05T01:58:09Z",
       "side": 1,
       "message": "Caller should have create ref permission on the project.\n\nAdministrators should not by default be able to create branches.  Only if the admin group has create ref permission.",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 88
+      },
+      "revId": "f54d60c82ddd78505a98756d20863216a25036af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "839c1a85_c1d18240",
+        "filename": "Documentation/cmd-create-branch.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2013-12-05T10:45:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63bac6ef_1895a56d",
       "range": {
         "startLine": 23,
         "startChar": 0,

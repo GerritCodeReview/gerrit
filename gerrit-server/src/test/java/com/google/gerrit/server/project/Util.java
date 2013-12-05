@@ -41,10 +41,13 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -116,16 +119,22 @@ public class Util {
   private final ProjectCache projectCache;
   private final CapabilityControl.Factory capabilityControlFactory;
   private final PermissionCollection.Factory sectionSorter;
+  private final GitRepositoryManager repoManager;
 
   private final AllProjectsName allProjectsName = new AllProjectsName("parent");
   private final ProjectConfig parent = new ProjectConfig(allProjectsName);
 
   public Util() {
     all = new HashMap<Project.NameKey, ProjectState>();
-    parent.createInMemory();
-    parent.getLabelSections().put(CR.getName(), CR);
-
-    add(parent);
+    repoManager = new InMemoryRepositoryManager();
+    try {
+      Repository repo = repoManager.createRepository(allProjectsName);
+      parent.load(repo);
+      parent.getLabelSections().put(CR.getName(), CR);
+      add(parent);
+    } catch (IOException | ConfigInvalidException e) {
+      throw new RuntimeException(e);
+    }
 
     projectCache = new ProjectCache() {
       @Override
@@ -199,15 +208,19 @@ public class Util {
 
   public void add(ProjectConfig pc) {
     PrologEnvironment.Factory envFactory = null;
-    GitRepositoryManager mgr = null;
     ProjectControl.AssistedFactory projectControlFactory = null;
     RulesCache rulesCache = null;
     SitePaths sitePaths = null;
     List<CommentLinkInfo> commentLinks = null;
 
+    try {
+      repoManager.createRepository(pc.getProject().getNameKey());
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
     all.put(pc.getProject().getNameKey(), new ProjectState(sitePaths,
-        projectCache, allProjectsName, projectControlFactory, envFactory, mgr,
-        rulesCache, commentLinks, pc));
+        projectCache, allProjectsName, projectControlFactory, envFactory,
+        repoManager, rulesCache, commentLinks, pc));
   }
 
   public ProjectControl user(ProjectConfig local, AccountGroup.UUID... memberOf) {

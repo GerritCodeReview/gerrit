@@ -2,10 +2,8 @@ CONSTANTS_SRC = [
   'src/main/java/com/google/gerrit/server/documentation/Constants.java',
 ]
 
-SRCS = glob([
-    'src/main/java/**/*.java',
-    'src/test/java/com/google/gerrit/server/project/Util.java',
-  ],
+SRCS = glob(
+  ['src/main/java/**/*.java'],
   excludes = CONSTANTS_SRC,
 )
 RESOURCES =  glob(['src/main/resources/**/*'])
@@ -80,7 +78,10 @@ java_sources(
   visibility = ['PUBLIC'],
 )
 
-TESTUTIL = glob(['src/test/java/com/google/gerrit/testutil/**/*.java'])
+TESTUTIL = glob([
+  'src/test/java/com/google/gerrit/testutil/**/*.java',
+  'src/test/java/com/google/gerrit/server/project/Util.java',
+  ])
 java_library(
   name = 'testutil',
   srcs = TESTUTIL,
@@ -129,11 +130,13 @@ java_test(
   deps = [
     ':prolog_test_case',
     ':server',
+    ':testutil',
     '//gerrit-common:server',
     '//gerrit-reviewdb:server',
     '//gerrit-server/src/main/prolog:common',
     '//lib:gwtorm',
     '//lib:junit',
+    '//lib/jgit:jgit',
     '//lib/guice:guice',
     '//lib/prolog:prolog-cafe',
   ],

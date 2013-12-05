@@ -31,6 +31,10 @@ import java.util.SortedSet;
 
 /** Repository manager that uses in-memory repositories. */
 public class InMemoryRepositoryManager implements GitRepositoryManager {
+  public static InMemoryRepository newRepository(Project.NameKey name) {
+    return new Repo(name);
+  }
+
   private static class Description extends DfsRepositoryDescription {
     private String desc;
 

@@ -27,6 +27,7 @@ import static com.google.gerrit.server.project.Util.ADMIN;
 import static com.google.gerrit.server.project.Util.DEVS;
 import static com.google.gerrit.server.project.Util.doNotInherit;
 import static com.google.gerrit.server.project.Util.grant;
+import static com.google.gerrit.testutil.InMemoryRepositoryManager.newRepository;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -61,7 +62,7 @@ public class RefControlTest {
   @Before
   public void setUp() throws Exception {
     local = new ProjectConfig(localKey);
-    local.createInMemory();
+    local.load(newRepository(localKey));
     util.add(local);
   }
 
@@ -157,14 +158,14 @@ public class RefControlTest {
   }
 
   @Test
-  public void testInheritDuplicateSections() {
+  public void testInheritDuplicateSections() throws Exception {
     grant(util.getParentConfig(), READ, ADMIN, "refs/*");
     grant(local, READ, DEVS, "refs/heads/*");
     local.getProject().setParentName(util.getParentConfig().getProject().getName());
     assertTrue("a can read", util.user(local, "a", ADMIN).isVisible());
 
     local = new ProjectConfig(new Project.NameKey("local"));
-    local.createInMemory();
+    local.load(newRepository(localKey));
     grant(local, READ, DEVS, "refs/*");
     assertTrue("d can read", util.user(local, "d", DEVS).isVisible());
   }

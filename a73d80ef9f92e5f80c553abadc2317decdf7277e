@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3b1b20e_9bd64b35",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateBranchCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-05T11:02:10Z",
+      "side": 1,
+      "message": "only throws UnloggedFailure",
+      "revId": "a73d80ef9f92e5f80c553abadc2317decdf7277e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "839c1a85_61b996fe",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateBranchCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-05T11:02:10Z",
+      "side": 1,
+      "message": "Wrap that in try catch block:\n\n try {\n   [...]\n } catch (RestApiException e) {\n   throw new UnloggedFailure(1, \"fatal: \" + e.getMessage(), e);\n }",
+      "revId": "a73d80ef9f92e5f80c553abadc2317decdf7277e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

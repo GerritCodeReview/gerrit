@@ -75,6 +75,7 @@ import com.google.gerrit.client.documentation.DocScreen;
 import com.google.gerrit.client.groups.GroupApi;
 import com.google.gerrit.client.groups.GroupInfo;
 import com.google.gerrit.client.patches.PatchScreen;
+import com.google.gerrit.client.plugins.ExtensionScreen;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.Screen;
@@ -212,6 +213,9 @@ public class Dispatcher {
 
     } else if (matchPrefix("/c/", token)) {
       change(token);
+
+    } else if (matchPrefix("/x/", token)) {
+      extension(token);
 
     } else if (matchExact(MINE, token)) {
       Gerrit.display(token, mine(token));
@@ -536,6 +540,11 @@ public class Dispatcher {
         Gerrit.display(token, new NotFoundScreen());
       }
     }
+  }
+
+  private static void extension(final String token) {
+    String rest = skip(token);
+    Gerrit.display(token, new ExtensionScreen(rest));
   }
 
   private static boolean isChangeScreen2() {

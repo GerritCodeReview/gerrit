@@ -34,6 +34,24 @@
       "revId": "bd26eb5cf1763649551bce757f11ca126b8f276a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "839c1a85_a161dee9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-05T08:57:44Z",
+      "side": 1,
+      "message": "Woops, please forget my comment ;-)",
+      "parentUuid": "c3b1b20e_9b61abea",
+      "revId": "bd26eb5cf1763649551bce757f11ca126b8f276a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

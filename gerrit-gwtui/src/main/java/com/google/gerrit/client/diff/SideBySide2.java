@@ -49,6 +49,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
@@ -122,6 +123,7 @@ public class SideBySide2 extends Screen {
   private JsArray<CommentInfo> draftsBase;
   private JsArray<CommentInfo> draftsRevision;
   private DiffInfo diff;
+  private boolean largeFile;
   private LineMapper mapper;
   private List<TextMarker> markers;
   private List<Runnable> undoLineClass;
@@ -188,10 +190,16 @@ public class SideBySide2 extends Screen {
         @Override
         public void onSuccess(DiffInfo diffInfo) {
           diff = diffInfo;
-          new ModeInjector()
-            .add(getContentType(diff.meta_a()))
-            .add(getContentType(diff.meta_b()))
-            .inject(modeInjectorCb);
+          if (prefs.syntaxHighlighting()) {
+            largeFile = isLargeFile(diffInfo);
+            if (largeFile) {
+              modeInjectorCb.onSuccess(null);
+            } else {
+              injectMode(diffInfo, modeInjectorCb);
+            }
+          } else {
+            modeInjectorCb.onSuccess(null);
+          }
         }
       }));
 
@@ -507,6 +515,18 @@ public class SideBySide2 extends Screen {
         resizeCodeMirror();
       }
     });
+
+    if (largeFile && prefs.syntaxHighlighting()) {
+      Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
+        @Override
+        public boolean execute() {
+          if (prefs.syntaxHighlighting() && isAttached()) {
+            setSyntaxHighlighting(prefs.syntaxHighlighting());
+          }
+          return false;
+        }
+      }, 1500);
+    }
   }
 
   private CodeMirror createCodeMirror(
@@ -519,7 +539,7 @@ public class SideBySide2 extends Screen {
       .set("cursorHeight", 0.85)
       .set("lineNumbers", true)
       .set("tabSize", prefs.tabSize())
-      .set("mode", getContentType(meta))
+      .set("mode", largeFile ? null : getContentType(meta))
       .set("lineWrapping", false)
       .set("styleSelectedText", true)
       .set("showTrailingSpace", prefs.showWhitespaceErrors())
@@ -556,14 +576,26 @@ public class SideBySide2 extends Screen {
     prefsAction.update();
   }
 
-  void setSyntaxHighlighting(final boolean b) {
-    operation(new Runnable() {
-      @Override
-      public void run() {
-        cmA.setOption("mode", b ? getContentType(diff.meta_a()) : null);
-        cmB.setOption("mode", b ? getContentType(diff.meta_b()) : null);
-      }
-    });
+  void setSyntaxHighlighting(boolean b) {
+    if (b) {
+      injectMode(diff, new AsyncCallback<Void>() {
+        @Override
+        public void onSuccess(Void result) {
+          if (prefs.syntaxHighlighting()) {
+            cmA.setOption("mode", getContentType(diff.meta_a()));
+            cmB.setOption("mode", getContentType(diff.meta_b()));
+          }
+        }
+
+        @Override
+        public void onFailure(Throwable caught) {
+          prefs.syntaxHighlighting(false);
+        }
+      });
+    } else {
+      cmA.setOption("mode", (String) null);
+      cmB.setOption("mode", (String) null);
+    }
   }
 
   void setContext(final int context) {
@@ -1522,6 +1554,13 @@ public class SideBySide2 extends Screen {
         : null;
   }
 
+  private void injectMode(DiffInfo diffInfo, AsyncCallback<Void> cb) {
+    new ModeInjector()
+      .add(getContentType(diffInfo.meta_a()))
+      .add(getContentType(diffInfo.meta_b()))
+      .inject(cb);
+  }
+
   DiffPreferences getPrefs() {
     return prefs;
   }
@@ -1598,5 +1637,29 @@ public class SideBySide2 extends Screen {
           }
         }
       });
+  }
+
+  private static boolean isLargeFile(DiffInfo diffInfo) {
+    JsArray<Region> c = diffInfo.content();
+    int lenA = 0, lenB = 0;
+    for (int i = 0; i < c.length(); i++) {
+      Region r = c.get(i);
+      if (r.ab() != null) {
+        int n = r.ab().length();
+        lenA += n;
+        lenB += n;
+      } else {
+        if (r.a() != null) {
+          lenA += r.a().length();
+        }
+        if (r.b() != null) {
+          lenB += r.b().length();
+        }
+      }
+      if (lenA > 500 || lenB > 500) {
+        return true;
+      }
+    }
+    return false;
   }
 }

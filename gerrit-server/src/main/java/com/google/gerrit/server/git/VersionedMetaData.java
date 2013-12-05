@@ -71,18 +71,6 @@ public abstract class VersionedMetaData {
     return revision != null ? revision.copy() : null;
   }
 
-  /** Initialize in-memory as though the repository branch doesn't exist. */
-  public void createInMemory() {
-    try {
-      revision = null;
-      onLoad();
-    } catch (IOException err) {
-      throw new RuntimeException("Unexpected IOException", err);
-    } catch (ConfigInvalidException err) {
-      throw new RuntimeException("Unexpected ConfigInvalidException", err);
-    }
-  }
-
   /**
    * Load the current version from the branch.
    * <p>
@@ -116,19 +104,13 @@ public abstract class VersionedMetaData {
    */
   public void load(Repository db, ObjectId id) throws IOException,
       ConfigInvalidException {
-    if (id != null) {
-      reader = db.newObjectReader();
-      try {
-        revision = new RevWalk(reader).parseCommit(id);
-        onLoad();
-      } finally {
-        reader.release();
-        reader = null;
-      }
-    } else {
-      // The branch does not yet exist.
-      revision = null;
+    reader = db.newObjectReader();
+    try {
+      revision = id != null ? new RevWalk(reader).parseCommit(id) : null;
       onLoad();
+    } finally {
+      reader.release();
+      reader = null;
     }
   }
 

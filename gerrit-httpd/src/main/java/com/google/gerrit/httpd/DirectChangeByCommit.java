@@ -46,7 +46,6 @@ class DirectChangeByCommit extends HttpServlet {
     this.currentUser = currentUser;
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {

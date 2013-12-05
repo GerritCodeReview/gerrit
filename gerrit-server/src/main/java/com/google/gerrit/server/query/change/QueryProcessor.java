@@ -237,7 +237,6 @@ public class QueryProcessor {
    * there are more than {@code limit} matches and suggest to its own caller
    * that the query could be retried with {@link #setSortkeyBefore(String)}.
    */
-  @SuppressWarnings("unchecked")
   public List<List<ChangeData>> queryChanges(List<String> queries)
       throws OrmException, QueryParseException {
     final Predicate<ChangeData> visibleToMe = queryBuilder.is_visible();
@@ -423,7 +422,6 @@ public class QueryProcessor {
     return limit > 0 ? Math.min(n, limit) + 1 : n + 1;
   }
 
-  @SuppressWarnings("unchecked")
   private Predicate<ChangeData> parseQuery(String queryString,
       final Predicate<ChangeData> visibleToMe) throws QueryParseException {
     Predicate<ChangeData> q = queryBuilder.parse(queryString);

@@ -49,7 +49,6 @@ public class OrPredicateTest {
   }
 
   @Test
-  @SuppressWarnings("unchecked")
   public void testChildren() {
     final TestPredicate a = f("author", "alice");
     final TestPredicate b = f("author", "bob");
@@ -60,7 +59,6 @@ public class OrPredicateTest {
   }
 
   @Test
-  @SuppressWarnings("unchecked")
   public void testChildrenUnmodifiable() {
     final TestPredicate a = f("author", "alice");
     final TestPredicate b = f("author", "bob");
@@ -91,7 +89,6 @@ public class OrPredicateTest {
   }
 
   @Test
-  @SuppressWarnings("unchecked")
   public void testToString() {
     final TestPredicate a = f("q", "alice");
     final TestPredicate b = f("q", "bob");
@@ -101,7 +98,6 @@ public class OrPredicateTest {
   }
 
   @Test
-  @SuppressWarnings("unchecked")
   public void testEquals() {
     final TestPredicate a = f("author", "alice");
     final TestPredicate b = f("author", "bob");
@@ -117,7 +113,6 @@ public class OrPredicateTest {
   }
 
   @Test
-  @SuppressWarnings("unchecked")
   public void testHashCode() {
     final TestPredicate a = f("author", "alice");
     final TestPredicate b = f("author", "bob");
@@ -129,7 +124,6 @@ public class OrPredicateTest {
   }
 
   @Test
-  @SuppressWarnings("unchecked")
   public void testCopy() {
     final TestPredicate a = f("author", "alice");
     final TestPredicate b = f("author", "bob");

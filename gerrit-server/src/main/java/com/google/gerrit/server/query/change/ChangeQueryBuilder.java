@@ -641,7 +641,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     return sortkey_before(sortKey);
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   protected Predicate<ChangeData> defaultField(String query)
       throws QueryParseException {

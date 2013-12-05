@@ -33,6 +33,24 @@
       "revId": "e5f2b8419d5f384f7cdec00dbd0810b60aff65f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "633d664c_80efd628",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-05T17:39:39Z",
+      "side": 1,
+      "message": "I was wrong, this does what I asked.",
+      "parentUuid": "a333de7d_a2e77e54",
+      "revId": "e5f2b8419d5f384f7cdec00dbd0810b60aff65f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3f8d2d4_63f2c217",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-05T15:56:40Z",
+      "side": 1,
+      "message": "If no radio is given focus we should still focus on the message.",
+      "revId": "e5f2b8419d5f384f7cdec00dbd0810b60aff65f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a333de7d_a2e77e54",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-05T15:56:40Z",
+      "side": 1,
+      "message": "Doesn\u0027t this give focus to the -2 radio on Code-Review? We should give focus to the one that is already selected.",
+      "revId": "e5f2b8419d5f384f7cdec00dbd0810b60aff65f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

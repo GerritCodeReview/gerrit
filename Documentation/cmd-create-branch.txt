@@ -1,0 +1,55 @@
+gerrit create-branch
+====================
+
+NAME
+----
+gerrit create-branch - Create a new branch
+
+SYNOPSIS
+--------
+--
+'ssh' -p <port> <host> 'gerrit create-branch'
+  [--revision <REVISION> ... | -r <REVISION> ...]
+  <PROJECT>
+  <NAME>
+--
+
+DESCRIPTION
+-----------
+Creates a new branch for a project.
+
+ACCESS
+------
+Caller should have create ref permission on the project.
+Administrators should not by default be able to create branches. Only if the admin group has
+create ref permission.
+
+SCRIPTING
+---------
+This command is intended to be used in scripts.
+
+OPTIONS
+-------
+<PROJECT>::
+    Required; name of the project.
+
+<NAME>::
+    Required; name of the branch to be created.
+
+--revision:
+    The base revision of the new branch. If not specified, HEAD will be used as base revision.
+
+EXAMPLES
+--------
+Create a new branch called 'newbranch' for a project called 'newproject'.
+
+====
+    $ ssh -p 29418 review.example.com gerrit create-branch newproject newbranch
+====
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

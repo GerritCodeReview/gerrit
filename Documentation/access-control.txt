@@ -542,13 +542,12 @@ The `Owner` category controls which groups can modify the project's
 configuration.  Users who are members of an owner group can:
 
 * Change the project description
-* Create/delete a branch through the web UI (not SSH)
+* Create a branch through SSH
+* Create/delete a branch through the web UI
 * Grant/revoke any access rights, including `Owner`
 
-Note that project owners implicitly have branch creation or deletion
-through the web UI, but not through SSH.  To get SSH branch access
-project owners must grant an access right to a group they are a
-member of, just like for any other user.
+To get SSH branch access project owners must grant an access right to a group
+they are a member of, just like for any other user.
 
 Ownership over a particular branch subspace may be delegated by
 entering a branch pattern.  To delegate control over all branches

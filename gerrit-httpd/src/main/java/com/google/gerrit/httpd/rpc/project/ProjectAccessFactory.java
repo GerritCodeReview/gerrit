@@ -116,7 +116,6 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     final RefControl metaConfigControl = pc.controlForRef(GitRepositoryManager.REF_CONFIG);
     List<AccessSection> local = new ArrayList<AccessSection>();
     Set<String> ownerOf = new HashSet<String>();
-    Map<AccountGroup.UUID, GroupInfo> groupInfo = new HashMap<>();
     Map<AccountGroup.UUID, Boolean> visibleGroups = new HashMap<>();
 
     for (AccessSection section : config.getAccessSections()) {

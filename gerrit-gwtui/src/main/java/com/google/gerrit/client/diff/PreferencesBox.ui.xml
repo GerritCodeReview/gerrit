@@ -161,9 +161,10 @@ limitations under the License.
       </tr>
       <tr>
         <th><ui:msg>Lines of Context</ui:msg></th>
-        <td><x:NpIntTextBox ui:field='context'
+        <td><ui:msg><x:NpIntTextBox ui:field='context'
             visibleLength='4'
-            alignment='RIGHT'/></td>
+            alignment='RIGHT'/>
+          or <g:CheckBox ui:field='contextEntireFile'>entire file</g:CheckBox></ui:msg></td>
       </tr>
       <tr>
         <th><ui:msg>Intraline Difference</ui:msg></th>

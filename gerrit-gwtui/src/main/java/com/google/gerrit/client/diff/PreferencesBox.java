@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.diff;
 
+import static com.google.gerrit.reviewdb.client.AccountDiffPreference.DEFAULT_CONTEXT;
 import static com.google.gerrit.reviewdb.client.AccountDiffPreference.WHOLE_FILE_CONTEXT;
 import static com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace.IGNORE_ALL_SPACE;
 import static com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace.IGNORE_NONE;
@@ -41,6 +42,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.ListBox;
@@ -68,6 +70,7 @@ class PreferencesBox extends Composite {
   @UiField ListBox ignoreWhitespace;
   @UiField NpIntTextBox tabWidth;
   @UiField NpIntTextBox context;
+  @UiField CheckBox contextEntireFile;
   @UiField ToggleButton intralineDifference;
   @UiField ToggleButton syntaxHighlighting;
   @UiField ToggleButton whitespaceErrors;
@@ -130,8 +133,10 @@ class PreferencesBox extends Composite {
 
     if (prefs.context() == WHOLE_FILE_CONTEXT) {
       context.setText("");
+      contextEntireFile.setValue(true);
     } else {
       context.setIntValue(prefs.context());
+      contextEntireFile.setValue(false);
     }
   }
 
@@ -154,12 +159,26 @@ class PreferencesBox extends Composite {
     int c;
     if (v != null && v.length() > 0) {
       c = Math.min(Math.max(0, Integer.parseInt(v)), 32767);
+      contextEntireFile.setValue(false);
     } else if (v == null || v.isEmpty()) {
       c = WHOLE_FILE_CONTEXT;
+      contextEntireFile.setValue(true);
     } else {
       return;
     }
     prefs.context(c);
+    view.setContext(prefs.context());
+  }
+
+  @UiHandler("contextEntireFile")
+  void onContextEntireFile(ValueChangeEvent<Boolean> e) {
+    if (e.getValue()) {
+      context.setText("");
+      prefs.context(WHOLE_FILE_CONTEXT);
+    } else {
+      prefs.context(DEFAULT_CONTEXT);
+      context.setIntValue(prefs.context());
+    }
     view.setContext(prefs.context());
   }
 

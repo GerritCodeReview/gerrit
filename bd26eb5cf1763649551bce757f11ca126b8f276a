@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3b1b20e_db6733fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-05T08:55:14Z",
+      "side": 1,
+      "message": "I think it is wrong to hard code \u0027+\u0027 here. Shawn\u0027s comment was only an example on approve vote. On reject vote we report:\n\n  Patch Set 1: Code-Review-2\n\nCheck that change \n\n 1]: https://gerrit-review.googlesource.com/#/c/52211",
+      "revId": "bd26eb5cf1763649551bce757f11ca126b8f276a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

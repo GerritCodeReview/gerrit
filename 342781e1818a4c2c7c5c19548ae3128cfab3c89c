@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3b1b20e_db7e1393",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_89.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-05T07:47:28Z",
+      "side": 1,
+      "message": "We could do better with reading first if the indices still exist with new method SqlDialect.listIndexes(). Unfortunately, this is only on gwtorm master and not released yet.",
+      "revId": "342781e1818a4c2c7c5c19548ae3128cfab3c89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

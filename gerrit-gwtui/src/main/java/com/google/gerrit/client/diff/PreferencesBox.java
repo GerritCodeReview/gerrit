@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.diff;
 
+import static com.google.gerrit.reviewdb.client.AccountDiffPreference.DEFAULT_CONTEXT;
 import static com.google.gerrit.reviewdb.client.AccountDiffPreference.WHOLE_FILE_CONTEXT;
 import static com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace.IGNORE_ALL_SPACE;
 import static com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace.IGNORE_NONE;
@@ -30,8 +31,11 @@ import com.google.gerrit.client.ui.NpIntTextBox;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -41,10 +45,12 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 
 import net.codemirror.lib.CodeMirror;
@@ -62,12 +68,16 @@ class PreferencesBox extends Composite {
   private final CodeMirror cmA;
   private final CodeMirror cmB;
   private DiffPreferences prefs;
+  private int oldContext;
+  private long contextApplyTime;
 
   @UiField Style style;
   @UiField Anchor close;
   @UiField ListBox ignoreWhitespace;
   @UiField NpIntTextBox tabWidth;
   @UiField NpIntTextBox context;
+  @UiField SimplePanel contextParent;
+  @UiField CheckBox contextEntireFile;
   @UiField ToggleButton intralineDifference;
   @UiField ToggleButton syntaxHighlighting;
   @UiField ToggleButton whitespaceErrors;
@@ -91,17 +101,23 @@ class PreferencesBox extends Composite {
     super.onLoad();
 
     save.setVisible(Gerrit.isSignedIn());
-    addDomHandler(
-      new KeyDownHandler() {
-        @Override
-        public void onKeyDown(KeyDownEvent event) {
-          if (event.getNativeKeyCode() == KEY_ESCAPE
-              || event.getNativeKeyCode() == ',') {
-            close();
-          }
+    addDomHandler(new KeyDownHandler() {
+      @Override
+      public void onKeyDown(KeyDownEvent event) {
+        if (event.getNativeKeyCode() == KEY_ESCAPE
+            || event.getNativeKeyCode() == ',') {
+          close();
         }
-      },
-      KeyDownEvent.getType());
+      }
+    }, KeyDownEvent.getType());
+    contextParent.addDomHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        if (!context.isEnabled()) {
+          restoreContext();
+        }
+      }
+    }, ClickEvent.getType());
   }
 
   void set(DiffPreferences prefs) {
@@ -129,9 +145,14 @@ class PreferencesBox extends Composite {
     }
 
     if (prefs.context() == WHOLE_FILE_CONTEXT) {
+      oldContext = DEFAULT_CONTEXT;
       context.setText("");
+      context.setEnabled(false);
+      contextEntireFile.setValue(true);
     } else {
       context.setIntValue(prefs.context());
+      context.setEnabled(true);
+      contextEntireFile.setValue(false);
     }
   }
 
@@ -150,16 +171,45 @@ class PreferencesBox extends Composite {
 
   @UiHandler("context")
   void onContext(ValueChangeEvent<String> e) {
-    String v = e.getValue();
+    final String v = e.getValue();
     int c;
     if (v != null && v.length() > 0) {
       c = Math.min(Math.max(0, Integer.parseInt(v)), 32767);
+      contextEntireFile.setValue(false);
+      contextApplyTime = System.currentTimeMillis();
     } else if (v == null || v.isEmpty()) {
       c = WHOLE_FILE_CONTEXT;
+      contextEntireFile.setValue(true);
+      context.setEnabled(false);
     } else {
       return;
     }
     prefs.context(c);
+    view.setContext(prefs.context());
+  }
+
+  @UiHandler("contextEntireFile")
+  void onContextEntireFile(ValueChangeEvent<Boolean> e) {
+    if ((System.currentTimeMillis() - contextApplyTime) < 200) {
+      contextEntireFile.setValue(!e.getValue());
+    } else if (e.getValue()) {
+      oldContext = context.getIntValue();
+      context.setText("");
+      context.setEnabled(false);
+      prefs.context(WHOLE_FILE_CONTEXT);
+      view.setContext(prefs.context());
+    } else {
+      restoreContext();
+    }
+  }
+
+  private void restoreContext() {
+    prefs.context(oldContext > 0 ? oldContext : DEFAULT_CONTEXT);
+    context.setIntValue(prefs.context());
+    context.setEnabled(true);
+    context.setFocus(true);
+    context.setSelectionRange(0, context.getText().length());
+    contextEntireFile.setValue(false);
     view.setContext(prefs.context());
   }
 

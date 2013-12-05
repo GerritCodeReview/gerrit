@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.diff;
 
+import static com.google.gerrit.reviewdb.client.AccountDiffPreference.DEFAULT_CONTEXT;
 import static com.google.gerrit.reviewdb.client.AccountDiffPreference.WHOLE_FILE_CONTEXT;
 import static com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace.IGNORE_ALL_SPACE;
 import static com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace.IGNORE_NONE;
@@ -34,13 +35,16 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.ListBox;
@@ -62,12 +66,15 @@ class PreferencesBox extends Composite {
   private final CodeMirror cmA;
   private final CodeMirror cmB;
   private DiffPreferences prefs;
+  private int contextLastValue;
+  private Timer updateContextTimer;
 
   @UiField Style style;
   @UiField Anchor close;
   @UiField ListBox ignoreWhitespace;
   @UiField NpIntTextBox tabWidth;
   @UiField NpIntTextBox context;
+  @UiField CheckBox contextEntireFile;
   @UiField ToggleButton intralineDifference;
   @UiField ToggleButton syntaxHighlighting;
   @UiField ToggleButton whitespaceErrors;
@@ -91,17 +98,21 @@ class PreferencesBox extends Composite {
     super.onLoad();
 
     save.setVisible(Gerrit.isSignedIn());
-    addDomHandler(
-      new KeyDownHandler() {
-        @Override
-        public void onKeyDown(KeyDownEvent event) {
-          if (event.getNativeKeyCode() == KEY_ESCAPE
-              || event.getNativeKeyCode() == ',') {
-            close();
-          }
+    addDomHandler(new KeyDownHandler() {
+      @Override
+      public void onKeyDown(KeyDownEvent event) {
+        if (event.getNativeKeyCode() == KEY_ESCAPE
+            || event.getNativeKeyCode() == ',') {
+          close();
         }
-      },
-      KeyDownEvent.getType());
+      }
+    }, KeyDownEvent.getType());
+    updateContextTimer = new Timer() {
+      @Override
+      public void run() {
+        view.setContext(prefs.context());
+      }
+    };
   }
 
   void set(DiffPreferences prefs) {
@@ -129,9 +140,12 @@ class PreferencesBox extends Composite {
     }
 
     if (prefs.context() == WHOLE_FILE_CONTEXT) {
+      contextLastValue = DEFAULT_CONTEXT;
       context.setText("");
+      contextEntireFile.setValue(true);
     } else {
       context.setIntValue(prefs.context());
+      contextEntireFile.setValue(false);
     }
   }
 
@@ -149,19 +163,51 @@ class PreferencesBox extends Composite {
   }
 
   @UiHandler("context")
+  void onContextKey(KeyPressEvent e) {
+    if (contextEntireFile.getValue()) {
+      char c = e.getCharCode();
+      if ('0' <= c && c <= '9') {
+        contextEntireFile.setValue(false);
+      }
+    }
+  }
+
+  @UiHandler("context")
   void onContext(ValueChangeEvent<String> e) {
     String v = e.getValue();
     int c;
     if (v != null && v.length() > 0) {
       c = Math.min(Math.max(0, Integer.parseInt(v)), 32767);
+      contextEntireFile.setValue(false);
     } else if (v == null || v.isEmpty()) {
       c = WHOLE_FILE_CONTEXT;
+      contextEntireFile.setValue(true);
     } else {
       return;
     }
     prefs.context(c);
-    view.setContext(prefs.context());
+    updateContextTimer.schedule(200);
   }
+
+  @UiHandler("contextEntireFile")
+  void onContextEntireFile(ValueChangeEvent<Boolean> e) {
+    // If a click arrives too fast after onContext applied an update
+    // the user committed the context line update by clicking on the
+    // whole file checkmark. Drop this event, but transfer focus.
+    if (e.getValue()) {
+      contextLastValue = context.getIntValue();
+      context.setText("");
+      prefs.context(WHOLE_FILE_CONTEXT);
+    } else {
+      prefs.context(contextLastValue > 0 ? contextLastValue : DEFAULT_CONTEXT);
+      context.setIntValue(prefs.context());
+      context.setFocus(true);
+      context.setSelectionRange(0, context.getText().length());
+    }
+    updateContextTimer.schedule(200);
+  }
+
+  static final native void log(String m)/*-{console.log(m)}-*/;
 
   @UiHandler("tabWidth")
   void onTabWidth(ValueChangeEvent<String> e) {

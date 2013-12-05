@@ -46,14 +46,16 @@ by plugin ID.
     "delete-project": {
       "kind": "gerritcodereview#plugin",
       "id": "delete-project",
-      "version": "2.9-SNAPSHOT"
+      "index_url": "plugins/delete-project/",
+      "version": "2.9-SNAPSHOT",
     },
     "reviewers-by-blame": {
       "kind": "gerritcodereview#plugin",
       "id": "reviewers-by-blame",
+      "index_url": "plugins/reviewers-by-blame/",
       "version": "2.9-SNAPSHOT",
       "disabled": true
-    }
+    },
   }
 ----
 
@@ -262,11 +264,12 @@ The `PluginInfo` entity describes a plugin.
 
 [options="header",width="50%",cols="1,^2,4"]
 |=======================
-|Field Name||Description
-|`kind`    ||`gerritcodereview#plugin`
-|`id`      ||The ID of the plugin.
-|`version` ||The version of the plugin.
-|`disabled`|not set if `false`|Whether the plugin is disabled.
+|Field Name ||Description
+|`kind`     ||`gerritcodereview#plugin`
+|`id`       ||The ID of the plugin.
+|`version`  ||The version of the plugin.
+|`index_url`|optional|URL of the plugin's default page.
+|`disabled` |not set if `false`|Whether the plugin is disabled.
 |=======================
 
 [[plugin-input]]

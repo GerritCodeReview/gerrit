@@ -1,91 +1,95 @@
 Gerrit Code Review for Git
 ==========================
 
-Index
------
+Tutorial
+--------
+. Getting started
+.. link:intro-quick.html[A Quick Introduction to Gerrit]
+.. link:intro-change-screen.html[A Quick Introduction to the New Change Screen]
+.. link:http://source.android.com/submit-patches/workflow[Default Android Workflow] (external)
+. Web
+.. Registering a new Gerrit account
+.. link:user-search.html[Searching Changes]
+.. link:user-notify.html[Subscribing to Email Notifications]
+. SSH
+.. SSH connection details
+.. link:cmd-index.html[Command Line Tools]
+. Git
+.. Git connection details
+.. Commands, scenarios
+... link:user-upload.html[Uploading Changes]
+... link:error-messages.html[Error Messages]
+.. Changes
+... link:user-changeid.html[Change-Id Lines]
+... link:user-signedoffby.html[Signed-off-by Lines]
+.. Patch sets
 
-. General info
-.. link:licenses.html[Licenses and Notices]
-. Installing
-.. link:intro-quick.html[A Quick Introduction To Gerrit]
-.. link:intro-change-screen.html[A Quick Introduction To The New Change Screen]
-.. link:install.html[Installation Guide]
-. Tutorial
-.. Get started
-... External link: link:http://source.android.com/submit-patches/workflow[Default Android Workflow]
-.. Web
-... Registering a new Gerrit account
-... link:user-search.html[Searching Changes]
-... link:user-notify.html[Subscribing to Email Notifications]
-.. Ssh
-... ssh connection details
-... link:cmd-index.html[Command Line Tools]
-.. Git
-... git connection details
-... Commands, scenarios
-.... link:user-upload.html[Uploading Changes]
-.... link:error-messages.html[Error Messages]
-... Changes
-.... link:user-changeid.html[Change-Id Lines]
-.... link:user-signedoffby.html[Signed-off-by Lines]
-... Patch sets
-. Project management
-.. link:project-setup.html[Project Setup]
-.. link:access-control.html[Access Controls]
-... link:config-labels.html[Review Labels]
-... link:config-project-config.html[Access Controls Configuration Format]
-.. Multi-project management
-... Submodules
-... Repo
-.. Prolog rules
-... link:prolog-cookbook.html[Prolog Cookbook]
-... link:prolog-change-facts.html[Prolog Facts for Gerrit Changes]
-.. link:user-submodules.html[Subscribing to Git Submodules]
-.. Project sunset
-. Customization and integration
-.. link:user-dashboards.html[Dashboards]
-.. link:rest-api.html[REST API]
-.. link:config-gitweb.html[Gitweb Integration]
-.. link:config-themes.html[Themes]
-.. link:config-sso.html[Single Sign-On Systems]
-.. link:config-hooks.html[Hooks]
-.. link:config-mail.html[Mail Templates]
-.. link:config-cla.html[Contributor Agreements]
-. Server administration
-.. link:config-gerrit.html[System Settings]
-.. Backup
-.. Performance tuning
-... link:cmd-index.html[Command Line Tools]
-... Reading show-caches efficiently
-... How to read stats from the JVM
-.. High availability
-.. Replication
-.. link:https://gerrit-review.googlesource.com/#/admin/projects/?filter=plugins%252F[Plugins]
-.. link:dev-design.html[System Design]
-.. link:config-contact.html[User Contact Information]
-.. link:config-reverseproxy.html[Reverse Proxy]
-.. link:config-auto-site-initialization.html[Automatic Site Initialization on Startup]
-.. link:pgm-index.html[Server Side Administrative Tools]
-. Developer
-.. link:dev-readme.html[Developer Setup]
-.. link:dev-buck.html[Building with Buck]
-.. link:dev-eclipse.html[Eclipse Setup]
-.. link:dev-contributing.html[Contributing to Gerrit]
-.. Documentation formatting guide for contributions
-.. link:dev-design.html[System Design]
-.. link:i18n-readme.html[i18n Support]
-.. Plugin development
-... link:dev-plugins.html[Developing Plugins]
-... link:js-api.html[JavaScript Plugin API]
-... link:config-validation.html[Commit Validation]
-. Maintainer
-.. link:dev-release.html[Developer Release]
-.. link:dev-release-subproject.html[Developer Subproject Release]
+Project Management
+------------------
+. link:project-setup.html[Project Setup]
+. link:access-control.html[Access Controls]
+.. link:config-labels.html[Review Labels]
+.. link:config-project-config.html[Access Controls Configuration Format]
+. Multi-project management
+.. Submodules
+.. Repo
+. Prolog rules
+.. link:prolog-cookbook.html[Prolog Cookbook]
+.. link:prolog-change-facts.html[Prolog Facts for Gerrit Changes]
+. link:user-submodules.html[Subscribing to Git Submodules]
+. Project sunset
 
+Customization and Integration
+-----------------------------
+. link:user-dashboards.html[Dashboards]
+. link:rest-api.html[REST API]
+. link:config-gitweb.html[Gitweb Integration]
+. link:config-themes.html[Themes]
+. link:config-sso.html[Single Sign-On Systems]
+. link:config-hooks.html[Hooks]
+. link:config-mail.html[Mail Templates]
+. link:config-cla.html[Contributor Agreements]
+
+Server Administration
+---------------------
+. link:install.html[Installation Guide]
+. link:config-gerrit.html[System Settings]
+. Backup
+. Performance tuning
+.. link:cmd-index.html[Command Line Tools]
+.. Reading show-caches efficiently
+.. How to read stats from the JVM
+. High availability
+. Replication
+. link:https://gerrit-review.googlesource.com/#/admin/projects/?filter=plugins%252F[Plugins]
+. link:dev-design.html[System Design]
+. link:config-contact.html[User Contact Information]
+. link:config-reverseproxy.html[Reverse Proxy]
+. link:config-auto-site-initialization.html[Automatic Site Initialization on Startup]
+. link:pgm-index.html[Server Side Administrative Tools]
+
+Developer
+---------
+. link:dev-readme.html[Developer Setup]
+. link:dev-buck.html[Building with Buck]
+. link:dev-eclipse.html[Eclipse Setup]
+. link:dev-contributing.html[Contributing to Gerrit]
+. Documentation formatting guide for contributions
+. link:dev-design.html[System Design]
+. link:i18n-readme.html[i18n Support]
+. Plugin development
+.. link:dev-plugins.html[Developing Plugins]
+.. link:js-api.html[JavaScript Plugin API]
+.. link:config-validation.html[Commit Validation]
+
+Maintainer
+----------
+. link:dev-release.html[Developer Release]
+. link:dev-release-subproject.html[Developer Subproject Release]
 
 Resources
 ---------
-
+* link:licenses.html[Licenses and Notices]
 * link:http://code.google.com/p/gerrit/[Homepage]
 * link:http://code.google.com/p/gerrit/downloads/list[Downloads]
 * link:http://code.google.com/p/gerrit/issues/list[Issue Tracking]

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a333de7d_62f2d617",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-12-05T22:35:40Z",
+      "side": 1,
+      "message": "This is a nested ui:msg. Please remove.",
+      "range": {
+        "startLine": 66,
+        "startChar": 13,
+        "endLine": 66,
+        "endChar": 34
+      },
+      "revId": "b587c8b306ed3deeac9fac0acb84214744b49729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

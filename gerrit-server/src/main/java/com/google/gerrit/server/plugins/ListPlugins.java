@@ -127,12 +127,17 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
     final String kind = "gerritcodereview#plugin";
     String id;
     String version;
+    String indexUrl;
     Boolean disabled;
 
     PluginInfo(Plugin p) {
       id = Url.encode(p.getName());
       version = p.getVersion();
       disabled = p.isDisabled() ? true : null;
+
+      if (p.getJarFile() != null) {
+        indexUrl = String.format("plugins/%s/", p.getName());
+      }
     }
   }
 }

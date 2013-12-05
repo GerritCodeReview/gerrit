@@ -83,17 +83,20 @@ public class PluginListScreen extends PluginScreen {
     }
 
     void populate(final int row, final PluginInfo plugin) {
-      if (plugin.isDisabled()) {
+      if (plugin.disabled() || plugin.indexUrl() == null) {
         table.setText(row, 1, plugin.name());
       } else {
         table.setWidget(
             row,
             1,
-            new Anchor(plugin.name(), Gerrit.selfRedirect("/plugins/"
-                + plugin.name() + "/"), "_blank"));
+            new Anchor(
+                plugin.name(),
+                Gerrit.selfRedirect(plugin.indexUrl()),
+                "_blank"));
       }
       table.setText(row, 2, plugin.version());
-      table.setText(row, 3, plugin.isDisabled() ? Util.C.pluginDisabled()
+      table.setText(row, 3, plugin.disabled()
+          ? Util.C.pluginDisabled()
           : Util.C.pluginEnabled());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();

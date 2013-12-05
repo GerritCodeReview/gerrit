@@ -16,8 +16,7 @@ limitations under the License.
 -->
 <ui:UiBinder
     xmlns:ui='urn:ui:com.google.gwt.uibinder'
-    xmlns:g='urn:import:com.google.gwt.user.client.ui'
-    xmlns:c='urn:import:com.google.gwtexpui.globalkey.client'>
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <ui:with field='res' type='com.google.gerrit.client.change.Resources'/>
   <ui:style type='com.google.gerrit.client.change.ReplyBox.Styles'>
     .replyBox {
@@ -50,7 +49,7 @@ limitations under the License.
   </ui:style>
   <g:HTMLPanel styleName='{style.replyBox}'>
     <div class='{res.style.section}'>
-      <c:NpTextArea
+      <g:TextArea
          visibleLines='5'
          characterWidth='70'
          ui:field='message'/>

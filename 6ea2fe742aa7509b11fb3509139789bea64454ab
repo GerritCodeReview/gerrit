@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3f8d2d4_c3e29646",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-05T15:50:38Z",
+      "side": 1,
+      "message": "Add send.setEnabled(false) here.",
+      "revId": "6ea2fe742aa7509b11fb3509139789bea64454ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a333de7d_e2dd8684",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-05T15:50:38Z",
+      "side": 1,
+      "message": "put send.setEnabled(true) after here.",
+      "revId": "6ea2fe742aa7509b11fb3509139789bea64454ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3f8d2d4_e3dd9284",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-05T15:50:38Z",
+      "side": 1,
+      "message": "There is no point to this change. The entire function runs without interrupt in JavaScript.",
+      "revId": "6ea2fe742aa7509b11fb3509139789bea64454ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

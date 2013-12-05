@@ -134,8 +134,15 @@ class ReplyBox extends Composite {
       @Override
       public void execute() {
         Window.scrollTo(0, 0);
-        message.setFocus(true);
-      }});
+        for (int i = 0; i < labelsTable.getColumnCount(); i++) {
+          RadioButton b = (RadioButton) labelsTable.getWidget(1, i);
+          if (b != null && b.getValue()) {
+            b.setFocus(true);
+            break;
+          }
+        }
+      }
+    });
     Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
       @Override
       public boolean execute() {

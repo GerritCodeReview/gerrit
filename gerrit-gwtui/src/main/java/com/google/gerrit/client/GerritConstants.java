@@ -84,7 +84,7 @@ public interface GerritConstants extends Constants {
   String menuPluginsInstalled();
 
   String menuDocumentation();
-  String menuDocumentationIndex();
+  String menuDocumentationTOC();
   String menuDocumentationSearch();
   String menuDocumentationUpload();
   String menuDocumentationAccess();

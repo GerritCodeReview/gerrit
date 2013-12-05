@@ -722,7 +722,7 @@ public class Gerrit implements EntryPoint {
     if (getConfig().isDocumentationAvailable()) {
       m = new LinkMenuBar();
       menuBars.put(GerritTopMenu.DOCUMENTATION.menuName, m);
-      addDocLink(m, C.menuDocumentationIndex(), "index.html");
+      addDocLink(m, C.menuDocumentationTOC(), "index.html");
       addDocLink(m, C.menuDocumentationSearch(), "user-search.html");
       addDocLink(m, C.menuDocumentationUpload(), "user-upload.html");
       addDocLink(m, C.menuDocumentationAccess(), "access-control.html");

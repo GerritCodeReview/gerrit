@@ -132,12 +132,14 @@ public class GetDiff implements RestReadView<FileResource> {
         result.metaA = new FileMeta();
         result.metaA.name = Objects.firstNonNull(ps.getOldName(), ps.getNewName());
         result.metaA.setContentType(ps.getFileModeA(), ps.getMimeTypeA());
+        result.metaA.lines = ps.getA().size();
       }
 
       if (ps.getDisplayMethodB() != DisplayMethod.NONE) {
         result.metaB = new FileMeta();
         result.metaB.name = ps.getNewName();
         result.metaB.setContentType(ps.getFileModeB(), ps.getMimeTypeB());
+        result.metaB.lines = ps.getB().size();
       }
 
       if (intraline) {
@@ -179,7 +181,7 @@ public class GetDiff implements RestReadView<FileResource> {
   static class FileMeta {
     String name;
     String contentType;
-    String url;
+    Integer lines;
 
     void setContentType(FileMode fileMode, String mimeType) {
       switch (fileMode) {

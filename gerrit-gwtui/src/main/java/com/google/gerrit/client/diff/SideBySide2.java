@@ -239,11 +239,18 @@ public class SideBySide2 extends Screen {
     Window.enableScrolling(false);
 
     final int height = getCodeMirrorHeight();
-    cmA.setHeight(height);
-    cmB.setHeight(height);
+    operation(new Runnable() {
+      @Override
+      public void run() {
+        cmA.setHeight(height);
+        cmB.setHeight(height);
+        cmA.refresh();
+        cmB.refresh();
+        cmB.setCursor(LineCharacter.create(0));
+        cmB.focus();
+      }
+    });
     diffTable.sidePanel.adjustGutters(cmB);
-    cmB.setCursor(LineCharacter.create(0));
-    cmB.focus();
 
     prefetchNextFile();
   }
@@ -1374,6 +1381,20 @@ public class SideBySide2 extends Screen {
 
   CodeMirror getCmB() {
     return cmB;
+  }
+
+  void operation(final Runnable apply) {
+    cmA.operation(new Runnable() {
+      @Override
+      public void run() {
+        cmB.operation(new Runnable() {
+          @Override
+          public void run() {
+            apply.run();
+          }
+        });
+      }
+    });
   }
 
   private void prefetchNextFile() {

@@ -40,7 +40,6 @@ import org.junit.Test;
 import java.util.EnumSet;
 import java.util.Set;
 
-@SuppressWarnings("unchecked")
 public class IndexRewriteTest {
   private FakeIndex index;
   private IndexCollection indexes;

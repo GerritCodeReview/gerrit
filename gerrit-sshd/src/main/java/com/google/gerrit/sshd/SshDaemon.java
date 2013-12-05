@@ -397,7 +397,6 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         .size()])));
   }
 
-  @SuppressWarnings("unchecked")
   private void initMacs(final Config cfg) {
     setMacFactories(filter(cfg, "mac", new HMACMD5.Factory(),
         new HMACSHA1.Factory(), new HMACMD596.Factory(),

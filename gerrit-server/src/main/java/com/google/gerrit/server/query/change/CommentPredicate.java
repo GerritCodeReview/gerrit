@@ -33,7 +33,6 @@ class CommentPredicate extends IndexPredicate<ChangeData> {
     this.index = index;
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public boolean match(ChangeData object) throws OrmException {
     try {

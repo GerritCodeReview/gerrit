@@ -57,7 +57,6 @@ class DraftBox extends CommentBox {
   private static final int INITIAL_LINES = 5;
   private static final int MAX_LINES = 30;
 
-  private final SideBySide2 parent;
   private final CommentLinkProcessor linkProcessor;
   private final PatchSet.Id psId;
   private CommentInfo comment;
@@ -89,7 +88,7 @@ class DraftBox extends CommentBox {
       CommentInfo info) {
     super(cm, info, side);
 
-    parent = sideBySide;
+    setDiffScreen(sideBySide);
     linkProcessor = clp;
     psId = id;
     initWidget(uiBinder.createAndBindUi(this));
@@ -206,7 +205,7 @@ class DraftBox extends CommentBox {
     } else {
       expandTimer.cancel();
     }
-    parent.updateUnsaved(this, edit);
+    getDiffScreen().updateUnsaved(this, edit);
     resizePaddingWidget();
   }
 
@@ -228,12 +227,12 @@ class DraftBox extends CommentBox {
     setRangeHighlight(false);
     removeFromParent();
     if (!getCommentInfo().has_line()) {
-      parent.removeFileCommentBox(this);
+      getDiffScreen().removeFileCommentBox(this);
       return;
     }
     PaddingManager manager = getPaddingManager();
     manager.remove(this);
-    parent.removeDraft(this, comment.line() - 1);
+    getDiffScreen().removeDraft(this, comment.line() - 1);
     getCm().focus();
     getSelfWidgetWrapper().getWidget().clear();
     getGutterWrapper().remove();
@@ -282,7 +281,7 @@ class DraftBox extends CommentBox {
         if (autoClosed) {
           setOpen(false);
         }
-        parent.updateUnsaved(DraftBox.this, false);
+        getDiffScreen().updateUnsaved(DraftBox.this, false);
       }
 
       @Override

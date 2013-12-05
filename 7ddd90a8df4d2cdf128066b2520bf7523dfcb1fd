@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a333de7d_42f9d2f3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PreferencesBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-12-05T23:00:02Z",
+      "side": 1,
+      "message": "Ideally this would be the previous value of context, if i just toggled the button on and off.",
+      "range": {
+        "startLine": 179,
+        "startChar": 20,
+        "endLine": 179,
+        "endChar": 35
+      },
+      "revId": "7ddd90a8df4d2cdf128066b2520bf7523dfcb1fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

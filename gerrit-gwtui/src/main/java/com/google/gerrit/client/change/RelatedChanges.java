@@ -32,9 +32,7 @@ import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.TabBar;
-import com.google.gwt.user.client.ui.TabBar.Tab;
 import com.google.gwt.user.client.ui.TabPanel;
 
 import java.util.ArrayList;
@@ -42,32 +40,85 @@ import java.util.EnumSet;
 import java.util.List;
 
 class RelatedChanges extends TabPanel {
-  private List<RelatedChangesTab> tabs;
-  private RelatedChangesTab relatedChangesTab;
-  private RelatedChangesTab conflictingChangesTab;
-  private RelatedChangesTab cherryPicksTab;
-  private RelatedChangesTab sameTopicTab;
+  private enum Tab {
+    RELATED_CHANGES(Resources.C.relatedChanges(),
+        Resources.C.relatedChangesTooltip()) {
+      @Override
+      String getTitle(int count) {
+        return Resources.M.relatedChanges(count);
+      }
+
+      @Override
+      String getTitle(String count) {
+        return Resources.M.relatedChanges(count);
+      }
+    },
+
+    SAME_TOPIC(Resources.C.sameTopic(),
+        Resources.C.sameTopicTooltip()) {
+      @Override
+      String getTitle(int count) {
+        return Resources.M.sameTopic(count);
+      }
+
+      @Override
+      String getTitle(String count) {
+        return Resources.M.sameTopic(count);
+      }
+    },
+
+    CONFLICTING_CHANGES(Resources.C.conflictingChanges(),
+        Resources.C.conflictingChangesTooltip()) {
+      @Override
+      String getTitle(int count) {
+        return Resources.M.conflictingChanges(count);
+      }
+
+      @Override
+      String getTitle(String count) {
+        return Resources.M.conflictingChanges(count);
+      }
+    },
+
+    CHERRY_PICKS(Resources.C.cherryPicks(),
+        Resources.C.cherryPicksTooltip()) {
+      @Override
+      String getTitle(int count) {
+        return Resources.M.cherryPicks(count);
+      }
+
+      @Override
+      String getTitle(String count) {
+        return Resources.M.cherryPicks(count);
+      }
+    };
+
+    final String defaultTitle;
+    final String tooltip;
+
+    abstract String getTitle(int count);
+    abstract String getTitle(String count);
+
+    private Tab(String defaultTitle, String tooltip) {
+      this.defaultTitle = defaultTitle;
+      this.tooltip = tooltip;
+    }
+  }
+
+  private final List<RelatedChangesTab> tabs;
   private int maxHeight;
   private int selectedTab;
 
   RelatedChanges() {
-    setVisible(false);
-
-    tabs = new ArrayList<RelatedChangesTab>();
-    addStyleName(Gerrit.RESOURCES.css().relatedChangesTabPanel());
-  }
-
-  private RelatedChangesTab createTab(String title, String tooltip) {
-    return createTab(title, tooltip, null);
-  }
-
-  private RelatedChangesTab createTab(String title, String tooltip,
-      Integer index) {
-    setVisible(true);
-    FlowPanel panel = new FlowPanel();
-    add(panel, title);
+    tabs = new ArrayList<RelatedChangesTab>(Tab.values().length);
     selectedTab = -1;
 
+    setVisible(false);
+    addStyleName(Gerrit.RESOURCES.css().relatedChangesTabPanel());
+    initTabBar();
+  }
+
+  private void initTabBar() {
     TabBar tabBar = getTabBar();
     tabBar.addSelectionHandler(new SelectionHandler<Integer>() {
       @Override
@@ -80,22 +131,19 @@ class RelatedChanges extends TabPanel {
       }
     });
 
-    index = index != null ? index : tabBar.getTabCount() - 1;
-    Tab tab = tabBar.getTab(index);
-    tab.setWordWrap(false);
-    ((Composite) tab).setTitle(tooltip);
-    RelatedChangesTab relatedChangesTab =
-        new RelatedChangesTab(this, index, panel);
-    tabs.add(index, relatedChangesTab);
-    relatedChangesTab.setMaxHeight(maxHeight);
-    if (index == 0) {
-      selectTab(0);
-    }
-    return relatedChangesTab;
-  }
+    for (Tab tabInfo : Tab.values()) {
+      RelatedChangesTab panel = new RelatedChangesTab();
+      panel.setMaxHeight(maxHeight);
+      add(panel, tabInfo.defaultTitle);
+      tabs.add(panel);
 
-  void setTabTitle(int index, String title) {
-    getTabBar().setTabText(index, title);
+      TabBar.Tab tab = tabBar.getTab(tabInfo.ordinal());
+      tab.setWordWrap(false);
+      ((Composite) tab).setTitle(tabInfo.tooltip);
+
+      setTabEnabled(tabInfo, false);
+    }
+    getTab(Tab.CHERRY_PICKS).setShowBranches(true);
   }
 
   void set(final ChangeInfo info, final String revision) {
@@ -109,33 +157,7 @@ class RelatedChanges extends TabPanel {
     cherryPicksQuery.append(" ").append(op("-change", info.legacy_id().get()));
     ChangeList.query(cherryPicksQuery.toString(),
         EnumSet.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_COMMIT),
-        new AsyncCallback<ChangeList>() {
-          @Override
-          public void onSuccess(ChangeList result) {
-            JsArray<ChangeAndCommit> changes = convertChangeList(result);
-            if (changes.length() > 0) {
-              getTab().setTitle(Resources.M.cherryPicks(changes.length()));
-              getTab().setChanges(info.project(), revision, changes);
-            }
-          }
-
-          @Override
-          public void onFailure(Throwable err) {
-            getTab().setTitle(
-                Resources.M.cherryPicks(Resources.C.notAvailable()));
-            getTab().setError(err.getMessage());
-          }
-
-          private RelatedChangesTab getTab() {
-            if (cherryPicksTab == null) {
-              cherryPicksTab =
-                  createTab(Resources.C.cherryPicks(),
-                      Resources.C.cherryPicksTooltip());
-              cherryPicksTab.setShowBranches(true);
-            }
-            return cherryPicksTab;
-          }
-        });
+        new TabChangeListCallback(Tab.CHERRY_PICKS, info.project(), revision));
 
     if (info.topic() != null && !"".equals(info.topic())) {
       StringBuilder topicQuery = new StringBuilder();
@@ -146,62 +168,18 @@ class RelatedChanges extends TabPanel {
       topicQuery.append(" ").append(op("-change", info.legacy_id().get()));
       ChangeList.query(topicQuery.toString(),
           EnumSet.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_COMMIT),
-          new AsyncCallback<ChangeList>() {
-            @Override
-            public void onSuccess(ChangeList result) {
-              JsArray<ChangeAndCommit> changes = convertChangeList(result);
-              if (changes.length() > 0) {
-                getTab().setTitle(Resources.M.sameTopic(changes.length()));
-                getTab().setChanges(info.project(), revision, changes);
-              }
-            }
-
-            @Override
-            public void onFailure(Throwable err) {
-              getTab().setTitle(
-                  Resources.M.sameTopic(Resources.C.notAvailable()));
-              getTab().setError(err.getMessage());
-            }
-
-            private RelatedChangesTab getTab() {
-              if (sameTopicTab == null) {
-                sameTopicTab =
-                    createTab(Resources.C.sameTopic(),
-                        Resources.C.sameTopicTooltip());
-              }
-              return sameTopicTab;
-            }
-          });
+          new TabChangeListCallback(Tab.SAME_TOPIC, info.project(), revision));
     }
   }
 
   private void setForOpenChange(final ChangeInfo info, final String revision) {
     ChangeApi.revision(info.legacy_id().get(), revision).view("related")
-        .get(new AsyncCallback<RelatedInfo>() {
-          @Override
-          public void onSuccess(RelatedInfo result) {
-            if (result.changes().length() > 0) {
-              getTab().setTitle(Resources.M.relatedChanges(result.changes().length()));
-              getTab().setChanges(info.project(), revision, result.changes());
-            }
-          }
-
-          @Override
-          public void onFailure(Throwable err) {
-            getTab().setTitle(
-                Resources.M.relatedChanges(Resources.C.notAvailable()));
-            getTab().setError(err.getMessage());
-          }
-
-          private RelatedChangesTab getTab() {
-            if (relatedChangesTab == null) {
-              relatedChangesTab =
-                  createTab(Resources.C.relatedChanges(),
-                      Resources.C.relatedChangesTooltip(), 0);
-            }
-            return relatedChangesTab;
-          }
-        });
+        .get(new TabCallback<RelatedInfo>(Tab.RELATED_CHANGES, info.project(), revision) {
+              @Override
+              public JsArray<ChangeAndCommit> convert(RelatedInfo result) {
+                return result.changes();
+              }
+            });
 
     if (info.mergeable()) {
       StringBuilder conflictsQuery = new StringBuilder();
@@ -210,33 +188,20 @@ class RelatedChanges extends TabPanel {
       conflictsQuery.append(" ").append(op("conflicts", info.legacy_id().get()));
       ChangeList.query(conflictsQuery.toString(),
           EnumSet.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_COMMIT),
-          new AsyncCallback<ChangeList>() {
-            @Override
-            public void onSuccess(ChangeList result) {
-              JsArray<ChangeAndCommit> changes = convertChangeList(result);
-              if (changes.length() > 0) {
-                getTab().setTitle(Resources.M.conflictingChanges(changes.length()));
-                getTab().setChanges(info.project(), revision, changes);
-              }
-            }
-
-            @Override
-            public void onFailure(Throwable err) {
-              getTab().setTitle(
-                  Resources.M.conflictingChanges(Resources.C.notAvailable()));
-              getTab().setError(err.getMessage());
-            }
-
-            private RelatedChangesTab getTab() {
-              if (conflictingChangesTab == null) {
-                conflictingChangesTab =
-                    createTab(Resources.C.conflictingChanges(),
-                        Resources.C.conflictingChangesTooltip());
-              }
-              return conflictingChangesTab;
-            }
-          });
+          new TabChangeListCallback(Tab.CONFLICTING_CHANGES, info.project(), revision));
     }
+  }
+
+  private RelatedChangesTab getTab(Tab tabInfo) {
+    return tabs.get(tabInfo.ordinal());
+  }
+
+  private void setTabTitle(Tab tabInfo, String title) {
+    getTabBar().setTabText(tabInfo.ordinal(), title);
+  }
+
+  private void setTabEnabled(Tab tabInfo, boolean enabled) {
+    getTabBar().setTabEnabled(tabInfo.ordinal(), enabled);
   }
 
   void setMaxHeight(int height) {
@@ -246,21 +211,77 @@ class RelatedChanges extends TabPanel {
     }
   }
 
-  private JsArray<ChangeAndCommit> convertChangeList(ChangeList l) {
-    JsArray<ChangeAndCommit> arr = JavaScriptObject.createArray().cast();
-    for (ChangeInfo i : Natives.asList(l)) {
-      if (i.current_revision() != null && i.revisions().containsKey(i.current_revision())) {
-        RevisionInfo currentRevision = i.revision(i.current_revision());
-        ChangeAndCommit c = ChangeAndCommit.create();
-        c.set_id(i.id());
-        c.set_commit(currentRevision.commit());
-        c.set_change_number(i.legacy_id().get());
-        c.set_revision_number(currentRevision._number());
-        c.set_branch(i.branch());
-        arr.push(c);
+  private int outstandingCallbacks;
+
+  private abstract class TabCallback<T> implements AsyncCallback<T> {
+    private final Tab tabInfo;
+    private final String project;
+    private final String revision;
+
+    TabCallback(Tab tabInfo, String project, String revision) {
+      this.tabInfo = tabInfo;
+      this.project = project;
+      this.revision = revision;
+      outstandingCallbacks++;
+    }
+
+    protected abstract JsArray<ChangeAndCommit> convert(T result);
+
+    @Override
+    public void onSuccess(T result) {
+      JsArray<ChangeAndCommit> changes = convert(result);
+      if (changes.length() > 0) {
+        setTabTitle(tabInfo, tabInfo.getTitle(changes.length()));
+        getTab(tabInfo).setChanges(project, revision, changes);
+      }
+      onDone(changes.length() > 0);
+    }
+
+    @Override
+    public void onFailure(Throwable err) {
+      setTabTitle(tabInfo, tabInfo.getTitle(Resources.C.notAvailable()));
+      getTab(tabInfo).setError(err.getMessage());
+      onDone(true);
+    }
+
+    private void onDone(boolean enabled) {
+      setTabEnabled(tabInfo, enabled);
+      outstandingCallbacks--;
+      if (outstandingCallbacks == 0 || (enabled && tabInfo == Tab.RELATED_CHANGES)) {
+        outstandingCallbacks = 0;  // Only execute this block once
+        for (int i = 0; i < getTabBar().getTabCount(); i++) {
+          if (getTabBar().isTabEnabled(i)) {
+            selectTab(i);
+            setVisible(true);
+            break;
+          }
+        }
       }
     }
-    return arr;
+  }
+
+  private class TabChangeListCallback extends TabCallback<ChangeList> {
+    TabChangeListCallback(Tab tabInfo, String project, String revision) {
+      super(tabInfo, project, revision);
+    }
+
+    @Override
+    protected JsArray<ChangeAndCommit> convert(ChangeList l) {
+      JsArray<ChangeAndCommit> arr = JavaScriptObject.createArray().cast();
+      for (ChangeInfo i : Natives.asList(l)) {
+        if (i.current_revision() != null && i.revisions().containsKey(i.current_revision())) {
+          RevisionInfo currentRevision = i.revision(i.current_revision());
+          ChangeAndCommit c = ChangeAndCommit.create();
+          c.set_id(i.id());
+          c.set_commit(currentRevision.commit());
+          c.set_change_number(i.legacy_id().get());
+          c.set_revision_number(currentRevision._number());
+          c.set_branch(i.branch());
+          arr.push(c);
+        }
+      }
+      return arr;
+    }
   }
 
   private static class RelatedInfo extends JavaScriptObject {

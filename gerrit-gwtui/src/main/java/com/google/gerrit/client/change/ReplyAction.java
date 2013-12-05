@@ -62,6 +62,13 @@ class ReplyAction {
         : NativeMap.<JsArrayString> create();
   }
 
+  void hide() {
+    if (popup != null) {
+      popup.hide();
+    }
+    return;
+  }
+
   void onReply(MessageInfo msg) {
     if (popup != null) {
       popup.hide();

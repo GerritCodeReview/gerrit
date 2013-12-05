@@ -26,4 +26,9 @@ import com.google.gwt.core.client.EntryPoint;
  * </ol>
  */
 public abstract class Plugin implements EntryPoint {
+  public native static void go(String t)
+  /*-{ $wnd.Gerrit.go(t) }-*/;
+
+  public native static void refresh()
+  /*-{ $wnd.Gerrit.refresh() }-*/;
 }

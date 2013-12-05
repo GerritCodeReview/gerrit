@@ -48,7 +48,7 @@ Gerrit.delete(url, callback)
 [[self_get]]
 self.get()
 ~~~~~~~~~~
-Issues a GET REST API request to the Gerrit server.
+Issues a GET REST API request to the Gerrit server (plugin space).
 
 .Signature
 [source,javascript]
@@ -58,6 +58,24 @@ self.get(url, callback)
 
 * url: URL relative to the plugin's URL space. The JavaScript
   library prefixes the supplied URL with `/plugins/{getPluginName}/`.
+
+* callback: JavaScript function to be invoked with the parsed JSON
+  result of the API call. If the API returns a string the result is
+  a string, otherwise the result is a JavaScript object or array,
+  as described in the relevant REST API documentation.
+
+[[self_get_core]]
+self.get_core()
+~~~~~~~~~~
+Issues a GET REST API request to the Gerrit server (core space).
+
+.Signature
+[source,javascript]
+----
+self.get_core(url, callback)
+----
+
+* url: URL relative to the core's URL.
 
 * callback: JavaScript function to be invoked with the parsed JSON
   result of the API call. If the API returns a string the result is

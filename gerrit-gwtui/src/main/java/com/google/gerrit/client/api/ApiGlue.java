@@ -102,7 +102,14 @@ public class ApiGlue {
         return @com.google.gerrit.client.rpc.RestApi::new(Ljava/lang/String;)(u);
       },
 
+      _api_core: function(d) {
+        var u = '';
+        if (d && d.length > 0) u += d.charAt(0)=='/' ? d.substring(1) : d;
+        return @com.google.gerrit.client.rpc.RestApi::new(Ljava/lang/String;)(u);
+      },
+
       get: function(u,b){@com.google.gerrit.client.api.ActionContext::get(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;)(this._api(u),b)},
+      get_core: function(u,b){@com.google.gerrit.client.api.ActionContext::get(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;)(this._api_core(u),b)},
       post: function(u,i,b){@com.google.gerrit.client.api.ActionContext::post(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(this._api(u),i,b)},
       put: function(u,i,b){@com.google.gerrit.client.api.ActionContext::put(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(this._api(u),i,b)},
       'delete': function(u,b){@com.google.gerrit.client.api.ActionContext::delete(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;)(this._api(u),b)},

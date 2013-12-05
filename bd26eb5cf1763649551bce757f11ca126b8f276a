@@ -16,6 +16,24 @@
       "revId": "bd26eb5cf1763649551bce757f11ca126b8f276a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3b1b20e_9b61abea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-05T08:56:49Z",
+      "side": 1,
+      "message": "But the + is only added if value \u003e 0, if the value is negative the else case takes care to have the -.",
+      "parentUuid": "c3b1b20e_db6733fd",
+      "revId": "bd26eb5cf1763649551bce757f11ca126b8f276a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -83,7 +83,7 @@ public class PluginListScreen extends PluginScreen {
     }
 
     void populate(final int row, final PluginInfo plugin) {
-      if (plugin.isDisabled()) {
+      if (plugin.isDisabled() || !plugin.isLinkified()) {
         table.setText(row, 1, plugin.name());
       } else {
         table.setWidget(

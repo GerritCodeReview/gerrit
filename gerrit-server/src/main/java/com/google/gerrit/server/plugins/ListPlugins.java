@@ -128,11 +128,13 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
     String id;
     String version;
     Boolean disabled;
+    Boolean linkified;
 
     PluginInfo(Plugin p) {
       id = Url.encode(p.getName());
       version = p.getVersion();
       disabled = p.isDisabled() ? true : null;
+      linkified = p.getJarFile() != null ? true : null;
     }
   }
 }

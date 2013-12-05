@@ -22,6 +22,8 @@ public class PluginInfo extends JavaScriptObject {
   public final native String version() /*-{ return this.version; }-*/;
   public final native boolean isDisabled()
       /*-{ return this.disabled ? true : false; }-*/;
+  public final native boolean isLinkified()
+      /*-{ return this.linkified ? true : false; }-*/;
 
   protected PluginInfo() {
   }

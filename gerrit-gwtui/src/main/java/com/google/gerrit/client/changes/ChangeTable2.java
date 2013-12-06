@@ -49,12 +49,12 @@ import java.util.List;
 public class ChangeTable2 extends NavigationTable<ChangeInfo> {
   private static final int C_STAR = 1;
   private static final int C_SUBJECT = 2;
-  private static final int C_SIZE = 3;
-  private static final int C_STATUS = 4;
-  private static final int C_OWNER = 5;
-  private static final int C_PROJECT = 6;
-  private static final int C_BRANCH = 7;
-  private static final int C_LAST_UPDATE = 8;
+  private static final int C_STATUS = 3;
+  private static final int C_OWNER = 4;
+  private static final int C_PROJECT = 5;
+  private static final int C_BRANCH = 6;
+  private static final int C_LAST_UPDATE = 7;
+  private static final int C_SIZE = 8;
   private static final int BASE_COLUMNS = 9;
 
   private final List<Section> sections;
@@ -73,12 +73,12 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     sections = new ArrayList<Section>();
     table.setText(0, C_STAR, "");
     table.setText(0, C_SUBJECT, Util.C.changeTableColumnSubject());
-    table.setText(0, C_SIZE, Util.C.changeTableColumnSize());
     table.setText(0, C_STATUS, Util.C.changeTableColumnStatus());
     table.setText(0, C_OWNER, Util.C.changeTableColumnOwner());
     table.setText(0, C_PROJECT, Util.C.changeTableColumnProject());
     table.setText(0, C_BRANCH, Util.C.changeTableColumnBranch());
     table.setText(0, C_LAST_UPDATE, Util.C.changeTableColumnLastUpdate());
+    table.setText(0, C_SIZE, Util.C.changeTableColumnSize());
 
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
     fmt.addStyleName(0, C_STAR, Gerrit.RESOURCES.css().iconHeader());
@@ -140,9 +140,9 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
       fmt.addStyleName(row, i, Gerrit.RESOURCES.css().dataCell());
     }
     fmt.addStyleName(row, C_SUBJECT, Gerrit.RESOURCES.css().cSUBJECT());
-    fmt.addStyleName(row, C_SIZE, Gerrit.RESOURCES.css().cSIZE());
     fmt.addStyleName(row, C_OWNER, Gerrit.RESOURCES.css().cOWNER());
     fmt.addStyleName(row, C_LAST_UPDATE, Gerrit.RESOURCES.css().cLastUpdate());
+    fmt.addStyleName(row, C_SIZE, Gerrit.RESOURCES.css().cSIZE());
     for (int i = BASE_COLUMNS; i < columns; i++) {
       fmt.addStyleName(row, i, Gerrit.RESOURCES.css().cAPPROVAL());
     }
@@ -201,8 +201,6 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     String subject = Util.cropSubject(c.subject());
     table.setWidget(row, C_SUBJECT, new TableChangeLink(subject, c));
 
-    table.setWidget(row, C_SIZE, getSizeWidget(c));
-
     Change.Status status = c.status();
     if (status != Change.Status.NEW) {
       table.setText(row, C_STATUS, Util.toLongString(status));
@@ -228,6 +226,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     } else {
       table.setText(row, C_LAST_UPDATE, shortFormat(c.updated()));
     }
+    table.setWidget(row, C_SIZE, getSizeWidget(c));
 
     boolean displayName = Gerrit.isSignedIn() && Gerrit.getUserAccount()
         .getGeneralPreferences().isShowUsernameInReviewCategory();

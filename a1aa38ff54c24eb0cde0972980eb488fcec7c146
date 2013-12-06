@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "633d664c_005ae643",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-12-06T01:26:00Z",
+      "side": 1,
+      "message": "We should probably document this.",
+      "range": {
+        "startLine": 102,
+        "startChar": 28,
+        "endLine": 102,
+        "endChar": 33
+      },
+      "revId": "a1aa38ff54c24eb0cde0972980eb488fcec7c146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

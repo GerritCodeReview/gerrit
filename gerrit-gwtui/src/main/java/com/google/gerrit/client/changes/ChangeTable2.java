@@ -215,7 +215,6 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
       table.setText(row, C_STATUS, Util.toLongString(status));
     } else if (!c.mergeable() && useNewFeatures) {
       table.setText(row, C_STATUS, Util.C.changeTableNotMergeable());
-      table.getCellFormatter().addStyleName(row, C_STATUS, Gerrit.RESOURCES.css().notMergeable());
     }
 
     if (c.owner() != null) {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3f8d2d4_c37e1693",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1569,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-06T03:12:09Z",
+      "side": 1,
+      "message": "There are so many things wrong here, I\u0027m not sure where to begin.",
+      "range": {
+        "startLine": 1554,
+        "startChar": 4,
+        "endLine": 1569,
+        "endChar": 29
+      },
+      "revId": "3b005514cf752be4e0bfe328472f847e4af227e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,8 +16,7 @@ limitations under the License.
 -->
 <ui:UiBinder
     xmlns:ui='urn:ui:com.google.gwt.uibinder'
-    xmlns:g='urn:import:com.google.gwt.user.client.ui'
-    xmlns:c='urn:import:com.google.gwtexpui.globalkey.client'>
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <ui:with field='res' type='com.google.gerrit.client.change.Resources'/>
   <ui:style type='com.google.gerrit.client.change.ReplyBox.Styles'>
     .replyBox {
@@ -30,10 +29,6 @@ limitations under the License.
 
     .label_value {
       text-align: center;
-    }
-    .email {
-      display: inline-block;
-      margin-left: 2em;
     }
     .cancel {
       position: absolute;
@@ -50,7 +45,7 @@ limitations under the License.
   </ui:style>
   <g:HTMLPanel styleName='{style.replyBox}'>
     <div class='{res.style.section}'>
-      <c:NpTextArea
+      <g:TextArea
          visibleLines='5'
          characterWidth='70'
          ui:field='message'/>
@@ -64,16 +59,12 @@ limitations under the License.
       <g:FlowPanel ui:field='comments'/>
     </g:ScrollPanel>
     <div class='{res.style.section}' style='position: relative'>
-      <g:Button ui:field='send'
-          title='Send reply (Shortcut: Ctrl-Enter)'
+      <ui:msg><g:Button ui:field='post'
+          title='Post reply (Shortcut: Ctrl-Enter)'
           styleName='{res.style.button}'>
         <ui:attribute name='title'/>
-        <div><ui:msg>Send</ui:msg></div>
-      </g:Button>
-
-      <div class='{style.email}'>
-        <ui:msg>and <g:CheckBox ui:field='email' value='true'>send email</g:CheckBox></ui:msg>
-      </div>
+        <div>Post</div>
+      </g:Button> and <g:CheckBox ui:field='email' value='true'>send email</g:CheckBox></ui:msg>
 
       <g:Button ui:field='cancel'
           title='Close reply form (Shortcut: Esc)'

@@ -212,6 +212,9 @@ public class ChangeScreen2 extends Screen {
 
   @Override
   protected void onUnload() {
+    if (replyAction != null) {
+      replyAction.hide();
+    }
     if (updateCheck != null) {
       updateCheck.cancel();
       updateCheck = null;

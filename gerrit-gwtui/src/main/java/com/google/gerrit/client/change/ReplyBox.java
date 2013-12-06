@@ -14,6 +14,8 @@
 
 package com.google.gerrit.client.change;
 
+import static com.google.gwt.event.dom.client.KeyCodes.KEY_ENTER;
+
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo.ApprovalInfo;
@@ -39,8 +41,8 @@ import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.resources.client.CssResource;
@@ -58,9 +60,9 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwtexpui.globalkey.client.NpTextArea;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -86,10 +88,10 @@ class ReplyBox extends Composite {
   private Runnable lgtm;
 
   @UiField Styles style;
-  @UiField NpTextArea message;
+  @UiField TextArea message;
   @UiField Element labelsParent;
   @UiField Grid labelsTable;
-  @UiField Button send;
+  @UiField Button post;
   @UiField CheckBox email;
   @UiField Button cancel;
   @UiField ScrollPanel commentsPanel;
@@ -113,23 +115,37 @@ class ReplyBox extends Composite {
       Collections.sort(names);
       renderLabels(names, all, permitted);
     }
+
+    addDomHandler(
+      new KeyPressHandler() {
+        @Override
+        public void onKeyPress(KeyPressEvent e) {
+          e.stopPropagation();
+          if ((e.getCharCode() == '\n' || e.getCharCode() == KEY_ENTER)
+              && e.isControlKeyDown()) {
+            e.preventDefault();
+            onPost(null);
+          }
+        }
+      },
+      KeyPressEvent.getType());
   }
 
   @Override
   protected void onLoad() {
     commentsPanel.setVisible(false);
-    send.setEnabled(false);
+    post.setEnabled(false);
     CommentApi.drafts(psId, new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
       @Override
       public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
         attachComments(result);
         displayComments(result);
-        send.setEnabled(true);
+        post.setEnabled(true);
       }
 
       @Override
       public void onFailure(Throwable caught) {
-        send.setEnabled(true);
+        post.setEnabled(true);
       }
     });
 
@@ -152,12 +168,7 @@ class ReplyBox extends Composite {
 
   @UiHandler("message")
   void onMessageKey(KeyPressEvent event) {
-    if ((event.getCharCode() == '\n' || event.getCharCode() == KeyCodes.KEY_ENTER)
-        && event.isControlKeyDown()) {
-      event.preventDefault();
-      event.stopPropagation();
-      onSend(null);
-    } else if (lgtm != null
+    if (lgtm != null
         && event.getCharCode() == 'M'
         && message.getValue().equals("LGT")) {
       Scheduler.get().scheduleDeferred(new ScheduledCommand() {
@@ -178,8 +189,8 @@ class ReplyBox extends Composite {
     }
   }
 
-  @UiHandler("send")
-  void onSend(ClickEvent e) {
+  @UiHandler("post")
+  void onPost(ClickEvent e) {
     in.message(message.getText().trim());
     in.prePost();
     ChangeApi.revision(psId.getParentKey().get(), revision)

@@ -288,10 +288,10 @@ public final class GerritLauncher {
     // match the name it was in the archive.
     //
     String name = ze.getName();
-    if (0 <= name.lastIndexOf('/')) {
+    if (name.contains("/")) {
       name = name.substring(name.lastIndexOf('/') + 1);
     }
-    if (0 <= name.lastIndexOf('.')) {
+    if (name.contains(".")) {
       name = name.substring(0, name.lastIndexOf('.'));
     }
     if (name.isEmpty()) {

@@ -151,7 +151,7 @@ public class StaticServlet extends HttpServlet {
 
   private static boolean isUnreasonableName(String name) {
     if (name.length() < 1) return true;
-    if (name.indexOf('\\') >= 0) return true; // no windows/dos stlye paths
+    if (name.contains("\\")) return true; // no windows/dos style paths
     if (name.startsWith("../")) return true; // no "../etc/passwd"
     if (name.contains("/../")) return true; // no "foo/../etc/passwd"
     if (name.contains("/./")) return true; // "foo/./foo" is insane to ask

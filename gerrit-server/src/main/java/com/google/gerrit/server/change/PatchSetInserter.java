@@ -282,7 +282,7 @@ public class PatchSetInserter {
         ChangeKind changeKind =
             getChangeKind(mergeUtilFactory, projectState, git, priorCommit, commit);
 
-        approvalsUtil.copyLabels(refControl.getProjectControl()
+        approvalsUtil.copyLabels(db, refControl.getProjectControl()
             .getLabelTypes(), currentPatchSetId, patchSet, changeKind);
       }
       db.commit();

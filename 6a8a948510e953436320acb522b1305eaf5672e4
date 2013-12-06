@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e37eb624_0c2a3791",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/contact/EncryptedContactStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-06T15:34:37Z",
+      "side": 1,
+      "message": "will fix next week.",
+      "parentUuid": "43906299_4f202db3",
+      "range": {
+        "startLine": 179,
+        "startChar": 4,
+        "endLine": 179,
+        "endChar": 9
+      },
+      "revId": "6a8a948510e953436320acb522b1305eaf5672e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23752e3e_ce7983ad",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/contact/EncryptedContactStore.java",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2013-12-06T14:19:20Z",
       "side": 1,
       "message": "Can you add here commented out new code with a comment, that it can be used, once android project upgraded to a new version of bouncycastle?",
+      "revId": "6a8a948510e953436320acb522b1305eaf5672e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0372ea57_ed59e54f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/contact/EncryptedContactStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-06T15:34:37Z",
+      "side": 1,
+      "message": "I don\u0027t think that\u0027s really necessary.  The new code is already implemented in the follow up change, and that can be merged as soon as android-review updates.",
+      "parentUuid": "23752e3e_ce7983ad",
       "revId": "6a8a948510e953436320acb522b1305eaf5672e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

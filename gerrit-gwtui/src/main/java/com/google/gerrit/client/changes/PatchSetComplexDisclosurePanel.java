@@ -20,7 +20,6 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GitwebLink;
 import com.google.gerrit.client.change.DraftActions;
 import com.google.gerrit.client.download.DownloadPanel;
-import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;

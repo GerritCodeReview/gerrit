@@ -23,6 +23,8 @@ import com.google.gerrit.client.patches.CommentEditorPanel;
 import com.google.gerrit.client.projects.ConfigInfoCache;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.NativeMap;
+import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
@@ -31,12 +33,16 @@ import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.PatchLink;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.common.changes.ListChangesOption;
+import com.google.gerrit.common.changes.Side;
 import com.google.gerrit.common.data.ChangeDetail;
-import com.google.gerrit.common.data.PatchSetPublishDetail;
+import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -57,6 +63,7 @@ import com.google.gwtjsonrpc.common.VoidResult;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,7 +73,6 @@ public class PublishCommentScreen extends AccountScreen implements
   private static SavedState lastState;
 
   private final PatchSet.Id patchSetId;
-  private String revision;
   private Collection<ValueRadioButton> approvalButtons;
   private ChangeDescriptionBlock descBlock;
   private ApprovalTable approvals;
@@ -79,6 +85,9 @@ public class PublishCommentScreen extends AccountScreen implements
   private boolean saveStateOnUnload = true;
   private List<CommentEditorPanel> commentEditors;
   private ChangeInfo change;
+  private ChangeInfo detail;
+  private NativeMap<JsArray<CommentInfo>> drafts;
+  private SubmitTypeRecord submitTypeRecord;
   private CommentLinkProcessor commentLinkProcessor;
 
   public PublishCommentScreen(final PatchSet.Id psi) {
@@ -149,49 +158,62 @@ public class PublishCommentScreen extends AccountScreen implements
   protected void onLoad() {
     super.onLoad();
 
-    CallbackGroup cbs = new CallbackGroup();
+    CallbackGroup group = new CallbackGroup();
+    RestApi call = ChangeApi.detail(patchSetId.getParentKey().get());
+    ChangeList.addOptions(call, EnumSet.of(
+      ListChangesOption.CURRENT_ACTIONS,
+      ListChangesOption.ALL_REVISIONS,
+      ListChangesOption.ALL_COMMITS));
+    call.get(group.add(new GerritCallback<ChangeInfo>() {
+        @Override
+        public void onSuccess(ChangeInfo result) {
+          detail = result;
+        }
+      }));
+    ChangeApi.revision(patchSetId)
+      .view("submit_type")
+      .get(group.add(new GerritCallback<NativeString>() {
+        @Override
+        public void onSuccess(NativeString result) {
+          submitTypeRecord = SubmitTypeRecord.OK(
+              Project.SubmitType.valueOf(result.asString()));
+        }
+        public void onFailure(Throwable caught) {}
+      }));
+    ChangeApi.revision(patchSetId.getParentKey().get(), "" + patchSetId.get())
+      .view("drafts")
+      .get(group.add(new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
+        @Override
+        public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
+          drafts = result;
+        }
+        public void onFailure(Throwable caught) {}
+      }));
     ChangeApi.revision(patchSetId).view("review")
-        .get(cbs.add(new AsyncCallback<ChangeInfo>() {
-          @Override
-          public void onSuccess(ChangeInfo result) {
-            result.init();
-            change = result;
-          }
+      .get(group.addFinal(new GerritCallback<ChangeInfo>() {
+        @Override
+        public void onSuccess(ChangeInfo result) {
+          result.init();
+          change = result;
+          preDisplay(result);
+        }
+      }));
+  }
 
+  private void preDisplay(final ChangeInfo info) {
+    ConfigInfoCache.get(info.project_name_key(),
+        new ScreenLoadCallback<ConfigInfoCache.Entry>(this) {
           @Override
-          public void onFailure(Throwable caught) {
-            // Handled by ScreenLoadCallback.onFailure().
-          }
-        }));
-    Util.DETAIL_SVC.patchSetPublishDetail(patchSetId, cbs.addFinal(
-        new ScreenLoadCallback<PatchSetPublishDetail>(this) {
-          @Override
-          protected void preDisplay(final PatchSetPublishDetail result) {
+          protected void preDisplay(ConfigInfoCache.Entry result) {
             send.setEnabled(true);
-            PublishCommentScreen.this.preDisplay(result, this);
+            commentLinkProcessor = result.getCommentLinkProcessor();
+            setTheme(result.getTheme());
+            displayScreen();
           }
 
           @Override
           protected void postDisplay() {
             message.setFocus(true);
-          }
-        }));
-  }
-
-  private void preDisplay(final PatchSetPublishDetail pubDetail,
-      final ScreenLoadCallback<PatchSetPublishDetail> origCb) {
-    ConfigInfoCache.get(pubDetail.getChange().getProject(),
-        new AsyncCallback<ConfigInfoCache.Entry>() {
-          @Override
-          public void onSuccess(ConfigInfoCache.Entry result) {
-            commentLinkProcessor = result.getCommentLinkProcessor();
-            setTheme(result.getTheme());
-            display(pubDetail);
-          }
-
-          @Override
-          public void onFailure(Throwable caught) {
-            origCb.onFailure(caught);
           }
         });
   }
@@ -317,14 +339,13 @@ public class PublishCommentScreen extends AccountScreen implements
     body.add(vp);
   }
 
-  private void display(final PatchSetPublishDetail r) {
-    ChangeDetail changeDetail = new ChangeDetail();
-    changeDetail.setChange(r.getChange());
+  private void displayScreen() {
+    ChangeDetail r = ChangeDetailCache.reverse(detail);
 
     setPageTitle(Util.M.publishComments(r.getChange().getKey().abbreviate(),
         patchSetId.get()));
-    descBlock.display(changeDetail, null, false, r.getPatchSetInfo(), r.getAccounts(),
-       r.getSubmitTypeRecord(), commentLinkProcessor);
+    descBlock.display(r, null, false, r.getCurrentPatchSetDetail().getInfo(),
+        r.getAccounts(), submitTypeRecord, commentLinkProcessor);
 
     if (r.getChange().getStatus().isOpen()) {
       initApprovals(approvalPanel);
@@ -339,14 +360,13 @@ public class PublishCommentScreen extends AccountScreen implements
 
     draftsPanel.clear();
     commentEditors = new ArrayList<CommentEditorPanel>();
-    revision = r.getPatchSetInfo().getRevId();
 
-    if (!r.getDrafts().isEmpty()) {
+    if (!drafts.isEmpty()) {
       draftsPanel.add(new SmallHeading(Util.C.headingPatchComments()));
 
       Panel panel = null;
       String priorFile = "";
-      for (final PatchLineComment c : r.getDrafts()) {
+      for (final PatchLineComment c : draftList()) {
         final Patch.Key patchKey = c.getKey().getParentKey();
         final String fn = patchKey.get();
         if (!fn.equals(priorFile)) {
@@ -375,7 +395,7 @@ public class PublishCommentScreen extends AccountScreen implements
       }
     }
 
-    submit.setVisible(r.canSubmit());
+    submit.setVisible(true/* TODO canSubmit? */);
   }
 
   private void onSend(final boolean submit) {
@@ -411,7 +431,7 @@ public class PublishCommentScreen extends AccountScreen implements
     enableForm(false);
     new RestApi("/changes/")
       .id(String.valueOf(patchSetId.getParentKey().get()))
-      .view("revisions").id(revision).view("review")
+      .view("revisions").id(patchSetId.get()).view("review")
       .post(data, new GerritCallback<ReviewInput>() {
           @Override
           public void onSuccess(ReviewInput result) {
@@ -432,7 +452,9 @@ public class PublishCommentScreen extends AccountScreen implements
   }
 
   private void submit() {
-    ChangeApi.submit(patchSetId.getParentKey().get(), revision,
+    ChangeApi.submit(
+      patchSetId.getParentKey().get(),
+      "" + patchSetId.get(),
       new GerritCallback<SubmitInfo>() {
           public void onSuccess(SubmitInfo result) {
             saveStateOnUnload = false;
@@ -454,6 +476,33 @@ public class PublishCommentScreen extends AccountScreen implements
   private void goChange() {
     final Change.Id ck = patchSetId.getParentKey();
     Gerrit.display(PageLinks.toChange(ck), new ChangeScreen(ck));
+  }
+
+  private List<PatchLineComment> draftList() {
+    List<PatchLineComment> d = new ArrayList<PatchLineComment>();
+    List<String> paths = new ArrayList<String>(drafts.keySet());
+    Collections.sort(paths);
+    for (String path : paths) {
+      JsArray<CommentInfo> comments = drafts.get(path);
+      for (int i = 0; i < comments.length(); i++) {
+        d.add(toComment(path, comments.get(i)));
+      }
+    }
+    return d;
+  }
+
+  private PatchLineComment toComment(String path, CommentInfo i) {
+    PatchLineComment p = new PatchLineComment(
+        new PatchLineComment.Key(
+            new Patch.Key(patchSetId, path),
+            i.id()),
+        i.line(),
+        Gerrit.getUserAccount().getId(),
+        i.in_reply_to(),
+        i.updated());
+    p.setMessage(i.message());
+    p.setSide((short) (i.side() == Side.PARENT ? 0 : 1));
+    return p;
   }
 
   private static class ValueRadioButton extends RadioButton {

@@ -16,7 +16,6 @@ package com.google.gerrit.httpd.rpc.changedetail;
 
 import com.google.gerrit.common.data.ChangeDetailService;
 import com.google.gerrit.common.data.PatchSetDetail;
-import com.google.gerrit.common.data.PatchSetPublishDetail;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwtjsonrpc.common.AsyncCallback;
@@ -24,14 +23,11 @@ import com.google.inject.Inject;
 
 class ChangeDetailServiceImpl implements ChangeDetailService {
   private final PatchSetDetailFactory.Factory patchSetDetail;
-  private final PatchSetPublishDetailFactory.Factory patchSetPublishDetail;
 
   @Inject
   ChangeDetailServiceImpl(
-      final PatchSetDetailFactory.Factory patchSetDetail,
-      final PatchSetPublishDetailFactory.Factory patchSetPublishDetail) {
+      final PatchSetDetailFactory.Factory patchSetDetail) {
     this.patchSetDetail = patchSetDetail;
-    this.patchSetPublishDetail = patchSetPublishDetail;
   }
 
   public void patchSetDetail(PatchSet.Id id,
@@ -42,10 +38,5 @@ class ChangeDetailServiceImpl implements ChangeDetailService {
   public void patchSetDetail2(PatchSet.Id baseId, PatchSet.Id id,
       AccountDiffPreference diffPrefs, AsyncCallback<PatchSetDetail> callback) {
     patchSetDetail.create(baseId, id, diffPrefs).to(callback);
-  }
-
-  public void patchSetPublishDetail(final PatchSet.Id id,
-      final AsyncCallback<PatchSetPublishDetail> callback) {
-    patchSetPublishDetail.create(id).to(callback);
   }
 }

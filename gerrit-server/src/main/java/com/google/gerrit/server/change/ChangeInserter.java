@@ -162,12 +162,12 @@ public class ChangeInserter {
       LabelTypes labelTypes = refControl.getProjectControl().getLabelTypes();
       approvalsUtil.addReviewers(labelTypes, change, patchSet, patchSetInfo,
           reviewers, Collections.<Account.Id> emptySet());
+      if (changeMessage != null) {
+        db.changeMessages().insert(Collections.singleton(changeMessage));
+      }
       db.commit();
     } finally {
       db.rollback();
-    }
-    if (changeMessage != null) {
-      db.changeMessages().insert(Collections.singleton(changeMessage));
     }
 
     CheckedFuture<?, IOException> f =

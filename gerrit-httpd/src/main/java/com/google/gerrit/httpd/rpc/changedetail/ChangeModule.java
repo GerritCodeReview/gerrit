@@ -29,7 +29,6 @@ public class ChangeModule extends RpcServletModule {
       @Override
       protected void configure() {
         factory(PatchSetDetailFactory.Factory.class);
-        factory(PatchSetPublishDetailFactory.Factory.class);
       }
     });
     rpc(ChangeDetailServiceImpl.class);

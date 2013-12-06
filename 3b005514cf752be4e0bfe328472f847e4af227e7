@@ -88,6 +88,24 @@
       "revId": "3b005514cf752be4e0bfe328472f847e4af227e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23752e3e_ce54231b",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1569,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-06T08:51:48Z",
+      "side": 1,
+      "message": "I will be happy about any suggestion how to implement this in a better way :-)",
+      "parentUuid": "23752e3e_ce2bc399",
+      "revId": "3b005514cf752be4e0bfe328472f847e4af227e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

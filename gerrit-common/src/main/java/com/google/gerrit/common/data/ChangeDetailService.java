@@ -27,9 +27,6 @@ import com.google.gwtjsonrpc.common.RpcImpl.Version;
 @RpcImpl(version = Version.V2_0)
 public interface ChangeDetailService extends RemoteJsonService {
   @Audit
-  void changeDetail(Change.Id id, AsyncCallback<ChangeDetail> callback);
-
-  @Audit
   void includedInDetail(Change.Id id, AsyncCallback<IncludedInDetail> callback);
 
   @Audit

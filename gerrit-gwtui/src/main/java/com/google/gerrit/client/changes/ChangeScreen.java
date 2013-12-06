@@ -18,9 +18,14 @@ import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.AccountInfo;
+import com.google.gerrit.client.diff.DiffApi;
+import com.google.gerrit.client.diff.FileInfo;
 import com.google.gerrit.client.projects.ConfigInfoCache;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.NativeMap;
+import com.google.gerrit.client.rpc.NativeString;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.CommentPanel;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
@@ -31,11 +36,17 @@ import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.ChangeInfo;
+import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.CommentVisibilityStrategy;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
+import com.google.gerrit.reviewdb.client.Patch.ChangeType;
+import com.google.gerrit.reviewdb.client.Patch.PatchType;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -59,6 +70,7 @@ import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -274,6 +286,46 @@ public class ChangeScreen extends Screen
       // start an async get at the source of every call that might trigger a
       // value change.
       CallbackGroup cbs = new CallbackGroup();
+      if (event.getValue().getChange().getStatus().isOpen()) {
+        ChangeApi.revision(changeId.get(), "current")
+          .view("submit_type")
+          .get(cbs.add(new GerritCallback<NativeString>() {
+            @Override
+            public void onSuccess(NativeString result) {
+              event.getValue().setSubmitTypeRecord(SubmitTypeRecord.OK(
+                  Project.SubmitType.valueOf(result.asString())));
+            }
+
+            @Override
+            public void onFailure(Throwable caught) {
+            }
+          }));
+      }
+      DiffApi.list(event.getValue().getChange().getId().get(), null, event.getValue()
+          .getCurrentPatchSetDetail().getInfo().getRevId(),
+          new GerritCallback<NativeMap<FileInfo>>() {
+            @Override
+            public void onSuccess(NativeMap<FileInfo> result) {
+              JsArray<FileInfo> fileInfos = result.values();
+              FileInfo.sortFileInfoByPath(fileInfos);
+              List<Patch> patches = new ArrayList<Patch>(fileInfos.length());
+              for (FileInfo f : Natives.asList(fileInfos)) {
+                Patch p = new Patch(new Patch.Key(
+                    event.getValue().getCurrentPatchSet().getId(),
+                    f.path()));
+                p.setInsertions(f.lines_inserted());
+                p.setDeletions(f.lines_deleted());
+                p.setPatchType(f.binary()?PatchType.BINARY:PatchType.UNIFIED);
+                if (f.status() == null) {
+                  p.setChangeType(ChangeType.MODIFIED);
+                } else {
+                  p.setChangeType(ChangeType.forCode(f.status().charAt(0)));
+                }
+                patches.add(p);
+              }
+              event.getValue().getCurrentPatchSetDetail().setPatches(patches);
+            }
+      });
       ConfigInfoCache.get(
           event.getValue().getChange().getProject(),
           cbs.add(new GerritCallback<ConfigInfoCache.Entry>() {

@@ -14,15 +14,54 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.actions.ActionInfo;
+import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
+import com.google.gerrit.client.changes.ChangeInfo.GitPerson;
+import com.google.gerrit.client.changes.ChangeInfo.MessageInfo;
+import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
+import com.google.gerrit.client.rpc.NativeMap;
+import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.ListenableValue;
+import com.google.gerrit.common.changes.ListChangesOption;
+import com.google.gerrit.common.data.AccountInfo;
+import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.common.data.ChangeDetail;
+import com.google.gerrit.common.data.PatchSetDetail;
+import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.common.data.SubmitTypeRecord;
+import com.google.gerrit.common.data.UiCommandDetail;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
-
-import com.google.gwtjsonrpc.common.AsyncCallback;
+import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSetInfo;
+import com.google.gerrit.reviewdb.client.PatchSetInfo.ParentInfo;
+import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.reviewdb.client.UserIdentity;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.ui.FocusWidget;
+import com.google.gwtjsonrpc.common.AsyncCallback;
+
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 public class ChangeDetailCache extends ListenableValue<ChangeDetail> {
-  public static class GerritCallback extends
+  public static class NewGerritCallback extends
+      com.google.gerrit.client.rpc.GerritCallback<ChangeInfo> {
+    @Override
+    public void onSuccess(ChangeInfo detail) {
+      setChangeDetail(reverse(detail));
+    }
+  }
+
+  public static class OldGerritCallback extends
       com.google.gerrit.client.rpc.GerritCallback<ChangeDetail> {
     @Override
     public void onSuccess(ChangeDetail detail) {
@@ -37,7 +76,7 @@ public class ChangeDetailCache extends ListenableValue<ChangeDetail> {
    *
    * It is up to the caller to handle the original disabling of the Widget.
    */
-  public static class GerritWidgetCallback extends GerritCallback {
+  public static class GerritWidgetCallback extends OldGerritCallback {
     private FocusWidget widget;
 
     public GerritWidgetCallback(FocusWidget widget) {
@@ -53,13 +92,177 @@ public class ChangeDetailCache extends ListenableValue<ChangeDetail> {
 
   public static class IgnoreErrorCallback implements AsyncCallback<ChangeDetail> {
     @Override
-    public void onSuccess(ChangeDetail detail) {
-      setChangeDetail(detail);
+    public void onSuccess(ChangeDetail info) {
+      setChangeDetail(info);
     }
 
     @Override
     public void onFailure(Throwable caught) {
     }
+  }
+
+  public static ChangeDetail reverse(ChangeInfo info) {
+    info.revisions().copyKeysIntoChildren("name");
+    RevisionInfo rev = current(info);
+
+    ChangeDetail r = new ChangeDetail();
+    r.setAllowsAnonymous(rev.has_fetch() && rev.fetch().containsKey("http"));
+    r.setCanAbandon(can(info.actions(), "abandon"));
+    r.setCanEditCommitMessage(can(info.actions(), "message"));
+    r.setCanCherryPick(can(rev.actions(), "cherrypick"));
+    r.setCanPublish(can(rev.actions(), "publish"));
+    r.setCanRebase(can(rev.actions(), "rebase"));
+    r.setCanRestore(can(info.actions(), "restore"));
+    r.setCanRevert(can(info.actions(), "revert"));
+    r.setCanDeleteDraft(can(rev.actions(), "/"));
+    r.setCanEditTopicName(can(info.actions(), "topic"));
+    r.setCanEdit(true);
+    r.setChange(toChange(info));
+    r.setStarred(info.starred());
+    r.setPatchSets(toPatchSets(info));
+    r.setMessages(toMessages(info));
+    r.setAccounts(new AccountInfoCache(users(info)));
+    r.setCurrentPatchSetId(new PatchSet.Id(info.legacy_id(), rev._number()));
+
+    // Obtained later in ChangeScreen.
+    r.setSubmitTypeRecord(new SubmitTypeRecord());
+    r.getSubmitTypeRecord().status = SubmitTypeRecord.Status.RULE_ERROR;
+
+    // TODO
+    r.setDependsOn(new ArrayList<com.google.gerrit.common.data.ChangeInfo>());
+    r.setNeededBy(new ArrayList<com.google.gerrit.common.data.ChangeInfo>());
+    r.setPatchSetsWithDraftComments(new HashSet<PatchSet.Id>());
+    r.setSubmitRecords(new ArrayList<SubmitRecord>());
+    r.setCurrentPatchSetDetail(toPatchSetDetail(info));
+    return r;
+  }
+
+  private static PatchSetDetail toPatchSetDetail(ChangeInfo info) {
+    RevisionInfo rev = current(info);
+    PatchSetDetail p = new PatchSetDetail();
+    p.setPatchSet(toPatchSet(info, rev));
+    p.setProject(info.project_name_key());
+    p.setInfo(new PatchSetInfo(p.getPatchSet().getId()));
+    p.getInfo().setAuthor(toUser(rev.commit().author()));
+    p.getInfo().setCommitter(toUser(rev.commit().committer()));
+    p.getInfo().setRevId(rev.name());
+    p.getInfo().setMessage(rev.commit().message());
+    p.getInfo().setSubject(rev.commit().subject());
+    p.getInfo().setParents(new ArrayList<ParentInfo>());
+    if (rev.commit().parents() != null) {
+      for (CommitInfo c : Natives.asList(rev.commit().parents())) {
+        p.getInfo().getParents().add(new ParentInfo(
+            new RevId(c.commit()),
+            c.subject()));
+      }
+    }
+    p.setPatches(new ArrayList<Patch>());
+    p.setCommands(new ArrayList<UiCommandDetail>());
+    return p;
+  }
+
+  private static UserIdentity toUser(GitPerson p) {
+    UserIdentity u = new UserIdentity();
+    u.setName(p.name());
+    u.setEmail(p.email());
+    u.setDate(p.date());
+    return u;
+  }
+
+  private static Iterable<AccountInfo> users(ChangeInfo info) {
+    Map<Integer, AccountInfo> r = new HashMap<Integer, AccountInfo>();
+    add(r, info.owner());
+    for (MessageInfo m : Natives.asList(info.messages())) {
+      add(r, m.author());
+    }
+    return r.values();
+  }
+
+  private static void add(Map<Integer, AccountInfo> r,
+      com.google.gerrit.client.account.AccountInfo user) {
+    if (user != null && !r.containsKey(user._account_id())) {
+      AccountInfo a = new AccountInfo(new Account.Id(user._account_id()));
+      a.setPreferredEmail(user.email());
+      a.setFullName(user.name());
+      r.put(user._account_id(), a);
+    }
+  }
+
+  private static boolean can(NativeMap<ActionInfo> m, String n) {
+    return m != null && m.containsKey(n) && m.get(n).enabled();
+  }
+
+  private static List<ChangeMessage> toMessages(ChangeInfo info) {
+    List<ChangeMessage> msgs = new ArrayList<ChangeMessage>();
+    for (MessageInfo m : Natives.asList(info.messages())) {
+      ChangeMessage o = new ChangeMessage(
+          new ChangeMessage.Key(
+              info.legacy_id(),
+              m.date().toString()),
+          m.author() != null
+            ? new Account.Id(m.author()._account_id())
+            : null,
+          m.date(),
+          m._revisionNumber() > 0
+            ? new PatchSet.Id(info.legacy_id(), m._revisionNumber())
+            : null);
+      o.setMessage(m.message());
+      msgs.add(o);
+    }
+    return msgs;
+  }
+
+  private static List<PatchSet> toPatchSets(ChangeInfo info) {
+    JsArray<RevisionInfo> all = info.revisions().values();
+    RevisionInfo.sortRevisionInfoByNumber(all);
+
+    List<PatchSet> r = new ArrayList<PatchSet>(all.length());
+    for (RevisionInfo rev : Natives.asList(all)) {
+      r.add(toPatchSet(info, rev));
+    }
+    return r;
+  }
+
+  private static PatchSet toPatchSet(ChangeInfo info, RevisionInfo rev) {
+    PatchSet p = new PatchSet(
+        new PatchSet.Id(info.legacy_id(), rev._number()));
+    p.setCreatedOn(rev.commit().committer().date());
+    p.setDraft(rev.draft());
+    p.setRevision(new RevId(rev.name()));
+    return p;
+  }
+
+  private static Change toChange(ChangeInfo info) {
+    RevisionInfo rev = current(info);
+    PatchSetInfo p = new PatchSetInfo(
+      new PatchSet.Id(
+          info.legacy_id(),
+          rev._number()));
+    p.setSubject(info.subject());
+    Change c = new Change(
+        new Change.Key(info.change_id()),
+        info.legacy_id(),
+        new Account.Id(info.owner()._account_id()),
+        new Branch.NameKey(
+            info.project_name_key(),
+            info.branch()),
+        info.created());
+    c.setTopic(info.topic());
+    c.setStatus(info.status());
+    c.setCurrentPatchSet(p);
+    c.setLastUpdatedOn(info.updated());
+    c.setMergeable(info.mergeable());
+    return c;
+  }
+
+  private static RevisionInfo current(ChangeInfo info) {
+    RevisionInfo rev = info.revision(info.current_revision());
+    if (rev == null) {
+      JsArray<RevisionInfo> all = info.revisions().values();
+      RevisionInfo.sortRevisionInfoByNumber(all);
+      rev = all.get(all.length() - 1);
+    }
+    return rev;
   }
 
   public static void setChangeDetail(ChangeDetail detail) {
@@ -75,6 +278,11 @@ public class ChangeDetailCache extends ListenableValue<ChangeDetail> {
   }
 
   public void refresh() {
-    Util.DETAIL_SVC.changeDetail(changeId, new GerritCallback());
+    RestApi call = ChangeApi.detail(changeId.get());
+    ChangeList.addOptions(call, EnumSet.of(
+      ListChangesOption.CURRENT_ACTIONS,
+      ListChangesOption.ALL_REVISIONS,
+      ListChangesOption.ALL_COMMITS));
+    call.get(new NewGerritCallback());
   }
 }

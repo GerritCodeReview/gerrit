@@ -88,13 +88,9 @@ Create the Actual Release
 To create a Gerrit release the following steps have to be done:
 
 . link:#subproject[Release Subprojects]
-. link:#prepare-gerrit[Prepare the Gerrit Release]
-.. link:#prepare-war-and-plugin-api[Prepare the Gerrit WAR and the Plugin API Jar]
-.. link:#prepare-core-plugins[Prepare the Core Plugins]
-.. link:#prepare-war-with-plugins[Prepare Gerrit WAR with Core Plugins]
+. link:#build-gerrit[Build the Gerrit Release]
 . link:#publish-gerrit[Publish the Gerrit Release]
 .. link:#extension-and-plugin-api[Publish the Extension and Plugin API Jars]
-.. link:#publish-core-plugins[Publish the Core Plugins]
 .. link:#publish-gerrit-war[Publish the Gerrit WAR (with Core Plugins)]
 .. link:#push-stable[Push the Stable Branch]
 .. link:#push-tag[Push the Release Tag]
@@ -127,19 +123,20 @@ the subproject.
 * link:dev-release-subproject.html#prepare-release[Prepare the Release]
 * link:dev-release-subproject.html#publish-release[Publish the Release]
 
-* Update the version of the Subproject in the Gerrit parent `pom.xml`
-to the released version
+* Update the `id`, `bin_sha1`, and `src_sha1` values in the `maven_jar`
+for the Subproject in `/lib/BUCK` to the released version.
 
 
 [[build-gerrit]]
 Build Gerrit
 ~~~~~~~~~~~~
 
-* Build the Gerrit WAR
+* Build the Gerrit WAR and API JARs
 +
-====
- ./tools/release.sh
-====
+----
+  buck build release
+  buck build api_install
+----
 
 * Sanity check WAR
 * Test the new Gerrit version
@@ -157,32 +154,19 @@ Publish the Extension and Plugin API Jars
 link:dev-release-deploy-config.html#deploy-configuration-settings-xml[
 configuration needed for deployment]
 
-* Push the Jars to `storage.googleapis.com`:
+* Push the Jars to the storage bucket:
 +
 ----
-  ./tools/deploy_api.sh
+  buck build api_deploy
 ----
-
-
-[[publish-core-plugins]]
-Publish the Core Plugins
-^^^^^^^^^^^^^^^^^^^^^^^^
-
-* link:dev-release-subproject.html#publish-release[Publish the Release]
 
 
 [[publish-gerrit-war]]
 Publish the Gerrit WAR (with Core Plugins)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-* The WAR file to upload is `gerrit-package-plugins\target\gerrit-full-v2.5.war`
-* Upload WAR to `code.google.com/p/gerrit` (manual via web browser)
-** Go to http://code.google.com/p/gerrit/downloads/list
-** Use the `New Download` button
-
-* Update labels:
-** new war: [`release-candidate`], `featured`...
-** old war: `deprecated`
+* The WAR file to upload is `buck-out/gen/release.war`
+* Upload WAR to the storage bucket via `https://cloud.google.com/console` (manual via web browser)
 
 
 [[push-stable]]
@@ -206,51 +190,35 @@ Push the Release Tag
 +
 For an `RC`:
 +
-====
- git push gerrit-review refs/tags/v2.5-rc0:refs/tags/v2.5-rc0
-====
+----
+  git push gerrit-review refs/tags/v2.5-rc0:refs/tags/v2.5-rc0
+----
 +
 For a final `stable` release:
 +
-====
- git push gerrit-review refs/tags/v2.5:refs/tags/v2.5
-====
+----
+  git push gerrit-review refs/tags/v2.5:refs/tags/v2.5
+----
 
 
 [[upload-documentation]]
 Upload the Documentation
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-====
- make -C Documentation PRIOR=2.4 update
- make -C ReleaseNotes update
-====
+Build the release notes:
 
-(no +PRIOR=+... if updating the same release again during RCs)
+----
+  make -C ReleaseNotes
+----
 
+* Upload html files to the storage bucket via `https://cloud.google.com/console` (manual via web browser)
+** Documentation html files must be extracted from `buck-out/gen/Documentation/html.zip`
 * Update Google Code project links
 ** Go to http://code.google.com/p/gerrit/admin
-** Point the main page to the new docs. The link to the documentation has to be
-updated at two places: in the project description and also in the `Links`
-section.
-** Point the main page to the new release notes
-
-[NOTE]
-========================================================================
-The docs makefile does an `svn cp` of the prior revision of the docs to
-branch the docs so you have less to upload on the new docs.
-
-User and password from here:
-
-    https://code.google.com/hosting/settings
-
-If subversion assumes a different username than your google one and asks for a
-password right away simply hit enter. Subversion will fail and then ask for
-another username and password. This time enter the username and password from
-the page linked above. After that subversion should save the username/password
-somewhere under `~/.subversion/auth` folder.
-========================================================================
-
+** Update the documentation link in the `Resources` section of the
+Description text, and in the `Links` section.
+** Add a link to the new release notes in the `News` section of the
+Description text
 
 [[update-issues]]
 Update the Issues
@@ -331,13 +299,9 @@ Increase Gerrit Version for Current Development
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 All new development that is done in the `master` branch will be
-included in the next Gerrit release. Update the Gerrit version in each
-`pom.xml` file to the next `SNAPSHOT`version. Push the change for
-review and get it merged.
-
-====
- tools/version.sh --snapshot=2.6
-====
+included in the next Gerrit release. Update the Gerrit version in the
+`VERSION` file, and plugin archetypes' `pom.xml` files. Push the change
+for review and get it merged.
 
 
 [[merge-stable]]
@@ -347,13 +311,13 @@ Merge `stable` into `master`
 After every release, stable should be merged to master to ensure that
 none of the changes/fixes ever get lost.
 
-====
- git config merge.summary true
- git checkout master
- git reset --hard origin/master
- git branch -f stable origin/stable
- git merge stable
-====
+----
+  git config merge.summary true
+  git checkout master
+  git reset --hard origin/master
+  git branch -f stable origin/stable
+  git merge stable
+----
 
 
 GERRIT

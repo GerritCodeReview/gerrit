@@ -1,21 +1,9 @@
-Making a Release of a Gerrit Subproject / Core Plugin
-=====================================================
+Making a Release of a Gerrit Subproject
+=======================================
 
 [[make-snapshot]]
 Make a Snapshot
 ---------------
-
-* Only for plugins:
-** In the `pom.xml` update the Gerrit version under `properties` >
-`Gerrit-ApiVersion` to the version of the new Gerrit
-release.
-** Make sure that the URL for the Maven repository with the id
-`gerrit-api-repository` in the `pom.xml` is correct.
-+
-If `Gerrit-ApiVersion` references a released Gerrit version it must be
-`https://gerrit-api.stoarge.googleapis.com/release/`, if
-`Gerrit-ApiVersion` references a snapshot Gerrit version it must be
-`https://gerrit-api.storage.googleapis.com/snapshot/`.
 
 * Build the latest snapshot and install it into the local Maven
 repository:
@@ -30,8 +18,8 @@ repository:
 Publish Snapshot
 ----------------
 
-If a Snapshot for a Subproject was created that should be referenced by
-Gerrit while current Gerrit development is ongoing, this Snapshot needs
+If a snapshot for a subproject was created that should be referenced by
+Gerrit while current Gerrit development is ongoing, this snapshot needs
 to be published.
 
 * Make sure you have done the configuration needed for deployment:
@@ -46,11 +34,11 @@ Configuration for Subprojects in `pom.xml`]
   mvn deploy
 ====
 
-* Change the version in the Gerrit parent `pom.xml` for the Subproject
-to the `SNAPSHOT` version
+* Change the `id`, `bin_sha1`, and `src_sha1` values in the `maven_jar`
+for the subproject in `/lib/BUCK` to the `SNAPSHOT` version.
 +
-When Gerrit gets released, a release of the Subproject has to be done
-and Gerrit has to reference the released Subproject version.
+When Gerrit gets released, a release of the subproject has to be done
+and Gerrit has to reference the released subproject version.
 
 
 [[prepare-release]]
@@ -58,9 +46,9 @@ Prepare the Release
 -------------------
 
 * link:#make-snapshot[First create (and test) the latest snapshot for
-the subproject/plugin]
+the subproject]
 
-* Update the top level `pom.xml` in the subproject/plugin to reflect
+* Update the top level `pom.xml` in the subproject to reflect
 the new project version (the exact value of the tag you will create
 below)
 
@@ -85,8 +73,7 @@ Publish the Release
 ** link:dev-release-deploy-config.html#deploy-configuration-settings-xml[
 Configuration in Maven `settings.xml`]
 ** Configuration in `pom.xml` for
-link:dev-release-deploy-config.html#deploy-configuration-subprojects[Subprojects] or
-link:dev-release-deploy-config.html#deploy-configuration-core-plugins[Core Plugins]
+link:dev-release-deploy-config.html#deploy-configuration-subprojects[subprojects]
 
 * Deploy the new release:
 +

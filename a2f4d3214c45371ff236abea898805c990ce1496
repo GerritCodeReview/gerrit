@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a333de7d_e22b4699",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PreferencesBox.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-12-06T01:27:26Z",
+      "side": 1,
+      "message": "you to defer setting this value too, otherwise it breaks when:\n\nfocus in text box\ndelete everything\nthen click check box",
+      "revId": "a2f4d3214c45371ff236abea898805c990ce1496",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3f8d2d4_e354721a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PreferencesBox.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-12-06T01:27:26Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "a2f4d3214c45371ff236abea898805c990ce1496",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

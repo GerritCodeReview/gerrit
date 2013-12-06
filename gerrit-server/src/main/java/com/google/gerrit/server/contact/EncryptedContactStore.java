@@ -173,17 +173,23 @@ class EncryptedContactStore implements ContactStore {
     }
   }
 
+  @SuppressWarnings("deprecation")
+  private final PGPEncryptedDataGenerator cpk()
+      throws NoSuchProviderException, PGPException {
+    PGPEncryptedDataGenerator cpk =
+        new PGPEncryptedDataGenerator(PGPEncryptedData.CAST5, true, prng, "BC");
+    cpk.addMethod(dest);
+    return cpk;
+  }
+
   private byte[] encrypt(final String name, final Date date,
       final byte[] rawText) throws NoSuchProviderException, PGPException,
       IOException {
     final byte[] zText = compress(name, date, rawText);
-    final PGPEncryptedDataGenerator cpk =
-        new PGPEncryptedDataGenerator(PGPEncryptedData.CAST5, true, prng, "BC");
-    cpk.addMethod(dest);
 
     final ByteArrayOutputStream buf = new ByteArrayOutputStream();
     final ArmoredOutputStream aout = new ArmoredOutputStream(buf);
-    final OutputStream cout = cpk.open(aout, zText.length);
+    final OutputStream cout = cpk().open(aout, zText.length);
     cout.write(zText);
     cout.close();
     aout.close();

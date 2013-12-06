@@ -18,9 +18,18 @@ import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.AccountInfo;
+import com.google.gerrit.client.change.RelatedChanges;
+import com.google.gerrit.client.change.RelatedChanges.ChangeAndCommit;
+import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
+import com.google.gerrit.client.diff.DiffApi;
+import com.google.gerrit.client.diff.FileInfo;
 import com.google.gerrit.client.projects.ConfigInfoCache;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.NativeMap;
+import com.google.gerrit.client.rpc.NativeString;
+import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.CommentPanel;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
@@ -28,14 +37,22 @@ import com.google.gerrit.client.ui.ExpandAllCommand;
 import com.google.gerrit.client.ui.LinkMenuBar;
 import com.google.gerrit.client.ui.NeedsSignInKeyCommand;
 import com.google.gerrit.client.ui.Screen;
+import com.google.gerrit.common.changes.ListChangesOption;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.ChangeInfo;
+import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.CommentVisibilityStrategy;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.reviewdb.client.Patch.ChangeType;
+import com.google.gerrit.reviewdb.client.Patch.PatchType;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gwt.core.client.JsArray;
+import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -45,6 +62,7 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.client.LocaleInfo;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -59,7 +77,13 @@ import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 public class ChangeScreen extends Screen
@@ -273,10 +297,198 @@ public class ChangeScreen extends Screen
       // happen sequentially after the ChangeDetail lookup, because we can't
       // start an async get at the source of every call that might trigger a
       // value change.
-      CallbackGroup cbs = new CallbackGroup();
+      CallbackGroup cbs1 = new CallbackGroup();
+      final CallbackGroup cbs2 = new CallbackGroup();
+      final PatchSet.Id psId = event.getValue().getCurrentPatchSet().getId();
+      final Map<String, Patch> patches = new HashMap<String, Patch>();
+      String revId =
+          event.getValue().getCurrentPatchSetDetail().getInfo().getRevId();
+
+      if (event.getValue().getChange().getStatus().isOpen()) {
+        ChangeApi.revision(changeId.get(), "current")
+          .view("submit_type")
+          .get(cbs1.add(new GerritCallback<NativeString>() {
+            @Override
+            public void onSuccess(NativeString result) {
+              event.getValue().setSubmitTypeRecord(SubmitTypeRecord.OK(
+                  Project.SubmitType.valueOf(result.asString())));
+            }
+            public void onFailure(Throwable caught) {}
+          }));
+      }
+      if (Gerrit.isSignedIn()) {
+        ChangeApi.revision(changeId.get(), "" + psId.get())
+          .view("related")
+          .get(cbs1.add(new AsyncCallback<RelatedChanges.RelatedInfo>() {
+              @Override
+              public void onSuccess(RelatedChanges.RelatedInfo info) {
+                if (info.changes() != null) {
+                  ChangeAndCommit self = null;
+                  Map<String, ChangeAndCommit> m = new HashMap<String, ChangeAndCommit>();
+                  for (int i = 0; i < info.changes().length(); i++) {
+                    ChangeAndCommit c = info.changes().get(i);
+                    if (changeId.equals(c.legacy_id())) {
+                      self = c;
+                    }
+                    if (c.commit() != null && c.commit().commit() != null) {
+                      m.put(c.commit().commit(), c);
+                    }
+                  }
+                  if (self != null && self.commit() != null) {
+                    List<ChangeInfo> n = new ArrayList<ChangeInfo>();
+                    for (int i = 0; i < info.changes().length(); i++) {
+                      ChangeAndCommit c = info.changes().get(i);
+                      if (self != null && c.commit() != null && c.commit().parents() != null) {
+                        for (int j = 0; j < c.commit().parents().length(); j++) {
+                          CommitInfo p = c.commit().parents().get(j);
+                          if (self.commit().commit().equals(p.commit())) {
+                            ChangeInfo u = new ChangeInfo();
+                            load(c, u);
+                            n.add(u);
+                            break;
+                          }
+                        }
+                      }
+                    }
+                    event.getValue().setNeededBy(n);
+                  }
+                  if (self != null && self.commit() != null
+                      && self.commit().parents() != null) {
+                    List<ChangeInfo> d = new ArrayList<ChangeInfo>();
+                    for (CommitInfo p : Natives.asList(self.commit().parents())) {
+                      ChangeAndCommit pc = m.get(p.commit());
+                      if (pc != null) {
+                        ChangeInfo i = new ChangeInfo();
+                        load(pc, i);
+                        d.add(i);
+                      }
+                    }
+                    event.getValue().setDependsOn(d);
+                  }
+                }
+              }
+
+              private void load(final ChangeAndCommit pc, final ChangeInfo i) {
+                RestApi call = ChangeApi.change(pc.legacy_id().get());
+                ChangeList.addOptions(call, EnumSet.of(
+                  ListChangesOption.DETAILED_ACCOUNTS,
+                  ListChangesOption.CURRENT_REVISION));
+                call.get(cbs2.add(new AsyncCallback<
+                    com.google.gerrit.client.changes.ChangeInfo>() {
+                  public void onFailure(Throwable caught) {}
+                  public void onSuccess(
+                      com.google.gerrit.client.changes.ChangeInfo result) {
+                    i.set(ChangeDetailCache.toChange(result),
+                        pc.patch_set_id());
+                    i.setStarred(result.starred());
+                    event.getValue().getAccounts()
+                        .merge(ChangeDetailCache.users(result));
+                  }}));
+              }
+              public void onFailure(Throwable caught) {}
+            }));
+        ChangeApi.revision(changeId.get(), revId)
+          .view("files")
+          .addParameterTrue("reviewed")
+          .get(cbs1.add(new AsyncCallback<JsArrayString>() {
+              @Override
+              public void onSuccess(JsArrayString result) {
+                for(int i = 0; i < result.length(); i++) {
+                  String path = result.get(i);
+                  Patch p = patches.get(path);
+                  if (p == null) {
+                    p = new Patch(new Patch.Key(psId, path));
+                    patches.put(path, p);
+                  }
+                  p.setReviewedByCurrentUser(true);
+                }
+              }
+              public void onFailure(Throwable caught) {}
+            }));
+        final Set<PatchSet.Id> withDrafts = new HashSet<PatchSet.Id>();
+        event.getValue().setPatchSetsWithDraftComments(withDrafts);
+        for (PatchSet ps : event.getValue().getPatchSets()) {
+          if (!ps.getId().equals(psId)) {
+            final PatchSet.Id id = ps.getId();
+            ChangeApi.revision(changeId.get(), "" + id.get())
+              .view("drafts")
+              .get(cbs1.add(new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
+                @Override
+                public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
+                  if (!result.isEmpty()) {
+                    withDrafts.add(id);
+                  }
+                }
+                public void onFailure(Throwable caught) {}
+              }));
+          }
+        }
+        ChangeApi.revision(changeId.get(), "" + psId.get())
+          .view("drafts")
+          .get(cbs1.add(new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
+            @Override
+            public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
+              for (String path : result.keySet()) {
+                Patch p = patches.get(path);
+                if (p == null) {
+                  p = new Patch(new Patch.Key(psId, path));
+                  patches.put(path, p);
+                }
+                p.setDraftCount(result.get(path).length());
+              }
+              if (!result.isEmpty()) {
+                withDrafts.add(psId);
+              }
+            }
+            public void onFailure(Throwable caught) {}
+          }));
+      }
+      ChangeApi.revision(changeId.get(), revId)
+        .view("comments")
+        .get(cbs1.add(new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
+          @Override
+          public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
+            for (String path : result.keySet()) {
+              Patch p = patches.get(path);
+              if (p == null) {
+                p = new Patch(new Patch.Key(psId, path));
+                patches.put(path, p);
+              }
+              p.setCommentCount(result.get(path).length());
+            }
+          }
+          public void onFailure(Throwable caught) {}
+        }));
+      DiffApi.list(changeId.get(), null, revId,
+          new AsyncCallback<NativeMap<FileInfo>>() {
+            @Override
+            public void onSuccess(NativeMap<FileInfo> result) {
+              JsArray<FileInfo> fileInfos = result.values();
+              FileInfo.sortFileInfoByPath(fileInfos);
+              List<Patch> list = new ArrayList<Patch>(fileInfos.length());
+              for (FileInfo f : Natives.asList(fileInfos)) {
+                Patch p = patches.get(f.path());
+                if (p == null) {
+                  p = new Patch(new Patch.Key(psId, f.path()));
+                  patches.put(f.path(), p);
+                }
+                p.setInsertions(f.lines_inserted());
+                p.setDeletions(f.lines_deleted());
+                p.setPatchType(f.binary() ? PatchType.BINARY : PatchType.UNIFIED);
+                if (f.status() == null) {
+                  p.setChangeType(ChangeType.MODIFIED);
+                } else {
+                  p.setChangeType(ChangeType.forCode(f.status().charAt(0)));
+                }
+                list.add(p);
+              }
+              event.getValue().getCurrentPatchSetDetail().setPatches(list);
+            }
+            public void onFailure(Throwable caught) {}
+      });
       ConfigInfoCache.get(
           event.getValue().getChange().getProject(),
-          cbs.add(new GerritCallback<ConfigInfoCache.Entry>() {
+          cbs1.add(new GerritCallback<ConfigInfoCache.Entry>() {
             @Override
             public void onSuccess(ConfigInfoCache.Entry result) {
               commentLinkProcessor = result.getCommentLinkProcessor();
@@ -288,13 +500,19 @@ public class ChangeScreen extends Screen
               // Handled by last callback's onFailure.
             }
           }));
-      ChangeApi.detail(event.getValue().getChange().getId().get(), cbs.addFinal(
+      ChangeApi.detail(changeId.get(), cbs1.addFinal(
           new GerritCallback<com.google.gerrit.client.changes.ChangeInfo>() {
             @Override
             public void onSuccess(
                 com.google.gerrit.client.changes.ChangeInfo result) {
               changeInfo = result;
-              display(event.getValue());
+              cbs2.addFinal(new AsyncCallback<Void>() {
+                @Override
+                public void onSuccess(Void result) {
+                  display(event.getValue());
+                }
+                public void onFailure(Throwable caught) {}
+              }).onSuccess(null);
             }
           }));
     }

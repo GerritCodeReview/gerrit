@@ -17,7 +17,6 @@ package com.google.gerrit.httpd.rpc.changedetail;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.ChangeManageService;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.inject.Inject;
@@ -26,18 +25,15 @@ class ChangeManageServiceImpl implements ChangeManageService {
   private final RebaseChangeHandler.Factory rebaseChangeFactory;
   private final PublishAction.Factory publishAction;
   private final DeleteDraftChange.Factory deleteDraftChangeFactory;
-  private final EditCommitMessageHandler.Factory editCommitMessageHandlerFactory;
 
   @Inject
   ChangeManageServiceImpl(
       final RebaseChangeHandler.Factory rebaseChangeFactory,
       final PublishAction.Factory publishAction,
-      final DeleteDraftChange.Factory deleteDraftChangeFactory,
-      final EditCommitMessageHandler.Factory editCommitMessageHandler) {
+      final DeleteDraftChange.Factory deleteDraftChangeFactory) {
     this.rebaseChangeFactory = rebaseChangeFactory;
     this.publishAction = publishAction;
     this.deleteDraftChangeFactory = deleteDraftChangeFactory;
-    this.editCommitMessageHandlerFactory = editCommitMessageHandler;
   }
 
   public void rebaseChange(final PatchSet.Id patchSetId,
@@ -53,10 +49,5 @@ class ChangeManageServiceImpl implements ChangeManageService {
   public void deleteDraftChange(final PatchSet.Id patchSetId,
       final AsyncCallback<VoidResult> callback) {
     deleteDraftChangeFactory.create(patchSetId).to(callback);
-  }
-
-  public void createNewPatchSet(Id patchSetId, String message,
-      AsyncCallback<ChangeDetail> callback) {
-    editCommitMessageHandlerFactory.create(patchSetId, message).to(callback);
   }
 }

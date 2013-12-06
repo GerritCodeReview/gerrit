@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "633d664c_c0539e2d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PreferencesBox.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-12-06T01:42:22Z",
+      "side": 1,
+      "message": "Remove?",
+      "range": {
+        "startLine": 212,
+        "startChar": 27,
+        "endLine": 212,
+        "endChar": 30
+      },
+      "revId": "0575be454e37c2cc93656658a7c350dab62abab0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

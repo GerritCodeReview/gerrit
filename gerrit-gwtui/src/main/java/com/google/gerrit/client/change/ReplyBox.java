@@ -37,10 +37,11 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -153,17 +154,34 @@ class ReplyBox extends Composite {
       @Override
       public void execute() {
         Window.scrollTo(0, 0);
-        message.setFocus(true);
-      }});
-    Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
-      @Override
-      public boolean execute() {
-        String t = message.getText();
-        if (t != null) {
-          message.setCursorPos(t.length());
+        if (labelsTable.getColumnCount() == 0) {
+          message.setFocus(true);
+        } else {
+          for (int i = 1; i < labelsTable.getColumnCount(); i++) {
+            RadioButton b = (RadioButton) labelsTable.getWidget(1, i);
+            if (b != null && b.getValue()) {
+              b.setFocus(true);
+              break;
+            }
+          }
         }
-        return false;
-      }}, 0);
+      }
+    });
+
+    message.addFocusHandler(new FocusHandler() {
+      @Override
+      public void onFocus(FocusEvent event) {
+        Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+          @Override
+          public void execute() {
+            String t = message.getText();
+            if (t != null) {
+              message.setCursorPos(t.length());
+            }
+          }
+        });
+      }
+    });
   }
 
   @UiHandler("message")

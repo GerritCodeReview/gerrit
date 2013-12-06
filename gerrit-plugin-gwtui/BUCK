@@ -20,3 +20,13 @@ java_library(
   resources = glob(['src/main/**/*']),
   visibility = ['PUBLIC'],
 )
+
+java_doc(
+  name = 'gwtui-api-javadoc',
+  title = 'Gerrit Review GWT Extension API Documentation',
+  pkg = 'com.google.gerrit.plugin',
+  paths = ['$SRCDIR/src/main/java'],
+  srcs = SRCS,
+  deps = DEPS,
+  visibility = ['PUBLIC'],
+)

@@ -18,6 +18,7 @@ import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GitwebLink;
+import com.google.gerrit.client.change.DraftActions;
 import com.google.gerrit.client.download.DownloadPanel;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -608,8 +609,10 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
       @Override
       public void onClick(final ClickEvent event) {
         b.setEnabled(false);
-        Util.MANAGE_SVC.publish(patchSet.getId(),
-            new ChangeDetailCache.GerritWidgetCallback(b));
+        final Change.Id id = patchSet.getId().getParentKey();
+        ChangeApi.publish(id.get(),
+            patchSet.getRevision().get(),
+            DraftActions.cs(id));
       }
     });
     actionsPanel.add(b);

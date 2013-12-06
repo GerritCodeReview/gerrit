@@ -160,8 +160,8 @@ public class ChangeInserter {
       db.patchSets().insert(Collections.singleton(patchSet));
       db.changes().insert(Collections.singleton(change));
       LabelTypes labelTypes = refControl.getProjectControl().getLabelTypes();
-      approvalsUtil.addReviewers(labelTypes, change, patchSet, patchSetInfo,
-          reviewers, Collections.<Account.Id> emptySet());
+      approvalsUtil.addReviewers(db, labelTypes, change, patchSet,
+          patchSetInfo, reviewers, Collections.<Account.Id> emptySet());
       if (changeMessage != null) {
         db.changeMessages().insert(Collections.singleton(changeMessage));
       }

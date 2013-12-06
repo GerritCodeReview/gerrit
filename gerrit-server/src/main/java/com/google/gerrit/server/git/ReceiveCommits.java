@@ -1856,9 +1856,9 @@ public class ReceiveCommits {
             db.patchSetApprovals().byChange(change.getId()).toList();
         final MailRecipients oldRecipients = getRecipientsFromApprovals(
             oldChangeApprovals);
-        approvalsUtil.copyLabels(labelTypes, oldChangeApprovals,
+        approvalsUtil.copyLabels(db, labelTypes, oldChangeApprovals,
             priorPatchSet, newPatchSet, changeKind);
-        approvalsUtil.addReviewers(labelTypes, change, newPatchSet, info,
+        approvalsUtil.addReviewers(db, labelTypes, change, newPatchSet, info,
             recipients.getReviewers(), oldRecipients.getAll());
         recipients.add(oldRecipients);
 

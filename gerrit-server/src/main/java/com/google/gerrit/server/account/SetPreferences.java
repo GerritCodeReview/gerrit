@@ -47,6 +47,7 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
     Boolean reversePatchSetOrder;
     Boolean showUsernameInReviewCategory;
     Boolean relativeDateInChangeTable;
+    Boolean sizeBarInChangeTable;
     CommentVisibilityStrategy commentVisibilityStrategy;
     DiffView diffView;
   }
@@ -120,6 +121,9 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
       }
       if (i.relativeDateInChangeTable != null) {
         p.setRelativeDateInChangeTable(i.relativeDateInChangeTable);
+      }
+      if (i.sizeBarInChangeTable != null) {
+        p.setSizeBarInChangeTable(i.sizeBarInChangeTable);
       }
       if (i.commentVisibilityStrategy != null) {
         p.setCommentVisibilityStrategy(i.commentVisibilityStrategy);

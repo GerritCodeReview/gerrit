@@ -237,9 +237,16 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     }
     int col = C_SIZE;
     if (useNewFeatures) {
-      table.setWidget(row, col, getSizeWidget(c));
-      fmt.getElement(row, col).setTitle(
-          Util.M.insertionsAndDeletions(c.insertions(), c.deletions()));
+      if (Gerrit.isSignedIn()
+          && !Gerrit.getUserAccount().getGeneralPreferences()
+              .isSizeBarInChangeTable()) {
+        table.setText(row, col,
+            Util.M.insertionsAndDeletions(c.insertions(), c.deletions()));
+      } else {
+        table.setWidget(row, col, getSizeWidget(c));
+        fmt.getElement(row, col).setTitle(
+            Util.M.insertionsAndDeletions(c.insertions(), c.deletions()));
+      }
       col++;
     }
 

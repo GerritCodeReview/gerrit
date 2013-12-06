@@ -152,6 +152,9 @@ public final class AccountGeneralPreferences {
   @Column(id = 15, length = 20, notNull = false)
   protected String changeScreen;
 
+  @Column(id = 16)
+  protected boolean sizeBarInChangeTable;
+
   public AccountGeneralPreferences() {
   }
 
@@ -294,6 +297,14 @@ public final class AccountGeneralPreferences {
     changeScreen = ui != null ? ui.name() : null;
   }
 
+  public boolean isSizeBarInChangeTable() {
+    return sizeBarInChangeTable;
+  }
+
+  public void setSizeBarInChangeTable(boolean sizeBarInChangeTable) {
+    this.sizeBarInChangeTable = sizeBarInChangeTable;
+  }
+
   public void resetToDefaults() {
     maximumPageSize = DEFAULT_PAGESIZE;
     showSiteHeader = true;
@@ -309,5 +320,6 @@ public final class AccountGeneralPreferences {
     commentVisibilityStrategy = null;
     diffView = null;
     changeScreen = null;
+    sizeBarInChangeTable = true;
   }
 }

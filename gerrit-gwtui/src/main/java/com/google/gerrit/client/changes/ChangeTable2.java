@@ -56,6 +56,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
   private static final int C_SIZE = 8;
   private static final int BASE_COLUMNS = 9;
 
+  private final boolean useNewFeatures = Gerrit.getConfig().getNewFeatures();
   private final List<Section> sections;
   private int columns;
   private List<String> labelNames;
@@ -77,7 +78,9 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     table.setText(0, C_PROJECT, Util.C.changeTableColumnProject());
     table.setText(0, C_BRANCH, Util.C.changeTableColumnBranch());
     table.setText(0, C_LAST_UPDATE, Util.C.changeTableColumnLastUpdate());
-    table.setText(0, C_SIZE, Util.C.changeTableColumnSize());
+    if (useNewFeatures) {
+      table.setText(0, C_SIZE, Util.C.changeTableColumnSize());
+    }
 
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
     fmt.addStyleName(0, C_STAR, Gerrit.RESOURCES.css().iconHeader());
@@ -141,8 +144,12 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     fmt.addStyleName(row, C_SUBJECT, Gerrit.RESOURCES.css().cSUBJECT());
     fmt.addStyleName(row, C_OWNER, Gerrit.RESOURCES.css().cOWNER());
     fmt.addStyleName(row, C_LAST_UPDATE, Gerrit.RESOURCES.css().cLastUpdate());
-    fmt.addStyleName(row, C_SIZE, Gerrit.RESOURCES.css().cSIZE());
-    for (int i = BASE_COLUMNS; i < columns; i++) {
+
+    int i = C_SIZE;
+    if (useNewFeatures) {
+      fmt.addStyleName(row, i++, Gerrit.RESOURCES.css().cSIZE());
+    }
+    for (; i < columns; i++) {
       fmt.addStyleName(row, i, Gerrit.RESOURCES.css().cAPPROVAL());
     }
   }
@@ -204,7 +211,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     Change.Status status = c.status();
     if (status != Change.Status.NEW) {
       table.setText(row, C_STATUS, Util.toLongString(status));
-    } else if (!c.mergeable()) {
+    } else if (!c.mergeable() && useNewFeatures) {
       table.setText(row, C_STATUS, Util.C.changeTableNotMergeable());
       table.getCellFormatter().addStyleName(row, C_STATUS, Gerrit.RESOURCES.css().notMergeable());
     }
@@ -226,15 +233,17 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     } else {
       table.setText(row, C_LAST_UPDATE, shortFormat(c.updated()));
     }
-    table.setText(row, C_SIZE,
-        Util.M.insertionsAndDeletions(c.insertions(), c.deletions()));
+    int col = C_SIZE;
+    if (useNewFeatures) {
+      table.setText(row, col,
+          Util.M.insertionsAndDeletions(c.insertions(), c.deletions()));
+    }
 
     boolean displayName = Gerrit.isSignedIn() && Gerrit.getUserAccount()
         .getGeneralPreferences().isShowUsernameInReviewCategory();
 
-    for (int idx = 0; idx < labelNames.size(); idx++) {
+    for (int idx = 0; idx < labelNames.size(); idx++, col++) {
       String name = labelNames.get(idx);
-      int col = BASE_COLUMNS + idx;
 
       LabelInfo label = c.label(name);
       if (label == null) {

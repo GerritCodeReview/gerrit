@@ -229,6 +229,7 @@ def java_doc(
       '-quiet',
       '-protected',
       '-encoding UTF-8',
+      '-source 1.7',
       '-charset UTF-8',
       '-notimestamp',
       '-windowtitle "' + title + '"',

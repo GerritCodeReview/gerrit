@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0372ea57_ed7ec592",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeDetailCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-06T21:00:46Z",
+      "side": 1,
+      "message": "Because I don\u0027t care about the old UI enough to accurately reflect the project\u0027s write state. This should be reflected anyway in the canSubmit/canEditCommitMesage/canEditTopicName values.",
+      "parentUuid": "43906299_af3af9e3",
+      "range": {
+        "startLine": 120,
+        "startChar": 17,
+        "endLine": 120,
+        "endChar": 21
+      },
+      "revId": "b598d9b980ee2f574c11b6c050339b91861d821b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43906299_cf2bbd99",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2013-12-06T12:29:49Z",
       "side": 1,
       "message": "New related changes REST endpoint suffers from a nasty bug, that when the change is rebased, then related changes can not be retrieved any more[1].\n\nBefore this change all is fine for the old change screen (because it retrieved in other way). After this change it is broken for the old change screen too.\n\nUnless we can shortly fix that related changes bug, i would tend to do it the other way around: Add new REST endpoint: \"dependsOn_and_neededBy_in_old_fashion\"\nand reuse there the dependencies parts of the code from the old changeDetail RPC. Nice side effect: you wouldn\u0027t need this reshuffle code to map from one related set to neededBy and dependsOn sets.\n\n[1] http://code.google.com/p/gerrit/issues/detail?id\u003d2073",
+      "revId": "b598d9b980ee2f574c11b6c050339b91861d821b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0372ea57_cd7989ad",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-06T21:00:46Z",
+      "side": 1,
+      "message": "That bug needs to be fixed. I am not going to make a new API and a new implementation while ignoring a known existing bug that should instead be fixed.",
+      "parentUuid": "43906299_cf2bbd99",
       "revId": "b598d9b980ee2f574c11b6c050339b91861d821b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

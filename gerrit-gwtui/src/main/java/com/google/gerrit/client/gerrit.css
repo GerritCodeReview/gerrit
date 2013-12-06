@@ -544,11 +544,6 @@ a:hover {
   opacity: 0.6;
 }
 
-.changeTable .notMergeable {
-  font-weight: bold;
-  color: #d00;
-}
-
 .accountDashboard.changeTable tr {
   color: #444444;
 }

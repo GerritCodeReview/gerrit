@@ -39,7 +39,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
-class RelatedChanges extends TabPanel {
+public class RelatedChanges extends TabPanel {
   private enum Tab {
     RELATED_CHANGES(Resources.C.relatedChanges(),
         Resources.C.relatedChangesTooltip()) {
@@ -284,19 +284,19 @@ class RelatedChanges extends TabPanel {
     }
   }
 
-  private static class RelatedInfo extends JavaScriptObject {
-    final native JsArray<ChangeAndCommit> changes() /*-{ return this.changes }-*/;
+  public static class RelatedInfo extends JavaScriptObject {
+    public final native JsArray<ChangeAndCommit> changes() /*-{ return this.changes }-*/;
     protected RelatedInfo() {
     }
   }
 
-  static class ChangeAndCommit extends JavaScriptObject {
+  public static class ChangeAndCommit extends JavaScriptObject {
     static ChangeAndCommit create() {
       return (ChangeAndCommit) createObject();
     }
 
-    final native String id() /*-{ return this.change_id }-*/;
-    final native CommitInfo commit() /*-{ return this.commit }-*/;
+    public final native String id() /*-{ return this.change_id }-*/;
+    public final native CommitInfo commit() /*-{ return this.commit }-*/;
     final native String branch() /*-{ return this.branch }-*/;
 
     final native void set_id(String i)
@@ -308,11 +308,11 @@ class RelatedChanges extends TabPanel {
     final native void set_branch(String b)
     /*-{ if(b)this.branch=b; }-*/;
 
-    final Change.Id legacy_id() {
+    public final Change.Id legacy_id() {
       return has_change_number() ? new Change.Id(_change_number()) : null;
     }
 
-    final PatchSet.Id patch_set_id() {
+    public final PatchSet.Id patch_set_id() {
       return has_change_number() && has_revision_number()
           ? new PatchSet.Id(legacy_id(), _revision_number())
           : null;

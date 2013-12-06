@@ -35,10 +35,14 @@ public class ChangeInfo {
   protected PatchSet.Id patchSetId;
   protected boolean latest;
 
-  protected ChangeInfo() {
+  public ChangeInfo() {
   }
 
   public ChangeInfo(final Change c, final PatchSet.Id patchId) {
+    set(c, patchId);
+  }
+
+  public void set(final Change c, final PatchSet.Id patchId) {
     id = c.getId();
     key = c.getKey();
     owner = c.getOwner();

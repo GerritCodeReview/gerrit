@@ -14,42 +14,24 @@
 
 package com.google.gerrit.httpd.rpc.changedetail;
 
-import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.ChangeDetailService;
-import com.google.gerrit.common.data.IncludedInDetail;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.common.data.PatchSetPublishDetail;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.inject.Inject;
 
 class ChangeDetailServiceImpl implements ChangeDetailService {
-  private final ChangeDetailFactory.Factory changeDetail;
-  private final IncludedInDetailFactory.Factory includedInDetail;
   private final PatchSetDetailFactory.Factory patchSetDetail;
   private final PatchSetPublishDetailFactory.Factory patchSetPublishDetail;
 
   @Inject
-  ChangeDetailServiceImpl(final ChangeDetailFactory.Factory changeDetail,
-      final IncludedInDetailFactory.Factory includedInDetail,
+  ChangeDetailServiceImpl(
       final PatchSetDetailFactory.Factory patchSetDetail,
       final PatchSetPublishDetailFactory.Factory patchSetPublishDetail) {
-    this.changeDetail = changeDetail;
-    this.includedInDetail = includedInDetail;
     this.patchSetDetail = patchSetDetail;
     this.patchSetPublishDetail = patchSetPublishDetail;
-  }
-
-  public void changeDetail(final Change.Id id,
-      final AsyncCallback<ChangeDetail> callback) {
-    changeDetail.create(id).to(callback);
-  }
-
-  public void includedInDetail(final Change.Id id,
-      final AsyncCallback<IncludedInDetail> callback) {
-    includedInDetail.create(id).to(callback);
   }
 
   public void patchSetDetail(PatchSet.Id id,

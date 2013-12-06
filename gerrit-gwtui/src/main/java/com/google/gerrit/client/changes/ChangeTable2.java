@@ -63,7 +63,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
 
   public ChangeTable2() {
     super(Util.C.changeItemHelp());
-    columns = BASE_COLUMNS;
+    columns = useNewFeatures ? BASE_COLUMNS : BASE_COLUMNS - 1;
     labelNames = Collections.emptyList();
 
     if (Gerrit.isSignedIn()) {

@@ -19,7 +19,6 @@ import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.BaseServiceImplementation;
 import com.google.gerrit.httpd.rpc.Handler;
-import com.google.gerrit.httpd.rpc.changedetail.ChangeDetailFactory;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -48,7 +47,6 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
       final Provider<CurrentUser> currentUser,
       final PatchScriptFactory.Factory patchScriptFactoryFactory,
       final SaveDraft.Factory saveDraftFactory,
-      final ChangeDetailFactory.Factory changeDetailFactory,
       final ChangeControl.Factory changeControlFactory) {
     super(schema, currentUser);
 

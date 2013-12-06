@@ -15,15 +15,20 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.changes.ChangeInfo.IncludedInInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.common.data.IncludedInDetail;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /** Displays a table of Branches and Tags containing the change record. */
@@ -73,13 +78,26 @@ public class IncludedInTable extends Composite implements
   @Override
   public void onOpen(OpenEvent<DisclosurePanel> event) {
     if (!loaded) {
-      Util.DETAIL_SVC.includedInDetail(changeId,
-          new GerritCallback<IncludedInDetail>() {
-            @Override
-            public void onSuccess(final IncludedInDetail result) {
-              loadTable(result);
+      ChangeApi.includedIn(changeId.get(),
+          new GerritCallback<IncludedInInfo>() {
+        @Override
+        public void onSuccess(IncludedInInfo r) {
+          IncludedInDetail result = new IncludedInDetail();
+          result.setBranches(toList(r.branches()));
+          result.setTags(toList(r.tags()));
+          loadTable(result);
+        }
+
+        private List<String> toList(JsArrayString in) {
+          List<String> r = new ArrayList<String>();
+          if (in != null) {
+            for (int i = 0; i < in.length(); i++) {
+              r.add(in.get(i));
             }
-          });
+          }
+          return r;
+        }
+      });
     }
   }
 }

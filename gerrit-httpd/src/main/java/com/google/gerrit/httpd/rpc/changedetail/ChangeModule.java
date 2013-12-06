@@ -28,8 +28,6 @@ public class ChangeModule extends RpcServletModule {
     install(new FactoryModule() {
       @Override
       protected void configure() {
-        factory(ChangeDetailFactory.Factory.class);
-        factory(IncludedInDetailFactory.Factory.class);
         factory(PatchSetDetailFactory.Factory.class);
         factory(PatchSetPublishDetailFactory.Factory.class);
       }

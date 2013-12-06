@@ -52,6 +52,10 @@ public class AccountInfo {
     return id;
   }
 
+  public void setFullName(String n) {
+    fullName = n;
+  }
+
   /** @return the full name of the account holder; null if not supplied */
   public String getFullName() {
     return fullName;

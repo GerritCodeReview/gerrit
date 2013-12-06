@@ -22,6 +22,30 @@
       "revId": "cc30d53ccd1ab577050c401f762d28991a409164",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23752e3e_4e2033b3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-06T08:41:41Z",
+      "side": 0,
+      "message": "Yes, it should be removed. I thought it\u0027s still used in ChangeScreen2 but it has its own css in ChangeScreen2.ui.xml.\n\nDone",
+      "parentUuid": "0372ea57_0d155156",
+      "range": {
+        "startLine": 218,
+        "startChar": 82,
+        "endLine": 218,
+        "endChar": 94
+      },
+      "revId": "cc30d53ccd1ab577050c401f762d28991a409164",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

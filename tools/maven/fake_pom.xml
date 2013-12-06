@@ -3,4 +3,21 @@
   <groupId>com.google.gerrit</groupId>
   <artifactId>Gerrit-Code-Review-Maven</artifactId>
   <version>1</version>
+  <distributionManagement>
+    <repository>
+      <id>gerrit-api-repository</id>
+      <name>Gerrit API Repository</name>
+      <url>gs://gerrit-api</url>
+      <uniqueVersion>true</uniqueVersion>
+    </repository>
+  </distributionManagement>
+  <build>
+    <extensions>
+      <extension>
+        <groupId>com.googlesource.gerrit</groupId>
+        <artifactId>gs-maven-wagon</artifactId>
+        <version>3.3</version>
+      </extension>
+    </extensions>
+  </build>
 </project>

@@ -22,6 +22,30 @@
       "revId": "3b005514cf752be4e0bfe328472f847e4af227e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43906299_cfddfd84",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1569,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-06T04:28:52Z",
+      "side": 1,
+      "message": "Maybe you can anyway try to say what exactly is so wrong? I think it would be a huge step forward for plugins if they are able to integrate complete screens into the Gerrit UI and this seems to work.",
+      "parentUuid": "c3f8d2d4_c37e1693",
+      "range": {
+        "startLine": 1554,
+        "startChar": 4,
+        "endLine": 1569,
+        "endChar": 29
+      },
+      "revId": "3b005514cf752be4e0bfe328472f847e4af227e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

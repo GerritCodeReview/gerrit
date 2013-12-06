@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "0372ea57_cddd0985",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/contact/EncryptedContactStore.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-06T05:13:49Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/#/c/52661/1 which is now underneath this change.",
+      "parentUuid": "e396b657_ccfb0fed",
+      "revId": "ca1168ae9a54efd5b051f14f416bbc01fe9fd95b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83d09a10_a195feb2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/contact/EncryptedContactStore.java",
         "patchSetId": 3

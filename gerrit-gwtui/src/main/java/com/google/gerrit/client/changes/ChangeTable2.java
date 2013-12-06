@@ -192,6 +192,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
 
   private void populateChangeRow(final int row, final ChangeInfo c,
       boolean highlightUnreviewed) {
+    CellFormatter fmt = table.getCellFormatter();
     if (Gerrit.isSignedIn()) {
       table.setWidget(row, C_STAR, StarredChanges.createIcon(
           c.legacy_id(),
@@ -227,11 +228,12 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
       table.setText(row, C_LAST_UPDATE, shortFormat(c.updated()));
     }
     table.setWidget(row, C_SIZE, getSizeWidget(c));
+    fmt.getElement(row, C_SIZE).setTitle(
+        Util.M.insertionsAndDeletions(c.insertions(), c.deletions()));
 
     boolean displayName = Gerrit.isSignedIn() && Gerrit.getUserAccount()
         .getGeneralPreferences().isShowUsernameInReviewCategory();
 
-    CellFormatter fmt = table.getCellFormatter();
     for (int idx = 0; idx < labelNames.size(); idx++) {
       String name = labelNames.get(idx);
       int col = BASE_COLUMNS + idx;
@@ -321,7 +323,6 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     panel.setStyleName(Gerrit.RESOURCES.css().changeSize());
     panel.setWidth(width + "px");
     panel.getElement().getStyle().setBackgroundColor(bg);
-    panel.setTitle(Util.M.insertionsAndDeletions(c.insertions(), c.deletions()));
     return panel;
   }
 

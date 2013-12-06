@@ -18,22 +18,18 @@ import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.ChangeManageService;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwtjsonrpc.common.AsyncCallback;
-import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.inject.Inject;
 
 class ChangeManageServiceImpl implements ChangeManageService {
   private final RebaseChangeHandler.Factory rebaseChangeFactory;
   private final PublishAction.Factory publishAction;
-  private final DeleteDraftChange.Factory deleteDraftChangeFactory;
 
   @Inject
   ChangeManageServiceImpl(
       final RebaseChangeHandler.Factory rebaseChangeFactory,
-      final PublishAction.Factory publishAction,
-      final DeleteDraftChange.Factory deleteDraftChangeFactory) {
+      final PublishAction.Factory publishAction) {
     this.rebaseChangeFactory = rebaseChangeFactory;
     this.publishAction = publishAction;
-    this.deleteDraftChangeFactory = deleteDraftChangeFactory;
   }
 
   public void rebaseChange(final PatchSet.Id patchSetId,
@@ -44,10 +40,5 @@ class ChangeManageServiceImpl implements ChangeManageService {
   public void publish(final PatchSet.Id patchSetId,
       final AsyncCallback<ChangeDetail> callback) {
     publishAction.create(patchSetId).to(callback);
-  }
-
-  public void deleteDraftChange(final PatchSet.Id patchSetId,
-      final AsyncCallback<VoidResult> callback) {
-    deleteDraftChangeFactory.create(patchSetId).to(callback);
   }
 }

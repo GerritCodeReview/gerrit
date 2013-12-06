@@ -6,11 +6,10 @@ DEPS = [
   '//lib/gwt:dev',
 ]
 
-gwt_module(
+java_library2(
   name = 'gwtui-api',
   srcs = SRCS,
-  gwtxml = SRC + 'Plugin.gwt.xml',
-  resources = glob(['src/main/resources/**/*']),
+  resources = glob(['src/main/**/*']),
   compile_deps = DEPS,
   visibility = ['PUBLIC'],
 )

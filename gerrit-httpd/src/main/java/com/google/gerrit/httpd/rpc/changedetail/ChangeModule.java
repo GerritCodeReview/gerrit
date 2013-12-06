@@ -36,6 +36,5 @@ public class ChangeModule extends RpcServletModule {
       }
     });
     rpc(ChangeDetailServiceImpl.class);
-    rpc(ChangeManageServiceImpl.class);
   }
 }

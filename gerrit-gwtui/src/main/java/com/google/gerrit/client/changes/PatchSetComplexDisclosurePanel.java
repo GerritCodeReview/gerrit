@@ -55,7 +55,6 @@ import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwtjsonrpc.common.VoidResult;
 
 import java.util.HashSet;
 import java.util.List;
@@ -479,18 +478,22 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
         @Override
         public void onClick(final ClickEvent event) {
           b.setEnabled(false);
-          Util.MANAGE_SVC.deleteDraftChange(patchSet.getId(),
-              new GerritCallback<VoidResult>() {
-                public void onSuccess(VoidResult result) {
-                  Gerrit.display(PageLinks.MINE);
-                }
+          ChangeApi.deleteChange(patchSet.getId().getParentKey().get(),
+              new GerritCallback<JavaScriptObject>() {
+            public void onSuccess(JavaScriptObject result) {
+              Gerrit.display(PageLinks.MINE);
+            }
 
-                @Override
-                public void onFailure(Throwable caught) {
-                  b.setEnabled(true);
-                  super.onFailure(caught);
-                }
-              });
+            public void onFailure(Throwable err) {
+              if (SubmitFailureDialog.isConflict(err)) {
+                new SubmitFailureDialog(err.getMessage()).center();
+                Gerrit.display(PageLinks.MINE);
+              } else {
+                b.setEnabled(true);
+                super.onFailure(err);
+              }
+            }
+          });
         }
       });
       actionsPanel.add(b);

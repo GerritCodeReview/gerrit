@@ -52,6 +52,23 @@
       "revId": "7a7c929bc6f7bd703818d29fd74a957834cbf56e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43906299_2ff929f5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeDetailCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-06T07:38:36Z",
+      "side": 1,
+      "message": "Missing dependencies is a serious limitation. I am undecided if it makes sense to push that change without implemented it first?",
+      "revId": "7a7c929bc6f7bd703818d29fd74a957834cbf56e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

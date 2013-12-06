@@ -608,8 +608,22 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
       @Override
       public void onClick(final ClickEvent event) {
         b.setEnabled(false);
-        Util.MANAGE_SVC.publish(patchSet.getId(),
-            new ChangeDetailCache.GerritWidgetCallback(b));
+        final Change.Id id = patchSet.getId().getParentKey();
+        ChangeApi.publish(id.get(),
+            patchSet.getRevision().get(),
+            new GerritCallback<JavaScriptObject>() {
+              public void onSuccess(JavaScriptObject result) {
+                Gerrit.display(PageLinks.toChange(id));
+              }
+              public void onFailure(Throwable err) {
+                if (SubmitFailureDialog.isConflict(err)) {
+                  new SubmitFailureDialog(err.getMessage()).center();
+                  Gerrit.display(PageLinks.toChange(id));
+                } else {
+                  super.onFailure(err);
+                }
+              }
+            });
       }
     });
     actionsPanel.add(b);

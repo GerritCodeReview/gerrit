@@ -22,23 +22,15 @@ import com.google.inject.Inject;
 
 class ChangeManageServiceImpl implements ChangeManageService {
   private final RebaseChangeHandler.Factory rebaseChangeFactory;
-  private final PublishAction.Factory publishAction;
 
   @Inject
   ChangeManageServiceImpl(
-      final RebaseChangeHandler.Factory rebaseChangeFactory,
-      final PublishAction.Factory publishAction) {
+      final RebaseChangeHandler.Factory rebaseChangeFactory) {
     this.rebaseChangeFactory = rebaseChangeFactory;
-    this.publishAction = publishAction;
   }
 
   public void rebaseChange(final PatchSet.Id patchSetId,
       final AsyncCallback<ChangeDetail> callback) {
     rebaseChangeFactory.create(patchSetId).to(callback);
-  }
-
-  public void publish(final PatchSet.Id patchSetId,
-      final AsyncCallback<ChangeDetail> callback) {
-    publishAction.create(patchSetId).to(callback);
   }
 }

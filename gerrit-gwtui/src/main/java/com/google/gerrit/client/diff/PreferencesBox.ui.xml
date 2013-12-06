@@ -28,7 +28,7 @@ limitations under the License.
     @external .gwt-ToggleButton-down-disabled;
 
     .dialog {
-      background: #000000 none repeat scroll 0 50%;
+      background: rgba(0, 0, 0, 0.85) none repeat scroll 0 50%;
       color: #ffffff;
       font-family: arial,sans-serif;
       font-weight: bold;
@@ -36,7 +36,6 @@ limitations under the License.
       text-align: left;
       text-shadow: 1px 1px 7px #000000;
       min-width: 300px;
-      opacity: 0.90;
       z-index: 200;
       -webkit-border-radius: 10px;
       -moz-border-radius: 10px;

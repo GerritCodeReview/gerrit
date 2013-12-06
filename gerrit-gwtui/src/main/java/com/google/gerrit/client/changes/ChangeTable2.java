@@ -38,7 +38,6 @@ import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -227,8 +226,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     } else {
       table.setText(row, C_LAST_UPDATE, shortFormat(c.updated()));
     }
-    table.setWidget(row, C_SIZE, getSizeWidget(c));
-    fmt.getElement(row, C_SIZE).setTitle(
+    table.setText(row, C_SIZE,
         Util.M.insertionsAndDeletions(c.insertions(), c.deletions()));
 
     boolean displayName = Gerrit.isSignedIn() && Gerrit.getUserAccount()
@@ -304,31 +302,6 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
         needHighlight);
 
     setRowItem(row, c);
-  }
-
-  private static Widget getSizeWidget(ChangeInfo c) {
-    int largeChangeSize = Gerrit.getConfig().getLargeChangeSize();
-    int changedLines = c.insertions() + c.deletions();
-    int p = 100;
-    if (changedLines < largeChangeSize) {
-      p = Math.round(changedLines * 100 / largeChangeSize);
-    }
-
-    int width = Math.max(2, 70 * p / 100);
-    int red = p > 50 ? 255 : (int) Math.round((p) * 5.12);
-    int green = p < 50 ? 255 : (int) Math.round(256 - (p - 50) * 5.12);
-    String bg = "#" + toHex(red) + toHex(green) + "00";
-
-    SimplePanel panel = new SimplePanel();
-    panel.setStyleName(Gerrit.RESOURCES.css().changeSize());
-    panel.setWidth(width + "px");
-    panel.getElement().getStyle().setBackgroundColor(bg);
-    return panel;
-  }
-
-  private static String toHex(int i) {
-    String hex = Integer.toHexString(i);
-    return hex.length() == 1 ? "0" + hex : hex;
   }
 
   public void addSection(final Section s) {

@@ -167,18 +167,19 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     }
     Collections.sort(labelNames);
 
-    if (BASE_COLUMNS + labelNames.size() < columns) {
-      int n = columns - (BASE_COLUMNS + labelNames.size());
+    int baseColumns = useNewFeatures ? BASE_COLUMNS : BASE_COLUMNS - 1;
+    if (baseColumns + labelNames.size() < columns) {
+      int n = columns - (baseColumns + labelNames.size());
       for (int row = 0; row < table.getRowCount(); row++) {
         table.removeCells(row, columns, n);
       }
     }
-    columns = BASE_COLUMNS + labelNames.size();
+    columns = baseColumns + labelNames.size();
 
     FlexCellFormatter fmt = table.getFlexCellFormatter();
     for (int i = 0; i < labelNames.size(); i++) {
       String name = labelNames.get(i);
-      int col = BASE_COLUMNS + i;
+      int col = baseColumns + i;
 
       StringBuilder abbrev = new StringBuilder();
       for (String t : name.split("-")) {
@@ -235,7 +236,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     }
     int col = C_SIZE;
     if (useNewFeatures) {
-      table.setText(row, col,
+      table.setText(row, col++,
           Util.M.insertionsAndDeletions(c.insertions(), c.deletions()));
     }
 

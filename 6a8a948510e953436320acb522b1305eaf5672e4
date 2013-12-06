@@ -81,6 +81,24 @@
       "revId": "6a8a948510e953436320acb522b1305eaf5672e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23752e3e_8e837b3d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/contact/EncryptedContactStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-06T15:45:17Z",
+      "side": 1,
+      "message": "OK, that\u0027s fine. OTOH, i am not a bug fan of waiting for some events that may or may not occur in the near future; and letting changes with -2 hanging around for years without to abandon them, ...",
+      "parentUuid": "0372ea57_ed59e54f",
+      "revId": "6a8a948510e953436320acb522b1305eaf5672e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

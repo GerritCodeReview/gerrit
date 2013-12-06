@@ -70,6 +70,24 @@
       "revId": "3b005514cf752be4e0bfe328472f847e4af227e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23752e3e_ce2bc399",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1569,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-06T07:32:09Z",
+      "side": 1,
+      "message": "+1 to be able to provide new screens from a plugin. I guess Shawn not opposed to the idea itself but to the suggested implementation?",
+      "parentUuid": "23752e3e_eee23f46",
+      "revId": "3b005514cf752be4e0bfe328472f847e4af227e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

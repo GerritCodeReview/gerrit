@@ -45,11 +45,8 @@ import java.util.Set;
  * the available categories, with a score of 0 is used.
  */
 public class ApprovalsUtil {
-  private final ReviewDb db;
-
   @Inject
-  ApprovalsUtil(ReviewDb db) {
-    this.db = db;
+  ApprovalsUtil() {
   }
 
   /**
@@ -57,11 +54,12 @@ public class ApprovalsUtil {
    *
    * @throws OrmException
    */
-  public void copyLabels(LabelTypes labelTypes,
-      PatchSet.Id source, PatchSet dest, ChangeKind changeKind) throws OrmException {
+  public void copyLabels(ReviewDb db, LabelTypes labelTypes,
+      PatchSet.Id source, PatchSet dest, ChangeKind changeKind)
+      throws OrmException {
     Iterable<PatchSetApproval> sourceApprovals =
         db.patchSetApprovals().byPatchSet(source);
-    copyLabels(labelTypes, sourceApprovals, source, dest, changeKind);
+    copyLabels(db, labelTypes, sourceApprovals, source, dest, changeKind);
   }
 
   /**
@@ -69,7 +67,7 @@ public class ApprovalsUtil {
    *
    * @throws OrmException
    */
-  public void copyLabels(LabelTypes labelTypes,
+  public void copyLabels(ReviewDb db, LabelTypes labelTypes,
       Iterable<PatchSetApproval> sourceApprovals, PatchSet.Id source,
       PatchSet dest, ChangeKind changeKind) throws OrmException {
     List<PatchSetApproval> copied = Lists.newArrayList();
@@ -94,7 +92,7 @@ public class ApprovalsUtil {
     db.patchSetApprovals().insert(copied);
   }
 
-  public void addReviewers(LabelTypes labelTypes, Change change,
+  public void addReviewers(ReviewDb db, LabelTypes labelTypes, Change change,
       PatchSet ps, PatchSetInfo info, Set<Account.Id> wantReviewers,
       Set<Account.Id> existingReviewers) throws OrmException {
     List<LabelType> allTypes = labelTypes.getLabelTypes();

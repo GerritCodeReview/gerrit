@@ -62,7 +62,7 @@ public interface EmailExpander {
 
     @Override
     public boolean canExpand(final String user) {
-      return user.indexOf(' ') < 0;
+      return !user.contains(" ");
     }
 
     public String expand(final String user) {

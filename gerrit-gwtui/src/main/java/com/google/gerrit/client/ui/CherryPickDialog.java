@@ -53,7 +53,7 @@ public abstract class CherryPickDialog extends ActionDialog {
         LinkedList<BranchSuggestion> suggestions =
             new LinkedList<BranchSuggestion>();
         for (final BranchInfo b : branches) {
-          if (b.ref().indexOf(request.getQuery()) >= 0) {
+          if (b.ref().contains(request.getQuery())) {
             suggestions.add(new BranchSuggestion(b));
           }
         }

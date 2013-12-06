@@ -76,7 +76,7 @@ public class MorphingTabPanel extends TabPanel {
 
   public void setVisible(Widget w, boolean visible) {
     if (visible) {
-      if (visibles.indexOf(w) == -1) {
+      if (!visibles.contains(w)) {
         int origPos = widgets.indexOf(w);
 
         /* Re-insert the widget right after the first visible widget found

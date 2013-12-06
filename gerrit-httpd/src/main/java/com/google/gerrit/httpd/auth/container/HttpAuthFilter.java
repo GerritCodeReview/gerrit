@@ -159,13 +159,13 @@ class HttpAuthFilter implements Filter {
         return c > 0 ? auth.substring(0, c) : null;
 
       } else if (auth.startsWith("Digest ")) {
-        int u = auth.indexOf("username=\"");
+        final int u = auth.indexOf("username=\"");
         if (u <= 0) {
           return null;
         }
         auth = auth.substring(u + 10);
-        int e = auth.indexOf('"');
-        return e > 0 ? auth.substring(0, auth.indexOf('"')) : null;
+        final int e = auth.indexOf('"');
+        return e > 0 ? auth.substring(0, e) : null;
 
       } else {
         return null;

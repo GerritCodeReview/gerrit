@@ -16,6 +16,24 @@
       "revId": "7a7c929bc6f7bd703818d29fd74a957834cbf56e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e37eb624_6cef3b2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-06T06:49:39Z",
+      "side": 1,
+      "message": "On the contrary. I have decided to get the old UI running on the new REST API just enough to build the old UI once, and archive that built JS. For a few servers I am going to run a hacked system that uses old UI and current master backend. Then master can drop the old UI code entirely.",
+      "parentUuid": "43906299_4ff26d17",
+      "revId": "7a7c929bc6f7bd703818d29fd74a957834cbf56e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

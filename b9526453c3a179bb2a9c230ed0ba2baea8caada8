@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "633d664c_40278ec8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1667,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-12-06T00:37:41Z",
+      "side": 1,
+      "message": "Move to GetDiff?",
+      "range": {
+        "startLine": 1667,
+        "startChar": 25,
+        "endLine": 1667,
+        "endChar": 36
+      },
+      "revId": "b9526453c3a179bb2a9c230ed0ba2baea8caada8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "092b9b85e858b39fdde0cb5c99f08d56827bb981",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "830dfaeb_b9067f35",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PublishCommentScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-07T06:32:27Z",
+      "side": 1,
+      "message": "submit action works differently than this flag. The action only appears back from CURRENT_ACTIONS when the rules are fully satisfied, e.g. both Verified+1 and Code-Review+2 are already on the change.\n\nThis submit was true if it was possible for the current user to grant the missing labels. So if the change was missing Code-Review+2 but the current user has permission to grant Code-Review+2 than its true, even though it can\u0027t be submitted unless the user granted +2 as part of this review.\n\nThe new REST API reports a different thing than this expects so I can\u0027t use it here.",
+      "parentUuid": "c3a7f221_abdd6985",
+      "revId": "092b9b85e858b39fdde0cb5c99f08d56827bb981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

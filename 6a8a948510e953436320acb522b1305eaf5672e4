@@ -117,6 +117,24 @@
       "revId": "6a8a948510e953436320acb522b1305eaf5672e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3d67e80_ca054329",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/contact/EncryptedContactStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-07T07:23:20Z",
+      "side": 1,
+      "message": "+1 on removing PGP stuff, I always asked why we need that?",
+      "parentUuid": "830dfaeb_d93a53e5",
+      "revId": "6a8a948510e953436320acb522b1305eaf5672e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

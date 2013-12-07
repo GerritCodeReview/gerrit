@@ -629,16 +629,10 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
       @Override
       public void onClick(final ClickEvent event) {
         b.setEnabled(false);
-        PatchUtil.DETAIL_SVC.deleteDraftPatchSet(patchSet.getId(),
-            new ChangeDetailCache.GerritWidgetCallback(b) {
-              public void onSuccess(final ChangeDetail result) {
-                if (result != null) {
-                  detailCache.set(result);
-                } else {
-                  Gerrit.display(PageLinks.MINE);
-                }
-              }
-            });
+        final Change.Id id = patchSet.getId().getParentKey();
+        ChangeApi.deleteRevision(id.get(),
+            patchSet.getRevision().get(),
+            DraftActions.cs(id));
       }
     });
     actionsPanel.add(b);

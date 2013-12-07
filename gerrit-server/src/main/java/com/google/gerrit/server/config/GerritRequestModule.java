@@ -18,7 +18,6 @@ import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
-import com.google.gerrit.server.changedetail.DeleteDraftPatchSet;
 import com.google.gerrit.server.changedetail.PublishDraft;
 import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.MergeOp;
@@ -48,7 +47,6 @@ public class GerritRequestModule extends FactoryModule {
     // Not really per-request, but dammit, I don't know where else to
     // easily park this stuff.
     //
-    factory(DeleteDraftPatchSet.Factory.class);
     factory(PublishDraft.Factory.class);
     factory(RemoveReviewer.Factory.class);
     factory(SuggestParentCandidates.Factory.class);

@@ -129,6 +129,7 @@ public class ChangeScreen2 extends Screen {
   private Timestamp lastDisplayedUpdate;
   private UpdateAvailableBar updateAvailable;
   private boolean openReplyBox;
+  private boolean focusSubmit;
   private boolean loaded;
 
   @UiField HTMLPanel headerLine;
@@ -175,11 +176,14 @@ public class ChangeScreen2 extends Screen {
   private PatchSetsAction patchSetsAction;
   private DownloadAction downloadAction;
 
-  public ChangeScreen2(Change.Id changeId, String base, String revision, boolean openReplyBox) {
+  public ChangeScreen2(Change.Id changeId,
+      String base, String revision,
+      boolean openReplyBox, boolean focusSubmit) {
     this.changeId = changeId;
     this.base = normalize(base);
     this.revision = normalize(revision);
     this.openReplyBox = openReplyBox;
+    this.focusSubmit = focusSubmit;
     add(uiBinder.createAndBindUi(this));
   }
 
@@ -418,6 +422,8 @@ public class ChangeScreen2 extends Screen {
 
     if (openReplyBox) {
       onReply();
+    } else if (focusSubmit && actions.isSubmitEnabled()) {
+      actions.submit.setFocus(true);
     } else {
       String prior = Gerrit.getPriorView();
       if (prior != null && prior.startsWith("/c/")) {

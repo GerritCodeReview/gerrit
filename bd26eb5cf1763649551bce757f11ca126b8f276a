@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "830dfaeb_9930db09",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-07T07:19:58Z",
+      "side": 1,
+      "message": "If a \"CC\" is removed (where the PatchSetApproval exists but only for value \u003d 0) this logs a message saying \"Removed the following approvals:\\n\\n\". This makes no sense because no approvals were removed.\n\nIt would be OK to say a CC or reviewer was removed, but with no score assigned I don\u0027t think this is worth stating in the message log. Maybe it is. But the text as coded won\u0027t be clear when it happens.",
+      "revId": "bd26eb5cf1763649551bce757f11ca126b8f276a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3b1b20e_db6733fd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
         "patchSetId": 2

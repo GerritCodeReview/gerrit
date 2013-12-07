@@ -227,7 +227,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
       if (cId.equals(p.getId().getParentKey())) {
         try {
           RevCommit c = rw.parseCommit(ObjectId.fromString(
-              rsrc.getPatchSet().getRevision().get()));
+              p.getRevision().get()));
           if (!c.has(seenCommit)) {
             c.add(seenCommit);
             q.add(c.name());

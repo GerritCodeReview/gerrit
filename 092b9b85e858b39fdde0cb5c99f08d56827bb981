@@ -34,6 +34,24 @@
       "revId": "092b9b85e858b39fdde0cb5c99f08d56827bb981",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3d67e80_aadd6f85",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PublishCommentScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-07T06:35:47Z",
+      "side": 1,
+      "message": "One thing we don\u0027t want to do for sure, is to introduce new attributes in new REST Api for the old change scren to work.",
+      "parentUuid": "830dfaeb_b9067f35",
+      "revId": "092b9b85e858b39fdde0cb5c99f08d56827bb981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

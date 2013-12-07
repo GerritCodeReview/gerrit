@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "830dfaeb_398eef62",
+        "filename": "Documentation/intro-change-screen.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-07T18:07:33Z",
+      "side": 1,
+      "message": "hit?",
+      "range": {
+        "startLine": 68,
+        "startChar": 58,
+        "endLine": 68,
+        "endChar": 60
+      },
+      "revId": "0040c659a6d5c8d3b3675d9baddf84a8b4c9ce62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3083eda_bac79182",
+        "filename": "Documentation/intro-change-screen.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-07T18:07:33Z",
+      "side": 1,
+      "message": "This is awkward wording. Perhaps \"when at least two (draft) revisions exist\".",
+      "range": {
+        "startLine": 163,
+        "startChar": 33,
+        "endLine": 164,
+        "endChar": 5
+      },
+      "revId": "0040c659a6d5c8d3b3675d9baddf84a8b4c9ce62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "830dfaeb_198b2b53",
+        "filename": "Documentation/intro-change-screen.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-07T18:07:33Z",
+      "side": 1,
+      "message": "index is now required.",
+      "range": {
+        "startLine": 274,
+        "startChar": 0,
+        "endLine": 275,
+        "endChar": 74
+      },
+      "revId": "0040c659a6d5c8d3b3675d9baddf84a8b4c9ce62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3083eda_fa4e2983",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-07T07:15:34Z",
+      "side": 1,
+      "message": "We don\u0027t import Id, Key or NameKey classes bare. Use Project.NameKey below.",
+      "revId": "9d549d8e40b705900a0f4f14c337c97eed625b8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "830dfaeb_79150756",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-07T07:15:34Z",
+      "side": 1,
+      "message": "This can be private",
+      "range": {
+        "startLine": 218,
+        "startChar": 2,
+        "endLine": 218,
+        "endChar": 8
+      },
+      "revId": "9d549d8e40b705900a0f4f14c337c97eed625b8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "830dfaeb_19184b8e",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-07T07:15:34Z",
+      "side": 1,
+      "message": "static",
+      "range": {
+        "startLine": 218,
+        "startChar": 2,
+        "endLine": 218,
+        "endChar": 28
+      },
+      "revId": "9d549d8e40b705900a0f4f14c337c97eed625b8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "830dfaeb_b92b1f9a",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-07T07:15:34Z",
+      "side": 1,
+      "message": "declare these final",
+      "range": {
+        "startLine": 219,
+        "startChar": 4,
+        "endLine": 221,
+        "endChar": 24
+      },
+      "revId": "9d549d8e40b705900a0f4f14c337c97eed625b8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "830dfaeb_5912c36f",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-07T07:15:34Z",
+      "side": 1,
+      "message": "none of these methods need to be public.",
+      "range": {
+        "startLine": 223,
+        "startChar": 4,
+        "endLine": 223,
+        "endChar": 10
+      },
+      "revId": "9d549d8e40b705900a0f4f14c337c97eed625b8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3083eda_da53652d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-07T07:15:34Z",
+      "side": 1,
+      "message": "Project.NameKey",
+      "range": {
+        "startLine": 238,
+        "startChar": 10,
+        "endLine": 238,
+        "endChar": 14
+      },
+      "revId": "9d549d8e40b705900a0f4f14c337c97eed625b8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3083eda_3a49c17a",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-07T07:15:34Z",
+      "side": 1,
+      "message": "no this",
+      "range": {
+        "startLine": 258,
+        "startChar": 13,
+        "endLine": 258,
+        "endChar": 18
+      },
+      "revId": "9d549d8e40b705900a0f4f14c337c97eed625b8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3083eda_1a467d6a",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-07T07:15:34Z",
+      "side": 1,
+      "message": "no this",
+      "range": {
+        "startLine": 262,
+        "startChar": 13,
+        "endLine": 262,
+        "endChar": 18
+      },
+      "revId": "9d549d8e40b705900a0f4f14c337c97eed625b8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

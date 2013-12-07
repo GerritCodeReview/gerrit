@@ -14,6 +14,7 @@
 
 package com.google.gerrit.plugin.client;
 
+import com.google.gerrit.plugin.client.screen.Screen;
 import com.google.gwt.core.client.EntryPoint;
 
 /**
@@ -26,6 +27,21 @@ import com.google.gwt.core.client.EntryPoint;
  * </ol>
  */
 public abstract class Plugin implements EntryPoint {
+  public static void onScreen(String token, Screen.Callback cb) {
+    onScreen(false, token, cb);
+  }
+
+  public static void onScreenRegex(String pattern, Screen.Callback cb) {
+    onScreen(true, pattern, cb);
+  }
+
+  private native static void onScreen(boolean re, String p, Screen.Callback b) /*-{
+    $wnd.Gerrit.onScreen(re?new $wnd.RegExp(p):p, $entry(function(c) {
+      b.@com.google.gerrit.plugin.client.screen.Screen.Callback::onLoad(L/com/google/gerrit/plugin/client/screen/Screen;)(
+        @com.google.gerrit.plugin.client.screen.Screen::new(Lcom/google/gerrit/plugin/client/screen/Context;)(c));
+    }));
+  }-*/;
+
   public native static void go(String t)
   /*-{ $wnd.Gerrit.go(t) }-*/;
 

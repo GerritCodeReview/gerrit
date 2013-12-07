@@ -32,6 +32,10 @@ public class ApiGlue {
   private static native void init0() /*-{
     var serverUrl = @com.google.gwt.core.client.GWT::getHostPageBaseURL()();
     var Plugin = function (name){this.name = name};
+    var Screen = function (r,c) {
+      this.pattern = r;
+      this.onLoad = c;
+    };
     var Gerrit = {
       getPluginName: @com.google.gerrit.client.api.ApiGlue::getPluginName(),
       install: function (f) {
@@ -43,6 +47,7 @@ public class ApiGlue {
       refresh: @com.google.gerrit.client.api.ApiGlue::refresh(),
 
       events: {},
+      screens: {},
       change_actions: {},
       revision_actions: {},
       project_actions: {},
@@ -54,6 +59,11 @@ public class ApiGlue {
         if ('change' == t) this.change_actions[i]=c;
         else if ('revision' == t) this.revision_actions[i]=c;
         else if ('project' == t) this.project_actions[i]=c;
+      },
+      onScreen: function(r,c){this._onScreen(this.getPluginName(),r,c)},
+      _onScreen: function(p,r,c){
+        var s = new Screen(r,c);
+        (this.screens[p] || (this.screens[p]=[])).push(s);
       },
 
       url: function (d) {
@@ -88,7 +98,9 @@ public class ApiGlue {
       getPluginName: function(){return this.name},
       go: @com.google.gerrit.client.api.ApiGlue::go(Ljava/lang/String;),
       refresh: Gerrit.refresh,
+      on: Gerrit.on,
       onAction: function(t,n,c) {Gerrit._onAction(this.name,t,n,c)},
+      onScreen: function(r,c) {Gerrit._onScreen(this.name,r,c)},
 
       url: function (d) {
         var u = serverUrl + 'plugins/' + this.name + '/';

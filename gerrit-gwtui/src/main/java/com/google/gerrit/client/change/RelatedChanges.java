@@ -106,8 +106,9 @@ public class RelatedChanges extends TabPanel {
   }
 
   private final List<RelatedChangesTab> tabs;
-  private int maxHeight;
+  private int maxHeightBeforeHeader;
   private int selectedTab;
+  private int outstandingCallbacks;
 
   RelatedChanges() {
     tabs = new ArrayList<RelatedChangesTab>(Tab.values().length);
@@ -133,7 +134,6 @@ public class RelatedChanges extends TabPanel {
 
     for (Tab tabInfo : Tab.values()) {
       RelatedChangesTab panel = new RelatedChangesTab();
-      panel.setMaxHeight(maxHeight);
       add(panel, tabInfo.defaultTitle);
       tabs.add(panel);
 
@@ -205,13 +205,18 @@ public class RelatedChanges extends TabPanel {
   }
 
   void setMaxHeight(int height) {
-    maxHeight = height - (getTabBar().getOffsetHeight() + 2 /* padding */);
-    for (int i = 0; i < getTabBar().getTabCount(); i++) {
-      tabs.get(i).setMaxHeight(maxHeight);
+    maxHeightBeforeHeader = height;
+    if (isVisible()) {
+      applyMaxHeight();
     }
   }
 
-  private int outstandingCallbacks;
+  private void applyMaxHeight() {
+    int header = getTabBar().getOffsetHeight() + 2 /* padding */;
+    for (int i = 0; i < getTabBar().getTabCount(); i++) {
+      tabs.get(i).setMaxHeight(maxHeightBeforeHeader - header);
+    }
+  }
 
   private abstract class TabCallback<T> implements AsyncCallback<T> {
     private final Tab tabInfo;
@@ -249,12 +254,17 @@ public class RelatedChanges extends TabPanel {
       outstandingCallbacks--;
       if (outstandingCallbacks == 0 || (enabled && tabInfo == Tab.RELATED_CHANGES)) {
         outstandingCallbacks = 0;  // Only execute this block once
+        boolean show = false;
         for (int i = 0; i < getTabBar().getTabCount(); i++) {
           if (getTabBar().isTabEnabled(i)) {
             selectTab(i);
-            setVisible(true);
+            show = true;
             break;
           }
+        }
+        if (show && !isVisible()) {
+          setVisible(true);
+          applyMaxHeight();
         }
       }
     }

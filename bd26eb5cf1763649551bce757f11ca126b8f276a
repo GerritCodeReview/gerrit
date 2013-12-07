@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c3a7f221_4b120570",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-07T07:45:43Z",
+      "side": 1,
+      "message": "I think we only need a message if approvals were removed.\n\nDone.",
+      "parentUuid": "830dfaeb_9930db09",
+      "revId": "bd26eb5cf1763649551bce757f11ca126b8f276a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3b1b20e_db6733fd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
         "patchSetId": 2

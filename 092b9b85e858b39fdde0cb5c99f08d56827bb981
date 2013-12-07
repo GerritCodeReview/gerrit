@@ -69,6 +69,24 @@
       "revId": "092b9b85e858b39fdde0cb5c99f08d56827bb981",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3083eda_3a7701af",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-07T17:58:31Z",
+      "side": 1,
+      "message": "Done, but in parent change that removes changeDetail. That is where it becomes unused and dead.",
+      "parentUuid": "a3d67e80_aa2baf99",
+      "revId": "092b9b85e858b39fdde0cb5c99f08d56827bb981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

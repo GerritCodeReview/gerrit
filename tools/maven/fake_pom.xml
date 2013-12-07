@@ -20,4 +20,10 @@
       </extension>
     </extensions>
   </build>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>gerrit-maven-repository</id>
+      <url>https://gerrit-maven.storage.googleapis.com/</url>
+    </pluginRepository>
+  </pluginRepositories>
 </project>

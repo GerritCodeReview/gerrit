@@ -40,8 +40,12 @@ Switching between patch sets
 As already mentioned above, the main difference between the old and the new
 change screen is the fact that only one patch set is presented on the screen.
 
-To switch to other patch sets for the given change, the drop down 'Revisions'
-box is used on the right upper side of the change header.
+To switch to other patch sets for the given change, the drop down 'Patch Sets'
+box is used on the right upper side of the change header. The current selected
+patch set and the number of patch sets are shown on the drop down in the form:
+"currently active patch set/number of patch sets". To indicate that not the
+current patch set is active, change header contains: "Not Current" headline
+instead of the change status.
 
 Patch sets are always sorted in descending order. The option to switch between
 ascending and reverse patch set sorting order is not supported on the new change
@@ -57,6 +61,11 @@ The download commands are moved to the 'Download' drop down box.  Patch files
 can be downloaded as base64 encoded or zipped versions. Download-plugin must
 be installed to see the download actions. If download plugin is not installed,
 only patch files hyperlinks are shown.
+
+Change state is cached in browsers, and the change state includes the download
+URLs. If the change is modified (e.g. add a message or change  a label vote)
+the cached state in the browser will be invalidated and the download commands
+will update. Another option to invalidate the cache is to use "Ctrl+Shift+R".
 
 [[included-in]]
 Included in
@@ -96,7 +105,8 @@ Reply button
 
 This button corresponds to the 'Review' button the on patch set panel on the old
 change screen.  The only new feature: the user can optionally send an email
-during the vote.
+during the vote. Inline comments are displayed inside of the ReplyBox. Editing
+them inline in the ReplyBox is currently not possible.
 
 Key bindings: "a" to open the drop down. "ESC" to close it.
 
@@ -148,17 +158,19 @@ can be provided.
 Working with draft changes and patch sets
 -----------------------------------------
 
-When a change or a patch set is a draft, then three additional buttons appear on
-the action panel: 'Publish', 'Delete Revision', and 'Delete Change'. In the
-'Revisions' drop down a "(DRAFT)" suffix is added to the patch set number to
-indicate that the patch set is a draft.
+When a change or a patch set is a draft, then three additional buttons
+appear on the action panel: 'Publish', 'Delete Revision', and 'Delete
+Change'. 'Delete Revision' button is only visible when there are at
+least two (draft) revisions. In the 'Patch Set' drop down a "(DRAFT)"
+suffix is added to the patch set number to indicate that the patch set
+is a draft.
 
 [[draft-comments]]
 Highlight draft comments
 ------------------------
 
 If a patch set has draft comments that weren't published yet, then that patch
-set is marked on the list in the 'Revisions' drop down list. In addition a red
+set is marked on the list in the 'Patch Sets' drop down list. In addition a red
 "draft" prefix appears on the filenames in the file table.
 
 [[codemirror]]
@@ -166,23 +178,28 @@ Codemirror
 ----------
 
 On the user preferences page, 'Side By Side' or 'Unified Diff' view can be
-configured.  Use the "/" key to start the CodeMirror search, like in vim.
+configured.  Use the "/" key to start the CodeMirror search, like in 'vim'.
 
 Key bindings are not customizable at the moment. They may be added in the future.
 
 Range comments are supported on Codemirror's 'Side By Side' screen.  Highlight
 lines with the mouse and then click the bottom-most line number to create a
-range comment for the highlighted lines.
+range comment for the highlighted lines. It can also be used to select a
+region on one line to emphasize what the comment is related to.
 
 Key bindings:
 
-* n / p next diff chunk / previous diff chunk
-* ] / [ next file / previous file
-* u up to change
-* c create a new inline comment
-* / search in the current file
-* <Shift> + o expand or collapse all comments on current line
-* <Enter> or o expand or collapse comment
+* n / p: next diff chunk / previous diff chunk
+* ] / [: next file / previous file
+* u: up to change
+* c: create a new inline comment (focus has to be in codemirror view)
+* /: search in the current file
+* <Shift> + o: expand or collapse all comments on current line
+* <Enter> or o: expand or collapse comment
+* <Esc> or Cancel: comment edit
+* i: toggle intraline differences
+* ,: Show diff preferences
+* <Ctrl> + s: Save draft comment
 
 [[reviewers]]
 Reviewers
@@ -226,12 +243,19 @@ This tab page shows open changes on which the current change depends and open
 changes that depend on the current change. For merge commits it shows also the
 closed changes that are going to be merged into the destination branch by
 accepting the merge commit. It is kind of a dependency too, but not in the
-sense of "these changes have to be submitted in order to submit this change".
+sense of "these changes have to be submitted in order to submit this
+change".
+
+This tab is only visible if related changes for the current active
+change exist.
 
 * Same Topic Changes
 
 Changes that share the same topic are listed on this tab page. Only changes
 in status opened are currently shown.
+
+This tab is only visible if same topic changes for the current active
+change exist.
 
 * Cherry-Picks Changes
 
@@ -239,14 +263,17 @@ Changes with the same change id for the current project are listed on this
 tab page. Note that also abandoned or merged changes can be shown. Currently
 the status of the listed changes is not shown.
 
+This tab is only visible if cherry-picked changes for the current active
+change exist.
+
 * Conflicts With Changes
 
 Changes that are conflicting with the current change are listed on this
 tab. Only the changes that are mergeable are currently shown. Non mergeable
 changes are filtered out.
 
-This tab is only active if secondary index is enabled
-(link:config-gerrit.html#index.type[index.type] set to `LUCENE` or `SOLR`).
+This tab is only visible if there are conflicting changes with the
+current change.
 
 Key bindings: "J" & "K" to navigate between the related changes. "O" to
 open the currently selected change on one of the related changes tab page.
@@ -280,14 +307,6 @@ The history table shows change messages and inline file comments. Expand All and
 Collapse All buttons show/hide the messages.
 
 Key bindings: "x" expands all messages, "z" collapses them again.
-
-[[missing-features]]
-Missing features
-----------------
-
-Several features have not been implemented yet:
-
-* Allow to see if a reviewer can't vote on a label
 
 GERRIT
 ------

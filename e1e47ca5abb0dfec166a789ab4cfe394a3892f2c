@@ -52,6 +52,24 @@
       "revId": "e1e47ca5abb0dfec166a789ab4cfe394a3892f2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3083eda_3a20a1b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-07T06:55:46Z",
+      "side": 1,
+      "message": "I\u0027m excluding the 20 minutes I spent trying to remember what the hell the code does. And I wrote that code. :-)",
+      "parentUuid": "c3a7f221_eb00111b",
+      "revId": "e1e47ca5abb0dfec166a789ab4cfe394a3892f2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

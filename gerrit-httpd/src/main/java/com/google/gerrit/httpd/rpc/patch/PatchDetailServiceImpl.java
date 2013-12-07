@@ -14,10 +14,8 @@
 
 package com.google.gerrit.httpd.rpc.patch;
 
-import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.PatchDetailService;
 import com.google.gerrit.common.data.PatchScript;
-import com.google.gerrit.common.data.ReviewResult;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.BaseServiceImplementation;
 import com.google.gerrit.httpd.rpc.Handler;
@@ -29,45 +27,33 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.changedetail.DeleteDraftPatchSet;
 import com.google.gerrit.server.patch.PatchScriptFactory;
-import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
-
-import java.io.IOException;
 import java.util.Collections;
 
 class PatchDetailServiceImpl extends BaseServiceImplementation implements
     PatchDetailService {
-  private final DeleteDraftPatchSet.Factory deleteDraftPatchSetFactory;
   private final PatchScriptFactory.Factory patchScriptFactoryFactory;
   private final SaveDraft.Factory saveDraftFactory;
-  private final ChangeDetailFactory.Factory changeDetailFactory;
   private final ChangeControl.Factory changeControlFactory;
 
   @Inject
   PatchDetailServiceImpl(final Provider<ReviewDb> schema,
       final Provider<CurrentUser> currentUser,
-      final DeleteDraftPatchSet.Factory deleteDraftPatchSetFactory,
       final PatchScriptFactory.Factory patchScriptFactoryFactory,
       final SaveDraft.Factory saveDraftFactory,
       final ChangeDetailFactory.Factory changeDetailFactory,
       final ChangeControl.Factory changeControlFactory) {
     super(schema, currentUser);
 
-    this.deleteDraftPatchSetFactory = deleteDraftPatchSetFactory;
     this.patchScriptFactoryFactory = patchScriptFactoryFactory;
     this.saveDraftFactory = saveDraftFactory;
-    this.changeDetailFactory = changeDetailFactory;
     this.changeControlFactory = changeControlFactory;
   }
 
@@ -117,39 +103,6 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
           return VoidResult.INSTANCE;
         } finally {
           db.rollback();
-        }
-      }
-    });
-  }
-
-  public void deleteDraftPatchSet(final PatchSet.Id psid,
-      final AsyncCallback<ChangeDetail> callback) {
-    run(callback, new Action<ChangeDetail>() {
-      public ChangeDetail run(ReviewDb db) throws OrmException, Failure {
-        ReviewResult result;
-        try {
-          result = deleteDraftPatchSetFactory.create(psid).call();
-          if (result.getErrors().size() > 0) {
-            throw new Failure(new NoSuchEntityException());
-          }
-          if (result.getChangeId() == null) {
-            // the change was deleted because the draft patch set that was
-            // deleted was the only patch set in the change
-            return null;
-          }
-          return changeDetailFactory.create(result.getChangeId()).call();
-        } catch (NoSuchChangeException e) {
-          throw new Failure(new NoSuchChangeException(psid.getParentKey()));
-        } catch (NoSuchProjectException e) {
-          throw new Failure(e);
-        } catch (NoSuchEntityException e) {
-          throw new Failure(e);
-        } catch (PatchSetInfoNotAvailableException e) {
-          throw new Failure(e);
-        } catch (RepositoryNotFoundException e) {
-          throw new Failure(e);
-        } catch (IOException e) {
-          throw new Failure(e);
         }
       }
     });

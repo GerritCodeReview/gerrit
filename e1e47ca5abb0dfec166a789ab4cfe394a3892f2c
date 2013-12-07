@@ -16,6 +16,24 @@
       "revId": "e1e47ca5abb0dfec166a789ab4cfe394a3892f2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "830dfaeb_f900f71a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-07T06:51:55Z",
+      "side": 1,
+      "message": "It wasn\u0027t complicated. I spent like 10 minutes debugging the problem and getting it fixed. :-)\n\nBut yes, maybe this should be considered for stable-2.8 just in case we spin a 2.8.1.",
+      "parentUuid": "c3a7f221_0bef5d2a",
+      "revId": "e1e47ca5abb0dfec166a789ab4cfe394a3892f2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

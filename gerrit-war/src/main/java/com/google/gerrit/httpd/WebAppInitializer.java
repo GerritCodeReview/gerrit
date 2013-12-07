@@ -51,6 +51,8 @@ import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.server.schema.DatabaseModule;
 import com.google.gerrit.server.schema.SchemaModule;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
+import com.google.gerrit.server.ssh.NoSshModule;
+import com.google.gerrit.server.ssh.SshAddressesModule;
 import com.google.gerrit.solr.SolrIndexModule;
 import com.google.gerrit.sshd.SshHostKeyModule;
 import com.google.gerrit.sshd.SshKeyCacheImpl;
@@ -143,12 +145,16 @@ public class WebAppInitializer extends GuiceServletContextListener
 
       cfgInjector = createCfgInjector();
       sysInjector = createSysInjector();
-      sshInjector = createSshInjector();
+      if (!sshdOff()) {
+        sshInjector = createSshInjector();
+      }
       webInjector = createWebInjector();
 
       PluginGuiceEnvironment env = sysInjector.getInstance(PluginGuiceEnvironment.class);
       env.setCfgInjector(cfgInjector);
-      env.setSshInjector(sshInjector);
+      if (sshInjector != null) {
+        env.setSshInjector(sshInjector);
+      }
       env.setHttpInjector(webInjector);
 
       // Push the Provider<HttpServletRequest> down into the canonical
@@ -169,9 +175,16 @@ public class WebAppInitializer extends GuiceServletContextListener
       manager.add(dbInjector);
       manager.add(cfgInjector);
       manager.add(sysInjector);
-      manager.add(sshInjector);
+      if (sshInjector != null) {
+        manager.add(sshInjector);
+      }
       manager.add(webInjector);
     }
+  }
+
+  private boolean sshdOff() {
+    Config cfg = cfgInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
+    return new SshAddressesModule().getListenAddresses(cfg).isEmpty();
   }
 
   private Injector createDbInjector() {
@@ -300,8 +313,12 @@ public class WebAppInitializer extends GuiceServletContextListener
     modules.add(RequestContextFilter.module());
     modules.add(AllRequestFilter.module());
     modules.add(sysInjector.getInstance(GitOverHttpModule.class));
-    modules.add(sshInjector.getInstance(WebModule.class));
-    modules.add(sshInjector.getInstance(WebSshGlueModule.class));
+    modules.add(sysInjector.getInstance(WebModule.class));
+    if (sshInjector != null) {
+      modules.add(sshInjector.getInstance(WebSshGlueModule.class));
+    } else {
+      modules.add(new NoSshModule());
+    }
     modules.add(CacheBasedWebSession.module());
     modules.add(HttpContactStoreConnection.module());
     modules.add(new HttpPluginModule());

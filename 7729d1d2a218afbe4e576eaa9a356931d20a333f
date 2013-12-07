@@ -22,6 +22,30 @@
       "revId": "7729d1d2a218afbe4e576eaa9a356931d20a333f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3a7f221_8b306d09",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-07T17:01:42Z",
+      "side": 1,
+      "message": "I\u0027m sorry for this misunderstanding. Will fix this in a minute.",
+      "parentUuid": "a3083eda_9a7e0d92",
+      "range": {
+        "startLine": 599,
+        "startChar": 6,
+        "endLine": 601,
+        "endChar": 7
+      },
+      "revId": "7729d1d2a218afbe4e576eaa9a356931d20a333f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

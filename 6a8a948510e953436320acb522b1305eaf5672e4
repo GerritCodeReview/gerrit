@@ -135,6 +135,24 @@
       "revId": "6a8a948510e953436320acb522b1305eaf5672e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3083eda_5a40f54b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/contact/EncryptedContactStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-07T07:26:21Z",
+      "side": 1,
+      "message": "We use it on android-review and gerrit-review to store CLA information. I would also like to get rid of it, but I would prefer to keep that data encrypted.\n\nDave Borowitz and I have been kicking around some ideas going forward that would make more use of PGP in Gerrit. We\u0027ll see. Its too much for this little thread because its very unrelated.",
+      "parentUuid": "a3d67e80_ca054329",
+      "revId": "6a8a948510e953436320acb522b1305eaf5672e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

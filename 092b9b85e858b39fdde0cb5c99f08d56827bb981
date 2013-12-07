@@ -52,6 +52,23 @@
       "revId": "092b9b85e858b39fdde0cb5c99f08d56827bb981",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3d67e80_aa2baf99",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-07T09:59:49Z",
+      "side": 1,
+      "message": "Remove this line.\n\nChangeDetailFactory seems not to be needed any more and can be deleted.\n\nThe only using files seems to be PatchDetailServiceImpl.java, but there it is also not used and can be removed.",
+      "revId": "092b9b85e858b39fdde0cb5c99f08d56827bb981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

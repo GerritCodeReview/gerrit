@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3a7f221_ebe77153",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-07T06:30:23Z",
+      "side": 1,
+      "message": "Add bug issue number:\n\n Bug: issue 2073",
+      "revId": "70810c6d25c51b3c3fd4918e06be7125c26add4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

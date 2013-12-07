@@ -45,6 +45,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -98,7 +100,8 @@ class HttpPluginServlet extends HttpServlet
       = Maps.newConcurrentMap();
 
   @Inject
-  HttpPluginServlet(MimeUtilFileTypeRegistry mimeUtil,
+  HttpPluginServlet(
+      MimeUtilFileTypeRegistry mimeUtil,
       @CanonicalWebUrl Provider<String> webUrl,
       @Named(HttpPluginModule.PLUGIN_RESOURCES) Cache<ResourceKey, Resource> cache,
       @GerritServerConfig Config cfg,
@@ -277,12 +280,16 @@ class HttpPluginServlet extends HttpServlet
 
     if (file.startsWith(holder.staticPrefix)) {
       JarFile jar = holder.plugin.getJarFile();
-      JarEntry entry = jar.getJarEntry(file);
-      if (exists(entry)) {
-        sendResource(jar, entry, key, res);
+      if (jar != null) {
+        JarEntry entry = jar.getJarEntry(file);
+        if (exists(entry)) {
+          sendResource(jar, entry, key, res);
+        } else {
+          resourceCache.put(key, Resource.NOT_FOUND);
+          Resource.NOT_FOUND.send(req, res);
+        }
       } else {
-        resourceCache.put(key, Resource.NOT_FOUND);
-        Resource.NOT_FOUND.send(req, res);
+        sendJsPlugin(holder.plugin, key, req, res);
       }
     } else if (file.equals(
         holder.docPrefix.substring(0, holder.docPrefix.length() - 1))) {
@@ -581,21 +588,43 @@ class HttpPluginServlet extends HttpServlet
           .setLastModified(time));
       res.getOutputStream().write(data);
     } else {
-      InputStream in = jar.getInputStream(entry);
+      writeToResponse(res, jar.getInputStream(entry));
+    }
+  }
+
+  private void sendJsPlugin(Plugin plugin, ResourceKey key,
+      HttpServletRequest req, HttpServletResponse res) throws IOException {
+    File pluginFile = plugin.getSrcFile();
+    if (req.getPathInfo().equals(getJsPluginPath(plugin)) && pluginFile.exists()) {
+      res.setHeader("Content-Length", Long.toString(pluginFile.length()));
+      res.setContentType("application/javascript");
+      writeToResponse(res, new FileInputStream(pluginFile));
+    } else {
+      resourceCache.put(key, Resource.NOT_FOUND);
+      Resource.NOT_FOUND.send(req, res);
+    }
+  }
+
+  private static String getJsPluginPath(Plugin plugin) {
+    return String.format("%s/static/%s", plugin.getName(), plugin.getSrcFile()
+        .getName());
+  }
+
+  private void writeToResponse(HttpServletResponse res, InputStream in)
+      throws IOException {
+    try {
+      OutputStream out = res.getOutputStream();
       try {
-        OutputStream out = res.getOutputStream();
-        try {
-          byte[] tmp = new byte[1024];
-          int n;
-          while ((n = in.read(tmp)) > 0) {
-            out.write(tmp, 0, n);
-          }
-        } finally {
-          out.close();
+        byte[] tmp = new byte[1024];
+        int n;
+        while ((n = in.read(tmp)) > 0) {
+          out.write(tmp, 0, n);
         }
       } finally {
-        in.close();
+        out.close();
       }
+    } finally {
+      in.close();
     }
   }
 
@@ -627,8 +656,12 @@ class HttpPluginServlet extends HttpServlet
     }
 
     private static String getPrefix(Plugin plugin, String attr, String def) {
+      JarFile jarFile = plugin.getJarFile();
+      if (jarFile == null) {
+        return def;
+      }
       try {
-        String prefix = plugin.getJarFile().getManifest().getMainAttributes()
+        String prefix = jarFile.getManifest().getMainAttributes()
             .getValue(attr);
         if (prefix != null) {
           return CharMatcher.is('/').trimFrom(prefix) + "/";

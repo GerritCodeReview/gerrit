@@ -42,7 +42,7 @@ public class ChangeDescriptionBlock extends Composite {
       SubmitTypeRecord submitTypeRecord,
       CommentLinkProcessor commentLinkProcessor) {
     infoBlock.display(changeDetail, acc, submitTypeRecord);
-    messageBlock.display(changeDetail.getChange().currentPatchSetId(), starred,
+    messageBlock.display(changeDetail.getChange().currentPatchSetId(), info.getRevId(), starred,
         canEditCommitMessage, info.getMessage(), commentLinkProcessor);
   }
 }

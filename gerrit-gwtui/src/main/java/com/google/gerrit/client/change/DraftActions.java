@@ -23,7 +23,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-class DraftActions {
+public class DraftActions {
 
   static void publish(Change.Id id, String revision) {
     ChangeApi.publish(id.get(), revision, cs(id));
@@ -37,7 +37,7 @@ class DraftActions {
     ChangeApi.deleteChange(id.get(), mine());
   }
 
-  private static GerritCallback<JavaScriptObject> cs(
+  public static GerritCallback<JavaScriptObject> cs(
       final Change.Id id) {
     return new GerritCallback<JavaScriptObject>() {
       public void onSuccess(JavaScriptObject result) {

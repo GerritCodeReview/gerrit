@@ -14,17 +14,17 @@
 
 package com.google.gerrit.client.changes;
 
-import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.CommentedActionDialog;
 import com.google.gerrit.client.ui.TextBoxChangeListener;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.PreElement;
 import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -70,13 +70,14 @@ public class CommitMessageBlock extends Composite {
 
   public void display(String commitMessage,
       CommentLinkProcessor commentLinkProcessor) {
-    display(null, null, false, commitMessage, commentLinkProcessor);
+    display(null, null, null, false, commitMessage, commentLinkProcessor);
   }
 
-  private abstract class CommitMessageEditDialog extends CommentedActionDialog<ChangeDetail> {
+  private abstract class CommitMessageEditDialog
+      extends CommentedActionDialog<JavaScriptObject> {
     private final String originalMessage;
     public CommitMessageEditDialog(final String title, final String heading,
-        final String commitMessage, AsyncCallback<ChangeDetail> callback) {
+        final String commitMessage, AsyncCallback<JavaScriptObject> callback) {
       super(title, heading, callback);
       originalMessage = commitMessage.trim();
       message.setCharacterWidth(72);
@@ -103,7 +104,7 @@ public class CommitMessageBlock extends Composite {
     }
   }
 
-  public void display(final PatchSet.Id patchSetId,
+  public void display(final PatchSet.Id patchSetId, final String revision,
       Boolean starred, Boolean canEditCommitMessage, final String commitMessage,
       CommentLinkProcessor commentLinkProcessor) {
     starPanel.clear();
@@ -119,7 +120,7 @@ public class CommitMessageBlock extends Composite {
     }
 
     permalinkPanel.clear();
-    if (patchSetId != null) {
+    if (patchSetId != null && revision != null) {
       final Change.Id changeId = patchSetId.getParentKey();
       permalinkPanel.add(new ChangeLink(Util.C.changePermalink(), changeId));
       permalinkPanel.add(new CopyableLabel(ChangeLink.permalink(changeId),
@@ -134,24 +135,20 @@ public class CommitMessageBlock extends Composite {
             new CommitMessageEditDialog(Util.C.titleEditCommitMessage(),
                 Util.C.headingEditCommitMessage(),
                 commitMessage,
-                new ChangeDetailCache.IgnoreErrorCallback() {}) {
-
+                new GerritCallback<JavaScriptObject>() {
+                  @Override
+                  public void onSuccess(JavaScriptObject result) {}
+                }) {
               @Override
               public void onSend() {
-                Util.MANAGE_SVC.createNewPatchSet(patchSetId, getMessageText(),
-                    new AsyncCallback<ChangeDetail>() {
-                    @Override
-                    public void onSuccess(ChangeDetail result) {
-                      Gerrit.display(PageLinks.toChange(changeId));
-                      hide();
-                    }
-
-                    @Override
-                    public void onFailure(Throwable caught) {
-                      enableButtons(true);
-                      new ErrorDialog(caught.getMessage()).center();
-                    }
-                });
+                ChangeApi.message(changeId.get(), revision, getMessageText(),
+                    new GerritCallback<JavaScriptObject>() {
+                      @Override
+                      public void onSuccess(JavaScriptObject msg) {
+                        Gerrit.display(PageLinks.toChange(changeId));
+                        hide();
+                      }
+                    });
               }
             }.center();
           }

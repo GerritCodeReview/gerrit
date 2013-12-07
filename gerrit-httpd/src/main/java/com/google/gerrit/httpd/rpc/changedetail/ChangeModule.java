@@ -28,17 +28,12 @@ public class ChangeModule extends RpcServletModule {
     install(new FactoryModule() {
       @Override
       protected void configure() {
-        factory(EditCommitMessageHandler.Factory.class);
-        factory(RebaseChangeHandler.Factory.class);
         factory(ChangeDetailFactory.Factory.class);
         factory(IncludedInDetailFactory.Factory.class);
         factory(PatchSetDetailFactory.Factory.class);
         factory(PatchSetPublishDetailFactory.Factory.class);
-        factory(PublishAction.Factory.class);
-        factory(DeleteDraftChange.Factory.class);
       }
     });
     rpc(ChangeDetailServiceImpl.class);
-    rpc(ChangeManageServiceImpl.class);
   }
 }

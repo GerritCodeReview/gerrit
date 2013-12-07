@@ -18,6 +18,7 @@ import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GitwebLink;
+import com.google.gerrit.client.change.DraftActions;
 import com.google.gerrit.client.download.DownloadPanel;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -55,7 +56,6 @@ import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwtjsonrpc.common.VoidResult;
 
 import java.util.HashSet;
 import java.util.List;
@@ -479,18 +479,22 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
         @Override
         public void onClick(final ClickEvent event) {
           b.setEnabled(false);
-          Util.MANAGE_SVC.deleteDraftChange(patchSet.getId(),
-              new GerritCallback<VoidResult>() {
-                public void onSuccess(VoidResult result) {
-                  Gerrit.display(PageLinks.MINE);
-                }
+          ChangeApi.deleteChange(patchSet.getId().getParentKey().get(),
+              new GerritCallback<JavaScriptObject>() {
+            public void onSuccess(JavaScriptObject result) {
+              Gerrit.display(PageLinks.MINE);
+            }
 
-                @Override
-                public void onFailure(Throwable caught) {
-                  b.setEnabled(true);
-                  super.onFailure(caught);
-                }
-              });
+            public void onFailure(Throwable err) {
+              if (SubmitFailureDialog.isConflict(err)) {
+                new SubmitFailureDialog(err.getMessage()).center();
+                Gerrit.display(PageLinks.MINE);
+              } else {
+                b.setEnabled(true);
+                super.onFailure(err);
+              }
+            }
+          });
         }
       });
       actionsPanel.add(b);
@@ -539,8 +543,13 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
         @Override
         public void onClick(final ClickEvent event) {
           b.setEnabled(false);
-          Util.MANAGE_SVC.rebaseChange(patchSet.getId(),
-              new ChangeDetailCache.GerritWidgetCallback(b));
+          final Change.Id id = patchSet.getId().getParentKey();
+          ChangeApi.rebase(id.get(), patchSet.getRevision().get(),
+              new GerritCallback<ChangeInfo>() {
+                public void onSuccess(ChangeInfo result) {
+                  Gerrit.display(PageLinks.toChange(id));
+                }
+              });
         }
       });
       actionsPanel.add(b);
@@ -605,8 +614,10 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
       @Override
       public void onClick(final ClickEvent event) {
         b.setEnabled(false);
-        Util.MANAGE_SVC.publish(patchSet.getId(),
-            new ChangeDetailCache.GerritWidgetCallback(b));
+        final Change.Id id = patchSet.getId().getParentKey();
+        ChangeApi.publish(id.get(),
+            patchSet.getRevision().get(),
+            DraftActions.cs(id));
       }
     });
     actionsPanel.add(b);
@@ -618,16 +629,10 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
       @Override
       public void onClick(final ClickEvent event) {
         b.setEnabled(false);
-        PatchUtil.DETAIL_SVC.deleteDraftPatchSet(patchSet.getId(),
-            new ChangeDetailCache.GerritWidgetCallback(b) {
-              public void onSuccess(final ChangeDetail result) {
-                if (result != null) {
-                  detailCache.set(result);
-                } else {
-                  Gerrit.display(PageLinks.MINE);
-                }
-              }
-            });
+        final Change.Id id = patchSet.getId().getParentKey();
+        ChangeApi.deleteRevision(id.get(),
+            patchSet.getRevision().get(),
+            DraftActions.cs(id));
       }
     });
     actionsPanel.add(b);

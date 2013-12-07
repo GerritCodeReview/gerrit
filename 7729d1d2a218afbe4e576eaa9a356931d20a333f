@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3083eda_9a7e0d92",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-07T07:39:37Z",
+      "side": 1,
+      "message": "You didn\u0027t understand my comment.\n\nIf I install a plugin foo.js I can fetch /plugins/foo/static/foo.js and get the code. Yay. I can also fetch /plugins/foo/static/wtf.gif and get the code. Or /plugins/foo/static/some/resource/path.pdf and get the code. These other URLs make no sense, we shouldn\u0027t return the JS on every URL within the plugin\u0027s URL space.",
+      "range": {
+        "startLine": 599,
+        "startChar": 6,
+        "endLine": 601,
+        "endChar": 7
+      },
+      "revId": "7729d1d2a218afbe4e576eaa9a356931d20a333f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

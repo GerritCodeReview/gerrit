@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
@@ -26,6 +27,7 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -116,6 +118,16 @@ public class WorkQueue {
     return r;
   }
 
+  public <T> List<T> getTaskInfos(TaskInfoFactory<T> factory) {
+    List<T> taskInfos = Lists.newArrayList();
+    for (Executor exe : queues) {
+      for (Task<?> task : exe.getTasks()) {
+        taskInfos.add(factory.getTaskInfo(task));
+      }
+    }
+    return taskInfos;
+  }
+
   /** Locate a task by its unique id, null if no task matches. */
   public Task<?> getTask(final int id) {
     Task<?> result = null;
@@ -187,7 +199,7 @@ public class WorkQueue {
         Task<V> task;
 
         if (runnable instanceof ProjectRunnable) {
-          task = new ProjectTask<V>((ProjectRunnable)runnable, r, this, id);
+          task = new ProjectTask<V>((ProjectRunnable) runnable, r, this, id);
         } else {
           task = new Task<V>(runnable, r, this, id);
         }
@@ -214,6 +226,10 @@ public class WorkQueue {
 
     void addAllTo(final List<Task<?>> list) {
       list.addAll(all.values()); // iterator is thread safe
+    }
+
+    Collection<Task<?>> getTasks() {
+      return all.values();
     }
   }
 
@@ -358,8 +374,9 @@ public class WorkQueue {
     }
   }
 
-  /** Same as Task class, but with a reference to ProjectRunnable, used to retrieve
-   *  the project name from the operation queued
+  /**
+   * Same as Task class, but with a reference to ProjectRunnable, used to
+   * retrieve the project name from the operation queued
    **/
   public static class ProjectTask<V> extends Task<V> implements ProjectRunnable {
 

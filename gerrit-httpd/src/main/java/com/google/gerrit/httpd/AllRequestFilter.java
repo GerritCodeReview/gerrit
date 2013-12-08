@@ -69,10 +69,16 @@ public abstract class AllRequestFilter implements Filter {
 
     @Override
     public void init(FilterConfig config) throws ServletException {
+      for(Iterator<AllRequestFilter> it = filters.iterator(); it.hasNext();) {
+        it.next().init(config);
+      }
     }
 
     @Override
     public void destroy() {
+      for(Iterator<AllRequestFilter> it = filters.iterator(); it.hasNext();) {
+        it.next().destroy();
+      }
     }
   }
 

@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
@@ -101,6 +102,7 @@ class ReplyAction {
       }
     });
     p.add(replyBox);
+    Window.scrollTo(0, 0);
     p.showRelativeTo(replyButton);
     GlobalKey.dialog(p);
     popup = p;

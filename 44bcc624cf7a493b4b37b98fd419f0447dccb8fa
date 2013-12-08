@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3083eda_7a9fb976",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-08T17:18:27Z",
+      "side": 1,
+      "message": "Maybe delete the same call from ReplyBox line 155?",
+      "revId": "44bcc624cf7a493b4b37b98fd419f0447dccb8fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

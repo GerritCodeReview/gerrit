@@ -27,6 +27,7 @@ public class ApiGlue {
   public static void init() {
     init0();
     ActionContext.init();
+    HtmlTemplate.init();
     Plugin.init();
     addHistoryHook();
   }
@@ -44,6 +45,7 @@ public class ApiGlue {
       project_actions: {},
 
       getPluginName: @com.google.gerrit.client.api.ApiGlue::getPluginName(),
+      injectCss: @com.google.gwt.dom.client.StyleInjector::inject(Ljava/lang/String;),
       install: function (f) {
         var p = this._getPluginByUrl(@com.google.gerrit.client.api.PluginName::getCallerUrl()());
         @com.google.gerrit.client.api.ApiGlue::install(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gerrit/client/api/Plugin;)(f,p);

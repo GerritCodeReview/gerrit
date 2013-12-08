@@ -53,7 +53,8 @@ import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.CodeDownloadException;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.core.client.ScriptInjector;
 import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.Document;
@@ -84,12 +85,9 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.user.client.UserAgent;
 import com.google.gwtexpui.user.client.ViewSite;
-import com.google.gwtjsonrpc.client.CallbackHandle;
 import com.google.gwtjsonrpc.client.JsonDefTarget;
 import com.google.gwtjsonrpc.client.JsonUtil;
 import com.google.gwtjsonrpc.client.XsrfManager;
-import com.google.gwtjsonrpc.client.impl.ResultDeserializer;
-import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
 
 import java.util.HashMap;
@@ -581,50 +579,41 @@ public class Gerrit implements EntryPoint {
   }
 
   private void loadPlugins(HostPageData hpd, final String token) {
-    if (hpd.plugins != null && !hpd.plugins.isEmpty()) {
-      for (final String url : hpd.plugins) {
-        ScriptInjector.fromUrl(url)
-            .setWindow(ScriptInjector.TOP_WINDOW)
-            .setCallback(new Callback<Void, Exception>() {
-              @Override
-              public void onSuccess(Void result) {
-              }
-
-              @Override
-              public void onFailure(Exception reason) {
-                ErrorDialog d;
-                if (reason instanceof CodeDownloadException) {
-                  d = new ErrorDialog(M.cannotDownloadPlugin(url));
-                } else {
-                  d = new ErrorDialog(M.pluginFailed(url));
-                }
-                d.center();
-              }
-            }).inject();
-      }
+    if (hpd.plugins == null || hpd.plugins.isEmpty()) {
+      display(token);
+      return;
     }
 
-    CallbackHandle<Void> cb = new CallbackHandle<Void>(
-        new ResultDeserializer<Void>() {
+    final int pending[] = {hpd.plugins.size()};
+    for (final String url : hpd.plugins) {
+      ScriptInjector.fromUrl(url)
+        .setWindow(ScriptInjector.TOP_WINDOW)
+        .setCallback(new Callback<Void, Exception>() {
           @Override
-          public Void fromResult(JavaScriptObject responseObject) {
-            return null;
-          }
-        },
-        new AsyncCallback<Void>() {
-          @Override
-          public void onFailure(Throwable caught) {
+          public void onSuccess(Void result) {
+            if (--pending[0] == 0) {
+              Scheduler.get().scheduleDeferred(new ScheduledCommand(){
+                @Override
+                public void execute() {
+                  display(token);
+                }
+              });
+            }
           }
 
           @Override
-          public void onSuccess(Void result) {
-            display(token);
+          public void onFailure(Exception reason) {
+            ErrorDialog d;
+            if (reason instanceof CodeDownloadException) {
+              d = new ErrorDialog(M.cannotDownloadPlugin(url));
+            } else {
+              d = new ErrorDialog(M.pluginFailed(url));
+            }
+            d.center();
+            onSuccess(null);
           }
-        });
-    cb.install();
-    ScriptInjector.fromString(cb.getFunctionName() + "();")
-        .setWindow(ScriptInjector.TOP_WINDOW)
-        .inject();
+        }).inject();
+    }
   }
 
   public static void refreshMenuBar() {

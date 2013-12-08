@@ -47,6 +47,7 @@ import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.slf4j.Logger;
@@ -116,16 +117,9 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
     if (ref.equals(GitRepositoryManager.REF_CONFIG)) {
       Project.NameKey p = new Project.NameKey(event.getProjectName());
       try {
-        ProjectConfig oldCfg =
-            ProjectConfig.read(metaDataUpdateFactory.create(p),
-                ObjectId.fromString(event.getOldObjectId()));
-        ProjectConfig newCfg =
-            ProjectConfig.read(metaDataUpdateFactory.create(p),
-                ObjectId.fromString(event.getNewObjectId()));
-        if (!oldCfg.getProject().getSubmitType().equals(newCfg.getProject().getSubmitType())
-            || oldCfg.getProject().getUseContentMerge() != newCfg.getProject().getUseContentMerge()
-            || (oldCfg.getRulesId() == null ? newCfg.getRulesId() != null
-                : !oldCfg.getRulesId().equals(newCfg.getRulesId()))) {
+        ProjectConfig oldCfg = parseConfig(p, event.getOldObjectId());
+        ProjectConfig newCfg = parseConfig(p, event.getNewObjectId());
+        if (recheckMerges(oldCfg, newCfg)) {
           try {
             new ProjectUpdateTask(schemaFactory, p).call();
           } catch (Exception e) {
@@ -143,6 +137,28 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
         throw new RuntimeException(msg, e);
       }
     }
+  }
+
+  private boolean recheckMerges(ProjectConfig oldCfg, ProjectConfig newCfg) {
+    if (oldCfg == null) {
+      return true;
+    } else if (newCfg == null) {
+      return false;
+    }
+    return !oldCfg.getProject().getSubmitType().equals(newCfg.getProject().getSubmitType())
+        || oldCfg.getProject().getUseContentMerge() != newCfg.getProject().getUseContentMerge()
+        || (oldCfg.getRulesId() == null
+            ? newCfg.getRulesId() != null
+            : !oldCfg.getRulesId().equals(newCfg.getRulesId()));
+  }
+
+  private ProjectConfig parseConfig(Project.NameKey p, String idStr)
+      throws IOException, ConfigInvalidException, RepositoryNotFoundException {
+    ObjectId id = ObjectId.fromString(idStr);
+    if (ObjectId.zeroId().equals(id)) {
+      return null;
+    }
+    return ProjectConfig.read(metaDataUpdateFactory.create(p), id);
   }
 
   /**

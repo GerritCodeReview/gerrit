@@ -15,10 +15,17 @@
 package com.google.gerrit.client.api;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Node;
+import com.google.gwt.dom.client.StyleInjector;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
+import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 public class ApiGlue {
   private static String pluginName;
@@ -90,14 +97,29 @@ public class ApiGlue {
       },
       'delete': function(u,b){@com.google.gerrit.client.api.ActionContext::delete(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;)(this._api(u),b)},
       JsonString: @com.google.gerrit.client.rpc.NativeString::TYPE,
+
+      css: @com.google.gerrit.client.api.ApiGlue::css(Ljava/lang/String;),
+      html: function(s,o,w) {
+        var i = {};
+        if (o) {
+          s = s.replace(/\sid=['"]\{([a-z_][a-z0-9_]*)\}['"]|\{([a-z0-9._-]+)\}/gi, function(m,a,b) {
+            if (a)
+              return @com.google.gerrit.client.api.ApiGlue::id(Lcom/google/gwt/core/client/JavaScriptObject;Ljava/lang/String;)(i,a)
+            return @com.google.gerrit.client.api.ApiGlue::html(Lcom/google/gwt/core/client/JavaScriptObject;Ljava/lang/String;)(o,b);
+          });
+        }
+        s = @com.google.gerrit.client.api.ApiGlue::parseHtml(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;Z)(s,i,o,!!w);
+        return w?{root:s,elements:i}:s;
+      },
+      injectCss: @com.google.gwt.dom.client.StyleInjector::inject(Ljava/lang/String;),
     };
 
     Plugin.prototype = {
       getPluginName: function(){return this.name},
       go: @com.google.gerrit.client.api.ApiGlue::go(Ljava/lang/String;),
-      refresh: Gerrit.refresh,
       on: Gerrit.on,
       onAction: function(t,n,c) {Gerrit._onAction(this.name,t,n,c)},
+      refresh: Gerrit.refresh,
       screen: function(r,c) {Gerrit._screen(this.name,r,c)},
 
       url: function (d) {
@@ -155,6 +177,89 @@ public class ApiGlue {
   private static final void refresh() {
     Gerrit.display(History.getToken());
   }
+
+  private static final String css(String css) {
+    String name = DOM.createUniqueId();
+    StyleInjector.inject("." + name + "{" + css + "}");
+    return name;
+  }
+
+  private static final String id(JavaScriptObject idMap, String key) {
+    String id = DOM.createUniqueId();
+    set(idMap, key, id);
+    return " id='" + id + "'";
+  }
+
+  private static native void set(JavaScriptObject m, String k, String v)
+  /*-{ m[k] = v }-*/;
+
+  private static native void set(JavaScriptObject m, String k, JavaScriptObject v)
+  /*-{ m[k] = v }-*/;
+
+  private static final String html(JavaScriptObject obj, String id) {
+    int d = id.indexOf('.');
+    if (0 < d) {
+      String n = id.substring(0, d);
+      return html(obj(obj, n), id.substring(d + 1));
+    }
+    return new SafeHtmlBuilder().append(str(obj, id)).asString();
+  }
+
+  private static native JavaScriptObject obj(JavaScriptObject o, String n)
+  /*-{ return o[n] }-*/;
+
+  private static native String str(JavaScriptObject o, String n)
+  /*-{ return ''+o[n] }-*/;
+
+  private static native String get(JavaScriptObject o, String n)
+  /*-{ return o[n] }-*/;
+
+  private static final Node parseHtml(
+      String html,
+      JavaScriptObject idMap,
+      JavaScriptObject valueMap,
+      boolean wantElements) {
+    Element div = Document.get().createDivElement();
+    div.setInnerHTML(html);
+    for (String key : Natives.keys(idMap)) {
+      attachHandlers(div,
+          get(idMap, key),
+          obj(valueMap, key),
+          key,
+          wantElements ? idMap : null);
+    }
+    if (div.getChildCount() == 1) {
+      return div.getFirstChild();
+    }
+    return div;
+  }
+
+  private static void attachHandlers(
+      Element e,
+      String id,
+      JavaScriptObject obj,
+      String key,
+      JavaScriptObject idMap) {
+    if (id.equals(e.getId())) {
+      e.setId(null);
+      attachHandlers(e, obj);
+      if (idMap != null) {
+        set(idMap, key, e);
+      }
+    }
+    for(Element c = e.getFirstChildElement(); c != null;) {
+      attachHandlers(c, id, obj, key, idMap);
+      c = c.getNextSiblingElement();
+    }
+  }
+
+  private static native void attachHandlers(Element e, JavaScriptObject o) /*-{
+    for (var k in o) {
+      var f = o[k];
+      if (k.substring(0, 2) == 'on' && typeof f == 'function')
+        e[k] = f;
+    }
+  }-*/;
 
   static final native void invoke(JavaScriptObject f) /*-{ f(); }-*/;
   static final native void invoke(JavaScriptObject f, JavaScriptObject a) /*-{ f(a); }-*/;

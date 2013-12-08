@@ -32,6 +32,7 @@ public class ApiGlue {
         ExtensionScreen.Definition.TYPE,
         NativeString.TYPE);
     ActionContext.init();
+    HtmlTemplate.init();
     PluginInstance.init();
     addHistoryHook();
   }
@@ -51,6 +52,7 @@ public class ApiGlue {
       project_actions: {},
 
       getPluginName: @com.google.gerrit.client.api.ApiGlue::getPluginName(),
+      injectCss: @com.google.gwt.dom.client.StyleInjector::inject(Ljava/lang/String;),
       install: function (f) {
         var p = new Plugin(@com.google.gerrit.client.api.PluginName::guessUrl()());
         this.plugins.push(p);

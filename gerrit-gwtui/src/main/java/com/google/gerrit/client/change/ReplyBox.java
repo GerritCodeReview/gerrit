@@ -124,7 +124,9 @@ class ReplyBox extends Composite {
           if ((e.getCharCode() == '\n' || e.getCharCode() == KEY_ENTER)
               && e.isControlKeyDown()) {
             e.preventDefault();
-            onPost(null);
+            if (post.isEnabled()) {
+              onPost(null);
+            }
           }
         }
       },

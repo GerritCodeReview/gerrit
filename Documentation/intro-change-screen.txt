@@ -104,9 +104,13 @@ Reply button
 ------------
 
 This button corresponds to the 'Review' button the on patch set panel on the old
-change screen.  The only new feature: the user can optionally send an email
-during the vote. Inline comments are displayed inside of the ReplyBox. Editing
-them inline in the ReplyBox is currently not possible.
+change screen. The user can optionally send an email during the vote. Inline
+comments are displayed inside of the ReplyBox. Editing them inline in the
+ReplyBox is currently not possible.
+
+Hint: if "LGTM" (acronym for 'Looks Good To Me') is typed in the ReplyBox,
+then the highest possible score for 'Code-Review' category for logged in user
+is selected.
 
 Key bindings: "a" to open the drop down. "ESC" to close it.
 

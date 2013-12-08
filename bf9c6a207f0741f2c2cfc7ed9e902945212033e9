@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3a7f221_ab544919",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 1530,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-08T08:20:31Z",
+      "side": 1,
+      "message": "Looks like the menu ID is not needed anymore and could be removed.",
+      "range": {
+        "startLine": 1530,
+        "startChar": 29,
+        "endLine": 1530,
+        "endChar": 36
+      },
+      "revId": "bf9c6a207f0741f2c2cfc7ed9e902945212033e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3a7f221_4b27a5c8",
+        "filename": "Documentation/js-api.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-08T08:20:31Z",
+      "side": 1,
+      "message": "s/passed/passed as",
+      "range": {
+        "startLine": 210,
+        "startChar": 35,
+        "endLine": 210,
+        "endChar": 41
+      },
+      "revId": "bf9c6a207f0741f2c2cfc7ed9e902945212033e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3d67e80_ea83e73b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/api/ApiGlue.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-08T08:20:31Z",
+      "side": 1,
+      "message": "I wonder if this works for GWT plugins? Last time I looked at this the plugin name was retrieved from the path to some JS resource which is not available in GWT plugins.",
+      "range": {
+        "startLine": 61,
+        "startChar": 41,
+        "endLine": 61,
+        "endChar": 61
+      },
+      "revId": "bf9c6a207f0741f2c2cfc7ed9e902945212033e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3d67e80_8a7eab91",
+        "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/plugin/client/screen/Screen.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-08T08:20:31Z",
+      "side": 1,
+      "message": "I believe this \u0027/\u0027 should be removed, otherwise I get the following failure:\n\n  [INFO]          [ERROR] Line 35: Expected an identifier in JSNI reference\n  [INFO] \u003e       b.@com.google.gerrit.plugin.client.screen.Screen.Callback::onLoad(L/com/google/gerrit/plugin/client/screen/Screen;)(\n  [INFO] \u003e -------------------------------------------------------------------------^\n\nAfter fixing this, I\u0027m getting this error:\n\n  [INFO]          [ERROR] Line 35: Referencing method \u0027com.google.gerrit.plugin.client.screen.Screen.new(Lcom/google/gerrit/plugin/client/screen/Context;)\u0027: unable to resolve method",
+      "range": {
+        "startLine": 35,
+        "startChar": 73,
+        "endLine": 35,
+        "endChar": 74
+      },
+      "revId": "bf9c6a207f0741f2c2cfc7ed9e902945212033e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

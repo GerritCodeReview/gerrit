@@ -17,8 +17,14 @@ package com.google.gerrit.client.api;
 import com.google.gerrit.client.Gerrit;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Node;
+import com.google.gwt.dom.client.StyleInjector;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
+import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 public class ApiGlue {
   private static String pluginName;
@@ -90,14 +96,25 @@ public class ApiGlue {
       },
       'delete': function(u,b){@com.google.gerrit.client.api.ActionContext::delete(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;)(this._api(u),b)},
       JsonString: @com.google.gerrit.client.rpc.NativeString::TYPE,
+
+      css: @com.google.gerrit.client.api.ApiGlue::css(Ljava/lang/String;),
+      html: function(s,o) {
+        if (o) {
+          s = s.replace(/\{([a-z0-9.]+)\}/gi, function(m,p) {
+            return @com.google.gerrit.client.api.ApiGlue::html(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(p,o)
+          });
+        }
+        return @com.google.gerrit.client.api.ApiGlue::parseHtml(Ljava/lang/String;)(s);
+      },
+      injectCss: @com.google.gwt.dom.client.StyleInjector::inject(Ljava/lang/String;),
     };
 
     Plugin.prototype = {
       getPluginName: function(){return this.name},
       go: @com.google.gerrit.client.api.ApiGlue::go(Ljava/lang/String;),
-      refresh: Gerrit.refresh,
       on: Gerrit.on,
       onAction: function(t,n,c) {Gerrit._onAction(this.name,t,n,c)},
+      refresh: Gerrit.refresh,
       screen: function(r,c) {Gerrit._screen(this.name,r,c)},
 
       url: function (d) {
@@ -154,6 +171,36 @@ public class ApiGlue {
 
   private static final void refresh() {
     Gerrit.display(History.getToken());
+  }
+
+  private static final String css(String css) {
+    String name = DOM.createUniqueId();
+    StyleInjector.inject("." + name + "{" + css + "}");
+    return name;
+  }
+
+  private static final String html(String id, JavaScriptObject obj) {
+    int d = id.indexOf('.');
+    if (0 < d) {
+      String n = id.substring(0, d);
+      return html(id.substring(d + 1), obj(obj, n));
+    }
+    return new SafeHtmlBuilder().append(str(obj, id)).asString();
+  }
+
+  private static native JavaScriptObject obj(JavaScriptObject o, String n)
+  /*-{ return o[n]||{} }-*/;
+
+  private static native String str(JavaScriptObject o, String n)
+  /*-{ return ''+o[n] }-*/;
+
+  private static final Node parseHtml(String html) {
+    Element div = Document.get().createDivElement();
+    div.setInnerHTML(html);
+    if (div.getChildCount() == 1) {
+      return div.getFirstChild();
+    }
+    return div;
   }
 
   static final native void invoke(JavaScriptObject f) /*-{ f(); }-*/;

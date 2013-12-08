@@ -584,6 +584,28 @@ The `Gerrit` object is the only symbol provided into the global
 namespace by Gerrit Code Review. All top-level functions can be
 accessed through this name.
 
+[[Gerrit_css]]
+Gerrit.css()
+~~~~~~~~~~~~
+Creates a new unique CSS class and injects it into the document.
+The name of the class is returned and can be used by the plugin.
+See link:#Gerrit_html[`Gerrit.html()`] for an easy way to use
+generated class names.
+
+Classes created with this function should be created once at install
+time and reused throughout the plugin.  Repeatedly creating the same
+class will explode the global stylesheet.
+
+.Signature
+[source,javascript]
+----
+Gerrit.install(function(self)) {
+  var style = {
+    name: Gerrit.css('background: #fff; color: #000;'),
+  };
+});
+----
+
 [[Gerrit_delete]]
 Gerrit.delete()
 ~~~~~~~~~~~~~~~
@@ -664,6 +686,45 @@ Gerrit.go('/admin/projects/');
 If the URL passed matches `http://...`, `https://...`, or `//...`
 the current browser window will navigate to the non-Gerrit URL.
 The user can return to Gerrit with the back button.
+
+[[Gerrit_html]]
+Gerrit.html()
+~~~~~~~~~~~~~
+Parses an HTML fragment after performing value replacements. If
+the HTML has a single root element or node that node is returned,
+otherwise it is wrapped inside of a `<div>`.
+
+The HTML function accepts two arguments, the first is the string
+template and the second is an optional object to be navigated for
+`{name}` style replacements. When inserting replacements the value
+is always HTML escaped, reducing the risk of injection attacks.
+
+.Signature
+[source,javascript]
+----
+var style = {
+  foo: Gerrit.css('background: yellow'),
+};
+Gerrit.html(
+  '<span class="{style.foo}">Hi {name}!</span>',
+  {
+   style: style,
+   name: "World",
+  });
+----
+
+[[Gerrit_injectCss]]
+Gerrit.injectCss()
+~~~~~~~~~~~~~~~~~~
+Injects CSS rules into the document by appending onto the end of the
+existing rule list.  CSS rules are global to the entire application
+and must be manually scoped by each plugin.  For an automatic scoping
+alternative see link:#Gerrit_css[`css()`].
+
+[source,javascript]
+----
+Gerrit.injectCss('.myplugin_bg {background: #000}');
+----
 
 [[Gerrit_install]]
 Gerrit.install()

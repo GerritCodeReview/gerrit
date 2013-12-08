@@ -49,7 +49,6 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -152,7 +151,6 @@ class ReplyBox extends Composite {
     Scheduler.get().scheduleDeferred(new ScheduledCommand() {
       @Override
       public void execute() {
-        Window.scrollTo(0, 0);
         message.setFocus(true);
       }});
     Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {

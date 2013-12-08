@@ -249,3 +249,10 @@ maven_jar(
   visibility = ['//lib:easymock'],
   attach_source = False,
 )
+
+maven_jar(
+  name = 'javamelody',
+  id = 'net.bull.javamelody:javamelody-core:1.48.0',
+  sha1 = '4c573306061019430a735d9d58f93639f4a0ff0b',
+  license = 'DO_NOT_DISTRIBUTE',
+)

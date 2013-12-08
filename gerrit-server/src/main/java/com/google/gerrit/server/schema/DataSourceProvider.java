@@ -29,6 +29,8 @@ import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 
+import net.bull.javamelody.JdbcWrapper;
+
 import org.apache.commons.dbcp.BasicDataSource;
 import org.eclipse.jgit.lib.Config;
 
@@ -126,8 +128,7 @@ public class DataSourceProvider implements Provider<DataSource>,
       ds.setMaxWait(ConfigUtil.getTimeUnit(cfg, "database", null,
           "poolmaxwait", MILLISECONDS.convert(30, SECONDS), MILLISECONDS));
       ds.setInitialSize(ds.getMinIdle());
-      return ds;
-
+      return JdbcWrapper.SINGLETON.createDataSourceProxy(ds);
     } else {
       // Don't use the connection pool.
       //
@@ -141,7 +142,8 @@ public class DataSourceProvider implements Provider<DataSource>,
         if (password != null) {
           p.setProperty("password", password);
         }
-        return new SimpleDataSource(p);
+        return JdbcWrapper.SINGLETON.createDataSourceProxy(
+            new SimpleDataSource(p));
       } catch (SQLException se) {
         throw new ProvisionException("Database unavailable", se);
       }

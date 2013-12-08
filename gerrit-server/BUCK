@@ -32,6 +32,7 @@ java_library2(
     '//gerrit-reviewdb:server',
     '//gerrit-util-cli:cli',
     '//gerrit-util-ssl:ssl',
+    '//lib:javamelody',
     '//lib:args4j',
     '//lib:automaton',
     '//lib:gson',

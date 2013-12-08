@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3083eda_5ac3d570",
+        "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/plugin/client/screen/Screen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-08T00:49:36Z",
+      "side": 1,
+      "message": "This usage is similar to the JS plugin, but not like Screen objects in Gerrit core. In the core code you extend Screen. In the GWT plugin case you are using this callback to populate a Screen given to you by the support library.",
+      "revId": "cbd11fb0838c37815b032fbe929ff594f42d8f50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

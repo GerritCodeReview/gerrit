@@ -14,6 +14,8 @@
  limitations under the License.
 -->
 <module>
+  <inherits name="com.google.gwt.json.JSON"/>
+
   <define-linker name="gerrit_plugin" class="com.google.gerrit.plugin.linker.GerritPluginLinker"/>
   <add-linker name="gerrit_plugin"/>
   <generate-with class="com.google.gerrit.plugin.rebind.PluginGenerator">

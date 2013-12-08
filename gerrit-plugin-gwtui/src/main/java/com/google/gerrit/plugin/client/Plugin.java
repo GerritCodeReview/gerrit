@@ -14,6 +14,7 @@
 
 package com.google.gerrit.plugin.client;
 
+import com.google.gerrit.plugin.client.screen.Screen;
 import com.google.gwt.core.client.EntryPoint;
 
 /**
@@ -26,6 +27,14 @@ import com.google.gwt.core.client.EntryPoint;
  * </ol>
  */
 public abstract class Plugin implements EntryPoint {
+  public static void screen(String token, Screen.Callback cb) {
+    PluginInstance.get().screen(token, cb);
+  }
+
+  public static void screenRegex(String pattern, Screen.Callback cb) {
+    PluginInstance.get().screenRegex(pattern, cb);
+  }
+
   public native static void go(String t)
   /*-{ $wnd.Gerrit.go(t) }-*/;
 

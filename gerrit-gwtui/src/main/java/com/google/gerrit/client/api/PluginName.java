@@ -30,9 +30,24 @@ import com.google.gwt.core.client.impl.StackTraceCreator;
  */
 class PluginName {
   private static final String UNKNOWN = "<unknown>";
+  private static final String baseUrl = baseUrl();
+
+  private static String baseUrl() {
+    return GWT.getHostPageBaseURL() + "plugins/";
+  }
 
   static String get() {
     return GWT.<PluginName> create(PluginName.class).guessName();
+  }
+
+  static String fromUrl(String u) {
+    if (u != null && u.startsWith(baseUrl)) {
+      int s = u.indexOf('/', baseUrl.length());
+      if (s > 0) {
+        return u.substring(baseUrl.length(), s);
+      }
+    }
+    return UNKNOWN;
   }
 
   String guessName() {
@@ -41,22 +56,14 @@ class PluginName {
       return PluginNameMoz.guessName(err);
     }
 
-    String baseUrl = baseUrl();
     StackTraceElement[] trace = getTrace(err);
     for (int i = trace.length - 1; i >= 0; i--) {
-      String u = trace[i].getFileName();
-      if (u != null && u.startsWith(baseUrl)) {
-        int s = u.indexOf('/', baseUrl.length());
-        if (s > 0) {
-          return u.substring(baseUrl.length(), s);
-        }
+      String u = fromUrl(trace[i].getFileName());
+      if (u != UNKNOWN) {
+        return u;
       }
     }
     return UNKNOWN;
-  }
-
-  private static String baseUrl() {
-    return GWT.getHostPageBaseURL() + "plugins/";
   }
 
   private static StackTraceElement[] getTrace(JavaScriptException err) {
@@ -77,7 +84,6 @@ class PluginName {
     }
 
     static String guessName(JavaScriptException e) {
-      String baseUrl = baseUrl();
       JsArrayString stack = getStack(e);
       for (int i = stack.length() - 1; i >= 0; i--) {
         String frame = stack.get(i);

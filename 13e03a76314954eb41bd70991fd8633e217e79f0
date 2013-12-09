@@ -88,6 +88,24 @@
       "revId": "13e03a76314954eb41bd70991fd8633e217e79f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3a7f221_4bdfa525",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_90.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-09T17:17:55Z",
+      "side": 1,
+      "message": "But with this migration the default is now \u0027Y\u0027 \u003d show the size bar.\n\nI really would like to avoid situations like this in future. I think this is not the first time that a \"bad\" migration was submitted. So documentation about this would be really helpful or we end up with you needing to approve each change with a schema migration (I guess we could even have a smart Prolog rule that requires this).",
+      "parentUuid": "830dfaeb_19c32b44",
+      "revId": "13e03a76314954eb41bd70991fd8633e217e79f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

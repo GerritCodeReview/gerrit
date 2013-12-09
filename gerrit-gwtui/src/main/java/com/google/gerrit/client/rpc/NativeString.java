@@ -19,6 +19,17 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /** Wraps a String that was returned from a JSON API. */
 public final class NativeString extends JavaScriptObject {
+  public static final JavaScriptObject TYPE = init();
+
+  // Used from core and plugins
+  private static final native JavaScriptObject init() /*-{
+    if ($wnd.Gerrit === undefined || $wnd.Gerrit.JsonString === undefined) {
+      return function(s){this.s=s};
+    } else {
+      return $wnd.Gerrit.JsonString;
+    }
+  }-*/;
+
   static NativeString wrap(String value) {
     NativeString ns = (NativeString) createObject();
     ns.set(value);

@@ -15,6 +15,9 @@
 package com.google.gerrit.client.changes;
 
 import static com.google.gerrit.client.FormatUtil.mediumFormat;
+import com.google.gerrit.client.GerritUiExtensionPoint;
+import com.google.gerrit.client.api.ExtensionRows;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -58,6 +61,7 @@ public class ChangeInfoBlock extends Composite {
   private static final int R_CNT = 10;
 
   private final Grid table;
+  private ExtensionRows extensionRows;
 
   public ChangeInfoBlock() {
     if (Gerrit.getConfig().testChangeMerge()) {
@@ -88,6 +92,12 @@ public class ChangeInfoBlock extends Composite {
     fmt.addStyleName(R_CNT - 2, 0, Gerrit.RESOURCES.css().bottomheader());
 
     initWidget(table);
+  }
+
+  @Override
+  protected void onUnload() {
+    super.onUnload();
+    clearExtensionRows();
   }
 
   private void initRow(final int row, final String name) {
@@ -144,6 +154,42 @@ public class ChangeInfoBlock extends Composite {
     } else {
       table.getCellFormatter().removeStyleName(R_STATUS, 1, Gerrit.RESOURCES.css().closedstate());
       table.getRowFormatter().setVisible(R_SUBMIT_TYPE, true);
+    }
+
+    addExtensionRows(chg.getId());
+  }
+
+  private void addExtensionRows(Change.Id change) {
+    GerritUiExtensionPoint extensionPoint =
+        GerritUiExtensionPoint.CHANGE_SCREEN_CHANGE_INFO_BLOCK;
+
+    clearExtensionRows();
+    extensionRows = new ExtensionRows(extensionPoint, table) {
+          @Override
+          protected void setHeader(int row, String header) {
+            initRow(row, header);
+          }
+          @Override
+          protected void setWidget(int row, Widget widget) {
+            table.setWidget(row, 1, widget);
+          }
+          @Override
+          protected String getHeader(int row) {
+            return table.getText(row, 0);
+          }
+        };
+
+    extensionRows.putInt(GerritUiExtensionPoint.Key.CHANGE_NUM, change.get());
+    extensionRows.insertRows();
+    final CellFormatter fmt = table.getCellFormatter();
+    fmt.addStyleName(table.getRowCount() - 1, 0,
+        Gerrit.RESOURCES.css().bottomheader());
+  }
+
+  private void clearExtensionRows() {
+    if (extensionRows != null) {
+      extensionRows.removeRows();
+      extensionRows = null;
     }
   }
 

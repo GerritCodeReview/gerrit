@@ -107,6 +107,7 @@ public interface GerritCss extends CssResource {
   String errorDialogGlass();
   String errorDialogText();
   String errorDialogTitle();
+  String loadingPluginsDialog();
   String fileColumnHeader();
   String fileCommentBorder();
   String fileLine();

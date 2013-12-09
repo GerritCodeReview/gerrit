@@ -430,6 +430,11 @@ a:hover {
   font-size: 15px;
   font-family: verdana;
 }
+.loadingPluginsDialog {
+  background: #fff;
+  color: #000;
+  width: auto;
+}
 
 
 /** Screen **/

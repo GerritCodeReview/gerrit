@@ -20,4 +20,5 @@
     <when-type-assignable class="com.google.gerrit.client.Plugin"/>
   </generate-with>
   <source path="client"/>
+  <source path="plugin/client"/>
 </module>

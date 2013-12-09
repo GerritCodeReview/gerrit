@@ -21,6 +21,8 @@ import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
 import com.google.gerrit.client.account.AccountCapabilities;
 import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.admin.ProjectScreen;
+import com.google.gerrit.client.api.ApiGlue;
+import com.google.gerrit.client.api.PluginLoader;
 import com.google.gerrit.client.changes.ChangeConstants;
 import com.google.gerrit.client.changes.ChangeListScreen;
 import com.google.gerrit.client.patches.PatchScreen;
@@ -43,11 +45,9 @@ import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.aria.client.Roles;
-import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.ScriptInjector;
 import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -78,12 +78,9 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.user.client.UserAgent;
 import com.google.gwtexpui.user.client.ViewSite;
-import com.google.gwtjsonrpc.client.CallbackHandle;
 import com.google.gwtjsonrpc.client.JsonDefTarget;
 import com.google.gwtjsonrpc.client.JsonUtil;
 import com.google.gwtjsonrpc.client.XsrfManager;
-import com.google.gwtjsonrpc.client.impl.ResultDeserializer;
-import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
 
 import java.util.ArrayList;
@@ -536,6 +533,7 @@ public class Gerrit implements EntryPoint {
     gStarting.getElement().getParentElement().removeChild(
         gStarting.getElement());
     RootPanel.detachNow(gStarting);
+    ApiGlue.init();
 
     applyUserPreferences();
     initHistoryHooks();
@@ -611,6 +609,7 @@ public class Gerrit implements EntryPoint {
     ScriptInjector.fromString(cb.getFunctionName() + "();")
         .setWindow(ScriptInjector.TOP_WINDOW)
         .inject();
+    PluginLoader.load(hpd.plugins, token);
   }
 
   public static void refreshMenuBar() {

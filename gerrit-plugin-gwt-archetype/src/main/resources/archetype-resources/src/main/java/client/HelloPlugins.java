@@ -14,7 +14,7 @@
 
 package ${package}.client;
 
-import com.google.gerrit.client.Plugin;
+import com.google.gerrit.plugin.client.PluginEntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -26,21 +26,10 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 /**
  * HelloWorld Plugins.
  */
-public class HelloPlugins extends Plugin {
+public class HelloPlugin extends PluginEntryPoint {
 
   @Override
-  public void onModuleLoad() {
-    Image img = new Image("http://code.google.com/webtoolkit/logo-185x175.png");
-    Button button = new Button("Click me");
-
-    VerticalPanel vPanel = new VerticalPanel();
-    vPanel.setWidth("100%");
-    vPanel.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
-    vPanel.add(img);
-    vPanel.add(button);
-
-    RootPanel.get().add(vPanel);
-
+  public void onPluginLoad() {
     // Create the dialog box
     final DialogBox dialogBox = new DialogBox();
 

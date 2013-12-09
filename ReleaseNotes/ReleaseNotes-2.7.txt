@@ -73,7 +73,7 @@ Gerrit server requires authentication globally.
 
 * New 'Stream Events' global capability.
 +
-The link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.7/access-control.txt#capability_streamEvents[
+The link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.7/access-control.html#capability_streamEvents[
 Stream Events capability] controls access to the `stream-events` ssh command.
 +
 Only administrators and users having this capability are allowed to use `stream-events`.

@@ -16,15 +16,14 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
-
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
-
 import static org.junit.Assert.assertEquals;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.data.LabelTypes;
@@ -252,6 +251,53 @@ public class ChangeNotesTest {
     assertEquals("Code-Review", psas.get(1).getLabel());
     assertEquals((short) 1, psas.get(1).getValue());
     assertEquals(truncate(after(c, 2000)), psas.get(1).getGranted());
+  }
+
+  @Test
+  public void multipleReviewers() throws Exception {
+    Change c = newChange(5);
+    ChangeUpdate update = newUpdate(c, c.getOwner());
+    update.putReviewer(new Account.Id(1234), ReviewerState.REVIEWER);
+    update.putReviewer(new Account.Id(2345), ReviewerState.REVIEWER);
+    commit(update);
+
+    ChangeNotes notes = new ChangeNotes(repo, c);
+    assertEquals(ImmutableMap.of(
+          new Account.Id(1234), ReviewerState.REVIEWER,
+          new Account.Id(2345), ReviewerState.REVIEWER),
+        notes.getReviewers());
+  }
+
+  @Test
+  public void removeReviewer() throws Exception {
+    Change c = newChange(5);
+    ChangeUpdate update = newUpdate(c, c.getOwner());
+    update.putReviewer(new Account.Id(1234), ReviewerState.REVIEWER);
+    commit(update);
+
+    update = newUpdate(c, new Account.Id(5));
+    update.putApproval("Code-Review", (short) 1);
+    commit(update);
+
+    update = newUpdate(c, new Account.Id(1234));
+    update.putApproval("Code-Review", (short) 1);
+    commit(update);
+
+    ChangeNotes notes = new ChangeNotes(repo, c);
+    List<PatchSetApproval> psas =
+        notes.getApprovals().get(c.currentPatchSetId());
+    assertEquals(2, psas.size());
+    assertEquals(5, psas.get(0).getAccountId().get());
+    assertEquals(1234, psas.get(1).getAccountId().get());
+
+    update = newUpdate(c, c.getOwner());
+    update.removeReviewer(new Account.Id(1234));
+    commit(update);
+
+    notes = new ChangeNotes(repo, c);
+    psas = notes.getApprovals().get(c.currentPatchSetId());
+    assertEquals(1, psas.size());
+    assertEquals(5, psas.get(0).getAccountId().get());
   }
 
   private Change newChange(int accountId) {

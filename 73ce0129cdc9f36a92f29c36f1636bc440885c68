@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "830dfaeb_9911fb22",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChanges.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-12-09T16:15:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3083eda_1ac31d44",
+      "revId": "73ce0129cdc9f36a92f29c36f1636bc440885c68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3083eda_3ac6e153",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChanges.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-12-09T16:11:49Z",
       "side": 1,
       "message": "you can move this into the loop, since it only executes once.",
+      "revId": "73ce0129cdc9f36a92f29c36f1636bc440885c68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "830dfaeb_f90637e4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChanges.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-12-09T16:15:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3083eda_3ac6e153",
       "revId": "73ce0129cdc9f36a92f29c36f1636bc440885c68",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -405,7 +405,7 @@ public abstract class BaseCommand implements Command {
       m.append(context.getCommandLine());
       if (userProvider.get().isIdentifiedUser()) {
         IdentifiedUser u = (IdentifiedUser) userProvider.get();
-        m.append(" (" + u.getAccount().getUserName() + ")");
+        m.append(" (").append(u.getAccount().getUserName()).append(")");
       }
       this.taskName = m.toString();
     }

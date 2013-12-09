@@ -105,8 +105,8 @@ final class Receive extends AbstractGitCommand {
       // we want to present this error to the user
       if (badStream.getCause() instanceof TooLargeObjectInPackException) {
         StringBuilder msg = new StringBuilder();
-        msg.append("Receive error on project \""
-            + projectControl.getProject().getName() + "\"");
+        msg.append("Receive error on project \"")
+           .append(projectControl.getProject().getName()).append("\"");
         msg.append(" (user ");
         msg.append(currentUser.getAccount().getUserName());
         msg.append(" account ");
@@ -121,10 +121,10 @@ final class Receive extends AbstractGitCommand {
       // Log what the heck is going on, as detailed as we can.
       //
       StringBuilder msg = new StringBuilder();
-      msg.append("Unpack error on project \""
-          + projectControl.getProject().getName() + "\":\n");
+      msg.append("Unpack error on project \"")
+         .append(projectControl.getProject().getName()).append("\":\n");
 
-      msg.append("  AdvertiseRefsHook: " + rp.getAdvertiseRefsHook());
+      msg.append("  AdvertiseRefsHook: ").append(rp.getAdvertiseRefsHook());
       if (rp.getAdvertiseRefsHook() == AdvertiseRefsHook.DEFAULT) {
         msg.append("DEFAULT");
       } else if (rp.getAdvertiseRefsHook() instanceof VisibleRefFilter) {
@@ -136,10 +136,10 @@ final class Receive extends AbstractGitCommand {
 
       if (rp.getAdvertiseRefsHook() instanceof VisibleRefFilter) {
         Map<String, Ref> adv = rp.getAdvertisedRefs();
-        msg.append("  Visible references (" + adv.size() + "):\n");
+        msg.append("  Visible references (").append(adv.size()).append("):\n");
         for (Ref ref : adv.values()) {
-          msg.append("  - " + ref.getObjectId().abbreviate(8).name() + " "
-              + ref.getName() + "\n");
+          msg.append("  - ").append(ref.getObjectId().abbreviate(8).name())
+             .append(" ").append(ref.getName()).append("\n");
         }
 
         Map<String, Ref> allRefs =
@@ -151,10 +151,10 @@ final class Receive extends AbstractGitCommand {
           }
         }
 
-        msg.append("  Hidden references (" + hidden.size() + "):\n");
+        msg.append("  Hidden references (").append(hidden.size()).append("):\n");
         for (Ref ref : hidden) {
-          msg.append("  - " + ref.getObjectId().abbreviate(8).name() + " "
-              + ref.getName() + "\n");
+          msg.append("  - ").append(ref.getObjectId().abbreviate(8).name())
+              .append(" ").append(ref.getName()).append("\n");
         }
       }
 

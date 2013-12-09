@@ -130,16 +130,18 @@ final class AdminSetParent extends SshCommand {
       if (allProjectsName.equals(nameKey)) {
         // Don't allow the wild card project to have a parent.
         //
-        err.append("error: Cannot set parent of '" + name + "'\n");
+        err.append("error: Cannot set parent of '").append(name).append("'\n");
         continue;
       }
 
       if (grandParents.contains(nameKey) || nameKey.equals(newParentKey)) {
         // Try to avoid creating a cycle in the parent pointers.
         //
-        err.append("error: Cycle exists between '" + name + "' and '"
-            + (newParentKey != null ? newParentKey.get() : allProjectsName.get())
-            + "'\n");
+        err.append("error: Cycle exists between '")
+           .append(name)
+           .append("' and '")
+           .append(newParentKey != null ? newParentKey.get() : allProjectsName.get())
+           .append("'\n");
         continue;
       }
 
@@ -155,15 +157,15 @@ final class AdminSetParent extends SshCommand {
           md.close();
         }
       } catch (RepositoryNotFoundException notFound) {
-        err.append("error: Project " + name + " not found\n");
+        err.append("error: Project ").append(name).append(" not found\n");
       } catch (IOException e) {
         final String msg = "Cannot update project " + name;
         log.error(msg, e);
-        err.append("error: " + msg + "\n");
+        err.append("error: ").append(msg).append("\n");
       } catch (ConfigInvalidException e) {
         final String msg = "Cannot update project " + name;
         log.error(msg, e);
-        err.append("error: " + msg + "\n");
+        err.append("error: ").append(msg).append("\n");
       }
 
       projectCache.evict(nameKey);

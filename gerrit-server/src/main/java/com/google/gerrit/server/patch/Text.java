@@ -89,7 +89,7 @@ public class Text extends RawText {
   private static void appendPersonIdent(StringBuilder b, String field,
       PersonIdent person) {
     if (person != null) {
-      b.append(field + ":    ");
+      b.append(field).append(":    ");
       if (person.getName() != null) {
         b.append(" ");
         b.append(person.getName());
@@ -103,7 +103,7 @@ public class Text extends RawText {
 
       SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ZZZ");
       sdf.setTimeZone(person.getTimeZone());
-      b.append(field + "Date: ");
+      b.append(field).append("Date: ");
       b.append(sdf.format(person.getWhen()));
       b.append("\n");
     }

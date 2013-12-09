@@ -226,9 +226,9 @@ public abstract class ChangeEmail extends NotificationEmail {
       StringBuilder detail = new StringBuilder();
 
       if (patchSetInfo != null) {
-        detail.append(patchSetInfo.getMessage().trim() + "\n");
+        detail.append(patchSetInfo.getMessage().trim()).append("\n");
       } else {
-        detail.append(change.getSubject().trim() + "\n");
+        detail.append(change.getSubject().trim()).append("\n");
       }
 
       if (patchSet != null) {
@@ -238,7 +238,8 @@ public abstract class ChangeEmail extends NotificationEmail {
           if (Patch.COMMIT_MSG.equals(p.getNewName())) {
             continue;
           }
-          detail.append(p.getChangeType().getCode() + " " + p.getNewName() + "\n");
+          detail.append(p.getChangeType().getCode())
+                .append(" ").append(p.getNewName()).append("\n");
         }
         detail.append(MessageFormat.format("" //
             + "{0,choice,0#0 files|1#1 file|1<{0} files} changed, " //

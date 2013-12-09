@@ -170,19 +170,19 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
 
     hdr.append("diff --git");
     if (aCommit != null) {
-      hdr.append(" a/" + Patch.COMMIT_MSG);
+      hdr.append(" a/").append(Patch.COMMIT_MSG);
     } else {
-      hdr.append(" " + FileHeader.DEV_NULL);
+      hdr.append(" ").append(FileHeader.DEV_NULL);
     }
-    hdr.append(" b/" + Patch.COMMIT_MSG);
+    hdr.append(" b/").append(Patch.COMMIT_MSG);
     hdr.append("\n");
 
     if (aCommit != null) {
-      hdr.append("--- a/" + Patch.COMMIT_MSG + "\n");
+      hdr.append("--- a/").append(Patch.COMMIT_MSG).append("\n");
     } else {
-      hdr.append("--- " + FileHeader.DEV_NULL + "\n");
+      hdr.append("--- ").append(FileHeader.DEV_NULL).append("\n");
     }
-    hdr.append("+++ b/" + Patch.COMMIT_MSG + "\n");
+    hdr.append("+++ b/").append(Patch.COMMIT_MSG).append("\n");
 
     Text aText =
         aCommit != null ? Text.forCommit(db, reader, aCommit) : Text.EMPTY;

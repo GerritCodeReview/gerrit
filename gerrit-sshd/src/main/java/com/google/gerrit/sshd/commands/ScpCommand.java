@@ -203,7 +203,7 @@ final class ScpCommand extends BaseCommand {
         buf.append(TYPE_FILE);
         break;
     }
-    buf.append("0" + Integer.toOctalString(dir.getMode())); // perms
+    buf.append("0").append(Integer.toOctalString(dir.getMode())); // perms
     buf.append(" ");
     buf.append(len); // length
     buf.append(" ");

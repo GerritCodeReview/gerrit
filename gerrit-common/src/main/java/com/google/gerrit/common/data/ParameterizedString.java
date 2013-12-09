@@ -66,7 +66,7 @@ public class ParameterizedString {
       // "${parameter[.functions...]}" -> "parameter[.functions...]"
       final Parameter p = new Parameter(pattern.substring(b + 2, e));
 
-      raw.append("{" + prs.size() + "}");
+      raw.append("{").append(prs.size()).append("}");
       prs.add(p);
       ops.add(p);
 

@@ -750,8 +750,7 @@ public class MergeOp {
       // dependencies.
       //
       StringBuilder m = new StringBuilder();
-      m.append("Change cannot be merged due"
-          + " to unsatisfiable dependencies.\n");
+      m.append("Change cannot be merged due to unsatisfiable dependencies.\n");
       m.append("\n");
       m.append("The following dependency errors were found:\n");
       m.append("\n");

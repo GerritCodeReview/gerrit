@@ -169,7 +169,7 @@ class ProjectBasicAuthFilter implements Filter {
       if (sc == SC_UNAUTHORIZED) {
         StringBuilder v = new StringBuilder();
         v.append(LIT_BASIC);
-        v.append("realm=\"" + REALM_NAME + "\"");
+        v.append("realm=\"").append(REALM_NAME).append("\"");
         setHeader(WWW_AUTHENTICATE, v.toString());
       } else if (containsHeader(WWW_AUTHENTICATE)) {
         setHeader(WWW_AUTHENTICATE, null);

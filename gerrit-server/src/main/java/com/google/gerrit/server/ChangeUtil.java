@@ -323,10 +323,11 @@ public class ChangeUtil {
         ChangeMessage cmsg = new ChangeMessage(
             new ChangeMessage.Key(changeId, messageUUID(db.get())),
             user().getAccountId(), TimeUtil.nowTs(), patchSetId);
-        StringBuilder msgBuf =
-            new StringBuilder("Patch Set " + patchSetId.get() + ": Reverted");
+        StringBuilder msgBuf = new StringBuilder();
+        msgBuf.append("Patch Set ").append(patchSetId.get()).append(": Reverted");
         msgBuf.append("\n\n");
-        msgBuf.append("This patchset was reverted in change: " + change.getKey().get());
+        msgBuf.append("This patchset was reverted in change: ")
+              .append(change.getKey().get());
         cmsg.setMessage(msgBuf.toString());
 
         ins.setMessage(cmsg).insert();

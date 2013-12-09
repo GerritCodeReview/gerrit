@@ -293,7 +293,7 @@ class ProjectDigestFilter implements Filter {
       if (sc == SC_UNAUTHORIZED) {
         StringBuilder v = new StringBuilder();
         v.append("Digest");
-        v.append(" realm=\"" + REALM_NAME + "\"");
+        v.append(" realm=\"").append(REALM_NAME).append("\"");
 
         String url = urlProvider.get();
         if (url == null) {
@@ -303,14 +303,14 @@ class ProjectDigestFilter implements Filter {
           }
         }
         if (url != null && !url.isEmpty()) {
-          v.append(", domain=\"" + url + "\"");
+          v.append(", domain=\"").append(url).append("\"");
         }
 
         v.append(", qop=\"auth\"");
         if (stale != null) {
-          v.append(", stale=" + stale);
+          v.append(", stale=").append(stale);
         }
-        v.append(", nonce=\"" + newNonce() + "\"");
+        v.append(", nonce=\"").append(newNonce()).append("\"");
         setHeader(WWW_AUTHENTICATE, v.toString());
 
       } else if (containsHeader(WWW_AUTHENTICATE)) {

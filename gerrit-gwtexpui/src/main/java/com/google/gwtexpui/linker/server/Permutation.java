@@ -100,8 +100,8 @@ public class Permutation {
     // Prevents mixed mode security in IE6/7.
     s.append("f.src=\"javascript:''\";");
     s.append("f.id=n;");
-    s.append("f.style.cssText"
-        + "='position:absolute;width:0;height:0;border:none';");
+    s.append("f.style.cssText)")
+     .append("='position:absolute;width:0;height:0;border:none';");
     s.append("f.tabIndex=-1;");
     s.append("d.body.appendChild(f);");
 

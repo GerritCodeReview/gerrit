@@ -43,7 +43,7 @@ class XrdsServlet extends HttpServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse rsp)
       throws IOException {
     final StringBuilder r = new StringBuilder();
-    r.append("<?xml version=\"1.0\" encoding=\"" + ENC + "\"?>");
+    r.append("<?xml version=\"1.0\" encoding=\"").append(ENC).append("\"?>");
     r.append("<xrds:XRDS");
     r.append(" xmlns:xrds=\"xri://$xrds\"");
     r.append(" xmlns:openid=\"http://openid.net/xmlns/1.0\"");
@@ -51,7 +51,8 @@ class XrdsServlet extends HttpServlet {
     r.append("<XRD>");
     r.append("<Service priority=\"1\">");
     r.append("<Type>http://specs.openid.net/auth/2.0/return_to</Type>");
-    r.append("<URI>" + url.get() + OpenIdServiceImpl.RETURN_URL + "</URI>");
+    r.append("<URI>").append(url.get()).append(OpenIdServiceImpl.RETURN_URL)
+     .append("</URI>");
     r.append("</Service>");
     r.append("</XRD>");
     r.append("</xrds:XRDS>");

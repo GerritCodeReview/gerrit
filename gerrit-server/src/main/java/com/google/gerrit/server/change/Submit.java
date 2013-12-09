@@ -268,17 +268,18 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
               case REJECT:
                 if (msg.length() > 0) msg.append("; ");
-                msg.append("blocked by " + lbl.label);
+                msg.append("blocked by ").append(lbl.label);
                 continue;
 
               case NEED:
                 if (msg.length() > 0) msg.append("; ");
-                msg.append("needs " + lbl.label);
+                msg.append("needs ").append(lbl.label);
                 continue;
 
               case IMPOSSIBLE:
                 if (msg.length() > 0) msg.append("; ");
-                msg.append("needs " + lbl.label + " (check project access)");
+                msg.append("needs ").append(lbl.label)
+                   .append(" (check project access)");
                 continue;
 
               default:

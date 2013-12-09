@@ -14,7 +14,7 @@
 
 package ${package}.client;
 
-import com.google.gerrit.plugin.client.Plugin;
+import com.google.gerrit.plugin.client.PluginEntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -27,10 +27,10 @@ import ${package}.HelloMenu;
 /**
  * HelloWorld Plugin.
  */
-public class HelloPlugin extends Plugin {
+public class HelloPlugin extends PluginEntryPoint {
 
   @Override
-  public void onModuleLoad() {
+  public void onPluginLoad() {
     // Create the dialog box
     final DialogBox dialogBox = new DialogBox();
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63d00689_48403f4c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-09T14:46:52Z",
+      "side": 1,
+      "message": "Cool :-)\n\nDo we need any documentation on that?",
+      "range": {
+        "startLine": 9,
+        "startChar": 8,
+        "endLine": 10,
+        "endChar": 14
+      },
+      "revId": "175fce7d220539dfdf6b78297ebde6938a16605b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

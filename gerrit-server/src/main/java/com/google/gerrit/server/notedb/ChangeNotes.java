@@ -16,15 +16,19 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REVIEWER;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_HOST;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Enums;
 import com.google.common.base.Function;
+import com.google.common.base.Optional;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.Ordering;
+import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -49,8 +53,10 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /** View of a single {@link Change} based on the log of its notes branch. */
 public class ChangeNotes extends VersionedMetaData {
@@ -92,6 +98,7 @@ public class ChangeNotes extends VersionedMetaData {
 
   private final Change change;
   private ListMultimap<PatchSet.Id, PatchSetApproval> approvals;
+  private Map<Account.Id, ReviewerState> reviewers;
 
   @VisibleForTesting
   ChangeNotes(Repository repo, Change change)
@@ -102,6 +109,10 @@ public class ChangeNotes extends VersionedMetaData {
 
   public ListMultimap<PatchSet.Id, PatchSetApproval> getApprovals() {
     return Multimaps.unmodifiableListMultimap(approvals);
+  }
+
+  public Map<Account.Id, ReviewerState> getReviewers() {
+    return Collections.unmodifiableMap(reviewers);
   }
 
   @Override
@@ -116,12 +127,15 @@ public class ChangeNotes extends VersionedMetaData {
       return;
     }
     approvals = ArrayListMultimap.create();
+    reviewers = Maps.newLinkedHashMap();
+
     RevWalk walk = new RevWalk(reader);
     walk.markStart(walk.parseCommit(rev));
     for (RevCommit commit : walk) {
       walk.parseBody(commit);
       parse(commit);
     }
+    pruneReviewers();
     for (Collection<PatchSetApproval> v : approvals.asMap().values()) {
       Collections.sort((List<PatchSetApproval>) v, PSA_BY_TIME);
     }
@@ -147,6 +161,9 @@ public class ChangeNotes extends VersionedMetaData {
         curr.put(psa.getLabel(), psa);
         psas.add(psa);
       }
+    }
+    for (String line : commit.getFooterLines(FOOTER_REVIEWER)) {
+      parseReviewer(line);
     }
   }
 
@@ -195,6 +212,44 @@ public class ChangeNotes extends VersionedMetaData {
     }
     throw parseException("invalid committer, expected <id>@%s: %s",
       GERRIT_PLACEHOLDER_HOST, email);
+  }
+
+  private void parseReviewer(String line) throws ConfigInvalidException {
+    int eq = line.indexOf('=');
+    if (eq >= 0) {
+      Integer id = Ints.tryParse(line.substring(0, eq));
+      Optional<ReviewerState> type = Enums.getIfPresent(
+          ReviewerState.class, line.substring(eq + 1, line.length()));
+      if (id != null && type.isPresent()) {
+        Account.Id accountId = new Account.Id(id);
+        if (!reviewers.containsKey(accountId)) {
+          reviewers.put(accountId, type.get());
+        }
+        return;
+      }
+    }
+    throw parseException("invalid %s: %s", FOOTER_REVIEWER, line);
+  }
+
+  private void pruneReviewers() {
+    Set<Account.Id> removed = Sets.newHashSetWithExpectedSize(reviewers.size());
+    Iterator<Map.Entry<Account.Id, ReviewerState>> rit =
+        reviewers.entrySet().iterator();
+    while (rit.hasNext()) {
+      Map.Entry<Account.Id, ReviewerState> e = rit.next();
+      if (e.getValue() == ReviewerState.REMOVED) {
+        removed.add(e.getKey());
+        rit.remove();
+      }
+    }
+
+    Iterator<Map.Entry<PatchSet.Id, PatchSetApproval>> ait =
+        approvals.entries().iterator();
+    while (ait.hasNext()) {
+      if (removed.contains(ait.next().getValue().getAccountId())) {
+        ait.remove();
+      }
+    }
   }
 
   private ConfigInvalidException parseException(String fmt, Object... args) {

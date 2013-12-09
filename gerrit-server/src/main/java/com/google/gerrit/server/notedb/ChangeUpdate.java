@@ -22,7 +22,6 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Maps;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.reviewdb.client.Account;
@@ -36,12 +35,12 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.VersionedMetaData;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.Singleton;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.FooterKey;
@@ -63,43 +62,13 @@ import java.util.TimeZone;
  * This class is not thread-safe.
  */
 public class ChangeUpdate extends VersionedMetaData {
-  @Singleton
-  public static class Factory {
-    private final GitRepositoryManager repoManager;
-    private final AccountCache accountCache;
-    private final MetaDataUpdate.User updateFactory;
-    private final ProjectCache projectCache;
-    private final Provider<IdentifiedUser> user;
-    private final PersonIdent serverIdent;
-
-    @Inject
-    Factory(
-        GitRepositoryManager repoManager,
-        AccountCache accountCache,
-        MetaDataUpdate.User updateFactory,
-        ProjectCache projectCache,
-        Provider<IdentifiedUser> user,
-        @GerritPersonIdent PersonIdent serverIdent) {
-      this.repoManager = repoManager;
-      this.accountCache = accountCache;
-      this.updateFactory = updateFactory;
-      this.projectCache = projectCache;
-      this.user = user;
-      this.serverIdent = serverIdent;
-    }
-
-    public ChangeUpdate create(Change change) {
-      return create(change, serverIdent.getWhen());
-    }
-
-    public ChangeUpdate create(Change change, Date when) {
-      return new ChangeUpdate(
-          repoManager, accountCache, updateFactory,
-          projectCache.get(change.getProject()).getLabelTypes(),
-          change, user.get().getAccount(), when, serverIdent.getTimeZone());
-    }
+  public interface Factory {
+    ChangeUpdate create(Change change);
+    ChangeUpdate create(Change change, Date when);
+    ChangeUpdate create(Change change, Date when, Account account);
   }
 
+  private final NotesMigration migration;
   private final GitRepositoryManager repoManager;
   private final AccountCache accountCache;
   private final MetaDataUpdate.User updateFactory;
@@ -113,18 +82,63 @@ public class ChangeUpdate extends VersionedMetaData {
   private String subject;
   private PatchSet.Id psId;
 
-  @VisibleForTesting
-  ChangeUpdate(GitRepositoryManager repoManager, AccountCache accountCache,
-      LabelTypes labelTypes, Change change, Account account, Date when,
-      TimeZone tz) {
-    this(repoManager, accountCache, null, labelTypes, change, account, when,
-        tz);
+  @AssistedInject
+  ChangeUpdate(
+      @GerritPersonIdent PersonIdent serverIdent,
+      GitRepositoryManager repoManager,
+      NotesMigration migration,
+      AccountCache accountCache,
+      MetaDataUpdate.User updateFactory,
+      ProjectCache projectCache,
+      IdentifiedUser user,
+      @Assisted Change change) {
+    this(serverIdent, repoManager, migration, accountCache, updateFactory,
+        projectCache, user, change, serverIdent.getWhen());
   }
 
-  private ChangeUpdate(GitRepositoryManager repoManager,
-      AccountCache accountCache, @Nullable MetaDataUpdate.User updateFactory,
-      LabelTypes labelTypes, Change change, Account account, Date when,
-      TimeZone tz) {
+  @AssistedInject
+  ChangeUpdate(
+      @GerritPersonIdent PersonIdent serverIdent,
+      GitRepositoryManager repoManager,
+      NotesMigration migration,
+      AccountCache accountCache,
+      MetaDataUpdate.User updateFactory,
+      ProjectCache projectCache,
+      IdentifiedUser user,
+      @Assisted Change change,
+      @Assisted Date when) {
+    this(serverIdent, repoManager, migration, accountCache, updateFactory,
+        projectCache, change, when, user.getAccount());
+  }
+
+  @AssistedInject
+  ChangeUpdate(
+      @GerritPersonIdent PersonIdent serverIdent,
+      GitRepositoryManager repoManager,
+      NotesMigration migration,
+      AccountCache accountCache,
+      MetaDataUpdate.User updateFactory,
+      ProjectCache projectCache,
+      @Assisted Change change,
+      @Assisted Date when,
+      @Assisted Account account) {
+    this(serverIdent, repoManager, migration, accountCache, updateFactory,
+        projectCache.get(change.getDest().getParentKey()).getLabelTypes(),
+        change, when, account);
+  }
+
+  @VisibleForTesting
+  ChangeUpdate(
+      PersonIdent serverIdent,
+      GitRepositoryManager repoManager,
+      NotesMigration migration,
+      AccountCache accountCache,
+      MetaDataUpdate.User updateFactory,
+      LabelTypes labelTypes,
+      Change change,
+      Date when,
+      Account account) {
+    this.migration = migration;
     this.repoManager = repoManager;
     this.accountCache = accountCache;
     this.updateFactory = updateFactory;
@@ -132,9 +146,13 @@ public class ChangeUpdate extends VersionedMetaData {
     this.change = change;
     this.account = account;
     this.when = when;
-    this.tz = tz;
+    this.tz = serverIdent.getTimeZone();
     this.approvals = Maps.newTreeMap(labelTypes.nameComparator());
     this.reviewers = Maps.newLinkedHashMap();
+  }
+
+  public Change getChange() {
+    return change;
   }
 
   public Account getAccount() {
@@ -174,6 +192,9 @@ public class ChangeUpdate extends VersionedMetaData {
 
   @Override
   public RevCommit commit(MetaDataUpdate md) throws IOException {
+    if (!migration.write()) {
+      return null;
+    }
     Repository repo = repoManager.openRepository(change.getProject());
     try {
       load(repo);
@@ -198,6 +219,44 @@ public class ChangeUpdate extends VersionedMetaData {
 
   public PersonIdent newCommitter() {
     return newIdent(account);
+  }
+
+  @Override
+  public BatchMetaDataUpdate openUpdate(MetaDataUpdate update) throws IOException {
+    if (migration.write()) {
+      return super.openUpdate(update);
+    }
+    return new BatchMetaDataUpdate() {
+      @Override
+      public void write(CommitBuilder commit) {
+        // Do nothing.
+      }
+
+      @Override
+      public void write(VersionedMetaData config, CommitBuilder commit) {
+        // Do nothing.
+      }
+
+      @Override
+      public RevCommit createRef(String refName) {
+        return null;
+      }
+
+      @Override
+      public RevCommit commit() {
+        return null;
+      }
+
+      @Override
+      public RevCommit commitAt(ObjectId revision) {
+        return null;
+      }
+
+      @Override
+      public void close() {
+        // Do nothing.
+      }
+    };
   }
 
   @Override

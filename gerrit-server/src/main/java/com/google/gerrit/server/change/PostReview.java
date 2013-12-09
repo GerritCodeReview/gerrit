@@ -44,10 +44,12 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.index.ChangeIndexer;
+import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.TimeUtil;
@@ -74,6 +76,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
   private final Provider<ReviewDb> db;
   private final ChangesCollection changes;
+  private final ChangeUpdate.Factory updateFactory;
+  private final ApprovalsUtil approvalsUtil;
   private final ChangeIndexer indexer;
   private final AccountsCollection accounts;
   private final EmailReviewComments.Factory email;
@@ -89,12 +93,16 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   @Inject
   PostReview(Provider<ReviewDb> db,
       ChangesCollection changes,
+      ChangeUpdate.Factory updateFactory,
+      ApprovalsUtil approvalsUtil,
       ChangeIndexer indexer,
       AccountsCollection accounts,
       EmailReviewComments.Factory email,
       ChangeHooks hooks) {
     this.db = db;
     this.changes = changes;
+    this.updateFactory = updateFactory;
+    this.approvalsUtil = approvalsUtil;
     this.indexer = indexer;
     this.accounts = accounts;
     this.email = email;
@@ -119,6 +127,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       input.notify = NotifyHandling.NONE;
     }
 
+    ChangeUpdate update = null;
     db.get().changes().beginTransaction(revision.getChange().getId());
     boolean dirty = false;
     try {
@@ -126,8 +135,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       ChangeUtil.updated(change);
       timestamp = change.getLastUpdatedOn();
 
+      update = updateFactory.create(change, timestamp);
       dirty |= insertComments(revision, input.comments, input.drafts);
-      dirty |= updateLabels(revision, input.labels);
+      dirty |= updateLabels(revision, update, input.labels);
       dirty |= insertMessage(revision, input.message);
       if (dirty) {
         db.get().changes().update(Collections.singleton(change));
@@ -135,6 +145,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       }
     } finally {
       db.get().rollback();
+    }
+    if (update != null) {
+      update.commit();
     }
 
     CheckedFuture<?, IOException> indexWrite;
@@ -365,8 +378,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     return drafts;
   }
 
-  private boolean updateLabels(RevisionResource rsrc, Map<String, Short> labels)
-      throws OrmException {
+  private boolean updateLabels(RevisionResource rsrc, ChangeUpdate update,
+      Map<String, Short> labels) throws OrmException {
     if (labels == null) {
       labels = Collections.emptyMap();
     }
@@ -394,6 +407,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
             addLabelDelta(normName, (short) 0);
           }
           del.add(c);
+          update.putApproval(ent.getKey(), (short) 0);
         }
       } else if (c != null && c.getValue() != ent.getValue()) {
         c.setValue(ent.getValue());
@@ -401,6 +415,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         upd.add(c);
         addLabelDelta(normName, c.getValue());
         categories.put(normName, c.getValue());
+        update.putApproval(ent.getKey(), ent.getValue());
       } else if (c != null && c.getValue() == ent.getValue()) {
         current.put(normName, c);
       } else if (c == null) {
@@ -413,6 +428,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         ins.add(c);
         addLabelDelta(normName, c.getValue());
         categories.put(normName, c.getValue());
+        update.putApproval(ent.getKey(), ent.getValue());
       }
     }
 
@@ -455,8 +471,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       List<PatchSetApproval> del) throws OrmException {
     LabelTypes labelTypes = rsrc.getControl().getLabelTypes();
     Map<String, PatchSetApproval> current = Maps.newHashMap();
-    for (PatchSetApproval a : db.get().patchSetApprovals().byPatchSetUser(
-          rsrc.getPatchSet().getId(), rsrc.getAccountId())) {
+
+    for (PatchSetApproval a : approvalsUtil.byPatchSetUser(
+        db.get(), rsrc.getNotes(), rsrc.getPatchSet().getId(),
+        rsrc.getAccountId())) {
       if (a.isSubmit()) {
         continue;
       }

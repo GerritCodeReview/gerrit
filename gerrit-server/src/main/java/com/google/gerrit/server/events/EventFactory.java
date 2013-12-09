@@ -48,6 +48,7 @@ import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.server.data.SubmitLabelAttribute;
 import com.google.gerrit.server.data.SubmitRecordAttribute;
 import com.google.gerrit.server.data.TrackingIdAttribute;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
@@ -167,12 +168,12 @@ public class EventFactory {
    * Add allReviewers to an existing ChangeAttribute.
    *
    * @param a
-   * @param change
+   * @param notes
    */
-  public void addAllReviewers(ChangeAttribute a, Change change)
+  public void addAllReviewers(ChangeAttribute a, ChangeNotes notes)
       throws OrmException {
     Collection<Account.Id> reviewers =
-        approvalsUtil.getReviewers(db.get(), change.getId()).values();
+        approvalsUtil.getReviewers(db.get(), notes).values();
     if (!reviewers.isEmpty()) {
       a.allReviewers = Lists.newArrayListWithCapacity(reviewers.size());
       for (Account.Id id : reviewers) {

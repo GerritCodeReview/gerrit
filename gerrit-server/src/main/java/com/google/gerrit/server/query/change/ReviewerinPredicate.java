@@ -28,7 +28,8 @@ class ReviewerinPredicate extends OperatorPredicate<ChangeData> {
   private final AccountGroup.UUID uuid;
 
   ReviewerinPredicate(Provider<ReviewDb> dbProvider,
-    IdentifiedUser.GenericFactory userFactory, AccountGroup.UUID uuid) {
+      IdentifiedUser.GenericFactory userFactory,
+      AccountGroup.UUID uuid) {
     super(ChangeQueryBuilder.FIELD_REVIEWERIN, uuid.toString());
     this.dbProvider = dbProvider;
     this.userFactory = userFactory;

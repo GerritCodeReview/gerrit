@@ -42,6 +42,7 @@ import com.google.gerrit.server.git.CommitMergeStatus;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -85,6 +86,9 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
   @Inject
   private GroupCache groupCache;
+
+  @Inject
+  private ChangeNotes.Factory changeNotesFactory;
 
   @Inject
   private @GerritPersonIdent PersonIdent serverIdent;
@@ -258,7 +262,9 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   }
 
   private void assertSubmitApproval(PatchSet.Id patchSetId) throws OrmException {
-    PatchSetApproval a = approvalsUtil.getSubmitter(db, patchSetId);
+    Change c = db.changes().get(patchSetId.getParentKey());
+    ChangeNotes notes = changeNotesFactory.create(c).load();
+    PatchSetApproval a = approvalsUtil.getSubmitter(db, notes, patchSetId);
     assertTrue(a.isSubmit());
     assertEquals(1, a.getValue());
     assertEquals(admin.id, a.getAccountId());

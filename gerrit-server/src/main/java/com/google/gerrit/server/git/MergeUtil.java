@@ -24,7 +24,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -168,8 +167,8 @@ public class MergeUtil {
     });
   }
 
-  public PatchSetApproval getSubmitter(final PatchSet.Id c) {
-    return approvalsUtil.getSubmitter(db.get(), c);
+  PatchSetApproval getSubmitter(CodeReviewCommit c) {
+    return approvalsUtil.getSubmitter(db.get(), c.notes, c.patchsetId);
   }
 
   public RevCommit createCherryPickFromCommit(Repository repo,
@@ -218,10 +217,10 @@ public class MergeUtil {
       msgbuf.append('\n');
     }
 
-    if (!contains(footers, CHANGE_ID, n.change.getKey().get())) {
+    if (!contains(footers, CHANGE_ID, n.getChange().getKey().get())) {
       msgbuf.append(CHANGE_ID.getName());
       msgbuf.append(": ");
-      msgbuf.append(n.change.getKey().get());
+      msgbuf.append(n.getChange().getKey().get());
       msgbuf.append('\n');
     }
 
@@ -314,7 +313,7 @@ public class MergeUtil {
 
   private List<PatchSetApproval> safeGetApprovals(CodeReviewCommit n) {
     try {
-      return approvalsUtil.byPatchSet(db.get(), n.patchsetId);
+      return approvalsUtil.byPatchSet(db.get(), n.notes, n.patchsetId);
     } catch (OrmException e) {
       log.error("Can't read approval records for " + n.patchsetId, e);
       return Collections.emptyList();
@@ -344,7 +343,7 @@ public class MergeUtil {
       final RevWalk rw, final List<CodeReviewCommit> codeReviewCommits) {
     PatchSetApproval submitter = null;
     for (final CodeReviewCommit c : codeReviewCommits) {
-      PatchSetApproval s = getSubmitter(c.patchsetId);
+      PatchSetApproval s = getSubmitter(c);
       if (submitter == null
           || (s != null && s.getGranted().compareTo(submitter.getGranted()) > 0)) {
         submitter = s;
@@ -601,8 +600,8 @@ public class MergeUtil {
 
     LinkedHashSet<String> topics = new LinkedHashSet<>(4);
     for (CodeReviewCommit c : merged) {
-      if (!Strings.isNullOrEmpty(c.change.getTopic())) {
-        topics.add(c.change.getTopic());
+      if (!Strings.isNullOrEmpty(c.getChange().getTopic())) {
+        topics.add(c.getChange().getTopic());
       }
     }
 
@@ -617,7 +616,7 @@ public class MergeUtil {
               new Function<CodeReviewCommit, String>() {
                 @Override
                 public String apply(CodeReviewCommit in) {
-                  return in.change.getKey().abbreviate();
+                  return in.getChange().getKey().abbreviate();
                 }
               })),
           merged.size() > 5 ? ", ..." : "");
@@ -707,7 +706,7 @@ public class MergeUtil {
         if (c.patchsetId != null) {
           c.statusCode = CommitMergeStatus.CLEAN_MERGE;
           if (submitApproval == null) {
-            submitApproval = getSubmitter(c.patchsetId);
+            submitApproval = getSubmitter(c);
           }
         }
       }

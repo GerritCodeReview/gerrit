@@ -101,6 +101,7 @@ import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.mail.VelocityRuntimeProvider;
+import com.google.gerrit.server.notedb.NoteDbModule;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.patch.PatchScriptFactory;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -166,6 +167,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(new CmdLineParserModule());
     install(new EmailModule());
     install(new GitModule());
+    install(new NoteDbModule());
     install(new PrologModule());
     install(new SshAddressesModule());
     install(ThreadLocalRequestContext.module());

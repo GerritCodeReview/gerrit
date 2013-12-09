@@ -35,6 +35,7 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
+import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.ReviewerState;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
@@ -81,6 +82,7 @@ public class PatchSetInserter {
   private final ChangeHooks hooks;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ReviewDb db;
+  private final ChangeUpdate.Factory updateFactory;
   private final GitReferenceUpdated gitRefUpdated;
   private final CommitValidators.Factory commitValidatorsFactory;
   private final MergeabilityChecker mergeabilityChecker;
@@ -106,12 +108,13 @@ public class PatchSetInserter {
   @Inject
   public PatchSetInserter(ChangeHooks hooks,
       ReviewDb db,
+      ChangeUpdate.Factory updateFactory,
+      ApprovalsUtil approvalsUtil,
       PatchSetInfoFactory patchSetInfoFactory,
       GitReferenceUpdated gitRefUpdated,
       CommitValidators.Factory commitValidatorsFactory,
       MergeabilityChecker mergeabilityChecker,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
-      ApprovalsUtil approvalsUtil,
       ChangeKindCache changeKindCache,
       @Assisted Repository git,
       @Assisted RevWalk revWalk,
@@ -122,12 +125,13 @@ public class PatchSetInserter {
         ctl.getChange().getId());
     this.hooks = hooks;
     this.db = db;
+    this.updateFactory = updateFactory;
+    this.approvalsUtil = approvalsUtil;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.gitRefUpdated = gitRefUpdated;
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.mergeabilityChecker = mergeabilityChecker;
     this.replacePatchSetFactory = replacePatchSetFactory;
-    this.approvalsUtil = approvalsUtil;
     this.changeKindCache = changeKindCache;
 
     this.git = git;
@@ -221,6 +225,8 @@ public class PatchSetInserter {
 
     final PatchSet.Id currentPatchSetId = c.currentPatchSetId();
 
+    ChangeUpdate update = updateFactory.create(c, patchSet.getCreatedOn());
+
     db.changes().beginTransaction(c.getId());
     try {
       if (!db.changes().get(c.getId()).getStatus().isOpen()) {
@@ -232,7 +238,7 @@ public class PatchSetInserter {
       db.patchSets().insert(Collections.singleton(patchSet));
 
       SetMultimap<ReviewerState, Account.Id> oldReviewers = sendMail
-          ? approvalsUtil.getReviewers(db, c.getId())
+          ? approvalsUtil.getReviewers(db, ctl.getNotes())
           : null;
 
       updatedChange =
@@ -273,11 +279,12 @@ public class PatchSetInserter {
             ctl.getProjectControl().getProjectState();
         ChangeKind changeKind = changeKindCache.getChangeKind(
             projectState, git, priorCommit, commit);
-
-        approvalsUtil.copyLabels(db, ctl.getProjectControl() .getLabelTypes(),
-            currentPatchSetId, patchSet, changeKind);
+        approvalsUtil.copyLabels(db, ctl.getNotes(),
+            ctl.getProjectControl().getLabelTypes(), currentPatchSetId,
+            patchSet, changeKind);
       }
       db.commit();
+      update.commit();
 
       if (sendMail) {
         try {

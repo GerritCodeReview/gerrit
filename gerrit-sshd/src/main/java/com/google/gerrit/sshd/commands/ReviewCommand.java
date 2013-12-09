@@ -116,6 +116,7 @@ public class ReviewCommand extends SshCommand {
   @Option(name = "--label", aliases = "-l", usage = "custom label(s) to assign", metaVar = "LABEL=VALUE")
   void addLabel(final String token) {
     LabelVote v = LabelVote.parse(token);
+    LabelType.checkName(v.getLabel()); // Disallow SUBM.
     customLabels.put(v.getLabel(), v.getValue());
   }
 

@@ -29,6 +29,7 @@ public class ApiGlue {
     init0(
         GWT.getHostPageBaseURL(),
         PluginInstance.TYPE,
+        ExtensionScreen.Definition.TYPE,
         NativeString.TYPE);
     ActionContext.init();
     PluginInstance.init();
@@ -38,11 +39,13 @@ public class ApiGlue {
   private static native void init0(
       String serverUrl,
       JavaScriptObject Plugin,
+      JavaScriptObject ScreenDefinition,
       JavaScriptObject JsonString) /*-{
     $wnd.Gerrit = {
       JsonString: JsonString,
       events: {},
       plugins: [],
+      screens: {},
       change_actions: {},
       revision_actions: {},
       project_actions: {},
@@ -69,6 +72,12 @@ public class ApiGlue {
         if ('change' == t) this.change_actions[i]=c;
         else if ('revision' == t) this.revision_actions[i]=c;
         else if ('project' == t) this.project_actions[i]=c;
+        else if ('screen' == t) _screen(p,t,c);
+      },
+      screen: function(r,c){this._screen(this.getPluginName(),r,c)},
+      _screen: function(p,r,c){
+        var s = new ScreenDefinition(r,c);
+        (this.screens[p] || (this.screens[p]=[])).push(s);
       },
 
       url: function (d) {

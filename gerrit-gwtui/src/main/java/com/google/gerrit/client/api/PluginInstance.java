@@ -40,6 +40,7 @@ final class PluginInstance extends JavaScriptObject {
       refresh: @com.google.gerrit.client.api.ApiGlue::refresh(),
       on: G.on,
       onAction: function(t,n,c){G._onAction(this.name,t,n,c)},
+      screen: function(p,c){G._screen(this.name,p,c)},
 
       url: function (u){return G.url(this._url(u))},
       get: function(u,b){@com.google.gerrit.client.api.ActionContext::get(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;)(this._api(u),b)},

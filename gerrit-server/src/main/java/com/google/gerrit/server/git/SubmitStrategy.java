@@ -23,6 +23,9 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.index.ChangeIndexer;
 
+import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.ChangeUpdate;
+
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate.Result;
@@ -49,6 +52,8 @@ public abstract class SubmitStrategy {
     protected final IdentifiedUser.GenericFactory identifiedUserFactory;
     protected final PersonIdent myIdent;
     protected final ReviewDb db;
+    protected final ChangeNotes.Factory notesFactory;
+    protected final ChangeUpdate.Factory updateFactory;
 
     protected final Repository repo;
     protected final RevWalk rw;
@@ -62,7 +67,9 @@ public abstract class SubmitStrategy {
     protected final MergeSorter mergeSorter;
 
     Arguments(final IdentifiedUser.GenericFactory identifiedUserFactory,
-        final PersonIdent myIdent, final ReviewDb db, final Repository repo,
+        final PersonIdent myIdent, final ReviewDb db,
+        final ChangeNotes.Factory notesFactory,
+        final ChangeUpdate.Factory updateFactory, final Repository repo,
         final RevWalk rw, final ObjectInserter inserter,
         final RevFlag canMergeFlag, final Set<RevCommit> alreadyAccepted,
         final Branch.NameKey destBranch, final ApprovalsUtil approvalsUtil,
@@ -70,6 +77,8 @@ public abstract class SubmitStrategy {
       this.identifiedUserFactory = identifiedUserFactory;
       this.myIdent = myIdent;
       this.db = db;
+      this.notesFactory = notesFactory;
+      this.updateFactory = updateFactory;
 
       this.repo = repo;
       this.rw = rw;

@@ -16,6 +16,7 @@ package com.google.gerrit.server.git;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.server.notedb.ChangeNotes;
 
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
@@ -39,8 +40,8 @@ public class CodeReviewCommit extends RevCommit {
    */
   PatchSet.Id patchsetId;
 
-  /** The change containing {@link #patchsetId} . */
-  Change change;
+  /** Change info loaded from notes. */
+  public ChangeNotes notes;
 
   /**
    * Ordinal position of this commit within the submit queue.
@@ -65,9 +66,13 @@ public class CodeReviewCommit extends RevCommit {
 
   void copyFrom(final CodeReviewCommit src) {
     patchsetId = src.patchsetId;
-    change = src.change;
+    notes = src.notes;
     originalOrder = src.originalOrder;
     statusCode = src.statusCode;
     missing = src.missing;
+  }
+
+  Change getChange() {
+    return notes.getChange();
   }
 }

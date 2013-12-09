@@ -48,6 +48,7 @@ import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.AddReviewerSender;
+import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gwtorm.server.OrmException;
@@ -79,6 +80,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
   private final GroupMembers.Factory groupMembersFactory;
   private final AccountInfo.Loader.Factory accountLoaderFactory;
   private final Provider<ReviewDb> dbProvider;
+  private final ChangeUpdate.Factory updateFactory;
   private final IdentifiedUser currentUser;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final Config cfg;
@@ -96,6 +98,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       GroupMembers.Factory groupMembersFactory,
       AccountInfo.Loader.Factory accountLoaderFactory,
       Provider<ReviewDb> db,
+      ChangeUpdate.Factory updateFactory,
       IdentifiedUser currentUser,
       IdentifiedUser.GenericFactory identifiedUserFactory,
       @GerritServerConfig Config cfg,
@@ -111,6 +114,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     this.groupMembersFactory = groupMembersFactory;
     this.accountLoaderFactory = accountLoaderFactory;
     this.dbProvider = db;
+    this.updateFactory = updateFactory;
     this.currentUser = currentUser;
     this.identifiedUserFactory = identifiedUserFactory;
     this.cfg = cfg;
@@ -217,27 +221,30 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       Map<Account.Id, ChangeControl> reviewers)
       throws OrmException, EmailException, IOException {
     ReviewDb db = dbProvider.get();
+    ChangeUpdate update = updateFactory.create(rsrc.getChange());
     List<PatchSetApproval> added;
     db.changes().beginTransaction(rsrc.getChange().getId());
     try {
       ChangeUtil.bumpRowVersionNotLastUpdatedOn(rsrc.getChange().getId(), db);
-      added = approvalsUtil.addReviewers(db, rsrc.getControl().getLabelTypes(),
-          rsrc.getChange(), reviewers.keySet());
+      added = approvalsUtil.addReviewers(db, rsrc.getNotes(), update,
+          rsrc.getControl().getLabelTypes(), rsrc.getChange(),
+          reviewers.keySet());
       db.commit();
     } finally {
       db.rollback();
     }
 
+    update.commit();
     CheckedFuture<?, IOException> indexFuture =
         indexer.indexAsync(rsrc.getChange().getId());
     result.reviewers = Lists.newArrayListWithCapacity(added.size());
     for (PatchSetApproval psa : added) {
       result.reviewers.add(json.format(
           new ReviewerInfo(psa.getAccountId()),
+          rsrc.getNotes(),
           reviewers.get(psa.getAccountId()),
           ImmutableList.of(psa)));
     }
-
     accountLoaderFactory.create(true).fill(result.reviewers);
     postAdd(rsrc.getChange(), added);
     indexFuture.checkedGet();

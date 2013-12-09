@@ -40,6 +40,7 @@ import com.google.inject.assistedinject.AssistedInject;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.FooterKey;
@@ -67,6 +68,7 @@ public class ChangeUpdate extends VersionedMetaData {
     ChangeUpdate create(Change change, Date when, IdentifiedUser user);
   }
 
+  private final NotesMigration migration;
   private final GitRepositoryManager repoManager;
   private final AccountCache accountCache;
   private final MetaDataUpdate.User updateFactory;
@@ -84,40 +86,43 @@ public class ChangeUpdate extends VersionedMetaData {
   ChangeUpdate(
       @GerritPersonIdent PersonIdent serverIdent,
       GitRepositoryManager repoManager,
+      NotesMigration migration,
       AccountCache accountCache,
       MetaDataUpdate.User updateFactory,
       ProjectCache projectCache,
       IdentifiedUser user,
       @Assisted Change change) {
-    this(serverIdent, repoManager, accountCache, updateFactory, projectCache,
-        user, change, serverIdent.getWhen());
+    this(serverIdent, repoManager, migration, accountCache, updateFactory,
+        projectCache, user, change, serverIdent.getWhen());
   }
 
   @AssistedInject
   ChangeUpdate(
       @GerritPersonIdent PersonIdent serverIdent,
       GitRepositoryManager repoManager,
+      NotesMigration migration,
       AccountCache accountCache,
       MetaDataUpdate.User updateFactory,
       ProjectCache projectCache,
       IdentifiedUser user,
       @Assisted Change change,
       @Assisted Date when) {
-    this(serverIdent, repoManager, accountCache, updateFactory, projectCache,
-        change, when, user);
+    this(serverIdent, repoManager, migration, accountCache, updateFactory,
+        projectCache, change, when, user);
   }
 
   @AssistedInject
   ChangeUpdate(
       @GerritPersonIdent PersonIdent serverIdent,
       GitRepositoryManager repoManager,
+      NotesMigration migration,
       AccountCache accountCache,
       MetaDataUpdate.User updateFactory,
       ProjectCache projectCache,
       @Assisted Change change,
       @Assisted Date when,
       @Assisted IdentifiedUser user) {
-    this(serverIdent, repoManager, accountCache, updateFactory,
+    this(serverIdent, repoManager, migration, accountCache, updateFactory,
         projectCache.get(change.getDest().getParentKey()).getLabelTypes(),
         change, when, user);
   }
@@ -126,6 +131,7 @@ public class ChangeUpdate extends VersionedMetaData {
   ChangeUpdate(
       PersonIdent serverIdent,
       GitRepositoryManager repoManager,
+      NotesMigration migration,
       AccountCache accountCache,
       MetaDataUpdate.User updateFactory,
       LabelTypes labelTypes,
@@ -133,6 +139,7 @@ public class ChangeUpdate extends VersionedMetaData {
       Date when,
       IdentifiedUser user) {
     this.repoManager = repoManager;
+    this.migration = migration;
     this.accountCache = accountCache;
     this.updateFactory = updateFactory;
     this.labelTypes = labelTypes;
@@ -142,6 +149,10 @@ public class ChangeUpdate extends VersionedMetaData {
     this.tz = serverIdent.getTimeZone();
     this.approvals = Maps.newTreeMap(labelTypes.nameComparator());
     this.reviewers = Maps.newLinkedHashMap();
+  }
+
+  public Change getChange() {
+    return change;
   }
 
   public IdentifiedUser getUser() {
@@ -181,6 +192,9 @@ public class ChangeUpdate extends VersionedMetaData {
 
   @Override
   public RevCommit commit(MetaDataUpdate md) throws IOException {
+    if (!migration.write()) {
+      return null;
+    }
     Repository repo = repoManager.openRepository(change.getProject());
     try {
       load(repo);
@@ -205,6 +219,44 @@ public class ChangeUpdate extends VersionedMetaData {
 
   public PersonIdent newCommitter() {
     return newIdent(user.getAccount());
+  }
+
+  @Override
+  public BatchMetaDataUpdate openUpdate(MetaDataUpdate update) throws IOException {
+    if (migration.write()) {
+      return super.openUpdate(update);
+    }
+    return new BatchMetaDataUpdate() {
+      @Override
+      public void write(CommitBuilder commit) {
+        // Do nothing.
+      }
+
+      @Override
+      public void write(VersionedMetaData config, CommitBuilder commit) {
+        // Do nothing.
+      }
+
+      @Override
+      public RevCommit createRef(String refName) {
+        return null;
+      }
+
+      @Override
+      public RevCommit commit() {
+        return null;
+      }
+
+      @Override
+      public RevCommit commitAt(ObjectId revision) {
+        return null;
+      }
+
+      @Override
+      public void close() {
+        // Do nothing.
+      }
+    };
   }
 
   @Override

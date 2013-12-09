@@ -30,6 +30,8 @@ import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.SubmoduleSubscriptionAccess;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.ListResultSet;
@@ -79,6 +81,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
   private Provider<String> urlProvider;
   private GitRepositoryManager repoManager;
   private GitReferenceUpdated gitRefUpdated;
+  private ChangeNotes.Factory notesFactory;
 
   @SuppressWarnings("unchecked")
   @Override
@@ -92,6 +95,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
     urlProvider = createStrictMock(Provider.class);
     repoManager = createStrictMock(GitRepositoryManager.class);
     gitRefUpdated = createStrictMock(GitReferenceUpdated.class);
+    notesFactory = new ChangeNotes.Factory(repoManager);
   }
 
   private void doReplay() {
@@ -612,11 +616,11 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
     final Change submittedChange = new Change(
         new Change.Key(sourceMergeTip.toObjectId().getName()), new Change.Id(1),
         new Account.Id(1), sourceBranchNameKey, TimeUtil.nowTs());
-    codeReviewCommit.change = submittedChange;
+    codeReviewCommit.notes = notesFactory.create(submittedChange);
 
     final Map<Change.Id, CodeReviewCommit> mergedCommits =
         new HashMap<Change.Id, CodeReviewCommit>();
-    mergedCommits.put(codeReviewCommit.change.getId(), codeReviewCommit);
+    mergedCommits.put(codeReviewCommit.notes.getChangeId(), codeReviewCommit);
 
     final List<Change> submitted = new ArrayList<Change>();
     submitted.add(submittedChange);
@@ -643,7 +647,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
         subscribers);
 
     expect(repoManager.openRepository(targetBranchNameKey.getParentKey()))
-        .andReturn(targetRepository);
+        .andReturn(targetRepository).anyTimes();
 
     Capture<RefUpdate> ruCapture = new Capture<RefUpdate>();
     gitRefUpdated.fire(eq(targetBranchNameKey.getParentKey()),
@@ -716,11 +720,11 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
     final Change submittedChange = new Change(
         new Change.Key(sourceMergeTip.toObjectId().getName()), new Change.Id(1),
         new Account.Id(1), sourceBranchNameKey, TimeUtil.nowTs());
-    codeReviewCommit.change = submittedChange;
+    codeReviewCommit.notes = notesFactory.create(submittedChange);
 
     final Map<Change.Id, CodeReviewCommit> mergedCommits =
         new HashMap<Change.Id, CodeReviewCommit>();
-    mergedCommits.put(codeReviewCommit.change.getId(), codeReviewCommit);
+    mergedCommits.put(codeReviewCommit.notes.getChangeId(), codeReviewCommit);
 
     final List<Change> submitted = new ArrayList<Change>();
     submitted.add(submittedChange);
@@ -747,7 +751,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
         subscribers);
 
     expect(repoManager.openRepository(targetBranchNameKey.getParentKey()))
-        .andReturn(targetRepository);
+        .andReturn(targetRepository).anyTimes();
 
     Capture<RefUpdate> ruCapture = new Capture<RefUpdate>();
     gitRefUpdated.fire(eq(targetBranchNameKey.getParentKey()),

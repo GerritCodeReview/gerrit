@@ -32,6 +32,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -76,6 +77,7 @@ public class PushOneCommit {
         @Assisted("changeId") String changeId);
   }
 
+  private final ChangeNotes.Factory notesFactory;
   private final ApprovalsUtil approvalsUtil;
   private final ReviewDb db;
   private final PersonIdent i;
@@ -87,24 +89,27 @@ public class PushOneCommit {
   private String tagName;
 
   @AssistedInject
-  PushOneCommit(ApprovalsUtil approvalsUtil,
+  PushOneCommit(ChangeNotes.Factory notesFactory,
+      ApprovalsUtil approvalsUtil,
       @Assisted ReviewDb db,
       @Assisted PersonIdent i) {
-    this(approvalsUtil, db, i, SUBJECT, FILE_NAME, FILE_CONTENT);
+    this(notesFactory, approvalsUtil, db, i, SUBJECT, FILE_NAME, FILE_CONTENT);
   }
 
   @AssistedInject
-  PushOneCommit(ApprovalsUtil approvalsUtil,
+  PushOneCommit(ChangeNotes.Factory notesFactory,
+      ApprovalsUtil approvalsUtil,
       @Assisted ReviewDb db,
       @Assisted PersonIdent i,
       @Assisted("subject") String subject,
       @Assisted("fileName") String fileName,
       @Assisted("content") String content) {
-    this(approvalsUtil, db, i, subject, fileName, content, null);
+    this(notesFactory, approvalsUtil, db, i, subject, fileName, content, null);
   }
 
   @AssistedInject
-  PushOneCommit(ApprovalsUtil approvalsUtil,
+  PushOneCommit(ChangeNotes.Factory notesFactory,
+      ApprovalsUtil approvalsUtil,
       @Assisted ReviewDb db,
       @Assisted PersonIdent i,
       @Assisted("subject") String subject,
@@ -112,6 +117,7 @@ public class PushOneCommit {
       @Assisted("content") String content,
       @Assisted("changeId") String changeId) {
     this.db = db;
+    this.notesFactory = notesFactory;
     this.approvalsUtil = approvalsUtil;
     this.i = i;
     this.subject = subject;
@@ -133,26 +139,21 @@ public class PushOneCommit {
     if (tagName != null) {
       git.tag().setName(tagName).setAnnotated(false).call();
     }
-    return new Result(db, approvalsUtil, ref,
-        pushHead(git, ref, tagName != null), c, subject);
+    return new Result(ref, pushHead(git, ref, tagName != null), c, subject);
   }
 
   public void setTag(final String tagName) {
     this.tagName = tagName;
   }
 
-  public static class Result {
-    private final ReviewDb db;
-    private final ApprovalsUtil approvalsUtil;
+  public class Result {
     private final String ref;
     private final PushResult result;
     private final Commit commit;
     private final String subject;
 
-    private Result(ReviewDb db, ApprovalsUtil approvalsUtil, String ref,
-        PushResult result, Commit commit, String subject) {
-      this.db = db;
-      this.approvalsUtil = approvalsUtil;
+    private Result(String ref, PushResult result, Commit commit,
+        String subject) {
       this.ref = ref;
       this.result = result;
       this.commit = commit;
@@ -199,7 +200,7 @@ public class PushOneCommit {
               }));
 
       for (Account.Id accountId
-          : approvalsUtil.getReviewers(db, c.getId()).values()) {
+          : approvalsUtil.getReviewers(db, notesFactory.create(c)).values()) {
         assertTrue("unexpected reviewer " + accountId,
             expectedReviewerIds.remove(accountId));
       }

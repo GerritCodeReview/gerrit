@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.change;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -45,7 +46,6 @@ import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.change.RevisionResource;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.CreateProject;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.schema.SchemaCreator;
@@ -77,7 +77,6 @@ public abstract class AbstractQueryChangesTest {
   private static final TopLevelResource TLR = TopLevelResource.INSTANCE;
 
   @Inject protected AccountManager accountManager;
-  @Inject protected ChangeControl.GenericFactory changeControlFactory;
   @Inject protected ChangeInserter.Factory changeFactory;
   @Inject protected ChangesCollection changes;
   @Inject protected CreateProject.Factory projectFactory;
@@ -375,13 +374,12 @@ public abstract class AbstractQueryChangesTest {
     TestRepository<InMemoryRepository> repo = createProject("repo");
     ChangeInserter ins = newChange(repo, null, null, null, null);
     Change change = ins.insert();
-    ChangeControl ctl = changeControlFactory.controlFor(change, user);
 
     ReviewInput input = new ReviewInput();
     input.message = "toplevel";
     input.labels = ImmutableMap.<String, Short> of("Code-Review", (short) 1);
     postReview.apply(new RevisionResource(
-        changes.parse(ctl), ins.getPatchSet()), input);
+        changes.parse(change.getId()), ins.getPatchSet()), input);
 
     assertTrue(query("label:Code-Review=-2").isEmpty());
     assertTrue(query("label:Code-Review-2").isEmpty());
@@ -481,7 +479,6 @@ public abstract class AbstractQueryChangesTest {
     TestRepository<InMemoryRepository> repo = createProject("repo");
     ChangeInserter ins1 = newChange(repo, null, null, null, null);
     Change change1 = ins1.insert();
-    ChangeControl ctl1 = changeControlFactory.controlFor(change1, user);
     Change change2 = newChange(repo, null, null, null, null).insert();
 
     assertTrue(lastUpdatedMs(change1) < lastUpdatedMs(change2));
@@ -495,7 +492,7 @@ public abstract class AbstractQueryChangesTest {
     ReviewInput input = new ReviewInput();
     input.message = "toplevel";
     postReview.apply(new RevisionResource(
-        changes.parse(ctl1), ins1.getPatchSet()), input);
+        changes.parse(change1.getId()), ins1.getPatchSet()), input);
     change1 = db.changes().get(change1.getId());
 
     assertTrue(lastUpdatedMs(change1) > lastUpdatedMs(change2));
@@ -514,7 +511,6 @@ public abstract class AbstractQueryChangesTest {
     TestRepository<InMemoryRepository> repo = createProject("repo");
     ChangeInserter ins1 = newChange(repo, null, null, null, null);
     Change change1 = ins1.insert();
-    ChangeControl ctl1 = changeControlFactory.controlFor(change1, user);
     Change change2 = newChange(repo, null, null, null, null).insert();
 
     assertTrue(lastUpdatedMs(change1) < lastUpdatedMs(change2));
@@ -528,7 +524,7 @@ public abstract class AbstractQueryChangesTest {
     ReviewInput input = new ReviewInput();
     input.message = "toplevel";
     postReview.apply(new RevisionResource(
-        changes.parse(ctl1), ins1.getPatchSet()), input);
+        changes.parse(change1.getId()), ins1.getPatchSet()), input);
     change1 = db.changes().get(change1.getId());
 
     assertTrue(lastUpdatedMs(change1) > lastUpdatedMs(change2));
@@ -650,7 +646,6 @@ public abstract class AbstractQueryChangesTest {
     TestRepository<InMemoryRepository> repo = createProject("repo");
     ChangeInserter ins = newChange(repo, null, null, null, null);
     Change change = ins.insert();
-    ChangeControl ctl = changeControlFactory.controlFor(change, user);
 
     ReviewInput input = new ReviewInput();
     input.message = "toplevel";
@@ -660,7 +655,7 @@ public abstract class AbstractQueryChangesTest {
     input.comments = ImmutableMap.<String, List<ReviewInput.Comment>> of(
         "Foo.java", ImmutableList.<ReviewInput.Comment> of(comment));
     postReview.apply(new RevisionResource(
-        changes.parse(ctl), ins.getPatchSet()), input);
+        changes.parse(change.getId()), ins.getPatchSet()), input);
 
     assertTrue(query("comment:foo").isEmpty());
     assertResultEquals(change, queryOne("comment:toplevel"));

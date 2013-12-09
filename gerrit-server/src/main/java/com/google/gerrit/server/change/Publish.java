@@ -29,6 +29,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.Publish.Input;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.PatchSetNotificationSender;
+import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
@@ -43,16 +44,19 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
   }
 
   private final Provider<ReviewDb> dbProvider;
+  private final ChangeUpdate.Factory updateFactory;
   private final PatchSetNotificationSender sender;
   private final ChangeHooks hooks;
   private final ChangeIndexer indexer;
 
   @Inject
   public Publish(Provider<ReviewDb> dbProvider,
+      ChangeUpdate.Factory updateFactory,
       PatchSetNotificationSender sender,
       ChangeHooks hooks,
       ChangeIndexer indexer) {
     this.dbProvider = dbProvider;
+    this.updateFactory = updateFactory;
     this.sender = sender;
     this.hooks = hooks;
     this.indexer = indexer;
@@ -72,6 +76,8 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
 
     PatchSet updatedPatchSet = updateDraftPatchSet(rsrc);
     Change updatedChange = updateDraftChange(rsrc);
+    ChangeUpdate update = updateFactory.create(rsrc.getChange(),
+        updatedChange.getLastUpdatedOn());
 
     try {
       if (!updatedPatchSet.isDraft()
@@ -79,7 +85,8 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
         CheckedFuture<?, IOException> indexFuture =
             indexer.indexAsync(updatedChange.getId());
         hooks.doDraftPublishedHook(updatedChange, updatedPatchSet, dbProvider.get());
-        sender.send(rsrc.getChange().getStatus() == Change.Status.DRAFT,
+        sender.send(rsrc.getNotes(), update,
+            rsrc.getChange().getStatus() == Change.Status.DRAFT,
             rsrc.getUser(), updatedChange, updatedPatchSet,
             rsrc.getControl().getLabelTypes());
         indexFuture.checkedGet();

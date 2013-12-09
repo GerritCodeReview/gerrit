@@ -17,7 +17,6 @@ package com.google.gerrit.server.change;
 import com.google.common.collect.Maps;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.change.ReviewerJson.ReviewerInfo;
@@ -49,9 +48,8 @@ class ListReviewers implements RestReadView<ChangeResource> {
   public List<ReviewerInfo> apply(ChangeResource rsrc) throws OrmException {
     Map<Account.Id, ReviewerResource> reviewers = Maps.newLinkedHashMap();
     ReviewDb db = dbProvider.get();
-    Change.Id changeId = rsrc.getChange().getId();
     for (Account.Id accountId
-        : approvalsUtil.getReviewers(db, changeId).values()) {
+        : approvalsUtil.getReviewers(db, rsrc.getNotes()).values()) {
       if (!reviewers.containsKey(accountId)) {
         reviewers.put(accountId, resourceFactory.create(rsrc, accountId));
       }

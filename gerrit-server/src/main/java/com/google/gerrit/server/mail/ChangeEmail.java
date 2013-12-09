@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.mail;
 
-import com.google.common.collect.SetMultimap;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -57,21 +56,19 @@ public abstract class ChangeEmail extends NotificationEmail {
   private static final Logger log = LoggerFactory.getLogger(ChangeEmail.class);
 
   protected final Change change;
+  protected final ChangeData changeData;
   protected PatchSet patchSet;
   protected PatchSetInfo patchSetInfo;
   protected ChangeMessage changeMessage;
 
   protected ProjectState projectState;
-  protected ChangeData changeData;
   protected Set<Account.Id> authors;
   protected boolean emailOnlyAuthors;
-
-  private SetMultimap<ReviewerState, Account.Id> reviewers;
 
   protected ChangeEmail(EmailArguments ea, Change c, String mc) {
     super(ea, mc, c.getProject(), c.getDest());
     change = c;
-    changeData = ea.changeDataFactory.create(ea.db.get(), change);
+    changeData = ea.changeDataFactory.create(ea.db.get(), c);
     emailOnlyAuthors = false;
   }
 
@@ -96,22 +93,13 @@ public abstract class ChangeEmail extends NotificationEmail {
     changeMessage = cm;
   }
 
-  private SetMultimap<ReviewerState, Account.Id> getReviewers()
-      throws OrmException {
-    if (reviewers == null) {
-      reviewers =
-          args.approvalsUtil.getReviewers(args.db.get(), change.getId());
-    }
-    return reviewers;
-  }
-
   /** Format the message body by calling {@link #appendText(String)}. */
   protected void format() throws EmailException {
     formatChange();
     appendText(velocifyFile("ChangeFooter.vm"));
     try {
       TreeSet<String> names = new TreeSet<String>();
-      for (Account.Id who : getReviewers().values()) {
+      for (Account.Id who : changeData.reviewers().values()) {
         names.add(getNameEmailFor(who));
       }
 
@@ -317,7 +305,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   /** Any user who has published comments on this change. */
   protected void ccAllApprovals() {
     try {
-      for (Account.Id id : getReviewers().values()) {
+      for (Account.Id id : changeData.reviewers().values()) {
         add(RecipientType.CC, id);
       }
     } catch (OrmException err) {
@@ -328,7 +316,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   /** Users who have non-zero approval codes on the change. */
   protected void ccExistingReviewers() {
     try {
-      for (Account.Id id : getReviewers().get(ReviewerState.REVIEWER)) {
+      for (Account.Id id : changeData.reviewers().get(ReviewerState.REVIEWER)) {
         add(RecipientType.CC, id);
       }
     } catch (OrmException err) {

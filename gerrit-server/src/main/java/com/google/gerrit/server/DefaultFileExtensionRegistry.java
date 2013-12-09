@@ -30,12 +30,16 @@ public class DefaultFileExtensionRegistry extends MimeDetector {
   private static final MimeType INI = newMimeType("text/x-ini", 2);
   private static final MimeType PYTHON = newMimeType("text/x-python", 2);
 
-  private static final ImmutableMap<String, MimeType> TYPES = ImmutableMap.of(
-      ".gitmodules", INI,
-      "project.config", INI,
-      "BUCK", PYTHON,
-      "defs", newMimeType(PYTHON.toString(), 1),
-      "go", newMimeType("text/x-go", 1));
+  private static final ImmutableMap<String, MimeType> TYPES =
+    ImmutableMap.<String,MimeType>builder()
+      .put(".gitmodules", INI)
+      .put("project.config", INI)
+      .put("BUCK", PYTHON)
+      .put("defs", newMimeType(PYTHON.toString(), 1))
+      .put("go", newMimeType("text/x-go", 1))
+      .put("cxx", newMimeType("text/x-c++src", 1))
+      .put("hxx", newMimeType("text/x-c++hdr", 1))
+      .build();
 
   private static MimeType newMimeType(String type, final int specificity) {
     return new MimeType(type) {

@@ -47,7 +47,7 @@ by plugin ID.
       "kind": "gerritcodereview#plugin",
       "id": "delete-project",
       "index_url": "plugins/delete-project/",
-      "version": "2.9-SNAPSHOT",
+      "version": "2.9-SNAPSHOT"
     },
     "reviewers-by-blame": {
       "kind": "gerritcodereview#plugin",

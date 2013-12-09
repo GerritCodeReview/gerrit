@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "830dfaeb_19fe8b87",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_90.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-09T16:30:50Z",
+      "side": 1,
+      "message": "I detest these sorts of schema migrations. For account preferences the default value for a boolean should be false, not true.\n\nNew users on gerrit-review are going to have this set to true because the Java code will set the field to true.\n\nOld users on gerrit-review are going to have to false, because there won\u0027t be a database migration.",
+      "revId": "13e03a76314954eb41bd70991fd8633e217e79f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

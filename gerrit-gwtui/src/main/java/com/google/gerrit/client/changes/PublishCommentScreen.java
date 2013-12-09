@@ -34,7 +34,6 @@ import com.google.gerrit.client.ui.PatchLink;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.changes.ListChangesOption;
-import com.google.gerrit.common.changes.Side;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.reviewdb.client.Change;
@@ -485,24 +484,10 @@ public class PublishCommentScreen extends AccountScreen implements
     for (String path : paths) {
       JsArray<CommentInfo> comments = drafts.get(path);
       for (int i = 0; i < comments.length(); i++) {
-        d.add(toComment(path, comments.get(i)));
+        d.add(CommentEditorPanel.toComment(patchSetId, path, comments.get(i)));
       }
     }
     return d;
-  }
-
-  private PatchLineComment toComment(String path, CommentInfo i) {
-    PatchLineComment p = new PatchLineComment(
-        new PatchLineComment.Key(
-            new Patch.Key(patchSetId, path),
-            i.id()),
-        i.line(),
-        Gerrit.getUserAccount().getId(),
-        i.in_reply_to(),
-        i.updated());
-    p.setMessage(i.message());
-    p.setSide((short) (i.side() == Side.PARENT ? 0 : 1));
-    return p;
   }
 
   private static class ValueRadioButton extends RadioButton {

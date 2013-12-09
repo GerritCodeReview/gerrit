@@ -22,36 +22,28 @@ import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.patch.PatchScriptFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtjsonrpc.common.AsyncCallback;
-import com.google.gwtjsonrpc.common.VoidResult;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import java.util.Collections;
 
 class PatchDetailServiceImpl extends BaseServiceImplementation implements
     PatchDetailService {
   private final PatchScriptFactory.Factory patchScriptFactoryFactory;
-  private final SaveDraft.Factory saveDraftFactory;
   private final ChangeControl.Factory changeControlFactory;
 
   @Inject
   PatchDetailServiceImpl(final Provider<ReviewDb> schema,
       final Provider<CurrentUser> currentUser,
       final PatchScriptFactory.Factory patchScriptFactoryFactory,
-      final SaveDraft.Factory saveDraftFactory,
       final ChangeControl.Factory changeControlFactory) {
     super(schema, currentUser);
 
     this.patchScriptFactoryFactory = patchScriptFactoryFactory;
-    this.saveDraftFactory = saveDraftFactory;
     this.changeControlFactory = changeControlFactory;
   }
 
@@ -72,37 +64,5 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
             control, patchKey.getFileName(), psa, psb, dp).call();
       }
     }.to(callback);
-  }
-
-  public void saveDraft(final PatchLineComment comment,
-      final AsyncCallback<PatchLineComment> callback) {
-    saveDraftFactory.create(comment).to(callback);
-  }
-
-  public void deleteDraft(final PatchLineComment.Key commentKey,
-      final AsyncCallback<VoidResult> callback) {
-    run(callback, new Action<VoidResult>() {
-      public VoidResult run(ReviewDb db) throws OrmException, Failure {
-        Change.Id id = commentKey.getParentKey().getParentKey().getParentKey();
-        db.changes().beginTransaction(id);
-        try {
-          final PatchLineComment comment = db.patchComments().get(commentKey);
-          if (comment == null) {
-            throw new Failure(new NoSuchEntityException());
-          }
-          if (!getAccountId().equals(comment.getAuthor())) {
-            throw new Failure(new NoSuchEntityException());
-          }
-          if (comment.getStatus() != PatchLineComment.Status.DRAFT) {
-            throw new Failure(new IllegalStateException("Comment published"));
-          }
-          db.patchComments().delete(Collections.singleton(comment));
-          db.commit();
-          return VoidResult.INSTANCE;
-        } finally {
-          db.rollback();
-        }
-      }
-    });
   }
 }

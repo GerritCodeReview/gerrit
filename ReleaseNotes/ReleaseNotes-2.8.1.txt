@@ -1,0 +1,16 @@
+Release notes for Gerrit 2.8.1
+==============================
+
+There are no schema changes from link:ReleaseNotes-2.8.html[2.8].
+
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.8.1.war[https://gerrit-releases.storage.googleapis.com/gerrit-2.8.1.war]
+
+Bug Fixes
+---------
+* link:https://code.google.com/p/gerrit/issues/detail?id=2073[Issue 2073]:
+Changes that depend on outdated patch sets were missing in the related changes list.
++
+After rebasing the first change the other changes disappeared from the related changes list.
+
+* Fix plugin API packaging. Parts from JGit signed library were included in the
+plugin API. As a consequence unit tests were failing to execute against it.

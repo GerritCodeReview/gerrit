@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3083eda_fa38e9b7",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/AllRequestFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-09T05:05:10Z",
+      "side": 1,
+      "message": "Why not for (AllRequestFilter f : filters) ?",
+      "revId": "94c5ea628febbc094342aa515beb2cb48b15e021",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

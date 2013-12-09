@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03c74ad6_e5e79653",
+        "filename": "gerrit-server/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-09T20:10:34Z",
+      "side": 1,
+      "message": "Moved to this target. Would have moved to the testutil packages but it depends on some package-private project stuff and this was easier.",
+      "revId": "826a7b6dda47f7dab5c59ffebf403995fab15653",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63d00689_28498b7a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-09T14:32:48Z",
+      "side": 0,
+      "message": "This comment still applies and shouldn\u0027t be removed.",
+      "range": {
+        "startLine": 107,
+        "startChar": 65,
+        "endLine": 108,
+        "endChar": 58
+      },
+      "revId": "15b769adf3a433fa1f7e21ce01f9733dab653708",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

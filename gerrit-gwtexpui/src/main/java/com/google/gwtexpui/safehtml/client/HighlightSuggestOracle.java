@@ -23,8 +23,10 @@ import java.util.ArrayList;
  * <p>
  * Suggestions supplied by the implementation of
  * {@link #onRequestSuggestions(Request, Callback)} are modified to wrap all
- * occurrences of the {@link SuggestOracle.Request#getQuery()} substring in HTML
- * {@code &lt;strong&gt;} tags, so they can be emphasized to the user.
+ * occurrences of the
+ * {@link com.google.gwt.user.client.ui.SuggestOracle.Request#getQuery()}
+ * substring in HTML {@code &lt;strong&gt;} tags, so they can be emphasized to
+ * the user.
  */
 public abstract class HighlightSuggestOracle extends SuggestOracle {
   private static String escape(String ds) {
@@ -57,9 +59,10 @@ public abstract class HighlightSuggestOracle extends SuggestOracle {
   }
 
   /**
-   * @return true if {@link SuggestOracle.Suggestion#getDisplayString()} returns
-   *         HTML; false if the text must be escaped before evaluating in an
-   *         HTML like context.
+   * @return true if
+   *         {@link com.google.gwt.user.client.ui.SuggestOracle.Suggestion#getDisplayString()}
+   *         returns HTML; false if the text must be escaped before evaluating
+   *         in an HTML like context.
    */
   protected boolean isHTML() {
     return false;

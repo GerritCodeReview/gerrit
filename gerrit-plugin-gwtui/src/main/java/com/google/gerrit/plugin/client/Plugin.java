@@ -26,6 +26,22 @@ import com.google.gwt.core.client.EntryPoint;
  * </ol>
  */
 public abstract class Plugin implements EntryPoint {
+  /**
+   * The plugin entry point method, called automatically by loading
+   * a module that declares an implementing class as an entry point.
+   */
+  public abstract void onPluginLoad();
+
+  public final void onModuleLoad() {
+    PluginInstance self = PluginInstance.get();
+    try {
+      onPluginLoad();
+      self._initialized();
+    } finally {
+      self._loaded();
+    }
+  }
+
   public native static void go(String t)
   /*-{ $wnd.Gerrit.go(t) }-*/;
 

@@ -1371,7 +1371,7 @@ The actual GWT code must be implemented in a class that extends
 public class HelloPlugin extends Plugin {
 
   @Override
-  public void onModuleLoad() {
+  public void onPluginLoad() {
     // Create the dialog box
     final DialogBox dialogBox = new DialogBox();
 

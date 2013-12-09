@@ -1,0 +1,63 @@
+// Copyright (C) 2013 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.client.api;
+
+import com.google.gwt.core.client.JavaScriptObject;
+
+final class PluginInstance extends JavaScriptObject {
+  static final JavaScriptObject TYPE = createType();
+
+  final native String url() /*-{ return this._url }-*/;
+  final native String name() /*-{ return this.name }-*/;
+  final native boolean success() /*-{ return this._success || false }-*/;
+  final native void _initialized() /*-{ this._success = true }-*/;
+
+  private static native JavaScriptObject createType() /*-{
+    function Plugin(u) {
+      this._url = u;
+      this.name = @com.google.gerrit.client.api.PluginName::fromUrl(Ljava/lang/String;)(u);
+    }
+    return Plugin;
+  }-*/;
+
+  static native void init() /*-{
+    var G = $wnd.Gerrit;
+    @com.google.gerrit.client.api.PluginInstance::TYPE.prototype = {
+      getPluginName: function(){return this.name},
+      go: @com.google.gerrit.client.api.ApiGlue::go(Ljava/lang/String;),
+      refresh: @com.google.gerrit.client.api.ApiGlue::refresh(),
+      on: G.on,
+      onAction: function(t,n,c){G._onAction(this.name,t,n,c)},
+
+      url: function (u){return G.url(this._url(u))},
+      get: function(u,b){@com.google.gerrit.client.api.ActionContext::get(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;)(this._api(u),b)},
+      post: function(u,i,b){@com.google.gerrit.client.api.ActionContext::post(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(this._api(u),i,b)},
+      put: function(u,i,b){@com.google.gerrit.client.api.ActionContext::put(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(this._api(u),i,b)},
+      'delete': function(u,b){@com.google.gerrit.client.api.ActionContext::delete(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;)(this._api(u),b)},
+
+      _loaded: function(){@com.google.gerrit.client.api.PluginLoader::loaded(Lcom/google/gerrit/client/api/PluginInstance;)(this)},
+      _api: function(u){return @com.google.gerrit.client.rpc.RestApi::new(Ljava/lang/String;)(this._url(u))},
+      _url: function (d) {
+        var u = 'plugins/' + this.name + '/';
+        if (d && d.length > 0)
+          return u + (d.charAt(0)=='/' ? d.substring(1) : d);
+        return u;
+      },
+    };
+  }-*/;
+
+  protected PluginInstance() {
+  }
+}

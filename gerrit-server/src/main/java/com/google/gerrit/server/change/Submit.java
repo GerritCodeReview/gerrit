@@ -32,6 +32,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ProjectUtil;
@@ -39,6 +40,7 @@ import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.index.ChangeIndexer;
+import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.AtomicUpdate;
@@ -76,16 +78,22 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
   private final Provider<ReviewDb> dbProvider;
   private final GitRepositoryManager repoManager;
+  private final ChangeUpdate.Factory updateFactory;
+  private final ApprovalsUtil approvalsUtil;
   private final MergeQueue mergeQueue;
   private final ChangeIndexer indexer;
 
   @Inject
   Submit(Provider<ReviewDb> dbProvider,
       GitRepositoryManager repoManager,
+      ChangeUpdate.Factory updateFactory,
+      ApprovalsUtil approvalsUtil,
       MergeQueue mergeQueue,
       ChangeIndexer indexer) {
     this.dbProvider = dbProvider;
     this.repoManager = repoManager;
+    this.updateFactory = updateFactory;
+    this.approvalsUtil = approvalsUtil;
     this.mergeQueue = mergeQueue;
     this.indexer = indexer;
   }
@@ -180,10 +188,11 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       throws OrmException, IOException {
     final Timestamp timestamp = TimeUtil.nowTs();
     Change change = rsrc.getChange();
+    ChangeUpdate update = updateFactory.create(change, timestamp, caller);
     ReviewDb db = dbProvider.get();
     db.changes().beginTransaction(change.getId());
     try {
-      approve(rsrc.getPatchSet(), caller, timestamp);
+      approve(rsrc, update, caller, timestamp);
       change = db.changes().atomicUpdate(
         change.getId(),
         new AtomicUpdate<Change>() {
@@ -209,27 +218,23 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     return change;
   }
 
-  private void approve(PatchSet rev, IdentifiedUser caller, Timestamp timestamp)
-      throws OrmException {
-    PatchSetApproval submit = Iterables.getFirst(Iterables.filter(
-      dbProvider.get().patchSetApprovals()
-        .byPatchSetUser(rev.getId(), caller.getAccountId()),
-      new Predicate<PatchSetApproval>() {
-        @Override
-        public boolean apply(PatchSetApproval input) {
-          return input.isSubmit();
-        }
-      }), null);
-    if (submit == null) {
+  private void approve(RevisionResource rsrc, ChangeUpdate update,
+      IdentifiedUser caller, Timestamp timestamp) throws OrmException {
+    PatchSetApproval submit = approvalsUtil.getSubmitter(
+        dbProvider.get(), rsrc.getNotes(), rsrc.getPatchSet().getId());
+    if (submit == null || submit.getAccountId() != caller.getAccountId()) {
       submit = new PatchSetApproval(
           new PatchSetApproval.Key(
-              rev.getId(),
+              rsrc.getPatchSet().getId(),
               caller.getAccountId(),
               LabelId.SUBMIT),
           (short) 1, TimeUtil.nowTs());
     }
     submit.setValue((short) 1);
     submit.setGranted(timestamp);
+    // TODO(dborowitz): Don't use a label in notedb; just check when status
+    // change happened.
+    update.putApproval(submit.getLabel(), submit.getValue());
     dbProvider.get().patchSetApprovals().upsert(Collections.singleton(submit));
   }
 

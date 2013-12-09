@@ -690,7 +690,7 @@ public class ChangeControl {
   }
 
   private ChangeData changeData(ReviewDb db, @Nullable ChangeData cd) {
-    return cd != null ? cd : changeDataFactory.create(db, getChange());
+    return cd != null ? cd : changeDataFactory.create(db, this);
   }
 
   private void appliedBy(SubmitRecord.Label label, Term status)

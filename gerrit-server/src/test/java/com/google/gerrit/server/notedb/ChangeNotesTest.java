@@ -211,7 +211,7 @@ public class ChangeNotesTest {
     update.putApproval("Verified", (short) 1);
     commit(update);
 
-    ChangeNotes notes = newChange(c);
+    ChangeNotes notes = newNotes(c);
     assertEquals(1, notes.getApprovals().keySet().size());
     List<PatchSetApproval> psas =
       notes.getApprovals().get(c.currentPatchSetId());
@@ -244,7 +244,7 @@ public class ChangeNotesTest {
     commit(update);
     PatchSet.Id ps2 = c.currentPatchSetId();
 
-    ChangeNotes notes = newChange(c);
+    ChangeNotes notes = newNotes(c);
     ListMultimap<PatchSet.Id, PatchSetApproval> psas = notes.getApprovals();
     assertEquals(2, notes.getApprovals().keySet().size());
 
@@ -270,7 +270,7 @@ public class ChangeNotesTest {
     update.putApproval("Code-Review", (short) -1);
     commit(update);
 
-    ChangeNotes notes = newChange(c);
+    ChangeNotes notes = newNotes(c);
     PatchSetApproval psa = Iterables.getOnlyElement(
         notes.getApprovals().get(c.currentPatchSetId()));
     assertEquals("Code-Review", psa.getLabel());
@@ -280,7 +280,7 @@ public class ChangeNotesTest {
     update.putApproval("Code-Review", (short) 1);
     commit(update);
 
-    notes = newChange(c);
+    notes = newNotes(c);
     psa = Iterables.getOnlyElement(
         notes.getApprovals().get(c.currentPatchSetId()));
     assertEquals("Code-Review", psa.getLabel());
@@ -298,7 +298,7 @@ public class ChangeNotesTest {
     update.putApproval("Code-Review", (short) 1);
     commit(update);
 
-    ChangeNotes notes = newChange(c);
+    ChangeNotes notes = newNotes(c);
     assertEquals(1, notes.getApprovals().keySet().size());
     List<PatchSetApproval> psas =
       notes.getApprovals().get(c.currentPatchSetId());
@@ -325,7 +325,7 @@ public class ChangeNotesTest {
     update.putReviewer(otherUser.getAccount().getId(), REVIEWER);
     commit(update);
 
-    ChangeNotes notes = newChange(c);
+    ChangeNotes notes = newNotes(c);
     assertEquals(ImmutableSetMultimap.of(
           REVIEWER, new Account.Id(1),
           REVIEWER, new Account.Id(2)),
@@ -340,7 +340,7 @@ public class ChangeNotesTest {
     update.putReviewer(otherUser.getAccount().getId(), CC);
     commit(update);
 
-    ChangeNotes notes = newChange(c);
+    ChangeNotes notes = newNotes(c);
     assertEquals(ImmutableSetMultimap.of(
           REVIEWER, new Account.Id(1),
           CC, new Account.Id(2)),
@@ -354,7 +354,7 @@ public class ChangeNotesTest {
     update.putReviewer(otherUser.getAccount().getId(), REVIEWER);
     commit(update);
 
-    ChangeNotes notes = newChange(c);
+    ChangeNotes notes = newNotes(c);
     assertEquals(ImmutableSetMultimap.of(
           REVIEWER, new Account.Id(2)),
         notes.getReviewers());
@@ -363,7 +363,7 @@ public class ChangeNotesTest {
     update.putReviewer(otherUser.getAccount().getId(), CC);
     commit(update);
 
-    notes = newChange(c);
+    notes = newNotes(c);
     assertEquals(ImmutableSetMultimap.of(
           CC, new Account.Id(2)),
         notes.getReviewers());
@@ -384,7 +384,7 @@ public class ChangeNotesTest {
     update.putApproval("Code-Review", (short) 1);
     commit(update);
 
-    ChangeNotes notes = newChange(c);
+    ChangeNotes notes = newNotes(c);
     List<PatchSetApproval> psas =
         notes.getApprovals().get(c.currentPatchSetId());
     assertEquals(2, psas.size());
@@ -395,7 +395,7 @@ public class ChangeNotesTest {
     update.removeReviewer(otherUser.getAccount().getId());
     commit(update);
 
-    notes = newChange(c);
+    notes = newNotes(c);
     psas = notes.getApprovals().get(c.currentPatchSetId());
     assertEquals(1, psas.size());
     assertEquals(changeOwner.getAccount().getId(), psas.get(0).getAccountId());
@@ -415,11 +415,12 @@ public class ChangeNotesTest {
 
   private ChangeUpdate newUpdate(Change c, IdentifiedUser user)
       throws ConfigInvalidException, IOException {
-    return new ChangeUpdate(SERVER_IDENT, repoManager, accountCache, null,
-        LABEL_TYPES, c, TimeUtil.nowTs(), user);
+    return new ChangeUpdate(SERVER_IDENT, repoManager,
+        NotesMigration.allEnabled(), accountCache, null, LABEL_TYPES, c,
+        TimeUtil.nowTs(), user);
   }
 
-  private ChangeNotes newChange(Change c) throws OrmException {
+  private ChangeNotes newNotes(Change c) throws OrmException {
     return new ChangeNotes(repoManager, c).load();
   }
 

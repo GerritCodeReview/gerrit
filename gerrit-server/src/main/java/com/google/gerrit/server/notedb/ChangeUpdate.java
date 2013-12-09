@@ -28,13 +28,14 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.VersionedMetaData;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
-import com.google.gerrit.server.util.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -47,8 +48,9 @@ import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Map;
+import java.util.TimeZone;
 
 /**
  * A single delta to apply atomically to a change.
@@ -57,65 +59,90 @@ import java.util.Map;
  * limitations on the set of modifications that can be handled in a single
  * update. In particular, there is a single author and timestamp for each
  * update.
+ * <p>
+ * This class is not thread-safe.
  */
 public class ChangeUpdate extends VersionedMetaData {
   @Singleton
   public static class Factory {
     private final GitRepositoryManager repoManager;
+    private final AccountCache accountCache;
     private final MetaDataUpdate.User updateFactory;
     private final ProjectCache projectCache;
     private final Provider<IdentifiedUser> user;
+    private final PersonIdent serverIdent;
 
     @Inject
     Factory(
         GitRepositoryManager repoManager,
+        AccountCache accountCache,
         MetaDataUpdate.User updateFactory,
         ProjectCache projectCache,
-        Provider<IdentifiedUser> user) {
+        Provider<IdentifiedUser> user,
+        @GerritPersonIdent PersonIdent serverIdent) {
       this.repoManager = repoManager;
+      this.accountCache = accountCache;
       this.updateFactory = updateFactory;
       this.projectCache = projectCache;
       this.user = user;
+      this.serverIdent = serverIdent;
     }
 
     public ChangeUpdate create(Change change) {
-      return create(change, TimeUtil.nowTs());
+      return create(change, serverIdent.getWhen());
     }
 
-    public ChangeUpdate create(Change change, Timestamp when) {
+    public ChangeUpdate create(Change change, Date when) {
       return new ChangeUpdate(
-          repoManager, updateFactory,
+          repoManager, accountCache, updateFactory,
           projectCache.get(change.getProject()).getLabelTypes(),
-          change, user.get().getAccountId(), when);
+          change, user.get().getAccount(), when, serverIdent.getTimeZone());
     }
   }
 
   private final GitRepositoryManager repoManager;
+  private final AccountCache accountCache;
   private final MetaDataUpdate.User updateFactory;
   private final LabelTypes labelTypes;
   private final Change change;
-  private final Account.Id accountId;
-  private final Timestamp when;
+  private final Account account;
+  private final Date when;
+  private final TimeZone tz;
   private final Map<String, Short> approvals;
+  private final Map<Account.Id, ReviewerState> reviewers;
   private String subject;
   private PatchSet.Id psId;
 
   @VisibleForTesting
-  ChangeUpdate(GitRepositoryManager repoManager, LabelTypes labelTypes,
-      Change change, Account.Id accountId, @Nullable Timestamp when) {
-    this(repoManager, null, labelTypes, change, accountId, when);
+  ChangeUpdate(GitRepositoryManager repoManager, AccountCache accountCache,
+      LabelTypes labelTypes, Change change, Account account, Date when,
+      TimeZone tz) {
+    this(repoManager, accountCache, null, labelTypes, change, account, when,
+        tz);
   }
 
   private ChangeUpdate(GitRepositoryManager repoManager,
-      @Nullable MetaDataUpdate.User updateFactory, LabelTypes labelTypes,
-      Change change, Account.Id accountId, @Nullable Timestamp when) {
+      AccountCache accountCache, @Nullable MetaDataUpdate.User updateFactory,
+      LabelTypes labelTypes, Change change, Account account, Date when,
+      TimeZone tz) {
     this.repoManager = repoManager;
+    this.accountCache = accountCache;
     this.updateFactory = updateFactory;
     this.labelTypes = labelTypes;
     this.change = change;
-    this.accountId = accountId;
+    this.account = account;
     this.when = when;
+    this.tz = tz;
     this.approvals = Maps.newTreeMap(labelTypes.nameComparator());
+    this.reviewers = Maps.newLinkedHashMap();
+  }
+
+  public Account getAccount() {
+    return account;
+  }
+
+  public Date getWhen() {
+    return when;
   }
 
   public void putApproval(String label, short value) {
@@ -129,6 +156,15 @@ public class ChangeUpdate extends VersionedMetaData {
   public void setPatchSetId(PatchSet.Id psId) {
     checkArgument(psId == null || psId.getParentKey().equals(change.getKey()));
     this.psId = psId;
+  }
+
+  public void putReviewer(Account.Id reviewer, ReviewerState type) {
+    checkArgument(type != ReviewerState.REMOVED, "invalid ReviewerType");
+    reviewers.put(reviewer, type);
+  }
+
+  public void removeReviewer(Account.Id reviewer) {
+    reviewers.put(reviewer, ReviewerState.REMOVED);
   }
 
   public RevCommit commit() throws IOException {
@@ -149,16 +185,19 @@ public class ChangeUpdate extends VersionedMetaData {
 
     md.setAllowEmpty(true);
     CommitBuilder cb = md.getCommitBuilder();
-    cb.setCommitter(new PersonIdent(
-        cb.getAuthor().getName(),
-        accountId.get() + "@" + GERRIT_PLACEHOLDER_HOST,
-        when != null ? when : cb.getCommitter().getWhen(),
-        cb.getCommitter().getTimeZone()));
-    if (when != null) {
-      md.getCommitBuilder().setAuthor(new PersonIdent(
-          md.getCommitBuilder().getAuthor(), when));
-    }
+    cb.setCommitter(newCommitter());
     return super.commit(md);
+  }
+
+  public PersonIdent newIdent(Account author) {
+    return new PersonIdent(
+        author.getFullName(),
+        author.getId().get() + "@" + GERRIT_PLACEHOLDER_HOST,
+        when, tz);
+  }
+
+  public PersonIdent newCommitter() {
+    return newIdent(account);
   }
 
   @Override
@@ -168,7 +207,7 @@ public class ChangeUpdate extends VersionedMetaData {
 
   @Override
   protected void onSave(CommitBuilder commit) {
-    if (approvals.isEmpty()) {
+    if (approvals.isEmpty() && reviewers.isEmpty()) {
       return;
     }
     int ps = psId != null ? psId.get() : change.currentPatchSetId().get();
@@ -180,6 +219,13 @@ public class ChangeUpdate extends VersionedMetaData {
     }
     msg.append("\n\n");
     addFooter(msg, FOOTER_PATCH_SET, ps);
+    for (Map.Entry<Account.Id, ReviewerState> e : reviewers.entrySet()) {
+      Account account = accountCache.get(e.getKey()).getAccount();
+      PersonIdent ident = newIdent(account);
+      addFooter(msg, e.getValue().getFooterKey())
+          .append(ident.getName())
+          .append(" <").append(ident.getEmailAddress()).append(">\n");
+    }
     for (Map.Entry<String, Short> e : approvals.entrySet()) {
       LabelType lt = labelTypes.byLabel(e.getKey());
       if (lt != null) {
@@ -190,9 +236,13 @@ public class ChangeUpdate extends VersionedMetaData {
     commit.setMessage(msg.toString());
   }
 
+  private static StringBuilder addFooter(StringBuilder sb, FooterKey footer) {
+    return sb.append(footer.getName()).append(": ");
+  }
+
   private static void addFooter(StringBuilder sb, FooterKey footer,
       Object value) {
-    sb.append(footer.getName()).append(": ").append(value).append('\n');
+    addFooter(sb, footer).append(value).append('\n');
   }
 
   @Override

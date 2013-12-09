@@ -14,6 +14,9 @@
 
 package com.google.gerrit.plugin.client;
 
+import com.google.gerrit.plugin.client.action.ActionHandler;
+import com.google.gerrit.plugin.client.action.ActionType;
+import com.google.gerrit.plugin.client.change.ShowChangeHandler;
 import com.google.gerrit.plugin.client.screen.Screen;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -49,6 +52,38 @@ public final class PluginInstance extends JavaScriptObject {
   /** Refresh the current UI. */
   public final native void refresh()
   /*-{ return this.refresh() }-*/;
+
+  /**
+   * Register a handler for a plugin action.
+   *
+   * @param type type of resource the action applies to.
+   * @param viewName name of the {@code UiAction} in the server.
+   * @param handler invoked when the action is activated by the user.
+   */
+  public final void onAction(ActionType type, String viewName,
+      ActionHandler handler) {
+    onAction(self, type.name().toLowerCase(), viewName, handler);
+  }
+
+  private static final native void onAction(
+      PluginInstance self,
+      String t, String v, ActionHandler h) /*-{
+    self.onAction(t,v,$entry(function(c){
+      h.@com.google.gerrit.plugin.client.action.ActionHandler::onAction(Lcom/google/gerrit/plugin/client/action/ActionEvent;)(c)
+    }))
+  }-*/;
+
+  public final void onShowChange(ShowChangeHandler h) {
+    onShowChange(self, h);
+  }
+
+  private static final native void onShowChange(
+      PluginInstance self,
+      ShowChangeHandler h) /*-{
+    self.on('showchange', $entry(function(c,r){
+      h.@com.google.gerrit.plugin.client.change.ShowChangeHandler::onShowChange(Lcom/google/gerrit/plugin/client/change/ShowChangeEvent;)({change:c,revision:r})
+    }))
+  }-*/;
 
   /** Register a screen on a literal token. */
   public final void screen(String token, Screen.Callback b) {

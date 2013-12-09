@@ -164,8 +164,8 @@ public class RestApi {
 
   private native static <T extends JavaScriptObject>
   JavaScriptObject wrap(AsyncCallback<T> b) /*-{
-    return function(r) {
+    return $entry(function(r) {
       b.@com.google.gwt.user.client.rpc.AsyncCallback::onSuccess(Ljava/lang/Object;)(r)
-    }
+    })
   }-*/;
 }

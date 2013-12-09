@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.inject.TypeLiteral;
 
@@ -51,6 +52,10 @@ public class RevisionResource implements RestResource, HasETag {
 
   public Change getChange() {
     return getControl().getChange();
+  }
+
+  public ChangeNotes getNotes() {
+    return getChangeResource().getNotes();
   }
 
   public PatchSet getPatchSet() {

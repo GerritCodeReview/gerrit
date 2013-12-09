@@ -34,12 +34,17 @@ public class LabelType {
   }
 
   public static String checkName(String name) {
-    if (name == null || name.isEmpty()) {
-      throw new IllegalArgumentException("Empty label name");
-    }
+    checkNameInternal(name);
     if ("SUBM".equals(name)) {
       throw new IllegalArgumentException(
           "Reserved label name \"" + name + "\"");
+    }
+    return name;
+  }
+
+  public static String checkNameInternal(String name) {
+    if (name == null || name.isEmpty()) {
+      throw new IllegalArgumentException("Empty label name");
     }
     for (int i = 0; i < name.length(); i++) {
       char c = name.charAt(i);

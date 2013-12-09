@@ -18,7 +18,8 @@ limitations under the License.
     xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:c='urn:import:com.google.gerrit.client.change'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
-    xmlns:x='urn:import:com.google.gerrit.client.ui'>
+    xmlns:x='urn:import:com.google.gerrit.client.ui'
+    xmlns:clippy='urn:import:com.google.gwtexpui.clippy.client'>
   <ui:with field='ico' type='com.google.gerrit.client.GerritResources'/>
   <ui:with field='res' type='com.google.gerrit.client.change.Resources'/>
   <ui:style type='com.google.gerrit.client.change.ChangeScreen2.Style'>
@@ -312,6 +313,11 @@ limitations under the License.
     .replyBox {
       background-color: trimColor;
     }
+    .clippy {
+      display: inline-block;
+      position: relative;
+      top: -7px;
+    }
   </ui:style>
 
   <g:HTMLPanel styleName='{style.cs2}'>
@@ -343,6 +349,7 @@ limitations under the License.
             <ui:attribute name='title'/>
           </c:QuickApprove>
         </div>
+        <clippy:CopyableLabel styleName='{style.clippy}' ui:field='copyablePermalink'/>
         <div class='{style.idAndStatus}'>
           <span class='{style.changeId}'>
             <ui:msg>Change <g:Anchor ui:field='permalink' title='Reload the change (Shortcut: R)'>

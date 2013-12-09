@@ -252,12 +252,12 @@ public class CherryPickChange {
         new ChangeMessage.Key(
             patchSetId.getParentKey(), ChangeUtil.messageUUID(db)),
         currentUser.getAccountId(), TimeUtil.nowTs(), patchSetId);
-    StringBuilder msgBuf =
-        new StringBuilder("Patch Set " + patchSetId.get()
-            + ": Cherry Picked");
+    StringBuilder msgBuf = new StringBuilder();
+    msgBuf.append("Patch Set ").append(patchSetId.get())
+          .append(": Cherry Picked");
     msgBuf.append("\n\n");
-    msgBuf.append("This patchset was cherry picked to change: "
-        + dest.getKey().get());
+    msgBuf.append("This patchset was cherry picked to change: ")
+          .append(dest.getKey().get());
     cmsg.setMessage(msgBuf.toString());
     return cmsg;
   }

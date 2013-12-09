@@ -323,7 +323,7 @@ class HttpPluginServlet extends HttpServlet
       String sectionTitle, StringBuilder md, String prefix,
       int nameOffset) throws IOException {
     if (!entries.isEmpty()) {
-      md.append("## " + sectionTitle +  " ##\n");
+      md.append("## ").append(sectionTitle).append(" ##\n");
       for(JarEntry entry : entries) {
         String rsrc = entry.getName().substring(prefix.length());
         String entryTitle;

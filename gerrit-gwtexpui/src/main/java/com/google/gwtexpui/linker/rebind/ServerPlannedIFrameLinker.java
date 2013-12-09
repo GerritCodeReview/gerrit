@@ -48,7 +48,8 @@ public class ServerPlannedIFrameLinker extends AbstractLinker {
     }
 
     for (CompilationResult r : artifacts.find(CompilationResult.class)) {
-      table.append(r.getStrongName() + "\n");
+      table.append(r.getStrongName());
+      table.append("\n");
       for (SortedMap<SelectionProperty, String> p : r.getPropertyMap()) {
         for (Map.Entry<SelectionProperty, String> e : p.entrySet()) {
           table.append("  ");

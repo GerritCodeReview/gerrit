@@ -16,6 +16,24 @@
       "revId": "20b8604ccf30f345a9ea0c546c990804d04c4ff5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63d00689_e8e77353",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-09T06:07:58Z",
+      "side": 1,
+      "message": "\u003e When you install the plugin is javamelody in lib/? or part of the plugin?\n\nThey are currently part of plugin. We never split plugin code from the dependencies untill now, including everything inside the plugin.  Tmake your suggestion work, we would need to split it. May be just have two version of plugin: one with all-in-one JAR, where you can\u0027t do SQL interception; and second without dependencies included, and addition step for copying artifacts to $gerrit_site/lib and setting up datasource interception tool chain, like you\u0027ve suggested.",
+      "parentUuid": "a3083eda_1a503def",
+      "revId": "20b8604ccf30f345a9ea0c546c990804d04c4ff5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

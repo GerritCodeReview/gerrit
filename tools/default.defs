@@ -115,6 +115,7 @@ def java_library2(
 def gerrit_extension(
     name,
     deps = [],
+    compile_deps = [],
     srcs = [],
     resources = [],
     manifest_file = None,
@@ -123,6 +124,7 @@ def gerrit_extension(
   gerrit_plugin(
     name = name,
     deps = deps,
+    compile_deps = compile_deps,
     srcs = srcs,
     resources = resources,
     manifest_file = manifest_file,
@@ -134,6 +136,7 @@ def gerrit_extension(
 def gerrit_plugin(
     name,
     deps = [],
+    compile_deps = [],
     srcs = [],
     resources = [],
     gwt_module = None,
@@ -168,7 +171,7 @@ def gerrit_plugin(
     srcs = srcs,
     resources = resources,
     deps = deps,
-    compile_deps = ['//gerrit-%s-api:lib' % type] + gwt_deps,
+    compile_deps = ['//gerrit-%s-api:lib' % type] + compile_deps + gwt_deps,
   )
   if gwt_module:
     prebuilt_jar(

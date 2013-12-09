@@ -19,6 +19,10 @@
   vertical-align: top;
 }
 
+.table tr {
+  vertical-align: top;
+}
+
 .status {
   padding-right: 4px;
   color: #888;
@@ -33,6 +37,10 @@
 }
 .commonPrefix {
   color: #888;
+}
+.renameCopySource {
+  color: #888;
+  font-size: smaller;
 }
 
 .draftColumn,

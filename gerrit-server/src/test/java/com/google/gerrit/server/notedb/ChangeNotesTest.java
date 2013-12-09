@@ -16,15 +16,14 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
-
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
-
 import static org.junit.Assert.assertEquals;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.data.LabelTypes;
@@ -39,6 +38,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.util.TimeUtil;
+import com.google.gerrit.testutil.FakeAccountCache;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -63,7 +63,18 @@ public class ChangeNotesTest {
   private static final TimeZone TZ =
       TimeZone.getTimeZone("America/Los_Angeles");
 
-  private LabelTypes LABEL_TYPES = new LabelTypes(ImmutableList.of(
+  private static final Account CHANGE_OWNER;
+  private static final Account OTHER_ACCOUNT;
+  static {
+    CHANGE_OWNER = new Account(new Account.Id(1), TimeUtil.nowTs());
+    CHANGE_OWNER.setFullName("Change Owner");
+    CHANGE_OWNER.setPreferredEmail("change@owner.com");
+    OTHER_ACCOUNT = new Account(new Account.Id(2), TimeUtil.nowTs());
+    OTHER_ACCOUNT.setFullName("Other Account");
+    OTHER_ACCOUNT.setPreferredEmail("other@account.com");
+  }
+
+  private static final LabelTypes LABEL_TYPES = new LabelTypes(ImmutableList.of(
       category("Verified",
         value(1, "Verified"),
         value(0, "No score"),
@@ -76,6 +87,7 @@ public class ChangeNotesTest {
   private Project.NameKey project;
   private InMemoryRepositoryManager repoManager;
   private InMemoryRepository repo;
+  private FakeAccountCache accountCache;
   private volatile long clockStepMs;
 
   @Before
@@ -83,6 +95,9 @@ public class ChangeNotesTest {
     project = new Project.NameKey("test-project");
     repoManager = new InMemoryRepositoryManager();
     repo = repoManager.createRepository(project);
+    accountCache = new FakeAccountCache();
+    accountCache.put(CHANGE_OWNER);
+    accountCache.put(OTHER_ACCOUNT);
   }
 
   @Before
@@ -107,10 +122,12 @@ public class ChangeNotesTest {
 
   @Test
   public void approvalsCommitFormat() throws Exception {
-    Change c = newChange(5);
-    ChangeUpdate update = newUpdate(c, c.getOwner());
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, CHANGE_OWNER);
     update.putApproval("Code-Review", (short) -1);
     update.putApproval("Verified", (short) 1);
+    update.putReviewer(CHANGE_OWNER.getId(), ReviewerState.REVIEWER);
+    update.putReviewer(OTHER_ACCOUNT.getId(), ReviewerState.CC);
     commit(update);
     assertEquals("refs/changes/01/1/meta", update.getRefName());
 
@@ -121,20 +138,22 @@ public class ChangeNotesTest {
       assertEquals("Update patch set 1\n"
           + "\n"
           + "Patch-Set: 1\n"
+          + "Reviewer: Change Owner <1@gerrit>\n"
+          + "CC: Other Account <2@gerrit>\n"
           + "Label: Verified=+1\n"
           + "Label: Code-Review=-1\n",
           commit.getFullMessage());
 
       PersonIdent author = commit.getAuthorIdent();
-      assertEquals("Example User", author.getName());
-      assertEquals("user@example.com", author.getEmailAddress());
+      assertEquals("Change Owner", author.getName());
+      assertEquals("change@owner.com", author.getEmailAddress());
       assertEquals(new Date(c.getCreatedOn().getTime() + 1000),
           author.getWhen());
       assertEquals(TimeZone.getTimeZone("GMT-8:00"), author.getTimeZone());
 
       PersonIdent committer = commit.getCommitterIdent();
-      assertEquals("Example User", committer.getName());
-      assertEquals("5@gerrit", committer.getEmailAddress());
+      assertEquals("Change Owner", committer.getName());
+      assertEquals("1@gerrit", committer.getEmailAddress());
       assertEquals(author.getWhen(), committer.getWhen());
       assertEquals(author.getTimeZone(), committer.getTimeZone());
     } finally {
@@ -144,8 +163,8 @@ public class ChangeNotesTest {
 
   @Test
   public void approvalsOnePatchSet() throws Exception {
-    Change c = newChange(5);
-    ChangeUpdate update = newUpdate(c, c.getOwner());
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, CHANGE_OWNER);
     update.putApproval("Code-Review", (short) -1);
     update.putApproval("Verified", (short) 1);
     commit(update);
@@ -157,13 +176,13 @@ public class ChangeNotesTest {
     assertEquals(2, psas.size());
 
     assertEquals(c.currentPatchSetId(), psas.get(0).getPatchSetId());
-    assertEquals(5, psas.get(0).getAccountId().get());
+    assertEquals(1, psas.get(0).getAccountId().get());
     assertEquals("Verified", psas.get(0).getLabel());
     assertEquals((short) 1, psas.get(0).getValue());
     assertEquals(truncate(after(c, 1000)), psas.get(0).getGranted());
 
     assertEquals(c.currentPatchSetId(), psas.get(1).getPatchSetId());
-    assertEquals(5, psas.get(1).getAccountId().get());
+    assertEquals(1, psas.get(1).getAccountId().get());
     assertEquals("Code-Review", psas.get(1).getLabel());
     assertEquals((short) -1, psas.get(1).getValue());
     assertEquals(psas.get(0).getGranted(), psas.get(1).getGranted());
@@ -171,14 +190,14 @@ public class ChangeNotesTest {
 
   @Test
   public void approvalsMultiplePatchSets() throws Exception {
-    Change c = newChange(5);
-    ChangeUpdate update = newUpdate(c, c.getOwner());
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, CHANGE_OWNER);
     update.putApproval("Code-Review", (short) -1);
     commit(update);
     PatchSet.Id ps1 = c.currentPatchSetId();
 
     incrementPatchSet(c);
-    update = newUpdate(c, c.getOwner());
+    update = newUpdate(c, CHANGE_OWNER);
     update.putApproval("Code-Review", (short) 1);
     commit(update);
     PatchSet.Id ps2 = c.currentPatchSetId();
@@ -189,14 +208,14 @@ public class ChangeNotesTest {
 
     PatchSetApproval psa1 = Iterables.getOnlyElement(psas.get(ps1));
     assertEquals(ps1, psa1.getPatchSetId());
-    assertEquals(5, psa1.getAccountId().get());
+    assertEquals(1, psa1.getAccountId().get());
     assertEquals("Code-Review", psa1.getLabel());
     assertEquals((short) -1, psa1.getValue());
     assertEquals(truncate(after(c, 1000)), psa1.getGranted());
 
     PatchSetApproval psa2 = Iterables.getOnlyElement(psas.get(ps2));
     assertEquals(ps2, psa2.getPatchSetId());
-    assertEquals(5, psa2.getAccountId().get());
+    assertEquals(1, psa2.getAccountId().get());
     assertEquals("Code-Review", psa2.getLabel());
     assertEquals((short) +1, psa2.getValue());
     assertEquals(truncate(after(c, 2000)), psa2.getGranted());
@@ -204,8 +223,8 @@ public class ChangeNotesTest {
 
   @Test
   public void approvalsMultipleApprovals() throws Exception {
-    Change c = newChange(5);
-    ChangeUpdate update = newUpdate(c, c.getOwner());
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, CHANGE_OWNER);
     update.putApproval("Code-Review", (short) -1);
     commit(update);
 
@@ -215,7 +234,7 @@ public class ChangeNotesTest {
     assertEquals("Code-Review", psa.getLabel());
     assertEquals((short) -1, psa.getValue());
 
-    update = newUpdate(c, c.getOwner());
+    update = newUpdate(c, CHANGE_OWNER);
     update.putApproval("Code-Review", (short) 1);
     commit(update);
 
@@ -228,12 +247,12 @@ public class ChangeNotesTest {
 
   @Test
   public void approvalsMultipleUsers() throws Exception {
-    Change c = newChange(5);
-    ChangeUpdate update = newUpdate(c, c.getOwner());
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, CHANGE_OWNER);
     update.putApproval("Code-Review", (short) -1);
     commit(update);
 
-    update = newUpdate(c, new Account.Id(6));
+    update = newUpdate(c, OTHER_ACCOUNT);
     update.putApproval("Code-Review", (short) 1);
     commit(update);
 
@@ -244,33 +263,118 @@ public class ChangeNotesTest {
     assertEquals(2, psas.size());
 
     assertEquals(c.currentPatchSetId(), psas.get(0).getPatchSetId());
-    assertEquals(5, psas.get(0).getAccountId().get());
+    assertEquals(1, psas.get(0).getAccountId().get());
     assertEquals("Code-Review", psas.get(0).getLabel());
     assertEquals((short) -1, psas.get(0).getValue());
     assertEquals(truncate(after(c, 1000)), psas.get(0).getGranted());
 
     assertEquals(c.currentPatchSetId(), psas.get(1).getPatchSetId());
-    assertEquals(6, psas.get(1).getAccountId().get());
+    assertEquals(2, psas.get(1).getAccountId().get());
     assertEquals("Code-Review", psas.get(1).getLabel());
     assertEquals((short) 1, psas.get(1).getValue());
     assertEquals(truncate(after(c, 2000)), psas.get(1).getGranted());
   }
 
-  private Change newChange(int accountId) {
+  @Test
+  public void multipleReviewers() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, CHANGE_OWNER);
+    update.putReviewer(CHANGE_OWNER.getId(), ReviewerState.REVIEWER);
+    update.putReviewer(OTHER_ACCOUNT.getId(), ReviewerState.REVIEWER);
+    commit(update);
+
+    ChangeNotes notes = newNotes(c);
+    assertEquals(ImmutableSetMultimap.of(
+          ReviewerState.REVIEWER, new Account.Id(1),
+          ReviewerState.REVIEWER, new Account.Id(2)),
+        notes.getReviewers());
+  }
+
+  @Test
+  public void reviewerTypes() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, CHANGE_OWNER);
+    update.putReviewer(CHANGE_OWNER.getId(), ReviewerState.REVIEWER);
+    update.putReviewer(OTHER_ACCOUNT.getId(), ReviewerState.CC);
+    commit(update);
+
+    ChangeNotes notes = newNotes(c);
+    assertEquals(ImmutableSetMultimap.of(
+          ReviewerState.REVIEWER, new Account.Id(1),
+          ReviewerState.CC, new Account.Id(2)),
+        notes.getReviewers());
+  }
+
+  @Test
+  public void oneReviewerMultipleTypes() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, CHANGE_OWNER);
+    update.putReviewer(OTHER_ACCOUNT.getId(), ReviewerState.REVIEWER);
+    commit(update);
+
+    ChangeNotes notes = newNotes(c);
+    assertEquals(ImmutableSetMultimap.of(
+          ReviewerState.REVIEWER, new Account.Id(2)),
+        notes.getReviewers());
+
+    update = newUpdate(c, OTHER_ACCOUNT);
+    update.putReviewer(OTHER_ACCOUNT.getId(), ReviewerState.CC);
+    commit(update);
+
+    notes = newNotes(c);
+    assertEquals(ImmutableSetMultimap.of(
+          ReviewerState.CC, new Account.Id(2)),
+        notes.getReviewers());
+  }
+
+  @Test
+  public void removeReviewer() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, CHANGE_OWNER);
+    update.putReviewer(OTHER_ACCOUNT.getId(), ReviewerState.REVIEWER);
+    commit(update);
+
+    update = newUpdate(c, CHANGE_OWNER);
+    update.putApproval("Code-Review", (short) 1);
+    commit(update);
+
+    update = newUpdate(c, OTHER_ACCOUNT);
+    update.putApproval("Code-Review", (short) 1);
+    commit(update);
+
+    ChangeNotes notes = newNotes(c);
+    List<PatchSetApproval> psas =
+        notes.getApprovals().get(c.currentPatchSetId());
+    assertEquals(2, psas.size());
+    assertEquals(CHANGE_OWNER.getId(), psas.get(0).getAccountId());
+    assertEquals(OTHER_ACCOUNT.getId(), psas.get(1).getAccountId());
+
+    update = newUpdate(c, CHANGE_OWNER);
+    update.removeReviewer(OTHER_ACCOUNT.getId());
+    commit(update);
+
+    notes = newNotes(c);
+    psas = notes.getApprovals().get(c.currentPatchSetId());
+    assertEquals(1, psas.size());
+    assertEquals(CHANGE_OWNER.getId(), psas.get(0).getAccountId());
+  }
+
+  private Change newChange() {
     Change.Id changeId = new Change.Id(1);
     Change c = new Change(
         new Change.Key("Iabcd1234abcd1234abcd1234abcd1234abcd1234"),
         changeId,
-        new Account.Id(accountId),
+        CHANGE_OWNER.getId(),
         new Branch.NameKey(project, "master"),
         TimeUtil.nowTs());
     incrementPatchSet(c);
     return c;
   }
 
-  private ChangeUpdate newUpdate(Change c, Account.Id owner)
+  private ChangeUpdate newUpdate(Change c, Account account)
       throws ConfigInvalidException, IOException {
-    return new ChangeUpdate(repoManager, LABEL_TYPES, c, owner, null);
+    return new ChangeUpdate(repoManager, accountCache, LABEL_TYPES, c, account,
+        TimeUtil.nowTs(), TZ);
   }
 
   private ChangeNotes newNotes(Change c)
@@ -297,11 +401,10 @@ public class ChangeNotesTest {
   private RevCommit commit(ChangeUpdate update) throws IOException {
     MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED,
         project, repo);
-    Timestamp ts = TimeUtil.nowTs();
-    md.getCommitBuilder().setAuthor(
-        new PersonIdent("Example User", "user@example.com", ts, TZ));
-    md.getCommitBuilder().setCommitter(
-        new PersonIdent("Gerrit Test", "notthis@email.com", ts, TZ));
+    md.getCommitBuilder().setAuthor(new PersonIdent(
+        update.getAccount().getFullName(),
+        update.getAccount().getPreferredEmail(),
+        update.getWhen(), TZ));
     return update.commit(md);
   }
 }

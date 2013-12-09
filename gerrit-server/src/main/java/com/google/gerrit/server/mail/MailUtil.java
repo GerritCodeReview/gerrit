@@ -18,8 +18,8 @@ import com.google.common.collect.Multimap;
 import com.google.gerrit.common.errors.NoSuchAccountException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.server.ApprovalsUtil.ReviewerState;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.notedb.ReviewerState;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.revwalk.FooterKey;

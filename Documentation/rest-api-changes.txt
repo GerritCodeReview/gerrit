@@ -2311,11 +2311,13 @@ As response a link:#diff-info[DiffInfo] entity is returned that describes the di
   {
     "meta_a": {
       "name": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
-      "content_type": "text/x-java-source"
+      "content_type": "text/x-java-source",
+      "lines": 372
     },
     "meta_b": {
       "name": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
-      "content_type": "text/x-java-source"
+      "content_type": "text/x-java-source",
+      "lines": 578
     },
     "change_type": "MODIFIED",
     "diff_header": [
@@ -2379,11 +2381,13 @@ If the `intraline` parameter is specified, intraline differences are included in
   {
     "meta_a": {
       "name": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
-      "content_type": "text/x-java-source"
+      "content_type": "text/x-java-source",
+      "lines": 372
     },
     "meta_b": {
       "name": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
-      "content_type": "text/x-java-source"
+      "content_type": "text/x-java-source",
+      "lines": 578
     },
     "change_type": "MODIFIED",
     "diff_header": [
@@ -2431,11 +2435,13 @@ be generated.
   {
     "meta_a": {
       "name": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
-      "content_type": "text/x-java-source"
+      "content_type": "text/x-java-source",
+      "lines": 578
     },
     "meta_b": {
       "name": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
-      "content_type": "text/x-java-source"
+      "content_type": "text/x-java-source",
+      "lines": 578
     },
     "change_type": "MODIFIED",
     "content": [
@@ -3008,6 +3014,7 @@ The `DiffFileMetaInfo` entity contains meta information about a file diff.
 |Field Name    |Description
 |`name`        |The name of the file.
 |`content_type`|The content type of the file.
+|`lines`       |The total number of lines in the file.
 |==========================
 
 [[diff-info]]

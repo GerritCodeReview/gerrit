@@ -99,6 +99,7 @@ public class DiffInfo extends JavaScriptObject {
   public static class FileMeta extends JavaScriptObject {
     public final native String name() /*-{ return this.name; }-*/;
     public final native String content_type() /*-{ return this.content_type; }-*/;
+    public final native int lines() /*-{ return this.lines || 0 }-*/;
 
     protected FileMeta() {
     }

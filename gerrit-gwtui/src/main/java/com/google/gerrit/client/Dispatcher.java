@@ -91,10 +91,12 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.http.client.URL;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwtorm.client.KeyUtil;
 
 public class Dispatcher {
+  public static final String COOKIE_CS2 = "gerrit_cs2";
   public static boolean changeScreen2;
 
   public static String toPatchSideBySide(final Patch.Key id) {
@@ -550,6 +552,11 @@ public class Dispatcher {
       ui = Gerrit.getUserAccount()
           .getGeneralPreferences()
           .getChangeScreen();
+    }
+    String v = Cookies.getCookie(Dispatcher.COOKIE_CS2);
+    if (v != null) {
+      changeScreen2 = "1".equals(v);
+      return changeScreen2;
     }
     if (ui == null) {
       ui = Gerrit.getConfig().getChangeScreen();

@@ -24,6 +24,7 @@ public class ChangeNoteUtil {
 
   static final FooterKey FOOTER_LABEL = new FooterKey("Label");
   static final FooterKey FOOTER_PATCH_SET = new FooterKey("Patch-Set");
+  static final FooterKey FOOTER_REVIEWER = new FooterKey("Gerrit-Reviewer");
 
   public static String changeRefName(Change.Id id) {
     StringBuilder r = new StringBuilder();

@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REVIEWER;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_HOST;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -57,6 +59,8 @@ import java.util.Map;
  * limitations on the set of modifications that can be handled in a single
  * update. In particular, there is a single author and timestamp for each
  * update.
+ * <p>
+ * This class is not thread-safe.
  */
 public class ChangeUpdate extends VersionedMetaData {
   @Singleton
@@ -108,6 +112,7 @@ public class ChangeUpdate extends VersionedMetaData {
   private final Account.Id accountId;
   private final Timestamp when;
   private final Map<String, Short> approvals;
+  private final Map<Account.Id, ReviewerState> reviewers;
   private String subject;
 
   @VisibleForTesting
@@ -127,6 +132,7 @@ public class ChangeUpdate extends VersionedMetaData {
     this.accountId = accountId;
     this.when = when;
     this.approvals = Maps.newTreeMap(labelTypes.nameComparator());
+    this.reviewers = Maps.newLinkedHashMap();
     load(repo);
   }
 
@@ -136,6 +142,15 @@ public class ChangeUpdate extends VersionedMetaData {
 
   public void setSubject(String subject) {
     this.subject = subject;
+  }
+
+  public void putReviewer(Account.Id reviewer, ReviewerState type) {
+    checkArgument(type != ReviewerState.REMOVED, "invalid ReviewerType");
+    reviewers.put(reviewer, type);
+  }
+
+  public void removeReviewer(Account.Id reviewer) {
+    reviewers.put(reviewer, ReviewerState.REMOVED);
   }
 
   public RevCommit commit() throws IOException {
@@ -166,7 +181,7 @@ public class ChangeUpdate extends VersionedMetaData {
 
   @Override
   protected void onSave(CommitBuilder commit) {
-    if (approvals.isEmpty()) {
+    if (approvals.isEmpty() && reviewers.isEmpty()) {
       return;
     }
     int psId = change.currentPatchSetId().get();
@@ -178,6 +193,9 @@ public class ChangeUpdate extends VersionedMetaData {
     }
     msg.append("\n\n");
     addFooter(msg, FOOTER_PATCH_SET, psId);
+    for (Map.Entry<Account.Id, ReviewerState> e : reviewers.entrySet()) {
+      addFooter(msg, FOOTER_REVIEWER, e.getKey(), e.getValue());
+    }
     for (Map.Entry<String, Short> e : approvals.entrySet()) {
       LabelType lt = labelTypes.byLabel(e.getKey());
       if (lt != null) {
@@ -191,6 +209,12 @@ public class ChangeUpdate extends VersionedMetaData {
   private static void addFooter(StringBuilder sb, FooterKey footer,
       Object value) {
     sb.append(footer.getName()).append(": ").append(value).append('\n');
+  }
+
+  private static void addFooter(StringBuilder sb, FooterKey footer,
+      Object key, Object value) {
+    sb.append(footer.getName()).append(": ").append(key).append('=')
+        .append(value).append('\n');
   }
 
   @Override

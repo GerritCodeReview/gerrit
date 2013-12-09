@@ -16,6 +16,24 @@
       "revId": "13e03a76314954eb41bd70991fd8633e217e79f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63d00689_4895df6c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_90.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-09T16:48:36Z",
+      "side": 1,
+      "message": "Sorry if this causes trouble, but why must all new  boolean settings default to false for existing users? Shouldn\u0027t it default to what makes more sense and shouldn\u0027t it be consistent with what new users get?",
+      "parentUuid": "830dfaeb_19fe8b87",
+      "revId": "13e03a76314954eb41bd70991fd8633e217e79f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

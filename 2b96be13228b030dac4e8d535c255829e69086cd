@@ -93,6 +93,30 @@
       "revId": "2b96be13228b030dac4e8d535c255829e69086cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3a7f221_0b50fdee",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/api/PluginInstance.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-09T15:23:21Z",
+      "side": 1,
+      "message": "\u003e You are just confused. Its there. :-)\n\nThanks!\n\n\u003e Maybe we rename Plugin to be PluginEntryPoint, and then rename PluginInstance to Plugin, and then drop the helpers in PluginEntryPoint.\n\nEither we change it now, or let it all as is ;-)",
+      "parentUuid": "a3083eda_9ab60de3",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 38,
+        "endChar": 19
+      },
+      "revId": "2b96be13228b030dac4e8d535c255829e69086cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c3a7f221_6bc6e182",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 1559,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-09T11:11:14Z",
+      "side": 1,
+      "message": "Here is the change for the serviceuser plugin where I\u0027m trying to implement the service user creation form as a screen:\n\n  https://gerrit-review.googlesource.com/52584",
+      "parentUuid": "c3a7f221_cbd6f535",
+      "range": {
+        "startLine": 1549,
+        "startChar": 0,
+        "endLine": 1559,
+        "endChar": 1
+      },
+      "revId": "c10ee7107106c7f29ea3c4abbee8d20649d6e19e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63d00689_c8054f29",
         "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/plugin/client/PluginInstance.java",
         "patchSetId": 12

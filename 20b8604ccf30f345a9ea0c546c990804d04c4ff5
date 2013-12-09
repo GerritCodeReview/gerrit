@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a3083eda_3a01c1cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-09T07:46:09Z",
+      "side": 1,
+      "message": "Can you add a bit more detail here about what this does and how it\u0027s used?\n\n(also in /Documentation if necessary)",
+      "revId": "20b8604ccf30f345a9ea0c546c990804d04c4ff5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3083eda_1a503def",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceProvider.java",
         "patchSetId": 1

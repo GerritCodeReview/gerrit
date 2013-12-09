@@ -132,8 +132,7 @@ public class CherryPick extends SubmitStrategy {
 
     args.rw.parseBody(n);
 
-    final PatchSetApproval submitAudit =
-        args.mergeUtil.getSubmitter(n.change.currentPatchSetId());
+    final PatchSetApproval submitAudit = args.mergeUtil.getSubmitter(n);
 
     PersonIdent cherryPickCommitterIdent;
     if (submitAudit != null) {
@@ -157,7 +156,7 @@ public class CherryPick extends SubmitStrategy {
     }
 
     PatchSet.Id id =
-        ChangeUtil.nextPatchSetId(args.repo, n.change.currentPatchSetId());
+        ChangeUtil.nextPatchSetId(args.repo, n.getChange().currentPatchSetId());
     final PatchSet ps = new PatchSet(id);
     ps.setCreatedOn(TimeUtil.nowTs());
     ps.setUploader(submitAudit.getAccountId());
@@ -165,19 +164,22 @@ public class CherryPick extends SubmitStrategy {
 
     final RefUpdate ru;
 
-    args.db.changes().beginTransaction(n.change.getId());
+    args.db.changes().beginTransaction(n.getChange().getId());
     try {
       insertAncestors(args.db, ps.getId(), newCommit);
       args.db.patchSets().insert(Collections.singleton(ps));
-      n.change
+      n.getChange()
           .setCurrentPatchSet(patchSetInfoFactory.get(newCommit, ps.getId()));
-      args.db.changes().update(Collections.singletonList(n.change));
+      args.db.changes().update(Collections.singletonList(n.getChange()));
 
       final List<PatchSetApproval> approvals = Lists.newArrayList();
       for (PatchSetApproval a
-          : args.approvalsUtil.byPatchSet(args.db, n.patchsetId)) {
+          : args.approvalsUtil.byPatchSet(args.db, n.notes, n.patchsetId)) {
         approvals.add(new PatchSetApproval(ps.getId(), a));
       }
+      // TODO(dborowitz): This doesn't copy labels in the notedb. We should
+      // stamp those in atomically with the same commit that describes the
+      // change being submitted.
       args.db.patchSetApprovals().insert(approvals);
 
       ru = args.repo.updateRef(ps.getRefName());
@@ -186,7 +188,7 @@ public class CherryPick extends SubmitStrategy {
       ru.disableRefLog();
       if (ru.update(args.rw) != RefUpdate.Result.NEW) {
         throw new IOException(String.format(
-            "Failed to create ref %s in %s: %s", ps.getRefName(), n.change
+            "Failed to create ref %s in %s: %s", ps.getRefName(), n.getChange()
                 .getDest().getParentKey().get(), ru.getResult()));
       }
 
@@ -195,7 +197,7 @@ public class CherryPick extends SubmitStrategy {
       args.db.rollback();
     }
 
-    gitRefUpdated.fire(n.change.getProject(), ru);
+    gitRefUpdated.fire(n.getChange().getProject(), ru);
 
     newCommit.copyFrom(n);
     newCommit.statusCode = CommitMergeStatus.CLEAN_PICK;

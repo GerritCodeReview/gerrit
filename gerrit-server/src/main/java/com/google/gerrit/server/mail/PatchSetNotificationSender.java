@@ -31,6 +31,8 @@ import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
+import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gwtorm.server.OrmException;
@@ -79,9 +81,10 @@ public class PatchSetNotificationSender {
     this.replacePatchSetFactory = replacePatchSetFactory;
   }
 
-  public void send(final boolean newChange,
-      final IdentifiedUser currentUser, final Change updatedChange,
-      final PatchSet updatedPatchSet, final LabelTypes labelTypes)
+  public void send(final ChangeNotes notes, final ChangeUpdate update,
+      final boolean newChange, final IdentifiedUser currentUser,
+      final Change updatedChange, final PatchSet updatedPatchSet,
+      final LabelTypes labelTypes)
       throws OrmException, IOException, PatchSetInfoNotAvailableException {
     final Repository git = repoManager.openRepository(updatedChange.getProject());
     try {
@@ -101,9 +104,9 @@ public class PatchSetNotificationSender {
       recipients.remove(me);
 
       if (newChange) {
-        approvalsUtil.addReviewers(db, labelTypes,
-            updatedChange, updatedPatchSet, info,
-            recipients.getReviewers(), Collections.<Account.Id> emptySet());
+        approvalsUtil.addReviewers(db, update, labelTypes, updatedChange,
+            updatedPatchSet, info, recipients.getReviewers(),
+            Collections.<Account.Id> emptySet());
         try {
           CreateChangeSender cm = createChangeSenderFactory.create(updatedChange);
           cm.setFrom(me);
@@ -115,9 +118,9 @@ public class PatchSetNotificationSender {
           log.error("Cannot send email for new change " + updatedChange.getId(), e);
         }
       } else {
-        approvalsUtil.addReviewers(db, labelTypes, updatedChange,
+        approvalsUtil.addReviewers(db, update, labelTypes, updatedChange,
             updatedPatchSet, info, recipients.getReviewers(),
-            approvalsUtil.getReviewers(db, updatedChange.getId()).values());
+            approvalsUtil.getReviewers(db, notes).values());
         final ChangeMessage msg =
             new ChangeMessage(new ChangeMessage.Key(updatedChange.getId(),
                 ChangeUtil.messageUUID(db)), me,

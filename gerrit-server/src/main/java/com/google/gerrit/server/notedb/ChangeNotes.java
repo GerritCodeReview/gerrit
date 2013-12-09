@@ -73,8 +73,9 @@ public class ChangeNotes extends VersionedMetaData {
   public static class Factory {
     private final GitRepositoryManager repoManager;
 
+    @VisibleForTesting
     @Inject
-    Factory(GitRepositoryManager repoManager) {
+    public Factory(GitRepositoryManager repoManager) {
       this.repoManager = repoManager;
     }
 
@@ -259,6 +260,10 @@ public class ChangeNotes extends VersionedMetaData {
       }
     }
     return this;
+  }
+
+  public Change.Id getChangeId() {
+    return change.getId();
   }
 
   public Change getChange() {

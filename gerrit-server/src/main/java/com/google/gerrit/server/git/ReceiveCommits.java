@@ -18,6 +18,7 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromReviewers;
+
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
@@ -88,6 +89,8 @@ import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
+import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.ReviewerState;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
@@ -254,6 +257,8 @@ public class ReceiveCommits {
 
   private final IdentifiedUser currentUser;
   private final ReviewDb db;
+  private final ChangeNotes.Factory notesFactory;
+  private final ChangeUpdate.Factory updateFactory;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final AccountResolver accountResolver;
   private final CmdLineParser.Factory optionParserFactory;
@@ -317,6 +322,8 @@ public class ReceiveCommits {
   @Inject
   ReceiveCommits(final ReviewDb db,
       final SchemaFactory<ReviewDb> schemaFactory,
+      final ChangeNotes.Factory notesFactory,
+      final ChangeUpdate.Factory updateFactory,
       final AccountResolver accountResolver,
       final CmdLineParser.Factory optionParserFactory,
       final CreateChangeSender.Factory createChangeSenderFactory,
@@ -352,6 +359,8 @@ public class ReceiveCommits {
       final ChangeKindCache changeKindCache) throws IOException {
     this.currentUser = (IdentifiedUser) projectControl.getCurrentUser();
     this.db = db;
+    this.notesFactory = notesFactory;
+    this.updateFactory = updateFactory;
     this.schemaFactory = schemaFactory;
     this.accountResolver = accountResolver;
     this.optionParserFactory = optionParserFactory;
@@ -1842,6 +1851,7 @@ public class ReceiveCommits {
       recipients.add(getRecipientsFromFooters(accountResolver, newPatchSet, footerLines));
       recipients.remove(me);
 
+      ChangeUpdate update = updateFactory.create(change, newPatchSet.getCreatedOn());
       db.changes().beginTransaction(change.getId());
       try {
         change = db.changes().get(change.getId());
@@ -1858,15 +1868,15 @@ public class ReceiveCommits {
           mergedIntoRef = mergedInto != null ? mergedInto.getName() : null;
         }
 
-        List<PatchSetApproval> oldChangeApprovals =
-            db.patchSetApprovals().byChange(change.getId()).toList();
+        Collection<PatchSetApproval> oldChangeApprovals =
+            approvalsUtil.byChange(db, notesFactory.create(change)).values();
         SetMultimap<ReviewerState, Account.Id> reviewers =
             ApprovalsUtil.getReviewers(oldChangeApprovals);
         MailRecipients oldRecipients = getRecipientsFromReviewers(reviewers);
         approvalsUtil.copyLabels(db, labelTypes, oldChangeApprovals,
             priorPatchSet, newPatchSet, changeKind);
-        approvalsUtil.addReviewers(db, labelTypes, change, newPatchSet, info,
-            recipients.getReviewers(), oldRecipients.getAll());
+        approvalsUtil.addReviewers(db, update, labelTypes, change, newPatchSet,
+            info, recipients.getReviewers(), oldRecipients.getAll());
         recipients.add(oldRecipients);
 
         msg =
@@ -1924,6 +1934,7 @@ public class ReceiveCommits {
       } finally {
         db.rollback();
       }
+      update.commit();
 
       if (mergedIntoRef != null) {
         // Change was already submitted to a branch, close it.

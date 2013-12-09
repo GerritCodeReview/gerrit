@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.git.LabelNormalizer;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
@@ -44,16 +45,19 @@ import java.util.TreeMap;
 public class ReviewerJson {
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
+  private final ApprovalsUtil approvalsUtil;
   private final LabelNormalizer labelNormalizer;
   private final AccountInfo.Loader.Factory accountLoaderFactory;
 
   @Inject
   ReviewerJson(Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
+      ApprovalsUtil approvalsUtil,
       LabelNormalizer labelNormalizer,
       AccountInfo.Loader.Factory accountLoaderFactory) {
     this.db = db;
     this.changeDataFactory = changeDataFactory;
+    this.approvalsUtil = approvalsUtil;
     this.labelNormalizer = labelNormalizer;
     this.accountLoaderFactory = accountLoaderFactory;
   }
@@ -75,14 +79,12 @@ public class ReviewerJson {
     return format(ImmutableList.<ReviewerResource> of(rsrc));
   }
 
-  public ReviewerInfo format(ReviewerInfo out, ChangeControl ctl,
-      List<PatchSetApproval> approvals) throws OrmException {
+  public ReviewerInfo format(ReviewerInfo out, ChangeNotes changeNotes,
+      ChangeControl ctl, List<PatchSetApproval> approvals) throws OrmException {
     PatchSet.Id psId = ctl.getChange().currentPatchSetId();
 
-    if (approvals == null) {
-      approvals = ApprovalsUtil.sortApprovals(db.get().patchSetApprovals()
-          .byPatchSetUser(psId, out._id));
-    }
+    approvals =
+        approvalsUtil.byPatchSetUser(db.get(), changeNotes, psId, out._id);
     approvals = labelNormalizer.normalize(ctl, approvals);
     LabelTypes labelTypes = ctl.getLabelTypes();
 
@@ -129,7 +131,7 @@ public class ReviewerJson {
   private ReviewerInfo format(ReviewerResource rsrc,
       List<PatchSetApproval> approvals) throws OrmException {
     return format(new ReviewerInfo(rsrc.getUser().getAccountId()),
-        rsrc.getUserControl(), approvals);
+        rsrc.getNotes(), rsrc.getUserControl(), approvals);
   }
 
   public static class ReviewerInfo extends AccountInfo {

@@ -25,6 +25,8 @@ import com.google.gerrit.server.changedetail.RebaseChange;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.index.ChangeIndexer;
+import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -50,6 +52,8 @@ public class SubmitStrategyFactory {
 
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final PersonIdent myIdent;
+  private final ChangeNotes.Factory notesFactory;
+  private final ChangeUpdate.Factory updateFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final GitReferenceUpdated gitRefUpdated;
   private final RebaseChange rebaseChange;
@@ -62,6 +66,8 @@ public class SubmitStrategyFactory {
   SubmitStrategyFactory(
       final IdentifiedUser.GenericFactory identifiedUserFactory,
       @GerritPersonIdent final PersonIdent myIdent,
+      final ChangeNotes.Factory notesFactory,
+      final ChangeUpdate.Factory updateFactory,
       final PatchSetInfoFactory patchSetInfoFactory,
       @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
       final GitReferenceUpdated gitRefUpdated, final RebaseChange rebaseChange,
@@ -71,6 +77,8 @@ public class SubmitStrategyFactory {
       final ChangeIndexer indexer) {
     this.identifiedUserFactory = identifiedUserFactory;
     this.myIdent = myIdent;
+    this.notesFactory = notesFactory;
+    this.updateFactory = updateFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.gitRefUpdated = gitRefUpdated;
     this.rebaseChange = rebaseChange;
@@ -87,9 +95,10 @@ public class SubmitStrategyFactory {
       throws MergeException, NoSuchProjectException {
     ProjectState project = getProject(destBranch);
     final SubmitStrategy.Arguments args =
-        new SubmitStrategy.Arguments(identifiedUserFactory, myIdent, db, repo,
-            rw, inserter, canMergeFlag, alreadyAccepted, destBranch,
-            approvalsUtil, mergeUtilFactory.create(project), indexer);
+        new SubmitStrategy.Arguments(identifiedUserFactory, myIdent, db,
+            notesFactory, updateFactory, repo, rw, inserter, canMergeFlag,
+            alreadyAccepted, destBranch,approvalsUtil,
+            mergeUtilFactory.create(project), indexer);
     switch (submitType) {
       case CHERRY_PICK:
         return new CherryPick(args, patchSetInfoFactory, gitRefUpdated);

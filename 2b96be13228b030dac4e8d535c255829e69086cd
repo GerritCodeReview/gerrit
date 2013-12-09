@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "830dfaeb_79e227f3",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1374,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-09T15:17:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63d00689_e835b3f7",
+      "range": {
+        "startLine": 1374,
+        "startChar": 14,
+        "endLine": 1374,
+        "endChar": 26
+      },
+      "revId": "2b96be13228b030dac4e8d535c255829e69086cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63d00689_c83a6fe5",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/api/PluginInstance.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2013-12-09T11:31:20Z",
       "side": 1,
       "message": "How GWT plugins (form or screen based) supposed to access getPluginName() function? It inherits from Plugin, but the class doesn\u0027t expose this function.",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 38,
+        "endChar": 19
+      },
+      "revId": "2b96be13228b030dac4e8d535c255829e69086cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3083eda_9ab60de3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/api/PluginInstance.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-09T15:17:57Z",
+      "side": 1,
+      "message": "You are just confused. Its there. :-)\n\n  PluginInstance.get().getName()\n\nThere are two versions of PluginInstance. We have two classes with the same name, but in different packages. This one you put the comment on is the core class used by the core UI code to manage the plugins it is loading/tracking. Because it is only visible to the core code it does not need to export everything in the API.\n\nThe other version is in gerrit-plugin-gwtui module for plugins to link against, and is part of the public plugin API under package com.google.gerrit.plugin.client. That class has a static getter method that returns the overlay instance, and from there you can call getName() or getPluginName().\n\n\nThe GWT Plugin is a weird class. I wanted it to be an overlay over this JS native PluginInstance, but we can\u0027t use an overlay for the EntryPoint. The bootstrap loader creates the entry point itself as a normal Java class, well before we have a chance in the plugin code to ask Gerrit to create the PluginInstance for us. So it can\u0027t be an overlay.\n\nSo the overlay is PluginInstance. Which is named identically to this object.\n\nMaybe we rename Plugin to be PluginEntryPoint, and then rename PluginInstance to Plugin, and then drop the helpers in PluginEntryPoint. Make everyone use Plugin.get().{blah} to access the API.",
+      "parentUuid": "63d00689_c83a6fe5",
       "range": {
         "startLine": 38,
         "startChar": 6,

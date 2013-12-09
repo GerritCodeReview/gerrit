@@ -31,14 +31,29 @@ import com.google.gwt.core.client.impl.StackTraceCreator;
 class PluginName {
   private static final String UNKNOWN = "<unknown>";
 
-  static String get() {
-    return GWT.<PluginName> create(PluginName.class).guessName();
+  private static String baseUrl() {
+    return GWT.getHostPageBaseURL() + "plugins/";
   }
 
-  String guessName() {
+  static String getCallerUrl() {
+    return GWT.<PluginName> create(PluginName.class).findCallerUrl();
+  }
+
+  static String fromUrl(String url) {
+    String baseUrl = baseUrl();
+    if (url != null && url.startsWith(baseUrl)) {
+      int s = url.indexOf('/', baseUrl.length());
+      if (s > 0) {
+        return url.substring(baseUrl.length(), s);
+      }
+    }
+    return UNKNOWN;
+  }
+
+  String findCallerUrl() {
     JavaScriptException err = makeException();
     if (hasStack(err)) {
-      return PluginNameMoz.guessName(err);
+      return PluginNameMoz.getUrl(err);
     }
 
     String baseUrl = baseUrl();
@@ -46,17 +61,10 @@ class PluginName {
     for (int i = trace.length - 1; i >= 0; i--) {
       String u = trace[i].getFileName();
       if (u != null && u.startsWith(baseUrl)) {
-        int s = u.indexOf('/', baseUrl.length());
-        if (s > 0) {
-          return u.substring(baseUrl.length(), s);
-        }
+        return u;
       }
     }
     return UNKNOWN;
-  }
-
-  private static String baseUrl() {
-    return GWT.getHostPageBaseURL() + "plugins/";
   }
 
   private static StackTraceElement[] getTrace(JavaScriptException err) {
@@ -72,21 +80,22 @@ class PluginName {
 
   /** Extracts URL from the stack frame. */
   static class PluginNameMoz extends PluginName {
-    String guessName() {
-      return guessName(makeException());
+    String findCallerUrl() {
+      return getUrl(makeException());
     }
 
-    static String guessName(JavaScriptException e) {
+    private static String getUrl(JavaScriptException e) {
       String baseUrl = baseUrl();
       JsArrayString stack = getStack(e);
       for (int i = stack.length() - 1; i >= 0; i--) {
         String frame = stack.get(i);
         int at = frame.indexOf(baseUrl);
         if (at >= 0) {
-          int s = frame.indexOf('/', at + baseUrl.length());
-          if (s > 0) {
-            return frame.substring(at + baseUrl.length(), s);
+          int end = frame.indexOf(':', at + baseUrl.length());
+          if (end < 0) {
+            end = frame.length();
           }
+          return frame.substring(at, end);
         }
       }
       return UNKNOWN;

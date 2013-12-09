@@ -20,7 +20,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-/** In-memory table of {@link AccountInfo}, indexed by {@link Account.Id}. */
+/** In-memory table of {@link AccountInfo}, indexed by {@code Account.Id}. */
 public class AccountInfoCache {
   private static final AccountInfoCache EMPTY;
   static {

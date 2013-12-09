@@ -14,6 +14,7 @@
 
 package com.google.gerrit.plugin.client;
 
+import com.google.gerrit.plugin.client.screen.Screen;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 
@@ -48,6 +49,25 @@ public final class PluginInstance extends JavaScriptObject {
   /** Refresh the current UI. */
   public final native void refresh()
   /*-{ return this.refresh() }-*/;
+
+  /** Register a screen on a literal token. */
+  public final void screen(String token, Screen.Callback b) {
+    screen(self, false, token, b);
+  }
+
+  /** Register a screen on a regex pattern. */
+  public final void screenRegex(String pattern, Screen.Callback b) {
+    screen(self, true, pattern, b);
+  }
+
+  private native static void screen(
+      PluginInstance self,
+      boolean re, String p, Screen.Callback b) /*-{
+    self.screen(re?new $wnd.RegExp(p):p, $entry(function(c) {
+      b.@com.google.gerrit.plugin.client.screen.Screen.Callback::onLoad(Lcom/google/gerrit/plugin/client/screen/Screen;)(
+        @com.google.gerrit.plugin.client.screen.Screen::new(Lcom/google/gerrit/plugin/client/screen/Screen$Context;)(c));
+    }));
+  }-*/;
 
   protected PluginInstance() {
   }

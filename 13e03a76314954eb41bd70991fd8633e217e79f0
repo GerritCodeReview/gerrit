@@ -34,6 +34,24 @@
       "revId": "13e03a76314954eb41bd70991fd8633e217e79f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "830dfaeb_f9bbd7c8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_90.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-09T16:51:15Z",
+      "side": 1,
+      "message": "Because I am not going to run a schema migration over our 100+ user databases every time upstream adds a new user preference that defaults to a value other than 0/false/null.\n\nAnd the gwtorm default value work is stalled somewhere.",
+      "parentUuid": "63d00689_4895df6c",
+      "revId": "13e03a76314954eb41bd70991fd8633e217e79f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

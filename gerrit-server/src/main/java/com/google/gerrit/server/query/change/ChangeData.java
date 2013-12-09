@@ -37,6 +37,8 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.ReviewerState;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -75,9 +77,16 @@ public class ChangeData {
       }
     }
     if (!missing.isEmpty()) {
-      ReviewDb db = missing.values().iterator().next().db;
-      for (Change change : db.changes().get(missing.keySet())) {
-        missing.get(change.getId()).change = change;
+      ChangeData first = missing.values().iterator().next();
+      if (!first.notesMigration.readPatchSetApprovals()) {
+        ReviewDb db = missing.values().iterator().next().db;
+        for (Change change : db.changes().get(missing.keySet())) {
+          missing.get(change.getId()).change = change;
+        }
+      } else {
+        for (ChangeData cd : missing.values()) {
+          cd.change();
+        }
       }
     }
   }
@@ -113,9 +122,13 @@ public class ChangeData {
       throws OrmException {
     List<ResultSet<PatchSetApproval>> pending = Lists.newArrayList();
     for (ChangeData cd : changes) {
-      if (cd.currentApprovals == null && cd.limitedApprovals == null) {
-        pending.add(cd.db.patchSetApprovals()
-            .byPatchSet(cd.change().currentPatchSetId()));
+      if (!cd.notesMigration.readPatchSetApprovals()) {
+        if (cd.currentApprovals == null && cd.limitedApprovals == null) {
+          pending.add(cd.db.patchSetApprovals()
+              .byPatchSet(cd.change().currentPatchSetId()));
+        }
+      } else {
+        cd.change();
       }
     }
     if (!pending.isEmpty()) {
@@ -136,10 +149,14 @@ public class ChangeData {
 
   private final ReviewDb db;
   private final GitRepositoryManager repoManager;
+  private final ChangeNotes.Factory notesFactory;
+  private final ApprovalsUtil approvalsUtil;
   private final PatchListCache patchListCache;
+  private final NotesMigration notesMigration;
   private final Change.Id legacyId;
   private ChangeDataSource returnedBySource;
   private Change change;
+  private ChangeNotes notes;
   private String commitMessage;
   private List<FooterLine> commitFooters;
   private PatchSet currentPatchSet;
@@ -161,24 +178,36 @@ public class ChangeData {
   @AssistedInject
   public ChangeData(
       GitRepositoryManager repoManager,
+      ChangeNotes.Factory notesFactory,
+      ApprovalsUtil approvalsUtil,
       PatchListCache patchListCache,
+      NotesMigration notesMigration,
       @Assisted ReviewDb db,
       @Assisted Change.Id id) {
     this.db = db;
     this.repoManager = repoManager;
+    this.notesFactory = notesFactory;
+    this.approvalsUtil = approvalsUtil;
     this.patchListCache = patchListCache;
+    this.notesMigration = notesMigration;
     legacyId = id;
   }
 
   @AssistedInject
   ChangeData(
       GitRepositoryManager repoManager,
+      ChangeNotes.Factory notesFactory,
+      ApprovalsUtil approvalsUtil,
       PatchListCache patchListCache,
+      NotesMigration notesMigration,
       @Assisted ReviewDb db,
       @Assisted Change c) {
     this.db = db;
     this.repoManager = repoManager;
+    this.notesFactory = notesFactory;
+    this.approvalsUtil = approvalsUtil;
     this.patchListCache = patchListCache;
+    this.notesMigration = notesMigration;
     legacyId = c.getId();
     change = c;
   }
@@ -186,15 +215,22 @@ public class ChangeData {
   @AssistedInject
   ChangeData(
       GitRepositoryManager repoManager,
+      ChangeNotes.Factory notesFactory,
+      ApprovalsUtil approvalsUtil,
       PatchListCache patchListCache,
+      NotesMigration notesMigration,
       @Assisted ReviewDb db,
       @Assisted ChangeControl c) {
     this.db = db;
     this.repoManager = repoManager;
+    this.notesFactory = notesFactory;
+    this.approvalsUtil = approvalsUtil;
     this.patchListCache = patchListCache;
+    this.notesMigration = notesMigration;
     legacyId = c.getChange().getId();
     change = c.getChange();
     changeControl = c;
+    notes = c.getNotes();
   }
 
   public boolean isFromSource(ChangeDataSource s) {
@@ -325,6 +361,13 @@ public class ChangeData {
     return change;
   }
 
+  public ChangeNotes notes() throws OrmException {
+    if (notes == null) {
+      notes = notesFactory.create(change());
+    }
+    return notes;
+  }
+
   void setChange(Change c) {
     change = c;
   }
@@ -357,8 +400,8 @@ public class ChangeData {
           (limitedIds == null || limitedIds.contains(c.currentPatchSetId()))) {
         return limitedApprovals.get(c.currentPatchSetId());
       } else {
-        currentApprovals = sortApprovals(db.patchSetApprovals()
-            .byPatchSet(c.currentPatchSetId()));
+        currentApprovals = approvalsUtil.byPatchSet(
+            db, notes(), c.currentPatchSetId());
       }
     }
     return currentApprovals;
@@ -452,8 +495,8 @@ public class ChangeData {
           limitedApprovals.putAll(id, allApprovals.get(id));
         }
       } else {
-        for (PatchSetApproval psa : sortApprovals(
-            db.patchSetApprovals().byChange(legacyId))) {
+        for (PatchSetApproval psa
+            : approvalsUtil.byChange(db, notes()).values()) {
           if (limitedIds == null || limitedIds.contains(legacyId)) {
             limitedApprovals.put(psa.getPatchSetId(), psa);
           }
@@ -483,11 +526,7 @@ public class ChangeData {
   public ListMultimap<PatchSet.Id, PatchSetApproval> allApprovalsMap()
       throws OrmException {
     if (allApprovals == null) {
-      allApprovals = ArrayListMultimap.create();
-      for (PatchSetApproval psa : sortApprovals(
-          db.patchSetApprovals().byChange(legacyId))) {
-        allApprovals.put(psa.getPatchSetId(), psa);
-      }
+      allApprovals = approvalsUtil.byChange(db, notes());
     }
     return allApprovals;
   }

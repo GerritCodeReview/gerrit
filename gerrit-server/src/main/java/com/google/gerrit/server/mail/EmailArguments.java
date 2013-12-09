@@ -28,6 +28,7 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ProjectCache;
@@ -54,6 +55,7 @@ class EmailArguments {
   final PatchSetInfoFactory patchSetInfoFactory;
   final IdentifiedUser.GenericFactory identifiedUserFactory;
   final CapabilityControl.Factory capabilityControlFactory;
+  final ChangeNotes.Factory changeNotesFactory;
   final AnonymousUser anonymousUser;
   final String anonymousCowardName;
   final Provider<String> urlProvider;
@@ -76,6 +78,7 @@ class EmailArguments {
       EmailSender emailSender, PatchSetInfoFactory patchSetInfoFactory,
       GenericFactory identifiedUserFactory,
       CapabilityControl.Factory capabilityControlFactory,
+      ChangeNotes.Factory changeNotesFactory,
       AnonymousUser anonymousUser,
       @AnonymousCowardName String anonymousCowardName,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
@@ -98,6 +101,7 @@ class EmailArguments {
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.identifiedUserFactory = identifiedUserFactory;
     this.capabilityControlFactory = capabilityControlFactory;
+    this.changeNotesFactory = changeNotesFactory;
     this.anonymousUser = anonymousUser;
     this.anonymousCowardName = anonymousCowardName;
     this.urlProvider = urlProvider;

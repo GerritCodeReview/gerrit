@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -26,10 +27,12 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.DeleteReviewer.Input;
 import com.google.gerrit.server.index.ChangeIndexer;
+import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
@@ -45,13 +48,20 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
   }
 
   private final Provider<ReviewDb> dbProvider;
+  private final ChangeUpdate.Factory updateFactory;
+  private final ApprovalsUtil approvalsUtil;
   private final ChangeIndexer indexer;
   private final IdentifiedUser.GenericFactory userFactory;
 
   @Inject
-  DeleteReviewer(Provider<ReviewDb> dbProvider, ChangeIndexer indexer,
+  DeleteReviewer(Provider<ReviewDb> dbProvider,
+      ChangeUpdate.Factory updateFactory,
+      ApprovalsUtil approvalsUtil,
+      ChangeIndexer indexer,
       IdentifiedUser.GenericFactory userFactory) {
     this.dbProvider = dbProvider;
+    this.updateFactory = updateFactory;
+    this.approvalsUtil = approvalsUtil;
     this.indexer = indexer;
     this.userFactory = userFactory;
   }
@@ -63,6 +73,8 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
     ChangeControl control = rsrc.getControl();
     Change.Id changeId = rsrc.getChange().getId();
     ReviewDb db = dbProvider.get();
+    ChangeUpdate update = updateFactory.create(rsrc.getChange());
+
     StringBuilder msg = new StringBuilder();
     db.changes().beginTransaction(changeId);
     try {
@@ -88,6 +100,7 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
       }
       ChangeUtil.bumpRowVersionNotLastUpdatedOn(rsrc.getChange().getId(), db);
       db.patchSetApprovals().delete(del);
+      update.removeReviewer(rsrc.getUser().getAccountId());
 
       if (msg.length() > 0) {
         ChangeMessage changeMessage =
@@ -103,7 +116,10 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
     } finally {
       db.rollback();
     }
-    indexer.index(db, rsrc.getChange());
+    CheckedFuture<?, IOException> indexFuture =
+        indexer.indexAsync(rsrc.getChange());
+    update.commit();
+    indexFuture.checkedGet();
     return Response.none();
   }
 
@@ -119,7 +135,7 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
       ReviewerResource rsrc) throws OrmException {
     final Account.Id user = rsrc.getUser().getAccountId();
     return Iterables.filter(
-        db.patchSetApprovals().byChange(rsrc.getChange().getId()),
+        approvalsUtil.byChange(db, rsrc.getNotes()).values(),
         new Predicate<PatchSetApproval>() {
           @Override
           public boolean apply(PatchSetApproval input) {

@@ -125,7 +125,7 @@ public class ChangeNotesTest {
 
   @Test
   public void approvalsCommitFormat() throws Exception {
-    Change c = newChange();
+    Change c = newNotes();
     ChangeUpdate update = newUpdate(c, CHANGE_OWNER);
     update.putApproval("code-review", (short) -1);
     update.putApproval("verified", (short) 1);
@@ -166,7 +166,7 @@ public class ChangeNotesTest {
 
   @Test
   public void approvalsOnePatchSet() throws Exception {
-    Change c = newChange();
+    Change c = newNotes();
     ChangeUpdate update = newUpdate(c, CHANGE_OWNER);
     update.putApproval("Code-Review", (short) -1);
     update.putApproval("Verified", (short) 1);
@@ -193,7 +193,7 @@ public class ChangeNotesTest {
 
   @Test
   public void approvalsMultiplePatchSets() throws Exception {
-    Change c = newChange();
+    Change c = newNotes();
     ChangeUpdate update = newUpdate(c, CHANGE_OWNER);
     update.putApproval("Code-Review", (short) -1);
     commit(update);
@@ -226,7 +226,7 @@ public class ChangeNotesTest {
 
   @Test
   public void approvalsMultipleVotes() throws Exception {
-    Change c = newChange();
+    Change c = newNotes();
     ChangeUpdate update = newUpdate(c, CHANGE_OWNER);
     update.putApproval("Code-Review", (short) -1);
     commit(update);
@@ -250,7 +250,7 @@ public class ChangeNotesTest {
 
   @Test
   public void approvalsMultipleUsers() throws Exception {
-    Change c = newChange();
+    Change c = newNotes();
     ChangeUpdate update = newUpdate(c, CHANGE_OWNER);
     update.putApproval("Code-Review", (short) -1);
     commit(update);
@@ -280,7 +280,7 @@ public class ChangeNotesTest {
 
   @Test
   public void multipleReviewers() throws Exception {
-    Change c = newChange();
+    Change c = newNotes();
     ChangeUpdate update = newUpdate(c, CHANGE_OWNER);
     update.putReviewer(CHANGE_OWNER.getId(), ReviewerState.REVIEWER);
     update.putReviewer(OTHER_ACCOUNT.getId(), ReviewerState.REVIEWER);
@@ -295,7 +295,7 @@ public class ChangeNotesTest {
 
   @Test
   public void reviewerTypes() throws Exception {
-    Change c = newChange();
+    Change c = newNotes();
     ChangeUpdate update = newUpdate(c, CHANGE_OWNER);
     update.putReviewer(CHANGE_OWNER.getId(), ReviewerState.REVIEWER);
     update.putReviewer(OTHER_ACCOUNT.getId(), ReviewerState.CC);
@@ -310,7 +310,7 @@ public class ChangeNotesTest {
 
   @Test
   public void oneReviewerMultipleTypes() throws Exception {
-    Change c = newChange();
+    Change c = newNotes();
     ChangeUpdate update = newUpdate(c, CHANGE_OWNER);
     update.putReviewer(OTHER_ACCOUNT.getId(), ReviewerState.REVIEWER);
     commit(update);
@@ -332,7 +332,7 @@ public class ChangeNotesTest {
 
   @Test
   public void removeReviewer() throws Exception {
-    Change c = newChange();
+    Change c = newNotes();
     ChangeUpdate update = newUpdate(c, CHANGE_OWNER);
     update.putReviewer(OTHER_ACCOUNT.getId(), ReviewerState.REVIEWER);
     commit(update);
@@ -362,7 +362,7 @@ public class ChangeNotesTest {
     assertEquals(CHANGE_OWNER.getId(), psas.get(0).getAccountId());
   }
 
-  private Change newChange() {
+  private Change newNotes() {
     Change.Id changeId = new Change.Id(1);
     Change c = new Change(
         new Change.Key("Iabcd1234abcd1234abcd1234abcd1234abcd1234"),

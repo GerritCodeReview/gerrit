@@ -30,6 +30,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.mail.CreateChangeSender;
+import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gwtorm.server.OrmException;
@@ -55,6 +56,7 @@ public class ChangeInserter {
       LoggerFactory.getLogger(ChangeInserter.class);
 
   private final Provider<ReviewDb> dbProvider;
+  private final ChangeUpdate.Factory updateFactory;
   private final GitReferenceUpdated gitRefUpdated;
   private final ChangeHooks hooks;
   private final ApprovalsUtil approvalsUtil;
@@ -75,6 +77,7 @@ public class ChangeInserter {
 
   @Inject
   ChangeInserter(Provider<ReviewDb> dbProvider,
+      ChangeUpdate.Factory updateFactory,
       Provider<ApprovalsUtil> approvals,
       PatchSetInfoFactory patchSetInfoFactory,
       GitReferenceUpdated gitRefUpdated,
@@ -86,6 +89,7 @@ public class ChangeInserter {
       @Assisted Change change,
       @Assisted RevCommit commit) {
     this.dbProvider = dbProvider;
+    this.updateFactory = updateFactory;
     this.gitRefUpdated = gitRefUpdated;
     this.hooks = hooks;
     this.approvalsUtil = approvalsUtil;
@@ -154,14 +158,15 @@ public class ChangeInserter {
 
   public Change insert() throws OrmException, IOException {
     ReviewDb db = dbProvider.get();
+    ChangeUpdate update = updateFactory.create(change, change.getCreatedOn());
     db.changes().beginTransaction(change.getId());
     try {
       ChangeUtil.insertAncestors(db, patchSet.getId(), commit);
       db.patchSets().insert(Collections.singleton(patchSet));
       db.changes().insert(Collections.singleton(change));
       LabelTypes labelTypes = refControl.getProjectControl().getLabelTypes();
-      approvalsUtil.addReviewers(db, labelTypes, change, patchSet,
-          patchSetInfo, reviewers, Collections.<Account.Id> emptySet());
+      approvalsUtil.addReviewers(db, update, labelTypes, change,
+          patchSet, patchSetInfo, reviewers, Collections.<Account.Id> emptySet());
       if (changeMessage != null) {
         db.changeMessages().insert(Collections.singleton(changeMessage));
       }
@@ -172,6 +177,7 @@ public class ChangeInserter {
 
     CheckedFuture<?, IOException> f =
         mergeabilityChecker.updateAndIndexAsync(change);
+    update.commit();
     gitRefUpdated.fire(change.getProject(), patchSet.getRefName(),
         ObjectId.zeroId(), commit);
 

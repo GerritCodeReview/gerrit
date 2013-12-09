@@ -47,6 +47,8 @@ class PRED__load_commit_labels_1 extends Predicate.P1 {
           StoredValues.CHANGE_CONTROL.get(engine).getLabelTypes();
 
       Iterable<PatchSetApproval> approvals;
+      // TODO(dborowitz): Rather than pass in an ApprovalsUtil into the Prolog
+      // environment, just ensure there is always a ChangeData present.
       if (cd != null) {
         approvals = cd.currentApprovals();
       } else {

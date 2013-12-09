@@ -83,7 +83,8 @@ public class RegexFilePredicateTest {
 
   private static ChangeData change(String... files) {
     Arrays.sort(files);
-    ChangeData cd = new ChangeData(null, null, null, new Change.Id(1));
+    ChangeData cd = new ChangeData(null, null, null, null, null,
+        null, new Change.Id(1));
     cd.setCurrentFilePaths(Arrays.asList(files));
     return cd;
   }

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.mail;
 
-import com.google.common.collect.SetMultimap;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -56,22 +55,18 @@ import java.util.TreeSet;
 public abstract class ChangeEmail extends NotificationEmail {
   private static final Logger log = LoggerFactory.getLogger(ChangeEmail.class);
 
-  protected final Change change;
+  protected final ChangeData changeData;
   protected PatchSet patchSet;
   protected PatchSetInfo patchSetInfo;
   protected ChangeMessage changeMessage;
 
   protected ProjectState projectState;
-  protected ChangeData changeData;
   protected Set<Account.Id> authors;
   protected boolean emailOnlyAuthors;
 
-  private SetMultimap<ReviewerState, Account.Id> reviewers;
-
   protected ChangeEmail(EmailArguments ea, Change c, String mc) {
     super(ea, mc, c.getProject(), c.getDest());
-    change = c;
-    changeData = ea.changeDataFactory.create(ea.db.get(), change);
+    changeData = ea.changeDataFactory.create(ea.db.get(), c);
     emailOnlyAuthors = false;
   }
 
@@ -96,22 +91,13 @@ public abstract class ChangeEmail extends NotificationEmail {
     changeMessage = cm;
   }
 
-  private SetMultimap<ReviewerState, Account.Id> getReviewers()
-      throws OrmException {
-    if (reviewers == null) {
-      reviewers =
-          args.approvalsUtil.getReviewers(args.db.get(), change.getId());
-    }
-    return reviewers;
-  }
-
   /** Format the message body by calling {@link #appendText(String)}. */
   protected void format() throws EmailException {
     formatChange();
     appendText(velocifyFile("ChangeFooter.vm"));
     try {
       TreeSet<String> names = new TreeSet<String>();
-      for (Account.Id who : getReviewers().values()) {
+      for (Account.Id who : changeData.reviewers().values()) {
         names.add(getNameEmailFor(who));
       }
 
@@ -132,15 +118,16 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   /** Setup the message headers and envelope (TO, CC, BCC). */
   protected void init() throws EmailException {
+    Change c = changeData.getChange();
     if (args.projectCache != null) {
-      projectState = args.projectCache.get(change.getProject());
+      projectState = args.projectCache.get(c.getProject());
     } else {
       projectState = null;
     }
 
     if (patchSet == null) {
       try {
-        patchSet = args.db.get().patchSets().get(change.currentPatchSetId());
+        patchSet = args.db.get().patchSets().get(c.currentPatchSetId());
       } catch (OrmException err) {
         patchSet = null;
       }
@@ -161,7 +148,7 @@ public abstract class ChangeEmail extends NotificationEmail {
       setHeader("Date", new Date(changeMessage.getWrittenOn().getTime()));
     }
     setChangeSubjectHeader();
-    setHeader("X-Gerrit-Change-Id", "" + change.getKey().get());
+    setHeader("X-Gerrit-Change-Id", "" + c.getKey().get());
     setChangeUrlHeader();
     setCommitIdHeader();
   }
@@ -190,7 +177,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     if (getGerritUrl() != null) {
       final StringBuilder r = new StringBuilder();
       r.append(getGerritUrl());
-      r.append(change.getChangeId());
+      r.append(changeData.getId());
       return r.toString();
     }
     return null;
@@ -234,7 +221,7 @@ public abstract class ChangeEmail extends NotificationEmail {
       if (patchSetInfo != null) {
         detail.append(patchSetInfo.getMessage().trim()).append("\n");
       } else {
-        detail.append(change.getSubject().trim()).append("\n");
+        detail.append(changeData.getChange().getSubject().trim()).append("\n");
       }
 
       if (patchSet != null) {
@@ -266,7 +253,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   /** Get the patch list corresponding to this patch set. */
   protected PatchList getPatchList() throws PatchListNotAvailableException {
     if (patchSet != null) {
-      return args.patchListCache.get(change, patchSet);
+      return args.patchListCache.get(changeData.getChange(), patchSet);
     }
     throw new PatchListNotAvailableException("no patchSet specified");
   }
@@ -280,7 +267,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   protected Set<AccountGroup.UUID> getProjectOwners() {
     final ProjectState r;
 
-    r = args.projectCache.get(change.getProject());
+    r = args.projectCache.get(changeData.getChange().getProject());
     return r != null ? r.getOwners() : Collections.<AccountGroup.UUID> emptySet();
   }
 
@@ -297,7 +284,7 @@ public abstract class ChangeEmail extends NotificationEmail {
       // BCC anyone who has starred this change.
       //
       for (StarredChange w : args.db.get().starredChanges().byChange(
-          change.getId())) {
+          changeData.getId())) {
         super.add(RecipientType.BCC, w.getAccountId());
       }
     } catch (OrmException err) {
@@ -317,7 +304,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   /** Any user who has published comments on this change. */
   protected void ccAllApprovals() {
     try {
-      for (Account.Id id : getReviewers().values()) {
+      for (Account.Id id : changeData.reviewers().values()) {
         add(RecipientType.CC, id);
       }
     } catch (OrmException err) {
@@ -328,7 +315,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   /** Users who have non-zero approval codes on the change. */
   protected void ccExistingReviewers() {
     try {
-      for (Account.Id id : getReviewers().get(ReviewerState.REVIEWER)) {
+      for (Account.Id id : changeData.reviewers().get(ReviewerState.REVIEWER)) {
         add(RecipientType.CC, id);
       }
     } catch (OrmException err) {
@@ -345,14 +332,14 @@ public abstract class ChangeEmail extends NotificationEmail {
   protected boolean isVisibleTo(final Account.Id to) throws OrmException {
     return projectState == null
         || projectState.controlFor(args.identifiedUserFactory.create(to))
-            .controlFor(change).isVisible(args.db.get());
+            .controlFor(changeData.getChange()).isVisible(args.db.get());
   }
 
   /** Find all users who are authors of any part of this change. */
   protected Set<Account.Id> getAuthors() {
     Set<Account.Id> authors = new HashSet<Account.Id>();
 
-    authors.add(change.getOwner());
+    authors.add(changeData.getChange().getOwner());
     if (patchSet != null) {
       authors.add(patchSet.getUploader());
     }
@@ -370,8 +357,8 @@ public abstract class ChangeEmail extends NotificationEmail {
   @Override
   protected void setupVelocityContext() {
     super.setupVelocityContext();
-    velocityContext.put("change", change);
-    velocityContext.put("changeId", change.getKey());
+    velocityContext.put("change", changeData.getChange());
+    velocityContext.put("changeId", changeData.getChange().getKey());
     velocityContext.put("coverLetter", getCoverLetter());
     velocityContext.put("fromName", getNameFor(fromId));
     velocityContext.put("patchSet", patchSet);
@@ -402,7 +389,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     DiffFormatter fmt = new DiffFormatter(buf);
     Repository git;
     try {
-      git = args.server.openRepository(change.getProject());
+      git = args.server.openRepository(changeData.getChange().getProject());
     } catch (IOException e) {
       log.error("Cannot open repository to format patch", e);
       return "";

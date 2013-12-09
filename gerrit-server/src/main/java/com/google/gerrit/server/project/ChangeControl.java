@@ -355,7 +355,7 @@ public class ChangeControl {
     if (getCurrentUser().isIdentifiedUser()) {
       Collection<Account.Id> results = cd != null
           ? cd.reviewers().values()
-          : approvalsUtil.getReviewers(db, getChange().getId()).values();
+          : approvalsUtil.getReviewers(db, notes).values();
       IdentifiedUser user = (IdentifiedUser) getCurrentUser();
       return results.contains(user.getAccountId());
     }

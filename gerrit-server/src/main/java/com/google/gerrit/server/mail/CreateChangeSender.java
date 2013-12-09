@@ -74,7 +74,7 @@ public class CreateChangeSender extends NewChangeSender {
   private boolean isOwnerOfProjectOrBranch(Account.Id user) {
     return projectState != null
         && projectState.controlFor(args.identifiedUserFactory.create(user))
-          .controlForRef(change.getDest())
+          .controlForRef(changeData.getChange().getDest())
           .isOwner();
   }
 }

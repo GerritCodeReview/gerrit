@@ -14,13 +14,12 @@
 
 package com.google.gerrit.server.git;
 
-import static com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy;
-
 import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy;
 import com.google.gerrit.server.changedetail.PathConflictException;
 import com.google.gerrit.server.changedetail.RebaseChange;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -79,30 +78,34 @@ public class RebaseIfNecessary extends SubmitStrategy {
 
         } else {
           try {
-            final IdentifiedUser uploader =
-                args.identifiedUserFactory.create(
-                    args.mergeUtil.getSubmitter(n.patchsetId).getAccountId());
+            final IdentifiedUser uploader = args.identifiedUserFactory.create(
+                args.mergeUtil.getSubmitter(n).getAccountId());
             final PatchSet newPatchSet =
                 rebaseChange.rebase(args.repo, args.rw, args.inserter,
-                    n.patchsetId, n.change, uploader,
+                    n.patchsetId, n.getChange(), uploader,
                     newMergeTip, args.mergeUtil, committerIdent,
                     false, false, ValidatePolicy.NONE);
+
+            // TODO(dborowitz): This doesn't copy labels in the notedb. We
+            // should stamp those in atomically with the same commit that
+            // describes the change being submitted.
             List<PatchSetApproval> approvals = Lists.newArrayList();
-            for (PatchSetApproval a
-                : args.approvalsUtil.byPatchSet(args.db, n.patchsetId)) {
+            for (PatchSetApproval a : args.approvalsUtil.byPatchSet(
+                args.db, n.notes, n.patchsetId)) {
               approvals.add(new PatchSetApproval(newPatchSet.getId(), a));
             }
             args.db.patchSetApprovals().insert(approvals);
+
             newMergeTip =
                 (CodeReviewCommit) args.rw.parseCommit(ObjectId
                     .fromString(newPatchSet.getRevision().get()));
             newMergeTip.copyFrom(n);
             newMergeTip.patchsetId = newPatchSet.getId();
-            newMergeTip.change =
-                args.db.changes().get(newPatchSet.getId().getParentKey());
+            newMergeTip.notes = args.notesFactory.create(
+                args.db.changes().get(newPatchSet.getId().getParentKey()));
             newMergeTip.statusCode = CommitMergeStatus.CLEAN_REBASE;
             newCommits.put(newPatchSet.getId().getParentKey(), newMergeTip);
-            setRefLogIdent(args.mergeUtil.getSubmitter(n.patchsetId));
+            setRefLogIdent(args.mergeUtil.getSubmitter(n));
           } catch (PathConflictException e) {
             n.statusCode = CommitMergeStatus.PATH_CONFLICT;
           } catch (NoSuchChangeException e) {

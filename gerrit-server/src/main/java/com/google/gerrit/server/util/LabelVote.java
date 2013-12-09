@@ -60,7 +60,7 @@ public class LabelVote {
   private final short value;
 
   public LabelVote(String name, short value) {
-    this.name = LabelType.checkName(name);
+    this.name = LabelType.checkNameInternal(name);
     this.value = value;
   }
 

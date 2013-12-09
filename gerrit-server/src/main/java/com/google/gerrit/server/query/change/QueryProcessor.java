@@ -317,7 +317,7 @@ public class QueryProcessor {
           }
 
           if (includeAllReviewers) {
-            eventFactory.addAllReviewers(c, d.getChange());
+            eventFactory.addAllReviewers(c, d.notes());
           }
 
           if (includeSubmitRecords) {

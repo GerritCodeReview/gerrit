@@ -52,6 +52,8 @@ import com.google.gerrit.server.git.validators.MergeValidators;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.MergeFailSender;
 import com.google.gerrit.server.mail.MergedSender;
+
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -127,6 +129,7 @@ public class MergeOp {
 
   private final GitRepositoryManager repoManager;
   private final SchemaFactory<ReviewDb> schemaFactory;
+  private final ChangeNotes.Factory notesFactory;
   private final ProjectCache projectCache;
   private final LabelNormalizer labelNormalizer;
   private final GitReferenceUpdated gitRefUpdated;
@@ -165,6 +168,7 @@ public class MergeOp {
 
   @Inject
   MergeOp(final GitRepositoryManager grm, final SchemaFactory<ReviewDb> sf,
+      final ChangeNotes.Factory nf,
       final ProjectCache pc, final LabelNormalizer fs,
       final GitReferenceUpdated gru, final MergedSender.Factory msf,
       final MergeFailSender.Factory mfsf,
@@ -182,6 +186,7 @@ public class MergeOp {
       final ApprovalsUtil approvalsUtil) {
     repoManager = grm;
     schemaFactory = sf;
+    notesFactory = nf;
     labelNormalizer = fs;
     projectCache = pc;
     gitRefUpdated = gru;
@@ -278,8 +283,8 @@ public class MergeOp {
       for (final CodeReviewCommit commit : potentiallyStillSubmittableOnNextRun) {
         final Capable capable = isSubmitStillPossible(commit);
         if (capable != Capable.OK) {
-          sendMergeFail(commit.change,
-              message(commit.change, capable.getMessage()), false);
+          sendMergeFail(commit.notes,
+              message(commit.getChange(), capable.getMessage()), false);
         }
       }
     } catch (NoSuchProjectException noProject) {
@@ -335,7 +340,7 @@ public class MergeOp {
         return false;
       }
 
-      if (!missingCommit.change.currentPatchSetId().equals(
+      if (!missingCommit.getChange().currentPatchSetId().equals(
           missingCommit.patchsetId)) {
         // If the missing commit is not the current patch set,
         // the change must be rebased to use the proper parent.
@@ -518,7 +523,7 @@ public class MergeOp {
         continue;
       }
 
-      commit.change = chg;
+      commit.notes = notesFactory.create(chg);
       commit.patchsetId = ps.getId();
       commit.originalOrder = commitOrder++;
       commits.put(changeId, commit);
@@ -621,8 +626,8 @@ public class MergeOp {
             gitRefUpdated.fire(destBranch.getParentKey(), branchUpdate);
 
             Account account = null;
-            PatchSetApproval submitter =
-                approvalsUtil.getSubmitter(db, mergeTip.patchsetId);
+            PatchSetApproval submitter = approvalsUtil.getSubmitter(
+                db, mergeTip.notes, mergeTip.patchsetId);
             if (submitter != null) {
               account = accountCache.get(submitter.getAccountId()).getAccount();
             }
@@ -684,7 +689,7 @@ public class MergeOp {
           case INVALID_PROJECT_CONFIGURATION_PARENT_PROJECT_NOT_FOUND:
           case INVALID_PROJECT_CONFIGURATION_ROOT_PROJECT_CANNOT_HAVE_PARENT:
           case SETTING_PARENT_PROJECT_ONLY_ALLOWED_BY_ADMIN:
-            setNew(c, message(c, txt));
+            setNew(commit, message(c, txt));
             break;
 
           case MISSING_DEPENDENCY:
@@ -692,7 +697,7 @@ public class MergeOp {
             break;
 
           default:
-            setNew(c, message(c, "Unspecified merge failure: " + s.name()));
+            setNew(commit, message(c, "Unspecified merge failure: " + s.name()));
             break;
         }
       } catch (OrmException err) {
@@ -720,7 +725,7 @@ public class MergeOp {
 
   private Capable isSubmitStillPossible(final CodeReviewCommit commit) {
     final Capable capable;
-    final Change c = commit.change;
+    final Change c = commit.getChange();
     final boolean submitStillPossible = isSubmitForMissingCommitsStillPossible(commit);
     final long now = TimeUtil.nowMs();
     final long waitUntil = c.getLastUpdatedOn().getTime() + DEPENDENCY_DELAY;
@@ -745,7 +750,7 @@ public class MergeOp {
       m.append("\n");
       for (CodeReviewCommit missingCommit : commit.missing) {
         m.append("* ");
-        m.append(missingCommit.change.getKey().get());
+        m.append(missingCommit.getChange().getKey().get());
         m.append("\n");
       }
       capable = new Capable(m.toString());
@@ -764,10 +769,10 @@ public class MergeOp {
           m.append("* Depends on patch set ");
           m.append(missingCommit.patchsetId.get());
           m.append(" of ");
-          m.append(missingCommit.change.getKey().abbreviate());
-          if (missingCommit.patchsetId.get() != missingCommit.change.currentPatchSetId().get()) {
+          m.append(missingCommit.getChange().getKey().abbreviate());
+          if (missingCommit.patchsetId.get() != missingCommit.getChange().currentPatchSetId().get()) {
             m.append(", however the current patch set is ");
-            m.append(missingCommit.change.currentPatchSetId().get());
+            m.append(missingCommit.getChange().currentPatchSetId().get());
           }
           m.append(".\n");
 
@@ -786,14 +791,15 @@ public class MergeOp {
   }
 
   private void loadChangeInfo(final CodeReviewCommit commit) {
-    if (commit.patchsetId == null) {
+    if (commit.notes == null) {
       try {
         List<PatchSet> matches =
             db.patchSets().byRevision(new RevId(commit.name())).toList();
         if (matches.size() == 1) {
           final PatchSet ps = matches.get(0);
           commit.patchsetId = ps.getId();
-          commit.change = db.changes().get(ps.getId().getParentKey());
+          commit.notes =
+              notesFactory.create(db.changes().get(ps.getId().getParentKey()));
         }
       } catch (OrmException e) {
       }
@@ -821,9 +827,9 @@ public class MergeOp {
       // We must pull the patchset out of commits, because the patchset ID is
       // modified when using the cherry-pick merge strategy.
       CodeReviewCommit commit = commits.get(c.getId());
-      PatchSet.Id merged = commit.change.currentPatchSetId();
+      PatchSet.Id merged = commit.getChange().currentPatchSetId();
       setMergedPatchSet(c.getId(), merged);
-      PatchSetApproval submitter = saveApprovals(c, merged);
+      PatchSetApproval submitter = saveApprovals(c, commit.notes, merged);
       addMergedMessage(submitter, msg);
 
       db.commit();
@@ -870,8 +876,8 @@ public class MergeOp {
     });
   }
 
-  private PatchSetApproval saveApprovals(Change c, PatchSet.Id merged)
-      throws OrmException {
+  private PatchSetApproval saveApprovals(Change c, ChangeNotes notes,
+      PatchSet.Id merged) throws OrmException {
     // Flatten out existing approvals for this patch set based upon the current
     // permissions. Once the change is closed the approvals are not updated at
     // presentation view time, except for zero votes used to indicate a reviewer
@@ -882,7 +888,7 @@ public class MergeOp {
       c.setStatus(Change.Status.MERGED);
 
       List<PatchSetApproval> approvals =
-          db.patchSetApprovals().byPatchSet(merged).toList();
+          approvalsUtil.byPatchSet(db, notes, merged);
       Set<PatchSetApproval.Key> toDelete =
           Sets.newHashSetWithExpectedSize(approvals.size());
       for (PatchSetApproval a : approvals) {
@@ -901,6 +907,7 @@ public class MergeOp {
           }
         }
       }
+      // TODO(dborowitz): Store normalized labels in notedb.
       db.patchSetApprovals().update(approvals);
       db.patchSetApprovals().deleteKeys(toDelete);
     } catch (NoSuchChangeException err) {
@@ -958,8 +965,12 @@ public class MergeOp {
     }));
   }
 
-  private void setNew(Change c, ChangeMessage msg) {
-    sendMergeFail(c, msg, true);
+  private void setNew(CodeReviewCommit c, ChangeMessage msg) {
+    sendMergeFail(c.notes, msg, true);
+  }
+
+  private void setNew(Change c, ChangeMessage msg) throws OrmException {
+    sendMergeFail(notesFactory.create(c), msg, true);
   }
 
   private enum RetryStatus {
@@ -995,11 +1006,12 @@ public class MergeOp {
     }
   }
 
-  private void sendMergeFail(final Change c, final ChangeMessage msg,
+  private void sendMergeFail(ChangeNotes notes, final ChangeMessage msg,
       boolean makeNew) {
     PatchSetApproval submitter = null;
     try {
-      submitter = approvalsUtil.getSubmitter(db, c.currentPatchSetId());
+      submitter = approvalsUtil.getSubmitter(
+          db, notes, notes.getChange().currentPatchSetId());
     } catch (Exception e) {
       log.error("Cannot get submitter", e);
     }
@@ -1014,6 +1026,7 @@ public class MergeOp {
     }
 
     final boolean setStatusNew = makeNew;
+    final Change c = notes.getChange();
     Change change = null;
     try {
       db.changes().beginTransaction(c.getId());

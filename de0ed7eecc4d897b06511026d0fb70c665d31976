@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "830dfaeb_f9ed97e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-09T10:32:29Z",
+      "side": 1,
+      "message": "Please add a bit more detail here.\n\nBefore opening the diff I assumed this was going to be a code syntax error / build breakage in the Gerrit build itself.",
+      "revId": "de0ed7eecc4d897b06511026d0fb70c665d31976",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

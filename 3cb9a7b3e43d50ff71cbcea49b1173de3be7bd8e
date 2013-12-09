@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43d5c277_87e22645",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-09T21:23:59Z",
+      "side": 1,
+      "message": "How this scales. To only persist a review, other entities must be saved too, like list of comments and message. Should it go to other refs namespace?\n\nWhat about ORM layer, with schema support and things like upgrades: add an attribute to the schema with a default value, and it propagate the changes down to the data, etc. I have a name already \"gitorm\" ;-) \n\nI\u0027ve thought about something like: have different refs as object dir \n\n refs/gerrit/changes/PatchSetApprovals/10/1/\n refs/gerrit/changes/ChangeMessage/10/1/\n refs/gerrit/changes/PatchLineComment/10/1/\n\nand in the object dir have json files, that correspond to the  records in the table:\n1.json, 2.json,...\n\nWhere *.json looks like:\n\n 1.json: {\u0027ps\u0027: \"1\", \"account\": \"1000\", \"vote\": \"code-review\u003d+1\"}\n 2.json: {\u0027ps\u0027: \"2\", \"account\": \"2000\", \"vote\": \"verified\u003d+1\"}\n [...]\n\nFor one JSON is very easy to parse, for another we could implement hierarchical data structures, like lists and maps.",
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d5c277_e7e7a253",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-09T21:23:59Z",
+      "side": 1,
+      "message": "This statement is kind of obvious and can be removed. Every data format in Git would lack usual database features.",
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23ca8ede_86e22a45",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-09T21:23:59Z",
+      "side": 1,
+      "message": "no \"Gerrit-\" prefix? Your refs already called \"refs/gerrit/\".",
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

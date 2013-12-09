@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3a7f221_2b5339ff",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-12-09T16:46:53Z",
+      "side": 1,
+      "message": "optional: s/plugin_config_parameters/plugin_config\n\nWe know that a plugin config consists of parameters",
+      "range": {
+        "startLine": 477,
+        "startChar": 5,
+        "endLine": 477,
+        "endChar": 29
+      },
+      "revId": "384e5fd94603e22f045597d0038ca864502a935c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63d00689_c888af59",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-12-09T16:46:53Z",
+      "side": 1,
+      "message": "It would be nice if we could use the Table collection from guava here as it\nis intended for cases like this, where more than one key is used to index values:\n\n  private Table\u003cString, String, FocusWidget\u003e pluginConfigWidgets;\n\nThis would make the coding in initPluginOptions and getPluginConfigValues simpler.\n\nHowever, looks like we don\u0027t use the guava-gwt library... in which case this code has to stay as it is.",
+      "revId": "384e5fd94603e22f045597d0038ca864502a935c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63d00689_288eab62",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ProjectConfigEntry.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-12-09T16:46:53Z",
+      "side": 1,
+      "message": "move this enum to the top of this class?",
+      "range": {
+        "startLine": 43,
+        "startChar": 13,
+        "endLine": 43,
+        "endChar": 14
+      },
+      "revId": "384e5fd94603e22f045597d0038ca864502a935c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3a7f221_8be86dd6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ConfigInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-12-09T16:46:53Z",
+      "side": 1,
+      "message": "I guess we cannot use a Multimap here because our REST framework doesn\u0027t understand Multimaps?",
+      "revId": "384e5fd94603e22f045597d0038ca864502a935c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63d00689_088be752",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-12-09T16:46:53Z",
+      "side": 1,
+      "message": "Is this regex available somewhere as a constant (from the CharMatcher maybe)? I haven\u0027t checked, just guessing.",
+      "range": {
+        "startLine": 195,
+        "startChar": 55,
+        "endLine": 195,
+        "endChar": 56
+      },
+      "revId": "384e5fd94603e22f045597d0038ca864502a935c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

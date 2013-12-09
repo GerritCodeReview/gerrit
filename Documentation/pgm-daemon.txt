@@ -10,12 +10,12 @@ SYNOPSIS
 [verse]
 'java' -jar gerrit.war 'daemon'
 	-d <SITE_PATH>
-	[\--enable-httpd | \--disable-httpd]
-	[\--enable-sshd | \--disable-sshd]
-	[\--console-log]
-	[\--slave]
-	[\--headless]
-	[\--init]
+	[--enable-httpd | --disable-httpd]
+	[--enable-sshd | --disable-sshd]
+	[--console-log]
+	[--slave]
+	[--headless]
+	[--init]
 
 DESCRIPTION
 -----------
@@ -33,38 +33,38 @@ OPTIONS
 -------
 
 -d::
-\--site-path::
+--site-path::
 	Location of the gerrit.config file, and all other per-site
 	configuration data, supporting libraries and log files.
 
-\--enable-httpd::
-\--disable-httpd::
+--enable-httpd::
+--disable-httpd::
 	Enable (or disable) the internal HTTP daemon, answering
 	web requests.  Enabled by default.
 
-\--enable-sshd::
-\--disable-sshd::
+--enable-sshd::
+--disable-sshd::
 	Enable (or disable) the internal SSH daemon, answering SSH
 	clients and remotely executed commands.  Enabled by default.
 
-\--slave::
+--slave::
 	Run in slave mode, permitting only read operations
     by clients.  Commands which modify state such as
     link:cmd-receive-pack.html[receive-pack] (creates new changes
     or updates existing ones) or link:cmd-review.html[review]
     (sets approve marks) are disabled.
 +
-This option automatically implies '\--disable-httpd \--enable-sshd'.
+This option automatically implies '--disable-httpd --enable-sshd'.
 
-\--console-log::
+--console-log::
 	Send log messages to the console, instead of to the standard
 	log file '$site_path/logs/error_log'.
 
-\--headless::
+--headless::
 	Don't start the default Gerrit UI. May be useful when Gerrit is
 	run with an alternative UI.
 
-\--init::
+--init::
 	Run init before starting the daemon. This will create a new site or
 	upgrade an existing site.
 

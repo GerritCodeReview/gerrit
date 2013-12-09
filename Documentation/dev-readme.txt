@@ -61,7 +61,7 @@ testing site for development use:
 ----
 
 Accept defaults by pressing Enter until 'init' completes, or add
-the '\--batch' command line option to avoid them entirely.  It is
+the '--batch' command line option to avoid them entirely.  It is
 recommended to change the listen addresses from '*' to 'localhost' to
 prevent outside connections from contacting the development instance.
 

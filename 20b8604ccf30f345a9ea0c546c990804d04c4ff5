@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "63d00689_68fc23e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-09T08:00:28Z",
+      "side": 1,
+      "message": "Java Melody is a monitoring tool. As each monitoring tools it can only reports and protocolls about events that she is aware of. On a container (like Tomcat, etc) where jndi is involved (DataSource) it should work out of the box (didn\u0027t test it though ,-).\n\nThat means that if you go to JavaMelody page you should be able to see all (!) SQL statements that were executed.\n\nUnfortunately, on jetty, where Gerrit dos the whole magic itself, javamelody is not aware and can not intercept and thus reports and protocoll SQL activities.\n\nTo rectofy that, artificially Proxy must be created to give javamelody a chance to intercept.\n\njavamelody ships JdbcWrapper class, that i used to create the proxy do Gerrit\u0027s own Datasource.\n\nThis way, now we have SQL reports also on Gerrit@Jetty.\n\nIOW, if you deploy javamelody plugin on Gerrit@Jetty, then without this change, the SQL part of repoart are empty. With this change: you would see each and every SQL satement in the SQL statistic report, a lá:\n\n http://imgur.com/8EyAA9u",
+      "parentUuid": "a3083eda_3a01c1cb",
+      "revId": "20b8604ccf30f345a9ea0c546c990804d04c4ff5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3083eda_1a503def",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceProvider.java",
         "patchSetId": 1

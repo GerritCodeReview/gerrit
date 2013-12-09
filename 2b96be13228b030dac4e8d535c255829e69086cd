@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63d00689_e835b3f7",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1374,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-09T11:25:20Z",
+      "side": 1,
+      "message": "The same change should be done in\n\n  gerrit-plugin-gwt-archetype/src/main/resources/archetype-resources/src/main/java/client/HelloPlugin.java",
+      "range": {
+        "startLine": 1374,
+        "startChar": 14,
+        "endLine": 1374,
+        "endChar": 26
+      },
+      "revId": "2b96be13228b030dac4e8d535c255829e69086cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

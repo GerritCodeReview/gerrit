@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3083eda_ba0cb106",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.1.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-09T07:21:20Z",
+      "side": 1,
+      "message": "This should be part of the same line as \"Issue 2073: \", rather than another bullet.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 2
+      },
+      "revId": "d46f2f4151f457985b337b34041de11d4b4e81ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

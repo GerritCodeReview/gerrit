@@ -22,6 +22,29 @@
       "revId": "2b96be13228b030dac4e8d535c255829e69086cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63d00689_c83a6fe5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/api/PluginInstance.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-09T11:31:20Z",
+      "side": 1,
+      "message": "How GWT plugins (form or screen based) supposed to access getPluginName() function? It inherits from Plugin, but the class doesn\u0027t expose this function.",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 38,
+        "endChar": 19
+      },
+      "revId": "2b96be13228b030dac4e8d535c255829e69086cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

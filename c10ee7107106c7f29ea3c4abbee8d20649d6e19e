@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3a7f221_cbd6f535",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 1559,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-09T11:04:52Z",
+      "side": 1,
+      "message": "I somehow can\u0027t get it working like this.\n\nFor me the plugin fails to load and I see the following JavaScript error:\n\n  TypeError: b._loaded is not a function\n\nI also see something like \u0027SimplePanel can only contain one child widget\u0027. If I change the code to do only\n\n  screen.show(new InlineLabel(\"My Screen\");\n\nthis message goes away, but the \"TypeError: b._loaded is not a function\" stays.",
+      "range": {
+        "startLine": 1549,
+        "startChar": 0,
+        "endLine": 1559,
+        "endChar": 1
+      },
+      "revId": "c10ee7107106c7f29ea3c4abbee8d20649d6e19e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63d00689_c8054f29",
+        "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/plugin/client/PluginInstance.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-09T11:04:52Z",
+      "side": 1,
+      "message": "Should this be private?",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 8
+      },
+      "revId": "c10ee7107106c7f29ea3c4abbee8d20649d6e19e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

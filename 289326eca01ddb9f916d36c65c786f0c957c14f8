@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "c3a7f221_4b3165d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-09T14:34:25Z",
+      "side": 1,
+      "message": "There is now also an issue for this. Add\n\n  Bug: issue 2322",
+      "revId": "289326eca01ddb9f916d36c65c786f0c957c14f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3a7f221_6b3421c7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
         "patchSetId": 5

@@ -52,6 +52,24 @@
       "revId": "13e03a76314954eb41bd70991fd8633e217e79f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3a7f221_cbf275c6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_90.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-09T17:04:30Z",
+      "side": 1,
+      "message": "OK, looks like I still don\u0027t fully understand which schema migrations are OK and which ones should be avoided. Maybe this could be described somewhere, e.g. in the contributor guide?\n\n \u003eAnd the gwtorm default value work is stalled somewhere.\n\nI know I didn\u0027t continue with this, if this is still of interest I can pick it up early next year.",
+      "parentUuid": "830dfaeb_f9bbd7c8",
+      "revId": "13e03a76314954eb41bd70991fd8633e217e79f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

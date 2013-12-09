@@ -160,15 +160,15 @@ final class SetProjectCommand extends SshCommand {
         md.close();
       }
     } catch (RepositoryNotFoundException notFound) {
-      err.append("error: Project " + name + " not found\n");
+      err.append("error: Project ").append(name).append(" not found\n");
     } catch (IOException e) {
       final String msg = "Cannot update project " + name;
       log.error(msg, e);
-      err.append("error: " + msg + "\n");
+      err.append("error: ").append(msg).append("\n");
     } catch (ConfigInvalidException e) {
       final String msg = "Cannot update project " + name;
       log.error(msg, e);
-      err.append("error: " + msg + "\n");
+      err.append("error: ").append(msg).append("\n");
     }
     projectCache.evict(ctlProject);
 

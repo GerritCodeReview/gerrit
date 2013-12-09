@@ -436,7 +436,8 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       final NamedFactory<T> n = find(name, avail);
       if (n == null) {
         final StringBuilder msg = new StringBuilder();
-        msg.append("sshd." + key + " = " + name + " unsupported; only ");
+        msg.append("sshd.").append(key).append(" = ").append(name)
+           .append(" unsupported; only ");
         for (int i = 0; i < avail.length; i++) {
           if (avail[i] == null) {
             continue;

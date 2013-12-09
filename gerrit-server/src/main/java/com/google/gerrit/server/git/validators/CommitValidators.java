@@ -519,9 +519,9 @@ public class CommitValidators {
       PersonIdent who, IdentifiedUser currentUser, String canonicalWebUrl) {
     StringBuilder sb = new StringBuilder();
     sb.append("\n");
-    sb.append("ERROR:  In commit " + c.name() + "\n");
-    sb.append("ERROR:  " + type + " email address " + who.getEmailAddress()
-        + "\n");
+    sb.append("ERROR:  In commit ").append(c.name()).append("\n");
+    sb.append("ERROR:  ").append(type).append(" email address ")
+      .append(who.getEmailAddress()).append("\n");
     sb.append("ERROR:  does not match your user account.\n");
     sb.append("ERROR:\n");
     if (currentUser.getEmailAddresses().isEmpty()) {
@@ -529,14 +529,14 @@ public class CommitValidators {
     } else {
       sb.append("ERROR:  The following addresses are currently registered:\n");
       for (String address : currentUser.getEmailAddresses()) {
-        sb.append("ERROR:    " + address + "\n");
+        sb.append("ERROR:    ").append(address).append("\n");
       }
     }
     sb.append("ERROR:\n");
     if (canonicalWebUrl != null) {
       sb.append("ERROR:  To register an email address, please visit:\n");
-      sb.append("ERROR:  " + canonicalWebUrl + "#" + PageLinks.SETTINGS_CONTACT
-          + "\n");
+      sb.append("ERROR:  ").append(canonicalWebUrl).append("#")
+        .append(PageLinks.SETTINGS_CONTACT).append("\n");
     }
     sb.append("\n");
     return new CommitValidationMessage(sb.toString(), false);

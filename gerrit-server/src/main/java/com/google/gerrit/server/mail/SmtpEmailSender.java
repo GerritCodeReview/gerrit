@@ -177,8 +177,9 @@ public class SmtpEmailSender implements EmailSender {
         for (Address addr : rcpt) {
           if (!client.addRecipient(addr.email)) {
             String error = client.getReplyString();
-            rejected.append("Server " + smtpHost + " rejected recipient "
-                + addr + ": " + error);
+            rejected.append("Server ").append(smtpHost)
+                    .append(" rejected recipient ").append(addr)
+                    .append(": ").append(error);
           }
         }
 

@@ -31,6 +31,7 @@ import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.LabelValue;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
@@ -83,6 +84,7 @@ class ReplyBox extends Composite {
   private final CommentLinkProcessor clp;
   private final PatchSet.Id psId;
   private final String revision;
+  private final NativeMap<LabelInfo> labels;
   private ReviewInput in = ReviewInput.create();
   private Runnable lgtm;
 
@@ -105,6 +107,7 @@ class ReplyBox extends Composite {
     this.clp = clp;
     this.psId = psId;
     this.revision = revision;
+    this.labels = all;
     initWidget(uiBinder.createAndBindUi(this));
 
     List<String> names = new ArrayList<String>(permitted.keySet());
@@ -193,14 +196,28 @@ class ReplyBox extends Composite {
   void onPost(ClickEvent e) {
     in.message(message.getText().trim());
     in.prePost();
+
+    boolean s = false;
+    for (String name : labels.keySet()) {
+      if (in.label(name) != 0) {
+        if (in.label(name) == labels.get(name).value_set().last()) {
+          s = true;
+          break;
+        }
+      }
+    }
+    final boolean submit = s;
+
     ChangeApi.revision(psId.getParentKey().get(), revision)
       .view("review")
       .post(in, new GerritCallback<ReviewInput>() {
         @Override
         public void onSuccess(ReviewInput result) {
-          Gerrit.display(PageLinks.toChange(
-              psId.getParentKey(),
-              String.valueOf(psId.get())));
+          Change.Id changeId = psId.getParentKey();
+          String rev = String.valueOf(psId.get());
+          Gerrit.display(
+            PageLinks.toChange(changeId, rev),
+            new ChangeScreen2(changeId, null, rev, false, submit));
         }
       });
     hide();

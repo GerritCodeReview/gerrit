@@ -508,7 +508,7 @@ public class PluginLoader implements LifecycleListener {
       return loadJsPlugin(name, srcPlugin, snapshot);
     } else {
       throw new InvalidPluginException(String.format(
-          "Unsupported plugin type: ", srcPlugin.getName()));
+          "Unsupported plugin type: %s", srcPlugin.getName()));
     }
   }
 

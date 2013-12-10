@@ -37,6 +37,14 @@ Trigger Plugin, go to its global configuration in Jenkins and adapt the
 Gerrit commands to use the `review` command instead of the `approve`
 command.
 
+*WARNING:* The new change screen only displays download commands if the
+`download-commands` core plugin or any other plugin providing download
+commands is installed. The `download-commands` plugin provides the
+standard download schemes and commands. It is packaged together with
+Gerrit and can be installed during the
+link:https://gerrit-review.googlesource.com/Documentation/pgm-init.html[
+site initialization].
+
 
 Release Highlights
 ------------------

@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "a37bde5e_62153656",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-10T22:20:28Z",
+      "side": 1,
+      "message": "Yes, one meta ref per change, _not_ per patch set.",
+      "parentUuid": "03c74ad6_454aea3c",
+      "revId": "84b989fe3b59fa036583a6a9473fc6ab2d22898b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3c0d2c1_231b6a8e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 2

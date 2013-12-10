@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3c316c9_64c60a83",
+        "filename": "Documentation/cmd-create-branch.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-12-10T17:09:58Z",
+      "side": 1,
+      "message": "Would folks be opposed to making this command named \u0027gerrit branch\u0027 with a --create option? Then --delete could be supported later.",
+      "range": {
+        "startLine": 6,
+        "startChar": 7,
+        "endLine": 6,
+        "endChar": 20
+      },
+      "revId": "7ec4ac71ffa58f32e1443b0ca0110417244983c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

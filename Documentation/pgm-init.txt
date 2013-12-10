@@ -10,10 +10,10 @@ SYNOPSIS
 --
 'java' -jar gerrit.war 'init'
 	-d <SITE_PATH>
-	[\--batch]
-	[\--no-auto-start]
-	[\--list-plugins]
-	[\--install-plugin=<PLUGIN_NAME>]
+	[--batch]
+	[--no-auto-start]
+	[--list-plugins]
+	[--install-plugin=<PLUGIN_NAME>]
 --
 
 DESCRIPTION
@@ -27,7 +27,7 @@ as necessary.
 
 OPTIONS
 -------
-\--batch::
+--batch::
 	Run in batch mode, skipping interactive prompts.  Reasonable
 	configuration defaults are chosen based on the whims of
 	the Gerrit developers.
@@ -37,21 +37,21 @@ are detected they are *not* automatically dropped, but only a list of
 SQL statements to drop these objects is provided. To drop the unused
 objects these SQL statements have to be executed manually.
 
-\--no-auto-start::
+--no-auto-start::
 	Don't automatically start the daemon after initializing a
 	newly created site path.  This permits the administrator
 	to inspect and modify the configuration before the daemon
 	is started.
 
 -d::
-\--site-path::
+--site-path::
 	Location of the gerrit.config file, and all other per-site
 	configuration data, supporting libraries and log files.
 
-\--list-plugins::
+--list-plugins::
 	Print names of plugins that can be installed during init process.
 
-\--install-plugin:
+--install-plugin:
 	Automatically install plugin with given name without asking.
 	This option may be supplied more than once to install multiple
 	plugins.

@@ -365,8 +365,7 @@ public class PatchSetInserter {
   public static ChangeKind getChangeKind(MergeUtil.Factory mergeUtilFactory, ProjectState project,
       Repository git, RevCommit prior, RevCommit next) {
     if (!next.getFullMessage().equals(prior.getFullMessage())) {
-      if (next.getTree() == prior.getTree()
-          && prior.getParent(0).equals(next.getParent(0))) {
+      if (next.getTree() == prior.getTree() && isSameParents(prior, next)) {
         return ChangeKind.NO_CODE_CHANGE;
       } else {
         return ChangeKind.REWORK;
@@ -379,7 +378,7 @@ public class PatchSetInserter {
     }
 
     if (next.getTree() == prior.getTree() &&
-       prior.getParent(0).equals(next.getParent(0))) {
+       isSameParents(prior, next)) {
       return ChangeKind.TRIVIAL_REBASE;
     }
 
@@ -402,6 +401,15 @@ public class PatchSetInserter {
           + " in " + project.getProject().getName(), err);
       return ChangeKind.REWORK;
     }
+  }
+
+  private static boolean isSameParents(RevCommit prior, RevCommit next) {
+    if (prior.getParentCount() != next.getParentCount()) {
+      return false;
+    } else if (prior.getParentCount() == 0) {
+      return true;
+    }
+    return prior.getParent(0).equals(next.getParent(0));
   }
 
   public class ChangeModifiedException extends InvalidChangeOperationException {

@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "e3c316c9_841a2652",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-10T22:22:26Z",
+      "side": 1,
+      "message": "I\u0027m inclined to punt on this since right now we can\u0027t easily get the patch set SHA-1 without accessing the database. (I\u0027m already not crazy about passing in a Change to the constructor as opposed to a Change.Id.)\n\nAnyway compared to the db bindings this class is much easier to refactor later :)",
+      "parentUuid": "c3c0d2c1_231b6a8e",
+      "revId": "84b989fe3b59fa036583a6a9473fc6ab2d22898b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a37bde5e_221b2e8e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 2
@@ -100,6 +118,24 @@
       "writtenOn": "2013-12-10T22:13:59Z",
       "side": 1,
       "message": "This is fine for now, but eventually I want to tailor the short line to be more specific about which of the major types of updates each thing is.\n\nI think about the subject here as the way I do of the comment when collapsed on CS2. That single line summary should be fairly representative of what happened. It might not contain the user\u0027s text, but should still tell me more from the machine generated text.",
+      "revId": "84b989fe3b59fa036583a6a9473fc6ab2d22898b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03c74ad6_85e862d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-10T22:22:26Z",
+      "side": 1,
+      "message": "Yes, this is trivial to do with a setSummary method on this object, falling back to this if null.",
+      "parentUuid": "a37bde5e_221b2e8e",
       "revId": "84b989fe3b59fa036583a6a9473fc6ab2d22898b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

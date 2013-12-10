@@ -60,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "23ca8ede_86598a51",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-10T09:25:05Z",
+      "side": 1,
+      "message": "Odd, worked for me. May be bind it to internal system user instead?",
+      "parentUuid": "23ca8ede_061d9a76",
+      "range": {
+        "startLine": 180,
+        "startChar": 10,
+        "endLine": 182,
+        "endChar": 11
+      },
+      "revId": "289326eca01ddb9f916d36c65c786f0c957c14f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3a7f221_6b3421c7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
         "patchSetId": 5

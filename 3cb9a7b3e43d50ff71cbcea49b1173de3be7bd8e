@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a37bde5e_c20b623c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-10T21:55:02Z",
+      "side": 1,
+      "message": "Re David Ostrovsky\u0027s comment. No. :-)",
+      "parentUuid": "43d5c277_87e22645",
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d5c277_27209ab2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-12-10T07:59:18Z",
       "side": 1,
       "message": "Another requirement on the new backend: to be easy usable from plugins. For example, currently PatchSetApprovals is ab(used) for both humans and bots verifications (Jenkins trigger plugin, Zuul anf buildbot-plugin have no other chance as use `ssh gerrit review --verify`firehose to report build start and end notifications.\n\nThe idea is to replace/extend it with verification-status plugin and shutdown bots notification in review command, providing seperate channel for them. In the end no one want to see 27 messages from build started/ended in history of human reviews. Instead all bots specific notifications are presented in its own table (on change screen per patch set) or on its own screen, with statistics, searches and what not.\n\nThe only reason why this plugin is not there (after JS plugin solved the core UI extension): is unsolved peristence problem. Where how to persist these notifications? Basically they are the same as PatchSetApprovals, except that label categories are different: they are job or platform specific or both. But still the usual suspects: CRUD operation should be supported. It is not clear to me from this change, how can we achieve that, i. e. to be able to persist notifications per patch set in PatchSetVerifications namespace and qery them per patch set base (to render them on change screen)?\n\nAnother question: how can we even make this extended persistence space searcheable from secondary index? To answer question like: sort the list of suported platform in verification notifications in descendant order of breakage rates (verification -1 report).\n\nShould plugins do all the above on its own? I am asking all these questions, because we are replacing database, and all these can be done very easy there...",
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a37bde5e_e200661b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-10T21:55:02Z",
+      "side": 1,
+      "message": "If plugins want their own database they should use their own database. This has always been the case, and will always be the case. :-(\n\nAs for labels for specific builds, projects should declare them in the project.config and allow them to be used by the verification tools. The long-term plan for labels is to have them be even more flexible and generic storage for short strings attached to revisions, with some access controls around who is allowed to set specific labels, e.g. restricting the label set by the automated build system to only that system.",
+      "parentUuid": "43d5c277_27209ab2",
       "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -64,6 +100,116 @@
       "writtenOn": "2013-12-09T21:23:59Z",
       "side": 1,
       "message": "no \"Gerrit-\" prefix? Your refs already called \"refs/gerrit/\".",
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3c0d2c1_03ef4e2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-10T21:55:02Z",
+      "side": 1,
+      "message": "Ack, I don\u0027t think we need Gerrit- prefix?",
+      "parentUuid": "23ca8ede_86e22a45",
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3c0d2c1_43f946f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-10T21:55:02Z",
+      "side": 1,
+      "message": "Label",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 13
+      },
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3c0d2c1_63fc42e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-10T21:55:02Z",
+      "side": 1,
+      "message": "Code-Review+2. If you want to case normalize labels do it in the read path. The write path should be using the case preferred in project.config at the time the write happened.",
+      "range": {
+        "startLine": 28,
+        "startChar": 15,
+        "endLine": 28,
+        "endChar": 29
+      },
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a37bde5e_02062a34",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-10T21:55:02Z",
+      "side": 1,
+      "message": "I think its OK to machine generate the subject line, but we should maybe try harder to be descriptive of what the change was. I am especially thinking about major actions like adding a new patch set, editing the commit message, rebasing the change, and adding/removing labels. These should worked into the subject so a git shortlog on the branch is descriptive.",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 65
+      },
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3c0d2c1_a3063a35",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-10T21:55:02Z",
+      "side": 1,
+      "message": "Instead of the account ID in the footer, what about the committer being \"${full_name} \u003caccount-${id}@${gerrit-server}\u003e\", where gerrit-server is canonical web url or some string set by the admin in gerrit.config?",
+      "range": {
+        "startLine": 38,
+        "startChar": 20,
+        "endLine": 38,
+        "endChar": 64
+      },
       "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -807,6 +807,9 @@ project configuration] is added.
 * Various spelling mistakes are corrected in the documentation and previous
 release notes.
 
+* link:https://code.google.com/p/gerrit/issues/detail?id=2144[Issue 2144]:
+Documentation of the query operator is fixed.
+
 
 Upgrades
 --------

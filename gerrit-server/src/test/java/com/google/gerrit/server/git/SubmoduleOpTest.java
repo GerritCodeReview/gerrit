@@ -828,7 +828,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
    * </p>
    *
    * @param gitModulesFileContent The .gitmodules file content.
-   * @param mergedBranch The {@link Branch.NameKey} instance representing the
+   * @param mergedBranch The {@code Branch.NameKey} instance representing the
    *        project/branch the commit was merged.
    * @param extractedSubscriptions The subscription rows extracted from
    *        gitmodules file.
@@ -854,7 +854,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
    * </p>
    *
    * @param gitModulesFileContent The .gitmodules file content.
-   * @param mergedBranch The {@link Branch.NameKey} instance representing the
+   * @param mergedBranch The {@code Branch.NameKey} instance representing the
    *        project/branch the commit was merged.
    * @param extractedSubscriptions The subscription rows extracted from
    *        gitmodules file.

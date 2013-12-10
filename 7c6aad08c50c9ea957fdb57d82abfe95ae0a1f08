@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3c316c9_a4c76282",
+        "filename": "Documentation/cmd-create-branch.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-10T09:56:56Z",
+      "side": 1,
+      "message": "Missing :\n\nThere should be two.",
+      "range": {
+        "startLine": 39,
+        "startChar": 10,
+        "endLine": 39,
+        "endChar": 11
+      },
+      "revId": "7c6aad08c50c9ea957fdb57d82abfe95ae0a1f08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03c74ad6_851a2252",
+        "filename": "Documentation/cmd-create-branch.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-10T09:56:56Z",
+      "side": 1,
+      "message": "The example does not include the revision option.",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 79
+      },
+      "revId": "7c6aad08c50c9ea957fdb57d82abfe95ae0a1f08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03c74ad6_e51f9640",
+        "filename": "Documentation/cmd-create-branch.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-10T09:56:56Z",
+      "side": 1,
+      "message": "Better to use a different name here.  It\u0027s not a new project; it must already exist to be able to create a branch.",
+      "range": {
+        "startLine": 47,
+        "startChar": 59,
+        "endLine": 47,
+        "endChar": 69
+      },
+      "revId": "7c6aad08c50c9ea957fdb57d82abfe95ae0a1f08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03c74ad6_0527529b",
+        "filename": "Documentation/cmd-index.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-10T09:56:56Z",
+      "side": 1,
+      "message": "Since this command is by default not available to administrators, it should not really be in the \"Administrator Commands\" section.",
+      "revId": "7c6aad08c50c9ea957fdb57d82abfe95ae0a1f08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

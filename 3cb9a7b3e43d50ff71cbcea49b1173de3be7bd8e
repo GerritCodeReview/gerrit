@@ -186,6 +186,30 @@
       "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03c74ad6_e53836b8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-10T21:34:23Z",
+      "side": 1,
+      "message": "googlesource.com\u0027s multi-master implementation has a global state for each ref (modified using paxos), so this is a non-issue for us. But this is not the only approach, e.g. Luca\u0027s suggestion on repo-discuss last week about merging state between masters.\n\nAnother potential source of clock skew (and potentially nonlinear history) is if we allow users to modify the database locally and then push their changes, which is something that would be neat but is a ways in the future.",
+      "parentUuid": "23ca8ede_2677f6ae",
+      "range": {
+        "startLine": 118,
+        "startChar": 3,
+        "endLine": 121,
+        "endChar": 5
+      },
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

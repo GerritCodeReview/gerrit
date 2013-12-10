@@ -464,8 +464,9 @@ public class Gerrit implements EntryPoint {
     btmmenu.add(new InlineLabel(" | "));
     btmmenu.add(new InlineHTML(M.poweredBy(vs)));
 
+    final String reportBugText = getConfig().getReportBugText();
     Anchor a = new Anchor(
-        C.reportBug(),
+        reportBugText == null ? C.reportBug() : reportBugText,
         getConfig().getReportBugUrl());
     a.setTarget("_blank");
     a.setStyleName("");

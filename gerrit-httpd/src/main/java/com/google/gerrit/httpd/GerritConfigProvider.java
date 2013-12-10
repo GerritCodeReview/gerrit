@@ -132,6 +132,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     final String reportBugUrl = cfg.getString("gerrit", null, "reportBugUrl");
     config.setReportBugUrl(reportBugUrl != null ?
         reportBugUrl : "http://code.google.com/p/gerrit/issues/list");
+    config.setReportBugText(cfg.getString("gerrit", null, "reportBugText"));
 
     config.setGitBasicAuth(authConfig.isGitBasicAuth());
 

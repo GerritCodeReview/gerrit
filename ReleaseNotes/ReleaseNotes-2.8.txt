@@ -27,6 +27,24 @@ found to be missing. This is a change in behavior of the replication plugin. To 
 back to the old behavior, set the parameter `remote.NAME.createMissingRepositories`
 in the `replication.config` file to `false`.
 
+*WARNING:* The deprecated `approve` alias for the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/cmd-review.html[
+review] SSH command has been removed. This is important for all users
+of the Jenkins link:https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger[
+Gerrit Trigger Plugin] since this plugin by default uses the `approve`
+command to vote and comment on changes in Gerrit. If you use the Gerrit
+Trigger Plugin, go to its global configuration in Jenkins and adapt the
+Gerrit commands to use the `review` command instead of the `approve`
+command.
+
+*WARNING:* The new change screen only displays download commands if the
+`download-commands` core plugin or any other plugin providing download
+commands is installed. The `download-commands` plugin provides the
+standard download schemes and commands. It is packaged together with
+Gerrit and can be installed during the
+link:https://gerrit-review.googlesource.com/Documentation/pgm-init.html[
+site initialization].
+
 
 Release Highlights
 ------------------
@@ -571,6 +589,32 @@ Fix handling of projects with trailing ".git" suffix.
 
 * Allow usernames to begin with digit.
 
+* Verify access to source ref during add branch operation.
++
+Previously Gerrit didn't check access to source ref during add branch
+operation. Because of that users could create a branch from any known
+commit SHA1, even when they didn't have access to that commit.
+
+* Fix Gerrit API sources JAR contents.
++
+The gerrit-extension-api-X.Y-all-sources.jar did not actually contain any
+sources.
+
+* Generate javadoc for Gerrit Extension and Plugin APIs.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2244[Issue 2244]:
+Update patch status before skipping duplicate emails.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1640[Issue 1640]:
+Catch missing LDAP accounts in group membership.
+
+* Use `rev-parse` to find gitdir when generating commit-msg hook hint.
+
+* Performance Fix: Minimize number of advertisedHaves.
++
+By filtering the refs before the objectIds are added to advertisedHaves,
+lots of time can be saved when pushing to complex Gits.
+
 
 Configuration
 ~~~~~~~~~~~~~
@@ -595,6 +639,8 @@ Support optional Certificate Revocation List (CRL) with `CLIENT_SSL_CERT_LDAP`.
 * Do not override error and gc logging configuration provided by the
 `-Dlog4j.configuration` parameter.
 
+* Fix JdbcSQLException when numbers are read from cache.
+
 Web UI
 ~~~~~~
 
@@ -613,6 +659,12 @@ The "Keyboard Shortcuts" help popup can be closed by pressing the Escape key.
 Correctly populate the list of watched changes when watching more than one project.
 
 * Display "Working..." when header is hidden.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2125[Issue 2125]:
+Correctly shows '-1' instead of '1' for label score.
++
+If a user voted '-1', and then another user voted '+1' for a label, the
+label was shown as a red '1' in the change list instead of red '-1'.
 
 Change Screens
 ^^^^^^^^^^^^^^
@@ -634,6 +686,24 @@ patchset was cherry picked to change ..." message.
 +
 In this case, it makes more sense for the message to say "Uploaded
 patch set N" instead.
+
+* Make links appear with consistent colors.
+
+* Prevent duplicate permitted_labels from being shown in labels list.
+
+Diff Screens
+^^^^^^^^^^^^
+
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1233[Issue 1233]:
+Prevent expansion when whole file isn't loaded.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2122[Issue 2122]:
+Show review comments for unchanged files.
++
+When comparing patch sets and some comment was put in one side,
+that comment was not shown if there was no code changed between
+the two patch sets
 
 Project Screens
 ^^^^^^^^^^^^^^^
@@ -708,6 +778,8 @@ was never used.
 The API is simplified in the sense that one Event now corresponds to
 one ref update only.
 
+* Make plugin servlet's context path authorization aware.
+
 
 Review Notes
 ^^^^^^^^^^^^
@@ -722,6 +794,8 @@ Fix note creation when the same commit exists in another Git repository.
 * Improve the export command performance.
 
 * Create review note also when newObjectId already present in another branch.
+
+* Correct documentation of the export command.
 
 Emails
 ~~~~~~
@@ -751,6 +825,9 @@ project configuration] is added.
 * Various spelling mistakes are corrected in the documentation and previous
 release notes.
 
+* link:https://code.google.com/p/gerrit/issues/detail?id=2144[Issue 2144]:
+Documentation of the query operator is fixed.
+
 
 Upgrades
 --------
@@ -762,6 +839,9 @@ Upgrades
 * Update H2 to 1.3.173
 * Update bouncycastle to 1.44
 * Update Apache Mina to 2.0.7
-* Update Apache SSHD to 0.9.0.201311081
+* link:https://code.google.com/p/gerrit/issues/detail?id=2232[Issue 2232]:
+Update Apache SSHD to 0.9.0.201311081
 * asciidoctor 0.1.4 is now required to build the documentation
 * jsr305 library was removed
+* link:https://code.google.com/p/gerrit/issues/detail?id=2232[Issue 2232]:
+Update Jsch to 1.5.0

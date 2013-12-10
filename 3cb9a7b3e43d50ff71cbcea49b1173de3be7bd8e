@@ -162,6 +162,24 @@
     },
     {
       "key": {
+        "uuid": "438a229e_5ffc8be5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-10T23:19:37Z",
+      "side": 1,
+      "message": "No, this change is putting *all* change data into refs/gerrit/changes/10/1. Right now it\u0027s just PatchSetApprovals because that was a convenient place to start. In the future we will move more tables into these refs (and during the migration we will rewrite history).\n\nIn the gwtorm world, \"all change data\" means \"every entity such that calling getParentKey() zero or more times on that entity\u0027s key/id eventually resolves to a Change.Id\".\n\nIf plugins want to make additional commits on refs/gerrit/changes/10/1, they are free to. The thing we have not nailed down is how to ensure those commits are ignored by the ChangeNotes parser if necessary.\n\nAs for searching...haven\u0027t thought about it. Plugins might want to make their own indexes. Or we might allow plugins to add ChangeFields to the schemas, but then keeping track of the core version + set of plugin versions might be tricky. Or since Lucene is schemaless we might just have some standard way of parsing out indexable fields from commit messages without them having to be specified in the ChangeSchema. Or plugins can still use SQL if they like :)",
+      "parentUuid": "43d5c277_67c61283",
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d5c277_e7e7a253",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -380,6 +398,30 @@
       "side": 1,
       "message": "I thought the search label predicate parsed the value like this? Maybe I am wrong.\n\nI am happy with what you wrote. The direction we wanted to move towards was more of a binary label state of \"Code-Review\" and \"-Code-Review\" for add and remove. Verified makes sense like that. But not verified doesn\u0027t. I think we were considering something like \"Build-Fails\" for Verified-1 and having the submit rule require \"Build-Fails\" to be not present.",
       "parentUuid": "438a229e_dfe7bb53",
+      "range": {
+        "startLine": 28,
+        "startChar": 15,
+        "endLine": 28,
+        "endChar": 29
+      },
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "438a229e_7ff94ff4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-10T23:19:37Z",
+      "side": 1,
+      "message": "Discussed in person. The label predicate parser is similar but not exact, e.g. it has \u003e\u003c which do not apply here. I will factor out the formatting code from PostReview and the parsing code from here and LabelPredicate so it\u0027s all in one tidy place.",
+      "parentUuid": "43d5c277_47c30e71",
       "range": {
         "startLine": 28,
         "startChar": 15,

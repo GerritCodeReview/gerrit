@@ -140,21 +140,20 @@ public class PermissionCollection {
         }
       }
 
-      return new PermissionCollection(permissions, ruleProps,
-          perUser ? username : null);
+      return new PermissionCollection(permissions, ruleProps, perUser);
     }
   }
 
   private final Map<String, List<PermissionRule>> rules;
   private final Map<PermissionRule, ProjectRef> ruleProps;
-  private final String username;
+  private final boolean perUser;
 
   private PermissionCollection(Map<String, List<PermissionRule>> rules,
       Map<PermissionRule, ProjectRef> ruleProps,
-      String username) {
+      boolean perUser) {
     this.rules = rules;
     this.ruleProps = ruleProps;
-    this.username = username;
+    this.perUser = perUser;
   }
 
   /**
@@ -162,7 +161,7 @@ public class PermissionCollection {
    *         this collection, making the results user specific.
    */
   public boolean isUserSpecific() {
-    return username != null;
+    return perUser;
   }
 
   /**

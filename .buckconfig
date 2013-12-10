@@ -5,6 +5,7 @@
   docs = //Documentation:html
   gerrit = //:gerrit
   release = //:release
+  withdocs = //:withdocs
 
 [buildfile]
   includes = //tools/default.defs

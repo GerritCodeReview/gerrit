@@ -22,6 +22,30 @@
       "revId": "eadec0d8936bed2f86fbfa06513c439611028056",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3c316c9_241b728e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-10T03:05:10Z",
+      "side": 1,
+      "message": "is is more common for java methods returning boolean?",
+      "parentUuid": "03c74ad6_4512ea6f",
+      "range": {
+        "startLine": 411,
+        "startChar": 25,
+        "endLine": 411,
+        "endChar": 27
+      },
+      "revId": "eadec0d8936bed2f86fbfa06513c439611028056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

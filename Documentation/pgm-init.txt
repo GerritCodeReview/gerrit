@@ -50,7 +50,7 @@ objects these SQL statements have to be executed manually.
 --list-plugins::
 	Print names of plugins that can be installed during init process.
 
---install-plugin:
+--install-plugin::
 	Automatically install plugin with given name without asking.
 
 CONTEXT

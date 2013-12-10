@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.GitwebConfig;
 import com.google.gerrit.reviewdb.client.Account;
@@ -134,6 +135,10 @@ class GerritConfigProvider implements Provider<GerritConfig> {
       config.setReportBugUrl("http://code.google.com/p/gerrit/issues/list");
     } else if (config.getReportBugUrl().isEmpty()) {
       config.setReportBugUrl(null);
+    }
+    config.setReportBugText(cfg.getString("gerrit", null, "reportBugText"));
+    if (Strings.isNullOrEmpty(config.getReportBugText())) {
+      config.setReportBugText(null);
     }
 
     config.setGitBasicAuth(authConfig.isGitBasicAuth());

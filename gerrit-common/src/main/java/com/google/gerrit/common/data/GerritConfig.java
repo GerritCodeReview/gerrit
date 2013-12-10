@@ -32,6 +32,7 @@ public class GerritConfig implements Cloneable {
   protected String switchAccountUrl;
   protected String httpPasswordUrl;
   protected String reportBugUrl;
+  protected String reportBugText;
   protected boolean gitBasicAuth;
 
   protected GitwebConfig gitweb;
@@ -101,6 +102,14 @@ public class GerritConfig implements Cloneable {
 
   public void setReportBugUrl(String u) {
     reportBugUrl = u;
+  }
+
+  public String getReportBugText() {
+    return reportBugText;
+  }
+
+  public void setReportBugText(String u) {
+    reportBugText = u;
   }
 
   public boolean isGitBasicAuth() {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "436302c4_97dd2486",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/InlineEditIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-10T23:40:02Z",
+      "side": 1,
+      "message": "this fails with:\n\n org.eclipse.jgit.errors.MissingObjectException:\n Missing unknown 88bc4169e09eecea47be38b7ea4ef34905a45c98",
+      "revId": "556f1b22657cd529a7f7b081d077781b349b0041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

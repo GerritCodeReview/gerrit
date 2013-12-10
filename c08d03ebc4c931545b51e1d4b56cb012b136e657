@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23ca8ede_c688a259",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-10T10:01:00Z",
+      "side": 1,
+      "message": "Given that :withdocs was already there, may be change it to:\n\n Add \u0027withdocs\u0027 as an alias for \u0027:withdocs\u0027",
+      "revId": "c08d03ebc4c931545b51e1d4b56cb012b136e657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

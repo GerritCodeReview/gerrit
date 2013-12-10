@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03c74ad6_85b50202",
+        "filename": "Documentation/cmd-create-branch.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-10T08:15:32Z",
+      "side": 1,
+      "message": "Also add:\n\n\"Administrators do not automatically have permission to create branches. It must be granted via the Create Reference permission.\"",
+      "revId": "66224a403fb45d7cfa26fa91c6679ec54de9e1c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

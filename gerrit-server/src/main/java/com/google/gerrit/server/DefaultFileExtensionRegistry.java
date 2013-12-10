@@ -36,6 +36,7 @@ public class DefaultFileExtensionRegistry extends MimeDetector {
       .put("project.config", INI)
       .put("BUCK", PYTHON)
       .put("defs", newMimeType(PYTHON.toString(), 1))
+      .put("py", newMimeType(PYTHON.toString(), 1))
       .put("go", newMimeType("text/x-go", 1))
       .put("cxx", newMimeType("text/x-c++src", 1))
       .put("hxx", newMimeType("text/x-c++hdr", 1))

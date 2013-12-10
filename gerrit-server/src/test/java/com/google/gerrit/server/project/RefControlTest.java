@@ -247,6 +247,18 @@ public class RefControlTest {
   }
 
   @Test
+  public void testUsernameEmailPatternWithRegex() {
+    grant(local, READ, DEVS, "^refs/sb/${username}/heads/.*");
+
+    ProjectControl u = util.user(local, "d.v@ger-rit.org", DEVS);
+    ProjectControl d = util.user(local, "dev@ger-rit.org", DEVS);
+    assertFalse("u can't read",
+        u.controlForRef("refs/sb/dev@ger-rit.org/heads/foobar").isVisible());
+    assertTrue("d can read",
+        d.controlForRef("refs/sb/dev@ger-rit.org/heads/foobar").isVisible());
+  }
+
+  @Test
   public void testSortWithRegex() {
     grant(local, READ, DEVS, "^refs/heads/.*");
     grant(util.getParentConfig(), READ, ANONYMOUS_USERS, "^refs/heads/.*-QA-.*");

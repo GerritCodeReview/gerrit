@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
@@ -191,8 +192,15 @@ public class ProjectControl {
     }
     RefControl ctl = refControls.get(refName);
     if (ctl == null) {
+      ImmutableList.Builder<String> usernames = ImmutableList.<String> builder();
+      if (user.getUserName() != null) {
+        usernames.add(user.getUserName());
+      }
+      if (user instanceof IdentifiedUser) {
+        usernames.addAll(((IdentifiedUser) user).getEmailAddresses());
+      }
       PermissionCollection relevant =
-          permissionFilter.filter(access(), refName, user.getUserName());
+          permissionFilter.filter(access(), refName, usernames.build());
       ctl = new RefControl(this, refName, relevant);
       refControls.put(refName, ctl);
     }

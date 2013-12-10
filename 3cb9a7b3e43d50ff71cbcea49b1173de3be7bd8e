@@ -368,6 +368,30 @@
     },
     {
       "key": {
+        "uuid": "43d5c277_47c30e71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-10T22:55:54Z",
+      "side": 1,
+      "message": "I thought the search label predicate parsed the value like this? Maybe I am wrong.\n\nI am happy with what you wrote. The direction we wanted to move towards was more of a binary label state of \"Code-Review\" and \"-Code-Review\" for add and remove. Verified makes sense like that. But not verified doesn\u0027t. I think we were considering something like \"Build-Fails\" for Verified-1 and having the submit rule require \"Build-Fails\" to be not present.",
+      "parentUuid": "438a229e_dfe7bb53",
+      "range": {
+        "startLine": 28,
+        "startChar": 15,
+        "endLine": 28,
+        "endChar": 29
+      },
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a37bde5e_02062a34",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

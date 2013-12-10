@@ -1378,6 +1378,12 @@ Gerrit service. By default this links to the upstream Gerrit
 Code Review's own bug tracker but could be directed to the system
 administrator's ticket queue.
 
+[[gerrit.reportBugText]]gerrit.reportBugText::
++
+Text to be displayed in the link to the bug report URL.
++
+Defaults to "Report Bug".
+
 [[gerrit.changeScreen]]gerrit.changeScreen::
 +
 Default change screen UI to direct users to. Valid values are

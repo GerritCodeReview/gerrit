@@ -27,6 +27,16 @@ found to be missing. This is a change in behavior of the replication plugin. To 
 back to the old behavior, set the parameter `remote.NAME.createMissingRepositories`
 in the `replication.config` file to `false`.
 
+*WARNING:* The deprecated `approve` alias for the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/cmd-review.html[
+review] SSH command has been removed. This is important for all users
+of the Jenkins link:https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger[
+Gerrit Trigger Plugin] since this plugin by default uses the `approve`
+command to vote and comment on changes in Gerrit. If you use the Gerrit
+Trigger Plugin, go to its global configuration in Jenkins and adapt the
+Gerrit commands to use the `review` command instead of the `approve`
+command.
+
 
 Release Highlights
 ------------------

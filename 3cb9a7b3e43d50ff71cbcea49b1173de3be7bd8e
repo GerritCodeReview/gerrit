@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "e3c316c9_04a2b6c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-10T22:12:04Z",
+      "side": 1,
+      "message": "To elaborate. This new data format is _not_ intended to be a drop-in replacement for the traditional DB. Two main goals are:\n\n-The data representation is reasonably parsimonious.\n\n-The data representation is human-readable in that reading the commit history and notes gives a human (or a computer for that matter) a reasonable understanding of the state of the data without too much additional context.\n\nI think that replicating the SQL database structure with lots of opaque IDs and \"foreign keys\" is counterproductive to either of these goals. Also, see my comment below on the model of applying an atomic set of updates to the current state of the change applies better conceptually and programmatically to the way clients (UI and otherwise) interact with the web UI.",
+      "parentUuid": "a37bde5e_c20b623c",
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d5c277_27209ab2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -72,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "e3c316c9_649f2a77",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-10T22:12:04Z",
+      "side": 1,
+      "message": "Shawn\u0027s objections aside, I don\u0027t think it would be too hard for plugins to insert arbitrary commits in the history of a change in a way that is ignorable by the Gerrit core.",
+      "parentUuid": "a37bde5e_e200661b",
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d5c277_e7e7a253",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -83,6 +119,24 @@
       "writtenOn": "2013-12-09T21:23:59Z",
       "side": 1,
       "message": "This statement is kind of obvious and can be removed. Every data format in Git would lack usual database features.",
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03c74ad6_25536eff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-10T22:12:04Z",
+      "side": 1,
+      "message": "It\u0027s true that every data format in git would lack indexes, yes. But that still leaves the objection that we can\u0027t move away from a SQL database _at all_ because of the lack of arbitrary query support. This statement is intended to counter that objection :)",
+      "parentUuid": "43d5c277_e7e7a253",
       "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -118,6 +172,24 @@
       "side": 1,
       "message": "Ack, I don\u0027t think we need Gerrit- prefix?",
       "parentUuid": "23ca8ede_86e22a45",
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03c74ad6_0550f2ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-10T22:12:04Z",
+      "side": 1,
+      "message": "Ok, I was thinking it would disambiguate in case these overlapped with any \"standard\" footers but that seems pretty unlikely.",
+      "parentUuid": "c3c0d2c1_03ef4e2a",
       "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -170,6 +242,30 @@
     },
     {
       "key": {
+        "uuid": "03c74ad6_c53d3aa6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-10T22:12:04Z",
+      "side": 1,
+      "message": "I started this but it was actually uglier to parse. I can go back to it.\n\nAlso note that \"Code-Review-0\", while technically not ambiguous, a) feels weird due to negative zero and b) is a valid label name.",
+      "parentUuid": "c3c0d2c1_63fc42e6",
+      "range": {
+        "startLine": 28,
+        "startChar": 15,
+        "endLine": 28,
+        "endChar": 29
+      },
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a37bde5e_02062a34",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -193,6 +289,30 @@
     },
     {
       "key": {
+        "uuid": "e3c316c9_449cae80",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-10T22:12:04Z",
+      "side": 1,
+      "message": "Ack, will do.",
+      "parentUuid": "a37bde5e_02062a34",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 65
+      },
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3c0d2c1_a3063a35",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -204,6 +324,30 @@
       "writtenOn": "2013-12-10T21:55:02Z",
       "side": 1,
       "message": "Instead of the account ID in the footer, what about the committer being \"${full_name} \u003caccount-${id}@${gerrit-server}\u003e\", where gerrit-server is canonical web url or some string set by the admin in gerrit.config?",
+      "range": {
+        "startLine": 38,
+        "startChar": 20,
+        "endLine": 38,
+        "endChar": 64
+      },
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3c316c9_a415a226",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-10T22:12:04Z",
+      "side": 1,
+      "message": "I\u0027m actually a bit surprised that git allows this, but so it does.\n\n $ git log -1\n commit 8d2527bb8e211a634c27c50768e8b6e9469c8bb9\n Author: Dave Borowitz \u003c12345@https://gerrit-review.googlesource.com/\u003e\n Date:   Tue Dec 10 14:09:43 2013 -0800\n\n     Add a\n\nThis does seem like it would complicate command-line clients that are editing the data, however, if they want to depend on user.name/email set in ~/.gitconfig.",
+      "parentUuid": "c3c0d2c1_a3063a35",
       "range": {
         "startLine": 38,
         "startChar": 20,

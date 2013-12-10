@@ -67,6 +67,29 @@
       "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d5c277_476e6ed4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-10T15:18:34Z",
+      "side": 1,
+      "message": "What happens if a reviewer votes on the same patch set first Code-Review+1 but then Code-Review-1?\n\nIf I got this right this will result in one commit for each vote. Semantically the second vote should overwrite the first vote. After parsing the votes how do we know which vote counts, Code-Review+1 or Code-Review-1? We could see this of course from the commit history, but the code doesn\u0027t seem to look at this.",
+      "range": {
+        "startLine": 118,
+        "startChar": 3,
+        "endLine": 121,
+        "endChar": 5
+      },
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "43d5c277_27209ab2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-10T07:59:18Z",
+      "side": 1,
+      "message": "Another requirement on the new backend: to be easy usable from plugins. For example, currently PatchSetApprovals is ab(used) for both humans and bots verifications (Jenkins trigger plugin, Zuul anf buildbot-plugin have no other chance as use `ssh gerrit review --verify`firehose to report build start and end notifications.\n\nThe idea is to replace/extend it with verification-status plugin and shutdown bots notification in review command, providing seperate channel for them. In the end no one want to see 27 messages from build started/ended in history of human reviews. Instead all bots specific notifications are presented in its own table (on change screen per patch set) or on its own screen, with statistics, searches and what not.\n\nThe only reason why this plugin is not there (after JS plugin solved the core UI extension): is unsolved peristence problem. Where how to persist these notifications? Basically they are the same as PatchSetApprovals, except that label categories are different: they are job or platform specific or both. But still the usual suspects: CRUD operation should be supported. It is not clear to me from this change, how can we achieve that, i. e. to be able to persist notifications per patch set in PatchSetVerifications namespace and qery them per patch set base (to render them on change screen)?\n\nAnother question: how can we even make this extended persistence space searcheable from secondary index? To answer question like: sort the list of suported platform in verification notifications in descendant order of breakage rates (verification -1 report).\n\nShould plugins do all the above on its own? I am asking all these questions, because we are replacing database, and all these can be done very easy there...",
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d5c277_e7e7a253",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

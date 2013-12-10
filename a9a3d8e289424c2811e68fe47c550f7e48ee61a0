@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43d5c277_0718f68d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-10T07:31:43Z",
+      "side": 1,
+      "message": "copied to $gerrit_site/plugins",
+      "revId": "a9a3d8e289424c2811e68fe47c550f7e48ee61a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d5c277_271b7a8e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-10T07:31:43Z",
+      "side": 1,
+      "message": "from",
+      "range": {
+        "startLine": 17,
+        "startChar": 38,
+        "endLine": 17,
+        "endChar": 42
+      },
+      "revId": "a9a3d8e289424c2811e68fe47c550f7e48ee61a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d5c277_4712ee6f",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1707,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-10T07:31:43Z",
+      "side": 1,
+      "message": "It is important from the beginning to state, that in future we may want to provide plugins in other programming languages and may be even package them in zip too. So how helloworld.py packaged in helloworld.zip should be differentiated from \nhelloworld.js packaged as helloworld.zip? init.js vs. init.py?",
+      "revId": "a9a3d8e289424c2811e68fe47c550f7e48ee61a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d5c277_67157256",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1708,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-10T07:31:43Z",
+      "side": 1,
+      "message": "Well that\u0027s kinf of obsolete here: what the saving: don\u0027t package JAR, but paclahe ZIP Remove that statement?",
+      "revId": "a9a3d8e289424c2811e68fe47c550f7e48ee61a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

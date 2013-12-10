@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e3c316c9_4495ce6c",
+        "filename": "Documentation/cmd-create-branch.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2013-12-10T07:51:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a333de7d_a24e9e82",
+      "range": {
+        "startLine": 23,
+        "startChar": 19,
+        "endLine": 23,
+        "endChar": 40
+      },
+      "revId": "a73d80ef9f92e5f80c553abadc2317decdf7277e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3f8d2d4_0340ae4a",
         "filename": "Documentation/cmd-create-branch.txt",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2013-12-06T02:42:00Z",
       "side": 1,
       "message": "I didn\u0027t intend that my comment be copied verbatim as the documentation ;)\n\n\"Administrators do not automatically have permission to create branches.  It must be granted via the Create Ref permission.\"",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 22
+      },
+      "revId": "a73d80ef9f92e5f80c553abadc2317decdf7277e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3c316c9_a462c2ed",
+        "filename": "Documentation/cmd-create-branch.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2013-12-10T07:51:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3f8d2d4_0340ae4a",
       "range": {
         "startLine": 24,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "03c74ad6_25bc0eef",
+        "filename": "Documentation/cmd-create-branch.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2013-12-10T07:51:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a333de7d_c253a22d",
+      "range": {
+        "startLine": 40,
+        "startChar": 59,
+        "endLine": 40,
+        "endChar": 76
+      },
+      "revId": "a73d80ef9f92e5f80c553abadc2317decdf7277e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a333de7d_62497679",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateBranchCommand.java",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2013-12-06T02:42:00Z",
       "side": 1,
       "message": "Better to call this `name`",
+      "range": {
+        "startLine": 38,
+        "startChar": 17,
+        "endLine": 38,
+        "endChar": 20
+      },
+      "revId": "a73d80ef9f92e5f80c553abadc2317decdf7277e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03c74ad6_05b912ff",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateBranchCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2013-12-10T07:51:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a333de7d_62497679",
       "range": {
         "startLine": 38,
         "startChar": 17,
@@ -111,6 +207,24 @@
     },
     {
       "key": {
+        "uuid": "03c74ad6_65c60683",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateBranchCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2013-12-10T07:51:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3b1b20e_9bd64b35",
+      "revId": "a73d80ef9f92e5f80c553abadc2317decdf7277e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "839c1a85_61b996fe",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateBranchCommand.java",
         "patchSetId": 3
@@ -122,6 +236,24 @@
       "writtenOn": "2013-12-05T11:02:10Z",
       "side": 1,
       "message": "Wrap that in try catch block:\n\n try {\n   [...]\n } catch (RestApiException e) {\n   throw new UnloggedFailure(1, \"fatal: \" + e.getMessage(), e);\n }",
+      "revId": "a73d80ef9f92e5f80c553abadc2317decdf7277e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3c316c9_8467c6fd",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateBranchCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2013-12-10T07:51:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "839c1a85_61b996fe",
       "revId": "a73d80ef9f92e5f80c553abadc2317decdf7277e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

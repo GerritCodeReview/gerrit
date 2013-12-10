@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "438a229e_bf0bd73c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-10T23:58:21Z",
+      "side": 1,
+      "message": "Remember this is not general-purpose relational storage. So \"update foo set bar where baz\" has no meaning unless you are talking about specific entities.\n\nI see no reason why we have to record CRUD operations explicitly; all we care about is being able to get the proper instantaneous state out.\n\nHere are a few concrete examples off the top of my head. I haven\u0027t thought of any so far that won\u0027t work but like you said, let\u0027s get the hard things out of the way now :)\n\nChange: First commit is insert, everything else is update (e.g. change state, change topic, etc.). No delete, unless we want to obliterate the ref.\n\nPatchSetApproval: Most things are upsert (note, not insert as you claim). There is also \"delete\" which is represented by a vote of 0.\n\nPatchSet: Everything is insert.\n\nChangeMessage: Everything is insert.",
+      "parentUuid": "23ca8ede_466e72d4",
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d5c277_27209ab2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

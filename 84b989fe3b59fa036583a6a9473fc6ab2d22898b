@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3c0d2c1_e300321b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-10T22:13:59Z",
+      "side": 1,
+      "message": "Historically we have been collecting these constants in GitRepositoryManager.",
+      "revId": "84b989fe3b59fa036583a6a9473fc6ab2d22898b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3c0d2c1_c3053629",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-10T22:13:59Z",
+      "side": 1,
+      "message": "I wanted to keep the patch sets and this meta information for each change in the same namespace. That would mean maybe making this a directory instead of a node and moving the patch sets inside of this directory?\n\nOr why not put this in the existing refs/changes/ namespace as a new \"/meta\" branch?\n\nOr maybe patch sets are stored as \"refs/gerrit/changes/${id mod 10}/${id}.${psid}\"? and we stop making a directory per patch set?",
+      "revId": "84b989fe3b59fa036583a6a9473fc6ab2d22898b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3c0d2c1_231b6a8e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-10T22:13:59Z",
+      "side": 1,
+      "message": "I know PatchSet.Id is the way things in PSA are currently structured, but going forward I want to be looking at the data in terms of commit SHA-1. Try to limit how much we expose as keyed by PatchSet.Id so we can start to use commit SHA-1 more.",
+      "revId": "84b989fe3b59fa036583a6a9473fc6ab2d22898b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a37bde5e_221b2e8e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-10T22:13:59Z",
+      "side": 1,
+      "message": "This is fine for now, but eventually I want to tailor the short line to be more specific about which of the major types of updates each thing is.\n\nI think about the subject here as the way I do of the comment when collapsed on CS2. That single line summary should be fairly representative of what happened. It might not contain the user\u0027s text, but should still tell me more from the machine generated text.",
+      "revId": "84b989fe3b59fa036583a6a9473fc6ab2d22898b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

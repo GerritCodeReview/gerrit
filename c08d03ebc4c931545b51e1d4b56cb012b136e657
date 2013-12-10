@@ -16,6 +16,24 @@
       "revId": "c08d03ebc4c931545b51e1d4b56cb012b136e657",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03c74ad6_45314ad5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-10T12:29:06Z",
+      "side": 1,
+      "message": "The change adds it as an alias of //:withdocs\n\nThis is consistent with the other aliases there.",
+      "parentUuid": "23ca8ede_c688a259",
+      "revId": "c08d03ebc4c931545b51e1d4b56cb012b136e657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

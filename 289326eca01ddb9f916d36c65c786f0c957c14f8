@@ -19,6 +19,47 @@
     },
     {
       "key": {
+        "uuid": "43d5c277_47278ec8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-10T09:15:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3a7f221_4b3165d5",
+      "revId": "289326eca01ddb9f916d36c65c786f0c957c14f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23ca8ede_061d9a76",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-10T09:15:08Z",
+      "side": 1,
+      "message": "Returning null for the CurrentUser causing some trouble for me. On running reindex I get:\n\n  Exception in thread \"main\" com.google.inject.CreationException: Guice creation errors:\n\n  1) Error injecting constructor, java.lang.NullPointerException\n    at com.google.gerrit.server.config.ProjectOwnerGroupsProvider.\u003cinit\u003e(ProjectOwnerGroupsProvider.java:41)\n    while locating com.google.gerrit.server.config.ProjectOwnerGroupsProvider\n    at com.google.gerrit.server.project.AccessControlModule.configure(AccessControlModule.java:34)\n    while locating java.util.Set\u003ccom.google.gerrit.reviewdb.client.AccountGroup$UUID\u003e annotated with interface com.google.gerrit.server.config.ProjectOwnerGroups\n\n  1 error\n\tat com.google.inject.internal.Errors.throwCreationExceptionIfErrorsExist(Errors.java:448)\n\tat com.google.inject.internal.InternalInjectorCreator.injectDynamically(InternalInjectorCreator.java:184)\n\tat com.google.inject.internal.InternalInjectorCreator.build(InternalInjectorCreator.java:110)\n\tat com.google.inject.internal.InjectorImpl.createChildInjector(InjectorImpl.java:230)\n\tat com.google.gerrit.pgm.Reindex.createSysInjector(Reindex.java:192)\n\tat com.google.gerrit.pgm.Reindex.run(Reindex.java:111)\n\tat com.google.gerrit.pgm.util.AbstractProgram.main(AbstractProgram.java:63)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:606)\n\tat com.google.gerrit.launcher.GerritLauncher.invokeProgram(GerritLauncher.java:172)\n\tat com.google.gerrit.launcher.GerritLauncher.mainImpl(GerritLauncher.java:96)\n\tat com.google.gerrit.launcher.GerritLauncher.main(GerritLauncher.java:53)\n\tat Main.main(Main.java:25)\nCaused by: java.lang.NullPointerException\n\tat com.google.gerrit.server.account.GroupControl.isOwner(GroupControl.java:147)\n\tat com.google.gerrit.server.account.GroupControl.isVisible(GroupControl.java:134)\n\tat com.google.gerrit.server.account.InternalGroupBackend$2.apply(InternalGroupBackend.java:82)\n\tat com.google.gerrit.server.account.InternalGroupBackend$2.apply(InternalGroupBackend.java:78)\n\tat com.google.common.collect.Iterators$7.computeNext(Iterators.java:647)\n\nI have fixed this by checking if user is null in GroupControl#isVisible().",
+      "range": {
+        "startLine": 180,
+        "startChar": 10,
+        "endLine": 182,
+        "endChar": 11
+      },
+      "revId": "289326eca01ddb9f916d36c65c786f0c957c14f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3a7f221_6b3421c7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
         "patchSetId": 5
@@ -42,6 +83,30 @@
     },
     {
       "key": {
+        "uuid": "43d5c277_071d9676",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-10T09:15:08Z",
+      "side": 1,
+      "message": "Looking at the only caller of this method I believe that this doesn\u0027t need to be asynchronous.\n\nDone.",
+      "parentUuid": "c3a7f221_6b3421c7",
+      "range": {
+        "startLine": 155,
+        "startChar": 45,
+        "endLine": 155,
+        "endChar": 51
+      },
+      "revId": "289326eca01ddb9f916d36c65c786f0c957c14f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3a7f221_0b275d9b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
         "patchSetId": 5
@@ -53,6 +118,30 @@
       "writtenOn": "2013-12-09T14:32:48Z",
       "side": 1,
       "message": "This needs to be rebased. In master there is already a ProjectUpdateTask which looks a bit different.",
+      "range": {
+        "startLine": 252,
+        "startChar": 16,
+        "endLine": 252,
+        "endChar": 33
+      },
+      "revId": "289326eca01ddb9f916d36c65c786f0c957c14f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23ca8ede_262096b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-10T09:15:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3a7f221_0b275d9b",
       "range": {
         "startLine": 252,
         "startChar": 16,

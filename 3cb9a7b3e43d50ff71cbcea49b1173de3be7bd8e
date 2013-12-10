@@ -308,6 +308,30 @@
     },
     {
       "key": {
+        "uuid": "438a229e_dfe7bb53",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-10T22:49:29Z",
+      "side": 1,
+      "message": "Do we actually parse it anywhere, or we just emit it in PostReview?\n\nI would be ok with:\n\n Code-Review-2\n Code-Review-1\n -Code-Review\n Code-Review\n Code-Review+2\n\ni.e. 0 and +1 are special. Or maybe even just 0 is special.",
+      "parentUuid": "a37bde5e_a22bbe99",
+      "range": {
+        "startLine": 28,
+        "startChar": 15,
+        "endLine": 28,
+        "endChar": 29
+      },
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a37bde5e_02062a34",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

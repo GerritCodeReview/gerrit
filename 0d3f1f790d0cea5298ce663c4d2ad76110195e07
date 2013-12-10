@@ -25,6 +25,53 @@
     },
     {
       "key": {
+        "uuid": "03c74ad6_456e6ad4",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GerritConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-10T07:05:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43d5c277_c7053e29",
+      "range": {
+        "startLine": 111,
+        "startChar": 38,
+        "endLine": 111,
+        "endChar": 39
+      },
+      "revId": "0d3f1f790d0cea5298ce663c4d2ad76110195e07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3c316c9_a47922ae",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritConfigProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-10T07:05:25Z",
+      "side": 1,
+      "message": "here",
+      "range": {
+        "startLine": 134,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 5
+      },
+      "revId": "0d3f1f790d0cea5298ce663c4d2ad76110195e07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d5c277_e700421b",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritConfigProvider.java",
         "patchSetId": 1
@@ -36,6 +83,30 @@
       "writtenOn": "2013-12-10T07:00:25Z",
       "side": 1,
       "message": "Is this needed? Isn\u0027t cfg.getString(...) already returning null if the value is not set or if it is set to an empty value?",
+      "range": {
+        "startLine": 140,
+        "startChar": 4,
+        "endLine": 142,
+        "endChar": 5
+      },
+      "revId": "0d3f1f790d0cea5298ce663c4d2ad76110195e07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03c74ad6_6571e6b6",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritConfigProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-10T07:05:25Z",
+      "side": 1,
+      "message": "Not sure.  I did this based on the lines above.  There it has separate handling for null and empty; here we want to make sure it\u0027s null in both cases.",
+      "parentUuid": "43d5c277_e700421b",
       "range": {
         "startLine": 140,
         "startChar": 4,

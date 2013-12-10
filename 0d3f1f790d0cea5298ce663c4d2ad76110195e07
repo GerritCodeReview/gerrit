@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "43d5c277_87306609",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritConfigProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-10T07:47:14Z",
+      "side": 1,
+      "message": "Looks like the idea here was to be able to remove the Report Bug Link by setting\n\n[gerrit]\n  reportBugUrl \u003d\n\nBut this doesn\u0027t work. Also in this case \n  cfg.getString(\"gerrit\", null, \"reportBugUrl\")\nreturns null. I\u0027ve just tested this.\n\nI believe this else if case can never be reached.",
+      "parentUuid": "e3c316c9_a47922ae",
+      "range": {
+        "startLine": 134,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 5
+      },
+      "revId": "0d3f1f790d0cea5298ce663c4d2ad76110195e07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d5c277_e700421b",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritConfigProvider.java",
         "patchSetId": 1
@@ -107,6 +131,30 @@
       "side": 1,
       "message": "Not sure.  I did this based on the lines above.  There it has separate handling for null and empty; here we want to make sure it\u0027s null in both cases.",
       "parentUuid": "43d5c277_e700421b",
+      "range": {
+        "startLine": 140,
+        "startChar": 4,
+        "endLine": 142,
+        "endChar": 5
+      },
+      "revId": "0d3f1f790d0cea5298ce663c4d2ad76110195e07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d5c277_e735e2f7",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritConfigProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-10T07:47:14Z",
+      "side": 1,
+      "message": "I believe this code above made a wrong assumption and is not working. We should do better here.",
+      "parentUuid": "03c74ad6_6571e6b6",
       "range": {
         "startLine": 140,
         "startChar": 4,

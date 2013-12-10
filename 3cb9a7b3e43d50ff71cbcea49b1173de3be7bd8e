@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "c3c0d2c1_0318ee8d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-10T22:25:12Z",
+      "side": 1,
+      "message": "Yes, I agree with what Dave Borowitz said. Eventually plugins should be able to add their own data into this Git storage, once we get it stable and can adopt some sort of convention so everyone can play along in the same sandbox without stepping on each other\u0027s data accidentally (e.g. accidental naming collisions).",
+      "parentUuid": "e3c316c9_649f2a77",
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d5c277_e7e7a253",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -266,6 +284,30 @@
     },
     {
       "key": {
+        "uuid": "a37bde5e_a22bbe99",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-10T22:25:12Z",
+      "side": 1,
+      "message": "We already parse it elsewhere in the system. Its the format currently used when writing comments. I\u0027d prefer to try and keep it.\n\nThe label direction is to try and get away from the value suffixes anyway. \"Verified+1\" is a weird statement, we should just say \"Verified\".\n\nWe don\u0027t ever say \"Code-Review-0\". We do say \"-Code-Review\" when you change a \u003e0 score to be 0.",
+      "parentUuid": "03c74ad6_c53d3aa6",
+      "range": {
+        "startLine": 28,
+        "startChar": 15,
+        "endLine": 28,
+        "endChar": 29
+      },
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a37bde5e_02062a34",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -348,6 +390,30 @@
       "side": 1,
       "message": "I\u0027m actually a bit surprised that git allows this, but so it does.\n\n $ git log -1\n commit 8d2527bb8e211a634c27c50768e8b6e9469c8bb9\n Author: Dave Borowitz \u003c12345@https://gerrit-review.googlesource.com/\u003e\n Date:   Tue Dec 10 14:09:43 2013 -0800\n\n     Add a\n\nThis does seem like it would complicate command-line clients that are editing the data, however, if they want to depend on user.name/email set in ~/.gitconfig.",
       "parentUuid": "c3c0d2c1_a3063a35",
+      "range": {
+        "startLine": 38,
+        "startChar": 20,
+        "endLine": 38,
+        "endChar": 64
+      },
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3c0d2c1_63156256",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-10T22:25:12Z",
+      "side": 1,
+      "message": "I was suggesting committer, not author line. Author line should be built with the user\u0027s preferred email address.\n\nAnd I was suggesting the host name from canonical web URL, not the full URL. And only if the admin hasn\u0027t supplied a different name. E.g. for AOSP we might be happy to say \"@android-review.googlesource.com\" but for an internal server we might instead prefer to write \"@${company}\" rather than our host name if there is any risk that we will share the /meta branch.\n\nAnd the long term plan is to be able to share (or partially share) /meta branches across servers.",
+      "parentUuid": "e3c316c9_a415a226",
       "range": {
         "startLine": 38,
         "startChar": 20,

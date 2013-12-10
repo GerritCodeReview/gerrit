@@ -129,12 +129,9 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     config.setLargeChangeSize(cfg.getInt("change", "largeChange", 500));
     config.setNewFeatures(cfg.getBoolean("gerrit", "enableNewFeatures", true));
 
-    config.setReportBugUrl(cfg.getString("gerrit", null, "reportBugUrl"));
-    if (config.getReportBugUrl() == null) {
-      config.setReportBugUrl("http://code.google.com/p/gerrit/issues/list");
-    } else if (config.getReportBugUrl().isEmpty()) {
-      config.setReportBugUrl(null);
-    }
+    final String reportBugUrl = cfg.getString("gerrit", null, "reportBugUrl");
+    config.setReportBugUrl(reportBugUrl != null ?
+        reportBugUrl : "http://code.google.com/p/gerrit/issues/list");
 
     config.setGitBasicAuth(authConfig.isGitBasicAuth());
 

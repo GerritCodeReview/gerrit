@@ -463,15 +463,14 @@ public class Gerrit implements EntryPoint {
     btmmenu.add(new InlineLabel(C.keyHelp()));
     btmmenu.add(new InlineLabel(" | "));
     btmmenu.add(new InlineHTML(M.poweredBy(vs)));
-    if (getConfig().getReportBugUrl() != null) {
-      Anchor a = new Anchor(
-          C.reportBug(),
-          getConfig().getReportBugUrl());
-      a.setTarget("_blank");
-      a.setStyleName("");
-      btmmenu.add(new InlineLabel(" | "));
-      btmmenu.add(a);
-    }
+
+    Anchor a = new Anchor(
+        C.reportBug(),
+        getConfig().getReportBugUrl());
+    a.setTarget("_blank");
+    a.setStyleName("");
+    btmmenu.add(new InlineLabel(" | "));
+    btmmenu.add(a);
   }
 
   private void onModuleLoad2(HostPageData hpd) {

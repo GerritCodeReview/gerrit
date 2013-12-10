@@ -172,6 +172,14 @@ configure which change screen is shown by default].
 Users can choose which one to use in their personal preferences, either using
 the site default or explicitly choosing the old one or new one.
 
+*WARNING:* The new change screen only displays download commands if the
+`download-commands` core plugin or any other plugin providing download
+commands is installed. The `download-commands` plugin provides the
+standard download schemes and commands. It is packaged together with
+Gerrit and can be installed during the
+link:https://gerrit-review.googlesource.com/Documentation/pgm-init.html[
+site initialization].
+
 * link:https://code.google.com/p/gerrit/issues/detail?id=141[Issue 141]:
 In the new change screen, comments can be added on a range of lines.
 

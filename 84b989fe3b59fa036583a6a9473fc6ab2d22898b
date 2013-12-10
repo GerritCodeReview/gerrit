@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "03c74ad6_454aea3c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-10T22:19:29Z",
+      "side": 1,
+      "message": "It would feel a little odd to me if some refs under refs/changes/... point to commits in the repository and some point to commits in the database. But I would probably get over it.\n\nAnd to clarify, you\u0027re still talking about a single \"meta\" ref per change (refs/changes/01/1/meta), not per patch set (refs/changes/01/1/1/meta), right?",
+      "parentUuid": "c3c0d2c1_c3053629",
+      "revId": "84b989fe3b59fa036583a6a9473fc6ab2d22898b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3c0d2c1_231b6a8e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 2

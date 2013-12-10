@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "c3c0d2c1_a32bda99",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-10T22:26:17Z",
+      "side": 1,
+      "message": "OK. I\u0027m OK with you punting that down the road a bit more. But do keep it in mind. PatchSet.Id is pretty broken from a Git perspective and we need to be working it out of the system.",
+      "parentUuid": "e3c316c9_841a2652",
+      "revId": "84b989fe3b59fa036583a6a9473fc6ab2d22898b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a37bde5e_221b2e8e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 2

@@ -90,6 +90,30 @@
       "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3c316c9_a4b00212",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-10T18:00:20Z",
+      "side": 1,
+      "message": "Yep, just forgot this check, it should ignore older commits by the same user. This might even be enough to make me use a Table instead of a Multimap.\n\n(There is an interesting question what happens when there is enough clock skew between branches in the commit history that commits might get iterated out of timestamp order. Not sure what to do about that, but for now we\u0027re just ensuring a linear history.)",
+      "parentUuid": "43d5c277_476e6ed4",
+      "range": {
+        "startLine": 118,
+        "startChar": 3,
+        "endLine": 121,
+        "endChar": 5
+      },
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

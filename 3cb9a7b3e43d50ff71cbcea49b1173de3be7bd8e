@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "23ca8ede_466e72d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-10T22:55:11Z",
+      "side": 1,
+      "message": "\u003e -The data representation is reasonably parsimonious.\n\nBut wouldn\u0027t you have to mark a record as insert update or delete, CRUD operations in the end? PatchSetApprovals is kind straight forward, because it is always only insert, but, as always hard things first ;-) how would you implement\n\n update foo set bar \u003d 42 where baz \u003d 4711;\n update foo set bar \u003d null where baz \u003d 4711;\n update foo set bar \u003d 43 where baz \u003d 4711;\n\nhow that would work?",
+      "parentUuid": "e3c316c9_04a2b6c2",
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d5c277_27209ab2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -120,6 +138,24 @@
       "side": 1,
       "message": "Yes, I agree with what Dave Borowitz said. Eventually plugins should be able to add their own data into this Git storage, once we get it stable and can adopt some sort of convention so everyone can play along in the same sandbox without stepping on each other\u0027s data accidentally (e.g. accidental naming collisions).",
       "parentUuid": "e3c316c9_649f2a77",
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d5c277_67c61283",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-10T22:55:11Z",
+      "side": 1,
+      "message": "Agreed. But, that\u0027s where i wanted to start from and not like to end with, kind waiting two years until we have all these conventions and utilities ;-) So this change is putting \nthe content from PatchSetApprovals table into\n\n refs/gerrit/changes/10/1/\n\nnamespace. Where other approval parts like patch comments and messages are going to be inserted in this model? And where would plugin, put their data? A lá PatchSetVerifications, i. e. like PatchSetApprovals but for bots? Or should we think about plugin refs namespaces in Git world, like we have in web world?\n\n refs/gerrit/plugins/cookbook/changes/10/1/\n\n;-)\n\nAnd you didn\u0027t answer the question about searching? Plugin owned secondary index?",
+      "parentUuid": "c3c0d2c1_0318ee8d",
       "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

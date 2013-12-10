@@ -63,16 +63,18 @@ class FileTable extends FlowPanel {
   }
 
   interface FileTableCss extends CssResource {
+    String table();
     String pointer();
     String reviewed();
     String status();
     String pathColumn();
+    String commonPrefix();
+    String renameCopySource();
     String draftColumn();
     String newColumn();
     String commentColumn();
     String deltaColumn1();
     String deltaColumn2();
-    String commonPrefix();
     String inserted();
     String deleted();
   }
@@ -335,6 +337,7 @@ class FileTable extends FlowPanel {
       this.comments = comments;
       this.drafts = drafts;
       this.hasUser = Gerrit.isSignedIn();
+      table.addStyleName(R.css().table());
     }
 
     public boolean execute() {
@@ -474,8 +477,14 @@ class FileTable extends FlowPanel {
         lastPath = path;
       }
 
-      sb.closeAnchor()
-        .closeTd();
+      sb.closeAnchor();
+      if (info.old_path() != null) {
+        sb.br();
+        sb.openSpan().setStyleName(R.css().renameCopySource())
+          .append(info.old_path())
+          .closeSpan();
+      }
+      sb.closeTd();
     }
 
     private int commonPrefix(String path) {

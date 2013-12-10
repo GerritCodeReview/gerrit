@@ -450,6 +450,30 @@
     },
     {
       "key": {
+        "uuid": "238feeae_dee7c553",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-10T22:51:15Z",
+      "side": 1,
+      "message": "Ok, so if a user creates a commit locally with themself as committer, then pushes it to Gerrit, does Gerrit rewrite the committer? Or rejects it?",
+      "parentUuid": "c3c0d2c1_63156256",
+      "range": {
+        "startLine": 38,
+        "startChar": 20,
+        "endLine": 38,
+        "endChar": 64
+      },
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d5c277_476e6ed4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 1

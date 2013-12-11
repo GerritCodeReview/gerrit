@@ -62,6 +62,12 @@ Access Control
 Access controls for internally managed gitweb page views are enforced
 using the standard project READ +1 permission.
 
+Also, in order for a user to be able to view any gitweb information for a
+project, the user must be able to read all referencess (including
+refs/meta/config, refs/meta/dashboards/*, etc.). If you have exclusive read
+permissions for any references, make sure to include all parties that should be
+able to read the gitweb info for any of the branches in that project.
+
 External/Unmanaged gitweb
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 

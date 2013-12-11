@@ -81,6 +81,7 @@ class FileTable extends FlowPanel {
 
   private static final String REVIEWED;
   private static final String OPEN;
+  private static final int C_PATH = 3;
   private static final HyperlinkImpl link = GWT.create(HyperlinkImpl.class);
 
   static {
@@ -305,6 +306,15 @@ class FileTable extends FlowPanel {
     protected void onOpenRow(int row) {
       if (1 <= row && row <= list.length()) {
         Gerrit.display(url(list.get(row - 1)));
+      }
+    }
+
+    @Override
+    protected void onCellSingleClick(int row, int column) {
+      if (column == C_PATH) {
+        onOpenRow(row);
+      } else {
+        super.onCellSingleClick(row, column);
       }
     }
   }

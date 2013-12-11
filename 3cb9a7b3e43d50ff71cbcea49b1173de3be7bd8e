@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "436302c4_572aac91",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-11T14:02:37Z",
+      "side": 1,
+      "message": "\u003e Change: First commit is insert, everything else is update (e.g. change state, change topic, etc.). No delete\n\nWhat about delete draft change?\n\n\u003e PatchSetApproval: Most things are upsert (note, not insert as you claim)\n\nTrue\n\n\u003e PatchSet: Everything is insert.\n\nWhat about delete draft patch set?",
+      "parentUuid": "438a229e_bf0bd73c",
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d5c277_27209ab2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

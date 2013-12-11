@@ -18,6 +18,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 
@@ -115,7 +116,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
         if (refControl.isVisible()) {
           if (ref.getName().startsWith(Constants.R_HEADS)) {
             branches.add(createBranchInfo(ref, refControl, targets));
-          } else if (GitRepositoryManager.REF_CONFIG.equals(ref.getName())) {
+          } else if (RefNames.REFS_CONFIG.equals(ref.getName())) {
             configBranch = createBranchInfo(ref, refControl, targets);
           }
         }

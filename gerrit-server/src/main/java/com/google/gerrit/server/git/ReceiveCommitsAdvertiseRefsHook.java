@@ -21,6 +21,7 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gwtorm.server.OrmException;
@@ -164,8 +165,8 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
   }
 
   private static boolean skip(String name) {
-    return name.startsWith("refs/changes/")
-        || name.startsWith(GitRepositoryManager.REFS_CACHE_AUTOMERGE)
+    return name.startsWith(RefNames.REFS_CHANGES)
+        || name.startsWith(RefNames.REFS_CACHE_AUTOMERGE)
         || MagicBranch.isMagicBranch(name);
   }
 }

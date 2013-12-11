@@ -18,6 +18,7 @@ package com.google.gerrit.server.patch;
 import com.google.common.cache.CacheLoader;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 
@@ -249,7 +250,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
   public static RevTree automerge(Repository repo, RevWalk rw, RevCommit b,
       boolean save) throws IOException {
     String hash = b.name();
-    String refName = GitRepositoryManager.REFS_CACHE_AUTOMERGE
+    String refName = RefNames.REFS_CACHE_AUTOMERGE
         + hash.substring(0, 2)
         + "/"
         + hash.substring(2);

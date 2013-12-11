@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -66,7 +67,7 @@ import java.util.Map;
  * <p>
  * Rules are loaded from the {@code site_path/cache/rules/rules-SHA1.jar}, where
  * {@code SHA1} is the SHA1 of the Prolog {@code rules.pl} in a project's
- * {@link GitRepositoryManager#REF_CONFIG} branch.
+ * {@link RefNames#REFS_CONFIG} branch.
  */
 @Singleton
 public class RulesCache {

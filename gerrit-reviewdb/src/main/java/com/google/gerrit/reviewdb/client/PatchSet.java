@@ -14,6 +14,8 @@
 
 package com.google.gerrit.reviewdb.client;
 
+import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
+
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
 
@@ -21,8 +23,6 @@ import java.sql.Timestamp;
 
 /** A single revision of a {@link Change}. */
 public final class PatchSet {
-  private static final String REFS_CHANGES = "refs/changes/";
-
   /** Is the reference name a change reference? */
   public static boolean isRef(final String name) {
     if (name == null || !name.startsWith(REFS_CHANGES)) {

@@ -14,8 +14,8 @@
 
 package com.google.gerrit.pgm.init;
 
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.VersionedMetaData;
 import com.google.inject.Inject;
@@ -59,7 +59,7 @@ public class AllProjectsConfig extends VersionedMetaData {
 
   @Override
   protected String getRefName() {
-    return GitRepositoryManager.REF_CONFIG;
+    return RefNames.REFS_CONFIG;
   }
 
   public Config load() throws IOException, ConfigInvalidException {

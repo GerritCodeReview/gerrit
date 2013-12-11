@@ -19,6 +19,7 @@ import com.google.common.cache.LoadingCache;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gwtorm.server.SchemaFactory;
@@ -72,7 +73,7 @@ public class ChangeCache implements GitReferenceUpdatedListener {
 
   @Override
   public void onGitReferenceUpdated(GitReferenceUpdatedListener.Event event) {
-    if (event.getRefName().startsWith("refs/changes/")) {
+    if (event.getRefName().startsWith(RefNames.REFS_CHANGES)) {
       cache.invalidate(new Project.NameKey(event.getProjectName()));
     }
   }

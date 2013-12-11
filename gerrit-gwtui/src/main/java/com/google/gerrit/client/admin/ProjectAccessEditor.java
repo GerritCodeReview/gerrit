@@ -23,6 +23,7 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Style.Display;
@@ -125,7 +126,7 @@ public class ProjectAccessEditor extends Composite implements
       history.getStyle().setDisplay(Display.BLOCK);
       gitweb.setText(c.getLinkName());
       gitweb.setHref(c.toFileHistory(new Branch.NameKey(value.getProjectName(),
-          "refs/meta/config"), "project.config"));
+          RefNames.REFS_CONFIG), "project.config"));
     } else {
       history.getStyle().setDisplay(Display.NONE);
     }

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.git;
 
-import static com.google.gerrit.server.git.GitRepositoryManager.REF_REJECT_COMMITS;
+import static com.google.gerrit.reviewdb.client.RefNames.REFS_REJECT_COMMITS;
 
 import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.reviewdb.client.Project;
@@ -96,7 +96,7 @@ public class BanCommit {
         NotesBranchUtil notesBranchUtil = notesBranchUtilFactory.create(project,
             repo, inserter);
         NoteMap newlyCreated =
-            notesBranchUtil.commitNewNotes(banCommitNotes, REF_REJECT_COMMITS,
+            notesBranchUtil.commitNewNotes(banCommitNotes, REFS_REJECT_COMMITS,
                 createPersonIdent(), buildCommitMessage(commitsToBan, reason));
 
         for (Note n : banCommitNotes) {

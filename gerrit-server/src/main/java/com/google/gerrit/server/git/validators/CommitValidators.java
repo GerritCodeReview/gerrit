@@ -18,12 +18,12 @@ import com.google.common.base.CharMatcher;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.events.CommitReceivedEvent;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.git.ValidationError;
@@ -311,7 +311,7 @@ public class CommitValidators {
         CommitReceivedEvent receiveEvent) throws CommitValidationException {
       IdentifiedUser currentUser = (IdentifiedUser) refControl.getCurrentUser();
 
-      if (GitRepositoryManager.REF_CONFIG.equals(refControl.getRefName())) {
+      if (RefNames.REFS_CONFIG.equals(refControl.getRefName())) {
         List<CommitValidationMessage> messages =
             new LinkedList<CommitValidationMessage>();
 

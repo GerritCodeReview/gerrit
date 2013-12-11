@@ -39,6 +39,7 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -579,7 +580,7 @@ public class MergeOp {
     }
 
     if (mergeTip != null && (branchTip == null || branchTip != mergeTip)) {
-      if (GitRepositoryManager.REF_CONFIG.equals(branchUpdate.getName())) {
+      if (RefNames.REFS_CONFIG.equals(branchUpdate.getName())) {
         try {
           ProjectConfig cfg =
               new ProjectConfig(destProject.getProject().getNameKey());
@@ -606,7 +607,7 @@ public class MergeOp {
                   mergeTip);
             }
 
-            if (GitRepositoryManager.REF_CONFIG.equals(branchUpdate.getName())) {
+            if (RefNames.REFS_CONFIG.equals(branchUpdate.getName())) {
               projectCache.evict(destProject.getProject());
               destProject = projectCache.get(destProject.getProject().getNameKey());
               repoManager.setProjectDescription(

@@ -29,6 +29,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -97,7 +98,7 @@ public class AllProjectsCreator {
         initAllProjects(git);
 
         RefUpdate u = git.updateRef(Constants.HEAD);
-        u.link(GitRepositoryManager.REF_CONFIG);
+        u.link(RefNames.REFS_CONFIG);
       } catch (RepositoryNotFoundException err) {
         String name = allProjectsName.get();
         throw new IOException("Cannot create repository " + name, err);
@@ -131,7 +132,7 @@ public class AllProjectsCreator {
     AccessSection all = config.getAccessSection(AccessSection.ALL, true);
     AccessSection heads = config.getAccessSection(AccessSection.HEADS, true);
     AccessSection tags = config.getAccessSection("refs/tags/*", true);
-    AccessSection meta = config.getAccessSection(GitRepositoryManager.REF_CONFIG, true);
+    AccessSection meta = config.getAccessSection(RefNames.REFS_CONFIG, true);
     AccessSection magic = config.getAccessSection("refs/for/" + AccessSection.ALL, true);
 
     grant(config, cap, GlobalCapability.ADMINISTRATE_SERVER, admin);

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.gerrit.common.data.RefNames;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -44,8 +45,8 @@ public class Schema_56 extends SchemaVersion {
     keysOne = new HashSet<String>();
     keysTwo = new HashSet<String>();
 
-    keysOne.add(GitRepositoryManager.REF_CONFIG);
-    keysTwo.add(GitRepositoryManager.REF_CONFIG);
+    keysOne.add(RefNames.REFS_CONFIG);
+    keysTwo.add(RefNames.REFS_CONFIG);
     keysTwo.add(Constants.HEAD);
   }
 
@@ -73,10 +74,10 @@ public class Schema_56 extends SchemaVersion {
           try {
             RefUpdate update = git.updateRef(Constants.HEAD);
             update.disableRefLog();
-            update.link(GitRepositoryManager.REF_CONFIG);
+            update.link(RefNames.REFS_CONFIG);
           } catch (IOException err) {
             ui.message("warning: " + name.get() + ": Cannot update HEAD to "
-                + GitRepositoryManager.REF_CONFIG + ": " + err.getMessage());
+                + RefNames.REFS_CONFIG + ": " + err.getMessage());
           }
         }
       } finally {

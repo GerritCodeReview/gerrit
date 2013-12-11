@@ -31,27 +31,6 @@ import java.util.SortedSet;
  * environment.
  */
 public interface GitRepositoryManager {
-  /** Note tree listing commits we refuse {@code refs/meta/reject-commits} */
-  public static final String REF_REJECT_COMMITS = "refs/meta/reject-commits";
-
-  /** Configuration settings for a project {@code refs/meta/config} */
-  public static final String REF_CONFIG = "refs/meta/config";
-
-  /** Configurations of project-specific dashboards (canned search queries). */
-  public static String REFS_DASHBOARDS = "refs/meta/dashboards/";
-
-  /**
-   * Prefix applied to merge commit base nodes.
-   * <p>
-   * References in this directory should take the form
-   * {@code refs/cache-automerge/xx/yyyy...} where xx is
-   * the first two digits of the merge commit's object
-   * name, and yyyyy... is the remaining 38. The reference
-   * should point to a treeish that is the automatic merge
-   * result of the merge commit's parents.
-   */
-  public static final String REFS_CACHE_AUTOMERGE = "refs/cache-automerge/";
-
   /**
    * Get (or open) a repository by name.
    *

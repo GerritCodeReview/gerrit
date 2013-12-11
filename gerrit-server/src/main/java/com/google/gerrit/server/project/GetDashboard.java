@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.project;
 
-import static com.google.gerrit.server.git.GitRepositoryManager.REFS_DASHBOARDS;
+import static com.google.gerrit.common.data.RefNames.REFS_DASHBOARDS;
 
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;

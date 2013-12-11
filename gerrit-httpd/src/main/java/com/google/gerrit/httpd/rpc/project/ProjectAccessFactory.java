@@ -23,6 +23,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.common.data.RefConfigSection;
+import com.google.gerrit.common.data.RefNames;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -30,7 +31,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -113,7 +113,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
       md.close();
     }
 
-    final RefControl metaConfigControl = pc.controlForRef(GitRepositoryManager.REF_CONFIG);
+    final RefControl metaConfigControl = pc.controlForRef(RefNames.REFS_CONFIG);
     List<AccessSection> local = new ArrayList<AccessSection>();
     Set<String> ownerOf = new HashSet<String>();
     Map<AccountGroup.UUID, Boolean> visibleGroups = new HashMap<>();

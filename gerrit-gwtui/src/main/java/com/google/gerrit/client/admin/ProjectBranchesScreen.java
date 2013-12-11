@@ -32,6 +32,7 @@ import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.HintTextBox;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.common.data.RefNames;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JsArray;
@@ -394,7 +395,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       String iconCellStyle = Gerrit.RESOURCES.css().iconCell();
       String dataCellStyle = Gerrit.RESOURCES.css().dataCell();
-      if ("refs/meta/config".equals(k.getShortName())
+      if (RefNames.REFS_CONFIG.equals(k.getShortName())
           || "HEAD".equals(k.getShortName())) {
         iconCellStyle = Gerrit.RESOURCES.css().specialBranchIconCell();
         dataCellStyle = Gerrit.RESOURCES.css().specialBranchDataCell();

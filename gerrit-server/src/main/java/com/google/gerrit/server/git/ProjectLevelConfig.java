@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.common.collect.Iterables;
+import com.google.gerrit.common.data.RefNames;
 import com.google.gerrit.server.project.ProjectState;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -38,7 +39,7 @@ public class ProjectLevelConfig extends VersionedMetaData {
 
   @Override
   protected String getRefName() {
-    return GitRepositoryManager.REF_CONFIG;
+    return RefNames.REFS_CONFIG;
   }
 
   @Override

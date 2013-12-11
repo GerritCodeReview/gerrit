@@ -39,6 +39,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.common.data.RefConfigSection;
+import com.google.gerrit.common.data.RefNames;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Project;
@@ -370,7 +371,7 @@ public class ProjectConfig extends VersionedMetaData {
 
   @Override
   protected String getRefName() {
-    return GitRepositoryManager.REF_CONFIG;
+    return RefNames.REFS_CONFIG;
   }
 
   @Override

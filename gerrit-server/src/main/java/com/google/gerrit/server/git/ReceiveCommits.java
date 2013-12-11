@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.gerrit.common.data.RefNames.REFS_CHANGES;
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromApprovals;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
@@ -50,6 +51,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.common.data.RefNames;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -156,8 +158,8 @@ public class ReceiveCommits {
   private static final Logger log =
       LoggerFactory.getLogger(ReceiveCommits.class);
 
-  public static final Pattern NEW_PATCHSET =
-      Pattern.compile("^refs/changes/(?:[0-9][0-9]/)?([1-9][0-9]*)(?:/new)?$");
+  public static final Pattern NEW_PATCHSET = Pattern.compile(
+      "^" + REFS_CHANGES + "(?:[0-9][0-9]/)?([1-9][0-9]*)(?:/new)?$");
 
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
 
@@ -168,12 +170,12 @@ public class ReceiveCommits {
   private enum Error {
         CONFIG_UPDATE("You are not allowed to perform this operation.\n"
         + "Configuration changes can only be pushed by project owners\n"
-        + "who also have 'Push' rights on " + GitRepositoryManager.REF_CONFIG),
+        + "who also have 'Push' rights on " + RefNames.REFS_CONFIG),
         UPDATE("You are not allowed to perform this operation.\n"
         + "To push into this reference you need 'Push' rights."),
         DELETE("You need 'Push' rights with the 'Force Push'\n"
             + "flag set to delete references."),
-        DELETE_CHANGES("Cannot delete from 'refs/changes'"),
+        DELETE_CHANGES("Cannot delete from '" + REFS_CHANGES + "'"),
         CODE_REVIEW("You need 'Push' rights to upload code review requests.\n"
             + "Verify that you are pushing to the right branch.");
 
@@ -397,8 +399,8 @@ public class ReceiveCommits {
         Map<String, Ref> filteredRefs = Maps.newHashMapWithExpectedSize(refs.size());
         for (Map.Entry<String, Ref> e : refs.entrySet()) {
           String name = e.getKey();
-          if (!name.startsWith("refs/changes/")
-              && !name.startsWith(GitRepositoryManager.REFS_CACHE_AUTOMERGE)) {
+          if (!name.startsWith(REFS_CHANGES)
+              && !name.startsWith(RefNames.REFS_CACHE_AUTOMERGE)) {
             filteredRefs.put(name, e.getValue());
           }
         }
@@ -914,8 +916,8 @@ public class ReceiveCommits {
       validateNewCommits(ctl, cmd);
       batch.addCommand(cmd);
     } else {
-      if (GitRepositoryManager.REF_CONFIG.equals(ctl.getRefName())) {
-        errors.put(Error.CONFIG_UPDATE, GitRepositoryManager.REF_CONFIG);
+      if (RefNames.REFS_CONFIG.equals(ctl.getRefName())) {
+        errors.put(Error.CONFIG_UPDATE, RefNames.REFS_CONFIG);
       } else {
         errors.put(Error.UPDATE, ctl.getRefName());
       }
@@ -944,13 +946,13 @@ public class ReceiveCommits {
 
   private void parseDelete(final ReceiveCommand cmd) {
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
-    if (ctl.getRefName().startsWith("refs/changes/")) {
+    if (ctl.getRefName().startsWith(REFS_CHANGES)) {
       errors.put(Error.DELETE_CHANGES, ctl.getRefName());
       reject(cmd, "cannot delete changes");
     } else if (ctl.canDelete()) {
       batch.addCommand(cmd);
     } else {
-      if (GitRepositoryManager.REF_CONFIG.equals(ctl.getRefName())) {
+      if (RefNames.REFS_CONFIG.equals(ctl.getRefName())) {
         reject(cmd, "cannot delete project configuration");
       } else {
         errors.put(Error.DELETE, ctl.getRefName());
@@ -1222,7 +1224,7 @@ public class ReceiveCommits {
    */
   private NoteMap loadRejectCommitsMap() throws IOException {
     try {
-      Ref ref = repo.getRef(GitRepositoryManager.REF_REJECT_COMMITS);
+      Ref ref = repo.getRef(RefNames.REFS_REJECT_COMMITS);
       if (ref == null) {
         return NoteMap.newEmptyMap();
       }
@@ -1232,7 +1234,7 @@ public class ReceiveCommits {
       return NoteMap.read(rw.getObjectReader(), map);
     } catch (IOException badMap) {
       throw new IOException("Cannot load "
-          + GitRepositoryManager.REF_REJECT_COMMITS, badMap);
+          + RefNames.REFS_REJECT_COMMITS, badMap);
     }
   }
 
@@ -1424,7 +1426,7 @@ public class ReceiveCommits {
     for (Ref ref : allRefs.values()) {
       if (ref.getObjectId() == null) {
         continue;
-      } else if (ref.getName().startsWith("refs/changes/")) {
+      } else if (ref.getName().startsWith(REFS_CHANGES)) {
         existing.add(ref.getObjectId());
       } else if (ref.getName().startsWith(R_HEADS)
           || (forRef != null && forRef.equals(ref.getName()))) {
@@ -2057,7 +2059,7 @@ public class ReceiveCommits {
         && ctl.canUploadMerges()
         && !projectControl.getProjectState().isUseSignedOffBy()
         && Iterables.isEmpty(rejectCommits)
-        && !GitRepositoryManager.REF_CONFIG.equals(ctl.getRefName())
+        && !RefNames.REFS_CONFIG.equals(ctl.getRefName())
         && !(MagicBranch.isMagicBranch(cmd.getRefName())
             || NEW_PATCHSET.matcher(cmd.getRefName()).matches())) {
       return;
@@ -2233,7 +2235,7 @@ public class ReceiveCommits {
   private SetMultimap<ObjectId, Ref> changeRefsById() throws IOException {
     if (refsById == null) {
       refsById =  HashMultimap.create();
-      for (Ref r : repo.getRefDatabase().getRefs("refs/changes/").values()) {
+      for (Ref r : repo.getRefDatabase().getRefs(REFS_CHANGES).values()) {
         if (PatchSet.isRef(r.getName())) {
           refsById.put(r.getObjectId(), r);
         }
@@ -2340,6 +2342,6 @@ public class ReceiveCommits {
   }
 
   private static boolean isConfig(final ReceiveCommand cmd) {
-    return cmd.getRefName().equals(GitRepositoryManager.REF_CONFIG);
+    return cmd.getRefName().equals(RefNames.REFS_CONFIG);
   }
 }

@@ -21,12 +21,12 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.RefConfigSection;
+import com.google.gerrit.common.data.RefNames;
 import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.SystemGroupBackend;
 
 import dk.brics.automaton.RegExp;
@@ -161,7 +161,7 @@ public class RefControl {
 
   /** @return true if this user can submit patch sets to this ref */
   public boolean canSubmit() {
-    if (GitRepositoryManager.REF_CONFIG.equals(refName)) {
+    if (RefNames.REFS_CONFIG.equals(refName)) {
       // Always allow project owners to submit configuration changes.
       // Submitting configuration changes modifies the access control
       // rules. Allowing this to be done by a non-project-owner opens
@@ -175,7 +175,7 @@ public class RefControl {
 
   /** @return true if the user can update the reference as a fast-forward. */
   public boolean canUpdate() {
-    if (GitRepositoryManager.REF_CONFIG.equals(refName)
+    if (RefNames.REFS_CONFIG.equals(refName)
         && !projectControl.isOwner()) {
       // Pushing requires being at least project owner, in addition to push.
       // Pushing configuration changes modifies the access control
@@ -211,7 +211,7 @@ public class RefControl {
   }
 
   private boolean canPushWithForce() {
-    if (!canWrite() || (GitRepositoryManager.REF_CONFIG.equals(refName)
+    if (!canWrite() || (RefNames.REFS_CONFIG.equals(refName)
         && !projectControl.isOwner())) {
       // Pushing requires being at least project owner, in addition to push.
       // Pushing configuration changes modifies the access control
@@ -294,7 +294,7 @@ public class RefControl {
    * @return {@code true} if the user specified can delete a Git ref.
    */
   public boolean canDelete() {
-    if (!canWrite() || (GitRepositoryManager.REF_CONFIG.equals(refName))) {
+    if (!canWrite() || (RefNames.REFS_CONFIG.equals(refName))) {
       // Never allow removal of the refs/meta/config branch.
       // Deleting the branch would destroy all Gerrit specific
       // metadata about the project, including its access rules.

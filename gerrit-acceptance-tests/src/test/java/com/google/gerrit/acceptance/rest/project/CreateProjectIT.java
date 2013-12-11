@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjectInfo;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjectOwners;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -28,6 +27,7 @@ import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.common.data.RefNames;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
@@ -180,7 +180,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     ProjectInput in = new ProjectInput();
     in.permissions_only = true;
     session.put("/projects/" + newProjectName, in);
-    assertHead(newProjectName, GitRepositoryManager.REF_CONFIG);
+    assertHead(newProjectName, RefNames.REFS_CONFIG);
   }
 
   @Test

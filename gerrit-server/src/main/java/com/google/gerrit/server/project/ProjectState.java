@@ -28,6 +28,7 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.common.data.RefNames;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
@@ -164,7 +165,7 @@ public class ProjectState {
     try {
       Repository git = gitMgr.openRepository(getProject().getNameKey());
       try {
-        Ref ref = git.getRef(GitRepositoryManager.REF_CONFIG);
+        Ref ref = git.getRef(RefNames.REFS_CONFIG);
         if (ref == null || ref.getObjectId() == null) {
           return true;
         }

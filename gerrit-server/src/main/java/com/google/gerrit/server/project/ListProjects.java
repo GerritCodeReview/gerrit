@@ -20,6 +20,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.RefNames;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -85,7 +86,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
         Ref head = git.getRef(Constants.HEAD);
         return head != null
           && head.isSymbolic()
-          && GitRepositoryManager.REF_CONFIG.equals(head.getLeaf().getName());
+          && RefNames.REFS_CONFIG.equals(head.getLeaf().getName());
       }
     },
     ALL {

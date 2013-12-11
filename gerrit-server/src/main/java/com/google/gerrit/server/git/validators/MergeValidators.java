@@ -17,6 +17,7 @@ package com.google.gerrit.server.git.validators;
 import static com.google.gerrit.server.git.MergeUtil.getSubmitter;
 
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.data.RefNames;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -27,7 +28,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CommitMergeStatus;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -96,7 +96,7 @@ public class MergeValidators {
         final Branch.NameKey destBranch,
         final PatchSet.Id patchSetId)
         throws MergeValidationException {
-      if (GitRepositoryManager.REF_CONFIG.equals(destBranch.get())) {
+      if (RefNames.REFS_CONFIG.equals(destBranch.get())) {
         final Project.NameKey newParent;
         try {
           ProjectConfig cfg =

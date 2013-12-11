@@ -15,9 +15,9 @@
 package com.google.gerrit.rules;
 
 import com.google.gerrit.common.Version;
+import com.google.gerrit.common.data.RefNames;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -79,7 +79,7 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
   }
 
   public Status call() throws IOException, CompileException {
-    ObjectId metaConfig = git.resolve(GitRepositoryManager.REF_CONFIG);
+    ObjectId metaConfig = git.resolve(RefNames.REFS_CONFIG);
     if (metaConfig == null) {
       return Status.NO_RULES;
     }

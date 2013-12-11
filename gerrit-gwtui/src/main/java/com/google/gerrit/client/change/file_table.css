@@ -22,6 +22,12 @@
 .table tr {
   vertical-align: top;
 }
+.table tr:hover {
+  background: rgba(209, 245, 248, 0.32);
+}
+.table tr.nohover:hover {
+  background: transparent;
+}
 
 .status {
   padding-right: 4px;

@@ -324,7 +324,7 @@ public class RelatedChanges extends TabPanel {
           : null;
     }
 
-    final native boolean has_change_number()
+    public final native boolean has_change_number()
     /*-{ return this.hasOwnProperty('_change_number') }-*/;
 
     final native boolean has_revision_number()

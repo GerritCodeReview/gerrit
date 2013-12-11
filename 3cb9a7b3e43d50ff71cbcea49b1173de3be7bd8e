@@ -470,6 +470,30 @@
     },
     {
       "key": {
+        "uuid": "438a229e_ff055f28",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-11T01:28:21Z",
+      "side": 1,
+      "message": "Sigh. Good arguments against this format:\n\n. Code-Review-2 is a valid label name and therefore ambiguous. (Also true of -Code-Review but I\u0027m more fine disallowing label names starting with - than ending with -#.)\n\n. ReviewCommand already uses the Code-Review\u003d-2 format. People have already complained about the format of \"gerrit review\" arguments changing when we did this first migration.\n\nWith this in mind I\u0027m definitely leaning towards Label\u003dValue for multi-valued labels and Label/-Label once we move to a world of boolean labels.\n\n(Though boolean labels may be trickier than we think: another thing we discussed in person was that there are UI challenges associated with going to all yes/no labels. For example, if you present one checkbox per label on the review screen, how does the user know that \"Verified\" and \"Breaks build\" are logically mutually exclusive?)",
+      "parentUuid": "438a229e_7ff94ff4",
+      "range": {
+        "startLine": 28,
+        "startChar": 15,
+        "endLine": 28,
+        "endChar": 29
+      },
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a37bde5e_02062a34",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

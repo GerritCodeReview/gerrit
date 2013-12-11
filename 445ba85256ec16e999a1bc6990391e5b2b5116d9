@@ -46,6 +46,30 @@
       "revId": "445ba85256ec16e999a1bc6990391e5b2b5116d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08212795_950ea449",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-11T20:34:38Z",
+      "side": 1,
+      "message": "Haha that is cute.\n\nreviewdb:client doesn\u0027t create a bytecode jar file. How does this work again?",
+      "parentUuid": "08212795_b511a069",
+      "range": {
+        "startLine": 21,
+        "startChar": 23,
+        "endLine": 21,
+        "endChar": 29
+      },
+      "revId": "445ba85256ec16e999a1bc6990391e5b2b5116d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

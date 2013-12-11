@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
 
@@ -33,14 +34,18 @@ public class LabelType {
     return new LabelType(name, values);
   }
 
-  private static String checkName(String name) {
+  public static String checkName(String name) {
+    if (Strings.isNullOrEmpty(name)) {
+      throw new IllegalArgumentException("Empty label name");
+    }
     if ("SUBM".equals(name)) {
       throw new IllegalArgumentException(
           "Reserved label name \"" + name + "\"");
     }
     for (int i = 0; i < name.length(); i++) {
       char c = name.charAt(i);
-      if (!((c >= 'a' && c <= 'z') ||
+      if ((i == 0 && c == '-') ||
+          !((c >= 'a' && c <= 'z') ||
             (c >= 'A' && c <= 'Z') ||
             (c >= '0' && c <= '9') ||
             c == '-')) {

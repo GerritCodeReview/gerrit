@@ -23,6 +23,7 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
+import com.google.gerrit.server.util.LabelVote;
 import com.google.inject.Provider;
 
 import java.util.List;
@@ -75,25 +76,39 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
       ProjectCache projectCache, ChangeControl.GenericFactory ccFactory,
       IdentifiedUser.GenericFactory userFactory, Provider<ReviewDb> dbProvider,
       String value, Set<Account.Id> accounts, AccountGroup.UUID group) {
-    String label;
-    Test test;
-    int expVal;
-    Matcher m1 = Pattern.compile("(=|>=|<=)([+-]?\\d+)$").matcher(value);
-    Matcher m2 = Pattern.compile("([+-]\\d+)$").matcher(value);
-    if (m1.find()) {
-      label = value.substring(0, m1.start());
-      test = Test.op(m1.group(1));
-      expVal = value(m1.group(2));
+    String label = null;
+    Test test = null;
+    int expVal = 0;
 
-    } else if (m2.find()) {
-      label = value.substring(0, m2.start());
+    try {
+      LabelVote v = LabelVote.parse(value);
       test = Test.EQ;
-      expVal = value(m2.group(1));
+      label = v.getLabel();
+      expVal = v.getValue();
+    } catch (IllegalArgumentException e) {
+      // Try next format.
+    }
 
-    } else {
-      label = value;
+    try {
+      LabelVote v = LabelVote.parseWithEquals(value);
       test = Test.EQ;
-      expVal = 1;
+      label = v.getLabel();
+      expVal = v.getValue();
+    } catch (IllegalArgumentException e) {
+      // Try next format.
+    }
+
+    if (label == null) {
+      Matcher m = Pattern.compile("(>=|<=)([+-]?\\d+)$").matcher(value);
+      if (m.find()) {
+        label = value.substring(0, m.start());
+        test = Test.op(m.group(1));
+        expVal = value(m.group(2));
+      } else {
+        label = value;
+        test = Test.EQ;
+        expVal = 1;
+      }
     }
 
     List<Predicate<ChangeData>> r = Lists.newArrayListWithCapacity(2 * MAX_LABEL_VALUE);

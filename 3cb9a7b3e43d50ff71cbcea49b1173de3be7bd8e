@@ -620,6 +620,30 @@
     },
     {
       "key": {
+        "uuid": "e39876f7_fcec8938",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-12-11T16:49:02Z",
+      "side": 1,
+      "message": "Fair enough. I am actually OK with just making the user specified label at the top level and not allowing Labels that collide with internal names:\n\n Code-Review: 0\n Verified: +1\n\nAlso, based on the way you have structured the code, couldn\u0027t the Patch-Set number also be removed if the meta commit also pointed to the change commit (on which the meta should be applied)? The short name generator (which is changing anyways) can generate at the patch-set level if you expect a non-linear history. Otherwise the number can be deterministic based on the way you traverse the meta history.\n\nIt may not be worth it to complicate the code in that fashion, but at least the intention of the meta data is completely obvious.",
+      "parentUuid": "438a229e_1f8e8362",
+      "range": {
+        "startLine": 28,
+        "startChar": 15,
+        "endLine": 28,
+        "endChar": 29
+      },
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a37bde5e_02062a34",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

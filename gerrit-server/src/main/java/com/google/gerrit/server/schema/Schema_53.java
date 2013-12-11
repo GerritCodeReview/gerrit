@@ -32,6 +32,7 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
@@ -186,7 +187,7 @@ class Schema_53 extends SchemaVersion {
         // Grant out read on the config branch by default.
         //
         if (config.getProject().getNameKey().equals(systemConfig.wildProjectName)) {
-          AccessSection meta = config.getAccessSection(GitRepositoryManager.REF_CONFIG, true);
+          AccessSection meta = config.getAccessSection(RefNames.REFS_CONFIG, true);
           Permission read = meta.getPermission(READ, true);
           read.getRule(config.resolve(projectOwners), true);
         }

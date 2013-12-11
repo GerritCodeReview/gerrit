@@ -18,6 +18,7 @@ java_library(
   deps = [
     '//gerrit-common:annotations',
     '//gerrit-common:server',
+    '//gerrit-reviewdb:server',
     '//gerrit-server:server',
     '//lib:guava',
     '//lib/guice:guice',

@@ -28,6 +28,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -208,12 +209,12 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
     md.setMessage("Edit\n");
     cfg.commit(md);
 
-    Ref ref = db.getRef(GitRepositoryManager.REF_CONFIG);
+    Ref ref = db.getRef(RefNames.REFS_CONFIG);
     return util.getRevWalk().parseCommit(ref.getObjectId());
   }
 
   private void update(RevCommit rev) throws Exception {
-    RefUpdate u = db.updateRef(GitRepositoryManager.REF_CONFIG);
+    RefUpdate u = db.updateRef(RefNames.REFS_CONFIG);
     u.disableRefLog();
     u.setNewObjectId(rev);
     switch (u.forceUpdate()) {

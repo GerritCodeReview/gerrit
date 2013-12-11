@@ -27,9 +27,9 @@ import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.git.PushOneCommit;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.SchemaFactory;
@@ -73,7 +73,7 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
     project = "p";
     createProject(sshSession, project, null, true);
     git = cloneProject(sshSession.getUrl() + "/" + project);
-    fetch(git, GitRepositoryManager.REF_CONFIG + ":refs/heads/config");
+    fetch(git, RefNames.REFS_CONFIG + ":refs/heads/config");
     checkout(git, "refs/heads/config");
 
     db = reviewDbProvider.open();
@@ -93,7 +93,7 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
     PushOneCommit push =
         new PushOneCommit(db, admin.getIdent(), "Create Project Level Config",
             configName, cfg.toText());
-    push.to(git, GitRepositoryManager.REF_CONFIG);
+    push.to(git, RefNames.REFS_CONFIG);
 
     ProjectState state = projectCache.get(new Project.NameKey(project));
     assertEquals(cfg.toText(), state.getConfig(configName).get().toText());
@@ -117,19 +117,19 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
 
     Git parentGit =
         cloneProject(sshSession.getUrl() + "/" + allProjects.get().get(), false);
-    fetch(parentGit, GitRepositoryManager.REF_CONFIG + ":refs/heads/config");
+    fetch(parentGit, RefNames.REFS_CONFIG + ":refs/heads/config");
     checkout(parentGit, "refs/heads/config");
     PushOneCommit push =
         new PushOneCommit(db, admin.getIdent(), "Create Project Level Config",
             configName, parentCfg.toText());
-    push.to(parentGit, GitRepositoryManager.REF_CONFIG);
+    push.to(parentGit, RefNames.REFS_CONFIG);
 
     Config cfg = new Config();
     cfg.setString("s1", null, "k1", "childValue1");
     cfg.setString("s2", "ss", "k3", "childValue2");
     push = new PushOneCommit(db, admin.getIdent(), "Create Project Level Config",
         configName, cfg.toText());
-    push.to(git, GitRepositoryManager.REF_CONFIG);
+    push.to(git, RefNames.REFS_CONFIG);
 
     ProjectState state = projectCache.get(new Project.NameKey(project));
 

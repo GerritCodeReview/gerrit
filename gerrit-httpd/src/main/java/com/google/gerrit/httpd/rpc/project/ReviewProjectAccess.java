@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetAncestor;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
@@ -35,7 +36,6 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.MergeabilityChecker;
 import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -134,7 +134,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
         user.getAccountId(),
         new Branch.NameKey(
             config.getProject().getNameKey(),
-            GitRepositoryManager.REF_CONFIG),
+            RefNames.REFS_CONFIG),
         TimeUtil.nowTs());
 
     ps.setCreatedOn(change.getCreatedOn());

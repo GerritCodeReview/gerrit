@@ -29,11 +29,11 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.GroupJson;
@@ -154,7 +154,7 @@ public class ListAccess implements RestReadView<TopLevelResource> {
 
     public ProjectAccessInfo(ProjectControl pc, ProjectConfig config) {
       final RefControl metaConfigControl =
-          pc.controlForRef(GitRepositoryManager.REF_CONFIG);
+          pc.controlForRef(RefNames.REFS_CONFIG);
       local = Maps.newHashMap();
       ownerOf = Sets.newHashSet();
       Map<AccountGroup.UUID, Boolean> visibleGroups =

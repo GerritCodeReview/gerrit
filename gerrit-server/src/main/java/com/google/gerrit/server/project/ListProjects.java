@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.StringUtil;
@@ -85,7 +86,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
         Ref head = git.getRef(Constants.HEAD);
         return head != null
           && head.isSymbolic()
-          && GitRepositoryManager.REF_CONFIG.equals(head.getLeaf().getName());
+          && RefNames.REFS_CONFIG.equals(head.getLeaf().getName());
       }
     },
     ALL {

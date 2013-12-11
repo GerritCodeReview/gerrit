@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.project;
 
-import static com.google.gerrit.server.git.GitRepositoryManager.REFS_DASHBOARDS;
+import static com.google.gerrit.reviewdb.client.RefNames.REFS_DASHBOARDS;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;

@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.events.NewProjectCreatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -109,7 +110,7 @@ public class PerformCreateProject {
     final Project.NameKey nameKey = createProjectArgs.getProject();
     try {
       final String head =
-          createProjectArgs.permissionsOnly ? GitRepositoryManager.REF_CONFIG
+          createProjectArgs.permissionsOnly ? RefNames.REFS_CONFIG
               : createProjectArgs.branch.get(0);
       final Repository repo = repoManager.createRepository(nameKey);
       try {

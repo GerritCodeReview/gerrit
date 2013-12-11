@@ -28,11 +28,11 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.Mergeable.MergeableInfo;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.WorkQueue.Executor;
@@ -110,11 +110,11 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
   @Override
   public void onGitReferenceUpdated(GitReferenceUpdatedListener.Event event) {
     String ref = event.getRefName();
-    if (ref.startsWith(Constants.R_HEADS) || ref.equals(GitRepositoryManager.REF_CONFIG)) {
+    if (ref.startsWith(Constants.R_HEADS) || ref.equals(RefNames.REFS_CONFIG)) {
       executor.submit(new BranchUpdateTask(schemaFactory,
           new Project.NameKey(event.getProjectName()), ref));
     }
-    if (ref.equals(GitRepositoryManager.REF_CONFIG)) {
+    if (ref.equals(RefNames.REFS_CONFIG)) {
       Project.NameKey p = new Project.NameKey(event.getProjectName());
       try {
         ProjectConfig oldCfg = parseConfig(p, event.getOldObjectId());
@@ -124,7 +124,7 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
             new ProjectUpdateTask(schemaFactory, p).call();
           } catch (Exception e) {
             String msg = "Failed to update mergeability flags for project " + p.get()
-                + " on update of " + GitRepositoryManager.REF_CONFIG;
+                + " on update of " + RefNames.REFS_CONFIG;
             log.error(msg, e);
             Throwables.propagateIfPossible(e);
             throw new RuntimeException(msg, e);
@@ -132,7 +132,7 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
         }
       } catch (ConfigInvalidException | IOException e) {
         String msg = "Failed to update mergeability flags for project " + p.get()
-            + " on update of " + GitRepositoryManager.REF_CONFIG;
+            + " on update of " + RefNames.REFS_CONFIG;
         log.error(msg, e);
         throw new RuntimeException(msg, e);
       }

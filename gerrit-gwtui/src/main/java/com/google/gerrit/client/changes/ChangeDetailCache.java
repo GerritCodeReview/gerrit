@@ -108,7 +108,7 @@ public class ChangeDetailCache extends ListenableValue<ChangeDetail> {
     ChangeDetail r = new ChangeDetail();
     r.setAllowsAnonymous(rev.has_fetch() && rev.fetch().containsKey("http"));
     r.setCanAbandon(can(info.actions(), "abandon"));
-    r.setCanEditCommitMessage(can(info.actions(), "message"));
+    r.setCanEditCommitMessage(can(rev.actions(), "message"));
     r.setCanCherryPick(can(rev.actions(), "cherrypick"));
     r.setCanPublish(can(rev.actions(), "publish"));
     r.setCanRebase(can(rev.actions(), "rebase"));

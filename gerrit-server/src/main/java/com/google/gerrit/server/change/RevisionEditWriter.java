@@ -1,0 +1,161 @@
+package com.google.gerrit.server.change;
+
+import com.google.common.base.Charsets;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.auth.AuthException;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.RevisionEdit;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+
+import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheBuilder;
+import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.TreeWalk;
+
+import java.io.IOException;
+
+public class RevisionEditWriter {
+
+  private final PersonIdent myIdent;
+  private final GitRepositoryManager gitManager;
+  private final Provider<CurrentUser> currentUser;
+
+  @Inject
+  RevisionEditWriter(@GerritPersonIdent PersonIdent myIdent,
+      GitRepositoryManager gitManager,
+      Provider<CurrentUser> currentUser) {
+    this.myIdent = myIdent;
+    this.gitManager = gitManager;
+    this.currentUser = currentUser;
+  }
+
+  public RefUpdate.Result edit(Change change, PatchSet ps, String file,
+      String content) throws AuthException, InvalidChangeOperationException,
+      NoSuchChangeException, IOException {
+    if (!currentUser.get().isIdentifiedUser()) {
+      throw new AuthException("edits only available to authenticated users");
+    }
+
+    Project.NameKey project = change.getProject();
+    final Repository git;
+    try {
+      git = gitManager.openRepository(project);
+    } catch (RepositoryNotFoundException e) {
+      throw new NoSuchChangeException(change.getId(), e);
+    }
+
+    IdentifiedUser me = (IdentifiedUser)currentUser.get();
+    RevisionEdit edit = new RevisionEdit(me, ps.getId());
+    try {
+      RevWalk rw = new RevWalk(git);
+      ObjectInserter inserter = git.newObjectInserter();
+      try {
+        RevCommit prevEdit = edit.get(git, rw);
+        RevCommit base = rw.parseCommit(ObjectId.fromString(
+            ps.getRevision().get()));
+        if (prevEdit == null) {
+          prevEdit = base;
+        }
+
+        ObjectId tree = editTree(file, git, inserter, content, prevEdit);
+        if (ObjectId.equals(tree, prevEdit.getTree())) {
+          throw new InvalidChangeOperationException("no changes were made");
+        }
+        CommitBuilder builder = new CommitBuilder();
+        builder.setTreeId(tree);
+        builder.setParentIds(base.getParents());
+        builder.setAuthor(prevEdit.getAuthorIdent());
+        builder.setCommitter(getCommitterIdent(me));
+        builder.setMessage(prevEdit.getFullMessage());
+        ObjectId newEdit = inserter.insert(builder);
+        inserter.flush();
+
+        RefUpdate ru = git.updateRef(edit.toRefName());
+        ru.setExpectedOldObjectId(
+            prevEdit == base ? ObjectId.zeroId() : prevEdit);
+        ru.setNewObjectId(newEdit);
+        ru.setRefLogIdent(getRefLogIdent(me));
+        ru.setForceUpdate(true);
+        return ru.update(rw);
+      } finally {
+        rw.release();
+        inserter.release();
+      }
+    } finally {
+      git.close();
+    }
+  }
+
+  private ObjectId editTree(String fileName, Repository repo,
+      ObjectInserter ins, String content, RevCommit prevEdit)
+      throws IOException {
+    // TODO(dborowitz): Handle non-UTF-8 paths.
+    byte[] path = fileName.getBytes(Charsets.UTF_8);
+    DirCache dc = DirCache.newInCore();
+    DirCacheBuilder dcb = dc.builder();
+    TreeWalk tw = new TreeWalk(repo);
+    tw.reset();
+    tw.setRecursive(true);
+    tw.addTree(prevEdit.getTree());
+    // TODO(dborowitz): This is awful. Surely we can do this without
+    // iterating the entire tree. Take a closer look at ResolveMerger to
+    // figure this out.
+    boolean found = false;
+    while (tw.next()) {
+      DirCacheEntry dce = new DirCacheEntry(tw.getRawPath());
+      dce.setFileMode(tw.getFileMode(0));
+      if (tw.isPathPrefix(path, path.length) == 0
+          && tw.getPathLength() == path.length) {
+        if (tw.isSubtree()) {
+          throw new IllegalArgumentException("invalid PUT on directory");
+        }
+        dce.setObjectId(insert(ins, content));
+        found = true;
+      } else {
+        dce.setObjectId(tw.getObjectId(0));
+      }
+      dcb.add(dce);
+    }
+    if (!found) {
+      // TODO(dborowitz): Use path compare above to insert in order.
+      DirCacheEntry dce = new DirCacheEntry(path);
+      dce.setFileMode(FileMode.REGULAR_FILE);
+      dce.setObjectId(insert(ins, content));
+      dcb.add(dce);
+    }
+    dcb.finish();
+    return dc.writeTree(ins);
+  }
+
+  private ObjectId insert(ObjectInserter ins, String content)
+      throws IOException {
+    return ins.insert(Constants.OBJ_BLOB, Constants.encode(content));
+  }
+
+  private PersonIdent getCommitterIdent(IdentifiedUser user) {
+    return user.newCommitterIdent(myIdent.getWhen(), myIdent.getTimeZone());
+  }
+
+  private PersonIdent getRefLogIdent(IdentifiedUser user) {
+    return user.newRefLogIdent(myIdent.getWhen(), myIdent.getTimeZone());
+  }
+}

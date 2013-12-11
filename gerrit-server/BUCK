@@ -90,7 +90,6 @@ java_library(
     '//gerrit-common:server',
     '//gerrit-cache-h2:cache-h2',
     '//gerrit-lucene:lucene',
-    '//gerrit-reviewdb:client',
     '//gerrit-reviewdb:server',
     '//lib:guava',
     '//lib:gwtorm',

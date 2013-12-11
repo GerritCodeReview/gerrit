@@ -64,6 +64,7 @@ class FileTable extends FlowPanel {
 
   interface FileTableCss extends CssResource {
     String table();
+    String nohover();
     String pointer();
     String reviewed();
     String status();
@@ -406,7 +407,7 @@ class FileTable extends FlowPanel {
     }
 
     private void header(SafeHtmlBuilder sb) {
-      sb.openTr();
+      sb.openTr().setStyleName(R.css().nohover());
       sb.openTh().setStyleName(R.css().pointer()).closeTh();
       sb.openTh().setStyleName(R.css().reviewed()).closeTh();
       sb.openTh().setStyleName(R.css().status()).closeTh();
@@ -586,7 +587,7 @@ class FileTable extends FlowPanel {
     }
 
     private void footer(SafeHtmlBuilder sb) {
-      sb.openTr();
+      sb.openTr().setStyleName(R.css().nohover());
       sb.openTh().setStyleName(R.css().pointer()).closeTh();
       sb.openTh().setStyleName(R.css().reviewed()).closeTh();
       sb.openTh().setStyleName(R.css().status()).closeTh();

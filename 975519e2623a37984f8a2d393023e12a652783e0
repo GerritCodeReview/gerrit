@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "238feeae_9e2b7d9a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-11T05:36:48Z",
+      "side": 1,
+      "message": "Why do we need to unpack the plugin? We don\u0027t unpack JAR based plugins. The server is perfectly capable of serving files on demand from /plugins/${name}/static/.* from the ZIP file without unpacking.\n\nIs the purpose of unpacking to make it easy to edit the plugin source in place? How practical is that after doing an installation as a ZIP? Maybe you want to support both a directory and a ZIP format for these pure JS plugins?",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 61
+      },
+      "revId": "975519e2623a37984f8a2d393023e12a652783e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

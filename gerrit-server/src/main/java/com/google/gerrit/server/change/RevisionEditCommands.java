@@ -1,0 +1,387 @@
+// Copyright (C) 2013 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.server.change;
+
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.RevisionEdit;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+
+import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheBuilder;
+import org.eclipse.jgit.dircache.DirCacheEditor;
+import org.eclipse.jgit.dircache.DirCacheEditor.DeletePath;
+import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
+import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
+import org.eclipse.jgit.treewalk.TreeWalk;
+
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+/* Commands to manipulate user's edits on top of patch sets */
+public class RevisionEditCommands {
+
+  enum TreeOperation {
+    CHANGE_ENTRY,
+    DELETE_ENTRY,
+    RESTORE_ENTRY
+  }
+
+  private final PersonIdent myIdent;
+  private final GitRepositoryManager gitManager;
+  private final Provider<IdentifiedUser> identifiedUser;
+  private final PatchSetInserter.Factory patchSetInserterFactory;
+  private final ChangeControl.GenericFactory changeControlFactory;
+  private TreeOperation op;
+
+  @Inject
+  RevisionEditCommands(@GerritPersonIdent PersonIdent myIdent,
+      GitRepositoryManager gitManager,
+      Provider<ReviewDb> dbProvider,
+      Provider<IdentifiedUser> identifiedUser,
+      PatchSetInserter.Factory patchSetInserterFactory,
+      ChangeControl.GenericFactory changeControlFactory) {
+    this.myIdent = myIdent;
+    this.gitManager = gitManager;
+    this.identifiedUser = identifiedUser;
+    this.patchSetInserterFactory = patchSetInserterFactory;
+    this.changeControlFactory = changeControlFactory;
+  }
+
+  public void publish(Change c, PatchSet basePs)
+      throws NoSuchChangeException, IOException,
+      InvalidChangeOperationException, OrmException {
+    IdentifiedUser me = identifiedUser.get();
+    Project.NameKey project = c.getProject();
+    RevisionEdit edit = new RevisionEdit(me, basePs.getId());
+
+    Repository repo = gitManager.openRepository(project);
+    try {
+      RevWalk rw = new RevWalk(repo);
+      BatchRefUpdate ru = repo.getRefDatabase().newBatchUpdate();
+      try {
+        RevCommit commit = edit.getCommit(repo, rw);
+        if (commit == null) {
+          throw new NoSuchChangeException(c.getId());
+        }
+
+        PatchSet ps =
+            new PatchSet(new PatchSet.Id(c.getId(),
+                c.currentPatchSetId().get() + 1));
+        ps.setRevision(new RevId(ObjectId.toString(commit)));
+        ps.setUploader(me.getAccountId());
+        ps.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+
+        ru.addCommand(new ReceiveCommand(commit, ObjectId.zeroId(), edit
+            .getRefName()));
+
+        PatchSetInserter inserter =
+            patchSetInserterFactory.create(repo, rw,
+                changeControlFactory.controlFor(c, me), commit);
+        inserter.setPatchSet(ps)
+            .setMessage(String.format("Patch Set %d: New edit was published",
+                basePs.getPatchSetId())).insert();
+        ru.execute(rw, NullProgressMonitor.INSTANCE);
+      } finally {
+        rw.release();
+      }
+      for (ReceiveCommand cmd : ru.getCommands()) {
+        if (cmd.getResult() != ReceiveCommand.Result.OK) {
+          throw new IOException("failed to update: " + cmd);
+        }
+      }
+    } finally {
+      repo.close();
+    }
+  }
+
+  public void delete(Change change, PatchSet ps)
+      throws NoSuchChangeException, IOException {
+    final Repository repo;
+    try {
+      repo = gitManager.openRepository(change.getProject());
+    } catch (RepositoryNotFoundException e) {
+      throw new NoSuchChangeException(change.getId(), e);
+    }
+
+    IdentifiedUser me = (IdentifiedUser) identifiedUser.get();
+    RevisionEdit edit = new RevisionEdit(me, ps.getId());
+    try {
+      RevWalk rw = new RevWalk(repo);
+      BatchRefUpdate ru = repo.getRefDatabase().newBatchUpdate();
+      try {
+        RevCommit commit = edit.getCommit(repo, rw);
+        if (commit == null) {
+          throw new NoSuchChangeException(change.getId());
+        }
+        ru.addCommand(new ReceiveCommand(commit, ObjectId.zeroId(), edit
+            .getRefName()));
+        ru.execute(rw, NullProgressMonitor.INSTANCE);
+      } finally {
+        rw.release();
+      }
+      for (ReceiveCommand cmd : ru.getCommands()) {
+        if (cmd.getResult() != ReceiveCommand.Result.OK) {
+          throw new IOException("failed to delete: " + cmd);
+        }
+      }
+    } finally {
+      repo.close();
+    }
+  }
+
+  public Map<PatchSet.Id, PatchSet> read(Change change)
+      throws InvalidChangeOperationException,
+      NoSuchChangeException, IOException {
+    final Repository repo;
+    try {
+      repo = gitManager.openRepository(change.getProject());
+    } catch (RepositoryNotFoundException e) {
+      throw new NoSuchChangeException(change.getId(), e);
+    }
+
+    try {
+      IdentifiedUser me = identifiedUser.get();
+      Map<String, Ref> names =
+          repo.getRefDatabase().getRefs(
+              RevisionEdit.getChangeEditsRef(me, change.getId()).toString());
+      Map<PatchSet.Id, PatchSet> result = new HashMap<>(names.size());
+      for (Map.Entry<String, Ref> entry : names.entrySet()) {
+        PatchSet.Id psid = new PatchSet.Id(change.getId(),
+            Integer.valueOf(entry.getKey()));
+        RevisionEdit edit = new RevisionEdit(me, psid, entry.getValue());
+        result.put(psid, edit.getPatchSet(repo));
+      }
+      return Collections.unmodifiableMap(result);
+    } finally {
+      repo.close();
+    }
+  }
+
+  public RefUpdate.Result deleteContent(Change change, PatchSet ps, String file)
+      throws InvalidChangeOperationException, NoSuchChangeException,
+      IOException {
+    op = TreeOperation.DELETE_ENTRY;
+    return modify(change, ps, file, null);
+  }
+
+  public RefUpdate.Result edit(Change change, PatchSet ps, String file,
+      byte[] content)
+      throws InvalidChangeOperationException, NoSuchChangeException,
+      IOException {
+    op = TreeOperation.CHANGE_ENTRY;
+    return modify(change, ps, file, content);
+  }
+
+  public RefUpdate.Result restore(Change change, PatchSet ps, String file)
+      throws InvalidChangeOperationException, NoSuchChangeException,
+      IOException {
+    op = TreeOperation.RESTORE_ENTRY;
+    return modify(change, ps, file, null);
+  }
+
+  private RefUpdate.Result modify(Change change, PatchSet ps, String file,
+      byte[] content) throws IOException, NoSuchChangeException,
+      MissingObjectException, IncorrectObjectTypeException,
+      InvalidChangeOperationException {
+    final Repository repo;
+    try {
+      repo = gitManager.openRepository(change.getProject());
+    } catch (RepositoryNotFoundException e) {
+      throw new NoSuchChangeException(change.getId(), e);
+    }
+
+    IdentifiedUser me = identifiedUser.get();
+    RevisionEdit edit = new RevisionEdit(me, ps.getId());
+    try {
+      RevWalk rw = new RevWalk(repo);
+      ObjectInserter inserter = repo.newObjectInserter();
+      ObjectReader reader = repo.newObjectReader();
+      try {
+        RevCommit prevEdit = edit.getCommit(repo, rw);
+        RevCommit base = rw.parseCommit(ObjectId.fromString(
+            ps.getRevision().get()));
+        ObjectId oldObjectId = prevEdit;
+        if (prevEdit == null) {
+          prevEdit = base;
+          oldObjectId = ObjectId.zeroId();
+        }
+        ObjectId newTree = writeNewTree(repo, rw, inserter,
+            prevEdit, reader, file, content, base);
+        if (ObjectId.equals(newTree, prevEdit.getTree())) {
+          throw new InvalidChangeOperationException("no changes were made");
+        }
+
+        return update(repo, me, edit, rw, prevEdit, base, oldObjectId,
+            createCommit(me, inserter, prevEdit, base, newTree));
+      } finally {
+        rw.release();
+        inserter.release();
+        reader.release();
+      }
+    } finally {
+      repo.close();
+    }
+  }
+
+  private ObjectId createCommit(IdentifiedUser me, ObjectInserter inserter,
+      RevCommit prevEdit, RevCommit base, ObjectId tree) throws IOException {
+    CommitBuilder builder = new CommitBuilder();
+    builder.setTreeId(tree);
+    builder.setParentIds(base.getParents());
+    builder.setAuthor(prevEdit.getAuthorIdent());
+    builder.setCommitter(getCommitterIdent(me));
+    builder.setMessage(prevEdit.getFullMessage());
+    ObjectId newEdit = inserter.insert(builder);
+    inserter.flush();
+    return newEdit;
+  }
+
+  private RefUpdate.Result update(Repository repo, IdentifiedUser me,
+      RevisionEdit edit, RevWalk rw, RevCommit prevEdit, RevCommit base,
+      ObjectId oldObjectId, ObjectId newEdit) throws IOException {
+    RefUpdate ru = repo.updateRef(edit.getRefName());
+    ru.setExpectedOldObjectId(oldObjectId);
+    ru.setNewObjectId(newEdit);
+    ru.setRefLogIdent(getRefLogIdent(me));
+    ru.setForceUpdate(true);
+    RefUpdate.Result res = ru.update(rw);
+    if (res != RefUpdate.Result.NEW &&
+        res != RefUpdate.Result.FORCED) {
+      throw new IOException("update failed: " + ru);
+    }
+    return res;
+  }
+
+  private ObjectId writeNewTree(Repository repo, RevWalk rw, ObjectInserter ins,
+      RevCommit prevEdit, ObjectReader reader, String fileName, byte[] content,
+      RevCommit base)
+      throws IOException, InvalidChangeOperationException {
+    DirCache newTree = createTree(reader, prevEdit);
+    editTree(
+        repo,
+        base,
+        newTree.editor(),
+        ins,
+        fileName,
+        content);
+    return newTree.writeTree(ins);
+  }
+
+  private void editTree(Repository repo, RevCommit base, DirCacheEditor dce,
+      ObjectInserter ins, String path, byte[] content)
+      throws IOException, InvalidChangeOperationException {
+    switch (op) {
+      case CHANGE_ENTRY:
+      case RESTORE_ENTRY:
+        dce.add(getPathEdit(repo, base, path, ins, content));
+        break;
+      case DELETE_ENTRY:
+        dce.add(new DeletePath(path));
+        break;
+      default:
+        throw new IllegalStateException("unknown tree operation");
+    }
+    dce.finish();
+  }
+
+  private PathEdit getPathEdit(Repository repo, RevCommit base, String path,
+      ObjectInserter i, byte[] c)
+      throws IOException, InvalidChangeOperationException {
+    final ObjectId oid = op == TreeOperation.CHANGE_ENTRY
+        ? i.insert(Constants.OBJ_BLOB, c)
+        : getObjectIdForRestoreOperation(repo, base, path);
+    return new PathEdit(path) {
+      @Override
+      public void apply(DirCacheEntry ent) {
+        ent.setFileMode(FileMode.REGULAR_FILE);
+        ent.setObjectId(oid);
+      }
+    };
+  }
+
+  private ObjectId getObjectIdForRestoreOperation(Repository repo,
+      RevCommit base, String f)
+      throws IOException, InvalidChangeOperationException {
+    RevWalk rw = new RevWalk(repo);
+    try {
+      TreeWalk tw = TreeWalk.forPath(rw.getObjectReader(), f,
+          base.getTree().getId());
+      //  If the file does not exist in the edit, still allow it to be
+      // restored from the base of the edit.
+      if (tw == null) {
+        tw = TreeWalk.forPath(rw.getObjectReader(), f,
+            rw.parseCommit(base.getParent(0)).getTree().getId());
+      }
+      if (tw == null) {
+        throw new InvalidChangeOperationException(
+            String.format("can not restore path: %s", f));
+      }
+      return tw.getObjectId(0);
+    } finally {
+      rw.release();
+    }
+  }
+
+  private static DirCache createTree(ObjectReader reader, RevCommit prevEdit)
+      throws IOException {
+    DirCache dc = DirCache.newInCore();
+    DirCacheBuilder b = dc.builder();
+    b.addTree(new byte[0], DirCacheEntry.STAGE_0, reader, prevEdit.getTree()
+        .getId());
+    b.finish();
+    return dc;
+  }
+
+  private PersonIdent getCommitterIdent(IdentifiedUser user) {
+    return user.newCommitterIdent(myIdent.getWhen(), myIdent.getTimeZone());
+  }
+
+  private PersonIdent getRefLogIdent(IdentifiedUser user) {
+    return user.newRefLogIdent(myIdent.getWhen(), myIdent.getTimeZone());
+  }
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c81aaf66_33e7e858",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/LabelVote.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-11T21:01:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8357bd3_72dd7882",
+      "range": {
+        "startLine": 40,
+        "startChar": 19,
+        "endLine": 40,
+        "endChar": 39
+      },
+      "revId": "cb07ffa9cc4bbf1e86f6387ab9cc9b5165d2dd8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8357bd3_32e7f058",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/LabelVote.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2013-12-11T20:59:10Z",
       "side": 1,
       "message": "I prefer\n\n  if (o instanceof LabelVote) {\n    LabelVote l \u003d (LabelVote) o;\n    ...\n  }\n  return false;",
+      "range": {
+        "startLine": 97,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 5
+      },
+      "revId": "cb07ffa9cc4bbf1e86f6387ab9cc9b5165d2dd8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c81aaf66_13ecec38",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/LabelVote.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-11T21:01:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8357bd3_32e7f058",
       "range": {
         "startLine": 97,
         "startChar": 4,

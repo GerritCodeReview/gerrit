@@ -260,17 +260,22 @@ public class SideBySide2 extends Screen {
     });
     diffTable.sidePanel.adjustGutters(cmB);
 
-    int line = 0;
-    if (!diffChunks.isEmpty()) {
-      DiffChunkInfo d = diffChunks.get(0);
-      CodeMirror cm = getCmFromSide(d.getSide());
-      line = d.getStart();
-      if (cm.lineAtHeight(height - 20) < line) {
-        cm.scrollToY(cm.heightAtLine(line, "local") - 0.5 * height);
+    if (diff.meta_b() != null) {
+      int line = 0;
+      if (!diffChunks.isEmpty()) {
+        DiffChunkInfo d = diffChunks.get(0);
+        CodeMirror cm = getCmFromSide(d.getSide());
+        line = d.getStart();
+        if (cm.lineAtHeight(height - 20) < line) {
+          cm.scrollToY(cm.heightAtLine(line, "local") - 0.5 * height);
+        }
       }
+      cmB.setCursor(LineCharacter.create(line));
+      cmB.focus();
+    } else {
+      cmA.setCursor(LineCharacter.create(0));
+      cmA.focus();
     }
-    cmB.setCursor(LineCharacter.create(line));
-    cmB.focus();
 
     prefetchNextFile();
   }

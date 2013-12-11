@@ -105,7 +105,7 @@ public abstract class RefPatternMatcher {
 
       String u;
       if (isRE(template.getPattern())) {
-        u = username.replace(".", "\\.");
+        u = Pattern.quote(username);
       } else {
         u = username;
       }

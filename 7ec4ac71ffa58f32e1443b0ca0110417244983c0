@@ -46,6 +46,30 @@
       "revId": "7ec4ac71ffa58f32e1443b0ca0110417244983c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2378ce6e_36eff82a",
+        "filename": "Documentation/cmd-create-branch.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2013-12-11T08:41:57Z",
+      "side": 1,
+      "message": "We have followed the same naming convention for ssh command as has been used until now like create-project, create-group, create-account. Please suggest.",
+      "parentUuid": "238feeae_be0bd93c",
+      "range": {
+        "startLine": 6,
+        "startChar": 7,
+        "endLine": 6,
+        "endChar": 20
+      },
+      "revId": "7ec4ac71ffa58f32e1443b0ca0110417244983c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

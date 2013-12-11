@@ -138,6 +138,10 @@ public class CodeMirror extends JavaScriptObject {
     return this.heightAtLine(line, mode);
   }-*/;
 
+  public final native Rect charCoords(LineCharacter pos, String mode) /*-{
+    return this.charCoords(pos, mode);
+  }-*/;
+
   public final native CodeMirrorDoc getDoc() /*-{
     return this.getDoc();
   }-*/;
@@ -194,6 +198,12 @@ public class CodeMirror extends JavaScriptObject {
   public final native void on(String event, GutterClickHandler handler) /*-{
     this.on(event, $entry(function(cm, l, g, e) {
       handler.@net.codemirror.lib.CodeMirror.GutterClickHandler::handle(Lnet/codemirror/lib/CodeMirror;ILjava/lang/String;Lcom/google/gwt/dom/client/NativeEvent;)(cm, l, g, e);
+    }));
+  }-*/;
+
+  public final native void on(String event, BeforeSelectionChangeHandler handler) /*-{
+    this.on(event, $entry(function(cm, e) {
+      handler.@net.codemirror.lib.CodeMirror.BeforeSelectionChangeHandler::handle(Lnet/codemirror/lib/CodeMirror;Lnet/codemirror/lib/LineCharacter;Lnet/codemirror/lib/LineCharacter;)(cm,e.anchor,e.head);
     }));
   }-*/;
 
@@ -340,5 +350,9 @@ public class CodeMirror extends JavaScriptObject {
   public interface GutterClickHandler {
     public void handle(CodeMirror instance, int line, String gutter,
         NativeEvent clickEvent);
+  }
+
+  public interface BeforeSelectionChangeHandler {
+    public void handle(CodeMirror instance, LineCharacter anchor, LineCharacter head);
   }
 }

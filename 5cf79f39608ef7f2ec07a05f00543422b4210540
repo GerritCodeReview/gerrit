@@ -22,6 +22,29 @@
       "revId": "5cf79f39608ef7f2ec07a05f00543422b4210540",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e39876f7_dce7cd53",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirror.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-12-11T13:18:26Z",
+      "side": 1,
+      "message": "Rect cannot be resolved to a type",
+      "range": {
+        "startLine": 141,
+        "startChar": 22,
+        "endLine": 141,
+        "endChar": 26
+      },
+      "revId": "5cf79f39608ef7f2ec07a05f00543422b4210540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

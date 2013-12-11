@@ -49,6 +49,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -387,7 +388,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         // User requested delete of this label.
         if (c != null) {
           if (c.getValue() != 0) {
-            labelDelta.add("-" + normName);
+            addLabelDelta(normName, (short) 0);
           }
           del.add(c);
         }
@@ -395,7 +396,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         c.setValue(ent.getValue());
         c.setGranted(timestamp);
         upd.add(c);
-        labelDelta.add(format(normName, c.getValue()));
+        addLabelDelta(normName, c.getValue());
         categories.put(normName, c.getValue());
       } else if (c != null && c.getValue() == ent.getValue()) {
         current.put(normName, c);
@@ -407,7 +408,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
             ent.getValue(), TimeUtil.nowTs());
         c.setGranted(timestamp);
         ins.add(c);
-        labelDelta.add(format(normName, c.getValue()));
+        addLabelDelta(normName, c.getValue());
         categories.put(normName, c.getValue());
       }
     }
@@ -467,14 +468,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     return current;
   }
 
-  private static String format(String name, short value) {
-    StringBuilder sb = new StringBuilder(name.length() + 2);
-    sb.append(name);
-    if (value >= 0) {
-      sb.append('+');
-    }
-    sb.append(value);
-    return sb.toString();
+  private void addLabelDelta(String name, short value) {
+    labelDelta.add(new LabelVote(name, value).format());
   }
 
   private boolean insertMessage(RevisionResource rsrc, String msg)

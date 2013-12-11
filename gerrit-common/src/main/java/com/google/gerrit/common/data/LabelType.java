@@ -33,14 +33,18 @@ public class LabelType {
     return new LabelType(name, values);
   }
 
-  private static String checkName(String name) {
+  public static String checkName(String name) {
+    if (name == null || name.isEmpty()) {
+      throw new IllegalArgumentException("Empty label name");
+    }
     if ("SUBM".equals(name)) {
       throw new IllegalArgumentException(
           "Reserved label name \"" + name + "\"");
     }
     for (int i = 0; i < name.length(); i++) {
       char c = name.charAt(i);
-      if (!((c >= 'a' && c <= 'z') ||
+      if ((i == 0 && c == '-') ||
+          !((c >= 'a' && c <= 'z') ||
             (c >= 'A' && c <= 'Z') ||
             (c >= '0' && c <= '9') ||
             c == '-')) {

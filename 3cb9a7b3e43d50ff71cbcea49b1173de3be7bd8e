@@ -109,6 +109,24 @@
     },
     {
       "key": {
+        "uuid": "238feeae_de83453c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-11T15:03:39Z",
+      "side": 1,
+      "message": "Patch sets are tricky. As Shawn has said elsewhere, the goal is to stop identifying them primarily based on sequential numbers; the idea is to identify them based on the SHA-1 of the patch set commit. (Numbers can still be inferred from history.)\n\nInline comments will be stored in the notes pointing to the patch set SHA-1; deleting comments means deleting them from the notes file. (Exact format TBD, though note that using the notes file also gets rid of the ugliness we currently have with the \"side\" boolean in PatchLineComment.)\n\nThe obvious way to delete patch sets would be to delete the note, but when I talked this through with Shawn last week there were some corner cases that might make creating/deleting empty notes files trickier, I don\u0027t remember offhand.\n\nAnd at the end of the day nothing is preventing us from punting and applying a Delete-Patch-Set footer as a tombstone.",
+      "parentUuid": "436302c4_572aac91",
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d5c277_27209ab2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

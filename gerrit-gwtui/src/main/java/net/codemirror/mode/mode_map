@@ -1,6 +1,7 @@
 clike:
-text/x-csrc
 text/x-c
+text/x-h
+text/x-csrc
 text/x-chdr
 text/x-c++src
 text/x-c++hdr

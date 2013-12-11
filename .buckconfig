@@ -15,3 +15,7 @@
 
 [project]
   ignore = .git
+
+[cache]
+  mode = dir
+  dir = buck-out/cache

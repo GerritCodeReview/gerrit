@@ -22,6 +22,7 @@ import com.google.gerrit.client.account.AccountCapabilities;
 import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.admin.ProjectScreen;
 import com.google.gerrit.client.api.ApiGlue;
+import com.google.gerrit.client.api.PluginLoader;
 import com.google.gerrit.client.changes.ChangeConstants;
 import com.google.gerrit.client.changes.ChangeListScreen;
 import com.google.gerrit.client.config.ConfigServerApi;
@@ -49,12 +50,8 @@ import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.aria.client.Roles;
-import com.google.gwt.core.client.Callback;
-import com.google.gwt.core.client.CodeDownloadException;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.ScriptInjector;
 import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -84,12 +81,9 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.user.client.UserAgent;
 import com.google.gwtexpui.user.client.ViewSite;
-import com.google.gwtjsonrpc.client.CallbackHandle;
 import com.google.gwtjsonrpc.client.JsonDefTarget;
 import com.google.gwtjsonrpc.client.JsonUtil;
 import com.google.gwtjsonrpc.client.XsrfManager;
-import com.google.gwtjsonrpc.client.impl.ResultDeserializer;
-import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
 
 import java.util.HashMap;
@@ -571,60 +565,13 @@ public class Gerrit implements EntryPoint {
     }
 
     saveDefaultTheme();
-    loadPlugins(hpd, token);
+    PluginLoader.load(hpd.plugins, token);
   }
 
   private void saveDefaultTheme() {
     THEMER.init(Document.get().getElementById("gerrit_sitecss"),
         Document.get().getElementById("gerrit_header"),
         Document.get().getElementById("gerrit_footer"));
-  }
-
-  private void loadPlugins(HostPageData hpd, final String token) {
-    if (hpd.plugins != null && !hpd.plugins.isEmpty()) {
-      for (final String url : hpd.plugins) {
-        ScriptInjector.fromUrl(url)
-            .setWindow(ScriptInjector.TOP_WINDOW)
-            .setCallback(new Callback<Void, Exception>() {
-              @Override
-              public void onSuccess(Void result) {
-              }
-
-              @Override
-              public void onFailure(Exception reason) {
-                ErrorDialog d;
-                if (reason instanceof CodeDownloadException) {
-                  d = new ErrorDialog(M.cannotDownloadPlugin(url));
-                } else {
-                  d = new ErrorDialog(M.pluginFailed(url));
-                }
-                d.center();
-              }
-            }).inject();
-      }
-    }
-
-    CallbackHandle<Void> cb = new CallbackHandle<Void>(
-        new ResultDeserializer<Void>() {
-          @Override
-          public Void fromResult(JavaScriptObject responseObject) {
-            return null;
-          }
-        },
-        new AsyncCallback<Void>() {
-          @Override
-          public void onFailure(Throwable caught) {
-          }
-
-          @Override
-          public void onSuccess(Void result) {
-            display(token);
-          }
-        });
-    cb.install();
-    ScriptInjector.fromString(cb.getFunctionName() + "();")
-        .setWindow(ScriptInjector.TOP_WINDOW)
-        .inject();
   }
 
   public static void refreshMenuBar() {

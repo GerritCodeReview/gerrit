@@ -1353,10 +1353,13 @@ driven plugins:
 </manifestEntries>
 ----
 
-It is important that the module name that is provided to the
-`GwtPlugin` matches the GWT module contained in the plugin. The name
-of the GWT module can be explicitly set in the GWT module file by
-specifying the `rename-to` attribute on the module.
+The name that is provided to the `GwtPlugin` must match the GWT
+module name compiled into the plugin. The name of the GWT module
+can be explicitly set in the GWT module XML file by specifying
+the `rename-to` attribute on the module. It is important that the
+module name be unique across all plugins installed on the server,
+as the module name determines the JavaScript namespace used by the
+compiled plugin code.
 
 [source,xml]
 ----
@@ -1364,14 +1367,14 @@ specifying the `rename-to` attribute on the module.
 ----
 
 The actual GWT code must be implemented in a class that extends
-`com.google.gerrit.plugin.client.Plugin`:
+`com.google.gerrit.plugin.client.PluginEntryPoint`:
 
 [source,java]
 ----
-public class HelloPlugin extends Plugin {
+public class HelloPlugin extends PluginEntryPoint {
 
   @Override
-  public void onModuleLoad() {
+  public void onPluginLoad() {
     // Create the dialog box
     final DialogBox dialogBox = new DialogBox();
 

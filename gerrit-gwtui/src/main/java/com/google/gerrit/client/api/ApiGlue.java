@@ -15,6 +15,8 @@
 package com.google.gerrit.client.api;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.rpc.NativeString;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.History;
@@ -24,28 +26,35 @@ public class ApiGlue {
   private static String pluginName;
 
   public static void init() {
-    init0();
+    init0(GWT.getHostPageBaseURL(), NativeString.TYPE);
     ActionContext.init();
+    Plugin.init();
     addHistoryHook();
   }
 
-  private static native void init0() /*-{
-    var serverUrl = @com.google.gwt.core.client.GWT::getHostPageBaseURL()();
-    var Plugin = function (name){this.name = name};
-    var Gerrit = {
+  private static native void init0(String serverUrl, JavaScriptObject JsonString) /*-{
+    $wnd.Gerrit = {
+      JsonString: JsonString,
+      events: {},
+      plugins: {},
+      change_actions: {},
+      revision_actions: {},
+      project_actions: {},
+
       getPluginName: @com.google.gerrit.client.api.ApiGlue::getPluginName(),
       install: function (f) {
-        var p = new Plugin(this.getPluginName());
-        @com.google.gerrit.client.api.ApiGlue::install(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gerrit/client/api/JsUiPlugin;)(f,p);
+        var p = this._getPluginByUrl(@com.google.gerrit.client.api.PluginName::getCallerUrl()());
+        @com.google.gerrit.client.api.ApiGlue::install(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gerrit/client/api/Plugin;)(f,p);
+      },
+      installGwt: function(u){return this._getPluginByUrl(u)},
+      _getPluginByUrl: function(u) {
+        return u.indexOf(serverUrl) == 0
+          ? this.plugins[u.substring(serverUrl.length)]
+          : this.plugins[u]
       },
 
       go: @com.google.gerrit.client.api.ApiGlue::go(Ljava/lang/String;),
       refresh: @com.google.gerrit.client.api.ApiGlue::refresh(),
-
-      events: {},
-      change_actions: {},
-      revision_actions: {},
-      project_actions: {},
 
       on: function (e,f){(this.events[e] || (this.events[e]=[])).push(f)},
       onAction: function (t,n,c){this._onAction(this.getPluginName(),t,n,c)},
@@ -81,34 +90,7 @@ public class ApiGlue {
         }
       },
       'delete': function(u,b){@com.google.gerrit.client.api.ActionContext::delete(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;)(this._api(u),b)},
-      JsonString: @com.google.gerrit.client.rpc.NativeString::TYPE,
     };
-
-    Plugin.prototype = {
-      getPluginName: function(){return this.name},
-      go: @com.google.gerrit.client.api.ApiGlue::go(Ljava/lang/String;),
-      refresh: Gerrit.refresh,
-      onAction: function(t,n,c) {Gerrit._onAction(this.name,t,n,c)},
-
-      url: function (d) {
-        var u = serverUrl + 'plugins/' + this.name + '/';
-        if (d && d.length > 0) u += d.charAt(0)=='/' ? d.substring(1) : d;
-        return u;
-      },
-
-      _api: function(d) {
-        var u = 'plugins/' + this.name + '/';
-        if (d && d.length > 0) u += d.charAt(0)=='/' ? d.substring(1) : d;
-        return @com.google.gerrit.client.rpc.RestApi::new(Ljava/lang/String;)(u);
-      },
-
-      get: function(u,b){@com.google.gerrit.client.api.ActionContext::get(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;)(this._api(u),b)},
-      post: function(u,i,b){@com.google.gerrit.client.api.ActionContext::post(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(this._api(u),i,b)},
-      put: function(u,i,b){@com.google.gerrit.client.api.ActionContext::put(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(this._api(u),i,b)},
-      'delete': function(u,b){@com.google.gerrit.client.api.ActionContext::delete(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;)(this._api(u),b)},
-    };
-
-    $wnd.Gerrit = Gerrit;
   }-*/;
 
   /** Install deprecated {@code gerrit_addHistoryHook()} function. */
@@ -119,17 +101,25 @@ public class ApiGlue {
      };
   }-*/;
 
-  private static void install(JavaScriptObject cb, JsUiPlugin p) {
+  private static void install(JavaScriptObject cb, Plugin p) throws Exception {
     try {
       pluginName = p.name();
       invoke(cb, p);
+      p._initialized();
+    } catch (Exception e) {
+      p.failure(e);
+      throw e;
     } finally {
       pluginName = null;
+      PluginLoader.loaded();
     }
   }
 
   private static final String getPluginName() {
-    return pluginName != null ? pluginName : PluginName.get();
+    if (pluginName != null) {
+      return pluginName;
+    }
+    return PluginName.fromUrl(PluginName.getCallerUrl());
   }
 
   private static final void go(String urlOrToken) {

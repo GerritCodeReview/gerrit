@@ -345,7 +345,7 @@ public class ChangeScreen extends Screen
                   List<ChangeInfo> d = new ArrayList<ChangeInfo>();
                   for (CommitInfo p : Natives.asList(self.commit().parents())) {
                     ChangeAndCommit pc = m.get(p.commit());
-                    if (pc != null) {
+                    if (pc != null && pc.has_change_number()) {
                       ChangeInfo i = new ChangeInfo();
                       load(pc, i);
                       d.add(i);
@@ -364,7 +364,9 @@ public class ChangeScreen extends Screen
                 List<ChangeInfo> n = new ArrayList<ChangeInfo>();
                 for (int i = 0; i < info.changes().length(); i++) {
                   ChangeAndCommit c = info.changes().get(i);
-                  if (c.commit() != null && c.commit().parents() != null) {
+                  if (c.has_change_number()
+                      && c.commit() != null
+                      && c.commit().parents() != null) {
                     for (int j = 0; j < c.commit().parents().length(); j++) {
                       CommitInfo p = c.commit().parents().get(j);
                       if (mine.contains(p.commit())) {

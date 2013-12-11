@@ -908,6 +908,8 @@ to create a library of comment links with `html` set that are not
 user-supplied and thus can be verified to be XSS-free, but are only
 enabled for a subset of projects.
 +
+By default, true.
++
 Note that the names and contents of disabled sections are visible even
 to anonymous users via the
 link:rest-api-projects.html#get-config[REST API].

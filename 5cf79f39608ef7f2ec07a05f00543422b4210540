@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2378ce6e_76125070",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-11T10:12:12Z",
+      "side": 1,
+      "message": "This sounds very cool :-)\n\nI failed to try out this change since it doesn\u0027t build for me:\n\n  Compiling module com.google.gerrit.GerritGwtUI\n   Validating units:\n      [ERROR] Errors in \u0027jar:file:/Users/d044411/git/gerrit/buck-out/gen/gerrit-gwtui/lib__ui_module__output/ui_module.jar!/com/google/gerrit/client/diff/SideBySide2.java\u0027\n         [ERROR] Line 91: The import net.codemirror.lib.Rect cannot be resolved\n         [ERROR] Line 426: Rect cannot be resolved to a type\n         [ERROR] Line 426: The method charCoords(LineCharacter, String) from the type CodeMirror refers to the missing type Rect\n      [ERROR] Errors in \u0027jar:file:/Users/d044411/git/gerrit/buck-out/gen/gerrit-gwtui/lib__ui_module__output/ui_module.jar!/net/codemirror/lib/CodeMirror.java\u0027\n         [ERROR] Line 141: Rect cannot be resolved to a type\n         [ERROR] Line 141: No source code is available for type Rect; did you forget to inherit a required module?\n   [ERROR] Aborting compile due to errors in some input files\n\nBUILD FAILED: //gerrit-gwtui:ui_opt failed with exit code 1:",
+      "range": {
+        "startLine": 10,
+        "startChar": 6,
+        "endLine": 11,
+        "endChar": 28
+      },
+      "revId": "5cf79f39608ef7f2ec07a05f00543422b4210540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,9 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
@@ -41,6 +39,7 @@ import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gerrit.util.cli.CmdLineParser;
@@ -117,18 +116,8 @@ public class ReviewCommand extends SshCommand {
 
   @Option(name = "--label", aliases = "-l", usage = "custom label(s) to assign", metaVar = "LABEL=VALUE")
   void addLabel(final String token) {
-    List<String> parts = ImmutableList.copyOf(Splitter.on('=').split(token));
-    if (parts.size() != 2) {
-      throw new IllegalArgumentException("invalid custom label " + token);
-    }
-    short value;
-    try {
-      value = Short.parseShort(parts.get(1));
-    } catch (IllegalArgumentException e) {
-      throw new IllegalArgumentException("invalid custom label value "
-          + parts.get(1));
-    }
-    customLabels.put(parts.get(0), value);
+    LabelVote v = LabelVote.parse(token);
+    customLabels.put(v.getLabel(), v.getValue());
   }
 
   @Inject

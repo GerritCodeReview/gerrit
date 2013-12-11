@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8357bd3_72dd7882",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/LabelVote.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-11T20:59:10Z",
+      "side": 1,
+      "message": "\u00270\u0027 \u003c\u003d c \u0026\u0026 c \u003c\u003d \u00279\u0027",
+      "range": {
+        "startLine": 40,
+        "startChar": 19,
+        "endLine": 40,
+        "endChar": 39
+      },
+      "revId": "cb07ffa9cc4bbf1e86f6387ab9cc9b5165d2dd8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8357bd3_32e7f058",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/LabelVote.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-11T20:59:10Z",
+      "side": 1,
+      "message": "I prefer\n\n  if (o instanceof LabelVote) {\n    LabelVote l \u003d (LabelVote) o;\n    ...\n  }\n  return false;",
+      "range": {
+        "startLine": 97,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 5
+      },
+      "revId": "cb07ffa9cc4bbf1e86f6387ab9cc9b5165d2dd8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

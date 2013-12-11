@@ -340,6 +340,24 @@
     },
     {
       "key": {
+        "uuid": "438a229e_ff88ff58",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-12-11T16:11:06Z",
+      "side": 1,
+      "message": "I agree with the others here in that the Gerrit- prefix is too much (considering it is already in the ref name too).",
+      "parentUuid": "03c74ad6_0550f2ee",
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3c0d2c1_43f946f4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -518,6 +536,30 @@
       "side": 1,
       "message": "Sigh. Good arguments against this format:\n\n. Code-Review-2 is a valid label name and therefore ambiguous. (Also true of -Code-Review but I\u0027m more fine disallowing label names starting with - than ending with -#.)\n\n. ReviewCommand already uses the Code-Review\u003d-2 format. People have already complained about the format of \"gerrit review\" arguments changing when we did this first migration.\n\nWith this in mind I\u0027m definitely leaning towards Label\u003dValue for multi-valued labels and Label/-Label once we move to a world of boolean labels.\n\n(Though boolean labels may be trickier than we think: another thing we discussed in person was that there are UI challenges associated with going to all yes/no labels. For example, if you present one checkbox per label on the review screen, how does the user know that \"Verified\" and \"Breaks build\" are logically mutually exclusive?)",
       "parentUuid": "438a229e_7ff94ff4",
+      "range": {
+        "startLine": 28,
+        "startChar": 15,
+        "endLine": 28,
+        "endChar": 29
+      },
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "238feeae_fe880159",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-12-11T16:11:06Z",
+      "side": 1,
+      "message": "Another options would be to make every Label at the top level with a prefix i.e.\n\n Label-Code-Review: -1\n Label-Verified: +1\n .. etc..",
+      "parentUuid": "438a229e_ff055f28",
       "range": {
         "startLine": 28,
         "startChar": 15,

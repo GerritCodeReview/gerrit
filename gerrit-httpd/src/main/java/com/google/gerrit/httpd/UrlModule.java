@@ -21,6 +21,7 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.httpd.raw.CatServlet;
 import com.google.gerrit.httpd.raw.HostPageServlet;
 import com.google.gerrit.httpd.raw.LegacyGerritServlet;
+import com.google.gerrit.httpd.raw.ProjectDocServlet;
 import com.google.gerrit.httpd.raw.RobotsServlet;
 import com.google.gerrit.httpd.raw.SshInfoServlet;
 import com.google.gerrit.httpd.raw.StaticServlet;
@@ -55,10 +56,12 @@ import javax.servlet.http.HttpServletResponse;
 class UrlModule extends ServletModule {
   static class UrlConfig {
     private final boolean deprecatedQuery;
+    private final boolean enableProjectDocs;
 
     @Inject
     UrlConfig(@GerritServerConfig Config cfg) {
       deprecatedQuery = cfg.getBoolean("site", "enableDeprecatedQuery", true);
+      enableProjectDocs = cfg.getBoolean("site", "enableProjectDocs", false);
     }
   }
 
@@ -85,6 +88,9 @@ class UrlModule extends ServletModule {
     serve("/signout").with(HttpLogoutServlet.class);
     serve("/ssh_info").with(SshInfoServlet.class);
     serve("/static/*").with(StaticServlet.class);
+    if (cfg.enableProjectDocs) {
+      serve("/doc/*").with(ProjectDocServlet.class);
+    }
 
     serve("/Main.class").with(notFound());
     serve("/com/google/gerrit/launcher/*").with(notFound());

@@ -330,17 +330,26 @@ public class RelatedChanges extends TabPanel {
     final native boolean has_revision_number()
     /*-{ return this.hasOwnProperty('_revision_number') }-*/;
 
+    final native boolean has_current_revision_number()
+    /*-{ return this.hasOwnProperty('_current_revision_number') }-*/;
+
     final native int _change_number()
     /*-{ return this._change_number }-*/;
 
     final native int _revision_number()
     /*-{ return this._revision_number }-*/;
 
+    final native int _current_revision_number()
+    /*-{ return this._current_revision_number }-*/;
+
     final native void set_change_number(int n)
     /*-{ this._change_number=n; }-*/;
 
     final native void set_revision_number(int n)
     /*-{ this._revision_number=n; }-*/;
+
+    final native void set_current_revision_number(int n)
+    /*-{ this._current_revision_number=n; }-*/;
 
     protected ChangeAndCommit() {
     }

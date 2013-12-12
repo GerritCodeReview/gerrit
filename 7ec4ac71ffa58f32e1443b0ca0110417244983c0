@@ -94,6 +94,30 @@
       "revId": "7ec4ac71ffa58f32e1443b0ca0110417244983c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c849cfa5_9b14cb5a",
+        "filename": "Documentation/cmd-create-branch.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-12T14:50:13Z",
+      "side": 1,
+      "message": "I\u0027m not going to use this feature, so I don\u0027t mind either way.\n\nIf you want to spend the extra effort to change it, go ahead.   Otherwise I\u0027m OK with it like this.\n\nWaiting for comments from the other maintainers...",
+      "parentUuid": "28434b82_9e14bd5a",
+      "range": {
+        "startLine": 6,
+        "startChar": 7,
+        "endLine": 6,
+        "endChar": 20
+      },
+      "revId": "7ec4ac71ffa58f32e1443b0ca0110417244983c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

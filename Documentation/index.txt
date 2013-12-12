@@ -27,6 +27,7 @@
 . link:access-control.html[Access Controls]
 .. link:config-labels.html[Review Labels]
 .. link:config-project-config.html[Access Controls Configuration Format]
+. link:project-documentation.html[Project Documentation]
 . Multi-project management
 .. Submodules
 .. Repo

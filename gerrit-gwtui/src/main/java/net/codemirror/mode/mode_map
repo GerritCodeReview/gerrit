@@ -52,4 +52,5 @@ text/xml
 application/xml
 
 application/x-javascript = application/javascript
+text/x-h = text/x-c++hdr
 text/x-java-source = text/x-java

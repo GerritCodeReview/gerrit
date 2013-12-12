@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance;
 
 import com.google.common.base.CharMatcher;
 
+import org.apache.http.Header;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.methods.HttpGet;
@@ -35,8 +36,11 @@ public class HttpSession {
     this.account = account;
   }
 
-  public HttpResponse get(String path) throws IOException {
+  public HttpResponse get(String path, Header... header) throws IOException {
     HttpGet get = new HttpGet(url + path);
+    for (Header h : header) {
+      get.setHeader(h);
+    }
     return new HttpResponse(getClient().execute(get));
   }
 

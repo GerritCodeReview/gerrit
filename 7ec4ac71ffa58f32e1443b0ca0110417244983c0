@@ -118,6 +118,30 @@
       "revId": "7ec4ac71ffa58f32e1443b0ca0110417244983c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28434b82_7e50d11f",
+        "filename": "Documentation/cmd-create-branch.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2013-12-12T16:15:24Z",
+      "side": 1,
+      "message": "We too are ok with it like this. If other maintainers are fine with it, then please help to merge it.",
+      "parentUuid": "c849cfa5_9b14cb5a",
+      "range": {
+        "startLine": 6,
+        "startChar": 7,
+        "endLine": 6,
+        "endChar": 20
+      },
+      "revId": "7ec4ac71ffa58f32e1443b0ca0110417244983c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

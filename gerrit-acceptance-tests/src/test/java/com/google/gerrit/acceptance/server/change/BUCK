@@ -1,0 +1,21 @@
+include_defs('//gerrit-acceptance-tests/tests.defs')
+
+acceptance_tests(
+  srcs = glob(['*IT.java']),
+  deps = [
+    ':util',
+    '//gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git:util',
+    '//lib:gwtjsonrpc',
+  ],
+)
+
+java_library(
+  name = 'util',
+  srcs = [
+    'ChangeAndCommit.java',
+    'RelatedInfo.java',
+  ],
+  deps = [
+    '//gerrit-server:server',
+  ],
+)

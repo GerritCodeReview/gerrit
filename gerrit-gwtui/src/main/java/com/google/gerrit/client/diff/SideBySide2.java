@@ -1151,6 +1151,7 @@ public class SideBySide2 extends Screen {
   private PaddingWidgetWrapper addPaddingWidget(CodeMirror cm,
       int line, double height, Unit unit, Integer index) {
     SimplePanel padding = new SimplePanel();
+    padding.setStyleName(DiffTable.style.padding());
     padding.getElement().getStyle().setHeight(height, unit);
     Configuration config = Configuration.create()
         .set("coverGutter", true)

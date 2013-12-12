@@ -20,6 +20,7 @@ import static com.google.inject.Stage.PRODUCTION;
 import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.httpd.auth.openid.OpenIdModule;
 import com.google.gerrit.httpd.plugins.HttpPluginModule;
+import com.google.gerrit.httpd.raw.ProjectDocLoader;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
@@ -322,6 +323,7 @@ public class WebAppInitializer extends GuiceServletContextListener
     modules.add(CacheBasedWebSession.module());
     modules.add(HttpContactStoreConnection.module());
     modules.add(new HttpPluginModule());
+    modules.add(new ProjectDocLoader.Module());
 
     AuthConfig authConfig = cfgInjector.getInstance(AuthConfig.class);
     if (authConfig.getAuthType() == AuthType.OPENID) {

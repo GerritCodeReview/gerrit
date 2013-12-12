@@ -83,3 +83,10 @@ Configuration
 
 * The number of accounts shown on the 'Become Any Account' login
 screen is increased from 5 to 100.
+
+
+Upgrades
+--------
+
+* Update gwtjsonrpc to 1.4
+* Update gwtorm to 1.8

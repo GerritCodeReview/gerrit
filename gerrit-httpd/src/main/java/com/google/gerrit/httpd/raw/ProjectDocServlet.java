@@ -15,8 +15,12 @@
 package com.google.gerrit.httpd.raw;
 
 import com.google.common.base.Strings;
+import com.google.common.cache.Cache;
 import com.google.common.collect.Maps;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.httpd.resources.Resource;
+import com.google.gerrit.httpd.resources.ResourceKey;
+import com.google.gerrit.httpd.resources.SmallResource;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.documentation.MarkdownFormatter;
@@ -26,6 +30,7 @@ import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
@@ -52,14 +57,17 @@ public class ProjectDocServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
   private final GitRepositoryManager repoManager;
+  private final Cache<ResourceKey, Resource> resourceCache;
   private final Provider<String> webUrl;
   private final String sshHost;
   private final int sshPort;
 
   @Inject
   ProjectDocServlet(GitRepositoryManager repoManager,
+      @Named(ProjectDocModule.PROJECT_DOC_RESOURCES) Cache<ResourceKey, Resource> cache,
       @CanonicalWebUrl Provider<String> webUrl, SshInfo sshInfo) {
     this.repoManager = repoManager;
+    this.resourceCache = cache;
     this.webUrl = webUrl;
 
     String sshHost = "review.example.com";
@@ -91,13 +99,13 @@ public class ProjectDocServlet extends HttpServlet {
     String uri = req.getRequestURI();
     String ctx = req.getContextPath() + "doc/";
     if (uri.length() <= ctx.length()) {
-      notFound(res);
+      Resource.NOT_FOUND.send(req, res);
       return;
     }
 
     String path = uri.substring(ctx.length() + 1);
     if ("".equals(path)) {
-      notFound(res);
+      Resource.NOT_FOUND.send(req, res);
       return;
     }
 
@@ -113,18 +121,28 @@ public class ProjectDocServlet extends HttpServlet {
     IdString project = IdString.fromUrl(path.substring(0, i));
     String file = IdString.fromUrl(path.substring(i + 1)).get();
     if (!file.endsWith(".html")) {
-      notFound(res);
+      Resource.NOT_FOUND.send(req, res);
       return;
     }
     file = file.substring(0, file.length() - 4) + "md";
 
     try {
-      Repository repo = repoManager.openRepository(new Project.NameKey(project.get()));
+      Project.NameKey projectName = new Project.NameKey(project.get());
+      Repository repo = repoManager.openRepository(projectName);
       try {
         RevWalk rw = new RevWalk(repo);
         try {
           String rev = IdString.fromUrl(req.getParameter("rev")).get();
-          RevCommit commit = rw.parseCommit(repo.resolve(rev != null ? rev : Constants.HEAD));
+          ObjectId revId = repo.resolve(rev != null ? rev : Constants.HEAD);
+
+          ProjectDocResourceKey key = new ProjectDocResourceKey(projectName, file, revId);
+          Resource rsc = resourceCache.getIfPresent(key);
+          if (rsc != null) {
+            rsc.send(req, res);
+            return;
+          }
+
+          RevCommit commit = rw.parseCommit(revId);
           RevTree tree = commit.getTree();
           TreeWalk tw = new TreeWalk(repo);
           try {
@@ -132,13 +150,15 @@ public class ProjectDocServlet extends HttpServlet {
             tw.setRecursive(true);
             tw.setFilter(PathFilter.create(file));
             if (!tw.next()) {
-              notFound(res);
+              resourceCache.put(key, Resource.NOT_FOUND);
+              Resource.NOT_FOUND.send(req, res);
               return;
             }
             ObjectId objectId = tw.getObjectId(0);
             ObjectLoader loader = repo.open(objectId);
             byte[] md = loader.getBytes(Integer.MAX_VALUE);
-            sendMarkdownAsHtml(new String(md, "UTF-8"), commit.getCommitTime(), res);
+            sendMarkdownAsHtml(new String(md, "UTF-8"), commit.getCommitTime(),
+                key, res);
           } finally {
             tw.release();
           }
@@ -149,13 +169,13 @@ public class ProjectDocServlet extends HttpServlet {
         repo.close();
       }
     } catch (RepositoryNotFoundException e) {
-      notFound(res);
+      Resource.NOT_FOUND.send(req, res);
       return;
     }
   }
 
-  private void sendMarkdownAsHtml(String md, int lastModified, HttpServletResponse res)
-      throws IOException {
+  private void sendMarkdownAsHtml(String md, int lastModified,
+      ResourceKey cacheKey, HttpServletResponse res) throws IOException {
     res.setDateHeader("Last-Modified", lastModified);
     Map<String, String> macros = Maps.newHashMap();
     macros.put("SSH_HOST", sshHost);
@@ -183,14 +203,12 @@ public class ProjectDocServlet extends HttpServlet {
 
     byte[] html = new MarkdownFormatter()
       .markdownToDocHtml(sb.toString(), "UTF-8");
+    resourceCache.put(cacheKey, new SmallResource(html)
+        .setContentType("text/html")
+        .setCharacterEncoding("UTF-8"));
     res.setContentType("text/html");
     res.setCharacterEncoding("UTF-8");
     res.setContentLength(html.length);
     res.getOutputStream().write(html);
-  }
-
-  private static void notFound(HttpServletResponse res) throws IOException {
-    CacheHeaders.setNotCacheable(res);
-    res.sendError(HttpServletResponse.SC_NOT_FOUND);
   }
 }

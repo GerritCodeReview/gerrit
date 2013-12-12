@@ -287,54 +287,59 @@ class ReplyBox extends Composite {
       NativeMap<LabelInfo> all,
       NativeMap<JsArrayString> permitted) {
     TreeSet<Short> values = new TreeSet<Short>();
+    List<LabelAndValues> labels =
+        new ArrayList<LabelAndValues>(permitted.size());
     for (String id : names) {
       JsArrayString p = permitted.get(id);
       if (p != null) {
+        Set<Short> a = new TreeSet<Short>();
         for (int i = 0; i < p.length(); i++) {
-          values.add(LabelInfo.parseValue(p.get(i)));
+          a.add(LabelInfo.parseValue(p.get(i)));
         }
+        labels.add(new LabelAndValues(all.get(id), a));
+        values.addAll(a);
       }
     }
     List<Short> columns = new ArrayList<Short>(values);
 
-    labelsTable.resize(1 + permitted.size(), 1 + values.size());
+    labelsTable.resize(1 + labels.size(), 1 + values.size());
     for (int c = 0; c < columns.size(); c++) {
       labelsTable.setText(0, 1 + c, LabelValue.formatValue(columns.get(c)));
       labelsTable.getCellFormatter().setStyleName(0, 1 + c, style.label_value());
     }
 
-    List<String> checkboxes = new ArrayList<String>(permitted.size());
+    List<LabelAndValues> checkboxes =
+        new ArrayList<LabelAndValues>(labels.size());
     int row = 1;
-    for (String id : names) {
-      Set<Short> vals = all.get(id).value_set();
-      if (isCheckBox(vals)) {
-        checkboxes.add(id);
+    for (LabelAndValues lv : labels) {
+      if (isCheckBox(lv.info.value_set())) {
+        checkboxes.add(lv);
       } else {
-        renderRadio(row++, id, columns, vals, all.get(id));
+        renderRadio(row++, columns, lv);
       }
     }
-    for (String id : checkboxes) {
-      renderCheckBox(row++, id, all.get(id));
+    for (LabelAndValues lv : checkboxes) {
+      renderCheckBox(row++, lv);
     }
   }
 
-  private void renderRadio(int row, final String id,
-      List<Short> columns,
-      Set<Short> values,
-      LabelInfo info) {
+  private void renderRadio(int row, List<Short> columns, LabelAndValues lv) {
+    final String id = lv.info.name();
+
     labelsTable.setText(row, 0, id);
     labelsTable.getCellFormatter().setStyleName(row, 0, style.label_name());
 
     ApprovalInfo self = Gerrit.isSignedIn()
-        ? info.for_user(Gerrit.getUserAccount().getId().get())
+        ? lv.info.for_user(Gerrit.getUserAccount().getId().get())
         : null;
 
-    final List<RadioButton> group = new ArrayList<RadioButton>(values.size());
+    final List<RadioButton> group =
+        new ArrayList<RadioButton>(lv.permitted.size());
     for (int i = 0; i < columns.size(); i++) {
       final Short v = columns.get(i);
-      if (values.contains(v)) {
+      if (lv.permitted.contains(v)) {
         RadioButton b = new RadioButton(id);
-        b.setTitle(info.value_text(LabelValue.formatValue(v)));
+        b.setTitle(lv.info.value_text(LabelValue.formatValue(v)));
         if ((self != null && v == self.value()) || (self == null && v == 0)) {
           b.setValue(true);
         }
@@ -364,14 +369,16 @@ class ReplyBox extends Composite {
     }
   }
 
-  private void renderCheckBox(int row, final String id, LabelInfo info) {
+  private void renderCheckBox(int row, LabelAndValues lv) {
     ApprovalInfo self = Gerrit.isSignedIn()
-        ? info.for_user(Gerrit.getUserAccount().getId().get())
+        ? lv.info.for_user(Gerrit.getUserAccount().getId().get())
         : null;
 
+    final String id = lv.info.name();
     final CheckBox b = new CheckBox();
     b.setText(id);
-    b.setTitle(info.value_text("+1"));
+    b.setTitle(lv.info.value_text("+1"));
+    b.setEnabled(lv.permitted.contains((short) 1));
     if (self != null && self.value() == 1) {
       b.setValue(true);
     }
@@ -432,5 +439,15 @@ class ReplyBox extends Composite {
       l.get(i).setPath(path);
     }
     return Natives.asList(l);
+  }
+
+  private static class LabelAndValues {
+    final LabelInfo info;
+    final Set<Short> permitted;
+
+    LabelAndValues(LabelInfo info, Set<Short> permitted) {
+      this.info = info;
+      this.permitted = permitted;
+    }
   }
 }

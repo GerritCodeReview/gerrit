@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28434b82_3e7929ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-12T21:36:05Z",
+      "side": 1,
+      "message": "FOOTER_RECORD_OPERATION \u003d new FooterKey(\"Record-Operation\")",
+      "range": {
+        "startLine": 27,
+        "startChar": 25,
+        "endLine": 27,
+        "endChar": 40
+      },
+      "revId": "f7b9a186db7ab84f0cb593c4e5372d3d5779a0c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28434b82_1e7eed92",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-12T21:36:05Z",
+      "side": 1,
+      "message": "trhis should be generic an only be said once:\n\n pruneDeletedRecords()",
+      "revId": "f7b9a186db7ab84f0cb593c4e5372d3d5779a0c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28434b82_fe434158",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-12T21:36:05Z",
+      "side": 1,
+      "message": "this should be generic:\n\n pruneDeletedRecords()",
+      "revId": "f7b9a186db7ab84f0cb593c4e5372d3d5779a0c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "483ebfeb_ff2cdfb0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ReviewerState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-12T21:36:05Z",
+      "side": 1,
+      "message": "Generic: RecordState, see other comments",
+      "revId": "f7b9a186db7ab84f0cb593c4e5372d3d5779a0c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28434b82_be49b97e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ReviewerState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-12T21:36:05Z",
+      "side": 1,
+      "message": "Well, that\u0027s \u0027D\u0027 from CRUD operation in your database implemntation. And as mentioned in some of my comments on first change in this series you may need this (potentially) for each and every entity in your virtual database.\n\nSo instead of redefining and rehonored this record state in entity specific state (and in entity specific code), i would sugest to make it more generic:\n\n public enum NotesDbRecordOperation {\n   UPSERT,\n   DELETE;\n }\n\nThen make all NotesDbRecords NotesDbRecordOperation aware and now you would be able to move the pruning deleted records code higher in the caller stack.\n\nThis way all records for all entitites share this state and wouldn\u0027t need to reimplement it.",
+      "revId": "f7b9a186db7ab84f0cb593c4e5372d3d5779a0c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

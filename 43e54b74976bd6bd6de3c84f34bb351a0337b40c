@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "483ebfeb_ff117f68",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-12T11:13:23Z",
+      "side": 1,
+      "message": "Mention that we upgraded Buck to the latest version and that we for the first time using the vanilla upstream version?",
+      "revId": "43e54b74976bd6bd6de3c84f34bb351a0337b40c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

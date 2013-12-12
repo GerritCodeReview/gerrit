@@ -113,6 +113,7 @@ class FileTable extends FlowPanel {
       if (t != null) {
         t.onOpenRow(1 + idx);
         e.preventDefault();
+        e.stopPropagation();
         return false;
       }
     }
@@ -311,11 +312,11 @@ class FileTable extends FlowPanel {
     }
 
     @Override
-    protected void onCellSingleClick(int row, int column) {
-      if (column == C_PATH) {
+    protected void onCellSingleClick(Event event, int row, int column) {
+      if (column == C_PATH && link.handleAsClick(event)) {
         onOpenRow(row);
       } else {
-        super.onCellSingleClick(row, column);
+        super.onCellSingleClick(event, row, column);
       }
     }
   }

@@ -32,6 +32,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
@@ -40,6 +41,7 @@ import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
+
 import org.eclipse.jgit.diff.Edit;
 
 import java.util.ArrayList;
@@ -76,8 +78,8 @@ public class SideBySideTable extends AbstractPatchContentTable {
   }
 
   @Override
-  protected void onCellSingleClick(int row, int column) {
-    super.onCellSingleClick(row, column);
+  protected void onCellSingleClick(Event event, int row, int column) {
+    super.onCellSingleClick(event, row, column);
     if (column == 1 || column == 4) {
       onCellDoubleClick(row, column);
     }

@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
@@ -98,8 +99,8 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
   }
 
   @Override
-  protected void onCellSingleClick(int row, int column) {
-    super.onCellSingleClick(row, column);
+  protected void onCellSingleClick(Event event, int row, int column) {
+    super.onCellSingleClick(event, row, column);
     if (column == 1 || column == 2) {
       if (!"".equals(table.getText(row, column))) {
         onCellDoubleClick(row, column);

@@ -128,6 +128,30 @@
       "revId": "5a775e5fd31ae03835a1f2022223dc0bc88be43a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88343708_a114fe59",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-12T14:54:44Z",
+      "side": 1,
+      "message": "Actually I was wondering how much of this code is the same, or similar to, the plugin documentation generation.\n\nCan any of it be put in a common module?",
+      "parentUuid": "28434b82_9e1f9d6e",
+      "range": {
+        "startLine": 65,
+        "startChar": 21,
+        "endLine": 65,
+        "endChar": 42
+      },
+      "revId": "5a775e5fd31ae03835a1f2022223dc0bc88be43a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

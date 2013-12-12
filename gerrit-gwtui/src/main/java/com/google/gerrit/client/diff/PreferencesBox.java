@@ -80,6 +80,7 @@ class PreferencesBox extends Composite {
   @UiField ToggleButton whitespaceErrors;
   @UiField ToggleButton showTabs;
   @UiField ToggleButton topMenu;
+  @UiField ToggleButton manualReview;
   @UiField ToggleButton expandAllComments;
   @UiField Button apply;
   @UiField Button save;
@@ -127,6 +128,7 @@ class PreferencesBox extends Composite {
     whitespaceErrors.setValue(prefs.showWhitespaceErrors());
     showTabs.setValue(prefs.showTabs());
     topMenu.setValue(!prefs.hideTopMenu());
+    manualReview.setValue(prefs.manualReview());
     expandAllComments.setValue(prefs.expandAllComments());
 
     switch (view.getIntraLineStatus()) {
@@ -242,6 +244,11 @@ class PreferencesBox extends Composite {
     Gerrit.setHeaderVisible(view.diffTable.isHeaderVisible()
         && !prefs.hideTopMenu());
     view.resizeCodeMirror();
+  }
+
+  @UiHandler("manualReview")
+  void onManualReview(ValueChangeEvent<Boolean> e) {
+    prefs.manualReview(e.getValue());
   }
 
   @UiHandler("syntaxHighlighting")

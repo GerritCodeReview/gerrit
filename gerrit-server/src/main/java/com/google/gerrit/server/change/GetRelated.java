@@ -92,7 +92,6 @@ public class GetRelated implements RestReadView<RevisionResource> {
       throws OrmException, IOException {
     Map<Change.Id, Change> changes = allOpenChanges(rsrc);
     Map<PatchSet.Id, PatchSet> patchSets = allPatchSets(changes.keySet());
-    List<ChangeAndCommit> list = children(rsrc, rw, changes, patchSets);
 
     Map<String, PatchSet> commits = Maps.newHashMap();
     for (PatchSet p : patchSets.values()) {
@@ -112,11 +111,19 @@ public class GetRelated implements RestReadView<RevisionResource> {
       }
     }
 
+    Set<Change.Id> added = Sets.newHashSet();
+    List<ChangeAndCommit> parents = Lists.newArrayList();
     for (RevCommit c; (c = rw.next()) != null;) {
       PatchSet p = commits.get(c.name());
-      Change g = p != null ? changes.get(p.getId().getParentKey()) : null;
-      list.add(new ChangeAndCommit(g, p, c));
+      Change g = null;
+      if (p != null) {
+        g = changes.get(p.getId().getParentKey());
+        added.add(p.getId().getParentKey());
+      }
+      parents.add(new ChangeAndCommit(g, p, c));
     }
+    List<ChangeAndCommit> list = children(rsrc, rw, changes, patchSets, added);
+    list.addAll(parents);
 
     if (list.size() == 1) {
       ChangeAndCommit r = list.get(0);
@@ -155,7 +162,8 @@ public class GetRelated implements RestReadView<RevisionResource> {
   }
 
   private List<ChangeAndCommit> children(RevisionResource rsrc, RevWalk rw,
-      Map<Change.Id, Change> changes, Map<PatchSet.Id, PatchSet> patchSets)
+      Map<Change.Id, Change> changes, Map<PatchSet.Id, PatchSet> patchSets,
+      Set<Change.Id> added)
       throws OrmException, IOException {
     // children is a map of parent commit name to PatchSet built on it.
     Multimap<String, PatchSet.Id> children = allChildren(changes.keySet());
@@ -192,7 +200,9 @@ public class GetRelated implements RestReadView<RevisionResource> {
         if (!c.has(seenCommit)) {
           c.add(seenCommit);
           q.addFirst(ps.getRevision().get());
-          graph.add(new ChangeAndCommit(change, ps, c));
+          if (added.add(ps.getId().getParentKey())) {
+            graph.add(new ChangeAndCommit(change, ps, c));
+          }
         }
       }
     }

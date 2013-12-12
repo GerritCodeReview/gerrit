@@ -974,7 +974,7 @@ public class ChangeJson {
     int tz;
   }
 
-  static class CommitInfo {
+  public static class CommitInfo {
     final String kind = "gerritcodereview#commit";
     String commit;
     List<CommitInfo> parents;

@@ -924,6 +924,30 @@
     },
     {
       "key": {
+        "uuid": "88343708_613e76da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-12T17:53:59Z",
+      "side": 1,
+      "message": "Thought about this some more and I have an argument for putting \u003caccount\u003e@gerrit in the author as well as the committer. But I\u0027ll save that discussion for the change where it would actually be necessary :)",
+      "parentUuid": "c81aaf66_33fec8da",
+      "range": {
+        "startLine": 38,
+        "startChar": 20,
+        "endLine": 38,
+        "endChar": 64
+      },
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d5c277_476e6ed4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 1

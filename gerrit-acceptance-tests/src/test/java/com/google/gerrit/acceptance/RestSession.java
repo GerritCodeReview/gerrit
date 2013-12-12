@@ -19,6 +19,7 @@ import com.google.common.base.Preconditions;
 import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.server.OutputFormat;
 
+import org.apache.http.Header;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -39,8 +40,11 @@ public class RestSession extends HttpSession {
   }
 
   @Override
-  public RestResponse get(String endPoint) throws IOException {
+  public RestResponse get(String endPoint, Header... header) throws IOException {
     HttpGet get = new HttpGet(url + "/a" + endPoint);
+    for (Header h : header) {
+      get.setHeader(h);
+    }
     return new RestResponse(getClient().execute(get));
   }
 

@@ -21,6 +21,9 @@ import com.google.common.cache.Cache;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
+import com.google.gerrit.httpd.resources.Resource;
+import com.google.gerrit.httpd.resources.ResourceKey;
+import com.google.gerrit.httpd.resources.SmallResource;
 import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.server.MimeUtilFileTypeRegistry;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -266,7 +269,7 @@ class HttpPluginServlet extends HttpServlet
     }
 
     String file = uri.substring(ctx.length() + 1);
-    ResourceKey key = new ResourceKey(holder.plugin, file);
+    PluginResourceKey key = new PluginResourceKey(holder.plugin, file);
     Resource rsc = resourceCache.getIfPresent(key);
     if (rsc != null) {
       rsc.send(req, res);
@@ -346,7 +349,7 @@ class HttpPluginServlet extends HttpServlet
 
   private void sendAutoIndex(JarFile jar,
       String prefix, String pluginName,
-      ResourceKey cacheKey, HttpServletResponse res) throws IOException {
+      PluginResourceKey cacheKey, HttpServletResponse res) throws IOException {
     List<JarEntry> cmds = Lists.newArrayList();
     List<JarEntry> servlets = Lists.newArrayList();
     List<JarEntry> restApis = Lists.newArrayList();
@@ -530,7 +533,7 @@ class HttpPluginServlet extends HttpServlet
   }
 
   private void sendMarkdownAsHtml(JarFile jar, JarEntry entry,
-      String pluginName, ResourceKey key, HttpServletResponse res)
+      String pluginName, PluginResourceKey key, HttpServletResponse res)
       throws IOException {
     byte[] rawmd = readWholeEntry(jar, entry);
     String encoding = null;
@@ -550,7 +553,7 @@ class HttpPluginServlet extends HttpServlet
   }
 
   private void sendResource(JarFile jar, JarEntry entry,
-      ResourceKey key, HttpServletResponse res)
+      PluginResourceKey key, HttpServletResponse res)
       throws IOException {
     byte[] data = null;
     if (entry.getSize() <= SMALL_RESOURCE) {
@@ -592,7 +595,7 @@ class HttpPluginServlet extends HttpServlet
     }
   }
 
-  private void sendJsPlugin(Plugin plugin, ResourceKey key,
+  private void sendJsPlugin(Plugin plugin, PluginResourceKey key,
       HttpServletRequest req, HttpServletResponse res) throws IOException {
     File pluginFile = plugin.getSrcFile();
     if (req.getPathInfo().equals(getJsPluginPath(plugin)) && pluginFile.exists()) {

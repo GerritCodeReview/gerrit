@@ -29,6 +29,7 @@ import com.google.gerrit.httpd.WebModule;
 import com.google.gerrit.httpd.WebSshGlueModule;
 import com.google.gerrit.httpd.auth.openid.OpenIdModule;
 import com.google.gerrit.httpd.plugins.HttpPluginModule;
+import com.google.gerrit.httpd.raw.ProjectDocLoader;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.http.jetty.GetUserFilter;
@@ -412,6 +413,7 @@ public class Daemon extends SiteProgram {
     modules.add(sysInjector.getInstance(GitOverHttpModule.class));
     modules.add(sysInjector.getInstance(WebModule.class));
     modules.add(new HttpPluginModule());
+    modules.add(new ProjectDocLoader.Module());
     if (sshd) {
       modules.add(sshInjector.getInstance(WebSshGlueModule.class));
     } else {

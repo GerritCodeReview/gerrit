@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance;
 
 import com.google.common.base.Preconditions;
 
+import org.apache.http.Header;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 
@@ -49,6 +50,15 @@ public class HttpResponse {
 
   public int getStatusCode() {
     return response.getStatusLine().getStatusCode();
+  }
+
+  public String getHeader(String name) {
+    Header h = response.getFirstHeader(name);
+    if (h != null) {
+      return h.getValue();
+    } else {
+      return null;
+    }
   }
 
   public String getEntityContent() throws IOException {

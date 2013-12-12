@@ -18,8 +18,10 @@ import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import com.google.common.net.HttpHeaders;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.HttpResponse;
@@ -49,6 +51,7 @@ import com.google.inject.Inject;
 import com.jcraft.jsch.JSchException;
 
 import org.apache.http.HttpStatus;
+import org.apache.http.message.BasicHeader;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -337,5 +340,20 @@ public class ProjectDocumentationIT extends AbstractDaemonTest {
     String htmlContent = r.getEntityContent();
     assertTrue(htmlContent.contains("read me"));
     assertFalse(htmlContent.contains("<a"));
+  }
+
+  @Test
+  @GerritConfig(name="site.enableSrcToMarkdown", value="true")
+  public void getDocFromCache() throws IOException, GitAPIException {
+    pushFactory.create(db, admin.getIdent(), "Add readme", "README.md", "read me")
+        .to(git, "refs/heads/master");
+    HttpResponse r = httpSession.get("/src/" + project.get() + "/README.md");
+    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    String eTag = r.getHeader(HttpHeaders.ETAG);
+    assertNotNull(eTag);
+    r.consume();
+    r = httpSession.get("/src/" + project.get() + "/README.md",
+        new BasicHeader(HttpHeaders.IF_NONE_MATCH, eTag));
+    assertEquals(HttpStatus.SC_NOT_MODIFIED, r.getStatusCode());
   }
 }

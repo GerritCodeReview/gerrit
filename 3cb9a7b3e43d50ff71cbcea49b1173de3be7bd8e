@@ -358,6 +358,24 @@
     },
     {
       "key": {
+        "uuid": "c81aaf66_53094446",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-12T00:40:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "438a229e_ff88ff58",
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3c0d2c1_43f946f4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -716,6 +734,30 @@
     },
     {
       "key": {
+        "uuid": "a8357bd3_f217285d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-12T00:40:37Z",
+      "side": 1,
+      "message": "We can bikeshed this more but for now I\u0027m using Label\u003dValue, though sticking with the new common class I introduced for it.",
+      "parentUuid": "438a229e_9f6293ee",
+      "range": {
+        "startLine": 28,
+        "startChar": 15,
+        "endLine": 28,
+        "endChar": 29
+      },
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a37bde5e_02062a34",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -846,6 +888,30 @@
       "side": 1,
       "message": "Ok, so if a user creates a commit locally with themself as committer, then pushes it to Gerrit, does Gerrit rewrite the committer? Or rejects it?",
       "parentUuid": "c3c0d2c1_63156256",
+      "range": {
+        "startLine": 38,
+        "startChar": 20,
+        "endLine": 38,
+        "endChar": 64
+      },
+      "revId": "3cb9a7b3e43d50ff71cbcea49b1173de3be7bd8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c81aaf66_33fec8da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-12T00:40:37Z",
+      "side": 1,
+      "message": "Ok, I stuck the author account ID in the committer.\n\nFiguring out a canonical host is hard to do sanely.\n\nThere\u0027s canonicalWebUrl, which if it\u0027s not configured, depending on your reverse proxy situation may not even be unique for a server.\n\nThere\u0027s the hostname of the first SSH key, which is what\u0027s used by SshSchema and ChangeIdValidator (and yes, they both implement this logic separately).\n\nWe could add a gerrit.canonicalHost config option, but it would only be used here, and there\u0027d be no checks preventing it from being completely incompatible with either of the above two definitions. (We could write them; I\u0027d rather not.)\n\nIf the goal is just to have a globally unique, semi-readable identifier of a server so we can ship change data between servers, we should call it what it is, something like gerrit.serverIdentifier. But I don\u0027t know what a reasonable default would be (not \"localhost\", that\u0027s for sure).\n\nFor now I punted and left it as \"\u003caccount\u003e@gerrit\".\n\n(I will also point out now that if we take the commit body as a ChangeMessage, then we need to make sure that we still always have at least footer line in the commit message, so a craftily-formed ChangeMessage doesn\u0027t get treated as if it contained footers. Or have some other kind of delimiter around ChangeMessage, etc.)",
+      "parentUuid": "238feeae_dee7c553",
       "range": {
         "startLine": 38,
         "startChar": 20,

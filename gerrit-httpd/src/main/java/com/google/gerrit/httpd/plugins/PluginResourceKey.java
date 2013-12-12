@@ -14,18 +14,20 @@
 
 package com.google.gerrit.httpd.plugins;
 
+import com.google.gerrit.httpd.resources.ResourceKey;
 import com.google.gerrit.server.plugins.Plugin;
 
-final class ResourceKey {
+final class PluginResourceKey implements ResourceKey {
   private final Plugin.CacheKey plugin;
   private final String resource;
 
-  ResourceKey(Plugin p, String r) {
+  PluginResourceKey(Plugin p, String r) {
     this.plugin = p.getCacheKey();
     this.resource = r;
   }
 
-  int weigh() {
+  @Override
+  public int weigh() {
     return resource.length() * 2;
   }
 
@@ -36,8 +38,8 @@ final class ResourceKey {
 
   @Override
   public boolean equals(Object other) {
-    if (other instanceof ResourceKey) {
-      ResourceKey rk = (ResourceKey) other;
+    if (other instanceof PluginResourceKey) {
+      PluginResourceKey rk = (PluginResourceKey) other;
       return plugin == rk.plugin && resource.equals(rk.resource);
     }
     return false;

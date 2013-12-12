@@ -14,6 +14,9 @@
 
 package com.google.gerrit.httpd.plugins;
 
+import com.google.gerrit.httpd.resources.Resource;
+import com.google.gerrit.httpd.resources.ResourceKey;
+import com.google.gerrit.httpd.resources.ResourceWeigher;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.plugins.ModuleGenerator;
 import com.google.gerrit.server.plugins.ReloadPluginListener;

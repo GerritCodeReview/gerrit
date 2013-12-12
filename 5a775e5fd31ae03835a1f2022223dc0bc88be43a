@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "28434b82_be2259ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-12T14:52:01Z",
+      "side": 1,
+      "message": "Yes, we can and we should, but it\u0027s not part of this change. I would do this in a follow-up change.",
+      "parentUuid": "483ebfeb_5f3eabd9",
+      "revId": "5a775e5fd31ae03835a1f2022223dc0bc88be43a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c849cfa5_5b036325",
         "filename": "Documentation/project-documentation.txt",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "483ebfeb_bf2257ba",
+        "filename": "Documentation/project-documentation.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-12T14:52:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c849cfa5_5b036325",
+      "range": {
+        "startLine": 4,
+        "startChar": 46,
+        "endLine": 4,
+        "endChar": 51
+      },
+      "revId": "5a775e5fd31ae03835a1f2022223dc0bc88be43a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c849cfa5_bb17075e",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
         "patchSetId": 1
@@ -53,6 +95,30 @@
       "writtenOn": "2013-12-12T14:46:41Z",
       "side": 1,
       "message": "Does this need to be initialised to a dummy value?",
+      "range": {
+        "startLine": 65,
+        "startChar": 21,
+        "endLine": 65,
+        "endChar": 42
+      },
+      "revId": "5a775e5fd31ae03835a1f2022223dc0bc88be43a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28434b82_9e1f9d6e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-12T14:52:01Z",
+      "side": 1,
+      "message": "I guess yes, at least we do this also in HttpPluginServlet.",
+      "parentUuid": "c849cfa5_bb17075e",
       "range": {
         "startLine": 65,
         "startChar": 21,

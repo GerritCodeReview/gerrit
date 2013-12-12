@@ -1404,14 +1404,21 @@ public class SideBySide2 extends Screen {
         if (res < 0) {
           res = -res - (prev ? 1 : 2);
         }
-
         res = res + (prev ? -1 : 1);
-        DiffChunkInfo lookUp = diffChunks.get(getWrapAroundDiffChunkIndex(res));
+        if (res < 0 || diffChunks.size() <= res) {
+          return;
+        }
+
+        DiffChunkInfo lookUp = diffChunks.get(res);
         // If edit, skip the deletion chunk and set focus on the insertion one.
         if (lookUp.isEdit() && lookUp.getSide() == DisplaySide.A) {
           res = res + (prev ? -1 : 1);
+          if (res < 0 || diffChunks.size() <= res) {
+            return;
+          }
         }
-        DiffChunkInfo target = diffChunks.get(getWrapAroundDiffChunkIndex(res));
+
+        DiffChunkInfo target = diffChunks.get(res);
         CodeMirror targetCm = getCmFromSide(target.getSide());
         targetCm.setCursor(LineCharacter.create(target.getStart()));
         targetCm.focus();
@@ -1465,10 +1472,6 @@ public class SideBySide2 extends Screen {
       }
     }
     return null;
-  }
-
-  private int getWrapAroundDiffChunkIndex(int index) {
-    return (index + diffChunks.size()) % diffChunks.size();
   }
 
   void defer(Runnable thunk) {

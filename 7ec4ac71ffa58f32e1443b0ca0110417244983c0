@@ -70,6 +70,30 @@
       "revId": "7ec4ac71ffa58f32e1443b0ca0110417244983c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28434b82_9e14bd5a",
+        "filename": "Documentation/cmd-create-branch.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2013-12-12T08:59:21Z",
+      "side": 1,
+      "message": "David, Please confirm if this change can be merged with the current command or it is required to be changed to gerrit --create option.",
+      "parentUuid": "238feeae_be0bd93c",
+      "range": {
+        "startLine": 6,
+        "startChar": 7,
+        "endLine": 6,
+        "endChar": 20
+      },
+      "revId": "7ec4ac71ffa58f32e1443b0ca0110417244983c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

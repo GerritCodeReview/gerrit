@@ -12,31 +12,36 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.httpd.plugins;
+package com.google.gerrit.httpd.resources;
 
 import com.google.gwtexpui.server.CacheHeaders;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-abstract class Resource {
-  static final Resource NOT_FOUND = new Resource() {
+public abstract class Resource implements Serializable {
+  private static final long serialVersionUID = 1L;
+
+  public static final Resource NOT_FOUND = new Resource() {
+    private static final long serialVersionUID = 1L;
+
     @Override
-    int weigh() {
+    public int weigh() {
       return 0;
     }
 
     @Override
-    void send(HttpServletRequest req, HttpServletResponse res)
+    public void send(HttpServletRequest req, HttpServletResponse res)
         throws IOException {
       CacheHeaders.setNotCacheable(res);
       res.sendError(HttpServletResponse.SC_NOT_FOUND);
     }
   };
 
-  abstract int weigh();
-  abstract void send(HttpServletRequest req, HttpServletResponse res)
+  public abstract int weigh();
+  public abstract void send(HttpServletRequest req, HttpServletResponse res)
       throws IOException;
 }

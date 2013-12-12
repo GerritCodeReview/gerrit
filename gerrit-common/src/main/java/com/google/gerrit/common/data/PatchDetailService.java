@@ -15,29 +15,17 @@
 package com.google.gerrit.common.data;
 
 import com.google.gerrit.common.audit.Audit;
-import com.google.gerrit.common.auth.SignInRequired;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.RemoteJsonService;
 import com.google.gwtjsonrpc.common.RpcImpl;
 import com.google.gwtjsonrpc.common.RpcImpl.Version;
-import com.google.gwtjsonrpc.common.VoidResult;
 
 @RpcImpl(version = Version.V2_0)
 public interface PatchDetailService extends RemoteJsonService {
   @Audit
   void patchScript(Patch.Key key, PatchSet.Id a, PatchSet.Id b,
       AccountDiffPreference diffPrefs, AsyncCallback<PatchScript> callback);
-
-  @Audit
-  @SignInRequired
-  void saveDraft(PatchLineComment comment,
-      AsyncCallback<PatchLineComment> callback);
-
-  @Audit
-  @SignInRequired
-  void deleteDraft(PatchLineComment.Key key, AsyncCallback<VoidResult> callback);
 }

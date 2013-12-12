@@ -16,7 +16,6 @@ package com.google.gerrit.httpd.rpc.patch;
 
 import com.google.gerrit.httpd.rpc.RpcServletModule;
 import com.google.gerrit.httpd.rpc.UiRpcModule;
-import com.google.gerrit.server.config.FactoryModule;
 
 public class PatchModule extends RpcServletModule {
   public PatchModule() {
@@ -25,12 +24,6 @@ public class PatchModule extends RpcServletModule {
 
   @Override
   protected void configureServlets() {
-    install(new FactoryModule() {
-      @Override
-      protected void configure() {
-        factory(SaveDraft.Factory.class);
-      }
-    });
     rpc(PatchDetailServiceImpl.class);
   }
 }

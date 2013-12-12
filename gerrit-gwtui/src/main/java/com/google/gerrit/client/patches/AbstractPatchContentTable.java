@@ -18,6 +18,9 @@ import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.AccountInfo;
+import com.google.gerrit.client.changes.CommentApi;
+import com.google.gerrit.client.changes.CommentInfo;
+import com.google.gerrit.client.changes.CommentInput;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -937,13 +940,17 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       CommentEditorPanel p = findOrCreateEditor(newComment, false);
       if (p == null) {
         enableButtons(false);
-        PatchUtil.DETAIL_SVC.saveDraft(newComment,
-            new GerritCallback<PatchLineComment>() {
+        final PatchSet.Id psId = newComment.getKey().getParentKey().getParentKey();
+        CommentInput in = CommentEditorPanel.toInput(newComment);
+        CommentApi.createDraft(psId, in,
+            new GerritCallback<CommentInfo>() {
               @Override
-              public void onSuccess(final PatchLineComment result) {
+              public void onSuccess(CommentInfo result) {
                 enableButtons(true);
                 notifyDraftDelta(1);
-                findOrCreateEditor(result, true).setOpen(false);
+                findOrCreateEditor(CommentEditorPanel.toComment(
+                    psId, newComment.getKey().getParentKey().get(), result),
+                  true).setOpen(false);
               }
 
               @Override

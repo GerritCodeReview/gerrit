@@ -15,10 +15,17 @@
 package com.google.gerrit.client.patches;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.changes.CommentApi;
+import com.google.gerrit.client.changes.CommentInfo;
+import com.google.gerrit.client.changes.CommentInput;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.CommentPanel;
+import com.google.gerrit.common.changes.Side;
+import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
@@ -236,30 +243,37 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
     cancel.setEnabled(false);
     discard.setEnabled(false);
 
-    PatchUtil.DETAIL_SVC.saveDraft(comment,
-        new GerritCallback<PatchLineComment>() {
-          public void onSuccess(final PatchLineComment result) {
-            notifyDraftDelta(isNew() ? 1 : 0);
-            comment = result;
-            text.setReadOnly(false);
-            save.setEnabled(true);
-            cancel.setEnabled(true);
-            discard.setEnabled(true);
-            render();
-            onSave.onSuccess(VoidResult.INSTANCE);
-          }
+    final PatchSet.Id psId = comment.getKey().getParentKey().getParentKey();
+    final boolean wasNew = isNew();
+    GerritCallback<CommentInfo> cb = new GerritCallback<CommentInfo>() {
+      public void onSuccess(CommentInfo result) {
+        notifyDraftDelta(wasNew ? 1 : 0);
+        comment = toComment(psId, comment.getKey().get(), result);
+        text.setReadOnly(false);
+        save.setEnabled(true);
+        cancel.setEnabled(true);
+        discard.setEnabled(true);
+        render();
+        onSave.onSuccess(VoidResult.INSTANCE);
+      }
 
-          @Override
-          public void onFailure(final Throwable caught) {
-            text.setReadOnly(false);
-            text.setFocus(true);
-            save.setEnabled(true);
-            cancel.setEnabled(true);
-            discard.setEnabled(true);
-            super.onFailure(caught);
-            onSave.onFailure(caught);
-          }
-        });
+      @Override
+      public void onFailure(final Throwable caught) {
+        text.setReadOnly(false);
+        text.setFocus(true);
+        save.setEnabled(true);
+        cancel.setEnabled(true);
+        discard.setEnabled(true);
+        super.onFailure(caught);
+        onSave.onFailure(caught);
+      }
+    };
+    CommentInput input = toInput(comment);
+    if (wasNew) {
+      CommentApi.createDraft(psId, input, cb);
+    } else {
+      CommentApi.updateDraft(psId, input.id(), input, cb);
+    }
   }
 
   private void notifyDraftDelta(final int delta) {
@@ -283,9 +297,11 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
     cancel.setEnabled(false);
     discard.setEnabled(false);
 
-    PatchUtil.DETAIL_SVC.deleteDraft(comment.getKey(),
-        new GerritCallback<VoidResult>() {
-          public void onSuccess(final VoidResult result) {
+    CommentApi.deleteDraft(
+        comment.getKey().getParentKey().getParentKey(),
+        comment.getKey().get(),
+        new GerritCallback<JavaScriptObject>() {
+          public void onSuccess(JavaScriptObject result) {
             notifyDraftDelta(-1);
             removeUI();
           }
@@ -318,5 +334,34 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
       p = p.getParent();
     }
     return null;
+  }
+
+  public static CommentInput toInput(PatchLineComment c) {
+    CommentInput i = CommentInput.createObject().cast();
+    i.setId(c.getKey().get());
+    i.setPath(c.getKey().getParentKey().get());
+    i.setSide(c.getSide() == 0 ? Side.PARENT : Side.REVISION);
+    if (c.getLine() > 0) {
+      i.setLine(c.getLine());
+    }
+    i.setInReplyTo(c.getParentUuid());
+    i.setMessage(c.getMessage());
+    return i;
+  }
+
+  public static PatchLineComment toComment(PatchSet.Id ps,
+      String path,
+      CommentInfo i) {
+    PatchLineComment p = new PatchLineComment(
+        new PatchLineComment.Key(
+            new Patch.Key(ps, path),
+            i.id()),
+        i.line(),
+        Gerrit.getUserAccount().getId(),
+        i.in_reply_to(),
+        i.updated());
+    p.setMessage(i.message());
+    p.setSide((short) (i.side() == Side.PARENT ? 0 : 1));
+    return p;
   }
 }

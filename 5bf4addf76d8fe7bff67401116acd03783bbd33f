@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "885d1762_79e74757",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-12-12T08:17:38Z",
+      "side": 1,
+      "message": "Should we increase this number? People seem to complain about SideBySide2 wasting horizontal space.",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 26,
+        "endChar": 37
+      },
+      "revId": "5bf4addf76d8fe7bff67401116acd03783bbd33f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

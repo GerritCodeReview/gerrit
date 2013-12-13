@@ -19,12 +19,14 @@ import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
+import com.google.gwt.user.client.ui.Widget;
 
 class PreferencesAction {
   private final SideBySide2 view;
   private final DiffPreferences prefs;
   private PopupPanel popup;
   private PreferencesBox current;
+  private Widget partner;
 
   PreferencesAction(SideBySide2 view, DiffPreferences prefs) {
     this.view = view;
@@ -50,6 +52,7 @@ class PreferencesAction {
     popup = new PopupPanel(true, false);
     popup.setStyleName(current.style.dialog());
     popup.add(current);
+    popup.addAutoHidePartner(partner.getElement());
     popup.addCloseHandler(new CloseHandler<PopupPanel>() {
       @Override
       public void onClose(CloseEvent<PopupPanel> event) {
@@ -73,5 +76,9 @@ class PreferencesAction {
       popup = null;
       current = null;
     }
+  }
+
+  void setPartner(Widget w) {
+    partner = w;
   }
 }

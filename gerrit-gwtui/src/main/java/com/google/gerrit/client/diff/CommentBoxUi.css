@@ -85,3 +85,16 @@
   white-space: nowrap;
   color: #fff;
 }
+
+@sprite .go_prev {
+  gwt-image: "go_prev";
+  display: inline-block;
+}
+@sprite .go_next {
+  gwt-image: "go_next";
+  display: inline-block;
+}
+@sprite .go_up {
+  gwt-image: "go_up";
+  display: inline-block;
+}

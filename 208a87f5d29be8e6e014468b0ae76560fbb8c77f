@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c862af23_13e26c47",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-13T04:33:01Z",
+      "side": 1,
+      "message": "Some things to consider here:\n\nWe don\u0027t set a timeout on the pegdown parser. A badly formatted file could take a long time to parse and cost a lot of server CPU. For plugin documentation we assume the documentation was tested and is \"sane\". For random files in a project this may be less true.\n\nI don\u0027t know if we disable raw inline HTML. The pegdown processor supports it. It is not a good idea to serve raw HTML from a project on the Gerrit host. For plugins we don\u0027t worry about this because the plugin has also had the opportunity to install its own Java bytecode directly into the server and run anything it wants as the server\u0027s role account. So if the plugin documentation owns the user in the browser, it doesn\u0027t matter, the plugin code has owned the server already. Ergo, admins have to trust plugins, and have vetted them before installation, so we can be more relaxed about what we allow.",
+      "revId": "208a87f5d29be8e6e014468b0ae76560fbb8c77f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

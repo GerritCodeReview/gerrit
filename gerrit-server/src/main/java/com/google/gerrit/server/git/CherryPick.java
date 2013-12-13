@@ -162,17 +162,24 @@ public class CherryPick extends SubmitStrategy {
     ps.setCreatedOn(TimeUtil.nowTs());
     ps.setUploader(submitAudit.getAccountId());
     ps.setRevision(new RevId(newCommit.getId().getName()));
-    insertAncestors(args.db, ps.getId(), newCommit);
-    args.db.patchSets().insert(Collections.singleton(ps));
 
     n.change.setCurrentPatchSet(patchSetInfoFactory.get(newCommit, ps.getId()));
-    args.db.changes().update(Collections.singletonList(n.change));
 
     final List<PatchSetApproval> approvals = Lists.newArrayList();
     for (PatchSetApproval a : args.mergeUtil.getApprovalsForCommit(n)) {
       approvals.add(new PatchSetApproval(ps.getId(), a));
     }
-    args.db.patchSetApprovals().insert(approvals);
+
+    args.db.changes().beginTransaction(n.change.getId());
+    try {
+      insertAncestors(args.db, ps.getId(), newCommit);
+      args.db.patchSets().insert(Collections.singleton(ps));
+      args.db.changes().update(Collections.singletonList(n.change));
+      args.db.patchSetApprovals().insert(approvals);
+      args.db.commit();
+    } finally {
+      args.db.rollback();
+    }
 
     final RefUpdate ru = args.repo.updateRef(ps.getRefName());
     ru.setExpectedOldObjectId(ObjectId.zeroId());

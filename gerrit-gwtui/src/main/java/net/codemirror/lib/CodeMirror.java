@@ -138,6 +138,10 @@ public class CodeMirror extends JavaScriptObject {
     return this.heightAtLine(line, mode);
   }-*/;
 
+  public final native Rect charCoords(LineCharacter pos, String mode) /*-{
+    return this.charCoords(pos, mode);
+  }-*/;
+
   public final native CodeMirrorDoc getDoc() /*-{
     return this.getDoc();
   }-*/;
@@ -197,6 +201,12 @@ public class CodeMirror extends JavaScriptObject {
     }));
   }-*/;
 
+  public final native void on(String event, BeforeSelectionChangeHandler handler) /*-{
+    this.on(event, $entry(function(cm, e) {
+      handler.@net.codemirror.lib.CodeMirror.BeforeSelectionChangeHandler::handle(Lnet/codemirror/lib/CodeMirror;Lnet/codemirror/lib/LineCharacter;Lnet/codemirror/lib/LineCharacter;)(cm,e.anchor,e.head);
+    }));
+  }-*/;
+
   public final native LineCharacter getCursor() /*-{
     return this.getCursor();
   }-*/;
@@ -209,8 +219,12 @@ public class CodeMirror extends JavaScriptObject {
     return FromTo.create(getCursor("start"), getCursor("end"));
   }
 
-  public final native void setSelection(LineCharacter lineCh) /*-{
-    this.setSelection(lineCh);
+  public final native void setSelection(LineCharacter anchor) /*-{
+    this.setSelection(anchor);
+  }-*/;
+
+  public final native void setSelection(LineCharacter anchor, LineCharacter head) /*-{
+    this.setSelection(anchor, head);
   }-*/;
 
   public final native void setCursor(LineCharacter lineCh) /*-{
@@ -344,5 +358,9 @@ public class CodeMirror extends JavaScriptObject {
   public interface GutterClickHandler {
     public void handle(CodeMirror instance, int line, String gutter,
         NativeEvent clickEvent);
+  }
+
+  public interface BeforeSelectionChangeHandler {
+    public void handle(CodeMirror instance, LineCharacter anchor, LineCharacter head);
   }
 }

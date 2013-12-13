@@ -133,6 +133,7 @@ class SkipBar extends Composite {
   void expandAll() {
     clearMarkerAndWidget();
     removeFromParent();
+    updateSelection();
   }
 
   private void expandBefore() {
@@ -148,6 +149,7 @@ class SkipBar extends Composite {
         .set("noHScroll", true);
     setWidget(cm.addLineWidget(newStart - 1, getElement(), config));
     updateSkipNum();
+    updateSelection();
   }
 
   private void expandAfter() {
@@ -167,6 +169,14 @@ class SkipBar extends Composite {
       setWidget(cm.addLineWidget(newEnd + 1, getElement(), config));
     }
     updateSkipNum();
+    updateSelection();
+  }
+
+  private void updateSelection() {
+    if (cm.somethingSelected()) {
+      FromTo sel = cm.getSelectedRange();
+      cm.setSelection(sel.getFrom(), sel.getTo());
+    }
   }
 
   @UiHandler("skipNum")

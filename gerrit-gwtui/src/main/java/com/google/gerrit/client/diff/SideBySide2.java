@@ -54,7 +54,10 @@ import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.logical.shared.ResizeEvent;
@@ -65,6 +68,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
@@ -73,6 +77,7 @@ import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtexpui.globalkey.client.ShowHelpCommand;
 
 import net.codemirror.lib.CodeMirror;
+import net.codemirror.lib.CodeMirror.BeforeSelectionChangeHandler;
 import net.codemirror.lib.CodeMirror.GutterClickHandler;
 import net.codemirror.lib.CodeMirror.LineClassWhere;
 import net.codemirror.lib.CodeMirror.LineHandle;
@@ -83,6 +88,7 @@ import net.codemirror.lib.KeyMap;
 import net.codemirror.lib.LineCharacter;
 import net.codemirror.lib.LineWidget;
 import net.codemirror.lib.ModeInjector;
+import net.codemirror.lib.Rect;
 import net.codemirror.lib.TextMarker;
 import net.codemirror.lib.TextMarker.FromTo;
 
@@ -314,6 +320,7 @@ public class SideBySide2 extends Screen {
   }
 
   private void registerCmEvents(final CodeMirror cm) {
+    cm.on("beforeSelectionChange", onSelectionChange(cm));
     cm.on("cursorActivity", updateActiveLine(cm));
     cm.on("gutterClick", onGutterClick(cm));
     cm.on("renderLine", resizeLinePadding(getSideFromCm(cm)));
@@ -397,6 +404,47 @@ public class SideBySide2 extends Screen {
         .on("Shift-O", openClosePublished(cm))
         .on("Shift-Left", flipCursorSide(cm, true))
         .on("Shift-Right", flipCursorSide(cm, false)));
+  }
+
+  private BeforeSelectionChangeHandler onSelectionChange(final CodeMirror cm) {
+    return new BeforeSelectionChangeHandler() {
+      private Image icon;
+
+      @Override
+      public void handle(CodeMirror cm, LineCharacter anchor, LineCharacter head) {
+        if (anchor == head
+            || (anchor.getLine() == head.getLine()
+             && anchor.getCh() == head.getCh())) {
+          if (icon != null) {
+            icon.setVisible(false);
+          }
+          return;
+        } else if (icon == null) {
+          init(anchor);
+        }
+
+        icon.setVisible(true);
+        Rect r = cm.charCoords(head, "local");
+        Style s = icon.getElement().getStyle();
+        s.setTop((int) (r.top() - icon.getOffsetHeight() + 2), Unit.PX);
+        s.setLeft((int) (r.right() - icon.getOffsetWidth() / 2), Unit.PX);
+      }
+
+      private void init(LineCharacter anchor) {
+        icon = new Image(Gerrit.RESOURCES.draftComments());
+        icon.setTitle(PatchUtil.C.commentInsert());
+        icon.setStyleName(DiffTable.style.insertCommentIcon());
+        icon.addClickHandler(new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+            icon.setVisible(false);
+            insertNewDraft(cm).run();
+          }
+        });
+        add(icon);
+        cm.addWidget(anchor, icon.getElement(), false);
+      }
+    };
   }
 
   @Override

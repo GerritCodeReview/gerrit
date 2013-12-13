@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c862af23_93eddc36",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-13T10:41:52Z",
+      "side": 1,
+      "message": "I don\u0027t think this prefix is necessary.  I suspect most people will want to copy only the sha1 so they can paste it into a command line.",
+      "range": {
+        "startLine": 102,
+        "startChar": 23,
+        "endLine": 102,
+        "endChar": 39
+      },
+      "revId": "b19a4c5c922cd3f6aee2548089b22c6ba78ed44e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

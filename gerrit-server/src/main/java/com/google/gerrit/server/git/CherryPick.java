@@ -161,26 +161,36 @@ public class CherryPick extends SubmitStrategy {
     ps.setCreatedOn(TimeUtil.nowTs());
     ps.setUploader(submitAudit.getAccountId());
     ps.setRevision(new RevId(newCommit.getId().getName()));
-    insertAncestors(args.db, ps.getId(), newCommit);
-    args.db.patchSets().insert(Collections.singleton(ps));
 
-    n.change.setCurrentPatchSet(patchSetInfoFactory.get(newCommit, ps.getId()));
-    args.db.changes().update(Collections.singletonList(n.change));
+    final RefUpdate ru;
 
-    final List<PatchSetApproval> approvals = Lists.newArrayList();
-    for (PatchSetApproval a : args.mergeUtil.getApprovalsForCommit(n)) {
-      approvals.add(new PatchSetApproval(ps.getId(), a));
-    }
-    args.db.patchSetApprovals().insert(approvals);
+    args.db.changes().beginTransaction(n.change.getId());
+    try {
+      insertAncestors(args.db, ps.getId(), newCommit);
+      args.db.patchSets().insert(Collections.singleton(ps));
+      n.change
+          .setCurrentPatchSet(patchSetInfoFactory.get(newCommit, ps.getId()));
+      args.db.changes().update(Collections.singletonList(n.change));
 
-    final RefUpdate ru = args.repo.updateRef(ps.getRefName());
-    ru.setExpectedOldObjectId(ObjectId.zeroId());
-    ru.setNewObjectId(newCommit);
-    ru.disableRefLog();
-    if (ru.update(args.rw) != RefUpdate.Result.NEW) {
-      throw new IOException(String.format("Failed to create ref %s in %s: %s",
-          ps.getRefName(), n.change.getDest().getParentKey().get(),
-          ru.getResult()));
+      final List<PatchSetApproval> approvals = Lists.newArrayList();
+      for (PatchSetApproval a : args.mergeUtil.getApprovalsForCommit(n)) {
+        approvals.add(new PatchSetApproval(ps.getId(), a));
+      }
+      args.db.patchSetApprovals().insert(approvals);
+
+      ru = args.repo.updateRef(ps.getRefName());
+      ru.setExpectedOldObjectId(ObjectId.zeroId());
+      ru.setNewObjectId(newCommit);
+      ru.disableRefLog();
+      if (ru.update(args.rw) != RefUpdate.Result.NEW) {
+        throw new IOException(String.format(
+            "Failed to create ref %s in %s: %s", ps.getRefName(), n.change
+                .getDest().getParentKey().get(), ru.getResult()));
+      }
+
+      args.db.commit();
+    } finally {
+      args.db.rollback();
     }
 
     gitRefUpdated.fire(n.change.getProject(), ru);

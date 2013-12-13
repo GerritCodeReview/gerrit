@@ -52,7 +52,7 @@ class CommitBox extends Composite {
   }
 
   @UiField Style style;
-  @UiField Element commitName;
+  @UiField CopyableLabel commitName;
   @UiField AnchorElement browserLink;
   @UiField InlineHyperlink authorNameEmail;
   @UiField Element authorDate;
@@ -99,7 +99,8 @@ class CommitBox extends Composite {
       }
     }
 
-    commitName.setInnerText(revision);
+    commitName.setText(revision);
+    commitName.setPreviewText(revision);
     idText.setText("Change-Id: " + change.change_id());
     idText.setPreviewText(change.change_id());
     formatLink(commit.author(), authorNameEmail,

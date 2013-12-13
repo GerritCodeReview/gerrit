@@ -204,6 +204,13 @@ limitations under the License.
         </g:ToggleButton></td>
       </tr>
       <tr>
+        <th><ui:msg>Mark Reviewed</ui:msg></th>
+        <td><g:ToggleButton ui:field='manualReview'>
+          <g:upFace><ui:msg>Automatic</ui:msg></g:upFace>
+          <g:downFace><ui:msg>Manual</ui:msg></g:downFace>
+        </g:ToggleButton></td>
+      </tr>
+      <tr>
         <th><ui:msg>Expand All Comments</ui:msg></th>
         <td><g:ToggleButton ui:field='expandAllComments'>
           <g:upFace><ui:msg>Collapse</ui:msg></g:upFace>

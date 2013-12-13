@@ -23,6 +23,7 @@ import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.changes.ChangeList;
 import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
+import com.google.gerrit.client.changes.ReviewInfo;
 import com.google.gerrit.client.diff.DiffInfo.Region;
 import com.google.gerrit.client.diff.DiffInfo.Span;
 import com.google.gerrit.client.diff.LineMapper.LineOnOtherInfo;
@@ -277,6 +278,7 @@ public class SideBySide2 extends Screen {
       cmA.focus();
     }
 
+    autoReview();
     prefetchNextFile();
   }
 
@@ -1619,6 +1621,25 @@ public class SideBySide2 extends Screen {
         });
       }
     });
+  }
+
+  private void autoReview() {
+    if (Gerrit.isSignedIn() && prefs.autoReview()) {
+      ChangeApi.revision(revision)
+        .view("files")
+        .id(path)
+        .view("reviewed")
+        .background()
+        .put(new AsyncCallback<ReviewInfo>() {
+            @Override
+            public void onSuccess(ReviewInfo result) {
+              header.reviewed.setValue(true, false);
+            }
+            @Override
+            public void onFailure(Throwable caught) {
+            }
+          });
+    }
   }
 
   private void prefetchNextFile() {

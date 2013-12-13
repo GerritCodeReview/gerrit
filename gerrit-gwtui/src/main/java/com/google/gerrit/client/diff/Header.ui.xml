@@ -18,6 +18,7 @@ limitations under the License.
     xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
     xmlns:x='urn:import:com.google.gerrit.client.ui'>
+  <ui:with field='res' type='com.google.gerrit.client.diff.Resources'/>
   <ui:style>
   .header {
     position: relative;
@@ -56,12 +57,18 @@ limitations under the License.
     </span>
 
     <div class='{style.navigation}'>
-      <x:InlineHyperlink ui:field='prev'>&#x21e6;</x:InlineHyperlink>
-      <x:InlineHyperlink ui:field='up' title='Up to change (Shortcut: u)'>
+      <x:InlineHyperlink ui:field='prev' styleName='{res.style.go_prev}'/>
+      <x:InlineHyperlink ui:field='up'
+          styleName='{res.style.go_up}'
+          title='Up to change (Shortcut: u)'>
         <ui:attribute name='title'/>
-        &#x21e7;
       </x:InlineHyperlink>
-      <x:InlineHyperlink ui:field='next'>&#x21e8;</x:InlineHyperlink>
+      <x:InlineHyperlink ui:field='next' styleName='{res.style.go_next}'/>
+      <g:Image ui:field='preferences'
+           resource='{res.gear}'
+           title='Diff preferences (Shortcut: ,)'>
+         <ui:attribute name='title'/>
+      </g:Image>
     </div>
   </g:HTMLPanel>
 </ui:UiBinder>

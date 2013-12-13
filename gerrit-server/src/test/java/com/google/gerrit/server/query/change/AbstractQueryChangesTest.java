@@ -22,6 +22,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Objects;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.hash.Hashing;
@@ -567,6 +568,55 @@ public abstract class AbstractQueryChangesTest {
 
     assertTrue(query("status:new ownerin:Administrators").isEmpty());
     assertTrue(query("status:new ownerin:Administrators limit:2").isEmpty());
+  }
+
+  @Test
+  public void byFileExact() throws Exception {
+    TestRepository<InMemoryRepository> repo = createProject("repo");
+    RevCommit commit = repo.parseBody(
+        repo.commit().message("one")
+        .add("file1", "contents1").add("file2", "contents2")
+        .create());
+    Change change = newChange(repo, commit, null, null, null).insert();
+
+    assertTrue(query("file:file").isEmpty());
+    assertResultEquals(change, queryOne("file:file1"));
+    assertResultEquals(change, queryOne("file:file2"));
+  }
+
+  @Test
+  public void byFileRegex() throws Exception {
+    TestRepository<InMemoryRepository> repo = createProject("repo");
+    RevCommit commit = repo.parseBody(
+        repo.commit().message("one")
+        .add("file1", "contents1").add("file2", "contents2")
+        .create());
+    Change change = newChange(repo, commit, null, null, null).insert();
+
+    assertTrue(query("file:file.*").isEmpty());
+    assertResultEquals(change, queryOne("file:^file.*"));
+  }
+
+  @Test
+  public void byComment() throws Exception {
+    TestRepository<InMemoryRepository> repo = createProject("repo");
+    ChangeInserter ins = newChange(repo, null, null, null, null);
+    Change change = ins.insert();
+    ChangeControl ctl = changeControlFactory.controlFor(change, user);
+
+    ReviewInput input = new ReviewInput();
+    input.message = "toplevel";
+    ReviewInput.Comment comment = new ReviewInput.Comment();
+    comment.line = 1;
+    comment.message = "inline";
+    input.comments = ImmutableMap.<String, List<ReviewInput.Comment>> of(
+        "Foo.java", ImmutableList.<ReviewInput.Comment> of(comment));
+    postReview.apply(new RevisionResource(
+        new ChangeResource(ctl), ins.getPatchSet()), input);
+
+    assertTrue(query("comment:foo").isEmpty());
+    assertResultEquals(change, queryOne("comment:toplevel"));
+    assertResultEquals(change, queryOne("comment:inline"));
   }
 
   protected ChangeInserter newChange(

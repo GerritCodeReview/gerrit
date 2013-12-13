@@ -84,7 +84,8 @@ public class InMemoryModule extends FactoryModule {
     cfg.setString("cache", null, "directory", null);
     cfg.setString("index", null, "type", "lucene");
     cfg.setBoolean("index", "lucene", "testInmemory", true);
-    cfg.setInt("index", "lucene", "testVersion", 4);
+    cfg.setInt("index", "lucene", "testVersion",
+        ChangeSchemas.getLatest().getVersion());
     return cfg;
   }
 

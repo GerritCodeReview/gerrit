@@ -18,14 +18,8 @@ import com.google.gerrit.testutil.InMemoryModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import org.eclipse.jgit.lib.Config;
-
-public class LuceneQueryChangesTest extends AbstractIndexQueryChangesTest {
+public class LuceneQueryChangesTest extends AbstractQueryChangesTest {
   protected Injector createInjector() {
-    Config cfg = InMemoryModule.newDefaultConfig();
-    cfg.setString("index", null, "type", "lucene");
-    cfg.setBoolean("index", "lucene", "testInmemory", true);
-    cfg.setInt("index", "lucene", "testVersion", 4);
-    return Guice.createInjector(new InMemoryModule(cfg));
+    return Guice.createInjector(new InMemoryModule());
   }
 }

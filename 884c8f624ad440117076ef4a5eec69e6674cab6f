@@ -22,6 +22,30 @@
       "revId": "884c8f624ad440117076ef4a5eec69e6674cab6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8b49bde_1add3d83",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CherryPick.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-12-13T15:44:27Z",
+      "side": 1,
+      "message": "I think this logic is okay (but someone feel free to override me)... at this point, we\u0027ve added a new commit to the repo, so it\u0027s okay recording it as current in the DB...?\n\nThe one thing I was wondering... we have a bit of a chicken/egg problem here... If the RefUpdate on line 188 fails, then we don\u0027t have a ref pointing to this commit (and we could be subject to garbage collection)?   Does it make sense to execute the RefUpdate within the transaction, so if anything fails, we roll back the whole thing, and update the current patch set as the very last thing?",
+      "parentUuid": "c862af23_53ece439",
+      "range": {
+        "startLine": 166,
+        "startChar": 13,
+        "endLine": 166,
+        "endChar": 31
+      },
+      "revId": "884c8f624ad440117076ef4a5eec69e6674cab6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

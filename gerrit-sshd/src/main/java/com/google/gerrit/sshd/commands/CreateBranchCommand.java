@@ -15,19 +15,14 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.extensions.api.GerritApi;
-import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.server.project.CreateBranch;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.Option;
-
-import java.io.IOException;
 
 /** Create a new branch. **/
 @CommandMetaData(name = "create-branch", description = "Create a new branch")

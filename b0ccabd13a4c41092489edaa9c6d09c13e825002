@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "480cff77_cff79dfe",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-13T15:41:10Z",
+      "side": 1,
+      "message": "Unnecessary when the string is the same.",
+      "revId": "b0ccabd13a4c41092489edaa9c6d09c13e825002",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c862af23_d3f754fe",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-13T15:41:10Z",
+      "side": 1,
+      "message": "I think the label\u0027s copy button is now drawn on top of this link. Which may not be be best look.",
+      "revId": "b0ccabd13a4c41092489edaa9c6d09c13e825002",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

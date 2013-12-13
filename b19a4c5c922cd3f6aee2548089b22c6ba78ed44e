@@ -22,6 +22,30 @@
       "revId": "b19a4c5c922cd3f6aee2548089b22c6ba78ed44e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8e853cd_3c091148",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2013-12-13T12:21:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c862af23_93eddc36",
+      "range": {
+        "startLine": 102,
+        "startChar": 23,
+        "endLine": 102,
+        "endChar": 39
+      },
+      "revId": "b19a4c5c922cd3f6aee2548089b22c6ba78ed44e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c862af23_53ece439",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CherryPick.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-13T09:50:29Z",
+      "side": 1,
+      "message": "Do we still want to set the current patch set here?  Should it not be after the new patch set has been successfully written to the db, i.e. around line 183?",
+      "range": {
+        "startLine": 166,
+        "startChar": 13,
+        "endLine": 166,
+        "endChar": 31
+      },
+      "revId": "884c8f624ad440117076ef4a5eec69e6674cab6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

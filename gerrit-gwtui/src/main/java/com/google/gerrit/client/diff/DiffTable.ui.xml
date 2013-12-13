@@ -109,7 +109,7 @@ limitations under the License.
       content: "\00bb";
       color: #f00;
     }
-    .padding {
+    .showLineNumbers .padding {
       margin-left: 21px;
       border-left: 2px solid #d64040;
     }

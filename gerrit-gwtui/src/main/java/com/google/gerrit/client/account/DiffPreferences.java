@@ -33,6 +33,7 @@ public class DiffPreferences extends JavaScriptObject {
     p.showWhitespaceErrors(in.isShowWhitespaceErrors());
     p.syntaxHighlighting(in.isSyntaxHighlighting());
     p.hideTopMenu(in.isHideTopMenu());
+    p.hideLineNumbers(in.isHideLineNumbers());
     p.expandAllComments(in.isExpandAllComments());
     p.manualReview(in.isManualReview());
     return p;
@@ -48,6 +49,7 @@ public class DiffPreferences extends JavaScriptObject {
     p.setShowWhitespaceErrors(showWhitespaceErrors());
     p.setSyntaxHighlighting(syntaxHighlighting());
     p.setHideTopMenu(hideTopMenu());
+    p.setHideLineNumbers(hideLineNumbers());
     p.setExpandAllComments(expandAllComments());
     p.setManualReview(manualReview());
   }
@@ -65,8 +67,10 @@ public class DiffPreferences extends JavaScriptObject {
   public final native void showWhitespaceErrors(boolean s) /*-{ this.show_whitespace_errors = s }-*/;
   public final native void syntaxHighlighting(boolean s) /*-{ this.syntax_highlighting = s }-*/;
   public final native void hideTopMenu(boolean s) /*-{ this.hide_top_menu = s }-*/;
+  public final native void hideLineNumbers(boolean s) /*-{ this.hide_line_numbers = s }-*/;
   public final native void expandAllComments(boolean e) /*-{ this.expand_all_comments = e }-*/;
   public final native void manualReview(boolean r) /*-{ this.manual_review = r }-*/;
+  public final void showLineNumbers(boolean s) { hideLineNumbers(!s); }
 
   public final Whitespace ignoreWhitespace() {
     String s = ignoreWhitespaceRaw();
@@ -82,8 +86,10 @@ public class DiffPreferences extends JavaScriptObject {
   public final native boolean showWhitespaceErrors() /*-{ return this.show_whitespace_errors || false }-*/;
   public final native boolean syntaxHighlighting() /*-{ return this.syntax_highlighting || false }-*/;
   public final native boolean hideTopMenu() /*-{ return this.hide_top_menu || false }-*/;
+  public final native boolean hideLineNumbers() /*-{ return this.hide_line_numbers || false }-*/;
   public final native boolean expandAllComments() /*-{ return this.expand_all_comments || false }-*/;
   public final native boolean manualReview() /*-{ return this.manual_review || false }-*/;
+  public final boolean showLineNumbers() { return !hideLineNumbers(); }
   public final boolean autoReview() { return !manualReview(); }
 
   private final native int get(String n, int d)

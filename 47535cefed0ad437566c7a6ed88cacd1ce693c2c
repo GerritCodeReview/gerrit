@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8e853cd_3c34b1f8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetDiffPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-13T14:30:28Z",
+      "side": 1,
+      "message": "Should be documented in rest-api-accounts.txt in the description of DiffPreferencesInfo.",
+      "range": {
+        "startLine": 90,
+        "startChar": 12,
+        "endLine": 90,
+        "endChar": 27
+      },
+      "revId": "47535cefed0ad437566c7a6ed88cacd1ce693c2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48da3f34_3f34a7f8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetDiffPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-13T14:30:28Z",
+      "side": 1,
+      "message": "Should be documented in rest-api-accounts.txt in the description of DiffPreferencesInput.",
+      "range": {
+        "startLine": 48,
+        "startChar": 12,
+        "endLine": 48,
+        "endChar": 27
+      },
+      "revId": "47535cefed0ad437566c7a6ed88cacd1ce693c2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

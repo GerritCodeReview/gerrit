@@ -46,6 +46,9 @@ limitations under the License.
     left: literal("calc(50% - 30px)");
     color: #B00000;
   }
+  .preferences {
+    cursor: pointer;
+  }
   </ui:style>
   <g:HTMLPanel styleName='{style.header}'>
     <g:CheckBox ui:field='reviewed'
@@ -68,6 +71,7 @@ limitations under the License.
       </x:InlineHyperlink>
       <x:InlineHyperlink ui:field='next' styleName='{res.style.go_next}'/>
       <g:Image ui:field='preferences'
+           styleName='{style.preferences}'
            resource='{res.gear}'
            title='Diff preferences (Shortcut: ,)'>
          <ui:attribute name='title'/>

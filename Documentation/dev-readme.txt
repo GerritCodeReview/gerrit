@@ -28,6 +28,23 @@ For details on how to build the source code with Buck, refer to:
 link:dev-buck.html#build[Building on the command line with Buck].
 
 
+Switching between branches
+--------------------------
+
+When switching between branches with `git checkout`, be aware that
+submodule revisions are not altered.  This may result in the wrong
+plugin revisions being present, unneeded plugins being present, or
+expected plugins being missing.
+
+After switching branches, make sure the submodules are at the correct
+revisions for the new branch with the commands:
+
+----
+  git submodule update
+  git clean -fdx
+----
+
+
 Configuring Eclipse
 -------------------
 

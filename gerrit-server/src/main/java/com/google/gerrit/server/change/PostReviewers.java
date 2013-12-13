@@ -15,10 +15,9 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
+import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.GroupDescription;
@@ -34,8 +33,8 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
@@ -51,7 +50,6 @@ import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -63,6 +61,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class PostReviewers implements RestModifyView<ChangeResource, AddReviewerInput> {
@@ -74,6 +73,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
 
   private final AccountsCollection accounts;
   private final ReviewerResource.Factory reviewerFactory;
+  private final ApprovalsUtil approvalsUtil;
   private final AddReviewerSender.Factory addReviewerSenderFactory;
   private final Provider<GroupsCollection> groupsCollection;
   private final GroupMembers.Factory groupMembersFactory;
@@ -90,6 +90,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
   @Inject
   PostReviewers(AccountsCollection accounts,
       ReviewerResource.Factory reviewerFactory,
+      ApprovalsUtil approvalsUtil,
       AddReviewerSender.Factory addReviewerSenderFactory,
       Provider<GroupsCollection> groupsCollection,
       GroupMembers.Factory groupMembersFactory,
@@ -104,6 +105,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       ChangeIndexer indexer) {
     this.accounts = accounts;
     this.reviewerFactory = reviewerFactory;
+    this.approvalsUtil = approvalsUtil;
     this.addReviewerSenderFactory = addReviewerSenderFactory;
     this.groupsCollection = groupsCollection;
     this.groupMembersFactory = groupMembersFactory;
@@ -142,8 +144,11 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
 
   private PostResult putAccount(ReviewerResource rsrc) throws OrmException,
       EmailException, IOException {
+    Account.Id id = rsrc.getUser().getAccountId();
+    ChangeControl control = rsrc.getControl().forUser(
+        identifiedUserFactory.create(id));
     PostResult result = new PostResult();
-    addReviewers(rsrc, result, ImmutableSet.of(rsrc.getUser()));
+    addReviewers(rsrc, result, ImmutableMap.of(id, control));
     return result;
   }
 
@@ -158,7 +163,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       return result;
     }
 
-    Set<IdentifiedUser> reviewers = Sets.newLinkedHashSet();
+    Map<Account.Id, ChangeControl> reviewers = Maps.newHashMap();
     ChangeControl control = rsrc.getControl();
     Set<Account> members;
     try {
@@ -199,7 +204,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
         // Does not account for draft status as a user might want to let a
         // reviewer see a draft.
         if (control.forUser(user).isRefVisible()) {
-          reviewers.add(user);
+          reviewers.put(user.getAccountId(), control);
         }
       }
     }
@@ -209,82 +214,62 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
   }
 
   private void addReviewers(ChangeResource rsrc, PostResult result,
-      Set<IdentifiedUser> reviewers)
+      Map<Account.Id, ChangeControl> reviewers)
       throws OrmException, EmailException, IOException {
-    if (reviewers.isEmpty()) {
-      result.reviewers = ImmutableList.of();
-      return;
-    }
-
     ReviewDb db = dbProvider.get();
-    PatchSet.Id psid = rsrc.getChange().currentPatchSetId();
-    Set<Account.Id> existing = Sets.newHashSet();
-    for (PatchSetApproval psa : db.patchSetApprovals().byPatchSet(psid)) {
-      existing.add(psa.getAccountId());
-    }
-
-    result.reviewers = Lists.newArrayListWithCapacity(reviewers.size());
-    List<PatchSetApproval> toInsert =
-        Lists.newArrayListWithCapacity(reviewers.size());
-    for (IdentifiedUser user : reviewers) {
-      Account.Id id = user.getAccountId();
-      if (existing.contains(id)) {
-        continue;
-      }
-      ChangeControl control = rsrc.getControl().forUser(user);
-      PatchSetApproval psa = dummyApproval(control, psid, id);
-      result.reviewers.add(json.format(
-          new ReviewerInfo(id), control, ImmutableList.of(psa)));
-      toInsert.add(psa);
-    }
-    if (toInsert.isEmpty()) {
-      return;
-    }
-
+    List<PatchSetApproval> added;
     db.changes().beginTransaction(rsrc.getChange().getId());
     try {
       ChangeUtil.bumpRowVersionNotLastUpdatedOn(rsrc.getChange().getId(), db);
-      db.patchSetApprovals().insert(toInsert);
+      added = approvalsUtil.addReviewers(db, rsrc.getControl().getLabelTypes(),
+          rsrc.getChange(), reviewers.keySet());
       db.commit();
     } finally {
       db.rollback();
     }
 
     CheckedFuture<?, IOException> indexFuture = indexer.indexAsync(rsrc.getChange());
+    result.reviewers = Lists.newArrayListWithCapacity(added.size());
+    for (PatchSetApproval psa : added) {
+      result.reviewers.add(json.format(
+          new ReviewerInfo(psa.getAccountId()),
+          reviewers.get(psa.getAccountId()),
+          ImmutableList.of(psa)));
+    }
+
     accountLoaderFactory.create(true).fill(result.reviewers);
-    postAdd(rsrc.getChange(), result);
+    postAdd(rsrc.getChange(), added);
     indexFuture.checkedGet();
   }
 
-  private void postAdd(Change change, PostResult result)
+  private void postAdd(Change change, List<PatchSetApproval> added)
       throws OrmException, EmailException {
-    if (result.reviewers.isEmpty()) {
+    if (added.isEmpty()) {
       return;
     }
 
     // Execute hook for added reviewers
     //
     PatchSet patchSet = dbProvider.get().patchSets().get(change.currentPatchSetId());
-    for (AccountInfo info : result.reviewers) {
-      Account account = accountCache.get(info._id).getAccount();
+    for (PatchSetApproval psa : added) {
+      Account account = accountCache.get(psa.getAccountId()).getAccount();
       hooks.doReviewerAddedHook(change, account, patchSet, dbProvider.get());
     }
 
     // Email the reviewers
     //
     // The user knows they added themselves, don't bother emailing them.
-    List<Account.Id> added =
-        Lists.newArrayListWithCapacity(result.reviewers.size());
-    for (AccountInfo info : result.reviewers) {
-      if (!info._id.equals(currentUser.getAccountId())) {
-        added.add(info._id);
+    List<Account.Id> toMail = Lists.newArrayListWithCapacity(added.size());
+    for (PatchSetApproval psa : added) {
+      if (!psa.getAccountId().equals(currentUser.getAccountId())) {
+        toMail.add(psa.getAccountId());
       }
     }
     if (!added.isEmpty()) {
       try {
         AddReviewerSender cm = addReviewerSenderFactory.create(change);
         cm.setFrom(currentUser.getAccountId());
-        cm.addReviewers(added);
+        cm.addReviewers(toMail);
         cm.send();
       } catch (Exception err) {
         log.error("Cannot send email to new reviewers of change "
@@ -295,14 +280,5 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
 
   public static boolean isLegalReviewerGroup(AccountGroup.UUID groupUUID) {
     return !SystemGroupBackend.isSystemGroup(groupUUID);
-  }
-
-  private PatchSetApproval dummyApproval(ChangeControl ctl,
-      PatchSet.Id patchSetId, Account.Id reviewerId) {
-    LabelId id =
-        Iterables.getLast(ctl.getLabelTypes().getLabelTypes()).getLabelId();
-    return new PatchSetApproval(
-        new PatchSetApproval.Key(patchSetId, reviewerId, id), (short) 0,
-        TimeUtil.nowTs());
   }
 }

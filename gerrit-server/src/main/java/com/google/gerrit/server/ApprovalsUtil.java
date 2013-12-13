@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -31,6 +32,7 @@ import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -43,6 +45,8 @@ import java.util.Set;
  * even if the reviewer hasn't actually given a score to the change.  To
  * mark the "no score" case, a dummy approval, which may live in any of
  * the available categories, with a score of 0 is used.
+ * <p>
+ * The methods in this class do not begin/commit transactions.
  */
 public class ApprovalsUtil {
   @Inject
@@ -92,38 +96,58 @@ public class ApprovalsUtil {
     db.patchSetApprovals().insert(copied);
   }
 
-  public void addReviewers(ReviewDb db, LabelTypes labelTypes, Change change,
-      PatchSet ps, PatchSetInfo info, Set<Account.Id> wantReviewers,
-      Set<Account.Id> existingReviewers) throws OrmException {
+  public List<PatchSetApproval> addReviewers(ReviewDb db, LabelTypes labelTypes,
+      Change change, PatchSet ps, PatchSetInfo info,
+      Iterable<Account.Id> wantReviewers, Set<Account.Id> existingReviewers)
+      throws OrmException {
+    return addReviewers(db, labelTypes, change, ps.getId(), ps.isDraft(),
+        info.getAuthor().getAccount(), info.getCommitter().getAccount(),
+        wantReviewers, existingReviewers);
+  }
+
+  public List<PatchSetApproval> addReviewers(ReviewDb db, LabelTypes labelTypes,
+      Change change, Iterable<Account.Id> wantReviewers) throws OrmException {
+    PatchSet.Id psId = change.currentPatchSetId();
+    Set<Account.Id> existing = Sets.newHashSet();
+    for (PatchSetApproval psa : db.patchSetApprovals().byPatchSet(psId)) {
+      existing.add(psa.getAccountId());
+    }
+    return addReviewers(db, labelTypes, change, psId, false, null, null,
+        wantReviewers, existing);
+  }
+
+  private List<PatchSetApproval> addReviewers(ReviewDb db,
+      LabelTypes labelTypes, Change change, PatchSet.Id psId, boolean isDraft,
+      Account.Id authorId, Account.Id committerId,
+      Iterable<Account.Id> wantReviewers, Set<Account.Id> existingReviewers)
+      throws OrmException {
     List<LabelType> allTypes = labelTypes.getLabelTypes();
     if (allTypes.isEmpty()) {
-      return;
+      return ImmutableList.of();
     }
 
-    Set<Account.Id> need = Sets.newHashSet(wantReviewers);
-    Account.Id authorId = info.getAuthor() != null
-        ? info.getAuthor().getAccount()
-        : null;
-    if (authorId != null && !ps.isDraft()) {
+    Set<Account.Id> need = Sets.newLinkedHashSet(wantReviewers);
+    if (authorId != null && !isDraft) {
       need.add(authorId);
     }
 
-    Account.Id committerId = info.getCommitter() != null
-        ? info.getCommitter().getAccount()
-        : null;
-    if (committerId != null && !ps.isDraft()) {
+    if (committerId != null && !isDraft) {
       need.add(committerId);
     }
     need.remove(change.getOwner());
     need.removeAll(existingReviewers);
+    if (need.isEmpty()) {
+      return ImmutableList.of();
+    }
 
     List<PatchSetApproval> cells = Lists.newArrayListWithCapacity(need.size());
     LabelId labelId = Iterables.getLast(allTypes).getLabelId();
     for (Account.Id account : need) {
       cells.add(new PatchSetApproval(
-          new PatchSetApproval.Key(ps.getId(), account, labelId),
+          new PatchSetApproval.Key(psId, account, labelId),
           (short) 0, TimeUtil.nowTs()));
     }
     db.patchSetApprovals().insert(cells);
+    return Collections.unmodifiableList(cells);
   }
 }

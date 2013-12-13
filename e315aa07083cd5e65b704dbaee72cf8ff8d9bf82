@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48bf9fde_57152c53",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-13T23:39:40Z",
+      "side": 1,
+      "message": "I moved this load into commit because it helps a lot with calling code when writes to the notedb are not enabled, as during a transition period. In particular, it allows calling code to call all the methods on ChangeUpdate and only decide at the last minute whether to call commit. (The alternative is to extract an interface of which we can have a no-op implementation, but I\u0027m not crazy about that.)",
+      "revId": "e315aa07083cd5e65b704dbaee72cf8ff8d9bf82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

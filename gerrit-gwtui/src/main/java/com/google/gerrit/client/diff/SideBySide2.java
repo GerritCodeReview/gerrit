@@ -1285,6 +1285,7 @@ public class SideBySide2 extends Screen {
         if (cm.somethingSelected()) {
           lineActiveBoxMap.put(handle,
               addNewDraft(cm, line, fromTo.getTo().getLine() == line ? fromTo : null));
+          cm.setSelection(cm.getCursor());
         } else if (box == null) {
           lineActiveBoxMap.put(handle, addNewDraft(cm, line, null));
         } else if (box instanceof DraftBox) {

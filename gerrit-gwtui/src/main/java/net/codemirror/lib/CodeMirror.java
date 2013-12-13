@@ -209,6 +209,10 @@ public class CodeMirror extends JavaScriptObject {
     return FromTo.create(getCursor("start"), getCursor("end"));
   }
 
+  public final native void setSelection(LineCharacter lineCh) /*-{
+    this.setSelection(lineCh);
+  }-*/;
+
   public final native void setCursor(LineCharacter lineCh) /*-{
     this.setCursor(lineCh);
   }-*/;

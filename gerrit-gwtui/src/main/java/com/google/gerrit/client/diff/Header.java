@@ -34,6 +34,7 @@ import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Visibility;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -43,6 +44,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
@@ -52,6 +54,9 @@ import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 class Header extends Composite {
   interface Binder extends UiBinder<HTMLPanel, Header> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
+  static {
+    Resources.I.style().ensureInjected();
+  }
 
   @UiField CheckBox reviewed;
   @UiField Element project;
@@ -62,6 +67,7 @@ class Header extends Composite {
   @UiField InlineHyperlink prev;
   @UiField InlineHyperlink up;
   @UiField InlineHyperlink next;
+  @UiField Image preferences;
 
   private final KeyCommandSet keys;
   private final PatchSet.Id base;
@@ -70,6 +76,7 @@ class Header extends Composite {
   private boolean hasPrev;
   private boolean hasNext;
   private String nextPath;
+  private PreferencesAction prefsAction;
 
   Header(KeyCommandSet keys, PatchSet.Id base, PatchSet.Id patchSetId,
       String path) {
@@ -151,8 +158,13 @@ class Header extends Composite {
     }
   }
 
-  void set(ChangeInfo info) {
+  void setChangeInfo(ChangeInfo info) {
     project.setInnerText(info.project());
+  }
+
+  void init(PreferencesAction pa) {
+    prefsAction = pa;
+    prefsAction.setPartner(preferences);
   }
 
   void setReviewed(boolean r) {
@@ -174,6 +186,11 @@ class Header extends Composite {
     } else {
       api.delete(CallbackGroup.<ReviewInfo>emptyCallback());
     }
+  }
+
+  @UiHandler("preferences")
+  void onPreferences(ClickEvent e) {
+    prefsAction.show();
   }
 
   private String url(FileInfo info) {

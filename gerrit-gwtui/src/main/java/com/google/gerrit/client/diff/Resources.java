@@ -17,12 +17,17 @@ package com.google.gerrit.client.diff;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
+import com.google.gwt.resources.client.ImageResource;
 
 /** Resources used by diff. */
 interface Resources extends ClientBundle {
   static final Resources I = GWT.create(Resources.class);
 
   @Source("CommentBoxUi.css") Style style();
+  @Source("go-prev.png") ImageResource go_prev();
+  @Source("go-next.png") ImageResource go_next();
+  @Source("go-up.png") ImageResource go_up();
+  @Source("gear.png") ImageResource gear();
 
   interface Style extends CssResource {
     String commentBox();
@@ -30,5 +35,9 @@ interface Resources extends ClientBundle {
     String header();
     String summary();
     String date();
+
+    String go_prev();
+    String go_next();
+    String go_up();
   }
 }

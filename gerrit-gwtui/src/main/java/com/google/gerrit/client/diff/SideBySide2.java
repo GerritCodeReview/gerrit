@@ -226,7 +226,7 @@ public class SideBySide2 extends Screen {
         JsArray<RevisionInfo> list = info.revisions().values();
         RevisionInfo.sortRevisionInfoByNumber(list);
         diffTable.setUpPatchSetNav(list, diff);
-        header.set(info);
+        header.setChangeInfo(info);
       }}));
 
     ConfigInfoCache.get(changeId, group.addFinal(
@@ -533,6 +533,7 @@ public class SideBySide2 extends Screen {
     prefsAction = new PreferencesAction(this, prefs);
     scrollingGlue = GWT.create(ScrollSynchronizer.class);
     scrollingGlue.init(diffTable, cmA, cmB, mapper);
+    header.init(prefsAction);
     resizeHandler = Window.addResizeHandler(new ResizeHandler() {
       @Override
       public void onResize(ResizeEvent event) {

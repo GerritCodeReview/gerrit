@@ -16,6 +16,24 @@
       "revId": "208a87f5d29be8e6e014468b0ae76560fbb8c77f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8e853cd_5cfeddda",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-13T13:03:00Z",
+      "side": 1,
+      "message": "Both are important points.\n\n \u003e We don\u0027t set a timeout on the pegdown parser.\n\nI\u0027m not sure if there is any default timeout in the pegdown version that we currently use, but in version 1.2.1 there is a default timeout of 2s. This seems to be good for us. Upgrading pegdown is done in [1].\n\n \u003e I don\u0027t know if we disable raw inline HTML.\n\nInline HTML was not disabled. It is now disabled for documentation that is directly served from the projects.\n\nI believe for the beginning it would be safer to have the serving of project documentation as an experimental feature which site administrators have to switch on explicitely. If it turns out that serving the documentation creates too much load, it can simply be switched off. I\u0027ve added this option in the new patch set.\n\n[1] https://gerrit-review.googlesource.com/53090",
+      "parentUuid": "c862af23_13e26c47",
+      "revId": "208a87f5d29be8e6e014468b0ae76560fbb8c77f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48da3f34_bf14375a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-13T14:04:31Z",
+      "side": 1,
+      "message": "In Firefox on Mac the icons have a small overlap (~2 pixels) with the diff table header. Not a big issue, but maybe it can be fixed?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 21
+      },
+      "revId": "89a44312c69a12e39abbf5d577aa4a3fc978f456",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48da3f34_9f17735e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-13T14:04:31Z",
+      "side": 1,
+      "message": "Add reference to issue 2225 here.",
+      "revId": "89a44312c69a12e39abbf5d577aa4a3fc978f456",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

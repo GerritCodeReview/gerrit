@@ -36,7 +36,6 @@ public class ReviewInput extends JavaScriptObject {
 
   public final native void message(String m) /*-{ if(m)this.message=m; }-*/;
   public final native void label(String n, short v) /*-{ this.labels[n]=v; }-*/;
-  public final native short label(String n) /*-{ return this.labels[n]||0 }-*/;
   public final native void comments(NativeMap<JsArray<CommentInfo>> m)
   /*-{ this.comments=m }-*/;
 

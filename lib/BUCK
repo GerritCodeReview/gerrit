@@ -151,11 +151,10 @@ maven_jar(
 
 maven_jar(
   name = 'pegdown',
-  id = 'org.pegdown:pegdown:1.1.0',
-  sha1 = '00bcc0c5b025b09ab85bb80a8311ce5c015d005b',
+  id = 'org.pegdown:pegdown:1.2.1',
+  sha1 = '47689e060d90f90431b5ab2df911452b93930d8c',
   license = 'Apache2.0',
   deps = [':parboiled-java'],
-  exclude = ['META-INF/LICENSE', 'META-INF/NOTICE'],
 )
 
 maven_jar(

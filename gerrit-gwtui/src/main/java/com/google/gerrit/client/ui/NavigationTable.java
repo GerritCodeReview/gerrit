@@ -53,7 +53,7 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
           }
           final int row = rowOf(td);
           if (getRowItem(row) != null) {
-            onCellSingleClick(rowOf(td), columnOf(td));
+            onCellSingleClick(event, rowOf(td), columnOf(td));
             return;
           }
           break;
@@ -145,7 +145,7 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
   }
 
   /** Invoked when the user clicks on a table cell. */
-  protected void onCellSingleClick(int row, int column) {
+  protected void onCellSingleClick(Event event, int row, int column) {
     movePointerTo(row);
   }
 

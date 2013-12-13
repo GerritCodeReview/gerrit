@@ -379,19 +379,17 @@ public abstract class AbstractQueryChangesTest {
     assertTrue(query("label:Code-Review=2").isEmpty());
     assertTrue(query("label:Code-Review+2").isEmpty());
 
-    // TODO(dborowitz): > and < are broken at head.
-
     assertResultEquals(change, queryOne("label:Code-Review>=0"));
-    //assertResultEquals(change, queryOne("label:Code-Review>0"));
+    assertResultEquals(change, queryOne("label:Code-Review>0"));
     assertResultEquals(change, queryOne("label:Code-Review>=1"));
-    //assertTrue(query("label:Code-Review>1").isEmpty());
+    assertTrue(query("label:Code-Review>1").isEmpty());
     assertTrue(query("label:Code-Review>=2").isEmpty());
 
     assertResultEquals(change, queryOne("label: Code-Review<=2"));
-    //assertResultEquals(change, queryOne("label: Code-Review<2"));
+    assertResultEquals(change, queryOne("label: Code-Review<2"));
     assertResultEquals(change, queryOne("label: Code-Review<=1"));
-    //assertTrue(query("label: Code-Review<1").isEmpty());
-    assertTrue(query("label: Code-Review<=0").isEmpty());
+    assertTrue(query("label:Code-Review<1").isEmpty());
+    assertTrue(query("label:Code-Review<=0").isEmpty());
 
     assertTrue(query("label:Code-Review=+1,anotheruser").isEmpty());
     assertResultEquals(change, queryOne("label:Code-Review=+1,user"));

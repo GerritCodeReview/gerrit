@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "88c5177b_99ebfb22",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-13T22:39:19Z",
+      "side": 1,
+      "message": "Maybe its a lazy friday afternoon, but I still don\u0027t understand what you are trying to do, and how this implements it.",
+      "revId": "73753b430a28dbe0a11bf0c283238dc6da13e6a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

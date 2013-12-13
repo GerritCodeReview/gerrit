@@ -96,6 +96,9 @@ link:cmd-receive-pack.html[git receive-pack]::
 Also implements the magic associated with uploading commits for
 review.  See link:user-upload.html#push_create[Creating Changes].
 
+link:cmd-create-branch.html[gerrit create-branch]::
+	Create a new project branch.
+
 [[admin_commands]]Administrator Commands
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

@@ -61,7 +61,7 @@ class PreferencesAction {
     popup.setPopupPositionAndShow(new PositionCallback() {
       @Override
       public void setPosition(int offsetWidth, int offsetHeight) {
-        popup.setPopupPosition(390, 120);
+        popup.setPopupPosition(300, 120);
       }
     });
     current.setFocus(true);

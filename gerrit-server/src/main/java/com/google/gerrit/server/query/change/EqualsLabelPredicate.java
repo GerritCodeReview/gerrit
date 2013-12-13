@@ -42,20 +42,17 @@ class EqualsLabelPredicate extends IndexPredicate<ChangeData> {
   private final Account.Id account;
   private final AccountGroup.UUID group;
 
-  EqualsLabelPredicate(ProjectCache projectCache,
-      ChangeControl.GenericFactory ccFactory,
-      IdentifiedUser.GenericFactory userFactory, Provider<ReviewDb> dbProvider,
-      String label, int expVal, Account.Id account,
-      AccountGroup.UUID group) {
+  EqualsLabelPredicate(LabelPredicate.Args args, String label, int expVal,
+      Account.Id account) {
     super(ChangeField.LABEL, ChangeField.formatLabel(label, expVal, account));
-    this.ccFactory = ccFactory;
-    this.projectCache = projectCache;
-    this.userFactory = userFactory;
-    this.dbProvider = dbProvider;
+    this.ccFactory = args.ccFactory;
+    this.projectCache = args.projectCache;
+    this.userFactory = args.userFactory;
+    this.dbProvider = args.dbProvider;
+    this.group = args.group;
     this.label = label;
     this.expVal = expVal;
     this.account = account;
-    this.group = group;
   }
 
   @Override

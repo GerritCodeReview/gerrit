@@ -16,6 +16,24 @@
       "revId": "73753b430a28dbe0a11bf0c283238dc6da13e6a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88c5177b_9902db20",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-12-13T22:58:14Z",
+      "side": 1,
+      "message": "I want to show ancestors that are dependent on future patch sets of the revision.\n\nSay you start with this: C2 -\u003e C1\n\nThen you add another commit such that: C3 -\u003e C2\u0027 -\u003e C1\u0027\n\nWhen you are viewing C2, Related changes returns:\n\n C3\n C2\n C1\n\nEven though there is no link from C3 -\u003e C2.\n\nMy main motivation for this is when navigating changes via J/K/O.  I want to know if the patchset I am currently on (C2) will show up when I navigate to C3.  The \u0027~\u0027 tells me that this is not actually an ancestor so the current patch set I am viewing will not show up when I navigate there.  In my simple example it doesn\u0027t really matter, but if C2\u0027 is vastly different from C2 and has a different related changes listing, the jump can be jarring.",
+      "parentUuid": "88c5177b_99ebfb22",
+      "revId": "73753b430a28dbe0a11bf0c283238dc6da13e6a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

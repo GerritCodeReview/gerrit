@@ -34,6 +34,9 @@ public class LabelVoteTest {
     l = LabelVote.parse("Code-Review");
     assertEquals("Code-Review", l.getLabel());
     assertEquals((short) 1, l.getValue());
+    l = LabelVote.parse("Code-Review+1");
+    assertEquals("Code-Review", l.getLabel());
+    assertEquals((short) 1, l.getValue());
     l = LabelVote.parse("Code-Review+2");
     assertEquals("Code-Review", l.getLabel());
     assertEquals((short) 2, l.getValue());
@@ -44,7 +47,7 @@ public class LabelVoteTest {
     assertEquals("Code-Review-2", LabelVote.parse("Code-Review-2").format());
     assertEquals("Code-Review-1", LabelVote.parse("Code-Review-1").format());
     assertEquals("-Code-Review", LabelVote.parse("-Code-Review").format());
-    assertEquals("Code-Review", LabelVote.parse("Code-Review").format());
+    assertEquals("Code-Review+1", LabelVote.parse("Code-Review+1").format());
     assertEquals("Code-Review+2", LabelVote.parse("Code-Review+2").format());
   }
 

@@ -75,8 +75,6 @@ public class LabelVote {
   public String format() {
     if (value == (short) 0) {
       return '-' + name;
-    } else if (value == (short) 1) {
-      return name;
     } else if (value < 0) {
       return name + value;
     } else {

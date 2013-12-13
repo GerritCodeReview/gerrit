@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "88c5177b_59156353",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/WebUiPlugin.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-13T22:59:07Z",
+      "side": 1,
+      "message": "can",
+      "range": {
+        "startLine": 73,
+        "startChar": 16,
+        "endLine": 73,
+        "endChar": 22
+      },
+      "revId": "7d6a0f9e49614d8f75e7d6360fff61166605f52b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88c5177b_3912af6d",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/WebUiPlugin.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-13T22:59:07Z",
+      "side": 1,
+      "message": "Explain that multiple plugins using the same library should use a common name for that library to avoid injecting it twice.\n\nMaybe show an example names for jQuery and twitter bootstrap since those are popular? Does bootstrap even work in Gerrit?",
+      "revId": "7d6a0f9e49614d8f75e7d6360fff61166605f52b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88c5177b_7918278f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/WebUiPlugin.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-13T22:59:07Z",
+      "side": 1,
+      "message": "Map",
+      "range": {
+        "startLine": 77,
+        "startChar": 9,
+        "endLine": 77,
+        "endChar": 16
+      },
+      "revId": "7d6a0f9e49614d8f75e7d6360fff61166605f52b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48bf9fde_b7fda8de",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/WebUiPlugin.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-13T22:59:07Z",
+      "side": 1,
+      "message": "Collections.emptyMap()",
+      "range": {
+        "startLine": 78,
+        "startChar": 11,
+        "endLine": 78,
+        "endChar": 39
+      },
+      "revId": "7d6a0f9e49614d8f75e7d6360fff61166605f52b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48bf9fde_f7032027",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-13T22:59:07Z",
+      "side": 1,
+      "message": "Sets.newHashSet",
+      "range": {
+        "startLine": 224,
+        "startChar": 40,
+        "endLine": 224,
+        "endChar": 58
+      },
+      "revId": "7d6a0f9e49614d8f75e7d6360fff61166605f52b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88c5177b_b9fd9fde",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-13T22:59:07Z",
+      "side": 1,
+      "message": "Set",
+      "range": {
+        "startLine": 224,
+        "startChar": 4,
+        "endLine": 224,
+        "endChar": 8
+      },
+      "revId": "7d6a0f9e49614d8f75e7d6360fff61166605f52b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48bf9fde_17f8d4ee",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-13T22:59:07Z",
+      "side": 1,
+      "message": "nit: space after if before (",
+      "range": {
+        "startLine": 228,
+        "startChar": 8,
+        "endLine": 228,
+        "endChar": 31
+      },
+      "revId": "7d6a0f9e49614d8f75e7d6360fff61166605f52b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48bf9fde_d7081c46",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-13T22:59:07Z",
+      "side": 1,
+      "message": "Unfortunately the UI now assumes the names in plugins are of the form \"plugins/foo/static/bar.js\". This is a fairly recent change within just the past couple of weeks. We may need to put these into their own list in the HostPageData and load them first before we load plugins.",
+      "revId": "7d6a0f9e49614d8f75e7d6360fff61166605f52b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

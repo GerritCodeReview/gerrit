@@ -17,6 +17,7 @@ package com.google.gerrit.client.change;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GitwebLink;
 import com.google.gerrit.client.change.RelatedChanges.ChangeAndCommit;
+import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.common.PageLinks;
@@ -38,6 +39,9 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.impl.HyperlinkImpl;
 import com.google.gwtexpui.progress.client.ProgressBar;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
+
+import java.util.HashSet;
+import java.util.Set;
 
 class RelatedChangesTab implements IsWidget {
   private static final String OPEN;
@@ -216,6 +220,7 @@ class RelatedChangesTab implements IsWidget {
     private final SafeHtmlBuilder sb = new SafeHtmlBuilder();
     private final MyTable table;
     private final String revision;
+    private final Set<String> revisions;
     private final JsArray<ChangeAndCommit> list;
     private boolean attached;
     private int row;
@@ -226,6 +231,11 @@ class RelatedChangesTab implements IsWidget {
       this.table = new MyTable(list);
       this.revision = revision;
       this.list = list;
+
+      revisions = new HashSet<String>(Math.max(list.length() * 4 / 3, 16));
+      for (int i = 0; i < list.length(); i++) {
+        revisions.add(list.get(i).commit().commit());
+      }
     }
 
     public boolean execute() {
@@ -284,6 +294,9 @@ class RelatedChangesTab implements IsWidget {
       if (gw != null && (!info.has_change_number() || !info.has_revision_number())) {
         sb.addStyleName(Gerrit.RESOURCES.css().relatedChangesGitweb());
         sb.setAttribute("title", gw.getLinkName());
+      } else if (indirectAncestor(row, info.commit().parents())) {
+        sb.addStyleName(Gerrit.RESOURCES.css().relatedChangesIndirect());
+        sb.setAttribute("title", Resources.C.indirectAncestor());
       } else if (info.has_current_revision_number() && info.has_revision_number()
           && info._current_revision_number() != info._revision_number()) {
         sb.addStyleName(Gerrit.RESOURCES.css().relatedChangesNotCurrent());
@@ -300,6 +313,18 @@ class RelatedChangesTab implements IsWidget {
 
     private boolean longRunning() {
       return System.currentTimeMillis() - start > 200;
+    }
+
+    private boolean indirectAncestor(int row, JsArray<CommitInfo> parents) {
+      if (row == list.length() - 1) {
+        return false;
+      }
+      for (int i = 0; i < parents.length(); i++) {
+        if (revisions.contains(parents.get(i).commit())) {
+          return false;
+        }
+      }
+      return true;
     }
   }
 }

@@ -25,15 +25,19 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.auth.AuthException;
+import com.google.gerrit.server.change.PutContent;
 import com.google.gerrit.server.change.RevisionEditCommands;
+import com.google.gerrit.server.git.RevisionEdit;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
@@ -50,6 +54,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Map;
 
 public class RevisionEditIT extends AbstractDaemonTest {
 
@@ -79,6 +84,7 @@ public class RevisionEditIT extends AbstractDaemonTest {
   private ReviewDb db;
   private Change change;
   private PatchSet ps;
+  RestSession session;
 
   @Before
   public void setUp() throws Exception {
@@ -95,6 +101,7 @@ public class RevisionEditIT extends AbstractDaemonTest {
     assertNotNull(change);
     ps = getCurrentPatchSet(changeId);
     assertNotNull(ps);
+    session = new RestSession(server, admin);
     atrScope.set(atrScope.newContext(reviewDbProvider, sshSession,
         identifiedUserFactory.create(Providers.of(db), admin.getId())));
   }
@@ -119,6 +126,17 @@ public class RevisionEditIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void updateExistingFileRest() throws IOException, AuthException,
+      InvalidChangeOperationException, NoSuchChangeException {
+    PutContent.Input in = new PutContent.Input();
+    in.content = CONTENT_NEW;
+    assertEquals(204, session.put(url(), in).getStatusCode());
+    assertEquals(1, cmd.read(change).size());
+    cmd.delete(change, ps);
+    assertEquals(0, cmd.read(change).size());
+  }
+
+  @Test
   public void ammendExistingFile() throws IOException, AuthException,
       InvalidChangeOperationException, NoSuchChangeException, OrmException {
     assertEquals(RefUpdate.Result.NEW,
@@ -127,15 +145,30 @@ public class RevisionEditIT extends AbstractDaemonTest {
             ps,
             FILE_NAME,
             CONTENT_NEW));
-
+    assertEquals(1, cmd.read(change).size());
     assertEquals(RefUpdate.Result.FORCED,
         cmd.edit(
             change,
             ps,
             FILE_NAME,
             CONTENT_NEW + 42));
+    cmd.publish(change, ps);
+    assertEquals(0, cmd.read(change).size());
+  }
 
-    assertEquals(1, cmd.read(change).size());
+  @Test
+  public void ammendExistingFileRest() throws IOException, AuthException,
+      InvalidChangeOperationException, NoSuchChangeException, OrmException {
+    PutContent.Input in = new PutContent.Input();
+    in.content = CONTENT_NEW;
+    assertEquals(204, session.put(url(), in).getStatusCode());
+    Map<Id, RevisionEdit> m = cmd.read(change);
+    assertEquals(1, m.size());
+    Map.Entry<Id, RevisionEdit> e = Iterables.getOnlyElement(m.entrySet());
+    assertEquals(true, e.getKey().isEdit());
+    assertEquals("1+", e.getKey().getId());
+    in.content = CONTENT_NEW + 42;
+    assertEquals(204, session.put(url(), in).getStatusCode());
     cmd.publish(change, ps);
     assertEquals(0, cmd.read(change).size());
   }
@@ -204,5 +237,17 @@ public class RevisionEditIT extends AbstractDaemonTest {
   private PatchSet getCurrentPatchSet(String changeId) throws OrmException {
     return db.patchSets()
         .get(getChange(changeId).currentPatchSetId());
+  }
+
+  private String url() {
+    String url = "/changes/"
+        + change.getChangeId()
+        + "/revisions/"
+        + ps.getPatchSetId()
+        + ".edit"
+        + "/files/"
+        + FILE_NAME
+        + "/content";
+    return url;
   }
 }

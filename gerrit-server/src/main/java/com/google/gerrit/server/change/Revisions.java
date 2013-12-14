@@ -30,16 +30,20 @@ import com.google.inject.Provider;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class Revisions implements ChildCollection<ChangeResource, RevisionResource> {
   private final DynamicMap<RestView<RevisionResource>> views;
   private final Provider<ReviewDb> dbProvider;
+  private final RevisionEditCommands cmd;
 
   @Inject
   Revisions(DynamicMap<RestView<RevisionResource>> views,
-      Provider<ReviewDb> dbProvider) {
+      Provider<ReviewDb> dbProvider,
+      RevisionEditCommands cmd) {
     this.views = views;
     this.dbProvider = dbProvider;
+    this.cmd = cmd;
   }
 
   @Override
@@ -55,6 +59,12 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
   @Override
   public RevisionResource parse(ChangeResource change, IdString id)
       throws ResourceNotFoundException, OrmException {
+    String idStr = id.get();
+    boolean edit = false;
+    if (idStr.endsWith(".edit")) {
+      idStr = idStr.substring(0, idStr.length() - 5);
+      edit = true;
+    }
     if (id.equals("current")) {
       PatchSet.Id p = change.getChange().currentPatchSetId();
       PatchSet ps = p != null ? dbProvider.get().patchSets().get(p) : null;
@@ -64,16 +74,19 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
       throw new ResourceNotFoundException(id);
     }
     List<PatchSet> match = Lists.newArrayListWithExpectedSize(2);
-    for (PatchSet ps : find(change, id.get())) {
+    for (PatchSet ps : find(change, idStr)) {
       Change.Id changeId = ps.getId().getParentKey();
       if (changeId.equals(change.getChange().getId()) && visible(change, ps)) {
+        if (!edit && ps.getId().isEdit()) {
+          edit = true;
+        }
         match.add(ps);
       }
     }
     if (match.size() != 1) {
       throw new ResourceNotFoundException(id);
     }
-    return new RevisionResource(change, match.get(0));
+    return new RevisionResource(change, match.get(0), edit);
   }
 
   private boolean visible(ChangeResource change, PatchSet ps)
@@ -105,7 +118,23 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
       // for all patch sets in the change.
       RevId revid = new RevId(id);
       if (revid.isComplete()) {
-        return db.patchSets().byRevision(revid).toList();
+        List<PatchSet> list = db.patchSets().byRevision(revid).toList();
+        if (list.isEmpty()) {
+          // this might be a revision edit (they are not stored in the database)
+          try {
+            // Can/should we cache it?
+            Map<PatchSet.Id, PatchSet> map = cmd.read(change.getChange());
+            for (Map.Entry<PatchSet.Id, PatchSet> e : map.entrySet()) {
+              if (e.getValue().getRevision().equals(revid)) {
+                return Collections.singletonList(e.getValue());
+              }
+            }
+          } catch (Exception e) {
+            // can we handle exceptions beter here?
+            throw new OrmException(e);
+          }
+        }
+        return list;
       } else {
         return db.patchSets().byRevisionRange(revid, revid.max()).toList();
       }

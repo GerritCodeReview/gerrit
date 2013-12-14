@@ -103,7 +103,8 @@ public class RevisionEditCommands {
 
     IdentifiedUser me = (IdentifiedUser) currentUser.get();
     Project.NameKey project = c.getProject();
-    RevisionEdit edit = new RevisionEdit(me, basePs.getId());
+    RevisionEdit edit = new RevisionEdit(me,
+        PatchSet.Id.editFrom(basePs.getId()));
 
     Repository repo = gitManager.openRepository(project);
     try {
@@ -159,7 +160,7 @@ public class RevisionEditCommands {
     }
 
     IdentifiedUser me = (IdentifiedUser) currentUser.get();
-    RevisionEdit edit = new RevisionEdit(me, ps.getId());
+    RevisionEdit edit = new RevisionEdit(me, PatchSet.Id.editFrom(ps.getId()));
     try {
       RevWalk rw = new RevWalk(repo);
       RevCommit commit = edit.get(repo, rw);
@@ -204,7 +205,7 @@ public class RevisionEditCommands {
       Map<PatchSet.Id, PatchSet> result = new HashMap<>(names.size());
       for (Map.Entry<String, Ref> entry : names.entrySet()) {
         PatchSet.Id psid = new PatchSet.Id(change.getId(),
-            Integer.valueOf(entry.getKey()));
+            Integer.valueOf(entry.getKey()), true);
         RevisionEdit edit = new RevisionEdit(me, psid, entry.getValue());
         result.put(psid, edit.getPatchSet(repo));
       }
@@ -252,7 +253,7 @@ public class RevisionEditCommands {
     }
 
     IdentifiedUser me = (IdentifiedUser)currentUser.get();
-    RevisionEdit edit = new RevisionEdit(me, ps.getId());
+    RevisionEdit edit = new RevisionEdit(me, PatchSet.Id.editFrom(ps.getId()));
     try {
       RevWalk rw = new RevWalk(git);
       ObjectInserter inserter = git.newObjectInserter();

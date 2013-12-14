@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestResource.HasETag;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -32,14 +33,24 @@ public class RevisionResource implements RestResource, HasETag {
   private final ChangeResource change;
   private final PatchSet ps;
   private boolean cacheable = true;
+  private boolean edit;
 
   public RevisionResource(ChangeResource change, PatchSet ps) {
+    this(change, ps, false);
+  }
+
+  public RevisionResource(ChangeResource change, PatchSet ps, boolean edit) {
     this.change = change;
     this.ps = ps;
+    this.edit = edit;
   }
 
   public boolean isCacheable() {
     return cacheable;
+  }
+
+  public boolean isEdit() {
+    return edit;
   }
 
   public ChangeResource getChangeResource() {
@@ -81,5 +92,11 @@ public class RevisionResource implements RestResource, HasETag {
   RevisionResource doNotCache() {
     cacheable = false;
     return this;
+  }
+
+  void checkEdit() throws ResourceNotFoundException {
+    if (!edit) {
+      throw new ResourceNotFoundException();
+    }
   }
 }

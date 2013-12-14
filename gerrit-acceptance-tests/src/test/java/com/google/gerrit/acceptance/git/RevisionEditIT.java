@@ -165,7 +165,7 @@ public class RevisionEditIT extends AbstractDaemonTest {
     assertEquals("1+", e.getKey().getId());
     in.content = CONTENT_NEW + 42;
     assertEquals(204, session.put(urlFile(), in).getStatusCode());
-    cmd.publish(change, ps);
+    assertEquals(204, session.post(urlRev() + "/publish").getStatusCode());
     assertEquals(0, cmd.read(change).size());
   }
 

@@ -30,6 +30,8 @@ import com.google.gerrit.server.change.Publish.Input;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.PatchSetNotificationSender;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -46,24 +48,32 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
   private final PatchSetNotificationSender sender;
   private final ChangeHooks hooks;
   private final ChangeIndexer indexer;
+  private final RevisionEditCommands cmd;
 
   @Inject
   public Publish(Provider<ReviewDb> dbProvider,
       PatchSetNotificationSender sender,
       ChangeHooks hooks,
-      ChangeIndexer indexer) {
+      ChangeIndexer indexer,
+      RevisionEditCommands cmd) {
     this.dbProvider = dbProvider;
     this.sender = sender;
     this.hooks = hooks;
     this.indexer = indexer;
+    this.cmd = cmd;
   }
 
   @Override
   public Response<?> apply(RevisionResource rsrc, Input input)
       throws AuthException, ResourceNotFoundException,
       ResourceConflictException, OrmException, IOException {
-    if (!rsrc.getPatchSet().isDraft()) {
-      throw new ResourceConflictException("Patch set is not a draft");
+    if (!rsrc.getPatchSet().isDraft() && !rsrc.isEdit()) {
+      throw new ResourceConflictException(
+          "Patch set is not a draft or revision edit");
+    }
+
+    if (rsrc.isEdit()) {
+      publishRevisionEdit(rsrc);
     }
 
     if (!rsrc.getControl().canPublish(dbProvider.get())) {
@@ -88,6 +98,22 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
       throw new ResourceNotFoundException(e.getMessage());
     }
 
+    return Response.none();
+  }
+
+  private Response<?> publishRevisionEdit(RevisionResource rsrc)
+      throws AuthException, ResourceNotFoundException,
+      ResourceConflictException, OrmException {
+    rsrc.checkEdit();
+    Change change = rsrc.getChange();
+    PatchSet ps = rsrc.getPatchSet();
+    try {
+      cmd.publish(change, ps);
+    } catch (InvalidChangeOperationException | IOException e) {
+      throw new ResourceConflictException(e.getMessage());
+    } catch (NoSuchChangeException e) {
+      throw new ResourceNotFoundException(change.getId().toString());
+    }
     return Response.none();
   }
 

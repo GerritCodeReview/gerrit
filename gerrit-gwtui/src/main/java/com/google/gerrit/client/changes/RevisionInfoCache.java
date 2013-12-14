@@ -28,7 +28,7 @@ public class RevisionInfoCache {
 
   public static void add(Change.Id change, RevisionInfo info) {
     IMPL.psToCommit.put(
-        new PatchSet.Id(change, info._number()),
+        new PatchSet.Id(change, info._number(), info.edit()),
         info.name());
   }
 

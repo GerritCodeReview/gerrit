@@ -164,6 +164,7 @@ public class ChangeScreen2 extends Screen {
   @UiField Element patchSetsText;
   @UiField Button download;
   @UiField Button reply;
+  @UiField Button openAll;
   @UiField Button expandAll;
   @UiField Button collapseAll;
   @UiField Button editMessage;
@@ -501,6 +502,11 @@ public class ChangeScreen2 extends Screen {
   @UiHandler("editMessage")
   void onEditMessage(ClickEvent e) {
     editMessageAction.onEdit();
+  }
+
+  @UiHandler("openAll")
+  void onOpenAll(ClickEvent e) {
+    files.openAll();
   }
 
   @UiHandler("expandAll")

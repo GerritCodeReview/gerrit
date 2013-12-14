@@ -1754,10 +1754,11 @@ message is contained in the response body.
 'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/publish'
 --
 
-Publishes a draft revision.
+Publishes a draft revision or revision edit.
 
 .Request
 ----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/1.edit/publish
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/current/publish HTTP/1.0
   Content-Type: application/json;charset=UTF-8
 ----

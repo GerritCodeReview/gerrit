@@ -57,13 +57,24 @@ public final class PatchSet {
     @Column(id = 2)
     protected int patchSetId;
 
+    protected boolean edit;
+
     protected Id() {
       changeId = new Change.Id();
     }
 
-    public Id(final Change.Id change, final int id) {
+    public static Id editFrom(Id id) {
+      return new Id(id.changeId, id.patchSetId, true);
+    }
+
+    public Id(Change.Id change, int id) {
+      this(change, id, false);
+    }
+
+    public Id(Change.Id change, int id, boolean edit) {
       this.changeId = change;
       this.patchSetId = id;
+      this.edit = edit;
     }
 
     @Override
@@ -74,6 +85,14 @@ public final class PatchSet {
     @Override
     public int get() {
       return patchSetId;
+    }
+
+    public String getId() {
+      return "" + patchSetId + (isEdit() ? "+" : "");
+    }
+
+    public boolean isEdit() {
+      return edit;
     }
 
     @Override

@@ -24,7 +24,6 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.AccountCreator;
-import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
@@ -127,9 +126,9 @@ public class RevisionEditIT extends AbstractDaemonTest {
       InvalidChangeOperationException, NoSuchChangeException {
     PutContent.Input in = new PutContent.Input();
     in.content = CONTENT_NEW;
-    assertEquals(204, session.put(url(), in).getStatusCode());
+    assertEquals(204, session.put(urlFile(), in).getStatusCode());
     assertEquals(1, cmd.read(change).size());
-    cmd.delete(change, ps);
+    assertEquals(204, session.delete(urlRev()).getStatusCode());
     assertEquals(0, cmd.read(change).size());
   }
 
@@ -158,14 +157,14 @@ public class RevisionEditIT extends AbstractDaemonTest {
       InvalidChangeOperationException, NoSuchChangeException, OrmException {
     PutContent.Input in = new PutContent.Input();
     in.content = CONTENT_NEW;
-    assertEquals(204, session.put(url(), in).getStatusCode());
+    assertEquals(204, session.put(urlFile(), in).getStatusCode());
     Map<Id, RevisionEdit> m = cmd.read(change);
     assertEquals(1, m.size());
     Map.Entry<Id, RevisionEdit> e = Iterables.getOnlyElement(m.entrySet());
     assertEquals(true, e.getKey().isEdit());
     assertEquals("1+", e.getKey().getId());
     in.content = CONTENT_NEW + 42;
-    assertEquals(204, session.put(url(), in).getStatusCode());
+    assertEquals(204, session.put(urlFile(), in).getStatusCode());
     cmd.publish(change, ps);
     assertEquals(0, cmd.read(change).size());
   }
@@ -236,15 +235,19 @@ public class RevisionEditIT extends AbstractDaemonTest {
         .get(getChange(changeId).currentPatchSetId());
   }
 
-  private String url() {
+  private String urlFile() {
+    return urlRev()
+        + "/files/"
+        + FILE_NAME
+        + "/content";
+  }
+
+  private String urlRev() {
     String url = "/changes/"
         + change.getChangeId()
         + "/revisions/"
         + ps.getPatchSetId()
-        + ".edit"
-        + "/files/"
-        + FILE_NAME
-        + "/content";
+        + ".edit";
     return url;
   }
 }

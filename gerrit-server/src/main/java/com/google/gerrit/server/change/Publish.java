@@ -31,6 +31,8 @@ import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.PatchSetNotificationSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -48,29 +50,44 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
   private final PatchSetNotificationSender sender;
   private final ChangeHooks hooks;
   private final ChangeIndexer indexer;
+  private final RevisionEditCommands editCommands;
 
   @Inject
   public Publish(Provider<ReviewDb> dbProvider,
       ChangeUpdate.Factory updateFactory,
       PatchSetNotificationSender sender,
       ChangeHooks hooks,
-      ChangeIndexer indexer) {
+      ChangeIndexer indexer,
+      RevisionEditCommands editCommands) {
     this.dbProvider = dbProvider;
     this.updateFactory = updateFactory;
     this.sender = sender;
     this.hooks = hooks;
     this.indexer = indexer;
+    this.editCommands = editCommands;
   }
 
   @Override
   public Response<?> apply(RevisionResource rsrc, Input input)
       throws AuthException, ResourceNotFoundException,
       ResourceConflictException, OrmException, IOException {
-    if (!rsrc.getPatchSet().isDraft()) {
-      throw new ResourceConflictException("Patch set is not a draft");
+    if (!rsrc.getPatchSet().isDraft() && !rsrc.isEdit()) {
+      throw new ResourceConflictException(
+          "Patch set is not a draft or revision edit");
     }
 
-    if (!rsrc.getControl().canPublish(dbProvider.get())) {
+    if (rsrc.isEdit()) {
+      publishRevisionEdit(rsrc);
+    } else {
+      publishDraft(rsrc);
+    }
+
+    return Response.none();
+  }
+
+  private void publishDraft(RevisionResource rsrc) throws OrmException,
+      AuthException, IOException, ResourceNotFoundException {
+    if (!hasAcl(rsrc)) {
       throw new AuthException("Cannot publish this draft patch set");
     }
 
@@ -94,8 +111,21 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
     } catch (PatchSetInfoNotAvailableException e) {
       throw new ResourceNotFoundException(e.getMessage());
     }
+  }
 
-    return Response.none();
+  private void publishRevisionEdit(RevisionResource rsrc)
+      throws AuthException, ResourceNotFoundException,
+      ResourceConflictException, OrmException {
+    rsrc.checkEdit();
+    Change change = rsrc.getChange();
+    PatchSet ps = rsrc.getPatchSet();
+    try {
+      editCommands.publish(change, ps);
+    } catch (InvalidChangeOperationException | IOException e) {
+      throw new ResourceConflictException(e.getMessage());
+    } catch (NoSuchChangeException e) {
+      throw new ResourceNotFoundException(change.getId().toString());
+    }
   }
 
   private Change updateDraftChange(RevisionResource rsrc) throws OrmException {
@@ -129,15 +159,27 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
   public UiAction.Description getDescription(RevisionResource rsrc) {
     PatchSet.Id current = rsrc.getChange().currentPatchSetId();
     try {
+      String title = String.format("Publish %s %s",
+          rsrc.getPatchSet().isEdit()
+              ? "revision edit"
+              : "draft revision",
+          rsrc.getPatchSet().getId().getId());
       return new UiAction.Description()
-        .setTitle(String.format("Publish revision %d",
-            rsrc.getPatchSet().getPatchSetId()))
-        .setVisible(rsrc.getPatchSet().isDraft()
-            && rsrc.getPatchSet().getId().equals(current)
-            && rsrc.getControl().canPublish(dbProvider.get()));
+        .setTitle(title)
+        .setVisible(
+            ((rsrc.getPatchSet().isDraft()
+             && rsrc.getPatchSet().getId().equals(current)
+             || rsrc.getPatchSet().isEdit()))
+            && hasAcl(rsrc));
     } catch (OrmException e) {
       throw new IllegalStateException(e);
     }
+  }
+
+  private boolean hasAcl(RevisionResource rsrc) throws OrmException {
+    return rsrc.isEdit()
+        ? true
+        : rsrc.getControl().canPublish(dbProvider.get());
   }
 
   public static class CurrentRevision implements

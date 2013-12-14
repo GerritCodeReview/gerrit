@@ -26,6 +26,7 @@
   width: 92%;
   z-index: 1002;
   opacity: 0.85;
+  border-radius: 10px;
  }
 
 @if user.agent safari {

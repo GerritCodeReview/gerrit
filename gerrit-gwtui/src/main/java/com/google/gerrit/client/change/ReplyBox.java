@@ -43,6 +43,10 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.resources.client.CssResource;
@@ -78,6 +82,7 @@ class ReplyBox extends Composite {
   interface Styles extends CssResource {
     String label_name();
     String label_value();
+    String label_help();
   }
 
   private final CommentLinkProcessor clp;
@@ -285,7 +290,7 @@ class ReplyBox extends Composite {
     }
     List<Short> columns = new ArrayList<Short>(values);
 
-    labelsTable.resize(1 + labels.size(), 1 + values.size());
+    labelsTable.resize(1 + labels.size(), 2 + values.size());
     for (int c = 0; c < columns.size(); c++) {
       labelsTable.setText(0, 1 + c, LabelValue.formatValue(columns.get(c)));
       labelsTable.getCellFormatter().setStyleName(0, 1 + c, style.label_value());
@@ -306,7 +311,9 @@ class ReplyBox extends Composite {
     }
   }
 
-  private void renderRadio(int row, List<Short> columns, LabelAndValues lv) {
+  private void renderRadio(final int row,
+      List<Short> columns,
+      LabelAndValues lv) {
     final String id = lv.info.name();
 
     labelsTable.setText(row, 0, id);
@@ -316,22 +323,40 @@ class ReplyBox extends Composite {
         ? lv.info.for_user(Gerrit.getUserAccount().getId().get())
         : null;
 
+    final int helpColumn = 1 + columns.size();
+    final String[] helpText = {""};
     final List<RadioButton> group =
         new ArrayList<RadioButton>(lv.permitted.size());
     for (int i = 0; i < columns.size(); i++) {
       final Short v = columns.get(i);
       if (lv.permitted.contains(v)) {
+        final String text = lv.info.value_text(LabelValue.formatValue(v));
         RadioButton b = new RadioButton(id);
-        b.setTitle(lv.info.value_text(LabelValue.formatValue(v)));
         if ((self != null && v == self.value()) || (self == null && v == 0)) {
           b.setValue(true);
+          helpText[0] = v != 0 ? text : "";
+          labelsTable.setText(row, helpColumn, helpText[0]);
         }
         b.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
           @Override
           public void onValueChange(ValueChangeEvent<Boolean> event) {
             if (event.getValue()) {
+              helpText[0] = v != 0 ? text : "";
+              labelsTable.setText(row, helpColumn, helpText[0]);
               in.label(id, v);
             }
+          }
+        });
+        b.addMouseOverHandler(new MouseOverHandler() {
+          @Override
+          public void onMouseOver(MouseOverEvent event) {
+            labelsTable.setText(row, helpColumn, text);
+          }
+        });
+        b.addMouseOutHandler(new MouseOutHandler() {
+          @Override
+          public void onMouseOut(MouseOutEvent event) {
+            labelsTable.setText(row, helpColumn, helpText[0]);
           }
         });
         group.add(b);

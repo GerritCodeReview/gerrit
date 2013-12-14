@@ -205,6 +205,7 @@ public class ChangeInfo extends JavaScriptObject {
     public final native int _number() /*-{ return this._number; }-*/;
     public final native String name() /*-{ return this.name; }-*/;
     public final native boolean draft() /*-{ return this.draft || false; }-*/;
+    public final native boolean edit() /*-{ return this.edit || false; }-*/;
     public final native boolean has_draft_comments() /*-{ return this.has_draft_comments || false; }-*/;
     public final native CommitInfo commit() /*-{ return this.commit; }-*/;
     public final native void set_commit(CommitInfo c) /*-{ this.commit = c; }-*/;
@@ -225,6 +226,14 @@ public class ChangeInfo extends JavaScriptObject {
           return a._number() - b._number();
         }
       });
+    }
+
+    public final String id() {
+      String id = String.valueOf(_number());
+      if (edit()) {
+        id += "+";
+      }
+      return id;
     }
 
     protected RevisionInfo () {

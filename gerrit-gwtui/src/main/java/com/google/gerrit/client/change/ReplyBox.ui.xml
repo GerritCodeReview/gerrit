@@ -24,9 +24,13 @@ limitations under the License.
     .label_name {
       font-weight: bold;
       text-align: left;
+      white-space: nowrap;
     }
     .label_name input { margin-left: 0; }
-
+    .label_help {
+      padding-left: 5px;
+      white-space: nowrap;
+    }
     .label_value {
       text-align: center;
     }

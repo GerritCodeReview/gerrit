@@ -34,30 +34,42 @@ import java.util.regex.Pattern;
 public class LabelPredicate extends OrPredicate<ChangeData> {
   private static final int MAX_LABEL_VALUE = 4;
 
-  private static enum Test {
-    EQ, GT_EQ, LT_EQ;
+  static class Args {
+    final ProjectCache projectCache;
+    final ChangeControl.GenericFactory ccFactory;
+    final IdentifiedUser.GenericFactory userFactory;
+    final Provider<ReviewDb> dbProvider;
+    final String value;
+    final Set<Account.Id> accounts;
+    final AccountGroup.UUID group;
 
-    boolean isEq() {
-      return EQ.equals(this);
+    private Args(
+        ProjectCache projectCache,
+        ChangeControl.GenericFactory ccFactory,
+        IdentifiedUser.GenericFactory userFactory,
+        Provider<ReviewDb> dbProvider,
+        String value,
+        Set<Account.Id> accounts,
+        AccountGroup.UUID group) {
+      this.projectCache = projectCache;
+      this.ccFactory = ccFactory;
+      this.userFactory = userFactory;
+      this.dbProvider = dbProvider;
+      this.value = value;
+      this.accounts = accounts;
+      this.group = group;
     }
+  }
 
-    boolean isGtEq() {
-      return GT_EQ.equals(this);
-    }
+  private static class Parsed {
+    private final String label;
+    private final String test;
+    private final int expVal;
 
-    static Test op(String op) {
-      if ("=".equals(op)) {
-        return EQ;
-
-      } else if (">=".equals(op)) {
-        return GT_EQ;
-
-      } else if ("<=".equals(op)) {
-        return LT_EQ;
-
-      } else {
-        throw new IllegalArgumentException("Unsupported operation " + op);
-      }
+    private Parsed(String label, String test, int expVal) {
+      this.label = label;
+      this.test = test;
+      this.expVal = expVal;
     }
   }
 
@@ -67,71 +79,77 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
       ChangeControl.GenericFactory ccFactory,
       IdentifiedUser.GenericFactory userFactory, Provider<ReviewDb> dbProvider,
       String value, Set<Account.Id> accounts, AccountGroup.UUID group) {
-    super(predicates(projectCache, ccFactory, userFactory, dbProvider, value,
-        accounts, group));
+    super(predicates(new Args(projectCache, ccFactory, userFactory, dbProvider,
+        value, accounts, group)));
     this.value = value;
   }
 
-  private static List<Predicate<ChangeData>> predicates(
-      ProjectCache projectCache, ChangeControl.GenericFactory ccFactory,
-      IdentifiedUser.GenericFactory userFactory, Provider<ReviewDb> dbProvider,
-      String value, Set<Account.Id> accounts, AccountGroup.UUID group) {
-    String label = null;
-    Test test = null;
-    int expVal = 0;
+  private static List<Predicate<ChangeData>> predicates(Args args) {
+    String v = args.value;
+    Parsed parsed = null;
 
     try {
-      LabelVote v = LabelVote.parse(value);
-      test = Test.EQ;
-      label = v.getLabel();
-      expVal = v.getValue();
+      LabelVote lv = LabelVote.parse(v);
+      parsed = new Parsed(lv.getLabel(), "=", lv.getValue());
     } catch (IllegalArgumentException e) {
       // Try next format.
     }
 
     try {
-      LabelVote v = LabelVote.parseWithEquals(value);
-      test = Test.EQ;
-      label = v.getLabel();
-      expVal = v.getValue();
+      LabelVote lv = LabelVote.parseWithEquals(v);
+      parsed = new Parsed(lv.getLabel(), "=", lv.getValue());
     } catch (IllegalArgumentException e) {
       // Try next format.
     }
 
-    if (label == null) {
-      Matcher m = Pattern.compile("(>=|<=)([+-]?\\d+)$").matcher(value);
+    if (parsed == null) {
+      Matcher m = Pattern.compile("(>|>=|=|<|<=)([+-]?\\d+)$").matcher(v);
       if (m.find()) {
-        label = value.substring(0, m.start());
-        test = Test.op(m.group(1));
-        expVal = value(m.group(2));
+        parsed = new Parsed(v.substring(0, m.start()), m.group(1),
+            value(m.group(2)));
       } else {
-        label = value;
-        test = Test.EQ;
-        expVal = 1;
+        parsed = new Parsed(v, "=", 1);
       }
     }
 
-    List<Predicate<ChangeData>> r = Lists.newArrayListWithCapacity(2 * MAX_LABEL_VALUE);
-    if (test.isEq()) {
-      if (expVal != 0) {
-        r.add(equalsLabelPredicate(projectCache, ccFactory, userFactory,
-            dbProvider, label, expVal, accounts, group));
-      } else {
-        r.add(noLabelQuery(projectCache, ccFactory, userFactory,
-            dbProvider, label, accounts, group));
-      }
-    } else {
-      for (int i = test.isGtEq() ? expVal : neg(expVal); i <= MAX_LABEL_VALUE; i++) {
-        if (i != 0) {
-          r.add(equalsLabelPredicate(projectCache, ccFactory, userFactory,
-              dbProvider, label, test.isGtEq() ? i : neg(i), accounts, group));
-        } else {
-          r.add(noLabelQuery(projectCache, ccFactory, userFactory,
-              dbProvider, label, accounts, group));
-        }
-      }
+    int min, max;
+    switch (parsed.test) {
+      case "=":
+      default:
+        min = max = parsed.expVal;
+        break;
+      case ">":
+        min = parsed.expVal + 1;
+        max = MAX_LABEL_VALUE;
+        break;
+      case ">=":
+        min = parsed.expVal;
+        max = MAX_LABEL_VALUE;
+        break;
+      case "<":
+        min = -MAX_LABEL_VALUE;
+        max = parsed.expVal - 1;
+        break;
+      case "<=":
+        min = -MAX_LABEL_VALUE;
+        max = parsed.expVal;
+        break;
+    }
+    List<Predicate<ChangeData>> r =
+        Lists.newArrayListWithCapacity(max - min + 1);
+    for (int i = min; i <= max; i++) {
+      r.add(onePredicate(args, parsed.label, i));
     }
     return r;
+  }
+
+  private static Predicate<ChangeData> onePredicate(Args args, String label,
+      int expVal) {
+    if (expVal != 0) {
+      return equalsLabelPredicate(args, label, expVal);
+    } else {
+      return noLabelQuery(args, label);
+    }
   }
 
   private static int value(String value) {
@@ -141,38 +159,24 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
     return Integer.parseInt(value);
   }
 
-  private static int neg(int value) {
-    return -1 * value;
-  }
-
-  private static Predicate<ChangeData> noLabelQuery(ProjectCache projectCache,
-      ChangeControl.GenericFactory ccFactory,
-      IdentifiedUser.GenericFactory userFactory, Provider<ReviewDb> dbProvider,
-      String label, Set<Account.Id> accounts, AccountGroup.UUID group) {
+  private static Predicate<ChangeData> noLabelQuery(Args args, String label) {
     List<Predicate<ChangeData>> r =
         Lists.newArrayListWithCapacity(2 * MAX_LABEL_VALUE);
     for (int i = 1; i <= MAX_LABEL_VALUE; i++) {
-      r.add(not(equalsLabelPredicate(projectCache, ccFactory, userFactory,
-          dbProvider, label, i, accounts, group)));
-      r.add(not(equalsLabelPredicate(projectCache, ccFactory, userFactory,
-          dbProvider, label, neg(i), accounts, group)));
+      r.add(not(equalsLabelPredicate(args, label, i)));
+      r.add(not(equalsLabelPredicate(args, label, -i)));
     }
     return and(r);
   }
 
-  private static Predicate<ChangeData> equalsLabelPredicate(
-      ProjectCache projectCache, ChangeControl.GenericFactory ccFactory,
-      IdentifiedUser.GenericFactory userFactory, Provider<ReviewDb> dbProvider,
-      String label, int expVal, Set<Account.Id> accounts,
-      AccountGroup.UUID group) {
-    if (accounts == null || accounts.isEmpty()) {
-      return new EqualsLabelPredicate(projectCache, ccFactory, userFactory,
-          dbProvider, label, expVal, null, group);
+  private static Predicate<ChangeData> equalsLabelPredicate(Args args,
+      String label, int expVal) {
+    if (args.accounts == null || args.accounts.isEmpty()) {
+      return new EqualsLabelPredicate(args, label, expVal, null);
     } else {
       List<Predicate<ChangeData>> r = Lists.newArrayList();
-      for (Account.Id a : accounts) {
-        r.add(new EqualsLabelPredicate(projectCache, ccFactory, userFactory,
-            dbProvider, label, expVal, a, group));
+      for (Account.Id a : args.accounts) {
+        r.add(new EqualsLabelPredicate(args, label, expVal, a));
       }
       return or(r);
     }

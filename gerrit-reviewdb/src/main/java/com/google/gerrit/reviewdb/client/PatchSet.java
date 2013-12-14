@@ -18,6 +18,7 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
+import com.google.gwtorm.client.KeyUtil;
 
 import java.sql.Timestamp;
 
@@ -57,13 +58,24 @@ public final class PatchSet {
     @Column(id = 2)
     protected int patchSetId;
 
+    protected boolean edit;
+
     protected Id() {
       changeId = new Change.Id();
     }
 
-    public Id(final Change.Id change, final int id) {
+    public static Id editFrom(Id id) {
+      return new Id(id.changeId, id.patchSetId, true);
+    }
+
+    public Id(Change.Id change, int id) {
+      this(change, id, false);
+    }
+
+    public Id(Change.Id change, int id, boolean edit) {
       this.changeId = change;
       this.patchSetId = id;
+      this.edit = edit;
     }
 
     @Override
@@ -74,6 +86,14 @@ public final class PatchSet {
     @Override
     public int get() {
       return patchSetId;
+    }
+
+    public String getId() {
+      return "" + patchSetId + (isEdit() ? "+" : "");
+    }
+
+    public boolean isEdit() {
+      return edit;
     }
 
     @Override
@@ -117,6 +137,22 @@ public final class PatchSet {
       final int changeId = Integer.parseInt(parts[n - 2]);
       final int patchSetId = Integer.parseInt(parts[n - 1]);
       return new PatchSet.Id(new Change.Id(changeId), patchSetId);
+    }
+
+    @Override
+    public int hashCode() {
+      return super.hashCode() + Boolean.valueOf(isEdit()).hashCode();
+    }
+
+    @Override
+    public boolean equals(final Object b) {
+      if (b != null && (b instanceof PatchSet.Id)) {
+        final PatchSet.Id id = (PatchSet.Id)b;
+        return get() == id.get()
+            && KeyUtil.eq(getParentKey(), id.getParentKey())
+            && isEdit() == id.isEdit();
+      }
+      return false;
     }
   }
 
@@ -177,6 +213,10 @@ public final class PatchSet {
 
   public boolean isDraft() {
     return draft;
+  }
+
+  public boolean isEdit() {
+    return getId().isEdit();
   }
 
   public void setDraft(boolean draftStatus) {

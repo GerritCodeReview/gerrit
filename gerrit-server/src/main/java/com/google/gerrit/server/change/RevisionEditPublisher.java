@@ -69,7 +69,8 @@ public class RevisionEditPublisher {
 
     IdentifiedUser me = (IdentifiedUser)currentUser.get();
     Project.NameKey project = c.getProject();
-    RevisionEdit edit = new RevisionEdit(me, basePs.getId());
+    RevisionEdit edit = new RevisionEdit(me,
+        PatchSet.Id.editFrom(basePs.getId()));
 
     Repository repo = gitManager.openRepository(project);
     try {

@@ -40,6 +40,10 @@ public class FileResource implements RestResource {
     return rev.isCacheable();
   }
 
+  public String getPath() {
+    return getPatchKey().getFileName();
+  }
+
   Account.Id getAccountId() {
     return rev.getAccountId();
   }

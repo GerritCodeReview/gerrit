@@ -41,8 +41,13 @@ import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.resources.client.CssResource;
@@ -78,6 +83,7 @@ class ReplyBox extends Composite {
   interface Styles extends CssResource {
     String label_name();
     String label_value();
+    String label_help();
   }
 
   private final CommentLinkProcessor clp;
@@ -95,6 +101,7 @@ class ReplyBox extends Composite {
   @UiField Button cancel;
   @UiField ScrollPanel commentsPanel;
   @UiField FlowPanel comments;
+  private int labelHelpColumn;
 
   ReplyBox(
       CommentLinkProcessor clp,
@@ -285,7 +292,7 @@ class ReplyBox extends Composite {
     }
     List<Short> columns = new ArrayList<Short>(values);
 
-    labelsTable.resize(1 + labels.size(), 1 + values.size());
+    labelsTable.resize(1 + labels.size(), 2 + values.size());
     for (int c = 0; c < columns.size(); c++) {
       labelsTable.setText(0, 1 + c, LabelValue.formatValue(columns.get(c)));
       labelsTable.getCellFormatter().setStyleName(0, 1 + c, style.label_value());
@@ -306,51 +313,46 @@ class ReplyBox extends Composite {
     }
   }
 
-  private void renderRadio(int row, List<Short> columns, LabelAndValues lv) {
-    final String id = lv.info.name();
+  private void renderRadio(int row,
+      List<Short> columns,
+      LabelAndValues lv) {
+    String id = lv.info.name();
 
     labelsTable.setText(row, 0, id);
     labelsTable.getCellFormatter().setStyleName(row, 0, style.label_name());
+    labelHelpColumn = 1 + columns.size();
 
     ApprovalInfo self = Gerrit.isSignedIn()
         ? lv.info.for_user(Gerrit.getUserAccount().getId().get())
         : null;
 
-    final List<RadioButton> group =
-        new ArrayList<RadioButton>(lv.permitted.size());
+    final LabelRadioGroup group =
+        new LabelRadioGroup(row, id, lv.permitted.size());
     for (int i = 0; i < columns.size(); i++) {
-      final Short v = columns.get(i);
+      Short v = columns.get(i);
       if (lv.permitted.contains(v)) {
-        RadioButton b = new RadioButton(id);
-        b.setTitle(lv.info.value_text(LabelValue.formatValue(v)));
+        String text = lv.info.value_text(LabelValue.formatValue(v));
+        LabelRadioButton b = new LabelRadioButton(group, text, v);
         if ((self != null && v == self.value()) || (self == null && v == 0)) {
           b.setValue(true);
+          group.select(b);
+          labelsTable.setText(row, labelHelpColumn, b.text);
         }
-        b.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-          @Override
-          public void onValueChange(ValueChangeEvent<Boolean> event) {
-            if (event.getValue()) {
-              in.label(id, v);
-            }
-          }
-        });
-        group.add(b);
+        group.buttons.add(b);
         labelsTable.setWidget(row, 1 + i, b);
       }
     }
 
-    if (CODE_REVIEW.equalsIgnoreCase(id) && !group.isEmpty()) {
+    if (CODE_REVIEW.equalsIgnoreCase(id) && !group.buttons.isEmpty()) {
       lgtm = new Runnable() {
         @Override
         public void run() {
-          for (int i = 0; i < group.size() - 1; i++) {
-            group.get(i).setValue(false, false);
-          }
-          group.get(group.size() - 1).setValue(true, true);
+          group.selectMax();
         }
       };
     }
   }
+private static final native void log(String m)/*-{console.log(m)}-*/;
 
   private void renderCheckBox(int row, LabelAndValues lv) {
     ApprovalInfo self = Gerrit.isSignedIn()
@@ -431,6 +433,82 @@ class ReplyBox extends Composite {
     LabelAndValues(LabelInfo info, Set<Short> permitted) {
       this.info = info;
       this.permitted = permitted;
+    }
+  }
+
+  private class LabelRadioGroup {
+    final int row;
+    final String label;
+    final List<LabelRadioButton> buttons;
+    LabelRadioButton selected;
+
+    LabelRadioGroup(int row, String label, int cnt) {
+      this.row = row;
+      this.label = label;
+      this.buttons = new ArrayList<LabelRadioButton>(cnt);
+    }
+
+    void select(LabelRadioButton b) {
+      selected = b;
+      labelsTable.setText(row, labelHelpColumn, b.value != 0 ? b.text : "");
+    }
+
+    void selectMax() {
+      for (int i = 0; i < buttons.size() - 1; i++) {
+        buttons.get(i).setValue(false, false);
+      }
+
+      LabelRadioButton max = buttons.get(buttons.size() - 1);
+      max.setValue(true, true);
+      max.select();
+    }
+  }
+
+  private class LabelRadioButton extends RadioButton implements
+      ValueChangeHandler<Boolean>, ClickHandler, MouseOverHandler,
+      MouseOutHandler {
+    private final LabelRadioGroup group;
+    private final String text;
+    private final short value;
+
+    LabelRadioButton(LabelRadioGroup group, String text, short value) {
+      super(group.label);
+      this.group = group;
+      this.text = text;
+      this.value = value;
+      addValueChangeHandler(this);
+      addClickHandler(this);
+      addMouseOverHandler(this);
+      addMouseOutHandler(this);
+    }
+
+    @Override
+    public void onValueChange(ValueChangeEvent<Boolean> event) {
+      if (event.getValue()) {
+        select();
+      }
+    }
+
+    @Override
+    public void onClick(ClickEvent event) {
+      select();
+    }
+
+    void select() {
+      group.select(this);
+      in.label(group.label, value);
+    }
+
+    @Override
+    public void onMouseOver(MouseOverEvent event) {
+      labelsTable.setText(group.row, labelHelpColumn, text);
+    }
+
+    @Override
+    public void onMouseOut(MouseOutEvent event) {
+      LabelRadioButton b = group.selected;
+      String s = b != null && b.value != 0 ? b.text : "";
+      labelsTable.setText(group.row, labelHelpColumn, s);
     }
   }
 }

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.base.Charsets;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -22,7 +23,6 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.auth.AuthException;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.RevisionEdit;
 import com.google.gerrit.server.project.ChangeControl;
@@ -89,7 +89,8 @@ public class RevisionEditCommands {
 
     IdentifiedUser me = (IdentifiedUser) currentUser.get();
     Project.NameKey project = c.getProject();
-    RevisionEdit edit = new RevisionEdit(me, basePs.getId());
+    RevisionEdit edit = new RevisionEdit(me,
+        PatchSet.Id.editFrom(basePs.getId()));
 
     Repository repo = gitManager.openRepository(project);
     try {
@@ -120,7 +121,9 @@ public class RevisionEditCommands {
         rw.release();
       }
       for (ReceiveCommand cmd : ru.getCommands()) {
-        if (cmd.getResult() != ReceiveCommand.Result.OK) {
+        if (cmd.getResult() != ReceiveCommand.Result.OK
+            // TODO(davido): why LOCK_FAILURE is a valid return code?
+            && cmd.getResult() != ReceiveCommand.Result.LOCK_FAILURE) {
           throw new IOException("failed to update: " + cmd);
         }
       }
@@ -143,7 +146,7 @@ public class RevisionEditCommands {
     }
 
     IdentifiedUser me = (IdentifiedUser) currentUser.get();
-    RevisionEdit edit = new RevisionEdit(me, ps.getId());
+    RevisionEdit edit = new RevisionEdit(me, PatchSet.Id.editFrom(ps.getId()));
     try {
       RevCommit commit = getCommit(repo, edit);
       if (commit == null) {
@@ -190,8 +193,8 @@ public class RevisionEditCommands {
       Map<PatchSet.Id, RevisionEdit> result = new HashMap<>(names.size());
       for (String name : names) {
         PatchSet.Id psid = new PatchSet.Id(change.getId(),
-            Integer.valueOf(name));
-        result.put(psid, new RevisionEdit(me, psid));
+            Integer.valueOf(name), true);
+        result.put(psid, new RevisionEdit(me, PatchSet.Id.editFrom(psid)));
       }
       return Collections.unmodifiableMap(result);
     } finally {
@@ -214,7 +217,7 @@ public class RevisionEditCommands {
     }
 
     IdentifiedUser me = (IdentifiedUser)currentUser.get();
-    RevisionEdit edit = new RevisionEdit(me, ps.getId());
+    RevisionEdit edit = new RevisionEdit(me, PatchSet.Id.editFrom(ps.getId()));
     try {
       RevWalk rw = new RevWalk(git);
       ObjectInserter inserter = git.newObjectInserter();

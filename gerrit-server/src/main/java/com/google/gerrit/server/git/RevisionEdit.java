@@ -43,6 +43,7 @@ public class RevisionEdit {
   }
 
   public RevisionEdit(IdentifiedUser user, PatchSet.Id psid, Ref ref) {
+    Preconditions.checkArgument(psid.isEdit());
     this.user = user;
     this.psid = psid;
     this.ref = ref;

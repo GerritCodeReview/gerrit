@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Charsets;
+import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gson.Gson;
 
 import org.apache.http.auth.AuthScope;
@@ -24,6 +25,7 @@ import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
@@ -58,6 +60,16 @@ public class RestSession {
       put.setEntity(new StringEntity(
           new Gson().toJson(content),
           Charsets.UTF_8.name()));
+    }
+    return new RestResponse(getClient().execute(put));
+  }
+
+  public RestResponse put(String endPoint, RawInput stream) throws IOException {
+    HttpPut put = new HttpPut(url + "/a" + endPoint);
+    if (stream != null) {
+      put.addHeader(new BasicHeader("Content-Type", "application/octet-stream"));
+      put.setEntity(new InputStreamEntity(stream.getInputStream(),
+          stream.getContentLength()));
     }
     return new RestResponse(getClient().execute(put));
   }

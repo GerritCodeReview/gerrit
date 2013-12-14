@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.base.Preconditions;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
@@ -40,6 +41,7 @@ public class RevisionEdit {
   }
 
   public RevisionEdit(IdentifiedUser user, PatchSet.Id psid, Ref ref) {
+    Preconditions.checkArgument(psid.isEdit());
     this.user = user;
     this.psid = psid;
     this.ref = ref;

@@ -1647,16 +1647,13 @@ a:hover.downloadLink {
 .relatedChangesGitweb {
   text-align: center;
 }
-.relatedChangesIndirect:after {
-  content: '~';
+.relatedChangesIndirect {
   color: #4d4;      /* green */
   font-weight: bold;
 }
-.relatedChangesNotCurrent:after {
-  content: '\25CF'; /* circle */
+.relatedChangesNotCurrent {
   color: #FFA62F;   /* orange */
 }
-.relatedChangesGitweb:after {
-  content: '\25CF'; /* circle */
+.relatedChangesGitweb {
   color: #000;
 }

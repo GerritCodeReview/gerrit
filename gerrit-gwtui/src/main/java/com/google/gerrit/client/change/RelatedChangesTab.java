@@ -319,13 +319,16 @@ class RelatedChangesTab implements IsWidget {
       if (gw != null && (!info.has_change_number() || !info.has_revision_number())) {
         sb.addStyleName(Gerrit.RESOURCES.css().relatedChangesGitweb());
         sb.setAttribute("title", gw.getLinkName());
+        sb.append('\u25CF');
       } else if (connected != null && !connected.contains(info.commit().commit())) {
         sb.addStyleName(Gerrit.RESOURCES.css().relatedChangesIndirect());
         sb.setAttribute("title", Resources.C.indirectAncestor());
+        sb.append('~');
       } else if (info.has_current_revision_number() && info.has_revision_number()
           && info._current_revision_number() != info._revision_number()) {
         sb.addStyleName(Gerrit.RESOURCES.css().relatedChangesNotCurrent());
         sb.setAttribute("title", Util.C.notCurrent());
+        sb.append('\u25CF');
       }
       sb.closeTd();
 

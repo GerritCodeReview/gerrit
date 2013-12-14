@@ -35,6 +35,7 @@ public class RevisionEdit {
   private final PatchSet.Id psid;
 
   public RevisionEdit(IdentifiedUser user, PatchSet.Id psid) {
+    assert(psid.isEdit());
     this.user = user;
     this.psid = psid;
   }

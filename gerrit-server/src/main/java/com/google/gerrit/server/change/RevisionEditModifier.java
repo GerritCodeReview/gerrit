@@ -101,7 +101,7 @@ public class RevisionEditModifier {
     Repository repo = gitManager.openRepository(change.getProject());
 
     IdentifiedUser me = (IdentifiedUser)currentUser.get();
-    RevisionEdit edit = new RevisionEdit(me, ps.getId());
+    RevisionEdit edit = new RevisionEdit(me, PatchSet.Id.editFrom(ps.getId()));
     try {
       RevWalk rw = new RevWalk(repo);
       ObjectInserter inserter = repo.newObjectInserter();

@@ -58,7 +58,7 @@ public class RevisionEditReader {
       Map<PatchSet.Id, PatchSet> result = new HashMap<>(names.size());
       for (Map.Entry<String, Ref> entry : names.entrySet()) {
         PatchSet.Id psid = new PatchSet.Id(change.getId(),
-            Integer.valueOf(entry.getKey()));
+            Integer.valueOf(entry.getKey()), true);
         RevisionEdit edit = new RevisionEdit(me, psid, entry.getValue());
         result.put(psid, edit.getPatchSet(repo));
       }

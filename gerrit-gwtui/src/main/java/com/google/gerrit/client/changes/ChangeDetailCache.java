@@ -93,7 +93,8 @@ public class ChangeDetailCache extends ListenableValue<ChangeDetail> {
     r.setPatchSets(toPatchSets(info));
     r.setMessages(toMessages(info));
     r.setAccounts(users(info));
-    r.setCurrentPatchSetId(new PatchSet.Id(info.legacy_id(), rev._number()));
+    r.setCurrentPatchSetId(new PatchSet.Id(info.legacy_id(),
+        rev._number(), rev.edit()));
     r.setCurrentPatchSetDetail(toPatchSetDetail(info));
     r.setSubmitRecords(new ArrayList<SubmitRecord>());
 
@@ -198,7 +199,7 @@ public class ChangeDetailCache extends ListenableValue<ChangeDetail> {
 
   private static PatchSet toPatchSet(ChangeInfo info, RevisionInfo rev) {
     PatchSet p = new PatchSet(
-        new PatchSet.Id(info.legacy_id(), rev._number()));
+        new PatchSet.Id(info.legacy_id(), rev._number(), rev.edit()));
     p.setCreatedOn(rev.commit().committer().date());
     p.setDraft(rev.draft());
     p.setRevision(new RevId(rev.name()));
@@ -210,7 +211,8 @@ public class ChangeDetailCache extends ListenableValue<ChangeDetail> {
     PatchSetInfo p = new PatchSetInfo(
       new PatchSet.Id(
           info.legacy_id(),
-          rev._number()));
+          rev._number(),
+          rev.edit()));
     p.setSubject(info.subject());
     Change c = new Change(
         new Change.Key(info.change_id()),

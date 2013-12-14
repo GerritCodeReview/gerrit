@@ -31,9 +31,20 @@ limitations under the License.
       padding-right: 12px;
       text-align: center;
       background: #FFF1A8;
-      -webkit-border-radius: 10px;
-      -moz-border-radius: 10px;
+      border-radius: 10px;
     }
+
+    @if user.agent safari {
+      .popup {
+        \-webkit-border-radius: 10px;
+      }
+    }
+    @if user.agent gecko1_8 {
+      .popup {
+        \-moz-border-radius: 10px;
+      }
+    }
+
     a.action {
       color: #222;
       text-decoration: underline;

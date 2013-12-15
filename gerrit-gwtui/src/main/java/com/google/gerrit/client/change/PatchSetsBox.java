@@ -21,6 +21,8 @@ import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.changes.ChangeList;
+import com.google.gerrit.client.rpc.CallbackGroup;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
@@ -56,6 +58,7 @@ class PatchSetsBox extends Composite {
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   private static final String OPEN;
+  private NativeMap<RevisionInfo> edits;
   private static final HyperlinkImpl link = GWT.create(HyperlinkImpl.class);
 
   static {
@@ -116,14 +119,30 @@ class PatchSetsBox extends Composite {
   @Override
   protected void onLoad() {
     if (!loaded) {
+      CallbackGroup group = new CallbackGroup();
+      if (Gerrit.isSignedIn()) {
+        ChangeApi.edits(changeId.get(), group.add(
+            new GerritCallback<NativeMap<RevisionInfo>>() {
+              @Override
+              public void onSuccess(NativeMap<RevisionInfo> result) {
+                edits = result;
+              }
+            }));
+      }
       RestApi call = ChangeApi.detail(changeId.get());
       ChangeList.addOptions(call, EnumSet.of(
           ListChangesOption.ALL_COMMITS,
           ListChangesOption.ALL_REVISIONS,
           ListChangesOption.DRAFT_COMMENTS));
-      call.get(new AsyncCallback<ChangeInfo>() {
+      call.get(group.addFinal(new AsyncCallback<ChangeInfo>() {
         @Override
         public void onSuccess(ChangeInfo result) {
+          if (edits != null && edits.size() > 0) {
+            edits.copyKeysIntoChildren("name");
+            for (RevisionInfo r : Natives.asList(edits.values())) {
+              result.revisions().put(r.name(), r);
+            }
+          }
           render(result.revisions());
           loaded = true;
         }
@@ -131,7 +150,7 @@ class PatchSetsBox extends Composite {
         @Override
         public void onFailure(Throwable caught) {
         }
-      });
+      }));
     }
   }
 
@@ -189,7 +208,7 @@ class PatchSetsBox extends Composite {
         .closeSpan()
         .append(' ');
     }
-    sb.append(r._number());
+    sb.append(r.id());
     sb.closeTd();
 
     sb.openTd()
@@ -220,7 +239,7 @@ class PatchSetsBox extends Composite {
   private String url(RevisionInfo r) {
     return PageLinks.toChange(
         changeId,
-        String.valueOf(r._number()));
+        r.id());
   }
 
   private void closeParent() {

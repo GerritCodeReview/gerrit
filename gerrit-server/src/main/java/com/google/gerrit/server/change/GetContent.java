@@ -14,12 +14,18 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.RevisionEdit;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
@@ -32,17 +38,21 @@ import java.io.OutputStream;
 
 public class GetContent implements RestReadView<FileResource> {
   private final GitRepositoryManager repoManager;
+  private final Provider<CurrentUser> user;
 
   @Inject
-  GetContent(GitRepositoryManager repoManager) {
+  GetContent(GitRepositoryManager repoManager, Provider<CurrentUser> user) {
     this.repoManager = repoManager;
+    this.user = user;
   }
 
   @Override
   public BinaryResult apply(FileResource rsrc)
-      throws ResourceNotFoundException, IOException {
-    return apply(rsrc.getRevision().getControl().getProject().getNameKey(),
-        rsrc.getRevision().getPatchSet().getRevision().get(),
+      throws ResourceNotFoundException, IOException, AuthException {
+    Project.NameKey project = rsrc
+        .getRevision().getControl().getProject().getNameKey();
+    return apply(project,
+        getRevision(project, rsrc.getRevision().getPatchSet()),
         rsrc.getPatchKey().get());
   }
 
@@ -78,6 +88,26 @@ public class GetContent implements RestReadView<FileResource> {
       }
     } finally {
       repo.close();
+    }
+  }
+
+  private String getRevision(Project.NameKey project, PatchSet patchSet)
+      throws IOException, AuthException {
+    if (patchSet.getId().isEdit()) {
+      if (!user.get().isIdentifiedUser()) {
+        throw new AuthException(
+            "drafts only available to authenticated users");
+      }
+      IdentifiedUser me = (IdentifiedUser)user.get();
+      RevisionEdit edit = new RevisionEdit(me, patchSet.getId());
+      Repository repo = repoManager.openRepository(project);
+      try {
+        return edit.getRevision(repo);
+      } finally {
+        repo.close();
+      }
+    } else {
+      return patchSet.getRevision().get();
     }
   }
 }

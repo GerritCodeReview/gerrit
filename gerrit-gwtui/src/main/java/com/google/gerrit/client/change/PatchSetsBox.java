@@ -189,6 +189,9 @@ class PatchSetsBox extends Composite {
         .append(' ');
     }
     sb.append(r._number());
+    if (r.edit()) {
+      sb.append('+');
+    }
     sb.closeTd();
 
     sb.openTd()

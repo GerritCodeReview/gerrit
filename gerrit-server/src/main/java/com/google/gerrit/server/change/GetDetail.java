@@ -23,6 +23,8 @@ import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Option;
 
+import java.io.IOException;
+
 public class GetDetail implements RestReadView<ChangeResource> {
   private final GetChange delegate;
 
@@ -46,7 +48,8 @@ public class GetDetail implements RestReadView<ChangeResource> {
   }
 
   @Override
-  public Response<ChangeInfo> apply(ChangeResource rsrc) throws OrmException {
+  public Response<ChangeInfo> apply(ChangeResource rsrc) throws OrmException,
+      IOException {
     return delegate.apply(rsrc);
   }
 }

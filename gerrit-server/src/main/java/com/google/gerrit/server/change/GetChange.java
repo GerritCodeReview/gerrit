@@ -24,6 +24,7 @@ import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Option;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 public class GetChange implements RestReadView<ChangeResource> {
@@ -45,11 +46,13 @@ public class GetChange implements RestReadView<ChangeResource> {
   }
 
   @Override
-  public Response<ChangeInfo> apply(ChangeResource rsrc) throws OrmException {
+  public Response<ChangeInfo> apply(ChangeResource rsrc) throws OrmException,
+      IOException {
     return cache(json.format(rsrc));
   }
 
-  Response<ChangeInfo> apply(RevisionResource rsrc) throws OrmException {
+  Response<ChangeInfo> apply(RevisionResource rsrc) throws OrmException,
+      IOException {
     return cache(json.format(rsrc));
   }
 

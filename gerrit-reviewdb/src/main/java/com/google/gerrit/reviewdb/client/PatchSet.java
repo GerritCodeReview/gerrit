@@ -215,6 +215,10 @@ public final class PatchSet {
     return draft;
   }
 
+  public boolean isEdit() {
+    return getId().isEdit();
+  }
+
   public void setDraft(boolean draftStatus) {
     draft = draftStatus;
   }

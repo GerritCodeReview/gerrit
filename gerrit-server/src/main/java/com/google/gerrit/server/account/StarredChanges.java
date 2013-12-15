@@ -42,6 +42,7 @@ import com.google.inject.Provider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.Collections;
 
 class StarredChanges implements
@@ -89,7 +90,7 @@ class StarredChanges implements
     return new RestReadView<AccountResource>() {
       @Override
       public Object apply(AccountResource self) throws BadRequestException,
-          AuthException, OrmException {
+          AuthException, OrmException, IOException {
         QueryChanges query = changes.list();
         query.addQuery("starredby:" + self.getUser().getAccountId().get());
         return query.apply(TopLevelResource.INSTANCE);

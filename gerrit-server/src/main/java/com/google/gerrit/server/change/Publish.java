@@ -76,7 +76,7 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
       publishRevisionEdit(rsrc);
     }
 
-    if (!rsrc.getControl().canPublish(dbProvider.get())) {
+    if (!hasAcl(rsrc)) {
       throw new AuthException("Cannot publish this draft patch set");
     }
 
@@ -148,15 +148,27 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
   public UiAction.Description getDescription(RevisionResource rsrc) {
     PatchSet.Id current = rsrc.getChange().currentPatchSetId();
     try {
+      // TODO(davido): can we publish non current revision edits?
+      String title = String.format("Publish %s %s",
+          rsrc.getPatchSet().isEdit()
+              ? "revision edit"
+              : "draft revision",
+          rsrc.getPatchSet().getId().getId());
       return new UiAction.Description()
-        .setTitle(String.format("Publish revision %d",
-            rsrc.getPatchSet().getPatchSetId()))
-        .setVisible(rsrc.getPatchSet().isDraft()
+        .setTitle(title)
+        .setVisible((rsrc.getPatchSet().isDraft()
+            || rsrc.getPatchSet().isEdit())
             && rsrc.getPatchSet().getId().equals(current)
-            && rsrc.getControl().canPublish(dbProvider.get()));
+            && hasAcl(rsrc));
     } catch (OrmException e) {
       throw new IllegalStateException(e);
     }
+  }
+
+  private boolean hasAcl(RevisionResource rsrc) throws OrmException {
+    return rsrc.isEdit()
+        ? true
+        : rsrc.getControl().canPublish(dbProvider.get());
   }
 
   public static class CurrentRevision implements

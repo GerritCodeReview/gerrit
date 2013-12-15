@@ -36,6 +36,7 @@ import com.google.inject.Provider;
 
 import java.io.IOException;
 
+// TODO(davido): rename in just DeletePatchSet?
 public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Input>,
     UiAction<RevisionResource> {
   public static class Input {
@@ -66,7 +67,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
       throw new ResourceConflictException("Patch set is not a draft.");
     }
 
-    if (!rsrc.getControl().canDeleteDraft(dbProvider.get())) {
+    if (!hasAcl(rsrc)) {
       throw new AuthException("Not permitted to delete this draft patch set");
     }
 
@@ -81,15 +82,29 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
     try {
       int psCount = dbProvider.get().patchSets()
           .byChange(rsrc.getChange().getId()).toList().size();
+      if (rsrc.getPatchSet().isEdit()) {
+        ++psCount;
+      }
+      String title = String.format("Delete %s %s",
+          rsrc.getPatchSet().isEdit()
+              ? "revision edit"
+              : "draft revision",
+          rsrc.getPatchSet().getId().getId());
       return new UiAction.Description()
-        .setTitle(String.format("Delete draft revision %d",
-            rsrc.getPatchSet().getPatchSetId()))
-        .setVisible(rsrc.getPatchSet().isDraft()
-            && rsrc.getControl().canDeleteDraft(dbProvider.get())
+        .setTitle(title)
+        .setVisible((rsrc.getPatchSet().isDraft()
+            || rsrc.getPatchSet().isEdit())
+            && hasAcl(rsrc)
             && psCount > 1);
     } catch (OrmException e) {
       throw new IllegalStateException(e);
     }
+  }
+
+  private boolean hasAcl(RevisionResource rsrc) throws OrmException {
+    return rsrc.isEdit()
+        ? true
+        : rsrc.getControl().canDeleteDraft(dbProvider.get());
   }
 
   private void deleteDraftPatchSet(PatchSet patchSet, Change change)

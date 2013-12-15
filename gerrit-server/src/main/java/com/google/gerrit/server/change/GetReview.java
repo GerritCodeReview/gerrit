@@ -21,6 +21,8 @@ import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
+import java.io.IOException;
+
 public class GetReview implements RestReadView<RevisionResource> {
   private final GetChange delegate;
 
@@ -32,7 +34,8 @@ public class GetReview implements RestReadView<RevisionResource> {
   }
 
   @Override
-  public Response<ChangeInfo> apply(RevisionResource rsrc) throws OrmException {
+  public Response<ChangeInfo> apply(RevisionResource rsrc) throws OrmException,
+      IOException {
     return delegate.apply(rsrc);
   }
 }

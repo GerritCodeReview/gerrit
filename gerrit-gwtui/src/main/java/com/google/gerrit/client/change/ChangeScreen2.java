@@ -347,7 +347,11 @@ public class ChangeScreen2 extends Screen {
       currentPatchSet = revList.get(revList.length() - 1)._number();
     }
 
-    int currentlyViewedPatchSet = info.revision(revision)._number();
+    RevisionInfo revisionInfo = info.revision(revision);
+    String currentlyViewedPatchSet = "" + revisionInfo._number();
+    if (revisionInfo.edit()) {
+      currentlyViewedPatchSet += "+";
+    }
     patchSetsText.setInnerText(Resources.M.patchSets(
         currentlyViewedPatchSet, currentPatchSet));
     patchSetsAction = new PatchSetsAction(
@@ -767,10 +771,15 @@ public class ChangeScreen2 extends Screen {
         && revision.equals(info.current_revision());
     boolean canSubmit = labels.set(info, current);
 
-    if (!current && info.status() == Change.Status.NEW) {
-      statusText.setInnerText(Util.C.notCurrent());
+    RevisionInfo revisionInfo = info.revision(revision);
+    if (revisionInfo.edit()) {
+      statusText.setInnerText(Util.C.revisionEdit());
     } else {
-      statusText.setInnerText(Util.toLongString(info.status()));
+      if (!current && info.status() == Change.Status.NEW) {
+        statusText.setInnerText(Util.C.notCurrent());
+      } else {
+        statusText.setInnerText(Util.toLongString(info.status()));
+      }
     }
 
     renderCommitSubject(info);

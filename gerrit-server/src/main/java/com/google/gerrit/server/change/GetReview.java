@@ -22,6 +22,8 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import java.io.IOException;
+
 @Singleton
 public class GetReview implements RestReadView<RevisionResource> {
   private final GetChange delegate;
@@ -34,7 +36,8 @@ public class GetReview implements RestReadView<RevisionResource> {
   }
 
   @Override
-  public Response<ChangeInfo> apply(RevisionResource rsrc) throws OrmException {
+  public Response<ChangeInfo> apply(RevisionResource rsrc) throws OrmException,
+      IOException {
     return delegate.apply(rsrc);
   }
 }

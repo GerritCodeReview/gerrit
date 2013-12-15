@@ -18,6 +18,7 @@ import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
 import com.google.gerrit.client.changes.ChangeInfo.MessageInfo;
 import com.google.gerrit.client.changes.ReviewInput;
+import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -51,9 +52,11 @@ class ReplyAction {
       CommentLinkProcessor clp,
       Widget replyButton,
       Widget quickApproveButton) {
+    RevisionInfo revisionInfo = info.revisions().get(revision);
     this.psId = new PatchSet.Id(
         info.legacy_id(),
-        info.revisions().get(revision)._number());
+        revisionInfo._number(),
+        revisionInfo.edit());
     this.revision = revision;
     this.style = style;
     this.clp = clp;

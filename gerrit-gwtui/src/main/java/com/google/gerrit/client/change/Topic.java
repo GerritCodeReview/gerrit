@@ -17,6 +17,7 @@ package com.google.gerrit.client.change;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
+import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -74,9 +75,11 @@ class Topic extends Composite {
         && info.actions().containsKey("topic")
         && info.actions().get("topic").enabled();
 
+    RevisionInfo revisionInfo = info.revisions().get(revision);
     psId = new PatchSet.Id(
         info.legacy_id(),
-        info.revisions().get(revision)._number());
+        revisionInfo._number(),
+        revisionInfo.edit());
 
     text.setText(info.topic());
     editIcon.setVisible(canEdit);

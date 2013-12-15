@@ -520,16 +520,15 @@ public class Dispatcher {
       rest = "";
     }
 
-    PatchSet.Id base;
-    PatchSet.Id ps;
     int dotdot = psIdStr.indexOf("..");
+    PatchSet.Id base = null;
+    String psStr = psIdStr;
     if (1 <= dotdot) {
-      base = new PatchSet.Id(id, Integer.parseInt(psIdStr.substring(0, dotdot)));
-      ps = new PatchSet.Id(id, Integer.parseInt(psIdStr.substring(dotdot + 2)));
-    } else {
-      base = null;
-      ps = new PatchSet.Id(id, Integer.parseInt(psIdStr));
+      String baseStr = psIdStr.substring(0, dotdot);
+      base = str2PatchSetId(id, baseStr);
+      psStr = psIdStr.substring(dotdot + 2);
     }
+    PatchSet.Id ps = str2PatchSetId(id, psStr);
 
     if (!rest.isEmpty()) {
       DisplaySide side = DisplaySide.B;
@@ -554,7 +553,7 @@ public class Dispatcher {
                 base != null
                     ? String.valueOf(base.get())
                     : null,
-                String.valueOf(ps.get()), false)
+                ps.getId(), false)
             : new ChangeScreen(id));
       } else if ("publish".equals(panel)) {
         publish(ps);
@@ -562,6 +561,14 @@ public class Dispatcher {
         Gerrit.display(token, new NotFoundScreen());
       }
     }
+  }
+
+  // parse stringified patch set with respect of '+' char,
+  // so "1+" is translated as an edit patch set,
+  // whereas "1" as not an edit patch set
+  private static PatchSet.Id str2PatchSetId(Change.Id id, String ps) {
+    return new PatchSet.Id(id, Integer.parseInt(ps.replaceFirst("\\+$", "")),
+        ps.endsWith("+"));
   }
 
   private static boolean isChangeScreen2() {

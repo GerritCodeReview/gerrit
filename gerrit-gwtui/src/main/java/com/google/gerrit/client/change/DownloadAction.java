@@ -15,6 +15,7 @@
 package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.changes.ChangeInfo;
+import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
@@ -29,9 +30,10 @@ class DownloadAction extends RightSidePopdownAction {
       UIObject relativeTo,
       Widget downloadButton) {
     super(style, relativeTo, downloadButton);
+    RevisionInfo revision2 = info.revision(revision);
     this.downloadBox = new DownloadBox(info, revision,
         new PatchSet.Id(info.legacy_id(),
-            info.revision(revision)._number()));
+            revision2._number(), revision2.edit()));
   }
 
   Widget getWidget() {

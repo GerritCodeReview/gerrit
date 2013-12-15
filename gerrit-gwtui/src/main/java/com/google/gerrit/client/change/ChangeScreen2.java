@@ -328,9 +328,10 @@ public class ChangeScreen2 extends Screen {
     for (int i = 0; i < revisions.length(); i++) {
       if (revision.equals(revisions.get(i).name())) {
         if (0 <= i + offset && i + offset < revisions.length()) {
+          RevisionInfo revisionInfo = revisions.get(i + offset);
           Gerrit.display(PageLinks.toChange(
               new PatchSet.Id(changeInfo.legacy_id(),
-              revisions.get(i + offset)._number())));
+                  revisionInfo._number(), revisionInfo.edit())));
           return;
         }
         return;
@@ -358,7 +359,8 @@ public class ChangeScreen2 extends Screen {
       currentPatchSet = revList.get(revList.length() - 1)._number();
     }
 
-    int currentlyViewedPatchSet = info.revision(revision)._number();
+    RevisionInfo revisionInfo = info.revision(revision);
+    String currentlyViewedPatchSet = revisionInfo.id();
     patchSetsText.setInnerText(Resources.M.patchSets(
         currentlyViewedPatchSet, currentPatchSet));
     patchSetsAction = new PatchSetsAction(
@@ -784,7 +786,7 @@ public class ChangeScreen2 extends Screen {
       JsArray<RevisionInfo> list = info.revisions().values();
       for (int i = 0; i < list.length(); i++) {
         RevisionInfo r = list.get(i);
-        if (revOrId.equals(String.valueOf(r._number()))) {
+        if (revOrId.equals(r.id())) {
           revOrId = r.name();
           break;
         }
@@ -796,14 +798,20 @@ public class ChangeScreen2 extends Screen {
   private void renderChangeInfo(ChangeInfo info) {
     changeInfo = info;
     lastDisplayedUpdate = info.updated();
+    RevisionInfo revisionInfo = info.revision(revision);
     boolean current = info.status().isOpen()
-        && revision.equals(info.current_revision());
+        && revision.equals(info.current_revision())
+        && !revisionInfo.edit();
 
-    if (!current && info.status() == Change.Status.NEW) {
-      statusText.setInnerText(Util.C.notCurrent());
-      labels.setVisible(false);
+    if (revisionInfo.edit()) {
+      statusText.setInnerText(Util.C.revisionEdit());
     } else {
-      statusText.setInnerText(Util.toLongString(info.status()));
+      if (!current && info.status() == Change.Status.NEW) {
+        statusText.setInnerText(Util.C.notCurrent());
+        labels.setVisible(false);
+      } else {
+        statusText.setInnerText(Util.toLongString(info.status()));
+      }
     }
     boolean canSubmit = labels.set(info, current);
 
@@ -903,13 +911,13 @@ public class ChangeScreen2 extends Screen {
     for (int i = list.length() - 1; i >= 0; i--) {
       RevisionInfo r = list.get(i);
       diffBase.addItem(
-        r._number() + ": " + r.name().substring(0, 6),
+        r.id() + ": " + r.name().substring(0, 6),
         r.name());
       if (r.name().equals(revision)) {
         SelectElement.as(diffBase.getElement()).getOptions()
             .getItem(diffBase.getItemCount() - 1).setDisabled(true);
       }
-      if (base != null && base.equals(String.valueOf(r._number()))) {
+      if (base != null && base.equals(r.id())) {
         selectedIdx = diffBase.getItemCount() - 1;
       }
     }

@@ -65,6 +65,9 @@ public class Rebase implements RestModifyView<RevisionResource, Input>,
 
     try {
       rebaseChange.get().rebase(rsrc.getPatchSet().getId(), rsrc.getUser());
+      json.addOption(ListChangesOption.CURRENT_REVISION)
+      .addOption(ListChangesOption.CURRENT_COMMIT);
+      return json.format(change.getId());
     } catch (InvalidChangeOperationException e) {
       throw new ResourceConflictException(e.getMessage());
     } catch (IOException e) {
@@ -72,10 +75,6 @@ public class Rebase implements RestModifyView<RevisionResource, Input>,
     } catch (NoSuchChangeException e) {
       throw new ResourceNotFoundException(change.getId().toString());
     }
-
-    json.addOption(ListChangesOption.CURRENT_REVISION)
-        .addOption(ListChangesOption.CURRENT_COMMIT);
-    return json.format(change.getId());
   }
 
   @Override

@@ -109,10 +109,9 @@ public class RevisionEditCommands {
       BatchRefUpdate ru = repo.getRefDatabase().newBatchUpdate();
       ru.addCommand(new ReceiveCommand(commit, ObjectId.zeroId(), edit.toRefName()));
 
-      ChangeControl ctl = changeControlFactory.controlFor(c, me);
       PatchSetInserter inserter =
-          patchSetInserterFactory.create(repo, rw, ctl.getRefControl(), me, c,
-              commit);
+          patchSetInserterFactory.create(repo, rw,
+              changeControlFactory.controlFor(c, me), commit);
       inserter.setPatchSet(ps).setMessage("Published new edits").insert();
       try {
         ru.execute(rw, NullProgressMonitor.INSTANCE);

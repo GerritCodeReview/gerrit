@@ -202,31 +202,33 @@ public class ChangeJson {
     return this;
   }
 
-  public ChangeInfo format(ChangeResource rsrc) throws OrmException {
+  public ChangeInfo format(ChangeResource rsrc)
+      throws OrmException, IOException {
     return format(changeDataFactory.create(db.get(), rsrc.getControl()));
   }
 
-  public ChangeInfo format(Change change) throws OrmException {
+  public ChangeInfo format(Change change) throws OrmException, IOException {
     return format(changeDataFactory.create(db.get(), change));
   }
 
-  public ChangeInfo format(Change.Id id) throws OrmException {
+  public ChangeInfo format(Change.Id id) throws OrmException, IOException {
     return format(changeDataFactory.create(db.get(), id));
   }
 
-  public ChangeInfo format(ChangeData cd) throws OrmException {
+  public ChangeInfo format(ChangeData cd) throws OrmException, IOException {
     List<ChangeData> tmp = ImmutableList.of(cd);
     return formatList2(ImmutableList.of(tmp)).get(0).get(0);
   }
 
-  public ChangeInfo format(RevisionResource rsrc) throws OrmException {
+  public ChangeInfo format(RevisionResource rsrc)
+      throws OrmException, IOException {
     ChangeData cd = changeDataFactory.create(db.get(), rsrc.getControl());
     cd.limitToPatchSets(ImmutableList.of(rsrc.getPatchSet().getId()));
     return format(cd);
   }
 
   public List<List<ChangeInfo>> formatList2(List<List<ChangeData>> in)
-      throws OrmException {
+      throws OrmException, IOException {
     accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
     Iterable<ChangeData> all = Iterables.concat(in);
     ChangeData.ensureChangeLoaded(all);
@@ -254,7 +256,7 @@ public class ChangeJson {
   }
 
   private List<ChangeInfo> toChangeInfo(Map<Change.Id, ChangeInfo> out,
-      List<ChangeData> changes) throws OrmException {
+      List<ChangeData> changes) throws OrmException, IOException {
     List<ChangeInfo> info = Lists.newArrayListWithCapacity(changes.size());
     for (ChangeData cd : changes) {
       ChangeInfo i = out.get(cd.getId());
@@ -267,7 +269,8 @@ public class ChangeJson {
     return info;
   }
 
-  private ChangeInfo toChangeInfo(ChangeData cd) throws OrmException {
+  private ChangeInfo toChangeInfo(ChangeData cd) throws OrmException,
+      IOException {
     ChangeInfo out = new ChangeInfo();
     Change in = cd.change();
     out.project = in.getProject().get();
@@ -771,7 +774,8 @@ public class ChangeJson {
     return false;
   }
 
-  private Map<String, RevisionInfo> revisions(ChangeData cd) throws OrmException {
+  private Map<String, RevisionInfo> revisions(ChangeData cd)
+      throws OrmException, IOException {
     ChangeControl ctl = control(cd);
     if (ctl == null) {
       return null;
@@ -786,7 +790,8 @@ public class ChangeJson {
     Map<String, RevisionInfo> res = Maps.newLinkedHashMap();
     for (PatchSet in : src) {
       if (ctl.isPatchVisible(in, db.get())) {
-        res.put(in.getRevision().get(), toRevisionInfo(cd, in));
+        RevisionInfo revisionInfo = toRevisionInfo(cd, in);
+        res.put(in.getRevision().get(), revisionInfo);
       }
     }
     return res;
@@ -798,6 +803,7 @@ public class ChangeJson {
     out.isCurrent = in.getId().equals(cd.change().currentPatchSetId());
     out._number = in.getId().get();
     out.draft = in.isDraft() ? true : null;
+    out.edit = in.getId().isEdit() ? true : null;
     out.fetch = makeFetchMap(cd, in);
 
     if (has(ALL_COMMITS) || (out.isCurrent && has(CURRENT_COMMIT))) {
@@ -817,7 +823,8 @@ public class ChangeJson {
       }
     }
 
-    if ((out.isCurrent || (out.draft != null && out.draft))
+    if ((out.isCurrent || (out.draft != null && out.draft)
+        || (out.edit != null && out.edit))
         && has(CURRENT_ACTIONS)
         && userProvider.get().isIdentifiedUser()) {
       out.actions = Maps.newTreeMap();

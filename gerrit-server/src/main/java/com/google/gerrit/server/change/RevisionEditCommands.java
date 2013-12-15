@@ -168,7 +168,7 @@ public class RevisionEditCommands {
     }
   }
 
-  public Map<PatchSet.Id, RevisionEdit> read(Change change)
+  public Map<PatchSet.Id, PatchSet> read(Change change)
       throws AuthException, InvalidChangeOperationException,
       NoSuchChangeException, IOException {
     if (!currentUser.get().isIdentifiedUser()) {
@@ -187,11 +187,12 @@ public class RevisionEditCommands {
           repo.getRefDatabase()
               .getRefs(RevisionEdit.refPrefix(me, change.getId()).toString())
               .keySet();
-      Map<PatchSet.Id, RevisionEdit> result = new HashMap<>(names.size());
+      Map<PatchSet.Id, PatchSet> result = new HashMap<>(names.size());
       for (String name : names) {
         PatchSet.Id psid = new PatchSet.Id(change.getId(),
             Integer.valueOf(name), true);
-        result.put(psid, new RevisionEdit(me, PatchSet.Id.editFrom(psid)));
+        RevisionEdit edit = new RevisionEdit(me, PatchSet.Id.editFrom(psid));
+        result.put(psid, edit.getPatchSet(repo));
       }
       return Collections.unmodifiableMap(result);
     } finally {

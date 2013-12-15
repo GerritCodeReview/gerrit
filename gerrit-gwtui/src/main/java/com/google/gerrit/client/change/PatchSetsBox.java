@@ -188,7 +188,7 @@ class PatchSetsBox extends Composite {
         .closeSpan()
         .append(' ');
     }
-    sb.append(r._number());
+    sb.append(r.id());
     sb.closeTd();
 
     sb.openTd()
@@ -219,7 +219,7 @@ class PatchSetsBox extends Composite {
   private String url(RevisionInfo r) {
     return PageLinks.toChange(
         changeId,
-        String.valueOf(r._number()));
+        r.id());
   }
 
   private void closeParent() {

@@ -60,11 +60,16 @@ public class RevisionEdit {
   }
 
   public RevId getRevId(Repository repo) throws IOException {
+    String objectIdStr = getRevision(repo);
+    return objectIdStr != null ? new RevId(objectIdStr) : null;
+  }
+
+  public String getRevision(Repository repo) throws IOException {
     Ref ref = repo.getRef(toRefName());
     if (ref == null) {
       return null;
     }
-    return new RevId(ObjectId.toString(ref.getObjectId()));
+    return ObjectId.toString(ref.getObjectId());
   }
 
   public static StringBuilder refPrefix(IdentifiedUser user,

@@ -31,6 +31,7 @@ import com.google.inject.Provider;
 
 import org.kohsuke.args4j.Option;
 
+import java.io.IOException;
 import java.util.BitSet;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -106,8 +107,8 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
   }
 
   @Override
-  public Object apply(TopLevelResource rsrc)
-      throws BadRequestException, AuthException, OrmException {
+  public Object apply(TopLevelResource rsrc) throws BadRequestException,
+      AuthException, OrmException, IOException {
     List<List<ChangeInfo>> out;
     try {
       out = query();
@@ -125,7 +126,7 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
   }
 
   private List<List<ChangeInfo>> query()
-      throws OrmException, QueryParseException {
+      throws OrmException, QueryParseException, IOException {
     if (imp.isDisabled()) {
       throw new QueryParseException("query disabled");
     }
@@ -152,7 +153,7 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
   }
 
   private List<List<ChangeInfo>> query0() throws OrmException,
-      QueryParseException {
+      QueryParseException, IOException {
     int cnt = queries.size();
     BitSet more = new BitSet(cnt);
     List<List<ChangeData>> data = imp.queryChanges(queries);

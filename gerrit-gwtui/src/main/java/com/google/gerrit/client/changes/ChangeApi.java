@@ -90,7 +90,10 @@ public class ChangeApi {
     if (revision != null) {
       return revision(cn, revision);
     }
-    return change(cn).view("revisions").id(id.get());
+    String idStr = Integer.toString(id.get());
+    return change(cn).view("revisions").id(id.isEdit()
+        ? idStr + ".edit"
+        : idStr);
   }
 
   public static RestApi reviewers(int id) {

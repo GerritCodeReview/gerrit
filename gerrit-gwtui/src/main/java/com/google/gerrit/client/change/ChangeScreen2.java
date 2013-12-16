@@ -652,9 +652,10 @@ public class ChangeScreen2 extends Screen {
       group.add(new AsyncCallback<NativeMap<FileInfo>>() {
         @Override
         public void onSuccess(NativeMap<FileInfo> m) {
-          files.setRevisions(
+          files.set(
               base != null ? new PatchSet.Id(changeId, base._number()) : null,
-              new PatchSet.Id(changeId, rev._number()));
+              new PatchSet.Id(changeId, rev._number()),
+              style, editMessage, reply);
           files.setValue(m, myLastReply, comments.get(0),
               drafts.get(0), fileTableMode);
         }

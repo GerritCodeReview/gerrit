@@ -32,6 +32,7 @@ import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
@@ -51,6 +52,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.ImageResourceRenderer;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.impl.HyperlinkImpl;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.progress.client.ProgressBar;
@@ -119,7 +121,7 @@ class FileTable extends FlowPanel {
   private static void onEdit(NativeEvent e, int idx) {
     MyTable t = getMyTable(e);
     if (t != null) {
-      t.onEdit(InputElement.as(Element.as(e.getEventTarget())), idx);
+      t.onEdit(idx);
     }
   }
 
@@ -160,6 +162,9 @@ class FileTable extends FlowPanel {
   private boolean register;
   private JsArrayString reviewed;
   private String scrollToPath;
+  private ChangeScreen2.Style style;
+  private Widget editButton;
+  private Widget replyButton;
 
   @Override
   protected void onLoad() {
@@ -167,9 +172,13 @@ class FileTable extends FlowPanel {
     R.css().ensureInjected();
   }
 
-  void setRevisions(PatchSet.Id base, PatchSet.Id curr) {
+  public void set(Id base, Id curr, ChangeScreen2.Style style,
+      Widget editButton, Widget replyButton) {
     this.base = base;
     this.curr = curr;
+    this.style = style;
+    this.editButton = editButton;
+    this.replyButton = replyButton;
   }
 
   void setValue(NativeMap<FileInfo> fileMap,
@@ -284,12 +293,16 @@ class FileTable extends FlowPanel {
           + curr.toString());
     }
 
-    void onEdit(InputElement checkbox, int idx) {
-      ChangeFileApi.getContent(curr, list.get(idx).path(),
+    void onEdit(int idx) {
+      final String path = list.get(idx).path();
+      ChangeFileApi.getContent(curr, path,
           new GerritCallback<String>() {
             @Override
             public void onSuccess(String result) {
-              Window.alert(result);
+              EditFileAction edit = new EditFileAction(
+                  curr, result, path,
+                  style, editButton, replyButton);
+              edit.onEdit();
             }
           });
     }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48bf9fde_5771acb3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/QuickApprove.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-12-16T17:49:35Z",
+      "side": 1,
+      "message": "just to be safe... `|| action \u003d\u003d null`",
+      "revId": "ba51efdb37a3850a687bd2399da51c74435b5f97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

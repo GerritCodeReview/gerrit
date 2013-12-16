@@ -23,6 +23,7 @@ public interface RevisionApi {
   /** {@code submit} with {@link SubmitInput#waitForMerge} set to true. */
   void submit() throws RestApiException;
   void submit(SubmitInput in) throws RestApiException;
+  void publish() throws RestApiException;
   ChangeApi cherryPick(CherryPickInput in) throws RestApiException;
   ChangeApi rebase() throws RestApiException;
 }

@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.CherryPick;
 import com.google.gerrit.server.change.DeleteDraftPatchSet;
 import com.google.gerrit.server.change.PostReview;
+import com.google.gerrit.server.change.Publish;
 import com.google.gerrit.server.change.Rebase;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
@@ -46,6 +47,7 @@ class RevisionApiImpl implements RevisionApi {
   private final Provider<Rebase> rebase;
   private final Provider<PostReview> review;
   private final Provider<Submit> submit;
+  private final Provider<Publish> publish;
   private final RevisionResource revision;
 
   @Inject
@@ -55,6 +57,7 @@ class RevisionApiImpl implements RevisionApi {
       Provider<Rebase> rebase,
       Provider<PostReview> review,
       Provider<Submit> submit,
+      Provider<Publish> publish,
       @Assisted RevisionResource r) {
     this.changes = changes;
     this.cherryPick = cherryPick;
@@ -62,6 +65,7 @@ class RevisionApiImpl implements RevisionApi {
     this.rebase = rebase;
     this.review = review;
     this.submit = submit;
+    this.publish = publish;
     this.revision = r;
   }
 
@@ -87,6 +91,15 @@ class RevisionApiImpl implements RevisionApi {
       submit.get().apply(revision, in);
     } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot submit change", e);
+    }
+  }
+
+  @Override
+  public void publish() throws RestApiException {
+    try {
+      publish.get().apply(revision, new Publish.Input());
+    } catch (OrmException | IOException e) {
+      throw new RestApiException("Cannot publish draft patch set", e);
     }
   }
 

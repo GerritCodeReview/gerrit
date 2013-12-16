@@ -451,6 +451,12 @@ limitations under the License.
     <div class='{style.sectionHeader}'>
       <ui:msg>Files</ui:msg>
       <div class='{style.headerButtons}'>
+        <g:Button ui:field='openAll'
+            styleName=''
+            title='Open each file in a new tab'>
+          <ui:attribute name='title'/>
+          <div><ui:msg>Open All</ui:msg></div>
+        </g:Button>
         <div class='{style.diffBase}'>
           <ui:msg>Diff against: <g:ListBox ui:field='diffBase' styleName=''/></ui:msg>
         </div>

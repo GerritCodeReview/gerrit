@@ -24,6 +24,7 @@ import com.google.gerrit.client.diff.FileInfo;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.NativeMap;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -44,6 +45,7 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.EventListener;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.impl.HyperlinkImpl;
@@ -185,6 +187,15 @@ class FileTable extends FlowPanel {
       table.scrollToPath(path);
     } else {
       scrollToPath = path;
+    }
+  }
+
+  void openAll() {
+    if (table != null) {
+      String self = Gerrit.selfRedirect(null);
+      for (FileInfo info : Natives.asList(table.list)) {
+        Window.open(self + "#" + url(info), "_blank", null);
+      }
     }
   }
 

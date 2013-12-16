@@ -83,6 +83,16 @@ public class ChangesCollection implements
     return new ChangeResource(control);
   }
 
+  public ChangeResource parse(Change.Id id)
+      throws ResourceNotFoundException, OrmException {
+    return parse(TopLevelResource.INSTANCE,
+        IdString.fromUrl(Integer.toString(id.get())));
+  }
+
+  public ChangeResource parse(ChangeControl control) throws OrmException {
+    return new ChangeResource(control);
+  }
+
   private List<Change> findChanges(String id)
       throws OrmException, ResourceNotFoundException {
     // Try legacy id

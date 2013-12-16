@@ -35,7 +35,7 @@ public class ChangeResource implements RestResource, HasETag {
 
   private final ChangeControl control;
 
-  public ChangeResource(ChangeControl control) {
+  ChangeResource(ChangeControl control) {
     this.control = control;
   }
 

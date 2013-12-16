@@ -69,7 +69,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeInserter;
-import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.MergeabilityChecker;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.change.PatchSetInserter.ChangeKind;
@@ -269,6 +269,7 @@ public class ReceiveCommits {
   private final CommitValidators.Factory commitValidatorsFactory;
   private final TagCache tagCache;
   private final AccountCache accountCache;
+  private final ChangesCollection changes;
   private final ChangeInserter.Factory changeInserterFactory;
   private final WorkQueue workQueue;
   private final ListeningExecutorService changeUpdateExector;
@@ -329,6 +330,7 @@ public class ReceiveCommits {
       final TagCache tagCache,
       final AccountCache accountCache,
       final ChangeCache changeCache,
+      final ChangesCollection changes,
       final ChangeInserter.Factory changeInserterFactory,
       final CommitValidators.Factory commitValidatorsFactory,
       @CanonicalWebUrl final String canonicalWebUrl,
@@ -364,6 +366,7 @@ public class ReceiveCommits {
     this.canonicalWebUrl = canonicalWebUrl;
     this.tagCache = tagCache;
     this.accountCache = accountCache;
+    this.changes = changes;
     this.changeInserterFactory = changeInserterFactory;
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.workQueue = workQueue;
@@ -1561,7 +1564,7 @@ public class ReceiveCommits {
   private void submit(ChangeControl changeCtl, PatchSet ps)
       throws OrmException, IOException {
     Submit submit = submitProvider.get();
-    RevisionResource rsrc = new RevisionResource(new ChangeResource(changeCtl), ps);
+    RevisionResource rsrc = new RevisionResource(changes.parse(changeCtl), ps);
     Change c = submit.submit(rsrc, currentUser);
     if (c == null) {
       addError("Submitting change " + changeCtl.getChange().getChangeId()

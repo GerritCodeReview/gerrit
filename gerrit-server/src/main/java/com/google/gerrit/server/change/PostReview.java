@@ -73,6 +73,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   }
 
   private final Provider<ReviewDb> db;
+  private final ChangesCollection changes;
   private final ChangeIndexer indexer;
   private final AccountsCollection accounts;
   private final EmailReviewComments.Factory email;
@@ -87,11 +88,13 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
   @Inject
   PostReview(Provider<ReviewDb> db,
+      ChangesCollection changes,
       ChangeIndexer indexer,
       AccountsCollection accounts,
       EmailReviewComments.Factory email,
       ChangeHooks hooks) {
     this.db = db;
+    this.changes = changes;
     this.indexer = indexer;
     this.accounts = accounts;
     this.email = email;
@@ -193,7 +196,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
 
     ChangeControl target = caller.forUser(accounts.parse(in.onBehalfOf));
-    return new RevisionResource(new ChangeResource(target), rev.getPatchSet());
+    return new RevisionResource(changes.parse(target), rev.getPatchSet());
   }
 
   private void checkLabels(RevisionResource revision, boolean strict,

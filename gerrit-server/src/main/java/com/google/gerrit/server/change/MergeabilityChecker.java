@@ -37,7 +37,6 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.WorkQueue.Executor;
 import com.google.gerrit.server.index.ChangeIndexer;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gwtorm.server.OrmException;
@@ -64,8 +63,8 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
 
   private final ThreadLocalRequestContext tl;
   private final SchemaFactory<ReviewDb> schemaFactory;
-  private final ChangeControl.GenericFactory changeControlFactory;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
+  private final ChangesCollection changes;
   private final Provider<Mergeable> mergeable;
   private final ChangeIndexer indexer;
   private final ListeningExecutorService executor;
@@ -75,16 +74,15 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
   @Inject
   public MergeabilityChecker(ThreadLocalRequestContext tl,
       SchemaFactory<ReviewDb> schemaFactory,
-      ChangeControl.GenericFactory changeControlFactory,
       IdentifiedUser.GenericFactory identifiedUserFactory,
-      Provider<Mergeable> mergeable, ChangeIndexer indexer,
-      @MergeabilityChecksExecutor Executor executor,
+      ChangesCollection changes, Provider<Mergeable> mergeable,
+      ChangeIndexer indexer, @MergeabilityChecksExecutor Executor executor,
       MergeabilityCheckQueue mergeabilityCheckQueue,
       MetaDataUpdate.Server metaDataUpdateFactory) {
     this.tl = tl;
     this.schemaFactory = schemaFactory;
-    this.changeControlFactory = changeControlFactory;
     this.identifiedUserFactory = identifiedUserFactory;
+    this.changes = changes;
     this.mergeable = mergeable;
     this.indexer = indexer;
     this.executor = MoreExecutors.listeningDecorator(executor);
@@ -263,8 +261,8 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
         PatchSet ps = db.patchSets().get(change.currentPatchSetId());
         Mergeable m = mergeable.get();
         m.setForce(force);
-        MergeableInfo info = m.apply(new RevisionResource(new ChangeResource(
-            changeControlFactory.controlFor(change, context.getCurrentUser())), ps));
+        MergeableInfo info = m.apply(
+            new RevisionResource(changes.parse(change.getId()), ps));
         return change.isMergeable() != info.mergeable;
       } catch (ResourceConflictException e) {
         // change is closed

@@ -20,6 +20,7 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -33,6 +34,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.MergeabilityChecker;
 import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
@@ -41,7 +43,6 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.SetParent;
@@ -78,11 +79,11 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
   private final IdentifiedUser user;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final Provider<PostReviewers> reviewersProvider;
-  private final ChangeControl.GenericFactory changeFactory;
   private final MergeabilityChecker mergeabilityChecker;
   private final ChangeHooks hooks;
   private final CreateChangeSender.Factory createChangeSenderFactory;
   private final ProjectCache projectCache;
+  private final ChangesCollection changes;
 
   @Inject
   ReviewProjectAccess(final ProjectControl.Factory projectControlFactory,
@@ -90,11 +91,11 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       MetaDataUpdate.User metaDataUpdateFactory, ReviewDb db,
       IdentifiedUser user, PatchSetInfoFactory patchSetInfoFactory,
       Provider<PostReviewers> reviewersProvider,
-      ChangeControl.GenericFactory changeFactory,
       MergeabilityChecker mergeabilityChecker, ChangeHooks hooks,
       CreateChangeSender.Factory createChangeSenderFactory,
       ProjectCache projectCache,
       AllProjectsNameProvider allProjects,
+      ChangesCollection changes,
       Provider<SetParent> setParent,
 
       @Assisted("projectName") Project.NameKey projectName,
@@ -109,11 +110,11 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
     this.user = user;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.reviewersProvider = reviewersProvider;
-    this.changeFactory = changeFactory;
     this.mergeabilityChecker = mergeabilityChecker;
     this.hooks = hooks;
     this.createChangeSenderFactory = createChangeSenderFactory;
     this.projectCache = projectCache;
+    this.changes = changes;
   }
 
   @Override
@@ -165,9 +166,15 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
     } catch (Exception err) {
       log.error("Cannot send email for new change " + change.getId(), err);
     }
-    addProjectOwnersAsReviewers(change);
+    ChangeResource rsrc;
+    try {
+      rsrc = changes.parse(changeId);
+    } catch (ResourceNotFoundException e) {
+      throw new IOException(e);
+    }
+    addProjectOwnersAsReviewers(rsrc);
     if (parentProjectUpdate) {
-      addAdministratorsAsReviewers(change);
+      addAdministratorsAsReviewers(rsrc);
     }
     return changeId;
   }
@@ -186,12 +193,10 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
     db.patchSetAncestors().insert(toInsert);
   }
 
-  private void addProjectOwnersAsReviewers(Change change) {
+  private void addProjectOwnersAsReviewers(ChangeResource rsrc) {
     final String projectOwners =
         groupBackend.get(SystemGroupBackend.PROJECT_OWNERS).getName();
     try {
-      ChangeResource rsrc =
-          new ChangeResource(changeFactory.controlFor(change, user));
       AddReviewerInput input = new AddReviewerInput();
       input.reviewer = projectOwners;
       reviewersProvider.get().apply(rsrc, input);
@@ -201,15 +206,13 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
     }
   }
 
-  private void addAdministratorsAsReviewers(Change change) {
+  private void addAdministratorsAsReviewers(ChangeResource rsrc) {
     List<PermissionRule> adminRules =
         projectCache.getAllProjects().getConfig()
             .getAccessSection(AccessSection.GLOBAL_CAPABILITIES)
             .getPermission(GlobalCapability.ADMINISTRATE_SERVER).getRules();
     for (PermissionRule r : adminRules) {
       try {
-        ChangeResource rsrc =
-            new ChangeResource(changeFactory.controlFor(change, user));
         AddReviewerInput input = new AddReviewerInput();
         input.reviewer = r.getGroup().getUUID().get();
         reviewersProvider.get().apply(rsrc, input);

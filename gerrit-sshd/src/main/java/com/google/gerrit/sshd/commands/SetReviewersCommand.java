@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.DeleteReviewer;
 import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.change.ReviewerResource;
@@ -88,6 +89,9 @@ public class SetReviewersCommand extends SshCommand {
   @Inject
   private ChangeControl.Factory changeControlFactory;
 
+  @Inject
+  private ChangesCollection changesCollection;
+
   private Set<Account.Id> toRemove = new HashSet<Account.Id>();
   private Set<Change.Id> changes = new HashSet<Change.Id>();
 
@@ -110,8 +114,7 @@ public class SetReviewersCommand extends SshCommand {
   }
 
   private boolean modifyOne(Change.Id changeId) throws Exception {
-    ChangeResource changeRsrc =
-        new ChangeResource(changeControlFactory.validateFor(changeId));
+    ChangeResource changeRsrc = changesCollection.parse(changeId);
     boolean ok = true;
 
     // Remove reviewers

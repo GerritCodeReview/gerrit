@@ -16,8 +16,10 @@ package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GitwebLink;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
+import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.changes.ReviewInfo;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.patches.PatchUtil;
@@ -86,21 +88,32 @@ class Header extends Composite {
     this.patchSetId = patchSetId;
     this.path = path;
 
-    SafeHtml.setInnerHTML(filePath, formatPath(path));
+    SafeHtml.setInnerHTML(filePath, formatPath(path, null, null));
     up.setTargetHistoryToken(PageLinks.toChange(
         patchSetId.getParentKey(),
         base != null ? String.valueOf(base.get()) : null,
         String.valueOf(patchSetId.get())));
   }
 
-  private static SafeHtml formatPath(String path) {
+  private static SafeHtml formatPath(String path, String project, String commit) {
     SafeHtmlBuilder b = new SafeHtmlBuilder();
     if (Patch.COMMIT_MSG.equals(path)) {
       return b.append(Util.C.commitMessage());
     }
 
+    GitwebLink gw = (project != null && commit != null) ? Gerrit.getGitwebLink() : null;
     int s = path.lastIndexOf('/') + 1;
-    b.append(path.substring(0, s));
+    if (gw != null && s > 0) {
+      String base = path.substring(0, s - 1);
+      b.openAnchor()
+          .setAttribute("href", gw.toFile(project, commit, base))
+          .setAttribute("title", gw.getLinkName())
+          .append(base)
+          .closeAnchor()
+          .append('/');
+    } else {
+      b.append(path.substring(0, s));
+    }
     b.openElement("b");
     b.append(path.substring(s));
     b.closeElement("b");
@@ -159,7 +172,26 @@ class Header extends Composite {
   }
 
   void setChangeInfo(ChangeInfo info) {
-    project.setInnerText(info.project());
+    GitwebLink gw = Gerrit.getGitwebLink();
+    if (gw == null) {
+      project.setInnerText(info.project());
+      return;
+    }
+
+    JsArray<RevisionInfo> revisions = info.revisions().values();
+    for (int i = 0; i < revisions.length(); i++) {
+      if (revisions.get(i)._number() == patchSetId.get()) {
+        String c = revisions.get(i).name();
+        SafeHtml.setInnerHTML(filePath, formatPath(path, info.project(), c));
+        SafeHtml.setInnerHTML(project, new SafeHtmlBuilder()
+            .openAnchor()
+            .setAttribute("href", gw.toFile(info.project(), c, ""))
+            .setAttribute("title", gw.getLinkName())
+            .append(info.project())
+            .closeAnchor());
+        break;
+      }
+    }
   }
 
   void init(PreferencesAction pa) {

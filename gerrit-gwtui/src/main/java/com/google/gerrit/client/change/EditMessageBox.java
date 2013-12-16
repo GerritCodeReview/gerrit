@@ -91,7 +91,7 @@ class EditMessageBox extends Composite {
     hide();
   }
 
-  private void hide() {
+  protected void hide() {
     for (Widget w = getParent(); w != null; w = w.getParent()) {
       if (w instanceof PopupPanel) {
         ((PopupPanel) w).hide();

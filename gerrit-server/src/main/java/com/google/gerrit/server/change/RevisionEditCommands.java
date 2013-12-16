@@ -226,8 +226,10 @@ public class RevisionEditCommands {
         RevCommit prevEdit = edit.get(git, rw);
         RevCommit base = rw.parseCommit(ObjectId.fromString(
             ps.getRevision().get()));
+        ObjectId oldObjectId = prevEdit;
         if (prevEdit == null) {
           prevEdit = base;
+          oldObjectId = ObjectId.zeroId();
         }
 
         ObjectId tree = editTree(file, git, inserter, content, prevEdit);
@@ -235,7 +237,8 @@ public class RevisionEditCommands {
           throw new InvalidChangeOperationException("no changes were made");
         }
 
-        return commitTree(git, me, edit, rw, inserter, prevEdit, base, tree);
+        return commitTree(git, me, edit, rw, inserter, prevEdit,
+            base, tree, oldObjectId);
       } finally {
         rw.release();
         inserter.release();
@@ -247,10 +250,11 @@ public class RevisionEditCommands {
 
   private RefUpdate.Result commitTree(final Repository git,
       IdentifiedUser me, RevisionEdit edit, RevWalk rw,
-      ObjectInserter inserter, RevCommit prevEdit, RevCommit base, ObjectId tree)
+      ObjectInserter inserter, RevCommit prevEdit, RevCommit base,
+      ObjectId tree, ObjectId oldObjectId)
       throws IOException {
     ObjectId newEdit = commit(me, inserter, prevEdit, base, tree);
-    return update(git, me, edit, rw, prevEdit, base, newEdit);
+    return update(git, me, edit, rw, prevEdit, base, newEdit, oldObjectId);
   }
 
   private ObjectId commit(IdentifiedUser me, ObjectInserter inserter,
@@ -268,10 +272,9 @@ public class RevisionEditCommands {
 
   private RefUpdate.Result update(final Repository git, IdentifiedUser me,
       RevisionEdit edit, RevWalk rw, RevCommit prevEdit, RevCommit base,
-      ObjectId newEdit) throws IOException {
+      ObjectId newEdit, ObjectId oldObjectId) throws IOException {
     RefUpdate ru = git.updateRef(edit.toRefName());
-    ru.setExpectedOldObjectId(
-        prevEdit == base ? ObjectId.zeroId() : prevEdit);
+    ru.setExpectedOldObjectId(oldObjectId);
     ru.setNewObjectId(newEdit);
     ru.setRefLogIdent(getRefLogIdent(me));
     ru.setForceUpdate(true);

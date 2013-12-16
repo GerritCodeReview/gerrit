@@ -15,16 +15,13 @@
 package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.Dispatcher;
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
+import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -37,8 +34,7 @@ class FileComments extends Composite {
   interface Binder extends UiBinder<HTMLPanel, FileComments> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
-  private final String url;
-  @UiField Anchor path;
+  @UiField InlineHyperlink path;
   @UiField FlowPanel comments;
 
   FileComments(CommentLinkProcessor clp,
@@ -47,8 +43,7 @@ class FileComments extends Composite {
       List<CommentInfo> list) {
     initWidget(uiBinder.createAndBindUi(this));
 
-    url = url(ps, list.get(0));
-    path.setHref("#" + url);
+    path.setTargetHistoryToken(url(ps, list.get(0)));
     path.setText(title);
 
     Collections.sort(list, new Comparator<CommentInfo>() {
@@ -60,13 +55,6 @@ class FileComments extends Composite {
     for (CommentInfo c : list) {
       comments.add(new LineComment(clp, c));
     }
-  }
-
-  @UiHandler("path")
-  void onClick(ClickEvent e) {
-    e.preventDefault();
-    e.stopPropagation();
-    Gerrit.display(url);
   }
 
   private static String url(PatchSet.Id ps, CommentInfo info) {

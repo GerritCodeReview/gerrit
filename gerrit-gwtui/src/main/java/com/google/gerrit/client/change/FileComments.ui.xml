@@ -16,7 +16,7 @@ limitations under the License.
 -->
 <ui:UiBinder
     xmlns:ui='urn:ui:com.google.gwt.uibinder'
-    xmlns:c='urn:import:com.google.gerrit.client'
+    xmlns:c='urn:import:com.google.gerrit.client.ui'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <ui:style>
     .box {
@@ -31,7 +31,7 @@ limitations under the License.
   </ui:style>
 
   <g:HTMLPanel styleName='{style.box}'>
-    <g:Anchor styleName='{style.path}' ui:field='path'/>
+    <c:InlineHyperlink styleName='{style.path}' ui:field='path'/>
     <g:FlowPanel styleName='{style.comments}' ui:field='comments'/>
   </g:HTMLPanel>
 </ui:UiBinder>

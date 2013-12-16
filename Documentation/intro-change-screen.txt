@@ -250,6 +250,12 @@ accepting the merge commit. It is kind of a dependency too, but not in the
 sense of "these changes have to be submitted in order to submit this
 change".
 
+Related changes that are outdated, i.e. the dependency is on a patch set that
+is not current, are marked with an orange dot.
+
+Dependencies on commits that are not associated to a change, i.e. have been
+pushed to the repository bypassing review, are marked with a black dot.
+
 This tab is only visible if related changes for the current active
 change exist.
 

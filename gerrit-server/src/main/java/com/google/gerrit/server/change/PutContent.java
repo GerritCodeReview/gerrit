@@ -47,7 +47,6 @@ public class PutContent implements RestModifyView<FileResource, Input> {
       throws AuthException, ResourceNotFoundException,
       ResourceConflictException, OrmException, IOException {
     RevisionResource rev = rsrc.getRevision();
-    rev.checkEdit();
     Change change = rev.getChange();
     PatchSet ps = rev.getPatchSet();
     String path = rsrc.getPath();

@@ -21,7 +21,6 @@ import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.SubmoduleOp;
-import com.google.gerrit.server.patch.RemoveReviewer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.PerRequestProjectControlCache;
 import com.google.gerrit.server.project.ProjectControl;
@@ -46,7 +45,6 @@ public class GerritRequestModule extends FactoryModule {
     // Not really per-request, but dammit, I don't know where else to
     // easily park this stuff.
     //
-    factory(RemoveReviewer.Factory.class);
     factory(SuggestParentCandidates.Factory.class);
     factory(BanCommit.Factory.class);
   }

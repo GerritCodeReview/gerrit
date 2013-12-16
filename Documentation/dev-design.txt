@@ -724,7 +724,7 @@ tests are included.
 Caveats
 -------
 
-Reitveld can't be used as it does not provide the "submit over the
+Rietveld can't be used as it does not provide the "submit over the
 web" feature that Gerrit provides for Git.
 
 Gitosis can't be used as it does not provide any code review

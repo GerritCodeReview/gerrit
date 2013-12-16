@@ -263,7 +263,7 @@ Init step
 
 Plugins can contribute their own "init step" during the Gerrit init
 wizard. This is useful for guiding the Gerrit administrator through
-the settings needed by the plugin to work propertly.
+the settings needed by the plugin to work properly.
 
 For instance plugins to integrate Jira issues to Gerrit changes may
 contribute their own "init step" to allow configuring the Jira URL,
@@ -527,7 +527,7 @@ public class SshModule extends SingleCommandPluginModule {
 ----
 
 If the plugin above is deployed under sh.jar file in `$site/plugins`
-directory, generic commands can be called without specifing the
+directory, generic commands can be called without specifying the
 actual SSH command. Note in the example below, that the called commands
 `ls` and `ps` was not explicitly bound:
 

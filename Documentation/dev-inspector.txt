@@ -97,7 +97,7 @@ For more information on using Jython, especially with regards to its limitations
 in interfacing to the Java Virtual Machine, please refer to the
 http://www.jython.org/[Jython documentation].
 
-After sucessful initialization it is possible to examine components of
+After successful initialization it is possible to examine components of
 Java packages, classes and live instances.
 
 ----

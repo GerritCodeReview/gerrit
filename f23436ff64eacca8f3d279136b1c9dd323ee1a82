@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48bf9fde_b759283f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/api/Plugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-12-16T17:37:24Z",
+      "side": 1,
+      "message": "this is somewhat unintuitive. I would almost suggest that $wnd.Gerrit not use \u0027this\u0027 and instead reference $wnd.Gerrit directly.",
+      "revId": "f23436ff64eacca8f3d279136b1c9dd323ee1a82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

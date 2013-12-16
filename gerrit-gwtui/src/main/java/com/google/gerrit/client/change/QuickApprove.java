@@ -34,12 +34,13 @@ class QuickApprove extends Button implements ClickHandler {
   private Change.Id changeId;
   private String revision;
   private ReviewInput input;
+  private ReplyAction replyAction;
 
   QuickApprove() {
     addClickHandler(this);
   }
 
-  void set(ChangeInfo info, String commit) {
+  void set(ChangeInfo info, String commit, ReplyAction action) {
     if (!info.has_permitted_labels() || !info.status().isOpen()) {
       // Quick approve needs at least one label on an open change.
       setVisible(false);
@@ -94,6 +95,7 @@ class QuickApprove extends Button implements ClickHandler {
       revision = commit;
       input = ReviewInput.create();
       input.label(qName, qValue);
+      replyAction = action;
       setText(qName + qValueStr);
     } else {
       setVisible(false);
@@ -107,6 +109,9 @@ class QuickApprove extends Button implements ClickHandler {
 
   @Override
   public void onClick(ClickEvent event) {
+    if (replyAction != null) {
+      input.message(replyAction.getMessage());
+    }
     ChangeApi.revision(changeId.get(), revision)
       .view("review")
       .post(input, new GerritCallback<ReviewInput>() {

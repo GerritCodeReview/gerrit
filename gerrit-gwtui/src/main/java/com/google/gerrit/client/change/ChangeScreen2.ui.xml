@@ -462,6 +462,20 @@ limitations under the License.
         <div class='{style.diffBase}'>
           <ui:msg>Diff against: <g:ListBox ui:field='diffBase' styleName=''/></ui:msg>
         </div>
+        <g:Button ui:field='editMode'
+            styleName=''
+            visible='false'
+            title='Switch file table in the edit mode'>
+          <ui:attribute name='title'/>
+          <div><ui:msg>Edit Mode</ui:msg></div>
+        </g:Button>
+        <g:Button ui:field='reviewMode'
+            styleName=''
+            visible='false'
+            title='Switch file table in the review mode'>
+          <ui:attribute name='title'/>
+          <div><ui:msg>Review Mode</ui:msg></div>
+        </g:Button>
       </div>
     </div>
     <c:FileTable ui:field='files'/>

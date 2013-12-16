@@ -465,14 +465,14 @@ limitations under the License.
         <g:Button ui:field='editMode'
             styleName=''
             visible='false'
-            title='Switch file table in the edit mode'>
+            title='Switch file table to edit mode'>
           <ui:attribute name='title'/>
           <div><ui:msg>Edit</ui:msg></div>
         </g:Button>
         <g:Button ui:field='reviewMode'
             styleName=''
             visible='false'
-            title='Switch file table in the review mode'>
+            title='Switch file table to review mode'>
           <ui:attribute name='title'/>
           <div><ui:msg>Done</ui:msg></div>
         </g:Button>

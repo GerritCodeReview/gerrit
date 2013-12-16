@@ -54,6 +54,8 @@ public class GitWebConfig {
     type.setBranch(cfg.getString("gitweb", null, "branch"));
     type.setProject(cfg.getString("gitweb", null, "project"));
     type.setRevision(cfg.getString("gitweb", null, "revision"));
+    type.setRootTree(cfg.getString("gitweb", null, "roottree"));
+    type.setFile(cfg.getString("gitweb", null, "file"));
     type.setFileHistory(cfg.getString("gitweb", null, "filehistory"));
     type.setLinkDrafts(cfg.getBoolean("gitweb", null, "linkdrafts", true));
     type.setUrlEncode(cfg.getBoolean("gitweb", null, "urlencode", true));
@@ -79,6 +81,12 @@ public class GitWebConfig {
       type = null;
     } else if (type.getRevision() == null) {
       log.warn("No Pattern specified for gitweb.revision, disabling.");
+      type = null;
+    } else if (type.getRootTree() == null) {
+      log.warn("No Pattern specified for gitweb.roottree, disabling.");
+      type = null;
+    } else if (type.getFile() == null) {
+      log.warn("No Pattern specified for gitweb.file, disabling.");
       type = null;
     } else if (type.getFileHistory() == null) {
       log.warn("No Pattern specified for gitweb.filehistory, disabling.");

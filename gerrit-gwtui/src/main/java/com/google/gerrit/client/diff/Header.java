@@ -16,8 +16,10 @@ package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GitwebLink;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
+import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.changes.ReviewInfo;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.patches.PatchUtil;
@@ -86,21 +88,29 @@ class Header extends Composite {
     this.patchSetId = patchSetId;
     this.path = path;
 
-    SafeHtml.setInnerHTML(filePath, formatPath(path));
+    SafeHtml.setInnerHTML(filePath, formatPath(path, null, null));
     up.setTargetHistoryToken(PageLinks.toChange(
         patchSetId.getParentKey(),
         base != null ? String.valueOf(base.get()) : null,
         String.valueOf(patchSetId.get())));
   }
 
-  private static SafeHtml formatPath(String path) {
+  private static SafeHtml formatPath(String path, String project, String commit) {
     SafeHtmlBuilder b = new SafeHtmlBuilder();
     if (Patch.COMMIT_MSG.equals(path)) {
       return b.append(Util.C.commitMessage());
     }
 
+    GitwebLink gw = (project != null && commit != null) ? Gerrit.getGitwebLink() : null;
     int s = path.lastIndexOf('/') + 1;
-    b.append(path.substring(0, s));
+    String base = path.substring(0, s);
+    if (gw != null) {
+      b.openAnchor().setAttribute("href", gw.toFile(project, commit, base));
+    }
+    b.append(base);
+    if (gw != null) {
+      b.closeAnchor();
+    }
     b.openElement("b");
     b.append(path.substring(s));
     b.closeElement("b");
@@ -160,6 +170,16 @@ class Header extends Composite {
 
   void setChangeInfo(ChangeInfo info) {
     project.setInnerText(info.project());
+    if (Gerrit.getGitwebLink() != null) {
+      JsArray<RevisionInfo> revisions = info.revisions().values();
+      for (int i = 0; i < revisions.length(); i++) {
+        if (revisions.get(i)._number() == patchSetId.get()) {
+          SafeHtml.setInnerHTML(filePath,
+              formatPath(path, info.project(), revisions.get(i).commit().commit()));
+          break;
+        }
+      }
+    }
   }
 
   void init(PreferencesAction pa) {

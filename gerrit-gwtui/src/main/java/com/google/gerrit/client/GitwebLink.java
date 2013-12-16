@@ -83,6 +83,15 @@ public class GitwebLink {
     return baseUrl + pattern.replace(p);
   }
 
+  public String toFile(String  project, String commit, String file) {
+    ParameterizedString pattern = new ParameterizedString(type.getFile());
+    Map<String, String> p = new HashMap<String, String>();
+    p.put("project", encode(project));
+    p.put("commit", encode(commit));
+    p.put("file", encode(file));
+    return baseUrl + pattern.replace(p);
+  }
+
   public String toFileHistory(final Branch.NameKey branch, final String file) {
     ParameterizedString pattern = new ParameterizedString(type.getFileHistory());
 

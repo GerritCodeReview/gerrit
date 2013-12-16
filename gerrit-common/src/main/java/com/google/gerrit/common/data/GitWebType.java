@@ -31,16 +31,16 @@ public class GitWebType {
       type.setProject("?p=${project}.git;a=summary");
       type.setRevision("?p=${project}.git;a=commit;h=${commit}");
       type.setBranch("?p=${project}.git;a=shortlog;h=${branch}");
+      type.setFile("?p=${project}.git;h=${commit};f=${file}");
       type.setFileHistory("?p=${project}.git;a=history;hb=${branch};f=${file}");
-
     } else if (name.equalsIgnoreCase("cgit")) {
       type = new GitWebType();
       type.setLinkName("cgit");
       type.setProject("${project}.git/summary");
       type.setRevision("${project}.git/commit/?id=${commit}");
       type.setBranch("${project}.git/log/?h=${branch}");
+      type.setFile("${project}.git/${file}?id=${commit}");
       type.setFileHistory("${project}.git/log/${file}?h=${branch}");
-
     } else if (name.equalsIgnoreCase("custom")) {
       type = new GitWebType();
       // The custom name is not defined, let's keep the old style of using GitWeb
@@ -67,6 +67,9 @@ public class GitWebType {
 
   /** ParamertizedString for branch view url. */
   private String branch;
+
+  /** ParamertizedString for file view url. */
+  private String file;
 
   /** ParamertizedString for file history view url. */
   private String fileHistory;
@@ -119,6 +122,15 @@ public class GitWebType {
    */
   public String getRevision() {
     return revision;
+  }
+
+  /**
+   * Get the String for file view.
+   *
+   * @return The String for file view
+   */
+  public String getFile() {
+    return file;
   }
 
   /**
@@ -180,6 +192,17 @@ public class GitWebType {
   public void setRevision(final String pattern) {
     if (pattern != null && !pattern.isEmpty()) {
       revision = pattern;
+    }
+  }
+
+  /**
+   * Set the pattern for file view.
+   *
+   * @param pattern The pattern for file view
+   */
+  public void setFile(final String pattern) {
+    if (pattern != null && !pattern.isEmpty()) {
+      file = pattern;
     }
   }
 

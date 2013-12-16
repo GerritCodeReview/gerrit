@@ -46,6 +46,30 @@
       "revId": "884c8f624ad440117076ef4a5eec69e6674cab6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6808e3ab_a8e65b58",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CherryPick.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-12-16T06:49:09Z",
+      "side": 1,
+      "message": "I understand it as \u0027args.db.changes().update()\" will need line 166, however for easy to read I add PS 5.\n\nDone",
+      "parentUuid": "a8b49bde_1add3d83",
+      "range": {
+        "startLine": 166,
+        "startChar": 13,
+        "endLine": 166,
+        "endChar": 31
+      },
+      "revId": "884c8f624ad440117076ef4a5eec69e6674cab6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -67,6 +67,7 @@ public class GetDiffPreferences implements RestReadView<AccountResource> {
       info.skipDeleted = p.isSkipDeleted() ? true : null;
       info.skipUncommented = p.isSkipUncommented() ? true : null;
       info.hideTopMenu = p.isHideTopMenu() ? true : null;
+      info.hideLineNumbers = p.isHideLineNumbers() ? true : null;
       info.syntaxHighlighting = p.isSyntaxHighlighting() ? true : null;
       info.tabSize = p.getTabSize();
       return info;
@@ -86,6 +87,7 @@ public class GetDiffPreferences implements RestReadView<AccountResource> {
     Boolean skipUncommented;
     Boolean syntaxHighlighting;
     Boolean hideTopMenu;
+    Boolean hideLineNumbers;
     int tabSize;
   }
 }

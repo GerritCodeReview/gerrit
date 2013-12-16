@@ -546,6 +546,9 @@ public class SideBySide2 extends Screen {
 
     setShowTabs(prefs.showTabs());
     setShowIntraline(prefs.intralineDifference());
+    if (prefs.showLineNumbers()) {
+      diffTable.addStyleName(DiffTable.style.showLineNumbers());
+    }
 
     cmA = createCodeMirror(diffInfo.meta_a(), diffInfo.text_a(), diffTable.cmA);
     cmB = createCodeMirror(diffInfo.meta_b(), diffInfo.text_b(), diffTable.cmB);
@@ -610,7 +613,7 @@ public class SideBySide2 extends Screen {
       .set("readOnly", true)
       .set("cursorBlinkRate", 0)
       .set("cursorHeight", 0.85)
-      .set("lineNumbers", true)
+      .set("lineNumbers", prefs.showLineNumbers())
       .set("tabSize", prefs.tabSize())
       .set("mode", largeFile ? null : getContentType(meta))
       .set("lineWrapping", false)
@@ -630,6 +633,16 @@ public class SideBySide2 extends Screen {
       diffTable.addStyleName(DiffTable.style.showTabs());
     } else {
       diffTable.removeStyleName(DiffTable.style.showTabs());
+    }
+  }
+
+  void setShowLineNumbers(boolean b) {
+    cmA.setOption("lineNumbers", b);
+    cmB.setOption("lineNumbers", b);
+    if (b) {
+      diffTable.addStyleName(DiffTable.style.showLineNumbers());
+    } else {
+      diffTable.removeStyleName(DiffTable.style.showLineNumbers());
     }
   }
 

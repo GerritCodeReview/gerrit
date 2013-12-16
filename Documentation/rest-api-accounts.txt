@@ -1232,6 +1232,10 @@ Whether deleted files should be skipped on file switch.
 Whether uncommented files should be skipped on file switch.
 |`syntax_highlighting`   |not set if `false`|
 Whether syntax highlighting should be enabled.
+|`hide_top_menu`         |not set if `false`|
+If true the top menu header and site header is hidden.
+|`hide_line_numbers`     |not set if `false`|
+If true the line numbers are hidden.
 |`tab_size`              ||
 Number of spaces that should be used to display one tab.
 |=====================================
@@ -1279,6 +1283,10 @@ Whether deleted files should be skipped on file switch.
 Whether uncommented files should be skipped on file switch.
 |`syntax_highlighting`   |optional|
 Whether syntax highlighting should be enabled.
+|`hide_top_menu`         |optional|
+True if the top menu header and site header should be hidden.
+|`hide_line_numbers`     |optional|
+True if the line numbers should be hidden.
 |`tab_size`              |optional|
 Number of spaces that should be used to display one tab.
 |=====================================

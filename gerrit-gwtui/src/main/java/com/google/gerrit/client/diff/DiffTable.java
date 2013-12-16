@@ -46,6 +46,7 @@ class DiffTable extends Composite {
     String range();
     String rangeHighlight();
     String showTabs();
+    String showLineNumbers();
     String padding();
   }
 

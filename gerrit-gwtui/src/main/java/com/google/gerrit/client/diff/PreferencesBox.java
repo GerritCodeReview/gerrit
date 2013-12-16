@@ -79,6 +79,7 @@ class PreferencesBox extends Composite {
   @UiField ToggleButton syntaxHighlighting;
   @UiField ToggleButton whitespaceErrors;
   @UiField ToggleButton showTabs;
+  @UiField ToggleButton lineNumbers;
   @UiField ToggleButton topMenu;
   @UiField ToggleButton manualReview;
   @UiField ToggleButton expandAllComments;
@@ -127,6 +128,7 @@ class PreferencesBox extends Composite {
     syntaxHighlighting.setValue(prefs.syntaxHighlighting());
     whitespaceErrors.setValue(prefs.showWhitespaceErrors());
     showTabs.setValue(prefs.showTabs());
+    lineNumbers.setValue(prefs.showLineNumbers());
     topMenu.setValue(!prefs.hideTopMenu());
     manualReview.setValue(prefs.manualReview());
     expandAllComments.setValue(prefs.expandAllComments());
@@ -236,6 +238,12 @@ class PreferencesBox extends Composite {
   void onShowTabs(ValueChangeEvent<Boolean> e) {
     prefs.showTabs(e.getValue());
     view.setShowTabs(prefs.showTabs());
+  }
+
+  @UiHandler("lineNumbers")
+  void onLineNumbers(ValueChangeEvent<Boolean> e) {
+    prefs.showLineNumbers(e.getValue());
+    view.setShowLineNumbers(prefs.showLineNumbers());
   }
 
   @UiHandler("topMenu")

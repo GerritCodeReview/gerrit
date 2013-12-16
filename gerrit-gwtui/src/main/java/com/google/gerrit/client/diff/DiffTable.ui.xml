@@ -74,6 +74,9 @@ limitations under the License.
     .a .CodeMirror-scroll { padding-right: 0; }
     .a .CodeMirror-vscrollbar { display: none !important; }
 
+    .showLineNumbers .b { border-left: none; }
+    .b { border-left: 1px solid #ddd; }
+
     .a .diff { background-color: #faa; }
     .b .diff { background-color: #9f9; }
     .a .intralineBg { background-color: #fee; }
@@ -122,7 +125,7 @@ limitations under the License.
       content: "\00bb";
       color: #f00;
     }
-    .padding {
+    .showLineNumbers .padding {
       margin-left: 21px;
       border-left: 2px solid #d64040;
     }

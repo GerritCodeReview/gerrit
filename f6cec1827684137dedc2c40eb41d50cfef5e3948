@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "48bf9fde_57476c67",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-16T06:42:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48bf9fde_f7556012",
+      "range": {
+        "startLine": 18,
+        "startChar": 59,
+        "endLine": 19,
+        "endChar": 8
+      },
+      "revId": "f6cec1827684137dedc2c40eb41d50cfef5e3948",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88c5177b_b94fdf82",
         "filename": "Documentation/dev-release-subproject.txt",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2013-12-16T06:37:51Z",
       "side": 1,
       "message": "lowercase?",
+      "range": {
+        "startLine": 38,
+        "startChar": 8,
+        "endLine": 38,
+        "endChar": 18
+      },
+      "revId": "f6cec1827684137dedc2c40eb41d50cfef5e3948",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88c5177b_19412b51",
+        "filename": "Documentation/dev-release-subproject.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-16T06:42:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88c5177b_b94fdf82",
       "range": {
         "startLine": 38,
         "startChar": 8,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "88c5177b_f978b7a8",
+        "filename": "Documentation/dev-release-subproject.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-16T06:42:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88c5177b_99541b14",
+      "range": {
+        "startLine": 40,
+        "startChar": 44,
+        "endLine": 40,
+        "endChar": 54
+      },
+      "revId": "f6cec1827684137dedc2c40eb41d50cfef5e3948",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88c5177b_794a6773",
         "filename": "Documentation/dev-release-subproject.txt",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2013-12-16T06:37:51Z",
       "side": 1,
       "message": "lowercase",
+      "range": {
+        "startLine": 41,
+        "startChar": 41,
+        "endLine": 41,
+        "endChar": 51
+      },
+      "revId": "f6cec1827684137dedc2c40eb41d50cfef5e3948",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48bf9fde_774a7073",
+        "filename": "Documentation/dev-release-subproject.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-16T06:42:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88c5177b_794a6773",
       "range": {
         "startLine": 41,
         "startChar": 41,

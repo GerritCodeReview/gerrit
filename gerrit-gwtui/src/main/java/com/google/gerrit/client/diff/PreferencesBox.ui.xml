@@ -37,8 +37,19 @@ limitations under the License.
       text-shadow: 1px 1px 7px #000000;
       min-width: 300px;
       z-index: 200;
-      -webkit-border-radius: 10px;
-      -moz-border-radius: 10px;
+      border-radius: 10px;
+    }
+
+    @if user.agent safari {
+      .dialog {
+        \-webkit-border-radius: 10px;
+      }
+    }
+
+    @if user.agent gecko1_8 {
+      .dialog {
+        \-moz-border-radius: 10px;
+      }
     }
 
     .box { margin: 10px; }

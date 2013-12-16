@@ -67,7 +67,7 @@ public class PageLinks {
   }
 
   public static String toChange(final PatchSet.Id ps) {
-    return "/c/" + ps.getParentKey() + "/" + ps.get();
+    return "/c/" + ps.getParentKey() + "/" + ps.getId();
   }
 
   public static String toProject(final Project.NameKey p) {

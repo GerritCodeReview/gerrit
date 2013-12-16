@@ -63,6 +63,10 @@ class ReplyAction {
         : NativeMap.<JsArrayString> create();
   }
 
+  String getMessage() {
+    return replyBox != null ? replyBox.getMessage() : null;
+  }
+
   void hide() {
     if (popup != null) {
       popup.hide();

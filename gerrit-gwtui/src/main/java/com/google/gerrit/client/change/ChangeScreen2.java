@@ -791,7 +791,6 @@ public class ChangeScreen2 extends Screen {
     commit.set(commentLinkProcessor, info, revision);
     related.set(info, revision);
     reviewers.set(info);
-    quickApprove.set(info, revision);
 
     if (Gerrit.isSignedIn()) {
       initEditMessageAction(info, revision);
@@ -807,6 +806,7 @@ public class ChangeScreen2 extends Screen {
       }
     }
     history.set(commentLinkProcessor, replyAction, changeId, info);
+    quickApprove.set(info, revision, replyAction);
 
     if (current) {
       loadSubmitType(info.status(), canSubmit);

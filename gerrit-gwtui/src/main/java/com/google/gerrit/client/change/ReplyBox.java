@@ -191,7 +191,7 @@ class ReplyBox extends Composite {
 
   @UiHandler("post")
   void onPost(ClickEvent e) {
-    in.message(message.getText().trim());
+    in.message(getMessage());
     in.prePost();
     ChangeApi.revision(psId.getParentKey().get(), revision)
       .view("review")
@@ -204,6 +204,10 @@ class ReplyBox extends Composite {
         }
       });
     hide();
+  }
+
+  String getMessage() {
+    return message.getText().trim();
   }
 
   @UiHandler("cancel")

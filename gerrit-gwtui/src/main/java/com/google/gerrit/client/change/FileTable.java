@@ -17,12 +17,14 @@ package com.google.gerrit.client.change;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeApi;
+import com.google.gerrit.client.changes.ChangeFileApi;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.changes.ReviewInfo;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.diff.FileInfo;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.CallbackGroup;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
@@ -47,8 +49,8 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.EventListener;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.ImageResourceRenderer;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+import com.google.gwt.user.client.ui.ImageResourceRenderer;
 import com.google.gwt.user.client.ui.impl.HyperlinkImpl;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.progress.client.ProgressBar;
@@ -283,7 +285,13 @@ class FileTable extends FlowPanel {
     }
 
     void onEdit(InputElement checkbox, int idx) {
-      Window.alert("inline edit is not yet implemented");
+      ChangeFileApi.getContent(curr, list.get(idx).path(),
+          new GerritCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+              Window.alert(result);
+            }
+          });
     }
 
     void onReviewed(InputElement checkbox, int idx) {

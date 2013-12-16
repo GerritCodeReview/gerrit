@@ -17,6 +17,7 @@ package com.google.gerrit.client.change;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GitwebLink;
 import com.google.gerrit.client.change.RelatedChanges.ChangeAndCommit;
+import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.common.PageLinks;
@@ -38,6 +39,9 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.impl.HyperlinkImpl;
 import com.google.gwtexpui.progress.client.ProgressBar;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
+
+import java.util.HashSet;
+import java.util.Set;
 
 class RelatedChangesTab implements IsWidget {
   private static final String OPEN;
@@ -83,6 +87,7 @@ class RelatedChangesTab implements IsWidget {
 
   private String project;
   private boolean showBranches;
+  private boolean showIndirectAncestors;
   private MyTable table;
   private boolean register;
 
@@ -104,6 +109,10 @@ class RelatedChangesTab implements IsWidget {
 
   void setShowBranches(boolean showBranches) {
     this.showBranches = showBranches;
+  }
+
+  void setShowIndirectAncestors(boolean showIndirectAncestors) {
+    this.showIndirectAncestors = showIndirectAncestors;
   }
 
   void setChanges(String project, String revision, JsArray<ChangeAndCommit> changes) {
@@ -216,6 +225,7 @@ class RelatedChangesTab implements IsWidget {
     private final SafeHtmlBuilder sb = new SafeHtmlBuilder();
     private final MyTable table;
     private final String revision;
+    private final Set<String> connected;
     private final JsArray<ChangeAndCommit> list;
     private boolean attached;
     private int row;
@@ -226,6 +236,31 @@ class RelatedChangesTab implements IsWidget {
       this.table = new MyTable(list);
       this.revision = revision;
       this.list = list;
+      this.connected = showIndirectAncestors ? computeConnected(revision, list) : null;
+    }
+
+    private Set<String> computeConnected(String revision, JsArray<ChangeAndCommit> list) {
+      // Since TOPO sorted, when can walk the list in reverse and find all
+      // the connections.
+      Set<String> set = new HashSet<String>(Math.max(list.length() * 4 / 3, 16));
+      int i = list.length() - 1;
+      for (; i >= 0; i--) {
+        CommitInfo c = list.get(i).commit();
+        set.add(c.commit());
+        if (c.commit().equals(revision)) {
+          break;
+        }
+      }
+      for (i--; i >= 0; i--) {
+        CommitInfo c = list.get(i).commit();
+        for (int j = 0; j < c.parents().length(); j++) {
+          if (set.contains(c.parents().get(j).commit())) {
+            set.add(c.commit());
+            break;
+          }
+        }
+      }
+      return set;
     }
 
     public boolean execute() {
@@ -284,10 +319,16 @@ class RelatedChangesTab implements IsWidget {
       if (gw != null && (!info.has_change_number() || !info.has_revision_number())) {
         sb.addStyleName(Gerrit.RESOURCES.css().relatedChangesGitweb());
         sb.setAttribute("title", gw.getLinkName());
+        sb.append('\u25CF');
+      } else if (connected != null && !connected.contains(info.commit().commit())) {
+        sb.addStyleName(Gerrit.RESOURCES.css().relatedChangesIndirect());
+        sb.setAttribute("title", Resources.C.indirectAncestor());
+        sb.append('~');
       } else if (info.has_current_revision_number() && info.has_revision_number()
           && info._current_revision_number() != info._revision_number()) {
         sb.addStyleName(Gerrit.RESOURCES.css().relatedChangesNotCurrent());
         sb.setAttribute("title", Util.C.notCurrent());
+        sb.append('\u25CF');
       }
       sb.closeTd();
 

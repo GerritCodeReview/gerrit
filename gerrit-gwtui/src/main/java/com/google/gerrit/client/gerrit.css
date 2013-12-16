@@ -1648,11 +1648,18 @@ a:hover.downloadLink {
 .relatedChangesTabPanel .gwt-TabBarItem-disabled {
   display: none;
 }
-.relatedChangesNotCurrent:after {
-  content: '\25CF'; /* circle */
+.relatedChangesIndirect,
+.relatedChangesNotCurrent,
+.relatedChangesGitweb {
+  text-align: center;
+}
+.relatedChangesIndirect {
+  color: #4d4;      /* green */
+  font-weight: bold;
+}
+.relatedChangesNotCurrent {
   color: #FFA62F;   /* orange */
 }
-.relatedChangesGitweb:after {
-  content: '\25CF'; /* circle */
+.relatedChangesGitweb {
   color: #000;
 }

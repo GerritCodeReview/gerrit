@@ -143,6 +143,7 @@ public class RelatedChanges extends TabPanel {
 
       setTabEnabled(tabInfo, false);
     }
+    getTab(Tab.RELATED_CHANGES).setShowIndirectAncestors(true);
     getTab(Tab.CHERRY_PICKS).setShowBranches(true);
   }
 

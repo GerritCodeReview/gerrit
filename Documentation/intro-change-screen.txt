@@ -243,12 +243,22 @@ different tabs:
 
 * Related Changes
 
-This tab page shows open changes on which the current change depends and open
-changes that depend on the current change. For merge commits it shows also the
-closed changes that are going to be merged into the destination branch by
-accepting the merge commit. It is kind of a dependency too, but not in the
-sense of "these changes have to be submitted in order to submit this
-change".
+This tab page shows changes on which the current change depends (ancestors) and
+open changes that depend on the current change (descendants). For merge commits
+it shows also the closed changes that are going to be merged into the
+destination branch by accepting the merge commit. It is kind of a dependency
+too, but not in the sense of "these changes have to be submitted in order to
+submit this change".
+
+Related ancestor changes that are outdated, i.e. the current change is not
+based on the ancestor's latest patch set, are marked with an orange dot.
+
+Related descendant changes that are outdated, i.e. the descendant change
+depends on a different patch set of the current change, are marked with a
+tilde (~).
+
+Ancestor commits that are not associated to a change, i.e. have been pushed
+directly to the repository bypassing review, are marked with a black dot.
 
 This tab is only visible if related changes for the current active
 change exist.

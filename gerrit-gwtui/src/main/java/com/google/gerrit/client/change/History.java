@@ -222,6 +222,9 @@ class History extends FlowPanel {
 
     @Override
     public boolean equals(Object o) {
+      if (!(o instanceof AuthorRevision)) {
+        return false;
+      }
       AuthorRevision b = (AuthorRevision) o;
       return author == b.author && revision == b.revision;
     }

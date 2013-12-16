@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48bf9fde_f7b1e012",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Header.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-16T20:37:50Z",
+      "side": 1,
+      "message": "This may be shorter:\n\n for (RevisionInfo info : Natives.asList(info.revisions().values())",
+      "range": {
+        "startLine": 177,
+        "startChar": 6,
+        "endLine": 178,
+        "endChar": 50
+      },
+      "revId": "d9574f7363033edd4cdd63de896190e8f267f328",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

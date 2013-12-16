@@ -18,13 +18,13 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
-import com.google.gerrit.common.data.ReviewResult;
-import com.google.gerrit.common.data.ReviewResult.Error.Type;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
+import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.RestoreInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -33,7 +33,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.changedetail.PublishDraft;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -132,9 +131,6 @@ public class ReviewCommand extends SshCommand {
   @Inject
   private Provider<GerritApi> gApi;
 
-  @Inject
-  private PublishDraft.Factory publishDraftFactory;
-
   private List<ApproveOption> optionList;
   private Map<String, Short> customLabels;
 
@@ -230,48 +226,24 @@ public class ReviewCommand extends SshCommand {
         AbandonInput input = new AbandonInput();
         input.message = changeComment;
         applyReview(patchSet, review);
-        try {
-          gApi.get().changes()
-              .id(patchSet.getId().getParentKey().get())
-              .abandon(input);
-        } catch (AuthException e) {
-          writeError("error: " + parseError(Type.ABANDON_NOT_PERMITTED) + "\n");
-        } catch (ResourceConflictException e) {
-          writeError("error: " + parseError(Type.CHANGE_IS_CLOSED) + "\n");
-        }
+        changeApi(patchSet).abandon(input);
       } else if (restoreChange) {
         RestoreInput input = new RestoreInput();
         input.message = changeComment;
-        try {
-          gApi.get().changes()
-              .id(patchSet.getId().getParentKey().get())
-              .restore(input);
-          applyReview(patchSet, review);
-        } catch (AuthException e) {
-          writeError("error: " + parseError(Type.RESTORE_NOT_PERMITTED) + "\n");
-        } catch (ResourceConflictException e) {
-          writeError("error: " + parseError(Type.CHANGE_NOT_ABANDONED) + "\n");
-        }
+        changeApi(patchSet).restore(input);
+        applyReview(patchSet, review);
       } else {
         applyReview(patchSet, review);
       }
 
       if (submitChange) {
-        gApi.get().changes()
-            .id(patchSet.getId().getParentKey().get())
-            .revision(patchSet.getRevision().get())
-            .submit();
+        revisionApi(patchSet).submit();
       }
 
       if (publishPatchSet) {
-        final ReviewResult result =
-            publishDraftFactory.create(patchSet.getId()).call();
-        handleReviewResultErrors(result);
+        revisionApi(patchSet).publish();
       } else if (deleteDraftPatchSet) {
-        gApi.get().changes()
-            .id(patchSet.getId().getParentKey().get())
-            .revision(patchSet.getRevision().get())
-            .delete();
+        revisionApi(patchSet).delete();
       }
     } catch (InvalidChangeOperationException e) {
       throw error(e.getMessage());
@@ -288,46 +260,12 @@ public class ReviewCommand extends SshCommand {
     }
   }
 
-  private void handleReviewResultErrors(final ReviewResult result) {
-    for (ReviewResult.Error resultError : result.getErrors()) {
-      String errMsg = "error: (change " + result.getChangeId() + ") ";
-      errMsg += parseError(resultError.getType());
-      if (resultError.getMessage() != null) {
-        errMsg += ": " + resultError.getMessage();
-      }
-      writeError(errMsg);
-    }
+  private ChangeApi changeApi(PatchSet patchSet) throws RestApiException {
+    return gApi.get().changes().id(patchSet.getId().getParentKey().get());
   }
 
-  private String parseError(Type type) {
-    switch (type) {
-      case ABANDON_NOT_PERMITTED:
-        return "not permitted to abandon change";
-      case RESTORE_NOT_PERMITTED:
-        return "not permitted to restore change";
-      case SUBMIT_NOT_PERMITTED:
-        return "not permitted to submit change";
-      case SUBMIT_NOT_READY:
-        return "approvals or dependencies lacking";
-      case CHANGE_IS_CLOSED:
-        return "change is closed";
-      case CHANGE_NOT_ABANDONED:
-        return "change is not abandoned";
-      case PUBLISH_NOT_PERMITTED:
-        return "not permitted to publish change";
-      case DELETE_NOT_PERMITTED:
-        return "not permitted to delete change/patch set";
-      case RULE_ERROR:
-        return "rule error";
-      case NOT_A_DRAFT:
-        return "change/patch set is not a draft";
-      case GIT_ERROR:
-        return "error writing change to git repository";
-      case DEST_BRANCH_NOT_FOUND:
-        return "destination branch not found";
-      default:
-        return "failure in review";
-    }
+  private RevisionApi revisionApi(PatchSet patchSet) throws RestApiException {
+    return changeApi(patchSet).revision(patchSet.getRevision().get());
   }
 
   private PatchSet parsePatchSet(final String patchIdentity)

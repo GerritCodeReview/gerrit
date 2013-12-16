@@ -265,6 +265,9 @@ class Labels extends Grid {
           .setAttribute("role", "listitem")
           .setAttribute(DATA_ID, ai._account_id())
           .setStyleName(style.label_user());
+      if (ai.email() != null) {
+        html.setAttribute("title", ai.email());
+      }
       if (img != null) {
         html.openElement("img")
             .setStyleName(style.avatar())

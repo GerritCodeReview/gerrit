@@ -248,7 +248,7 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
     GerritCallback<CommentInfo> cb = new GerritCallback<CommentInfo>() {
       public void onSuccess(CommentInfo result) {
         notifyDraftDelta(wasNew ? 1 : 0);
-        comment = toComment(psId, comment.getKey().get(), result);
+        comment = toComment(psId, comment.getKey().getParentKey().get(), result);
         text.setReadOnly(false);
         save.setEnabled(true);
         cancel.setEnabled(true);

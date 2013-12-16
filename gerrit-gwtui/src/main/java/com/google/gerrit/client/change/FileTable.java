@@ -44,7 +44,9 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.EventListener;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.ImageResourceRenderer;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.impl.HyperlinkImpl;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
@@ -77,19 +79,30 @@ class FileTable extends FlowPanel {
     String deltaColumn2();
     String inserted();
     String deleted();
+    String editButton();
   }
 
+  enum Mode {
+    REVIEW,
+    EDIT
+  }
+
+  private static final String EDIT;
   private static final String REVIEWED;
   private static final String OPEN;
   private static final HyperlinkImpl link = GWT.create(HyperlinkImpl.class);
 
   static {
+    EDIT = DOM.createUniqueId().replace('-', '_');
     REVIEWED = DOM.createUniqueId().replace('-', '_');
     OPEN = DOM.createUniqueId().replace('-', '_');
-    init(REVIEWED, OPEN);
+    init(EDIT, REVIEWED, OPEN);
   }
 
-  private static final native void init(String r, String o) /*-{
+  private static final native void init(String e, String r, String o) /*-{
+    $wnd[e] = $entry(function(e,i) {
+      @com.google.gerrit.client.change.FileTable::onEdit(Lcom/google/gwt/dom/client/NativeEvent;I)(e,i)
+    });
     $wnd[r] = $entry(function(e,i) {
       @com.google.gerrit.client.change.FileTable::onReviewed(Lcom/google/gwt/dom/client/NativeEvent;I)(e,i)
     });
@@ -97,6 +110,13 @@ class FileTable extends FlowPanel {
       return @com.google.gerrit.client.change.FileTable::onOpen(Lcom/google/gwt/dom/client/NativeEvent;I)(e,i);
     });
   }-*/;
+
+  private static void onEdit(NativeEvent e, int idx) {
+    MyTable t = getMyTable(e);
+    if (t != null) {
+      t.onEdit(InputElement.as(Element.as(e.getEventTarget())), idx);
+    }
+  }
 
   private static void onReviewed(NativeEvent e, int idx) {
     MyTable t = getMyTable(e);
@@ -149,12 +169,13 @@ class FileTable extends FlowPanel {
   void setValue(NativeMap<FileInfo> fileMap,
       Timestamp myLastReply,
       NativeMap<JsArray<CommentInfo>> comments,
-      NativeMap<JsArray<CommentInfo>> drafts) {
+      NativeMap<JsArray<CommentInfo>> drafts,
+      Mode mode) {
     JsArray<FileInfo> list = fileMap.values();
     FileInfo.sortFileInfoByPath(list);
 
     DisplayCommand cmd = new DisplayCommand(fileMap, list,
-        myLastReply, comments, drafts);
+        myLastReply, comments, drafts, mode);
     if (cmd.execute()) {
       cmd.showProgressBar();
       Scheduler.get().scheduleIncremental(cmd);
@@ -244,6 +265,10 @@ class FileTable extends FlowPanel {
           + curr.toString());
     }
 
+    void onEdit(InputElement checkbox, int idx) {
+      Window.alert("inline edit is not yet implemented");
+    }
+
     void onReviewed(InputElement checkbox, int idx) {
       setReviewed(list.get(idx), checkbox.isChecked());
     }
@@ -317,6 +342,7 @@ class FileTable extends FlowPanel {
     private final NativeMap<JsArray<CommentInfo>> comments;
     private final NativeMap<JsArray<CommentInfo>> drafts;
     private final boolean hasUser;
+    private final Mode mode;
     private boolean attached;
     private int row;
     private double start;
@@ -330,13 +356,15 @@ class FileTable extends FlowPanel {
         JsArray<FileInfo> list,
         Timestamp myLastReply,
         NativeMap<JsArray<CommentInfo>> comments,
-        NativeMap<JsArray<CommentInfo>> drafts) {
+        NativeMap<JsArray<CommentInfo>> drafts,
+        Mode mode) {
       this.table = new MyTable(map, list);
       this.list = list;
       this.myLastReply = myLastReply;
       this.comments = comments;
       this.drafts = drafts;
       this.hasUser = Gerrit.isSignedIn();
+      this.mode = mode;
       table.addStyleName(R.css().table());
     }
 
@@ -425,7 +453,11 @@ class FileTable extends FlowPanel {
     private void render(SafeHtmlBuilder sb, FileInfo info) {
       sb.openTr();
       sb.openTd().setStyleName(R.css().pointer()).closeTd();
-      columnReviewed(sb, info);
+      if (mode == Mode.REVIEW) {
+        columnReviewed(sb, info);
+      } else {
+        columnEdit(sb, info);
+      }
       columnStatus(sb, info);
       columnPath(sb, info);
       columnComments(sb, info);
@@ -442,6 +474,20 @@ class FileTable extends FlowPanel {
           .setAttribute("type", "checkbox")
           .setAttribute("onclick", REVIEWED + "(event," + info._row() + ")")
           .closeSelf();
+      }
+      sb.closeTd();
+    }
+
+    private void columnEdit(SafeHtmlBuilder sb, FileInfo info) {
+      sb.openTd().setStyleName(R.css().editButton());
+      if (hasUser) {
+        if (!Patch.COMMIT_MSG.equals(info.path())) {
+          sb.openElement("button")
+            .setAttribute("title", Resources.C.editFileInline())
+            .setAttribute("onclick", EDIT + "(event," + info._row() + ")")
+            .append(new ImageResourceRenderer().render(Gerrit.RESOURCES.edit()))
+            .closeElement("button");
+        }
       }
       sb.closeTd();
     }

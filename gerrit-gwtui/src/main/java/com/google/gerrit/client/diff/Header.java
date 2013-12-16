@@ -16,14 +16,17 @@ package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GitwebLink;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
+import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.changes.ReviewInfo;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeMap;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.common.PageLinks;
@@ -86,21 +89,32 @@ class Header extends Composite {
     this.patchSetId = patchSetId;
     this.path = path;
 
-    SafeHtml.setInnerHTML(filePath, formatPath(path));
+    SafeHtml.setInnerHTML(filePath, formatPath(path, null, null));
     up.setTargetHistoryToken(PageLinks.toChange(
         patchSetId.getParentKey(),
         base != null ? String.valueOf(base.get()) : null,
         String.valueOf(patchSetId.get())));
   }
 
-  private static SafeHtml formatPath(String path) {
+  private static SafeHtml formatPath(String path, String project, String commit) {
     SafeHtmlBuilder b = new SafeHtmlBuilder();
     if (Patch.COMMIT_MSG.equals(path)) {
       return b.append(Util.C.commitMessage());
     }
 
+    GitwebLink gw = (project != null && commit != null) ? Gerrit.getGitwebLink() : null;
     int s = path.lastIndexOf('/') + 1;
-    b.append(path.substring(0, s));
+    if (gw != null && s > 0) {
+      String base = path.substring(0, s - 1);
+      b.openAnchor()
+          .setAttribute("href", gw.toFile(project, commit, base))
+          .setAttribute("title", gw.getLinkName())
+          .append(base)
+          .closeAnchor()
+          .append('/');
+    } else {
+      b.append(path.substring(0, s));
+    }
     b.openElement("b");
     b.append(path.substring(s));
     b.closeElement("b");
@@ -159,6 +173,23 @@ class Header extends Composite {
   }
 
   void setChangeInfo(ChangeInfo info) {
+    GitwebLink gw = Gerrit.getGitwebLink();
+    if (gw != null) {
+      for (RevisionInfo rev : Natives.asList(info.revisions().values())) {
+        if (rev._number() == patchSetId.get()) {
+          String c = rev.name();
+          SafeHtml.setInnerHTML(filePath, formatPath(path, info.project(), c));
+          SafeHtml.setInnerHTML(project, new SafeHtmlBuilder()
+              .openAnchor()
+              .setAttribute("href", gw.toFile(info.project(), c, ""))
+              .setAttribute("title", gw.getLinkName())
+              .append(info.project())
+              .closeAnchor());
+          return;
+        }
+      }
+    }
+
     project.setInnerText(info.project());
   }
 

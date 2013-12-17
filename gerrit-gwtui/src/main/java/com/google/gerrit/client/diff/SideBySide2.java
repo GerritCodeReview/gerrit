@@ -26,6 +26,8 @@ import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.projects.ConfigInfoCache;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.NativeMap;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Screen;
@@ -92,6 +94,7 @@ public class SideBySide2 extends Screen {
   private CodeMirror cmB;
   private HandlerRegistration resizeHandler;
   private DiffInfo diff;
+  private NativeMap<RevisionInfo> edits;
   private boolean largeFile;
   private ChunkManager chunkManager;
   private CommentManager commentManager;
@@ -164,6 +167,16 @@ public class SideBySide2 extends Screen {
         }
       }));
 
+    if (Gerrit.isSignedIn()) {
+      ChangeApi.edits(changeId.get(), group.add(
+          new GerritCallback<NativeMap<RevisionInfo>>() {
+            @Override
+            public void onSuccess(NativeMap<RevisionInfo> result) {
+              edits = result;
+            }
+          }));
+    }
+
     final CommentsCollections comments = new CommentsCollections();
     comments.load(base, revision, path, group);
 
@@ -174,6 +187,12 @@ public class SideBySide2 extends Screen {
       @Override
       public void onSuccess(ChangeInfo info) {
         info.revisions().copyKeysIntoChildren("name");
+        if (edits != null && edits.size() > 0) {
+          edits.copyKeysIntoChildren("name");
+          for (RevisionInfo r : Natives.asList(edits.values())) {
+            info.revisions().put(r.name(), r);
+          }
+        }
         JsArray<RevisionInfo> list = info.revisions().values();
         RevisionInfo.sortRevisionInfoByNumber(list);
         diffTable.setUpPatchSetNav(list, diff);
@@ -700,8 +719,8 @@ public class SideBySide2 extends Screen {
         group.addListener(new GerritCallback<Void>() {
           @Override
           public void onSuccess(Void result) {
-            String b = base != null ? String.valueOf(base.get()) : null;
-            String rev = String.valueOf(revision.get());
+            String b = base != null ? base.getId() : null;
+            String rev = revision.getId();
             Gerrit.display(
               PageLinks.toChange(changeId, rev),
               new ChangeScreen2(changeId, b, rev, openReplyBox));

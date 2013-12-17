@@ -85,10 +85,10 @@ class PatchSetSelectBox2 extends Composite {
     }
     for (int i = 0; i < list.length(); i++) {
       RevisionInfo r = list.get(i);
-      InlineHyperlink link = createLink(
-          String.valueOf(r._number()), new PatchSet.Id(changeId, r._number()));
+      InlineHyperlink link = createLink(r.id(),
+          new PatchSet.Id(changeId, r._number(), r.edit()));
       linkPanel.add(link);
-      if (revision != null && r._number() == revision.get()) {
+      if (revision != null && r.id().equals(revision.getId())) {
         selectedLink = link;
       }
     }

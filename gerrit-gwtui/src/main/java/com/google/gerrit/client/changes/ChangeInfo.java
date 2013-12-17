@@ -24,6 +24,7 @@ import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
@@ -296,6 +297,10 @@ public class ChangeInfo extends JavaScriptObject {
         }
       }
       return -1;
+    }
+
+    public final String id() {
+      return PatchSet.Id.toId(_number());
     }
 
     protected RevisionInfo () {

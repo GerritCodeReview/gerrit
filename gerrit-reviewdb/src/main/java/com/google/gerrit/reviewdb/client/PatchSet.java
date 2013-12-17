@@ -118,6 +118,16 @@ public final class PatchSet {
       final int patchSetId = Integer.parseInt(parts[n - 1]);
       return new PatchSet.Id(new Change.Id(changeId), patchSetId);
     }
+
+    public static String toId(int number) {
+      return number == 0
+          ? "edit"
+          : String.valueOf(number);
+    }
+
+    public String getId() {
+      return toId(patchSetId);
+    }
   }
 
   @Column(id = 1, name = Column.NONE)

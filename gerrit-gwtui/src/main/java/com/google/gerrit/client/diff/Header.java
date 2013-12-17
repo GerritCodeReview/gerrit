@@ -101,8 +101,7 @@ class Header extends Composite {
     SafeHtml.setInnerHTML(filePath, formatPath(path, null, null));
     up.setTargetHistoryToken(PageLinks.toChange(
         patchSetId.getParentKey(),
-        base != null ? String.valueOf(base.get()) : null,
-        String.valueOf(patchSetId.get())));
+        base != null ? base.getId() : null, patchSetId.getId()));
   }
 
   private static SafeHtml formatPath(String path, String project, String commit) {
@@ -191,7 +190,7 @@ class Header extends Composite {
     GitwebLink gw = Gerrit.getGitwebLink();
     if (gw != null) {
       for (RevisionInfo rev : Natives.asList(info.revisions().values())) {
-        if (rev._number() == patchSetId.get()) {
+        if (patchSetId.getId().equals(rev.id())) {
           String c = rev.name();
           SafeHtml.setInnerHTML(filePath, formatPath(path, info.project(), c));
           SafeHtml.setInnerHTML(project, new SafeHtmlBuilder()

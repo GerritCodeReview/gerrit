@@ -148,7 +148,7 @@ public class Dispatcher {
     if (diffBase != null) {
       p.append(diffBase.get()).append("..");
     }
-    p.append(revision.get()).append("/").append(KeyUtil.encode(fileName));
+    p.append(revision.getId()).append("/").append(KeyUtil.encode(fileName));
     if (type != null && !type.isEmpty()) {
       p.append(",").append(type);
     }
@@ -553,16 +553,14 @@ public class Dispatcher {
       rest = "";
     }
 
-    PatchSet.Id base;
+    PatchSet.Id base = null;
     PatchSet.Id ps;
     int dotdot = psIdStr.indexOf("..");
     if (1 <= dotdot) {
       base = new PatchSet.Id(id, Integer.parseInt(psIdStr.substring(0, dotdot)));
-      ps = new PatchSet.Id(id, Integer.parseInt(psIdStr.substring(dotdot + 2)));
-    } else {
-      base = null;
-      ps = new PatchSet.Id(id, Integer.parseInt(psIdStr));
+      psIdStr = psIdStr.substring(dotdot + 2);
     }
+    ps = toPsId(id, psIdStr);
 
     if (!rest.isEmpty()) {
       DisplaySide side = DisplaySide.B;
@@ -595,6 +593,13 @@ public class Dispatcher {
         Gerrit.display(token, new NotFoundScreen());
       }
     }
+  }
+
+  private static PatchSet.Id toPsId(Change.Id id, String psIdStr) {
+    return new PatchSet.Id(id,
+        psIdStr.equals("edit")
+            ? 0
+            : Integer.parseInt(psIdStr));
   }
 
   private static void extension(final String token) {

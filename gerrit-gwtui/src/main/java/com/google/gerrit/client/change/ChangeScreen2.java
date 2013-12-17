@@ -835,8 +835,11 @@ public class ChangeScreen2 extends Screen {
     String name = info.owner().name() != null
         ? info.owner().name()
         : Gerrit.getConfig().getAnonymousCowardName();
+    String email = info.owner().email() != null
+        ? info.owner().email()
+        : name;
     ownerText.setInnerText(name);
-    ownerText.setTitle(name);
+    ownerText.setTitle(email);
   }
 
   private void renderSubmitType(String action) {

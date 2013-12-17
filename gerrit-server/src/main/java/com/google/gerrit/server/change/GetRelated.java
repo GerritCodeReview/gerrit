@@ -201,6 +201,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
           c.add(seenCommit);
           q.addFirst(ps.getRevision().get());
           if (added.add(ps.getId().getParentKey())) {
+            rw.parseBody(c);
             graph.add(new ChangeAndCommit(change, ps, c));
           }
         }

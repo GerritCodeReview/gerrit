@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.reviewdb.client.Account;
@@ -44,6 +46,7 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.merge.MergeStrategy;
+import org.eclipse.jgit.merge.Merger;
 import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.FooterLine;
@@ -71,6 +74,10 @@ import java.util.TimeZone;
 
 public class MergeUtil {
   private static final Logger log = LoggerFactory.getLogger(MergeUtil.class);
+
+  public static boolean useRecursiveMerge(Config cfg) {
+    return cfg.getBoolean("core", null, "useRecursiveMerge", false);
+  }
 
   public static interface Factory {
     MergeUtil create(ProjectState project);
@@ -112,8 +119,7 @@ public class MergeUtil {
     this.urlProvider = urlProvider;
     this.project = project;
     this.useContentMerge = useContentMerge;
-    this.useRecursiveMerge =
-        serverConfig.getBoolean("core", null, "useRecursiveMerge", false);
+    this.useRecursiveMerge = useRecursiveMerge(serverConfig);
   }
 
   public CodeReviewCommit getFirstFastForward(
@@ -483,7 +489,7 @@ public class MergeUtil {
     }
   }
 
-  public ObjectInserter createDryRunInserter() {
+  public static ObjectInserter createDryRunInserter() {
     return new ObjectInserter() {
       @Override
       public ObjectId insert(int objectType, long length, InputStream in)
@@ -624,21 +630,35 @@ public class MergeUtil {
 
   public ThreeWayMerger newThreeWayMerger(final Repository repo,
       final ObjectInserter inserter) {
-    ThreeWayMerger m;
+    return newThreeWayMerger(repo, inserter,
+        mergeStrategyName(useContentMerge, useRecursiveMerge));
+  }
+
+  public static String mergeStrategyName(boolean useContentMerge,
+      boolean useRecursiveMerge) {
     if (useContentMerge) {
       // Settings for this project allow us to try and automatically resolve
       // conflicts within files if needed. Use either the old resolve merger or
       // new recursive merger, and instruct to operate in core.
       if (useRecursiveMerge) {
-        m = MergeStrategy.RECURSIVE.newMerger(repo, true);
+        return MergeStrategy.RECURSIVE.getName();
       } else {
-        m = MergeStrategy.RESOLVE.newMerger(repo, true);
+        return MergeStrategy.RESOLVE.getName();
       }
     } else {
       // No auto conflict resolving allowed. If any of the
       // affected files was modified, merge will fail.
-      m = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(repo);
+      return MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.getName();
     }
+  }
+
+  public static ThreeWayMerger newThreeWayMerger(Repository repo,
+      final ObjectInserter inserter, String strategyName) {
+    MergeStrategy strategy = MergeStrategy.get(strategyName);
+    checkArgument(strategy != null, "invalid merge strategy: %s", strategyName);
+    Merger m = strategy.newMerger(repo, true);
+    checkArgument(m instanceof ThreeWayMerger,
+        "merge strategy %s does not support three-way merging", strategyName);
     m.setObjectInserter(new ObjectInserter.Filter() {
       @Override
       protected ObjectInserter delegate() {
@@ -653,7 +673,7 @@ public class MergeUtil {
       public void release() {
       }
     });
-    return m;
+    return (ThreeWayMerger) m;
   }
 
   public ObjectId commit(final ObjectInserter inserter,

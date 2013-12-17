@@ -45,6 +45,30 @@
       "revId": "b96bba3c9928ccbae6247444a37ff8e382de2184",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8fbf3cb_c4085e46",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-17T23:41:03Z",
+      "side": 1,
+      "message": "box-sizing.com tells me NXDOMAIN.",
+      "parentUuid": "e8fbf3cb_04f8b6ee",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 38
+      },
+      "revId": "b96bba3c9928ccbae6247444a37ff8e382de2184",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

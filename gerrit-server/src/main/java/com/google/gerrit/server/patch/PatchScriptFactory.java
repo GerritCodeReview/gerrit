@@ -14,27 +14,32 @@
 
 package com.google.gerrit.server.patch;
 
+import com.google.common.base.Optional;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
+import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
-import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
+import com.google.gerrit.server.edit.ChangeEdit;
+import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LargeObjectException;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -80,6 +85,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private final PatchSet.Id psa;
   private final PatchSet.Id psb;
   private final AccountDiffPreference diffPrefs;
+  private final ChangeEditUtil editReader;
 
   private final Change.Id changeId;
   private boolean loadHistory = true;
@@ -99,6 +105,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       final PatchListCache patchListCache, final ReviewDb db,
       final AccountInfoCacheFactory.Factory aicFactory,
       PatchLineCommentsUtil plcUtil,
+      ChangeEditUtil editReader,
       @Assisted ChangeControl control,
       @Assisted final String fileName,
       @Assisted("patchSetA") @Nullable final PatchSet.Id patchSetA,
@@ -111,6 +118,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.control = control;
     this.aicFactory = aicFactory;
     this.plcUtil = plcUtil;
+    this.editReader = editReader;
 
     this.fileName = fileName;
     this.psa = patchSetA;
@@ -130,7 +138,8 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
   @Override
   public PatchScript call() throws OrmException, NoSuchChangeException,
-      LargeObjectException {
+      LargeObjectException, AuthException,
+      InvalidChangeOperationException, IOException {
     validatePatchSetId(psa);
     validatePatchSetId(psb);
 
@@ -197,12 +206,16 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   }
 
   private ObjectId toObjectId(final ReviewDb db, final PatchSet.Id psId)
-      throws OrmException, NoSuchChangeException {
+      throws OrmException, NoSuchChangeException, AuthException,
+      InvalidChangeOperationException, NoSuchChangeException, IOException {
     if (!changeId.equals(psId.getParentKey())) {
       throw new NoSuchChangeException(changeId);
     }
 
-    final PatchSet ps = db.patchSets().get(psId);
+    if (psId.get() == 0) {
+      return getEditRev();
+    }
+    PatchSet ps = db.patchSets().get(psId);
     if (ps == null || ps.getRevision() == null
         || ps.getRevision().get() == null) {
       throw new NoSuchChangeException(changeId);
@@ -214,6 +227,15 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       log.error("Patch set " + psId + " has invalid revision");
       throw new NoSuchChangeException(changeId, e);
     }
+  }
+
+  private ObjectId getEditRev() throws AuthException,
+      NoSuchChangeException, IOException {
+    Optional<ChangeEdit> edit = editReader.byChange(change);
+    if (edit.isPresent()) {
+      return edit.get().getRef().getObjectId();
+    }
+    throw new NoSuchChangeException(change.getId());
   }
 
   private void validatePatchSetId(final PatchSet.Id psId)

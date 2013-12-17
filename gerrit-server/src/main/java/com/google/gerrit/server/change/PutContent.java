@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.change.PutContent.Input;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import java.io.IOException;
@@ -45,7 +46,7 @@ public class PutContent implements RestModifyView<FileResource, Input> {
   @Override
   public Response<?> apply(FileResource rsrc, Input input)
       throws AuthException, ResourceNotFoundException,
-      ResourceConflictException {
+      ResourceConflictException, OrmException {
     RevisionResource rev = rsrc.getRevision();
     Change change = rev.getChange();
     PatchSet ps = rev.getPatchSet();

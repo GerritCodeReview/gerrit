@@ -20,6 +20,8 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -28,6 +30,7 @@ import com.google.gerrit.server.git.RevisionEdit;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -63,6 +66,7 @@ public class RevisionEditCommands {
 
   private final PersonIdent myIdent;
   private final GitRepositoryManager gitManager;
+  private final Provider<ReviewDb> dbProvider;
   private final Provider<CurrentUser> currentUser;
   private final PatchSetInserter.Factory patchSetInserterFactory;
   private final ChangeControl.GenericFactory changeControlFactory;
@@ -70,11 +74,13 @@ public class RevisionEditCommands {
   @Inject
   RevisionEditCommands(@GerritPersonIdent PersonIdent myIdent,
       GitRepositoryManager gitManager,
+      Provider<ReviewDb> dbProvider,
       Provider<CurrentUser> currentUser,
       PatchSetInserter.Factory patchSetInserterFactory,
       ChangeControl.GenericFactory changeControlFactory) {
     this.myIdent = myIdent;
     this.gitManager = gitManager;
+    this.dbProvider = dbProvider;
     this.currentUser = currentUser;
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.changeControlFactory = changeControlFactory;
@@ -133,7 +139,7 @@ public class RevisionEditCommands {
   }
 
   public void delete(Change change, PatchSet ps) throws AuthException,
-      NoSuchChangeException, IOException {
+      NoSuchChangeException, IOException, OrmException {
     if (!currentUser.get().isIdentifiedUser()) {
       throw new AuthException("edits only available to authenticated users");
     }
@@ -166,6 +172,7 @@ public class RevisionEditCommands {
           throw new IOException("failed to delete: " + cmd);
         }
       }
+      refreshChange(change.getId());
     } finally {
       repo.close();
     }
@@ -205,7 +212,7 @@ public class RevisionEditCommands {
 
   public RefUpdate.Result edit(Change change, PatchSet ps, String file,
       String content) throws AuthException, InvalidChangeOperationException,
-      NoSuchChangeException, IOException {
+      NoSuchChangeException, IOException, OrmException {
     if (!currentUser.get().isIdentifiedUser()) {
       throw new AuthException("edits only available to authenticated users");
     }
@@ -237,8 +244,10 @@ public class RevisionEditCommands {
           throw new InvalidChangeOperationException("no changes were made");
         }
 
-        return commitTree(git, me, edit, rw, inserter, prevEdit,
-            base, tree, oldObjectId);
+        RefUpdate.Result res = commitTree(git, me, edit, rw,
+            inserter, prevEdit, base, tree, oldObjectId);
+        refreshChange(change.getId());
+        return res;
       } finally {
         rw.release();
         inserter.release();
@@ -278,7 +287,12 @@ public class RevisionEditCommands {
     ru.setNewObjectId(newEdit);
     ru.setRefLogIdent(getRefLogIdent(me));
     ru.setForceUpdate(true);
-    return ru.update(rw);
+    RefUpdate.Result res = ru.update(rw);
+    if (res != RefUpdate.Result.NEW &&
+        res != RefUpdate.Result.FORCED) {
+      throw new IOException("update failed: " + ru);
+    }
+    return res;
   }
 
   private ObjectId editTree(String fileName, Repository repo,
@@ -346,6 +360,30 @@ public class RevisionEditCommands {
       }
     } finally {
       repo.close();
+    }
+  }
+
+  // TODO(davido): can we refresh cache without updating change record?
+  // Another approach would be to upgarde the database and introduce a
+  // new column that is only get upgraded when CRUD operation on revision
+  // was executed. Obviously new field would contribute to hash building
+  // for ETag cache tag
+  private void refreshChange(Change.Id id) throws OrmException {
+    ReviewDb db = dbProvider.get();
+    db.changes().beginTransaction(id);
+    try {
+      db.changes().atomicUpdate(
+        id,
+        new AtomicUpdate<Change>() {
+          @Override
+          public Change update(Change change) {
+            ChangeUtil.updated(change);
+            return change;
+          }
+        });
+      db.commit();
+    } finally {
+      db.rollback();
     }
   }
 }

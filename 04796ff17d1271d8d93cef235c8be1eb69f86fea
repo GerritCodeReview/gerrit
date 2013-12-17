@@ -16,6 +16,24 @@
       "revId": "04796ff17d1271d8d93cef235c8be1eb69f86fea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "683d434c_c0eb9e21",
+        "filename": "Documentation/intro-change-screen.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-17T11:15:10Z",
+      "side": 1,
+      "message": "Fixed \"than than\".\n\nI changed the wording because I was trying to make it clear that the currently selected change can also be shown with an orange dot if the selected patch set is not current.\n\nI.e. if a change has 4 patch sets, and you select patch set 3, the currently selected change also has an orange dot.",
+      "parentUuid": "a833bb7d_62f1760d",
+      "revId": "04796ff17d1271d8d93cef235c8be1eb69f86fea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

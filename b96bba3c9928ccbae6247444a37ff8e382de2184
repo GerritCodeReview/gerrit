@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8fbf3cb_24fbb2ef",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-12-17T23:35:34Z",
+      "side": 1,
+      "message": "border-radius.com tells me this should be\n\n -webkit-border-radius: 2px;\n -moz-border-radius: 2px;\n border-radius: 2px;\n\nIt looks like we already do that some places and not others.",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 33
+      },
+      "revId": "b96bba3c9928ccbae6247444a37ff8e382de2184",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8fbf3cb_04f8b6ee",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-12-17T23:35:34Z",
+      "side": 1,
+      "message": "Likewise.",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 38
+      },
+      "revId": "b96bba3c9928ccbae6247444a37ff8e382de2184",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

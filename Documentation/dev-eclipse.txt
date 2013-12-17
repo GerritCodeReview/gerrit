@@ -44,7 +44,7 @@ Duplicate the existing launch configuration:
 
 * Switch to Arguments tab.
 * Edit the `-d` program argument flag to match the path used during
-  'init'.  The template launch configuration resolves to ../test_site
+  'init'.  The template launch configuration resolves to ../gerrit_testsite
   since that is what the documentation recommends.
 
 * Switch to Common tab.
@@ -66,7 +66,7 @@ Duplicate the existing launch configuration:
 * Switch to Arguments tab.
 * Edit the `-Dgerrit.site_path=` VM argument to match the path
   used during 'init'.  The template launch configuration resolves
-  to ../test_site since that is what the documentation recommends.
+  to ../gerrit_testsite since that is what the documentation recommends.
 
 * Switch to Common tab.
 * Change Save as to be Local file.

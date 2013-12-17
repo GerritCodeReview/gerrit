@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "683d434c_e0dca288",
+        "filename": "Documentation/intro-change-screen.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-17T10:48:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a833bb7d_e2dca688",
+      "revId": "d69af1ea96f1a6b90424e0b4bfc5c43bef81b6a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a833bb7d_02e2ea47",
         "filename": "Documentation/intro-change-screen.txt",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-12-17T05:54:21Z",
       "side": 1,
       "message": "\"are marked with an orange dot\"\n\nMay be explain what does it mean: commit message headline is appended with orange dot.",
+      "revId": "d69af1ea96f1a6b90424e0b4bfc5c43bef81b6a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "683d434c_00e2e647",
+        "filename": "Documentation/intro-change-screen.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-17T10:48:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a833bb7d_02e2ea47",
       "revId": "d69af1ea96f1a6b90424e0b4bfc5c43bef81b6a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -210,7 +210,7 @@ class PatchSetsBox extends Composite {
         .closeSpan()
         .append(' ');
     }
-    sb.append(r._number());
+    sb.append(r.id());
     sb.closeTd();
 
     sb.openTd()

@@ -79,7 +79,6 @@ public class PublishCommentScreen extends AccountScreen implements
   private NpTextArea message;
   private FlowPanel draftsPanel;
   private Button send;
-  private Button submit;
   private Button cancel;
   private boolean saveStateOnUnload = true;
   private List<CommentEditorPanel> commentEditors;
@@ -131,10 +130,6 @@ public class PublishCommentScreen extends AccountScreen implements
     send.addClickHandler(this);
     buttonRow.add(send);
 
-    submit = new Button(Util.C.buttonPublishSubmitSend());
-    submit.addClickHandler(this);
-    buttonRow.add(submit);
-
     cancel = new Button(Util.C.buttonPublishCommentsCancel());
     cancel.addClickHandler(this);
     buttonRow.add(cancel);
@@ -149,7 +144,6 @@ public class PublishCommentScreen extends AccountScreen implements
       commentEditor.enableButtons(enabled);
     }
     send.setEnabled(enabled);
-    submit.setEnabled(enabled);
     cancel.setEnabled(enabled);
   }
 
@@ -228,8 +222,6 @@ public class PublishCommentScreen extends AccountScreen implements
     final Widget sender = (Widget) event.getSource();
     if (send == sender) {
       onSend(false);
-    } else if (submit == sender) {
-      onSend(true);
     } else if (cancel == sender) {
       saveStateOnUnload = false;
       goChange();
@@ -393,8 +385,6 @@ public class PublishCommentScreen extends AccountScreen implements
         panel.add(editor);
       }
     }
-
-    submit.setVisible(true/* TODO canSubmit? */);
   }
 
   private void onSend(final boolean submit) {

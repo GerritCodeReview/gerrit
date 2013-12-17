@@ -654,7 +654,7 @@ public class ChangeScreen2 extends Screen {
         public void onSuccess(NativeMap<FileInfo> m) {
           files.set(
               base != null ? new PatchSet.Id(changeId, base._number()) : null,
-              new PatchSet.Id(changeId, rev._number()),
+              new PatchSet.Id(changeId, rev._number(), rev.edit()),
               style, editMessage, reply);
           files.setValue(m, myLastReply, comments.get(0),
               drafts.get(0), fileTableMode);

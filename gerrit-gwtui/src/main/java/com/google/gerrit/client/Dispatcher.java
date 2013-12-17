@@ -146,7 +146,7 @@ public class Dispatcher {
     if (diffBase != null) {
       p.append(diffBase.get()).append("..");
     }
-    p.append(revision.get()).append("/").append(KeyUtil.encode(fileName));
+    p.append(revision.getId()).append("/").append(KeyUtil.encode(fileName));
     if (type != null && !type.isEmpty()) {
       p.append(",").append(type);
     }

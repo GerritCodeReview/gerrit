@@ -64,19 +64,19 @@ public class GitWebType {
   /** String for revision view url. */
   private String revision;
 
-  /** ParamertizedString for project view url. */
+  /** ParameterizedString for project view url. */
   private String project;
 
-  /** ParamertizedString for branch view url. */
+  /** ParameterizedString for branch view url. */
   private String branch;
 
-  /** ParamertizedString for root tree view url. */
+  /** ParameterizedString for root tree view url. */
   private String rootTree;
 
-  /** ParamertizedString for file view url. */
+  /** ParameterizedString for file view url. */
   private String file;
 
-  /** ParamertizedString for file history view url. */
+  /** ParameterizedString for file history view url. */
   private String fileHistory;
 
   /** Character to substitute the standard path separator '/' in branch and

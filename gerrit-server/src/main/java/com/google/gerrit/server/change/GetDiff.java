@@ -22,6 +22,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
 import com.google.gerrit.common.data.PatchScript.FileMode;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.CacheControl;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -34,6 +35,7 @@ import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.patch.PatchScriptFactory;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.git.LargeObjectException;
 import com.google.gwtorm.server.OrmException;
@@ -51,6 +53,7 @@ import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -79,7 +82,8 @@ public class GetDiff implements RestReadView<FileResource> {
 
   @Override
   public Response<Result> apply(FileResource resource)
-      throws ResourceConflictException, ResourceNotFoundException, OrmException {
+      throws ResourceConflictException, ResourceNotFoundException,
+      OrmException, AuthException, InvalidChangeOperationException, IOException {
     PatchSet.Id basePatchSet = null;
     if (base != null) {
       RevisionResource baseResource = revisions.get().parse(

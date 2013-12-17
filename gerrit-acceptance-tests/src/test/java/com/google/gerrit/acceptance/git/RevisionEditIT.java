@@ -108,7 +108,7 @@ public class RevisionEditIT extends AbstractDaemonTest {
 
   @Test
   public void updateExistingFile() throws IOException, AuthException,
-      InvalidChangeOperationException, NoSuchChangeException {
+      InvalidChangeOperationException, NoSuchChangeException, OrmException {
     assertEquals(RefUpdate.Result.NEW,
         cmd.edit(
             change,
@@ -170,7 +170,7 @@ public class RevisionEditIT extends AbstractDaemonTest {
 
   @Test
   public void addNewFile() throws IOException, AuthException,
-      InvalidChangeOperationException, NoSuchChangeException {
+      InvalidChangeOperationException, NoSuchChangeException, OrmException {
     assertEquals(RefUpdate.Result.NEW,
         cmd.edit(
             change,
@@ -185,7 +185,7 @@ public class RevisionEditIT extends AbstractDaemonTest {
 
   @Test
   public void addNewFileAndAmmend() throws IOException, AuthException,
-      InvalidChangeOperationException, NoSuchChangeException {
+      InvalidChangeOperationException, NoSuchChangeException, OrmException {
     assertEquals(RefUpdate.Result.NEW,
         cmd.edit(
             change,
@@ -207,7 +207,7 @@ public class RevisionEditIT extends AbstractDaemonTest {
 
   @Test(expected = InvalidChangeOperationException.class)
   public void writeNoChanges() throws IOException, AuthException,
-      InvalidChangeOperationException, NoSuchChangeException {
+      InvalidChangeOperationException, NoSuchChangeException, OrmException {
     assertEquals(RefUpdate.Result.NEW,
         cmd.edit(
             change,

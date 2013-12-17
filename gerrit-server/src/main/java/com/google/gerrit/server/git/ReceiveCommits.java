@@ -69,10 +69,10 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeInserter;
+import com.google.gerrit.server.change.ChangeKind;
+import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.MergeabilityChecker;
-import com.google.gerrit.server.change.PatchSetInserter;
-import com.google.gerrit.server.change.PatchSetInserter.ChangeKind;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -279,6 +279,7 @@ public class ReceiveCommits {
   private final SshInfo sshInfo;
   private final AllProjectsName allProjectsName;
   private final ReceiveConfig receiveConfig;
+  private final ChangeKindCache changeKindCache;
 
   private final ProjectControl projectControl;
   private final Project project;
@@ -302,7 +303,6 @@ public class ReceiveCommits {
   private final SubmoduleOp.Factory subOpFactory;
   private final Provider<Submit> submitProvider;
   private final MergeQueue mergeQueue;
-  private final MergeUtil.Factory mergeUtilFactory;
 
   private final List<CommitValidationMessage> messages = new ArrayList<CommitValidationMessage>();
   private ListMultimap<Error, String> errors = LinkedListMultimap.create();
@@ -348,7 +348,7 @@ public class ReceiveCommits {
       final SubmoduleOp.Factory subOpFactory,
       final Provider<Submit> submitProvider,
       final MergeQueue mergeQueue,
-      final MergeUtil.Factory mergeUtilFactory) throws IOException {
+      final ChangeKindCache changeKindCache) throws IOException {
     this.currentUser = (IdentifiedUser) projectControl.getCurrentUser();
     this.db = db;
     this.schemaFactory = schemaFactory;
@@ -377,6 +377,7 @@ public class ReceiveCommits {
     this.sshInfo = sshInfo;
     this.allProjectsName = allProjectsName;
     this.receiveConfig = config;
+    this.changeKindCache = changeKindCache;
 
     this.projectControl = projectControl;
     this.labelTypes = projectControl.getLabelTypes();
@@ -388,7 +389,6 @@ public class ReceiveCommits {
     this.subOpFactory = subOpFactory;
     this.submitProvider = submitProvider;
     this.mergeQueue = mergeQueue;
-    this.mergeUtilFactory = mergeUtilFactory;
 
     this.messageSender = new ReceivePackMessageSender();
 
@@ -1781,9 +1781,8 @@ public class ReceiveCommits {
         }
       }
 
-      changeKind =
-          PatchSetInserter.getChangeKind(mergeUtilFactory,
-              projectControl.getProjectState(), repo, priorCommit, newCommit);
+      changeKind = changeKindCache.getChangeKind(
+          projectControl.getProjectState(), repo, priorCommit, newCommit);
 
       PatchSet.Id id =
           ChangeUtil.nextPatchSetId(allRefs, change.currentPatchSetId());

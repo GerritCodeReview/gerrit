@@ -61,7 +61,7 @@ class Reviewers extends Composite {
   interface Binder extends UiBinder<HTMLPanel, Reviewers> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
-  @UiField Element ccText;
+  @UiField Element reviewersText;
   @UiField Button openForm;
   @UiField Element form;
   @UiField Element error;
@@ -69,7 +69,7 @@ class Reviewers extends Composite {
   SuggestBox suggestBox;
 
   private ChangeScreen2.Style style;
-  private Element reviewersText;
+  private Element ccText;
 
   private RestReviewerSuggestOracle reviewerSuggestOracle;
   private HintTextBox nameTxtBox;
@@ -112,9 +112,9 @@ class Reviewers extends Composite {
     });
   }
 
-  void init(ChangeScreen2.Style style, Element reviewersText) {
+  void init(ChangeScreen2.Style style, Element ccText) {
     this.style = style;
-    this.reviewersText = reviewersText;
+    this.ccText = ccText;
   }
 
   void set(ChangeInfo info) {

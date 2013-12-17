@@ -137,7 +137,7 @@ public class ChangeScreen2 extends Screen {
   @UiField ToggleButton star;
   @UiField Anchor permalink;
 
-  @UiField Element reviewersText;
+  @UiField Element ccText;
   @UiField Reviewers reviewers;
   @UiField Element ownerText;
   @UiField Element statusText;
@@ -234,7 +234,7 @@ public class ChangeScreen2 extends Screen {
     Resources.I.style().ensureInjected();
     star.setVisible(Gerrit.isSignedIn());
     labels.init(style, statusText);
-    reviewers.init(style, reviewersText);
+    reviewers.init(style, ccText);
 
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
     keysNavigation.add(new KeyCommand(0, 'u', Util.C.upToChangeList()) {

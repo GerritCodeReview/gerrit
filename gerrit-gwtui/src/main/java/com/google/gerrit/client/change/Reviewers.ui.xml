@@ -20,13 +20,22 @@ limitations under the License.
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <ui:with field='res' type='com.google.gerrit.client.change.Resources'/>
   <ui:style>
-    .openAdd {
-      cursor: pointer;
+    button.openAdd {
+      margin: 3px 3px 0 0;
       float: right;
-      padding: 0;
-      margin: 0;
-      border: 0;
-      background-color: transparent;
+      color: #444;
+      background-color: #f5f5f5;
+      background-image: -webkit-linear-gradient(top, #f5f5f5, #f1f1f1);
+      -webkit-border-radius: 2px;
+      -moz-border-radius: 2px;
+      border-radius: 2px;
+      -webkit-box-sizing: content-box;
+      -moz-box-sizing: content-box;
+      box-sizing: content-box;
+    }
+    button.openAdd div {
+      width: auto;
+      color: #444;
     }
 
     .suggestBox {
@@ -44,13 +53,14 @@ limitations under the License.
   </ui:style>
   <g:HTMLPanel>
     <div>
-      <span ui:field='ccText'/>
+      <span ui:field='reviewersText'/>
       <g:Button ui:field='openForm'
          title='Add reviewers to this change'
-         styleName='{style.openAdd}'
+         styleName='{res.style.button}'
+         addStyleNames='{style.openAdd}'
          visible='false'>
        <ui:attribute name='title'/>
-       <div>[+]</div>
+       <div><ui:msg>Add&#8230;</ui:msg></div>
       </g:Button>
     </div>
     <div ui:field='form' style='display: none' aria-hidden='true'>

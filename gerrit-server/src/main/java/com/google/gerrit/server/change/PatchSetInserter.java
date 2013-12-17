@@ -33,7 +33,6 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
@@ -52,7 +51,6 @@ import com.google.inject.assistedinject.Assisted;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -82,10 +80,6 @@ public class PatchSetInserter {
     GERRIT, RECEIVE_COMMITS, NONE
   }
 
-  public static enum ChangeKind {
-    REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE
-  }
-
   private final ChangeHooks hooks;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ReviewDb db;
@@ -94,8 +88,8 @@ public class PatchSetInserter {
   private final CommitValidators.Factory commitValidatorsFactory;
   private final MergeabilityChecker mergeabilityChecker;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
-  private final MergeUtil.Factory mergeUtilFactory;
   private final ApprovalsUtil approvalsUtil;
+  private final ChangeKindCache changeKindCache;
 
   private final Repository git;
   private final RevWalk revWalk;
@@ -120,8 +114,8 @@ public class PatchSetInserter {
       CommitValidators.Factory commitValidatorsFactory,
       MergeabilityChecker mergeabilityChecker,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
-      MergeUtil.Factory mergeUtilFactory,
       ApprovalsUtil approvalsUtil,
+      ChangeKindCache changeKindCache,
       @Assisted Repository git,
       @Assisted RevWalk revWalk,
       @Assisted RefControl refControl,
@@ -136,8 +130,8 @@ public class PatchSetInserter {
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.mergeabilityChecker = mergeabilityChecker;
     this.replacePatchSetFactory = replacePatchSetFactory;
-    this.mergeUtilFactory = mergeUtilFactory;
     this.approvalsUtil = approvalsUtil;
+    this.changeKindCache = changeKindCache;
 
     this.git = git;
     this.revWalk = revWalk;
@@ -279,8 +273,8 @@ public class PatchSetInserter {
         RevCommit priorCommit = revWalk.parseCommit(priorCommitId);
         ProjectState projectState =
             refControl.getProjectControl().getProjectState();
-        ChangeKind changeKind =
-            getChangeKind(mergeUtilFactory, projectState, git, priorCommit, commit);
+        ChangeKind changeKind = changeKindCache.getChangeKind(
+            projectState, git, priorCommit, commit);
 
         approvalsUtil.copyLabels(db, refControl.getProjectControl()
             .getLabelTypes(), currentPatchSetId, patchSet, changeKind);
@@ -360,56 +354,6 @@ public class PatchSetInserter {
     } catch (CommitValidationException e) {
       throw new InvalidChangeOperationException(e.getMessage());
     }
-  }
-
-  public static ChangeKind getChangeKind(MergeUtil.Factory mergeUtilFactory, ProjectState project,
-      Repository git, RevCommit prior, RevCommit next) {
-    if (!next.getFullMessage().equals(prior.getFullMessage())) {
-      if (next.getTree() == prior.getTree() && isSameParents(prior, next)) {
-        return ChangeKind.NO_CODE_CHANGE;
-      } else {
-        return ChangeKind.REWORK;
-      }
-    }
-
-    if (prior.getParentCount() != 1 || next.getParentCount() != 1) {
-      // Trivial rebases done by machine only work well on 1 parent.
-      return ChangeKind.REWORK;
-    }
-
-    if (next.getTree() == prior.getTree() &&
-       isSameParents(prior, next)) {
-      return ChangeKind.TRIVIAL_REBASE;
-    }
-
-    // A trivial rebase can be detected by looking for the next commit
-    // having the same tree as would exist when the prior commit is
-    // cherry-picked onto the next commit's new first parent.
-    try {
-      MergeUtil mergeUtil = mergeUtilFactory.create(project);
-      ThreeWayMerger merger =
-          mergeUtil.newThreeWayMerger(git, mergeUtil.createDryRunInserter());
-      merger.setBase(prior.getParent(0));
-      if (merger.merge(next.getParent(0), prior)
-          && merger.getResultTreeId().equals(next.getTree())) {
-        return ChangeKind.TRIVIAL_REBASE;
-      } else {
-        return ChangeKind.REWORK;
-      }
-    } catch (IOException err) {
-      log.warn("Cannot check trivial rebase of new patch set " + next.name()
-          + " in " + project.getProject().getName(), err);
-      return ChangeKind.REWORK;
-    }
-  }
-
-  private static boolean isSameParents(RevCommit prior, RevCommit next) {
-    if (prior.getParentCount() != next.getParentCount()) {
-      return false;
-    } else if (prior.getParentCount() == 0) {
-      return true;
-    }
-    return prior.getParent(0).equals(next.getParent(0));
   }
 
   public class ChangeModifiedException extends InvalidChangeOperationException {

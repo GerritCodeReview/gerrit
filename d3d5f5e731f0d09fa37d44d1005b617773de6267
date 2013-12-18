@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6864639a_a8ebdb21",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-18T15:55:20Z",
+      "side": 1,
+      "message": "I know this winds up with basically the same result as the SHA-1s does, but I prefer the elegance of using the SHA-1s in the cache keys.\n\nIt seems the existing callers already have the ObjectId handy. And in notedb based world you would slurp up all of the history before calling into the cache, which means you can have a Map\u003cPatchSet.Id, ObjectId\u003e already built in memory to tell you which commit is used by each patch set.",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 37
+      },
+      "revId": "d3d5f5e731f0d09fa37d44d1005b617773de6267",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6864639a_88e61759",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-18T15:55:20Z",
+      "side": 1,
+      "message": "In other cache types the Loader gets the SchemaFactory\u003cReviewDb\u003e injected and grabs its own database connection temporarily. Since this cache doesn\u0027t retain anything that would be bad if the caller was passing us PatchSet.Ids and not PatchSet.\n\nBut looking at the rest of your change, this method isn\u0027t even used. Maybe we don\u0027t need to lookup the PatchSet objects because the caller already has them?",
+      "revId": "d3d5f5e731f0d09fa37d44d1005b617773de6267",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

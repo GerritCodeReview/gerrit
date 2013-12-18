@@ -104,6 +104,7 @@ limitations under the License.
       z-index: 2;
     }
     .showtabs .cm-tab:before {
+      position: absolute;
       content: "\00bb";
       color: #f00;
     }

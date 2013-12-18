@@ -34,7 +34,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Revisions;
 import com.google.gerrit.server.extensions.webui.UiActions;
@@ -76,6 +76,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
   private final ReviewDb db;
   private final PatchListCache patchListCache;
   private final ChangeControl.Factory changeControlFactory;
+  private final ChangesCollection changes;
   private final Revisions revisions;
 
   private Project.NameKey projectKey;
@@ -93,6 +94,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
   PatchSetDetailFactory(final PatchSetInfoFactory psif, final ReviewDb db,
       final PatchListCache patchListCache,
       final ChangeControl.Factory changeControlFactory,
+      final ChangesCollection changes,
       final Revisions revisions,
       @Assisted("psIdBase") @Nullable final PatchSet.Id psIdBase,
       @Assisted("psIdNew") final PatchSet.Id psIdNew,
@@ -101,6 +103,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     this.db = db;
     this.patchListCache = patchListCache;
     this.changeControlFactory = changeControlFactory;
+    this.changes = changes;
     this.revisions = revisions;
 
     this.psIdBase = psIdBase;
@@ -179,7 +182,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     detail.setCommands(Lists.newArrayList(Iterables.transform(
         UiActions.sorted(UiActions.plugins(UiActions.from(
           revisions,
-          new RevisionResource(new ChangeResource(control), patchSet),
+          new RevisionResource(changes.parse(control), patchSet),
           Providers.of(user)))),
         new Function<UiAction.Description, UiCommandDetail>() {
           @Override

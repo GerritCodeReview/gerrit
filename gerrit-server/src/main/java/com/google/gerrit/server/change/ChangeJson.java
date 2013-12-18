@@ -133,11 +133,12 @@ public class ChangeJson {
   private final IdentifiedUser.GenericFactory userFactory;
   private final ProjectControl.GenericFactory projectControlFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
+  private final ChangesCollection changes;
   private final FileInfoJson fileInfoJson;
   private final AccountInfo.Loader.Factory accountLoaderFactory;
   private final DynamicMap<DownloadScheme> downloadSchemes;
   private final DynamicMap<DownloadCommand> downloadCommands;
-  private final DynamicMap<RestView<ChangeResource>> changes;
+  private final DynamicMap<RestView<ChangeResource>> changeViews;
   private final Revisions revisions;
   private final PatchListCache patchListCache;
 
@@ -156,11 +157,12 @@ public class ChangeJson {
       IdentifiedUser.GenericFactory uf,
       ProjectControl.GenericFactory pcf,
       PatchSetInfoFactory psi,
+      ChangesCollection changes,
       FileInfoJson fileInfoJson,
       AccountInfo.Loader.Factory ailf,
       DynamicMap<DownloadScheme> downloadSchemes,
       DynamicMap<DownloadCommand> downloadCommands,
-      DynamicMap<RestView<ChangeResource>> changes,
+      DynamicMap<RestView<ChangeResource>> changeViews,
       Revisions revisions,
       PatchListCache patchListCache) {
     this.db = db;
@@ -170,11 +172,12 @@ public class ChangeJson {
     this.userFactory = uf;
     this.projectControlFactory = pcf;
     this.patchSetInfoFactory = psi;
+    this.changes = changes;
     this.fileInfoJson = fileInfoJson;
     this.accountLoaderFactory = ailf;
     this.downloadSchemes = downloadSchemes;
     this.downloadCommands = downloadCommands;
-    this.changes = changes;
+    this.changeViews = changeViews;
     this.revisions = revisions;
     this.patchListCache = patchListCache;
 
@@ -322,8 +325,8 @@ public class ChangeJson {
     if (has(CURRENT_ACTIONS) && userProvider.get().isIdentifiedUser()) {
       out.actions = Maps.newTreeMap();
       for (UiAction.Description d : UiActions.from(
-          changes,
-          new ChangeResource(control(cd)),
+          changeViews,
+          changes.parse(control(cd)),
           userProvider)) {
         out.actions.put(d.getId(), new ActionInfo(d));
       }
@@ -821,7 +824,7 @@ public class ChangeJson {
       out.actions = Maps.newTreeMap();
       for (UiAction.Description d : UiActions.from(
           revisions,
-          new RevisionResource(new ChangeResource(control(cd)), in),
+          new RevisionResource(changes.parse(control(cd)), in),
           userProvider)) {
         out.actions.put(d.getId(), new ActionInfo(d));
       }

@@ -16,8 +16,9 @@ package com.google.gerrit.server.git;
 
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
-import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromApprovals;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
+import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromReviewers;
+
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
@@ -63,6 +64,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.ApprovalsUtil.ReviewerState;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -1859,8 +1861,9 @@ public class ReceiveCommits {
 
         List<PatchSetApproval> oldChangeApprovals =
             db.patchSetApprovals().byChange(change.getId()).toList();
-        final MailRecipients oldRecipients = getRecipientsFromApprovals(
-            oldChangeApprovals);
+        SetMultimap<ReviewerState, Account.Id> reviewers =
+            ApprovalsUtil.getReviewers(oldChangeApprovals);
+        MailRecipients oldRecipients = getRecipientsFromReviewers(reviewers);
         approvalsUtil.copyLabels(db, labelTypes, oldChangeApprovals,
             priorPatchSet, newPatchSet, changeKind);
         approvalsUtil.addReviewers(db, labelTypes, change, newPatchSet, info,

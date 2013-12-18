@@ -31,6 +31,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.RulesCache;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupMembership;
@@ -233,8 +234,8 @@ public class Util {
 
     return new ProjectControl(Collections.<AccountGroup.UUID> emptySet(),
         Collections.<AccountGroup.UUID> emptySet(), projectCache,
-        sectionSorter, null, canonicalWebUrl, new MockUser(name, memberOf),
-        newProjectState(local));
+        sectionSorter, null, new ApprovalsUtil(), canonicalWebUrl,
+        new MockUser(name, memberOf), newProjectState(local));
   }
 
   private ProjectState newProjectState(ProjectConfig local) {

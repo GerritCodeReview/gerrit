@@ -22,8 +22,10 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
+import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -31,6 +33,8 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.ApprovalsUtil.ReviewerState;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchList;
@@ -471,6 +475,11 @@ public class ChangeData {
       }
     }
     return allApprovals;
+  }
+
+  public SetMultimap<ReviewerState, Account.Id> reviewers(Provider<ReviewDb> db)
+      throws OrmException {
+    return ApprovalsUtil.getReviewers(allApprovals(db));
   }
 
   public Collection<PatchLineComment> comments(Provider<ReviewDb> db)

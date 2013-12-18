@@ -16,7 +16,6 @@ package com.google.gerrit.server.events;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
@@ -33,6 +32,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -71,7 +71,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @Singleton
 public class EventFactory {
@@ -84,6 +83,7 @@ public class EventFactory {
   private final PersonIdent myIdent;
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager repoManager;
+  private final ApprovalsUtil approvalsUtil;
 
   @Inject
   EventFactory(AccountCache accountCache,
@@ -91,7 +91,8 @@ public class EventFactory {
       PatchSetInfoFactory psif,
       PatchListCache patchListCache, SchemaFactory<ReviewDb> schema,
       @GerritPersonIdent PersonIdent myIdent,
-      Provider<ReviewDb> db, GitRepositoryManager repoManager) {
+      Provider<ReviewDb> db, GitRepositoryManager repoManager,
+      ApprovalsUtil approvalsUtil) {
     this.accountCache = accountCache;
     this.urlProvider = urlProvider;
     this.patchListCache = patchListCache;
@@ -100,6 +101,7 @@ public class EventFactory {
     this.myIdent = myIdent;
     this.db = db;
     this.repoManager = repoManager;
+    this.approvalsUtil = approvalsUtil;
   }
 
   /**
@@ -168,17 +170,12 @@ public class EventFactory {
    */
   public void addAllReviewers(ChangeAttribute a, Change change)
       throws OrmException {
-    List<PatchSetApproval> approvals =
-        db.get().patchSetApprovals().byChange(change.getId()).toList();
-    if (!approvals.isEmpty()) {
-      a.allReviewers = Lists.newArrayList();
-      Set<Account.Id> seen = Sets.newHashSet();
-      for (PatchSetApproval psa : approvals) {
-        Account.Id id = psa.getAccountId();
-        if (!seen.contains(id)) {
-          seen.add(id);
-          a.allReviewers.add(asAccountAttribute(id));
-        }
+    Collection<Account.Id> reviewers =
+        approvalsUtil.getReviewers(db.get(), change.getId()).values();
+    if (!reviewers.isEmpty()) {
+      a.allReviewers = Lists.newArrayListWithCapacity(reviewers.size());
+      for (Account.Id id : reviewers) {
+        a.allReviewers.add(asAccountAttribute(id));
       }
     }
   }

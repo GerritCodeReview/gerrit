@@ -17,6 +17,7 @@ package com.google.gerrit.server.mail;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
 import com.google.gerrit.server.account.AccountCache;
@@ -46,6 +47,7 @@ class EmailArguments {
   final GroupIncludeCache groupIncludes;
   final AccountCache accountCache;
   final PatchListCache patchListCache;
+  final ApprovalsUtil approvalsUtil;
   final FromAddressGenerator fromAddressGenerator;
   final EmailSender emailSender;
   final PatchSetInfoFactory patchSetInfoFactory;
@@ -66,7 +68,9 @@ class EmailArguments {
   EmailArguments(GitRepositoryManager server, ProjectCache projectCache,
       GroupBackend groupBackend, GroupIncludeCache groupIncludes,
       AccountCache accountCache,
-      PatchListCache patchListCache, FromAddressGenerator fromAddressGenerator,
+      PatchListCache patchListCache,
+      ApprovalsUtil approvalsUtil,
+      FromAddressGenerator fromAddressGenerator,
       EmailSender emailSender, PatchSetInfoFactory patchSetInfoFactory,
       GenericFactory identifiedUserFactory,
       CapabilityControl.Factory capabilityControlFactory,
@@ -85,6 +89,7 @@ class EmailArguments {
     this.groupIncludes = groupIncludes;
     this.accountCache = accountCache;
     this.patchListCache = patchListCache;
+    this.approvalsUtil = approvalsUtil;
     this.fromAddressGenerator = fromAddressGenerator;
     this.emailSender = emailSender;
     this.patchSetInfoFactory = patchSetInfoFactory;

@@ -127,6 +127,11 @@ class AutoRegisterModules {
     Enumeration<JarEntry> e = jarFile.entries();
     while (e.hasMoreElements()) {
       JarEntry entry = e.nextElement();
+
+      if (JarPlugin.JS_INIT_PATH.equals(entry.getName())) {
+        httpGen.bindJsInit();
+        continue;
+      }
       if (skip(entry)) {
         continue;
       }

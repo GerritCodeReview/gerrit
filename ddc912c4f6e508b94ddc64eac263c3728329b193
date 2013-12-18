@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "48907f99_4ff10d0d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-18T01:37:17Z",
+      "side": 1,
+      "message": "Correct, I intend to change it when we need persistence.",
+      "parentUuid": "48423fdd_9fe65359",
+      "revId": "ddc912c4f6e508b94ddc64eac263c3728329b193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48907f99_8fe61559",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCache.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "48423fdd_1ffb23ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-18T01:37:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48907f99_8fe61559",
+      "revId": "ddc912c4f6e508b94ddc64eac263c3728329b193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48907f99_afebd921",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCache.java",
         "patchSetId": 1
@@ -47,6 +83,30 @@
       "writtenOn": "2013-12-18T01:11:11Z",
       "side": 1,
       "message": "Use .copy() to ensure this is a pure ObjectId and not a RevCommit. You don\u0027t want to pin a RevCommit with a large parent graph inside of the cache.",
+      "range": {
+        "startLine": 78,
+        "startChar": 6,
+        "endLine": 79,
+        "endChar": 23
+      },
+      "revId": "ddc912c4f6e508b94ddc64eac263c3728329b193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48423fdd_7feeef31",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-18T01:37:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48907f99_afebd921",
       "range": {
         "startLine": 78,
         "startChar": 6,

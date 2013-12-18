@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
@@ -23,30 +22,33 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import java.util.Set;
+import java.util.Collection;
 
 public class Reviewers implements
     ChildCollection<ChangeResource, ReviewerResource> {
   private final DynamicMap<RestView<ReviewerResource>> views;
   private final Provider<ReviewDb> dbProvider;
+  private final ApprovalsUtil approvalsUtil;
   private final AccountsCollection accounts;
   private final ReviewerResource.Factory resourceFactory;
   private final Provider<ListReviewers> list;
 
   @Inject
   Reviewers(Provider<ReviewDb> dbProvider,
+      ApprovalsUtil approvalsUtil,
       AccountsCollection accounts,
       ReviewerResource.Factory resourceFactory,
       DynamicMap<RestView<ReviewerResource>> views,
       Provider<ListReviewers> list) {
     this.dbProvider = dbProvider;
+    this.approvalsUtil = approvalsUtil;
     this.accounts = accounts;
     this.resourceFactory = resourceFactory;
     this.views = views;
@@ -76,13 +78,9 @@ public class Reviewers implements
     throw new ResourceNotFoundException(id);
   }
 
-  private Set<Account.Id> fetchAccountIds(ChangeResource rsrc)
+  private Collection<Account.Id> fetchAccountIds(ChangeResource rsrc)
       throws OrmException {
-    Set<Account.Id> accountIds = Sets.newHashSet();
-    for (PatchSetApproval a
-         : dbProvider.get().patchSetApprovals().byChange(rsrc.getChange().getId())) {
-      accountIds.add(a.getAccountId());
-    }
-    return accountIds;
+    return approvalsUtil.getReviewers(
+        dbProvider.get(), rsrc.getChange().getId()).values();
   }
 }

@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -48,6 +49,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -179,16 +181,19 @@ public class ChangeControl {
     }
   }
 
+  private final ApprovalsUtil approvalsUtil;
   private final RefControl refControl;
   private final Change change;
 
-  ChangeControl(final RefControl r, final Change c) {
+  ChangeControl(ApprovalsUtil au, RefControl r, Change c) {
+    this.approvalsUtil = au;
     this.refControl = r;
     this.change = c;
   }
 
   public ChangeControl forUser(final CurrentUser who) {
-    return new ChangeControl(getRefControl().forUser(who), getChange());
+    return new ChangeControl(approvalsUtil, getRefControl().forUser(who),
+        getChange());
   }
 
   public RefControl getRefControl() {
@@ -323,18 +328,14 @@ public class ChangeControl {
   public boolean isReviewer(ReviewDb db, @Nullable ChangeData cd)
       throws OrmException {
     if (getCurrentUser().isIdentifiedUser()) {
-      final IdentifiedUser user = (IdentifiedUser) getCurrentUser();
-      Iterable<PatchSetApproval> results;
+      Collection<Account.Id> results;
       if (cd != null) {
-        results = cd.currentApprovals(Providers.of(db));
+        results = cd.reviewers(Providers.of(db)).values();
       } else {
-        results = db.patchSetApprovals().byChange(change.getId());
+        results = approvalsUtil.getReviewers(db, change.getId()).values();
       }
-      for (PatchSetApproval approval : results) {
-        if (user.getAccountId().equals(approval.getAccountId())) {
-          return true;
-        }
-      }
+      IdentifiedUser user = (IdentifiedUser) getCurrentUser();
+      return results.contains(user.getAccountId());
     }
     return false;
   }

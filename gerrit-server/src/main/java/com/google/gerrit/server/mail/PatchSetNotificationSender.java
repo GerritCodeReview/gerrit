@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.mail;
 
-import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromApprovals;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 
 import com.google.gerrit.common.ChangeHooks;
@@ -23,7 +22,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
@@ -117,14 +115,9 @@ public class PatchSetNotificationSender {
           log.error("Cannot send email for new change " + updatedChange.getId(), e);
         }
       } else {
-        final List<PatchSetApproval> patchSetApprovals =
-            db.patchSetApprovals().byChange(
-                updatedChange.getId()).toList();
-        final MailRecipients oldRecipients =
-            getRecipientsFromApprovals(patchSetApprovals);
         approvalsUtil.addReviewers(db, labelTypes, updatedChange,
             updatedPatchSet, info, recipients.getReviewers(),
-            oldRecipients.getAll());
+            approvalsUtil.getReviewers(db, updatedChange.getId()).values());
         final ChangeMessage msg =
             new ChangeMessage(new ChangeMessage.Key(updatedChange.getId(),
                 ChangeUtil.messageUUID(db)), me,

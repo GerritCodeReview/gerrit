@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.project.ChangeControl;
@@ -76,7 +77,7 @@ public class ReviewerJson {
     PatchSet.Id psId = ctl.getChange().currentPatchSetId();
 
     if (approvals == null) {
-      approvals = ChangeData.sortApprovals(db.get().patchSetApprovals()
+      approvals = ApprovalsUtil.sortApprovals(db.get().patchSetApprovals()
           .byPatchSetUser(psId, out._id));
     }
     approvals = labelNormalizer.normalize(ctl, approvals);

@@ -88,7 +88,8 @@ public class RebaseIfNecessary extends SubmitStrategy {
                     newMergeTip, args.mergeUtil, committerIdent,
                     false, false, ValidatePolicy.NONE);
             List<PatchSetApproval> approvals = Lists.newArrayList();
-            for (PatchSetApproval a : args.mergeUtil.getApprovalsForCommit(n)) {
+            for (PatchSetApproval a
+                : args.approvalsUtil.byPatchSet(args.db, n.patchsetId)) {
               approvals.add(new PatchSetApproval(newPatchSet.getId(), a));
             }
             args.db.patchSetApprovals().insert(approvals);

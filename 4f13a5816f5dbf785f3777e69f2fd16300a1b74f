@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "e87e9324_ece1eb43",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-18T04:31:00Z",
+      "side": 1,
+      "message": "Look at PatchListKeyMarshaller in our internal tree for the code using the getters. This is unique to the Google build of Gerrit. Using transient has nothing to do with the getters existing (or not existing).\n\nPatchListKey can use transient because it implements its own serialization by implementing:\n\n  private void writeObject(final ObjectOutputStream out) throws IOException;\n  private void readObject(final ObjectInputStream in) throws IOException;\n\nSee line 117 and 123 of PatchListKey in open source Gerrit for the custom logic.",
+      "parentUuid": "6864639a_c8dc0f89",
+      "range": {
+        "startLine": 70,
+        "startChar": 4,
+        "endLine": 72,
+        "endChar": 42
+      },
+      "revId": "4f13a5816f5dbf785f3777e69f2fd16300a1b74f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48907f99_2ff849ef",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCache.java",
         "patchSetId": 3

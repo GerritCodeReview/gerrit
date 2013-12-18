@@ -381,12 +381,6 @@ public class SideBySide2 extends Screen {
             new ShowHelpCommand().onKeyPress(null);
           }
         })
-        .on("Ctrl-F", new Runnable() {
-          @Override
-          public void run() {
-            CodeMirror.handleVimKey(cm, "/");
-          }
-        })
         .on("Space", new Runnable() {
           @Override
           public void run() {

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail;
 
+import com.google.common.collect.SetMultimap;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -22,9 +23,9 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.StarredChange;
+import com.google.gerrit.server.ApprovalsUtil.ReviewerState;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.mail.ProjectWatch.Watchers;
 import com.google.gerrit.server.patch.PatchList;
@@ -65,6 +66,8 @@ public abstract class ChangeEmail extends NotificationEmail {
   protected Set<Account.Id> authors;
   protected boolean emailOnlyAuthors;
 
+  private SetMultimap<ReviewerState, Account.Id> reviewers;
+
   protected ChangeEmail(EmailArguments ea, Change c, String mc) {
     super(ea, mc, c.getProject(), c.getDest());
     change = c;
@@ -93,19 +96,22 @@ public abstract class ChangeEmail extends NotificationEmail {
     changeMessage = cm;
   }
 
+  private SetMultimap<ReviewerState, Account.Id> getReviewers()
+      throws OrmException {
+    if (reviewers == null) {
+      reviewers =
+          args.approvalsUtil.getReviewers(args.db.get(), change.getId());
+    }
+    return reviewers;
+  }
+
   /** Format the message body by calling {@link #appendText(String)}. */
   protected void format() throws EmailException {
     formatChange();
     appendText(velocifyFile("ChangeFooter.vm"));
     try {
-      HashSet<Account.Id> reviewers = new HashSet<Account.Id>();
-      for (PatchSetApproval p : args.db.get().patchSetApprovals().byChange(
-          change.getId())) {
-        reviewers.add(p.getAccountId());
-      }
-
       TreeSet<String> names = new TreeSet<String>();
-      for (Account.Id who : reviewers) {
+      for (Account.Id who : getReviewers().values()) {
         names.add(getNameEmailFor(who));
       }
 
@@ -310,31 +316,23 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   /** Any user who has published comments on this change. */
   protected void ccAllApprovals() {
-    ccApprovals(true);
+    try {
+      for (Account.Id id : getReviewers().values()) {
+        add(RecipientType.CC, id);
+      }
+    } catch (OrmException err) {
+      log.warn("Cannot CC users that reviewed updated change", err);
+    }
   }
 
   /** Users who have non-zero approval codes on the change. */
   protected void ccExistingReviewers() {
-    ccApprovals(false);
-  }
-
-  private void ccApprovals(final boolean includeZero) {
     try {
-      // CC anyone else who has posted an approval mark on this change
-      //
-      for (PatchSetApproval ap : args.db.get().patchSetApprovals().byChange(
-          change.getId())) {
-        if (!includeZero && ap.getValue() == 0) {
-          continue;
-        }
-        add(RecipientType.CC, ap.getAccountId());
+      for (Account.Id id : getReviewers().get(ReviewerState.REVIEWER)) {
+        add(RecipientType.CC, id);
       }
     } catch (OrmException err) {
-      if (includeZero) {
-        log.warn("Cannot CC users that commented on updated change", err);
-      } else {
-        log.warn("Cannot CC users that reviewed updated change", err);
-      }
+      log.warn("Cannot CC users that commented on updated change", err);
     }
   }
 

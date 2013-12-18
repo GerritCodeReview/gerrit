@@ -158,7 +158,8 @@ public class PluginLoader implements LifecycleListener {
     checkRemoteInstall();
 
     String fileName = originalName;
-    if (!(fileName.endsWith(".jar") || fileName.endsWith(".js"))) {
+    if (!(fileName.endsWith(".jar") || fileName.endsWith(".js") || fileName
+        .endsWith(".zip"))) {
       fileName += ".jar";
     }
     File tmp = asTemp(in, ".next_" + fileName + "_", ".tmp", pluginsDir);
@@ -547,12 +548,10 @@ public class PluginLoader implements LifecycleListener {
     try {
       Manifest manifest = jarFile.getManifest();
       Plugin.ApiType type = Plugin.getApiType(manifest);
-      Attributes main = manifest.getMainAttributes();
-      String sysName = main.getValue("Gerrit-Module");
-      String sshName = main.getValue("Gerrit-SshModule");
-      String httpName = main.getValue("Gerrit-HttpModule");
+      PluginModules modules = new PluginModules(manifest);
 
-      if (!Strings.isNullOrEmpty(sshName) && type != Plugin.ApiType.PLUGIN) {
+      if (!Strings.isNullOrEmpty(modules.sshName)
+          && type != Plugin.ApiType.PLUGIN) {
         throw new InvalidPluginException(String.format(
             "Using Gerrit-SshModule requires Gerrit-ApiType: %s",
             Plugin.ApiType.PLUGIN));
@@ -574,9 +573,9 @@ public class PluginLoader implements LifecycleListener {
       ClassLoader pluginLoader = new URLClassLoader(
           urls.toArray(new URL[urls.size()]),
           parentFor(type));
-      Class<? extends Module> sysModule = load(sysName, pluginLoader);
-      Class<? extends Module> sshModule = load(sshName, pluginLoader);
-      Class<? extends Module> httpModule = load(httpName, pluginLoader);
+      Class<? extends Module> sysModule = load(modules.sysName, pluginLoader);
+      Class<? extends Module> sshModule = load(modules.sshName, pluginLoader);
+      Class<? extends Module> httpModule = load(modules.httpName, pluginLoader);
 
       String url = String.format("%s/plugins/%s/",
           CharMatcher.is('/').trimTrailingFrom(urlProvider.get()),
@@ -741,8 +740,10 @@ public class PluginLoader implements LifecycleListener {
     if (isJarPlugin(fileName)) {
       JarFile jarFile = new JarFile(srcFile);
       try {
-        return jarFile.getManifest().getMainAttributes()
-            .getValue("Gerrit-PluginName");
+        Manifest mf = jarFile.getManifest();
+        if (mf != null) {
+          return mf.getMainAttributes().getValue("Gerrit-PluginName");
+        }
       } finally {
         jarFile.close();
       }
@@ -764,7 +765,7 @@ public class PluginLoader implements LifecycleListener {
   }
 
   private static boolean isJarPlugin(String name) {
-    return isPlugin(name, "jar");
+    return isPlugin(name, "jar") || isPlugin(name, "zip");
   }
 
   private static boolean isJsPlugin(String name) {
@@ -779,6 +780,25 @@ public class PluginLoader implements LifecycleListener {
   private void checkRemoteInstall() throws PluginInstallException {
     if (!isRemoteAdminEnabled()) {
       throw new PluginInstallException("remote installation is disabled");
+    }
+  }
+
+  private static final class PluginModules {
+    final String sysName;
+    final String sshName;
+    final String httpName;
+
+    public PluginModules(Manifest manifest) {
+      if (manifest != null) {
+        Attributes main = manifest.getMainAttributes();
+        sysName = main.getValue("Gerrit-Module");
+        sshName = main.getValue("Gerrit-SshModule");
+        httpName = main.getValue("Gerrit-HttpModule");
+      } else {
+        sysName = null;
+        sshName = null;
+        httpName = null;
+      }
     }
   }
 }

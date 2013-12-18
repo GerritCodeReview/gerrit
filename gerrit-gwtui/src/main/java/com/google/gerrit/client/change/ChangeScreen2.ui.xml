@@ -302,6 +302,7 @@ limitations under the License.
     .replyBox {
       background-color: trimColor;
     }
+
   </ui:style>
 
   <g:HTMLPanel styleName='{style.cs2}'>
@@ -482,6 +483,13 @@ limitations under the License.
             title='Collapse all messages in the change history'>
           <ui:attribute name='title'/>
           <div><ui:msg>Collapse All</ui:msg></div>
+        </g:Button>
+        <g:Button ui:field='addFile'
+             title='Add file to this change'
+             styleName=''
+             visible='false'>
+          <ui:attribute name='title'/>
+          <div><ui:msg>Add&#8230;</ui:msg></div>
         </g:Button>
       </div>
     </div>

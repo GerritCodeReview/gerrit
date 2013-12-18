@@ -16,7 +16,10 @@ package com.google.gerrit.server;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Multimaps;
+import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
@@ -32,6 +35,7 @@ import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -51,6 +55,31 @@ import java.util.Set;
 public class ApprovalsUtil {
   @Inject
   ApprovalsUtil() {
+  }
+
+  public static enum ReviewerState {
+    REVIEWER, CC;
+  }
+
+  public SetMultimap<ReviewerState, Account.Id> getReviewers(ReviewDb db,
+      Change.Id changeId) throws OrmException {
+    return getReviewers(db.patchSetApprovals().byChange(changeId));
+  }
+
+  public static SetMultimap<ReviewerState, Account.Id> getReviewers(
+      Iterable<PatchSetApproval> allApprovals) {
+    SetMultimap<ReviewerState, Account.Id> reviewers =
+        LinkedHashMultimap.create();
+    for (PatchSetApproval psa : allApprovals) {
+      Account.Id id = psa.getAccountId();
+      if (psa.getValue() > 0) {
+        reviewers.put(ReviewerState.REVIEWER, id);
+        reviewers.remove(ReviewerState.CC, id);
+      } else if (!reviewers.containsEntry(ReviewerState.REVIEWER, id)) {
+        reviewers.put(ReviewerState.CC, id);
+      }
+    }
+    return Multimaps.unmodifiableSetMultimap(reviewers);
   }
 
   /**
@@ -98,8 +127,8 @@ public class ApprovalsUtil {
 
   public List<PatchSetApproval> addReviewers(ReviewDb db, LabelTypes labelTypes,
       Change change, PatchSet ps, PatchSetInfo info,
-      Iterable<Account.Id> wantReviewers, Set<Account.Id> existingReviewers)
-      throws OrmException {
+      Iterable<Account.Id> wantReviewers,
+      Collection<Account.Id> existingReviewers) throws OrmException {
     return addReviewers(db, labelTypes, change, ps.getId(), ps.isDraft(),
         info.getAuthor().getAccount(), info.getCommitter().getAccount(),
         wantReviewers, existingReviewers);
@@ -119,8 +148,8 @@ public class ApprovalsUtil {
   private List<PatchSetApproval> addReviewers(ReviewDb db,
       LabelTypes labelTypes, Change change, PatchSet.Id psId, boolean isDraft,
       Account.Id authorId, Account.Id committerId,
-      Iterable<Account.Id> wantReviewers, Set<Account.Id> existingReviewers)
-      throws OrmException {
+      Iterable<Account.Id> wantReviewers,
+      Collection<Account.Id> existingReviewers) throws OrmException {
     List<LabelType> allTypes = labelTypes.getLabelTypes();
     if (allTypes.isEmpty()) {
       return ImmutableList.of();

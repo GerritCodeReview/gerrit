@@ -18,8 +18,9 @@ import com.google.common.collect.Maps;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.change.ReviewerJson.ReviewerInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -30,14 +31,17 @@ import java.util.Map;
 
 class ListReviewers implements RestReadView<ChangeResource> {
   private final Provider<ReviewDb> dbProvider;
+  private final ApprovalsUtil approvalsUtil;
   private final ReviewerJson json;
   private final ReviewerResource.Factory resourceFactory;
 
   @Inject
   ListReviewers(Provider<ReviewDb> dbProvider,
+      ApprovalsUtil approvalsUtil,
       ReviewerResource.Factory resourceFactory,
       ReviewerJson json) {
     this.dbProvider = dbProvider;
+    this.approvalsUtil = approvalsUtil;
     this.resourceFactory = resourceFactory;
     this.json = json;
   }
@@ -47,9 +51,8 @@ class ListReviewers implements RestReadView<ChangeResource> {
     Map<Account.Id, ReviewerResource> reviewers = Maps.newLinkedHashMap();
     ReviewDb db = dbProvider.get();
     Change.Id changeId = rsrc.getChange().getId();
-    for (PatchSetApproval patchSetApproval
-         : db.patchSetApprovals().byChange(changeId)) {
-      Account.Id accountId = patchSetApproval.getAccountId();
+    for (Account.Id accountId
+        : approvalsUtil.getReviewers(db, changeId).values()) {
       if (!reviewers.containsKey(accountId)) {
         reviewers.put(accountId, resourceFactory.create(rsrc, accountId));
       }

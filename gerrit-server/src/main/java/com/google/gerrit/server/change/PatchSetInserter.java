@@ -17,18 +17,18 @@ package com.google.gerrit.server.change;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.collect.Sets;
+import com.google.common.collect.SetMultimap;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.ApprovalsUtil.ReviewerState;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.events.CommitReceivedEvent;
@@ -59,8 +59,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.List;
-import java.util.Set;
 
 public class PatchSetInserter {
   private static final Logger log =
@@ -230,17 +228,9 @@ public class PatchSetInserter {
       ChangeUtil.insertAncestors(db, patchSet.getId(), commit);
       db.patchSets().insert(Collections.singleton(patchSet));
 
-      final List<PatchSetApproval> oldPatchSetApprovals =
-          db.patchSetApprovals().byChange(change.getId()).toList();
-      final Set<Account.Id> oldReviewers = Sets.newHashSet();
-      final Set<Account.Id> oldCC = Sets.newHashSet();
-      for (PatchSetApproval a : oldPatchSetApprovals) {
-        if (a.getValue() != 0) {
-          oldReviewers.add(a.getAccountId());
-        } else {
-          oldCC.add(a.getAccountId());
-        }
-      }
+      SetMultimap<ReviewerState, Account.Id> oldReviewers = sendMail
+          ? approvalsUtil.getReviewers(db, change.getId())
+          : null;
 
       updatedChange =
           db.changes().atomicUpdate(change.getId(), new AtomicUpdate<Change>() {
@@ -293,8 +283,8 @@ public class PatchSetInserter {
           cm.setFrom(user.getAccountId());
           cm.setPatchSet(patchSet, info);
           cm.setChangeMessage(changeMessage);
-          cm.addReviewers(oldReviewers);
-          cm.addExtraCC(oldCC);
+          cm.addReviewers(oldReviewers.get(ReviewerState.REVIEWER));
+          cm.addExtraCC(oldReviewers.get(ReviewerState.CC));
           cm.send();
         } catch (Exception err) {
           log.error("Cannot send email for new patch set on change " + updatedChange.getId(),

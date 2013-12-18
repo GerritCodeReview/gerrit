@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48423fdd_9fe65359",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-18T01:11:11Z",
+      "side": 1,
+      "message": "With maximumWeight(0) the cache holds no entries and it always computes on the fly, correct?",
+      "revId": "ddc912c4f6e508b94ddc64eac263c3728329b193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48907f99_8fe61559",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-18T01:11:11Z",
+      "side": 1,
+      "message": "If you are thinking about making this persistent our system needs the key members exposed with getter methods.",
+      "revId": "ddc912c4f6e508b94ddc64eac263c3728329b193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48907f99_afebd921",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-18T01:11:11Z",
+      "side": 1,
+      "message": "Use .copy() to ensure this is a pure ObjectId and not a RevCommit. You don\u0027t want to pin a RevCommit with a large parent graph inside of the cache.",
+      "range": {
+        "startLine": 78,
+        "startChar": 6,
+        "endLine": 79,
+        "endChar": 23
+      },
+      "revId": "ddc912c4f6e508b94ddc64eac263c3728329b193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48423fdd_bfeb1722",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-18T01:11:11Z",
+      "side": 1,
+      "message": "Not sure parseBody is necessary. parseCommit on a brand new RevWalk should retain the body.",
+      "revId": "ddc912c4f6e508b94ddc64eac263c3728329b193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

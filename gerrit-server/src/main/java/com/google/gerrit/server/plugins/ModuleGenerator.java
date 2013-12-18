@@ -25,5 +25,7 @@ public interface ModuleGenerator {
 
   void listen(TypeLiteral<?> tl, Class<?> clazz);
 
+  void bindInstance(TypeLiteral<?> tl, Object instance);
+
   Module create() throws InvalidPluginException;
 }

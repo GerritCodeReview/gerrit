@@ -37,6 +37,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
+import java.util.jar.Manifest;
 
 @Singleton
 public class InitPluginStepsLoader {
@@ -72,7 +73,10 @@ public class InitPluginStepsLoader {
           new URLClassLoader(new URL[] {jar.toURI().toURL()},
               InitPluginStepsLoader.class.getClassLoader());
       JarFile jarFile = new JarFile(jar);
-      Attributes jarFileAttributes = jarFile.getManifest().getMainAttributes();
+      Manifest mf =
+          jarFile.getManifest() != null ? jarFile.getManifest()
+              : new Manifest();
+      Attributes jarFileAttributes = mf.getMainAttributes();
       String initClassName = jarFileAttributes.getValue("Gerrit-InitStep");
       if (initClassName == null) {
         return null;

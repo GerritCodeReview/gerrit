@@ -23,6 +23,8 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.annotations.Export;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.extensions.annotations.Listen;
+import com.google.gerrit.extensions.webui.JavaScriptPlugin;
+import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Scopes;
@@ -127,6 +129,14 @@ class AutoRegisterModules {
     Enumeration<JarEntry> e = jarFile.entries();
     while (e.hasMoreElements()) {
       JarEntry entry = e.nextElement();
+
+      if (JarPlugin.JS_INIT_PATH.equals(entry.getName())) {
+        JavaScriptPlugin instance =
+            new JavaScriptPlugin(JavaScriptPlugin.DEFAULT_INIT_FILE_NAME);
+        TypeLiteral<WebUiPlugin> type = TypeLiteral.get(WebUiPlugin.class);
+        httpGen.bindInstance(type, instance);
+        continue;
+      }
       if (skip(entry)) {
         continue;
       }

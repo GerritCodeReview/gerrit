@@ -35,6 +35,7 @@ import javax.servlet.http.HttpServlet;
 class HttpAutoRegisterModuleGenerator extends ServletModule
     implements ModuleGenerator {
   private final Map<String, Class<HttpServlet>> serve = Maps.newHashMap();
+  private final Multimap<TypeLiteral<?>, Object> instances = LinkedListMultimap.create();
   private final Multimap<TypeLiteral<?>, Class<?>> listeners = LinkedListMultimap.create();
 
   @Override
@@ -52,6 +53,17 @@ class HttpAutoRegisterModuleGenerator extends ServletModule
 
       Annotation n = calculateBindAnnotation(impl);
       bind(type).annotatedWith(n).to(impl);
+    }
+    for (Map.Entry<TypeLiteral<?>, Object> e : instances.entries()) {
+      @SuppressWarnings("unchecked")
+      TypeLiteral<Object> type = (TypeLiteral<Object>) e.getKey();
+
+      Object implObj = e.getValue();
+      @SuppressWarnings("unchecked")
+      Class<Object> implClass = (Class<Object>) implObj.getClass();
+
+      Annotation n = calculateBindAnnotation(implClass);
+      bind(type).annotatedWith(n).toInstance(implObj);
     }
   }
 
@@ -82,6 +94,11 @@ class HttpAutoRegisterModuleGenerator extends ServletModule
   @Override
   public void listen(TypeLiteral<?> tl, Class<?> clazz) {
     listeners.put(tl, clazz);
+  }
+
+  @Override
+  public void bindInstance(TypeLiteral<?> tl, Object instance) {
+    instances.put(tl, instance);
   }
 
   @Override

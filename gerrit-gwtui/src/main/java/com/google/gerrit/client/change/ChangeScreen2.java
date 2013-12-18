@@ -170,6 +170,7 @@ public class ChangeScreen2 extends Screen {
   @UiField Button openAll;
   @UiField Button editMode;
   @UiField Button reviewMode;
+  @UiField Button addFile;
   @UiField Button expandAll;
   @UiField Button collapseAll;
   @UiField Button editMessage;
@@ -180,6 +181,7 @@ public class ChangeScreen2 extends Screen {
   private IncludedInAction includedInAction;
   private PatchSetsAction patchSetsAction;
   private DownloadAction downloadAction;
+  private EditFileAction editFileAction;
 
   public ChangeScreen2(Change.Id changeId, String base, String revision, boolean openReplyBox) {
     this.changeId = changeId;
@@ -405,6 +407,13 @@ public class ChangeScreen2 extends Screen {
                 null)));
   }
 
+  private void initEditFileAction(ChangeInfo info, String revision2) {
+    RevisionInfo rev = info.revision(revision);
+    editFileAction = new EditFileAction(
+        new PatchSet.Id(changeId, rev._number(), rev.edit()),
+        "", "", style, editMessage, reply);
+  }
+
   private void initEditMode(ChangeInfo info) {
     if (Gerrit.isSignedIn() && info.status() == Status.NEW) {
       editMode.setVisible(fileTableMode == FileTable.Mode.REVIEW);
@@ -545,6 +554,7 @@ public class ChangeScreen2 extends Screen {
     fileTableMode = FileTable.Mode.EDIT;
     refreshFileTable();
     editMode.setVisible(false);
+    addFile.setVisible(true);
     reviewMode.setVisible(true);
   }
 
@@ -553,7 +563,13 @@ public class ChangeScreen2 extends Screen {
     fileTableMode = FileTable.Mode.REVIEW;
     refreshFileTable();
     editMode.setVisible(true);
+    addFile.setVisible(false);
     reviewMode.setVisible(false);
+  }
+
+  @UiHandler("addFile")
+  void onAddFile(ClickEvent e) {
+    editFileAction.onEdit();
   }
 
   private void refreshFileTable() {
@@ -860,6 +876,7 @@ public class ChangeScreen2 extends Screen {
     initProjectLinks(info);
     initBranchLink(info);
     initEditMode(info);
+    initEditFileAction(info, revision);
     actions.display(info, revision);
 
     star.setValue(info.starred());

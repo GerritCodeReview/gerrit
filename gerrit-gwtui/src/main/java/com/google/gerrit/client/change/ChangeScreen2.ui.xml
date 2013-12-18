@@ -465,6 +465,13 @@ limitations under the License.
           <ui:attribute name='title'/>
           <div><ui:msg>Review Mode</ui:msg></div>
         </g:Button>
+        <g:Button ui:field='addFile'
+             title='Add file to this change'
+             styleName=''
+             visible='false'>
+          <ui:attribute name='title'/>
+          <div><ui:msg>Add&#8230;</ui:msg></div>
+        </g:Button>
       </div>
     </div>
     <c:FileTable ui:field='files'/>

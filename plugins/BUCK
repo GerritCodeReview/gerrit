@@ -30,7 +30,7 @@ genrule(
     'for s in $SRCS;do ln -s $s $TMP/WEB-INF/plugins;done;' +
     'cd $TMP;' +
     'zip -qr $OUT .',
-  srcs = [genfile('%s/%s.jar' % (n, n)) for n in CORE],
+  srcs = [genfile('%s/%s.jar' % (n, n)) for n in HAVE],
   deps = ['//%s/%s:%s' % (BASE, n, n) for n in HAVE],
   out = 'core.zip',
   visibility = ['//:release'],

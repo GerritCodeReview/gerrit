@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.annotations.PluginData;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
+import com.google.gerrit.extensions.webui.JavaScriptPlugin;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.util.RequestContext;
@@ -41,6 +42,8 @@ import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
 class JarPlugin extends Plugin {
+  static final String JS_INIT_PATH = JavaScriptPlugin.CONTAINER_NAME
+      + JavaScriptPlugin.DEFAULT_INIT_FILE_NAME;
 
   /** Unique key that changes whenever a plugin reloads. */
   public static final class CacheKey {
@@ -88,7 +91,7 @@ class JarPlugin extends Plugin {
     super(name, srcJar, pluginUser, snapshot, apiType);
     this.pluginCanonicalWebUrl = pluginCanonicalWebUrl;
     this.jarFile = jarFile;
-    this.manifest = manifest;
+    this.manifest = manifest != null ? manifest : new Manifest();
     this.dataDir = dataDir;
     this.classLoader = classLoader;
     this.sysModule = sysModule;

@@ -162,7 +162,9 @@ public class InitPlugins implements InitStep {
   private static String getVersion(final File plugin) throws IOException {
     final JarFile jarFile = new JarFile(plugin);
     try {
-      final Manifest manifest = jarFile.getManifest();
+      final Manifest manifest =
+          jarFile.getManifest() != null ? jarFile.getManifest()
+              : new Manifest();
       final Attributes main = manifest.getMainAttributes();
       return main.getValue(Attributes.Name.IMPLEMENTATION_VERSION);
     } finally {

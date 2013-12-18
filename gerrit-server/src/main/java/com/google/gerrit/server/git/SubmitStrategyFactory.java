@@ -18,6 +18,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.changedetail.RebaseChange;
@@ -53,6 +54,7 @@ public class SubmitStrategyFactory {
   private final GitReferenceUpdated gitRefUpdated;
   private final RebaseChange rebaseChange;
   private final ProjectCache projectCache;
+  private final ApprovalsUtil approvalsUtil;
   private final MergeUtil.Factory mergeUtilFactory;
   private final ChangeIndexer indexer;
 
@@ -64,6 +66,7 @@ public class SubmitStrategyFactory {
       @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
       final GitReferenceUpdated gitRefUpdated, final RebaseChange rebaseChange,
       final ProjectCache projectCache,
+      final ApprovalsUtil approvalsUtil,
       final MergeUtil.Factory mergeUtilFactory,
       final ChangeIndexer indexer) {
     this.identifiedUserFactory = identifiedUserFactory;
@@ -72,6 +75,7 @@ public class SubmitStrategyFactory {
     this.gitRefUpdated = gitRefUpdated;
     this.rebaseChange = rebaseChange;
     this.projectCache = projectCache;
+    this.approvalsUtil = approvalsUtil;
     this.mergeUtilFactory = mergeUtilFactory;
     this.indexer = indexer;
   }
@@ -85,7 +89,7 @@ public class SubmitStrategyFactory {
     final SubmitStrategy.Arguments args =
         new SubmitStrategy.Arguments(identifiedUserFactory, myIdent, db, repo,
             rw, inserter, canMergeFlag, alreadyAccepted, destBranch,
-            mergeUtilFactory.create(project), indexer);
+            approvalsUtil, mergeUtilFactory.create(project), indexer);
     switch (submitType) {
       case CHERRY_PICK:
         return new CherryPick(args, patchSetInfoFactory, gitRefUpdated);

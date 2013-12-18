@@ -17,11 +17,13 @@ package com.google.gerrit.server;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimaps;
+import com.google.common.collect.Ordering;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.LabelType;
@@ -38,6 +40,7 @@ import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -56,6 +59,19 @@ import java.util.Set;
  * The methods in this class do not begin/commit transactions.
  */
 public class ApprovalsUtil {
+  private static Ordering<PatchSetApproval> SORT_APPROVALS = Ordering.natural()
+      .onResultOf(new Function<PatchSetApproval, Timestamp>() {
+        @Override
+        public Timestamp apply(PatchSetApproval a) {
+          return a.getGranted();
+        }
+      });
+
+  public static List<PatchSetApproval> sortApprovals(
+      Iterable<PatchSetApproval> approvals) {
+    return SORT_APPROVALS.sortedCopy(approvals);
+  }
+
   @VisibleForTesting
   @Inject
   public ApprovalsUtil() {
@@ -208,5 +224,29 @@ public class ApprovalsUtil {
     }
     db.patchSetApprovals().insert(cells);
     return Collections.unmodifiableList(cells);
+  }
+
+  public List<PatchSetApproval> byPatchSet(ReviewDb db, PatchSet.Id psId)
+      throws OrmException {
+    return sortApprovals(db.patchSetApprovals().byPatchSet(psId));
+  }
+
+  public PatchSetApproval getSubmitter(ReviewDb db, PatchSet.Id c) {
+    if (c == null) {
+      return null;
+    }
+    PatchSetApproval submitter = null;
+    try {
+      for (PatchSetApproval a : db.patchSetApprovals().byPatchSet(c)) {
+        if (a.getValue() > 0 && a.isSubmit()) {
+          if (submitter == null
+              || a.getGranted().compareTo(submitter.getGranted()) > 0) {
+            submitter = a;
+          }
+        }
+      }
+    } catch (OrmException e) {
+    }
+    return submitter;
   }
 }

@@ -131,6 +131,10 @@ class AutoRegisterModules {
         continue;
       }
 
+      if (JarPlugin.JS_INIT_PATH.equals(entry.getName())) {
+        httpGen.bindJsInit();
+        continue;
+      }
       ClassData def = new ClassData();
       try {
         new ClassReader(read(entry)).accept(def, SKIP_ALL);
@@ -276,7 +280,8 @@ class AutoRegisterModules {
   }
 
   private static boolean skip(JarEntry entry) {
-    if (!entry.getName().endsWith(".class")) {
+    if (!(entry.getName().endsWith(".class") ||
+          JarPlugin.JS_INIT_PATH.equals(entry.getName()))) {
       return true; // Avoid non-class resources.
     }
     if (entry.getSize() <= 0) {

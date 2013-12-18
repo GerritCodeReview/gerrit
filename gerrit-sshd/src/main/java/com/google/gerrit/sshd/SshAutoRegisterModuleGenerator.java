@@ -83,6 +83,10 @@ class SshAutoRegisterModuleGenerator
     }
   }
 
+  @Override
+  public void bindJsInit() {
+    // not supported
+  }
 
   @Override
   public void listen(TypeLiteral<?> tl, Class<?> clazz) {

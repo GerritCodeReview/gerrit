@@ -20,6 +20,9 @@ import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.gerrit.extensions.annotations.Export;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.webui.JavaScriptPlugin;
+import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.server.plugins.InvalidPluginException;
 import com.google.gerrit.server.plugins.ModuleGenerator;
 import com.google.inject.Module;
@@ -34,6 +37,7 @@ import javax.servlet.http.HttpServlet;
 
 class HttpAutoRegisterModuleGenerator extends ServletModule
     implements ModuleGenerator {
+  private boolean hasJsInit = false;
   private final Map<String, Class<HttpServlet>> serve = Maps.newHashMap();
   private final Multimap<TypeLiteral<?>, Class<?>> listeners = LinkedListMultimap.create();
 
@@ -52,6 +56,10 @@ class HttpAutoRegisterModuleGenerator extends ServletModule
 
       Annotation n = calculateBindAnnotation(impl);
       bind(type).annotatedWith(n).to(impl);
+    }
+    if (hasJsInit) {
+      DynamicSet.bind(binder(), WebUiPlugin.class).toInstance(
+          new JavaScriptPlugin(JavaScriptPlugin.DEFAULT_INIT_FILE_NAME));
     }
   }
 
@@ -82,6 +90,11 @@ class HttpAutoRegisterModuleGenerator extends ServletModule
   @Override
   public void listen(TypeLiteral<?> tl, Class<?> clazz) {
     listeners.put(tl, clazz);
+  }
+
+  @Override
+  public void bindJsInit() {
+    hasJsInit = true;
   }
 
   @Override

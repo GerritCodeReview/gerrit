@@ -18,6 +18,7 @@ import static com.google.gerrit.acceptance.git.GitUtil.cloneProject;
 import static com.google.gerrit.acceptance.git.GitUtil.createProject;
 import static com.google.gerrit.acceptance.git.GitUtil.initSsh;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -33,6 +34,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.git.CommitMergeStatus;
@@ -59,7 +61,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.List;
 
 public class SubmitOnPushIT extends AbstractDaemonTest {
 
@@ -71,6 +72,9 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
   @Inject
   private GitRepositoryManager repoManager;
+
+  @Inject
+  private ApprovalsUtil approvalsUtil;
 
   @Inject
   private MetaDataUpdate.Server metaDataUpdateFactory;
@@ -250,10 +254,8 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   }
 
   private void assertSubmitApproval(PatchSet.Id patchSetId) throws OrmException {
-    List<PatchSetApproval> approvals = db.patchSetApprovals().byPatchSet(patchSetId).toList();
-    assertEquals(1, approvals.size());
-    PatchSetApproval a = approvals.get(0);
-    assertEquals(PatchSetApproval.LabelId.SUBMIT.get(), a.getLabel());
+    PatchSetApproval a = approvalsUtil.getSubmitter(db, patchSetId);
+    assertTrue(a.isSubmit());
     assertEquals(1, a.getValue());
     assertEquals(admin.id, a.getAccountId());
   }

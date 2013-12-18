@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -93,6 +94,7 @@ public class MergeUtil {
   private final Provider<ReviewDb> db;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final Provider<String> urlProvider;
+  private final ApprovalsUtil approvalsUtil;
   private final ProjectState project;
   private final boolean useContentMerge;
   private final boolean useRecursiveMerge;
@@ -102,9 +104,10 @@ public class MergeUtil {
       final Provider<ReviewDb> db,
       final IdentifiedUser.GenericFactory identifiedUserFactory,
       @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
+      final ApprovalsUtil approvalsUtil,
       @Assisted final ProjectState project) {
-    this(serverConfig, db, identifiedUserFactory, urlProvider, project,
-        project.isUseContentMerge());
+    this(serverConfig, db, identifiedUserFactory, urlProvider, approvalsUtil,
+        project, project.isUseContentMerge());
   }
 
   @AssistedInject
@@ -112,11 +115,13 @@ public class MergeUtil {
       final Provider<ReviewDb> db,
       final IdentifiedUser.GenericFactory identifiedUserFactory,
       @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
+      final ApprovalsUtil approvalsUtil,
       @Assisted final ProjectState project,
       @Assisted boolean useContentMerge) {
     this.db = db;
     this.identifiedUserFactory = identifiedUserFactory;
     this.urlProvider = urlProvider;
+    this.approvalsUtil = approvalsUtil;
     this.project = project;
     this.useContentMerge = useContentMerge;
     this.useRecursiveMerge = useRecursiveMerge(serverConfig);
@@ -159,29 +164,7 @@ public class MergeUtil {
   }
 
   public PatchSetApproval getSubmitter(final PatchSet.Id c) {
-    return getSubmitter(db.get(), c);
-  }
-
-  public static PatchSetApproval getSubmitter(final ReviewDb reviewDb,
-      final PatchSet.Id c) {
-    if (c == null) {
-      return null;
-    }
-    PatchSetApproval submitter = null;
-    try {
-      final List<PatchSetApproval> approvals =
-          reviewDb.patchSetApprovals().byPatchSet(c).toList();
-      for (PatchSetApproval a : approvals) {
-        if (a.getValue() > 0 && a.isSubmit()) {
-          if (submitter == null
-              || a.getGranted().compareTo(submitter.getGranted()) > 0) {
-            submitter = a;
-          }
-        }
-      }
-    } catch (OrmException e) {
-    }
-    return submitter;
+    return approvalsUtil.getSubmitter(db.get(), c);
   }
 
   public RevCommit createCherryPickFromCommit(Repository repo,
@@ -250,7 +233,7 @@ public class MergeUtil {
 
     PatchSetApproval submitAudit = null;
 
-    for (final PatchSetApproval a : getApprovalsForCommit(n)) {
+    for (final PatchSetApproval a : safeGetApprovals(n)) {
       if (a.getValue() <= 0) {
         // Negative votes aren't counted.
         continue;
@@ -324,17 +307,9 @@ public class MergeUtil {
     return "Verified".equalsIgnoreCase(id.get());
   }
 
-  public List<PatchSetApproval> getApprovalsForCommit(final CodeReviewCommit n) {
+  private List<PatchSetApproval> safeGetApprovals(CodeReviewCommit n) {
     try {
-      List<PatchSetApproval> approvalList =
-          db.get().patchSetApprovals().byPatchSet(n.patchsetId).toList();
-      Collections.sort(approvalList, new Comparator<PatchSetApproval>() {
-        @Override
-        public int compare(final PatchSetApproval a, final PatchSetApproval b) {
-          return a.getGranted().compareTo(b.getGranted());
-        }
-      });
-      return approvalList;
+      return approvalsUtil.byPatchSet(db.get(), n.patchsetId);
     } catch (OrmException e) {
       log.error("Can't read approval records for " + n.patchsetId, e);
       return Collections.emptyList();

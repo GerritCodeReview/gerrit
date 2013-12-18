@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.git;
 
-import static com.google.gerrit.server.git.MergeUtil.getSubmitter;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
@@ -43,6 +42,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
@@ -137,6 +137,7 @@ public class MergeOp {
   private final ChangeControl.GenericFactory changeControlFactory;
   private final MergeQueue mergeQueue;
   private final MergeValidators.Factory mergeValidatorsFactory;
+  private final ApprovalsUtil approvalsUtil;
 
   private final Branch.NameKey destBranch;
   private ProjectState destProject;
@@ -177,7 +178,8 @@ public class MergeOp {
       final WorkQueue workQueue,
       final RequestScopePropagator requestScopePropagator,
       final ChangeIndexer indexer,
-      final MergeValidators.Factory mergeValidatorsFactory) {
+      final MergeValidators.Factory mergeValidatorsFactory,
+      final ApprovalsUtil approvalsUtil) {
     repoManager = grm;
     schemaFactory = sf;
     labelNormalizer = fs;
@@ -198,6 +200,7 @@ public class MergeOp {
     this.requestScopePropagator = requestScopePropagator;
     this.indexer = indexer;
     this.mergeValidatorsFactory = mergeValidatorsFactory;
+    this.approvalsUtil = approvalsUtil;
     destBranch = branch;
     toMerge = ArrayListMultimap.create();
     potentiallyStillSubmittable = new ArrayList<CodeReviewCommit>();
@@ -618,7 +621,8 @@ public class MergeOp {
             gitRefUpdated.fire(destBranch.getParentKey(), branchUpdate);
 
             Account account = null;
-            final PatchSetApproval submitter = getSubmitter(db, mergeTip.patchsetId);
+            PatchSetApproval submitter =
+                approvalsUtil.getSubmitter(db, mergeTip.patchsetId);
             if (submitter != null) {
               account = accountCache.get(submitter.getAccountId()).getAccount();
             }
@@ -995,7 +999,7 @@ public class MergeOp {
       boolean makeNew) {
     PatchSetApproval submitter = null;
     try {
-      submitter = getSubmitter(db, c.currentPatchSetId());
+      submitter = approvalsUtil.getSubmitter(db, c.currentPatchSetId());
     } catch (Exception e) {
       log.error("Cannot get submitter", e);
     }

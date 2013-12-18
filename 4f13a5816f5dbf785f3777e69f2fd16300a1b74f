@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "08192730_d5eb3c21",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-18T15:42:51Z",
+      "side": 1,
+      "message": "Serialization fail. Thanks. Done.",
+      "parentUuid": "e87e9324_ece1eb43",
+      "range": {
+        "startLine": 70,
+        "startChar": 4,
+        "endLine": 72,
+        "endChar": 42
+      },
+      "revId": "4f13a5816f5dbf785f3777e69f2fd16300a1b74f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48907f99_2ff849ef",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCache.java",
         "patchSetId": 3

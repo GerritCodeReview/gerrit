@@ -17,12 +17,15 @@ package com.google.gerrit.server.plugins;
 import static com.google.gerrit.server.plugins.AutoRegisterUtil.calculateBindAnnotation;
 import static com.google.gerrit.server.plugins.PluginGuiceEnvironment.is;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.annotations.Export;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.extensions.annotations.Listen;
+import com.google.gerrit.extensions.webui.JavaScriptPlugin;
+import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.server.plugins.JarScanner.ExtensionMetaData;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
@@ -32,8 +35,10 @@ import com.google.inject.TypeLiteral;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.Map;
 import java.util.Set;
+import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 class AutoRegisterModules {
@@ -117,6 +122,19 @@ class AutoRegisterModules {
     }
     for (ExtensionMetaData listener : extensions.get(Listen.class)) {
       listen(listener);
+    }
+
+    Enumeration<JarEntry> e = jarFile.entries();
+    while (e.hasMoreElements()) {
+      JarEntry entry = e.nextElement();
+
+      if (JsPlugin.JS_INIT_PATH.equals(entry.getName())) {
+        JavaScriptPlugin instance =
+            new JavaScriptPlugin(JavaScriptPlugin.DEFAULT_INIT_FILE_NAME);
+        TypeLiteral<WebUiPlugin> type = TypeLiteral.get(WebUiPlugin.class);
+        httpGen.bindInstance(type, instance);
+        break;
+      }
     }
   }
 

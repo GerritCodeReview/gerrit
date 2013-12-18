@@ -175,6 +175,7 @@ public class ChangeScreen2 extends Screen {
   @UiField Button openAll;
   @UiField Button editMode;
   @UiField Button reviewMode;
+  @UiField Button addFile;
   @UiField Button expandAll;
   @UiField Button collapseAll;
   @UiField Button editMessage;
@@ -185,6 +186,7 @@ public class ChangeScreen2 extends Screen {
   private IncludedInAction includedInAction;
   private PatchSetsAction patchSetsAction;
   private DownloadAction downloadAction;
+  private EditFileAction editFileAction;
 
   public ChangeScreen2(Change.Id changeId, String base, String revision, boolean openReplyBox) {
     this.changeId = changeId;
@@ -413,6 +415,10 @@ public class ChangeScreen2 extends Screen {
       editMode.setVisible(fileTableMode == FileTable.Mode.REVIEW);
       reviewMode.setVisible(!editMode.isVisible());
     }
+    RevisionInfo rev = info.revision(revision);
+    editFileAction = new EditFileAction(
+        new PatchSet.Id(changeId, rev._number()),
+        "", "", style, editMessage, reply);
   }
 
   private void initEditMessageAction(ChangeInfo info, String revision) {
@@ -548,6 +554,7 @@ public class ChangeScreen2 extends Screen {
     fileTableMode = FileTable.Mode.EDIT;
     refreshFileTable();
     editMode.setVisible(false);
+    addFile.setVisible(true);
     reviewMode.setVisible(true);
   }
 
@@ -556,7 +563,13 @@ public class ChangeScreen2 extends Screen {
     fileTableMode = FileTable.Mode.REVIEW;
     refreshFileTable();
     editMode.setVisible(true);
+    addFile.setVisible(false);
     reviewMode.setVisible(false);
+  }
+
+  @UiHandler("addFile")
+  void onAddFile(ClickEvent e) {
+    editFileAction.onEdit();
   }
 
   private void refreshFileTable() {

@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.git.validators;
 
-import static com.google.gerrit.server.git.MergeUtil.getSubmitter;
-
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -24,6 +22,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.CodeReviewCommit;
@@ -74,6 +73,7 @@ public class MergeValidators {
     private final ReviewDb db;
     private final ProjectCache projectCache;
     private final IdentifiedUser.GenericFactory identifiedUserFactory;
+    private final ApprovalsUtil approvalsUtil;
 
     public interface Factory {
       ProjectConfigValidator create();
@@ -82,11 +82,13 @@ public class MergeValidators {
     @Inject
     public ProjectConfigValidator(AllProjectsName allProjectsName,
         ReviewDb db, ProjectCache projectCache,
-        IdentifiedUser.GenericFactory iuf) {
+        IdentifiedUser.GenericFactory iuf,
+        ApprovalsUtil approvalsUtil) {
       this.allProjectsName = allProjectsName;
       this.db = db;
       this.projectCache = projectCache;
       this.identifiedUserFactory = iuf;
+      this.approvalsUtil = approvalsUtil;
     }
 
     @Override
@@ -117,7 +119,7 @@ public class MergeValidators {
           }
         } else {
           if (!oldParent.equals(newParent)) {
-            final PatchSetApproval psa = getSubmitter(db, patchSetId);
+            PatchSetApproval psa = approvalsUtil.getSubmitter(db, patchSetId);
             if (psa == null) {
               throw new MergeValidationException(CommitMergeStatus.
                   SETTING_PARENT_PROJECT_ONLY_ALLOWED_BY_ADMIN);

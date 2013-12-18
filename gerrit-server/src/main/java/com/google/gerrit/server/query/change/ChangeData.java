@@ -14,14 +14,14 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.common.base.Function;
+import static com.google.gerrit.server.ApprovalsUtil.sortApprovals;
+
 import com.google.common.base.Objects;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Ordering;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.SubmitRecord;
@@ -56,7 +56,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -65,19 +64,6 @@ import java.util.Map;
 import java.util.Set;
 
 public class ChangeData {
-  private static Ordering<PatchSetApproval> SORT_APPROVALS = Ordering.natural()
-      .onResultOf(new Function<PatchSetApproval, Timestamp>() {
-            @Override
-            public Timestamp apply(PatchSetApproval a) {
-              return a.getGranted();
-            }
-          });
-
-  public static List<PatchSetApproval> sortApprovals(
-      Iterable<PatchSetApproval> approvals) {
-    return SORT_APPROVALS.sortedCopy(approvals);
-  }
-
   public static void ensureChangeLoaded(Provider<ReviewDb> db,
       Iterable<ChangeData> changes) throws OrmException {
     Map<Change.Id, ChangeData> missing = Maps.newHashMap();

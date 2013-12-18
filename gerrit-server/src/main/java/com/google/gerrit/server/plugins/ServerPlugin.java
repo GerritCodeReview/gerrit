@@ -42,7 +42,6 @@ import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
 public class ServerPlugin extends Plugin {
-
   /** Unique key that changes whenever a plugin reloads. */
   public static final class CacheKey {
     private final String name;
@@ -107,7 +106,8 @@ public class ServerPlugin extends Plugin {
   private Manifest getPluginManifest(PluginContentScanner scanner)
       throws InvalidPluginException {
     try {
-       return scanner.getManifest();
+      return scanner.getManifest() != null ? scanner.getManifest()
+          : new Manifest();
     } catch (IOException e) {
       throw new InvalidPluginException("Cannot get plugin manifest", e);
     }

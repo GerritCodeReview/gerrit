@@ -24,14 +24,14 @@ This command is intended to be used in scripts.
 
 == OPTIONS
 -::
-	Plugin jar or js as piped input.
+	Plugin jar, js or zip as piped input.
 
 <URL>::
 	URL from where the plugin should be downloaded. This can be an
 	HTTP or FTP site.
 
 <PATH>::
-	Absolute file path to the plugin jar or js.
+	Absolute file path to the plugin jar, js or zip.
 
 --name::
 -n::
@@ -52,6 +52,13 @@ Install a WebUi plugin from an absolute file path on the server's host:
 ====
   ssh -p 29418 localhost gerrit plugin install -n name.js \
     $(pwd)/my-webui-plugin.js
+====
+
+Install a WebUi plugin with resources from an absolute file path on the server's host:
+
+====
+  ssh -p 29418 localhost gerrit plugin install -n name.zip \
+    $(pwd)/my-webui-plugin.zip
 ====
 
 Install a plugin from an HTTP site:

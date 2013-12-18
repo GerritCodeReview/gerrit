@@ -23,6 +23,8 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.annotations.Export;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.extensions.annotations.Listen;
+import com.google.gerrit.extensions.webui.JavaScriptPlugin;
+import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.server.plugins.PluginContentScanner.ExtensionMetaData;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
@@ -120,6 +122,13 @@ class AutoRegisterModules {
   }
 
   private void export(ExtensionMetaData def) throws InvalidPluginException {
+    if (JavaScriptPlugin.DEFAULT_INIT_FILE_NAME.equals(def.className)) {
+      JavaScriptPlugin instance =
+          new JavaScriptPlugin(JavaScriptPlugin.DEFAULT_INIT_FILE_NAME);
+      TypeLiteral<WebUiPlugin> type = TypeLiteral.get(WebUiPlugin.class);
+      httpGen.bindInstance(type, instance);
+      return;
+    }
     Class<?> clazz;
     try {
       clazz = Class.forName(def.className, false, classLoader);

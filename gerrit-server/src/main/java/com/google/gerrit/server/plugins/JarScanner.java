@@ -15,6 +15,7 @@
 package com.google.gerrit.server.plugins;
 
 import static com.google.common.base.Objects.firstNonNull;
+import static com.google.common.collect.Iterables.contains;
 import static com.google.common.collect.Iterables.transform;
 
 import com.google.common.base.Function;
@@ -28,6 +29,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
+import com.google.gerrit.extensions.annotations.Export;
+import com.google.gerrit.extensions.webui.JavaScriptPlugin;
 
 import org.eclipse.jgit.util.IO;
 import org.objectweb.asm.AnnotationVisitor;
@@ -43,6 +46,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -79,6 +83,7 @@ public class JarScanner implements PluginContentScanner {
   public Map<Class<? extends Annotation>, Iterable<ExtensionMetaData>> scan(
       String pluginName, Iterable<Class<? extends Annotation>> annotations)
       throws InvalidPluginException {
+    boolean hasJsInitFile = false;
     Set<String> descriptors = Sets.newHashSet();
     Multimap<String, JarScanner.ClassData> rawMap = ArrayListMultimap.create();
     Map<Class<? extends Annotation>, String> classObjToClassDescr =
@@ -93,6 +98,11 @@ public class JarScanner implements PluginContentScanner {
     Enumeration<JarEntry> e = jarFile.entries();
     while (e.hasMoreElements()) {
       JarEntry entry = e.nextElement();
+      if (JsPlugin.JS_INIT_PATH.equals(entry.getName())) {
+        hasJsInitFile = true;
+        continue;
+      }
+
       if (skip(entry)) {
         continue;
       }
@@ -129,8 +139,15 @@ public class JarScanner implements PluginContentScanner {
       Collection<ClassData> values =
           firstNonNull(discoverdData, Collections.<ClassData> emptySet());
 
-      result.put(annotoation,
-          transform(values, CLASS_DATA_TO_EXTENSION_META_DATA));
+      Iterable<ExtensionMetaData> value =
+          transform(values, CLASS_DATA_TO_EXTENSION_META_DATA);
+      if (hasJsInitFile && Export.class.equals(annotoation)) {
+        value  = Iterables.concat(value, Arrays.asList(new ExtensionMetaData(
+            JavaScriptPlugin.DEFAULT_INIT_FILE_NAME,
+            JavaScriptPlugin.DEFAULT_INIT_FILE_NAME)));
+      }
+
+      result.put(annotoation, value);
     }
 
     return result.build();

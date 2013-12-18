@@ -63,6 +63,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.jar.Attributes;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.jar.Manifest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -385,7 +386,9 @@ class HttpPluginServlet extends HttpServlet
     StringBuilder md = new StringBuilder();
     md.append(String.format("# Plugin %s #\n", pluginName));
     md.append("\n");
-    appendPluginInfoTable(md, jar.getManifest().getMainAttributes());
+    Manifest manifest =
+        jar.getManifest() != null ? jar.getManifest() : new Manifest();
+    appendPluginInfoTable(md, manifest.getMainAttributes());
 
     if (about != null) {
       InputStreamReader isr = new InputStreamReader(jar.getInputStream(about));
@@ -662,8 +665,11 @@ class HttpPluginServlet extends HttpServlet
         return def;
       }
       try {
-        String prefix = jarFile.getManifest().getMainAttributes()
-            .getValue(attr);
+        Manifest manifest = jarFile.getManifest();
+        if (manifest == null) {
+          return def;
+        }
+        String prefix = manifest.getMainAttributes().getValue(attr);
         if (prefix != null) {
           return CharMatcher.is('/').trimFrom(prefix) + "/";
         } else {

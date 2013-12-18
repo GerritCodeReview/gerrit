@@ -31,6 +31,9 @@ import java.io.File;
 import java.util.jar.JarFile;
 
 class JsPlugin extends Plugin {
+  static final String JS_INIT_PATH = JavaScriptPlugin.CONTAINER_NAME
+      + JavaScriptPlugin.DEFAULT_INIT_FILE_NAME;
+
   private Injector httpInjector;
 
   JsPlugin(String name, File srcFile, PluginUser pluginUser,

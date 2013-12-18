@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48907f99_0ffb05ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-18T01:41:36Z",
+      "side": 1,
+      "message": "Its not really serializable if the key fields used in hashCode/equals are transient.",
+      "range": {
+        "startLine": 70,
+        "startChar": 4,
+        "endLine": 72,
+        "endChar": 42
+      },
+      "revId": "4f13a5816f5dbf785f3777e69f2fd16300a1b74f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48907f99_2ff849ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-18T01:41:36Z",
+      "side": 1,
+      "message": "I wonder if we should null out the Repository instance in the key in case that instance was held by the cache?\n\nIn normal gerrit its also held in the RepositoryCache. In our gerrit its a memory leak.",
+      "range": {
+        "startLine": 184,
+        "startChar": 23,
+        "endLine": 184,
+        "endChar": 63
+      },
+      "revId": "4f13a5816f5dbf785f3777e69f2fd16300a1b74f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

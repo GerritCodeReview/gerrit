@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "08192730_15ee5430",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-18T17:33:47Z",
+      "side": 1,
+      "message": "I was trying to avoid the extra indirection, but fair enough, not a big deal. And as you can see from below this does complicate the loading code.\n\nReverted to ObjectIds here, which are serializeable, so no need for custom writeObject/readObject. (Per IM conversation it\u0027s likely that PatchLineKey was written before ObjectIds were Serializeable.)",
+      "parentUuid": "6864639a_a8ebdb21",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 37
+      },
+      "revId": "d3d5f5e731f0d09fa37d44d1005b617773de6267",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6864639a_88e61759",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCache.java",
         "patchSetId": 5
@@ -36,6 +60,24 @@
       "writtenOn": "2013-12-18T15:55:20Z",
       "side": 1,
       "message": "In other cache types the Loader gets the SchemaFactory\u003cReviewDb\u003e injected and grabs its own database connection temporarily. Since this cache doesn\u0027t retain anything that would be bad if the caller was passing us PatchSet.Ids and not PatchSet.\n\nBut looking at the rest of your change, this method isn\u0027t even used. Maybe we don\u0027t need to lookup the PatchSet objects because the caller already has them?",
+      "revId": "d3d5f5e731f0d09fa37d44d1005b617773de6267",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e87e9324_8cfdc7de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-18T17:33:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6864639a_88e61759",
       "revId": "d3d5f5e731f0d09fa37d44d1005b617773de6267",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

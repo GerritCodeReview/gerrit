@@ -14,10 +14,11 @@
 
 package com.google.gerrit.server.mail;
 
+import com.google.common.collect.Multimap;
 import com.google.gerrit.common.errors.NoSuchAccountException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.server.ApprovalsUtil.ReviewerState;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gwtorm.server.OrmException;
 
@@ -55,16 +56,11 @@ public class MailUtil {
     return recipients;
   }
 
-  public static MailRecipients getRecipientsFromApprovals(
-      final List<PatchSetApproval> approvals) {
-    final MailRecipients recipients = new MailRecipients();
-    for (PatchSetApproval a : approvals) {
-      if (a.getValue() != 0) {
-        recipients.reviewers.add(a.getAccountId());
-      } else {
-        recipients.cc.add(a.getAccountId());
-      }
-    }
+  public static MailRecipients getRecipientsFromReviewers(
+      Multimap<ReviewerState, Account.Id> reviewers) {
+    MailRecipients recipients = new MailRecipients();
+    recipients.reviewers.addAll(reviewers.get(ReviewerState.REVIEWER));
+    recipients.cc.addAll(reviewers.get(ReviewerState.CC));
     return recipients;
   }
 

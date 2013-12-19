@@ -95,6 +95,7 @@ public class EditFileBox extends Composite {
           @Override
           public void onSuccess(String result) {
             content.setText(result);
+            save.setEnabled(false);
           }
         });
   }

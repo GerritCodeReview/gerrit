@@ -37,7 +37,7 @@ limitations under the License.
       </div>
       <div>
         <ui:msg>Content:</ui:msg>
-      </div>
+      </div> 
       <c:NpTextArea
          visibleLines='30'
          characterWidth='78'

@@ -21,7 +21,6 @@ import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.changes.ChangeList;
-import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.changes.ReviewInfo;
 import com.google.gerrit.client.diff.DiffInfo.Region;
@@ -34,7 +33,7 @@ import com.google.gerrit.client.patches.SkippedLine;
 import com.google.gerrit.client.projects.ConfigInfoCache;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.rpc.NativeMap;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
@@ -127,10 +126,6 @@ public class SideBySide2 extends Screen {
   private CodeMirror cmB;
   private ScrollSynchronizer scrollingGlue;
   private HandlerRegistration resizeHandler;
-  private JsArray<CommentInfo> publishedBase;
-  private JsArray<CommentInfo> publishedRevision;
-  private JsArray<CommentInfo> draftsBase;
-  private JsArray<CommentInfo> draftsRevision;
   private DiffInfo diff;
   private boolean largeFile;
   private LineMapper mapper;
@@ -216,17 +211,8 @@ public class SideBySide2 extends Screen {
         }
       }));
 
-    if (base != null) {
-      CommentApi.comments(base, group.add(getCommentCallback(DisplaySide.A, false)));
-    }
-    CommentApi.comments(revision, group.add(getCommentCallback(DisplaySide.B, false)));
-
-    if (Gerrit.isSignedIn()) {
-      if (base != null) {
-        CommentApi.drafts(base, group.add(getCommentCallback(DisplaySide.A, true)));
-      }
-      CommentApi.drafts(revision, group.add(getCommentCallback(DisplaySide.B, true)));
-    }
+    final CommentsCollections comments = new CommentsCollections();
+    comments.load(base, revision, path, group);
 
     RestApi call = ChangeApi.detail(changeId.get());
     ChangeList.addOptions(call, EnumSet.of(
@@ -247,8 +233,7 @@ public class SideBySide2 extends Screen {
           protected void preDisplay(ConfigInfoCache.Entry result) {
             commentLinkProcessor = result.getCommentLinkProcessor();
             setTheme(result.getTheme());
-
-            display(diff);
+            display(comments);
           }
         }));
   }
@@ -502,38 +487,11 @@ public class SideBySide2 extends Screen {
     handlers.add(GlobalKey.add(this, keysAction));
   }
 
-  private GerritCallback<NativeMap<JsArray<CommentInfo>>> getCommentCallback(
-      final DisplaySide side, final boolean toDrafts) {
-    return new GerritCallback<NativeMap<JsArray<CommentInfo>>>() {
-      @Override
-      public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
-        JsArray<CommentInfo> in = result.get(path);
-        if (in != null) {
-          if (toDrafts) {
-            if (side == DisplaySide.A) {
-              draftsBase = in;
-            } else {
-              draftsRevision = in;
-            }
-          } else {
-            if (side == DisplaySide.A) {
-              publishedBase = in;
-            } else {
-              publishedRevision = in;
-            }
-          }
-        }
-      }
-    };
-  }
-
-  private void display(final DiffInfo diffInfo) {
+  private void display(final CommentsCollections data) {
     lineActiveBoxMap = new HashMap<LineHandle, CommentBox>();
     linePublishedBoxesMap = new HashMap<LineHandle, List<PublishedBox>>();
     linePaddingManagerMap = new HashMap<LineHandle, PaddingManager>();
-    if (publishedBase != null || publishedRevision != null) {
-      publishedMap = new HashMap<String, PublishedBox>();
-    }
+    publishedMap = new HashMap<String, PublishedBox>();
 
     setShowTabs(prefs.showTabs());
     setShowIntraline(prefs.intralineDifference());
@@ -541,8 +499,8 @@ public class SideBySide2 extends Screen {
       diffTable.addStyleName(DiffTable.style.showLineNumbers());
     }
 
-    cmA = createCodeMirror(diffInfo.meta_a(), diffInfo.text_a(), diffTable.cmA);
-    cmB = createCodeMirror(diffInfo.meta_b(), diffInfo.text_b(), diffTable.cmB);
+    cmA = createCodeMirror(diff.meta_a(), diff.text_a(), diffTable.cmA);
+    cmB = createCodeMirror(diff.meta_b(), diff.text_b(), diffTable.cmB);
 
     operation(new Runnable() {
       public void run() {
@@ -552,18 +510,18 @@ public class SideBySide2 extends Screen {
         cmA.setHeight(height);
         cmB.setHeight(height);
 
-        render(diffInfo);
-        if (publishedBase != null) {
-          renderPublished(publishedBase);
+        render(diff);
+        if (data.publishedBase != null) {
+          renderPublished(DisplaySide.A, data.publishedBase);
         }
-        if (publishedRevision != null) {
-          renderPublished(publishedRevision);
+        if (data.publishedRevision != null) {
+          renderPublished(DisplaySide.B, data.publishedRevision);
         }
-        if (draftsBase != null) {
-          renderDrafts(draftsBase);
+        if (data.draftsBase != null) {
+          renderDrafts(DisplaySide.A, data.draftsBase);
         }
-        if (draftsRevision != null) {
-          renderDrafts(draftsRevision);
+        if (data.draftsRevision != null) {
+          renderDrafts(DisplaySide.B, data.draftsRevision);
         }
         renderSkips(prefs.context());
       }
@@ -887,23 +845,8 @@ public class SideBySide2 extends Screen {
     diffTable.onRemoveDraftBox(box);
   }
 
-  private List<CommentInfo> sortComment(JsArray<CommentInfo> unsorted) {
-    List<CommentInfo> sorted = new ArrayList<CommentInfo>();
-    for (int i = 0; i < unsorted.length(); i++) {
-      sorted.add(unsorted.get(i));
-    }
-    Collections.sort(sorted, new Comparator<CommentInfo>() {
-      @Override
-      public int compare(CommentInfo o1, CommentInfo o2) {
-        return o1.updated().compareTo(o2.updated());
-      }
-    });
-    return sorted;
-  }
-
-  private void renderPublished(JsArray<CommentInfo> published) {
-    List<CommentInfo> sorted = sortComment(published);
-    for (CommentInfo info : sorted) {
+  private void renderPublished(DisplaySide forSide, JsArray<CommentInfo> in) {
+    for (CommentInfo info : Natives.asList(in)) {
       DisplaySide side;
       if (info.side() == Side.PARENT) {
         if (base != null) {
@@ -911,8 +854,9 @@ public class SideBySide2 extends Screen {
         }
         side = DisplaySide.A;
       } else {
-        side = published == publishedBase ? DisplaySide.A : DisplaySide.B;
+        side = forSide;
       }
+
       CodeMirror cm = getCmFromSide(side);
       PublishedBox box = new PublishedBox(this, cm, side, commentLinkProcessor,
           getPatchSetIdFromSide(side), info);
@@ -938,9 +882,8 @@ public class SideBySide2 extends Screen {
     }
   }
 
-  private void renderDrafts(JsArray<CommentInfo> drafts) {
-    List<CommentInfo> sorted = sortComment(drafts);
-    for (CommentInfo info : sorted) {
+  private void renderDrafts(DisplaySide forSide, JsArray<CommentInfo> in) {
+    for (CommentInfo info : Natives.asList(in)) {
       DisplaySide side;
       if (info.side() == Side.PARENT) {
         if (base != null) {
@@ -948,15 +891,16 @@ public class SideBySide2 extends Screen {
         }
         side = DisplaySide.A;
       } else {
-        side = drafts == draftsBase ? DisplaySide.A : DisplaySide.B;
+        side = forSide;
       }
+
       DraftBox box = new DraftBox(
           this, getCmFromSide(side), side, commentLinkProcessor,
           getPatchSetIdFromSide(side), info);
       if (prefs.expandAllComments()) {
         box.setOpen(true);
       }
-      if (publishedBase != null || publishedRevision != null) {
+      if (info.in_reply_to() != null) {
         PublishedBox replyToBox = publishedMap.get(info.in_reply_to());
         if (replyToBox != null) {
           replyToBox.registerReplyBox(box);

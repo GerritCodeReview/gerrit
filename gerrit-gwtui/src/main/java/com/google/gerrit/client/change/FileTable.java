@@ -16,6 +16,7 @@ package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeFileApi;
 import com.google.gerrit.client.changes.CommentInfo;
@@ -29,6 +30,7 @@ import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.NavigationTable;
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -49,6 +51,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.EventListener;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.ImageResourceRenderer;
@@ -86,6 +89,7 @@ class FileTable extends FlowPanel {
     String inserted();
     String deleted();
     String editButton();
+    String removeButton();
   }
 
   enum Mode {
@@ -93,6 +97,7 @@ class FileTable extends FlowPanel {
     EDIT
   }
 
+  private static final String DELETE;
   private static final String EDIT;
   private static final String REVIEWED;
   private static final String OPEN;
@@ -100,13 +105,17 @@ class FileTable extends FlowPanel {
   private static final HyperlinkImpl link = GWT.create(HyperlinkImpl.class);
 
   static {
+    DELETE = DOM.createUniqueId().replace('-', '_');
     EDIT = DOM.createUniqueId().replace('-', '_');
     REVIEWED = DOM.createUniqueId().replace('-', '_');
     OPEN = DOM.createUniqueId().replace('-', '_');
-    init(EDIT, REVIEWED, OPEN);
+    init(DELETE, EDIT, REVIEWED, OPEN);
   }
 
-  private static final native void init(String e, String r, String o) /*-{
+  private static final native void init(String d, String e, String r, String o) /*-{
+    $wnd[d] = $entry(function(e,i) {
+      @com.google.gerrit.client.change.FileTable::onDelete(Lcom/google/gwt/dom/client/NativeEvent;I)(e,i)
+    });
     $wnd[e] = $entry(function(e,i) {
       @com.google.gerrit.client.change.FileTable::onEdit(Lcom/google/gwt/dom/client/NativeEvent;I)(e,i)
     });
@@ -122,6 +131,13 @@ class FileTable extends FlowPanel {
     MyTable t = getMyTable(e);
     if (t != null) {
       t.onEdit(idx);
+    }
+  }
+
+  private static void onDelete(NativeEvent e, int idx) {
+    MyTable t = getMyTable(e);
+    if (t != null) {
+      t.onDelete(idx);
     }
   }
 
@@ -303,6 +319,21 @@ class FileTable extends FlowPanel {
                   curr, result, path,
                   style, editButton, replyButton);
               edit.onEdit();
+            }
+          });
+    }
+
+    void onDelete(int idx) {
+      final String path = list.get(idx).path();
+      ChangeFileApi.deleteContent(curr, path,
+          new AsyncCallback<VoidResult>() {
+            @Override
+            public void onSuccess(VoidResult result) {
+              Gerrit.display(PageLinks.toChange(curr.getParentKey()));
+            }
+
+            @Override
+            public void onFailure(Throwable caught) {
             }
           });
     }
@@ -497,7 +528,12 @@ class FileTable extends FlowPanel {
     private void header(SafeHtmlBuilder sb) {
       sb.openTr().setStyleName(R.css().nohover());
       sb.openTh().setStyleName(R.css().pointer()).closeTh();
-      sb.openTh().setStyleName(R.css().reviewed()).closeTh();
+      if (mode == Mode.REVIEW) {
+        sb.openTh().setStyleName(R.css().reviewed()).closeTh();
+      } else {
+        sb.openTh().setStyleName(R.css().editButton()).closeTh();
+        sb.openTh().setStyleName(R.css().removeButton()).closeTh();
+      }
       sb.openTh().setStyleName(R.css().status()).closeTh();
       sb.openTh().append(Util.C.patchTableColumnName()).closeTh();
       sb.openTh()
@@ -518,6 +554,7 @@ class FileTable extends FlowPanel {
         columnReviewed(sb, info);
       } else {
         columnEdit(sb, info);
+        columnRemove(sb, info);
       }
       columnStatus(sb, info);
       columnPath(sb, info);
@@ -541,7 +578,7 @@ class FileTable extends FlowPanel {
 
     private void columnEdit(SafeHtmlBuilder sb, FileInfo info) {
       sb.openTd().setStyleName(R.css().editButton());
-      if (hasUser) {
+      if (hasUser && isEditeable(info)) {
         if (!Patch.COMMIT_MSG.equals(info.path())) {
           sb.openElement("button")
             .setAttribute("title", Resources.C.editFileInline())
@@ -551,6 +588,26 @@ class FileTable extends FlowPanel {
         }
       }
       sb.closeTd();
+    }
+
+    private void columnRemove(SafeHtmlBuilder sb, FileInfo info) {
+      sb.openTd().setStyleName(R.css().removeButton());
+      if (hasUser && isEditeable(info)) {
+        if (!Patch.COMMIT_MSG.equals(info.path())) {
+          sb.openElement("button")
+            .setAttribute("title", Resources.C.removeFileInline())
+            .setAttribute("onclick", DELETE + "(event," + info._row() + ")")
+            .append(new ImageResourceRenderer().render(Gerrit.RESOURCES.redNot()))
+            .closeElement("button");
+        }
+      }
+      sb.closeTd();
+    }
+
+    private boolean isEditeable(FileInfo info) {
+      String status = info.status();
+      return status == null
+          || !ChangeType.DELETED.matches(status);
     }
 
     private void columnStatus(SafeHtmlBuilder sb, FileInfo info) {
@@ -695,7 +752,12 @@ class FileTable extends FlowPanel {
     private void footer(SafeHtmlBuilder sb) {
       sb.openTr().setStyleName(R.css().nohover());
       sb.openTh().setStyleName(R.css().pointer()).closeTh();
-      sb.openTh().setStyleName(R.css().reviewed()).closeTh();
+      if (mode == Mode.REVIEW) {
+        sb.openTh().setStyleName(R.css().reviewed()).closeTh();
+      } else {
+        sb.openTh().setStyleName(R.css().editButton()).closeTh();
+        sb.openTh().setStyleName(R.css().editButton()).closeTh();
+      }
       sb.openTh().setStyleName(R.css().status()).closeTh();
       sb.openTd().closeTd(); // path
       sb.openTd().setAttribute("colspan", 3).closeTd(); // comments

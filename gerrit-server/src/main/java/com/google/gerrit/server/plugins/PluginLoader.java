@@ -144,8 +144,7 @@ public class PluginLoader implements LifecycleListener {
   public void installPluginFromStream(String originalName, InputStream in)
       throws IOException, PluginInstallException {
     String fileName = originalName;
-    if (!(fileName.endsWith(".jar") || fileName.endsWith(".js") || fileName
-        .endsWith(".zip"))) {
+    if (!(fileName.endsWith(".jar") || fileName.endsWith(".zip"))) {
       fileName += ".jar";
     }
     File tmp = asTemp(in, ".next_" + fileName + "_", ".tmp", pluginsDir);
@@ -505,10 +504,8 @@ public class PluginLoader implements LifecycleListener {
         in.close();
       }
       return loadJarPlugin(name, srcPlugin, snapshot, tmp);
-    } else if (isJsPlugin(pluginName)) {
-      return loadJsPlugin(name, srcPlugin, snapshot);
     } else if (isContainerPlugin(srcPlugin)) {
-      return loadJsPlugin(name, srcPlugin, snapshot);
+      return loadJsContainerPlugin(name, srcPlugin, snapshot);
     } else {
       throw new InvalidPluginException(String.format(
           "Unsupported plugin type: %s", srcPlugin.getName()));
@@ -572,8 +569,10 @@ public class PluginLoader implements LifecycleListener {
     }
   }
 
-  private Plugin loadJsPlugin(String name, File srcJar, FileSnapshot snapshot) {
-    return new JsPlugin(name, srcJar, pluginUserFactory.create(name), snapshot);
+  private Plugin loadJsContainerPlugin(String name, File srcJar,
+      FileSnapshot snapshot) {
+    return new JsContainerPlugin(name, srcJar, pluginUserFactory.create(name),
+        snapshot);
   }
 
   private static ClassLoader parentFor(Plugin.ApiType type)
@@ -688,7 +687,7 @@ public class PluginLoader implements LifecycleListener {
       public boolean accept(File pathname) {
         String n = pathname.getName();
         boolean isContainerPlugin = isContainerPlugin(pathname);
-        return (isJarPlugin(n) || isJsPlugin(n) || isContainerPlugin)
+        return (isJarPlugin(n) || isContainerPlugin)
             && !n.startsWith(".last_")
             && !n.startsWith(".next_")
             && (pathname.isFile() || isContainerPlugin);
@@ -724,9 +723,6 @@ public class PluginLoader implements LifecycleListener {
         jarFile.close();
       }
     }
-    if (isJsPlugin(fileName)) {
-      return fileName.substring(0, fileName.length() - 3);
-    }
     return null;
   }
 
@@ -742,10 +738,6 @@ public class PluginLoader implements LifecycleListener {
 
   private static boolean isJarPlugin(String name) {
     return isPlugin(name, "jar") || isPlugin(name, "zip");
-  }
-
-  private static boolean isJsPlugin(String name) {
-    return isPlugin(name, "js");
   }
 
   private static boolean isContainerPlugin(File file) {

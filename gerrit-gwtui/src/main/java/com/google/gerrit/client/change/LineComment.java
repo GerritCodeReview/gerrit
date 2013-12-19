@@ -14,9 +14,13 @@
 
 package com.google.gerrit.client.change;
 
+import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.changes.CommentInfo;
-import com.google.gerrit.client.changes.Util;
+import com.google.gerrit.client.diff.DisplaySide;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
+import com.google.gerrit.client.ui.InlineHyperlink;
+import com.google.gerrit.common.changes.Side;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -29,18 +33,36 @@ class LineComment extends Composite {
   interface Binder extends UiBinder<HTMLPanel, LineComment> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
-  @UiField Element location;
+  @UiField Element fileLoc;
+  @UiField Element lineLoc;
+  @UiField InlineHyperlink line;
   @UiField Element message;
 
-  LineComment(CommentLinkProcessor clp, CommentInfo info) {
+  LineComment(CommentLinkProcessor clp, PatchSet.Id ps, CommentInfo info) {
     initWidget(uiBinder.createAndBindUi(this));
 
-    location.setInnerText(info.has_line()
-        ? Util.M.lineHeader(info.line())
-        : Util.C.fileCommentHeader());
+    if (info.has_line()) {
+      fileLoc.removeFromParent();
+      fileLoc = null;
+
+      line.setTargetHistoryToken(url(ps, info));
+      line.setText(Integer.toString(info.line()));
+
+    } else {
+      lineLoc.removeFromParent();
+      lineLoc = null;
+      line = null;
+    }
+
     if (info.message() != null) {
       message.setInnerSafeHtml(clp.apply(new SafeHtmlBuilder()
           .append(info.message().trim()).wikify()));
     }
+  }
+
+  private static String url(PatchSet.Id ps, CommentInfo info) {
+    return Dispatcher.toSideBySide(null, ps, info.path(),
+        info.side() == Side.PARENT ? DisplaySide.A : DisplaySide.B,
+        info.line());
   }
 }

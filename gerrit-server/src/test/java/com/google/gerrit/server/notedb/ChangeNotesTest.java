@@ -16,10 +16,12 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
+
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
+
 import static org.junit.Assert.assertEquals;
 
 import com.google.common.collect.ImmutableList;
@@ -40,6 +42,7 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gerrit.testutil.FakeAccountCache;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
+import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -377,9 +380,8 @@ public class ChangeNotesTest {
         TimeUtil.nowTs(), TZ);
   }
 
-  private ChangeNotes newNotes(Change c)
-      throws ConfigInvalidException, IOException {
-    return new ChangeNotes(repo, c);
+  private ChangeNotes newNotes(Change c) throws OrmException {
+    return new ChangeNotes(repoManager, c).load();
   }
 
   private static void incrementPatchSet(Change change) {

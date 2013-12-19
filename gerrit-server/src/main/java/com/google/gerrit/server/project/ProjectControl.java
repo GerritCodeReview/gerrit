@@ -30,7 +30,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
@@ -146,7 +145,7 @@ public class ProjectControl {
   private final CurrentUser user;
   private final ProjectState state;
   private final GitRepositoryManager repoManager;
-  private final ApprovalsUtil approvalsUtil;
+  private final ChangeControl.AssistedFactory changeControlFactory;
   private final PermissionCollection.Factory permissionFilter;
   private final Collection<ContributorAgreement> contributorAgreements;
 
@@ -162,15 +161,15 @@ public class ProjectControl {
       ProjectCache pc,
       PermissionCollection.Factory permissionFilter,
       GitRepositoryManager repoManager,
-      ApprovalsUtil approvalsUtil,
+      ChangeControl.AssistedFactory changeControlFactory,
       @CanonicalWebUrl @Nullable String canonicalWebUrl,
       @Assisted CurrentUser who,
       @Assisted ProjectState ps) {
     this.repoManager = repoManager;
-    this.approvalsUtil = approvalsUtil;
     this.uploadGroups = uploadGroups;
     this.receiveGroups = receiveGroups;
     this.permissionFilter = permissionFilter;
+    this.changeControlFactory = changeControlFactory;
     this.contributorAgreements = pc.getAllProjects().getConfig().getContributorAgreements();
     this.canonicalWebUrl = canonicalWebUrl;
     user = who;
@@ -185,8 +184,7 @@ public class ProjectControl {
   }
 
   public ChangeControl controlFor(final Change change) {
-    return new ChangeControl(approvalsUtil, controlForRef(change.getDest()),
-        change);
+    return changeControlFactory.create(controlForRef(change.getDest()), change);
   }
 
   public RefControl controlForRef(Branch.NameKey ref) {

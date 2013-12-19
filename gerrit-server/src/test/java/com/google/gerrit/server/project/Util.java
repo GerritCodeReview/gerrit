@@ -31,7 +31,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.RulesCache;
-import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupMembership;
@@ -121,6 +120,7 @@ public class Util {
   private final CapabilityControl.Factory capabilityControlFactory;
   private final PermissionCollection.Factory sectionSorter;
   private final GitRepositoryManager repoManager;
+  private final ChangeControl.AssistedFactory changeControlFactory;
 
   private final AllProjectsName allProjectsName = new AllProjectsName("parent");
   private final ProjectConfig parent = new ProjectConfig(allProjectsName);
@@ -190,8 +190,10 @@ public class Util {
       protected void configure() {
         bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(
             new Config());
+        bind(GitRepositoryManager.class).toInstance(repoManager);
 
         factory(CapabilityControl.Factory.class);
+        factory(ChangeControl.AssistedFactory.class);
         bind(ProjectCache.class).toInstance(projectCache);
       }
     });
@@ -201,6 +203,8 @@ public class Util {
     sectionSorter = new PermissionCollection.Factory(new SectionSortCache(c));
     capabilityControlFactory =
         injector.getInstance(CapabilityControl.Factory.class);
+    changeControlFactory =
+        injector.getInstance(ChangeControl.AssistedFactory.class);
   }
 
   public ProjectConfig getParentConfig() {
@@ -231,10 +235,9 @@ public class Util {
   public ProjectControl user(ProjectConfig local, String name,
       AccountGroup.UUID... memberOf) {
     String canonicalWebUrl = "http://localhost";
-
     return new ProjectControl(Collections.<AccountGroup.UUID> emptySet(),
         Collections.<AccountGroup.UUID> emptySet(), projectCache,
-        sectionSorter, null, new ApprovalsUtil(), canonicalWebUrl,
+        sectionSorter, repoManager, changeControlFactory, canonicalWebUrl,
         new MockUser(name, memberOf), newProjectState(local));
   }
 

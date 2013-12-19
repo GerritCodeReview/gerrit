@@ -17,6 +17,7 @@
   width: 12px;
   padding: 0px;
   vertical-align: top;
+  display: inline-block;
 }
 
 .table tr {

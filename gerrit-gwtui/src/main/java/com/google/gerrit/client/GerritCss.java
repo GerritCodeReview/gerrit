@@ -204,6 +204,7 @@ public interface GerritCss extends CssResource {
   String relatedChangesIndirect();
   String relatedChangesNotCurrent();
   String relatedChangesSubject();
+  String relatedChangesTable();
   String relatedChangesTabPanel();
   String registerScreenExplain();
   String registerScreenNextLinks();

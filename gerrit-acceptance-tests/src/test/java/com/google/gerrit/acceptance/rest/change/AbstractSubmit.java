@@ -14,20 +14,20 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
-import static com.google.gerrit.acceptance.git.GitUtil.cloneProject;
-import static com.google.gerrit.acceptance.git.GitUtil.initSsh;
+import static com.google.gerrit.acceptance.GitUtil.cloneProject;
+import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
+import com.google.gerrit.acceptance.GitUtil;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
-import com.google.gerrit.acceptance.git.GitUtil;
-import com.google.gerrit.acceptance.git.PushOneCommit;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -67,6 +67,9 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   @Inject
   private GitRepositoryManager repoManager;
+
+  @Inject
+  protected PushOneCommit.Factory pushFactory;
 
   protected RestSession session;
 
@@ -137,14 +140,14 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   protected PushOneCommit.Result createChange(Git git) throws GitAPIException,
       IOException {
-    PushOneCommit push = new PushOneCommit(db, admin.getIdent());
+    PushOneCommit push = pushFactory.create(db, admin.getIdent());
     return push.to(git, "refs/for/master");
   }
 
   protected PushOneCommit.Result createChange(Git git, String subject,
       String fileName, String content) throws GitAPIException, IOException {
     PushOneCommit push =
-        new PushOneCommit(db, admin.getIdent(), subject, fileName, content);
+        pushFactory.create(db, admin.getIdent(), subject, fileName, content);
     return push.to(git, "refs/for/master");
   }
 

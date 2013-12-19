@@ -12,12 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.git;
+package com.google.gerrit.acceptance;
 
 import com.google.common.collect.Iterables;
-import com.google.gerrit.acceptance.SshSession;
-import com.google.gerrit.acceptance.TempFileUtil;
-import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.Project;
 
 import com.jcraft.jsch.JSch;

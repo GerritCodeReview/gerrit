@@ -14,19 +14,19 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
-import static com.google.gerrit.acceptance.git.GitUtil.cloneProject;
-import static com.google.gerrit.acceptance.git.GitUtil.createProject;
-import static com.google.gerrit.acceptance.git.GitUtil.initSsh;
+import static com.google.gerrit.acceptance.GitUtil.cloneProject;
+import static com.google.gerrit.acceptance.GitUtil.createProject;
+import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static com.google.gerrit.common.data.Permission.LABEL;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
-import com.google.gerrit.acceptance.git.PushOneCommit;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
@@ -67,6 +67,9 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
 
   @Inject
   private ProjectCache projectCache;
+
+  @Inject
+  private PushOneCommit.Factory pushFactory;
 
   private TestAccount owner;
   private TestAccount dev;
@@ -145,7 +148,7 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
 
   private String createChange() throws GitAPIException,
       IOException {
-    PushOneCommit push = new PushOneCommit(db, owner.getIdent());
+    PushOneCommit push = pushFactory.create(db, owner.getIdent());
     return push.to(git, "refs/for/master").getChangeId();
   }
 

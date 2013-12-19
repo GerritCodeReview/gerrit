@@ -146,6 +146,7 @@ public class GerritServer {
       @Override
       protected void configure() {
         bind(AccountCreator.class);
+        factory(PushOneCommit.Factory.class);
       }
     };
     return sysInjector.createChildInjector(module);

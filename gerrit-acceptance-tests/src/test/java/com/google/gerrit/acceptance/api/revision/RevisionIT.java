@@ -14,16 +14,16 @@
 
 package com.google.gerrit.acceptance.api.revision;
 
-import static com.google.gerrit.acceptance.git.GitUtil.cloneProject;
-import static com.google.gerrit.acceptance.git.GitUtil.createProject;
-import static com.google.gerrit.acceptance.git.GitUtil.initSsh;
+import static com.google.gerrit.acceptance.GitUtil.cloneProject;
+import static com.google.gerrit.acceptance.GitUtil.createProject;
+import static com.google.gerrit.acceptance.GitUtil.initSsh;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.AccountCreator;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
-import com.google.gerrit.acceptance.git.PushOneCommit;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
@@ -61,6 +61,9 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Inject
   private IdentifiedUser.GenericFactory identifiedUserFactory;
+
+  @Inject
+  private PushOneCommit.Factory pushFactory;
 
   private TestAccount admin;
   private Git git;
@@ -152,13 +155,13 @@ public class RevisionIT extends AbstractDaemonTest {
 
   private PushOneCommit.Result createChange() throws GitAPIException,
       IOException {
-    PushOneCommit push = new PushOneCommit(db, admin.getIdent());
+    PushOneCommit push = pushFactory.create(db, admin.getIdent());
     return push.to(git, "refs/for/master");
   }
 
   private PushOneCommit.Result createDraft() throws GitAPIException,
       IOException {
-    PushOneCommit push = new PushOneCommit(db, admin.getIdent());
+    PushOneCommit push = pushFactory.create(db, admin.getIdent());
     return push.to(git, "refs/drafts/master");
   }
 

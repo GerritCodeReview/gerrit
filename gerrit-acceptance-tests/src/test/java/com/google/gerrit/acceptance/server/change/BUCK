@@ -4,7 +4,7 @@ acceptance_tests(
   srcs = glob(['*IT.java']),
   deps = [
     ':util',
-    '//gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git:util',
+    '//gerrit-acceptance-tests:lib',
     '//lib:gwtjsonrpc',
   ],
 )

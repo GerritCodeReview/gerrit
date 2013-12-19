@@ -251,8 +251,6 @@ public class CodeMirror extends JavaScriptObject {
 
   public final native void removeKeyMap(KeyMap map) /*-{ this.removeKeyMap(map); }-*/;
 
-  public final native void removeKeyMap(String name) /*-{ this.removeKeyMap(name); }-*/;
-
   public static final native LineCharacter pos(int line, int ch) /*-{
     return $wnd.CodeMirror.Pos(line, ch);
   }-*/;

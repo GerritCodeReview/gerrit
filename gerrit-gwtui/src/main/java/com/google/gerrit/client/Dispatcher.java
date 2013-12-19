@@ -70,6 +70,7 @@ import com.google.gerrit.client.changes.PublishCommentScreen;
 import com.google.gerrit.client.changes.QueryScreen;
 import com.google.gerrit.client.dashboards.DashboardInfo;
 import com.google.gerrit.client.dashboards.DashboardList;
+import com.google.gerrit.client.diff.DisplaySide;
 import com.google.gerrit.client.diff.SideBySide2;
 import com.google.gerrit.client.documentation.DocScreen;
 import com.google.gerrit.client.groups.GroupApi;
@@ -109,12 +110,17 @@ public class Dispatcher {
 
   public static String toSideBySide(PatchSet.Id diffBase,
       PatchSet.Id revision, String fileName) {
-    return toPatch("", diffBase, revision, fileName);
+    return toPatch("", diffBase, revision, fileName, null, 0);
+  }
+
+  public static String toSideBySide(PatchSet.Id diffBase,
+      PatchSet.Id revision, String fileName, DisplaySide side, int line) {
+    return toPatch("", diffBase, revision, fileName, side, line);
   }
 
   public static String toUnified(PatchSet.Id diffBase,
       PatchSet.Id revision, String fileName) {
-    return toPatch("unified", diffBase, revision, fileName);
+    return toPatch("unified", diffBase, revision, fileName, null, 0);
   }
 
   public static String toPatchUnified(final Patch.Key id) {
@@ -126,11 +132,11 @@ public class Dispatcher {
   }
 
   private static String toPatch(String type, PatchSet.Id diffBase, Patch.Key id) {
-    return toPatch(type, diffBase, id.getParentKey(), id.get());
+    return toPatch(type, diffBase, id.getParentKey(), id.get(), null, 0);
   }
 
   private static String toPatch(String type, PatchSet.Id diffBase,
-      PatchSet.Id revision, String fileName) {
+      PatchSet.Id revision, String fileName, DisplaySide side, int line) {
     Change.Id c = revision.getParentKey();
     StringBuilder p = new StringBuilder();
     p.append("/c/").append(c).append("/");
@@ -140,6 +146,11 @@ public class Dispatcher {
     p.append(revision.get()).append("/").append(KeyUtil.encode(fileName));
     if (type != null && !type.isEmpty()) {
       p.append(",").append(type);
+    }
+    if (side == DisplaySide.A && line > 0) {
+      p.append("@a").append(line);
+    } else if (line > 0) {
+      p.append("@").append(line);
     }
     return p.toString();
   }
@@ -521,8 +532,21 @@ public class Dispatcher {
     }
 
     if (!rest.isEmpty()) {
+      DisplaySide side = DisplaySide.B;
+      int line = 0;
+      int at = rest.lastIndexOf('@');
+      if (at > 0) {
+        String l = rest.substring(at+1);
+        if (l.startsWith("a")) {
+          side = DisplaySide.A;
+          l = l.substring(1);
+        }
+        line = Integer.parseInt(l);
+        rest = rest.substring(0, at);
+      }
       Patch.Key p = new Patch.Key(ps, KeyUtil.decode(rest));
-      patch(token, base, p, 0, null, null, panel);
+      patch(token, base, p, side, line, 0,
+          null, null, null, panel);
     } else {
       if (panel == null) {
         Gerrit.display(token, isChangeScreen2()
@@ -580,17 +604,12 @@ public class Dispatcher {
   public static void patch(String token, PatchSet.Id base, Patch.Key id,
       int patchIndex, PatchSetDetail patchSetDetail,
       PatchTable patchTable, PatchScreen.TopView topView) {
-    patch(token, base, id, patchIndex, patchSetDetail, patchTable, topView, null);
-  }
-
-  public static void patch(String token, PatchSet.Id base, Patch.Key id,
-      int patchIndex, PatchSetDetail patchSetDetail,
-      PatchTable patchTable, String panelType) {
-    patch(token, base, id, patchIndex, patchSetDetail, patchTable,
-        null, panelType);
+    patch(token, base, id, null, 0, patchIndex,
+        patchSetDetail, patchTable, topView, null);
   }
 
   public static void patch(String token, final PatchSet.Id baseId, final Patch.Key id,
+      final DisplaySide side, final int line,
       final int patchIndex, final PatchSetDetail patchSetDetail,
       final PatchTable patchTable, final PatchScreen.TopView topView,
       final String panelType) {
@@ -633,7 +652,8 @@ public class Dispatcher {
                   baseId //
               );
             }
-            return new SideBySide2(baseId, id.getParentKey(), id.get());
+            return new SideBySide2(baseId, id.getParentKey(), id.get(),
+                side, line);
           } else if ("".equals(panel) || "sidebyside".equals(panel)) {
             return new PatchScreen.SideBySide(//
                 id, //

@@ -53,7 +53,7 @@ class FileComments extends Composite {
       }
     });
     for (CommentInfo c : list) {
-      comments.add(new LineComment(clp, c));
+      comments.add(new LineComment(clp, ps, c));
     }
   }
 

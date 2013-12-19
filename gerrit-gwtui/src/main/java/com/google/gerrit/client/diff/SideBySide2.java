@@ -352,6 +352,11 @@ public class SideBySide2 extends Screen {
         .on("'o'", toggleOpenBox(cm))
         .on("Enter", toggleOpenBox(cm))
         .on("'c'", insertNewDraft(cm))
+        .on("N", maybeNextVimSearch(cm))
+        .on("P", diffChunkNav(cm, true))
+        .on("Shift-O", openClosePublished(cm))
+        .on("Shift-Left", flipCursorSide(cm, DisplaySide.A))
+        .on("Shift-Right", flipCursorSide(cm, DisplaySide.B))
         .on("'i'", new Runnable() {
           public void run() {
             switch (getIntraLineStatus()) {
@@ -399,12 +404,7 @@ public class SideBySide2 extends Screen {
           public void run() {
             cm.execCommand("selectAll");
           }
-        })
-        .on("N", maybeNextVimSearch(cm))
-        .on("P", diffChunkNav(cm, true))
-        .on("Shift-O", openClosePublished(cm))
-        .on("Shift-Left", flipCursorSide(cm, true))
-        .on("Shift-Right", flipCursorSide(cm, false)));
+        }));
   }
 
   private BeforeSelectionChangeHandler onSelectionChange(final CodeMirror cm) {
@@ -1437,16 +1437,25 @@ public class SideBySide2 extends Screen {
     };
   }
 
-  private Runnable flipCursorSide(final CodeMirror cm, final boolean toLeft) {
+  private Runnable flipCursorSide(final CodeMirror cmSrc, DisplaySide sideDst) {
+    final CodeMirror cmDst = getCmFromSide(sideDst);
+    if (cmDst == cmSrc) {
+      return new Runnable() {
+        @Override
+        public void run() {
+        }
+      };
+    }
+
+    final DisplaySide sideSrc = getSideFromCm(cmSrc);
     return new Runnable() {
       public void run() {
-        if (cm.hasActiveLine() && (toLeft && cm == cmB || !toLeft && cm == cmA)) {
-          CodeMirror other = otherCm(cm);
-          other.setCursor(LineCharacter.create(
-              mapper.lineOnOther(
-                  getSideFromCm(cm), cm.getLineNumber(cm.getActiveLine())).getLine()));
-          other.focus();
+        if (cmSrc.hasActiveLine()) {
+          cmDst.setCursor(LineCharacter.create(mapper.lineOnOther(
+              sideSrc,
+              cmSrc.getLineNumber(cmSrc.getActiveLine())).getLine()));
         }
+        cmDst.focus();
       }
     };
   }

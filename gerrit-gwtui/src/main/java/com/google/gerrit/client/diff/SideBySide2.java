@@ -1309,16 +1309,22 @@ public class SideBySide2 extends Screen {
       @Override
       public void handle(CodeMirror instance, int line, String gutter,
           NativeEvent clickEvent) {
-        if (!(cm.hasActiveLine() &&
-            cm.getLineNumber(cm.getActiveLine()) == line)) {
-          cm.setCursor(LineCharacter.create(line));
-        }
-        Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-          @Override
-          public void execute() {
-            insertNewDraft(cm).run();
+        if (clickEvent.getButton() == NativeEvent.BUTTON_LEFT
+            && !clickEvent.getMetaKey()
+            && !clickEvent.getAltKey()
+            && !clickEvent.getCtrlKey()
+            && !clickEvent.getShiftKey()) {
+          if (!(cm.hasActiveLine() &&
+              cm.getLineNumber(cm.getActiveLine()) == line)) {
+            cm.setCursor(LineCharacter.create(line));
           }
-        });
+          Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+            @Override
+            public void execute() {
+              insertNewDraft(cm).run();
+            }
+          });
+        }
       }
     };
   }

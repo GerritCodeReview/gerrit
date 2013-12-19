@@ -244,7 +244,7 @@ public class Util {
 
     return new ProjectControl(Collections.<AccountGroup.UUID> emptySet(),
         Collections.<AccountGroup.UUID> emptySet(), projectCache,
-        sectionSorter, null, changeControlFactory, canonicalWebUrl,
+        sectionSorter, repoManager, changeControlFactory, canonicalWebUrl,
         new MockUser(name, memberOf), newProjectState(local));
   }
 

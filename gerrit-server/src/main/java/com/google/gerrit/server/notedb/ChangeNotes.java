@@ -78,21 +78,8 @@ public class ChangeNotes extends VersionedMetaData {
       this.repoManager = repoManager;
     }
 
-    // TODO(dborowitz): Wrap fewer exceptions if/when we kill gwtorm.
-    public ChangeNotes load(Change change) throws OrmException {
-      Repository repo;
-      try {
-        repo = repoManager.openRepository(change.getProject());
-      } catch (IOException e) {
-        throw new OrmException(e);
-      }
-      try {
-        return new ChangeNotes(repo, change);
-      } catch (ConfigInvalidException | IOException e) {
-        throw new OrmException(e);
-      } finally {
-        repo.close();
-      }
+    public ChangeNotes create(Change change) {
+      return new ChangeNotes(repoManager, change);
     }
   }
 
@@ -241,15 +228,41 @@ public class ChangeNotes extends VersionedMetaData {
     }
   }
 
+  private final GitRepositoryManager repoManager;
   private final Change change;
+  private boolean loaded;
   private ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals;
   private ImmutableSetMultimap<ReviewerState, Account.Id> reviewers;
 
   @VisibleForTesting
-  ChangeNotes(Repository repo, Change change)
-      throws ConfigInvalidException, IOException {
+  ChangeNotes(GitRepositoryManager repoManager, Change change) {
+    this.repoManager = repoManager;
     this.change = change;
-    load(repo);
+  }
+
+  // TODO(dborowitz): Wrap fewer exceptions if/when we kill gwtorm.
+  public ChangeNotes load() throws OrmException {
+    if (!loaded) {
+      Repository repo;
+      try {
+        repo = repoManager.openRepository(change.getProject());
+      } catch (IOException e) {
+        throw new OrmException(e);
+      }
+      try {
+        load(repo);
+        loaded = true;
+      } catch (ConfigInvalidException | IOException e) {
+        throw new OrmException(e);
+      } finally {
+        repo.close();
+      }
+    }
+    return this;
+  }
+
+  public Change getChange() {
+    return change;
   }
 
   public ImmutableListMultimap<PatchSet.Id, PatchSetApproval> getApprovals() {

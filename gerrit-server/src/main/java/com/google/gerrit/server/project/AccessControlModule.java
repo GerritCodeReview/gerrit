@@ -45,5 +45,6 @@ public class AccessControlModule extends FactoryModule {
 
     factory(ChangeControl.AssistedFactory.class);
     factory(ProjectControl.AssistedFactory.class);
+    factory(ChangeControl.AssistedFactory.class);
   }
 }

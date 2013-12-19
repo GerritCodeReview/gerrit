@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48587f1a_4ffb0dee",
+        "filename": "Documentation/user-changeid.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-19T10:01:09Z",
+      "side": 0,
+      "message": "Why is this removed?",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 56
+      },
+      "revId": "e1d921aa9ebee31c067f45fc1f57e5a6cb0ae812",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

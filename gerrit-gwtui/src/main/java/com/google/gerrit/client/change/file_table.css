@@ -93,3 +93,13 @@
   background-color: transparent;
   white-space: nowrap;
 }
+
+.removeButton button {
+  cursor: pointer;
+  padding: 0;
+  margin: 0 0 0 5px;
+  border: 0;
+  background-color: transparent;
+  white-space: nowrap;
+}
+

@@ -1625,13 +1625,20 @@ a:hover.downloadLink {
 }
 
 /** Related Changes */
+.relatedChangesTable {
+  width: 400px;
+}
+.relatedChangesTable div[gerritrow] {
+  white-space: nowrap;
+}
+.relatedChangesTable .activeRow {
+  background-color: selectionColor !important;
+}
 .relatedChangesSubject {
   width: 355px;
   overflow: hidden;
   text-overflow: ellipsis;
   display: inline-block;
-}
-.relatedChangesSubject {
   white-space: nowrap;
 }
 .relatedChangesTabPanel .gwt-TabBarItem,

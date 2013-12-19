@@ -14,16 +14,17 @@
 
 package com.google.gerrit.acceptance.git;
 
-import static com.google.gerrit.acceptance.git.GitUtil.cloneProject;
-import static com.google.gerrit.acceptance.git.GitUtil.createProject;
-import static com.google.gerrit.acceptance.git.GitUtil.initSsh;
-import static org.junit.Assert.assertNotNull;
+import static com.google.gerrit.acceptance.GitUtil.cloneProject;
+import static com.google.gerrit.acceptance.GitUtil.createProject;
+import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.AccountCreator;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.Change;
@@ -35,7 +36,6 @@ import com.google.gerrit.server.auth.AuthException;
 import com.google.gerrit.server.change.RevisionEditCommands;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
-
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -66,6 +66,9 @@ public class RevisionEditIT extends AbstractDaemonTest {
 
   @Inject
   private IdentifiedUser.GenericFactory identifiedUserFactory;
+
+  @Inject
+  private PushOneCommit.Factory pushFactory;
 
   @Inject
   private RevisionEditCommands cmd;
@@ -187,7 +190,7 @@ public class RevisionEditIT extends AbstractDaemonTest {
 
   private String newChange(Git git, PersonIdent ident) throws GitAPIException,
       IOException {
-    PushOneCommit push = new PushOneCommit(db,
+    PushOneCommit push = pushFactory.create(db,
         ident, PushOneCommit.SUBJECT,
         FILE_NAME, CONTENT_OLD);
     return push.to(git, "refs/for/master").getChangeId();

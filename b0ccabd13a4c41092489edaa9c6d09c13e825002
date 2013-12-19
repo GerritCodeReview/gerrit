@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "682c637b_88033728",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2013-12-19T13:28:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "480cff77_cff79dfe",
+      "revId": "b0ccabd13a4c41092489edaa9c6d09c13e825002",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c862af23_d3f754fe",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.ui.xml",
         "patchSetId": 2
@@ -47,6 +65,24 @@
       "writtenOn": "2013-12-16T13:13:52Z",
       "side": 1,
       "message": "In our linux dev environment, we cannot see the copy button and gitiles  link beside change-ID and cannot see the copy button beside commit-ID . Only on clicking the id it becomes copyable and user can copy it. Please let me know how can we see the copy button in dev env so we can improve the change? are we missing something in setup?",
+      "parentUuid": "c862af23_d3f754fe",
+      "revId": "b0ccabd13a4c41092489edaa9c6d09c13e825002",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "283d0b9f_ae08f744",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2013-12-19T13:28:10Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "c862af23_d3f754fe",
       "revId": "b0ccabd13a4c41092489edaa9c6d09c13e825002",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

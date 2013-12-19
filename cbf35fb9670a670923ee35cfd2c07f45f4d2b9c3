@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48587f1a_0f18258e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-12-19T17:45:02Z",
+      "side": 1,
+      "message": "I guess this is ok... since you are replicating existing behavior",
+      "range": {
+        "startLine": 248,
+        "startChar": 4,
+        "endLine": 249,
+        "endChar": 5
+      },
+      "revId": "cbf35fb9670a670923ee35cfd2c07f45f4d2b9c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_30154855",
+        "filename": "plugins/reviewnotes",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-12-19T17:45:02Z",
+      "side": 1,
+      "message": "Not sure why this is showing up...",
+      "revId": "cbf35fb9670a670923ee35cfd2c07f45f4d2b9c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

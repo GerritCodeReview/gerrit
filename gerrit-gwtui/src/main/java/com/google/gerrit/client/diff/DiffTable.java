@@ -101,8 +101,10 @@ class DiffTable extends Composite {
     patchSetSelectBoxB = new PatchSetSelectBox2(
         this, DisplaySide.B, revision.getParentKey(), revision, path);
     PatchSetSelectBox2.link(patchSetSelectBoxA, patchSetSelectBoxB);
-    fileCommentPanelA = new FileCommentPanel(host, this, path, DisplaySide.A);
-    fileCommentPanelB = new FileCommentPanel(host, this, path, DisplaySide.B);
+
+    CommentManager commentMgr = host.getCommentManager();
+    fileCommentPanelA = new FileCommentPanel(commentMgr, this, DisplaySide.A);
+    fileCommentPanelB = new FileCommentPanel(commentMgr, this, DisplaySide.B);
     initWidget(uiBinder.createAndBindUi(this));
     this.host = host;
     this.headerVisible = true;
@@ -137,11 +139,11 @@ class DiffTable extends Composite {
   }
 
   void addFileCommentBox(CommentBox box) {
-    getPanelFromSide(box.getSide()).addFileComment(box);
+    getPanelFromSide(host.getSideFromCm(box.getCm())).addFileComment(box);
   }
 
   void onRemoveDraftBox(DraftBox box) {
-    getPanelFromSide(box.getSide()).onRemoveDraftBox(box);
+    getPanelFromSide(host.getSideFromCm(box.getCm())).onRemoveDraftBox(box);
   }
 
   int getHeaderHeight() {

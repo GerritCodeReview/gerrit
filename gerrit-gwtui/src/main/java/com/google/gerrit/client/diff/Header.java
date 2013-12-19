@@ -61,6 +61,10 @@ class Header extends Composite {
     Resources.I.style().ensureInjected();
   }
 
+  private static enum ReviewedState {
+    AUTO_REVIEW, LOADED;
+  }
+
   @UiField CheckBox reviewed;
   @UiField Element project;
   @UiField Element filePath;
@@ -80,6 +84,7 @@ class Header extends Composite {
   private boolean hasNext;
   private String nextPath;
   private PreferencesAction prefsAction;
+  private ReviewedState reviewedState;
 
   Header(KeyCommandSet keys, PatchSet.Id base, PatchSet.Id patchSetId,
       String path) {
@@ -157,18 +162,26 @@ class Header extends Composite {
         .get(new AsyncCallback<JsArrayString>() {
             @Override
             public void onSuccess(JsArrayString result) {
-              for (int i = 0; i < result.length(); i++) {
-                if (path.equals(result.get(i))) {
-                  reviewed.setValue(true, false);
-                  break;
-                }
+              boolean b = Natives.asList(result).contains(path);
+              reviewed.setValue(b, false);
+              if (!b && reviewedState == ReviewedState.AUTO_REVIEW) {
+                postAutoReviewed();
               }
+              reviewedState = ReviewedState.LOADED;
             }
 
             @Override
             public void onFailure(Throwable caught) {
             }
           });
+    }
+  }
+
+  void autoReview() {
+    if (reviewedState == ReviewedState.LOADED && !reviewed.getValue()) {
+      postAutoReviewed();
+    } else {
+      reviewedState = ReviewedState.AUTO_REVIEW;
     }
   }
 
@@ -198,25 +211,33 @@ class Header extends Composite {
     prefsAction.setPartner(preferences);
   }
 
-  void setReviewed(boolean r) {
-    reviewed.setValue(r, true);
-  }
-
-  boolean isReviewed() {
-    return reviewed.getValue();
-  }
-
   @UiHandler("reviewed")
   void onValueChange(ValueChangeEvent<Boolean> event) {
-    RestApi api = ChangeApi.revision(patchSetId)
+    if (event.getValue()) {
+      reviewed().put(CallbackGroup.<ReviewInfo> emptyCallback());
+    } else {
+      reviewed().delete(CallbackGroup.<ReviewInfo> emptyCallback());
+    }
+  }
+
+  private void postAutoReviewed() {
+    reviewed().background().put(new AsyncCallback<ReviewInfo>() {
+        @Override
+        public void onSuccess(ReviewInfo result) {
+          reviewed.setValue(true, false);
+        }
+
+        @Override
+        public void onFailure(Throwable caught) {
+        }
+      });
+  }
+
+  private RestApi reviewed() {
+    return ChangeApi.revision(patchSetId)
         .view("files")
         .id(path)
         .view("reviewed");
-    if (event.getValue()) {
-      api.put(CallbackGroup.<ReviewInfo>emptyCallback());
-    } else {
-      api.delete(CallbackGroup.<ReviewInfo>emptyCallback());
-    }
   }
 
   @UiHandler("preferences")
@@ -253,6 +274,14 @@ class Header extends Composite {
       keys.add(new UpToChangeCommand2(patchSetId, 0, key));
       return null;
     }
+  }
+
+  Runnable toggleReviewed() {
+    return new Runnable() {
+      public void run() {
+        reviewed.setValue(!reviewed.getValue(), true);
+      }
+    };
   }
 
   Runnable navigate(SideBySide2.Direction dir) {

@@ -36,18 +36,17 @@ abstract class CommentBox extends Composite {
 
   private PaddingManager widgetManager;
   private PaddingWidgetWrapper selfWidgetWrapper;
-  private SideBySide2 diffScreen;
+  private CommentManager commentManager;
   private CodeMirror cm;
-  private DisplaySide side;
   private DiffChunkInfo diffChunkInfo;
   private GutterWrapper gutterWrapper;
   private FromTo fromTo;
   private TextMarker rangeMarker;
   private TextMarker rangeHighlightMarker;
 
-  CommentBox(CodeMirror cm, CommentInfo info, DisplaySide side) {
+  CommentBox(CommentManager commentManager, CodeMirror cm, CommentInfo info) {
+    this.commentManager = commentManager;
     this.cm = cm;
-    this.side = side;
     CommentRange range = info.range();
     if (range != null) {
       fromTo = FromTo.create(range);
@@ -80,13 +79,15 @@ abstract class CommentBox extends Composite {
     if (!getCommentInfo().has_line()) {
       return;
     }
-    diffScreen.defer(new Runnable() {
+    commentManager.getSideBySide2().defer(new Runnable() {
       @Override
       public void run() {
         assert selfWidgetWrapper != null;
         selfWidgetWrapper.getWidget().changed();
         if (diffChunkInfo != null) {
-          diffScreen.resizePaddingOnOtherSide(side, diffChunkInfo.getEnd());
+          commentManager.getSideBySide2().resizePaddingOnOtherSide(
+              commentManager.getSideBySide2().getSideFromCm(cm),
+              diffChunkInfo.getEnd());
         } else {
           assert widgetManager != null;
           widgetManager.resizePaddingWidget();
@@ -102,6 +103,10 @@ abstract class CommentBox extends Composite {
     resizePaddingWidget();
     setRangeHighlight(open);
     getCm().focus();
+  }
+
+  CommentManager getCommentManager() {
+    return commentManager;
   }
 
   PaddingManager getPaddingManager() {
@@ -122,14 +127,6 @@ abstract class CommentBox extends Composite {
 
   void setDiffChunkInfo(DiffChunkInfo info) {
     this.diffChunkInfo = info;
-  }
-
-  SideBySide2 getDiffScreen() {
-    return diffScreen;
-  }
-
-  void setDiffScreen(SideBySide2 diffScreen) {
-    this.diffScreen = diffScreen;
   }
 
   void setGutterWrapper(GutterWrapper wrapper) {
@@ -159,10 +156,6 @@ abstract class CommentBox extends Composite {
 
   GutterWrapper getGutterWrapper() {
     return gutterWrapper;
-  }
-
-  DisplaySide getSide() {
-    return side;
   }
 
   CodeMirror getCm() {

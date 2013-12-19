@@ -59,6 +59,12 @@ public class ChangeFileApi {
     content(id, filename).put(content, result);
   }
 
+  /** Delete a file from a revision. */
+  public static void deleteContent(PatchSet.Id id, String filename,
+      AsyncCallback<VoidResult> result) {
+    content(id, filename).delete(result);
+  }
+
   private static RestApi content(PatchSet.Id id, String filename) {
     return ChangeApi.revision(id)
         .view("files").id(filename)

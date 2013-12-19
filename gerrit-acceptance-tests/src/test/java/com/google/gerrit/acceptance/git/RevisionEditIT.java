@@ -125,6 +125,18 @@ public class RevisionEditIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void deleteExistingFile() throws IOException, AuthException,
+      InvalidChangeOperationException, NoSuchChangeException, OrmException {
+    assertEquals(RefUpdate.Result.NEW,
+        cmd.deleteContent(
+            change,
+            ps,
+            FILE_NAME));
+    assertEquals(1, cmd.read(change).size());
+    cmd.delete(change, ps);
+    assertEquals(0, cmd.read(change).size());
+  }
+  @Test
   public void updateExistingFileRest() throws IOException, AuthException,
       InvalidChangeOperationException, NoSuchChangeException, OrmException {
     PutContent.Input in = new PutContent.Input();

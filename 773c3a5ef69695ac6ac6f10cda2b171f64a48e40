@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "48587f1a_2f15e954",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-19T17:49:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "685383fd_f002e020",
+      "revId": "773c3a5ef69695ac6ac6f10cda2b171f64a48e40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "685383fd_b0085845",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
         "patchSetId": 2
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "685383fd_700fd046",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-19T17:49:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "685383fd_b0085845",
+      "range": {
+        "startLine": 176,
+        "startChar": 29,
+        "endLine": 176,
+        "endChar": 41
+      },
+      "revId": "773c3a5ef69695ac6ac6f10cda2b171f64a48e40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "685383fd_d0fddcdd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 2
@@ -53,6 +95,30 @@
       "writtenOn": "2013-12-19T16:56:19Z",
       "side": 1,
       "message": "nit: just do the ternary form\n\n      Collection\u003cAccount.Id\u003e results \u003d (cd !\u003d null)\n         ? cd.reviewers(Providers.of(db)).values()\n         : approvalsUtil.getReviewers(db, change.getId()).values();",
+      "range": {
+        "startLine": 331,
+        "startChar": 0,
+        "endLine": 337,
+        "endChar": 0
+      },
+      "revId": "773c3a5ef69695ac6ac6f10cda2b171f64a48e40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_902ef4ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-19T17:49:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "685383fd_d0fddcdd",
       "range": {
         "startLine": 331,
         "startChar": 0,

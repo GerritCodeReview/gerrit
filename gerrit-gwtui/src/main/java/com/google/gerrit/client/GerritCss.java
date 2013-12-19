@@ -200,11 +200,6 @@ public interface GerritCss extends CssResource {
   String projectFilterPanel();
   String projectNameColumn();
   String publishCommentsScreen();
-  String relatedChangesGitweb();
-  String relatedChangesIndirect();
-  String relatedChangesNotCurrent();
-  String relatedChangesSubject();
-  String relatedChangesTabPanel();
   String registerScreenExplain();
   String registerScreenNextLinks();
   String registerScreenSection();

@@ -255,12 +255,29 @@ class Header extends Composite {
     }
   }
 
-  boolean hasPrev() {
-    return hasPrev;
-  }
-
-  boolean hasNext() {
-    return hasNext;
+  Runnable navigate(SideBySide2.Direction dir) {
+    switch (dir) {
+      case PREV:
+        return new Runnable() {
+          @Override
+          public void run() {
+            (hasPrev ? prev : up).go();
+          }
+        };
+      case NEXT:
+        return new Runnable() {
+          @Override
+          public void run() {
+            (hasNext ? next : up).go();
+          }
+        };
+      default:
+        return new Runnable() {
+          @Override
+          public void run() {
+          }
+        };
+    }
   }
 
   String getNextPath() {

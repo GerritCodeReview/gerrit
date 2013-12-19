@@ -109,7 +109,7 @@ public class SideBySide2 extends Screen {
   private static final JsArrayString EMPTY =
       JavaScriptObject.createArray().cast();
 
-  private static enum Direction {
+  static enum Direction {
     PREV, NEXT
   }
 
@@ -352,6 +352,8 @@ public class SideBySide2 extends Screen {
     cm.addKeyMap(KeyMap.create()
         .on("'a'", upToChange(true))
         .on("'u'", upToChange(false))
+        .on("[", header.navigate(Direction.PREV))
+        .on("]", header.navigate(Direction.NEXT))
         .on("'r'", toggleReviewed())
         .on("'o'", toggleOpenBox(cm))
         .on("Enter", toggleOpenBox(cm))
@@ -371,18 +373,6 @@ public class SideBySide2 extends Screen {
               default:
                 break;
             }
-          }
-        })
-        .on("[", new Runnable() {
-          @Override
-          public void run() {
-            (header.hasPrev() ? header.prev : header.up).go();
-          }
-        })
-        .on("]", new Runnable() {
-          @Override
-          public void run() {
-            (header.hasNext() ? header.next : header.up).go();
           }
         })
         .on("','", new Runnable() {

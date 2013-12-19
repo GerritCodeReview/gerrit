@@ -344,14 +344,14 @@ public class PluginLoader implements LifecycleListener {
   }
 
   public synchronized void rescan() {
-    Multimap<String, File> jars = prunePlugins(pluginsDir);
-    if (jars.isEmpty()) {
+    Multimap<String, File> plugins = prunePlugins(pluginsDir);
+    if (plugins.isEmpty()) {
       return;
     }
 
-    syncDisabledPlugins(jars);
+    syncDisabledPlugins(plugins);
 
-    Map<String, File> activePlugins = filterDisabled(jars);
+    Map<String, File> activePlugins = filterDisabled(plugins);
     for (Map.Entry<String, File> entry : activePlugins.entrySet()) {
       String name = entry.getKey();
       File jar = entry.getValue();
@@ -506,6 +506,8 @@ public class PluginLoader implements LifecycleListener {
       }
       return loadJarPlugin(name, srcPlugin, snapshot, tmp);
     } else if (isJsPlugin(pluginName)) {
+      return loadJsPlugin(name, srcPlugin, snapshot);
+    } else if (isContainerPlugin(srcPlugin)) {
       return loadJsPlugin(name, srcPlugin, snapshot);
     } else {
       throw new InvalidPluginException(String.format(
@@ -685,10 +687,11 @@ public class PluginLoader implements LifecycleListener {
       @Override
       public boolean accept(File pathname) {
         String n = pathname.getName();
-        return (isJarPlugin(n) || isJsPlugin(n))
+        boolean isContainerPlugin = isContainerPlugin(pathname);
+        return (isJarPlugin(n) || isJsPlugin(n) || isContainerPlugin)
             && !n.startsWith(".last_")
             && !n.startsWith(".next_")
-            && pathname.isFile();
+            && (pathname.isFile() || isContainerPlugin);
       }
     });
     if (matches == null) {
@@ -743,6 +746,11 @@ public class PluginLoader implements LifecycleListener {
 
   private static boolean isJsPlugin(String name) {
     return isPlugin(name, "js");
+  }
+
+  private static boolean isContainerPlugin(File file) {
+    return file.isDirectory()
+        && new File(file, JarPlugin.JS_INIT_PATH).exists();
   }
 
   private static boolean isPlugin(String fileName, String ext) {

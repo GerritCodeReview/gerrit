@@ -38,6 +38,9 @@ limitations under the License.
       <div>
         <ui:msg>Content:</ui:msg>
       </div>
+      <div>
+        <ui:msg>Content:</ui:msg>
+      </div> 
       <c:NpTextArea
          visibleLines='30'
          characterWidth='78'
@@ -46,7 +49,7 @@ limitations under the License.
     </div>
     <div class='{res.style.section}'>
       <g:Button ui:field='save'
-          title='Create new patch set with updated commit message'
+          title='Create new revision edit'
           styleName='{res.style.button}'>
         <ui:attribute name='title'/>
         <div><ui:msg>Save</ui:msg></div>

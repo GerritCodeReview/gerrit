@@ -44,6 +44,9 @@ class JsPlugin extends Plugin {
   @Override
   @Nullable
   public String getVersion() {
+    if (getSrcFile().isDirectory()) {
+      return "";
+    }
     String fileName = getSrcFile().getName();
     int firstDash = fileName.indexOf("-");
     if (firstDash > 0) {
@@ -55,7 +58,7 @@ class JsPlugin extends Plugin {
   @Override
   public void start(PluginGuiceEnvironment env) throws Exception {
     manager = new LifecycleManager();
-    String fileName = getSrcFile().getName();
+    String fileName = getMainFileName();
     httpInjector =
         Guice.createInjector(new StandaloneJsPluginModule(getName(), fileName));
     manager.start();
@@ -89,6 +92,16 @@ class JsPlugin extends Plugin {
   @Override
   boolean canReload() {
     return true;
+  }
+
+  private String getMainFileName() {
+    String fileName;
+    if (getSrcFile().isDirectory()) {
+      fileName = JavaScriptPlugin.DEFAULT_INIT_FILE_NAME;
+    } else {
+      fileName = getSrcFile().getName();
+    }
+    return fileName;
   }
 
   private static final class StandaloneJsPluginModule extends AbstractModule {

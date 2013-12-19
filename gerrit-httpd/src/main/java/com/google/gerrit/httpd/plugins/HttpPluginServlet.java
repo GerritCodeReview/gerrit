@@ -39,6 +39,7 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import com.google.inject.servlet.GuiceFilter;
 
+import org.apache.commons.io.IOUtils;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -280,7 +281,7 @@ class HttpPluginServlet extends HttpServlet
           Resource.NOT_FOUND.send(req, res);
         }
       } else {
-        sendJsPlugin(holder.plugin, key, req, res);
+        sendJsPlugin(holder.plugin, file, key, req, res);
       }
     } else if (file.equals(
         holder.docPrefix.substring(0, holder.docPrefix.length() - 1))) {
@@ -588,17 +589,45 @@ class HttpPluginServlet extends HttpServlet
     }
   }
 
-  private void sendJsPlugin(Plugin plugin, ResourceKey key,
+  private void sendJsPlugin(Plugin plugin, String fileName, ResourceKey key,
       HttpServletRequest req, HttpServletResponse res) throws IOException {
-    File pluginFile = plugin.getSrcFile();
-    if (req.getPathInfo().equals(getJsPluginPath(plugin)) && pluginFile.exists()) {
-      res.setHeader("Content-Length", Long.toString(pluginFile.length()));
-      res.setContentType("application/javascript");
-      writeToResponse(res, new FileInputStream(pluginFile));
+    File resource = plugin.getSrcFile();
+    String reqPath =
+        req.getPathInfo().replaceFirst(
+            plugin.getName() + "/", "");
+    if (isJsStandaloneRequest(plugin, req, resource)
+        || isJsContainerResourceRequest(resource, reqPath)) {
+      if (resource.isDirectory()) {
+        resource = new File(resource, reqPath);
+      }
+
+      long time = resource.lastModified();
+      byte[] data = IOUtils.toByteArray(new FileInputStream(resource));
+
+      String contentType =
+          mimeUtil.getMimeType(resource.getAbsolutePath(), data).toString();
+      if ("application/octet-stream".equals(contentType)
+          && resource.getName().endsWith(".js")) {
+        contentType = "application/javascript";
+      }
+
+      res.setContentType(contentType);
+      res.setDateHeader("Last-Modified", time);
+      res.setHeader("Content-Length", Long.toString(resource.length()));
+      writeToResponse(res, new FileInputStream(resource));
     } else {
       resourceCache.put(key, Resource.NOT_FOUND);
       Resource.NOT_FOUND.send(req, res);
     }
+  }
+
+  private boolean isJsStandaloneRequest(Plugin plugin, HttpServletRequest req,
+      File resource) {
+    return req.getPathInfo().equals(getJsPluginPath(plugin)) && resource.exists();
+  }
+
+  private boolean isJsContainerResourceRequest(File resource, String reqPath) {
+    return new File(resource, reqPath).exists();
   }
 
   private static String getJsPluginPath(Plugin plugin) {

@@ -29,8 +29,14 @@ limitations under the License.
   <g:HTMLPanel>
     <div class='{res.style.section}'>
       <div>
+        <ui:msg>Path:</ui:msg>
+      </div>  
+      <div>
         <c:NpTextBox ui:field='file' visibleLength='79'/>
       </div>
+      <div>
+        <ui:msg>Content:</ui:msg>
+      </div> 
       <c:NpTextArea
          visibleLines='30'
          characterWidth='78'
@@ -39,7 +45,7 @@ limitations under the License.
     </div>
     <div class='{res.style.section}'>
       <g:Button ui:field='save'
-          title='Create new patch set with updated commit message'
+          title='Create new revision edit'
           styleName='{res.style.button}'>
         <ui:attribute name='title'/>
         <div><ui:msg>Save</ui:msg></div>
@@ -50,8 +56,10 @@ limitations under the License.
           <div>Cancel</div>
       </g:Button>
       <g:Button ui:field='reload'
+          title='Reload the content of the file'
           styleName='{res.style.button}'
           addStyleNames='{style.cancel}'>
+          <ui:attribute name='title'/>
           <div>From Git</div>
       </g:Button>
     </div>

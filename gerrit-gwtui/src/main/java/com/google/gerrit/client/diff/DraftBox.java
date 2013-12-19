@@ -80,15 +80,13 @@ class DraftBox extends CommentBox {
   @UiField Button discard2;
 
   DraftBox(
-      SideBySide2 sideBySide,
+      CommentManager manager,
       CodeMirror cm,
-      DisplaySide side,
       CommentLinkProcessor clp,
       PatchSet.Id id,
       CommentInfo info) {
-    super(cm, info, side);
+    super(manager, cm, info);
 
-    setDiffScreen(sideBySide);
     linkProcessor = clp;
     psId = id;
     initWidget(uiBinder.createAndBindUi(this));
@@ -205,7 +203,7 @@ class DraftBox extends CommentBox {
     } else {
       expandTimer.cancel();
     }
-    getDiffScreen().updateUnsaved(this, edit);
+    getCommentManager().setUnsaved(this, edit);
     resizePaddingWidget();
   }
 
@@ -227,12 +225,12 @@ class DraftBox extends CommentBox {
     setRangeHighlight(false);
     removeFromParent();
     if (!getCommentInfo().has_line()) {
-      getDiffScreen().removeFileCommentBox(this);
+      getCommentManager().removeFileCommentBox(this);
       return;
     }
     PaddingManager manager = getPaddingManager();
     manager.remove(this);
-    getDiffScreen().removeDraft(this, comment.line() - 1);
+    getCommentManager().removeDraft(this);
     getCm().focus();
     getSelfWidgetWrapper().getWidget().clear();
     getGutterWrapper().remove();
@@ -281,7 +279,7 @@ class DraftBox extends CommentBox {
         if (autoClosed) {
           setOpen(false);
         }
-        getDiffScreen().updateUnsaved(DraftBox.this, false);
+        getCommentManager().setUnsaved(DraftBox.this, false);
       }
 
       @Override

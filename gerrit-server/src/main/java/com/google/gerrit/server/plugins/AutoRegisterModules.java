@@ -128,7 +128,7 @@ class AutoRegisterModules {
     while (e.hasMoreElements()) {
       JarEntry entry = e.nextElement();
 
-      if (JsPlugin.JS_INIT_PATH.equals(entry.getName())) {
+      if (JsContainerPlugin.JS_INIT_PATH.equals(entry.getName())) {
         JavaScriptPlugin instance =
             new JavaScriptPlugin(JavaScriptPlugin.DEFAULT_INIT_FILE_NAME);
         TypeLiteral<WebUiPlugin> type = TypeLiteral.get(WebUiPlugin.class);

@@ -364,13 +364,6 @@ public class SideBySide2 extends Screen {
             }
           }
         })
-        .on("Alt-U", new Runnable() {
-          public void run() {
-            cm.getInputField().blur();
-            clearActiveLine(cm);
-            clearActiveLine(otherCm(cm));
-          }
-        })
         .on("[", new Runnable() {
           @Override
           public void run() {

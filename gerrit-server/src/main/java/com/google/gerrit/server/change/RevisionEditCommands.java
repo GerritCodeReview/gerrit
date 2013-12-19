@@ -38,6 +38,8 @@ import com.google.inject.Provider;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -64,12 +66,18 @@ import java.util.Set;
 /* Commands to manipulate user's edits on top of patch sets */
 public class RevisionEditCommands {
 
+  enum TreeOperation {
+    CHANGE_ENTRY,
+    DELETE_ENTRY
+  }
+
   private final PersonIdent myIdent;
   private final GitRepositoryManager gitManager;
   private final Provider<ReviewDb> dbProvider;
   private final Provider<CurrentUser> currentUser;
   private final PatchSetInserter.Factory patchSetInserterFactory;
   private final ChangeControl.GenericFactory changeControlFactory;
+  private TreeOperation op;
 
   @Inject
   RevisionEditCommands(@GerritPersonIdent PersonIdent myIdent,
@@ -112,15 +120,20 @@ public class RevisionEditCommands {
       ps.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 
       BatchRefUpdate ru = repo.getRefDatabase().newBatchUpdate();
-      ru.addCommand(new ReceiveCommand(commit, ObjectId.zeroId(), edit.toRefName()));
-      ru.addCommand(new ReceiveCommand(ObjectId.zeroId(), commit, ps.getId().toRefName()));
+      ru.addCommand(new ReceiveCommand(commit, ObjectId.zeroId(),
+          edit.toRefName()));
+      ru.addCommand(new ReceiveCommand(ObjectId.zeroId(), commit,
+          ps.getId().toRefName()));
       RevWalk rw = new RevWalk(repo);
 
       ChangeControl ctl = changeControlFactory.controlFor(c, me);
       PatchSetInserter inserter =
           patchSetInserterFactory.create(repo, rw, ctl.getRefControl(), me, c,
               commit);
-      inserter.setPatchSet(ps).setMessage("Published new edits").insert();
+      inserter.setPatchSet(ps).setMessage(String
+          .format("Patch Set %d: New edit was published",
+              basePs.getPatchSetId()))
+          .insert();
       try {
         ru.execute(rw, NullProgressMonitor.INSTANCE);
       } finally {
@@ -210,9 +223,24 @@ public class RevisionEditCommands {
     }
   }
 
+  public RefUpdate.Result deleteContent(Change change, PatchSet ps, String file)
+      throws AuthException, InvalidChangeOperationException, NoSuchChangeException,
+      IOException, OrmException {
+    op = TreeOperation.DELETE_ENTRY;
+    return modify(change, ps, file, null);
+  }
+
   public RefUpdate.Result edit(Change change, PatchSet ps, String file,
       String content) throws AuthException, InvalidChangeOperationException,
       NoSuchChangeException, IOException, OrmException {
+    op = TreeOperation.CHANGE_ENTRY;
+    return modify(change, ps, file, content);
+  }
+
+  private RefUpdate.Result modify(Change change, PatchSet ps, String file,
+      String content) throws AuthException, IOException, NoSuchChangeException,
+      MissingObjectException, IncorrectObjectTypeException,
+      InvalidChangeOperationException, OrmException {
     if (!currentUser.get().isIdentifiedUser()) {
       throw new AuthException("edits only available to authenticated users");
     }
@@ -318,14 +346,22 @@ public class RevisionEditCommands {
         if (tw.isSubtree()) {
           throw new IllegalArgumentException("invalid PUT on directory");
         }
-        dce.setObjectId(insert(ins, content));
         found = true;
+        if (op == TreeOperation.CHANGE_ENTRY) {
+          dce.setObjectId(insert(ins, content));
+        } else {
+          // skip that file from the tree: we are deleting
+          continue;
+        }
       } else {
         dce.setObjectId(tw.getObjectId(0));
       }
       dcb.add(dce);
     }
     if (!found) {
+      if (op == TreeOperation.DELETE_ENTRY) {
+        throw new IllegalStateException("Cannot remove entry from tree");
+      }
       // TODO(dborowitz): Use path compare above to insert in order.
       DirCacheEntry dce = new DirCacheEntry(path);
       dce.setFileMode(FileMode.REGULAR_FILE);

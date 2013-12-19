@@ -222,7 +222,7 @@ class RelatedChangesTab implements IsWidget {
   }
 
   private final class DisplayCommand implements RepeatingCommand {
-    private final SafeHtmlBuilder sb = new SafeHtmlBuilder();
+    private SafeHtmlBuilder sb = new SafeHtmlBuilder();
     private final MyTable table;
     private final String revision;
     private final Set<String> connected;
@@ -231,36 +231,50 @@ class RelatedChangesTab implements IsWidget {
     private int row;
     private int select;
     private double start;
+    private int connectedPos;
 
     private DisplayCommand(String revision, JsArray<ChangeAndCommit> list) {
       this.table = new MyTable(list);
       this.revision = revision;
       this.list = list;
-      this.connected = showIndirectAncestors ? computeConnected(revision, list) : null;
+      this.connectedPos = list.length() - 1;
+      this.connected = showIndirectAncestors
+          ? new HashSet<String>(Math.max(list.length() * 4 / 3, 16))
+          : null;
     }
 
-    private Set<String> computeConnected(String revision, JsArray<ChangeAndCommit> list) {
+    private boolean computeConnected() {
+      if (connected == null) {
+        return false;
+      }
+
       // Since TOPO sorted, when can walk the list in reverse and find all
       // the connections.
-      Set<String> set = new HashSet<String>(Math.max(list.length() * 4 / 3, 16));
-      int i = list.length() - 1;
-      for (; i >= 0; i--) {
-        CommitInfo c = list.get(i).commit();
-        set.add(c.commit());
-        if (c.commit().equals(revision)) {
-          break;
-        }
-      }
-      for (i--; i >= 0; i--) {
-        CommitInfo c = list.get(i).commit();
-        for (int j = 0; j < c.parents().length(); j++) {
-          if (set.contains(c.parents().get(j).commit())) {
-            set.add(c.commit());
+      if (!connected.contains(revision)) {
+        while (connectedPos >= 0) {
+          CommitInfo c = list.get(connectedPos).commit();
+          connected.add(c.commit());
+          if (longRunning(--connectedPos)) {
+            return true;
+          }
+          if (c.commit().equals(revision)) {
             break;
           }
         }
       }
-      return set;
+      while (connectedPos >= 0) {
+        CommitInfo c = list.get(connectedPos).commit();
+        for (int j = 0; j < c.parents().length(); j++) {
+          if (connected.contains(c.parents().get(j).commit())) {
+            connected.add(c.commit());
+            break;
+          }
+        }
+        if (longRunning(--connectedPos)) {
+          return true;
+        }
+      }
+      return false;
     }
 
     public boolean execute() {
@@ -276,14 +290,18 @@ class RelatedChangesTab implements IsWidget {
       }
 
       start = System.currentTimeMillis();
+
+      if (computeConnected()) {
+        return true;
+      }
+
       while (row < list.length()) {
         ChangeAndCommit info = list.get(row);
         if (revision.equals(info.commit().commit())) {
           select = row;
         }
         render(sb, row, info);
-        if ((++row % 10) == 0 && longRunning()) {
-          updateMeter();
+        if (longRunning(++row)) {
           return true;
         }
       }
@@ -335,12 +353,12 @@ class RelatedChangesTab implements IsWidget {
       sb.closeTr();
     }
 
-    private void updateMeter() {
-      progress.setValue((100 * row) / list.length());
-    }
-
-    private boolean longRunning() {
-      return System.currentTimeMillis() - start > 200;
+    private boolean longRunning(int i) {
+      if ((i % 10) == 0 && System.currentTimeMillis() - start > 100) {
+        progress.setValue((100 * row) / list.length());
+        return true;
+      }
+      return false;
     }
   }
 }

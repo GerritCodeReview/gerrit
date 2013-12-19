@@ -353,7 +353,7 @@ public class SideBySide2 extends Screen {
         .on("Enter", toggleOpenBox(cm))
         .on("'c'", insertNewDraft(cm))
         .on("N", maybeNextVimSearch(cm))
-        .on("P", diffChunkNav(cm, true))
+        .on("P", diffChunkNav(cm, Direction.PREV))
         .on("Shift-O", openClosePublished(cm))
         .on("Shift-Left", moveCursorToSide(cm, DisplaySide.A))
         .on("Shift-Right", moveCursorToSide(cm, DisplaySide.B))
@@ -1467,13 +1467,13 @@ public class SideBySide2 extends Screen {
         if (cm.hasVimSearchHighlight()) {
           CodeMirror.handleVimKey(cm, "n");
         } else {
-          diffChunkNav(cm, false).run();
+          diffChunkNav(cm, Direction.NEXT).run();
         }
       }
     };
   }
 
-  private Runnable diffChunkNav(final CodeMirror cm, final boolean prev) {
+  private Runnable diffChunkNav(final CodeMirror cm, final Direction dir) {
     return new Runnable() {
       @Override
       public void run() {
@@ -1483,9 +1483,9 @@ public class SideBySide2 extends Screen {
                 new DiffChunkInfo(getSideFromCm(cm), line, 0, false),
                 getDiffChunkComparator());
         if (res < 0) {
-          res = -res - (prev ? 1 : 2);
+          res = -res - (dir == Direction.PREV ? 1 : 2);
         }
-        res = res + (prev ? -1 : 1);
+        res = res + (dir == Direction.PREV ? -1 : 1);
         if (res < 0 || diffChunks.size() <= res) {
           return;
         }
@@ -1493,7 +1493,7 @@ public class SideBySide2 extends Screen {
         DiffChunkInfo lookUp = diffChunks.get(res);
         // If edit, skip the deletion chunk and set focus on the insertion one.
         if (lookUp.isEdit() && lookUp.getSide() == DisplaySide.A) {
-          res = res + (prev ? -1 : 1);
+          res = res + (dir == Direction.PREV ? -1 : 1);
           if (res < 0 || diffChunks.size() <= res) {
             return;
           }

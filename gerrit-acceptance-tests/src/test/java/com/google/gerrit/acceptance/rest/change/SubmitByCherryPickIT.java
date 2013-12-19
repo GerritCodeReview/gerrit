@@ -14,10 +14,10 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
-import static com.google.gerrit.acceptance.git.GitUtil.checkout;
+import static com.google.gerrit.acceptance.GitUtil.checkout;
 import static org.junit.Assert.assertEquals;
 
-import com.google.gerrit.acceptance.git.PushOneCommit;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 
 import com.jcraft.jsch.JSchException;

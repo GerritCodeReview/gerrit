@@ -14,9 +14,9 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
-import static com.google.gerrit.acceptance.git.GitUtil.checkout;
-import static com.google.gerrit.acceptance.git.GitUtil.cloneProject;
-import static com.google.gerrit.acceptance.git.GitUtil.initSsh;
+import static com.google.gerrit.acceptance.GitUtil.checkout;
+import static com.google.gerrit.acceptance.GitUtil.cloneProject;
+import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -25,12 +25,12 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
+import com.google.gerrit.acceptance.GitUtil;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
-import com.google.gerrit.acceptance.git.GitUtil;
-import com.google.gerrit.acceptance.git.PushOneCommit;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gson.Gson;
@@ -56,6 +56,9 @@ public class ConflictsOperatorIT extends AbstractDaemonTest {
 
   @Inject
   private SchemaFactory<ReviewDb> reviewDbProvider;
+
+  @Inject
+  private PushOneCommit.Factory pushFactory;
 
   private TestAccount admin;
   private RestSession session;
@@ -114,7 +117,7 @@ public class ConflictsOperatorIT extends AbstractDaemonTest {
     checkout(git, "origin/master");
     String file = conflicting ? "test.txt" : "test-" + count + ".txt";
     PushOneCommit push =
-        new PushOneCommit(db, admin.getIdent(), "Change " + count, file,
+        pushFactory.create(db, admin.getIdent(), "Change " + count, file,
             "content " + count);
     count++;
     return push.to(git, "refs/for/master");

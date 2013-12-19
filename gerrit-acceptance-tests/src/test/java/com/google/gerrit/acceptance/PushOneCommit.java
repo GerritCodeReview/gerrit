@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.git;
+package com.google.gerrit.acceptance;
 
-import static com.google.gerrit.acceptance.git.GitUtil.add;
-import static com.google.gerrit.acceptance.git.GitUtil.amendCommit;
-import static com.google.gerrit.acceptance.git.GitUtil.createCommit;
-import static com.google.gerrit.acceptance.git.GitUtil.pushHead;
+import static com.google.gerrit.acceptance.GitUtil.add;
+import static com.google.gerrit.acceptance.GitUtil.amendCommit;
+import static com.google.gerrit.acceptance.GitUtil.createCommit;
+import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -26,14 +26,15 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.google.gerrit.acceptance.TestAccount;
-import com.google.gerrit.acceptance.git.GitUtil.Commit;
+import com.google.gerrit.acceptance.GitUtil.Commit;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -54,6 +55,28 @@ public class PushOneCommit {
   private static final String FILE_NAME = "a.txt";
   private static final String FILE_CONTENT = "some content";
 
+  public interface Factory {
+    PushOneCommit create(
+        ReviewDb db,
+        PersonIdent i);
+
+    PushOneCommit create(
+        ReviewDb db,
+        PersonIdent i,
+        @Assisted("subject") String subject,
+        @Assisted("fileName") String fileName,
+        @Assisted("content") String content);
+
+    PushOneCommit create(
+        ReviewDb db,
+        PersonIdent i,
+        @Assisted("subject") String subject,
+        @Assisted("fileName") String fileName,
+        @Assisted("content") String content,
+        @Assisted("changeId") String changeId);
+  }
+
+  private final ApprovalsUtil approvalsUtil;
   private final ReviewDb db;
   private final PersonIdent i;
 
@@ -63,18 +86,33 @@ public class PushOneCommit {
   private String changeId;
   private String tagName;
 
-  public PushOneCommit(ReviewDb db, PersonIdent i) {
-    this(db, i, SUBJECT, FILE_NAME, FILE_CONTENT);
+  @AssistedInject
+  PushOneCommit(ApprovalsUtil approvalsUtil,
+      @Assisted ReviewDb db,
+      @Assisted PersonIdent i) {
+    this(approvalsUtil, db, i, SUBJECT, FILE_NAME, FILE_CONTENT);
   }
 
-  public PushOneCommit(ReviewDb db, PersonIdent i, String subject,
-      String fileName, String content) {
-    this(db, i, subject, fileName, content, null);
+  @AssistedInject
+  PushOneCommit(ApprovalsUtil approvalsUtil,
+      @Assisted ReviewDb db,
+      @Assisted PersonIdent i,
+      @Assisted("subject") String subject,
+      @Assisted("fileName") String fileName,
+      @Assisted("content") String content) {
+    this(approvalsUtil, db, i, subject, fileName, content, null);
   }
 
-  public PushOneCommit(ReviewDb db, PersonIdent i, String subject,
-      String fileName, String content, String changeId) {
+  @AssistedInject
+  PushOneCommit(ApprovalsUtil approvalsUtil,
+      @Assisted ReviewDb db,
+      @Assisted PersonIdent i,
+      @Assisted("subject") String subject,
+      @Assisted("fileName") String fileName,
+      @Assisted("content") String content,
+      @Assisted("changeId") String changeId) {
     this.db = db;
+    this.approvalsUtil = approvalsUtil;
     this.i = i;
     this.subject = subject;
     this.fileName = fileName;
@@ -95,7 +133,8 @@ public class PushOneCommit {
     if (tagName != null) {
       git.tag().setName(tagName).setAnnotated(false).call();
     }
-    return new Result(db, ref, pushHead(git, ref, tagName != null), c, subject);
+    return new Result(db, approvalsUtil, ref,
+        pushHead(git, ref, tagName != null), c, subject);
   }
 
   public void setTag(final String tagName) {
@@ -104,14 +143,16 @@ public class PushOneCommit {
 
   public static class Result {
     private final ReviewDb db;
+    private final ApprovalsUtil approvalsUtil;
     private final String ref;
     private final PushResult result;
     private final Commit commit;
     private final String subject;
 
-    private Result(ReviewDb db, String ref, PushResult result, Commit commit,
-        String subject) {
+    private Result(ReviewDb db, ApprovalsUtil approvalsUtil, String ref,
+        PushResult result, Commit commit, String subject) {
       this.db = db;
+      this.approvalsUtil = approvalsUtil;
       this.ref = ref;
       this.result = result;
       this.commit = commit;
@@ -157,10 +198,10 @@ public class PushOneCommit {
                 }
               }));
 
-      for (PatchSetApproval psa : db.patchSetApprovals().byPatchSet(
-          c.currentPatchSetId())) {
-        assertTrue("unexpected reviewer " + psa.getAccountId(),
-            expectedReviewerIds.remove(psa.getAccountId()));
+      for (Account.Id accountId
+          : approvalsUtil.getReviewers(db, c.getId()).values()) {
+        assertTrue("unexpected reviewer " + accountId,
+            expectedReviewerIds.remove(accountId));
       }
       assertTrue("missing reviewers: " + expectedReviewerIds,
           expectedReviewerIds.isEmpty());

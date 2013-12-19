@@ -14,19 +14,19 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
-import static com.google.gerrit.acceptance.git.GitUtil.cloneProject;
-import static com.google.gerrit.acceptance.git.GitUtil.createProject;
-import static com.google.gerrit.acceptance.git.GitUtil.initSsh;
+import static com.google.gerrit.acceptance.GitUtil.cloneProject;
+import static com.google.gerrit.acceptance.GitUtil.createProject;
+import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GerritConfigs;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
-import com.google.gerrit.acceptance.git.PushOneCommit;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gson.Gson;
@@ -50,6 +50,9 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
   @Inject
   private SchemaFactory<ReviewDb> reviewDbProvider;
+
+  @Inject
+  private PushOneCommit.Factory pushFactory;
 
   private TestAccount admin;
   private RestSession session;
@@ -148,7 +151,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
   private String createChange(TestAccount account) throws GitAPIException,
       IOException {
-    PushOneCommit push = new PushOneCommit(db, account.getIdent());
+    PushOneCommit push = pushFactory.create(db, account.getIdent());
     return push.to(git, "refs/for/master").getChangeId();
   }
 }

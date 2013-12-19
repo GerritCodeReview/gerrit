@@ -15,7 +15,6 @@
 package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 
@@ -28,18 +27,15 @@ import java.util.List;
  * system scrollbar.
  */
 class FileCommentPanel extends Composite {
-
-  private SideBySide2 parent;
+  private final SideBySide2 parent;
   private DiffTable table;
-  private String path;
   private DisplaySide side;
   private List<CommentBox> boxes;
   private FlowPanel body;
 
-  FileCommentPanel(SideBySide2 host, DiffTable table, String path, DisplaySide side) {
+  FileCommentPanel(SideBySide2 host, DiffTable table, DisplaySide side) {
     this.parent = host;
     this.table = table;
-    this.path = path;
     this.side = side;
     boxes = new ArrayList<CommentBox>();
     initWidget(body = new FlowPanel());
@@ -50,13 +46,9 @@ class FileCommentPanel extends Composite {
       Gerrit.doSignIn(parent.getToken());
       return;
     }
+
     if (boxes.isEmpty()) {
-      CommentInfo info = CommentInfo.createFile(
-          path,
-          parent.getStoredSideFromDisplaySide(side),
-          null,
-          null);
-      addFileComment(parent.addDraftBox(info, side));
+      addFileComment(parent.getCommentManager().newFileDraft(side));
     } else {
       CommentBox box = boxes.get(boxes.size() - 1);
       if (box instanceof DraftBox) {

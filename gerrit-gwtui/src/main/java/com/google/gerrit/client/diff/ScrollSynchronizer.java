@@ -26,7 +26,7 @@ class ScrollSynchronizer {
   private LineMapper mapper;
   private ScrollCallback active;
 
-  void init(DiffTable diffTable,
+  ScrollSynchronizer(DiffTable diffTable,
       CodeMirror cmA, CodeMirror cmB,
       LineMapper mapper) {
     this.diffTable = diffTable;

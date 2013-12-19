@@ -14,6 +14,7 @@
 
 package net.codemirror.lib;
 
+import com.google.gerrit.client.diff.DisplaySide;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
@@ -31,9 +32,13 @@ public class CodeMirror extends JavaScriptObject {
     Loader.initLibrary(cb);
   }
 
-  public static native CodeMirror create(Element parent,
+  public static native CodeMirror create(
+      DisplaySide side,
+      Element parent,
       Configuration cfg) /*-{
-    return $wnd.CodeMirror(parent, cfg);
+    var m = $wnd.CodeMirror(parent, cfg);
+    m._sbs2_side = side;
+    return m;
   }-*/;
 
   public final native void setOption(String option, boolean value) /*-{
@@ -326,6 +331,8 @@ public class CodeMirror extends JavaScriptObject {
     return this.state.vim && this.state.vim.searchState_ &&
         !!this.state.vim.searchState_.getOverlay();
   }-*/;
+
+  public final native DisplaySide side() /*-{ return this._sbs2_side }-*/;
 
   protected CodeMirror() {
   }

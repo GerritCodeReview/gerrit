@@ -51,8 +51,6 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 
-import net.codemirror.lib.CodeMirror;
-
 /** Displays current diff preferences. */
 class PreferencesBox extends Composite {
   interface Binder extends UiBinder<HTMLPanel, PreferencesBox> {}
@@ -63,8 +61,6 @@ class PreferencesBox extends Composite {
   }
 
   private final SideBySide2 view;
-  private final CodeMirror cmA;
-  private final CodeMirror cmB;
   private DiffPreferences prefs;
   private int contextLastValue;
   private Timer updateContextTimer;
@@ -88,8 +84,6 @@ class PreferencesBox extends Composite {
 
   PreferencesBox(SideBySide2 view) {
     this.view = view;
-    this.cmA = view.getCmA();
-    this.cmB = view.getCmB();
 
     initWidget(uiBinder.createAndBindUi(this));
     initIgnoreWhitespace();
@@ -221,8 +215,9 @@ class PreferencesBox extends Composite {
       view.operation(new Runnable() {
         @Override
         public void run() {
-          cmA.setOption("tabSize", prefs.tabSize());
-          cmB.setOption("tabSize", prefs.tabSize());
+          int v = prefs.tabSize();
+          view.getCmFromSide(DisplaySide.A).setOption("tabSize", v);
+          view.getCmFromSide(DisplaySide.B).setOption("tabSize", v);
         }
       });
     }
@@ -231,7 +226,7 @@ class PreferencesBox extends Composite {
   @UiHandler("expandAllComments")
   void onExpandAllComments(ValueChangeEvent<Boolean> e) {
     prefs.expandAllComments(e.getValue());
-    view.setExpandAllComments(prefs.expandAllComments());
+    view.getCommentManager().setExpandAllComments(prefs.expandAllComments());
   }
 
   @UiHandler("showTabs")
@@ -271,8 +266,9 @@ class PreferencesBox extends Composite {
     view.operation(new Runnable() {
       @Override
       public void run() {
-        cmA.setOption("showTrailingSpace", prefs.showWhitespaceErrors());
-        cmB.setOption("showTrailingSpace", prefs.showWhitespaceErrors());
+        boolean s = prefs.showWhitespaceErrors();
+        view.getCmFromSide(DisplaySide.A).setOption("showTrailingSpace", s);
+        view.getCmFromSide(DisplaySide.B).setOption("showTrailingSpace", s);
       }
     });
   }

@@ -16,6 +16,7 @@ package com.google.gerrit.client.rpc;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.json.client.JSONObject;
 
 import java.util.AbstractList;
@@ -33,6 +34,30 @@ public class Natives {
       return new JSONObject(obj).keySet();
     }
     return Collections.emptySet();
+  }
+
+  public static List<String> asList(final JsArrayString arr) {
+    if (arr == null) {
+      return null;
+    }
+    return new AbstractList<String>() {
+      @Override
+      public String set(int index, String element) {
+        String old = arr.get(index);
+        arr.set(index, element);
+        return old;
+      }
+
+      @Override
+      public String get(int index) {
+        return arr.get(index);
+      }
+
+      @Override
+      public int size() {
+        return arr.length();
+      }
+    };
   }
 
   public static <T extends JavaScriptObject> List<T> asList(

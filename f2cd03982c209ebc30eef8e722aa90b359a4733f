@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48315fd0_87dc0688",
+        "filename": "Documentation/user-changeid.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-19T15:47:58Z",
+      "side": 1,
+      "message": "This is too negative. \"when a commit needs to be modified,\"",
+      "range": {
+        "startLine": 8,
+        "startChar": 17,
+        "endLine": 8,
+        "endChar": 40
+      },
+      "revId": "f2cd03982c209ebc30eef8e722aa90b359a4733f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2826eb9c_86dc0a88",
+        "filename": "Documentation/user-changeid.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-19T15:47:58Z",
+      "side": 1,
+      "message": "allows attaching",
+      "range": {
+        "startLine": 9,
+        "startChar": 39,
+        "endLine": 9,
+        "endChar": 55
+      },
+      "revId": "f2cd03982c209ebc30eef8e722aa90b359a4733f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2826eb9c_a6e10645",
+        "filename": "Documentation/user-changeid.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-19T15:47:58Z",
+      "side": 1,
+      "message": "Insert a blank line between paragraphs here?",
+      "range": {
+        "startLine": 54,
+        "startChar": 16,
+        "endLine": 55,
+        "endChar": 2
+      },
+      "revId": "f2cd03982c209ebc30eef8e722aa90b359a4733f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2826eb9c_c6e6025a",
+        "filename": "Documentation/user-changeid.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-19T15:47:58Z",
+      "side": 1,
+      "message": "refs/for/",
+      "range": {
+        "startLine": 73,
+        "startChar": 29,
+        "endLine": 73,
+        "endChar": 42
+      },
+      "revId": "f2cd03982c209ebc30eef8e722aa90b359a4733f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48315fd0_a7e10a45",
+        "filename": "Documentation/user-changeid.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-19T15:47:58Z",
+      "side": 1,
+      "message": "with `refs/heads/*`",
+      "range": {
+        "startLine": 95,
+        "startChar": 31,
+        "endLine": 96,
+        "endChar": 29
+      },
+      "revId": "f2cd03982c209ebc30eef8e722aa90b359a4733f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48315fd0_c7e6fe59",
+        "filename": "Documentation/user-changeid.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-19T15:47:58Z",
+      "side": 1,
+      "message": "prevent pushing for review",
+      "range": {
+        "startLine": 104,
+        "startChar": 24,
+        "endLine": 104,
+        "endChar": 51
+      },
+      "revId": "f2cd03982c209ebc30eef8e722aa90b359a4733f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2826eb9c_e6ebfe20",
+        "filename": "Documentation/user-changeid.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-19T15:47:58Z",
+      "side": 1,
+      "message": "drop the",
+      "range": {
+        "startLine": 110,
+        "startChar": 9,
+        "endLine": 110,
+        "endChar": 12
+      },
+      "revId": "f2cd03982c209ebc30eef8e722aa90b359a4733f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -31,10 +31,13 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import com.google.inject.util.Providers;
 
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
@@ -168,6 +171,11 @@ public class ChangeControl {
     }
   }
 
+  interface AssistedFactory {
+    ChangeControl create(RefControl refControl, Change change);
+    ChangeControl create(RefControl refControl, ChangeNotes notes);
+  }
+
   /**
    * Exception thrown when the label term of a submit record
    * unexpectedly didn't contain a user term.
@@ -183,17 +191,30 @@ public class ChangeControl {
 
   private final ApprovalsUtil approvalsUtil;
   private final RefControl refControl;
-  private final Change change;
+  private final ChangeNotes notes;
 
-  ChangeControl(ApprovalsUtil au, RefControl r, Change c) {
-    this.approvalsUtil = au;
-    this.refControl = r;
-    this.change = c;
+  @AssistedInject
+  ChangeControl(
+      ApprovalsUtil approvalsUtil,
+      ChangeNotes.Factory notesFactory,
+      @Assisted RefControl refControl,
+      @Assisted Change change) {
+    this(approvalsUtil, refControl, notesFactory.create(change));
+  }
+
+  @AssistedInject
+  ChangeControl(
+      ApprovalsUtil approvalsUtil,
+      @Assisted RefControl refControl,
+      @Assisted ChangeNotes notes) {
+    this.approvalsUtil = approvalsUtil;
+    this.refControl = refControl;
+    this.notes = notes;
   }
 
   public ChangeControl forUser(final CurrentUser who) {
     return new ChangeControl(approvalsUtil, getRefControl().forUser(who),
-        getChange());
+        notes);
   }
 
   public RefControl getRefControl() {
@@ -213,12 +234,17 @@ public class ChangeControl {
   }
 
   public Change getChange() {
-    return change;
+    return notes.getChange();
+  }
+
+  public ChangeNotes getNotes() {
+    return notes;
   }
 
   /** Can this user see this change? */
   public boolean isVisible(ReviewDb db) throws OrmException {
-    if (change.getStatus() == Change.Status.DRAFT && !isDraftVisible(db, null)) {
+    if (getChange().getStatus() == Change.Status.DRAFT
+        && !isDraftVisible(db, null)) {
       return false;
     }
     return isRefVisible();
@@ -314,7 +340,7 @@ public class ChangeControl {
   public boolean isOwner() {
     if (getCurrentUser().isIdentifiedUser()) {
       final IdentifiedUser i = (IdentifiedUser) getCurrentUser();
-      return i.getAccountId().equals(change.getOwner());
+      return i.getAccountId().equals(getChange().getOwner());
     }
     return false;
   }
@@ -330,7 +356,7 @@ public class ChangeControl {
     if (getCurrentUser().isIdentifiedUser()) {
       Collection<Account.Id> results = cd != null
           ? cd.reviewers(Providers.of(db)).values()
-          : approvalsUtil.getReviewers(db, change.getId()).values();
+          : approvalsUtil.getReviewers(db, getChange().getId()).values();
       IdentifiedUser user = (IdentifiedUser) getCurrentUser();
       return results.contains(user.getAccountId());
     }
@@ -374,7 +400,7 @@ public class ChangeControl {
 
   /** Can this user edit the topic name? */
   public boolean canEditTopicName() {
-    if (change.getStatus().isOpen()) {
+    if (getChange().getStatus().isOpen()) {
       return isOwner() // owner (aka creator) of the change can edit topic
           || getRefControl().isOwner() // branch owner can edit topic
           || getProjectControl().isOwner() // project owner can edit topic
@@ -401,17 +427,17 @@ public class ChangeControl {
   public List<SubmitRecord> canSubmit(ReviewDb db, PatchSet patchSet,
       @Nullable ChangeData cd, boolean fastEvalLabels, boolean allowClosed,
       boolean allowDraft) {
-    if (!allowClosed && change.getStatus().isClosed()) {
+    if (!allowClosed && getChange().getStatus().isClosed()) {
       SubmitRecord rec = new SubmitRecord();
       rec.status = SubmitRecord.Status.CLOSED;
       return Collections.singletonList(rec);
     }
 
-    if (!patchSet.getId().equals(change.currentPatchSetId())) {
+    if (!patchSet.getId().equals(getChange().currentPatchSetId())) {
       return ruleError("Patch set " + patchSet.getPatchSetId() + " is not current");
     }
 
-    if ((change.getStatus() == Change.Status.DRAFT || patchSet.isDraft())
+    if ((getChange().getStatus() == Change.Status.DRAFT || patchSet.isDraft())
         && !allowDraft) {
       return cannotSubmitDraft(db, patchSet, cd);
     }
@@ -421,7 +447,7 @@ public class ChangeControl {
     try {
       evaluator = new SubmitRuleEvaluator(db, patchSet,
           getProjectControl(),
-          this, change, cd,
+          this, getChange(), cd,
           fastEvalLabels,
           "locate_submit_rule", "can_submit",
           "locate_submit_filter", "filter_submit_results");
@@ -436,7 +462,7 @@ public class ChangeControl {
       // required for this change to be submittable. Each label will indicate
       // whether or not that is actually possible given the permissions.
       log.error("Submit rule '" + evaluator.getSubmitRule() + "' for change "
-          + change.getId() + " of " + getProject().getName()
+          + getChange().getId() + " of " + getProject().getName()
           + " has no solution.");
       return ruleError("Project submit rule has no solution");
     }
@@ -557,7 +583,8 @@ public class ChangeControl {
   public SubmitTypeRecord getSubmitTypeRecord(ReviewDb db, PatchSet patchSet,
       @Nullable ChangeData cd) {
     try {
-      if (change.getStatus() == Change.Status.DRAFT && !isDraftVisible(db, cd)) {
+      if (getChange().getStatus() == Change.Status.DRAFT
+          && !isDraftVisible(db, cd)) {
         return typeRuleError("Patch set " + patchSet.getPatchSetId()
             + " not found");
       }
@@ -574,7 +601,7 @@ public class ChangeControl {
     SubmitRuleEvaluator evaluator;
     try {
       evaluator = new SubmitRuleEvaluator(db, patchSet,
-          getProjectControl(), this, change, cd,
+          getProjectControl(), this, getChange(), cd,
           false,
           "locate_submit_type", "get_submit_type",
           "locate_submit_type_filter", "filter_submit_type_results");
@@ -586,7 +613,7 @@ public class ChangeControl {
     if (results.isEmpty()) {
       // Should never occur for a well written rule
       log.error("Submit rule '" + evaluator.getSubmitRule() + "' for change "
-          + change.getId() + " of " + getProject().getName()
+          + getChange().getId() + " of " + getProject().getName()
           + " has no solution.");
       return typeRuleError("Project submit rule has no solution");
     }
@@ -594,7 +621,7 @@ public class ChangeControl {
     Term typeTerm = results.get(0);
     if (!typeTerm.isSymbol()) {
       log.error("Submit rule '" + evaluator.getSubmitRule() + "' for change "
-          + change.getId() + " of " + getProject().getName()
+          + getChange().getId() + " of " + getProject().getName()
           + " did not return a symbol.");
       return typeRuleError("Project submit rule has invalid solution");
     }
@@ -609,7 +636,7 @@ public class ChangeControl {
   }
 
   private List<SubmitRecord> logInvalidResult(Term rule, Term record, String reason) {
-    return logRuleError("Submit rule " + rule + " for change " + change.getId()
+    return logRuleError("Submit rule " + rule + " for change " + getChange().getId()
         + " of " + getProject().getName() + " output invalid result: " + record
         + (reason == null ? "" : ". Reason: " + reason));
   }
@@ -637,7 +664,7 @@ public class ChangeControl {
 
   private SubmitTypeRecord logInvalidType(Term rule, String record) {
     return logTypeRuleError("Submit type rule " + rule + " for change "
-        + change.getId() + " of " + getProject().getName()
+        + getChange().getId() + " of " + getProject().getName()
         + " output invalid result: " + record);
   }
 

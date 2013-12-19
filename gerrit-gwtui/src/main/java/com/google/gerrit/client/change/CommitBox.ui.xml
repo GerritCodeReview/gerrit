@@ -113,8 +113,8 @@ limitations under the License.
       </tr>
       <tr>
         <th><ui:msg>Commit</ui:msg></th>
-        <td ui:field='commitName'/>
-        <td><a ui:field='browserLink' href=""/></td>
+        <td><clippy:CopyableLabel styleName='{style.clippy}' ui:field='commitName'/></td>
+        <td align="center"><a ui:field='browserLink' href=""/></td>
       </tr>
       <tr>
         <th><ui:msg>Change-Id</ui:msg></th>

@@ -2440,6 +2440,26 @@ content is replaced.
   HTTP/1.1 200 OK
 ----
 
+[[delete-content]]
+Delete Content
+~~~~~~~~~~~~~~
+[verse]
+'DELETE /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/files/link:#file-id[\{file-id\}]/content'
+
+Delete the file from the edit patch set for a certain revision.
+
+.Request
+----
+  DELETE /changes/34/revisions/8.edit/files/HelloWorld.java/content HTTP/1.0
+  Content-Type: text/plain;charset-UTF-8
+
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+----
+
 [[set-reviewed]]
 === Set Reviewed
 --

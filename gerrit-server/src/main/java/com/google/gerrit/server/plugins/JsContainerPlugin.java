@@ -30,13 +30,13 @@ import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 import java.io.File;
 import java.util.jar.JarFile;
 
-class JsPlugin extends Plugin {
+class JsContainerPlugin extends Plugin {
   static final String JS_INIT_PATH = JavaScriptPlugin.CONTAINER_NAME
       + JavaScriptPlugin.DEFAULT_INIT_FILE_NAME;
 
   private Injector httpInjector;
 
-  JsPlugin(String name, File srcFile, PluginUser pluginUser,
+  JsContainerPlugin(String name, File srcFile, PluginUser pluginUser,
       FileSnapshot snapshot) {
     super(name, srcFile, pluginUser, snapshot, ApiType.JS);
   }
@@ -45,7 +45,7 @@ class JsPlugin extends Plugin {
   @Nullable
   public String getVersion() {
     if (getSrcFile().isDirectory()) {
-      return "";
+      return "DEV";
     }
     String fileName = getSrcFile().getName();
     int firstDash = fileName.indexOf("-");
@@ -58,9 +58,8 @@ class JsPlugin extends Plugin {
   @Override
   public void start(PluginGuiceEnvironment env) throws Exception {
     manager = new LifecycleManager();
-    String fileName = getMainFileName();
     httpInjector =
-        Guice.createInjector(new StandaloneJsPluginModule(getName(), fileName));
+        Guice.createInjector(new ContainerJsPluginModule(getName()));
     manager.start();
   }
 
@@ -94,30 +93,18 @@ class JsPlugin extends Plugin {
     return true;
   }
 
-  private String getMainFileName() {
-    String fileName;
-    if (getSrcFile().isDirectory()) {
-      fileName = JavaScriptPlugin.DEFAULT_INIT_FILE_NAME;
-    } else {
-      fileName = getSrcFile().getName();
-    }
-    return fileName;
-  }
-
-  private static final class StandaloneJsPluginModule extends AbstractModule {
-    private final String fileName;
+  private static final class ContainerJsPluginModule extends AbstractModule {
     private final String pluginName;
 
-    StandaloneJsPluginModule(String pluginName, String fileName) {
+    ContainerJsPluginModule(String pluginName) {
       this.pluginName = pluginName;
-      this.fileName = fileName;
     }
 
     @Override
     protected void configure() {
       bind(String.class).annotatedWith(PluginName.class).toInstance(pluginName);
       DynamicSet.bind(binder(), WebUiPlugin.class).toInstance(
-          new JavaScriptPlugin(fileName));
+          new JavaScriptPlugin(JavaScriptPlugin.DEFAULT_INIT_FILE_NAME));
     }
   }
 

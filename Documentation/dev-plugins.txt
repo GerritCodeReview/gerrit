@@ -1845,19 +1845,27 @@ displayed as part of the index page, if present in the manifest:
 Compiled plugins and extensions can be deployed to a running Gerrit
 server using the link:cmd-plugin-install.html[plugin install] command.
 
-WebUI plugins distributed as  single `.js` file can be deployed
-without the overhead of JAR packaging. When WebUI plugin require
-additional resources (like style sheets or graphics) then it could be
-packed into zip archive. All resources should be put into `static/`,
-plugin initialization file should be named `init.js`, no futher Java
-classes are required. Plugin will be automatically registered in Gerrit
-container. For more information refer to
-link:cmd-plugin-install.html[plugin install] command.
+When JavaScript based WebUI plugin require additonal resources (like
+style sheets or images) then it could be packed into zip archive. All
+resources should be put into `static/`, plugin initialization file
+should be named `init.js`, no futher Java classes are required.
+Plugin will be automatically registerd in Gerrit container.
+
+Gerrit also supports JavaScript development mode. Plugins can be
+developed without overhead of packaging and installation processes.
+To be able to develop rapidly JavaScript plugin for gerrit, create
+a folder inside `$site_path/plugins` (name a folder will be also used
+as plugin name). Inside it create `static` directory, then in `static`
+create `init.js` file.
+
+The `init.js` file will be automatically loaded into Gerrit Web page.
+Any other resource that will be put into `$site_path/plugins/$name/static/`
+directory will be served by Gerrit HTTPD.
 
 Plugins can also be copied directly into the server's
-directory at `$site_path/plugins/$name.(jar|zip|js)`.  The name of
-the JAR file, minus the `.jar`, `.js` or `.zip` extension, will be used
-as the plugin name. Unless disabled, servers periodically scan this
+directory at `$site_path/plugins/$name.(jar|zip)`.  The name of
+the JAR file, minus the `.jar` or `.zip` extension, will be used as
+the plugin name. Unless disabled, servers periodically scan this
 directory for updated plugins. The time can be adjusted by
 link:config-gerrit.html#plugins.checkFrequency[plugins.checkFrequency].
 

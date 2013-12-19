@@ -15,7 +15,6 @@
 package com.google.gerrit.server.plugins;
 
 import static com.google.common.base.Objects.firstNonNull;
-import static com.google.common.collect.Iterables.contains;
 import static com.google.common.collect.Iterables.transform;
 
 import com.google.common.base.Function;
@@ -98,7 +97,7 @@ public class JarScanner implements PluginContentScanner {
     Enumeration<JarEntry> e = jarFile.entries();
     while (e.hasMoreElements()) {
       JarEntry entry = e.nextElement();
-      if (JsPlugin.JS_INIT_PATH.equals(entry.getName())) {
+      if (JsContainerPlugin.JS_INIT_PATH.equals(entry.getName())) {
         hasJsInitFile = true;
         continue;
       }

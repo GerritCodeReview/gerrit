@@ -15,6 +15,7 @@
 package com.google.gerrit.client.diff;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style.Unit;
 
 import net.codemirror.lib.LineWidget;
 
@@ -88,7 +89,7 @@ class PaddingManager {
   }
 
   private void setPaddingHeight(int height) {
-    SideBySide2.setHeightInPx(wrapper.element, height);
+    wrapper.element.getStyle().setHeight((double) height, Unit.PX);
     wrapper.widget.changed();
   }
 

@@ -56,7 +56,7 @@ class PreferencesAction {
     popup.addCloseHandler(new CloseHandler<PopupPanel>() {
       @Override
       public void onClose(CloseEvent<PopupPanel> event) {
-        view.getCmB().focus();
+        view.getCmFromSide(DisplaySide.B).focus();
         popup = null;
         current = null;
       }

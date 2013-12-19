@@ -14,7 +14,7 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
-import static com.google.gerrit.acceptance.git.GitUtil.createProject;
+import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;

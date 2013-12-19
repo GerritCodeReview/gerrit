@@ -14,7 +14,7 @@
 
 package com.google.gerrit.acceptance.ssh;
 
-import static com.google.gerrit.acceptance.git.GitUtil.createProject;
+import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

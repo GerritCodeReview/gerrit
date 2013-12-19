@@ -5,7 +5,7 @@ acceptance_tests(
   deps = [
     ':branch',
     ':project',
-    '//gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git:util',
+    '//gerrit-acceptance-tests:lib',
   ],
 )
 

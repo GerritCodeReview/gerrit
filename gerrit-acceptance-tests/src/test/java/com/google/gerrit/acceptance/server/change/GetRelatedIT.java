@@ -14,23 +14,23 @@
 
 package com.google.gerrit.acceptance.server.change;
 
-import static com.google.gerrit.acceptance.git.GitUtil.add;
-import static com.google.gerrit.acceptance.git.GitUtil.cloneProject;
-import static com.google.gerrit.acceptance.git.GitUtil.createCommit;
-import static com.google.gerrit.acceptance.git.GitUtil.createProject;
-import static com.google.gerrit.acceptance.git.GitUtil.initSsh;
-import static com.google.gerrit.acceptance.git.GitUtil.pushHead;
+import static com.google.gerrit.acceptance.GitUtil.add;
+import static com.google.gerrit.acceptance.GitUtil.cloneProject;
+import static com.google.gerrit.acceptance.GitUtil.createCommit;
+import static com.google.gerrit.acceptance.GitUtil.createProject;
+import static com.google.gerrit.acceptance.GitUtil.initSsh;
+import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static org.junit.Assert.assertEquals;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
-import com.google.gerrit.acceptance.git.PushOneCommit;
-import com.google.gerrit.acceptance.git.GitUtil.Commit;
+import com.google.gerrit.acceptance.GitUtil.Commit;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -59,6 +59,9 @@ public class GetRelatedIT extends AbstractDaemonTest {
   @Inject
   private SchemaFactory<ReviewDb> reviewDbProvider;
 
+  @Inject
+  private PushOneCommit.Factory pushFactory;
+
   private TestAccount admin;
   private RestSession session;
   private Git git;
@@ -86,7 +89,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
   @Test
   public void getRelatedNoResult() throws GitAPIException,
       IOException, Exception {
-    PushOneCommit push = new PushOneCommit(db, admin.getIdent());
+    PushOneCommit push = pushFactory.create(db, admin.getIdent());
     PatchSet.Id ps = push.to(git, "refs/for/master").getPatchSetId();
     List<ChangeAndCommit> related = getRelated(ps);
     assertEquals(0, related.size());

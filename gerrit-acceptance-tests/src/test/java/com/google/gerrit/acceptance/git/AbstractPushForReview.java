@@ -14,12 +14,13 @@
 
 package com.google.gerrit.acceptance.git;
 
-import static com.google.gerrit.acceptance.git.GitUtil.cloneProject;
-import static com.google.gerrit.acceptance.git.GitUtil.createProject;
-import static com.google.gerrit.acceptance.git.GitUtil.initSsh;
+import static com.google.gerrit.acceptance.GitUtil.cloneProject;
+import static com.google.gerrit.acceptance.GitUtil.createProject;
+import static com.google.gerrit.acceptance.GitUtil.initSsh;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.Change;
@@ -49,6 +50,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Inject
   private SchemaFactory<ReviewDb> reviewDbProvider;
+
+  @Inject
+  protected PushOneCommit.Factory pushFactory;
 
   private TestAccount admin;
   private Project.NameKey project;
@@ -190,7 +194,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   private PushOneCommit.Result pushTo(String ref) throws GitAPIException,
       IOException {
-    PushOneCommit push = new PushOneCommit(db, admin.getIdent());
+    PushOneCommit push = pushFactory.create(db, admin.getIdent());
     return push.to(git, ref);
   }
 }

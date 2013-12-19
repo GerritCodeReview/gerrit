@@ -23,7 +23,7 @@ acceptance_tests(
   srcs = OTHER_TESTS,
   deps = [
     ':util',
-    '//gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git:util',
+    '//gerrit-acceptance-tests:lib',
   ],
 )
 
@@ -31,7 +31,7 @@ acceptance_tests(
   srcs = SUBMIT_TESTS,
   deps = [
     ':submit_util',
-    '//gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git:util',
+    '//gerrit-acceptance-tests:lib',
   ],
 )
 
@@ -41,7 +41,6 @@ java_library(
   deps = [
     ':util',
     '//gerrit-acceptance-tests:lib',
-    '//gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git:util',
   ],
 )
 

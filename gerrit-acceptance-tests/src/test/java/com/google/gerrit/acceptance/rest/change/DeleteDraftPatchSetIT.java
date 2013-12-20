@@ -94,7 +94,7 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     assertEquals("p~master~" + changeId, c.id);
     assertEquals(Change.Status.NEW, c.status);
     RestResponse r = deletePatchSet(changeId, ps, session);
-    assertEquals("Patch set is not a draft.", r.getEntityContent());
+    assertEquals("Patch set is not a draft or edit.", r.getEntityContent());
     assertEquals(409, r.getStatusCode());
   }
 

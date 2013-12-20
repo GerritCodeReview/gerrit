@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48587f1a_af7d5997",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-20T23:29:00Z",
+      "side": 1,
+      "message": "Makes sense, but its unused in this commit.",
+      "range": {
+        "startLine": 231,
+        "startChar": 4,
+        "endLine": 237,
+        "endChar": 5
+      },
+      "revId": "ae4a505fccf499f7a0f21f2974a1cda181a14d5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_8f7895a8",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-20T23:29:00Z",
+      "side": 1,
+      "message": "I was afraid of this. I don\u0027t think its a good idea to co-mingle PatchSet.Id for published patches with ids that are trying to define an in progress, unpublished edit owned by a user.",
+      "revId": "ae4a505fccf499f7a0f21f2974a1cda181a14d5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

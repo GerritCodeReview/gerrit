@@ -18,6 +18,7 @@ import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
@@ -59,6 +60,14 @@ public class ChangeFileApi {
     content(id, filename).put(content, result);
   }
 
+  /** Restore contents of a File in a revision edit. */
+  public static void restoreContent(PatchSet.Id id, String filename,
+      AsyncCallback<VoidResult> result) {
+    Input in = Input.create();
+    in.restore(true);
+    content(id, filename).put(in, result);
+  }
+
   /** Delete a file from a revision. */
   public static void deleteContent(PatchSet.Id id, String filename,
       AsyncCallback<VoidResult> result) {
@@ -75,4 +84,15 @@ public class ChangeFileApi {
   private static native String b64decode(String a) /*-{
     return window.atob(a);
   }-*/;
+
+  private static class Input extends JavaScriptObject {
+    final native void restore(boolean r) /*-{ if(r)this.restore=r; }-*/;
+
+    static Input create() {
+      return (Input) createObject();
+    }
+
+    protected Input() {
+    }
+  }
 }

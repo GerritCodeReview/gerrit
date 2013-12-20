@@ -1,17 +1,14 @@
-Gerrit Code Review - /accounts/ REST API
-========================================
+= Gerrit Code Review - /accounts/ REST API
 
 This page describes the account related REST endpoints.
 Please also take note of the general information on the
 link:rest-api.html[REST API].
 
 [[account-endpoints]]
-Account Endpoints
------------------
+== Account Endpoints
 
 [[get-account]]
-Get Account
-~~~~~~~~~~~
+=== Get Account
 --
 'GET /accounts/link:#account-id[\{account-id\}]'
 --
@@ -39,8 +36,7 @@ Returns an account as an link:#account-info[AccountInfo] entity.
 ----
 
 [[create-account]]
-Create Account
-~~~~~~~~~~~~~~
+=== Create Account
 --
 'PUT /accounts/link:#username[\{username\}]'
 --
@@ -84,8 +80,7 @@ returned that describes the created account.
 ----
 
 [[get-account-name]]
-Get Account Name
-~~~~~~~~~~~~~~~~
+=== Get Account Name
 --
 'GET /accounts/link:#account-id[\{account-id\}]/name'
 --
@@ -110,8 +105,7 @@ Retrieves the full name of an account.
 If the account does not have a name an empty string is returned.
 
 [[set-account-name]]
-Set Account Name
-~~~~~~~~~~~~~~~~
+=== Set Account Name
 --
 'PUT /accounts/link:#account-id[\{account-id\}]/name'
 --
@@ -149,8 +143,7 @@ Some realms may not allow to modify the account name. In this case the
 request is rejected with "`405 Method Not Allowed`".
 
 [[delete-account-name]]
-Delete Account Name
-~~~~~~~~~~~~~~~~~~~
+=== Delete Account Name
 --
 'DELETE /accounts/link:#account-id[\{account-id\}]/name'
 --
@@ -168,8 +161,7 @@ Deletes the name of an account.
 ----
 
 [[get-username]]
-Get Username
-~~~~~~~~~~~~
+=== Get Username
 --
 'GET /accounts/link:#account-id[\{account-id\}]/username'
 --
@@ -194,8 +186,7 @@ Retrieves the username of an account.
 If the account does not have a username the response is `404 Not Found`.
 
 [[get-active]]
-Get Active
-~~~~~~~~~~
+=== Get Active
 --
 'GET /accounts/link:#account-id[\{account-id\}]/active'
 --
@@ -219,8 +210,7 @@ If the account is active the string `ok` is returned.
 If the account is inactive the response is `204 No Content`.
 
 [[set-active]]
-Set Active
-~~~~~~~~~~
+=== Set Active
 --
 'PUT /accounts/link:#account-id[\{account-id\}]/active'
 --
@@ -240,8 +230,7 @@ Sets the account state to active.
 If the account was already active the response is `200 OK`.
 
 [[delete-active]]
-Delete Active
-~~~~~~~~~~~~~
+=== Delete Active
 --
 'DELETE /accounts/link:#account-id[\{account-id\}]/active'
 --
@@ -261,8 +250,7 @@ Sets the account state to inactive.
 If the account was already inactive the response is `404 Not Found`.
 
 [[get-http-password]]
-Get HTTP Password
-~~~~~~~~~~~~~~~~~
+=== Get HTTP Password
 --
 'GET /accounts/link:#account-id[\{account-id\}]/password.http'
 --
@@ -287,8 +275,7 @@ Retrieves the HTTP password of an account.
 If the account does not have an HTTP password the response is `404 Not Found`.
 
 [[set-http-password]]
-Set/Generate HTTP Password
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Set/Generate HTTP Password
 --
 'PUT /accounts/link:#account-id[\{account-id\}]/password.http'
 --
@@ -324,8 +311,7 @@ As response the new HTTP password is returned.
 If the HTTP password was deleted the response is "`204 No Content`".
 
 [[delete-http-password]]
-Delete HTTP Password
-~~~~~~~~~~~~~~~~~~~~
+=== Delete HTTP Password
 --
 'DELETE /accounts/link:#account-id[\{account-id\}]/password.http'
 --
@@ -343,8 +329,7 @@ Deletes the HTTP password of an account.
 ----
 
 [[list-account-emails]]
-List Account Emails
-~~~~~~~~~~~~~~~~~~~
+=== List Account Emails
 --
 'GET /accounts/link:#account-id[\{account-id\}]/emails'
 --
@@ -378,8 +363,7 @@ link:#email-info[EmailInfo] entities.
 ----
 
 [[get-account-email]]
-Get Account Email
-~~~~~~~~~~~~~~~~~
+=== Get Account Email
 --
 'GET /accounts/link:#account-id[\{account-id\}]/emails/link:#email-id[\{email-id\}]'
 --
@@ -408,8 +392,7 @@ describes the email address.
 ----
 
 [[create-account-email]]
-Create Account Email
-~~~~~~~~~~~~~~~~~~~~
+=== Create Account Email
 --
 'PUT /accounts/link:#account-id[\{account-id\}]/emails/link:#email-id[\{email-id\}]'
 --
@@ -447,8 +430,7 @@ link:#email-info[EmailInfo] entity.
 ----
 
 [[delete-account-email]]
-Delete Account Email
-~~~~~~~~~~~~~~~~~~~~
+=== Delete Account Email
 --
 'DELETE /accounts/link:#account-id[\{account-id\}]/emails/link:#email-id[\{email-id\}]'
 --
@@ -466,8 +448,7 @@ Deletes an email address of an account.
 ----
 
 [[set-preferred-email]]
-Set Preferred Email
-~~~~~~~~~~~~~~~~~~~
+=== Set Preferred Email
 --
 'PUT /accounts/link:#account-id[\{account-id\}]/emails/link:#email-id[\{email-id\}]/preferred'
 --
@@ -488,8 +469,7 @@ If the email address was already the preferred email address of the
 account the response is "`200 OK`".
 
 [[list-ssh-keys]]
-List SSH Keys
-~~~~~~~~~~~~~
+=== List SSH Keys
 --
 'GET /accounts/link:#account-id[\{account-id\}]/sshkeys'
 --
@@ -524,8 +504,7 @@ link:#ssh-key-info[SshKeyInfo] entities.
 ----
 
 [[get-ssh-key]]
-Get SSH Key
-~~~~~~~~~~~
+=== Get SSH Key
 --
 'GET /accounts/link:#account-id[\{account-id\}]/sshkeys/link:#ssh-key-id[\{ssh-key-id\}]'
 --
@@ -558,8 +537,7 @@ describes the SSH key.
 ----
 
 [[add-ssh-key]]
-Add SSH Key
-~~~~~~~~~~~
+=== Add SSH Key
 --
 'POST /accounts/link:#account-id[\{account-id\}]/sshkeys'
 --
@@ -597,8 +575,7 @@ describes the new SSH key.
 ----
 
 [[delete-ssh-key]]
-Delete SSH Key
-~~~~~~~~~~~~~~
+=== Delete SSH Key
 --
 'DELETE /accounts/link:#account-id[\{account-id\}]/sshkeys/link:#ssh-key-id[\{ssh-key-id\}]'
 --
@@ -616,8 +593,7 @@ Deletes an SSH key of a user.
 ----
 
 [[list-account-capabilities]]
-List Account Capabilities
-~~~~~~~~~~~~~~~~~~~~~~~~~
+=== List Account Capabilities
 --
 'GET /accounts/link:#account-id[\{account-id\}]/capabilities'
 --
@@ -722,8 +698,7 @@ get::/accounts/self/capabilities?q=createGroup
 ****
 
 [[check-account-capability]]
-Check Account Capability
-~~~~~~~~~~~~~~~~~~~~~~~~
+=== Check Account Capability
 --
 'GET /accounts/link:#account-id[\{account-id\}]/capabilities/link:#capability-id[\{capability-id\}]'
 --
@@ -753,8 +728,7 @@ get::/accounts/self/capabilities/createGroup
 ****
 
 [[list-groups]]
-List Groups
-~~~~~~~~~~~
+=== List Groups
 --
 'GET /accounts/link:#account-id[\{account-id\}]/groups/'
 --
@@ -816,8 +790,7 @@ get::/accounts/self/groups/
 ****
 
 [[get-avatar]]
-Get Avatar
-~~~~~~~~~~
+=== Get Avatar
 --
 'GET /accounts/link:#account-id[\{account-id\}]/avatar'
 --
@@ -841,8 +814,7 @@ The response redirects to the URL of the avatar image.
 ----
 
 [[get-avatar-change-url]]
-Get Avatar Change URL
-~~~~~~~~~~~~~~~~~~~~~
+=== Get Avatar Change URL
 --
 'GET /accounts/link:#account-id[\{account-id\}]/avatar.change.url'
 --
@@ -864,8 +836,7 @@ Retrieves the URL where the user can change the avatar image.
 ----
 
 [[get-diff-preferences]]
-Get Diff Preferences
-~~~~~~~~~~~~~~~~~~~~
+=== Get Diff Preferences
 --
 'GET /accounts/link:#account-id[\{account-id\}]/preferences.diff'
 --
@@ -900,8 +871,7 @@ link:#diff-preferences-info[DiffPreferencesInfo] entity.
 ----
 
 [[set-diff-preferences]]
-Set Diff Preferences
-~~~~~~~~~~~~~~~~~~~~
+=== Set Diff Preferences
 --
 'PUT /accounts/link:#account-id[\{account-id\}]/preferences.diff'
 --
@@ -953,8 +923,7 @@ link:#diff-preferences-info[DiffPreferencesInfo] entity.
 ----
 
 [[get-starred-changes]]
-Get Starred Changes
-~~~~~~~~~~~~~~~~~~~
+=== Get Starred Changes
 --
 'GET /accounts/link:#account-id[\{account-id\}]/starred.changes'
 --
@@ -998,8 +967,7 @@ link:rest-api-changes.html#change-info[ChangeInfo] entities.
 ----
 
 [[star-change]]
-Star Change
-~~~~~~~~~~~
+=== Star Change
 --
 'PUT /accounts/link:#account-id[\{account-id\}]/starred.changes/link:rest-api-changes.html#change-id[\{change-id\}]'
 --
@@ -1019,8 +987,7 @@ whenever updates are made to the change.
 ----
 
 [[unstar-change]]
-Unstar Change
-~~~~~~~~~~~~~
+=== Unstar Change
 --
 'DELETE /accounts/link:#account-id[\{account-id\}]/starred.changes/link:rest-api-changes#change-id[\{change-id\}]'
 --
@@ -1038,12 +1005,10 @@ Unstar a change. Removes the starred flag, stopping notifications.
 ----
 
 [[ids]]
-IDs
----
+== IDs
 
 [[account-id]]
-\{account-id\}
-~~~~~~~~~~~~~~
+=== \{account-id\}
 Identifier that uniquely identifies one account.
 
 This can be:
@@ -1056,35 +1021,29 @@ This can be:
 * `self` for the calling user
 
 [[capability-id]]
-\{capability-id\}
-~~~~~~~~~~~~~~~~~
+=== \{capability-id\}
 Identifier of a global capability. Valid values are all field names of
 the link:#capability-info[CapabilityInfo] entity.
 
 [[email-id]]
-\{email-id\}
-~~~~~~~~~~~~
+=== \{email-id\}
 An email address, or `preferred` for the preferred email address of the
 user.
 
 [[username]]
-\{username\}
-~~~~~~~~~~~~
+=== \{username\}
 The user name.
 
 [[ssh-key-id]]
-\{ssh-key-id\}
-~~~~~~~~~~~~~~
+=== \{ssh-key-id\}
 The sequence number of the SSH key.
 
 
 [[json-entities]]
-JSON Entities
--------------
+== JSON Entities
 
 [[account-info]]
-AccountInfo
-~~~~~~~~~~~
+=== AccountInfo
 The `AccountInfo` entity contains information about an account.
 
 [options="header",width="50%",cols="1,^1,5"]
@@ -1104,8 +1063,7 @@ account information] is requested.
 |===========================
 
 [[account-input]]
-AccountInput
-~~~~~~~~~~~~
+=== AccountInput
 The `AccountInput` entity contains information for the creation of
 a new account.
 
@@ -1124,8 +1082,7 @@ the groups to which the user should be added.
 |============================
 
 [[account-name-input]]
-AccountNameInput
-~~~~~~~~~~~~~~~~
+=== AccountNameInput
 The `AccountNameInput` entity contains information for setting a name
 for an account.
 
@@ -1137,8 +1094,7 @@ If not set or if set to an empty string, the account name is deleted.
 |=============================
 
 [[capability-info]]
-CapabilityInfo
-~~~~~~~~~~~~~~
+=== CapabilityInfo
 The `CapabilityInfo` entity contains information about the global
 capabilities of a user.
 
@@ -1191,8 +1147,7 @@ link:access-control.html#capability_viewQueue[View Queue] capability.
 |=================================
 
 [[diff-preferences-info]]
-DiffPreferencesInfo
-~~~~~~~~~~~~~~~~~~~
+=== DiffPreferencesInfo
 The `DiffPreferencesInfo` entity contains information about the diff
 preferences of a user.
 
@@ -1241,8 +1196,7 @@ Number of spaces that should be used to display one tab.
 |=====================================
 
 [[diff-preferences-input]]
-DiffPreferencesInput
-~~~~~~~~~~~~~~~~~~~~
+=== DiffPreferencesInput
 The `DiffPreferencesInput` entity contains information for setting the
 diff preferences of a user. Fields which are not set will not be
 updated.
@@ -1292,8 +1246,7 @@ Number of spaces that should be used to display one tab.
 |=====================================
 
 [[email-info]]
-EmailInfo
-~~~~~~~~~
+=== EmailInfo
 The `EmailInfo` entity contains information about an email address of a
 user.
 
@@ -1310,8 +1263,7 @@ this address.
 |========================
 
 [[email-input]]
-EmailInput
-~~~~~~~~~~
+=== EmailInput
 The `EmailInput` entity contains information for registering a new
 email address.
 
@@ -1333,8 +1285,7 @@ confirmation.
 |==============================
 
 [[http-password-input]]
-HttpPasswordInput
-~~~~~~~~~~~~~~~~~
+=== HttpPasswordInput
 The `HttpPasswordInput` entity contains information for setting/generating
 an HTTP password.
 
@@ -1351,8 +1302,7 @@ password is deleted.
 |============================
 
 [[query-limit-info]]
-QueryLimitInfo
-~~~~~~~~~~~~~~
+=== QueryLimitInfo
 The `QueryLimitInfo` entity contains information about the
 link:access-control.html#capability_queryLimit[Query Limit] of a user.
 
@@ -1364,8 +1314,7 @@ link:access-control.html#capability_queryLimit[Query Limit] of a user.
 |================================
 
 [[ssh-key-info]]
-SshKeyInfo
-~~~~~~~~~~
+=== SshKeyInfo
 The `SshKeyInfo` entity contains information about an SSH key of a
 user.
 

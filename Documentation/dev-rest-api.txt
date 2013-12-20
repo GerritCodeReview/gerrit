@@ -1,17 +1,14 @@
-Gerrit Code Review - REST API Developers' Notes
-===============================================
+= Gerrit Code Review - REST API Developers' Notes
 
 This document is about developing the REST API.  For details of the
 actual APIs available in Gerrit, please see the
 link:rest-api.html[REST API interface reference].
 
 
-Testing REST API Functionality
-------------------------------
+== Testing REST API Functionality
 
 
-Basic Testing
-~~~~~~~~~~~~~
+=== Basic Testing
 
 Basic testing of REST API functionality can be done with `curl`:
 
@@ -29,8 +26,7 @@ or `DELETE`, an additional argument is required:
 ----
 
 
-Sending Data in the Request
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Sending Data in the Request
 
 Some REST APIs accept data in the request body of `PUT` and `POST` requests.
 
@@ -49,8 +45,7 @@ option instead:
 ----
 
 
-Authentication
-~~~~~~~~~~~~~~
+=== Authentication
 
 To test APIs that require authentication, the username and password must be specified on
 the command line:
@@ -71,8 +66,7 @@ file (on Windows, `_netrc`):
 In both cases, the password should be the user's link:user-upload.html#http[HTTP password].
 
 
-Verifying Header Content
-~~~~~~~~~~~~~~~~~~~~~~~~
+=== Verifying Header Content
 
 To verify the headers returned from a REST API call, use `curl` in verbose mode:
 

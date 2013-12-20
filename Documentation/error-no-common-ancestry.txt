@@ -1,5 +1,4 @@
-no common ancestry
-==================
+= no common ancestry
 
 With this error message Gerrit rejects to push a commit for code
 review if the pushed commit and the commit at the tip of the target

@@ -1,8 +1,6 @@
-Gerrit Code Review - Reverse Proxy
-==================================
+= Gerrit Code Review - Reverse Proxy
 
-Description
------------
+== Description
 
 Gerrit can be configured to run behind a third-party web server.
 This allows the other web server to bind to the privileged port 80
@@ -10,8 +8,7 @@ This allows the other web server to bind to the privileged port 80
 from Java to optimized native C code.
 
 
-Gerrit Configuration
---------------------
+== Gerrit Configuration
 
 Ensure `'$site_path'/etc/gerrit.config` has the property
 link:config-gerrit.html#httpd.listenUrl[httpd.listenUrl] configured
@@ -25,8 +22,7 @@ during 'init'.
 ----
 
 
-Apache 2 Configuration
-----------------------
+== Apache 2 Configuration
 
 To run Gerrit behind an Apache server using 'mod_proxy', enable the
 necessary Apache2 modules:
@@ -62,8 +58,7 @@ or links will redirect to incorrect locations.
 The two options 'AllowEncodedSlashes On' and 'ProxyPass .. nocanon' are required
 since Gerrit 2.6.
 
-SSL
-~~~
+=== SSL
 
 To enable Apache to perform the SSL processing, use 'proxy-https://'
 in httpd.listenUrl within Gerrit's configuration file, and enable
@@ -83,8 +78,7 @@ See the Apache 'mod_ssl' documentation for more details on how to
 configure SSL within the server, like controlling how strong of an
 encryption algorithm is required.
 
-Troubleshooting
-~~~~~~~~~~~~~~~
+=== Troubleshooting
 
 If you are encountering 'Page Not Found' errors when opening the change
 screen, your Apache proxy is very likely decoding the passed URL.
@@ -93,8 +87,7 @@ Make sure to either use 'AllowEncodedSlashes On' together with
 'AllowEncodedSlashes NoDecode' set.
 
 
-Nginx Configuration
--------------------
+== Nginx Configuration
 
 To run Gerrit behind an Nginx server, use a server statement such
 as this one:
@@ -112,8 +105,7 @@ as this one:
 	}
 ----
 
-SSL
-~~~
+=== SSL
 
 To enable Nginx to perform the SSL processing, use 'proxy-https://'
 in httpd.listenUrl within Gerrit's configuration file, and enable
@@ -136,8 +128,7 @@ See the Nginx 'http ssl module' documentation for more details on
 how to configure SSL within the server, like controlling how strong
 of an encryption algorithm is required.
 
-Troubleshooting
-~~~~~~~~~~~~~~~
+=== Troubleshooting
 
 If you are encountering 'Page Not Found' errors when opening the change
 screen, your Nginx proxy is very likely decoding the passed URL.

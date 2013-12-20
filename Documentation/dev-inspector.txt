@@ -1,12 +1,9 @@
-Gerrit Inspector
-================
+= Gerrit Inspector
 
-NAME
-----
+== NAME
 Gerrit Inspector - Interactive Jython environment for Gerrit
 
-SYNOPSIS
---------
+== SYNOPSIS
 --
 'java' -jar gerrit.war 'daemon'
 	-d <SITE_PATH>
@@ -17,8 +14,7 @@ SYNOPSIS
 	-s
 --
 
-DESCRIPTION
------------
+== DESCRIPTION
 Runs the Gerrit network daemon on the local system as described
 in the link:pgm-daemon.html[Daemon documentation], additionally
 starting an interactive Jython shell for inspection
@@ -32,8 +28,7 @@ to introduce changes to the internal state of the system in
 an inconsistent way. Care must be taken not to break the running system
 and/or destroy the data.
 
-INSTALLATION
-------------
+== INSTALLATION
 
 Gerrit Inspector requires Jython library ('jython.jar') to be installed
 in the '$site_path/lib' directory. Jython, a Python interpreter for
@@ -42,8 +37,7 @@ website. Only 'jython.jar' file is needed, installation of Jython libraries
 is optional. Gerrit Inspector has been tested with Jython 2.5.2 but
 might work an earlier version.
 
-STARTUP
--------
+== STARTUP
 
 During startup Jython examines Java libraries found on the classpath.
 While libraries are inspected a large amount of messages is displayed on the console:
@@ -77,8 +71,7 @@ the interactive interpreter.
 When interactive interpreter exits (by issuing EOF on the command line),
 a whole Gerrit instance is shut down gracefully.
 
-USING THE INTERPRETER
----------------------
+== USING THE INTERPRETER
 
 Gerrit Inspector launches Jython interpreter in the context of the Gerrit
 Java Virtual Machine. All core facilities of the Jython (and Python)
@@ -219,8 +212,7 @@ And Gerrit should shut down all its subsystems and exit:
 [2012-04-17 15:31:08,458] INFO  com.google.gerrit.pgm.Daemon : caught shutdown, cleaning up
 ----
 
-TROUBLESHOOTING
----------------
+== TROUBLESHOOTING
 
 Gerrit Inspector is logging to the Gerrit error log.
 
@@ -281,16 +273,14 @@ by issuing the following command in the Gerrit Inspector console:
 Shell.reload()
 ----
 
-LOGGING
--------
+== LOGGING
 Error and warning messages from the server are automatically written
 to the log file under '$site_path/logs/error_log'.
 
 Output and error messages (including Java and Python exceptions)
 resulting from interactive work are logged to the console.
 
-KNOWN ISSUES
-------------
+== KNOWN ISSUES
 The Inspector does not yet recognize Google Guice bindings.
 
 IMPORTANT: Using the Inspector may void your warranty.

@@ -1,5 +1,4 @@
-branch ... not found
-====================
+= branch ... not found
 
 With this error message Gerrit rejects to push a commit for code
 review if the specified target branch does not exist.

@@ -1,9 +1,7 @@
-Making a Release of a Gerrit Subproject
-=======================================
+= Making a Release of a Gerrit Subproject
 
 [[make-snapshot]]
-Make a Snapshot
----------------
+== Make a Snapshot
 
 * Build the latest snapshot and install it into the local Maven
 repository:
@@ -15,8 +13,7 @@ repository:
 * Test Gerrit with this snapshot locally
 
 
-Publish Snapshot
-----------------
+== Publish Snapshot
 
 If a snapshot for a subproject was created that should be referenced by
 Gerrit while current Gerrit development is ongoing, this snapshot needs
@@ -42,8 +39,7 @@ and Gerrit has to reference the released subproject version.
 
 
 [[prepare-release]]
-Prepare the Release
--------------------
+== Prepare the Release
 
 * link:#make-snapshot[First create (and test) the latest snapshot for
 the subproject]
@@ -66,8 +62,7 @@ below)
 
 
 [[publish-release]]
-Publish the Release
--------------------
+== Publish the Release
 
 * Make sure you have done the configuration needed for deployment:
 ** link:dev-release-deploy-config.html#deploy-configuration-settings-xml[

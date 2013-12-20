@@ -1,34 +1,27 @@
-gerrit apropos
-==============
+= gerrit apropos
 
-NAME
-----
+== NAME
 gerrit apropos - Search Gerrit documentation index
 
-SYNOPSIS
---------
+== SYNOPSIS
 --
 'ssh' -p <port> <host> 'gerrit apropos'
   <query>
 --
 
-DESCRIPTION
------------
+== DESCRIPTION
 Queries the documentation index and returns results with the title and URL
 from the matched documents.
 
-ACCESS
-------
+== ACCESS
 Any user who has configured an SSH key.
 
-SCRIPTING
----------
+== SCRIPTING
 This command is intended to be used in scripts.
 
 Note: this feature is only available if documentation index was built.
 
-EXAMPLES
---------
+== EXAMPLES
 
 =====
 $ ssh -p 29418 review.example.com gerrit apropos capabilities
@@ -54,8 +47,7 @@ $ ssh -p 29418 review.example.com gerrit apropos capabilities
     http://localhost:8080/Documentation/rest-api-access.html
 =====
 
-SEE ALSO
---------
+== SEE ALSO
 
 * link:access-control.html[Access Controls]
 

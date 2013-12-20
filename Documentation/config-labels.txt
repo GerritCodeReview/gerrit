@@ -1,5 +1,4 @@
-Gerrit Code Review - Review Labels
-==================================
+= Gerrit Code Review - Review Labels
 
 As part of the code review process, reviewers score each change with
 values for each label configured for the project.  The label values that
@@ -10,8 +9,7 @@ groups within projects, enabling functionality for that group's members.
 
 
 [[label_Code-Review]]
-Label: Code-Review
-------------------
+== Label: Code-Review
 
 The code review label is the second of two default labels that is
 configured upon the creation of a Gerrit instance.  It may have any
@@ -83,8 +81,7 @@ value if present blocks a submit, while the highest positive value is
 required to enable submit.
 
 [[label_Verified]]
-Label: Verified
----------------
+== Label: Verified
 
 The Verified label was originally invented by the Android Open Source
 Project to mean 'compiles, passes basic unit tests'.  Some CI tools
@@ -131,8 +128,7 @@ behavior.
 
 
 [[label_custom]]
-Your Label Here
----------------
+== Your Label Here
 
 Site administrators and project owners can also define their own labels.
 
@@ -159,16 +155,14 @@ with inherited labels appearing first, providing some layout control to
 the administrator.
 
 [[label_name]]
-`label.Label-Name`
-~~~~~~~~~~~~~~~~~~
+=== `label.Label-Name`
 
 The name for a label, consisting only of alphanumeric characters and
 `-`.
 
 
 [[label_value]]
-`label.Label-Name.value`
-~~~~~~~~~~~~~~~~~~~~~~~~
+=== `label.Label-Name.value`
 
 A multi-valued key whose values are of the form `"<#> Value description
 text"`. The `<#>` may be any positive or negative number with an
@@ -176,8 +170,7 @@ optional leading `+`.
 
 
 [[label_abbreviation]]
-`label.Label-Name.abbreviation`
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== `label.Label-Name.abbreviation`
 
 An abbreviated name for a label shown as a compact column header, for
 example on project dashboards. Defaults to all the uppercase characters
@@ -185,8 +178,7 @@ in the label name, e.g. `Label-Name` is abbreviated by default as `LN`.
 
 
 [[label_function]]
-`label.Label-Name.function`
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== `label.Label-Name.function`
 
 The name of a function for evaluating multiple votes for a label.  This
 function is only applied if the default submit rule is used for a label.
@@ -221,15 +213,13 @@ determining whether a change is submittable.
 
 
 [[label_copyMinScore]]
-`label.Label-Name.copyMinScore`
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== `label.Label-Name.copyMinScore`
 
 If true, the lowest possible negative value for the label is copied
 forward when a new patch set is uploaded.
 
 [[label_copyMaxScore]]
-`label.Label-Name.copyMaxScore`
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== `label.Label-Name.copyMaxScore`
 
 If true, the highest possible positive value for the label is copied
 forward when a new patch set is uploaded. This can be used to enable
@@ -237,8 +227,7 @@ sticky approvals, reducing turn-around for trivial cleanups prior to
 submitting a change.
 
 [[label_copyAllScoresOnTrivialRebase]]
-`label.Label-Name.copyAllScoresOnTrivialRebase`
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== `label.Label-Name.copyAllScoresOnTrivialRebase`
 
 If true, all scores for the label are copied forward when a new patch
 set is uploaded that is a trivial rebase. A new patch set is considered
@@ -249,8 +238,7 @@ This can be used to enable sticky approvals, reducing turn-around for
 trivial rebases prior to submitting a change. Defaults to false.
 
 [[label_copyAllScoresIfNoCodeChange]]
-`label.Label-Name.copyAllScoresIfNoCodeChange`
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== `label.Label-Name.copyAllScoresIfNoCodeChange`
 
 If true, all scores for the label are copied forward when a new patch
 set is uploaded that has the same parent commit as the previous patch
@@ -261,16 +249,14 @@ if only the commit message is changed prior to submitting a change.
 Defaults to false.
 
 [[label_canOverride]]
-`label.Label-Name.canOverride`
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== `label.Label-Name.canOverride`
 
 If false, the label cannot be overridden by child projects. Any
 configuration for this label in child projects will be ignored. Defaults
 to true.
 
 [[label_branch]]
-`label.Label-Name.branch`
-~~~~~~~~~~~~~~~~~~~~~~~~~
+=== `label.Label-Name.branch`
 
 By default a given project's label applicable scope is all changes
 on all branches of this project and its child projects.
@@ -294,8 +280,7 @@ assign permissions for that label on a branch, but this permission is then
 ignored if the label doesn't apply for that branch.
 
 [[label_example]]
-Example
-~~~~~~~
+=== Example
 
 To define a new 3-valued category that behaves exactly like `Verified`,
 but has different names/labels:

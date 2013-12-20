@@ -1,5 +1,4 @@
-change ... does not belong to project ...
-=========================================
+= change ... does not belong to project ...
 
 With this error message Gerrit rejects to push a commit to a change
 that belongs to another project.

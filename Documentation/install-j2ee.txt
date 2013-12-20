@@ -1,8 +1,6 @@
-Gerrit Code Review - J2EE Installation
-======================================
+= Gerrit Code Review - J2EE Installation
 
-Description
------------
+== Description
 
 Gerrit binary distributions include a standalone Jetty servlet
 container, but are packaged as a standard WAR file to permit easy
@@ -14,8 +12,7 @@ including popular open source containers such as Jetty or Tomcat, or
 any commercial server which supports the J2EE servlet specification.
 
 
-Installation
-------------
+== Installation
 
 * Complete the link:install.html#createdb[database setup] and
   link:install.html#init[site initialization] tasks described
@@ -50,8 +47,7 @@ directory so it's available to Gerrit Code Review.
 Configure Automatic Site Initialization on Startup]
 
 
-Jetty 7.x
----------
+== Jetty 7.x
 These directions will configure Gerrit as the default web
 application, allowing URLs like `http://example.com/4543` to jump
 directly to change 4543.

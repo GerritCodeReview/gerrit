@@ -1,5 +1,4 @@
-Gerrit Code Review - A Quick Introduction
-=========================================
+= Gerrit Code Review - A Quick Introduction
 
 Gerrit is a web-based code review tool built on top of the git version
 control system, but if you've got as far as reading this guide then
@@ -7,8 +6,7 @@ you probably already know that. The purpose of this introduction is to
 allow you to answer the question, is Gerrit the right tool for me?
 Will it fit in my work flow and in my organization?
 
-What is Gerrit?
----------------
+== What is Gerrit?
 
 I assume that if you're reading this then you're already convinced of
 the benefits of code review in general but want some technical support
@@ -50,8 +48,7 @@ This also creates a lasting record of the conversation which can be
 useful for answering the inevitable "I know we changed this for a
 reason" questions.
 
-Where does Gerrit fit in?
--------------------------
+== Where does Gerrit fit in?
 
 Any team with more than one member has a central source repository of
 some kind (or they should). Git can theoretically work without such a
@@ -83,8 +80,7 @@ controlling access. But generally it's just simpler and safer to go
 through the review process even for users who are allowed to directly
 push.
 
-The Life and Times of a Change
-------------------------------
+== The Life and Times of a Change
 
 The easiest way to get a feel for how Gerrit works is to follow a
 change through its entire life cycle. For the purpose of this example
@@ -93,8 +89,7 @@ we'll assume that the Gerrit Server is running on a server called
 interface on port +29418+. The project we'll be working on is called
 +RecipeBook+ and we'll be developing a change for the +master+ branch.
 
-Cloning the Repository
-~~~~~~~~~~~~~~~~~~~~~~
+=== Cloning the Repository
 
 Obviously the first thing we need to do is get the source that we're
 going to be modifying. As with any git project you do this by cloning
@@ -118,8 +113,7 @@ message you'll need to manually copy it in if you need to upload
 another version of your change. Because of this it's best to just
 install the hook and forget about it.
 
-Creating the Review
-~~~~~~~~~~~~~~~~~~~
+=== Creating the Review
 
 Once you've made your change and committed it locally it's time to
 push it to Gerrit so that it can be reviewed. This is done with a git
@@ -177,8 +171,7 @@ At this point the change is available for review and we need to switch
 roles to continue following the change. Now let's pretend we're the
 reviewer.
 
-Reviewing the Change
-~~~~~~~~~~~~~~~~~~~~
+=== Reviewing the Change
 
 The reviewer's life starts at the code review screen shown above. He
 can get here in a number of ways, but for some reason they've decided
@@ -251,8 +244,7 @@ In this case the change was not accepted so the creator needs to
 rework it. So let's switch roles back to the creator where we
 started.
 
-Reworking the Change
-~~~~~~~~~~~~~~~~~~~~
+=== Reworking the Change
 
 As long as we set up the
 link:user-changeid.html[Change-Id commit-msg hook]
@@ -289,8 +281,7 @@ associated with this change, the initial submission and the rework.
 Rather than repeating ourselves lets assume that this time around the
 patch is given a +2 score by the code reviewer.
 
-Trying out the Change
-~~~~~~~~~~~~~~~~~~~~~
+=== Trying out the Change
 
 With Gerrit's default work-flow there are two sign-offs, code review
 and verify. Verifying means checking that the change actually works.
@@ -348,8 +339,7 @@ the URL of the Gerrit review screen.
 uploaded some fixes so we want the second patch set rather than the
 initial one which the reviewer rejected.
 
-Manually Verifying the Change
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Manually Verifying the Change
 
 For simplicity we're just going to manually verify the change.
 The Verifier may be the same person as the code reviewer or a
@@ -365,8 +355,7 @@ Unlike the code review the verify check doesn't have a +2 or -2 level,
 it's either a pass or fail so all we need for the change to be
 submitted is a +1 score (and no -1's).
 
-Submitting the Change
-~~~~~~~~~~~~~~~~~~~~~
+=== Submitting the Change
 
 You might have noticed that in the verify screen shot there are two
 buttons for submitting the score _Publish Comments_ and _Publish

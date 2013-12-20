@@ -1,5 +1,4 @@
-Gerrit Code Review - Project Configuration File Format
-======================================================
+= Gerrit Code Review - Project Configuration File Format
 
 This page explains the storage format of Gerrit's project configuration
 and access control models.
@@ -10,8 +9,7 @@ affected project.  Direct manipulation of these files is mainly
 relevant in an automation scenario of the access controls.
 
 
-The +refs/meta/config+ namespace
---------------------------------
+== The +refs/meta/config+ namespace
 
 The namespace contains three different files that play different
 roles in the permission model.  With read permission to that reference,
@@ -24,8 +22,7 @@ space if you'd like to use the possibility to automate permission updates.
 
 
 [[file-project_config]]
-The file +project.config+
--------------------------
+== The file +project.config+
 
 The +project.config+ file contains the link between groups and their
 permitted actions on reference patterns in this project and any projects
@@ -75,8 +72,7 @@ on a global level.  You can find examples of these
 
 
 [[project-section]]
-Project section
-~~~~~~~~~~~~~~~
+=== Project section
 
 The project section includes configuration of project settings.
 
@@ -86,8 +82,7 @@ These are the keys:
 
 
 [[receive-section]]
-Receive section
-~~~~~~~~~~~~~~~
+=== Receive section
 
 The receive section includes configuration of project-specific
 receive settings:
@@ -135,8 +130,7 @@ Default is zero.
 Common unit suffixes of k, m, or g are supported.
 
 [[submit-section]]
-Submit section
-~~~~~~~~~~~~~~
+=== Submit section
 
 The submit section includes configuration of project-specific
 submit settings:
@@ -152,8 +146,7 @@ Merge strategy
 
 
 [[access-section]]
-Access section
-~~~~~~~~~~~~~~
+=== Access section
 
 Each +access+ section includes a reference and access rights connected
 to groups.  Each group listed must exist in the link:#file-groups[+groups+ file].
@@ -164,8 +157,7 @@ documentation for a full list of available access rights.
 
 
 [[capability-section]]
-Capability section
-~~~~~~~~~~~~~~~~~~
+=== Capability section
 
 The +capability+ section only appears once, and only in the +All-Projects+
 repository.  It controls Gerrit administration capabilities that are configured
@@ -177,8 +169,7 @@ documentation for a full list of available capabilities.
 
 
 [[file-groups]]
-The file +groups+
------------------
+== The file +groups+
 
 Each group in this list is linked with its UUID so that renaming of
 groups is possible without having to rewrite every +groups+ file
@@ -209,8 +200,7 @@ link:cmd-ls-groups.html[the +ls-groups+ SSH command].
 
 
 [[file-rules_pl]]
-The file +rules.pl+
--------------------
+== The file +rules.pl+
 
 The +rules.pl+ files allows you to replace or amend the default Prolog
 rules that control e.g. what conditions need to be fulfilled for a

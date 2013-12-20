@@ -1,13 +1,11 @@
-Gerrit Code Review - Error Messages
-===================================
+= Gerrit Code Review - Error Messages
 
 This page provides access to detailed explanations of Gerrit error
 messages. For each error message it is explained why the error is
 occurring and what can be done to solve it.
 
 
-Error Messages
---------------
+== Error Messages
 
 * link:error-branch-not-found.html[branch ... not found]
 * link:error-change-closed.html[change ... closed]
@@ -38,8 +36,7 @@ Error Messages
 * link:error-not-allowed-to-upload-merges.html[you are not allowed to upload merges]
 
 
-General Hints
--------------
+== General Hints
 
 * link:error-push-fails-due-to-commit-message.html[push fails due to commit message]
 

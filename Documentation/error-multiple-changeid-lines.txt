@@ -1,5 +1,4 @@
-multiple Change-Id lines in commit message footer
-=================================================
+= multiple Change-Id lines in commit message footer
 
 With this error message Gerrit rejects to push a commit if the commit
 message footer of the pushed commit contains several Change-Id lines.
@@ -20,8 +19,7 @@ link:error-push-fails-due-to-commit-message.html#commit_hook[here]. In case you 
 will be automatically generated and inserted.
 
 
-SEE ALSO
---------
+== SEE ALSO
 
 * link:user-changeid.html[Change-Id Lines]
 

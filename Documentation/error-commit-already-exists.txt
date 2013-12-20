@@ -1,5 +1,4 @@
-commit already exists
-=====================
+= commit already exists
 
 With this error message Gerrit rejects to push a commit to an
 existing change via `refs/changes/n` if the commit was already

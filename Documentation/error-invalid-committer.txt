@@ -1,5 +1,4 @@
-invalid committer
-=================
+= invalid committer
 
 For every pushed commit Gerrit verifies that the e-mail address of
 the committer matches one of the registered e-mail addresses of the
@@ -16,8 +15,7 @@ This error may happen for two reasons:
   users
 
 
-Incorrect configuration of the e-mail address on client or server side
-----------------------------------------------------------------------
+== Incorrect configuration of the e-mail address on client or server side
 
 If pushing to Gerrit fails with the error message "invalid committer"
 and you committed the change for which the push fails,
@@ -25,8 +23,7 @@ then either you have not successfully registered this e-mail address
 for your Gerrit account or the committer information of the pushed
 commit is incorrect.
 
-Configuration of e-mail address in Gerrit
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Configuration of e-mail address in Gerrit
 
 Check in Gerrit under 'Settings -> Identities' which e-mail addresses
 you've configured for your Gerrit account.  If no e-mail address is
@@ -34,8 +31,7 @@ registered go to 'Settings -> Contact Information' and register a new
 e-mail address there. Make sure you confirm your e-mail address by
 clicking on the link in the e-mail verification mail sent by Gerrit.
 
-Incorrect committer information
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Incorrect committer information
 
 For every commit Git maintains the user who did the commit, the so
 called committer. Git computes the committer out of the Git
@@ -93,8 +89,7 @@ rewritten. For further details about git rebase please check the
 link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[Git documentation].
 
 
-Missing privileges to push commits that were committed by other users
----------------------------------------------------------------------
+== Missing privileges to push commits that were committed by other users
 
 If pushing to Gerrit fails with the error message "invalid committer"
 and somebody else committed the change for which the

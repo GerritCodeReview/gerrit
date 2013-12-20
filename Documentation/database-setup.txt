@@ -1,12 +1,10 @@
 [[createdb]]
-Database Setup
---------------
+== Database Setup
 
 During the init phase of Gerrit you will need to specify which database to use.
 
 [[createdb_h2]]
-H2
-~~
+=== H2
 
 If you choose H2, Gerrit will automatically set up the embedded H2 database as
 backend so no set up or configuration is necessary.
@@ -21,8 +19,7 @@ and it's not possible to set up H2 in a load balanced/hotswap configuration.
 If this option interests you, you might want to consider link:install-quick.html[the quick guide].
 
 [[createdb_postgres]]
-PostgreSQL
-~~~~~~~~~~
+=== PostgreSQL
 
 This option is more complicated than the H2 option but is recommended
 for larger installations. It's the database backend with the largest userbase
@@ -41,8 +38,7 @@ Visit PostgreSQL's link:http://www.postgresql.org/docs/9.1/interactive/index.htm
 using PostgreSQL.
 
 [[createdb_mysql]]
-MySQL
-~~~~~
+=== MySQL
 
 This option is also more complicated than the H2 option. Just as with
 PostgreSQL it's also recommended for larger installations.
@@ -65,8 +61,7 @@ Visit MySQL's link:http://dev.mysql.com/doc/[documentation] for further
 information regarding using MySQL.
 
 [[createdb_oracle]]
-Oracle
-~~~~~~
+=== Oracle
 
 PostgreSQL or H2 is the recommended database for Gerrit Code Review.
 Oracle is supported for environments where running on an existing Oracle

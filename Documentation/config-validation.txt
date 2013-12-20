@@ -1,12 +1,10 @@
-Gerrit Code Review - Commit Validation
-======================================
+= Gerrit Code Review - Commit Validation
 
 Gerrit supports link:dev-plugins.html[plugin-based] validation of
 commits.
 
 [[new-commit-validation]]
-New commit validation
----------------------
+== New commit validation
 
 
 Plugins implementing the `CommitValidationListener` interface can
@@ -24,8 +22,7 @@ Out of the box, Gerrit includes a plugin that checks the length of the
 subject and body lines of commit messages on uploaded commits.
 
 [[pre-merge-validation]]
-Pre-merge validation
---------------------
+== Pre-merge validation
 
 
 Plugins implementing the `MergeValidationListener` interface can

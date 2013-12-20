@@ -1,5 +1,4 @@
-Gerrit Code Review - Plugin Development
-=======================================
+= Gerrit Code Review - Plugin Development
 
 The Gerrit server functionality can be extended by installing plugins.
 This page describes how plugins for Gerrit can be developed.
@@ -24,8 +23,7 @@ of server versions.
 Most of this documentation refers to either type as a plugin.
 
 [[getting-started]]
-Getting started
----------------
+== Getting started
 
 To get started with the development of a plugin there are two
 recommended ways:
@@ -66,8 +64,7 @@ Gerrit version (no `SNAPSHOT` version) then the URL for the
 `https://gerrit-api.storage.googleapis.com/release/`.
 
 [[API]]
-API
----
+== API
 
 There are two different API formats offered against which plugins can
 be developed:
@@ -88,8 +85,7 @@ gerrit-plugin-api.jar::
   that compiles against 2.5 will probably need source code level
   changes to work with 2.6, 2.7, and so on.
 
-Manifest
---------
+== Manifest
 
 Plugins may provide optional description information with standard
 manifest fields:
@@ -101,8 +97,7 @@ manifest fields:
   Implementation-URL: http://example.com/opensource/plugin-foo/
 ====
 
-ApiType
-~~~~~~~
+=== ApiType
 
 Plugins using the tightly coupled `gerrit-plugin-api.jar` must
 declare this API dependency in the manifest to gain access to server
@@ -114,8 +109,7 @@ loading a plugin that needs the plugin API.
   Gerrit-ApiType: plugin
 ====
 
-Explicit Registration
-~~~~~~~~~~~~~~~~~~~~~
+=== Explicit Registration
 
 Plugins that use explicit Guice registration must name the Guice
 modules in the manifest. Up to three modules can be named in the
@@ -133,8 +127,7 @@ will be performed by scanning all classes in the plugin JAR for
 ====
 
 [[plugin_name]]
-Plugin Name
-~~~~~~~~~~~
+=== Plugin Name
 
 A plugin can optionally provide its own plugin name.
 
@@ -215,8 +208,7 @@ The canonical web URL may be injected into any .jar plugin regardless of
 whether or not the plugin provides an HTTP servlet.
 
 [[reload_method]]
-Reload Method
-~~~~~~~~~~~~~
+=== Reload Method
 
 If a plugin holds an exclusive resource that must be released before
 loading the plugin again (for example listening on a network port or
@@ -258,8 +250,7 @@ To reload/restart a plugin the link:cmd-plugin-reload.html[plugin reload]
 command can be used.
 
 [[init_step]]
-Init step
-~~~~~~~~~
+=== Init step
 
 Plugins can contribute their own "init step" during the Gerrit init
 wizard. This is useful for guiding the Gerrit administrator through
@@ -358,8 +349,7 @@ public class MyInitStep implements InitStep {
 ----
 
 [[classpath]]
-Classpath
----------
+== Classpath
 
 Each plugin is loaded into its own ClassLoader, isolating plugins
 from each other. A plugin or extension inherits the Java runtime
@@ -374,8 +364,7 @@ to package additional dependencies. Relocating (or renaming) classes
 should not be necessary due to the ClassLoader isolation.
 
 [[events]]
-Listening to Events
--------------------
+== Listening to Events
 
 Certain operations in Gerrit trigger events. Plugins may receive
 notifications of these events by implementing the corresponding
@@ -404,8 +393,7 @@ Project deletion
 Update of HEAD on a project
 
 [[stream-events]]
-Sending Events to the Events Stream
------------------------------------
+== Sending Events to the Events Stream
 
 Plugins may send events to the events stream where consumers of
 Gerrit's `stream-events` ssh command will receive them.
@@ -415,8 +403,7 @@ methods in the `ChangeHookRunner` class, passing an instance of
 its own custom event class derived from `ChangeEvent`.
 
 [[ssh]]
-SSH Commands
-------------
+== SSH Commands
 
 Plugins may provide commands that can be accessed through the SSH
 interface (extensions do not have this option).
@@ -537,8 +524,7 @@ $ ssh -p 29418 review.example.com sh ps
 ----
 
 [[simple-configuration]]
-Simple Configuration in `gerrit.config`
----------------------------------------
+== Simple Configuration in `gerrit.config`
 
 In Gerrit, global configuration is stored in the `gerrit.config` file.
 If a plugin needs global configuration, this configuration should be
@@ -581,8 +567,7 @@ String language = cfg.getFromGerritConfig("helloworld")
 ----
 
 [[configuration]]
-Configuration in own config file
---------------------------------
+== Configuration in own config file
 
 Plugins can store their configuration in an own configuration file.
 This makes sense if the plugin configuration is rather complex and
@@ -624,8 +609,7 @@ Similar to changes in 'gerrit.config', changes to the plugin
 configuration file will only become effective after a Gerrit restart.
 
 [[simple-project-specific-configuration]]
-Simple Project Specific Configuration in `project.config`
----------------------------------------------------------
+== Simple Project Specific Configuration in `project.config`
 
 In Gerrit, project specific configuration is stored in the project's
 `project.config` file on the `refs/meta/config` branch.  If a plugin
@@ -688,8 +672,7 @@ Project owners can edit the project configuration by fetching the
 pushing the commit back.
 
 [[project-specific-configuration]]
-Project Specific Configuration in own config file
--------------------------------------------------
+== Project Specific Configuration in own config file
 
 Plugins can store their project specific configuration in an own
 configuration file in the projects `refs/meta/config` branch.
@@ -744,8 +727,7 @@ Project owners can edit the project configuration by fetching the
 `refs/meta/config` branch, editing the `<plugin-name>.config` file and
 pushing the commit back.
 
-React on changes in project configuration
------------------------------------------
+== React on changes in project configuration
 
 If a plugin wants to react on changes in the project configuration, it
 can implement a `GitReferenceUpdatedListener` and filter on events for
@@ -789,8 +771,7 @@ public class MyListener implements GitReferenceUpdatedListener {
 
 
 [[capabilities]]
-Plugin Owned Capabilities
--------------------------
+== Plugin Owned Capabilities
 
 Plugins may provide their own capabilities and restrict usage of SSH
 commands to the users who are granted those capabilities.
@@ -879,8 +860,7 @@ this can be specified by setting `scope = CapabilityScope.CORE`:
 ----
 
 [[ui_extension]]
-UI Extension
-------------
+== UI Extension
 
 Plugins can contribute UI actions on core Gerrit pages. This is useful
 for workflow customization or exposing plugin functionality through the
@@ -1148,8 +1128,7 @@ Gerrit.install(function(self) {
 ----
 
 [[top-menu-extensions]]
-Top Menu Extensions
--------------------
+== Top Menu Extensions
 
 Plugins can contribute items to Gerrit's top menu.
 
@@ -1266,8 +1245,7 @@ public class MyTopMenuExtension implements TopMenu {
 ----
 
 [[gwt_ui_extension]]
-GWT UI Extension
-----------------
+== GWT UI Extension
 Plugins can extend the Gerrit UI with own GWT code.
 
 The Maven archetype 'gerrit-plugin-gwt-archetype' can be used to
@@ -1521,8 +1499,7 @@ In order to be able to do REST calls the GWT module must inherit
 ----
 
 [[http]]
-HTTP Servlets
--------------
+== HTTP Servlets
 
 Plugins or extensions may register additional HTTP servlets, and
 wrap them with HTTP filters.
@@ -1572,8 +1549,7 @@ $ curl http://review.example.com/plugins/helloworld/print
 ----
 
 [[data-directory]]
-Data Directory
---------------
+== Data Directory
 
 Plugins can request a data directory with a `@PluginData` File
 dependency. A data directory will be created automatically by the
@@ -1590,8 +1566,7 @@ MyType(@PluginData java.io.File myDir) {
 ----
 
 [[download-commands]]
-Download Commands
------------------
+== Download Commands
 
 Gerrit offers commands for downloading changes using different
 download schemes (e.g. for downloading via different network
@@ -1604,8 +1579,7 @@ The download schemes and download commands which are used most often
 are provided by the Gerrit core plugin `download-commands`.
 
 [[documentation]]
-Documentation
--------------
+== Documentation
 
 If a plugin does not register a filter or servlet to handle URLs
 `/Documentation/*` or `/static/*`, the core Gerrit server will
@@ -1648,8 +1622,7 @@ Macros that start with `\` such as `\@KEEP@` will render as `@KEEP@`
 even if there is an expansion for `KEEP` in the future.
 
 [[auto-index]]
-Automatic Index
-~~~~~~~~~~~~~~~
+=== Automatic Index
 
 If a plugin does not handle its `/` URL itself, Gerrit will
 redirect clients to the plugin's `/Documentation/index.html`.
@@ -1701,8 +1674,7 @@ displayed as part of the index page, if present in the manifest:
 |===================================================
 
 [[deployment]]
-Deployment
-----------
+== Deployment
 
 Compiled plugins and extensions can be deployed to a running Gerrit
 server using the link:cmd-plugin-install.html[plugin install] command.
@@ -1724,8 +1696,7 @@ command can be used.
 Disabled plugins can be re-enabled using the
 link:cmd-plugin-enable.html[plugin enable] command.
 
-SEE ALSO
---------
+== SEE ALSO
 
 * link:js-api.html[JavaScript API]
 * link:dev-rest-api.html[REST API Developers' Notes]

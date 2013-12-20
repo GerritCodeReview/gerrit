@@ -1,5 +1,4 @@
-missing Change-Id in commit message footer
-==========================================
+= missing Change-Id in commit message footer
 
 With this error message Gerrit rejects to push a commit to a project
 which is configured to always require a Change-Id in the commit
@@ -21,8 +20,7 @@ automatically create and insert a unique Change-Id into the commit
 message on every commit.
 
 
-Missing Change-Id in the commit message
----------------------------------------
+== Missing Change-Id in the commit message
 
 If the commit message of a commit that you want to push does not
 contain a Change-Id you have to update its commit message and insert
@@ -41,8 +39,7 @@ insert it into the commit message. How to update the commit message
 is explained link:error-push-fails-due-to-commit-message.html[here].
 
 
-Change-Id is contained in the commit message but not in the last paragraph
---------------------------------------------------------------------------
+== Change-Id is contained in the commit message but not in the last paragraph
 
 To be picked up by Gerrit, a Change-Id must be in the last paragraph
 of a commit message, for details, see link:user-changeid.html[Change-Id Lines].
@@ -52,8 +49,7 @@ last paragraph you have to update the commit message and move the
 Change-ID into the last paragraph. How to update the commit message
 is explained link:error-push-fails-due-to-commit-message.html[here].
 
-Change-Id is the only line in the commit message
-------------------------------------------------
+== Change-Id is the only line in the commit message
 
 Gerrit does not parse the subject of a commit message for the
 Change-Id even if this is the only and last paragraph of the commit

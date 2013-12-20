@@ -1,5 +1,4 @@
-Push fails due to commit message
-================================
+= Push fails due to commit message
 
 If Gerrit rejects pushing a commit it is often the case that there is
 an issue with the commit message of the pushed commit. In this case

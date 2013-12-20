@@ -1,5 +1,4 @@
-prohibited by Gerrit
-====================
+= prohibited by Gerrit
 
 This is a general error message that is returned by Gerrit if a push
 is not allowed, e.g. because the pushing user has no sufficient

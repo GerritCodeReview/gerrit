@@ -1,8 +1,6 @@
-Gerrit Code Review - Superproject subscription to submodules updates
-====================================================================
+= Gerrit Code Review - Superproject subscription to submodules updates
 
-Description
------------
+== Description
 
 Gerrit supports a custom git superproject feature for tracking submodules.
 This feature is useful for automatic updates on superprojects whenever
@@ -22,8 +20,7 @@ When a new commit of a registered submodule is merged, Gerrit
 automatically updates the subscribers to the submodule with a new
 commit having the updated gitlinks.
 
-Git Submodules Overview
------------------------
+== Git Submodules Overview
 
 Submodules are a git feature that allows an external repository to be
 attached inside a repository at a specific path. The objective here
@@ -57,11 +54,9 @@ external update, one could move to 'a' folder (insider 'super'),
 modify its content, commit, then move back to 'super' and
 commit the modified gitlink for 'a'.
 
-Creating a New Subscription
----------------------------
+== Creating a New Subscription
 
-Defining the Submodule Branch
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Defining the Submodule Branch
 
 This is required because submodule subscription is actually the
 subscription of a submodule project and one of its branches for
@@ -95,16 +90,14 @@ If a git submodule is added but the branch field is not added to the
 .gitmodules file, Gerrit will not create a subscription for the
 submodule and there will be no automatic updates to the superproject.
 
-Detecting and Subscribing Submodules
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Detecting and Subscribing Submodules
 
 Whenever a commit is merged to a project, its content is scanned
 to identify if it registers any submodules (if the commit contains new
 gitlinks and a .gitmodules file with all required info) and if so,
 a new submodule subscription is registered.
 
-Automatic Update of Superprojects
----------------------------------
+== Automatic Update of Superprojects
 
 After a superproject is subscribed to a submodule, it is not
 required to push/merge commits to this superproject to update the
@@ -119,8 +112,7 @@ is merged in branch 'dev-of-a' of 'a' project, Gerrit automatically
 creates a new commit on branch 'dev' of 'super' updating the gitlink
 to point to the just merged commit.
 
-Subscription Limitations
-~~~~~~~~~~~~~~~~~~~~~~~~
+=== Subscription Limitations
 
 Gerrit will only automatically update superprojects where the
 submodules are hosted on the same Gerrit instance as the
@@ -137,8 +129,7 @@ provide the canonical web URL value in its configuration file. Users
 should certify to use the correct hostname of the running Gerrit
 instance to add/subscribe submodules.
 
-Relative submodules
-~~~~~~~~~~~~~~~~~~~
+=== Relative submodules
 
 To enable easier usage of Gerrit mirrors and/or distribution over
 several protocols, such as plain git and HTTP(S) as well as SSH, one
@@ -176,8 +167,7 @@ from Gerrit.
   url = ../framework/subcomponent.git
   branch = master
 
-Removing Subscriptions
-----------------------
+== Removing Subscriptions
 
 If one has added a submodule subscription and drops it, it is
 required to merge a commit updating the subscribed super

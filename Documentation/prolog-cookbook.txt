@@ -1,8 +1,6 @@
-Gerrit Code Review - Prolog Submit Rules Cookbook
-=================================================
+= Gerrit Code Review - Prolog Submit Rules Cookbook
 
-Submit Rule
------------
+== Submit Rule
 A 'Submit Rule' in Gerrit is logic that defines when a change is submittable.
 By default, a change is submittable when it gets at least one
 highest vote in each voting category and has no lowest vote (aka veto vote) in
@@ -28,8 +26,7 @@ project specific submit rules.
 link:http://gerrit-documentation.googlecode.com/svn/ReleaseNotes/ReleaseNotes-2.2.2.html[Gerrit
 2.2.2 ReleaseNotes] introduces Prolog support in Gerrit.
 
-Submit Type
------------
+== Submit Type
 A 'Submit Type' is a strategy that is used on submit to integrate the
 change into the destination branch. Supported submit types are:
 
@@ -49,22 +46,19 @@ type.
 Prolog based submit type computes a submit type for each change. The computed
 submit type is shown on the change screen for each change.
 
-Prolog Language
----------------
+== Prolog Language
 This document is not a complete Prolog tutorial.
 link:http://en.wikipedia.org/wiki/Prolog[This Wikipedia page on Prolog] is a
 good starting point for learning the Prolog language. This document will only explain
 some elements of Prolog that are necessary to understand the provided examples.
 
-Prolog in Gerrit
-----------------
+== Prolog in Gerrit
 Gerrit uses its own link:https://code.google.com/p/prolog-cafe/[fork] of the
 original link:http://kaminari.istc.kobe-u.ac.jp/PrologCafe/[prolog-cafe]
 project. Gerrit embeds the prolog-cafe library and can interpret Prolog programs at
 runtime.
 
-Interactive Prolog Cafe Shell
------------------------------
+== Interactive Prolog Cafe Shell
 For interactive testing and playing with Prolog, Gerrit provides the
 link:pgm-prolog-shell.html[prolog-shell] program which opens an interactive
 Prolog interpreter shell.
@@ -72,14 +66,12 @@ Prolog interpreter shell.
 NOTE: The interactive shell is just a prolog shell, it does not load
 a gerrit server environment and thus is not intended for xref:TestingSubmitRules[testing submit rules].
 
-SWI-Prolog
-----------
+== SWI-Prolog
 Instead of using the link:pgm-prolog-shell.html[prolog-shell] program one can
 also use the link:http://www.swi-prolog.org/[SWI-Prolog] environment. It
 provides a better shell interface and a graphical source-level debugger.
 
-The rules.pl file
------------------
+== The rules.pl file
 This section explains how to create and edit project specific submit rules. How
 to actually write the submit rules is explained in the next section.
 
@@ -98,8 +90,7 @@ file:
 ====
 
 [[HowToWriteSubmitRules]]
-How to write submit rules
--------------------------
+== How to write submit rules
 Whenever Gerrit needs to evaluate submit rules for a change `C` from project `P` it
 will first initialize the embedded Prolog interpreter by:
 
@@ -201,8 +192,7 @@ label is met will probably not be made by explicit voting but, instead, by
 inspecting the facts about the change.
 
 [[SubmitFilter]]
-Submit Filter
--------------
+== Submit Filter
 Another mechanism of changing the default submit rules is to implement the
 `submit_filter/2` predicate. While Gerrit will search for the `submit_rule` only
 in the `rules.pl` file of the current project, the `submit_filter` will be
@@ -270,8 +260,7 @@ default implementation of submit rule that is named `gerrit:default_submit` and
 its result will be filtered as described above.
 
 [[HowToWriteSubmitType]]
-How to write submit type
-------------------------
+== How to write submit type
 Writing custom submit type logic in Prolog is the similar top
 xref:HowToWriteSubmitRules[writing submit rules]. The only difference is that
 one has to implement a `submit_type` predicate (instead of the `submit_rule`)
@@ -284,8 +273,7 @@ represents one of the supported submit types:
 * `cherry_pick`
 * `rebase_if_necessary`
 
-Submit Type Filter
-------------------
+== Submit Type Filter
 Submit type filter works the same way as the xref:SubmitFilter[Submit Filter]
 where the name of the filter predicate is `submit_type_filter`.
 
@@ -298,8 +286,7 @@ result of the `submit_type` and will take the value of the `Out` parameter as
 the result.
 
 [[TestingSubmitRules]]
-Testing submit rules
---------------------
+== Testing submit rules
 The prolog environment running the `submit_rule` is loaded with state describing the
 change that is being evaluated. The easiest way to load this state is to test your
 `submit_rule` against a real change on a running gerrit instance. The command
@@ -310,8 +297,7 @@ the `submit_rule`. It optionally reads the rule from from `stdin` to facilitate 
   cat rules.pl | ssh gerrit_srv gerrit test-submit rule I45e080b105a50a625cc8e1fb5b357c0bfabe6d68 -s
 ====
 
-Prolog vs Gerrit plugin for project specific submit rules
----------------------------------------------------------
+== Prolog vs Gerrit plugin for project specific submit rules
 Since version 2.5 Gerrit supports plugins and extension points. A plugin or an
 extension point could also be used as another means to provide custom submit
 rules. One could ask for a guideline when to use Prolog based submit rules and
@@ -328,8 +314,7 @@ and can potentially check more things than Prolog based rules.
 From version 2.6 Gerrit plugins can contribute Prolog predicates. This way, we
 can make use of the plugin provided predicates when writing Prolog based rules.
 
-Examples - Submit Rule
-----------------------
+== Examples - Submit Rule
 The following examples should serve as a cookbook for developing own submit rules.
 Some of them are too trivial to be used in production and their only purpose is
 to provide step by step introduction and understanding.
@@ -340,8 +325,7 @@ the `submit_filter` just to show both possibilities.  Remember that
 invoked from all parent projects. This is the most important fact in deciding
 whether to implement `submit_rule` or `submit_filter`.
 
-Example 1: Make every change submittable
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Example 1: Make every change submittable
 Let's start with a most trivial example where we would make every change submittable
 regardless of the votes it has:
 
@@ -358,8 +342,7 @@ the UI for voting for the standard `'Code-Review'` and `'Verified'` categories a
 with these names are not part of the return result. The `'Any-Label-Name'` could really
 be any string.
 
-Example 2: Every change submittable and voting in the standard categories possible
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Example 2: Every change submittable and voting in the standard categories possible
 This is continuation of the previous example where, in addition, to making
 every change submittable we want to enable voting in the standard
 `'Code-Review'` and `'Verified'` categories.
@@ -376,8 +359,7 @@ Since for every change all label statuses are `'ok'` every change will be submit
 Voting in the standard labels will be shown in the UI as the standard label names are
 included in the return result.
 
-Example 3: Nothing is submittable
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Example 3: Nothing is submittable
 This example shows how to make all changes non-submittable regardless of the
 votes they have.
 
@@ -392,8 +374,7 @@ Since for any change we return only one label with status `reject`, no change
 will be submittable. The UI will, however, not indicate what is needed for a
 change to become submittable as we return no labels with status `need`.
 
-Example 4: Nothing is submittable but UI shows several 'Need ...' criteria
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Example 4: Nothing is submittable but UI shows several 'Need ...' criteria
 In this example no change is submittable but here we show how to present 'Need
 <label>' information to the user in the UI.
 
@@ -429,8 +410,7 @@ From the example above we can see a few more things:
   all solutions for a query, the result will be union of all solutions.
   Therefore, we see all 4 `need` labels in the UI.
 
-Example 5: The 'Need ...' labels not shown when change is submittable
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Example 5: The 'Need ...' labels not shown when change is submittable
 This example shows that, when there is a solution for `submit_rule(X)` where all labels
 have status `ok` then Gerrit will not show any labels with the `need` status from
 any of the previous `submit_rule(X)` solutions.
@@ -462,8 +442,7 @@ The same is valid if the two rules are swapped:
 
 The result of the first rule will stop search for any further solutions.
 
-Example 6: Make change submittable if commit author is "John Doe"
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Example 6: Make change submittable if commit author is "John Doe"
 This is the first example where we will use the Prolog facts about a change that
 are automatically exposed by Gerrit. Our goal is to make any change submittable
 when the commit author is named `'John Doe'`. In the very first
@@ -543,8 +522,7 @@ or by a combination of these 3 attributes:
     Author = label('Author-is-John-Doe', ok(_)).
 ====
 
-Example 7: Make change submittable if commit message starts with "Fix "
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Example 7: Make change submittable if commit message starts with "Fix "
 Besides showing how to make use of the commit message text the purpose of this
 example is also to show how to match only a part of a string symbol. Similarly
 like commit author the commit message is provided as a string symbol which is
@@ -610,8 +588,7 @@ further backtracking by using the cut `!` operator:
     Fix = label('Commit-Message-starts-with-Fix', need(_)).
 ====
 
-The default submit policy
--------------------------
+== The default submit policy
 All examples until now concentrate on one particular aspect of change data.
 However, in real-life scenarios we would rather want to reuse Gerrit's default
 submit policy and extend/change it for our specific purpose.  This could be
@@ -622,8 +599,7 @@ done in one of the following ways:
 * invoke the default submit rule implementation and then perform further
   actions on its return result.
 
-Default submit rule implementation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Default submit rule implementation
 The default submit rule with the two default categories, `Code-Review` and
 `Verified`, can be implemented as:
 
@@ -643,8 +619,7 @@ project would have to care about including the new category in the result of
 this `submit_rule`.  On the other side, this example is easy to read and
 understand.
 
-Reusing the default submit policy
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Reusing the default submit policy
 To get results of Gerrit's default submit policy we use the
 `gerrit:default_submit` predicate.  The `gerrit:default_submit(X)` includes all
 categories from the database.  This means that if we write a submit rule like:
@@ -669,14 +644,12 @@ logic. The following pattern illustrates this technique:
 
 In the following examples both styles will be shown.
 
-Example 8: Make change submittable only if `Code-Review+2` is given by a non author
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Example 8: Make change submittable only if `Code-Review+2` is given by a non author
 In this example we introduce a new label `Non-Author-Code-Review` and make it
 satisfied if there is at least one `Code-Review+2` from a non author. All other
 default policies like the `Verified` category and vetoing changes still apply.
 
-Reusing the `gerrit:default_submit`
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+==== Reusing the `gerrit:default_submit`
 First, we invoke `gerrit:default_submit` to compute the result for the default
 submit policy and then add the `Non-Author-Code-Review` label to it.  The
 `Non-Author-Code-Review` label is added with status `ok` if such an approval
@@ -716,8 +689,7 @@ is no non author `Code-Review+2`. The second rule will only be reached
 if the `cut` in the first rule is not reached and it only happens if a
 predicate before the `cut` fails.
 
-Don't use `gerrit:default_submit`
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+==== Don't use `gerrit:default_submit`
 Let's implement the same submit rule the other way, without reusing the
 `gerrit:default_submit`:
 
@@ -787,8 +759,7 @@ Implementing the same rule by reusing `gerrit:default_submit` is a bit more comp
   remove_verified_category([H|T], [H|R]) :- remove_verified_category(T, R).
 ====
 
-Example 10: Combine examples 8 and 9
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Example 10: Combine examples 8 and 9
 In this example we want to both remove the verified and have the four eyes
 principle.  This means we want a combination of examples 7 and 8.
 
@@ -827,8 +798,7 @@ as:
     gerrit:max_with_block(-2, 2, 'Code-Review', CR),
 ====
 
-Example 11: Remove the `Verified` category from all projects
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Example 11: Remove the `Verified` category from all projects
 Example 9, implements `submit_rule` that removes the `Verified` category from
 one project. In this example we do the same but we want to remove the `Verified`
 category from all projects. This means we have to implement `submit_filter` and
@@ -848,8 +818,7 @@ we have to do that in the `rules.pl` of the `All-Projects` project.
   remove_verified_category([H|T], [H|R]) :- remove_verified_category(T, R).
 ====
 
-Example 12: On release branches require DrNo in addition to project rules
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Example 12: On release branches require DrNo in addition to project rules
 A new category 'DrNo' is added to the database and is required for release
 branches. To mark a branch as a release branch we use `drno('refs/heads/branch')`.
 
@@ -873,8 +842,7 @@ branches. To mark a branch as a release branch we use `drno('refs/heads/branch')
   submit_filter(In, Out) :- In = Out.
 ====
 
-Example 13: 1+1=2 Code-Review
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Example 13: 1+1=2 Code-Review
 In this example we introduce accumulative voting to determine if a change is
 submittable or not. We modify the standard Code-Review to be accumulative, and make the
 change submittable if the total score is 2 or higher.
@@ -936,8 +904,7 @@ Implementing the same example without using `gerrit:default_submit`:
   sum_list([], S, S).
 ====
 
-Example 14: Master and apprentice
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Example 14: Master and apprentice
 The master and apprentice example allow you to specify a user (the `master`)
 that must approve all changes done by another user (the `apprentice`).
 
@@ -973,8 +940,7 @@ review by the associated `master`.
   add_apprentice_master(S, S).
 ====
 
-Example 15: Only allow Author to submit change
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Example 15: Only allow Author to submit change
 This example adds a new needed category `Patchset-Author` for any user that is
 not the author of the patch. This effectively blocks all users except the author
 from submitting the change. This could result in an impossible situation if the
@@ -997,12 +963,10 @@ author does not have permissions for submitting the change.
   only_allow_author_to_submit(S1, [label('Patchset-Author', need(_)) | S1]).
 ====
 
-Examples - Submit Type
-----------------------
+== Examples - Submit Type
 The following examples show how to implement own submit type rules.
 
-Example 1: Set a `Cherry Pick` submit type for all changes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Example 1: Set a `Cherry Pick` submit type for all changes
 This example sets the `Cherry Pick` submit type for all changes. It overrides
 whatever is set as project default submit type.
 
@@ -1013,8 +977,7 @@ rules.pl
 ====
 
 
-Example 2: `Fast Forward Only` for all `refs/heads/stable*` branches
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Example 2: `Fast Forward Only` for all `refs/heads/stable*` branches
 For all `refs/heads/stable.*` branches we would like to enforce the `Fast
 Forward Only` submit type. A reason for this decision may be a need to never
 break the build in the stable branches.  For all other branches, those not
@@ -1034,8 +997,7 @@ The first `submit_type` predicate defines the `Fast Forward Only` submit type
 for `refs/heads/stable.*` branches. The second `submit_type` predicate returns
 the project's default submit type.
 
-Example 3: Don't require `Fast Forward Only` if only documentation was changed
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Example 3: Don't require `Fast Forward Only` if only documentation was changed
 Like in the previous example we want the `Fast Forward Only` submit type for
 the `refs/heads/stable*` branches.  However, if only documentation was changed
 (only `*.txt` files), then we allow project's default submit type for such

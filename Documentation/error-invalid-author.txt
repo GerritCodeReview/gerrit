@@ -1,5 +1,4 @@
-invalid author
-==============
+= invalid author
 
 For every pushed commit Gerrit verifies that the e-mail address of
 the author matches one of the registered e-mail addresses of the
@@ -14,8 +13,7 @@ This error may happen for two reasons:
 . missing privileges to push commits of other authors
 
 
-Incorrect configuration of the e-mail address on client or server side
-----------------------------------------------------------------------
+== Incorrect configuration of the e-mail address on client or server side
 
 If pushing to Gerrit fails with the error message "invalid author"
 and you are the author of the commit for which the push
@@ -23,8 +21,7 @@ fails, then either you have not successfully registered this e-mail
 address for your Gerrit account or the author information of the
 pushed commit is incorrect.
 
-Configuration of e-mail address in Gerrit
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Configuration of e-mail address in Gerrit
 
 Check in Gerrit under 'Settings -> Identities' which e-mail addresses
 you've configured for your Gerrit account.  If no e-mail address is
@@ -34,8 +31,7 @@ clicking on the link in the e-mail verification mail sent by Gerrit.
 If you don't receive the e-mail verification mail it might be that it
 was caught by your spam filter.
 
-Incorrect author information
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Incorrect author information
 
 For every commit Git maintains the author. If not explicitly
 specified Git computes the author on commit out of the Git
@@ -128,8 +124,7 @@ For further details about git rebase please check the
 link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[Git documentation].
 
 
-Missing privileges to push commits of other users
--------------------------------------------------
+== Missing privileges to push commits of other users
 
 If pushing to Gerrit fails with the error message "invalid author"
 and somebody else is author of the commit for which the

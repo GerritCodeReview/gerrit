@@ -1,5 +1,4 @@
-Gerrit Code Review - Contributor Agreements
-===========================================
+= Gerrit Code Review - Contributor Agreements
 
 Users can be required to sign one or more contributor agreements before
 being able to submit a change in a project.

@@ -1,8 +1,6 @@
-Gerrit Code Review - Automatic Site Initialization on Startup
-=============================================================
+= Gerrit Code Review - Automatic Site Initialization on Startup
 
-Description
------------
+== Description
 
 Gerrit supports automatic site initialization on server startup
 when Gerrit runs in a servlet container. Both creation of a new site
@@ -16,8 +14,7 @@ the init from their local machine prior to deploying Gerrit on such a
 server. It may also make deployment and testing in a local servlet
 container faster to setup as the init step could be skipped.
 
-Gerrit Configuration
---------------------
+== Gerrit Configuration
 
 The site initialization will be performed only if the `gerrit.init`
 system property exists (the value of the property is not used, only the
@@ -40,8 +37,7 @@ if defined, will be used to determine the site path. The database
 connectivity, also for this case, is defined by the `jdbc/ReviewDb`
 JNDI property.
 
-Example 1
-~~~~~~~~~
+=== Example 1
 
 Prepare Tomcat so that a site is initialized at a given path using
 the H2 database (if the site doesn't exist yet) or using whatever
@@ -52,8 +48,7 @@ database is defined in `etc/gerrit.config` of that site:
   $ catalina.sh start
 ----
 
-Example 2
-~~~~~~~~~
+=== Example 2
 
 Prepare Tomcat so that an existing site with the path defined in the
 `system_config` table is initialized (upgraded) on Gerrit startup. The
@@ -65,8 +60,7 @@ Tomcat:
   $ catalina.sh start
 ----
 
-Example 3
-~~~~~~~~~
+=== Example 3
 
 Assuming the database schema doesn't exist in the database defined
 via the `jdbc/ReviewDb` JNDI property, initialize a new site using that

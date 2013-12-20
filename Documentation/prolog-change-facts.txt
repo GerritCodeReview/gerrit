@@ -1,5 +1,4 @@
-Prolog Facts for Gerrit Changes
-===============================
+= Prolog Facts for Gerrit Changes
 
 Prior to invoking the `submit_rule(X)` query for a change, Gerrit initializes
 the Prolog engine with a set of facts (current data) about this change.

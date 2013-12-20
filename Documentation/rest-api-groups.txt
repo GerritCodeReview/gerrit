@@ -1,17 +1,14 @@
-Gerrit Code Review - /groups/ REST API
-======================================
+= Gerrit Code Review - /groups/ REST API
 
 This page describes the group related REST endpoints.
 Please also take note of the general information on the
 link:rest-api.html[REST API].
 
 [[group-endpoints]]
-Group Endpoints
----------------
+== Group Endpoints
 
 [[list-groups]]
-List Groups
-~~~~~~~~~~~
+=== List Groups
 --
 'GET /groups/'
 --
@@ -112,8 +109,7 @@ get::/groups/
 ****
 
 [[group-options]]
-Group Options
-^^^^^^^^^^^^^
+==== Group Options
 Additional fields can be obtained by adding `o` parameters, each option
 requires more lookups and slows down the query response time to the
 client so they are generally disabled by default. Optional fields are:
@@ -128,8 +124,7 @@ client so they are generally disabled by default. Optional fields are:
 * `MEMBERS`: include list of direct group members.
 --
 
-Check if a group is owned by the calling user
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+==== Check if a group is owned by the calling user
 By setting the option `owned` and specifying a group to inspect with
 the option `q`, it is possible to find out, if this group is owned by
 the calling user.
@@ -167,8 +162,7 @@ returned.
 ----
 
 [[get-group]]
-Get Group
-~~~~~~~~~
+=== Get Group
 --
 'GET /groups/link:#group-id[\{group-id\}]'
 --
@@ -205,8 +199,7 @@ describes the group.
 ----
 
 [[create-group]]
-Create Group
-~~~~~~~~~~~~
+=== Create Group
 --
 'PUT /groups/link:#group-name[\{group-name\}]'
 --
@@ -258,8 +251,7 @@ If the group creation fails because the name is already in use the
 response is "`409 Conflict`".
 
 [[get-group-detail]]
-Get Group Detail
-~~~~~~~~~~~~~~~~
+=== Get Group Detail
 --
 'GET /groups/link:#group-id[\{group-id\}]/detail'
 --
@@ -312,8 +304,7 @@ describes the group.
 ----
 
 [[get-group-name]]
-Get Group Name
-~~~~~~~~~~~~~~
+=== Get Group Name
 --
 'GET /groups/link:#group-id[\{group-id\}]/name'
 --
@@ -336,8 +327,7 @@ Retrieves the name of a group.
 ----
 
 [[rename-group]]
-Rename Group
-~~~~~~~~~~~~
+=== Rename Group
 --
 'PUT /groups/link:#group-id[\{group-id\}]/name'
 --
@@ -372,8 +362,7 @@ If renaming the group fails because the new name is already in use the
 response is "`409 Conflict`".
 
 [[get-group-description]]
-Get Group Description
-~~~~~~~~~~~~~~~~~~~~~
+=== Get Group Description
 --
 'GET /groups/link:#group-id[\{group-id\}]/description'
 --
@@ -398,8 +387,7 @@ Retrieves the description of a group.
 If the group does not have a description an empty string is returned.
 
 [[set-group-description]]
-Set Group Description
-~~~~~~~~~~~~~~~~~~~~~
+=== Set Group Description
 --
 'PUT /groups/link:#group-id[\{group-id\}]/description'
 --
@@ -433,8 +421,7 @@ As response the new group description is returned.
 If the description was deleted the response is "`204 No Content`".
 
 [[delete-group-description]]
-Delete Group Description
-~~~~~~~~~~~~~~~~~~~~~~~~
+=== Delete Group Description
 --
 'DELETE /groups/link:#group-id[\{group-id\}]/description'
 --
@@ -452,8 +439,7 @@ Deletes the description of a Gerrit internal group.
 ----
 
 [[get-group-options]]
-Get Group Options
-~~~~~~~~~~~~~~~~~
+=== Get Group Options
 --
 'GET /groups/link:#group-id[\{group-id\}]/options'
 --
@@ -481,8 +467,7 @@ returned that describes the options of the group.
 ----
 
 [[set-group-options]]
-Set Group Options
-~~~~~~~~~~~~~~~~~
+=== Set Group Options
 --
 'PUT /groups/link:#group-id[\{group-id\}]/options'
 --
@@ -518,8 +503,7 @@ link:#group-options-info[GroupOptionsInfo] entity.
 ----
 
 [[get-group-owner]]
-Get Group Owner
-~~~~~~~~~~~~~~~
+=== Get Group Owner
 --
 'GET /groups/link:#group-id[\{group-id\}]/owner'
 --
@@ -556,8 +540,7 @@ describes the owner group.
 ----
 
 [[set-group-owner]]
-Set Group Owner
-~~~~~~~~~~~~~~~
+=== Set Group Owner
 --
 'PUT /groups/link:#group-id[\{group-id\}]/owner'
 --
@@ -604,12 +587,10 @@ describes the new owner group.
 ----
 
 [[group-member-endpoints]]
-Group Member Endpoints
-----------------------
+== Group Member Endpoints
 
 [[group-members]]
-List Group Members
-~~~~~~~~~~~~~~~~~~
+=== List Group Members
 --
 'GET /groups/link:#group-id[\{group-id\}]/members/'
 --
@@ -694,8 +675,7 @@ are not visible to the calling user are ignored.
 ----
 
 [[get-group-member]]
-Get Group Member
-~~~~~~~~~~~~~~~~
+=== Get Group Member
 --
 'GET /groups/link:#group-id[\{group-id\}]/members/link:rest-api-accounts.html#account-id[\{account-id\}]'
 --
@@ -726,8 +706,7 @@ AccountInfo] entity is returned that describes the group member.
 ----
 
 [[add-group-member]]
-Add Group Member
-~~~~~~~~~~~~~~~~
+=== Add Group Member
 --
 'PUT /groups/link:#group-id[\{group-id\}]/members/link:rest-api-accounts.html#account-id[\{account-id\}]'
 --
@@ -760,8 +739,7 @@ AccountInfo] entity is returned that describes the group member.
 The request also succeeds if the user is already a member of this
 group, but then the HTTP response code is `200 OK`.
 
-Add Group Members
-~~~~~~~~~~~~~~~~~
+=== Add Group Members
 --
 'POST /groups/link:#group-id[\{group-id\}]/members'
 --
@@ -822,8 +800,7 @@ already a member of the group.
 ----
 
 [[delete-group-member]]
-Delete Group Member
-~~~~~~~~~~~~~~~~~~~
+=== Delete Group Member
 --
 'DELETE /groups/link:#group-id[\{group-id\}]/members/link:rest-api-accounts.html#account-id[\{account-id\}]'
 --
@@ -841,8 +818,7 @@ Deletes a user from a Gerrit internal group.
 ----
 
 [[delete-group-members]]
-Delete Group Members
-~~~~~~~~~~~~~~~~~~~~
+=== Delete Group Members
 --
 'POST /groups/link:#group-id[\{group-id\}]/members.delete'
 --
@@ -871,12 +847,10 @@ body as a link:#members-input[MembersInput] entity.
 ----
 
 [[group-include-endpoints]]
-Group Include Endpoints
------------------------
+== Group Include Endpoints
 
 [[included-groups]]
-List Included Groups
-~~~~~~~~~~~~~~~~~~~~
+=== List Included Groups
 --
 'GET /groups/link:#group-id[\{group-id\}]/groups/'
 --
@@ -914,8 +888,7 @@ The entries in the list are sorted by group name and UUID.
 ----
 
 [[get-included-group]]
-Get Included Group
-~~~~~~~~~~~~~~~~~~
+=== Get Included Group
 --
 'GET /groups/link:#group-id[\{group-id\}]/groups/link:#group-id[\{group-id\}]'
 --
@@ -951,8 +924,7 @@ describes the included group.
 ----
 
 [[include-group]]
-Include Group
-~~~~~~~~~~~~~
+=== Include Group
 --
 'PUT /groups/link:#group-id[\{group-id\}]/groups/link:#group-id[\{group-id\}]'
 --
@@ -992,8 +964,7 @@ The request also succeeds if the group is already included in this
 group, but then the HTTP response code is `200 OK`.
 
 [[include-groups]]
-Include Groups
-~~~~~~~~~~~~~~
+=== Include Groups
 --
 'POST /groups/link:#group-id[\{group-id\}]/groups'
 --
@@ -1063,8 +1034,7 @@ group was already included in the group.
 ----
 
 [[delete-included-group]]
-Delete Included Group
-~~~~~~~~~~~~~~~~~~~~~
+=== Delete Included Group
 --
 'DELETE /groups/link:#group-id[\{group-id\}]/groups/link:#group-id[\{group-id\}]'
 --
@@ -1082,8 +1052,7 @@ Deletes an included group from a Gerrit internal group.
 ----
 
 [[delete-included-groups]]
-Delete Included Groups
-~~~~~~~~~~~~~~~~~~~~~~
+=== Delete Included Groups
 --
 'POST /groups/link:#group-id[\{group-id\}]/groups.delete'
 --
@@ -1113,18 +1082,15 @@ body as a link:#groups-input[GroupsInput] entity.
 
 
 [[ids]]
-IDs
----
+== IDs
 
 [[account-id]]
-link:rest-api-accounts.html#account-id[\{account-id\}]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== link:rest-api-accounts.html#account-id[\{account-id\}]
 --
 --
 
 [[group-id]]
-\{group-id\}
-~~~~~~~~~~~~
+=== \{group-id\}
 Identifier for a group.
 
 This can be:
@@ -1134,18 +1100,15 @@ This can be:
 * the name of the group if it is unique
 
 [[group-name]]
-\{group-name\}
-~~~~~~~~~~~~~~
+=== \{group-name\}
 Group name that uniquely identifies one group.
 
 
 [[json-entities]]
-JSON Entities
--------------
+== JSON Entities
 
 [[group-info]]
-GroupInfo
-~~~~~~~~~
+=== GroupInfo
 The `GroupInfo` entity contains information about a group. This can be
 a Gerrit internal group, or an external group that is known to Gerrit.
 
@@ -1185,8 +1148,7 @@ The type of a group can be deduced from the group's UUID:
 |============
 
 [[group-input]]
-GroupInput
-~~~~~~~~~~
+=== GroupInput
 The 'GroupInput' entity contains information for the creation of
 a new internal group.
 
@@ -1206,8 +1168,7 @@ If not set, the new group will be self-owned.
 |===========================
 
 [[groups-input]]
-GroupsInput
-~~~~~~~~~~~
+=== GroupsInput
 The `GroupsInput` entity contains information about groups that should
 be included into a group or that should be deleted from a group.
 
@@ -1222,8 +1183,7 @@ should be included or deleted.
 |==========================
 
 [[group-options-info]]
-GroupOptionsInfo
-~~~~~~~~~~~~~~~~
+=== GroupOptionsInfo
 Options of the group.
 
 [options="header",width="50%",cols="1,^1,5"]
@@ -1234,8 +1194,7 @@ Whether the group is visible to all registered users.
 |=============================
 
 [[group-options-input]]
-GroupOptionsInput
-~~~~~~~~~~~~~~~~~
+=== GroupOptionsInput
 New options for a group.
 
 [options="header",width="50%",cols="1,^1,5"]

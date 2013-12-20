@@ -1,8 +1,6 @@
-Gerrit Code Review - Dashboards
-===============================
+= Gerrit Code Review - Dashboards
 
-Custom Dashboards
------------------
+== Custom Dashboards
 
 A custom dashboard is shown in a layout similar to the per-user
 dashboard, but the sections are entirely configured from the URL.
@@ -57,8 +55,7 @@ to changes for the current user:
 
 
 [[project-dashboards]]
-Project Dashboards
-------------------
+== Project Dashboards
 
 It is possible to share custom dashboards at a project level. To do
 this define the dashboards in a `refs/meta/dashboards/*` branch of the
@@ -91,8 +88,7 @@ overridden by dashboards with the same ref and name.  This makes
 it easy to define common dashboards for every project by simply
 defining project dashboards on the All-Projects project.
 
-Token `${project}`
-~~~~~~~~~~~~~~~~~~
+=== Token `${project}`
 
 Project dashboard queries may contain the special `${project}` token
 which will be replaced with the name of the project to which the
@@ -106,8 +102,7 @@ The `${project}` token can also be used in the link:#dashboard.title[
 dashboard title] and in the link:#dashboard.description[dashboard
 description].
 
-Section `dashboard`
-~~~~~~~~~~~~~~~~~~~
+=== Section `dashboard`
 
 [[dashboard.title]]dashboard.title::
 +
@@ -134,8 +129,7 @@ the project to which it is applied:
 ----
 
 
-Section `section`
-~~~~~~~~~~~~~~~~~
+=== Section `section`
 
 section.<name>.query::
 +
@@ -143,8 +137,7 @@ The change query that should be used to populate the section with the
 given name.
 
 [[project-default-dashboard]]
-Project Default Dashboard
--------------------------
+== Project Default Dashboard
 
 It is possible to define a default dashboard for a project in the
 projects `project.config` file in the `refs/meta/config` branch:

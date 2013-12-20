@@ -6,8 +6,7 @@ This document was literally taken from link:http://git.kernel.org/?p=linux/kerne
 and is covered by the GPLv2.
 
 [[Signed-off-by]]
-Signed-off-by:
---------------
+== Signed-off-by:
 
 To improve tracking of who did what, especially with patches that can
 percolate to their final resting place in the kernel through several
@@ -86,8 +85,7 @@ which appears in the changelog.
 
 [[Acked-by]]
 [[Cc]]
-Acked-by:, Cc:
---------------
+== Acked-by:, Cc:
 
 The Signed-off-by: tag indicates that the signer was involved in the
 development of the patch, or that he/she was in the patch's delivery path.
@@ -121,8 +119,7 @@ have been included in the discussion
 [[Reported-by]]
 [[Tested-by]]
 [[Reviewed-by]]
-Reported-by:, Tested-by: and Reviewed-by:
------------------------------------------
+== Reported-by:, Tested-by: and Reviewed-by:
 
 If this patch fixes a problem reported by somebody else, consider adding a
 Reported-by: tag to credit the reporter for their contribution.  Please

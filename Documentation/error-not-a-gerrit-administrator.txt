@@ -1,5 +1,4 @@
-Not a Gerrit administrator
-==========================
+= Not a Gerrit administrator
 
 With this error message Gerrit rejects to execute an SSH command that
 requires administrator privileges if the user is not a Gerrit

@@ -1,5 +1,4 @@
-Permission denied (publickey)
-=============================
+= Permission denied (publickey)
 
 With this error message an SSH command to Gerrit is rejected if the
 SSH authentication is not successful.
@@ -23,8 +22,7 @@ If you are facing this problem, do the following:
   key is used.
 
 
-Test SSH authentication
------------------------
+== Test SSH authentication
 
 To test the SSH authentication you can run the following SSH command.
 This command will print out a detailed trace which is helpful to

@@ -97,7 +97,7 @@ try:
       # Case of "GERRIT\n------" at the footer
       out_file.write(GERRIT_UPLINK)
       last_line = ''
-    elif PAT_SEARCHBOX.match(line):
+    elif PAT_SEARCHBOX.match(last_line):
       # Case of 'SEARCHBOX\n---------'
       out_file.write(SEARCH_BOX)
       last_line = ''

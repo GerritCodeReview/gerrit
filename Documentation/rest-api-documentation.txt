@@ -1,5 +1,4 @@
-Gerrit Code Review - /Documentation/ REST API
-=============================================
+= Gerrit Code Review - /Documentation/ REST API
 
 This page describes the documentation search related REST endpoints.
 Please also take note of the general information on the
@@ -13,12 +12,10 @@ or
 to test this feature.
 
 [[documentation-endpoints]]
-Documentation Search Endpoints
-------------------------------
+== Documentation Search Endpoints
 
 [[search-documentation]]
-Search Documentation
-~~~~~~~~~~~~~~~~~~~~
+=== Search Documentation
 --
 'GET /Documentation/'
 --
@@ -131,12 +128,10 @@ get::/Documentation/?q=keyword
 
 
 [[json-entities]]
-JSON Entities
--------------
+== JSON Entities
 
 [[doc-result]]
-DocResult
-~~~~~~~~~
+=== DocResult
 The `DocResult` entity contains information about a document.
 
 [options="header",width="50%",cols="1,^2,4"]

@@ -1,5 +1,4 @@
-One or more refs/for/ names blocks change upload
-================================================
+= One or more refs/for/ names blocks change upload
 
 With this error message Gerrit rejects to push a commit for code
 review if the remote git repository has a branch under the

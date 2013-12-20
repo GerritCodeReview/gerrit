@@ -1,5 +1,4 @@
-change ... not found
-====================
+= change ... not found
 
 With this error message Gerrit rejects to push a commit to a change
 that cannot be found.

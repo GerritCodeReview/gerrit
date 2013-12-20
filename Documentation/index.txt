@@ -1,8 +1,6 @@
-Gerrit Code Review for Git
-==========================
+= Gerrit Code Review for Git
 
-Tutorial
---------
+== Tutorial
 . Getting started
 .. link:intro-quick.html[A Quick Introduction to Gerrit]
 .. link:intro-change-screen.html[A Quick Introduction to the New Change Screen]
@@ -24,8 +22,7 @@ Tutorial
 ... link:user-signedoffby.html[Signed-off-by Lines]
 .. Patch sets
 
-Project Management
-------------------
+== Project Management
 . link:project-setup.html[Project Setup]
 . link:access-control.html[Access Controls]
 .. link:config-labels.html[Review Labels]
@@ -39,8 +36,7 @@ Project Management
 . link:user-submodules.html[Subscribing to Git Submodules]
 . Project sunset
 
-Customization and Integration
------------------------------
+== Customization and Integration
 . link:user-dashboards.html[Dashboards]
 . link:rest-api.html[REST API]
 . link:config-gitweb.html[Gitweb Integration]
@@ -50,8 +46,7 @@ Customization and Integration
 . link:config-mail.html[Mail Templates]
 . link:config-cla.html[Contributor Agreements]
 
-Server Administration
----------------------
+== Server Administration
 . link:install.html[Installation Guide]
 . link:config-gerrit.html[System Settings]
 . Backup
@@ -68,8 +63,7 @@ Server Administration
 . link:config-auto-site-initialization.html[Automatic Site Initialization on Startup]
 . link:pgm-index.html[Server Side Administrative Tools]
 
-Developer
----------
+== Developer
 . link:dev-readme.html[Developer Setup]
 . link:dev-buck.html[Building with Buck]
 . link:dev-eclipse.html[Eclipse Setup]
@@ -82,13 +76,11 @@ Developer
 .. link:js-api.html[JavaScript Plugin API]
 .. link:config-validation.html[Commit Validation]
 
-Maintainer
-----------
+== Maintainer
 . link:dev-release.html[Developer Release]
 . link:dev-release-subproject.html[Developer Subproject Release]
 
-Resources
----------
+== Resources
 * link:licenses.html[Licenses and Notices]
 * link:http://code.google.com/p/gerrit/[Homepage]
 * link:http://code.google.com/p/gerrit/downloads/list[Downloads]

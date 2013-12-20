@@ -1,5 +1,4 @@
-Deploy Gerrit Artifacts
-=======================
+= Deploy Gerrit Artifacts
 
 Gerrit Artifacts are stored on
 link:https://developers.google.com/storage/[Google Cloud Storage].
@@ -17,8 +16,7 @@ Jar.
 Bucket to store Gerrit Subproject Artifacts (e.g. `gwtjsonrpc` etc.).
 
 [[deploy-configuration-settings-xml]]
-Deploy Configuration in Maven `settings.xml`
---------------------------------------------
+== Deploy Configuration in Maven `settings.xml`
 
 To upload artifacts to a bucket the user must authenticate with a
 username and password. The username and password need to be retrieved
@@ -58,8 +56,7 @@ configured in the `~/.m2/settings.xml` file.
 ----
 
 [[deploy-configuration-subprojects]]
-Gerrit Subprojects
-~~~~~~~~~~~~~~~~~~
+=== Gerrit Subprojects
 
 * You will need to have the following in the `pom.xml` to make it
 deployable to the `gerrit-maven` storage bucket:

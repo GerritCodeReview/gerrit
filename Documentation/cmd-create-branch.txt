@@ -1,12 +1,9 @@
-gerrit create-branch
-====================
+= gerrit create-branch
 
-NAME
-----
+== NAME
 gerrit create-branch - Create a new branch
 
-SYNOPSIS
---------
+== SYNOPSIS
 --
 'ssh' -p <port> <host> 'gerrit create-branch'
   <PROJECT>
@@ -14,24 +11,20 @@ SYNOPSIS
   <REVISION>
 --
 
-DESCRIPTION
------------
+== DESCRIPTION
 Creates a new branch for a project.
 
-ACCESS
-------
+== ACCESS
 Caller should have link:access-control.html#category_create[Create Reference]
 permission on the project.
 
 Administrators do not automatically have permission to create branches. It must
 be granted via the Create Reference permission.
 
-SCRIPTING
----------
+== SCRIPTING
 This command is intended to be used in scripts.
 
-OPTIONS
--------
+== OPTIONS
 <PROJECT>::
     Required; name of the project.
 
@@ -41,8 +34,7 @@ OPTIONS
 <REVISION>::
     Required; base revision of the new branch.
 
-EXAMPLES
---------
+== EXAMPLES
 Create a new branch called 'newbranch' from the 'master' branch of
 the project 'myproject'.
 

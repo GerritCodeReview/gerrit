@@ -1,5 +1,4 @@
-\... has duplicates
-===================
+= \... has duplicates
 
 With this error message Gerrit rejects to push a commit if its commit
 message contains a Change-ID for which multiple changes can be found

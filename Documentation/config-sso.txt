@@ -1,12 +1,10 @@
-Gerrit Code Review - Single Sign-On Security
-============================================
+= Gerrit Code Review - Single Sign-On Security
 
 Gerrit supports integration with some types of single sign-on
 security solutions, making it possible for end-users to setup
 and manage accounts, without administrator involvement.
 
-OpenID
-------
+== OpenID
 
 By default a new Gerrit installation relies upon OpenID to perform
 user authentication services.  To enable OpenID, the auth.type
@@ -50,8 +48,7 @@ To trust only Google Accounts:
   git config --file $site_path/etc/gerrit.config auth.trustedOpenID 'https://www.google.com/accounts/o8/id?id='
 ====
 
-Database Schema
-~~~~~~~~~~~~~~~
+=== Database Schema
 
 User identities obtained from OpenID providers are stored into the
 `account_external_ids` table.  Users may link more than one OpenID
@@ -61,8 +58,7 @@ in to Gerrit if they are frequently switching between different
 unique OpenID accounts.
 
 
-HTTP Basic/Digest Authentication
---------------------------------
+== HTTP Basic/Digest Authentication
 
 When using HTTP authentication, Gerrit assumes that the servlet
 container or the frontend web server has performed all user
@@ -107,8 +103,7 @@ authentication at the proper time:
   </Location>
 ====
 
-Database Schema
-~~~~~~~~~~~~~~~
+=== Database Schema
 
 User identities are stored in the `account_external_ids` table.
 The user string obtained from the authorization header has the prefix
@@ -117,8 +112,7 @@ if a username was "foo" then the external_id field would be populated
 with "gerrit:foo".
 
 
-Computer Associates Siteminder
-------------------------------
+== Computer Associates Siteminder
 
 Siteminder is a commercial single sign on solution marketed by
 Computer Associates.  It is very common in larger enterprise
@@ -167,8 +161,7 @@ Add the following to `$JETTY_HOME/etc/jetty.xml` under
 ====
 
 
-Database Schema
-~~~~~~~~~~~~~~~
+=== Database Schema
 
 User identities are stored in the `account_external_ids` table.
 The user string obtained from Siteminder (e.g. the value in the

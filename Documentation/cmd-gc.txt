@@ -1,12 +1,9 @@
-gerrit gc
-=========
+= gerrit gc
 
-NAME
-----
+== NAME
 gerrit gc - Run the Git garbage collection
 
-SYNOPSIS
---------
+== SYNOPSIS
 --
 'ssh' -p <port> <host> 'gerrit gc'
   [--all]
@@ -14,8 +11,7 @@ SYNOPSIS
   <NAME> ...
 --
 
-DESCRIPTION
------------
+== DESCRIPTION
 Runs the Git garbage collection for the specified projects.
 
 A Gerrit system administrator can define the default parameters that
@@ -28,19 +24,16 @@ configuration on repository level it is possible to specify
 repository specific parameters for the garbage collection in the Git
 repository configuration of every project.
 
-ACCESS
-------
+== ACCESS
 Caller must be a member of the privileged 'Administrators' group,
 or have been granted the
 link:access-control.html#capability_runGC[Run Garbage Collection]
 global capability.
 
-SCRIPTING
----------
+== SCRIPTING
 This command is intended to be used in scripts.
 
-OPTIONS
--------
+== OPTIONS
 <NAME>::
 	Name of the projects for which the Git garbage collection should be run.
 
@@ -51,8 +44,7 @@ OPTIONS
 --show-progress::
 	If specified progress information is shown.
 
-EXAMPLES
---------
+== EXAMPLES
 
 Run the Git garbage collection for the projects 'myProject' and
 'yourProject':

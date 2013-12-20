@@ -355,6 +355,20 @@ public class RevisionEditCommands {
       case DELETE_ENTRY:
         e.add(new DeletePath(f));
         break;
+        /*
+      case RESTORE_ENTRY:
+        RevWalk rw2 = new RevWalk(repo);
+        try {
+          RevCommit base2 = rw2.parseCommit(base.getParents()[0]);
+          tw = TreeWalk.forPath(rw.getObjectReader(), fileName,
+              base2.getTree().getId());
+        } finally {
+          rw2.release();
+        }
+        Preconditions.checkNotNull(tw);
+        dcb.add(entry(path, tw.getFileMode(0), tw.getObjectId(0)));
+        throw new IllegalStateException("not implemented");
+        */
       default:
         throw new IllegalStateException("unknown tree operation");
     }

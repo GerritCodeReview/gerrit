@@ -34,6 +34,7 @@ public class PutContent implements RestModifyView<FileResource, Input> {
   public static class Input {
     @DefaultInput
     public String content;
+    public boolean restore;
   }
 
   private final RevisionEditCommands cmd;
@@ -52,8 +53,9 @@ public class PutContent implements RestModifyView<FileResource, Input> {
     PatchSet ps = rev.getPatchSet();
     String file = rsrc.getPatchKey().getFileName();
     String content = input.content;
+    boolean restore = input.restore;
     try {
-      cmd.edit(change, ps, file, content);
+      cmd.edit(change, ps, file, content, restore);
     } catch(InvalidChangeOperationException | IOException e) {
       throw new ResourceConflictException(e.getMessage());
     } catch(NoSuchChangeException e) {

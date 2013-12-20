@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.base.Charsets;
+import com.google.common.base.Preconditions;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -41,6 +42,7 @@ import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
@@ -68,7 +70,8 @@ public class RevisionEditCommands {
 
   enum TreeOperation {
     CHANGE_ENTRY,
-    DELETE_ENTRY
+    DELETE_ENTRY,
+    RESTORE_ENTRY
   }
 
   private final PersonIdent myIdent;
@@ -226,9 +229,12 @@ public class RevisionEditCommands {
   }
 
   public RefUpdate.Result edit(Change change, PatchSet ps, String file,
-      String content) throws AuthException, InvalidChangeOperationException,
-      NoSuchChangeException, IOException, OrmException {
-    op = TreeOperation.CHANGE_ENTRY;
+      String content, boolean restore) throws AuthException,
+      InvalidChangeOperationException, NoSuchChangeException, IOException,
+      OrmException {
+    op = restore
+        ? TreeOperation.RESTORE_ENTRY
+        : TreeOperation.CHANGE_ENTRY;
     return modify(change, ps, file, content);
   }
 
@@ -262,7 +268,7 @@ public class RevisionEditCommands {
           oldObjectId = ObjectId.zeroId();
         }
 
-        ObjectId tree = editTree(file, git, inserter, content, prevEdit);
+        ObjectId tree = editTree(file, git, rw, inserter, content, base, prevEdit);
         if (ObjectId.equals(tree, prevEdit.getTree())) {
           throw new InvalidChangeOperationException("no changes were made");
         }
@@ -318,9 +324,9 @@ public class RevisionEditCommands {
     return res;
   }
 
-  private ObjectId editTree(String fileName, Repository repo,
-      ObjectInserter ins, String content, RevCommit prevEdit)
-      throws IOException {
+  private ObjectId editTree(String fileName, Repository repo, RevWalk rw,
+      ObjectInserter ins, String content, RevCommit base, RevCommit prevEdit)
+      throws IOException, InvalidChangeOperationException {
     // TODO(dborowitz): Handle non-UTF-8 paths.
     byte[] path = fileName.getBytes(Charsets.UTF_8);
     DirCache dc = DirCache.newInCore();
@@ -344,9 +350,11 @@ public class RevisionEditCommands {
         found = true;
         if (op == TreeOperation.CHANGE_ENTRY) {
           dce.setObjectId(insert(ins, content));
-        } else {
+        } else if (op == TreeOperation.DELETE_ENTRY) {
           // skip that file from the tree: we are deleting
           continue;
+        } else {
+          throw new IllegalStateException("wrong state");
         }
       } else {
         dce.setObjectId(tw.getObjectId(0));
@@ -354,17 +362,39 @@ public class RevisionEditCommands {
       dcb.add(dce);
     }
     if (!found) {
-      if (op == TreeOperation.DELETE_ENTRY) {
-        throw new IllegalStateException("Cannot remove entry from tree");
+      switch (op) {
+        case DELETE_ENTRY:
+          throw new IllegalStateException("Cannot remove entry from tree");
+        case CHANGE_ENTRY:
+          // TODO(dborowitz): Use path compare above to insert in order.
+          dcb.add(entry(path, FileMode.REGULAR_FILE, insert(ins, content)));
+          break;
+        case RESTORE_ENTRY:
+          RevWalk rw2 = new RevWalk(repo);
+          try {
+            RevCommit base2 = rw2.parseCommit(base.getParents()[0]);
+            tw = TreeWalk.forPath(rw.getObjectReader(), fileName,
+                base2.getTree().getId());
+          } finally {
+            rw2.release();
+          }
+          Preconditions.checkNotNull(tw);
+          dcb.add(entry(path, tw.getFileMode(0), tw.getObjectId(0)));
+          break;
+        default:
+          throw new InvalidChangeOperationException("Unknown tree operation");
       }
-      // TODO(dborowitz): Use path compare above to insert in order.
-      DirCacheEntry dce = new DirCacheEntry(path);
-      dce.setFileMode(FileMode.REGULAR_FILE);
-      dce.setObjectId(insert(ins, content));
-      dcb.add(dce);
     }
     dcb.finish();
     return dc.writeTree(ins);
+  }
+
+  private DirCacheEntry entry(byte[] path, FileMode m,
+      AnyObjectId objectId) {
+    DirCacheEntry dce = new DirCacheEntry(path);
+    dce.setFileMode(m);
+    dce.setObjectId(objectId);
+    return dce;
   }
 
   private ObjectId insert(ObjectInserter ins, String content)

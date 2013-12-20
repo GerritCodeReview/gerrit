@@ -44,14 +44,17 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
   protected final Provider<ReviewDb> dbProvider;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ChangeUtil changeUtil;
+  private final RevisionEditCommands editCommands;
 
   @Inject
   public DeleteDraftPatchSet(Provider<ReviewDb> dbProvider,
       PatchSetInfoFactory patchSetInfoFactory,
-      ChangeUtil changeUtil) {
+      ChangeUtil changeUtil,
+      RevisionEditCommands editCommands) {
     this.dbProvider = dbProvider;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.changeUtil = changeUtil;
+    this.editCommands = editCommands;
   }
 
   @Override
@@ -59,21 +62,47 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
       throws AuthException, ResourceNotFoundException,
       ResourceConflictException, OrmException, IOException {
     PatchSet patchSet = rsrc.getPatchSet();
-    PatchSet.Id patchSetId = patchSet.getId();
-    Change change = rsrc.getChange();
 
-    if (!patchSet.isDraft()) {
-      throw new ResourceConflictException("Patch set is not a draft.");
+    if (!patchSet.isDraft() && !rsrc.isEdit()) {
+      throw new ResourceConflictException("Patch set is not a draft or edit.");
     }
 
-    if (!rsrc.getControl().canDeleteDraft(dbProvider.get())) {
+    if (rsrc.isEdit()) {
+      deleteRevisionEdit(rsrc);
+    } else {
+      deleteDraft(rsrc);
+    }
+
+    return Response.none();
+  }
+
+  private void deleteDraft(RevisionResource rsrc)
+      throws OrmException, AuthException, ResourceNotFoundException,
+      IOException {
+    if (!hasAcl(rsrc)) {
       throw new AuthException("Not permitted to delete this draft patch set");
     }
 
+    PatchSet patchSet = rsrc.getPatchSet();
+    Change change = rsrc.getChange();
+    PatchSet.Id patchSetId = patchSet.getId();
     deleteDraftPatchSet(patchSet, change);
     deleteOrUpdateDraftChange(patchSetId, change);
+  }
 
-    return Response.none();
+  private void deleteRevisionEdit(RevisionResource rsrc)
+      throws AuthException, ResourceNotFoundException,
+      ResourceConflictException, OrmException {
+    rsrc.checkEdit();
+    Change change = rsrc.getChange();
+    PatchSet ps = rsrc.getPatchSet();
+    try {
+      editCommands.delete(change, ps);
+    } catch(IOException e) {
+      throw new ResourceConflictException(e.getMessage());
+    } catch(NoSuchChangeException e) {
+      throw new ResourceNotFoundException(change.getId().toString());
+    }
   }
 
   @Override
@@ -81,15 +110,29 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
     try {
       int psCount = dbProvider.get().patchSets()
           .byChange(rsrc.getChange().getId()).toList().size();
+      if (rsrc.getPatchSet().isEdit()) {
+        ++psCount;
+      }
+      String title = String.format("Delete %s %s",
+          rsrc.getPatchSet().isEdit()
+              ? "revision edit"
+              : "draft revision",
+          rsrc.getPatchSet().getId().getId());
       return new UiAction.Description()
-        .setTitle(String.format("Delete draft revision %d",
-            rsrc.getPatchSet().getPatchSetId()))
-        .setVisible(rsrc.getPatchSet().isDraft()
-            && rsrc.getControl().canDeleteDraft(dbProvider.get())
+        .setTitle(title)
+        .setVisible((rsrc.getPatchSet().isDraft()
+            || rsrc.getPatchSet().isEdit())
+            && hasAcl(rsrc)
             && psCount > 1);
     } catch (OrmException e) {
       throw new IllegalStateException(e);
     }
+  }
+
+  private boolean hasAcl(RevisionResource rsrc) throws OrmException {
+    return rsrc.isEdit()
+        ? true
+        : rsrc.getControl().canDeleteDraft(dbProvider.get());
   }
 
   private void deleteDraftPatchSet(PatchSet patchSet, Change change)

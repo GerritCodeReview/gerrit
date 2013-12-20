@@ -26,7 +26,6 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 import org.eclipse.jgit.lib.Config;
 
@@ -67,9 +66,7 @@ public class IndexModule extends LifecycleModule {
     bind(BasicChangeRewrites.class);
     bind(IndexCollection.class);
     listener().to(IndexCollection.class);
-    install(new FactoryModuleBuilder()
-        .implement(ChangeIndexer.class, ChangeIndexerImpl.class)
-        .build(ChangeIndexer.Factory.class));
+    factory(ChangeIndexer.Factory.class);
 
     if (indexExecutor != null) {
       bind(ListeningExecutorService.class)

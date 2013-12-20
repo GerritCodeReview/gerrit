@@ -26,6 +26,12 @@ class LineMapper {
   private List<LineGap> lineMapBtoA;
 
   LineMapper() {
+    reset();
+  }
+
+  void reset() {
+    lineA = 0;
+    lineB = 0;
     lineMapAtoB = new ArrayList<LineGap>();
     lineMapBtoA = new ArrayList<LineGap>();
   }
@@ -41,6 +47,17 @@ class LineMapper {
   void appendCommon(int numLines) {
     lineA += numLines;
     lineB += numLines;
+  }
+
+  void appendReplace(int aLen, int bLen) {
+    appendCommon(Math.min(aLen, bLen));
+    if (aLen < bLen) { // Edit with insertion
+      int insertCnt = bLen - aLen;
+      appendInsert(insertCnt);
+    } else if (aLen > bLen) { // Edit with deletion
+      int deleteCnt = aLen - bLen;
+      appendDelete(deleteCnt);
+    }
   }
 
   void appendInsert(int numLines) {

@@ -22,6 +22,7 @@ import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.changes.ReviewInfo;
 import com.google.gerrit.client.changes.Util;
+import com.google.gerrit.client.diff.DiffInfo.Region;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -313,7 +314,10 @@ class Header extends Composite {
     return nextPath;
   }
 
-  void setNoDiff(boolean visible) {
-    UIObject.setVisible(noDiff, visible);
+  void setNoDiff(DiffInfo diff) {
+    JsArray<Region> regions = diff.content();
+    boolean b = regions.length() == 0
+        || (regions.length() == 1 && regions.get(0).ab() != null);
+    UIObject.setVisible(noDiff, b);
   }
 }

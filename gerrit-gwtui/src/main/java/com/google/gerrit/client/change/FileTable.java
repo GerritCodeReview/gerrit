@@ -99,6 +99,7 @@ class FileTable extends FlowPanel {
 
   private static final String DELETE;
   private static final String EDIT;
+  private static final String RESTORE;
   private static final String REVIEWED;
   private static final String OPEN;
   private static final int C_PATH = 3;
@@ -107,17 +108,21 @@ class FileTable extends FlowPanel {
   static {
     DELETE = DOM.createUniqueId().replace('-', '_');
     EDIT = DOM.createUniqueId().replace('-', '_');
+    RESTORE = DOM.createUniqueId().replace('-', '_');
     REVIEWED = DOM.createUniqueId().replace('-', '_');
     OPEN = DOM.createUniqueId().replace('-', '_');
-    init(DELETE, EDIT, REVIEWED, OPEN);
+    init(DELETE, EDIT, RESTORE, REVIEWED, OPEN);
   }
 
-  private static final native void init(String d, String e, String r, String o) /*-{
+  private static final native void init(String d, String e, String t, String r, String o) /*-{
     $wnd[d] = $entry(function(e,i) {
       @com.google.gerrit.client.change.FileTable::onDelete(Lcom/google/gwt/dom/client/NativeEvent;I)(e,i)
     });
     $wnd[e] = $entry(function(e,i) {
       @com.google.gerrit.client.change.FileTable::onEdit(Lcom/google/gwt/dom/client/NativeEvent;I)(e,i)
+    });
+    $wnd[t] = $entry(function(e,i) {
+      @com.google.gerrit.client.change.FileTable::onRestore(Lcom/google/gwt/dom/client/NativeEvent;I)(e,i)
     });
     $wnd[r] = $entry(function(e,i) {
       @com.google.gerrit.client.change.FileTable::onReviewed(Lcom/google/gwt/dom/client/NativeEvent;I)(e,i)
@@ -138,6 +143,13 @@ class FileTable extends FlowPanel {
     MyTable t = getMyTable(e);
     if (t != null) {
       t.onDelete(idx);
+    }
+  }
+
+  private static void onRestore(NativeEvent e, int idx) {
+    MyTable t = getMyTable(e);
+    if (t != null) {
+      t.onRestore(idx);
     }
   }
 
@@ -324,8 +336,23 @@ class FileTable extends FlowPanel {
     }
 
     void onDelete(int idx) {
-      final String path = list.get(idx).path();
+      String path = list.get(idx).path();
       ChangeFileApi.deleteContent(curr, path,
+          new AsyncCallback<VoidResult>() {
+            @Override
+            public void onSuccess(VoidResult result) {
+              Gerrit.display(PageLinks.toChange(curr.getParentKey()));
+            }
+
+            @Override
+            public void onFailure(Throwable caught) {
+            }
+          });
+    }
+
+    void onRestore(int idx) {
+      String path = list.get(idx).path();
+      ChangeFileApi.restoreContent(curr, path,
           new AsyncCallback<VoidResult>() {
             @Override
             public void onSuccess(VoidResult result) {
@@ -554,7 +581,7 @@ class FileTable extends FlowPanel {
         columnReviewed(sb, info);
       } else {
         columnEdit(sb, info);
-        columnRemove(sb, info);
+        columnDeleteRestore(sb, info);
       }
       columnStatus(sb, info);
       columnPath(sb, info);
@@ -590,14 +617,20 @@ class FileTable extends FlowPanel {
       sb.closeTd();
     }
 
-    private void columnRemove(SafeHtmlBuilder sb, FileInfo info) {
+    private void columnDeleteRestore(SafeHtmlBuilder sb, FileInfo info) {
       sb.openTd().setStyleName(R.css().removeButton());
-      if (hasUser && isEditeable(info)) {
+      if (hasUser) {
         if (!Patch.COMMIT_MSG.equals(info.path())) {
+          boolean editeable = isEditeable(info);
           sb.openElement("button")
-            .setAttribute("title", Resources.C.removeFileInline())
-            .setAttribute("onclick", DELETE + "(event," + info._row() + ")")
-            .append(new ImageResourceRenderer().render(Gerrit.RESOURCES.redNot()))
+            .setAttribute("title", editeable
+                ? Resources.C.removeFileInline()
+                : Resources.C.restoreFileInline())
+            .setAttribute("onclick", (editeable ? DELETE : RESTORE)
+                + "(event," + info._row() + ")")
+            .append(new ImageResourceRenderer().render(editeable
+                ? Gerrit.RESOURCES.redNot()
+                : Gerrit.RESOURCES.greenCheck()))
             .closeElement("button");
         }
       }

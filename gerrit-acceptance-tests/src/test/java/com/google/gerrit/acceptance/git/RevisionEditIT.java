@@ -118,7 +118,8 @@ public class RevisionEditIT extends AbstractDaemonTest {
             change,
             ps,
             FILE_NAME,
-            CONTENT_NEW));
+            CONTENT_NEW,
+            false));
     assertEquals(1, cmd.read(change).size());
     cmd.delete(change, ps);
     assertEquals(0, cmd.read(change).size());
@@ -155,14 +156,16 @@ public class RevisionEditIT extends AbstractDaemonTest {
             change,
             ps,
             FILE_NAME,
-            CONTENT_NEW));
+            CONTENT_NEW,
+            false));
     assertEquals(1, cmd.read(change).size());
     assertEquals(RefUpdate.Result.FORCED,
         cmd.edit(
             change,
             ps,
             FILE_NAME,
-            CONTENT_NEW + 42));
+            CONTENT_NEW + 42,
+            false));
     cmd.publish(change, ps);
     assertEquals(0, cmd.read(change).size());
   }
@@ -192,7 +195,7 @@ public class RevisionEditIT extends AbstractDaemonTest {
             change,
             ps,
             FILE_NAME2,
-            CONTENT_NEW));
+            CONTENT_NEW,false));
 
     assertEquals(1, cmd.read(change).size());
     cmd.delete(change, ps);
@@ -207,14 +210,16 @@ public class RevisionEditIT extends AbstractDaemonTest {
             change,
             ps,
             FILE_NAME2,
-            CONTENT_NEW));
+            CONTENT_NEW,
+            false));
 
     assertEquals(RefUpdate.Result.FORCED,
         cmd.edit(
             change,
             ps,
             FILE_NAME2,
-            CONTENT_NEW + 42));
+            CONTENT_NEW + 42,
+            false));
 
     assertEquals(1, cmd.read(change).size());
     cmd.delete(change, ps);
@@ -229,7 +234,8 @@ public class RevisionEditIT extends AbstractDaemonTest {
             change,
             ps,
             FILE_NAME,
-            CONTENT_OLD));
+            CONTENT_OLD,
+            false));
   }
 
   private String newChange(Git git, PersonIdent ident) throws GitAPIException,

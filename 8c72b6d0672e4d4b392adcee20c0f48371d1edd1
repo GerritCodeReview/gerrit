@@ -1,0 +1,181 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48587f1a_0f4ae571",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-20T23:25:11Z",
+      "side": 1,
+      "message": "This probably predates the REST API being almost fully implemented, but each of these methods really should be a single REST API that the rest of the server code can build on top of.",
+      "revId": "8c72b6d0672e4d4b392adcee20c0f48371d1edd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_2f47a968",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-20T23:25:11Z",
+      "side": 1,
+      "message": "Use the same RevWalk that is used below.",
+      "revId": "8c72b6d0672e4d4b392adcee20c0f48371d1edd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_104a0472",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-20T23:25:11Z",
+      "side": 1,
+      "message": "Hoist this up to line 96 above getCommit() and pass rw instead of making a temporary one.",
+      "revId": "8c72b6d0672e4d4b392adcee20c0f48371d1edd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_30470869",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-20T23:25:11Z",
+      "side": 1,
+      "message": "Git update with ru.execute() must happen before the insert of the database record. ReceiveCommits updates Git then database, and relies on Git to provide atomic assignment of patch set numbers.",
+      "revId": "8c72b6d0672e4d4b392adcee20c0f48371d1edd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_4f44ed61",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-20T23:25:11Z",
+      "side": 1,
+      "message": "You are right, its not valid. You can get LOCK_FAILURE when someone else has already created a new patch set on this change using the id you computed above as \"current + 1\", aka a race condition.\n\nThis should still be seen as a failure by the caller.",
+      "range": {
+        "startLine": 124,
+        "startChar": 12,
+        "endLine": 125,
+        "endChar": 68
+      },
+      "revId": "8c72b6d0672e4d4b392adcee20c0f48371d1edd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_50448c61",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-20T23:25:11Z",
+      "side": 1,
+      "message": "Use this RevWalk above for getCommit",
+      "revId": "8c72b6d0672e4d4b392adcee20c0f48371d1edd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_70419050",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-20T23:25:11Z",
+      "side": 1,
+      "message": "Keep the Map\u003cString, Ref\u003e and use the Ref object in the loop below to supply the RevisionEdit the ObjectId. That way we don\u0027t have to call getRef() in the caller if we need the SHA-1.\n\nOn local disk Git getRef() will require an lstat() on each path, an acceptable cost. On gerrit-review getRef() is not going to be very fast. Its better if we can just thread in the ObjectId to the RevisionEdit here.",
+      "range": {
+        "startLine": 188,
+        "startChar": 6,
+        "endLine": 191,
+        "endChar": 23
+      },
+      "revId": "8c72b6d0672e4d4b392adcee20c0f48371d1edd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_6f41b150",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-20T23:25:11Z",
+      "side": 1,
+      "message": "I strongly prefer this level of the code to assume content is byte[]. The caller should do the conversion from character data.",
+      "range": {
+        "startLine": 205,
+        "startChar": 6,
+        "endLine": 205,
+        "endChar": 20
+      },
+      "revId": "8c72b6d0672e4d4b392adcee20c0f48371d1edd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_9078b4a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-20T23:25:11Z",
+      "side": 1,
+      "message": "I think you can do this:\n\n  DirCache d \u003d DirCache.newInCore();\n  DirCacheBuilder b \u003d d.builder();\n  b.addTree(new byte[0], 0, reader, tree);\n  b.finish();\n    \n  d.editor().add(new PathEdit());",
+      "range": {
+        "startLine": 290,
+        "startChar": 4,
+        "endLine": 292,
+        "endChar": 23
+      },
+      "revId": "8c72b6d0672e4d4b392adcee20c0f48371d1edd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

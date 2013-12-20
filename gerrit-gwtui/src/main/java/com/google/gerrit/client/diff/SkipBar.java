@@ -16,8 +16,6 @@ package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -41,37 +39,29 @@ class SkipBar extends Composite {
   private static final Binder uiBinder = GWT.create(Binder.class);
   private static final int NUM_ROWS_TO_EXPAND = 10;
   private static final int UP_DOWN_THRESHOLD = 30;
-  private static final Configuration MARKER_CONFIG = Configuration.create()
-      .set("collapsed", true)
-      .set("inclusiveLeft", true)
-      .set("inclusiveRight", true);
 
   interface SkipBarStyle extends CssResource {
     String noExpand();
   }
 
-  @UiField(provided=true)
-  Anchor skipNum;
+  @UiField(provided=true) Anchor skipNum;
+  @UiField(provided=true) Anchor upArrow;
+  @UiField(provided=true) Anchor downArrow;
+  @UiField SkipBarStyle style;
 
-  @UiField(provided=true)
-  Anchor upArrow;
-
-  @UiField(provided=true)
-  Anchor downArrow;
-
-  @UiField
-  SkipBarStyle style;
-
-  private final SideBySide2 parent;
+  private final SideBySide2 host;
+  private final SkipManager manager;
   private final CodeMirror cm;
-  private LineWidget widget;
-  private TextMarker marker;
-  private SkipBar otherBar;
-  private int numSkipLines;
 
-  SkipBar(SideBySide2 parent, final CodeMirror cm) {
-    this.parent = parent;
+  private LineWidget lineWidget;
+  private TextMarker textMarker;
+  private SkipBar otherBar;
+
+  SkipBar(SideBySide2 host, SkipManager manager, final CodeMirror cm) {
+    this.host = host;
+    this.manager = manager;
     this.cm = cm;
+
     skipNum = new Anchor(true);
     upArrow = new Anchor(true);
     downArrow = new Anchor(true);
@@ -84,25 +74,51 @@ class SkipBar extends Composite {
     }, ClickEvent.getType());
   }
 
-  void setWidget(LineWidget lineWidget) {
-    widget = lineWidget;
-    Scheduler.get().scheduleDeferred(new ScheduledCommand(){
-      @Override
-      public void execute() {
-        getElement().getStyle().setPaddingLeft(
-            cm.getGutterElement().getOffsetWidth(), Unit.PX);
+  void collapse(int start, int end, boolean attach) {
+    if (attach) {
+      boolean isNew = lineWidget == null;
+      Configuration cfg = Configuration.create()
+          .set("coverGutter", true)
+          .set("noHScroll", true);
+      if (start == 0) { // First line workaround
+        lineWidget = cm.addLineWidget(end + 1, getElement(), cfg.set("above", true));
+      } else {
+        lineWidget = cm.addLineWidget(start - 1, getElement(), cfg);
       }
-    });
-  }
+      if (isNew) {
+        setVisible(false);
+        lineWidget.onFirstRedraw(new Runnable() {
+          @Override
+          public void run() {
+            setVisible(true);
+          }
+        });
+        host.defer(new Runnable() {
+          @Override
+          public void run() {
+            int w = cm.getGutterElement().getOffsetWidth();
+            getElement().getStyle().setPaddingLeft(w, Unit.PX);
+          }
+        });
+      }
+    }
 
-  void setMarker(TextMarker marker, int length) {
-    this.marker = marker;
-    numSkipLines = length;
-    skipNum.setText(Integer.toString(length));
-    if (checkAndUpdateArrows()) {
+    textMarker = cm.markText(
+        CodeMirror.pos(start, 0),
+        CodeMirror.pos(end),
+        Configuration.create()
+          .set("collapsed", true)
+          .set("inclusiveLeft", true)
+          .set("inclusiveRight", true));
+
+    int skipped = end - start + 1;
+    if (skipped <= UP_DOWN_THRESHOLD) {
+      addStyleName(style.noExpand());
+    } else {
       upArrow.setHTML(PatchUtil.M.expandBefore(NUM_ROWS_TO_EXPAND));
       downArrow.setHTML(PatchUtil.M.expandAfter(NUM_ROWS_TO_EXPAND));
     }
+    skipNum.setText(Integer.toString(skipped));
   }
 
   static void link(SkipBar barA, SkipBar barB) {
@@ -110,24 +126,9 @@ class SkipBar extends Composite {
     barB.otherBar = barA;
   }
 
-  private void updateSkipNum() {
-    numSkipLines -= NUM_ROWS_TO_EXPAND;
-    skipNum.setText(String.valueOf(numSkipLines));
-    checkAndUpdateArrows();
-  }
-
-  private boolean checkAndUpdateArrows() {
-    if (numSkipLines <= UP_DOWN_THRESHOLD) {
-      addStyleName(style.noExpand());
-      return false;
-    }
-    return true;
-  }
-
   private void clearMarkerAndWidget() {
-    marker.clear();
-    assert (widget != null);
-    widget.clear();
+    textMarker.clear();
+    lineWidget.clear();
   }
 
   void expandAll() {
@@ -137,38 +138,22 @@ class SkipBar extends Composite {
   }
 
   private void expandBefore() {
-    FromTo fromTo = marker.find();
-    int oldStart = fromTo.getFrom().getLine();
+    FromTo range = textMarker.find();
+    int oldStart = range.getFrom().getLine();
     int newStart = oldStart + NUM_ROWS_TO_EXPAND;
-    int end = fromTo.getTo().getLine();
+    int end = range.getTo().getLine();
     clearMarkerAndWidget();
-    marker = cm.markText(
-        CodeMirror.pos(newStart, 0), CodeMirror.pos(end), MARKER_CONFIG);
-    Configuration config = Configuration.create()
-        .set("coverGutter", true)
-        .set("noHScroll", true);
-    setWidget(cm.addLineWidget(newStart - 1, getElement(), config));
-    updateSkipNum();
+    collapse(newStart, end, true);
     updateSelection();
   }
 
   private void expandAfter() {
-    FromTo fromTo = marker.find();
-    int start = fromTo.getFrom().getLine();
-    int oldEnd = fromTo.getTo().getLine();
+    FromTo range = textMarker.find();
+    int start = range.getFrom().getLine();
+    int oldEnd = range.getTo().getLine();
     int newEnd = oldEnd - NUM_ROWS_TO_EXPAND;
-    marker.clear();
-    marker = cm.markText(
-        CodeMirror.pos(start, 0), CodeMirror.pos(newEnd), MARKER_CONFIG);
-    if (start == 0) { // First line workaround
-      Configuration config = Configuration.create()
-          .set("coverGutter", true)
-          .set("noHScroll", true)
-          .set("above", true);
-      widget.clear();
-      setWidget(cm.addLineWidget(newEnd + 1, getElement(), config));
-    }
-    updateSkipNum();
+    textMarker.clear();
+    collapse(start, newEnd, false);
     updateSelection();
   }
 
@@ -181,7 +166,7 @@ class SkipBar extends Composite {
 
   @UiHandler("skipNum")
   void onExpandAll(ClickEvent e) {
-    parent.remove(this);
+    manager.remove(this, otherBar);
     otherBar.expandAll();
     expandAll();
     cm.focus();

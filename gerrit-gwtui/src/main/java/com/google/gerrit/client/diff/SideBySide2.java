@@ -27,7 +27,6 @@ import com.google.gerrit.client.diff.LineMapper.LineOnOtherInfo;
 import com.google.gerrit.client.diff.PaddingManager.LinePaddingWidgetWrapper;
 import com.google.gerrit.client.diff.PaddingManager.PaddingWidgetWrapper;
 import com.google.gerrit.client.patches.PatchUtil;
-import com.google.gerrit.client.patches.SkippedLine;
 import com.google.gerrit.client.projects.ConfigInfoCache;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -36,7 +35,6 @@ import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.changes.ListChangesOption;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
@@ -90,10 +88,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class SideBySide2 extends Screen {
   interface Binder extends UiBinder<FlowPanel, SideBySide2> {}
@@ -127,9 +123,9 @@ public class SideBySide2 extends Screen {
   private List<TextMarker> markers;
   private List<Runnable> undoLineClass;
   private CommentManager commentManager;
+  private SkipManager skipManager;
   private Map<LineHandle, LinePaddingWidgetWrapper> linePaddingOnOtherSideMap;
   private List<DiffChunkInfo> diffChunks;
-  private Set<SkipBar> skipBars;
 
   private KeyCommandSet keysNavigation;
   private KeyCommandSet keysAction;
@@ -485,6 +481,7 @@ public class SideBySide2 extends Screen {
 
     cmA = createCodeMirror(diff.meta_a(), diff.text_a(), diffTable.cmA);
     cmB = createCodeMirror(diff.meta_b(), diff.text_b(), diffTable.cmB);
+    skipManager = new SkipManager(this, commentManager);
 
     operation(new Runnable() {
       public void run() {
@@ -499,7 +496,7 @@ public class SideBySide2 extends Screen {
         if (prefs.expandAllComments()) {
           commentManager.setExpandAllComments(true);
         }
-        renderSkips(prefs.context());
+        skipManager.render(prefs.context(), diff);
       }
     });
 
@@ -606,7 +603,8 @@ public class SideBySide2 extends Screen {
     operation(new Runnable() {
       @Override
       public void run() {
-        renderSkips(context);
+        skipManager.removeAll();
+        skipManager.render(context, diff);
       }
     });
   }
@@ -673,66 +671,6 @@ public class SideBySide2 extends Screen {
     }
   }
 
-  private void renderSkips(int context) {
-    clearSkipBars();
-
-    if (context == AccountDiffPreference.WHOLE_FILE_CONTEXT) {
-      return;
-    }
-
-    JsArray<Region> regions = diff.content();
-    List<SkippedLine> skips = new ArrayList<SkippedLine>();
-    int lineA = 0, lineB = 0;
-    for (int i = 0; i < regions.length(); i++) {
-      Region current = regions.get(i);
-      if (current.ab() != null) {
-        int len = current.ab().length();
-        if (i == 0 && len > context + 1) {
-          skips.add(new SkippedLine(0, 0, len - context));
-        } else if (i == regions.length() - 1 && len > context + 1) {
-          skips.add(new SkippedLine(lineA + context, lineB + context,
-              len - context));
-        } else if (len > 2 * context + 1) {
-          skips.add(new SkippedLine(lineA + context, lineB + context,
-              len - 2 * context));
-        }
-        lineA += len;
-        lineB += len;
-      } else {
-        lineA += current.a() != null ? current.a().length() : 0;
-        lineB += current.b() != null ? current.b().length() : 0;
-      }
-    }
-    skips = commentManager.splitSkips(context, skips);
-
-    skipBars = new HashSet<SkipBar>();
-    for (SkippedLine skip : skips) {
-      SkipBar barA = renderSkipHelper(cmA, skip);
-      SkipBar barB = renderSkipHelper(cmB, skip);
-      SkipBar.link(barA, barB);
-      skipBars.add(barA);
-      skipBars.add(barB);
-
-      if (skip.getStartA() == 0 || skip.getStartB() == 0) {
-        barA.upArrow.setVisible(false);
-        barB.upArrow.setVisible(false);
-      } else if (skip.getStartA() + skip.getSize() == lineA
-          || skip.getStartB() + skip.getSize() == lineB) {
-        barA.downArrow.setVisible(false);
-        barB.downArrow.setVisible(false);
-      }
-    }
-  }
-
-  private void clearSkipBars() {
-    if (skipBars != null) {
-      for (SkipBar bar : skipBars) {
-        bar.expandAll();
-      }
-      skipBars = null;
-    }
-  }
-
   private void clearMarkers() {
     if (markers != null) {
       for (TextMarker m : markers) {
@@ -752,35 +690,6 @@ public class SideBySide2 extends Screen {
       }
       linePaddingOnOtherSideMap = null;
     }
-  }
-
-  void remove(SkipBar bar) {
-    skipBars.remove(bar);
-  }
-
-  private SkipBar renderSkipHelper(CodeMirror cm, SkippedLine skip) {
-    int size = skip.getSize();
-    int markStart = cm == cmA ? skip.getStartA() : skip.getStartB();
-    int markEnd = markStart + size - 1;
-    SkipBar bar = new SkipBar(this, cm);
-    diffTable.add(bar);
-    Configuration markerConfig = Configuration.create()
-        .set("collapsed", true)
-        .set("inclusiveLeft", true)
-        .set("inclusiveRight", true);
-    Configuration lineWidgetConfig = Configuration.create()
-        .set("coverGutter", true)
-        .set("noHScroll", true);
-    if (markStart == 0) {
-      bar.setWidget(addLineWidget(
-          cm, markEnd + 1, bar, lineWidgetConfig.set("above", true)));
-    } else {
-      bar.setWidget(addLineWidget(
-          cm, markStart - 1, bar, lineWidgetConfig));
-    }
-    bar.setMarker(cm.markText(CodeMirror.pos(markStart, 0),
-        CodeMirror.pos(markEnd), markerConfig), size);
-    return bar;
   }
 
   CodeMirror otherCm(CodeMirror me) {
@@ -1291,12 +1200,12 @@ public class SideBySide2 extends Screen {
             operation(new Runnable() {
               @Override
               public void run() {
-                clearSkipBars();
+                skipManager.removeAll();
                 clearMarkers();
                 diffTable.sidePanel.clearDiffGutters();
                 setShowIntraline(prefs.intralineDifference());
                 render(diff);
-                renderSkips(prefs.context());
+                skipManager.render(prefs.context(), diff);
               }
             });
           }

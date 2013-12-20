@@ -38,6 +38,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
@@ -109,18 +111,8 @@ public class ChangeIndexer {
    * @return future for the indexing task.
    */
   public CheckedFuture<?, IOException> indexAsync(Change change) {
-    return indexAsync(new ChangeData(change));
-  }
-
-  /**
-   * Start indexing a change.
-   *
-   * @param cd change to index.
-   * @return future for the indexing task.
-   */
-  public CheckedFuture<?, IOException> indexAsync(ChangeData cd) {
     return executor != null
-        ? submit(new Task(cd, false))
+        ? submit(new Task(new ChangeData(change), false))
         : Futures.<Object, IOException> immediateCheckedFuture(null);
   }
 
@@ -139,12 +131,8 @@ public class ChangeIndexer {
    * @param cd change to index.
    */
   public void index(ChangeData cd) throws IOException {
-    try {
-      new Task(cd, false).call();
-    } catch (RuntimeException e) {
-      throw e;
-    } catch (Exception e) {
-      throw MAPPER.apply(e);
+    for (ChangeIndex i : getWriteIndexes()) {
+      i.replace(cd);
     }
   }
 
@@ -155,18 +143,8 @@ public class ChangeIndexer {
    * @return future for the deleting task.
    */
   public CheckedFuture<?, IOException> deleteAsync(Change change) {
-    return deleteAsync(new ChangeData(change));
-  }
-
-  /**
-   * Start deleting a change.
-   *
-   * @param cd change to delete.
-   * @return future for the deleting task.
-   */
-  public CheckedFuture<?, IOException> deleteAsync(ChangeData cd) {
     return executor != null
-        ? submit(new Task(cd, true))
+        ? submit(new Task(new ChangeData(change), true))
         : Futures.<Object, IOException> immediateCheckedFuture(null);
   }
 
@@ -185,13 +163,15 @@ public class ChangeIndexer {
    * @param cd change to delete.
    */
   public void delete(ChangeData cd) throws IOException {
-    try {
-      new Task(cd, true).call();
-    } catch (RuntimeException e) {
-      throw e;
-    } catch (Exception e) {
-      throw MAPPER.apply(e);
+    for (ChangeIndex i : getWriteIndexes()) {
+      i.delete(cd);
     }
+  }
+
+  private Collection<ChangeIndex> getWriteIndexes() {
+    return indexes != null
+        ? indexes.getWriteIndexes()
+        : Collections.singleton(index);
   }
 
   private CheckedFuture<?, IOException> submit(Callable<?> task) {
@@ -236,12 +216,14 @@ public class ChangeIndexer {
           }
         });
         try {
-          if (indexes != null) {
-            for (ChangeIndex i : indexes.getWriteIndexes()) {
-              apply(i, cd);
+          if (delete) {
+            for (ChangeIndex i : getWriteIndexes()) {
+              i.delete(cd);
             }
           } else {
-            apply(index, cd);
+            for (ChangeIndex i : getWriteIndexes()) {
+              i.replace(cd);
+            }
           }
           return null;
         } finally  {
@@ -256,14 +238,6 @@ public class ChangeIndexer {
             "Failed to index change %d in %s",
             cd.getId().get(), cd.getChange().getProject().get()), e);
         throw e;
-      }
-    }
-
-    private void apply(ChangeIndex i, ChangeData cd) throws IOException {
-      if (delete) {
-        i.delete(cd);
-      } else {
-        i.replace(cd);
       }
     }
 

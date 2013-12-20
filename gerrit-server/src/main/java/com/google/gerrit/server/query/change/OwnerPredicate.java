@@ -16,19 +16,15 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Provider;
 
 class OwnerPredicate extends IndexPredicate<ChangeData> {
-  private final Provider<ReviewDb> dbProvider;
   private final Account.Id id;
 
-  OwnerPredicate(Provider<ReviewDb> dbProvider, Account.Id id) {
+  OwnerPredicate(Account.Id id) {
     super(ChangeField.OWNER, id.toString());
-    this.dbProvider = dbProvider;
     this.id = id;
   }
 
@@ -38,7 +34,7 @@ class OwnerPredicate extends IndexPredicate<ChangeData> {
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
-    Change change = object.change(dbProvider);
+    Change change = object.change();
     return change != null && id.equals(change.getOwner());
   }
 

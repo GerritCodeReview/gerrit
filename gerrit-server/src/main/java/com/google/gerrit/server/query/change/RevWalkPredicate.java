@@ -75,7 +75,7 @@ public abstract class RevWalkPredicate extends OperatorPredicate<ChangeData> {
 
   @Override
   public boolean match(ChangeData object) throws OrmException {
-    final PatchSet patchSet = object.currentPatchSet(db);
+    final PatchSet patchSet = object.currentPatchSet();
     if (patchSet == null) {
       return false;
     }
@@ -90,7 +90,7 @@ public abstract class RevWalkPredicate extends OperatorPredicate<ChangeData> {
       return false;
     }
 
-    Change change = object.change(db);
+    Change change = object.change();
     if (change == null) {
       return false;
     }

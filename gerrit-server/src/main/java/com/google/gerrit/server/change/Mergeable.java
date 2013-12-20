@@ -182,7 +182,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
         c.setMergeable(mergeable);
         c.setLastSha1MergeTested(toRevId(ref));
         db.get().changes().update(Collections.singleton(c));
-        indexer.index(c);
+        indexer.index(db.get(), c);
       }
       return mergeable;
     } catch (MergeException | IOException | NoSuchProjectException e) {

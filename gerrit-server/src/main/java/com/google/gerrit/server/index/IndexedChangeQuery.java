@@ -20,7 +20,6 @@ import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -29,7 +28,6 @@ import com.google.gerrit.server.query.change.Paginated;
 import com.google.gerrit.server.query.change.SortKeyPredicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
-import com.google.inject.Provider;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -80,16 +78,14 @@ public class IndexedChangeQuery extends Predicate<ChangeData>
     }
   }
 
-  private final Provider<ReviewDb> db;
   private final ChangeIndex index;
   private final int limit;
 
   private Predicate<ChangeData> pred;
   private ChangeDataSource source;
 
-  public IndexedChangeQuery(Provider<ReviewDb> db, ChangeIndex index,
-      Predicate<ChangeData> pred, int limit) throws QueryParseException {
-    this.db = db;
+  public IndexedChangeQuery(ChangeIndex index, Predicate<ChangeData> pred,
+      int limit) throws QueryParseException {
     this.index = index;
     this.limit = limit;
     this.pred = pred;
@@ -168,7 +164,7 @@ public class IndexedChangeQuery extends Predicate<ChangeData>
 
   @Override
   public ResultSet<ChangeData> restart(ChangeData last) throws OrmException {
-    pred = replaceSortKeyPredicates(pred, last.change(db).getSortKey());
+    pred = replaceSortKeyPredicates(pred, last.change().getSortKey());
     try {
       source = index.getSource(pred, limit);
     } catch (QueryParseException e) {

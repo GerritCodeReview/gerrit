@@ -14,22 +14,21 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Provider;
 
 class CommentPredicate extends IndexPredicate<ChangeData> {
-  private final Provider<ReviewDb> db;
+  private final Arguments args;
   private final ChangeIndex index;
 
-  CommentPredicate(Provider<ReviewDb> db, ChangeIndex index, String value) {
+  CommentPredicate(Arguments args, ChangeIndex index, String value) {
     super(ChangeField.COMMENT, value);
-    this.db = db;
+    this.args = args;
     this.index = index;
   }
 
@@ -37,7 +36,7 @@ class CommentPredicate extends IndexPredicate<ChangeData> {
   public boolean match(ChangeData object) throws OrmException {
     try {
       for (ChangeData cData : index.getSource(
-          Predicate.and(new LegacyChangeIdPredicate(db, object.getId()), this), 1)
+          Predicate.and(new LegacyChangeIdPredicate(args, object.getId()), this), 1)
           .read()) {
         if (cData.getId().equals(object.getId())) {
           return true;

@@ -105,16 +105,19 @@ public class ChangeBatchIndexer {
   }
 
   private final Provider<ReviewDb> db;
+  private final ChangeData.Factory changeDataFactory;
   private final GitRepositoryManager repoManager;
   private final ListeningExecutorService executor;
   private final ChangeIndexer.Factory indexerFactory;
 
   @Inject
   ChangeBatchIndexer(Provider<ReviewDb> db,
+      ChangeData.Factory changeDataFactory,
       GitRepositoryManager repoManager,
       @IndexExecutor ListeningExecutorService executor,
       ChangeIndexer.Factory indexerFactory) {
     this.db = db;
+    this.changeDataFactory = changeDataFactory;
     this.repoManager = repoManager;
     this.executor = executor;
     this.indexerFactory = indexerFactory;
@@ -211,7 +214,7 @@ public class ChangeBatchIndexer {
           for (Change c : db.get().changes().byProject(project)) {
             Ref r = refs.get(c.currentPatchSetId().toRefName());
             if (r != null) {
-              byId.put(r.getObjectId(), new ChangeData(c));
+              byId.put(r.getObjectId(), changeDataFactory.create(db.get(), c));
             }
           }
           new ProjectIndexer(indexer, byId, repo, done, failed, verboseWriter)

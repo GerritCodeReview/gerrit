@@ -103,7 +103,7 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
     } finally {
       db.rollback();
     }
-    indexer.index(rsrc.getChange());
+    indexer.index(db, rsrc.getChange());
     return Response.none();
   }
 

@@ -14,13 +14,9 @@
 
 package com.google.gerrit.server.index;
 
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.TrackingFooters;
-import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 /**
  * Definition of a field stored in the secondary index.
@@ -58,20 +54,11 @@ public abstract class FieldDef<I, T> {
 
   /** Arguments needed to fill in missing data in the input object. */
   public static class FillArgs {
-    final Provider<ReviewDb> db;
-    final GitRepositoryManager repoManager;
     final TrackingFooters trackingFooters;
-    final PatchListCache patchListCache;
 
     @Inject
-    FillArgs(Provider<ReviewDb> db,
-        GitRepositoryManager repoManager,
-        TrackingFooters trackingFooters,
-        PatchListCache patchListCache) {
-      this.db = db;
-      this.repoManager = repoManager;
+    FillArgs(TrackingFooters trackingFooters) {
       this.trackingFooters = trackingFooters;
-      this.patchListCache = patchListCache;
     }
   }
 

@@ -90,7 +90,7 @@ public abstract class SortKeyPredicate extends IndexPredicate<ChangeData> {
 
     @Override
     public boolean match(ChangeData cd) throws OrmException {
-      Change change = cd.change(dbProvider);
+      Change change = cd.change();
       return change != null && change.getSortKey().compareTo(getValue()) < 0;
     }
 
@@ -118,7 +118,7 @@ public abstract class SortKeyPredicate extends IndexPredicate<ChangeData> {
 
     @Override
     public boolean match(ChangeData cd) throws OrmException {
-      Change change = cd.change(dbProvider);
+      Change change = cd.change();
       return change != null && change.getSortKey().compareTo(getValue()) > 0;
     }
 

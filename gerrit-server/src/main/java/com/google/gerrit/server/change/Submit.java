@@ -205,7 +205,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     } finally {
       db.rollback();
     }
-    indexer.index(change);
+    indexer.index(db, change);
     return change;
   }
 

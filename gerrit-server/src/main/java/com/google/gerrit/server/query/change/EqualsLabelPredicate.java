@@ -57,7 +57,7 @@ class EqualsLabelPredicate extends IndexPredicate<ChangeData> {
 
   @Override
   public boolean match(ChangeData object) throws OrmException {
-    Change c = object.change(dbProvider);
+    Change c = object.change();
     if (c == null) {
       // The change has disappeared.
       //
@@ -71,7 +71,7 @@ class EqualsLabelPredicate extends IndexPredicate<ChangeData> {
     }
     LabelType labelType = type(project.getLabelTypes(), label);
     boolean hasVote = false;
-    for (PatchSetApproval p : object.currentApprovals(dbProvider)) {
+    for (PatchSetApproval p : object.currentApprovals()) {
       if (labelType.matches(p)) {
         hasVote = true;
         if (match(c, p.getValue(), p.getAccountId(), labelType)) {

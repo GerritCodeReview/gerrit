@@ -35,7 +35,6 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.util.Providers;
 
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
 import com.googlecode.prolog_cafe.lang.ListTerm;
@@ -329,7 +328,7 @@ public class ChangeControl {
       throws OrmException {
     if (getCurrentUser().isIdentifiedUser()) {
       Collection<Account.Id> results = cd != null
-          ? cd.reviewers(Providers.of(db)).values()
+          ? cd.reviewers().values()
           : approvalsUtil.getReviewers(db, change.getId()).values();
       IdentifiedUser user = (IdentifiedUser) getCurrentUser();
       return results.contains(user.getAccountId());

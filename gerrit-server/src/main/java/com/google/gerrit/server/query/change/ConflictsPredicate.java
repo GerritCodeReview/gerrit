@@ -20,14 +20,9 @@ import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.CodeReviewCommit;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.SubmitStrategy;
-import com.google.gerrit.server.git.SubmitStrategyFactory;
-import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -35,6 +30,7 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
@@ -55,53 +51,43 @@ import java.util.Set;
 class ConflictsPredicate extends OrPredicate<ChangeData> {
   private final String value;
 
-  ConflictsPredicate(Provider<ReviewDb> db, PatchListCache plc,
-      SubmitStrategyFactory submitStrategyFactory,
-      ChangeControl.GenericFactory changeControlFactory,
-      IdentifiedUser.GenericFactory identifiedUserFactory,
-      GitRepositoryManager repoManager, ProjectCache projectCache,
-      ConflictsCache conflictsCache, String value, List<Change> changes)
+  ConflictsPredicate(Arguments args, String value, List<Change> changes)
       throws OrmException {
-    super(predicates(db, plc, submitStrategyFactory, changeControlFactory,
-        identifiedUserFactory, repoManager, projectCache, conflictsCache,
-        value, changes));
+    super(predicates(args, value, changes));
     this.value = value;
   }
 
-  private static List<Predicate<ChangeData>> predicates(
-      final Provider<ReviewDb> db, final PatchListCache plc,
-      final SubmitStrategyFactory submitStrategyFactory,
-      final ChangeControl.GenericFactory changeControlFactory,
-      final IdentifiedUser.GenericFactory identifiedUserFactory,
-      final GitRepositoryManager repoManager, final ProjectCache projectCache,
-      final ConflictsCache conflictsCache, final String value,
-      List<Change> changes) throws OrmException {
+  private static List<Predicate<ChangeData>> predicates(final Arguments args,
+      String value, List<Change> changes) throws OrmException {
     List<Predicate<ChangeData>> changePredicates =
         Lists.newArrayListWithCapacity(changes.size());
+    final Provider<ReviewDb> db = args.db;
     for (final Change c : changes) {
-      final ChangeDataCache changeDataCache = new ChangeDataCache(c, db, projectCache);
-      List<String> files = new ChangeData(c).currentFilePaths(db, plc);
+      final ChangeDataCache changeDataCache = new ChangeDataCache(
+          c, db, args.changeDataFactory, args.projectCache);
+      List<String> files = args.changeDataFactory.create(db.get(), c)
+          .currentFilePaths();
       List<Predicate<ChangeData>> filePredicates =
           Lists.newArrayListWithCapacity(files.size());
       for (String file : files) {
-        filePredicates.add(new EqualsFilePredicate(db, plc, file));
+        filePredicates.add(new EqualsFilePredicate(file));
       }
 
       List<Predicate<ChangeData>> predicatesForOneChange =
           Lists.newArrayListWithCapacity(5);
       predicatesForOneChange.add(
-          not(new LegacyChangeIdPredicate(db, c.getId())));
+          not(new LegacyChangeIdPredicate(args, c.getId())));
       predicatesForOneChange.add(
-          new ProjectPredicate(db, c.getProject().get()));
+          new ProjectPredicate(c.getProject().get()));
       predicatesForOneChange.add(
-          new RefPredicate(db, c.getDest().get()));
+          new RefPredicate(c.getDest().get()));
       predicatesForOneChange.add(or(filePredicates));
       predicatesForOneChange.add(new OperatorPredicate<ChangeData>(
           ChangeQueryBuilder.FIELD_CONFLICTS, value) {
 
         @Override
         public boolean match(ChangeData object) throws OrmException {
-          Change otherChange = object.change(db);
+          Change otherChange = object.change();
           if (otherChange == null) {
             return false;
           }
@@ -113,17 +99,17 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
             return false;
           }
           ObjectId other = ObjectId.fromString(
-              object.currentPatchSet(db).getRevision().get());
+              object.currentPatchSet().getRevision().get());
           ConflictKey conflictsKey =
               new ConflictKey(changeDataCache.getTestAgainst(), other, submitType,
                   changeDataCache.getProjectState().isUseContentMerge());
-          Boolean conflicts = conflictsCache.getIfPresent(conflictsKey);
+          Boolean conflicts = args.conflictsCache.getIfPresent(conflictsKey);
           if (conflicts != null) {
             return conflicts;
           }
           try {
             Repository repo =
-                repoManager.openRepository(otherChange.getProject());
+                args.repoManager.openRepository(otherChange.getProject());
             try {
               RevWalk rw = new RevWalk(repo) {
                 @Override
@@ -136,7 +122,7 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
                 CodeReviewCommit commit =
                     (CodeReviewCommit) rw.parseCommit(changeDataCache.getTestAgainst());
                 SubmitStrategy strategy =
-                    submitStrategyFactory.create(submitType,
+                    args.submitStrategyFactory.create(submitType,
                         db.get(), repo, rw, null, canMergeFlag,
                         getAlreadyAccepted(repo, rw, commit),
                         otherChange.getDest());
@@ -144,7 +130,7 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
                     (CodeReviewCommit) rw.parseCommit(other);
                 otherCommit.add(canMergeFlag);
                 conflicts = !strategy.dryRun(commit, otherCommit);
-                conflictsCache.put(conflictsKey, conflicts);
+                args.conflictsCache.put(conflictsKey, conflicts);
                 return conflicts;
               } catch (MergeException e) {
                 throw new IllegalStateException(e);
@@ -169,9 +155,9 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
         private SubmitType getSubmitType(Change change, ChangeData cd) throws OrmException {
           try {
             final SubmitTypeRecord r =
-                changeControlFactory.controlFor(change,
-                    identifiedUserFactory.create(change.getOwner()))
-                    .getSubmitTypeRecord(db.get(), cd.currentPatchSet(db), cd);
+                args.changeControlGenericFactory.controlFor(change,
+                    args.userFactory.create(change.getOwner()))
+                    .getSubmitTypeRecord(db.get(), cd.currentPatchSet(), cd);
             if (r.status != SubmitTypeRecord.Status.OK) {
               return null;
             }
@@ -218,15 +204,18 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
   private static class ChangeDataCache {
     private final Change change;
     private final Provider<ReviewDb> db;
+    private final ChangeData.Factory changeDataFactory;
     private final ProjectCache projectCache;
 
     private ObjectId testAgainst;
     private ProjectState projectState;
     private Set<ObjectId> alreadyAccepted;
 
-    ChangeDataCache(Change change, Provider<ReviewDb> db, ProjectCache projectCache) {
+    ChangeDataCache(Change change, Provider<ReviewDb> db,
+        ChangeData.Factory changeDataFactory, ProjectCache projectCache) {
       this.change = change;
       this.db = db;
+      this.changeDataFactory = changeDataFactory;
       this.projectCache = projectCache;
     }
 
@@ -234,7 +223,8 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
         throws OrmException {
       if (testAgainst == null) {
         testAgainst = ObjectId.fromString(
-          new ChangeData(change).currentPatchSet(db).getRevision().get());
+            changeDataFactory.create(db.get(), change)
+                .currentPatchSet().getRevision().get());
       }
       return testAgainst;
     }

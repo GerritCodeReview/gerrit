@@ -35,7 +35,7 @@ public class BasicChangeRewrites extends QueryRewriter<ChangeData> {
           new InvalidProvider<ReviewDb>(), //
           new InvalidProvider<ChangeQueryRewriter>(), //
           null, null, null, null, null, null, null, //
-          null, null, null, null, null, null, null, null), null);
+          null, null, null, null, null, null, null, null, null), null);
 
   private static final QueryRewriter.Definition<ChangeData, BasicChangeRewrites> mydef =
       new QueryRewriter.Definition<ChangeData, BasicChangeRewrites>(
@@ -73,7 +73,7 @@ public class BasicChangeRewrites extends QueryRewriter<ChangeData> {
   @Rewrite("-status:merged")
   public Predicate<ChangeData> r00_notMerged() {
     return or(ChangeStatusPredicate.open(dbProvider),
-        new ChangeStatusPredicate(dbProvider, Change.Status.ABANDONED));
+        new ChangeStatusPredicate(Change.Status.ABANDONED));
   }
 
   @SuppressWarnings("unchecked")
@@ -81,7 +81,7 @@ public class BasicChangeRewrites extends QueryRewriter<ChangeData> {
   @Rewrite("-status:abandoned")
   public Predicate<ChangeData> r00_notAbandoned() {
     return or(ChangeStatusPredicate.open(dbProvider),
-        new ChangeStatusPredicate(dbProvider, Change.Status.MERGED));
+        new ChangeStatusPredicate(Change.Status.MERGED));
   }
 
   @SuppressWarnings("unchecked")

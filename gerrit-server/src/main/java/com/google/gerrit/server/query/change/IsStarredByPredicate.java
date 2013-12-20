@@ -16,14 +16,13 @@ package com.google.gerrit.server.query.change;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
-import com.google.inject.Provider;
 
 import java.util.List;
 import java.util.Set;
@@ -38,21 +37,21 @@ class IsStarredByPredicate extends OrPredicate<ChangeData> implements
   }
 
   private static List<Predicate<ChangeData>> predicates(
-      Provider<ReviewDb> db,
+      Arguments args,
       Set<Change.Id> ids) {
     List<Predicate<ChangeData>> r = Lists.newArrayListWithCapacity(ids.size());
     for (Change.Id id : ids) {
-      r.add(new LegacyChangeIdPredicate(db, id));
+      r.add(new LegacyChangeIdPredicate(args, id));
     }
     return r;
   }
 
-  private final Provider<ReviewDb> db;
+  private final Arguments args;
   private final CurrentUser user;
 
-  IsStarredByPredicate(Provider<ReviewDb> db, CurrentUser user) {
-    super(predicates(db, user.getStarredChanges()));
-    this.db = db;
+  IsStarredByPredicate(Arguments args, CurrentUser user) {
+    super(predicates(args, user.getStarredChanges()));
+    this.args = args;
     this.user = user;
   }
 
@@ -63,8 +62,8 @@ class IsStarredByPredicate extends OrPredicate<ChangeData> implements
 
   @Override
   public ResultSet<ChangeData> read() throws OrmException {
-    return ChangeDataResultSet.change( //
-        db.get().changes().get(user.getStarredChanges()));
+    return ChangeDataResultSet.change(args.changeDataFactory, args.db,
+        args.db.get().changes().get(user.getStarredChanges()));
   }
 
   @Override

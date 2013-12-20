@@ -28,6 +28,7 @@ import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.ChangeField;
@@ -49,6 +50,7 @@ import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
@@ -147,6 +149,8 @@ public class LuceneChangeIndex implements ChangeIndex {
   private final SitePaths sitePaths;
   private final FillArgs fillArgs;
   private final ListeningExecutorService executor;
+  private final Provider<ReviewDb> db;
+  private final ChangeData.Factory changeDataFactory;
   private final File dir;
   private final Schema<ChangeData> schema;
   private final SubIndex openIndex;
@@ -157,12 +161,16 @@ public class LuceneChangeIndex implements ChangeIndex {
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
       @IndexExecutor ListeningExecutorService executor,
+      Provider<ReviewDb> db,
+      ChangeData.Factory changeDataFactory,
       FillArgs fillArgs,
       @Assisted Schema<ChangeData> schema,
       @Assisted @Nullable String base) throws IOException {
     this.sitePaths = sitePaths;
     this.fillArgs = fillArgs;
     this.executor = executor;
+    this.db = db;
+    this.changeDataFactory = changeDataFactory;
     this.schema = schema;
 
     if (base == null) {
@@ -301,10 +309,10 @@ public class LuceneChangeIndex implements ChangeIndex {
     }
   }
 
-  private static class QuerySource implements ChangeDataSource {
-    private static final ImmutableSet<String> FIELDS =
-        ImmutableSet.of(ID_FIELD, CHANGE_FIELD, APPROVAL_FIELD);
+  private static final ImmutableSet<String> FIELDS =
+      ImmutableSet.of(ID_FIELD, CHANGE_FIELD, APPROVAL_FIELD);
 
+  private class QuerySource implements ChangeDataSource {
     private final List<SubIndex> indexes;
     private final Query query;
     private final int limit;
@@ -391,16 +399,16 @@ public class LuceneChangeIndex implements ChangeIndex {
     }
   }
 
-  private static ChangeData toChangeData(Document doc) {
+  private ChangeData toChangeData(Document doc) {
     BytesRef cb = doc.getBinaryValue(CHANGE_FIELD);
     if (cb == null) {
       int id = doc.getField(ID_FIELD).numericValue().intValue();
-      return new ChangeData(new Change.Id(id));
+      return changeDataFactory.create(db.get(), new Change.Id(id));
     }
 
     Change change = ChangeProtoField.CODEC.decode(
         cb.bytes, cb.offset, cb.length);
-    ChangeData cd = new ChangeData(change);
+    ChangeData cd = changeDataFactory.create(db.get(), change);
 
     BytesRef[] approvalsBytes = doc.getBinaryValues(APPROVAL_FIELD);
     if (approvalsBytes != null) {

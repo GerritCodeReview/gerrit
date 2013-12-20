@@ -16,6 +16,7 @@ package com.google.gerrit.server.query.change;
 
 import static com.google.gerrit.server.ApprovalsUtil.sortApprovals;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Objects;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
@@ -45,6 +46,8 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Provider;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -82,7 +85,7 @@ public class ChangeData {
   public static void ensureAllPatchSetsLoaded(Provider<ReviewDb> db,
       Iterable<ChangeData> changes) throws OrmException {
     for (ChangeData cd : changes) {
-      cd.patches(db);
+      cd.patches();
     }
   }
 
@@ -91,7 +94,7 @@ public class ChangeData {
     Map<PatchSet.Id, ChangeData> missing = Maps.newHashMap();
     for (ChangeData cd : changes) {
       if (cd.currentPatchSet == null && cd.patches == null) {
-        missing.put(cd.change(db).currentPatchSetId(), cd);
+        missing.put(cd.change().currentPatchSetId(), cd);
       }
     }
     if (!missing.isEmpty()) {
@@ -111,7 +114,7 @@ public class ChangeData {
     for (ChangeData cd : changes) {
       if (cd.currentApprovals == null && cd.limitedApprovals == null) {
         pending.add(db.get().patchSetApprovals()
-            .byPatchSet(cd.change(db).currentPatchSetId()));
+            .byPatchSet(cd.change().currentPatchSetId()));
       }
     }
     if (!pending.isEmpty()) {
@@ -124,6 +127,15 @@ public class ChangeData {
     }
   }
 
+  public interface Factory {
+    ChangeData create(ReviewDb db, Change.Id id);
+    ChangeData create(ReviewDb db, Change c);
+    ChangeData create(ReviewDb db, ChangeControl c);
+  }
+
+  private final ReviewDb db;
+  private final GitRepositoryManager repoManager;
+  private final PatchListCache patchListCache;
   private final Change.Id legacyId;
   private ChangeDataSource returnedBySource;
   private Change change;
@@ -144,16 +156,41 @@ public class ChangeData {
   private ChangedLines changedLines;
   private boolean patchesLoaded;
 
-  public ChangeData(final Change.Id id) {
+  @VisibleForTesting
+  @AssistedInject
+  public ChangeData(
+      GitRepositoryManager repoManager,
+      PatchListCache patchListCache,
+      @Assisted ReviewDb db,
+      @Assisted Change.Id id) {
+    this.db = db;
+    this.repoManager = repoManager;
+    this.patchListCache = patchListCache;
     legacyId = id;
   }
 
-  public ChangeData(final Change c) {
+  @AssistedInject
+  ChangeData(
+      GitRepositoryManager repoManager,
+      PatchListCache patchListCache,
+      @Assisted ReviewDb db,
+      @Assisted Change c) {
+    this.db = db;
+    this.repoManager = repoManager;
+    this.patchListCache = patchListCache;
     legacyId = c.getId();
     change = c;
   }
 
-  public ChangeData(final ChangeControl c) {
+  @AssistedInject
+  ChangeData(
+      GitRepositoryManager repoManager,
+      PatchListCache patchListCache,
+      @Assisted ReviewDb db,
+      @Assisted ChangeControl c) {
+    this.db = db;
+    this.repoManager = repoManager;
+    this.patchListCache = patchListCache;
     legacyId = c.getChange().getId();
     change = c.getChange();
     changeControl = c;
@@ -186,21 +223,20 @@ public class ChangeData {
     currentFiles = ImmutableList.copyOf(filePaths);
   }
 
-  public List<String> currentFilePaths(Provider<ReviewDb> db,
-      PatchListCache cache) throws OrmException {
+  public List<String> currentFilePaths() throws OrmException {
     if (currentFiles == null) {
-      Change c = change(db);
+      Change c = change();
       if (c == null) {
         return null;
       }
-      PatchSet ps = currentPatchSet(db);
+      PatchSet ps = currentPatchSet();
       if (ps == null) {
         return null;
       }
 
       PatchList p;
       try {
-        p = cache.get(c, ps);
+        p = patchListCache.get(c, ps);
       } catch (PatchListNotAvailableException e) {
         currentFiles = Collections.emptyList();
         return currentFiles;
@@ -232,22 +268,21 @@ public class ChangeData {
     return currentFiles;
   }
 
-  public ChangedLines changedLines(Provider<ReviewDb> db,
-      PatchListCache cache) throws OrmException {
+  public ChangedLines changedLines() throws OrmException {
     if (changedLines == null) {
-      Change c = change(db);
+      Change c = change();
       if (c == null) {
         return null;
       }
 
-      PatchSet ps = currentPatchSet(db);
+      PatchSet ps = currentPatchSet();
       if (ps == null) {
         return null;
       }
 
       PatchList p;
       try {
-        p = cache.get(c, ps);
+        p = patchListCache.get(c, ps);
       } catch (PatchListNotAvailableException e) {
         return null;
       }
@@ -282,9 +317,9 @@ public class ChangeData {
     changeControl = ctl;
   }
 
-  public Change change(Provider<ReviewDb> db) throws OrmException {
+  public Change change() throws OrmException {
     if (change == null) {
-      change = db.get().changes().get(legacyId);
+      change = db.changes().get(legacyId);
     }
     return change;
   }
@@ -293,13 +328,13 @@ public class ChangeData {
     change = c;
   }
 
-  public PatchSet currentPatchSet(Provider<ReviewDb> db) throws OrmException {
+  public PatchSet currentPatchSet() throws OrmException {
     if (currentPatchSet == null) {
-      Change c = change(db);
+      Change c = change();
       if (c == null) {
         return null;
       }
-      for (PatchSet p : patches(db)) {
+      for (PatchSet p : patches()) {
         if (p.getId().equals(c.currentPatchSetId())) {
           currentPatchSet = p;
           return p;
@@ -309,10 +344,10 @@ public class ChangeData {
     return currentPatchSet;
   }
 
-  public List<PatchSetApproval> currentApprovals(Provider<ReviewDb> db)
+  public List<PatchSetApproval> currentApprovals()
       throws OrmException {
     if (currentApprovals == null) {
-      Change c = change(db);
+      Change c = change();
       if (c == null) {
         currentApprovals = Collections.emptyList();
       } else if (allApprovals != null) {
@@ -321,7 +356,7 @@ public class ChangeData {
           (limitedIds == null || limitedIds.contains(c.currentPatchSetId()))) {
         return limitedApprovals.get(c.currentPatchSetId());
       } else {
-        currentApprovals = sortApprovals(db.get().patchSetApprovals()
+        currentApprovals = sortApprovals(db.patchSetApprovals()
             .byPatchSet(c.currentPatchSetId()));
       }
     }
@@ -332,27 +367,25 @@ public class ChangeData {
     currentApprovals = approvals;
   }
 
-  public String commitMessage(GitRepositoryManager repoManager,
-      Provider<ReviewDb> db) throws IOException, OrmException {
+  public String commitMessage() throws IOException, OrmException {
     if (commitMessage == null) {
-      loadCommitData(repoManager, db);
+      loadCommitData();
     }
     return commitMessage;
   }
 
-  public List<FooterLine> commitFooters(GitRepositoryManager repoManager,
-      Provider<ReviewDb> db) throws IOException, OrmException {
+  public List<FooterLine> commitFooters() throws IOException, OrmException {
     if (commitFooters == null) {
-      loadCommitData(repoManager, db);
+      loadCommitData();
     }
     return commitFooters;
   }
 
-  private void loadCommitData(GitRepositoryManager repoManager,
-      Provider<ReviewDb> db) throws OrmException, RepositoryNotFoundException,
-      IOException, MissingObjectException, IncorrectObjectTypeException {
-    PatchSet.Id psId = change(db).currentPatchSetId();
-    String sha1 = db.get().patchSets().get(psId).getRevision().get();
+  private void loadCommitData() throws OrmException,
+      RepositoryNotFoundException, IOException, MissingObjectException,
+      IncorrectObjectTypeException {
+    PatchSet.Id psId = change().currentPatchSetId();
+    String sha1 = db.patchSets().get(psId).getRevision().get();
     Repository repo = repoManager.openRepository(change.getProject());
     try {
       RevWalk walk = new RevWalk(repo);
@@ -369,23 +402,22 @@ public class ChangeData {
   }
 
   /**
-   * @param db review database.
    * @return patches for the change. If {@link #limitToPatchSets(Collection)}
    *     was previously called, only contains patches with the specified IDs.
    * @throws OrmException an error occurred reading the database.
    */
-  public Collection<PatchSet> patches(Provider<ReviewDb> db)
+  public Collection<PatchSet> patches()
       throws OrmException {
     if (patches == null || !patchesLoaded) {
       if (limitedIds != null) {
         patches = Lists.newArrayList();
-        for (PatchSet ps : db.get().patchSets().byChange(legacyId)) {
+        for (PatchSet ps : db.patchSets().byChange(legacyId)) {
           if (limitedIds.contains(ps.getId())) {
             patches.add(ps);
           }
         }
       } else {
-        patches = db.get().patchSets().byChange(legacyId).toList();
+        patches = db.patchSets().byChange(legacyId).toList();
       }
       patchesLoaded = true;
     }
@@ -393,27 +425,25 @@ public class ChangeData {
   }
 
   /**
-   * @param db review database.
    * @return patch set approvals for the change in timestamp order. If
    *     {@link #limitToPatchSets(Collection)} was previously called, only contains
    *     approvals for the patches with the specified IDs.
    * @throws OrmException an error occurred reading the database.
    */
-  public List<PatchSetApproval> approvals(Provider<ReviewDb> db)
+  public List<PatchSetApproval> approvals()
       throws OrmException {
-    return ImmutableList.copyOf(approvalsMap(db).values());
+    return ImmutableList.copyOf(approvalsMap().values());
   }
 
   /**
-   * @param db review database.
    * @return patch set approvals for the change, keyed by ID, ordered by
    *     timestamp within each patch set. If
    *     {@link #limitToPatchSets(Collection)} was previously called, only
    *     contains approvals for the patches with the specified IDs.
    * @throws OrmException an error occurred reading the database.
    */
-  public ListMultimap<PatchSet.Id, PatchSetApproval> approvalsMap(
-      Provider<ReviewDb> db) throws OrmException {
+  public ListMultimap<PatchSet.Id, PatchSetApproval> approvalsMap()
+      throws OrmException {
     if (limitedApprovals == null) {
       limitedApprovals = ArrayListMultimap.create();
       if (allApprovals != null) {
@@ -422,7 +452,7 @@ public class ChangeData {
         }
       } else {
         for (PatchSetApproval psa : sortApprovals(
-            db.get().patchSetApprovals().byChange(legacyId))) {
+            db.patchSetApprovals().byChange(legacyId))) {
           if (limitedIds == null || limitedIds.contains(legacyId)) {
             limitedApprovals.put(psa.getPatchSetId(), psa);
           }
@@ -433,53 +463,51 @@ public class ChangeData {
   }
 
   /**
-   * @param db review database.
    * @return all patch set approvals for the change in timestamp order
    *     (regardless of whether {@link #limitToPatchSets(Collection)} was
    *     previously called).
    * @throws OrmException an error occurred reading the database.
    */
-  public List<PatchSetApproval> allApprovals(Provider<ReviewDb> db)
+  public List<PatchSetApproval> allApprovals()
       throws OrmException {
-    return ImmutableList.copyOf(allApprovalsMap(db).values());
+    return ImmutableList.copyOf(allApprovalsMap().values());
   }
 
   /**
-   * @param db review database.
    * @return all patch set approvals for the change (regardless of whether
    *     {@link #limitToPatchSets(Collection)} was previously called), keyed by
    *     ID, ordered by timestamp within each patch set.
    * @throws OrmException an error occurred reading the database.
    */
-  public ListMultimap<PatchSet.Id, PatchSetApproval> allApprovalsMap(
-      Provider<ReviewDb> db) throws OrmException {
+  public ListMultimap<PatchSet.Id, PatchSetApproval> allApprovalsMap()
+      throws OrmException {
     if (allApprovals == null) {
       allApprovals = ArrayListMultimap.create();
       for (PatchSetApproval psa : sortApprovals(
-          db.get().patchSetApprovals().byChange(legacyId))) {
+          db.patchSetApprovals().byChange(legacyId))) {
         allApprovals.put(psa.getPatchSetId(), psa);
       }
     }
     return allApprovals;
   }
 
-  public SetMultimap<ReviewerState, Account.Id> reviewers(Provider<ReviewDb> db)
+  public SetMultimap<ReviewerState, Account.Id> reviewers()
       throws OrmException {
-    return ApprovalsUtil.getReviewers(allApprovals(db));
+    return ApprovalsUtil.getReviewers(allApprovals());
   }
 
-  public Collection<PatchLineComment> comments(Provider<ReviewDb> db)
+  public Collection<PatchLineComment> comments()
       throws OrmException {
     if (comments == null) {
-      comments = db.get().patchComments().byChange(legacyId).toList();
+      comments = db.patchComments().byChange(legacyId).toList();
     }
     return comments;
   }
 
-  public List<ChangeMessage> messages(Provider<ReviewDb> db)
+  public List<ChangeMessage> messages()
       throws OrmException {
     if (messages == null) {
-      messages = db.get().changeMessages().byChange(legacyId).toList();
+      messages = db.changeMessages().byChange(legacyId).toList();
     }
     return messages;
   }

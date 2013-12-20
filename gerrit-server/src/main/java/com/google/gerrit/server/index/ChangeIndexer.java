@@ -77,16 +77,19 @@ public class ChangeIndexer {
   private final IndexCollection indexes;
   private final ChangeIndex index;
   private final SchemaFactory<ReviewDb> schemaFactory;
+  private final ChangeData.Factory changeDataFactory;
   private final ThreadLocalRequestContext context;
   private final ListeningExecutorService executor;
 
   @AssistedInject
   ChangeIndexer(@IndexExecutor ListeningExecutorService executor,
       SchemaFactory<ReviewDb> schemaFactory,
+      ChangeData.Factory changeDataFactory,
       ThreadLocalRequestContext context,
       @Assisted ChangeIndex index) {
     this.executor = executor;
     this.schemaFactory = schemaFactory;
+    this.changeDataFactory = changeDataFactory;
     this.context = context;
     this.index = index;
     this.indexes = null;
@@ -95,10 +98,12 @@ public class ChangeIndexer {
   @AssistedInject
   ChangeIndexer(@IndexExecutor ListeningExecutorService executor,
       SchemaFactory<ReviewDb> schemaFactory,
+      ChangeData.Factory changeDataFactory,
       ThreadLocalRequestContext context,
       @Assisted IndexCollection indexes) {
     this.executor = executor;
     this.schemaFactory = schemaFactory;
+    this.changeDataFactory = changeDataFactory;
     this.context = context;
     this.index = null;
     this.indexes = indexes;
@@ -112,17 +117,8 @@ public class ChangeIndexer {
    */
   public CheckedFuture<?, IOException> indexAsync(Change change) {
     return executor != null
-        ? submit(new Task(new ChangeData(change), false))
+        ? submit(new Task(change, false))
         : Futures.<Object, IOException> immediateCheckedFuture(null);
-  }
-
-  /**
-   * Synchronously index a change.
-   *
-   * @param change change to index.
-   */
-  public void index(Change change) throws IOException {
-    index(new ChangeData(change));
   }
 
   /**
@@ -137,6 +133,16 @@ public class ChangeIndexer {
   }
 
   /**
+   * Synchronously index a change.
+   *
+   * @param change change to index.
+   * @param db review database.
+   */
+  public void index(ReviewDb db, Change change) throws IOException {
+    index(changeDataFactory.create(db, change));
+  }
+
+  /**
    * Start deleting a change.
    *
    * @param change change to delete.
@@ -144,17 +150,8 @@ public class ChangeIndexer {
    */
   public CheckedFuture<?, IOException> deleteAsync(Change change) {
     return executor != null
-        ? submit(new Task(new ChangeData(change), true))
+        ? submit(new Task(change, true))
         : Futures.<Object, IOException> immediateCheckedFuture(null);
-  }
-
-  /**
-   * Synchronously delete a change.
-   *
-   * @param change change to delete.
-   */
-  public void delete(Change change) throws IOException {
-    delete(new ChangeData(change));
   }
 
   /**
@@ -168,6 +165,16 @@ public class ChangeIndexer {
     }
   }
 
+  /**
+   * Synchronously delete a change.
+   *
+   * @param change change to delete.
+   * @param db review database.
+   */
+  public void delete(ReviewDb db, Change change) throws IOException {
+    delete(changeDataFactory.create(db, change));
+  }
+
   private Collection<ChangeIndex> getWriteIndexes() {
     return indexes != null
         ? indexes.getWriteIndexes()
@@ -179,11 +186,11 @@ public class ChangeIndexer {
   }
 
   private class Task implements Callable<Void> {
-    private final ChangeData cd;
+    private final Change change;
     private final boolean delete;
 
-    private Task(ChangeData cd, boolean delete) {
-      this.cd = cd;
+    private Task(Change change, boolean delete) {
+      this.change = change;
       this.delete = delete;
     }
 
@@ -192,7 +199,7 @@ public class ChangeIndexer {
       try {
         final AtomicReference<Provider<ReviewDb>> dbRef =
             Atomics.newReference();
-        RequestContext oldCtx = context.setContext(new RequestContext() {
+        RequestContext newCtx = new RequestContext() {
           @Override
           public Provider<ReviewDb> getReviewDbProvider() {
             Provider<ReviewDb> db = dbRef.get();
@@ -214,8 +221,11 @@ public class ChangeIndexer {
           public CurrentUser getCurrentUser() {
             throw new OutOfScopeException("No user during ChangeIndexer");
           }
-        });
+        };
+        RequestContext oldCtx = context.setContext(newCtx);
         try {
+          ChangeData cd = changeDataFactory.create(
+              newCtx.getReviewDbProvider().get(), change);
           if (delete) {
             for (ChangeIndex i : getWriteIndexes()) {
               i.delete(cd);
@@ -236,14 +246,14 @@ public class ChangeIndexer {
       } catch (Exception e) {
         log.error(String.format(
             "Failed to index change %d in %s",
-            cd.getId().get(), cd.getChange().getProject().get()), e);
+            change.getId().get(), change.getProject().get()), e);
         throw e;
       }
     }
 
     @Override
     public String toString() {
-      return "index-change-" + cd.getId().get();
+      return "index-change-" + change.getId().get();
     }
   }
 }

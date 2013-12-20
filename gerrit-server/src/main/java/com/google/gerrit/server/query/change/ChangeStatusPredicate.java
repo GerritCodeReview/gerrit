@@ -52,7 +52,7 @@ public final class ChangeStatusPredicate extends IndexPredicate<ChangeData> {
     List<Predicate<ChangeData>> r = new ArrayList<Predicate<ChangeData>>(4);
     for (final Change.Status e : Change.Status.values()) {
       if (e.isOpen()) {
-        r.add(new ChangeStatusPredicate(dbProvider, e));
+        r.add(new ChangeStatusPredicate(e));
       }
     }
     return r.size() == 1 ? r.get(0) : or(r);
@@ -62,25 +62,22 @@ public final class ChangeStatusPredicate extends IndexPredicate<ChangeData> {
     List<Predicate<ChangeData>> r = new ArrayList<Predicate<ChangeData>>(4);
     for (final Change.Status e : Change.Status.values()) {
       if (e.isClosed()) {
-        r.add(new ChangeStatusPredicate(dbProvider, e));
+        r.add(new ChangeStatusPredicate(e));
       }
     }
     return r.size() == 1 ? r.get(0) : or(r);
   }
 
-  private final Provider<ReviewDb> dbProvider;
   private final Change.Status status;
 
-  ChangeStatusPredicate(Provider<ReviewDb> dbProvider, String value) {
+  ChangeStatusPredicate(String value) {
     super(ChangeField.STATUS, value);
-    this.dbProvider = dbProvider;
     status = VALUES.inverse().get(value);
     checkArgument(status != null, "invalid change status: %s", value);
   }
 
-  ChangeStatusPredicate(Provider<ReviewDb> dbProvider, Change.Status status) {
+  ChangeStatusPredicate(Change.Status status) {
     super(ChangeField.STATUS, VALUES.get(status));
-    this.dbProvider = dbProvider;
     this.status = status;
   }
 
@@ -90,7 +87,7 @@ public final class ChangeStatusPredicate extends IndexPredicate<ChangeData> {
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
-    Change change = object.change(dbProvider);
+    Change change = object.change();
     return change != null && status.equals(change.getStatus());
   }
 

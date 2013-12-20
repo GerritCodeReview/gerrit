@@ -77,7 +77,6 @@ import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.actions.ActionInfo;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.LabelNormalizer;
-import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
@@ -132,6 +131,7 @@ public class ChangeJson {
   private final AnonymousUser anonymous;
   private final IdentifiedUser.GenericFactory userFactory;
   private final ProjectControl.GenericFactory projectControlFactory;
+  private final ChangeData.Factory changeDataFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ChangesCollection changes;
   private final FileInfoJson fileInfoJson;
@@ -140,7 +140,6 @@ public class ChangeJson {
   private final DynamicMap<DownloadCommand> downloadCommands;
   private final DynamicMap<RestView<ChangeResource>> changeViews;
   private final Revisions revisions;
-  private final PatchListCache patchListCache;
 
   private EnumSet<ListChangesOption> options;
   private AccountInfo.Loader accountLoader;
@@ -156,6 +155,7 @@ public class ChangeJson {
       AnonymousUser au,
       IdentifiedUser.GenericFactory uf,
       ProjectControl.GenericFactory pcf,
+      ChangeData.Factory cdf,
       PatchSetInfoFactory psi,
       ChangesCollection changes,
       FileInfoJson fileInfoJson,
@@ -163,14 +163,14 @@ public class ChangeJson {
       DynamicMap<DownloadScheme> downloadSchemes,
       DynamicMap<DownloadCommand> downloadCommands,
       DynamicMap<RestView<ChangeResource>> changeViews,
-      Revisions revisions,
-      PatchListCache patchListCache) {
+      Revisions revisions) {
     this.db = db;
     this.labelNormalizer = ln;
     this.userProvider = user;
     this.anonymous = au;
     this.userFactory = uf;
     this.projectControlFactory = pcf;
+    this.changeDataFactory = cdf;
     this.patchSetInfoFactory = psi;
     this.changes = changes;
     this.fileInfoJson = fileInfoJson;
@@ -179,7 +179,6 @@ public class ChangeJson {
     this.downloadCommands = downloadCommands;
     this.changeViews = changeViews;
     this.revisions = revisions;
-    this.patchListCache = patchListCache;
 
     options = EnumSet.noneOf(ListChangesOption.class);
     projectControls = CacheBuilder.newBuilder()
@@ -204,15 +203,15 @@ public class ChangeJson {
   }
 
   public ChangeInfo format(ChangeResource rsrc) throws OrmException {
-    return format(new ChangeData(rsrc.getControl()));
+    return format(changeDataFactory.create(db.get(), rsrc.getControl()));
   }
 
   public ChangeInfo format(Change change) throws OrmException {
-    return format(new ChangeData(change));
+    return format(changeDataFactory.create(db.get(), change));
   }
 
   public ChangeInfo format(Change.Id id) throws OrmException {
-    return format(new ChangeData(id));
+    return format(changeDataFactory.create(db.get(), id));
   }
 
   public ChangeInfo format(ChangeData cd) throws OrmException {
@@ -221,7 +220,7 @@ public class ChangeJson {
   }
 
   public ChangeInfo format(RevisionResource rsrc) throws OrmException {
-    ChangeData cd = new ChangeData(rsrc.getControl());
+    ChangeData cd = changeDataFactory.create(db.get(), rsrc.getControl());
     cd.limitToPatchSets(ImmutableList.of(rsrc.getPatchSet().getId()));
     return format(cd);
   }
@@ -270,13 +269,13 @@ public class ChangeJson {
 
   private ChangeInfo toChangeInfo(ChangeData cd) throws OrmException {
     ChangeInfo out = new ChangeInfo();
-    Change in = cd.change(db);
+    Change in = cd.change();
     out.project = in.getProject().get();
     out.branch = in.getDest().getShortName();
     out.topic = in.getTopic();
     out.changeId = in.getKey().get();
     out.mergeable = in.getStatus() != Change.Status.MERGED ? in.isMergeable() : null;
-    ChangedLines changedLines = cd.changedLines(db, patchListCache);
+    ChangedLines changedLines = cd.changedLines();
     if (changedLines != null) {
       out.insertions = changedLines.insertions;
       out.deletions = changedLines.deletions;
@@ -345,7 +344,7 @@ public class ChangeJson {
     }
 
     try {
-      Change change = cd.change(db);
+      Change change = cd.change();
       if (change == null) {
         return null;
       }
@@ -365,7 +364,7 @@ public class ChangeJson {
     if (ctl == null) {
       return ImmutableList.of();
     }
-    PatchSet ps = cd.currentPatchSet(db);
+    PatchSet ps = cd.currentPatchSet();
     if (ps == null) {
       return ImmutableList.of();
     }
@@ -405,7 +404,7 @@ public class ChangeJson {
         continue;
       }
       if (standard) {
-        for (PatchSetApproval psa : cd.currentApprovals(db)) {
+        for (PatchSetApproval psa : cd.currentApprovals()) {
           if (type.matches(psa)) {
             short val = psa.getValue();
             Account.Id accountId = psa.getAccountId();
@@ -492,7 +491,7 @@ public class ChangeJson {
     // All users ever added, even if they can't vote on one or all labels.
     Set<Account.Id> allUsers = Sets.newHashSet();
     ListMultimap<PatchSet.Id, PatchSetApproval> allApprovals =
-        cd.allApprovalsMap(db);
+        cd.allApprovalsMap();
     for (PatchSetApproval psa : allApprovals.values()) {
       allUsers.add(psa.getAccountId());
     }
@@ -538,13 +537,13 @@ public class ChangeJson {
       LabelTypes labelTypes, boolean standard, boolean detailed)
       throws OrmException {
     Set<Account.Id> allUsers = Sets.newHashSet();
-    for (PatchSetApproval psa : cd.allApprovals(db)) {
+    for (PatchSetApproval psa : cd.allApprovals()) {
       allUsers.add(psa.getAccountId());
     }
 
     Set<String> labelNames = Sets.newHashSet();
     Multimap<Account.Id, PatchSetApproval> current = HashMultimap.create();
-    for (PatchSetApproval a : cd.currentApprovals(db)) {
+    for (PatchSetApproval a : cd.currentApprovals()) {
       LabelType type = labelTypes.byLabel(a.getLabelId());
       if (type != null && a.getValue() != 0) {
         labelNames.add(type.getName());
@@ -735,8 +734,8 @@ public class ChangeJson {
         List<ResultSet<ChangeMessage>> m =
             Lists.newArrayListWithCapacity(batch.size());
         for (ChangeData cd : batch) {
-          PatchSet.Id ps = cd.change(db).currentPatchSetId();
-          if (ps != null && cd.change(db).getStatus().isOpen()) {
+          PatchSet.Id ps = cd.change().currentPatchSetId();
+          if (ps != null && cd.change().getStatus().isOpen()) {
             m.add(db.get().changeMessages().byPatchSet(ps));
           } else {
             m.add(NO_MESSAGES);
@@ -761,7 +760,7 @@ public class ChangeJson {
       }
     });
 
-    Account.Id changeOwnerId = cd.change(db).getOwner();
+    Account.Id changeOwnerId = cd.change().getOwner();
     for (ChangeMessage cm : msgs) {
       if (self.equals(cm.getAuthor())) {
         return true;
@@ -780,9 +779,9 @@ public class ChangeJson {
 
     Collection<PatchSet> src;
     if (cd.getLimitedPatchSets() != null || has(ALL_REVISIONS)) {
-      src = cd.patches(db);
+      src = cd.patches();
     } else {
-      src = Collections.singletonList(cd.currentPatchSet(db));
+      src = Collections.singletonList(cd.currentPatchSet());
     }
     Map<String, RevisionInfo> res = Maps.newLinkedHashMap();
     for (PatchSet in : src) {
@@ -796,7 +795,7 @@ public class ChangeJson {
   private RevisionInfo toRevisionInfo(ChangeData cd, PatchSet in)
       throws OrmException {
     RevisionInfo out = new RevisionInfo();
-    out.isCurrent = in.getId().equals(cd.change(db).currentPatchSetId());
+    out.isCurrent = in.getId().equals(cd.change().currentPatchSetId());
     out._number = in.getId().get();
     out.draft = in.isDraft() ? true : null;
     out.fetch = makeFetchMap(cd, in);
@@ -811,7 +810,7 @@ public class ChangeJson {
 
     if (has(ALL_FILES) || (out.isCurrent && has(CURRENT_FILES))) {
       try {
-        out.files = fileInfoJson.toFileInfoMap(cd.change(db), in);
+        out.files = fileInfoJson.toFileInfoMap(cd.change(), in);
         out.files.remove(Patch.COMMIT_MSG);
       } catch (PatchListNotAvailableException e) {
         log.warn("Cannot load PatchList " + in.getId(), e);

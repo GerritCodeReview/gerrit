@@ -15,25 +15,24 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexPredicate;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
-import com.google.inject.Provider;
 
 class ChangeIdPredicate extends IndexPredicate<ChangeData> implements
     ChangeDataSource {
-  private final Provider<ReviewDb> dbProvider;
+  private final Arguments args;
 
-  ChangeIdPredicate(Provider<ReviewDb> dbProvider, String id) {
+  ChangeIdPredicate(Arguments args, String id) {
     super(ChangeField.ID, ChangeQueryBuilder.FIELD_CHANGE, id);
-    this.dbProvider = dbProvider;
+    this.args = args;
   }
 
   @Override
   public boolean match(final ChangeData cd) throws OrmException {
-    Change change = cd.change(dbProvider);
+    Change change = cd.change();
     if (change == null) {
       return false;
     }
@@ -49,8 +48,8 @@ class ChangeIdPredicate extends IndexPredicate<ChangeData> implements
   public ResultSet<ChangeData> read() throws OrmException {
     Change.Key a = new Change.Key(getValue());
     Change.Key b = a.max();
-    return ChangeDataResultSet.change( //
-        dbProvider.get().changes().byKeyRange(a, b));
+    return ChangeDataResultSet.change(args.changeDataFactory, args.db,
+        args.db.get().changes().byKeyRange(a, b));
   }
 
   @Override

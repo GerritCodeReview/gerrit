@@ -142,12 +142,13 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @VisibleForTesting
   public static class Arguments {
-    final Provider<ReviewDb> dbProvider;
+    final Provider<ReviewDb> db;
     final Provider<ChangeQueryRewriter> rewriter;
     final IdentifiedUser.GenericFactory userFactory;
     final Provider<CurrentUser> self;
     final CapabilityControl.Factory capabilityControlFactory;
     final ChangeControl.GenericFactory changeControlGenericFactory;
+    final ChangeData.Factory changeDataFactory;
     final AccountResolver accountResolver;
     final GroupBackend groupBackend;
     final AllProjectsName allProjectsName;
@@ -168,6 +169,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         Provider<CurrentUser> self,
         CapabilityControl.Factory capabilityControlFactory,
         ChangeControl.GenericFactory changeControlGenericFactory,
+        ChangeData.Factory changeDataFactory,
         AccountResolver accountResolver,
         GroupBackend groupBackend,
         AllProjectsName allProjectsName,
@@ -179,12 +181,13 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         SubmitStrategyFactory submitStrategyFactory,
         ConflictsCache conflictsCache,
         TrackingFooters trackingFooters) {
-      this.dbProvider = dbProvider;
+      this.db = dbProvider;
       this.rewriter = rewriter;
       this.userFactory = userFactory;
       this.self = self;
       this.capabilityControlFactory = capabilityControlFactory;
       this.changeControlGenericFactory = changeControlGenericFactory;
+      this.changeDataFactory = changeDataFactory;
       this.accountResolver = accountResolver;
       this.groupBackend = groupBackend;
       this.allProjectsName = allProjectsName;
@@ -224,17 +227,16 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> age(String value) {
-    return new AgePredicate(args.dbProvider, value);
+    return new AgePredicate(value);
   }
 
   @Operator
   public Predicate<ChangeData> change(String query) {
     if (PAT_LEGACY_ID.matcher(query).matches()) {
-      return new LegacyChangeIdPredicate(args.dbProvider, Change.Id
-          .parse(query));
+      return new LegacyChangeIdPredicate(args, Change.Id.parse(query));
 
     } else if (PAT_CHANGE_ID.matcher(query).matches()) {
-      return new ChangeIdPredicate(args.dbProvider, parseChangeId(query));
+      return new ChangeIdPredicate(args, parseChangeId(query));
     }
 
     throw new IllegalArgumentException();
@@ -243,7 +245,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> comment(String value) throws QueryParseException {
     ChangeIndex index = args.indexes.getSearchIndex();
-    return new CommentPredicate(args.dbProvider, index, value);
+    return new CommentPredicate(args, index, value);
   }
 
   @Operator
@@ -252,28 +254,28 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       return status_open();
 
     } else if ("closed".equals(statusName)) {
-      return ChangeStatusPredicate.closed(args.dbProvider);
+      return ChangeStatusPredicate.closed(args.db);
 
     } else if ("reviewed".equalsIgnoreCase(statusName)) {
-      return new IsReviewedPredicate(args.dbProvider);
+      return new IsReviewedPredicate();
 
     } else {
-      return new ChangeStatusPredicate(args.dbProvider, statusName);
+      return new ChangeStatusPredicate(statusName);
     }
   }
 
   public Predicate<ChangeData> status_open() {
-    return ChangeStatusPredicate.open(args.dbProvider);
+    return ChangeStatusPredicate.open(args.db);
   }
 
   @Operator
   public Predicate<ChangeData> has(String value) {
     if ("star".equalsIgnoreCase(value)) {
-      return new IsStarredByPredicate(args.dbProvider, currentUser);
+      return new IsStarredByPredicate(args, currentUser);
     }
 
     if ("draft".equalsIgnoreCase(value)) {
-      return new HasDraftByPredicate(args.dbProvider, self());
+      return new HasDraftByPredicate(args, self());
     }
 
     throw new IllegalArgumentException();
@@ -282,7 +284,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> is(String value) throws QueryParseException {
     if ("starred".equalsIgnoreCase(value)) {
-      return new IsStarredByPredicate(args.dbProvider, currentUser);
+      return new IsStarredByPredicate(args, currentUser);
     }
 
     if ("watched".equalsIgnoreCase(value)) {
@@ -294,19 +296,19 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     if ("reviewed".equalsIgnoreCase(value)) {
-      return new IsReviewedPredicate(args.dbProvider);
+      return new IsReviewedPredicate();
     }
 
     if ("owner".equalsIgnoreCase(value)) {
-      return new OwnerPredicate(args.dbProvider, self());
+      return new OwnerPredicate(self());
     }
 
     if ("reviewer".equalsIgnoreCase(value)) {
-      return new ReviewerPredicate(args.dbProvider, self());
+      return new ReviewerPredicate(self());
     }
 
     if ("mergeable".equalsIgnoreCase(value)) {
-      return new IsMergeablePredicate(args.dbProvider);
+      return new IsMergeablePredicate();
     }
 
     try {
@@ -320,17 +322,13 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> commit(String id) {
-    return new CommitPredicate(args.dbProvider, AbbreviatedObjectId
-        .fromString(id));
+    return new CommitPredicate(args, AbbreviatedObjectId.fromString(id));
   }
 
   @Operator
   public Predicate<ChangeData> conflicts(String value) throws OrmException,
       QueryParseException {
-    return new ConflictsPredicate(args.dbProvider, args.patchListCache,
-        args.submitStrategyFactory, args.changeControlGenericFactory,
-        args.userFactory, args.repoManager, args.projectCache,
-        args.conflictsCache, value, parseChange(value));
+    return new ConflictsPredicate(args, value, parseChange(value));
   }
 
   @Operator
@@ -341,13 +339,13 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> project(String name) {
     if (name.startsWith("^"))
-      return new RegexProjectPredicate(args.dbProvider, name);
-    return new ProjectPredicate(args.dbProvider, name);
+      return new RegexProjectPredicate(name);
+    return new ProjectPredicate(name);
   }
 
   @Operator
   public Predicate<ChangeData> parentproject(String name) {
-    return new ParentProjectPredicate(args.dbProvider, args.projectCache,
+    return new ParentProjectPredicate(args.db, args.projectCache,
         args.listChildProjects, args.self, name);
   }
 
@@ -367,15 +365,15 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> topic(String name) {
     if (name.startsWith("^"))
-      return new RegexTopicPredicate(args.dbProvider, name);
-    return new TopicPredicate(args.dbProvider, name);
+      return new RegexTopicPredicate(name);
+    return new TopicPredicate(name);
   }
 
   @Operator
   public Predicate<ChangeData> ref(String ref) {
     if (ref.startsWith("^"))
-      return new RegexRefPredicate(args.dbProvider, ref);
-    return new RefPredicate(args.dbProvider, ref);
+      return new RegexRefPredicate(ref);
+    return new RefPredicate(ref);
   }
 
   @Operator
@@ -386,9 +384,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> file(String file) throws QueryParseException {
     if (file.startsWith("^")) {
-      return new RegexFilePredicate(args.dbProvider, args.patchListCache, file);
+      return new RegexFilePredicate(file);
     } else {
-      return new EqualsFilePredicate(args.dbProvider, args.patchListCache, file);
+      return new EqualsFilePredicate(file);
     }
   }
 
@@ -442,27 +440,27 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     return new LabelPredicate(args.projectCache,
-        args.changeControlGenericFactory, args.userFactory, args.dbProvider,
+        args.changeControlGenericFactory, args.userFactory, args.db,
         name, accounts, group);
   }
 
   @Operator
   public Predicate<ChangeData> message(String text) throws QueryParseException {
     ChangeIndex index = args.indexes.getSearchIndex();
-    return new MessagePredicate(args.dbProvider, index, text);
+    return new MessagePredicate(args, index, text);
   }
 
   @Operator
   public Predicate<ChangeData> starredby(String who)
       throws QueryParseException, OrmException {
     if ("self".equals(who)) {
-      return new IsStarredByPredicate(args.dbProvider, currentUser);
+      return new IsStarredByPredicate(args, currentUser);
     }
     Set<Account.Id> m = parseAccount(who);
     List<IsStarredByPredicate> p = Lists.newArrayListWithCapacity(m.size());
     for (Account.Id id : m) {
-      p.add(new IsStarredByPredicate(args.dbProvider,
-          args.userFactory.create(args.dbProvider, id)));
+      p.add(new IsStarredByPredicate(args,
+          args.userFactory.create(args.db, id)));
     }
     return Predicate.or(p);
   }
@@ -478,7 +476,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         p.add(new IsWatchedByPredicate(args, currentUser, false));
       } else {
         p.add(new IsWatchedByPredicate(args,
-            args.userFactory.create(args.dbProvider, id), true));
+            args.userFactory.create(args.db, id), true));
       }
     }
     return Predicate.or(p);
@@ -490,7 +488,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     Set<Account.Id> m = parseAccount(who);
     List<HasDraftByPredicate> p = Lists.newArrayListWithCapacity(m.size());
     for (Account.Id id : m) {
-      p.add(new HasDraftByPredicate(args.dbProvider, id));
+      p.add(new HasDraftByPredicate(args, id));
     }
     return Predicate.or(p);
   }
@@ -505,7 +503,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     if (!m.isEmpty()) {
       List<Predicate<ChangeData>> p = Lists.newArrayListWithCapacity(m.size());
       for (Account.Id id : m) {
-        return visibleto(args.userFactory.create(args.dbProvider, id));
+        return visibleto(args.userFactory.create(args.db, id));
       }
       return Predicate.or(p);
     }
@@ -525,7 +523,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   public Predicate<ChangeData> visibleto(CurrentUser user) {
-    return new IsVisibleToPredicate(args.dbProvider, //
+    return new IsVisibleToPredicate(args.db, //
         args.changeControlGenericFactory, //
         user);
   }
@@ -546,7 +544,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     Set<Account.Id> m = parseAccount(who);
     List<OwnerPredicate> p = Lists.newArrayListWithCapacity(m.size());
     for (Account.Id id : m) {
-      p.add(new OwnerPredicate(args.dbProvider, id));
+      p.add(new OwnerPredicate(id));
     }
     return Predicate.or(p);
   }
@@ -558,7 +556,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     if (g == null) {
       throw error("Group " + group + " not found");
     }
-    return new OwnerinPredicate(args.dbProvider, args.userFactory, g.getUUID());
+    return new OwnerinPredicate(args.db, args.userFactory, g.getUUID());
   }
 
   @Operator
@@ -573,7 +571,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     Set<Account.Id> m = parseAccount(who);
     List<ReviewerPredicate> p = Lists.newArrayListWithCapacity(m.size());
     for (Account.Id id : m) {
-      p.add(new ReviewerPredicate(args.dbProvider, id));
+      p.add(new ReviewerPredicate(id));
     }
     return Predicate.or(p);
   }
@@ -585,13 +583,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     if (g == null) {
       throw error("Group " + group + " not found");
     }
-    return new ReviewerinPredicate(args.dbProvider, args.userFactory, g.getUUID());
+    return new ReviewerinPredicate(args.db, args.userFactory, g.getUUID());
   }
 
   @Operator
   public Predicate<ChangeData> tr(String trackingId) {
-    return new TrackingIdPredicate(args.dbProvider, args.trackingFooters,
-        args.repoManager, trackingId);
+    return new TrackingIdPredicate(args.trackingFooters, trackingId);
   }
 
   @Operator
@@ -627,13 +624,13 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> sortkey_after(String sortKey) {
     return new SortKeyPredicate.After(
-        BasicChangeRewrites.schema(args.indexes), args.dbProvider, sortKey);
+        BasicChangeRewrites.schema(args.indexes), args.db, sortKey);
   }
 
   @Operator
   public Predicate<ChangeData> sortkey_before(String sortKey) {
     return new SortKeyPredicate.Before(
-        BasicChangeRewrites.schema(args.indexes), args.dbProvider, sortKey);
+        BasicChangeRewrites.schema(args.indexes), args.db, sortKey);
   }
 
   @Operator
@@ -673,7 +670,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           new ArrayList<ProjectPredicate>();
       for (Project.NameKey name : args.projectCache.all()) {
         if (name.get().toLowerCase().contains(query.toLowerCase())) {
-          predicate.add(new ProjectPredicate(args.dbProvider, name.get()));
+          predicate.add(new ProjectPredicate(name.get()));
         }
       }
 
@@ -714,12 +711,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   private List<Change> parseChange(String value) throws OrmException,
       QueryParseException {
     if (PAT_LEGACY_ID.matcher(value).matches()) {
-      return Collections.singletonList(args.dbProvider.get().changes()
+      return Collections.singletonList(args.db.get().changes()
           .get(Change.Id.parse(value)));
     } else if (PAT_CHANGE_ID.matcher(value).matches()) {
       Change.Key a = new Change.Key(parseChangeId(value));
       List<Change> changes =
-          args.dbProvider.get().changes().byKeyRange(a, a.max()).toList();
+          args.db.get().changes().byKeyRange(a, a.max()).toList();
       if (changes.isEmpty()) {
         throw error("Change " + value + " not found");
       }

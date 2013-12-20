@@ -295,7 +295,7 @@ public class RebaseChange {
         changeControlFactory.validateFor(change.getId(), uploader);
 
     PatchSetInserter patchSetInserter = patchSetInserterFactory
-        .create(git, revWalk, changeControl.getRefControl(), uploader, change, rebasedCommit)
+        .create(git, revWalk, changeControl, rebasedCommit)
         .setCopyLabels(true)
         .setValidatePolicy(validate)
         .setDraft(originalPatchSet.isDraft())

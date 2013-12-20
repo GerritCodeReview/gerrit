@@ -30,6 +30,7 @@ import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectState;
@@ -194,8 +195,10 @@ public class CherryPickChange {
       PatchSet.Id patchSetId, RevCommit cherryPickCommit,
       RefControl refControl) throws InvalidChangeOperationException,
       IOException, OrmException, NoSuchChangeException {
+    final ChangeControl changeControl =
+        refControl.getProjectControl().controlFor(change);
     final PatchSetInserter inserter = patchSetInserterFactory
-        .create(git, revWalk, refControl, currentUser, change, cherryPickCommit);
+        .create(git, revWalk, changeControl, cherryPickCommit);
     final PatchSet.Id newPatchSetId = inserter.getPatchSetId();
     final PatchSet current = db.patchSets().get(change.currentPatchSetId());
     inserter

@@ -416,7 +416,7 @@ public class ChangeUtil {
             + ": Commit message was updated";
 
         change = patchSetInserterFactory
-            .create(git, revWalk, ctl.getRefControl(), user(), change, newCommit)
+            .create(git, revWalk, ctl, newCommit)
             .setPatchSet(newPatchSet)
             .setMessage(msg)
             .setCopyLabels(true)

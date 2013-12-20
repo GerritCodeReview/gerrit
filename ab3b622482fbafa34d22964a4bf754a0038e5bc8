@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "685383fd_1074c4a4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Publish.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-20T23:55:16Z",
+      "side": 1,
+      "message": "put the other part of the method into a new method and call it in the else",
+      "revId": "ab3b622482fbafa34d22964a4bf754a0038e5bc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

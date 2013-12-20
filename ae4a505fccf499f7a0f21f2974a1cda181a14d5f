@@ -57,6 +57,24 @@
       "revId": "ae4a505fccf499f7a0f21f2974a1cda181a14d5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_108da468",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-20T23:40:56Z",
+      "side": 1,
+      "message": "I know. I\u0027m going to read more of the series and see how I feel about this by the time I am done. This may be the best way to deal with it, I don\u0027t know, I haven\u0027t tried to write this code myself, and I haven\u0027t finished reading what others have done here either.",
+      "parentUuid": "283d0b9f_4e2dd3a9",
+      "revId": "ae4a505fccf499f7a0f21f2974a1cda181a14d5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

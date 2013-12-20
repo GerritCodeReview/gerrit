@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "685383fd_7094306f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2465,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-20T23:46:51Z",
+      "side": 1,
+      "message": "insert \".edit/files\" as literal text?",
+      "range": {
+        "startLine": 2465,
+        "startChar": 61,
+        "endLine": 2465,
+        "endChar": 95
+      },
+      "revId": "522fb186f4375fc388be512a5d5369cbd6308cd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_ef876147",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-20T23:46:51Z",
+      "side": 1,
+      "message": "nit: please place after get(FILE_KIND, \"content\") two lines above.",
+      "revId": "522fb186f4375fc388be512a5d5369cbd6308cd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_2f8a4951",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutContent.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-20T23:46:51Z",
+      "side": 1,
+      "message": "This should be a RawInput type instead. Let the browser supply us the raw bytes in the POST, which means the browser is responsible for doing character set conversion. It also makes it easy to upload an image via curl or something and shove it right into the tree.",
+      "revId": "522fb186f4375fc388be512a5d5369cbd6308cd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_4f978d74",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutContent.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-20T23:46:51Z",
+      "side": 1,
+      "message": "Awkward. We should just expose getPath() or something on FileResource to hide this.",
+      "revId": "522fb186f4375fc388be512a5d5369cbd6308cd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_50972c74",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutContent.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-20T23:46:51Z",
+      "side": 1,
+      "message": "It would be nice if the edit code knew if the file was new or not in the tree and could return Response.created() or Response.none() for new files vs. update of existing file.",
+      "revId": "522fb186f4375fc388be512a5d5369cbd6308cd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_0f8d8568",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RevisionEdit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-20T23:46:51Z",
+      "side": 1,
+      "message": "We don\u0027t use assert much. Where we do, we omit parens:\n\n  assert psId.isEdit;\n\nIn places where we want the code to fail if its being called wrong we overwhelmingly prefer actual exceptions over asserts. The rationale is, if its worth checking an argument or state to detect a logic bug, we should always be doing that, not just when the jvm was run with -ea.",
+      "revId": "522fb186f4375fc388be512a5d5369cbd6308cd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

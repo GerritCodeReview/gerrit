@@ -39,6 +39,24 @@
       "revId": "ae4a505fccf499f7a0f21f2974a1cda181a14d5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "283d0b9f_4e2dd3a9",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-20T23:39:18Z",
+      "side": 1,
+      "message": "Given that this information (if a ps is a normal ps or a revision edit, i. e. lives in the database or not) is that fundamental that it has to be available on virtually every place, where PatchSet.Id is available too:\n\n* CS2\n* SBS2\n* Dispatcher\n* REST endpoints\n\nMay be we can find other ways to put this information in PatchSet.Id, but after thinking how to address this problem of transporting this information back and force from server and client for long time i don\u0027t see how you can do that if not with PatchSet.Id itself.",
+      "parentUuid": "48587f1a_8f7895a8",
+      "revId": "ae4a505fccf499f7a0f21f2974a1cda181a14d5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

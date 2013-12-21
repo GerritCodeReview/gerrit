@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "685383fd_f0b0200d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T00:35:59Z",
+      "side": 1,
+      "message": "Looks like this should be squashed back to the first commit?",
+      "revId": "89006053189d916c0f08c2dfd2fdfa69d47fa1d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

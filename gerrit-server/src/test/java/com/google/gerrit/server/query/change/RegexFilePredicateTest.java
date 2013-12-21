@@ -78,12 +78,12 @@ public class RegexFilePredicateTest {
   }
 
   private static RegexFilePredicate predicate(String pattern) {
-    return new RegexFilePredicate(null, null, pattern);
+    return new RegexFilePredicate(pattern);
   }
 
   private static ChangeData change(String... files) {
     Arrays.sort(files);
-    ChangeData cd = new ChangeData(new Change.Id(1));
+    ChangeData cd = new ChangeData(null, null, null, new Change.Id(1));
     cd.setCurrentFilePaths(Arrays.asList(files));
     return cd;
   }

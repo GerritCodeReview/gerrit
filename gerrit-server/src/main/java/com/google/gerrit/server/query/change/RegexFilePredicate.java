@@ -14,12 +14,9 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.RegexPredicate;
-import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Provider;
 
 import dk.brics.automaton.Automaton;
 import dk.brics.automaton.RegExp;
@@ -29,8 +26,6 @@ import java.util.Collections;
 import java.util.List;
 
 class RegexFilePredicate extends RegexPredicate<ChangeData> {
-  private final Provider<ReviewDb> db;
-  private final PatchListCache cache;
   private final RunAutomaton pattern;
 
   private final String prefixBegin;
@@ -38,10 +33,8 @@ class RegexFilePredicate extends RegexPredicate<ChangeData> {
   private final int prefixLen;
   private final boolean prefixOnly;
 
-  RegexFilePredicate(Provider<ReviewDb> db, PatchListCache plc, String re) {
+  RegexFilePredicate(String re) {
     super(ChangeField.FILE, re);
-    this.db = db;
-    this.cache = plc;
 
     if (re.startsWith("^")) {
       re = re.substring(1);
@@ -69,7 +62,7 @@ class RegexFilePredicate extends RegexPredicate<ChangeData> {
 
   @Override
   public boolean match(ChangeData object) throws OrmException {
-    List<String> files = object.currentFilePaths(db, cache);
+    List<String> files = object.currentFilePaths();
     if (files != null) {
       int begin, end;
 

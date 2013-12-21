@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
+import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.ChangeBatchIndexer;
 import com.google.gerrit.server.index.ChangeIndex;
@@ -36,6 +37,7 @@ import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.solr.SolrIndexModule;
@@ -143,7 +145,7 @@ public class Reindex extends SiteProgram {
     }
     modules.add(changeIndexModule);
     modules.add(new ReviewDbModule());
-    modules.add(new AbstractModule() {
+    modules.add(new FactoryModule() {
       @SuppressWarnings("rawtypes")
       @Override
       protected void configure() {
@@ -152,6 +154,7 @@ public class Reindex extends SiteProgram {
         bind(new TypeLiteral<DynamicSet<CacheRemovalListener>>() {})
             .toInstance(DynamicSet.<CacheRemovalListener> emptySet());
         install(new DefaultCacheFactory.Module());
+        factory(ChangeData.Factory.class);
       }
     });
     return dbInjector.createChildInjector(modules);

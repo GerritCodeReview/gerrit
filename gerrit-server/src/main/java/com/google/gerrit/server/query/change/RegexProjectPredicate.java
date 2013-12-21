@@ -16,20 +16,17 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.RegexPredicate;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Provider;
 
 import dk.brics.automaton.RegExp;
 import dk.brics.automaton.RunAutomaton;
 
 class RegexProjectPredicate extends RegexPredicate<ChangeData> {
-  private final Provider<ReviewDb> dbProvider;
   private final RunAutomaton pattern;
 
-  RegexProjectPredicate(Provider<ReviewDb> dbProvider, String re) {
+  RegexProjectPredicate(String re) {
     super(ChangeField.PROJECT, re);
 
     if (re.startsWith("^")) {
@@ -40,13 +37,12 @@ class RegexProjectPredicate extends RegexPredicate<ChangeData> {
       re = re.substring(0, re.length() - 1);
     }
 
-    this.dbProvider = dbProvider;
     this.pattern = new RunAutomaton(new RegExp(re).toAutomaton());
   }
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
-    Change change = object.change(dbProvider);
+    Change change = object.change();
     if (change == null) {
       return false;
     }

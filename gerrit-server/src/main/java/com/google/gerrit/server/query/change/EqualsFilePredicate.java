@@ -14,31 +14,24 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexPredicate;
-import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Provider;
 
 import java.util.Collections;
 import java.util.List;
 
 class EqualsFilePredicate extends IndexPredicate<ChangeData> {
-  private final Provider<ReviewDb> db;
-  private final PatchListCache cache;
   private final String value;
 
-  EqualsFilePredicate(Provider<ReviewDb> db, PatchListCache plc, String value) {
+  EqualsFilePredicate(String value) {
     super(ChangeField.FILE, value);
-    this.db = db;
-    this.cache = plc;
     this.value = value;
   }
 
   @Override
   public boolean match(ChangeData object) throws OrmException {
-    List<String> files = object.currentFilePaths(db, cache);
+    List<String> files = object.currentFilePaths();
     if (files != null) {
       return Collections.binarySearch(files, value) >= 0;
     } else {

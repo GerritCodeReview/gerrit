@@ -454,7 +454,7 @@ public class ChangeUtil {
     db.changeMessages().delete(db.changeMessages().byChange(changeId));
     db.starredChanges().delete(db.starredChanges().byChange(changeId));
     db.changes().delete(Collections.singleton(change));
-    indexer.delete(change);
+    indexer.delete(db, change);
   }
 
   public void deleteOnlyDraftPatchSet(PatchSet patch, Change change)

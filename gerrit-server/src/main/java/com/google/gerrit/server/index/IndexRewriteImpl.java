@@ -145,7 +145,7 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
 
     Predicate<ChangeData> out = rewriteImpl(in, index, limit);
     if (in == out || out instanceof IndexPredicate) {
-      return new IndexedChangeQuery(db, index, out, limit);
+      return new IndexedChangeQuery(index, out, limit);
     } else if (out == null /* cannot rewrite */) {
       return in;
     } else {
@@ -222,7 +222,7 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
     if (isIndexed.cardinality() == 1) {
       int i = isIndexed.nextSetBit(0);
       newChildren.add(
-          0, new IndexedChangeQuery(db, index, newChildren.remove(i), limit));
+          0, new IndexedChangeQuery(index, newChildren.remove(i), limit));
       return copy(in, newChildren);
     }
 
@@ -242,7 +242,7 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
         all.add(c);
       }
     }
-    all.add(0, new IndexedChangeQuery(db, index, in.copy(indexed), limit));
+    all.add(0, new IndexedChangeQuery(index, in.copy(indexed), limit));
     return copy(in, all);
   }
 

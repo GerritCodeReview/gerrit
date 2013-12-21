@@ -10,7 +10,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.util.Providers;
 
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
 import com.googlecode.prolog_cafe.lang.JavaException;
@@ -49,7 +48,7 @@ class PRED__load_commit_labels_1 extends Predicate.P1 {
 
       Iterable<PatchSetApproval> approvals;
       if (cd != null) {
-        approvals = cd.currentApprovals(Providers.of(db));
+        approvals = cd.currentApprovals();
       } else {
         approvals = db.patchSetApprovals().byPatchSet(patchSet.getId());
       }

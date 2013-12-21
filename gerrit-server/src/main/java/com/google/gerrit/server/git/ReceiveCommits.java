@@ -2300,7 +2300,7 @@ public class ReceiveCommits {
             return change;
           }
         });
-    indexer.index(change);
+    indexer.index(db, change);
   }
 
   private void sendMergedEmail(final ReplaceRequest result) {

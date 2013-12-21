@@ -15,23 +15,18 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Provider;
 
 class TopicPredicate extends IndexPredicate<ChangeData> {
-  private final Provider<ReviewDb> dbProvider;
-
-  TopicPredicate(Provider<ReviewDb> dbProvider, String topic) {
+  TopicPredicate(String topic) {
     super(ChangeField.TOPIC, topic);
-    this.dbProvider = dbProvider;
   }
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
-    Change change = object.change(dbProvider);
+    Change change = object.change();
     if (change == null) {
       return false;
     }

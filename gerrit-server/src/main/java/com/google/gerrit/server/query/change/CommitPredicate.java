@@ -16,30 +16,29 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexPredicate;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
-import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 
 class CommitPredicate extends IndexPredicate<ChangeData> implements
     ChangeDataSource {
-  private final Provider<ReviewDb> dbProvider;
+  private final Arguments args;
   private final AbbreviatedObjectId abbrevId;
 
-  CommitPredicate(Provider<ReviewDb> dbProvider, AbbreviatedObjectId id) {
+  CommitPredicate(Arguments args, AbbreviatedObjectId id) {
     super(ChangeField.COMMIT, id.name());
-    this.dbProvider = dbProvider;
+    this.args = args;
     this.abbrevId = id;
   }
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
-    for (PatchSet p : object.patches(dbProvider)) {
+    for (PatchSet p : object.patches()) {
       if (p.getRevision() != null && p.getRevision().get() != null) {
         final ObjectId id = ObjectId.fromString(p.getRevision().get());
         if (abbrevId.prefixCompare(id) == 0) {
@@ -54,12 +53,12 @@ class CommitPredicate extends IndexPredicate<ChangeData> implements
   public ResultSet<ChangeData> read() throws OrmException {
     final RevId id = new RevId(abbrevId.name());
     if (id.isComplete()) {
-      return ChangeDataResultSet.patchSet(//
-          dbProvider.get().patchSets().byRevision(id));
+      return ChangeDataResultSet.patchSet(args.changeDataFactory, args.db,
+          args.db.get().patchSets().byRevision(id));
 
     } else {
-      return ChangeDataResultSet.patchSet(//
-          dbProvider.get().patchSets().byRevisionRange(id, id.max()));
+      return ChangeDataResultSet.patchSet(args.changeDataFactory, args.db,
+          args.db.get().patchSets().byRevisionRange(id, id.max()));
     }
   }
 

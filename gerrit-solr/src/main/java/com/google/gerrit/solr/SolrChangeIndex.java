@@ -25,6 +25,7 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lucene.QueryBuilder;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.ChangeField;
@@ -42,6 +43,7 @@ import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
+import com.google.inject.Provider;
 
 import org.apache.lucene.search.Query;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -69,6 +71,8 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
   public static final String CHANGES_CLOSED = "changes_closed";
   private static final String ID_FIELD = ChangeField.LEGACY_ID.getName();
 
+  private final Provider<ReviewDb> db;
+  private final ChangeData.Factory changeDataFactory;
   private final FillArgs fillArgs;
   private final SitePaths sitePaths;
   private final IndexCollection indexes;
@@ -78,11 +82,15 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
 
   SolrChangeIndex(
       @GerritServerConfig Config cfg,
+      Provider<ReviewDb> db,
+      ChangeData.Factory changeDataFactory,
       FillArgs fillArgs,
       SitePaths sitePaths,
       IndexCollection indexes,
       Schema<ChangeData> schema,
       String base) throws IOException {
+    this.db = db;
+    this.changeDataFactory = changeDataFactory;
     this.fillArgs = fillArgs;
     this.sitePaths = sitePaths;
     this.indexes = indexes;
@@ -256,7 +264,8 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
         List<ChangeData> result = Lists.newArrayListWithCapacity(docs.size());
         for (SolrDocument doc : docs) {
           Integer v = (Integer) doc.getFieldValue(ID_FIELD);
-          result.add(new ChangeData(new Change.Id(v.intValue())));
+          result.add(
+              changeDataFactory.create(db.get(), new Change.Id(v.intValue())));
         }
 
         final List<ChangeData> r = Collections.unmodifiableList(result);

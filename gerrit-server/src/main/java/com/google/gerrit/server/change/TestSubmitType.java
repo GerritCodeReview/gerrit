@@ -40,14 +40,18 @@ import java.util.List;
 
 public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
   private final ReviewDb db;
+  private final ChangeData.Factory changeDataFactory;
   private final RulesCache rules;
 
   @Option(name = "--filters", usage = "impact of filters in parent projects")
   private Filters filters = Filters.RUN;
 
   @Inject
-  TestSubmitType(ReviewDb db, RulesCache rules) {
+  TestSubmitType(ReviewDb db,
+      ChangeData.Factory changeDataFactory,
+      RulesCache rules) {
     this.db = db;
+    this.changeDataFactory = changeDataFactory;
     this.rules = rules;
   }
 
@@ -68,7 +72,7 @@ public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
         rsrc.getControl().getProjectControl(),
         rsrc.getControl(),
         rsrc.getChange(),
-        new ChangeData(rsrc.getChange()),
+        changeDataFactory.create(db, rsrc.getChange()),
         false,
         "locate_submit_type", "get_submit_type",
         "locate_submit_type_filter", "filter_submit_type_results",

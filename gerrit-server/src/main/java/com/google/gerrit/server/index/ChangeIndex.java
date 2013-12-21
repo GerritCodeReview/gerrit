@@ -66,7 +66,7 @@ public interface ChangeIndex {
   /**
    * Delete a change document from the index.
    *
-   * @param cd change document.
+   * @param cd change document
    *
    * @throws IOException
    */

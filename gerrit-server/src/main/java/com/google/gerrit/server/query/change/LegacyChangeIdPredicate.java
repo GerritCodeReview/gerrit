@@ -15,24 +15,23 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexPredicate;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gwtorm.server.ListResultSet;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
-import com.google.inject.Provider;
 
 import java.util.Collections;
 
 class LegacyChangeIdPredicate extends IndexPredicate<ChangeData> implements
     ChangeDataSource {
-  private final Provider<ReviewDb> db;
+  private final Arguments args;
   private final Change.Id id;
 
-  LegacyChangeIdPredicate(Provider<ReviewDb> db, Change.Id id) {
+  LegacyChangeIdPredicate(Arguments args, Change.Id id) {
     super(ChangeField.LEGACY_ID, ChangeQueryBuilder.FIELD_CHANGE, id.toString());
-    this.db = db;
+    this.args = args;
     this.id = id;
   }
 
@@ -43,10 +42,10 @@ class LegacyChangeIdPredicate extends IndexPredicate<ChangeData> implements
 
   @Override
   public ResultSet<ChangeData> read() throws OrmException {
-    Change c = db.get().changes().get(id);
+    Change c = args.db.get().changes().get(id);
     if (c != null) {
-      return new ListResultSet<ChangeData>( //
-          Collections.singletonList(new ChangeData(c)));
+      return new ListResultSet<ChangeData>(Collections.singletonList(
+          args.changeDataFactory.create(args.db.get(), c)));
     } else {
       return new ListResultSet<ChangeData>(Collections.<ChangeData> emptyList());
     }

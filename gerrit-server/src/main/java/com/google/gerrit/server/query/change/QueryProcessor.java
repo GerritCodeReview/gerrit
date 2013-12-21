@@ -27,7 +27,6 @@ import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.PatchSetAttribute;
 import com.google.gerrit.server.data.QueryStatsAttribute;
 import com.google.gerrit.server.events.EventFactory;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.Predicate;
@@ -67,7 +66,7 @@ public class QueryProcessor {
         @Override
         public int compare(ChangeData a, ChangeData b) {
           try {
-            return a.change(db).getSortKey().compareTo(b.change(db).getSortKey());
+            return a.change().getSortKey().compareTo(b.change().getSortKey());
           } catch (OrmException e) {
             return 0;
           }
@@ -79,7 +78,7 @@ public class QueryProcessor {
         @Override
         public int compare(ChangeData a, ChangeData b) {
           try {
-            return b.change(db).getSortKey().compareTo(a.change(db).getSortKey());
+            return b.change().getSortKey().compareTo(a.change().getSortKey());
           } catch (OrmException e) {
             return 0;
           }
@@ -98,7 +97,6 @@ public class QueryProcessor {
   private final ChangeQueryBuilder queryBuilder;
   private final ChangeQueryRewriter queryRewriter;
   private final Provider<ReviewDb> db;
-  private final GitRepositoryManager repoManager;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final TrackingFooters trackingFooters;
   private final CurrentUser user;
@@ -126,14 +124,12 @@ public class QueryProcessor {
   QueryProcessor(EventFactory eventFactory,
       ChangeQueryBuilder.Factory queryBuilder, CurrentUser currentUser,
       ChangeQueryRewriter queryRewriter, Provider<ReviewDb> db,
-      GitRepositoryManager repoManager,
       TrackingFooters trackingFooters,
       ChangeControl.GenericFactory changeControlFactory) {
     this.eventFactory = eventFactory;
     this.queryBuilder = queryBuilder.create(currentUser);
     this.queryRewriter = queryRewriter;
     this.db = db;
-    this.repoManager = repoManager;
     this.trackingFooters = trackingFooters;
     this.changeControlFactory = changeControlFactory;
     this.user = currentUser;
@@ -308,7 +304,7 @@ public class QueryProcessor {
         for (ChangeData d : results) {
           ChangeControl cc = d.changeControl();
           if (cc == null || cc.getCurrentUser() != user) {
-            cc = changeControlFactory.controlFor(d.change(db), user);
+            cc = changeControlFactory.controlFor(d.change(), user);
           }
 
           LabelTypes labelTypes = cc.getLabelTypes();
@@ -317,7 +313,7 @@ public class QueryProcessor {
 
           if (!trackingFooters.isEmpty()) {
             eventFactory.addTrackingIds(c,
-                trackingFooters.extract(d.commitFooters(repoManager, db)));
+                trackingFooters.extract(d.commitFooters()));
           }
 
           if (includeAllReviewers) {
@@ -333,40 +329,40 @@ public class QueryProcessor {
           }
 
           if (includeCommitMessage) {
-            eventFactory.addCommitMessage(c, d.commitMessage(repoManager, db));
+            eventFactory.addCommitMessage(c, d.commitMessage());
           }
 
           if (includePatchSets) {
             if (includeFiles) {
-              eventFactory.addPatchSets(c, d.patches(db),
-                includeApprovals ? d.approvalsMap(db).asMap() : null,
-                includeFiles, d.change(db), labelTypes);
+              eventFactory.addPatchSets(c, d.patches(),
+                includeApprovals ? d.approvalsMap().asMap() : null,
+                includeFiles, d.change(), labelTypes);
             } else {
-              eventFactory.addPatchSets(c, d.patches(db),
-                  includeApprovals ? d.approvalsMap(db).asMap() : null,
+              eventFactory.addPatchSets(c, d.patches(),
+                  includeApprovals ? d.approvalsMap().asMap() : null,
                   labelTypes);
             }
           }
 
           if (includeCurrentPatchSet) {
-            PatchSet current = d.currentPatchSet(db);
+            PatchSet current = d.currentPatchSet();
             if (current != null) {
               c.currentPatchSet = eventFactory.asPatchSetAttribute(current);
               eventFactory.addApprovals(c.currentPatchSet,
-                  d.currentApprovals(db), labelTypes);
+                  d.currentApprovals(), labelTypes);
 
               if (includeFiles) {
                 eventFactory.addPatchSetFileNames(c.currentPatchSet,
-                    d.change(db), d.currentPatchSet(db));
+                    d.change(), d.currentPatchSet());
               }
             }
           }
 
           if (includeComments) {
-            eventFactory.addComments(c, d.messages(db));
+            eventFactory.addComments(c, d.messages());
             if (includePatchSets) {
               for (PatchSetAttribute attribute : c.patchSets) {
-                eventFactory.addPatchSetComments(attribute,  d.comments(db));
+                eventFactory.addPatchSetComments(attribute,  d.comments());
               }
             }
           }

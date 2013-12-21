@@ -14,26 +14,25 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Provider;
 
 /**
  * Predicate to match changes that contains specified text in commit messages
  * body.
  */
 class MessagePredicate extends IndexPredicate<ChangeData> {
-  private final Provider<ReviewDb> db;
+  private final Arguments args;
   private final ChangeIndex index;
 
-  MessagePredicate(Provider<ReviewDb> db, ChangeIndex index, String value) {
+  MessagePredicate(Arguments args, ChangeIndex index, String value) {
     super(ChangeField.COMMIT_MESSAGE, value);
-    this.db = db;
+    this.args = args;
     this.index = index;
   }
 
@@ -41,7 +40,7 @@ class MessagePredicate extends IndexPredicate<ChangeData> {
   public boolean match(ChangeData object) throws OrmException {
     try {
       for (ChangeData cData : index.getSource(
-          Predicate.and(new LegacyChangeIdPredicate(db, object.getId()), this), 1)
+          Predicate.and(new LegacyChangeIdPredicate(args, object.getId()), this), 1)
           .read()) {
         if (cData.getId().equals(object.getId())) {
           return true;

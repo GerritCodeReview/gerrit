@@ -18,23 +18,19 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.TimestampRangePredicate;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Provider;
 
 import java.sql.Timestamp;
 
 public class AgePredicate extends TimestampRangePredicate<ChangeData> {
-  private final Provider<ReviewDb> dbProvider;
   private final long cut;
 
-  AgePredicate(Provider<ReviewDb> dbProvider, String value) {
+  AgePredicate(String value) {
     super(ChangeField.UPDATED, ChangeQueryBuilder.FIELD_AGE, value);
-    this.dbProvider = dbProvider;
 
     long s = ConfigUtil.getTimeUnit(getValue(), 0, SECONDS);
     long ms = MILLISECONDS.convert(s, SECONDS);
@@ -55,7 +51,7 @@ public class AgePredicate extends TimestampRangePredicate<ChangeData> {
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
-    Change change = object.change(dbProvider);
+    Change change = object.change();
     return change != null && change.getLastUpdatedOn().getTime() <= cut;
   }
 

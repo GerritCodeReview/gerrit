@@ -17,29 +17,24 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Provider;
 
 class IsReviewedPredicate extends IndexPredicate<ChangeData> {
-  private final Provider<ReviewDb> dbProvider;
-
-  IsReviewedPredicate(Provider<ReviewDb> dbProvider) {
+  IsReviewedPredicate() {
     super(ChangeField.REVIEWED, "1");
-    this.dbProvider = dbProvider;
   }
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
-    Change c = object.change(dbProvider);
+    Change c = object.change();
     if (c == null) {
       return false;
     }
 
     PatchSet.Id current = c.currentPatchSetId();
-    for (PatchSetApproval p : object.approvals(dbProvider)) {
+    for (PatchSetApproval p : object.approvals()) {
       if (p.getPatchSetId().equals(current) && p.getValue() != 0) {
         return true;
       }

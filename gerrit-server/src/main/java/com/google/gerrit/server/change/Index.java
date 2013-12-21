@@ -18,9 +18,11 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.Index.Input;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import java.io.IOException;
 
@@ -29,16 +31,19 @@ public class Index implements RestModifyView<ChangeResource, Input> {
   public static class Input {
   }
 
+  private final Provider<ReviewDb> db;
   private final ChangeIndexer indexer;
 
   @Inject
-  Index(ChangeIndexer indexer) {
+  Index(Provider<ReviewDb> db,
+      ChangeIndexer indexer) {
+    this.db = db;
     this.indexer = indexer;
   }
 
   @Override
   public Response<?> apply(ChangeResource rsrc, Input input) throws IOException {
-    indexer.index(rsrc.getChange());
+    indexer.index(db.get(), rsrc.getChange());
     return Response.none();
   }
 }

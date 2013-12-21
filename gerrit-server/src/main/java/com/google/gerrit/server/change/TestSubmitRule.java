@@ -57,6 +57,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, Input> {
   }
 
   private final ReviewDb db;
+  private final ChangeData.Factory changeDataFactory;
   private final RulesCache rules;
   private final AccountInfo.Loader.Factory accountInfoFactory;
 
@@ -64,9 +65,12 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, Input> {
   private Filters filters = Filters.RUN;
 
   @Inject
-  TestSubmitRule(ReviewDb db, RulesCache rules,
+  TestSubmitRule(ReviewDb db,
+      ChangeData.Factory changeDataFactory,
+      RulesCache rules,
       AccountInfo.Loader.Factory infoFactory) {
     this.db = db;
+    this.changeDataFactory = changeDataFactory;
     this.rules = rules;
     this.accountInfoFactory = infoFactory;
   }
@@ -88,7 +92,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, Input> {
         rsrc.getControl().getProjectControl(),
         rsrc.getControl(),
         rsrc.getChange(),
-        new ChangeData(rsrc.getChange()),
+        changeDataFactory.create(db, rsrc.getChange()),
         false,
         "locate_submit_rule", "can_submit",
         "locate_submit_filter", "filter_submit_results",

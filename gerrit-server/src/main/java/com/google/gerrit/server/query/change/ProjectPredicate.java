@@ -16,18 +16,13 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Provider;
 
 class ProjectPredicate extends IndexPredicate<ChangeData> {
-  private final Provider<ReviewDb> dbProvider;
-
-  ProjectPredicate(Provider<ReviewDb> dbProvider, String id) {
+  ProjectPredicate(String id) {
     super(ChangeField.PROJECT, id);
-    this.dbProvider = dbProvider;
   }
 
   Project.NameKey getValueKey() {
@@ -36,7 +31,7 @@ class ProjectPredicate extends IndexPredicate<ChangeData> {
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
-    Change change = object.change(dbProvider);
+    Change change = object.change();
     if (change == null) {
       return false;
     }

@@ -50,12 +50,12 @@ class ParentProjectPredicate extends OrPredicate<ChangeData> {
     }
 
     List<Predicate<ChangeData>> r = Lists.newArrayList();
-    r.add(new ProjectPredicate(dbProvider, projectState.getProject().getName()));
+    r.add(new ProjectPredicate(projectState.getProject().getName()));
     ListChildProjects children = listChildProjects.get();
     children.setRecursive(true);
     for (ProjectInfo p : children.apply(new ProjectResource(
         projectState.controlFor(self.get())))) {
-      r.add(new ProjectPredicate(dbProvider, p.name));
+      r.add(new ProjectPredicate(p.name));
     }
     return r;
   }

@@ -841,7 +841,7 @@ public class MergeOp {
     } finally {
       db.rollback();
     }
-    indexer.index(c);
+    indexer.index(db, c);
   }
 
   private void setMergedPatchSet(Change.Id changeId, final PatchSet.Id merged)
@@ -1150,7 +1150,7 @@ public class MergeOp {
         msg.setMessage("Project was deleted.");
         db.changeMessages().insert(Collections.singleton(msg));
         db.commit();
-        indexer.index(change);
+        indexer.index(db, change);
       }
     } finally {
       db.rollback();

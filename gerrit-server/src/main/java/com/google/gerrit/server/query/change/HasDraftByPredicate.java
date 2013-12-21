@@ -17,30 +17,29 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.query.OperatorPredicate;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gwtorm.server.ListResultSet;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
-import com.google.inject.Provider;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 
 class HasDraftByPredicate extends OperatorPredicate<ChangeData> implements
     ChangeDataSource {
-  private final Provider<ReviewDb> db;
+  private final Arguments args;
   private final Account.Id accountId;
 
-  HasDraftByPredicate(Provider<ReviewDb> db, Account.Id accountId) {
+  HasDraftByPredicate(Arguments args, Account.Id accountId) {
     super(ChangeQueryBuilder.FIELD_DRAFTBY, accountId.toString());
-    this.db = db;
+    this.args = args;
     this.accountId = accountId;
   }
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
-    for (PatchLineComment c : object.comments(db)) {
+    for (PatchLineComment c : object.comments()) {
       if (c.getStatus() == PatchLineComment.Status.DRAFT
           && c.getAuthor().equals(accountId)) {
         return true;
@@ -52,14 +51,14 @@ class HasDraftByPredicate extends OperatorPredicate<ChangeData> implements
   @Override
   public ResultSet<ChangeData> read() throws OrmException {
     HashSet<Change.Id> ids = new HashSet<Change.Id>();
-    for (PatchLineComment sc : db.get().patchComments()
+    for (PatchLineComment sc : args.db.get().patchComments()
         .draftByAuthor(accountId)) {
       ids.add(sc.getKey().getParentKey().getParentKey().getParentKey());
     }
 
     ArrayList<ChangeData> r = new ArrayList<ChangeData>(ids.size());
     for (Change.Id id : ids) {
-      r.add(new ChangeData(id));
+      r.add(args.changeDataFactory.create(args.db.get(), id));
     }
     return new ListResultSet<ChangeData>(r);
   }

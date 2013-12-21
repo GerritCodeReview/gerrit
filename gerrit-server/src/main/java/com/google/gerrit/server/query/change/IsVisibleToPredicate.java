@@ -54,7 +54,7 @@ class IsVisibleToPredicate extends OperatorPredicate<ChangeData> {
       return true;
     }
     try {
-      Change c = cd.change(db);
+      Change c = cd.change();
       if (c == null) {
         return false;
       }

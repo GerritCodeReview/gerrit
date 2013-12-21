@@ -31,6 +31,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.ssh.SshAdvertisedAddresses;
 import com.google.inject.Inject;
@@ -61,6 +62,7 @@ class EmailArguments {
 
   final ChangeQueryBuilder.Factory queryBuilder;
   final Provider<ReviewDb> db;
+  final ChangeData.Factory changeDataFactory;
   final RuntimeInstance velocityRuntime;
   final EmailSettings settings;
 
@@ -80,6 +82,7 @@ class EmailArguments {
       AllProjectsName allProjectsName,
       ChangeQueryBuilder.Factory queryBuilder,
       Provider<ReviewDb> db,
+      ChangeData.Factory changeDataFactory,
       RuntimeInstance velocityRuntime,
       EmailSettings settings,
       @SshAdvertisedAddresses List<String> sshAddresses) {
@@ -101,6 +104,7 @@ class EmailArguments {
     this.allProjectsName = allProjectsName;
     this.queryBuilder = queryBuilder;
     this.db = db;
+    this.changeDataFactory = changeDataFactory;
     this.velocityRuntime = velocityRuntime;
     this.settings = settings;
     this.sshAddresses = sshAddresses;

@@ -43,14 +43,17 @@ import java.util.TreeMap;
 
 public class ReviewerJson {
   private final Provider<ReviewDb> db;
+  private final ChangeData.Factory changeDataFactory;
   private final LabelNormalizer labelNormalizer;
   private final AccountInfo.Loader.Factory accountLoaderFactory;
 
   @Inject
   ReviewerJson(Provider<ReviewDb> db,
+      ChangeData.Factory changeDataFactory,
       LabelNormalizer labelNormalizer,
       AccountInfo.Loader.Factory accountLoaderFactory) {
     this.db = db;
+    this.changeDataFactory = changeDataFactory;
     this.labelNormalizer = labelNormalizer;
     this.accountLoaderFactory = accountLoaderFactory;
   }
@@ -98,8 +101,8 @@ public class ReviewerJson {
 
     // Add dummy approvals for all permitted labels for the user even if they
     // do not exist in the DB.
-    ChangeData cd = new ChangeData(ctl);
-    PatchSet ps = cd.currentPatchSet(db);
+    ChangeData cd = changeDataFactory.create(db.get(), ctl);
+    PatchSet ps = cd.currentPatchSet();
     if (ps != null) {
       for (SubmitRecord rec :
           ctl.canSubmit(db.get(), ps, cd, true, false, true)) {

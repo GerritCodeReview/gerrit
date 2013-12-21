@@ -71,7 +71,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   protected ChangeEmail(EmailArguments ea, Change c, String mc) {
     super(ea, mc, c.getProject(), c.getDest());
     change = c;
-    changeData = new ChangeData(change);
+    changeData = ea.changeDataFactory.create(ea.db.get(), change);
     emailOnlyAuthors = false;
   }
 

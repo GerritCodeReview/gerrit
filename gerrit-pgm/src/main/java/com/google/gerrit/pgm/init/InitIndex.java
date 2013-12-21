@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.config.TrackingFooter;
@@ -37,9 +38,9 @@ import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
-import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -97,10 +98,11 @@ class InitIndex implements InitStep {
     index.close();
   }
 
-  private class MockIndexSupportModule extends AbstractModule {
+  private class MockIndexSupportModule extends FactoryModule {
     @Override
     protected void configure() {
       bind(SitePaths.class).toInstance(site);
+      factory(ChangeData.Factory.class);
     }
 
     @Provides @GerritServerConfig Config getConfig() {

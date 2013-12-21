@@ -48,7 +48,6 @@ import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.server.data.SubmitLabelAttribute;
 import com.google.gerrit.server.data.SubmitRecordAttribute;
 import com.google.gerrit.server.data.TrackingIdAttribute;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
@@ -82,7 +81,7 @@ public class EventFactory {
   private final PatchSetInfoFactory psInfoFactory;
   private final PersonIdent myIdent;
   private final Provider<ReviewDb> db;
-  private final GitRepositoryManager repoManager;
+  private final ChangeData.Factory changeDataFactory;
   private final ApprovalsUtil approvalsUtil;
 
   @Inject
@@ -91,7 +90,8 @@ public class EventFactory {
       PatchSetInfoFactory psif,
       PatchListCache patchListCache, SchemaFactory<ReviewDb> schema,
       @GerritPersonIdent PersonIdent myIdent,
-      Provider<ReviewDb> db, GitRepositoryManager repoManager,
+      Provider<ReviewDb> db,
+      ChangeData.Factory changeDataFactory,
       ApprovalsUtil approvalsUtil) {
     this.accountCache = accountCache;
     this.urlProvider = urlProvider;
@@ -100,7 +100,7 @@ public class EventFactory {
     this.psInfoFactory = psif;
     this.myIdent = myIdent;
     this.db = db;
-    this.repoManager = repoManager;
+    this.changeDataFactory = changeDataFactory;
     this.approvalsUtil = approvalsUtil;
   }
 
@@ -120,7 +120,8 @@ public class EventFactory {
     a.number = change.getId().toString();
     a.subject = change.getSubject();
     try {
-      a.commitMessage = new ChangeData(change).commitMessage(repoManager, db);
+      a.commitMessage =
+          changeDataFactory.create(db.get(), change).commitMessage();
     } catch (Exception e) {
       log.error("Error while getting full commit message for"
           + " change " + a.number);

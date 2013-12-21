@@ -16,19 +16,15 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Provider;
 
 class ReviewerPredicate extends IndexPredicate<ChangeData> {
-  private final Provider<ReviewDb> dbProvider;
   private final Account.Id id;
 
-  ReviewerPredicate(Provider<ReviewDb> dbProvider, Account.Id id) {
+  ReviewerPredicate(Account.Id id) {
     super(ChangeField.REVIEWER, id.toString());
-    this.dbProvider = dbProvider;
     this.id = id;
   }
 
@@ -38,7 +34,7 @@ class ReviewerPredicate extends IndexPredicate<ChangeData> {
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
-    for (PatchSetApproval p : object.approvals(dbProvider)) {
+    for (PatchSetApproval p : object.approvals()) {
       if (id.equals(p.getAccountId())) {
         return true;
       }

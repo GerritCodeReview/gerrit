@@ -64,7 +64,7 @@ public class ChangeField {
         @Override
         public String get(ChangeData input, FillArgs args)
             throws OrmException {
-          return input.change(args.db).getKey().get();
+          return input.change().getKey().get();
         }
       };
 
@@ -76,7 +76,7 @@ public class ChangeField {
         public String get(ChangeData input, FillArgs args)
             throws OrmException {
           return ChangeStatusPredicate.VALUES.get(
-              input.change(args.db).getStatus());
+              input.change().getStatus());
         }
       };
 
@@ -87,7 +87,7 @@ public class ChangeField {
         @Override
         public String get(ChangeData input, FillArgs args)
             throws OrmException {
-          return input.change(args.db).getProject().get();
+          return input.change().getProject().get();
         }
       };
 
@@ -98,7 +98,7 @@ public class ChangeField {
         @Override
         public String get(ChangeData input, FillArgs args)
             throws OrmException {
-          return input.change(args.db).getDest().get();
+          return input.change().getDest().get();
         }
       };
 
@@ -109,7 +109,7 @@ public class ChangeField {
         @Override
         public String get(ChangeData input, FillArgs args)
             throws OrmException {
-          return input.change(args.db).getTopic();
+          return input.change().getTopic();
         }
       };
 
@@ -120,7 +120,7 @@ public class ChangeField {
         @Override
         public Timestamp get(ChangeData input, FillArgs args)
             throws OrmException {
-          return input.change(args.db).getLastUpdatedOn();
+          return input.change().getLastUpdatedOn();
         }
       };
 
@@ -140,7 +140,7 @@ public class ChangeField {
         @Override
         public Long get(ChangeData input, FillArgs args)
             throws OrmException {
-          return legacyParseSortKey(input.change(args.db).getSortKey());
+          return legacyParseSortKey(input.change().getSortKey());
         }
       };
 
@@ -156,7 +156,7 @@ public class ChangeField {
         @Override
         public Long get(ChangeData input, FillArgs args)
             throws OrmException {
-          return ChangeUtil.parseSortKey(input.change(args.db).getSortKey());
+          return ChangeUtil.parseSortKey(input.change().getSortKey());
         }
       };
 
@@ -167,7 +167,7 @@ public class ChangeField {
         @Override
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
-          return input.currentFilePaths(args.db, args.patchListCache);
+          return input.currentFilePaths();
         }
       };
 
@@ -178,7 +178,7 @@ public class ChangeField {
         @Override
         public Integer get(ChangeData input, FillArgs args)
             throws OrmException {
-          return input.change(args.db).getOwner().get();
+          return input.change().getOwner().get();
         }
       };
 
@@ -190,7 +190,7 @@ public class ChangeField {
         public Iterable<Integer> get(ChangeData input, FillArgs args)
             throws OrmException {
           Set<Integer> r = Sets.newHashSet();
-          for (PatchSetApproval a : input.allApprovals(args.db)) {
+          for (PatchSetApproval a : input.allApprovals()) {
             r.add(a.getAccountId().get());
           }
           return r;
@@ -205,7 +205,7 @@ public class ChangeField {
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
           Set<String> revisions = Sets.newHashSet();
-          for (PatchSet ps : input.patches(args.db)) {
+          for (PatchSet ps : input.patches()) {
             if (ps.getRevision() != null) {
               revisions.add(ps.getRevision().get());
             }
@@ -223,7 +223,7 @@ public class ChangeField {
             throws OrmException {
           try {
             return Sets.newHashSet(args.trackingFooters.extract(
-                input.commitFooters(args.repoManager, args.db)).values());
+                input.commitFooters()).values());
           } catch (IOException e) {
             throw new OrmException(e);
           }
@@ -239,7 +239,7 @@ public class ChangeField {
             throws OrmException {
           Set<String> allApprovals = Sets.newHashSet();
           Set<String> distinctApprovals = Sets.newHashSet();
-          for (PatchSetApproval a : input.currentApprovals(args.db)) {
+          for (PatchSetApproval a : input.currentApprovals()) {
             if (a.getValue() != 0) {
               allApprovals.add(formatLabel(a.getLabel(), a.getValue(),
                   a.getAccountId()));
@@ -258,7 +258,7 @@ public class ChangeField {
         @Override
         public String get(ChangeData input, FillArgs args)
             throws OrmException {
-          for (PatchSetApproval a : input.currentApprovals(args.db)) {
+          for (PatchSetApproval a : input.currentApprovals()) {
             if (a.getValue() != 0) {
               return "1";
             }
@@ -278,7 +278,7 @@ public class ChangeField {
     @Override
     public byte[] get(ChangeData input, FieldDef.FillArgs args)
         throws OrmException {
-      return CODEC.encodeToByteArray(input.change(args.db));
+      return CODEC.encodeToByteArray(input.change());
     }
   }
 
@@ -297,7 +297,7 @@ public class ChangeField {
     @Override
     public Iterable<byte[]> get(ChangeData input, FillArgs args)
         throws OrmException {
-      return toProtos(CODEC, input.currentApprovals(args.db));
+      return toProtos(CODEC, input.currentApprovals());
     }
   }
 
@@ -324,7 +324,7 @@ public class ChangeField {
         @Override
         public String get(ChangeData input, FillArgs args) throws OrmException {
           try {
-            return input.commitMessage(args.repoManager, args.db);
+            return input.commitMessage();
           } catch (IOException e) {
             throw new OrmException(e);
           }
@@ -339,10 +339,10 @@ public class ChangeField {
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
           Set<String> r = Sets.newHashSet();
-          for (PatchLineComment c : input.comments(args.db)) {
+          for (PatchLineComment c : input.comments()) {
             r.add(c.getMessage());
           }
-          for (ChangeMessage m : input.messages(args.db)) {
+          for (ChangeMessage m : input.messages()) {
             r.add(m.getMessage());
           }
           return r;
@@ -356,7 +356,7 @@ public class ChangeField {
         @Override
         public String get(ChangeData input, FillArgs args)
             throws OrmException {
-          return input.change(args.db).isMergeable() ? "1" : null;
+          return input.change().isMergeable() ? "1" : null;
         }
       };
 

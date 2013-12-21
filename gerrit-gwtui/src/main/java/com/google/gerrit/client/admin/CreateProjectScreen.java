@@ -214,8 +214,8 @@ public class CreateProjectScreen extends Screen {
           }
         });
 
-        table.setWidget(row, 1, projectLink);
-        table.setText(row, 2, k.description());
+        table.setWidget(row, 2, projectLink);
+        table.setText(row, 3, k.description());
 
         setRowItem(row, k);
       }

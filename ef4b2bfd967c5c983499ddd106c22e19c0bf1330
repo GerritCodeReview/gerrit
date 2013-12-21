@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "283d0b9f_eed91f65",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-21T20:58:54Z",
+      "side": 1,
+      "message": "Yupp, it is not easy to see the design decisions from the first change in such a big (and old) series.",
+      "parentUuid": "685383fd_90ca748c",
+      "range": {
+        "startLine": 529,
+        "startChar": 16,
+        "endLine": 532,
+        "endChar": 26
+      },
+      "revId": "ef4b2bfd967c5c983499ddd106c22e19c0bf1330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48587f1a_efd92165",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
         "patchSetId": 9
@@ -202,6 +226,24 @@
       "writtenOn": "2013-12-21T00:55:50Z",
       "side": 1,
       "message": "You have an unsolved caching problem. The /changes/{id} API caches the ChangeInfo JSON at the browser for the current user. There is currently no way to invalidate that cache when edits are created or deleted.\n\nMaybe edits should be obtained by GET /changes/{id}/edits/ if the user is signed in, and the information is merged in cs2 UI code? This is one reason why we grab  the drafts dynamically in the browser and don\u0027t try to cram them into the ChangeInfo JSON.",
+      "revId": "ef4b2bfd967c5c983499ddd106c22e19c0bf1330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "682c637b_885fb722",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 794,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-21T20:58:54Z",
+      "side": 1,
+      "message": "Yes, i noticed it after change number 20 in this series, that i have caching problem with deleting and re-creating the edits.\n\nBecause i wanted to move forward and implement all use cases, i added a work around ^1, updating the change row in the database every time, when revision edit was re-created or deleted.\n\nI like your suggestion to use GET /changes/{id}/edits/ and to merge the edits into normal revision list on the client side.\n\nThe question is how to proceed with this series? Don\u0027t change the approach, and first address all your comments, and then revisit the approach?\n\n^1 https://gerrit-review.googlesource.com/53177",
+      "parentUuid": "685383fd_10a684d8",
       "revId": "ef4b2bfd967c5c983499ddd106c22e19c0bf1330",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

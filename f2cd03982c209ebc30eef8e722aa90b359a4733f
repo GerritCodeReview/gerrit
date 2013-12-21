@@ -142,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "48587f1a_2f26c99f",
+        "filename": "Documentation/user-changeid.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T00:59:42Z",
+      "side": 1,
+      "message": "We backed away from that. It is simply impractical. Too many tools and users use refs/for/ to remove support for it.",
+      "parentUuid": "682c637b_2815eb54",
+      "range": {
+        "startLine": 73,
+        "startChar": 29,
+        "endLine": 73,
+        "endChar": 42
+      },
+      "revId": "f2cd03982c209ebc30eef8e722aa90b359a4733f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48315fd0_a7e10a45",
         "filename": "Documentation/user-changeid.txt",
         "patchSetId": 3

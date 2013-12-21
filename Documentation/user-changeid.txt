@@ -2,11 +2,13 @@
 
 == Description
 
-Gerrit Code Review sometimes relies upon a Change-Id line at the
-bottom of a commit message to uniquely identify a change across all
-drafts of it.  By including a unique Change-Id in the commit message,
-Gerrit can automatically associate a new version of a change back
-to its original review, even across cherry-picks and rebases.
+Gerrit needs to identify commits that belong to the same review. For
+instance, when a change needs to be modified, a second commit can be uploaded
+to address the reported issues. Gerrit allows attaching those 2 commits
+to the same change, and relies upon a Change-Id line at the bottom of a
+commit message to do so. With this Change-Id, Gerrit can automatically
+associate a new version of a change back to its original review, even
+across cherry-picks and rebases.
 
 To be picked up by Gerrit, a Change-Id line must be in the footer
 (last paragraph) of a commit message, and may be mixed
@@ -31,26 +33,30 @@ or other such lines. For example:
 ----
 
 In the above example, `Ic8aaa0728a43936cd4c6e1ed590e01ba8f0fbf5b`
-is the unique identity assigned to this change.  It does not match
-the commit name, `29a6...`, as the change may have been amended or
-rebased to address reviewer comments since its initial inception.
+is the identity assigned to this change. It is independent of the
+commit id. To avoid confusion with commit ids, Change-Ids are typically
+prefixed with an uppercase `I`.
 
-To avoid confusion with commit names, Change-Ids are typically prefixed with
-an uppercase `I`.
+Note that a Change-Id is not necessarily unique within a Gerrit instance. It can
+be reused among different repositories or branches (see below,
+link:user-changeid.html[change-upload]).
 
 [[creation]]
 == Creation
 
-Gerrit Code Review provides a standard 'commit-msg' hook which
+Change-Ids are created at commit time on the client side.
+A standard 'commit-msg' hook is provided by Gerrit, and
 can be installed in the local Git repository to automatically
-create and insert a unique Change-Id line during `git commit`.
+generate and insert a Change-Id line during `git commit`, when
+none is defined yet.
+
 To install the hook, copy it from Gerrit's daemon by executing
 one of the following commands while being in the root directory
 of the local Git repository:
 
-  $ scp -p -P 29418 john.doe@review.example.com:hooks/commit-msg .git/hooks/
-
   $ curl -Lo .git/hooks/commit-msg http://review.example.com/tools/hooks/commit-msg
+
+  $ scp -p -P 29418 john.doe@review.example.com:hooks/commit-msg .git/hooks/
 
 Then ensure that the execute bit is set on the hook script:
 
@@ -58,33 +64,49 @@ Then ensure that the execute bit is set on the hook script:
 
 For more details, see link:cmd-hook-commit-msg.html[commit-msg].
 
+[[change-upload]]
 Change Upload
 --------------
 
-During upload by pushing to a `refs/for/*` or `refs/heads/*`
-branch, Gerrit will use the Change-Id line to:
+During upload by pushing to `refs/for/*`, `refs/drafts/*` or
+`refs/heads/*`, Gerrit will try to find an existing review the
+uploaded commit relates to. For an existing review to match, the
+following properties have to match:
+
+* Change-Id
+* Repository name
+* Branch name
+
+The following applies in the different scenarios:
 
 * Create a new change
 +
-If this is the first time it has seen the Change-Id mentioned in
-the commit message, Gerrit will create a new change for review.
+If no matching review is found, Gerrit will create a new change for review.
 
 * Update an existing change
 +
-If Gerrit has seen this Change-Id before, but has not yet seen this
-new commit object, Gerrit will add the new commit as a new patch
+If a matching review is found, Gerrit will add the new commit as a new patch
 set on the existing change.
 
 * Close an existing change
 +
-If Gerrit has seen this Change-Id before, and the commit is being
-pushed directly into a branch, the existing change is updated with
+If a matching review is found, and the commit is being
+pushed directly to refs/heads/*, the existing change is updated with
 the new commit, and the change is closed and marked as merged.
 
 If a Change-Id line is not present in the commit message, Gerrit will
 automatically generate its own Change-Id and display it on the web.
 This line can be manually copied and inserted into an updated commit
 message if additional revisions to a change are required.
+
+By default, Gerrit will prevent pushing for review if no Change-Id is provided,
+with the following message:
+
+  ! [remote rejected] HEAD -> refs/publish/master (missing Change-Id in commit
+  message footer)
+
+However, repositories can be configured to allow commits without Change-Ids
+in the commit message by setting "Require Change-Id in commit message" to "FALSE".
 
 For more details on using git push to upload changes to Gerrit,
 see link:user-upload.html#push_create[creating changes by git push].

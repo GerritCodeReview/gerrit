@@ -1,0 +1,330 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "685383fd_90ca748c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T00:32:31Z",
+      "side": 1,
+      "message": "This is the first place where I start to agree that PatchSet.Id needs an edit flag. We parsed it out of the URL and its handy to have a single container type to carry the information.",
+      "range": {
+        "startLine": 529,
+        "startChar": 16,
+        "endLine": 532,
+        "endChar": 26
+      },
+      "revId": "ef4b2bfd967c5c983499ddd106c22e19c0bf1330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_efd92165",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T00:32:31Z",
+      "side": 1,
+      "message": "I think we should use /#/c/1.edit/ not 1+.",
+      "revId": "ef4b2bfd967c5c983499ddd106c22e19c0bf1330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_0fbf45e4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T00:32:31Z",
+      "side": 1,
+      "message": "Use\n  boolean draft \u003d false;\n  if (ps.endsWith(\"+\")) {\n    draft \u003d true;\n    ps \u003d ps.substring(0, ps.length() - 1);\n  }",
+      "range": {
+        "startLine": 546,
+        "startChar": 48,
+        "endLine": 547,
+        "endChar": 24
+      },
+      "revId": "ef4b2bfd967c5c983499ddd106c22e19c0bf1330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_706b50c7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadAction.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T00:32:31Z",
+      "side": 1,
+      "message": "Push down the creation of the identity into DownloadBox and hand it the entire RevisionInfo. Then we don\u0027t need to curry the edit flag as part of the PatchSet.Id.",
+      "range": {
+        "startLine": 35,
+        "startChar": 8,
+        "endLine": 36,
+        "endChar": 50
+      },
+      "revId": "ef4b2bfd967c5c983499ddd106c22e19c0bf1330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_cfd45d2e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyAction.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T00:32:31Z",
+      "side": 1,
+      "message": "You should not be able to reply on an edit.",
+      "revId": "ef4b2bfd967c5c983499ddd106c22e19c0bf1330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_afcf199b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Topic.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T00:32:31Z",
+      "side": 1,
+      "message": "This shouldn\u0027t ever be true, so I don\u0027t think we need to make any changes here. Editing a topic shouldn\u0027t happen while an edit is the current patch set. Even if it does, we should denote this as happening on the base patch set, not the edit.",
+      "revId": "ef4b2bfd967c5c983499ddd106c22e19c0bf1330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_8fca558c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T00:32:31Z",
+      "side": 1,
+      "message": "This method should use a new overload form to ask for edits, not bury it inside of the PatchSet.Id. E.g.:\n\n  public static RestApi edit(PatchSet.Id id) {\n    return change(cn).view(\"revisions\").id(id.get() + \".edit\");\n  }",
+      "range": {
+        "startLine": 88,
+        "startChar": 43,
+        "endLine": 88,
+        "endChar": 54
+      },
+      "revId": "ef4b2bfd967c5c983499ddd106c22e19c0bf1330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_b0cf789b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T00:32:31Z",
+      "side": 1,
+      "message": "nit: cases like this we usually wrap the throws onto the next line, see line 782.",
+      "range": {
+        "startLine": 276,
+        "startChar": 49,
+        "endLine": 277,
+        "endChar": 17
+      },
+      "revId": "ef4b2bfd967c5c983499ddd106c22e19c0bf1330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_2fbc09ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T00:32:31Z",
+      "side": 1,
+      "message": "throwing these two exceptions on their own line like this is a bit neater to read than wrapping like above",
+      "range": {
+        "startLine": 782,
+        "startChar": 6,
+        "endLine": 782,
+        "endChar": 38
+      },
+      "revId": "ef4b2bfd967c5c983499ddd106c22e19c0bf1330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_4fc94d92",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T00:32:31Z",
+      "side": 1,
+      "message": "Just use get and test for !\u003d null.",
+      "range": {
+        "startLine": 809,
+        "startChar": 10,
+        "endLine": 810,
+        "endChar": 57
+      },
+      "revId": "ef4b2bfd967c5c983499ddd106c22e19c0bf1330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_6fc61183",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 815,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T00:32:31Z",
+      "side": 1,
+      "message": "unnecessary assert",
+      "revId": "ef4b2bfd967c5c983499ddd106c22e19c0bf1330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_d0d4fc2d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 819,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T00:32:31Z",
+      "side": 1,
+      "message": "This is going to be very awkward. The edit is going to move around in the map because its SHA-1 is not stable.\n\nMaybe edits should use a map name key that is \"$id.edit\" instead of a commit SHA-1. And we deal with the fallout from that elsewhere.\n\nOr don\u0027t put edits into revisions, make a new map of RevisionInfo called edits and put them there.",
+      "range": {
+        "startLine": 818,
+        "startChar": 12,
+        "endLine": 819,
+        "endChar": 33
+      },
+      "revId": "ef4b2bfd967c5c983499ddd106c22e19c0bf1330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_f0d90065",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 833,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T00:32:31Z",
+      "side": 1,
+      "message": "This could be set in the caller without relying on PatchSet.Id having an edit property.",
+      "revId": "ef4b2bfd967c5c983499ddd106c22e19c0bf1330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_0fa665d8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 855,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T00:32:31Z",
+      "side": 1,
+      "message": "Some actions like submit aren\u0027t allowed on edits. We need to make sure those don\u0027t respond to edit revisions here.",
+      "range": {
+        "startLine": 854,
+        "startChar": 11,
+        "endLine": 855,
+        "endChar": 31
+      },
+      "revId": "ef4b2bfd967c5c983499ddd106c22e19c0bf1330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_50c9ec91",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 860,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T00:32:31Z",
+      "side": 1,
+      "message": "IIRC this defaults edit to false in RevisionResource, but it could be an edit, so we have a problem in downstream view code when they test if the resource is a draft or an edit and try to determine if they are even enabled.",
+      "revId": "ef4b2bfd967c5c983499ddd106c22e19c0bf1330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_70c6f082",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T00:32:31Z",
+      "side": 1,
+      "message": "when chaining a line indent 4 spaces",
+      "revId": "ef4b2bfd967c5c983499ddd106c22e19c0bf1330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

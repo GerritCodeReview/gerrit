@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "685383fd_f0f580ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:24:43Z",
+      "side": 1,
+      "message": "JAR",
+      "range": {
+        "startLine": 9,
+        "startChar": 9,
+        "endLine": 9,
+        "endChar": 12
+      },
+      "revId": "0d9c582f49fde75faf75ede875dc2a929e4f5da0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_2fc24940",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:24:43Z",
+      "side": 1,
+      "message": "WebUiPlugin",
+      "range": {
+        "startLine": 10,
+        "startChar": 49,
+        "endLine": 10,
+        "endChar": 61
+      },
+      "revId": "0d9c582f49fde75faf75ede875dc2a929e4f5da0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_10dbe43c",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1712,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:24:43Z",
+      "side": 1,
+      "message": "additional",
+      "range": {
+        "startLine": 1712,
+        "startChar": 0,
+        "endLine": 1712,
+        "endChar": 9
+      },
+      "revId": "0d9c582f49fde75faf75ede875dc2a929e4f5da0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_4fcf8d67",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1712,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:24:43Z",
+      "side": 1,
+      "message": "graphics",
+      "range": {
+        "startLine": 1712,
+        "startChar": 42,
+        "endLine": 1712,
+        "endChar": 50
+      },
+      "revId": "0d9c582f49fde75faf75ede875dc2a929e4f5da0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_6fcc5172",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1714,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:24:43Z",
+      "side": 1,
+      "message": "should",
+      "range": {
+        "startLine": 1714,
+        "startChar": 27,
+        "endLine": 1714,
+        "endChar": 34
+      },
+      "revId": "0d9c582f49fde75faf75ede875dc2a929e4f5da0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_50e56cf8",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1715,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:24:43Z",
+      "side": 1,
+      "message": "registered",
+      "range": {
+        "startLine": 1715,
+        "startChar": 51,
+        "endLine": 1715,
+        "endChar": 60
+      },
+      "revId": "0d9c582f49fde75faf75ede875dc2a929e4f5da0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_30d8e83d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1716,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:24:43Z",
+      "side": 1,
+      "message": "missing space",
+      "range": {
+        "startLine": 1716,
+        "startChar": 0,
+        "endLine": 1716,
+        "endChar": 13
+      },
+      "revId": "0d9c582f49fde75faf75ede875dc2a929e4f5da0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_8f97b531",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ModuleGenerator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:24:43Z",
+      "side": 1,
+      "message": "This is very specific. I would instead overload listen:\n\n  bindInstance(TypeLiteral\u003c?\u003e tl, Object instance);\n\nand make the WebUiPlugin subclass in the auto registration code, and keep a map of them in the module generator.",
+      "revId": "0d9c582f49fde75faf75ede875dc2a929e4f5da0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

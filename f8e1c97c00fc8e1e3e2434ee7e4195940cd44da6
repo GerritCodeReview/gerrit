@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "48587f1a_af40f923",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T01:44:49Z",
+      "side": 1,
+      "message": "This deals with the said NumberFormatException.",
+      "range": {
+        "startLine": 214,
+        "startChar": 6,
+        "endLine": 215,
+        "endChar": 49
+      },
+      "revId": "f8e1c97c00fc8e1e3e2434ee7e4195940cd44da6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48587f1a_6f30d1cf",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
         "patchSetId": 2

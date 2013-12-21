@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48587f1a_4f6eadd8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revisions.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T00:07:54Z",
+      "side": 1,
+      "message": "I don\u0027t think we should try to do this. The SHA-1 of the edit ref under refs/edits/... is going to be moving around a lot. Its not a stable identifier for the edit workspace. It moves every time the user saves a file. Ick.\n\nFor GET on /content yes its cacheable, but I think we will almost _never_ use the SHA-1 of the edit ref changes so often. Instead we would want to use a more abstract identifier and just disable caching.\n\nWhat we should do is use the either the PatchSet.Id (\"4.edit\") or the SHA-1 of the published patch set (\"c0ffee.edit\") as the name of the edit revision.",
+      "range": {
+        "startLine": 115,
+        "startChar": 6,
+        "endLine": 123,
+        "endChar": 80
+      },
+      "revId": "8d0f655d03fc94c3a5b3d4444ced2210559daf98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

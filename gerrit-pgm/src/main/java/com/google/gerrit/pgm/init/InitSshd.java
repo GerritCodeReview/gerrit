@@ -152,4 +152,8 @@ class InitSshd implements InitStep {
       System.err.println(" done");
     }
   }
+
+  @Override
+  public void postRun() throws Exception {
+  }
 }

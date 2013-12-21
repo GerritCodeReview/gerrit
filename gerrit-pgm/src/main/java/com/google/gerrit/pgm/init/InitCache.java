@@ -54,4 +54,8 @@ class InitCache implements InitStep {
       throw die("cannot create cache.directory " + loc.getAbsolutePath());
     }
   }
+
+  @Override
+  public void postRun() throws Exception {
+  }
 }

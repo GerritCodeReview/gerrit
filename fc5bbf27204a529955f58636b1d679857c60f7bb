@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "283d0b9f_2e47a768",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/BaseInit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-21T12:30:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48587f1a_2fffa983",
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "685383fd_90e6f40a",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitHttpd.java",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "283d0b9f_4e44f361",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitHttpd.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-21T12:30:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "685383fd_90e6f40a",
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48587f1a_4ffced8c",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPlugins.java",
         "patchSetId": 4
@@ -47,6 +83,30 @@
       "writtenOn": "2013-12-21T05:17:45Z",
       "side": 1,
       "message": "We can\u0027t rely on this naming convention.",
+      "range": {
+        "startLine": 184,
+        "startChar": 4,
+        "endLine": 185,
+        "endChar": 47
+      },
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "283d0b9f_ce59c33e",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPlugins.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-21T12:30:50Z",
+      "side": 1,
+      "message": "Done\n\nI\u0027ve updated installPlugin to use PluginData object instead of simple File",
+      "parentUuid": "48587f1a_4ffced8c",
       "range": {
         "startLine": 184,
         "startChar": 4,
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "283d0b9f_6e41af50",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSecureStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-21T12:30:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48587f1a_8fb095e7",
+      "range": {
+        "startLine": 66,
+        "startChar": 35,
+        "endLine": 66,
+        "endChar": 50
+      },
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48587f1a_0f02e5d0",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpgradeFrom2_0_x.java",
         "patchSetId": 4
@@ -93,6 +177,30 @@
       "writtenOn": "2013-12-21T05:17:45Z",
       "side": 1,
       "message": "Drop this comment. Old versions only supported one password. I don\u0027t really know why we did a list here but it should be fine to do only the first value the way you implemented.",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 59
+      },
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "283d0b9f_8e789ba8",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpgradeFrom2_0_x.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-21T12:30:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48587f1a_0f02e5d0",
       "range": {
         "startLine": 138,
         "startChar": 0,
@@ -122,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "682c637b_682a8394",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpgradeFrom2_0_x.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-21T12:30:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "685383fd_105044ed",
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "685383fd_f03ae0ab",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/SiteProgram.java",
         "patchSetId": 4
@@ -133,6 +259,30 @@
       "writtenOn": "2013-12-21T05:17:45Z",
       "side": 1,
       "message": "This binding is duplicated in the blocks above, causing Guice to crash.",
+      "range": {
+        "startLine": 121,
+        "startChar": 8,
+        "endLine": 123,
+        "endChar": 24
+      },
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "682c637b_4844df61",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/SiteProgram.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-21T12:30:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "685383fd_f03ae0ab",
       "range": {
         "startLine": 121,
         "startChar": 8,
@@ -162,6 +312,24 @@
     },
     {
       "key": {
+        "uuid": "283d0b9f_ee5e7f23",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/SiteProgram.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-21T12:30:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48587f1a_ef0cc107",
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48587f1a_4fe5cdf8",
         "filename": "gerrit-pgm/src/test/java/com/google/gerrit/pgm/init/UpgradeFrom2_0_xTest.java",
         "patchSetId": 4
@@ -173,6 +341,30 @@
       "writtenOn": "2013-12-21T05:17:45Z",
       "side": 1,
       "message": "Heh. I wonder if just using a JGit Config object here is easier. It certainly would be shorter:\n\n  private final Config store \u003d new Config();",
+      "range": {
+        "startLine": 125,
+        "startChar": 4,
+        "endLine": 130,
+        "endChar": 10
+      },
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "682c637b_8855f713",
+        "filename": "gerrit-pgm/src/test/java/com/google/gerrit/pgm/init/UpgradeFrom2_0_xTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-21T12:30:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48587f1a_4fe5cdf8",
       "range": {
         "startLine": 125,
         "startChar": 4,
@@ -208,6 +400,30 @@
     },
     {
       "key": {
+        "uuid": "682c637b_a85abb40",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/secure/DefaultSecureStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-21T12:30:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "685383fd_10292471",
+      "range": {
+        "startLine": 15,
+        "startChar": 8,
+        "endLine": 15,
+        "endChar": 39
+      },
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48587f1a_2fd8893d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/secure/DefaultSecureStore.java",
         "patchSetId": 4
@@ -219,6 +435,30 @@
       "writtenOn": "2013-12-21T05:17:45Z",
       "side": 1,
       "message": "private. If someone needs this, add a getter.",
+      "range": {
+        "startLine": 33,
+        "startChar": 2,
+        "endLine": 33,
+        "endChar": 8
+      },
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "283d0b9f_ae7d5797",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/secure/DefaultSecureStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-21T12:30:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48587f1a_2fd8893d",
       "range": {
         "startLine": 33,
         "startChar": 2,
@@ -254,6 +494,30 @@
     },
     {
       "key": {
+        "uuid": "283d0b9f_ce82a33a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/secure/DefaultSecureStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-21T12:30:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "685383fd_5033acdc",
+      "range": {
+        "startLine": 36,
+        "startChar": 21,
+        "endLine": 36,
+        "endChar": 40
+      },
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "685383fd_302628a0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/secure/DefaultSecureStore.java",
         "patchSetId": 4
@@ -265,6 +529,30 @@
       "writtenOn": "2013-12-21T05:17:45Z",
       "side": 1,
       "message": "sitePaths.secure_config",
+      "range": {
+        "startLine": 37,
+        "startChar": 24,
+        "endLine": 37,
+        "endChar": 80
+      },
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "283d0b9f_ee875f47",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/secure/DefaultSecureStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-21T12:30:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "685383fd_302628a0",
       "range": {
         "startLine": 37,
         "startChar": 24,
@@ -294,6 +582,24 @@
     },
     {
       "key": {
+        "uuid": "283d0b9f_2e8a4751",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/secure/DefaultSecureStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-21T12:30:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48587f1a_6ff9b19b",
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "685383fd_b0ebf8d3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/secure/SecureStoreLoadUtil.java",
         "patchSetId": 4
@@ -305,6 +611,24 @@
       "writtenOn": "2013-12-21T05:17:45Z",
       "side": 1,
       "message": "Inner classes are usually declared at the end of the class.",
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "283d0b9f_4e979374",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/secure/SecureStoreLoadUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-21T12:30:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "685383fd_b0ebf8d3",
       "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -328,6 +652,24 @@
     },
     {
       "key": {
+        "uuid": "283d0b9f_6e944f6f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/secure/SecureStoreLoadUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-21T12:30:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48587f1a_cfba9dc5",
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48587f1a_efbf61b2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/secure/SecureStoreLoadUtil.java",
         "patchSetId": 4
@@ -339,6 +681,24 @@
       "writtenOn": "2013-12-21T05:17:45Z",
       "side": 1,
       "message": "private, expose as a getter",
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "283d0b9f_0e74aba4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/secure/SecureStoreLoadUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-21T12:30:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48587f1a_efbf61b2",
       "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -362,6 +722,24 @@
     },
     {
       "key": {
+        "uuid": "682c637b_887897a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/secure/SecureStoreLoadUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-21T12:30:50Z",
+      "side": 1,
+      "message": "This is the simplest way to programatically load additional jars in main process during run time. Other approach could be to implement specialized ClassLoader.\n\nPersonally I would go for now with this simple approach, then maybe in future implement specialized ClassLoader.",
+      "parentUuid": "48587f1a_afb559d6",
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "685383fd_d0f07cbe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/secure/SecureStoreLoadUtil.java",
         "patchSetId": 4
@@ -379,6 +757,24 @@
     },
     {
       "key": {
+        "uuid": "682c637b_a87d5b97",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/secure/SecureStoreLoadUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-21T12:30:50Z",
+      "side": 1,
+      "message": "Agree, but this would make this patch even bigger. If you are OK with that, I can refactor AutoRegisterModules.\n\nPersonally I would leave this for future improvement...",
+      "parentUuid": "685383fd_d0f07cbe",
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "685383fd_7030b0cf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/secure/SecureStorePrvider.java",
         "patchSetId": 4
@@ -390,6 +786,30 @@
       "writtenOn": "2013-12-21T05:17:45Z",
       "side": 1,
       "message": "Provider",
+      "range": {
+        "startLine": 35,
+        "startChar": 24,
+        "endLine": 35,
+        "endChar": 31
+      },
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "682c637b_c84fef81",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/secure/SecureStorePrvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-21T12:30:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "685383fd_7030b0cf",
       "range": {
         "startLine": 35,
         "startChar": 24,
@@ -425,6 +845,30 @@
     },
     {
       "key": {
+        "uuid": "283d0b9f_ae6477fb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/secure/SecureStorePrvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-21T12:30:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "685383fd_903b54b3",
+      "range": {
+        "startLine": 76,
+        "startChar": 14,
+        "endLine": 76,
+        "endChar": 22
+      },
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48587f1a_8f0df506",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/secure/SecureStorePrvider.java",
         "patchSetId": 4
@@ -436,6 +880,30 @@
       "writtenOn": "2013-12-21T05:17:45Z",
       "side": 1,
       "message": "unnecessary",
+      "range": {
+        "startLine": 87,
+        "startChar": 7,
+        "endLine": 87,
+        "endChar": 8
+      },
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "283d0b9f_8e5fbb22",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/secure/SecureStorePrvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-21T12:30:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48587f1a_8f0df506",
       "range": {
         "startLine": 87,
         "startChar": 7,
@@ -471,6 +939,30 @@
     },
     {
       "key": {
+        "uuid": "682c637b_6841a350",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AutoRegisterModules.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-21T12:30:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48587f1a_6fe291f3",
+      "range": {
+        "startLine": 185,
+        "startChar": 4,
+        "endLine": 188,
+        "endChar": 5
+      },
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48587f1a_af12b91f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 4
@@ -482,6 +974,24 @@
       "writtenOn": "2013-12-21T05:17:45Z",
       "side": 1,
       "message": "unrelated bug fix?",
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "682c637b_084ae771",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-21T12:30:50Z",
+      "side": 1,
+      "message": "Will remove this line for now",
+      "parentUuid": "48587f1a_af12b91f",
       "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -528,6 +1038,24 @@
     },
     {
       "key": {
+        "uuid": "682c637b_2847ab68",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-21T12:30:50Z",
+      "side": 1,
+      "message": "True, this seams to be a leftover. Removed whole method.",
+      "parentUuid": "685383fd_b0405824",
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "685383fd_d035dcbc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceProvider.java",
         "patchSetId": 4
@@ -539,6 +1067,24 @@
       "writtenOn": "2013-12-21T05:17:45Z",
       "side": 1,
       "message": "com.google.gerrit.server.auth.ldap.Helper also reads ldap.password from secure.config. You should patch that in this change.\n\nAuthConfig reads auth.restTokenPrivateKey and auth.registerEmailPrivateKey from secure.config. These should also be using secure store.",
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "682c637b_e854b314",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-12-21T12:30:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "685383fd_d035dcbc",
       "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

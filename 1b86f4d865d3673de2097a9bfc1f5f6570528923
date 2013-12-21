@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48587f1a_ef5e8123",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetContent.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T00:03:03Z",
+      "side": 1,
+      "message": "This is always false. You don\u0027t set the edit flag in the PatchSet.Id. Its set in the RevisionResource.\n\nSee up until this part of the series I still don\u0027t see why we need edit in PatchSet.Id. Here in the server its part of the RevisionResource handle, and that makes sense.",
+      "revId": "1b86f4d865d3673de2097a9bfc1f5f6570528923",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_0f74a5a4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetContent.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T00:03:03Z",
+      "side": 1,
+      "message": "This is the common case. It might be cleaner to do this with early return so the rest of the logic can move left one indent level:\n\n  if (!resource.isEdit()) {\n    return resource.getPatchSet().getRevision().get();\n  }\n\n  ... rest of the code",
+      "revId": "1b86f4d865d3673de2097a9bfc1f5f6570528923",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

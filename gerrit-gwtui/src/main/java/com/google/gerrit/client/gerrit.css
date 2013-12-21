@@ -586,7 +586,8 @@ a:hover {
   white-space: nowrap;
 }
 
-.changeTable .cOWNER {
+.changeTable .cOWNER,
+.changeTable .cSTATUS {
   white-space: nowrap;
 }
 

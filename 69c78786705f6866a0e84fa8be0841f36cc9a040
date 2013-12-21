@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48587f1a_cff0ddbe",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitLabels.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T03:55:22Z",
+      "side": 1,
+      "message": "Maybe \"Configure \u0027Verified\u0027 label\"?",
+      "range": {
+        "startLine": 59,
+        "startChar": 29,
+        "endLine": 59,
+        "endChar": 58
+      },
+      "revId": "69c78786705f6866a0e84fa8be0841f36cc9a040",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

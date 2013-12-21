@@ -68,6 +68,40 @@
       "revId": "e89e289cf9747b920d6c6f135f2a4d12f6caf909",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_10bf64e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraftPatchSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T00:30:31Z",
+      "side": 1,
+      "message": "or is edit?",
+      "revId": "e89e289cf9747b920d6c6f135f2a4d12f6caf909",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_efb0410d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraftPatchSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T00:30:31Z",
+      "side": 1,
+      "message": "this may need to know about edits",
+      "revId": "e89e289cf9747b920d6c6f135f2a4d12f6caf909",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

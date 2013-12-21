@@ -43,6 +43,7 @@ public interface GerritCss extends CssResource {
   String cOWNER();
   String cSIZE();
   String cSUBJECT();
+  String cSTATUS();
   String cellsNextToFileComment();
   String changeComments();
   String changeInfoBlock();

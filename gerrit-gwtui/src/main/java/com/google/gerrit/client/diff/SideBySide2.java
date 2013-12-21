@@ -119,6 +119,8 @@ public class SideBySide2 extends Screen {
   private final PatchSet.Id base;
   private final PatchSet.Id revision;
   private final String path;
+  private final DisplaySide startSide;
+  private final int startLine;
   private DiffPreferences prefs;
 
   private CodeMirror cmA;
@@ -155,11 +157,15 @@ public class SideBySide2 extends Screen {
   public SideBySide2(
       PatchSet.Id base,
       PatchSet.Id revision,
-      String path) {
+      String path,
+      DisplaySide startSide,
+      int startLine) {
     this.base = base;
     this.revision = revision;
     this.changeId = revision.getParentKey();
     this.path = path;
+    this.startSide = startSide;
+    this.startLine = startLine;
 
     prefs = DiffPreferences.create(Gerrit.getAccountDiffPreference());
     unsaved = new HashSet<DraftBox>();
@@ -267,7 +273,15 @@ public class SideBySide2 extends Screen {
     });
     diffTable.sidePanel.adjustGutters(cmB);
 
-    if (diff.meta_b() != null) {
+    if (startSide != null && startLine > 0) {
+      int line = startLine - 1;
+      CodeMirror cm = getCmFromSide(startSide);
+      if (cm.lineAtHeight(height - 20) < line) {
+        cm.scrollToY(cm.heightAtLine(line, "local") - 0.5 * height);
+      }
+      cm.setCursor(LineCharacter.create(line));
+      cm.focus();
+    } else if (diff.meta_b() != null) {
       int line = 0;
       if (!diffChunks.isEmpty()) {
         DiffChunkInfo d = diffChunks.get(0);

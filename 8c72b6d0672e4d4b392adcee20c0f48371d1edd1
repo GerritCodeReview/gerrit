@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "283d0b9f_2e7167b5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-21T21:10:37Z",
+      "side": 1,
+      "message": "Originally this code was spread its own REST endpoint classes. I intentionally put them all together, just to see how much of it content is (re-)used from different REST endpoints. The last version of this file take care of publishing, deleting, restoring and adding the files to revision edit.\n\nAnother aspect is, that at least for two REST endpoints: publish and delete we havn\u0027t created revision edit specific classes, but added the handling code to existing draft patch set enpoints. To not bury the revision code there, i decided to put it here.\n\nAnother aspect is, that we support more channels then only REST endpoints: SSH commands, Plugin API and unit tests.",
+      "parentUuid": "48587f1a_0f4ae571",
+      "revId": "8c72b6d0672e4d4b392adcee20c0f48371d1edd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48587f1a_2f47a968",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
         "patchSetId": 16
@@ -30,6 +48,24 @@
       "writtenOn": "2013-12-20T23:25:11Z",
       "side": 1,
       "message": "Use the same RevWalk that is used below.",
+      "revId": "8c72b6d0672e4d4b392adcee20c0f48371d1edd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "283d0b9f_4e6eb3d8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-21T21:10:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48587f1a_2f47a968",
       "revId": "8c72b6d0672e4d4b392adcee20c0f48371d1edd1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "283d0b9f_8eca5b8c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-21T21:10:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "685383fd_104a0472",
+      "revId": "8c72b6d0672e4d4b392adcee20c0f48371d1edd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "685383fd_30470869",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
         "patchSetId": 16
@@ -64,6 +118,24 @@
       "writtenOn": "2013-12-20T23:25:11Z",
       "side": 1,
       "message": "Git update with ru.execute() must happen before the insert of the database record. ReceiveCommits updates Git then database, and relies on Git to provide atomic assignment of patch set numbers.",
+      "revId": "8c72b6d0672e4d4b392adcee20c0f48371d1edd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "682c637b_088d8768",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-21T21:10:37Z",
+      "side": 1,
+      "message": "This code was broken. It was related to the LOCK_FAILURE error on line 125, even then the new patch set was created. It has tried to create th refs twice: once on line 116 inside PatchSetInserter and on line 118. I removed ReceiveCommand and doing update refs only from PatchSetInserter.\n\nru.update() on line 118 is only deletes old revision edit that is now published.",
+      "parentUuid": "685383fd_30470869",
       "revId": "8c72b6d0672e4d4b392adcee20c0f48371d1edd1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -93,6 +165,30 @@
     },
     {
       "key": {
+        "uuid": "682c637b_288a4b51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-21T21:10:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48587f1a_4f44ed61",
+      "range": {
+        "startLine": 124,
+        "startChar": 12,
+        "endLine": 125,
+        "endChar": 68
+      },
+      "revId": "8c72b6d0672e4d4b392adcee20c0f48371d1edd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "685383fd_50448c61",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
         "patchSetId": 16
@@ -110,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "283d0b9f_aecf179b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-21T21:10:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "685383fd_50448c61",
+      "revId": "8c72b6d0672e4d4b392adcee20c0f48371d1edd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "685383fd_70419050",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
         "patchSetId": 16
@@ -121,6 +235,30 @@
       "writtenOn": "2013-12-20T23:25:11Z",
       "side": 1,
       "message": "Keep the Map\u003cString, Ref\u003e and use the Ref object in the loop below to supply the RevisionEdit the ObjectId. That way we don\u0027t have to call getRef() in the caller if we need the SHA-1.\n\nOn local disk Git getRef() will require an lstat() on each path, an acceptable cost. On gerrit-review getRef() is not going to be very fast. Its better if we can just thread in the ObjectId to the RevisionEdit here.",
+      "range": {
+        "startLine": 188,
+        "startChar": 6,
+        "endLine": 191,
+        "endChar": 23
+      },
+      "revId": "8c72b6d0672e4d4b392adcee20c0f48371d1edd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "682c637b_48977f74",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-21T21:10:37Z",
+      "side": 1,
+      "message": "In the most recent ps of this series i changed this method to return Map\u003cPatchSet.Id, PatchSet\u003e, because it simplified the handlin. I have to revisit how your comment applies on the changed method signature.\n\nSill TODO.",
+      "parentUuid": "685383fd_70419050",
       "range": {
         "startLine": 188,
         "startChar": 6,
@@ -156,6 +294,30 @@
     },
     {
       "key": {
+        "uuid": "682c637b_6894436f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-21T21:10:37Z",
+      "side": 1,
+      "message": "Ok. So I would move the String interface higher in the call stack and change it to byte[] here.\n\nStill TODO.",
+      "parentUuid": "48587f1a_6f41b150",
+      "range": {
+        "startLine": 205,
+        "startChar": 6,
+        "endLine": 205,
+        "endChar": 20
+      },
+      "revId": "8c72b6d0672e4d4b392adcee20c0f48371d1edd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "685383fd_9078b4a8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
         "patchSetId": 16
@@ -167,6 +329,30 @@
       "writtenOn": "2013-12-20T23:25:11Z",
       "side": 1,
       "message": "I think you can do this:\n\n  DirCache d \u003d DirCache.newInCore();\n  DirCacheBuilder b \u003d d.builder();\n  b.addTree(new byte[0], 0, reader, tree);\n  b.finish();\n    \n  d.editor().add(new PathEdit());",
+      "range": {
+        "startLine": 290,
+        "startChar": 4,
+        "endLine": 292,
+        "endChar": 23
+      },
+      "revId": "8c72b6d0672e4d4b392adcee20c0f48371d1edd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "283d0b9f_ced4632e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-21T21:10:37Z",
+      "side": 1,
+      "message": "In the recent ps of this series this method is also takes care of deleteing and restoring files in the revision edit.\nAnd TreeOperation enum differentiate what is actually to do.\n\nStill TODO.",
+      "parentUuid": "685383fd_9078b4a8",
       "range": {
         "startLine": 290,
         "startChar": 4,

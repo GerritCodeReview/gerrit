@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48587f1a_8f141527",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T00:33:33Z",
+      "side": 1,
+      "message": "squash earlier in the series when apply() learned how to work on an edit",
+      "revId": "356a59e03cf78194bb33c7f617f3deeadbda3875",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

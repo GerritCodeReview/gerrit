@@ -1,0 +1,547 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48587f1a_2fffa983",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/BaseInit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:17:45Z",
+      "side": 1,
+      "message": "I think you need a .in(Scopes.SINGLETON) here to ensure the SecureStore is only created once. Marking the provider @Singleton means the provider itself is only created once by Guice. The object type it makes must also be @Singleton (or in Scopes.SINGLETON) to be created only once by the provider.",
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_90e6f40a",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitHttpd.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:17:45Z",
+      "side": 1,
+      "message": "Change JettyServer to read from the secure store.",
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_4ffced8c",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPlugins.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:17:45Z",
+      "side": 1,
+      "message": "We can\u0027t rely on this naming convention.",
+      "range": {
+        "startLine": 184,
+        "startChar": 4,
+        "endLine": 185,
+        "endChar": 47
+      },
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_8fb095e7",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSecureStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:17:45Z",
+      "side": 1,
+      "message": "Use Sets.newTreeSet() so the list is sorted in ?",
+      "range": {
+        "startLine": 66,
+        "startChar": 35,
+        "endLine": 66,
+        "endChar": 50
+      },
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_0f02e5d0",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpgradeFrom2_0_x.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:17:45Z",
+      "side": 1,
+      "message": "Drop this comment. Old versions only supported one password. I don\u0027t really know why we did a list here but it should be fine to do only the first value the way you implemented.",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 59
+      },
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_105044ed",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpgradeFrom2_0_x.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:17:45Z",
+      "side": 1,
+      "message": "Change SmtpEmailSender too.",
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_f03ae0ab",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/SiteProgram.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:17:45Z",
+      "side": 1,
+      "message": "This binding is duplicated in the blocks above, causing Guice to crash.",
+      "range": {
+        "startLine": 121,
+        "startChar": 8,
+        "endLine": 123,
+        "endChar": 24
+      },
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_ef0cc107",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/SiteProgram.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:17:45Z",
+      "side": 1,
+      "message": "Duplicated in blocks above.",
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_4fe5cdf8",
+        "filename": "gerrit-pgm/src/test/java/com/google/gerrit/pgm/init/UpgradeFrom2_0_xTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:17:45Z",
+      "side": 1,
+      "message": "Heh. I wonder if just using a JGit Config object here is easier. It certainly would be shorter:\n\n  private final Config store \u003d new Config();",
+      "range": {
+        "startLine": 125,
+        "startChar": 4,
+        "endLine": 130,
+        "endChar": 10
+      },
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_10292471",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/secure/DefaultSecureStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:17:45Z",
+      "side": 1,
+      "message": "I would prefer com.google.gerrit.server.securestore",
+      "range": {
+        "startLine": 15,
+        "startChar": 8,
+        "endLine": 15,
+        "endChar": 39
+      },
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_2fd8893d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/secure/DefaultSecureStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:17:45Z",
+      "side": 1,
+      "message": "private. If someone needs this, add a getter.",
+      "range": {
+        "startLine": 33,
+        "startChar": 2,
+        "endLine": 33,
+        "endChar": 8
+      },
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_5033acdc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/secure/DefaultSecureStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:17:45Z",
+      "side": 1,
+      "message": "Use SitePaths instead of @SitePath File.",
+      "range": {
+        "startLine": 36,
+        "startChar": 21,
+        "endLine": 36,
+        "endChar": 40
+      },
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_302628a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/secure/DefaultSecureStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:17:45Z",
+      "side": 1,
+      "message": "sitePaths.secure_config",
+      "range": {
+        "startLine": 37,
+        "startChar": 24,
+        "endLine": 37,
+        "endChar": 80
+      },
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_6ff9b19b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/secure/DefaultSecureStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:17:45Z",
+      "side": 1,
+      "message": "You need the code you deleted from InitUtil.saveSecure() here. JGit FileBasedConfig writes to a temp file and renames over the target. The temp file is created with insecure permissions by default.",
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_b0ebf8d3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/secure/SecureStoreLoadUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:17:45Z",
+      "side": 1,
+      "message": "Inner classes are usually declared at the end of the class.",
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_cfba9dc5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/secure/SecureStoreLoadUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:17:45Z",
+      "side": 1,
+      "message": "private, expose as a getter.",
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_efbf61b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/secure/SecureStoreLoadUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:17:45Z",
+      "side": 1,
+      "message": "private, expose as a getter",
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_afb559d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/secure/SecureStoreLoadUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:17:45Z",
+      "side": 1,
+      "message": "Is it really necessary to change the context class loader?",
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_d0f07cbe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/secure/SecureStoreLoadUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:17:45Z",
+      "side": 1,
+      "message": "This is sad. Its duplicating a lot of logic from the AutoRegisterModules, and missing even more. I wonder if we can refactor AutoRegisterModules to support some variant of GuicePluginEnvironment that returns true from hasDynamic{Item,Set,Map} for any input name and thus allows itself to be used early during startup before the real set of supported names is known.\n\nInstead of doing makeSystemModule() this variant would need to just give us access to the binding data, so we can look for the SecureStore type.",
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_7030b0cf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/secure/SecureStorePrvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:17:45Z",
+      "side": 1,
+      "message": "Provider",
+      "range": {
+        "startLine": 35,
+        "startChar": 24,
+        "endLine": 35,
+        "endChar": 31
+      },
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_903b54b3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/secure/SecureStorePrvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:17:45Z",
+      "side": 1,
+      "message": "Be consistent about inner class references. Here you use Metadata but above you use SecureStoreLoadUtil.Metadata. In this case I am OK with either form in the class but want them to be consistent within the ~60 lines of code you have.",
+      "range": {
+        "startLine": 76,
+        "startChar": 14,
+        "endLine": 76,
+        "endChar": 22
+      },
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_8f0df506",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/secure/SecureStorePrvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:17:45Z",
+      "side": 1,
+      "message": "unnecessary",
+      "range": {
+        "startLine": 87,
+        "startChar": 7,
+        "endLine": 87,
+        "endChar": 8
+      },
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_6fe291f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AutoRegisterModules.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:17:45Z",
+      "side": 1,
+      "message": "Urgh. Yea I see you need to skip this to prevent throwing below, and we really don\u0027t need a DynamicSet/DynamicMap of these at runtime. I think it might be cleaner to declare the DynamicSet.of(SecoreStore.class) anyway in GerritGlobalModule than to have this special case here.",
+      "range": {
+        "startLine": 185,
+        "startChar": 4,
+        "endLine": 188,
+        "endChar": 5
+      },
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_af12b91f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:17:45Z",
+      "side": 1,
+      "message": "unrelated bug fix?",
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_cf07fde0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:17:45Z",
+      "side": 1,
+      "message": "You can\u0027t rely on this. The OS+JVM decide the temporary naming pattern.",
+      "range": {
+        "startLine": 569,
+        "startChar": 40,
+        "endLine": 569,
+        "endChar": 65
+      },
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_b0405824",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:17:45Z",
+      "side": 1,
+      "message": "Really? Should we rename the method obtainEmptyStringConstant?",
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_d035dcbc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:17:45Z",
+      "side": 1,
+      "message": "com.google.gerrit.server.auth.ldap.Helper also reads ldap.password from secure.config. You should patch that in this change.\n\nAuthConfig reads auth.restTokenPrivateKey and auth.registerEmailPrivateKey from secure.config. These should also be using secure store.",
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

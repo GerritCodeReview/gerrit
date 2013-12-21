@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "685383fd_7047d035",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-21T05:17:45Z",
+      "side": 0,
+      "message": "Move this method into the DefaultSecureStore.",
+      "revId": "342781e1818a4c2c7c5c19548ae3128cfab3c89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

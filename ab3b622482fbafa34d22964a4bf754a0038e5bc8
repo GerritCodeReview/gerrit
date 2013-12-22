@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "283d0b9f_ce1e2345",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Publish.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-22T23:19:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "685383fd_1074c4a4",
+      "revId": "ab3b622482fbafa34d22964a4bf754a0038e5bc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48587f1a_afb63907",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Publish.java",
         "patchSetId": 7
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "682c637b_68c60383",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Publish.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-22T23:19:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48587f1a_afb63907",
+      "range": {
+        "startLine": 152,
+        "startChar": 33,
+        "endLine": 152,
+        "endChar": 52
+      },
+      "revId": "ab3b622482fbafa34d22964a4bf754a0038e5bc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48587f1a_8fb17514",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Publish.java",
         "patchSetId": 7
@@ -53,6 +95,24 @@
       "writtenOn": "2013-12-21T00:30:08Z",
       "side": 1,
       "message": "or is edit?",
+      "revId": "ab3b622482fbafa34d22964a4bf754a0038e5bc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "682c637b_88b17714",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Publish.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-22T23:19:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48587f1a_8fb17514",
       "revId": "ab3b622482fbafa34d22964a4bf754a0038e5bc8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

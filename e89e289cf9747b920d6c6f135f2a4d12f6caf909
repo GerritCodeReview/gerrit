@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "283d0b9f_8e141b27",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraftPatchSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-22T22:58:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "685383fd_f05e6023",
+      "range": {
+        "startLine": 47,
+        "startChar": 37,
+        "endLine": 47,
+        "endChar": 40
+      },
+      "revId": "e89e289cf9747b920d6c6f135f2a4d12f6caf909",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "685383fd_d0595c3e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraftPatchSet.java",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2013-12-20T23:52:20Z",
       "side": 1,
       "message": "put this into a deleteDraft(rsrc) method and call it from the else block.",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 27
+      },
+      "revId": "e89e289cf9747b920d6c6f135f2a4d12f6caf909",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "682c637b_e8d91365",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraftPatchSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-22T22:58:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "685383fd_d0595c3e",
       "range": {
         "startLine": 75,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "682c637b_08bf47e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraftPatchSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-22T22:58:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "685383fd_b064d8fb",
+      "range": {
+        "startLine": 108,
+        "startChar": 40,
+        "endLine": 108,
+        "endChar": 45
+      },
+      "revId": "e89e289cf9747b920d6c6f135f2a4d12f6caf909",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "685383fd_10bf64e4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraftPatchSet.java",
         "patchSetId": 5
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "283d0b9f_ae19d75f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraftPatchSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-22T22:58:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "685383fd_10bf64e4",
+      "revId": "e89e289cf9747b920d6c6f135f2a4d12f6caf909",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48587f1a_efb0410d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraftPatchSet.java",
         "patchSetId": 5
@@ -99,6 +189,24 @@
       "writtenOn": "2013-12-21T00:30:31Z",
       "side": 1,
       "message": "this may need to know about edits",
+      "revId": "e89e289cf9747b920d6c6f135f2a4d12f6caf909",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "682c637b_28bc0bed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraftPatchSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-22T22:58:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48587f1a_efb0410d",
       "revId": "e89e289cf9747b920d6c6f135f2a4d12f6caf909",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

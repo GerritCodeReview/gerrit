@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "682c637b_486e9fd8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-22T22:38:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48587f1a_af6479fb",
+      "revId": "bd050b49349fa1996bba635b9550496952786947",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "685383fd_506e4cd8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2013-12-20T23:56:55Z",
       "side": 1,
       "message": "See my comments earlier in the series about using the Map\u003cString,Ref\u003e here to get the ObjectId without calling getRef() again.",
+      "revId": "bd050b49349fa1996bba635b9550496952786947",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "283d0b9f_4ea073ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-22T22:38:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "685383fd_506e4cd8",
       "revId": "bd050b49349fa1996bba635b9550496952786947",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

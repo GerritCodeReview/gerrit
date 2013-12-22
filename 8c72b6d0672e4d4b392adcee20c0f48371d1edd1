@@ -142,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "283d0b9f_6e9d2f7b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-22T22:41:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "685383fd_30470869",
+      "revId": "8c72b6d0672e4d4b392adcee20c0f48371d1edd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48587f1a_4f44ed61",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
         "patchSetId": 16
@@ -271,6 +289,30 @@
     },
     {
       "key": {
+        "uuid": "682c637b_a8cf1b9b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-22T22:41:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "685383fd_70419050",
+      "range": {
+        "startLine": 188,
+        "startChar": 6,
+        "endLine": 191,
+        "endChar": 23
+      },
+      "revId": "8c72b6d0672e4d4b392adcee20c0f48371d1edd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48587f1a_6f41b150",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
         "patchSetId": 16
@@ -318,6 +360,30 @@
     },
     {
       "key": {
+        "uuid": "682c637b_0874a7a4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-22T22:41:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "682c637b_6894436f",
+      "range": {
+        "startLine": 205,
+        "startChar": 6,
+        "endLine": 205,
+        "endChar": 20
+      },
+      "revId": "8c72b6d0672e4d4b392adcee20c0f48371d1edd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "685383fd_9078b4a8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
         "patchSetId": 16
@@ -352,6 +418,30 @@
       "writtenOn": "2013-12-21T21:10:37Z",
       "side": 1,
       "message": "In the recent ps of this series this method is also takes care of deleteing and restoring files in the revision edit.\nAnd TreeOperation enum differentiate what is actually to do.\n\nStill TODO.",
+      "parentUuid": "685383fd_9078b4a8",
+      "range": {
+        "startLine": 290,
+        "startChar": 4,
+        "endLine": 292,
+        "endChar": 23
+      },
+      "revId": "8c72b6d0672e4d4b392adcee20c0f48371d1edd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "283d0b9f_6ec60f83",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-22T22:41:04Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "685383fd_9078b4a8",
       "range": {
         "startLine": 290,

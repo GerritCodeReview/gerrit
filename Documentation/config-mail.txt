@@ -181,6 +181,14 @@ $patchSetInfo::
 +
 A reference to the current `PatchSetInfo`.
 
+$score::
++
+Integer value of the Code Review `score`.
+
+$isSubmit::
++
+Boolean value to check if the change is submitted.
+
 
 == See Also
 

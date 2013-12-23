@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.StarredChange;
 import com.google.gerrit.server.ApprovalsUtil.ReviewerState;
 import com.google.gerrit.server.IdentifiedUser;
@@ -49,6 +50,7 @@ import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -65,6 +67,9 @@ public abstract class ChangeEmail extends NotificationEmail {
   protected ChangeData changeData;
   protected Set<Account.Id> authors;
   protected boolean emailOnlyAuthors;
+  protected List<PatchSetApproval> patchSetApproval;
+  protected short score;
+  protected boolean isSubmit;
 
   private SetMultimap<ReviewerState, Account.Id> reviewers;
 
@@ -151,6 +156,22 @@ public abstract class ChangeEmail extends NotificationEmail {
         patchSetInfo = args.patchSetInfoFactory.get(args.db.get(), patchSet.getId());
       } catch (PatchSetInfoNotAvailableException err) {
         patchSetInfo = null;
+      }
+    }
+
+    if (patchSetApproval == null) {
+      try {
+        patchSetApproval =
+            args.db.get().patchSetApprovals().byChange(change.getId()).toList();
+        for (PatchSetApproval psa : patchSetApproval) {
+          if (psa.getPatchSetId().equals(change.currentPatchSetId())) {
+            isSubmit = psa.isSubmit();
+            score = psa.getValue();
+          }
+        }
+      } catch (OrmException e) {
+        patchSetApproval = null;
+        e.printStackTrace();
       }
     }
     authors = getAuthors();
@@ -376,6 +397,8 @@ public abstract class ChangeEmail extends NotificationEmail {
     velocityContext.put("fromName", getNameFor(fromId));
     velocityContext.put("patchSet", patchSet);
     velocityContext.put("patchSetInfo", patchSetInfo);
+    velocityContext.put("score", score);
+    velocityContext.put("isSubmit", isSubmit);
   }
 
   public boolean getIncludeDiff() {

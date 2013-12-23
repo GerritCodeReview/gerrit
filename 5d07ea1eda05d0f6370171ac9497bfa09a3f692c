@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "283d0b9f_eef59fab",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/SiteProgram.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-12-23T09:11:38Z",
+      "side": 1,
+      "message": "here need \u0027in(Scopes.SINGLETON)\u0027 too ?",
+      "range": {
+        "startLine": 122,
+        "startChar": 8,
+        "endLine": 122,
+        "endChar": 12
+      },
+      "revId": "5d07ea1eda05d0f6370171ac9497bfa09a3f692c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "682c637b_4833ffdc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/RevisionEditIT.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-23T09:37:37Z",
+      "side": 1,
+      "message": "The other test case is missing, restoring a file from published patch set and wouldn\u0027t work with the current code base:\n\n* add file to ps_1 and publish it\n* retrieve the current ps for the change\n* delete the file in ps_2 and publish it\n* retrieve the current ps for the change\n* restore the file in a new revision edit, based on ps_2 (recent published patch set), where the file was deleted",
+      "revId": "fdb4f6a437e731d79b3be7d97f36098c48099662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "682c637b_2826cb9f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-23T09:37:37Z",
+      "side": 1,
+      "message": "Two cases must be considered:\n\n* file was deleted in published patch set, this revision edit is based on\n* file was deleted in the current revision edit, that is going to be replaced by the new one\n\nIn the former case, base.parent(0) must be used, in the later base commit can be used to restore the file\u0027s object id.",
+      "revId": "fdb4f6a437e731d79b3be7d97f36098c48099662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

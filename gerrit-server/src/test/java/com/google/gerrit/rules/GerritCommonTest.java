@@ -85,7 +85,6 @@ public class GerritCommonTest extends PrologTestCase {
             new Account.Id(2),
             new Branch.NameKey(localKey, "refs/heads/master"),
             TimeUtil.nowTs());
-    env.set(StoredValues.CHANGE, change);
     env.set(StoredValues.CHANGE_CONTROL, util.user(local).controlFor(change));
   }
 

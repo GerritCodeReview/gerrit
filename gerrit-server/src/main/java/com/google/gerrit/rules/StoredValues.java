@@ -48,7 +48,6 @@ import java.util.Map;
 
 public final class StoredValues {
   public static final StoredValue<ReviewDb> REVIEW_DB = create(ReviewDb.class);
-  public static final StoredValue<Change> CHANGE = create(Change.class);
   public static final StoredValue<ChangeData> CHANGE_DATA = create(ChangeData.class);
   public static final StoredValue<PatchSet> PATCH_SET = create(PatchSet.class);
   public static final StoredValue<ChangeControl> CHANGE_CONTROL = create(ChangeControl.class);
@@ -56,7 +55,7 @@ public final class StoredValues {
   public static final StoredValue<PatchSetInfo> PATCH_SET_INFO = new StoredValue<PatchSetInfo>() {
     @Override
     public PatchSetInfo createValue(Prolog engine) {
-      Change change = StoredValues.CHANGE.get(engine);
+      Change change = StoredValues.CHANGE_DATA.get(engine).getChange();
       PatchSet ps = StoredValues.PATCH_SET.get(engine);
       PrologEnvironment env = (PrologEnvironment) engine.control;
       PatchSetInfoFactory patchInfoFactory =
@@ -75,7 +74,7 @@ public final class StoredValues {
       PrologEnvironment env = (PrologEnvironment) engine.control;
       PatchSetInfo psInfo = StoredValues.PATCH_SET_INFO.get(engine);
       PatchListCache plCache = env.getArgs().getPatchListCache();
-      Change change = StoredValues.CHANGE.get(engine);
+      Change change = StoredValues.CHANGE_DATA.get(engine).getChange();
       Project.NameKey projectKey = change.getProject();
       ObjectId a = null;
       ObjectId b = ObjectId.fromString(psInfo.getRevId());
@@ -96,7 +95,7 @@ public final class StoredValues {
     public Repository createValue(Prolog engine) {
       PrologEnvironment env = (PrologEnvironment) engine.control;
       GitRepositoryManager gitMgr = env.getArgs().getGitRepositoryManager();
-      Change change = StoredValues.CHANGE.get(engine);
+      Change change = StoredValues.CHANGE_DATA.get(engine).getChange();
       Project.NameKey projectKey = change.getProject();
       final Repository repo;
       try {

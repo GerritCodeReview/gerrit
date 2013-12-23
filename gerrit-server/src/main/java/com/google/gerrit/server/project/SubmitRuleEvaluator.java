@@ -14,8 +14,9 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.collect.Lists;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -70,7 +71,7 @@ public class SubmitRuleEvaluator {
    */
   public SubmitRuleEvaluator(ReviewDb db, PatchSet patchSet,
       ProjectControl projectControl,
-      ChangeControl changeControl, Change change, @Nullable ChangeData cd,
+      ChangeControl changeControl, Change change, ChangeData cd,
       boolean fastEvalLabels,
       String userRuleLocatorName, String userRuleWrapperName,
       String filterRuleLocatorName, String filterRuleWrapperName) {
@@ -95,7 +96,7 @@ public class SubmitRuleEvaluator {
    */
   public SubmitRuleEvaluator(ReviewDb db, PatchSet patchSet,
       ProjectControl projectControl,
-      ChangeControl changeControl, Change change, @Nullable ChangeData cd,
+      ChangeControl changeControl, Change change, ChangeData cd,
       boolean fastEvalLabels,
       String userRuleLocatorName, String userRuleWrapperName,
       String filterRuleLocatorName, String filterRuleWrapperName,
@@ -105,7 +106,7 @@ public class SubmitRuleEvaluator {
     this.projectControl = projectControl;
     this.changeControl = changeControl;
     this.change = change;
-    this.cd = cd;
+    this.cd = checkNotNull(cd, "ChangeData");
     this.fastEvalLabels = fastEvalLabels;
     this.userRuleLocatorName = userRuleLocatorName;
     this.userRuleWrapperName = userRuleWrapperName;
@@ -182,7 +183,6 @@ public class SubmitRuleEvaluator {
           + getProjectName(), err);
     }
     env.set(StoredValues.REVIEW_DB, db);
-    env.set(StoredValues.CHANGE, change);
     env.set(StoredValues.CHANGE_DATA, cd);
     env.set(StoredValues.PATCH_SET, patchSet);
     env.set(StoredValues.CHANGE_CONTROL, changeControl);

@@ -31,7 +31,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.RulesCache;
-import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupMembership;
@@ -42,9 +41,12 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
@@ -119,6 +121,7 @@ public class Util {
   private final Map<Project.NameKey, ProjectState> all;
   private final ProjectCache projectCache;
   private final CapabilityControl.Factory capabilityControlFactory;
+  private final ChangeControl.AssistedFactory changeControlFactory;
   private final PermissionCollection.Factory sectionSorter;
   private final GitRepositoryManager repoManager;
 
@@ -190,8 +193,13 @@ public class Util {
       protected void configure() {
         bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(
             new Config());
+        bind(GitRepositoryManager.class).toInstance(repoManager);
+        bind(PatchListCache.class)
+            .toProvider(Providers.<PatchListCache> of(null));
 
         factory(CapabilityControl.Factory.class);
+        factory(ChangeControl.AssistedFactory.class);
+        factory(ChangeData.Factory.class);
         bind(ProjectCache.class).toInstance(projectCache);
       }
     });
@@ -201,6 +209,8 @@ public class Util {
     sectionSorter = new PermissionCollection.Factory(new SectionSortCache(c));
     capabilityControlFactory =
         injector.getInstance(CapabilityControl.Factory.class);
+    changeControlFactory =
+      injector.getInstance(ChangeControl.AssistedFactory.class);
   }
 
   public ProjectConfig getParentConfig() {
@@ -234,7 +244,7 @@ public class Util {
 
     return new ProjectControl(Collections.<AccountGroup.UUID> emptySet(),
         Collections.<AccountGroup.UUID> emptySet(), projectCache,
-        sectionSorter, null, new ApprovalsUtil(), canonicalWebUrl,
+        sectionSorter, null, changeControlFactory, canonicalWebUrl,
         new MockUser(name, memberOf), newProjectState(local));
   }
 

@@ -35,6 +35,8 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
 import com.googlecode.prolog_cafe.lang.ListTerm;
@@ -167,6 +169,10 @@ public class ChangeControl {
     }
   }
 
+  interface AssistedFactory {
+    ChangeControl create(RefControl refControl, Change change);
+  }
+
   /**
    * Exception thrown when the label term of a submit record
    * unexpectedly didn't contain a user term.
@@ -181,18 +187,25 @@ public class ChangeControl {
   }
 
   private final ApprovalsUtil approvalsUtil;
+  private final ChangeData.Factory changeDataFactory;
   private final RefControl refControl;
   private final Change change;
 
-  ChangeControl(ApprovalsUtil au, RefControl r, Change c) {
-    this.approvalsUtil = au;
-    this.refControl = r;
-    this.change = c;
+  @AssistedInject
+  ChangeControl(
+      ApprovalsUtil approvalsUtil,
+      ChangeData.Factory changeDataFactory,
+      @Assisted RefControl refControl,
+      @Assisted Change change) {
+    this.approvalsUtil = approvalsUtil;
+    this.changeDataFactory = changeDataFactory;
+    this.refControl = refControl;
+    this.change = change;
   }
 
   public ChangeControl forUser(final CurrentUser who) {
-    return new ChangeControl(approvalsUtil, getRefControl().forUser(who),
-        getChange());
+    return new ChangeControl(approvalsUtil, changeDataFactory,
+        getRefControl().forUser(who), change);
   }
 
   public RefControl getRefControl() {
@@ -327,9 +340,7 @@ public class ChangeControl {
   public boolean isReviewer(ReviewDb db, @Nullable ChangeData cd)
       throws OrmException {
     if (getCurrentUser().isIdentifiedUser()) {
-      Collection<Account.Id> results = cd != null
-          ? cd.reviewers().values()
-          : approvalsUtil.getReviewers(db, change.getId()).values();
+      Collection<Account.Id> results = changeData(db, cd).reviewers().values();
       IdentifiedUser user = (IdentifiedUser) getCurrentUser();
       return results.contains(user.getAccountId());
     }
@@ -410,6 +421,7 @@ public class ChangeControl {
       return ruleError("Patch set " + patchSet.getPatchSetId() + " is not current");
     }
 
+    cd = changeData(db, cd);
     if ((change.getStatus() == Change.Status.DRAFT || patchSet.isDraft())
         && !allowDraft) {
       return cannotSubmitDraft(db, patchSet, cd);
@@ -449,7 +461,7 @@ public class ChangeControl {
   }
 
   private List<SubmitRecord> cannotSubmitDraft(ReviewDb db, PatchSet patchSet,
-      ChangeData cd) {
+      @Nullable ChangeData cd) {
     try {
       if (!isDraftVisible(db, cd)) {
         return ruleError("Patch set " + patchSet.getPatchSetId() + " not found");
@@ -555,6 +567,7 @@ public class ChangeControl {
 
   public SubmitTypeRecord getSubmitTypeRecord(ReviewDb db, PatchSet patchSet,
       @Nullable ChangeData cd) {
+    cd = changeData(db, cd);
     try {
       if (change.getStatus() == Change.Status.DRAFT && !isDraftVisible(db, cd)) {
         return typeRuleError("Patch set " + patchSet.getPatchSetId()
@@ -655,6 +668,10 @@ public class ChangeControl {
     rec.status = SubmitTypeRecord.Status.RULE_ERROR;
     rec.errorMessage = err;
     return rec;
+  }
+
+  private ChangeData changeData(ReviewDb db, @Nullable ChangeData cd) {
+    return cd != null ? cd : changeDataFactory.create(db, change);
   }
 
   private void appliedBy(SubmitRecord.Label label, Term status)

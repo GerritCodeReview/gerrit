@@ -40,7 +40,7 @@ public class PRED_change_owner_1 extends Predicate.P1 {
     engine.setB0();
     Term a1 = arg1.dereference();
 
-    Change change = StoredValues.CHANGE.get(engine);
+    Change change = StoredValues.CHANGE_DATA.get(engine).getChange();
     Account.Id ownerId = change.getOwner();
 
     if (!a1.unify(new StructureTerm(user, new IntegerTerm(ownerId.get())), engine.trail)) {

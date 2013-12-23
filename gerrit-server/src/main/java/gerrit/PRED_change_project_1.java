@@ -36,7 +36,7 @@ public class PRED_change_project_1 extends Predicate.P1 {
     engine.setB0();
     Term a1 = arg1.dereference();
 
-    Change change = StoredValues.CHANGE.get(engine);
+    Change change = StoredValues.CHANGE_DATA.get(engine).getChange();
     Project.NameKey name = change.getProject();
 
     if (!a1.unify(SymbolTerm.create(name.get()), engine.trail)) {

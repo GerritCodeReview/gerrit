@@ -15,16 +15,22 @@
 package com.google.gerrit.acceptance;
 
 import com.google.common.base.Charsets;
+import com.google.common.base.Preconditions;
+import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.server.OutputFormat;
 
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.BufferedHttpEntity;
+import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.message.BasicHeader;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class RestSession extends HttpSession {
 
@@ -53,6 +59,17 @@ public class RestSession extends HttpSession {
     return new RestResponse(getClient().execute(put));
   }
 
+  public RestResponse putRaw(String endPoint, RawInput stream) throws IOException {
+    Preconditions.checkNotNull(stream);
+    HttpPut put = new HttpPut(url + "/a" + endPoint);
+    put.addHeader(new BasicHeader("Content-Type", stream.getContentType()));
+    put.setEntity(new BufferedHttpEntity(
+        new InputStreamEntity(
+            stream.getInputStream(),
+            stream.getContentLength())));
+    return new RestResponse(getClient().execute(put));
+  }
+
   public RestResponse post(String endPoint) throws IOException {
     return post(endPoint, null);
   }
@@ -71,5 +88,29 @@ public class RestSession extends HttpSession {
   public RestResponse delete(String endPoint) throws IOException {
     HttpDelete delete = new HttpDelete(url + "/a" + endPoint);
     return new RestResponse(getClient().execute(delete));
+  }
+
+
+  public static RawInput newRawInput(final String content) throws IOException {
+    Preconditions.checkNotNull(content);
+    Preconditions.checkArgument(!content.isEmpty());
+    return new RawInput() {
+      byte bytes[] = content.getBytes("UTF-8");
+
+      @Override
+      public InputStream getInputStream() throws IOException {
+        return new ByteArrayInputStream(bytes);
+      }
+
+      @Override
+      public String getContentType() {
+        return "application/octet-stream";
+      }
+
+      @Override
+      public long getContentLength() {
+        return bytes.length;
+      }
+    };
   }
 }

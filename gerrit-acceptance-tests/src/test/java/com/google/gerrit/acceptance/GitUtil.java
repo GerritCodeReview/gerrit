@@ -135,6 +135,13 @@ public class GitUtil {
     addCmd.call();
   }
 
+  public static void rm(Git gApi, String path)
+      throws GitAPIException, IOException {
+    gApi.rm()
+        .addFilepattern(path)
+        .call();
+  }
+
   public static Commit createCommit(Git git, PersonIdent i, String msg)
       throws GitAPIException, IOException {
     return createCommit(git, i, msg, null);

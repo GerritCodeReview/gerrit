@@ -17,6 +17,8 @@ package com.google.gerrit.acceptance;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Charsets;
 import com.google.gerrit.server.OutputFormat;
+import com.google.common.base.Preconditions;
+import com.google.gerrit.extensions.restapi.RawInput;
 
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -24,11 +26,15 @@ import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.BufferedHttpEntity;
+import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 
 public class RestSession {
@@ -62,6 +68,17 @@ public class RestSession {
     return new RestResponse(getClient().execute(put));
   }
 
+  public RestResponse putRaw(String endPoint, RawInput stream) throws IOException {
+    Preconditions.checkNotNull(stream);
+    HttpPut put = new HttpPut(url + "/a" + endPoint);
+    put.addHeader(new BasicHeader("Content-Type", stream.getContentType()));
+    put.setEntity(new BufferedHttpEntity(
+        new InputStreamEntity(
+            stream.getInputStream(),
+            stream.getContentLength())));
+    return new RestResponse(getClient().execute(put));
+  }
+
   public RestResponse post(String endPoint) throws IOException {
     return post(endPoint, null);
   }
@@ -91,5 +108,28 @@ public class RestSession {
           new UsernamePasswordCredentials(account.username, account.httpPassword));
     }
     return client;
+  }
+
+  public static RawInput newRawInput(final String content) throws IOException {
+    Preconditions.checkNotNull(content);
+    Preconditions.checkArgument(!content.isEmpty());
+    return new RawInput() {
+      byte bytes[] = content.getBytes("UTF-8");
+
+      @Override
+      public InputStream getInputStream() throws IOException {
+        return new ByteArrayInputStream(bytes);
+      }
+
+      @Override
+      public String getContentType() {
+        return "application/octet-stream";
+      }
+
+      @Override
+      public long getContentLength() {
+        return bytes.length;
+      }
+    };
   }
 }

@@ -179,6 +179,24 @@
       "revId": "522fb186f4375fc388be512a5d5369cbd6308cd3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "682c637b_6830c3cf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RevisionEdit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-23T12:03:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48587f1a_0f8d8568",
+      "revId": "522fb186f4375fc388be512a5d5369cbd6308cd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -253,7 +253,7 @@ public class QueryProcessor {
       }
 
       // Don't trust QueryRewriter to have left the visible predicate.
-      AndSource a = new AndSource(db, ImmutableList.of(s, visibleToMe));
+      AndSource a = new AndSource(ImmutableList.of(s, visibleToMe));
       limits.add(limit(q));
       sources.add(a);
     }

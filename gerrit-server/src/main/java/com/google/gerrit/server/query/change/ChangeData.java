@@ -45,7 +45,6 @@ import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
@@ -67,8 +66,8 @@ import java.util.Map;
 import java.util.Set;
 
 public class ChangeData {
-  public static void ensureChangeLoaded(Provider<ReviewDb> db,
-      Iterable<ChangeData> changes) throws OrmException {
+  public static void ensureChangeLoaded(Iterable<ChangeData> changes)
+      throws OrmException {
     Map<Change.Id, ChangeData> missing = Maps.newHashMap();
     for (ChangeData cd : changes) {
       if (cd.change == null) {
@@ -76,21 +75,22 @@ public class ChangeData {
       }
     }
     if (!missing.isEmpty()) {
-      for (Change change : db.get().changes().get(missing.keySet())) {
+      ReviewDb db = missing.values().iterator().next().db;
+      for (Change change : db.changes().get(missing.keySet())) {
         missing.get(change.getId()).change = change;
       }
     }
   }
 
-  public static void ensureAllPatchSetsLoaded(Provider<ReviewDb> db,
-      Iterable<ChangeData> changes) throws OrmException {
+  public static void ensureAllPatchSetsLoaded(Iterable<ChangeData> changes)
+      throws OrmException {
     for (ChangeData cd : changes) {
       cd.patches();
     }
   }
 
-  public static void ensureCurrentPatchSetLoaded(Provider<ReviewDb> db,
-      Iterable<ChangeData> changes) throws OrmException {
+  public static void ensureCurrentPatchSetLoaded(Iterable<ChangeData> changes)
+      throws OrmException {
     Map<PatchSet.Id, ChangeData> missing = Maps.newHashMap();
     for (ChangeData cd : changes) {
       if (cd.currentPatchSet == null && cd.patches == null) {
@@ -98,7 +98,8 @@ public class ChangeData {
       }
     }
     if (!missing.isEmpty()) {
-      for (PatchSet ps : db.get().patchSets().get(missing.keySet())) {
+      ReviewDb db = missing.values().iterator().next().db;
+      for (PatchSet ps : db.patchSets().get(missing.keySet())) {
         ChangeData cd = missing.get(ps.getId());
         cd.currentPatchSet = ps;
         if (cd.limitedIds == null) {
@@ -108,12 +109,12 @@ public class ChangeData {
     }
   }
 
-  public static void ensureCurrentApprovalsLoaded(Provider<ReviewDb> db,
-      Iterable<ChangeData> changes) throws OrmException {
+  public static void ensureCurrentApprovalsLoaded(Iterable<ChangeData> changes)
+      throws OrmException {
     List<ResultSet<PatchSetApproval>> pending = Lists.newArrayList();
     for (ChangeData cd : changes) {
       if (cd.currentApprovals == null && cd.limitedApprovals == null) {
-        pending.add(db.get().patchSetApprovals()
+        pending.add(cd.db.patchSetApprovals()
             .byPatchSet(cd.change().currentPatchSetId()));
       }
     }

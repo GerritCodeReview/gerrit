@@ -19,14 +19,12 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gwtorm.server.ListResultSet;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.gwtorm.server.ResultSet;
-import com.google.inject.Provider;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -73,13 +71,10 @@ public class AndSource extends AndPredicate<ChangeData>
     return r;
   }
 
-  private final Provider<ReviewDb> db;
   private int cardinality = -1;
 
-  public AndSource(Provider<ReviewDb> db,
-      Collection<? extends Predicate<ChangeData>> that) {
+  public AndSource(Collection<? extends Predicate<ChangeData>> that) {
     super(sort(that));
-    this.db = db;
   }
 
   @Override
@@ -151,7 +146,7 @@ public class AndSource extends AndPredicate<ChangeData>
         public List<ChangeData> apply(List<ChangeData> buffer) {
           if (loadChange) {
             try {
-              ChangeData.ensureChangeLoaded(db, buffer);
+              ChangeData.ensureChangeLoaded(buffer);
             } catch (OrmException e) {
               throw new OrmRuntimeException(e);
             }

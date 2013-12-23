@@ -229,16 +229,16 @@ public class ChangeJson {
       throws OrmException {
     accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
     Iterable<ChangeData> all = Iterables.concat(in);
-    ChangeData.ensureChangeLoaded(db, all);
+    ChangeData.ensureChangeLoaded(all);
     if (has(ALL_REVISIONS)) {
-      ChangeData.ensureAllPatchSetsLoaded(db, all);
+      ChangeData.ensureAllPatchSetsLoaded(all);
     } else {
-      ChangeData.ensureCurrentPatchSetLoaded(db, all);
+      ChangeData.ensureCurrentPatchSetLoaded(all);
     }
     if (has(REVIEWED)) {
       ensureReviewedLoaded(all);
     }
-    ChangeData.ensureCurrentApprovalsLoaded(db, all);
+    ChangeData.ensureCurrentApprovalsLoaded(all);
 
     List<List<ChangeInfo>> res = Lists.newArrayListWithCapacity(in.size());
     Map<Change.Id, ChangeInfo> out = Maps.newHashMap();

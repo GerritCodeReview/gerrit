@@ -19,7 +19,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.NotPredicate;
 import com.google.gerrit.server.query.OrPredicate;
@@ -33,7 +32,6 @@ import com.google.gerrit.server.query.change.ChangeQueryRewriter;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gerrit.server.query.change.OrSource;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 import java.util.BitSet;
 import java.util.EnumSet;
@@ -122,15 +120,12 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
   }
 
   private final IndexCollection indexes;
-  private final Provider<ReviewDb> db;
   private final BasicChangeRewrites basicRewrites;
 
   @Inject
   IndexRewriteImpl(IndexCollection indexes,
-      Provider<ReviewDb> db,
       BasicChangeRewrites basicRewrites) {
     this.indexes = indexes;
-    this.db = db;
     this.basicRewrites = basicRewrites;
   }
 
@@ -250,7 +245,7 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
       Predicate<ChangeData> in,
       List<Predicate<ChangeData>> all) {
     if (in instanceof AndPredicate) {
-      return new AndSource(db, all);
+      return new AndSource(all);
     } else if (in instanceof OrPredicate) {
       return new OrSource(all);
     }

@@ -54,7 +54,6 @@ public class IndexRewriteTest {
     queryBuilder = new FakeQueryBuilder(indexes);
     rewrite = new IndexRewriteImpl(
         indexes,
-        null,
         new BasicChangeRewrites(null, indexes));
   }
 

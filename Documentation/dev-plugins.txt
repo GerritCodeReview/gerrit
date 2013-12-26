@@ -1498,6 +1498,48 @@ In order to be able to do REST calls the GWT module must inherit
 <inherits name="com.google.gwt.json.JSON"/>
 ----
 
+== Add Screen
+A GWT plugin can add a menu item that opens a screen that is
+implemented by the plugin. This way plugin screens can be fully
+integrated into the Gerrit UI.
+
+Example menu item:
+[source,java]
+----
+public class MyMenu implements TopMenu {
+  private final List<MenuEntry> menuEntries;
+
+  @Inject
+  public MyMenu(@PluginName String name) {
+    menuEntries = Lists.newArrayList();
+    menuEntries.add(new MenuEntry("My Menu", Collections.singletonList(
+      new MenuItem("My Screen", "#/x/" + name + "/my-screen", ""))));
+  }
+
+  @Override
+  public List<MenuEntry> getEntries() {
+    return menuEntries;
+  }
+}
+----
+
+Example screen:
+[source,java]
+----
+public class MyPlugin extends PluginEntryPoint {
+  @Override
+  public void onPluginLoad() {
+    Plugin.get().screen("my-screen", new Screen.EntryPoint() {
+      @Override
+      public void onLoad(Screen screen) {
+        screen.add(new InlineLabel("My Screen");
+        screen.show();
+      }
+    });
+  }
+}
+----
+
 [[http]]
 == HTTP Servlets
 

@@ -505,12 +505,9 @@ public class Gerrit implements EntryPoint {
     body = new ViewSite<Screen>() {
       @Override
       protected void onShowView(Screen view) {
-        lastViewToken = History.getToken();
         String token = view.getToken();
-        if (!token.equals(lastViewToken)) {
-          History.newItem(token, false);
-          dispatchHistoryHooks(token);
-        }
+        History.newItem(token, false);
+        dispatchHistoryHooks(token);
 
         if (view instanceof ChangeListScreen) {
           lastChangeListToken = token;
@@ -518,6 +515,7 @@ public class Gerrit implements EntryPoint {
 
         super.onShowView(view);
         view.onShowView();
+        lastViewToken = token;
       }
     };
     gBody.add(body);

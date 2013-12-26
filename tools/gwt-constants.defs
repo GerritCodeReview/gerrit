@@ -4,7 +4,6 @@ GWT_COMPILER_OPTS = [
   '-optimize', '9',
   '-XdisableClassMetadata',
   '-XdisableCastChecking',
-  '-XenableClosureCompiler',
 ]
 
 GWT_PLUGIN_DEPS = [

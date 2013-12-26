@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "685383fd_70cc3072",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-26T18:59:33Z",
+      "side": 1,
+      "message": "Yep, per my comment on the previous change, seems like this should be its own file.",
+      "revId": "ea21ef9e392668e9e1c6cb350d6ee82b0548d0a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

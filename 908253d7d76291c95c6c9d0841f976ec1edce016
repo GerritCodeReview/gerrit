@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48587f1a_cf8c5d21",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentsCollections.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-26T19:06:53Z",
+      "side": 1,
+      "message": "I suppose this is readable, but it\u0027s a lot of boilerplate compared to having a single callback each for comments/drafts with the if in the body.",
+      "revId": "908253d7d76291c95c6c9d0841f976ec1edce016",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_ef912134",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentsCollections.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-26T19:06:53Z",
+      "side": 1,
+      "message": "OT: while we\u0027re talking about making verbose gwtui code nicer, maybe someday we should import guava...",
+      "revId": "908253d7d76291c95c6c9d0841f976ec1edce016",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

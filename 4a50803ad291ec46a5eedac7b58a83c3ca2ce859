@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "685383fd_10776463",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-26T19:41:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48587f1a_2f74095c",
+      "revId": "4a50803ad291ec46a5eedac7b58a83c3ca2ce859",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "685383fd_b09cd856",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2013-12-26T19:13:11Z",
       "side": 1,
       "message": "ISTM it would make the side/cm mapping cleaner if the side were just stored as a member on the cm; is that possible? Then we wouldn\u0027t have to have this extra indirection via the method call to containing sbs2.",
+      "revId": "4a50803ad291ec46a5eedac7b58a83c3ca2ce859",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_0f5e65d3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-26T19:41:31Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "685383fd_b09cd856",
       "revId": "4a50803ad291ec46a5eedac7b58a83c3ca2ce859",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

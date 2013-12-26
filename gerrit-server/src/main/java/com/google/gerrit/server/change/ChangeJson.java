@@ -892,7 +892,7 @@ public class ChangeJson {
     fetchInfo.commands.put(commandName, c);
   }
 
-  private static GitPerson toGitPerson(UserIdentity committer) {
+  public static GitPerson toGitPerson(UserIdentity committer) {
     GitPerson p = new GitPerson();
     p.name = committer.getName();
     p.email = committer.getEmail();

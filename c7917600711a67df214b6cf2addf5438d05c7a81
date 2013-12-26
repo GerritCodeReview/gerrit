@@ -22,6 +22,30 @@
       "revId": "c7917600711a67df214b6cf2addf5438d05c7a81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_af8719fa",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1440,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-26T18:57:29Z",
+      "side": 1,
+      "message": "Agreed, I missed that.",
+      "parentUuid": "685383fd_f0bf40b2",
+      "range": {
+        "startLine": 1440,
+        "startChar": 19,
+        "endLine": 1440,
+        "endChar": 33
+      },
+      "revId": "c7917600711a67df214b6cf2addf5438d05c7a81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

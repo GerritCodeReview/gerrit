@@ -19,6 +19,7 @@ import java.util.Map;
 public class RevisionInfo {
   public transient boolean isCurrent;
   public Boolean draft;
+  public Boolean edit;
   public Boolean hasDraftComments;
   public int _number;
   public Map<String, FetchInfo> fetch;

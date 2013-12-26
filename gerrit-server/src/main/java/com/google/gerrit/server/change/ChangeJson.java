@@ -926,7 +926,7 @@ public class ChangeJson {
     return r;
   }
 
-  private static GitPerson toGitPerson(UserIdentity committer) {
+  public static GitPerson toGitPerson(UserIdentity committer) {
     GitPerson p = new GitPerson();
     p.name = committer.getName();
     p.email = committer.getEmail();
@@ -978,6 +978,7 @@ public class ChangeJson {
   public static class RevisionInfo {
     private transient boolean isCurrent;
     public Boolean draft;
+    public Boolean edit;
     public Boolean hasDraftComments;
     public int _number;
     public Map<String, FetchInfo> fetch;

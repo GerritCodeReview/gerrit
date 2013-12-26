@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "685383fd_70a35096",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentsCollections.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-26T19:28:14Z",
+      "side": 1,
+      "message": "So you preferred the old style where we passed in arguments to the callback to tell it which field it should set? I found that harder to follow.\n\nIts a two dimensional table of published/draft base/revision. Using DisplaySide and boolean was confusing at best.",
+      "parentUuid": "48587f1a_cf8c5d21",
+      "revId": "908253d7d76291c95c6c9d0841f976ec1edce016",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48587f1a_ef912134",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentsCollections.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-12-26T19:06:53Z",
       "side": 1,
       "message": "OT: while we\u0027re talking about making verbose gwtui code nicer, maybe someday we should import guava...",
+      "revId": "908253d7d76291c95c6c9d0841f976ec1edce016",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_b08778fa",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentsCollections.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-26T19:28:14Z",
+      "side": 1,
+      "message": "I\u0027m not sure how Guava would make this prettier to follow. We still have to wrap the JsArray into something Guava understands via Natives.asList(), and we still have to write a small 1 line class to extract the updated field from the object we are trying to sort. Guava can do that using a Function, but its still an inner class.\n\nIts not like this is a very complex comparator.",
+      "parentUuid": "48587f1a_ef912134",
       "revId": "908253d7d76291c95c6c9d0841f976ec1edce016",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

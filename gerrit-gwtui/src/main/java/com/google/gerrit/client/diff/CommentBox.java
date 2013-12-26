@@ -85,9 +85,8 @@ abstract class CommentBox extends Composite {
         assert selfWidgetWrapper != null;
         selfWidgetWrapper.getWidget().changed();
         if (diffChunkInfo != null) {
-          commentManager.getSideBySide2().resizePaddingOnOtherSide(
-              cm.side(),
-              diffChunkInfo.getEnd());
+          commentManager.getSideBySide2().getChunkManager()
+            .resizePaddingOnOtherSide(cm.side(), diffChunkInfo.getEnd());
         } else {
           assert widgetManager != null;
           widgetManager.resizePaddingWidget();

@@ -337,8 +337,9 @@ class CommentManager {
 
     int lineToPad = host.lineOnOther(cm.side(), line).getLine();
     LineHandle otherHandle = other.getLineHandle(lineToPad);
-    DiffChunkInfo myChunk = host.getDiffChunk(cm.side(), line);
-    DiffChunkInfo otherChunk = host.getDiffChunk(other.side(), lineToPad);
+    ChunkManager chunkMgr = host.getChunkManager();
+    DiffChunkInfo myChunk = chunkMgr.getDiffChunk(cm.side(), line);
+    DiffChunkInfo otherChunk = chunkMgr.getDiffChunk(other.side(), lineToPad);
     PaddingManager otherManager;
     if (linePaddingManager.containsKey(otherHandle)) {
       otherManager = linePaddingManager.get(otherHandle);

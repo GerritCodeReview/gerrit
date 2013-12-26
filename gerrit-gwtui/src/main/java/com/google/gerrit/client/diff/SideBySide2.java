@@ -131,12 +131,11 @@ public class SideBySide2 extends Screen {
 
     prefs = DiffPreferences.create(Gerrit.getAccountDiffPreference());
     handlers = new ArrayList<HandlerRegistration>(6);
-    // TODO: Re-implement necessary GlobalKey bindings.
-    addDomHandler(GlobalKey.STOP_PROPAGATION, KeyPressEvent.getType());
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
     header = new Header(keysNavigation, base, revision, path);
     diffTable = new DiffTable(this, base, revision, path);
     add(uiBinder.createAndBindUi(this));
+    addDomHandler(GlobalKey.STOP_PROPAGATION, KeyPressEvent.getType());
   }
 
   @Override

@@ -20,6 +20,7 @@ import static com.google.gerrit.server.change.DraftResource.DRAFT_KIND;
 import static com.google.gerrit.server.change.FileResource.FILE_KIND;
 import static com.google.gerrit.server.change.ReviewerResource.REVIEWER_KIND;
 import static com.google.gerrit.server.change.RevisionResource.REVISION_KIND;
+import static com.google.gerrit.server.change.RevisionEditResource.REVISION_EDIT_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
@@ -44,6 +45,7 @@ public class Module extends RestApiModule {
     DynamicMap.mapOf(binder(), FILE_KIND);
     DynamicMap.mapOf(binder(), REVIEWER_KIND);
     DynamicMap.mapOf(binder(), REVISION_KIND);
+    DynamicMap.mapOf(binder(), REVISION_EDIT_KIND);
 
     get(CHANGE_KIND).to(GetChange.class);
     get(CHANGE_KIND, "detail").to(GetDetail.class);
@@ -99,6 +101,7 @@ public class Module extends RestApiModule {
     get(FILE_KIND, "content").to(GetContent.class);
     get(FILE_KIND, "diff").to(GetDiff.class);
 
+    child(CHANGE_KIND, "edits").to(RevisionEdits.class);
     install(new FactoryModule() {
       @Override
       protected void configure() {

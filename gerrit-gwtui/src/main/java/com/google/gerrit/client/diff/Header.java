@@ -22,6 +22,7 @@ import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.changes.ReviewInfo;
 import com.google.gerrit.client.changes.Util;
+import com.google.gerrit.client.diff.DiffInfo.Region;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -61,6 +62,10 @@ class Header extends Composite {
     Resources.I.style().ensureInjected();
   }
 
+  private static enum ReviewedState {
+    AUTO_REVIEW, LOADED;
+  }
+
   @UiField CheckBox reviewed;
   @UiField Element project;
   @UiField Element filePath;
@@ -80,6 +85,7 @@ class Header extends Composite {
   private boolean hasNext;
   private String nextPath;
   private PreferencesAction prefsAction;
+  private ReviewedState reviewedState;
 
   Header(KeyCommandSet keys, PatchSet.Id base, PatchSet.Id patchSetId,
       String path) {
@@ -157,18 +163,26 @@ class Header extends Composite {
         .get(new AsyncCallback<JsArrayString>() {
             @Override
             public void onSuccess(JsArrayString result) {
-              for (int i = 0; i < result.length(); i++) {
-                if (path.equals(result.get(i))) {
-                  reviewed.setValue(true, false);
-                  break;
-                }
+              boolean b = Natives.asList(result).contains(path);
+              reviewed.setValue(b, false);
+              if (!b && reviewedState == ReviewedState.AUTO_REVIEW) {
+                postAutoReviewed();
               }
+              reviewedState = ReviewedState.LOADED;
             }
 
             @Override
             public void onFailure(Throwable caught) {
             }
           });
+    }
+  }
+
+  void autoReview() {
+    if (reviewedState == ReviewedState.LOADED && !reviewed.getValue()) {
+      postAutoReviewed();
+    } else {
+      reviewedState = ReviewedState.AUTO_REVIEW;
     }
   }
 
@@ -198,25 +212,33 @@ class Header extends Composite {
     prefsAction.setPartner(preferences);
   }
 
-  void setReviewed(boolean r) {
-    reviewed.setValue(r, true);
-  }
-
-  boolean isReviewed() {
-    return reviewed.getValue();
-  }
-
   @UiHandler("reviewed")
   void onValueChange(ValueChangeEvent<Boolean> event) {
-    RestApi api = ChangeApi.revision(patchSetId)
+    if (event.getValue()) {
+      reviewed().put(CallbackGroup.<ReviewInfo> emptyCallback());
+    } else {
+      reviewed().delete(CallbackGroup.<ReviewInfo> emptyCallback());
+    }
+  }
+
+  private void postAutoReviewed() {
+    reviewed().background().put(new AsyncCallback<ReviewInfo>() {
+        @Override
+        public void onSuccess(ReviewInfo result) {
+          reviewed.setValue(true, false);
+        }
+
+        @Override
+        public void onFailure(Throwable caught) {
+        }
+      });
+  }
+
+  private RestApi reviewed() {
+    return ChangeApi.revision(patchSetId)
         .view("files")
         .id(path)
         .view("reviewed");
-    if (event.getValue()) {
-      api.put(CallbackGroup.<ReviewInfo>emptyCallback());
-    } else {
-      api.delete(CallbackGroup.<ReviewInfo>emptyCallback());
-    }
   }
 
   @UiHandler("preferences")
@@ -255,19 +277,47 @@ class Header extends Composite {
     }
   }
 
-  boolean hasPrev() {
-    return hasPrev;
+  Runnable toggleReviewed() {
+    return new Runnable() {
+      public void run() {
+        reviewed.setValue(!reviewed.getValue(), true);
+      }
+    };
   }
 
-  boolean hasNext() {
-    return hasNext;
+  Runnable navigate(Direction dir) {
+    switch (dir) {
+      case PREV:
+        return new Runnable() {
+          @Override
+          public void run() {
+            (hasPrev ? prev : up).go();
+          }
+        };
+      case NEXT:
+        return new Runnable() {
+          @Override
+          public void run() {
+            (hasNext ? next : up).go();
+          }
+        };
+      default:
+        return new Runnable() {
+          @Override
+          public void run() {
+          }
+        };
+    }
   }
 
   String getNextPath() {
     return nextPath;
   }
 
-  void setNoDiff(boolean visible) {
-    UIObject.setVisible(noDiff, visible);
+  void setNoDiff(DiffInfo diff) {
+    JsArray<Region> regions = diff.content();
+    boolean b = regions.length() == 0
+        || (regions.length() == 1 && regions.get(0).ab() != null);
+    UIObject.setVisible(noDiff, b);
   }
 }

@@ -73,12 +73,19 @@ public class CommentInfo extends JavaScriptObject {
   public final native String message() /*-{ return this.message; }-*/;
 
   public final Timestamp updated() {
-    String updatedRaw = updatedRaw();
-    return updatedRaw == null
-        ? null
-        : JavaSqlTimestamp_JsonSerializer.parseTimestamp(updatedRaw());
+    Timestamp r = updatedTimestamp();
+    if (r == null) {
+      String s = updatedRaw();
+      if (s != null) {
+        r = JavaSqlTimestamp_JsonSerializer.parseTimestamp(s);
+        updatedTimestamp(r);
+      }
+    }
+    return r;
   }
   private final native String updatedRaw() /*-{ return this.updated; }-*/;
+  private final native Timestamp updatedTimestamp() /*-{ return this._ts }-*/;
+  private final native void updatedTimestamp(Timestamp t) /*-{ this._ts = t }-*/;
 
   public final native AccountInfo author() /*-{ return this.author; }-*/;
 

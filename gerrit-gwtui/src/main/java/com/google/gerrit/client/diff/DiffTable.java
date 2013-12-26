@@ -92,19 +92,20 @@ class DiffTable extends Composite {
   @UiField
   static DiffTableStyle style;
 
-  private SideBySide2 host;
+  private SideBySide2 parent;
   private boolean headerVisible;
 
-  DiffTable(SideBySide2 host, PatchSet.Id base, PatchSet.Id revision, String path) {
+  DiffTable(SideBySide2 parent, PatchSet.Id base, PatchSet.Id revision, String path) {
     patchSetSelectBoxA = new PatchSetSelectBox2(
         this, DisplaySide.A, revision.getParentKey(), base, path);
     patchSetSelectBoxB = new PatchSetSelectBox2(
         this, DisplaySide.B, revision.getParentKey(), revision, path);
     PatchSetSelectBox2.link(patchSetSelectBoxA, patchSetSelectBoxB);
-    fileCommentPanelA = new FileCommentPanel(host, this, path, DisplaySide.A);
-    fileCommentPanelB = new FileCommentPanel(host, this, path, DisplaySide.B);
+
+    fileCommentPanelA = new FileCommentPanel(parent, this, DisplaySide.A);
+    fileCommentPanelB = new FileCommentPanel(parent, this, DisplaySide.B);
     initWidget(uiBinder.createAndBindUi(this));
-    this.host = host;
+    this.parent = parent;
     this.headerVisible = true;
   }
 
@@ -114,17 +115,17 @@ class DiffTable extends Composite {
 
   void setHeaderVisible(boolean show) {
     headerVisible = show;
-    Gerrit.setHeaderVisible(show && !host.getPrefs().hideTopMenu());
+    Gerrit.setHeaderVisible(show && !parent.getPrefs().hideTopMenu());
     UIObject.setVisible(patchSetNavRow, show);
     UIObject.setVisible(fileCommentRow, show
         && (fileCommentPanelA.getBoxCount() > 0
             || fileCommentPanelB.getBoxCount() > 0));
     if (show) {
-      host.header.removeStyleName(style.fullscreen());
+      parent.header.removeStyleName(style.fullscreen());
     } else {
-      host.header.addStyleName(style.fullscreen());
+      parent.header.addStyleName(style.fullscreen());
     }
-    host.resizeCodeMirror();
+    parent.resizeCodeMirror();
   }
 
   private FileCommentPanel getPanelFromSide(DisplaySide side) {
@@ -137,11 +138,11 @@ class DiffTable extends Composite {
   }
 
   void addFileCommentBox(CommentBox box) {
-    getPanelFromSide(box.getSide()).addFileComment(box);
+    getPanelFromSide(box.getCm().side()).addFileComment(box);
   }
 
   void onRemoveDraftBox(DraftBox box) {
-    getPanelFromSide(box.getSide()).onRemoveDraftBox(box);
+    getPanelFromSide(box.getCm().side()).onRemoveDraftBox(box);
   }
 
   int getHeaderHeight() {

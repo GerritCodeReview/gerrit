@@ -68,15 +68,13 @@ class PublishedBox extends CommentBox {
   AvatarImage avatar;
 
   PublishedBox(
-      SideBySide2 parent,
+      CommentManager manager,
       CodeMirror cm,
-      DisplaySide side,
       CommentLinkProcessor clp,
       PatchSet.Id psId,
       CommentInfo info) {
-    super(cm, info, side);
+    super(manager, cm, info);
 
-    setDiffScreen(parent);
     this.psId = psId;
     this.comment = info;
 
@@ -142,19 +140,19 @@ class PublishedBox extends CommentBox {
   }
 
   DraftBox addReplyBox() {
-    DraftBox box = getDiffScreen().addDraftBox(
-        getDiffScreen().createReply(comment), getSide());
+    DraftBox box = getCommentManager().addDraftBox(
+        getCommentManager().createReply(comment), getCm().side());
     registerReplyBox(box);
     return box;
   }
 
   void doReply() {
     if (!Gerrit.isSignedIn()) {
-      Gerrit.doSignIn(getDiffScreen().getToken());
+      Gerrit.doSignIn(getCommentManager().getSideBySide2().getToken());
     } else if (replyBox == null) {
       DraftBox box = addReplyBox();
       if (!getCommentInfo().has_line()) {
-        getDiffScreen().addFileCommentBox(box);
+        getCommentManager().addFileCommentBox(box);
       }
     } else {
       openReplyBox();
@@ -171,10 +169,10 @@ class PublishedBox extends CommentBox {
   void onReplyDone(ClickEvent e) {
     e.stopPropagation();
     if (!Gerrit.isSignedIn()) {
-      Gerrit.doSignIn(getDiffScreen().getToken());
+      Gerrit.doSignIn(getCommentManager().getSideBySide2().getToken());
     } else if (replyBox == null) {
       done.setEnabled(false);
-      CommentInput input = CommentInput.create(getDiffScreen().createReply(comment));
+      CommentInput input = CommentInput.create(getCommentManager().createReply(comment));
       input.setMessage(PatchUtil.C.cannedReplyDone());
       CommentApi.createDraft(psId, input,
           new GerritCallback<CommentInfo>() {
@@ -182,10 +180,10 @@ class PublishedBox extends CommentBox {
             public void onSuccess(CommentInfo result) {
               done.setEnabled(true);
               setOpen(false);
-              DraftBox box = getDiffScreen().addDraftBox(result, getSide());
+              DraftBox box = getCommentManager().addDraftBox(result, getCm().side());
               registerReplyBox(box);
               if (!getCommentInfo().has_line()) {
-                getDiffScreen().addFileCommentBox(box);
+                getCommentManager().addFileCommentBox(box);
               }
             }
           });

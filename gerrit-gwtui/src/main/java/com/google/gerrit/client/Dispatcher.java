@@ -60,6 +60,7 @@ import com.google.gerrit.client.admin.ProjectDashboardsScreen;
 import com.google.gerrit.client.admin.ProjectInfoScreen;
 import com.google.gerrit.client.admin.ProjectListScreen;
 import com.google.gerrit.client.admin.ProjectScreen;
+import com.google.gerrit.client.api.ExtensionScreen;
 import com.google.gerrit.client.change.ChangeScreen2;
 import com.google.gerrit.client.changes.AccountDashboardScreen;
 import com.google.gerrit.client.changes.ChangeScreen;
@@ -225,6 +226,9 @@ public class Dispatcher {
 
     } else if (matchPrefix("/c/", token)) {
       change(token);
+
+    } else if (matchPrefix("/x/", token)) {
+      extension(token);
 
     } else if (matchExact(MINE, token)) {
       Gerrit.display(token, mine(token));
@@ -561,6 +565,15 @@ public class Dispatcher {
       } else {
         Gerrit.display(token, new NotFoundScreen());
       }
+    }
+  }
+
+  private static void extension(final String token) {
+    ExtensionScreen view = new ExtensionScreen(skip(token));
+    if (view.isFound()) {
+      Gerrit.display(token, view);
+    } else {
+      Gerrit.display(token, new NotFoundScreen());
     }
   }
 

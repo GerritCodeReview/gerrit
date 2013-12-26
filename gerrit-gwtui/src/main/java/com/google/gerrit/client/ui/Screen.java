@@ -137,6 +137,10 @@ public abstract class Screen extends View {
     body.add(w);
   }
 
+  protected FlowPanel getBody() {
+    return body;
+  }
+
   protected void setTheme(final ThemeInfo t) {
     theme = t;
   }

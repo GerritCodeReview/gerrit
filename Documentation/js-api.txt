@@ -139,8 +139,8 @@ Gerrit.on(event, callback);
 
 Supported events:
 
-* `history`: Invoked when the view is changed to a new page within the
-  Gerrit web application.  The token after "#" is passed as the
+* `history`: Invoked when the view is changed to a new screen within
+  the Gerrit web application.  The token after "#" is passed as the
   argument to the callback function, for example "/c/42/" while
   showing change 42.
 
@@ -164,7 +164,7 @@ on a button associated with a server side `UiAction`.
 .Signature
 [source,javascript]
 ----
-Gerrit.onAction(type, view_name, callback);
+self.onAction(type, view_name, callback);
 ----
 
 * type: `'change'`, `'revision'` or `'project'`, indicating which type
@@ -176,6 +176,27 @@ Gerrit.onAction(type, view_name, callback);
 
 * callback: JavaScript function to invoke when the user clicks. The
   function will be passed a link:#ActionContext[action context].
+
+[[self_screen]]
+=== self.screen()
+Register a JavaScript callback to be invoked when the user navigates
+to an extension screen provided by the plugin. Extension screens are
+usually linked from the link:dev-plugins.html#top-menu-extensions[top menu].
+The callback can populate the DOM with the screen's contents.
+
+.Signature
+[source,javascript]
+----
+self.screen(pattern, callback);
+----
+
+* pattern: URL token pattern to identify the screen. Argument can be
+  either a string (`'index'`) or a RegExp object (`/list\/(.*)/`).
+  If a RegExp is used the matching groups will be available inside of
+  the context as `token_match`.
+
+* callback: JavaScript function to invoke when the user navigates to
+  the screen. The function will be passed a link:#ScreenContext[screen context].
 
 [[self_url]]
 === self.url()
@@ -282,7 +303,7 @@ context.get(function (result) {
 
 [[context_go]]
 === context.go()
-Go to a page. Shorthand for link:#Gerrit_go[`Gerrit.go()`].
+Go to a screen. Shorthand for link:#Gerrit_go[`Gerrit.go()`].
 
 [[context_hide]]
 === context.hide()
@@ -402,7 +423,7 @@ loaded the change.
 When the action is invoked on a specific project,
 the name of the project.
 
-== Action Context HTML Helpers
+=== HTML Helpers
 The link:#ActionContext[action context] includes some HTML helper
 functions to make working with DOM based widgets less painful.
 
@@ -445,6 +466,80 @@ functions to make working with DOM based widgets less painful.
 * `span(...)`: a new `<span>` wrapping the (optional) arguments.
 
 * `msg(label)`: a new label.
+
+
+[[ScreenContext]]
+== Screen Context
+A new screen context is passed to the `screen` callback function
+each time the user navigates to a matching URL.
+
+[[screen_body]]
+=== screen.body
+Empty HTML `<div>` node the plugin should add its content to.  The
+node is already attached to the document, but is invisible.  Plugins
+must call `screen.show()` to display the DOM node.  Deferred display
+allows an implementor to partially populate the DOM, make remote HTTP
+requests, finish populating when the callbacks arrive, and only then
+make the view visible to the user.
+
+[[screen_token]]
+=== screen.token
+URL token fragment that activated this screen.  The value is identical
+to `screen.token_match[0]`.  If the URL is `/#/x/hello/list` the token
+will be `"list"`.
+
+[[screen_token_match]]
+=== screen.token_match
+Array of matching subgroups from the pattern specified to `screen()`.
+This is identical to the result of RegExp.exec. Index 0 contains the
+entire matching expression; index 1 the first matching group, etc.
+
+[[screen_onUnload]]
+=== screen.onUnload()
+Configures an optional callback to be invoked just before the screen
+is deleted from the browser DOM.  Plugins can use this callback to
+remove event listeners from DOM nodes, preventing memory leaks.
+
+.Signature
+[source,javascript]
+----
+screen.onUnload(callback)
+----
+
+* callback: JavaScript function to be invoked just before the
+  `screen.body` DOM element is removed from the browser DOM.
+  This event happens when the user navigates to another screen.
+
+[[screen.setTitle]]
+=== screen.setTitle()
+Sets the heading text to be displayed when the screen is visible.
+This is presented in a large bold font below the menus, but above the
+content in `screen.body`.  Setting the title also sets the window
+title to the same string, if it has not already been set.
+
+.Signature
+[source,javascript]
+----
+screen.setPageTitle(titleText)
+----
+
+[[screen.setWindowTitle]]
+=== screen.setWindowTitle()
+Sets the text to be displayed in the browser's title bar when the
+screen is visible.  Plugins should always prefer this method over
+trying to set `window.title` directly.  The window title defaults to
+the title given to `setTitle`.
+
+.Signature
+[source,javascript]
+----
+screen.setWindowTitle(titleText)
+----
+
+[[screen_show]]
+=== screen.show()
+Destroy the currently visible screen and display the plugin's screen.
+This method must be called after adding content to `screen.body`.
 
 [[Gerrit]]
 == Gerrit
@@ -518,7 +613,7 @@ encouraged to use `self.getPluginName()` whenever possible.
 
 [[Gerrit_go]]
 === Gerrit.go()
-Updates the web UI to display the view identified by the supplied
+Updates the web UI to display the screen identified by the supplied
 URL token. The URL token is the text after `#` in the browser URL.
 
 [source,javascript]
@@ -620,6 +715,27 @@ Gerrit.onAction(type, view_name, callback);
 
 * callback: JavaScript function to invoke when the user clicks. The
   function will be passed a link:#ActionContext[ActionContext].
+
+[[Gerrit_screen]]
+=== Gerrit.screen()
+Register a JavaScript callback to be invoked when the user navigates
+to an extension screen provided by the plugin. Extension screens are
+usually linked from the link:dev-plugins.html#top-menu-extensions[top menu].
+The callback can populate the DOM with the screen's contents.
+
+.Signature
+[source,javascript]
+----
+Gerrit.screen(pattern, callback);
+----
+
+* pattern: URL token pattern to identify the screen. Argument can be
+  either a string (`'index'`) or a RegExp object (`/list\/(.*)/`).
+  If a RegExp is used the matching groups will be available inside of
+  the context as `token_match`.
+
+* callback: JavaScript function to invoke when the user navigates to
+  the screen. The function will be passed link:#ScreenContext[screen context].
 
 [[Gerrit_refresh]]
 === Gerrit.refresh()

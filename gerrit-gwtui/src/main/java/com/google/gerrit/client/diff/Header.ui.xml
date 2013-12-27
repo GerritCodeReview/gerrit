@@ -37,14 +37,16 @@ limitations under the License.
   .navigation {
     position: absolute;
     top: 0;
-    right: 15px;
+    right: 10px;
     height: 16px;
-    font-family: Arial Unicode MS, sans-serif;
+    line-height: 16px;
   }
   .nodiff {
-    position: absolute;
-    left: literal("calc(50% - 30px)");
+    white-space: nowrap;
     color: #B00000;
+    vertical-align: top;
+    font-weight: bold;
+    margin-right: 1em;
   }
   .preferences {
     cursor: pointer;
@@ -57,12 +59,8 @@ limitations under the License.
       <ui:attribute name='title'/>
     </g:CheckBox>
     <span class='{style.path}'><span ui:field='project'/> / <span ui:field='filePath'/></span>
-
-    <span ui:field='noDiff' class='{style.nodiff}'>
-      <ui:msg>No Differences</ui:msg>
-    </span>
-
     <div class='{style.navigation}'>
+      <span ui:field='noDiff' class='{style.nodiff}'><ui:msg>No Differences</ui:msg></span>
       <x:InlineHyperlink ui:field='prev' styleName='{res.style.go_prev}'/>
       <x:InlineHyperlink ui:field='up'
           styleName='{res.style.go_up}'

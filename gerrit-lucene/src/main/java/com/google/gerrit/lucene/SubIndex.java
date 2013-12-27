@@ -28,6 +28,7 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.ReferenceManager.RefreshListener;
 import org.apache.lucene.search.SearcherFactory;
 import org.apache.lucene.search.SearcherManager;
+import org.apache.lucene.store.AlreadyClosedException;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.slf4j.Logger;
@@ -93,7 +94,11 @@ class SubIndex {
     reopenThread.close();
     try {
       writer.getIndexWriter().commit();
-      writer.getIndexWriter().close(true);
+      try {
+        writer.getIndexWriter().close(true);
+      } catch (AlreadyClosedException e) {
+        // Ignore.
+      }
     } catch (IOException e) {
       log.warn("error closing Lucene writer", e);
     }

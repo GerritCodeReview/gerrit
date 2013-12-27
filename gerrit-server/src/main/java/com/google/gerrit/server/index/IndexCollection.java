@@ -45,7 +45,7 @@ public class IndexCollection implements LifecycleListener {
 
   public void setSearchIndex(ChangeIndex index) {
     ChangeIndex old = searchIndex.getAndSet(index);
-    if (old != null && old != index) {
+    if (old != null && old != index && !writeIndexes.contains(old)) {
       old.close();
     }
   }

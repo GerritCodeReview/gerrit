@@ -35,8 +35,8 @@ import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.patch.PatchListLoader;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
@@ -104,19 +104,19 @@ public class ChangeBatchIndexer {
     }
   }
 
-  private final Provider<ReviewDb> db;
+  private final SchemaFactory<ReviewDb> schemaFactory;
   private final ChangeData.Factory changeDataFactory;
   private final GitRepositoryManager repoManager;
   private final ListeningExecutorService executor;
   private final ChangeIndexer.Factory indexerFactory;
 
   @Inject
-  ChangeBatchIndexer(Provider<ReviewDb> db,
+  ChangeBatchIndexer(SchemaFactory<ReviewDb> schemaFactory,
       ChangeData.Factory changeDataFactory,
       GitRepositoryManager repoManager,
       @IndexExecutor ListeningExecutorService executor,
       ChangeIndexer.Factory indexerFactory) {
-    this.db = db;
+    this.schemaFactory = schemaFactory;
     this.changeDataFactory = changeDataFactory;
     this.repoManager = repoManager;
     this.executor = executor;
@@ -208,20 +208,25 @@ public class ChangeBatchIndexer {
       public Void call() throws Exception {
         Multimap<ObjectId, ChangeData> byId = ArrayListMultimap.create();
         Repository repo = null;
+        ReviewDb db = null;
         try {
           repo = repoManager.openRepository(project);
           Map<String, Ref> refs = repo.getRefDatabase().getRefs(ALL);
-          for (Change c : db.get().changes().byProject(project)) {
+          db = schemaFactory.open();
+          for (Change c : db.changes().byProject(project)) {
             Ref r = refs.get(c.currentPatchSetId().toRefName());
             if (r != null) {
-              byId.put(r.getObjectId(), changeDataFactory.create(db.get(), c));
+              byId.put(r.getObjectId(), changeDataFactory.create(db, c));
             }
           }
           new ProjectIndexer(indexer, byId, repo, done, failed, verboseWriter)
               .call();
-        } catch(RepositoryNotFoundException rnfe) {
+        } catch (RepositoryNotFoundException rnfe) {
           log.error(rnfe.getMessage());
         } finally {
+          if (db != null) {
+            db.close();
+          }
           if (repo != null) {
             repo.close();
           }

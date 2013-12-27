@@ -20,12 +20,10 @@ import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -58,7 +56,6 @@ public class PatchSetNotificationSender {
   private final ApprovalsUtil approvalsUtil;
   private final AccountResolver accountResolver;
   private final CreateChangeSender.Factory createChangeSenderFactory;
-  private final ReplacePatchSetSender.Factory replacePatchSetFactory;
 
   @Inject
   public PatchSetNotificationSender(ReviewDb db,
@@ -68,7 +65,6 @@ public class PatchSetNotificationSender {
       ApprovalsUtil approvalsUtil,
       AccountResolver accountResolver,
       CreateChangeSender.Factory createChangeSenderFactory,
-      ReplacePatchSetSender.Factory replacePatchSetFactory,
       ChangeIndexer indexer) {
     this.db = db;
     this.repoManager = repoManager;
@@ -76,10 +72,9 @@ public class PatchSetNotificationSender {
     this.approvalsUtil = approvalsUtil;
     this.accountResolver = accountResolver;
     this.createChangeSenderFactory = createChangeSenderFactory;
-    this.replacePatchSetFactory = replacePatchSetFactory;
   }
 
-  public void send(final boolean newChange,
+  public void send(
       final IdentifiedUser currentUser, final Change updatedChange,
       final PatchSet updatedPatchSet, final LabelTypes labelTypes)
       throws OrmException, IOException, PatchSetInfoNotAvailableException {
@@ -100,40 +95,18 @@ public class PatchSetNotificationSender {
           getRecipientsFromFooters(accountResolver, updatedPatchSet, footerLines);
       recipients.remove(me);
 
-      if (newChange) {
-        approvalsUtil.addReviewers(db, labelTypes,
-            updatedChange, updatedPatchSet, info,
-            recipients.getReviewers(), Collections.<Account.Id> emptySet());
-        try {
-          CreateChangeSender cm = createChangeSenderFactory.create(updatedChange);
-          cm.setFrom(me);
-          cm.setPatchSet(updatedPatchSet, info);
-          cm.addReviewers(recipients.getReviewers());
-          cm.addExtraCC(recipients.getCcOnly());
-          cm.send();
-        } catch (Exception e) {
-          log.error("Cannot send email for new change " + updatedChange.getId(), e);
-        }
-      } else {
-        approvalsUtil.addReviewers(db, labelTypes, updatedChange,
-            updatedPatchSet, info, recipients.getReviewers(),
-            approvalsUtil.getReviewers(db, updatedChange.getId()).values());
-        final ChangeMessage msg =
-            new ChangeMessage(new ChangeMessage.Key(updatedChange.getId(),
-                ChangeUtil.messageUUID(db)), me,
-                updatedPatchSet.getCreatedOn(), updatedPatchSet.getId());
-        msg.setMessage("Uploaded patch set " + updatedPatchSet.getPatchSetId() + ".");
-        try {
-          ReplacePatchSetSender cm = replacePatchSetFactory.create(updatedChange);
-          cm.setFrom(me);
-          cm.setPatchSet(updatedPatchSet, info);
-          cm.setChangeMessage(msg);
-          cm.addReviewers(recipients.getReviewers());
-          cm.addExtraCC(recipients.getCcOnly());
-          cm.send();
-        } catch (Exception e) {
-          log.error("Cannot send email for new patch set " + updatedPatchSet.getId(), e);
-        }
+      approvalsUtil.addReviewers(db, labelTypes,
+          updatedChange, updatedPatchSet, info,
+          recipients.getReviewers(), Collections.<Account.Id> emptySet());
+      try {
+        CreateChangeSender cm = createChangeSenderFactory.create(updatedChange);
+        cm.setFrom(me);
+        cm.setPatchSet(updatedPatchSet, info);
+        cm.addReviewers(recipients.getReviewers());
+        cm.addExtraCC(recipients.getCcOnly());
+        cm.send();
+      } catch (Exception e) {
+        log.error("Cannot send email for new change " + updatedChange.getId(), e);
       }
     } finally {
       git.close();

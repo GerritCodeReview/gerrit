@@ -16,6 +16,7 @@ package com.google.gerrit.server.git;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.reviewdb.client.Account;
@@ -566,11 +567,21 @@ public class MergeUtil {
       msgbuf.append(c.getShortMessage());
       msgbuf.append("\"");
 
+    } else if (!Strings.isNullOrEmpty(merged.get(0).change.getTopic())) {
+      msgbuf.append(String.format(
+          "Merge topic '%s'",
+          merged.get(0).change.getTopic()));
     } else {
+      int cnt = 0;
       msgbuf.append("Merge changes ");
-      for (final Iterator<CodeReviewCommit> i = merged.iterator(); i.hasNext();) {
+      for (Iterator<CodeReviewCommit> i = merged.iterator(); i.hasNext();) {
         msgbuf.append(i.next().change.getKey().abbreviate());
+        cnt++;
         if (i.hasNext()) {
+          if (cnt == 5) {
+            msgbuf.append(",...");
+            break;
+          }
           msgbuf.append(',');
         }
       }

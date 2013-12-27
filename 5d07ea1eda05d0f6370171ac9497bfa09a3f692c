@@ -22,6 +22,24 @@
       "revId": "5d07ea1eda05d0f6370171ac9497bfa09a3f692c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "283d0b9f_0e02ebd0",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/SiteProgram.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-12-27T09:04:30Z",
+      "side": 1,
+      "message": "please ignore it . I find \u0027@Singleton\u0027 in SecureStoreProvider.java",
+      "parentUuid": "283d0b9f_eef59fab",
+      "revId": "5d07ea1eda05d0f6370171ac9497bfa09a3f692c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

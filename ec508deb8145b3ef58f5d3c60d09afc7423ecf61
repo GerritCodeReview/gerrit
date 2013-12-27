@@ -71,6 +71,54 @@
     },
     {
       "key": {
+        "uuid": "685383fd_305aa8b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-27T19:58:52Z",
+      "side": 1,
+      "message": "Yeah, if I could go back in time I would have used \"vote\" back when we were writing the REST API, but let\u0027s stick with \"approval\".",
+      "parentUuid": "685383fd_50148cc7",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 13
+      },
+      "revId": "ec508deb8145b3ef58f5d3c60d09afc7423ecf61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_2f4169c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-27T19:58:52Z",
+      "side": 1,
+      "message": "Hm, I thought we had some later offline discussion in which we were ok with \"Label:\". In particular one of the goals of I9e5255b1 was so it could be used here.",
+      "parentUuid": "48587f1a_cf29bd0c",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 29
+      },
+      "revId": "ec508deb8145b3ef58f5d3c60d09afc7423ecf61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48587f1a_af347961",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -82,6 +130,30 @@
       "writtenOn": "2013-12-27T19:04:24Z",
       "side": 1,
       "message": "Include this in the example?",
+      "range": {
+        "startLine": 31,
+        "startChar": 31,
+        "endLine": 31,
+        "endChar": 45
+      },
+      "revId": "ec508deb8145b3ef58f5d3c60d09afc7423ecf61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_105da4ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-27T19:58:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48587f1a_af347961",
       "range": {
         "startLine": 31,
         "startChar": 31,

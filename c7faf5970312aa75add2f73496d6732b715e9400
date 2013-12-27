@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48587f1a_cf1ffde7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-27T15:48:25Z",
+      "side": 1,
+      "message": "Almost certainly more effort than it\u0027s worth, but what if the merged changes span multiple topics?",
+      "revId": "c7faf5970312aa75add2f73496d6732b715e9400",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_af2ab90e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-12-27T15:48:25Z",
+      "side": 1,
+      "message": "\", ...\"?",
+      "range": {
+        "startLine": 582,
+        "startChar": 25,
+        "endLine": 582,
+        "endChar": 34
+      },
+      "revId": "c7faf5970312aa75add2f73496d6732b715e9400",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

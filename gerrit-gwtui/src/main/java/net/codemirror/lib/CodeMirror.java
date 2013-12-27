@@ -116,7 +116,6 @@ public class CodeMirror extends JavaScriptObject {
     this.removeLineClass(line, where, lineClass);
   }-*/;
 
-
   public final native void addWidget(LineCharacter pos, Element node,
       boolean scrollIntoView) /*-{
     this.addWidget(pos, node, scrollIntoView);

@@ -368,17 +368,6 @@ class CommentManager {
         box instanceof DraftBox
           ? SidePanel.GutterType.DRAFT
           : SidePanel.GutterType.COMMENT));
-    if (box instanceof DraftBox) {
-      boxWidget.onRedraw(new Runnable() {
-        @Override
-        public void run() {
-          DraftBox draftBox = (DraftBox) box;
-          if (draftBox.isEdit()) {
-            draftBox.editArea.setFocus(true);
-          }
-        }
-      });
-    }
     return box;
   }
 

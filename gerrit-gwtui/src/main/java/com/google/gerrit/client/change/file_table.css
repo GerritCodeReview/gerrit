@@ -49,10 +49,14 @@
   font-size: smaller;
 }
 
+.unrepliedColumn,
 .draftColumn,
 .newColumn,
 .commentColumn {
   white-space: nowrap;
+}
+.unrepliedColumn {
+  font-weight: bold;
 }
 .draftColumn {
   color: #d44;

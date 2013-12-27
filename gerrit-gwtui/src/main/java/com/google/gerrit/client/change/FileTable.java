@@ -54,6 +54,8 @@ import com.google.gwtexpui.progress.client.ProgressBar;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
 
 class FileTable extends FlowPanel {
   static final FileTableResources R = GWT
@@ -80,6 +82,7 @@ class FileTable extends FlowPanel {
     String deltaColumn2();
     String inserted();
     String deleted();
+    String unrepliedColumn();
   }
 
   private static final String REVIEWED;
@@ -548,6 +551,27 @@ class FileTable extends FlowPanel {
           }
         }
       }
+
+      int cntAll2 = cList.length();
+      Map<String, CommentInfo> ids = new HashMap<String, CommentInfo>();
+      if (Gerrit.isSignedIn()) {
+        for (int i = cntAll2 - 1; i >= 0; i--) {
+          CommentInfo c = cList.get(i);
+          if (c.updated().compareTo(myLastReply) > 0) {
+            ids.put(c.id(), c);
+          }
+        }
+        for (int i = cntAll2 - 1; i >= 0; i--) {
+          CommentInfo d = dList.get(i);
+          ids.remove(d.in_reply_to());
+        }
+      }
+
+      sb.openTd().setStyleName(R.css().unrepliedColumn());
+      if (ids.size() > 0 && dList.length() > 0) {
+        sb.append("unreplied: ").append(ids.size());
+      }
+      sb.closeTd();
 
       sb.openTd().setStyleName(R.css().newColumn());
       if (cntNew > 0) {

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.index;
 
+import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Account;
@@ -160,14 +161,37 @@ public class ChangeField {
         }
       };
 
-  /** List of filenames modified in the current patch set. */
-  public static final FieldDef<ChangeData, Iterable<String>> FILE =
+  /** List of full file paths modified in the current patch set. */
+  public static final FieldDef<ChangeData, Iterable<String>> PATH =
       new FieldDef.Repeatable<ChangeData, String>(
-          ChangeQueryBuilder.FIELD_FILE, FieldType.EXACT, false) {
+          // Named for backwards compatibility.
+          "file", FieldType.EXACT, false) {
         @Override
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
           return input.currentFilePaths();
+        }
+      };
+
+  public static Set<String> getFileParts(ChangeData cd) throws OrmException {
+    Splitter s = Splitter.on('/').omitEmptyStrings();
+    Set<String> r = Sets.newHashSet();
+    for (String path : cd.currentFilePaths()) {
+      for (String part : s.split(path)) {
+        r.add(part);
+      }
+    }
+    return r;
+  }
+
+  /** Components of each file path modified in the current patch set. */
+  public static final FieldDef<ChangeData, Iterable<String>> FILE_PART =
+      new FieldDef.Repeatable<ChangeData, String>(
+          "filepart", FieldType.EXACT, false) {
+        @Override
+        public Iterable<String> get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return getFileParts(input);
         }
       };
 

@@ -16,6 +16,24 @@
       "revId": "86b879543705731e71bb8cd49b12f4dc3683c21a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_30be2897",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/CommitMessageEdited.vm",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-27T01:11:44Z",
+      "side": 0,
+      "message": "Yes. I thought I removed it, apparently I forgot.",
+      "parentUuid": "685383fd_f0bbc0a6",
+      "revId": "86b879543705731e71bb8cd49b12f4dc3683c21a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

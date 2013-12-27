@@ -105,7 +105,6 @@ public interface AccountConstants extends Constants {
   String watchedProjectFilter();
   String watchedProjectColumnEmailNotifications();
   String watchedProjectColumnNewChanges();
-  String watchedProjectColumnNewPatchSets();
   String watchedProjectColumnAllComments();
   String watchedProjectColumnSubmittedChanges();
   String watchedProjectColumnAbandonedChanges();

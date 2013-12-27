@@ -182,8 +182,8 @@ comment:'TEXT'::
 +
 Changes that match 'TEXT' string in any comment left by a reviewer.
 
-[[file]]
-file:'PATH', f:'PATH'::
+[[path]]
+path:'PATH'::
 +
 Matches any change touching file at 'PATH'. By default exact path
 matching is used, but regular expressions can be enabled by starting
@@ -201,6 +201,18 @@ should be double quoted when using more complex construction (like
 ones using a bracket expression). For example, to match all XML
 files named like 'name1.xml', 'name2.xml', and 'name3.xml' use
 `file:"^name[1-3].xml"`.
+
+[[file]]
+file:'NAME', f:'NAME'::
++
+Matches any change touching a file containing the path component
+'NAME'.  For example a `file:src` will match changes that modify
+files named `gerrit-server/src/main/java/Foo.java`. Name matching
+is exact match, `file:Foo.java` finds any change touching a file
+named exactly `Foo.java` and does not match `AbstractFoo.java`.
++
+Regular expression matching can be enabled by starting the string
+with `^`. In this mode `file:` is an alias of `path:` (see above).
 
 [[has]]
 has:draft::

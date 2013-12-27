@@ -99,6 +99,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_OWNER = "owner";
   public static final String FIELD_OWNERIN = "ownerin";
   public static final String FIELD_PARENTPROJECT = "parentproject";
+  public static final String FIELD_PATH = "path";
   public static final String FIELD_PROJECT = "project";
   public static final String FIELD_REF = "ref";
   public static final String FIELD_REVIEWER = "reviewer";
@@ -384,9 +385,18 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> file(String file) throws QueryParseException {
     if (file.startsWith("^")) {
-      return new RegexFilePredicate(file);
+      return new RegexPathPredicate(FIELD_FILE, file);
     } else {
-      return new EqualsFilePredicate(file);
+      return EqualsFilePredicate.create(args, file);
+    }
+  }
+
+  @Operator
+  public Predicate<ChangeData> path(String path) throws QueryParseException {
+    if (path.startsWith("^")) {
+      return new RegexPathPredicate(FIELD_PATH, path);
+    } else {
+      return new EqualsPathPredicate(FIELD_PATH, path);
     }
   }
 

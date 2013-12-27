@@ -40,7 +40,7 @@ public class ChangeSchemas {
         ChangeField.TOPIC,
         ChangeField.UPDATED,
         ChangeField.LEGACY_SORTKEY,
-        ChangeField.FILE,
+        ChangeField.PATH,
         ChangeField.OWNER,
         ChangeField.REVIEWER,
         ChangeField.COMMIT,
@@ -60,7 +60,7 @@ public class ChangeSchemas {
         ChangeField.TOPIC,
         ChangeField.UPDATED,
         ChangeField.LEGACY_SORTKEY,
-        ChangeField.FILE,
+        ChangeField.PATH,
         ChangeField.OWNER,
         ChangeField.REVIEWER,
         ChangeField.COMMIT,
@@ -81,7 +81,7 @@ public class ChangeSchemas {
         ChangeField.TOPIC,
         ChangeField.UPDATED,
         ChangeField.SORTKEY,
-        ChangeField.FILE,
+        ChangeField.PATH,
         ChangeField.OWNER,
         ChangeField.REVIEWER,
         ChangeField.COMMIT,
@@ -105,7 +105,7 @@ public class ChangeSchemas {
         ChangeField.TOPIC,
         ChangeField.UPDATED,
         ChangeField.SORTKEY,
-        ChangeField.FILE,
+        ChangeField.PATH,
         ChangeField.OWNER,
         ChangeField.REVIEWER,
         ChangeField.COMMIT,
@@ -118,8 +118,29 @@ public class ChangeSchemas {
         ChangeField.APPROVAL,
         ChangeField.MERGEABLE);
 
-  // For upgrade to Lucene 4.6.0 index format only.
-  static final Schema<ChangeData> V6 = release(V5.getFields().values());
+  static final Schema<ChangeData> V6 = release(
+        ChangeField.LEGACY_ID,
+        ChangeField.ID,
+        ChangeField.STATUS,
+        ChangeField.PROJECT,
+        ChangeField.REF,
+        ChangeField.TOPIC,
+        ChangeField.UPDATED,
+        ChangeField.SORTKEY,
+        ChangeField.FILE_PART,
+        ChangeField.PATH,
+        ChangeField.OWNER,
+        ChangeField.REVIEWER,
+        ChangeField.COMMIT,
+        ChangeField.TR,
+        ChangeField.LABEL,
+        ChangeField.REVIEWED,
+        ChangeField.COMMIT_MESSAGE,
+        ChangeField.COMMENT,
+        ChangeField.CHANGE,
+        ChangeField.APPROVAL,
+        ChangeField.MERGEABLE);
+
 
   private static Schema<ChangeData> release(Collection<FieldDef<ChangeData, ?>> fields) {
     return new Schema<ChangeData>(true, fields);

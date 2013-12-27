@@ -23,10 +23,10 @@ import java.util.Arrays;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class RegexFilePredicateTest {
+public class RegexPathPredicateTest {
   @Test
   public void testPrefixOnlyOptimization() throws OrmException {
-    RegexFilePredicate p = predicate("^a/b/.*");
+    RegexPathPredicate p = predicate("^a/b/.*");
     assertTrue(p.match(change("a/b/source.c")));
     assertFalse(p.match(change("source.c")));
 
@@ -36,7 +36,7 @@ public class RegexFilePredicateTest {
 
   @Test
   public void testPrefixReducesSearchSpace() throws OrmException {
-    RegexFilePredicate p = predicate("^a/b/.*\\.[ch]");
+    RegexPathPredicate p = predicate("^a/b/.*\\.[ch]");
     assertTrue(p.match(change("a/b/source.c")));
     assertFalse(p.match(change("a/b/source.res")));
     assertFalse(p.match(change("source.res")));
@@ -46,7 +46,7 @@ public class RegexFilePredicateTest {
 
   @Test
   public void testFileExtension_Constant() throws OrmException {
-    RegexFilePredicate p = predicate("^.*\\.res");
+    RegexPathPredicate p = predicate("^.*\\.res");
     assertTrue(p.match(change("test.res")));
     assertTrue(p.match(change("foo/bar/test.res")));
     assertFalse(p.match(change("test.res.bar")));
@@ -54,7 +54,7 @@ public class RegexFilePredicateTest {
 
   @Test
   public void testFileExtension_CharacterGroup() throws OrmException {
-    RegexFilePredicate p = predicate("^.*\\.[ch]");
+    RegexPathPredicate p = predicate("^.*\\.[ch]");
     assertTrue(p.match(change("test.c")));
     assertTrue(p.match(change("test.h")));
     assertFalse(p.match(change("test.C")));
@@ -71,14 +71,14 @@ public class RegexFilePredicateTest {
 
   @Test
   public void testExactMatch() throws OrmException {
-    RegexFilePredicate p = predicate("^foo.c");
+    RegexPathPredicate p = predicate("^foo.c");
     assertTrue(p.match(change("foo.c")));
     assertFalse(p.match(change("foo.cc")));
     assertFalse(p.match(change("bar.c")));
   }
 
-  private static RegexFilePredicate predicate(String pattern) {
-    return new RegexFilePredicate(pattern);
+  private static RegexPathPredicate predicate(String pattern) {
+    return new RegexPathPredicate(ChangeQueryBuilder.FIELD_PATH, pattern);
   }
 
   private static ChangeData change(String... files) {

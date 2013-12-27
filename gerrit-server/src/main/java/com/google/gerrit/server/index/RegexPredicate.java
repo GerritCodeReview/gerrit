@@ -18,4 +18,8 @@ public abstract class RegexPredicate<I> extends IndexPredicate<I> {
   protected RegexPredicate(FieldDef<I, ?> def, String value) {
     super(def, value);
   }
+
+  protected RegexPredicate(FieldDef<I, ?> def, String name, String value) {
+    super(def, name, value);
+  }
 }

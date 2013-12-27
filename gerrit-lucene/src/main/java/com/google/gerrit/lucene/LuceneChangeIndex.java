@@ -54,6 +54,7 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.document.Document;
@@ -157,6 +158,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   private final ChangeData.Factory changeDataFactory;
   private final File dir;
   private final Schema<ChangeData> schema;
+  private final QueryBuilder queryBuilder;
   private final SubIndex openIndex;
   private final SubIndex closedIndex;
 
@@ -185,6 +187,10 @@ public class LuceneChangeIndex implements ChangeIndex {
     Version luceneVersion = checkNotNull(
         LUCENE_VERSIONS.get(schema),
         "unknown Lucene version for index schema: %s", schema);
+
+    Analyzer analyzer =
+        new StandardAnalyzer(luceneVersion, CharArraySet.EMPTY_SET);
+    queryBuilder = new QueryBuilder(schema, analyzer);
 
     IndexWriterConfig openConfig =
         getIndexWriterConfig(luceneVersion, cfg, "changes_open");
@@ -298,7 +304,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     if (!Sets.intersection(statuses, CLOSED_STATUSES).isEmpty()) {
       indexes.add(closedIndex);
     }
-    return new QuerySource(indexes, QueryBuilder.toQuery(schema, p), limit,
+    return new QuerySource(indexes, queryBuilder.toQuery(p), limit,
         ChangeQueryBuilder.hasNonTrivialSortKeyAfter(schema, p));
   }
 

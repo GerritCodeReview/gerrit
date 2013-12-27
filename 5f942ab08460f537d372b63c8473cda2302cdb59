@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "685383fd_90ac3476",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/RestSession.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-27T00:17:14Z",
+      "side": 1,
+      "message": "checkNotNull(stream);",
+      "range": {
+        "startLine": 72,
+        "startChar": 18,
+        "endLine": 72,
+        "endChar": 31
+      },
+      "revId": "5f942ab08460f537d372b63c8473cda2302cdb59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_705510aa",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/RestSession.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-27T00:17:14Z",
+      "side": 1,
+      "message": "use stream.getContentType()",
+      "range": {
+        "startLine": 74,
+        "startChar": 50,
+        "endLine": 74,
+        "endChar": 76
+      },
+      "revId": "5f942ab08460f537d372b63c8473cda2302cdb59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_50580ce5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/RestSession.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-27T00:17:14Z",
+      "side": 1,
+      "message": "This is incorrect if the string contains characters \u003e127. Do content.getBytes(\"UTF-8\") in the inner class initialization and retain the byte[] instead of the String. This method can then return byte[].length, which accurately matches the number of bytes made available from the InputStream.",
+      "revId": "5f942ab08460f537d372b63c8473cda2302cdb59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

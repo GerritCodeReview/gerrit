@@ -374,8 +374,14 @@ public class SideBySide2 extends Screen {
         icon.setVisible(true);
         Rect r = cm.charCoords(head, "local");
         Style s = icon.getElement().getStyle();
-        s.setTop((int) (r.top() - icon.getOffsetHeight() + 2), Unit.PX);
-        s.setLeft((int) (r.right() - icon.getOffsetWidth() / 2), Unit.PX);
+        int top = (int) (r.top() - icon.getOffsetHeight() + 2);
+        if (top < 0) {
+          s.setTop(-3, Unit.PX);
+          s.setLeft(r.right() + 2, Unit.PX);
+        } else {
+          s.setTop(top, Unit.PX);
+          s.setLeft((int) (r.right() - icon.getOffsetWidth() / 2), Unit.PX);
+        }
       }
 
       private void init(LineCharacter anchor) {

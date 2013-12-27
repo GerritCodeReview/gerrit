@@ -16,6 +16,10 @@ package com.google.gerrit.server.git;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.common.base.Function;
+import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.reviewdb.client.Account;
@@ -69,6 +73,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
@@ -558,24 +563,7 @@ public class MergeUtil {
       }
     }
 
-    final StringBuilder msgbuf = new StringBuilder();
-    if (merged.size() == 1) {
-      final CodeReviewCommit c = merged.get(0);
-      rw.parseBody(c);
-      msgbuf.append("Merge \"");
-      msgbuf.append(c.getShortMessage());
-      msgbuf.append("\"");
-
-    } else {
-      msgbuf.append("Merge changes ");
-      for (final Iterator<CodeReviewCommit> i = merged.iterator(); i.hasNext();) {
-        msgbuf.append(i.next().change.getKey().abbreviate());
-        if (i.hasNext()) {
-          msgbuf.append(',');
-        }
-      }
-    }
-
+    StringBuilder msgbuf = new StringBuilder().append(summarize(rw, merged));
     if (!R_HEADS_MASTER.equals(destBranch.get())) {
       msgbuf.append(" into ");
       msgbuf.append(destBranch.getShortName());
@@ -601,6 +589,39 @@ public class MergeUtil {
     mergeCommit.setMessage(msgbuf.toString());
 
     return (CodeReviewCommit) rw.parseCommit(commit(inserter, mergeCommit));
+  }
+
+  private String summarize(RevWalk rw, List<CodeReviewCommit> merged)
+      throws IOException {
+    if (merged.size() == 1) {
+      CodeReviewCommit c = merged.get(0);
+      rw.parseBody(c);
+      return String.format("Merge \"%s\"", c.getShortMessage());
+    }
+
+    LinkedHashSet<String> topics = new LinkedHashSet<>(4);
+    for (CodeReviewCommit c : merged) {
+      if (!Strings.isNullOrEmpty(c.change.getTopic())) {
+        topics.add(c.change.getTopic());
+      }
+    }
+
+    if (topics.size() == 1) {
+      return String.format("Merge topic '%s'", Iterables.getFirst(topics, null));
+    } else if (topics.size() > 1) {
+      return String.format("Merge topics '%s'", Joiner.on("', '").join(topics));
+    } else {
+      return String.format("Merge changes %s%s",
+          Joiner.on(',').join(Iterables.transform(
+              Iterables.limit(merged, 5),
+              new Function<CodeReviewCommit, String>() {
+                @Override
+                public String apply(CodeReviewCommit in) {
+                  return in.change.getKey().abbreviate();
+                }
+              })),
+          merged.size() > 5 ? ", ..." : "");
+    }
   }
 
   public ThreeWayMerger newThreeWayMerger(final Repository repo,

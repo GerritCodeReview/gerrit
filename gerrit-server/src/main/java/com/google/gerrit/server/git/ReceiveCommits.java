@@ -89,7 +89,6 @@ import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.mail.MergedSender;
-import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
@@ -260,7 +259,6 @@ public class ReceiveCommits {
   private final CmdLineParser.Factory optionParserFactory;
   private final CreateChangeSender.Factory createChangeSenderFactory;
   private final MergedSender.Factory mergedSenderFactory;
-  private final ReplacePatchSetSender.Factory replacePatchSetFactory;
   private final GitReferenceUpdated gitRefUpdated;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ChangeHooks hooks;
@@ -322,7 +320,6 @@ public class ReceiveCommits {
       final CmdLineParser.Factory optionParserFactory,
       final CreateChangeSender.Factory createChangeSenderFactory,
       final MergedSender.Factory mergedSenderFactory,
-      final ReplacePatchSetSender.Factory replacePatchSetFactory,
       final GitReferenceUpdated gitRefUpdated,
       final PatchSetInfoFactory patchSetInfoFactory,
       final ChangeHooks hooks,
@@ -358,7 +355,6 @@ public class ReceiveCommits {
     this.optionParserFactory = optionParserFactory;
     this.createChangeSenderFactory = createChangeSenderFactory;
     this.mergedSenderFactory = mergedSenderFactory;
-    this.replacePatchSetFactory = replacePatchSetFactory;
     this.gitRefUpdated = gitRefUpdated;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.hooks = hooks;
@@ -1948,18 +1944,6 @@ public class ReceiveCommits {
           .submit(requestScopePropagator.wrap(new Runnable() {
         @Override
         public void run() {
-          try {
-            ReplacePatchSetSender cm =
-                replacePatchSetFactory.create(change);
-            cm.setFrom(me);
-            cm.setPatchSet(newPatchSet, info);
-            cm.setChangeMessage(msg);
-            cm.addReviewers(recipients.getReviewers());
-            cm.addExtraCC(recipients.getCcOnly());
-            cm.send();
-          } catch (Exception e) {
-            log.error("Cannot send email for new patch set " + newPatchSet.getId(), e);
-          }
           if (mergedIntoRef != null) {
             sendMergedEmail(ReplaceRequest.this);
           }

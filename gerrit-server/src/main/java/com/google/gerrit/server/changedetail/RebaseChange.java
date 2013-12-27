@@ -89,8 +89,7 @@ public class RebaseChange {
    *
    * The rebased commit is added as new patch set to the change.
    *
-   * E-mail notification and triggering of hooks happens for the creation of the
-   * new patch set.
+   * Triggering of hooks happens for the creation of the new patch set.
    *
    * @param patchSetId the id of the patch set
    * @param uploader the user that creates the rebased patch set
@@ -134,7 +133,7 @@ public class RebaseChange {
       rebase(git, rw, inserter, patchSetId, change,
           uploader, baseCommit, mergeUtilFactory.create(
               changeControl.getProjectControl().getProjectState(), true),
-          committerIdent, true, true, ValidatePolicy.GERRIT);
+          committerIdent, true, ValidatePolicy.GERRIT);
     } catch (PathConflictException e) {
       throw new IOException(e.getMessage());
     } finally {
@@ -261,7 +260,6 @@ public class RebaseChange {
    * @param baseCommit the commit that should be the new base
    * @param mergeUtil merge utilities for the destination project
    * @param committerIdent the committer's identity
-   * @param sendMail if a mail notification should be sent for the new patch set
    * @param runHooks if hooks should be run for the new patch set
    * @param validate if commit validation should be run for the new patch set
    * @return the new patch set which is based on the given base commit
@@ -275,7 +273,7 @@ public class RebaseChange {
       final ObjectInserter inserter, final PatchSet.Id patchSetId,
       final Change change, final IdentifiedUser uploader, final RevCommit baseCommit,
       final MergeUtil mergeUtil, PersonIdent committerIdent,
-      boolean sendMail, boolean runHooks, ValidatePolicy validate)
+      boolean runHooks, ValidatePolicy validate)
           throws NoSuchChangeException,
       OrmException, IOException, InvalidChangeOperationException,
       PathConflictException {
@@ -299,7 +297,6 @@ public class RebaseChange {
         .setCopyLabels(true)
         .setValidatePolicy(validate)
         .setDraft(originalPatchSet.isDraft())
-        .setSendMail(sendMail)
         .setRunHooks(runHooks);
 
     final PatchSet.Id newPatchSetId = patchSetInserter.getPatchSetId();

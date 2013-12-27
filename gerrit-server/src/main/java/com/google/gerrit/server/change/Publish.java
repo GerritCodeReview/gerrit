@@ -79,9 +79,11 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
         CheckedFuture<?, IOException> indexFuture =
             indexer.indexAsync(updatedChange);
         hooks.doDraftPublishedHook(updatedChange, updatedPatchSet, dbProvider.get());
-        sender.send(rsrc.getChange().getStatus() == Change.Status.DRAFT,
+        if (rsrc.getChange().getStatus() == Change.Status.DRAFT) {
+          sender.send(
             rsrc.getUser(), updatedChange, updatedPatchSet,
             rsrc.getControl().getLabelTypes());
+        }
         indexFuture.checkedGet();
       }
     } catch (PatchSetInfoNotAvailableException e) {

@@ -17,25 +17,20 @@ package com.google.gerrit.server.change;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.collect.SetMultimap;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
-import com.google.gerrit.server.ApprovalsUtil.ReviewerState;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
-import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -54,16 +49,11 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collections;
 
 public class PatchSetInserter {
-  private static final Logger log =
-      LoggerFactory.getLogger(PatchSetInserter.class);
-
   public static interface Factory {
     PatchSetInserter create(Repository git, RevWalk revWalk, ChangeControl ctl,
         RevCommit commit);
@@ -84,7 +74,6 @@ public class PatchSetInserter {
   private final GitReferenceUpdated gitRefUpdated;
   private final CommitValidators.Factory commitValidatorsFactory;
   private final MergeabilityChecker mergeabilityChecker;
-  private final ReplacePatchSetSender.Factory replacePatchSetFactory;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeKindCache changeKindCache;
 
@@ -101,7 +90,6 @@ public class PatchSetInserter {
   private ValidatePolicy validatePolicy = ValidatePolicy.GERRIT;
   private boolean draft;
   private boolean runHooks;
-  private boolean sendMail;
 
   @Inject
   public PatchSetInserter(ChangeHooks hooks,
@@ -110,7 +98,6 @@ public class PatchSetInserter {
       GitReferenceUpdated gitRefUpdated,
       CommitValidators.Factory commitValidatorsFactory,
       MergeabilityChecker mergeabilityChecker,
-      ReplacePatchSetSender.Factory replacePatchSetFactory,
       ApprovalsUtil approvalsUtil,
       ChangeKindCache changeKindCache,
       @Assisted Repository git,
@@ -126,7 +113,6 @@ public class PatchSetInserter {
     this.gitRefUpdated = gitRefUpdated;
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.mergeabilityChecker = mergeabilityChecker;
-    this.replacePatchSetFactory = replacePatchSetFactory;
     this.approvalsUtil = approvalsUtil;
     this.changeKindCache = changeKindCache;
 
@@ -136,7 +122,6 @@ public class PatchSetInserter {
     this.ctl = ctl;
     this.user = (IdentifiedUser) ctl.getCurrentUser();
     this.runHooks = true;
-    this.sendMail = true;
   }
 
   public PatchSetInserter setPatchSet(PatchSet patchSet) {
@@ -196,11 +181,6 @@ public class PatchSetInserter {
     return this;
   }
 
-  public PatchSetInserter setSendMail(boolean sendMail) {
-    this.sendMail = sendMail;
-    return this;
-  }
-
   public Change insert() throws InvalidChangeOperationException, OrmException,
       IOException {
     init();
@@ -230,10 +210,6 @@ public class PatchSetInserter {
 
       ChangeUtil.insertAncestors(db, patchSet.getId(), commit);
       db.patchSets().insert(Collections.singleton(patchSet));
-
-      SetMultimap<ReviewerState, Account.Id> oldReviewers = sendMail
-          ? approvalsUtil.getReviewers(db, c.getId())
-          : null;
 
       updatedChange =
           db.changes().atomicUpdate(c.getId(), new AtomicUpdate<Change>() {
@@ -278,24 +254,6 @@ public class PatchSetInserter {
       if (changeMessage != null) {
         db.changeMessages().insert(Collections.singleton(changeMessage));
       }
-
-      if (sendMail) {
-        try {
-          PatchSetInfo info = patchSetInfoFactory.get(commit, patchSet.getId());
-          ReplacePatchSetSender cm =
-              replacePatchSetFactory.create(updatedChange);
-          cm.setFrom(user.getAccountId());
-          cm.setPatchSet(patchSet, info);
-          cm.setChangeMessage(changeMessage);
-          cm.addReviewers(oldReviewers.get(ReviewerState.REVIEWER));
-          cm.addExtraCC(oldReviewers.get(ReviewerState.CC));
-          cm.send();
-        } catch (Exception err) {
-          log.error("Cannot send email for new patch set on change "
-              + updatedChange.getId(), err);
-        }
-      }
-
     } finally {
       db.rollback();
     }

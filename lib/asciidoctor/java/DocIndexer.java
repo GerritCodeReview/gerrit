@@ -39,10 +39,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.zip.ZipOutputStream;
 
 public class DocIndexer {
   private static final Version LUCENE_VERSION = Version.LUCENE_46;
+  private static final Pattern SECTION_HEADER = Pattern.compile("^=+ (.*)");
 
   @Option(name = "-z", usage = "output zip file")
   private String zipFile;
@@ -94,6 +97,10 @@ public class DocIndexer {
         title = titleReader.readLine();
       }
       titleReader.close();
+      Matcher matcher = SECTION_HEADER.matcher(title);
+      if (matcher.matches()) {
+        title = matcher.group(1);
+      }
 
       String outputFile = AsciiDoctor.mapInFileToOutFile(
           inputFile, inExt, outExt);

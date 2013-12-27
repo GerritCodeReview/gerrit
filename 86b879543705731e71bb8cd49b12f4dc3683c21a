@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "685383fd_f0bbc0a6",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/CommitMessageEdited.vm",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-12-27T01:10:16Z",
+      "side": 0,
+      "message": "Can ReplacePatchSet.vm be removed, too?",
+      "revId": "86b879543705731e71bb8cd49b12f4dc3683c21a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

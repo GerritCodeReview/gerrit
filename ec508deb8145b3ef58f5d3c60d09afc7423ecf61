@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48587f1a_cf29bd0c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-27T19:04:24Z",
+      "side": 1,
+      "message": "What happened to \"Label-Code-Review: +1\"? From the history it looks like this is the format Colby and I were both in favor of.",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 29
+      },
+      "revId": "ec508deb8145b3ef58f5d3c60d09afc7423ecf61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_50148cc7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-27T19:04:24Z",
+      "side": 1,
+      "message": "Unfortunately we call these approvals and labels elsewhere. This is the first mention of vote.",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 13
+      },
+      "revId": "ec508deb8145b3ef58f5d3c60d09afc7423ecf61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_301708cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-27T19:04:24Z",
+      "side": 1,
+      "message": "Why lowercase? Why not Code-Review\u003d+1?",
+      "range": {
+        "startLine": 27,
+        "startChar": 15,
+        "endLine": 27,
+        "endChar": 29
+      },
+      "revId": "ec508deb8145b3ef58f5d3c60d09afc7423ecf61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_af347961",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-27T19:04:24Z",
+      "side": 1,
+      "message": "Include this in the example?",
+      "range": {
+        "startLine": 31,
+        "startChar": 31,
+        "endLine": 31,
+        "endChar": 45
+      },
+      "revId": "ec508deb8145b3ef58f5d3c60d09afc7423ecf61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

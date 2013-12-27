@@ -12,6 +12,7 @@ java_library(
     '//lib/guice:guice',
     '//lib/jgit:jgit',
     '//lib/log:api',
+    '//lib/lucene:analyzers-common',
     '//lib/lucene:core',
     '//lib/solr:solrj',
   ],

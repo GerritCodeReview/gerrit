@@ -33,9 +33,9 @@ import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.SortKeyPredicate;
 
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.BooleanQuery;
-import org.apache.lucene.search.FuzzyQuery;
 import org.apache.lucene.search.MatchAllDocsQuery;
 import org.apache.lucene.search.NumericRangeQuery;
 import org.apache.lucene.search.PrefixQuery;
@@ -55,27 +55,34 @@ public class QueryBuilder {
     return intTerm(ID_FIELD, cd.getId().get());
   }
 
-  public static Query toQuery(Schema<ChangeData> schema, Predicate<ChangeData> p)
-      throws QueryParseException {
+  private final Schema<ChangeData> schema;
+  private final org.apache.lucene.util.QueryBuilder queryBuilder;
+
+  public QueryBuilder(Schema<ChangeData> schema, Analyzer analyzer) {
+    this.schema = schema;
+    queryBuilder = new org.apache.lucene.util.QueryBuilder(analyzer);
+  }
+
+  public Query toQuery(Predicate<ChangeData> p) throws QueryParseException {
     if (p instanceof AndPredicate) {
-      return and(schema, p);
+      return and(p);
     } else if (p instanceof OrPredicate) {
-      return or(schema, p);
+      return or(p);
     } else if (p instanceof NotPredicate) {
-      return not(schema, p);
+      return not(p);
     } else if (p instanceof IndexPredicate) {
-      return fieldQuery(schema, (IndexPredicate<ChangeData>) p);
+      return fieldQuery((IndexPredicate<ChangeData>) p);
     } else {
       throw new QueryParseException("cannot create query for index: " + p);
     }
   }
 
-  private static Query or(Schema<ChangeData> schema, Predicate<ChangeData> p)
+  private Query or(Predicate<ChangeData> p)
       throws QueryParseException {
     try {
       BooleanQuery q = new BooleanQuery();
       for (int i = 0; i < p.getChildCount(); i++) {
-        q.add(toQuery(schema, p.getChild(i)), SHOULD);
+        q.add(toQuery(p.getChild(i)), SHOULD);
       }
       return q;
     } catch (BooleanQuery.TooManyClauses e) {
@@ -83,7 +90,7 @@ public class QueryBuilder {
     }
   }
 
-  private static Query and(Schema<ChangeData> schema, Predicate<ChangeData> p)
+  private Query and(Predicate<ChangeData> p)
       throws QueryParseException {
     try {
       BooleanQuery b = new BooleanQuery();
@@ -95,10 +102,10 @@ public class QueryBuilder {
           if (n instanceof TimestampRangePredicate) {
             b.add(notTimestamp((TimestampRangePredicate<ChangeData>) n), MUST);
           } else {
-            not.add(toQuery(schema, n));
+            not.add(toQuery(n));
           }
         } else {
-          b.add(toQuery(schema, c), MUST);
+          b.add(toQuery(c), MUST);
         }
       }
       for (Query q : not) {
@@ -110,7 +117,7 @@ public class QueryBuilder {
     }
   }
 
-  private static Query not(Schema<ChangeData> schema, Predicate<ChangeData> p)
+  private Query not(Predicate<ChangeData> p)
       throws QueryParseException {
     Predicate<ChangeData> n = p.getChild(0);
     if (n instanceof TimestampRangePredicate) {
@@ -120,12 +127,12 @@ public class QueryBuilder {
     // Lucene does not support negation, start with all and subtract.
     BooleanQuery q = new BooleanQuery();
     q.add(new MatchAllDocsQuery(), MUST);
-    q.add(toQuery(schema, n), MUST_NOT);
+    q.add(toQuery(n), MUST_NOT);
     return q;
   }
 
-  private static Query fieldQuery(Schema<ChangeData> schema,
-      IndexPredicate<ChangeData> p) throws QueryParseException {
+  private Query fieldQuery(IndexPredicate<ChangeData> p)
+      throws QueryParseException {
     if (p.getType() == FieldType.INTEGER) {
       return intQuery(p);
     } else if (p.getType() == FieldType.TIMESTAMP) {
@@ -137,7 +144,7 @@ public class QueryBuilder {
     } else if (p.getType() == FieldType.FULL_TEXT) {
       return fullTextQuery(p);
     } else if (p instanceof SortKeyPredicate) {
-      return sortKeyQuery(schema, (SortKeyPredicate) p);
+      return sortKeyQuery((SortKeyPredicate) p);
     } else {
       throw badFieldType(p.getType());
     }
@@ -149,7 +156,7 @@ public class QueryBuilder {
     return new Term(name, bytes);
   }
 
-  private static Query intQuery(IndexPredicate<ChangeData> p)
+  private Query intQuery(IndexPredicate<ChangeData> p)
       throws QueryParseException {
     int value;
     try {
@@ -162,7 +169,7 @@ public class QueryBuilder {
     return new TermQuery(intTerm(p.getField().getName(), value));
   }
 
-  private static Query sortKeyQuery(Schema<ChangeData> schema, SortKeyPredicate p) {
+  private Query sortKeyQuery(SortKeyPredicate p) {
     long min = p.getMinValue(schema);
     long max = p.getMaxValue(schema);
     return NumericRangeQuery.newLongRange(
@@ -172,7 +179,7 @@ public class QueryBuilder {
         false, false);
   }
 
-  private static Query timestampQuery(IndexPredicate<ChangeData> p)
+  private Query timestampQuery(IndexPredicate<ChangeData> p)
       throws QueryParseException {
     if (p instanceof TimestampRangePredicate) {
       TimestampRangePredicate<ChangeData> r =
@@ -186,7 +193,7 @@ public class QueryBuilder {
     throw new QueryParseException("not a timestamp: " + p);
   }
 
-  private static Query notTimestamp(TimestampRangePredicate<ChangeData> r)
+  private Query notTimestamp(TimestampRangePredicate<ChangeData> r)
       throws QueryParseException {
     if (r.getMinTimestamp().getTime() == 0) {
       return NumericRangeQuery.newIntRange(
@@ -198,7 +205,7 @@ public class QueryBuilder {
     throw new QueryParseException("cannot negate: " + r);
   }
 
-  private static Query exactQuery(IndexPredicate<ChangeData> p) {
+  private Query exactQuery(IndexPredicate<ChangeData> p) {
     if (p instanceof RegexPredicate<?>) {
       return regexQuery(p);
     } else {
@@ -206,7 +213,7 @@ public class QueryBuilder {
     }
   }
 
-  private static Query regexQuery(IndexPredicate<ChangeData> p) {
+  private Query regexQuery(IndexPredicate<ChangeData> p) {
     String re = p.getValue();
     if (re.startsWith("^")) {
       re = re.substring(1);
@@ -217,12 +224,12 @@ public class QueryBuilder {
     return new RegexpQuery(new Term(p.getField().getName(), re));
   }
 
-  private static Query prefixQuery(IndexPredicate<ChangeData> p) {
+  private Query prefixQuery(IndexPredicate<ChangeData> p) {
     return new PrefixQuery(new Term(p.getField().getName(), p.getValue()));
   }
 
-  private static Query fullTextQuery(IndexPredicate<ChangeData> p) {
-    return new FuzzyQuery(new Term(p.getField().getName(), p.getValue()));
+  private Query fullTextQuery(IndexPredicate<ChangeData> p) {
+    return queryBuilder.createPhraseQuery(p.getField().getName(), p.getValue());
   }
 
   public static int toIndexTime(Timestamp ts) {
@@ -231,8 +238,5 @@ public class QueryBuilder {
 
   public static IllegalArgumentException badFieldType(FieldType<?> t) {
     return new IllegalArgumentException("unknown index field type " + t);
-  }
-
-  private QueryBuilder() {
   }
 }

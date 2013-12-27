@@ -346,9 +346,24 @@ public abstract class AbstractQueryChangesTest {
     RevCommit commit2 = repo.parseBody(repo.commit().message("two").create());
     Change change2 = newChange(repo, commit2, null, null, null).insert();
 
-    assertTrue(query("topic:foo").isEmpty());
+    assertTrue(query("message:foo").isEmpty());
     assertResultEquals(change1, queryOne("message:one"));
     assertResultEquals(change2, queryOne("message:two"));
+  }
+
+  @Test
+  public void fullTextWithNumbers() throws Exception {
+    TestRepository<InMemoryRepository> repo = createProject("repo");
+    RevCommit commit1 =
+        repo.parseBody(repo.commit().message("12345 67890").create());
+    Change change1 = newChange(repo, commit1, null, null, null).insert();
+    RevCommit commit2 =
+        repo.parseBody(repo.commit().message("12346 67891").create());
+    Change change2 = newChange(repo, commit2, null, null, null).insert();
+
+    assertTrue(query("message:1234").isEmpty());
+    assertResultEquals(change1, queryOne("message:12345"));
+    assertResultEquals(change2, queryOne("message:12346"));
   }
 
   @Test

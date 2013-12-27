@@ -43,7 +43,10 @@ import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.util.Version;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -75,6 +78,7 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
   private final CloudSolrServer openIndex;
   private final CloudSolrServer closedIndex;
   private final Schema<ChangeData> schema;
+  private final QueryBuilder queryBuilder;
 
   SolrChangeIndex(
       @GerritServerConfig Config cfg,
@@ -92,6 +96,14 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
     if (Strings.isNullOrEmpty(url)) {
       throw new IllegalStateException("index.solr.url must be supplied");
     }
+
+    // Version is only used to determine the list of stop words used by the
+    // analyzer, so use the latest version rather than trying to match the Solr
+    // server version.
+    @SuppressWarnings("deprecation")
+    Version v = Version.LUCENE_CURRENT;
+    queryBuilder = new QueryBuilder(
+        schema, new StandardAnalyzer(v, CharArraySet.EMPTY_SET));
 
     base = Strings.nullToEmpty(base);
     openIndex = new CloudSolrServer(url);
@@ -200,7 +212,7 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
     if (!Sets.intersection(statuses, CLOSED_STATUSES).isEmpty()) {
       indexes.add(closedIndex);
     }
-    return new QuerySource(indexes, QueryBuilder.toQuery(schema, p), limit,
+    return new QuerySource(indexes, queryBuilder.toQuery(p), limit,
         ChangeQueryBuilder.hasNonTrivialSortKeyAfter(schema, p));
   }
 

@@ -16,31 +16,23 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexPredicate;
-import com.google.gerrit.server.query.Predicate;
-import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gwtorm.server.OrmException;
 
-class EqualsFilePredicate extends IndexPredicate<ChangeData> {
-  static Predicate<ChangeData> create(Arguments args, String value) {
-    Predicate<ChangeData> eqPath =
-        new EqualsPathPredicate(ChangeQueryBuilder.FIELD_FILE, value);
-    if (!args.indexes.getSearchIndex().getSchema().getFields().containsKey(
-        ChangeField.FILE_PART.getName())) {
-      return eqPath;
-    }
-    return Predicate.or(eqPath, new EqualsFilePredicate(value));
-  }
+import java.util.Collections;
+import java.util.List;
 
+class EqualsPathPredicate extends IndexPredicate<ChangeData> {
   private final String value;
 
-  private EqualsFilePredicate(String value) {
-    super(ChangeField.FILE_PART, ChangeQueryBuilder.FIELD_FILE, value);
+  EqualsPathPredicate(String fieldName, String value) {
+    super(ChangeField.PATH, fieldName, value);
     this.value = value;
   }
 
   @Override
   public boolean match(ChangeData object) throws OrmException {
-    return ChangeField.getFileParts(object).contains(value);
+    List<String> files = object.currentFilePaths();
+    return files != null && Collections.binarySearch(files, value) >= 0;
   }
 
   @Override

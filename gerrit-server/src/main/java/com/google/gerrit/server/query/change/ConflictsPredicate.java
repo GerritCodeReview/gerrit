@@ -70,7 +70,8 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
       List<Predicate<ChangeData>> filePredicates =
           Lists.newArrayListWithCapacity(files.size());
       for (String file : files) {
-        filePredicates.add(new EqualsFilePredicate(file));
+        filePredicates.add(
+            new EqualsPathPredicate(ChangeQueryBuilder.FIELD_PATH, file));
       }
 
       List<Predicate<ChangeData>> predicatesForOneChange =

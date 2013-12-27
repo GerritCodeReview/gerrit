@@ -277,24 +277,12 @@ public class CodeMirror extends JavaScriptObject {
     this.focus();
   }-*/;
 
-  public final native int lineCount() /*-{
-    return this.lineCount();
-  }-*/;
-
   public final native Element getGutterElement() /*-{
     return this.getGutterElement();
   }-*/;
 
-  public final native Element getScrollerElement() /*-{
-    return this.getScrollerElement();
-  }-*/;
-
   public final native Element getSizer() /*-{
     return this.display.sizer;
-  }-*/;
-
-  public final native Element getInputField() /*-{
-    return this.getInputField();
   }-*/;
 
   public final native Element getScrollbarV() /*-{

@@ -191,26 +191,12 @@ public class InMemoryModule extends FactoryModule {
       Constructor<?> c =
           clazz.getConstructor(Integer.class, int.class, String.class);
       return (Module) c.newInstance(version, 0, null);
-    } catch (ClassNotFoundException e) {
-      throw newProvisionException(e);
-    } catch (SecurityException e) {
-      throw newProvisionException(e);
-    } catch (NoSuchMethodException e) {
-      throw newProvisionException(e);
-    } catch (IllegalArgumentException e) {
-      throw newProvisionException(e);
-    } catch (InstantiationException e) {
-      throw newProvisionException(e);
-    } catch (IllegalAccessException e) {
-      throw newProvisionException(e);
-    } catch (InvocationTargetException e) {
-      throw newProvisionException(e);
+    } catch (ClassNotFoundException | SecurityException | NoSuchMethodException
+        | IllegalArgumentException | InstantiationException
+        | IllegalAccessException | InvocationTargetException e) {
+      ProvisionException pe = new ProvisionException(e.getMessage());
+      pe.initCause(e);
+      throw pe;
     }
-  }
-
-  private static ProvisionException newProvisionException(Throwable cause) {
-    ProvisionException pe = new ProvisionException(cause.getMessage());
-    pe.initCause(cause);
-    return pe;
   }
 }

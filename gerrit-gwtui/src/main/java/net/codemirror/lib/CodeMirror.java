@@ -327,6 +327,9 @@ public class CodeMirror extends JavaScriptObject {
   public static class Viewport extends JavaScriptObject {
     public final native int getFrom() /*-{ return this.from; }-*/;
     public final native int getTo() /*-{ return this.to; }-*/;
+    public final boolean contains(int line) {
+      return getFrom() <= line && line < getTo();
+    }
 
     protected Viewport() {
     }

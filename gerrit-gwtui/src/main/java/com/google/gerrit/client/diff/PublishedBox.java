@@ -19,7 +19,6 @@ import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
-import com.google.gerrit.client.changes.CommentInput;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -38,8 +37,6 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
-
-import net.codemirror.lib.CodeMirror;
 
 /** An HtmlPanel for displaying a published comment */
 class PublishedBox extends CommentBox {
@@ -68,12 +65,11 @@ class PublishedBox extends CommentBox {
   AvatarImage avatar;
 
   PublishedBox(
-      CommentManager manager,
-      CodeMirror cm,
+      CommentGroup group,
       CommentLinkProcessor clp,
       PatchSet.Id psId,
       CommentInfo info) {
-    super(manager, cm, info);
+    super(group, info.range());
 
     this.psId = psId;
     this.comment = info;
@@ -125,9 +121,9 @@ class PublishedBox extends CommentBox {
     super.setOpen(open);
   }
 
-  void registerReplyBox(DraftBox box) {
+  void setReplyBox(DraftBox box) {
     replyBox = box;
-    box.registerReplyToBox(this);
+    box.setReplyToBox(this);
   }
 
   void unregisterReplyBox() {
@@ -139,21 +135,17 @@ class PublishedBox extends CommentBox {
     replyBox.setEdit(true);
   }
 
-  DraftBox addReplyBox() {
-    DraftBox box = getCommentManager().addDraftBox(
-        getCommentManager().createReply(comment), getCm().side());
-    registerReplyBox(box);
-    return box;
+  void addReplyBox() {
+    getCommentManager().addDraftBox(
+      getCm().side(),
+      CommentInfo.createReply(comment)).setEdit(true);
   }
 
   void doReply() {
     if (!Gerrit.isSignedIn()) {
       Gerrit.doSignIn(getCommentManager().getSideBySide2().getToken());
     } else if (replyBox == null) {
-      DraftBox box = addReplyBox();
-      if (!getCommentInfo().has_line()) {
-        getCommentManager().addFileCommentBox(box);
-      }
+      addReplyBox();
     } else {
       openReplyBox();
     }
@@ -172,19 +164,15 @@ class PublishedBox extends CommentBox {
       Gerrit.doSignIn(getCommentManager().getSideBySide2().getToken());
     } else if (replyBox == null) {
       done.setEnabled(false);
-      CommentInput input = CommentInput.create(getCommentManager().createReply(comment));
-      input.setMessage(PatchUtil.C.cannedReplyDone());
+      CommentInfo input = CommentInfo.createReply(comment);
+      input.message(PatchUtil.C.cannedReplyDone());
       CommentApi.createDraft(psId, input,
           new GerritCallback<CommentInfo>() {
             @Override
             public void onSuccess(CommentInfo result) {
               done.setEnabled(true);
               setOpen(false);
-              DraftBox box = getCommentManager().addDraftBox(result, getCm().side());
-              registerReplyBox(box);
-              if (!getCommentInfo().has_line()) {
-                getCommentManager().addFileCommentBox(box);
-              }
+              getCommentManager().addDraftBox(getCm().side(), result);
             }
           });
     } else {

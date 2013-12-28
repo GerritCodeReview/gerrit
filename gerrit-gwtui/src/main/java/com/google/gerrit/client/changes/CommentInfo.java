@@ -23,42 +23,65 @@ import com.google.gwtjsonrpc.client.impl.ser.JavaSqlTimestamp_JsonSerializer;
 import java.sql.Timestamp;
 
 public class CommentInfo extends JavaScriptObject {
-  public static CommentInfo createRange(String path, Side side, int line,
-      String in_reply_to, String message, CommentRange range) {
-    CommentInfo info = createFile(path, side, in_reply_to, message);
-    info.setRange(range);
-    info.setLine(range == null ? line : range.end_line());
-    return info;
+  public static CommentInfo create(String path, Side side,
+      int line, CommentRange range) {
+    CommentInfo n = createObject().cast();
+    n.path(path);
+    n.side(side);
+    if (range != null) {
+      n.line(range.end_line());
+      n.range(range);
+    } else if (line > 0) {
+      n.line(line);
+    }
+    return n;
   }
 
-  public static CommentInfo createFile(String path, Side side,
-      String in_reply_to, String message) {
-    CommentInfo info = createObject().cast();
-    info.setPath(path);
-    info.setSide(side);
-    info.setInReplyTo(in_reply_to);
-    info.setMessage(message);
-    return info;
+  public static CommentInfo createReply(CommentInfo r) {
+    CommentInfo n = createObject().cast();
+    n.path(r.path());
+    n.side(r.side());
+    n.in_reply_to(r.id());
+    if (r.has_range()) {
+      n.line(r.range().end_line());
+      n.range(r.range());
+    } else if (r.has_line()) {
+      n.line(r.line());
+    }
+    return n;
   }
 
-  private final native void setId(String id) /*-{ this.id = id; }-*/;
-  public final native void setPath(String path) /*-{ this.path = path; }-*/;
-
-  private final void setSide(Side side) {
-    setSideRaw(side.toString());
+  public static CommentInfo copy(CommentInfo s) {
+    CommentInfo n = createObject().cast();
+    n.path(s.path());
+    n.side(s.side());
+    n.id(s.id());
+    n.in_reply_to(s.in_reply_to());
+    n.message(s.message());
+    if (s.has_range()) {
+      n.line(s.range().end_line());
+      n.range(s.range());
+    } else if (s.has_line()) {
+      n.line(s.line());
+    }
+    return n;
   }
-  private final native void setSideRaw(String side) /*-{ this.side = side; }-*/;
 
-  private final native void setLine(int line) /*-{ this.line = line; }-*/;
+  public final native void path(String p) /*-{ this.path = p }-*/;
+  public final native void id(String i) /*-{ this.id = i }-*/;
+  public final native void line(int n) /*-{ this.line = n }-*/;
+  public final native void range(CommentRange r) /*-{ this.range = r }-*/;
+  public final native void in_reply_to(String i) /*-{ this.in_reply_to = i }-*/;
+  public final native void message(String m) /*-{ this.message = m }-*/;
 
-  private final native void setInReplyTo(String in_reply_to) /*-{
-    this.in_reply_to = in_reply_to;
-  }-*/;
+  public final void side(Side side) {
+    sideRaw(side.toString());
+  }
+  private final native void sideRaw(String s) /*-{ this.side = s }-*/;
 
-  private final native void setMessage(String message) /*-{ this.message = message; }-*/;
-
-  public final native String id() /*-{ return this.id; }-*/;
-  public final native String path() /*-{ return this.path; }-*/;
+  public final native String path() /*-{ return this.path }-*/;
+  public final native String id() /*-{ return this.id }-*/;
+  public final native String in_reply_to() /*-{ return this.in_reply_to }-*/;
 
   public final Side side() {
     String s = sideRaw();
@@ -67,10 +90,6 @@ public class CommentInfo extends JavaScriptObject {
         : Side.REVISION;
   }
   private final native String sideRaw() /*-{ return this.side }-*/;
-
-  public final native int line() /*-{ return this.line || 0; }-*/;
-  public final native String in_reply_to() /*-{ return this.in_reply_to; }-*/;
-  public final native String message() /*-{ return this.message; }-*/;
 
   public final Timestamp updated() {
     Timestamp r = updatedTimestamp();
@@ -83,17 +102,16 @@ public class CommentInfo extends JavaScriptObject {
     }
     return r;
   }
-  private final native String updatedRaw() /*-{ return this.updated; }-*/;
+  private final native String updatedRaw() /*-{ return this.updated }-*/;
   private final native Timestamp updatedTimestamp() /*-{ return this._ts }-*/;
   private final native void updatedTimestamp(Timestamp t) /*-{ this._ts = t }-*/;
 
-  public final native AccountInfo author() /*-{ return this.author; }-*/;
-
-  public final native boolean has_line() /*-{ return this.hasOwnProperty('line'); }-*/;
-
-  public final native CommentRange range() /*-{ return this.range; }-*/;
-
-  public final native void setRange(CommentRange range) /*-{ this.range = range; }-*/;
+  public final native AccountInfo author() /*-{ return this.author }-*/;
+  public final native int line() /*-{ return this.line || 0 }-*/;
+  public final native boolean has_line() /*-{ return this.hasOwnProperty('line') }-*/;
+  public final native boolean has_range() /*-{ return this.hasOwnProperty('range') }-*/;
+  public final native CommentRange range() /*-{ return this.range }-*/;
+  public final native String message() /*-{ return this.message }-*/;
 
   protected CommentInfo() {
   }

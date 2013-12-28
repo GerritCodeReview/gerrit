@@ -16,26 +16,24 @@ package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.diff.DiffInfo.Region;
 import com.google.gerrit.client.diff.DiffInfo.Span;
-import com.google.gerrit.client.diff.PaddingManager.LinePaddingWidgetWrapper;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.DOM;
 
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.CodeMirror.LineClassWhere;
-import net.codemirror.lib.CodeMirror.LineHandle;
 import net.codemirror.lib.Configuration;
 import net.codemirror.lib.LineCharacter;
+import net.codemirror.lib.LineWidget;
 import net.codemirror.lib.TextMarker;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /** Colors modified regions for {@link SideBySide2}. */
 class ChunkManager {
@@ -48,7 +46,7 @@ class ChunkManager {
   private List<DiffChunkInfo> chunks;
   private List<TextMarker> markers;
   private List<Runnable> undo;
-  private Map<LineHandle, LinePaddingWidgetWrapper> paddingOnOtherSide;
+  private List<LineWidget> padding;
 
   ChunkManager(SideBySide2 host,
       CodeMirror cmA,
@@ -85,8 +83,8 @@ class ChunkManager {
     for (Runnable r : undo) {
       r.run();
     }
-    for (LinePaddingWidgetWrapper x : paddingOnOtherSide.values()) {
-      x.getWidget().clear();
+    for (LineWidget w : padding) {
+      w.clear();
     }
   }
 
@@ -94,7 +92,7 @@ class ChunkManager {
     chunks = new ArrayList<DiffChunkInfo>();
     markers = new ArrayList<TextMarker>();
     undo = new ArrayList<Runnable>();
-    paddingOnOtherSide = new HashMap<LineHandle, LinePaddingWidgetWrapper>();
+    padding = new ArrayList<LineWidget>();
 
     String diffColor = diff.meta_a() == null || diff.meta_b() == null
         ? DiffTable.style.intralineBg()
@@ -126,16 +124,18 @@ class ChunkManager {
     colorLines(cmB, color, startB, bLen);
     markEdit(cmA, startA, a, region.edit_a());
     markEdit(cmB, startB, b, region.edit_b());
+    addPadding(cmA, startA + aLen - 1, bLen - aLen);
+    addPadding(cmB, startB + bLen - 1, aLen - bLen);
     addGutterTag(region, startA, startB);
     mapper.appendReplace(aLen, bLen);
 
     int endA = mapper.getLineA() - 1;
     int endB = mapper.getLineB() - 1;
     if (aLen > 0) {
-      addDiffChunkAndPadding(cmB, endB, endA, aLen, bLen > 0);
+      addDiffChunk(cmB, endB, endA, aLen, bLen > 0);
     }
     if (bLen > 0) {
-      addDiffChunkAndPadding(cmA, endA, endB, bLen, aLen > 0);
+      addDiffChunk(cmA, endA, endB, bLen, aLen > 0);
     }
   }
 
@@ -202,13 +202,37 @@ class ChunkManager {
     }
   }
 
-  private void addDiffChunkAndPadding(CodeMirror cmToPad, int lineToPad,
+  /**
+   * Insert a new padding div below the given line.
+   *
+   * @param cm parent CodeMirror to add extra space into.
+   * @param line line to put the padding below.
+   * @param len number of lines to pad. Padding is inserted only if
+   *        {@code len >= 1}.
+   */
+  private void addPadding(CodeMirror cm, int line, int len) {
+    if (0 < len) {
+      // DiffTable adds 1px bottom padding to each line to preserve
+      // sufficient space for underscores commonly appearing in code.
+      // Padding should be 1em + 1px high for each line. Add within
+      // the browser using height + padding-bottom.
+      Element pad = DOM.createDiv();
+      pad.setClassName(DiffTable.style.padding());
+      pad.getStyle().setHeight(len, Unit.EM);
+      pad.getStyle().setPaddingBottom(len, Unit.PX);
+      padding.add(cm.addLineWidget(
+        line == -1 ? 0 : line,
+        pad,
+        Configuration.create()
+          .set("coverGutter", true)
+          .set("noHScroll", true)
+          .set("above", line == -1)));
+    }
+  }
+
+  private void addDiffChunk(CodeMirror cmToPad, int lineToPad,
       int lineOnOther, int chunkSize, boolean edit) {
-    CodeMirror otherCm = host.otherCm(cmToPad);
-    paddingOnOtherSide.put(otherCm.getLineHandle(lineOnOther),
-        new LinePaddingWidgetWrapper(host.addPaddingWidget(cmToPad,
-            lineToPad, 0, Unit.EM, null), lineToPad, chunkSize));
-    chunks.add(new DiffChunkInfo(otherCm.side(),
+    chunks.add(new DiffChunkInfo(host.otherCm(cmToPad).side(),
         lineOnOther - chunkSize + 1, lineOnOther, edit));
   }
 
@@ -290,63 +314,5 @@ class ChunkManager {
       }
     }
     return null;
-  }
-
-  void resizePadding(final CodeMirror cm,
-      final LineHandle line,
-      final DisplaySide side) {
-    if (paddingOnOtherSide.containsKey(line)) {
-      host.defer(new Runnable() {
-        @Override
-        public void run() {
-          resizePaddingOnOtherSide(side, cm.getLineNumber(line));
-        }
-      });
-    }
-  }
-
-  void resizePaddingOnOtherSide(DisplaySide mySide, int line) {
-    CodeMirror cm = host.getCmFromSide(mySide);
-    LineHandle handle = cm.getLineHandle(line);
-    final LinePaddingWidgetWrapper otherWrapper = paddingOnOtherSide.get(handle);
-    double myChunkHeight = cm.heightAtLine(line + 1) -
-        cm.heightAtLine(line - otherWrapper.getChunkLength() + 1);
-    Element otherPadding = otherWrapper.getElement();
-    int otherPaddingHeight = otherPadding.getOffsetHeight();
-    CodeMirror otherCm = host.otherCm(cm);
-    int otherLine = otherWrapper.getOtherLine();
-    LineHandle other = otherCm.getLineHandle(otherLine);
-    if (paddingOnOtherSide.containsKey(other)) {
-      LinePaddingWidgetWrapper myWrapper = paddingOnOtherSide.get(other);
-      Element myPadding = paddingOnOtherSide.get(other).getElement();
-      int myPaddingHeight = myPadding.getOffsetHeight();
-      myChunkHeight -= myPaddingHeight;
-      double otherChunkHeight = otherCm.heightAtLine(otherLine + 1) -
-          otherCm.heightAtLine(otherLine - myWrapper.getChunkLength() + 1) -
-          otherPaddingHeight;
-      double delta = myChunkHeight - otherChunkHeight;
-      if (delta > 0) {
-        if (myPaddingHeight != 0) {
-          myPadding.getStyle().setHeight((double) 0, Unit.PX);
-          myWrapper.getWidget().changed();
-        }
-        if (otherPaddingHeight != delta) {
-          otherPadding.getStyle().setHeight(delta, Unit.PX);
-          otherWrapper.getWidget().changed();
-        }
-      } else {
-        if (myPaddingHeight != -delta) {
-          myPadding.getStyle().setHeight(-delta, Unit.PX);
-          myWrapper.getWidget().changed();
-        }
-        if (otherPaddingHeight != 0) {
-          otherPadding.getStyle().setHeight((double) 0, Unit.PX);
-          otherWrapper.getWidget().changed();
-        }
-      }
-    } else if (otherPaddingHeight != myChunkHeight) {
-      otherPadding.getStyle().setHeight(myChunkHeight, Unit.PX);
-      otherWrapper.getWidget().changed();
-    }
   }
 }

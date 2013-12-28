@@ -89,8 +89,11 @@ class CommentsCollections {
     };
   }
 
-  private static JsArray<CommentInfo> sort(JsArray<CommentInfo> in) {
+  private JsArray<CommentInfo> sort(JsArray<CommentInfo> in) {
     if (in != null) {
+      for (CommentInfo c : Natives.asList(in)) {
+        c.path(path);
+      }
       Collections.sort(Natives.asList(in), new Comparator<CommentInfo>() {
         @Override
         public int compare(CommentInfo a, CommentInfo b) {

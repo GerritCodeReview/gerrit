@@ -53,7 +53,8 @@ limitations under the License.
         <div ui:field='summary' class='{res.style.summary}'/>
         <div ui:field='date' class='{res.style.date}'/>
       </g:HTMLPanel>
-      <div ui:field='message' aria-hidden='true' style='display: NONE'/>
+      <div ui:field='message' class='{res.style.message}'
+           aria-hidden='true' style='display: NONE'/>
       <div ui:field='buttons' aria-hidden='true' style='display: NONE'>
         <g:Button ui:field='reply' styleName=''
             title='Reply to this comment'>

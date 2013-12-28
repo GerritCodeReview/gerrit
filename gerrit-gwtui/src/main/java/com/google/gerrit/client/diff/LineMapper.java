@@ -52,11 +52,9 @@ class LineMapper {
   void appendReplace(int aLen, int bLen) {
     appendCommon(Math.min(aLen, bLen));
     if (aLen < bLen) { // Edit with insertion
-      int insertCnt = bLen - aLen;
-      appendInsert(insertCnt);
+      appendInsert(bLen - aLen);
     } else if (aLen > bLen) { // Edit with deletion
-      int deleteCnt = aLen - bLen;
-      appendDelete(deleteCnt);
+      appendDelete(aLen - bLen);
     }
   }
 

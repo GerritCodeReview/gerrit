@@ -102,4 +102,31 @@ public class LineMapperTest {
     assertEquals(new LineOnOtherInfo(10, true),
         mapper.lineOnOther(DisplaySide.B, 0));
   }
+
+  @Test
+  public void testReplaceWithInsertInB() {
+    // 0 c c
+    // 1 a b
+    // 2 a b
+    // 3 - b
+    // 4 - b
+    // 5 c c
+    LineMapper mapper = new LineMapper();
+    mapper.appendCommon(1);
+    mapper.appendReplace(2, 4);
+    mapper.appendCommon(1);
+
+    assertEquals(4, mapper.getLineA());
+    assertEquals(6, mapper.getLineB());
+
+    assertEquals(new LineOnOtherInfo(1, true),
+        mapper.lineOnOther(DisplaySide.B, 1));
+    assertEquals(new LineOnOtherInfo(3, true),
+        mapper.lineOnOther(DisplaySide.B, 5));
+
+    assertEquals(new LineOnOtherInfo(2, true),
+        mapper.lineOnOther(DisplaySide.B, 2));
+    assertEquals(new LineOnOtherInfo(2, false),
+        mapper.lineOnOther(DisplaySide.B, 3));
+  }
 }

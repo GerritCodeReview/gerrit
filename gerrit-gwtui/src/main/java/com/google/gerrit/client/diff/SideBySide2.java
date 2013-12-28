@@ -232,7 +232,7 @@ public class SideBySide2 extends Screen {
     });
     diffTable.sidePanel.adjustGutters(cmB);
 
-    if (startSide == null && diff.meta_b() != null) {
+    if (startLine == 0 && diff.meta_b() != null) {
       DiffChunkInfo d = chunkManager.getFirst();
       if (d != null) {
         startSide = d.getSide();

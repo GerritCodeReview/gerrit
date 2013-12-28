@@ -66,7 +66,15 @@ class ChunkManager {
   }
 
   DiffChunkInfo getFirst() {
-    return chunks.isEmpty() ? null : chunks.get(0);
+    if (!chunks.isEmpty()) {
+      for (DiffChunkInfo d : chunks) {
+        if (d.getSide() == DisplaySide.B) {
+          return d;
+        }
+      }
+      return chunks.get(0);
+    }
+    return null;
   }
 
   void reset() {

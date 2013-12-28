@@ -24,6 +24,7 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
@@ -50,23 +51,14 @@ class DiffTable extends Composite {
     String padding();
   }
 
-  @UiField
-  Element cmA;
-
-  @UiField
-  Element cmB;
-
-  @UiField
-  SidePanel sidePanel;
-
-  @UiField
-  Element patchSetNavRow;
-
-  @UiField
-  Element patchSetNavCellA;
-
-  @UiField
-  Element patchSetNavCellB;
+  @UiField Element cmA;
+  @UiField Element cmB;
+  @UiField SidePanel sidePanel;
+  @UiField Element patchSetNavRow;
+  @UiField Element patchSetNavCellA;
+  @UiField Element patchSetNavCellB;
+  @UiField FlowPanel widgets;
+  @UiField static DiffTableStyle style;
 
   @UiField(provided = true)
   PatchSetSelectBox2 patchSetSelectBoxA;
@@ -74,36 +66,16 @@ class DiffTable extends Composite {
   @UiField(provided = true)
   PatchSetSelectBox2 patchSetSelectBoxB;
 
-  @UiField
-  Element fileCommentRow;
-
-  @UiField
-  Element fileCommentCellA;
-
-  @UiField
-  Element fileCommentCellB;
-
-  @UiField(provided = true)
-  FileCommentPanel fileCommentPanelA;
-
-  @UiField(provided = true)
-  FileCommentPanel fileCommentPanelB;
-
-  @UiField
-  static DiffTableStyle style;
-
   private SideBySide2 parent;
   private boolean headerVisible;
 
   DiffTable(SideBySide2 parent, PatchSet.Id base, PatchSet.Id revision, String path) {
     patchSetSelectBoxA = new PatchSetSelectBox2(
-        this, DisplaySide.A, revision.getParentKey(), base, path);
+        parent, DisplaySide.A, revision.getParentKey(), base, path);
     patchSetSelectBoxB = new PatchSetSelectBox2(
-        this, DisplaySide.B, revision.getParentKey(), revision, path);
+        parent, DisplaySide.B, revision.getParentKey(), revision, path);
     PatchSetSelectBox2.link(patchSetSelectBoxA, patchSetSelectBoxB);
 
-    fileCommentPanelA = new FileCommentPanel(parent, this, DisplaySide.A);
-    fileCommentPanelB = new FileCommentPanel(parent, this, DisplaySide.B);
     initWidget(uiBinder.createAndBindUi(this));
     this.parent = parent;
     this.headerVisible = true;
@@ -117,9 +89,6 @@ class DiffTable extends Composite {
     headerVisible = show;
     Gerrit.setHeaderVisible(show && !parent.getPrefs().hideTopMenu());
     UIObject.setVisible(patchSetNavRow, show);
-    UIObject.setVisible(fileCommentRow, show
-        && (fileCommentPanelA.getBoxCount() > 0
-            || fileCommentPanelB.getBoxCount() > 0));
     if (show) {
       parent.header.removeStyleName(style.fullscreen());
     } else {
@@ -128,25 +97,8 @@ class DiffTable extends Composite {
     parent.resizeCodeMirror();
   }
 
-  private FileCommentPanel getPanelFromSide(DisplaySide side) {
-    return side == DisplaySide.A ? fileCommentPanelA : fileCommentPanelB;
-  }
-
-  void createOrEditFileComment(DisplaySide side) {
-    getPanelFromSide(side).createOrEditFileComment();
-    setHeaderVisible(true);
-  }
-
-  void addFileCommentBox(CommentBox box) {
-    getPanelFromSide(box.getCm().side()).addFileComment(box);
-  }
-
-  void onRemoveDraftBox(DraftBox box) {
-    getPanelFromSide(box.getCm().side()).onRemoveDraftBox(box);
-  }
-
   int getHeaderHeight() {
-    return fileCommentRow.getOffsetHeight() + patchSetSelectBoxA.getOffsetHeight();
+    return patchSetSelectBoxA.getOffsetHeight();
   }
 
   void setUpPatchSetNav(JsArray<RevisionInfo> list, DiffInfo info) {
@@ -155,6 +107,6 @@ class DiffTable extends Composite {
   }
 
   void add(Widget widget) {
-    ((HTMLPanel) getWidget()).add(widget);
+    widgets.add(widget);
   }
 }

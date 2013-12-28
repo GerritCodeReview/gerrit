@@ -49,7 +49,7 @@ limitations under the License.
         <div ui:field='date' class='{res.style.date}'/>
       </g:HTMLPanel>
       <div ui:field='p_view' aria-hidden='true' style='display: NONE'>
-        <g:HTML ui:field='message' styleName=''/>
+        <g:HTML ui:field='message' styleName='{res.style.message}'/>
         <div style='position: relative'>
           <g:Button ui:field='edit'
               title='Edit this draft comment'

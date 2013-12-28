@@ -428,7 +428,7 @@ class ReplyBox extends Composite {
 
   private static List<CommentInfo> copyPath(String path, JsArray<CommentInfo> l) {
     for (int i = 0; i < l.length(); i++) {
-      l.get(i).setPath(path);
+      l.get(i).path(path);
     }
     return Natives.asList(l);
   }

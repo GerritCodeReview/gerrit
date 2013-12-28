@@ -20,7 +20,6 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
-import com.google.gerrit.client.changes.CommentInput;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -941,7 +940,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       if (p == null) {
         enableButtons(false);
         final PatchSet.Id psId = newComment.getKey().getParentKey().getParentKey();
-        CommentInput in = CommentEditorPanel.toInput(newComment);
+        CommentInfo in = CommentEditorPanel.toInput(newComment);
         CommentApi.createDraft(psId, in,
             new GerritCallback<CommentInfo>() {
               @Override

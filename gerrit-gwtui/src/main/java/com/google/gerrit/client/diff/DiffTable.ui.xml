@@ -44,14 +44,19 @@ limitations under the License.
     .difftable .CodeMirror-lines { padding: 0; }
     .difftable .CodeMirror pre {
       padding: 0;
-      padding-bottom: 0.11em;
       overflow: hidden;
       border-right: 0;
       width: auto;
     }
+
+    /* Preserve space for underscores. If this changes
+     * see ChunkManager.addPadding() and adjust there.
+     */
+    .difftable .CodeMirror pre,
     .difftable .CodeMirror pre span {
-      padding-bottom: 0.11em;
+      padding-bottom: 1px;
     }
+
     .contentCell {
       padding: 0;
     }
@@ -144,14 +149,6 @@ limitations under the License.
                 <d:PatchSetSelectBox2 ui:field='patchSetSelectBoxB' />
               </td>
             </tr>
-            <tr ui:field='fileCommentRow' class='{style.fileCommentRow}'>
-              <td ui:field='fileCommentCellA' class='{style.fileCommentCell}'>
-                <d:FileCommentPanel ui:field='fileCommentPanelA' />
-              </td>
-              <td ui:field='fileCommentCellB' class='{style.fileCommentCell}'>
-                <d:FileCommentPanel ui:field='fileCommentPanelB' />
-              </td>
-            </tr>
             <tr>
               <td ui:field='cmA' class='{style.a}'></td>
               <td ui:field='cmB' class='{style.b}'></td>
@@ -161,5 +158,6 @@ limitations under the License.
         <td class='{style.sidePanelCell}'><d:SidePanel ui:field='sidePanel'/></td>
       </tr>
     </table>
+    <g:FlowPanel ui:field='widgets' visible='false'/>
   </g:HTMLPanel>
 </ui:UiBinder>

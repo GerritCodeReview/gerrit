@@ -17,7 +17,6 @@ package com.google.gerrit.client.patches;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
-import com.google.gerrit.client.changes.CommentInput;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.CommentPanel;
@@ -268,7 +267,7 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
         onSave.onFailure(caught);
       }
     };
-    CommentInput input = toInput(comment);
+    CommentInfo input = toInput(comment);
     if (wasNew) {
       CommentApi.createDraft(psId, input, cb);
     } else {
@@ -336,16 +335,16 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
     return null;
   }
 
-  public static CommentInput toInput(PatchLineComment c) {
-    CommentInput i = CommentInput.createObject().cast();
-    i.setId(c.getKey().get());
-    i.setPath(c.getKey().getParentKey().get());
-    i.setSide(c.getSide() == 0 ? Side.PARENT : Side.REVISION);
+  public static CommentInfo toInput(PatchLineComment c) {
+    CommentInfo i = CommentInfo.createObject().cast();
+    i.id(c.getKey().get());
+    i.path(c.getKey().getParentKey().get());
+    i.side(c.getSide() == 0 ? Side.PARENT : Side.REVISION);
     if (c.getLine() > 0) {
-      i.setLine(c.getLine());
+      i.line(c.getLine());
     }
-    i.setInReplyTo(c.getParentUuid());
-    i.setMessage(c.getMessage());
+    i.in_reply_to(c.getParentUuid());
+    i.message(c.getMessage());
     return i;
   }
 

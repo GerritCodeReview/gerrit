@@ -15,7 +15,6 @@
 package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.changes.CommentInfo;
-import com.google.gerrit.client.diff.PaddingManager.PaddingWidgetWrapper;
 import com.google.gerrit.client.diff.SidePanel.GutterWrapper;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
@@ -34,23 +33,17 @@ abstract class CommentBox extends Composite {
     Resources.I.style().ensureInjected();
   }
 
-  private PaddingManager widgetManager;
-  private PaddingWidgetWrapper selfWidgetWrapper;
-  private CommentManager commentManager;
-  private CodeMirror cm;
-  private DiffChunkInfo diffChunkInfo;
+  private final CommentGroup group;
   private GutterWrapper gutterWrapper;
   private FromTo fromTo;
   private TextMarker rangeMarker;
   private TextMarker rangeHighlightMarker;
 
-  CommentBox(CommentManager commentManager, CodeMirror cm, CommentInfo info) {
-    this.commentManager = commentManager;
-    this.cm = cm;
-    CommentRange range = info.range();
+  CommentBox(CommentGroup group, CommentRange range) {
+    this.group = group;
     if (range != null) {
       fromTo = FromTo.create(range);
-      rangeMarker = cm.markText(
+      rangeMarker = group.getCm().markText(
           fromTo.getFrom(),
           fromTo.getTo(),
           Configuration.create()
@@ -70,62 +63,21 @@ abstract class CommentBox extends Composite {
     }, MouseOutEvent.getType());
   }
 
-  @Override
-  protected void onLoad() {
-    resizePaddingWidget();
-  }
-
-  void resizePaddingWidget() {
-    if (!getCommentInfo().has_line()) {
-      return;
-    }
-    commentManager.getSideBySide2().defer(new Runnable() {
-      @Override
-      public void run() {
-        assert selfWidgetWrapper != null;
-        selfWidgetWrapper.getWidget().changed();
-        if (diffChunkInfo != null) {
-          commentManager.getSideBySide2().getChunkManager()
-            .resizePaddingOnOtherSide(cm.side(), diffChunkInfo.getEnd());
-        } else {
-          assert widgetManager != null;
-          widgetManager.resizePaddingWidget();
-        }
-      }
-    });
-  }
-
   abstract CommentInfo getCommentInfo();
   abstract boolean isOpen();
 
   void setOpen(boolean open) {
-    resizePaddingWidget();
+    group.resize();
     setRangeHighlight(open);
     getCm().focus();
   }
 
+  CommentGroup getCommentGroup() {
+    return group;
+  }
+
   CommentManager getCommentManager() {
-    return commentManager;
-  }
-
-  PaddingManager getPaddingManager() {
-    return widgetManager;
-  }
-
-  void setPaddingManager(PaddingManager manager) {
-    widgetManager = manager;
-  }
-
-  void setSelfWidgetWrapper(PaddingWidgetWrapper wrapper) {
-    selfWidgetWrapper = wrapper;
-  }
-
-  PaddingWidgetWrapper getSelfWidgetWrapper() {
-    return selfWidgetWrapper;
-  }
-
-  void setDiffChunkInfo(DiffChunkInfo info) {
-    this.diffChunkInfo = info;
+    return group.getCommentManager();
   }
 
   void setGutterWrapper(GutterWrapper wrapper) {
@@ -135,7 +87,7 @@ abstract class CommentBox extends Composite {
   void setRangeHighlight(boolean highlight) {
     if (fromTo != null) {
       if (highlight && rangeHighlightMarker == null) {
-        rangeHighlightMarker = cm.markText(
+        rangeHighlightMarker = group.getCm().markText(
             fromTo.getFrom(),
             fromTo.getTo(),
             Configuration.create()
@@ -150,6 +102,7 @@ abstract class CommentBox extends Composite {
   void clearRange() {
     if (rangeMarker != null) {
       rangeMarker.clear();
+      rangeMarker = null;
     }
   }
 
@@ -158,6 +111,6 @@ abstract class CommentBox extends Composite {
   }
 
   CodeMirror getCm() {
-    return cm;
+    return group.getCm();
   }
 }

@@ -84,13 +84,11 @@ class SkipBar extends Composite {
         lineWidget = cm.addLineWidget(start - 1, getElement(), cfg);
       }
       if (isNew) {
-        setVisible(false);
         lineWidget.onFirstRedraw(new Runnable() {
           @Override
           public void run() {
             int w = cm.getGutterElement().getOffsetWidth();
             getElement().getStyle().setPaddingLeft(w, Unit.PX);
-            setVisible(true);
           }
         });
       }
@@ -124,16 +122,21 @@ class SkipBar extends Composite {
     lineWidget.clear();
   }
 
+  void expandBefore(int cnt) {
+    expandBefore0(cnt);
+    otherBar.expandBefore0(cnt);
+  }
+
   void expandAll() {
     clearMarkerAndWidget();
     removeFromParent();
     updateSelection();
   }
 
-  private void expandBefore() {
+  private void expandBefore0(int cnt) {
     FromTo range = textMarker.find();
     int oldStart = range.getFrom().getLine();
-    int newStart = oldStart + NUM_ROWS_TO_EXPAND;
+    int newStart = oldStart + cnt;
     int end = range.getTo().getLine();
     clearMarkerAndWidget();
     collapse(newStart, end, true);
@@ -167,8 +170,7 @@ class SkipBar extends Composite {
 
   @UiHandler("upArrow")
   void onExpandBefore(ClickEvent e) {
-    otherBar.expandBefore();
-    expandBefore();
+    expandBefore(NUM_ROWS_TO_EXPAND);
     cm.focus();
   }
 

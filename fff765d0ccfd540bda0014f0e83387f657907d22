@@ -1,0 +1,163 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "682c637b_e8f593ab",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2544,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-12-30T15:20:13Z",
+      "side": 1,
+      "message": "Is it an experimental feature because, by default, it is switched off?",
+      "range": {
+        "startLine": 2544,
+        "startChar": 46,
+        "endLine": 2544,
+        "endChar": 58
+      },
+      "revId": "fff765d0ccfd540bda0014f0e83387f657907d22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "283d0b9f_4ecf9367",
+        "filename": "Documentation/project-documentation.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-12-30T15:20:13Z",
+      "side": 1,
+      "message": "What about detached HEAD?",
+      "revId": "fff765d0ccfd540bda0014f0e83387f657907d22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "283d0b9f_6ecc4f72",
+        "filename": "Documentation/project-documentation.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-12-30T15:20:13Z",
+      "side": 1,
+      "message": "It should also be possible to serve documentation from any commit i.e. \"rev\u003dc00fee...\"",
+      "revId": "fff765d0ccfd540bda0014f0e83387f657907d22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "682c637b_08dbc73c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/doc/ProjectDocumentationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-12-30T15:20:13Z",
+      "side": 1,
+      "message": "This means that if pegdown changes the output format and doesn\u0027t output \u003chead\u003e immediately after \u003chtml\u003e this test will break. Isn\u0027t it enough to check that the content starts with just \"\u003chtml\u003e\"? ...",
+      "revId": "fff765d0ccfd540bda0014f0e83387f657907d22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "283d0b9f_8e97bb31",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/doc/ProjectDocumentationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-12-30T15:20:13Z",
+      "side": 1,
+      "message": "... and ends with \"\u003chtml\u003e\"?",
+      "revId": "fff765d0ccfd540bda0014f0e83387f657907d22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "283d0b9f_ae9c7756",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/doc/ProjectDocumentationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-12-30T15:20:13Z",
+      "side": 1,
+      "message": "optional: I am not sure if this test belongs here as it checks that BLOCK on refs/* prevents reading of anything (in this case documentation) from that project. This might be more relevant for a test where permissions are checked\nas we would likely check more cases there (like BLOCK in a parent project, BLOCK and ALLOW in the same project etc...)",
+      "revId": "fff765d0ccfd540bda0014f0e83387f657907d22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "283d0b9f_ce91c33d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-12-30T15:20:13Z",
+      "side": 1,
+      "message": "use SshAddressesModule.DEFAULT_PORT?",
+      "revId": "fff765d0ccfd540bda0014f0e83387f657907d22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "283d0b9f_ee967f32",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-12-30T15:20:13Z",
+      "side": 1,
+      "message": "use SshAddressesModule.IANA_SSH_PORT?",
+      "revId": "fff765d0ccfd540bda0014f0e83387f657907d22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "283d0b9f_0eacab87",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-12-30T15:20:13Z",
+      "side": 1,
+      "message": "why is it important to prevent non-owners from accessing the docs from any commit?",
+      "revId": "fff765d0ccfd540bda0014f0e83387f657907d22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

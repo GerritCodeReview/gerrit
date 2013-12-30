@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48315fd0_87696687",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ConfigInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-30T16:04:12Z",
+      "side": 1,
+      "message": "This is getting a little ridiculous for a constructor. Maybe since the fields are public its cleaner to just assign the fields above as necessary and ignore the constructors.",
+      "range": {
+        "startLine": 206,
+        "startChar": 0,
+        "endLine": 225,
+        "endChar": 39
+      },
+      "revId": "29576fd6f30adf5e208623123ce04736027061ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

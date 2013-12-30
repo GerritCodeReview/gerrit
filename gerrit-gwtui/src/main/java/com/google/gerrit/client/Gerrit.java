@@ -276,7 +276,7 @@ public class Gerrit implements EntryPoint {
 
   public static GitwebLink getGitwebLink() {
     GitwebConfig gw = getConfig().getGitwebLink();
-    return gw != null ? new GitwebLink(gw) : null;
+    return gw != null && gw.type != null ? new GitwebLink(gw) : null;
   }
 
   /** Site theme information (site specific colors)/ */

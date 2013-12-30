@@ -157,7 +157,6 @@ public class ChangeData {
   private ChangedLines changedLines;
   private boolean patchesLoaded;
 
-  @VisibleForTesting
   @AssistedInject
   public ChangeData(
       GitRepositoryManager repoManager,

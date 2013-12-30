@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48315fd0_47812ee1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-30T16:01:36Z",
+      "side": 1,
+      "message": "This block also needs to be in MergeOp, and maybe also somewhere in the ProjectCache to trigger plugins when the server notices refs/meta/config was updated directly by the admin, or by replication from another Gerrit.",
+      "range": {
+        "startLine": 878,
+        "startChar": 14,
+        "endLine": 915,
+        "endChar": 15
+      },
+      "revId": "04b375acae4d7aeb9a0971b3aee1d5f5b35bd703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

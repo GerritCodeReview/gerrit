@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "682c637b_6847e335",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-30T08:56:36Z",
+      "side": 1,
+      "message": "I do agree that we need to improve the email notification system.\nHowever I\u0027m not sure that removing the \"new patch set\" email\nnotification is a good first step.\n\nFor me there are two important points:\n\n1. As a user I want fine-grained control about when I\u0027m getting\nnotified by email.\n\n2. By default there should be only very few notifications.\n\nRemoving the \"new patch set\" email notification means for me that I\u0027m\nlosing some control and I need to rely on others to make the correct\nactions, e.g. that they answer \u0027Done\u0027 to all comments.\n\nAlready now I had cases where I simply missed comments because\nreviewers disabled the \u0027Send Email\u0027 checkbox while publishing\ncomments. Again I\u0027m not in control but have to rely on others.\n\nWith my current workflow I\u0027m quite heavily depending on the email\nnotifications, but this is mainly because the user dashboard is not\nworking well for me. Basically I observe all incoming changes and for\neach change I decide for myself:\n\n- the change is interesting -\u003e I want to review this\n\n- the change seems to be not ready yet or somebody else already found issues -\u003e I want to review it, when the next patch set comes\n\n- the change is interesting, but I\u0027m not familiar with this area -\u003e I want to follow comments on this change, maybe I learn something new\n\n- not interesting -\u003e I don\u0027t want to look at it\n\nAt the moment I\u0027m handling this via my inbox with the \"new patch set\"\nemail notifications:\n\n- I want to review this patch set -\u003e keep the mail as unread until I have time to review it, after the review is done delete the mail, I\u0027ll get a new mail when there is a new patch set that addresses my comments\n\n- I don\u0027t want to review this patch set -\u003e delete the mail\n\nThis sorting normally goes quite fast and I can\u0027t do this with\ndashboards.\n\nImproving the user dashboard would probably solve my issues, but it\u0027s\nnot an easy task.\n\nSince plugins can react on change events, would it be better to move\nthe whole email notification system into a plugin? This would keep the\ncode in Gerrit core clean and would allow different systems for email\nnotifications. I guess this is a topic where there are different\nopinions and being able to plugin the preferred logic would be\nhelpful.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 60
+      },
+      "revId": "c7e021f5c8f2760d9d1516ed7ee2b88c68529578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

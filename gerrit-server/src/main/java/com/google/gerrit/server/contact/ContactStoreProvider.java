@@ -85,21 +85,10 @@ public class ContactStoreProvider implements Provider<ContactStore> {
       Class.forName(PGPPublicKey.class.getName());
       addBouncyCastleProvider();
       return true;
-    } catch (NoClassDefFoundError noBouncyCastle) {
-      return false;
-    } catch (ClassNotFoundException noBouncyCastle) {
-      return false;
-    } catch (SecurityException noBouncyCastle) {
-      return false;
-    } catch (NoSuchMethodException noBouncyCastle) {
-      return false;
-    } catch (InstantiationException noBouncyCastle) {
-      return false;
-    } catch (IllegalAccessException noBouncyCastle) {
-      return false;
-    } catch (InvocationTargetException noBouncyCastle) {
-      return false;
-    } catch (ClassCastException noBouncyCastle) {
+    } catch (NoClassDefFoundError | ClassNotFoundException | SecurityException
+        | NoSuchMethodException | InstantiationException
+        | IllegalAccessException | InvocationTargetException
+        | ClassCastException noBouncyCastle) {
       return false;
     }
   }

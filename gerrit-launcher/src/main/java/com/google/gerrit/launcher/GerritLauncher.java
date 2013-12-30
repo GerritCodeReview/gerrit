@@ -156,10 +156,7 @@ public final class GerritLauncher {
     final Method main;
     try {
       main = clazz.getMethod("main", argv.getClass());
-    } catch (SecurityException e) {
-      System.err.println("fatal: unknown command " + name);
-      return 1;
-    } catch (NoSuchMethodException e) {
+    } catch (SecurityException | NoSuchMethodException e) {
       System.err.println("fatal: unknown command " + name);
       return 1;
     }

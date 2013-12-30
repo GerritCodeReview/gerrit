@@ -25,7 +25,7 @@ import dk.brics.automaton.RunAutomaton;
 import java.util.Collections;
 import java.util.List;
 
-class RegexFilePredicate extends RegexPredicate<ChangeData> {
+class RegexPathPredicate extends RegexPredicate<ChangeData> {
   private final RunAutomaton pattern;
 
   private final String prefixBegin;
@@ -33,8 +33,8 @@ class RegexFilePredicate extends RegexPredicate<ChangeData> {
   private final int prefixLen;
   private final boolean prefixOnly;
 
-  RegexFilePredicate(String re) {
-    super(ChangeField.FILE, re);
+  RegexPathPredicate(String fieldName, String re) {
+    super(ChangeField.PATH, re);
 
     if (re.startsWith("^")) {
       re = re.substring(1);

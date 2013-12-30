@@ -574,13 +574,16 @@ public abstract class AbstractQueryChangesTest {
     TestRepository<InMemoryRepository> repo = createProject("repo");
     RevCommit commit = repo.parseBody(
         repo.commit().message("one")
-        .add("file1", "contents1").add("file2", "contents2")
+        .add("dir/file1", "contents1").add("dir/file2", "contents2")
         .create());
     Change change = newChange(repo, commit, null, null, null).insert();
 
     assertTrue(query("file:file").isEmpty());
+    assertResultEquals(change, queryOne("file:dir"));
     assertResultEquals(change, queryOne("file:file1"));
     assertResultEquals(change, queryOne("file:file2"));
+    assertResultEquals(change, queryOne("file:dir/file1"));
+    assertResultEquals(change, queryOne("file:dir/file2"));
   }
 
   @Test
@@ -588,12 +591,43 @@ public abstract class AbstractQueryChangesTest {
     TestRepository<InMemoryRepository> repo = createProject("repo");
     RevCommit commit = repo.parseBody(
         repo.commit().message("one")
-        .add("file1", "contents1").add("file2", "contents2")
+        .add("dir/file1", "contents1").add("dir/file2", "contents2")
         .create());
     Change change = newChange(repo, commit, null, null, null).insert();
 
-    assertTrue(query("file:file.*").isEmpty());
-    assertResultEquals(change, queryOne("file:^file.*"));
+    assertTrue(query("file:.*file.*").isEmpty());
+    assertTrue(query("file:^file.*").isEmpty()); // Whole path only.
+    assertResultEquals(change, queryOne("file:^dir.file.*"));
+  }
+
+  @Test
+  public void byPathExact() throws Exception {
+    TestRepository<InMemoryRepository> repo = createProject("repo");
+    RevCommit commit = repo.parseBody(
+        repo.commit().message("one")
+        .add("dir/file1", "contents1").add("dir/file2", "contents2")
+        .create());
+    Change change = newChange(repo, commit, null, null, null).insert();
+
+    assertTrue(query("path:file").isEmpty());
+    assertTrue(query("path:dir").isEmpty());
+    assertTrue(query("path:file1").isEmpty());
+    assertTrue(query("path:file2").isEmpty());
+    assertResultEquals(change, queryOne("path:dir/file1"));
+    assertResultEquals(change, queryOne("path:dir/file2"));
+  }
+
+  @Test
+  public void byPathRegex() throws Exception {
+    TestRepository<InMemoryRepository> repo = createProject("repo");
+    RevCommit commit = repo.parseBody(
+        repo.commit().message("one")
+        .add("dir/file1", "contents1").add("dir/file2", "contents2")
+        .create());
+    Change change = newChange(repo, commit, null, null, null).insert();
+
+    assertTrue(query("path:.*file.*").isEmpty());
+    assertResultEquals(change, queryOne("path:^dir.file.*"));
   }
 
   @Test

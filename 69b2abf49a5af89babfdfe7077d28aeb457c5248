@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2dfb5d35_3e51e924",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-30T16:36:07Z",
+      "side": 1,
+      "message": "Documentation/user-search.txt needs to be updated.",
+      "revId": "69b2abf49a5af89babfdfe7077d28aeb457c5248",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dfb5d35_1e562d1d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/EqualsPathPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-30T16:36:07Z",
+      "side": 1,
+      "message": "This is no longer true.",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 5
+      },
+      "revId": "69b2abf49a5af89babfdfe7077d28aeb457c5248",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

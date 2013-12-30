@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2dfb5d35_de1e8571",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1294,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-30T15:38:30Z",
+      "side": 1,
+      "message": "Now value is either configured_value or inherted_value?",
+      "range": {
+        "startLine": 1293,
+        "startChar": 0,
+        "endLine": 1294,
+        "endChar": 51
+      },
+      "revId": "29af9ffb4d94369c4401185d2ddd31129bd4006d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

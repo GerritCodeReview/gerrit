@@ -1043,7 +1043,7 @@ public class MergeOp {
 
     CheckedFuture<?, IOException> indexFuture;
     if (change != null) {
-      indexFuture = indexer.indexAsync(change);
+      indexFuture = indexer.indexAsync(change.getId());
     } else {
       indexFuture = null;
     }

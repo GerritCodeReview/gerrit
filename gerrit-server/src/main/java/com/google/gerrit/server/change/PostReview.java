@@ -139,7 +139,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
     CheckedFuture<?, IOException> indexWrite;
     if (dirty) {
-      indexWrite = indexer.indexAsync(change);
+      indexWrite = indexer.indexAsync(change.getId());
     } else {
       indexWrite = Futures.<Void, IOException> immediateCheckedFuture(null);
     }

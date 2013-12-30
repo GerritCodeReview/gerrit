@@ -107,7 +107,8 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
       db.rollback();
     }
 
-    CheckedFuture<?, IOException> indexFuture = indexer.indexAsync(change);
+    CheckedFuture<?, IOException> indexFuture =
+        indexer.indexAsync(change.getId());
     try {
       ReplyToChangeSender cm = abandonedSenderFactory.create(change);
       cm.setFrom(caller.getAccountId());

@@ -108,7 +108,8 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
       db.rollback();
     }
 
-    CheckedFuture<?, IOException> indexFuture = indexer.indexAsync(change);
+    CheckedFuture<?, IOException> indexFuture =
+        indexer.indexAsync(change.getId());
     try {
       ReplyToChangeSender cm = restoredSenderFactory.create(change);
       cm.setFrom(caller.getAccountId());

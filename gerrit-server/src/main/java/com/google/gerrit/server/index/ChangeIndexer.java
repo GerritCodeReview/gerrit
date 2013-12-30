@@ -112,12 +112,12 @@ public class ChangeIndexer {
   /**
    * Start indexing a change.
    *
-   * @param change change to index.
+   * @param id change to index.
    * @return future for the indexing task.
    */
-  public CheckedFuture<?, IOException> indexAsync(Change change) {
+  public CheckedFuture<?, IOException> indexAsync(Change.Id id) {
     return executor != null
-        ? submit(new Task(change, false))
+        ? submit(new Task(id, false))
         : Futures.<Object, IOException> immediateCheckedFuture(null);
   }
 
@@ -145,12 +145,12 @@ public class ChangeIndexer {
   /**
    * Start deleting a change.
    *
-   * @param change change to delete.
+   * @param id change to delete.
    * @return future for the deleting task.
    */
-  public CheckedFuture<?, IOException> deleteAsync(Change change) {
+  public CheckedFuture<?, IOException> deleteAsync(Change.Id id) {
     return executor != null
-        ? submit(new Task(change, true))
+        ? submit(new Task(id, true))
         : Futures.<Object, IOException> immediateCheckedFuture(null);
   }
 
@@ -186,11 +186,11 @@ public class ChangeIndexer {
   }
 
   private class Task implements Callable<Void> {
-    private final Change change;
+    private final Change.Id id;
     private final boolean delete;
 
-    private Task(Change change, boolean delete) {
-      this.change = change;
+    private Task(Change.Id id, boolean delete) {
+      this.id = id;
       this.delete = delete;
     }
 
@@ -225,7 +225,7 @@ public class ChangeIndexer {
         RequestContext oldCtx = context.setContext(newCtx);
         try {
           ChangeData cd = changeDataFactory.create(
-              newCtx.getReviewDbProvider().get(), change);
+              newCtx.getReviewDbProvider().get(), id);
           if (delete) {
             for (ChangeIndex i : getWriteIndexes()) {
               i.delete(cd);
@@ -244,16 +244,14 @@ public class ChangeIndexer {
           }
         }
       } catch (Exception e) {
-        log.error(String.format(
-            "Failed to index change %d in %s",
-            change.getId().get(), change.getProject().get()), e);
+        log.error(String.format("Failed to index change %d", id), e);
         throw e;
       }
     }
 
     @Override
     public String toString() {
-      return "index-change-" + change.getId().get();
+      return "index-change-" + id.get();
     }
   }
 }

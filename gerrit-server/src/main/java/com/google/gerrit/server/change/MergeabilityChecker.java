@@ -185,7 +185,8 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
    *         reindexes the change (whether the mergeability flag was updated or
    *         not)
    */
-  public CheckedFuture<?, IOException> updateAndIndexAsync(final Change change) {
+  public CheckedFuture<?, IOException> updateAndIndexAsync(Change change) {
+    final Change.Id id = change.getId();
     return Futures.makeChecked(
         Futures.transform(updateAsync(change),
           new AsyncFunction<Boolean, Object>() {
@@ -194,7 +195,7 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
             public ListenableFuture<Object> apply(Boolean indexUpdated)
                 throws Exception {
               if (!indexUpdated) {
-                return (ListenableFuture<Object>) indexer.indexAsync(change);
+                return (ListenableFuture<Object>) indexer.indexAsync(id);
               }
               return Futures.immediateFuture(null);
             }

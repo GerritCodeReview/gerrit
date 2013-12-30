@@ -77,7 +77,7 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
       if (!updatedPatchSet.isDraft()
           || updatedChange.getStatus() == Change.Status.NEW) {
         CheckedFuture<?, IOException> indexFuture =
-            indexer.indexAsync(updatedChange);
+            indexer.indexAsync(updatedChange.getId());
         hooks.doDraftPublishedHook(updatedChange, updatedPatchSet, dbProvider.get());
         sender.send(rsrc.getChange().getStatus() == Change.Status.DRAFT,
             rsrc.getUser(), updatedChange, updatedPatchSet,

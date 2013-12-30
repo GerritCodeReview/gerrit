@@ -228,7 +228,8 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       db.rollback();
     }
 
-    CheckedFuture<?, IOException> indexFuture = indexer.indexAsync(rsrc.getChange());
+    CheckedFuture<?, IOException> indexFuture =
+        indexer.indexAsync(rsrc.getChange().getId());
     result.reviewers = Lists.newArrayListWithCapacity(added.size());
     for (PatchSetApproval psa : added) {
       result.reviewers.add(json.format(

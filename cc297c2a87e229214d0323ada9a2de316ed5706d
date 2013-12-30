@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "682c637b_28d88b3d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-12-30T15:30:30Z",
+      "side": 1,
+      "message": "Why is this needed? You are already subclassing a CacheModule.\n\nThis method body should only contain the lines 30-32",
+      "revId": "cc297c2a87e229214d0323ada9a2de316ed5706d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

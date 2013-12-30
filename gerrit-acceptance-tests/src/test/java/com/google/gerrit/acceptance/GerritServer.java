@@ -170,15 +170,7 @@ public class GerritServer {
   }
 
   private static InetAddress getLocalHost() throws UnknownHostException {
-    try {
-      return InetAddress.getLocalHost();
-    } catch (UnknownHostException e1) {
-      try {
-        return InetAddress.getByName("localhost");
-      } catch (UnknownHostException e2) {
-        return InetAddress.getByName("127.0.0.1");
-      }
-    }
+    return InetAddress.getByName("127.0.0.1");
   }
 
   private File sitePath;
@@ -201,9 +193,10 @@ public class GerritServer {
     url = cfg.getString("gerrit", null, "canonicalWebUrl");
     URI uri = URI.create(url);
 
-    sshdAddress = SocketUtil.resolve(
-        cfg.getString("sshd", null, "listenAddress"),
-        0);
+    String sshAddr = cfg.getString("sshd", null, "listenAddress");
+    sshdAddress = new InetSocketAddress(
+        sshAddr.substring(0, sshAddr.lastIndexOf(':')),
+        Short.parseShort(sshAddr.substring(sshAddr.lastIndexOf(':') + 1)));
     httpAddress = new InetSocketAddress(uri.getHost(), uri.getPort());
   }
 

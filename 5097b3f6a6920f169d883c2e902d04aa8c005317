@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "283d0b9f_eebf5fb2",
+        "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/plugin/client/Plugin.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-30T14:09:39Z",
+      "side": 1,
+      "message": "s/entry/cb\n\nThis results in a JavaDoc warning when building the plugin API.",
+      "range": {
+        "startLine": 73,
+        "startChar": 12,
+        "endLine": 73,
+        "endChar": 17
+      },
+      "revId": "5097b3f6a6920f169d883c2e902d04aa8c005317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "283d0b9f_0ec58b47",
+        "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/plugin/client/Plugin.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-30T14:09:39Z",
+      "side": 1,
+      "message": "Probably not related to this change, but I\u0027m getting\n\n  TypeError: a._loadedGwt is not a function\n\nfor this. As result the plugin loading phase takes quite long...",
+      "range": {
+        "startLine": 86,
+        "startChar": 29,
+        "endLine": 86,
+        "endChar": 46
+      },
+      "revId": "5097b3f6a6920f169d883c2e902d04aa8c005317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "682c637b_c8f0cfbe",
+        "filename": "plugins/cookbook-plugin",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-30T14:09:39Z",
+      "side": 1,
+      "message": "The screen added by the cookbook-plugin is not loading for me. I\u0027m only getting the NotFound screen. Not sure what is the reason for this and how to investigate it.",
+      "revId": "5097b3f6a6920f169d883c2e902d04aa8c005317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

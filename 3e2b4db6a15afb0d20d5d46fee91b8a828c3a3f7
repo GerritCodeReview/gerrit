@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48587f1a_efa92133",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-30T19:54:32Z",
+      "side": 1,
+      "message": "This column should use colspan\u003d\u00272\u0027",
+      "revId": "3e2b4db6a15afb0d20d5d46fee91b8a828c3a3f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_d0295c0c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-30T19:54:32Z",
+      "side": 1,
+      "message": "This column should use colspan\u003d\u00272\u0027",
+      "revId": "3e2b4db6a15afb0d20d5d46fee91b8a828c3a3f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_0f8f45d2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-30T19:54:32Z",
+      "side": 1,
+      "message": "This should not need align center. It just needs a margin-left that is the same width as clippy.",
+      "range": {
+        "startLine": 117,
+        "startChar": 12,
+        "endLine": 117,
+        "endChar": 26
+      },
+      "revId": "3e2b4db6a15afb0d20d5d46fee91b8a828c3a3f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

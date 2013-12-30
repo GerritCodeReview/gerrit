@@ -225,12 +225,25 @@ different tabs:
 
 * Related Changes
 
-This tab page shows open changes on which the current change depends and open
-changes that depend on the current change. For merge commits it shows also the
-closed changes that are going to be merged into the destination branch by
-accepting the merge commit. It is kind of a dependency too, but not in the
-sense of "these changes have to be submitted in order to submit this
-change".
+This tab page shows changes on which the current change depends (ancestors) and
+open changes that depend on the current change (descendants). For merge commits
+it shows also the closed changes that are going to be merged into the
+destination branch by accepting the merge commit. It is kind of a dependency
+too, but not in the sense of "these changes have to be submitted in order to
+submit this change".
+
+Indicators are appended on the commit message headlines of related changes to
+signify dependencies on outdated changes, or commits that are not associated to
+changes under review:
+
+If the selected patch set of a change is older than its latest patch set,
+the change is marked with an orange dot.
+
+If a descendant change depends on a patch set that is older than the selected
+patch set of a change, the descendent change is marked with a tilde (~).
+
+If an ancestor commit is not associated to a Gerrit change, i.e. has been pushed
+directly to the repository bypassing review, it is marked with a black dot.
 
 This tab is only visible if related changes for the current active
 change exist.

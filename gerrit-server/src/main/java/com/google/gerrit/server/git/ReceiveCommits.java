@@ -1717,7 +1717,7 @@ public class ReceiveCommits {
       if (newCommit == priorCommit) {
         // Ignore requests to make the change its current state.
         skip = true;
-        reject(inputCommand, "commit already exists");
+        reject(inputCommand, "commit already is current patchset");
         return false;
       }
 
@@ -1729,7 +1729,21 @@ public class ReceiveCommits {
         reject(inputCommand, "change " + ontoChange + " closed");
         return false;
       } else if (revisions.containsKey(newCommit)) {
-        reject(inputCommand, "commit already exists");
+        reject(inputCommand, "commit already exists in this change");
+        return false;
+      }
+
+      final RevWalk walk = rp.getRevWalk();
+      walk.reset();
+      walk.sort(RevSort.TOPO);
+      walk.sort(RevSort.REVERSE, true);
+
+      Set<ObjectId> existing = Sets.newHashSet();
+      walk.markStart(walk.parseCommit(inputCommand.getNewId()));
+      markHeadsAsUninteresting(walk, existing, changeCtl.getRefControl()
+          .getRefName());
+      if (existing.contains(walk.parseCommit(inputCommand.getNewId()))) {
+        reject(inputCommand, "commit exists in this project");
         return false;
       }
 

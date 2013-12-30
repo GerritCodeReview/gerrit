@@ -131,6 +131,29 @@
       "revId": "5a5d5b169b95fd616b37b00d554d19eb15ba08fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dfb5d35_1e3d0ddb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-30T15:33:33Z",
+      "side": 1,
+      "message": "parameter",
+      "range": {
+        "startLine": 205,
+        "startChar": 26,
+        "endLine": 205,
+        "endChar": 34
+      },
+      "revId": "5a5d5b169b95fd616b37b00d554d19eb15ba08fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -170,15 +170,7 @@ public class GerritServer {
   }
 
   private static InetAddress getLocalHost() throws UnknownHostException {
-    try {
-      return InetAddress.getLocalHost();
-    } catch (UnknownHostException e1) {
-      try {
-        return InetAddress.getByName("localhost");
-      } catch (UnknownHostException e2) {
-        return InetAddress.getByName("127.0.0.1");
-      }
-    }
+    return InetAddress.getLoopbackAddress();
   }
 
   private File sitePath;

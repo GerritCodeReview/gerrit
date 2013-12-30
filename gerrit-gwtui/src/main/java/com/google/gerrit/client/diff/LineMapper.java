@@ -52,11 +52,9 @@ class LineMapper {
   void appendReplace(int aLen, int bLen) {
     appendCommon(Math.min(aLen, bLen));
     if (aLen < bLen) { // Edit with insertion
-      int insertCnt = bLen - aLen;
-      appendInsert(insertCnt);
+      appendInsert(bLen - aLen);
     } else if (aLen > bLen) { // Edit with deletion
-      int deleteCnt = aLen - bLen;
-      appendDelete(deleteCnt);
+      appendDelete(aLen - bLen);
     }
   }
 
@@ -114,7 +112,7 @@ class LineMapper {
    *      ...
    */
   LineOnOtherInfo lineOnOther(DisplaySide mySide, int line) {
-    List<LineGap> lineGaps = mySide == DisplaySide.A ? lineMapAtoB : lineMapBtoA;
+    List<LineGap> lineGaps = gapList(mySide);
     // Create a dummy LineGap for the search.
     int ret = Collections.binarySearch(lineGaps, new LineGap(line));
     if (ret == -1) {
@@ -129,6 +127,38 @@ class LineMapper {
       } else { // Line after gap
         return new LineOnOtherInfo(line + delta, true);
       }
+    }
+  }
+
+  AlignedPair align(DisplaySide mySide, int line) {
+    List<LineGap> gaps = gapList(mySide);
+    int idx = Collections.binarySearch(gaps, new LineGap(line));
+    if (idx == -1) {
+      return new AlignedPair(line, line);
+    }
+
+    LineGap g = gaps.get(0 <= idx ? idx : -idx - 2);
+    if (g.start <= line && line <= g.end && g.end != -1) {
+      if (0 < g.start) {
+        // Line falls within this gap, use alignment before.
+        return new AlignedPair(g.start - 1, g.end + g.delta);
+      }
+      return new AlignedPair(g.end, g.end + g.delta + 1);
+    }
+    return new AlignedPair(line, line + g.delta);
+  }
+
+  private List<LineGap> gapList(DisplaySide mySide) {
+    return mySide == DisplaySide.A ? lineMapAtoB : lineMapBtoA;
+  }
+
+  static class AlignedPair {
+    final int src;
+    final int dst;
+
+    AlignedPair(int s, int d) {
+      src = s;
+      dst = d;
     }
   }
 

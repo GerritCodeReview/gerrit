@@ -22,7 +22,6 @@ import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.changes.ChangeList;
 import com.google.gerrit.client.diff.LineMapper.LineOnOtherInfo;
-import com.google.gerrit.client.diff.PaddingManager.PaddingWidgetWrapper;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.projects.ConfigInfoCache;
 import com.google.gerrit.client.rpc.CallbackGroup;
@@ -56,8 +55,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
@@ -68,12 +65,10 @@ import net.codemirror.lib.CodeMirror.BeforeSelectionChangeHandler;
 import net.codemirror.lib.CodeMirror.GutterClickHandler;
 import net.codemirror.lib.CodeMirror.LineClassWhere;
 import net.codemirror.lib.CodeMirror.LineHandle;
-import net.codemirror.lib.CodeMirror.RenderLineHandler;
 import net.codemirror.lib.CodeMirror.Viewport;
 import net.codemirror.lib.Configuration;
 import net.codemirror.lib.KeyMap;
 import net.codemirror.lib.LineCharacter;
-import net.codemirror.lib.LineWidget;
 import net.codemirror.lib.ModeInjector;
 import net.codemirror.lib.Rect;
 
@@ -112,7 +107,6 @@ public class SideBySide2 extends Screen {
   private KeyCommandSet keysAction;
   private KeyCommandSet keysComment;
   private List<HandlerRegistration> handlers;
-  private List<Runnable> deferred;
   private PreferencesAction prefsAction;
   private int reloadVersionId;
 
@@ -232,7 +226,7 @@ public class SideBySide2 extends Screen {
     });
     diffTable.sidePanel.adjustGutters(cmB);
 
-    if (startSide == null && diff.meta_b() != null) {
+    if (startLine == 0 && diff.meta_b() != null) {
       DiffChunkInfo d = chunkManager.getFirst();
       if (d != null) {
         startSide = d.getSide();
@@ -294,7 +288,6 @@ public class SideBySide2 extends Screen {
     cm.on("beforeSelectionChange", onSelectionChange(cm));
     cm.on("cursorActivity", updateActiveLine(cm));
     cm.on("gutterClick", onGutterClick(cm));
-    cm.on("renderLine", resizeLinePadding(cm.side()));
     cm.on("viewportChange", adjustGutters(cm));
     cm.on("focus", new Runnable() {
       @Override
@@ -313,7 +306,7 @@ public class SideBySide2 extends Screen {
         .on("'c'", commentManager.insertNewDraft(cm))
         .on("N", maybeNextVimSearch(cm))
         .on("P", chunkManager.diffChunkNav(cm, Direction.PREV))
-        .on("Shift-O", commentManager.openClosePublished(cm))
+        .on("Shift-O", commentManager.openCloseAll(cm))
         .on("Shift-Left", moveCursorToSide(cm, DisplaySide.A))
         .on("Shift-Right", moveCursorToSide(cm, DisplaySide.B))
         .on("'i'", new Runnable() {
@@ -486,10 +479,7 @@ public class SideBySide2 extends Screen {
         cmB.setHeight(height);
 
         render(diff);
-        commentManager.render(comments);
-        if (prefs.expandAllComments()) {
-          commentManager.setExpandAllComments(true);
-        }
+        commentManager.render(comments, prefs.expandAllComments());
         skipManager.render(prefs.context(), diff);
       }
     });
@@ -620,42 +610,6 @@ public class SideBySide2 extends Screen {
     return chunkManager.getLineMapper().lineOnOther(side, line);
   }
 
-  PaddingWidgetWrapper addPaddingWidget(CodeMirror cm,
-      int line, double height, Unit unit, Integer index) {
-    SimplePanel padding = new SimplePanel();
-    padding.setStyleName(DiffTable.style.padding());
-    padding.getElement().getStyle().setHeight(height, unit);
-    Configuration config = Configuration.create()
-        .set("coverGutter", true)
-        .set("above", line == -1)
-        .set("noHScroll", true);
-    if (index != null) {
-      config = config.set("insertAt", index);
-    }
-    LineWidget widget = addLineWidget(cm, line == -1 ? 0 : line, padding, config);
-    return new PaddingWidgetWrapper(widget, padding.getElement());
-  }
-
-  /**
-   * A LineWidget needs to be added to diffTable in order to respond to browser
-   * events, but CodeMirror doesn't render the widget until the containing line
-   * is scrolled into viewportMargin, causing it to appear at the bottom of the
-   * DOM upon loading. Fix by hiding the widget until it is first scrolled into
-   * view (when CodeMirror fires a "redraw" event on the widget).
-   */
-  LineWidget addLineWidget(CodeMirror cm, int line,
-      final Widget widget, Configuration options) {
-    widget.setVisible(false);
-    LineWidget lineWidget = cm.addLineWidget(line, widget.getElement(), options);
-    lineWidget.onFirstRedraw(new Runnable() {
-      @Override
-      public void run() {
-        widget.setVisible(true);
-      }
-    });
-    return lineWidget;
-  }
-
   private void clearActiveLine(CodeMirror cm) {
     if (cm.hasActiveLine()) {
       LineHandle activeLine = cm.getActiveLine();
@@ -684,34 +638,37 @@ public class SideBySide2 extends Screen {
     final CodeMirror other = otherCm(cm);
     return new Runnable() {
       public void run() {
-        /**
-         * The rendering of active lines has to be deferred. Reflow
-         * caused by adding and removing styles chokes Firefox when arrow
-         * key (or j/k) is held down. Performance on Chrome is fine
-         * without the deferral.
-         */
-        defer(new Runnable() {
+        // The rendering of active lines has to be deferred. Reflow
+        // caused by adding and removing styles chokes Firefox when arrow
+        // key (or j/k) is held down. Performance on Chrome is fine
+        // without the deferral.
+        //
+        Scheduler.get().scheduleDeferred(new ScheduledCommand() {
           @Override
-          public void run() {
-            LineHandle handle = cm.getLineHandleVisualStart(
-                cm.getCursor("end").getLine());
-            if (cm.hasActiveLine() && cm.getActiveLine().equals(handle)) {
-              return;
-            }
+          public void execute() {
+            operation(new Runnable() {
+              public void run() {
+                LineHandle handle = cm.getLineHandleVisualStart(
+                    cm.getCursor("end").getLine());
+                if (cm.hasActiveLine() && cm.getActiveLine().equals(handle)) {
+                  return;
+                }
 
-            clearActiveLine(cm);
-            clearActiveLine(other);
-            cm.setActiveLine(handle);
-            cm.addLineClass(
-                handle, LineClassWhere.WRAP, DiffTable.style.activeLine());
-            LineOnOtherInfo info =
-                lineOnOther(cm.side(), cm.getLineNumber(handle));
-            if (info.isAligned()) {
-              LineHandle oLineHandle = other.getLineHandle(info.getLine());
-              other.setActiveLine(oLineHandle);
-              other.addLineClass(oLineHandle, LineClassWhere.WRAP,
-                  DiffTable.style.activeLine());
-            }
+                clearActiveLine(cm);
+                clearActiveLine(other);
+                cm.setActiveLine(handle);
+                cm.addLineClass(
+                    handle, LineClassWhere.WRAP, DiffTable.style.activeLine());
+                LineOnOtherInfo info =
+                    lineOnOther(cm.side(), cm.getLineNumber(handle));
+                if (info.isAligned()) {
+                  LineHandle oLineHandle = other.getLineHandle(info.getLine());
+                  other.setActiveLine(oLineHandle);
+                  other.addLineClass(oLineHandle, LineClassWhere.WRAP,
+                      DiffTable.style.activeLine());
+                }
+              }
+            });
           }
         });
       }
@@ -798,39 +755,6 @@ public class SideBySide2 extends Screen {
     };
   }
 
-
-  void defer(Runnable thunk) {
-    if (deferred == null) {
-      final ArrayList<Runnable> list = new ArrayList<Runnable>();
-      deferred = list;
-      Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-        @Override
-        public void execute() {
-          deferred = null;
-          operation(new Runnable() {
-            public void run() {
-              for (Runnable thunk : list) {
-                thunk.run();
-              }
-            }
-          });
-        }
-      });
-    }
-    deferred.add(thunk);
-  }
-
-  // TODO: Maybe integrate this with PaddingManager.
-  private RenderLineHandler resizeLinePadding(final DisplaySide side) {
-    return new RenderLineHandler() {
-      @Override
-      public void handle(CodeMirror cm, LineHandle lh, Element e) {
-        commentManager.resizePadding(lh);
-        chunkManager.resizePadding(cm, lh, side);
-      }
-    };
-  }
-
   void resizeCodeMirror() {
     int height = getCodeMirrorHeight();
     cmA.setHeight(height);
@@ -871,6 +795,10 @@ public class SideBySide2 extends Screen {
 
   CommentManager getCommentManager() {
     return commentManager;
+  }
+
+  SkipManager getSkipManager() {
+    return skipManager;
   }
 
   void operation(final Runnable apply) {

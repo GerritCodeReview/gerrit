@@ -13,18 +13,18 @@
  * limitations under the License.
  */
 
-.commentBox {
-  position: relative;
-  width: 679px;
-  min-height: 16px;
+.commentWidgets {
   font-family: sans-serif;
   background-color: #fcfa96;
   border: 1px solid black;
   -webkit-box-shadow: 3px 3px 3px #888888;
   -moz-box-shadow: 3px 3px 3px #888888;
   box-shadow: 3px 3px 3px #888888;
+
+  /* margin-bottom is fixed in CommentGroup.computeHeight() */
   margin-bottom: 5px;
   margin-right: 5px;
+
   -webkit-touch-callout: initial;
   -webkit-user-select: initial;
   -khtml-user-select: initial;
@@ -32,7 +32,15 @@
   -ms-user-select: initial;
 }
 
-.header { cursor: pointer; }
+.commentBox {
+  position: relative;
+  min-height: 16px;
+}
+
+.header {
+  max-width: 650px;
+  cursor: pointer;
+}
 
 .summary {
   color: #777;
@@ -58,13 +66,15 @@
   padding-top: 2px;
   position: relative;
 }
-.contents p,
-.contents ul,
-.contents blockquote {
+.message {
+  overflow-x: auto;
+}
+.message p,
+.message ul,
+.message blockquote {
   -webkit-margin-before: 0;
   -webkit-margin-after: 0.3em;
 }
-
 .commentBox button {
   margin-right: 3px;
   margin-bottom: 1px;

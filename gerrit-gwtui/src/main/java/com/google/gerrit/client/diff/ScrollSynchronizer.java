@@ -14,11 +14,9 @@
 
 package com.google.gerrit.client.diff;
 
-import com.google.gerrit.client.diff.LineMapper.LineOnOtherInfo;
 import com.google.gwt.user.client.Timer;
 
 import net.codemirror.lib.CodeMirror;
-import net.codemirror.lib.CodeMirror.Viewport;
 import net.codemirror.lib.ScrollInfo;
 
 class ScrollSynchronizer {
@@ -75,7 +73,7 @@ class ScrollSynchronizer {
       if (active == this) {
         ScrollInfo si = src.getScrollInfo();
         updateScreenHeader(si);
-        dst.scrollTo(si.getLeft(), si.getTop());
+        dst.scrollTo(si.getLeft(), align(si.getTop()));
         state = 0;
       }
     }
@@ -84,37 +82,32 @@ class ScrollSynchronizer {
       switch (state) {
         case 0:
           state = 1;
+          dst.scrollToY(align(src.getScrollInfo().getTop()));
           break;
         case 1:
           state = 2;
-          return;
+          break;
         case 2:
           active = null;
           fixup.cancel();
-          return;
+          break;
       }
+    }
 
+    private double align(double srcTop) {
       // Since CM doesn't always take the height of line widgets into
       // account when calculating scrollInfo when scrolling too fast (e.g.
       // throw scrolling), simply setting scrollTop to be the same doesn't
       // guarantee alignment.
       //
-      // Iterate over the viewport to find the first line that isn't part of
-      // an insertion or deletion gap, for which isAligned() will be true.
-      // We then manually examine if the lines that should be aligned are at
-      // the same height. If not, perform additional scrolling.
-      Viewport fromTo = src.getViewport();
-      for (int line = fromTo.getFrom(); line <= fromTo.getTo(); line++) {
-        LineOnOtherInfo info = mapper.lineOnOther(srcSide, line);
-        if (info.isAligned()) {
-          double sy = src.heightAtLine(line);
-          double dy = dst.heightAtLine(info.getLine());
-          if (Math.abs(dy - sy) >= 1) {
-            dst.scrollToY(dst.getScrollInfo().getTop() + (dy - sy));
-          }
-          break;
-        }
-      }
+      // Find a pair of lines that are aligned and near the top of
+      // the viewport. Use that distance to correct the Y coordinate.
+      int line = src.lineAtHeight(srcTop, "local");
+      LineMapper.AlignedPair p = mapper.align(srcSide, line);
+
+      double sy = src.heightAtLine(p.src, "local");
+      double dy = dst.heightAtLine(p.dst, "local");
+      return Math.max(0, dy + (srcTop - sy));
     }
   }
 }

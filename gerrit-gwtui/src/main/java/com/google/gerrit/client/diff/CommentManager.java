@@ -16,7 +16,6 @@ package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.CommentInfo;
-import com.google.gerrit.client.diff.PaddingManager.PaddingWidgetWrapper;
 import com.google.gerrit.client.patches.SkippedLine;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.Natives;
@@ -24,13 +23,8 @@ import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.common.changes.Side;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JsArray;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.Style.Unit;
 
 import net.codemirror.lib.CodeMirror;
-import net.codemirror.lib.Configuration;
-import net.codemirror.lib.LineWidget;
 import net.codemirror.lib.CodeMirror.LineHandle;
 import net.codemirror.lib.TextMarker.FromTo;
 
@@ -40,6 +34,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 /** Tracks comment widgets for {@link SideBySide2}. */
 class CommentManager {
@@ -50,10 +46,10 @@ class CommentManager {
   private final CommentLinkProcessor commentLinkProcessor;
 
   private final Map<String, PublishedBox> published;
-  private final Map<LineHandle, CommentBox> lineActiveBox;
-  private final Map<LineHandle, List<PublishedBox>> linePublishedBoxes;
-  private final Map<LineHandle, PaddingManager> linePaddingManager;
+  private final SortedMap<Integer, CommentGroup> sideA;
+  private final SortedMap<Integer, CommentGroup> sideB;
   private final Set<DraftBox> unsavedDrafts;
+  private boolean attached;
 
   CommentManager(SideBySide2 host,
       PatchSet.Id base, PatchSet.Id revision,
@@ -66,9 +62,8 @@ class CommentManager {
     this.commentLinkProcessor = clp;
 
     published = new HashMap<String, PublishedBox>();
-    lineActiveBox = new HashMap<LineHandle, CommentBox>();
-    linePublishedBoxes = new HashMap<LineHandle, List<PublishedBox>>();
-    linePaddingManager = new HashMap<LineHandle, PaddingManager>();
+    sideA = new TreeMap<Integer, CommentGroup>();
+    sideB = new TreeMap<Integer, CommentGroup>();
     unsavedDrafts = new HashSet<DraftBox>();
   }
 
@@ -82,7 +77,7 @@ class CommentManager {
     }
   }
 
-  void render(CommentsCollections in) {
+  void render(CommentsCollections in, boolean expandAll) {
     if (in.publishedBase != null) {
       renderPublished(DisplaySide.A, in.publishedBase);
     }
@@ -95,62 +90,98 @@ class CommentManager {
     if (in.draftsRevision != null) {
       renderDrafts(DisplaySide.B, in.draftsRevision);
     }
+    if (expandAll) {
+      setExpandAllComments(true);
+    }
+    for (CommentGroup g : sideA.values()) {
+      g.attach(host.diffTable);
+    }
+    for (CommentGroup g : sideB.values()) {
+      g.attach(host.diffTable);
+      g.handleRedraw();
+    }
+    attached = true;
   }
 
   private void renderPublished(DisplaySide forSide, JsArray<CommentInfo> in) {
     for (CommentInfo info : Natives.asList(in)) {
       DisplaySide side = displaySide(info, forSide);
-      if (side == null) {
-        continue;
+      if (side != null) {
+        CommentGroup group = group(side, info.line());
+        PublishedBox box = new PublishedBox(
+            group,
+            commentLinkProcessor,
+            getPatchSetIdFromSide(side),
+            info);
+        group.add(box);
+        box.setGutterWrapper(host.diffTable.sidePanel.addGutter(
+            host.getCmFromSide(side),
+            Math.max(0, info.line() - 1),
+            SidePanel.GutterType.COMMENT));
+        published.put(info.id(), box);
       }
-
-      CodeMirror cm = host.getCmFromSide(side);
-      PublishedBox box = new PublishedBox(this, cm, commentLinkProcessor,
-          getPatchSetIdFromSide(side), info);
-      published.put(info.id(), box);
-      if (!info.has_line()) {
-        host.diffTable.addFileCommentBox(box);
-        continue;
-      }
-
-      int line = info.line() - 1;
-      LineHandle handle = cm.getLineHandle(line);
-      if (linePublishedBoxes.containsKey(handle)) {
-        linePublishedBoxes.get(handle).add(box);
-      } else {
-        List<PublishedBox> list = new ArrayList<PublishedBox>(4);
-        list.add(box);
-        linePublishedBoxes.put(handle, list);
-      }
-      lineActiveBox.put(handle, box);
-      addCommentBox(info, box);
     }
   }
 
   private void renderDrafts(DisplaySide forSide, JsArray<CommentInfo> in) {
     for (CommentInfo info : Natives.asList(in)) {
       DisplaySide side = displaySide(info, forSide);
-      if (side == null) {
-        continue;
+      if (side != null) {
+        addDraftBox(side, info);
       }
-
-      CodeMirror cm = host.getCmFromSide(side);
-      DraftBox box = new DraftBox(this, cm, commentLinkProcessor,
-          getPatchSetIdFromSide(side), info);
-      if (info.in_reply_to() != null) {
-        PublishedBox r = published.get(info.in_reply_to());
-        if (r != null) {
-          r.registerReplyBox(box);
-        }
-      }
-      if (!info.has_line()) {
-        host.diffTable.addFileCommentBox(box);
-        continue;
-      }
-
-      lineActiveBox.put(cm.getLineHandle(info.line() - 1), box);
-      addCommentBox(info, box);
     }
+  }
+
+  /**
+   * Create a new {@link DraftBox} at the specified line and focus it.
+   *
+   * @param side which side the draft will appear on.
+   * @param line the line the draft will be at. Lines are 1-based. Line 0 is a
+   *        special case creating a file level comment.
+   */
+  void insertNewDraft(DisplaySide side, int line) {
+    if (line == 0) {
+      host.getSkipManager().ensureFirstLineIsVisible();
+    }
+
+    CommentGroup group = group(side, line);
+    if (0 < group.getBoxCount()) {
+      CommentBox last = group.getCommentBox(group.getBoxCount() - 1);
+      if (last instanceof DraftBox) {
+        ((DraftBox)last).setEdit(true);
+      } else {
+        ((PublishedBox)last).doReply();
+      }
+    } else {
+      addDraftBox(side, CommentInfo.create(
+          path,
+          getStoredSideFromDisplaySide(side),
+          line,
+          null)).setEdit(true);
+    }
+  }
+
+  DraftBox addDraftBox(DisplaySide side, CommentInfo info) {
+    CommentGroup group = group(side, info.line());
+    DraftBox box = new DraftBox(
+        group,
+        commentLinkProcessor,
+        getPatchSetIdFromSide(side),
+        info);
+
+    if (info.in_reply_to() != null) {
+      PublishedBox r = published.get(info.in_reply_to());
+      if (r != null) {
+        r.setReplyBox(box);
+      }
+    }
+
+    group.add(box);
+    box.setGutterWrapper(host.diffTable.sidePanel.addGutter(
+        host.getCmFromSide(side),
+        Math.max(0, info.line() - 1),
+        SidePanel.GutterType.DRAFT));
+    return box;
   }
 
   private DisplaySide displaySide(CommentInfo info, DisplaySide forSide) {
@@ -161,15 +192,21 @@ class CommentManager {
   }
 
   List<SkippedLine> splitSkips(int context, List<SkippedLine> skips) {
+    if (sideB.containsKey(0)) {
+      // Special case of file comment; cannot skip first line.
+      for (SkippedLine skip : skips) {
+        if (skip.getStartB() == 0) {
+          skip.incrementStart(1);
+        }
+      }
+    }
+
     // TODO: This is not optimal, but shouldn't be too costly in most cases.
     // Maybe rewrite after done keeping track of diff chunk positions.
-    for (CommentBox box : lineActiveBox.values()) {
-      int boxLine = box.getCommentInfo().line();
-      boolean sideA = box.getCm().side() == DisplaySide.A;
-
+    for (int boxLine : sideB.tailMap(1).keySet()) {
       List<SkippedLine> temp = new ArrayList<SkippedLine>(skips.size() + 2);
       for (SkippedLine skip : skips) {
-        int startLine = sideA ? skip.getStartA() : skip.getStartB();
+        int startLine = skip.getStartB();
         int deltaBefore = boxLine - startLine;
         int deltaAfter = startLine + skip.getSize() - boxLine;
         if (deltaBefore < -context || deltaAfter < -context) {
@@ -203,36 +240,33 @@ class CommentManager {
     }
   }
 
+  void clearLine(DisplaySide side, int line) {
+    map(side).remove(line);
+  }
+
   Runnable toggleOpenBox(final CodeMirror cm) {
     return new Runnable() {
       public void run() {
-        CommentBox box = lineActiveBox.get(cm.getActiveLine());
-        if (box != null) {
-          box.setOpen(!box.isOpen());
+        if (cm.hasActiveLine()) {
+          CommentGroup w = map(cm.side()).get(
+              cm.getLineNumber(cm.getActiveLine()) + 1);
+          if (w != null) {
+            w.openCloseLast();
+          }
         }
       }
     };
   }
 
-  Runnable openClosePublished(final CodeMirror cm) {
+  Runnable openCloseAll(final CodeMirror cm) {
     return new Runnable() {
       @Override
       public void run() {
         if (cm.hasActiveLine()) {
-          List<PublishedBox> list =
-              linePublishedBoxes.get(cm.getActiveLine());
-          if (list == null) {
-            return;
-          }
-          boolean open = false;
-          for (PublishedBox box : list) {
-            if (!box.isOpen()) {
-              open = true;
-              break;
-            }
-          }
-          for (PublishedBox box : list) {
-            box.setOpen(open);
+          CommentGroup w = map(cm.side()).get(
+              cm.getLineNumber(cm.getActiveLine()) + 1);
+          if (w != null) {
+            w.openCloseAll();
           }
         }
       }
@@ -244,156 +278,38 @@ class CommentManager {
       return new Runnable() {
         @Override
         public void run() {
-          Gerrit.doSignIn(host.getToken());
+          String token = host.getToken();
+          if (cm.hasActiveLine()) {
+            LineHandle handle = cm.getActiveLine();
+            int line = cm.getLineNumber(handle) + 1;
+            token += "@" + (cm.side() == DisplaySide.A ? "a" : "") + line;
+          }
+          Gerrit.doSignIn(token);
         }
      };
     }
 
     return new Runnable() {
       public void run() {
-        LineHandle handle = cm.getActiveLine();
-        int line = cm.getLineNumber(handle);
-        CommentBox box = lineActiveBox.get(handle);
-        FromTo fromTo = cm.getSelectedRange();
-        if (cm.somethingSelected()) {
-          lineActiveBox.put(handle,
-              newRangeDraft(cm, line, fromTo.getTo().getLine() == line ? fromTo : null));
-          cm.setSelection(cm.getCursor());
-        } else if (box == null) {
-          lineActiveBox.put(handle, newRangeDraft(cm, line, null));
-        } else if (box instanceof DraftBox) {
-          ((DraftBox) box).setEdit(true);
-        } else {
-          ((PublishedBox) box).doReply();
+        if (cm.hasActiveLine()) {
+          newDraft(cm);
         }
       }
     };
   }
 
-  private DraftBox newRangeDraft(CodeMirror cm, int line, FromTo fromTo) {
-    DisplaySide side = cm.side();
-    return addDraftBox(CommentInfo.createRange(
-        path,
-        getStoredSideFromDisplaySide(side),
-        line + 1,
-        null,
-        null,
-        CommentRange.create(fromTo)), side);
-  }
-
-  DraftBox newFileDraft(DisplaySide side) {
-    return addDraftBox(CommentInfo.createFile(
-      path,
-      getStoredSideFromDisplaySide(side),
-      null, null), side);
-  }
-
-  CommentInfo createReply(CommentInfo replyTo) {
-    if (!replyTo.has_line() && replyTo.range() == null) {
-      return CommentInfo.createFile(path, replyTo.side(), replyTo.id(), null);
+  private void newDraft(CodeMirror cm) {
+    int line = cm.getLineNumber(cm.getActiveLine()) + 1;
+    if (cm.somethingSelected()) {
+      FromTo fromTo = cm.getSelectedRange();
+      addDraftBox(cm.side(), CommentInfo.create(
+              path,
+              getStoredSideFromDisplaySide(cm.side()),
+              line,
+              CommentRange.create(fromTo))).setEdit(true);
+      cm.setSelection(cm.getCursor());
     } else {
-      return CommentInfo.createRange(path, replyTo.side(), replyTo.line(),
-          replyTo.id(), null, replyTo.range());
-    }
-  }
-
-  DraftBox addDraftBox(CommentInfo info, DisplaySide side) {
-    CodeMirror cm = host.getCmFromSide(side);
-    final DraftBox box = new DraftBox(this, cm, commentLinkProcessor,
-        getPatchSetIdFromSide(side), info);
-    if (info.id() == null) {
-      Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-        @Override
-        public void execute() {
-          box.setOpen(true);
-          box.setEdit(true);
-        }
-      });
-    }
-    if (!info.has_line()) {
-      return box;
-    }
-    addCommentBox(info, box);
-    box.setVisible(true);
-    LineHandle handle = cm.getLineHandle(info.line() - 1);
-    lineActiveBox.put(handle, box);
-    return box;
-  }
-
-  private CommentBox addCommentBox(CommentInfo info, final CommentBox box) {
-    host.diffTable.add(box);
-    CodeMirror cm = box.getCm();
-    CodeMirror other = host.otherCm(cm);
-    int line = info.line() - 1; // CommentInfo is 1-based, but CM is 0-based
-    LineHandle handle = cm.getLineHandle(line);
-    PaddingManager manager;
-    if (linePaddingManager.containsKey(handle)) {
-      manager = linePaddingManager.get(handle);
-    } else {
-      // Estimated height at 28px, fixed by deferring after display
-      manager = new PaddingManager(host.addPaddingWidget(cm, line, 0, Unit.PX, 0));
-      linePaddingManager.put(handle, manager);
-    }
-
-    int lineToPad = host.lineOnOther(cm.side(), line).getLine();
-    LineHandle otherHandle = other.getLineHandle(lineToPad);
-    ChunkManager chunkMgr = host.getChunkManager();
-    DiffChunkInfo myChunk = chunkMgr.getDiffChunk(cm.side(), line);
-    DiffChunkInfo otherChunk = chunkMgr.getDiffChunk(other.side(), lineToPad);
-    PaddingManager otherManager;
-    if (linePaddingManager.containsKey(otherHandle)) {
-      otherManager = linePaddingManager.get(otherHandle);
-    } else {
-      otherManager =
-          new PaddingManager(host.addPaddingWidget(other, lineToPad, 0, Unit.PX, 0));
-      linePaddingManager.put(otherHandle, otherManager);
-    }
-    if ((myChunk == null && otherChunk == null) || (myChunk != null && otherChunk != null)) {
-      PaddingManager.link(manager, otherManager);
-    }
-
-    int index = manager.getCurrentCount();
-    manager.insert(box, index);
-    Configuration config = Configuration.create()
-      .set("coverGutter", true)
-      .set("insertAt", index)
-      .set("noHScroll", true);
-    LineWidget boxWidget = host.addLineWidget(cm, line, box, config);
-    box.setPaddingManager(manager);
-    box.setSelfWidgetWrapper(new PaddingWidgetWrapper(boxWidget, box.getElement()));
-    if (otherChunk == null) {
-      box.setDiffChunkInfo(myChunk);
-    }
-    box.setGutterWrapper(host.diffTable.sidePanel.addGutter(cm, info.line() - 1,
-        box instanceof DraftBox
-          ? SidePanel.GutterType.DRAFT
-          : SidePanel.GutterType.COMMENT));
-    return box;
-  }
-
-  void removeDraft(DraftBox box) {
-    int line = box.getCommentInfo().line() - 1;
-    LineHandle handle = box.getCm().getLineHandle(line);
-    lineActiveBox.remove(handle);
-    if (linePublishedBoxes.containsKey(handle)) {
-      List<PublishedBox> list = linePublishedBoxes.get(handle);
-      lineActiveBox.put(handle, list.get(list.size() - 1));
-    }
-    unsavedDrafts.remove(box);
-  }
-
-  void addFileCommentBox(CommentBox box) {
-    host.diffTable.addFileCommentBox(box);
-  }
-
-  void removeFileCommentBox(DraftBox box) {
-    host.diffTable.onRemoveDraftBox(box);
-  }
-
-  void resizePadding(LineHandle handle) {
-    CommentBox box = lineActiveBox.get(handle);
-    if (box != null) {
-      box.resizePaddingWidget();
+      insertNewDraft(cm.side(), line);
     }
   }
 
@@ -409,6 +325,47 @@ class CommentManager {
     for (DraftBox box : unsavedDrafts) {
       box.save(cb);
     }
+  }
+
+  private CommentGroup group(DisplaySide side, int line) {
+    CommentGroup w = map(side).get(line);
+    if (w != null) {
+      return w;
+    }
+
+    int lineA, lineB;
+    if (line == 0) {
+      lineA = lineB = 0;
+    } else if (side == DisplaySide.A) {
+      lineA = line;
+      lineB = host.lineOnOther(side, line - 1).getLine() + 1;
+    } else {
+      lineA = host.lineOnOther(side, line - 1).getLine() + 1;
+      lineB = line;
+    }
+
+    CommentGroup a = newGroup(DisplaySide.A, lineA);
+    CommentGroup b = newGroup(DisplaySide.B, lineB);
+    CommentGroup.pair(a, b);
+
+    sideA.put(lineA, a);
+    sideB.put(lineB, b);
+
+    if (attached) {
+      a.attach(host.diffTable);
+      b.attach(host.diffTable);
+      b.handleRedraw();
+    }
+
+    return side == DisplaySide.A ? a : b;
+  }
+
+  private CommentGroup newGroup(DisplaySide side, int line) {
+    return new CommentGroup(this, host.getCmFromSide(side), line);
+  }
+
+  private SortedMap<Integer, CommentGroup> map(DisplaySide side) {
+    return side == DisplaySide.A ? sideA : sideB;
   }
 
   private Side getStoredSideFromDisplaySide(DisplaySide side) {

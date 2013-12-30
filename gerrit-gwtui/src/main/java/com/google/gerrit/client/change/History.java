@@ -104,7 +104,7 @@ class History extends FlowPanel {
 
     for (String path : map.keySet()) {
       for (CommentInfo c : Natives.asList(map.get(path))) {
-        c.setPath(path);
+        c.path(path);
         if (c.author() != null) {
           AuthorRevision k = new AuthorRevision(c.author(), id);
           List<CommentInfo> l = byAuthor.get(k);

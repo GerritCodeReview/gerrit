@@ -49,7 +49,7 @@ class PatchSetSelectBox2 extends Composite {
   @UiField HTMLPanel linkPanel;
   @UiField BoxStyle style;
 
-  private DiffTable table;
+  private SideBySide2 parent;
   private DisplaySide side;
   private boolean sideA;
   private String path;
@@ -58,12 +58,16 @@ class PatchSetSelectBox2 extends Composite {
   private PatchSet.Id idActive;
   private PatchSetSelectBox2 other;
 
-  PatchSetSelectBox2(DiffTable table, final DisplaySide side,
-      final Change.Id changeId, final PatchSet.Id revision, String path) {
+  PatchSetSelectBox2(SideBySide2 parent,
+      DisplaySide side,
+      Change.Id changeId,
+      PatchSet.Id revision,
+      String path) {
     initWidget(uiBinder.createAndBindUi(this));
     icon.setTitle(PatchUtil.C.addFileCommentToolTip());
     icon.addStyleName(Gerrit.RESOURCES.css().link());
-    this.table = table;
+
+    this.parent = parent;
     this.side = side;
     this.sideA = side == DisplaySide.A;
     this.changeId = changeId;
@@ -127,6 +131,7 @@ class PatchSetSelectBox2 extends Composite {
 
   @UiHandler("icon")
   void onIconClick(ClickEvent e) {
-    table.createOrEditFileComment(side);
+    parent.getCmFromSide(side).scrollToY(0);
+    parent.getCommentManager().insertNewDraft(side, 0);
   }
 }

@@ -43,13 +43,13 @@ public class CommentApi {
     revision(id, "drafts").id(draftId).get(cb);
   }
 
-  public static void createDraft(PatchSet.Id id, CommentInput content,
+  public static void createDraft(PatchSet.Id id, CommentInfo content,
       AsyncCallback<CommentInfo> cb) {
     revision(id, "drafts").put(content, cb);
   }
 
   public static void updateDraft(PatchSet.Id id, String draftId,
-      CommentInput content, AsyncCallback<CommentInfo> cb) {
+      CommentInfo content, AsyncCallback<CommentInfo> cb) {
     revision(id, "drafts").id(draftId).put(content, cb);
   }
 

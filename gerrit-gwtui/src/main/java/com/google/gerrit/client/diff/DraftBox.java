@@ -17,7 +17,6 @@ package com.google.gerrit.client.diff;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
-import com.google.gerrit.client.changes.CommentInput;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
@@ -27,6 +26,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
@@ -35,6 +35,8 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -46,8 +48,6 @@ import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
-
-import net.codemirror.lib.CodeMirror;
 
 /** An HtmlPanel for displaying and editing a draft */
 class DraftBox extends CommentBox {
@@ -62,6 +62,8 @@ class DraftBox extends CommentBox {
   private CommentInfo comment;
   private PublishedBox replyToBox;
   private Timer expandTimer;
+  private Timer resizeTimer;
+  private int editAreaHeight;
   private boolean autoClosed;
 
   @UiField Widget header;
@@ -80,12 +82,11 @@ class DraftBox extends CommentBox {
   @UiField Button discard2;
 
   DraftBox(
-      CommentManager manager,
-      CodeMirror cm,
+      CommentGroup group,
       CommentLinkProcessor clp,
       PatchSet.Id id,
       CommentInfo info) {
-    super(manager, cm, info);
+    super(group, info.range());
 
     linkProcessor = clp;
     psId = id;
@@ -112,6 +113,7 @@ class DraftBox extends CommentBox {
         }
       }
     }, ClickEvent.getType());
+
     addDomHandler(new DoubleClickHandler() {
       @Override
       public void onDoubleClick(DoubleClickEvent event) {
@@ -123,12 +125,8 @@ class DraftBox extends CommentBox {
         }
       }
     }, DoubleClickEvent.getType());
-    addDomHandler(new MouseMoveHandler() {
-      @Override
-      public void onMouseMove(MouseMoveEvent event) {
-        resizePaddingWidget();
-      }
-    }, MouseMoveEvent.getType());
+
+    initResizeHandler();
   }
 
   private void set(CommentInfo info) {
@@ -170,7 +168,8 @@ class DraftBox extends CommentBox {
     if (editArea.getVisibleLines() != rows) {
       editArea.setVisibleLines(rows);
     }
-    resizePaddingWidget();
+    editAreaHeight = editArea.getOffsetHeight();
+    getCommentGroup().resize();
   }
 
   boolean isEdit() {
@@ -191,6 +190,7 @@ class DraftBox extends CommentBox {
       editArea.setFocus(true);
       cancel.setVisible(!isNew());
       expandText();
+      editAreaHeight = editArea.getOffsetHeight();
       if (msg.length() > 0) {
         Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
           @Override
@@ -202,18 +202,24 @@ class DraftBox extends CommentBox {
       }
     } else {
       expandTimer.cancel();
+      resizeTimer.cancel();
     }
     getCommentManager().setUnsaved(this, edit);
-    resizePaddingWidget();
+    getCommentGroup().resize();
   }
 
-  void registerReplyToBox(PublishedBox box) {
+  PublishedBox getReplyToBox() {
+    return replyToBox;
+  }
+
+  void setReplyToBox(PublishedBox box) {
     replyToBox = box;
   }
 
   @Override
   protected void onUnload() {
     expandTimer.cancel();
+    resizeTimer.cancel();
     super.onUnload();
   }
 
@@ -221,20 +227,13 @@ class DraftBox extends CommentBox {
     if (replyToBox != null) {
       replyToBox.unregisterReplyBox();
     }
-    clearRange();
+
+    getCommentManager().setUnsaved(this, false);
     setRangeHighlight(false);
-    removeFromParent();
-    if (!getCommentInfo().has_line()) {
-      getCommentManager().removeFileCommentBox(this);
-      return;
-    }
-    PaddingManager manager = getPaddingManager();
-    manager.remove(this);
-    getCommentManager().removeDraft(this);
-    getCm().focus();
-    getSelfWidgetWrapper().getWidget().clear();
+    clearRange();
     getGutterWrapper().remove();
-    resizePaddingWidget();
+    getCommentGroup().remove(this);
+    getCm().focus();
   }
 
   @UiHandler("message")
@@ -265,9 +264,8 @@ class DraftBox extends CommentBox {
       return;
     }
 
-    CommentInfo original = comment;
-    CommentInput input = CommentInput.create(original);
-    input.setMessage(message);
+    CommentInfo input = CommentInfo.copy(comment);
+    input.message(message);
     enableEdit(false);
 
     GerritCallback<CommentInfo> cb = new GerritCallback<CommentInfo>() {
@@ -288,11 +286,11 @@ class DraftBox extends CommentBox {
         super.onFailure(e);
       }
     };
-    if (original.id() == null) {
+    if (input.id() == null) {
       CommentApi.createDraft(psId, input, group == null ? cb : group.add(cb));
     } else {
       CommentApi.updateDraft(
-          psId, original.id(), input, group == null ? cb : group.add(cb));
+          psId, input.id(), input, group == null ? cb : group.add(cb));
     }
     getCm().focus();
   }
@@ -337,6 +335,7 @@ class DraftBox extends CommentBox {
 
   @UiHandler("editArea")
   void onKeyDown(KeyDownEvent e) {
+    resizeTimer.cancel();
     if ((e.isControlKeyDown() || e.isMetaKeyDown())
         && !e.isAltKeyDown() && !e.isShiftKeyDown()) {
       switch (e.getNativeKeyCode()) {
@@ -360,6 +359,40 @@ class DraftBox extends CommentBox {
       }
     }
     expandTimer.schedule(250);
+  }
+
+  @UiHandler("editArea")
+  void onBlur(BlurEvent e) {
+    resizeTimer.cancel();
+  }
+
+  private void initResizeHandler() {
+    resizeTimer = new Timer() {
+      @Override
+      public void run() {
+        getCommentGroup().resize();
+      }
+    };
+
+    addDomHandler(new MouseMoveHandler() {
+      @Override
+      public void onMouseMove(MouseMoveEvent event) {
+        int h = editArea.getOffsetHeight();
+        if (isEdit() && h != editAreaHeight) {
+          getCommentGroup().resize();
+          resizeTimer.scheduleRepeating(50);
+          editAreaHeight = h;
+        }
+      }
+    }, MouseMoveEvent.getType());
+
+    addDomHandler(new MouseUpHandler() {
+      @Override
+      public void onMouseUp(MouseUpEvent event) {
+        resizeTimer.cancel();
+        getCommentGroup().resize();
+      }
+    }, MouseUpEvent.getType());
   }
 
   private boolean isNew() {

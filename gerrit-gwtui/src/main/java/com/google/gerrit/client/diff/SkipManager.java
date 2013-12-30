@@ -31,6 +31,7 @@ class SkipManager {
   private final SideBySide2 host;
   private final CommentManager commentManager;
   private Set<SkipBar> skipBars;
+  private SkipBar line0;
 
   SkipManager(SideBySide2 host, CommentManager commentManager) {
     this.host = host;
@@ -82,6 +83,7 @@ class SkipManager {
         if (skip.getStartA() == 0 || skip.getStartB() == 0) {
           barA.upArrow.setVisible(false);
           barB.upArrow.setVisible(false);
+          line0 = barB;
         } else if (skip.getStartA() + skip.getSize() == lineA
             || skip.getStartB() + skip.getSize() == lineB) {
           barA.downArrow.setVisible(false);
@@ -91,18 +93,29 @@ class SkipManager {
     }
   }
 
+  void ensureFirstLineIsVisible() {
+    if (line0 != null) {
+      line0.expandBefore(1);
+      line0 = null;
+    }
+  }
+
   void removeAll() {
     if (skipBars != null) {
       for (SkipBar bar : skipBars) {
         bar.expandAll();
       }
       skipBars = null;
+      line0 = null;
     }
   }
 
   void remove(SkipBar a, SkipBar b) {
     skipBars.remove(a);
     skipBars.remove(b);
+    if (line0 == a || line0 == b) {
+      line0 = null;
+    }
     if (skipBars.isEmpty()) {
       skipBars = null;
     }

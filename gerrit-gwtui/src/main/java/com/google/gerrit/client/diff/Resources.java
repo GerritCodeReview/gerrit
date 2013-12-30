@@ -30,8 +30,10 @@ interface Resources extends ClientBundle {
   @Source("gear.png") ImageResource gear();
 
   interface Style extends CssResource {
+    String commentWidgets();
     String commentBox();
     String contents();
+    String message();
     String header();
     String summary();
     String date();

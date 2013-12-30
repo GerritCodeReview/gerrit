@@ -135,10 +135,12 @@ E.g. `john.doe` can use git push to upload new changes for the
   git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental
 ====
 
-Each new commit uploaded by the `git push` client will be
-converted into a change record on the server.  The remote ref
+In project scope each new commit uploaded by the `git push` client
+will be converted into a change record on the server.  The remote ref
 `refs/for/experimental` is not actually created by Gerrit, even
-though the client's status messages may say otherwise.
+though the client's status messages may say otherwise. Pushing an
+existing commit to current branch or other branch in the project
+scope will get error message 'no new changes'.
 
 Other users (e.g. project owners) who have configured Gerrit to
 notify them of new changes will be automatically sent an email
@@ -274,6 +276,15 @@ Ensuring D is created as a new change requires passing the refspec
 `HEAD:refs/for/branchname`, otherwise Gerrit will ignore D and
 won't do anything with it.  For this reason it is a good idea to
 always include the create change refspec when uploading replacements.
+
+Please note that uploading an existing commit in the project scope
+to replace a change will get an error message "commit exists
+in this project", in this case amending the message to update its
+SHA-1 before uploading this commmit to another change. Uploading an
+existing commit in change scope will get an error message "commit
+already exists in this change'. Uploading current patchset of a
+change to this change again will be skipped and get an error message
+'commit is already patchset'.
 
 
 [[bypass_review]]

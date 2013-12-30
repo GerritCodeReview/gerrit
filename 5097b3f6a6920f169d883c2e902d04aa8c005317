@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2dfb5d35_3effa9d6",
+        "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/plugin/client/Plugin.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-30T15:19:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "283d0b9f_eebf5fb2",
+      "range": {
+        "startLine": 73,
+        "startChar": 12,
+        "endLine": 73,
+        "endChar": 17
+      },
+      "revId": "5097b3f6a6920f169d883c2e902d04aa8c005317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "283d0b9f_0ec58b47",
         "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/plugin/client/Plugin.java",
         "patchSetId": 15
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "48315fd0_67a39296",
+        "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/plugin/client/Plugin.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-30T15:19:14Z",
+      "side": 1,
+      "message": "Can\u0027t reproduce.",
+      "parentUuid": "283d0b9f_0ec58b47",
+      "range": {
+        "startLine": 86,
+        "startChar": 29,
+        "endLine": 86,
+        "endChar": 46
+      },
+      "revId": "5097b3f6a6920f169d883c2e902d04aa8c005317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "682c637b_c8f0cfbe",
         "filename": "plugins/cookbook-plugin",
         "patchSetId": 15
@@ -59,6 +107,24 @@
       "writtenOn": "2013-12-30T14:09:39Z",
       "side": 1,
       "message": "The screen added by the cookbook-plugin is not loading for me. I\u0027m only getting the NotFound screen. Not sure what is the reason for this and how to investigate it.",
+      "revId": "5097b3f6a6920f169d883c2e902d04aa8c005317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dfb5d35_1e04ed2c",
+        "filename": "plugins/cookbook-plugin",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-30T15:19:14Z",
+      "side": 1,
+      "message": "Can\u0027t reproduce.",
+      "parentUuid": "682c637b_c8f0cfbe",
       "revId": "5097b3f6a6920f169d883c2e902d04aa8c005317",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

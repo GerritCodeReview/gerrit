@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2dfb5d35_7e2e51ae",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-30T15:32:05Z",
+      "side": 1,
+      "message": "\"plugin_config\" might be a good name too.",
+      "range": {
+        "startLine": 463,
+        "startChar": 5,
+        "endLine": 463,
+        "endChar": 29
+      },
+      "revId": "5a5d5b169b95fd616b37b00d554d19eb15ba08fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dfb5d35_9e0fdd45",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 1217,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-30T15:32:05Z",
+      "side": 1,
+      "message": "If the variable name is unique within the plugin why not a map by variable name?\n\n  \"plugin_config_parameters\": {\n    \"hello-world\": {\n      \"language\": {\n        \"display_name\": \"Preferred Language\",\n        \"type\": \"STRING\",\n        \"value\": \"en\",\n      }\n    }\n  }",
+      "range": {
+        "startLine": 1216,
+        "startChar": 45,
+        "endLine": 1217,
+        "endChar": 65
+      },
+      "revId": "5a5d5b169b95fd616b37b00d554d19eb15ba08fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dfb5d35_be12996b",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 1274,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-30T15:32:05Z",
+      "side": 1,
+      "message": "Seems like this could be a map of map:\n\n  \"plugin_config_values\": {\n    \"hello-world\": {\n      \"language\": \"en\"\n    }\n  }\n\nThis makes no sense:\n\n  \"plugin_config_values\": {\n    \"hello-world\": [\n      {name: \"language\", value: \"en\"},\n      {name: \"language\", value: \"de\"}\n    ]\n  }\n\nunless you are trying to say language is multi-valued, at which point we could have written:\n\n  \"plugin_config_values\": {\n    \"hello-world\": {\n      \"language\": [\"en\", \"de\"]\n    }\n  }",
+      "range": {
+        "startLine": 1273,
+        "startChar": 0,
+        "endLine": 1274,
+        "endChar": 58
+      },
+      "revId": "5a5d5b169b95fd616b37b00d554d19eb15ba08fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48315fd0_878246eb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ConfigInfo.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-30T15:32:05Z",
+      "side": 1,
+      "message": "Are we going to support inherited values? If so this should be inherited_value / configured_value.",
+      "revId": "5a5d5b169b95fd616b37b00d554d19eb15ba08fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48315fd0_a7874afa",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-30T15:32:05Z",
+      "side": 1,
+      "message": "v is always true",
+      "range": {
+        "startLine": 240,
+        "startChar": 9,
+        "endLine": 240,
+        "endChar": 14
+      },
+      "revId": "5a5d5b169b95fd616b37b00d554d19eb15ba08fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48315fd0_c78c3e21",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-30T15:32:05Z",
+      "side": 1,
+      "message": "given how this is used, n must always be true",
+      "range": {
+        "startLine": 252,
+        "startChar": 9,
+        "endLine": 252,
+        "endChar": 14
+      },
+      "revId": "5a5d5b169b95fd616b37b00d554d19eb15ba08fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48315fd0_e7914234",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-30T15:33:09Z",
+      "side": 1,
+      "message": "parameter",
+      "range": {
+        "startLine": 220,
+        "startChar": 44,
+        "endLine": 220,
+        "endChar": 52
+      },
+      "revId": "f6d7d1bb4c92333b154eef124a919a69f20715b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

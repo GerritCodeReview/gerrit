@@ -16,7 +16,6 @@ package com.google.gerrit.server.query.change;
 
 import static com.google.gerrit.server.ApprovalsUtil.sortApprovals;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Objects;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
@@ -157,7 +156,6 @@ public class ChangeData {
   private ChangedLines changedLines;
   private boolean patchesLoaded;
 
-  @VisibleForTesting
   @AssistedInject
   public ChangeData(
       GitRepositoryManager repoManager,

@@ -310,6 +310,18 @@ class Header extends Composite {
     }
   }
 
+  Runnable reviewedAndNext() {
+    return new Runnable() {
+      @Override
+      public void run() {
+        if (Gerrit.isSignedIn()) {
+          reviewed.setValue(true, true);
+        }
+        navigate(Direction.NEXT).run();
+      }
+    };
+  }
+
   String getNextPath() {
     return nextPath;
   }

@@ -22,16 +22,16 @@ import com.google.gwt.core.client.JsArray;
 import net.codemirror.lib.CodeMirror;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 /** Collapses common regions with {@link SkipBar} for {@link SideBySide2}. */
 class SkipManager {
   private final SideBySide2 host;
   private final CommentManager commentManager;
-  private Set<SkipBar> skipBars;
-  private SkipBar line0;
+  private SortedMap<Integer, SkipBar> sideA;
+  private SortedMap<Integer, SkipBar> sideB;
 
   SkipManager(SideBySide2 host, CommentManager commentManager) {
     this.host = host;
@@ -72,18 +72,19 @@ class SkipManager {
       CodeMirror cmA = host.getCmFromSide(DisplaySide.A);
       CodeMirror cmB = host.getCmFromSide(DisplaySide.B);
 
-      skipBars = new HashSet<SkipBar>();
+      sideA = new TreeMap<Integer, SkipBar>();
+      sideB = new TreeMap<Integer, SkipBar>();
+
       for (SkippedLine skip : skips) {
         SkipBar barA = newSkipBar(cmA, DisplaySide.A, skip);
         SkipBar barB = newSkipBar(cmB, DisplaySide.B, skip);
         SkipBar.link(barA, barB);
-        skipBars.add(barA);
-        skipBars.add(barB);
+        sideA.put(barA.getStart(), barA);
+        sideB.put(barB.getStart(), barB);
 
         if (skip.getStartA() == 0 || skip.getStartB() == 0) {
           barA.upArrow.setVisible(false);
           barB.upArrow.setVisible(false);
-          line0 = barB;
         } else if (skip.getStartA() + skip.getSize() == lineA
             || skip.getStartB() + skip.getSize() == lineB) {
           barA.downArrow.setVisible(false);
@@ -94,31 +95,38 @@ class SkipManager {
   }
 
   void ensureFirstLineIsVisible() {
-    if (line0 != null) {
-      line0.expandBefore(1);
-      line0 = null;
+    if (sideB != null) {
+      SkipBar line0 = sideB.get(0);
+      if (line0 != null) {
+        line0.expandBefore(1);
+      }
     }
   }
 
   void removeAll() {
-    if (skipBars != null) {
-      for (SkipBar bar : skipBars) {
+    if (sideB != null) {
+      for (SkipBar bar : sideB.values()) {
         bar.expandAll();
       }
-      skipBars = null;
-      line0 = null;
+      sideA = null;
+      sideB = null;
     }
   }
 
   void remove(SkipBar a, SkipBar b) {
-    skipBars.remove(a);
-    skipBars.remove(b);
-    if (line0 == a || line0 == b) {
-      line0 = null;
+    map(a.getSide()).remove(a.getStart());
+    map(b.getSide()).remove(b.getStart());
+
+    if (sideB.isEmpty()) {
+      sideA = null;
+      sideB = null;
     }
-    if (skipBars.isEmpty()) {
-      skipBars = null;
-    }
+  }
+
+  void move(SkipBar bar, int oldLine, int newLine) {
+    SortedMap<Integer, SkipBar> map = map(bar.getSide());
+    map.remove(oldLine);
+    map.put(newLine, bar);
   }
 
   private SkipBar newSkipBar(CodeMirror cm, DisplaySide side, SkippedLine skip) {
@@ -129,5 +137,9 @@ class SkipManager {
     host.diffTable.add(bar);
     bar.collapse(start, end, true);
     return bar;
+  }
+
+  private SortedMap<Integer, SkipBar> map(DisplaySide side) {
+    return side == DisplaySide.A ? sideA : sideB;
   }
 }

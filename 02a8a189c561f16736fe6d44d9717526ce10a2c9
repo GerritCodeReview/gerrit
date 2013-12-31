@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "682c637b_a812bb1f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2013-12-31T13:36:56Z",
+      "side": 1,
+      "message": "We have removed printStackTrace and have used same pattern as is followed in other methods in this file.",
+      "parentUuid": "685383fd_1044c4d2",
+      "revId": "02a8a189c561f16736fe6d44d9717526ce10a2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48587f1a_2f8c09db",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ChangeSubject.vm",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-12-30T19:58:22Z",
       "side": 1,
       "message": "This is a blatant lie. The score could have been applied to Verified label but you claim it is Code-Review in the email subject.",
+      "revId": "02a8a189c561f16736fe6d44d9717526ce10a2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "283d0b9f_ce8c6321",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ChangeSubject.vm",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2013-12-31T13:36:56Z",
+      "side": 1,
+      "message": "Changed the name from Code-Review to Score which is more generic.",
+      "parentUuid": "48587f1a_2f8c09db",
       "revId": "02a8a189c561f16736fe6d44d9717526ce10a2c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

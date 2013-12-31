@@ -35,3 +35,9 @@
 #if($str.length() > $length)#set($length = $length - 3)${str.substring(0,$length)}...#else$str#end
 #end
 Change in $projectName.replaceAll('/.*/', '...')[$branch.shortName]: #ellipsis(63, $change.subject)
+#if($patchSet.getId().get() == $change.currentPatchSetId().get() && !$isSubmit)
+#if($score != 0)
+#if($score < 0): Score $score
+#else: Score +$score#end
+#end
+#end

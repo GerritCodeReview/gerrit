@@ -26,6 +26,7 @@ import com.google.gwt.core.client.JsArray;
 
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.CodeMirror.LineHandle;
+import net.codemirror.lib.LineCharacter;
 import net.codemirror.lib.TextMarker.FromTo;
 
 import java.util.ArrayList;
@@ -75,6 +76,45 @@ class CommentManager {
     for (PublishedBox box : published.values()) {
       box.setOpen(b);
     }
+  }
+
+  Runnable commentNav(final CodeMirror src, final Direction dir) {
+    return new Runnable() {
+      @Override
+      public void run() {
+        // Every comment appears in both side maps as a linked pair.
+        // It is only necessary to search one side to find a comment
+        // on either side of the editor pair.
+        SortedMap<Integer, CommentGroup> map = map(src.side());
+        int line = src.hasActiveLine()
+            ? src.getLineNumber(src.getActiveLine()) + 1
+            : 0;
+        if (dir == Direction.NEXT) {
+          map = map.tailMap(line + 1);
+          if (map.isEmpty()) {
+            return;
+          }
+          line = map.firstKey();
+        } else {
+          map = map.headMap(line);
+          if (map.isEmpty()) {
+            return;
+          }
+          line = map.lastKey();
+        }
+
+        CommentGroup g = map.get(line);
+        if (g.getBoxCount() == 0) {
+          g = g.getPeer();
+        }
+
+        CodeMirror cm = g.getCm();
+        double y = cm.heightAtLine(g.getLine() - 1, "local");
+        cm.setCursor(LineCharacter.create(g.getLine() - 1));
+        cm.scrollToY(y - 0.5 * cm.getScrollbarV().getClientHeight());
+        cm.focus();
+      }
+    };
   }
 
   void render(CommentsCollections in, boolean expandAll) {

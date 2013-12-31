@@ -71,6 +71,14 @@ class CommentGroup extends Composite {
     return cm;
   }
 
+  CommentGroup getPeer() {
+    return peer;
+  }
+
+  int getLine() {
+    return line;
+  }
+
   void add(PublishedBox box) {
     comments.add(box);
     comments.setVisible(true);

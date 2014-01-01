@@ -103,8 +103,13 @@ class ScrollSynchronizer {
       // Find a pair of lines that are aligned and near the top of
       // the viewport. Use that distance to correct the Y coordinate.
       int line = src.lineAtHeight(srcTop, "local");
-      LineMapper.AlignedPair p = mapper.align(srcSide, line);
+      if (line == 0) {
+        // Padding for insert at start of file occurs above line 0,
+        // and CM3 doesn't always compute heightAtLine correctly.
+        return srcTop;
+      }
 
+      LineMapper.AlignedPair p = mapper.align(srcSide, line);
       double sy = src.heightAtLine(p.src, "local");
       double dy = dst.heightAtLine(p.dst, "local");
       return Math.max(0, dy + (srcTop - sy));

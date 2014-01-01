@@ -99,12 +99,17 @@ class ScrollSynchronizer {
       // account when calculating scrollInfo when scrolling too fast (e.g.
       // throw scrolling), simply setting scrollTop to be the same doesn't
       // guarantee alignment.
-      //
+
+      int line = src.lineAtHeight(srcTop, "local");
+      if (line == 0) {
+        // Padding for insert at start of file occurs above line 0,
+        // and CM3 doesn't always compute heightAtLine correctly.
+        return srcTop;
+      }
+
       // Find a pair of lines that are aligned and near the top of
       // the viewport. Use that distance to correct the Y coordinate.
-      int line = src.lineAtHeight(srcTop, "local");
       LineMapper.AlignedPair p = mapper.align(srcSide, line);
-
       double sy = src.heightAtLine(p.src, "local");
       double dy = dst.heightAtLine(p.dst, "local");
       return Math.max(0, dy + (srcTop - sy));

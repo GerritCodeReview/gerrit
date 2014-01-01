@@ -77,8 +77,45 @@ class SkipBar extends Composite {
     return start;
   }
 
+  int getEnd() {
+    return textMarker.find().getTo().getLine();
+  }
+
   DisplaySide getSide() {
     return cm.side();
+  }
+
+  boolean contains(int line) {
+    FromTo r = textMarker.find();
+    return r.getFrom().getLine() <= line && line <= r.getTo().getLine();
+  }
+
+  void ensureLineVisible(int line, int context) {
+    FromTo r = textMarker.find();
+    int start = r.getFrom().getLine();
+    int end = r.getTo().getLine();
+
+    int a = line - context;
+    int b = line + context;
+
+    // Don't leave just one line skipped at start or end.
+    if (start == a - 1) {
+      a = start;
+    }
+    if (end == b + 1) {
+      b = end;
+    }
+
+    if (a <= start && end <= b) {
+      expandAll();
+    } else if (a <= start && b < end) {
+      expandBefore(b - start);
+    } else if (start < a && end <= b) {
+      expandAfter(end - a);
+    } else {
+      expandAfter(end - a);
+      manager.skip(cm.side(), b, end);
+    }
   }
 
   void collapse(int start, int end, boolean attach) {
@@ -160,11 +197,16 @@ class SkipBar extends Composite {
     updateSelection();
   }
 
-  private void expandAfter() {
+  void expandAfter(int cnt) {
+    expandSideAfter(cnt);
+    otherBar.expandSideAfter(cnt);
+  }
+
+  private void expandSideAfter(int cnt) {
     FromTo range = textMarker.find();
     int start = range.getFrom().getLine();
     int oldEnd = range.getTo().getLine();
-    int newEnd = oldEnd - NUM_ROWS_TO_EXPAND;
+    int newEnd = oldEnd - cnt;
     textMarker.clear();
     collapse(start, newEnd, false);
     updateSelection();
@@ -192,8 +234,7 @@ class SkipBar extends Composite {
 
   @UiHandler("downArrow")
   void onExpandAfter(ClickEvent e) {
-    otherBar.expandAfter();
-    expandAfter();
+    expandAfter(NUM_ROWS_TO_EXPAND);
     cm.focus();
   }
 }

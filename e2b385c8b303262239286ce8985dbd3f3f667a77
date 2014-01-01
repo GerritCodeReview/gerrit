@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48587f1a_6f00d15d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-01T19:56:17Z",
+      "side": 1,
+      "message": "This is an incorrect way to identify the score.\n\nYou are effectively picking a score at random from the current patch set. It might even be a score assigned days before by a different reviewer than the one that is sending an email right now.",
+      "range": {
+        "startLine": 164,
+        "startChar": 8,
+        "endLine": 171,
+        "endChar": 9
+      },
+      "revId": "e2b385c8b303262239286ce8985dbd3f3f667a77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_d0eebc72",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ChangeSubject.vm",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-01T19:56:17Z",
+      "side": 1,
+      "message": "score is useless in the subject unless we know what category.",
+      "range": {
+        "startLine": 40,
+        "startChar": 17,
+        "endLine": 40,
+        "endChar": 22
+      },
+      "revId": "e2b385c8b303262239286ce8985dbd3f3f667a77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_b0e9386e",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ChangeSubject.vm",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-01T19:56:17Z",
+      "side": 1,
+      "message": "score is useless in the subject unless we know what category.",
+      "range": {
+        "startLine": 40,
+        "startChar": 17,
+        "endLine": 40,
+        "endChar": 22
+      },
+      "revId": "e2b385c8b303262239286ce8985dbd3f3f667a77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

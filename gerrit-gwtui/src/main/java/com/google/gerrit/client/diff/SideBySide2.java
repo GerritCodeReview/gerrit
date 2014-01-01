@@ -353,7 +353,7 @@ public class SideBySide2 extends Screen {
   private BeforeSelectionChangeHandler onSelectionChange(final CodeMirror cm) {
     return new BeforeSelectionChangeHandler() {
       private Image icon;
-
+      final native void log(String m)/*-{console.log(m)}-*/;
       @Override
       public void handle(CodeMirror cm, LineCharacter anchor, LineCharacter head) {
         if (anchor == head
@@ -362,6 +362,7 @@ public class SideBySide2 extends Screen {
           if (icon != null) {
             icon.setVisible(false);
           }
+          skipManager.ensureLineVisible(cm, anchor.getLine());
           return;
         } else if (icon == null) {
           init(anchor);

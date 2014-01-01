@@ -103,6 +103,19 @@ class SkipManager {
     }
   }
 
+  void ensureLineVisible(CodeMirror cm, int line) {
+    if (sideB != null) {
+      SortedMap<Integer, SkipBar> map = map(cm.side());
+      SortedMap<Integer, SkipBar> m = map.headMap(line + 1);
+      if (!m.isEmpty()) {
+        SkipBar bar = m.get(m.lastKey());
+        if (bar.contains(line)) {
+          bar.ensureLineVisible(line, host.getPrefs().context());
+        }
+      }
+    }
+  }
+
   void removeAll() {
     if (sideB != null) {
       for (SkipBar bar : sideB.values()) {
@@ -127,6 +140,28 @@ class SkipManager {
     SortedMap<Integer, SkipBar> map = map(bar.getSide());
     map.remove(oldLine);
     map.put(newLine, bar);
+  }
+
+  void skip(DisplaySide side, int start, int end) {
+    int size = end - start;
+    int startA, startB;
+    if (side == DisplaySide.A) {
+      startA = start;
+      startB = host.lineOnOther(side, start).getLine();
+    } else {
+      startA = host.lineOnOther(side, start).getLine();
+      startB = start;
+    }
+
+    SkippedLine skip = new SkippedLine(startA, startB, size);
+    CodeMirror cmA = host.getCmFromSide(DisplaySide.A);
+    CodeMirror cmB = host.getCmFromSide(DisplaySide.B);
+
+    SkipBar barA = newSkipBar(cmA, DisplaySide.A, skip);
+    SkipBar barB = newSkipBar(cmB, DisplaySide.B, skip);
+    SkipBar.link(barA, barB);
+    sideA.put(barA.getStart(), barA);
+    sideB.put(barB.getStart(), barB);
   }
 
   private SkipBar newSkipBar(CodeMirror cm, DisplaySide side, SkippedLine skip) {

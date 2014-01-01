@@ -362,6 +362,7 @@ public class SideBySide2 extends Screen {
           if (icon != null) {
             icon.setVisible(false);
           }
+          skipManager.ensureLineVisible(cm, anchor.getLine());
           return;
         } else if (icon == null) {
           init(anchor);

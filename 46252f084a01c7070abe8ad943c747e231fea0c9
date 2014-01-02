@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "685383fd_5003ac6a",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/systemstatus/MessageOfTheDay.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-02T16:20:13Z",
+      "side": 1,
+      "message": "Yes, it is. Give me 6 months to get used to the idea. :-)",
+      "parentUuid": "682c637b_a8871bfa",
+      "revId": "46252f084a01c7070abe8ad943c747e231fea0c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "682c637b_c88c4f21",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/MessageOfTheDayBar.java",
         "patchSetId": 1

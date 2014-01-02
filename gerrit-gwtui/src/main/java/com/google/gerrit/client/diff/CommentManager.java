@@ -342,6 +342,12 @@ class CommentManager {
     int line = cm.getLineNumber(cm.getActiveLine()) + 1;
     if (cm.somethingSelected()) {
       FromTo fromTo = cm.getSelectedRange();
+      LineCharacter end = fromTo.getTo();
+      if (end.getCh() == 0) {
+        end.setLine(end.getLine() - 1);
+        end.setCh(cm.getLine(end.getLine()).length());
+      }
+
       addDraftBox(cm.side(), CommentInfo.create(
               path,
               getStoredSideFromDisplaySide(cm.side()),

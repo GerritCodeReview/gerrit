@@ -565,6 +565,9 @@ public class Gerrit implements EntryPoint {
     }
 
     saveDefaultTheme();
+    if (hpd.messages != null) {
+      new MessageOfTheDayBar(hpd.messages).show();
+    }
     PluginLoader.load(hpd.plugins, token);
   }
 

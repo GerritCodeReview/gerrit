@@ -17,6 +17,7 @@ package com.google.gerrit.common.data;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 
+import java.util.Date;
 import java.util.List;
 
 /** Data sent as part of the host page, to bootstrap the UI. */
@@ -28,6 +29,7 @@ public class HostPageData {
   public GerritConfig config;
   public Theme theme;
   public List<String> plugins;
+  public List<Message> messages;
 
   public static class Theme {
     public String backgroundColor;
@@ -38,5 +40,11 @@ public class HostPageData {
     public String changeTableOutdatedColor;
     public String tableOddRowColor;
     public String tableEvenRowColor;
+  }
+
+  public static class Message {
+    public String id;
+    public Date redisplay;
+    public String html;
   }
 }

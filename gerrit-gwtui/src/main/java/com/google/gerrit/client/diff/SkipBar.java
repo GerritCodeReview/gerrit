@@ -113,6 +113,12 @@ class SkipBar extends Composite {
           .set("collapsed", true)
           .set("inclusiveLeft", true)
           .set("inclusiveRight", true));
+    textMarker.on("beforeCursorEnter", new Runnable() {
+      @Override
+      public void run() {
+        expandAll();
+      }
+    });
 
     int skipped = end - start + 1;
     if (skipped <= UP_DOWN_THRESHOLD) {

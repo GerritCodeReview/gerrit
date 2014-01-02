@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2dfb5d35_5e66f505",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/LabelTypes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-02T23:22:48Z",
+      "side": 0,
+      "message": "I thought we did this to avoid serializing the redundant maps to the client. For example common.data.ProjectAccess uses gwtjsonrpc to serialize this object to the browser.",
+      "range": {
+        "startLine": 28,
+        "startChar": 10,
+        "endLine": 28,
+        "endChar": 19
+      },
+      "revId": "a72c23cee360585e05a935b4168088541218a1b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

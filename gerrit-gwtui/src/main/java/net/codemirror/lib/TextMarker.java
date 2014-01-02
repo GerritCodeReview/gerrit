@@ -26,6 +26,8 @@ public class TextMarker extends JavaScriptObject {
   public final native void clear() /*-{ this.clear(); }-*/;
   public final native void changed() /*-{ this.changed(); }-*/;
   public final native FromTo find() /*-{ return this.find(); }-*/;
+  public final native void on(String event, Runnable thunk)
+  /*-{ $this.on(event, function(){$entry(thunk.@java.lang.Runnable::run()())}) }-*/;
 
   protected TextMarker() {
   }

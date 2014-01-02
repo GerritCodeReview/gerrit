@@ -110,9 +110,22 @@ class SkipBar extends Composite {
         CodeMirror.pos(start, 0),
         CodeMirror.pos(end),
         Configuration.create()
+          .set("clearOnEnter", true)
           .set("collapsed", true)
           .set("inclusiveLeft", true)
           .set("inclusiveRight", true));
+
+    final TextMarker self = textMarker;
+    self.on("clear", new Runnable() {
+      @Override
+      public void run() {
+        if (textMarker == self) {
+          lineWidget.clear();
+          removeFromParent();
+          otherBar.expandSideAll();
+        }
+      }
+    });
 
     int skipped = end - start + 1;
     if (skipped <= UP_DOWN_THRESHOLD) {
@@ -130,7 +143,9 @@ class SkipBar extends Composite {
   }
 
   private void clearMarkerAndWidget() {
-    textMarker.clear();
+    TextMarker m = textMarker;
+    textMarker = null;
+    m.clear();
     lineWidget.clear();
   }
 
@@ -165,7 +180,9 @@ class SkipBar extends Composite {
     int start = range.getFrom().getLine();
     int oldEnd = range.getTo().getLine();
     int newEnd = oldEnd - NUM_ROWS_TO_EXPAND;
-    textMarker.clear();
+    TextMarker m = textMarker;
+    textMarker = null;
+    m.clear();
     collapse(start, newEnd, false);
     updateSelection();
   }

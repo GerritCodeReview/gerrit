@@ -25,8 +25,8 @@ import java.util.Map;
 
 public class LabelTypes {
   protected List<LabelType> labelTypes;
-  private transient Map<String, LabelType> byLabel;
-  private transient Map<String, Integer> positions;
+  private Map<String, LabelType> byLabel;
+  private Map<String, Integer> positions;
 
   protected LabelTypes() {
   }
@@ -50,10 +50,15 @@ public class LabelTypes {
 
   private Map<String, LabelType> byLabel() {
     if (byLabel == null) {
-      byLabel = new HashMap<String, LabelType>();
-      if (labelTypes != null) {
-        for (LabelType t : labelTypes) {
-          byLabel.put(t.getName().toLowerCase(), t);
+      synchronized (this) {
+        if (byLabel == null) {
+          Map<String, LabelType> l = new HashMap<String, LabelType>();
+          if (labelTypes != null) {
+            for (LabelType t : labelTypes) {
+              l.put(t.getName().toLowerCase(), t);
+            }
+          }
+          byLabel = l;
         }
       }
     }
@@ -88,11 +93,16 @@ public class LabelTypes {
 
   private Map<String, Integer> positions() {
     if (positions == null) {
-      positions = new HashMap<String, Integer>();
-      if (labelTypes != null) {
-        int i = 0;
-        for (LabelType t : labelTypes) {
-          positions.put(t.getName(), i++);
+      synchronized (this) {
+        if (positions == null) {
+          Map<String, Integer> p = new HashMap<String, Integer>();
+          if (labelTypes != null) {
+            int i = 0;
+            for (LabelType t : labelTypes) {
+              p.put(t.getName(), i++);
+            }
+          }
+          positions = p;
         }
       }
     }

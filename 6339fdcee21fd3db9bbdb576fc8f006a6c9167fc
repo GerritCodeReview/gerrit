@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "682c637b_68cc4372",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/HttpSession.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-01-02T09:52:08Z",
+      "side": 1,
+      "message": "Looks like there is quite some overlap between this class and the RestSession.\nActually, the RestSession is a special case of HttpSession. Therefore, my proposal is to make RestSession subclass of this class. This could be done in this change or in a follow up change.",
+      "revId": "6339fdcee21fd3db9bbdb576fc8f006a6c9167fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

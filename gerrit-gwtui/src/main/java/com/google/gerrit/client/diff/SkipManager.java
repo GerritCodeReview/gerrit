@@ -103,7 +103,7 @@ class SkipManager {
   void removeAll() {
     if (skipBars != null) {
       for (SkipBar bar : skipBars) {
-        bar.expandAll();
+        bar.expandSideAll();
       }
       skipBars = null;
       line0 = null;

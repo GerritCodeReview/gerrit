@@ -101,6 +101,7 @@ class SkipBar extends Composite {
           .set("collapsed", true)
           .set("inclusiveLeft", true)
           .set("inclusiveRight", true));
+
     textMarker.on("beforeCursorEnter", new Runnable() {
       @Override
       public void run() {
@@ -143,15 +144,9 @@ class SkipBar extends Composite {
     updateSelection();
   }
 
-  void expandAll() {
-    expandSideAll();
-    otherBar.expandSideAll();
-  }
-
-  private void expandSideAll() {
+  void expandSideAll() {
     clearMarkerAndWidget();
     removeFromParent();
-    updateSelection();
   }
 
   private void expandAfter() {
@@ -174,8 +169,15 @@ class SkipBar extends Composite {
   @UiHandler("skipNum")
   void onExpandAll(ClickEvent e) {
     expandAll();
-    manager.remove(this, otherBar);
+    updateSelection();
+    otherBar.updateSelection();
     cm.focus();
+  }
+
+  private void expandAll() {
+    expandSideAll();
+    otherBar.expandSideAll();
+    manager.remove(this, otherBar);
   }
 
   @UiHandler("upArrow")
@@ -186,8 +188,8 @@ class SkipBar extends Composite {
 
   @UiHandler("downArrow")
   void onExpandAfter(ClickEvent e) {
-    otherBar.expandAfter();
     expandAfter();
+    otherBar.expandAfter();
     cm.focus();
   }
 }

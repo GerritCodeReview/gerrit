@@ -22,6 +22,30 @@
       "revId": "a72c23cee360585e05a935b4168088541218a1b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48315fd0_27f0ba78",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/LabelTypes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-02T23:58:47Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "2dfb5d35_5e66f505",
+      "range": {
+        "startLine": 28,
+        "startChar": 10,
+        "endLine": 28,
+        "endChar": 19
+      },
+      "revId": "a72c23cee360585e05a935b4168088541218a1b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

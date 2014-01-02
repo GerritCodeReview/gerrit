@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "685383fd_50b56c5e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-02T23:01:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2dfb5d35_fe8b8152",
+      "revId": "745b0a227d3cf0f98ce625abc06facf7c387a7f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48315fd0_a7d82a0b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 10
@@ -53,6 +71,30 @@
       "writtenOn": "2014-01-02T22:37:32Z",
       "side": 1,
       "message": "This should never be true. Commits are walked most recent first, so the newly parsed psa is always older than an existing one.",
+      "range": {
+        "startLine": 146,
+        "startChar": 25,
+        "endLine": 146,
+        "endChar": 73
+      },
+      "revId": "745b0a227d3cf0f98ce625abc06facf7c387a7f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "685383fd_70b27079",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-02T23:01:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48315fd0_a7d82a0b",
       "range": {
         "startLine": 146,
         "startChar": 25,
@@ -88,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "48587f1a_cfc0ddcc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-02T23:01:22Z",
+      "side": 1,
+      "message": "Done.\n\nWhile I was in here, did a bunch of s/vote/approval/ per our previous conversation.",
+      "parentUuid": "48315fd0_c7cd1e4c",
+      "range": {
+        "startLine": 176,
+        "startChar": 24,
+        "endLine": 176,
+        "endChar": 57
+      },
+      "revId": "745b0a227d3cf0f98ce625abc06facf7c387a7f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48315fd0_e7d222e7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 10
@@ -111,6 +177,30 @@
     },
     {
       "key": {
+        "uuid": "685383fd_90dd14ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-02T23:01:22Z",
+      "side": 1,
+      "message": "It doesn\u0027t do double-checked locking but that just means it might repeat work. It\u0027s still threadsafe assuming the list passed to the LabelTypes constructor doesn\u0027t change (which it doesn\u0027t in our usages).\n\nI can tighten that up but I don\u0027t think there\u0027s a correctness issue here worth blocking this change.",
+      "parentUuid": "48315fd0_e7d222e7",
+      "range": {
+        "startLine": 115,
+        "startChar": 37,
+        "endLine": 115,
+        "endChar": 64
+      },
+      "revId": "745b0a227d3cf0f98ce625abc06facf7c387a7f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2dfb5d35_de88c558",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 10
@@ -122,6 +212,30 @@
       "writtenOn": "2014-01-02T22:37:32Z",
       "side": 1,
       "message": "Preserve the existing case? The comparator appears to expect \"Code-Review\" not \"code-review\".",
+      "range": {
+        "startLine": 119,
+        "startChar": 18,
+        "endLine": 119,
+        "endChar": 37
+      },
+      "revId": "745b0a227d3cf0f98ce625abc06facf7c387a7f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48587f1a_efc5a1d9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-02T23:01:22Z",
+      "side": 1,
+      "message": "No, nameComparator().position() is case-insensitive.\n\nElsewhere we are case-insensitive when keying by label to be lenient on user-supplied input (POST .../review and search operators, mostly). I can see the argument that we would want to be stricter in the notedb than with more general user input, though, so I\u0027m on the fence.\n\nNote also that ChangeNotesTest.approvalsCommitFormat() would fail if the comparator weren\u0027t working as intended.",
+      "parentUuid": "2dfb5d35_de88c558",
       "range": {
         "startLine": 119,
         "startChar": 18,

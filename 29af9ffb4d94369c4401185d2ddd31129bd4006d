@@ -22,6 +22,30 @@
       "revId": "29af9ffb4d94369c4401185d2ddd31129bd4006d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "283d0b9f_aed8f70a",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1294,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-02T14:00:19Z",
+      "side": 1,
+      "message": "Yes, for inheritable parameters \u0027value\u0027 will contain the effective value which is the \u0027configured_value\u0027 if set and otherwise the \u0027inherited_value\u0027. We could remove \u0027value\u0027 and leave it to the client to compute the effective value from \u0027configured_value\u0027 and \u0027inherited_value\u0027. On the other side we already have \u0027configured_value\u0027, \u0027inherited_value\u0027 and \u0027value\u0027 for InheritedBooleanInfo and MaxObjectSizeLimitInfo. having it the same way here would be consistent.",
+      "parentUuid": "2dfb5d35_de1e8571",
+      "range": {
+        "startLine": 1293,
+        "startChar": 0,
+        "endLine": 1294,
+        "endChar": 51
+      },
+      "revId": "29af9ffb4d94369c4401185d2ddd31129bd4006d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

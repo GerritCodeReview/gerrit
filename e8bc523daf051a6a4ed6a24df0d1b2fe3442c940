@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "685383fd_10f92437",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2014-01-02T16:41:24Z",
+      "side": 1,
+      "message": "If the event occurs when not in visual mode, there can be a range. Will this expand if I am using J/K to navigate?\n\nFYI text markers have a clearOnEnter event, but that expands the entire range.\n\nCodemirror seems to document that you shouldn\u0027t do it, however it didn\u0027t seem too bad in the code. Perhaps it cannot handle nested events gracefully:\n\nHandlers for this event have the same restriction as \"beforeChange\" handlers — they should not do anything to directly update the state of the editor.\n\nNote: you may not do anything from a \"beforeChange\" handler that would cause changes to the document or its visualization. Doing so will, since this handler is called directly from the bowels of the CodeMirror implementation, probably cause the editor to become corrupted.",
+      "revId": "e8bc523daf051a6a4ed6a24df0d1b2fe3442c940",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

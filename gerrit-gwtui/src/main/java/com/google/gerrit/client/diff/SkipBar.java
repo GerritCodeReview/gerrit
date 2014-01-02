@@ -52,7 +52,6 @@ class SkipBar extends Composite {
   private final SkipManager manager;
   private final CodeMirror cm;
 
-  private int start;
   private LineWidget lineWidget;
   private TextMarker textMarker;
   private SkipBar otherBar;
@@ -71,14 +70,6 @@ class SkipBar extends Composite {
         cm.focus();
       }
     }, ClickEvent.getType());
-  }
-
-  int getStart() {
-    return start;
-  }
-
-  DisplaySide getSide() {
-    return cm.side();
   }
 
   void collapse(int start, int end, boolean attach) {
@@ -100,10 +91,7 @@ class SkipBar extends Composite {
             getElement().getStyle().setPaddingLeft(w, Unit.PX);
           }
         });
-      } else {
-        manager.move(this, this.start, start);
       }
-      this.start = start;
     }
 
     textMarker = cm.markText(

@@ -1655,7 +1655,7 @@ a:hover.downloadLink {
   text-align: center;
 }
 .relatedChangesIndirect {
-  color: #4d4;      /* green */
+  color: #090;      /* green */
   font-weight: bold;
 }
 .relatedChangesNotCurrent {

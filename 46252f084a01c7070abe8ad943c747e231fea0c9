@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "682c637b_a8871bfa",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/systemstatus/MessageOfTheDay.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-01-02T16:18:38Z",
+      "side": 1,
+      "message": "It\u0027s already 2014 :-)",
+      "revId": "46252f084a01c7070abe8ad943c747e231fea0c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "682c637b_c88c4f21",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/MessageOfTheDayBar.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-01-02T16:18:38Z",
+      "side": 1,
+      "message": "2014",
+      "revId": "46252f084a01c7070abe8ad943c747e231fea0c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "283d0b9f_6edfefec",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/MessageOfTheDayBar.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-01-02T16:18:38Z",
+      "side": 1,
+      "message": "2014",
+      "revId": "46252f084a01c7070abe8ad943c747e231fea0c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

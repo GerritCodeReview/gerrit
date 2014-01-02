@@ -249,6 +249,30 @@
     },
     {
       "key": {
+        "uuid": "2dfb5d35_1e606de4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-02T23:40:31Z",
+      "side": 1,
+      "message": "Done and rebased.",
+      "parentUuid": "685383fd_b0e2186e",
+      "range": {
+        "startLine": 115,
+        "startChar": 37,
+        "endLine": 115,
+        "endChar": 64
+      },
+      "revId": "745b0a227d3cf0f98ce625abc06facf7c387a7f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2dfb5d35_de88c558",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 10
@@ -296,6 +320,30 @@
     },
     {
       "key": {
+        "uuid": "48315fd0_e70dc2ca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-02T23:40:31Z",
+      "side": 1,
+      "message": "Well, it\u0027s only made case-insensitive in this change. I\u0027m willing to undo that particular behavior change.",
+      "parentUuid": "48587f1a_efc5a1d9",
+      "range": {
+        "startLine": 119,
+        "startChar": 18,
+        "endLine": 119,
+        "endChar": 37
+      },
+      "revId": "745b0a227d3cf0f98ce625abc06facf7c387a7f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48315fd0_07e8169c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 10
@@ -307,6 +355,24 @@
       "writtenOn": "2014-01-02T22:37:32Z",
       "side": 1,
       "message": "I don\u0027t think we should assume its own the current patch set. Comments can be posted on a non-current patch set for example.",
+      "revId": "745b0a227d3cf0f98ce625abc06facf7c387a7f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48315fd0_c708bebd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-02T23:40:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48315fd0_07e8169c",
       "revId": "745b0a227d3cf0f98ce625abc06facf7c387a7f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

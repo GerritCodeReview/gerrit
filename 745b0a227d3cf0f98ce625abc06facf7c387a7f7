@@ -225,6 +225,30 @@
     },
     {
       "key": {
+        "uuid": "685383fd_b0e2186e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-02T23:08:31Z",
+      "side": 1,
+      "message": "My bad, missed that it was assigning to the member rather than a local. This is an issue currently with ChangeJson as well :(",
+      "parentUuid": "48315fd0_27e51ac3",
+      "range": {
+        "startLine": 115,
+        "startChar": 37,
+        "endLine": 115,
+        "endChar": 64
+      },
+      "revId": "745b0a227d3cf0f98ce625abc06facf7c387a7f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2dfb5d35_de88c558",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 10

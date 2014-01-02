@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "682c637b_48cf7f67",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-02T13:58:50Z",
+      "side": 1,
+      "message": "Sasa actually proposed the same name on patch set 7. You start to convince me that \u0027plugin_config\u0027 is good too. Going to do the rename.\n\nDone",
+      "parentUuid": "2dfb5d35_7e2e51ae",
+      "range": {
+        "startLine": 463,
+        "startChar": 5,
+        "endLine": 463,
+        "endChar": 29
+      },
+      "revId": "5a5d5b169b95fd616b37b00d554d19eb15ba08fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2dfb5d35_9e0fdd45",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 9
@@ -36,6 +60,30 @@
       "writtenOn": "2013-12-30T15:32:05Z",
       "side": 1,
       "message": "If the variable name is unique within the plugin why not a map by variable name?\n\n  \"plugin_config_parameters\": {\n    \"hello-world\": {\n      \"language\": {\n        \"display_name\": \"Preferred Language\",\n        \"type\": \"STRING\",\n        \"value\": \"en\",\n      }\n    }\n  }",
+      "range": {
+        "startLine": 1216,
+        "startChar": 45,
+        "endLine": 1217,
+        "endChar": 65
+      },
+      "revId": "5a5d5b169b95fd616b37b00d554d19eb15ba08fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "682c637b_8897b731",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 1217,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-02T13:58:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2dfb5d35_9e0fdd45",
       "range": {
         "startLine": 1216,
         "startChar": 45,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "283d0b9f_6ec8cf3e",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 1274,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-02T13:58:50Z",
+      "side": 1,
+      "message": "For now only single values for a parameter are supported, but in future we may also allow multiple values per parameter.\n\nDone",
+      "parentUuid": "2dfb5d35_be12996b",
+      "range": {
+        "startLine": 1273,
+        "startChar": 0,
+        "endLine": 1274,
+        "endChar": 58
+      },
+      "revId": "5a5d5b169b95fd616b37b00d554d19eb15ba08fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48315fd0_878246eb",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ConfigInfo.java",
         "patchSetId": 9
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "283d0b9f_8ed33bee",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ConfigInfo.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-02T13:58:50Z",
+      "side": 1,
+      "message": "Yes, support for inheritable values is added in a follow-up change which adds \u0027configured_value\u0027 and \u0027inherited_value\u0027. For inherited parameters \u0027value\u0027 would then contain the effective value. Do you mean we should have only \u0027configured_value\u0027 and \u0027inherited_value\u0027, but not \u0027value\u0027? It\u0027s ok, but it leaves the (trivial) task of computing the effective value to the client. For InheritedBooleanInfo we also have a triple of \u0027value\u0027, \u0027configured_value\u0027 and \u0027inherited_value\u0027. The same is true for max object size, but here the computation of the effective value is not that straight forward since the configured value only overwrites the inherited value if it is smaller. To make it for the client simple and to be consistent I thought to have here \u0027value\u0027, \u0027configured_value\u0027 and \u0027inherited_value\u0027 too.",
+      "parentUuid": "48315fd0_878246eb",
+      "revId": "5a5d5b169b95fd616b37b00d554d19eb15ba08fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48315fd0_a7874afa",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
         "patchSetId": 9
@@ -99,6 +189,30 @@
       "writtenOn": "2013-12-30T15:32:05Z",
       "side": 1,
       "message": "v is always true",
+      "range": {
+        "startLine": 240,
+        "startChar": 9,
+        "endLine": 240,
+        "endChar": 14
+      },
+      "revId": "5a5d5b169b95fd616b37b00d554d19eb15ba08fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "682c637b_a89c7b56",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-02T13:58:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48315fd0_a7874afa",
       "range": {
         "startLine": 240,
         "startChar": 9,
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "682c637b_c891af3d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-02T13:58:50Z",
+      "side": 1,
+      "message": "not applicable anymore",
+      "parentUuid": "48315fd0_c78c3e21",
+      "range": {
+        "startLine": 252,
+        "startChar": 9,
+        "endLine": 252,
+        "endChar": 14
+      },
+      "revId": "5a5d5b169b95fd616b37b00d554d19eb15ba08fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2dfb5d35_1e3d0ddb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
         "patchSetId": 9
@@ -145,6 +283,30 @@
       "writtenOn": "2013-12-30T15:33:33Z",
       "side": 1,
       "message": "parameter",
+      "range": {
+        "startLine": 205,
+        "startChar": 26,
+        "endLine": 205,
+        "endChar": 34
+      },
+      "revId": "5a5d5b169b95fd616b37b00d554d19eb15ba08fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "682c637b_e8967332",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-02T13:58:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2dfb5d35_1e3d0ddb",
       "range": {
         "startLine": 205,
         "startChar": 26,

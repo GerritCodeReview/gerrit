@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "685383fd_301d48be",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/TextMarker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-02T16:54:14Z",
+      "side": 1,
+      "message": "this",
+      "range": {
+        "startLine": 30,
+        "startChar": 7,
+        "endLine": 30,
+        "endChar": 12
+      },
+      "revId": "3456667e5e96e4350011d722c7232970d7f1ced9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

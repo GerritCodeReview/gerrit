@@ -201,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "48315fd0_27e51ac3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-02T23:04:34Z",
+      "side": 1,
+      "message": "The code in question is not safe:\n\n    if (positions \u003d\u003d null) {\n      positions \u003d new HashMap\u003cString, Integer\u003e();\n      if (labelTypes !\u003d null) {\n        int i \u003d 0;\n        for (LabelType t : labelTypes) {\n          positions.put(t.getName(), i++);\n        }\n      }\n    }\n\nThe write to publish the reference to the new HashMap can be visible before the HashMap is even created internally, let alone the labels being stored in it. A concurrent thread could NPE trying to invoke .get() on the map because the HashMap hasn\u0027t even finished its constructor yet.\n\nThis code needs to be synchronized, or the publish of the reference needs to be done through a volatile field after all mutations have been performed.",
+      "parentUuid": "685383fd_90dd14ad",
+      "range": {
+        "startLine": 115,
+        "startChar": 37,
+        "endLine": 115,
+        "endChar": 64
+      },
+      "revId": "745b0a227d3cf0f98ce625abc06facf7c387a7f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2dfb5d35_de88c558",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 10

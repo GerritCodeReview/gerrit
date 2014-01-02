@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.raw;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
@@ -22,6 +23,7 @@ import com.google.gerrit.common.Version;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.HostPageData;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.systemstatus.MessageOfTheDay;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.WebSession;
@@ -51,6 +53,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,6 +77,7 @@ public class HostPageServlet extends HttpServlet {
   private final Provider<WebSession> session;
   private final GerritConfig config;
   private final DynamicSet<WebUiPlugin> plugins;
+  private final DynamicSet<MessageOfTheDay> messages;
   private final HostPageData.Theme signedOutTheme;
   private final HostPageData.Theme signedInTheme;
   private final SitePaths site;
@@ -89,6 +93,7 @@ public class HostPageServlet extends HttpServlet {
       final SitePaths sp, final ThemeFactory themeFactory,
       final GerritConfig gc, final ServletContext servletContext,
       final DynamicSet<WebUiPlugin> webUiPlugins,
+      final DynamicSet<MessageOfTheDay> motd,
       @GerritServerConfig final Config cfg,
       final StaticServlet ss)
       throws IOException, ServletException {
@@ -96,6 +101,7 @@ public class HostPageServlet extends HttpServlet {
     session = w;
     config = gc;
     plugins = webUiPlugins;
+    messages = motd;
     signedOutTheme = themeFactory.getSignedOutTheme();
     signedInTheme = themeFactory.getSignedInTheme();
     site = sp;
@@ -201,6 +207,7 @@ public class HostPageServlet extends HttpServlet {
       w.write(";");
     }
     plugins(w);
+    messages(w);
 
     final byte[] hpd = w.toString().getBytes("UTF-8");
     final byte[] raw = Bytes.concat(page.part1, hpd, page.part2);
@@ -234,6 +241,25 @@ public class HostPageServlet extends HttpServlet {
     if (!urls.isEmpty()) {
       w.write(HPD_ID + ".plugins=");
       json(urls, w);
+      w.write(";");
+    }
+  }
+
+  private void messages(StringWriter w) {
+    List<HostPageData.Message> list = new ArrayList<>(2);
+    for (MessageOfTheDay motd : messages) {
+      String html = motd.getHtmlMessage();
+      if (!Strings.isNullOrEmpty(html)) {
+        HostPageData.Message m = new HostPageData.Message();
+        m.id = motd.getMessageId();
+        m.redisplay = motd.getRedisplay();
+        m.html = html;
+        list.add(m);
+      }
+    }
+    if (!list.isEmpty()) {
+      w.write(HPD_ID + ".messages=");
+      json(list, w);
       w.write(";");
     }
   }

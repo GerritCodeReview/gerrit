@@ -308,7 +308,7 @@ public class GetDiff implements RestReadView<FileResource> {
     // Lines of b.
     List<String> b;
 
-    // A list of changed sections of the of the corresponding line list.
+    // A list of changed sections of the corresponding line list.
     // Each entry is a character <offset, length> pair. The offset is from the
     // beginning of the first line in the list. Also, the offset includes an
     // implied trailing newline character for each line.

@@ -52,7 +52,6 @@ class SkipBar extends Composite {
   private final SkipManager manager;
   private final CodeMirror cm;
 
-  private int start;
   private LineWidget lineWidget;
   private TextMarker textMarker;
   private SkipBar otherBar;
@@ -71,14 +70,6 @@ class SkipBar extends Composite {
         cm.focus();
       }
     }, ClickEvent.getType());
-  }
-
-  int getStart() {
-    return start;
-  }
-
-  DisplaySide getSide() {
-    return cm.side();
   }
 
   void collapse(int start, int end, boolean attach) {
@@ -100,10 +91,7 @@ class SkipBar extends Composite {
             getElement().getStyle().setPaddingLeft(w, Unit.PX);
           }
         });
-      } else {
-        manager.move(this, this.start, start);
       }
-      this.start = start;
     }
 
     textMarker = cm.markText(
@@ -145,6 +133,12 @@ class SkipBar extends Composite {
     otherBar.expandSideBefore(cnt);
   }
 
+  void expandAll() {
+    clearMarkerAndWidget();
+    removeFromParent();
+    updateSelection();
+  }
+
   private void expandSideBefore(int cnt) {
     FromTo range = textMarker.find();
     int oldStart = range.getFrom().getLine();
@@ -152,17 +146,6 @@ class SkipBar extends Composite {
     int end = range.getTo().getLine();
     clearMarkerAndWidget();
     collapse(newStart, end, true);
-    updateSelection();
-  }
-
-  void expandAll() {
-    expandSideAll();
-    otherBar.expandSideAll();
-  }
-
-  private void expandSideAll() {
-    clearMarkerAndWidget();
-    removeFromParent();
     updateSelection();
   }
 
@@ -185,8 +168,9 @@ class SkipBar extends Composite {
 
   @UiHandler("skipNum")
   void onExpandAll(ClickEvent e) {
-    expandAll();
     manager.remove(this, otherBar);
+    otherBar.expandAll();
+    expandAll();
     cm.focus();
   }
 

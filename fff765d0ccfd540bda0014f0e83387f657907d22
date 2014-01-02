@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "283d0b9f_ee683f80",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2544,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-02T09:04:49Z",
+      "side": 1,
+      "message": "It\u0027s a new feature that still needs to prove that it works well when it is used in production. Experimental means that we do not know for sure if it scales properly. If not, this feature may be removed again. It\u0027s just to be on the save side before everyone starts relying on it.\n\nIt\u0027s similar to the usage of the recursive merger (core.useRecursiveMerge) which is also marked as experimental.",
+      "parentUuid": "682c637b_e8f593ab",
+      "range": {
+        "startLine": 2544,
+        "startChar": 46,
+        "endLine": 2544,
+        "endChar": 58
+      },
+      "revId": "fff765d0ccfd540bda0014f0e83387f657907d22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "283d0b9f_4ecf9367",
         "filename": "Documentation/project-documentation.txt",
         "patchSetId": 4
@@ -36,6 +60,24 @@
       "writtenOn": "2013-12-30T15:20:13Z",
       "side": 1,
       "message": "What about detached HEAD?",
+      "revId": "fff765d0ccfd540bda0014f0e83387f657907d22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "682c637b_68f9a39b",
+        "filename": "Documentation/project-documentation.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-02T09:04:49Z",
+      "side": 1,
+      "message": "It also works for detached HEAD. Adapted the documentation.\n\nDone",
+      "parentUuid": "283d0b9f_4ecf9367",
       "revId": "fff765d0ccfd540bda0014f0e83387f657907d22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "283d0b9f_0e5e6bd3",
+        "filename": "Documentation/project-documentation.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-02T09:04:49Z",
+      "side": 1,
+      "message": "It is already possible. Adapted the documentation.\n\nDone",
+      "parentUuid": "283d0b9f_6ecc4f72",
+      "revId": "fff765d0ccfd540bda0014f0e83387f657907d22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "682c637b_08dbc73c",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/doc/ProjectDocumentationIT.java",
         "patchSetId": 4
@@ -70,6 +130,24 @@
       "writtenOn": "2013-12-30T15:20:13Z",
       "side": 1,
       "message": "This means that if pegdown changes the output format and doesn\u0027t output \u003chead\u003e immediately after \u003chtml\u003e this test will break. Isn\u0027t it enough to check that the content starts with just \"\u003chtml\u003e\"? ...",
+      "revId": "fff765d0ccfd540bda0014f0e83387f657907d22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "283d0b9f_2e5b27e4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/doc/ProjectDocumentationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-02T09:04:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "682c637b_08dbc73c",
       "revId": "fff765d0ccfd540bda0014f0e83387f657907d22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "283d0b9f_4e5873e5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/doc/ProjectDocumentationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-02T09:04:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "283d0b9f_8e97bb31",
+      "revId": "fff765d0ccfd540bda0014f0e83387f657907d22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "283d0b9f_ae9c7756",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/doc/ProjectDocumentationIT.java",
         "patchSetId": 4
@@ -104,6 +200,24 @@
       "writtenOn": "2013-12-30T15:20:13Z",
       "side": 1,
       "message": "optional: I am not sure if this test belongs here as it checks that BLOCK on refs/* prevents reading of anything (in this case documentation) from that project. This might be more relevant for a test where permissions are checked\nas we would likely check more cases there (like BLOCK in a parent project, BLOCK and ALLOW in the same project etc...)",
+      "revId": "fff765d0ccfd540bda0014f0e83387f657907d22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "682c637b_a8b55bd6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/doc/ProjectDocumentationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-02T09:04:49Z",
+      "side": 1,
+      "message": "This test is here to verify that the documentation is only served if the user can see the project. This visibility check was actually missing in the first patch set and users who could not see the project could still access the documentation. This is why I wanted to cover this by a test. So the purpose is to test that ProjectDocServlet checks access rights and not wether blocking access rights works properly (this test assumes that blocking just works).",
+      "parentUuid": "283d0b9f_ae9c7756",
       "revId": "fff765d0ccfd540bda0014f0e83387f657907d22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -127,6 +241,24 @@
     },
     {
       "key": {
+        "uuid": "682c637b_c8ba8fc5",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-02T09:04:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "283d0b9f_ce91c33d",
+      "revId": "fff765d0ccfd540bda0014f0e83387f657907d22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "283d0b9f_ee967f32",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
         "patchSetId": 4
@@ -144,6 +276,24 @@
     },
     {
       "key": {
+        "uuid": "682c637b_e8bf53b2",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-02T09:04:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "283d0b9f_ee967f32",
+      "revId": "fff765d0ccfd540bda0014f0e83387f657907d22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "283d0b9f_0eacab87",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
         "patchSetId": 4
@@ -155,6 +305,24 @@
       "writtenOn": "2013-12-30T15:20:13Z",
       "side": 1,
       "message": "why is it important to prevent non-owners from accessing the docs from any commit?",
+      "revId": "fff765d0ccfd540bda0014f0e83387f657907d22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "283d0b9f_6e552faa",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-02T09:04:49Z",
+      "side": 1,
+      "message": "If a commit is specified we need to check that this commit is visible to the calling user. This check is not trivial since we would need to check if the commit is contained in any branch or tag that is visible to the user. For now this check is not implemented and only project owners (which can see any commit) are allowed to get the documentation by commit. This is a temporary limitation that allows to keep this first commit simpler. In a future change this limitation should be removed. I think for the initial version this limitation is ok, especially since we are already having the same limitation when resolving HEAD in the GetHead REST endpoint. If HEAD is detached and points to a commit, it is only resolved if the calling user is a project owner.",
+      "parentUuid": "283d0b9f_0eacab87",
       "revId": "fff765d0ccfd540bda0014f0e83387f657907d22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

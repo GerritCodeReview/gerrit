@@ -40,10 +40,6 @@ import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.logical.shared.ResizeEvent;
@@ -54,7 +50,6 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
@@ -70,7 +65,6 @@ import net.codemirror.lib.Configuration;
 import net.codemirror.lib.KeyMap;
 import net.codemirror.lib.LineCharacter;
 import net.codemirror.lib.ModeInjector;
-import net.codemirror.lib.Rect;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -352,47 +346,29 @@ public class SideBySide2 extends Screen {
 
   private BeforeSelectionChangeHandler onSelectionChange(final CodeMirror cm) {
     return new BeforeSelectionChangeHandler() {
-      private Image icon;
+      private InsertCommentBubble bubble;
 
       @Override
       public void handle(CodeMirror cm, LineCharacter anchor, LineCharacter head) {
         if (anchor == head
             || (anchor.getLine() == head.getLine()
              && anchor.getCh() == head.getCh())) {
-          if (icon != null) {
-            icon.setVisible(false);
+          if (bubble != null) {
+            bubble.setVisible(false);
           }
           return;
-        } else if (icon == null) {
+        } else if (bubble == null) {
           init(anchor);
-        }
-
-        icon.setVisible(true);
-        Rect r = cm.charCoords(head, "local");
-        Style s = icon.getElement().getStyle();
-        int top = (int) (r.top() - icon.getOffsetHeight() + 2);
-        if (top < 0) {
-          s.setTop(-3, Unit.PX);
-          s.setLeft(r.right() + 2, Unit.PX);
         } else {
-          s.setTop(top, Unit.PX);
-          s.setLeft((int) (r.right() - icon.getOffsetWidth() / 2), Unit.PX);
+          bubble.setVisible(true);
         }
+        bubble.position(cm.charCoords(head, "local"));
       }
 
       private void init(LineCharacter anchor) {
-        icon = new Image(Gerrit.RESOURCES.draftComments());
-        icon.setTitle(PatchUtil.C.commentInsert());
-        icon.setStyleName(DiffTable.style.insertCommentIcon());
-        icon.addClickHandler(new ClickHandler() {
-          @Override
-          public void onClick(ClickEvent event) {
-            icon.setVisible(false);
-            commentManager.insertNewDraft(cm).run();
-          }
-        });
-        add(icon);
-        cm.addWidget(anchor, icon.getElement(), false);
+        bubble = new InsertCommentBubble(commentManager, cm);
+        add(bubble);
+        cm.addWidget(anchor, bubble.getElement(), false);
       }
     };
   }

@@ -23,11 +23,6 @@ limitations under the License.
     @external .cm-keymap-fat-cursor, CodeMirror-cursor;
     @external .cm-searching, .cm-trailingspace, .cm-tab;
 
-    .insertCommentIcon {
-      cursor: pointer;
-      position: absolute;
-      z-index: 150;
-    }
     .fullscreen {
       background-color: #f7f7f7;
       border-bottom: 1px solid #ddd;

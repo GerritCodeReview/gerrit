@@ -38,7 +38,6 @@ class DiffTable extends Composite {
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   interface DiffTableStyle extends CssResource {
-    String insertCommentIcon();
     String fullscreen();
     String intralineBg();
     String diff();

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4d6b31dd_77e1b042",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-03T18:40:22Z",
+      "side": 1,
+      "message": "Bad merge, fixed.",
+      "parentUuid": "4de091af_6fe1f142",
+      "revId": "79aea6b39f171550982a840dde4df85677d6a21d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4de091af_2febe922",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 9
@@ -30,6 +48,30 @@
       "writtenOn": "2014-01-03T18:30:30Z",
       "side": 1,
       "message": "Didn\u0027t we conclude this can never happen?",
+      "range": {
+        "startLine": 142,
+        "startChar": 27,
+        "endLine": 142,
+        "endChar": 75
+      },
+      "revId": "79aea6b39f171550982a840dde4df85677d6a21d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d6b31dd_17e6345c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-03T18:40:22Z",
+      "side": 1,
+      "message": "Bad merge, fixed.",
+      "parentUuid": "4de091af_2febe922",
       "range": {
         "startLine": 142,
         "startChar": 27,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "4d6b31dd_37eb3823",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-03T18:40:22Z",
+      "side": 1,
+      "message": "approvals is keyed by patch set ID, not account ID, so no.\n\nWe could make approvals a Table\u003cPatchSet.Id, Account.Id, PSA\u003e to support this. But you could also argue for Table\u003cPatchSet.Id, String, PSA\u003e. Or for a 3d table.",
+      "parentUuid": "4de091af_0fe6255c",
+      "range": {
+        "startLine": 231,
+        "startChar": 6,
+        "endLine": 237,
+        "endChar": 7
+      },
+      "revId": "79aea6b39f171550982a840dde4df85677d6a21d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4de091af_4fdc2d86",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 9
@@ -76,6 +142,30 @@
       "writtenOn": "2014-01-03T18:30:30Z",
       "side": 1,
       "message": "Old data is going to be so screwed when we get rid of Account.Id. :-)",
+      "range": {
+        "startLine": 227,
+        "startChar": 31,
+        "endLine": 227,
+        "endChar": 54
+      },
+      "revId": "79aea6b39f171550982a840dde4df85677d6a21d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d6b31dd_d7ef5c2b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-03T18:40:22Z",
+      "side": 1,
+      "message": "By \"screwed\" you mean \"rewritten\", right?",
+      "parentUuid": "4de091af_4fdc2d86",
       "range": {
         "startLine": 227,
         "startChar": 31,

@@ -65,6 +65,7 @@ class DraftBox extends CommentBox {
   private Timer resizeTimer;
   private int editAreaHeight;
   private boolean autoClosed;
+  private CallbackGroup pendingGroup;
 
   @UiField Widget header;
   @UiField Element summary;
@@ -262,10 +263,17 @@ class DraftBox extends CommentBox {
   @UiHandler("save")
   void onSave(ClickEvent e) {
     e.stopPropagation();
-    save(null);
+    CallbackGroup group = new CallbackGroup();
+    save(group);
+    group.done();
   }
 
   void save(CallbackGroup group) {
+    if (pendingGroup != null) {
+      pendingGroup.addListener(group);
+      return;
+    }
+
     String message = editArea.getValue().trim();
     if (message.length() == 0) {
       return;
@@ -275,10 +283,12 @@ class DraftBox extends CommentBox {
     input.message(message);
     enableEdit(false);
 
+    pendingGroup = group;
     GerritCallback<CommentInfo> cb = new GerritCallback<CommentInfo>() {
       @Override
       public void onSuccess(CommentInfo result) {
         enableEdit(true);
+        pendingGroup = null;
         set(result);
         setEdit(false);
         if (autoClosed) {
@@ -290,14 +300,14 @@ class DraftBox extends CommentBox {
       @Override
       public void onFailure(Throwable e) {
         enableEdit(true);
+        pendingGroup = null;
         super.onFailure(e);
       }
     };
     if (input.id() == null) {
-      CommentApi.createDraft(psId, input, group == null ? cb : group.add(cb));
+      CommentApi.createDraft(psId, input, group.add(cb));
     } else {
-      CommentApi.updateDraft(
-          psId, input.id(), input, group == null ? cb : group.add(cb));
+      CommentApi.updateDraft(psId, input.id(), input, group.add(cb));
     }
     getCm().focus();
   }
@@ -332,13 +342,15 @@ class DraftBox extends CommentBox {
       restoreSelection();
     } else {
       setEdit(false);
+      pendingGroup = new CallbackGroup();
       CommentApi.deleteDraft(psId, comment.id(),
-          new GerritCallback<JavaScriptObject>() {
+          pendingGroup.addFinal(new GerritCallback<JavaScriptObject>() {
         @Override
         public void onSuccess(JavaScriptObject result) {
+          pendingGroup = null;
           removeUI();
         }
-      });
+      }));
     }
   }
 
@@ -351,7 +363,9 @@ class DraftBox extends CommentBox {
         case 's':
         case 'S':
           e.preventDefault();
-          save(null);
+          CallbackGroup group = new CallbackGroup();
+          save(group);
+          group.done();
           return;
       }
     } else if (e.getNativeKeyCode() == KeyCodes.KEY_ESCAPE && !isDirty()) {

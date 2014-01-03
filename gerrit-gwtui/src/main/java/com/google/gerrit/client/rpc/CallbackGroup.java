@@ -44,6 +44,7 @@ import java.util.Set;
 public class CallbackGroup {
   private final List<CallbackImpl<?>> callbacks;
   private final Set<CallbackImpl<?>> remaining;
+  private final List<AsyncCallback<Void>> listeners;
   private boolean finalAdded;
 
   private boolean failed;
@@ -64,6 +65,7 @@ public class CallbackGroup {
   public CallbackGroup() {
     callbacks = new ArrayList<CallbackImpl<?>>();
     remaining = new HashSet<CallbackImpl<?>>();
+    listeners = new ArrayList<AsyncCallback<Void>>(2);
   }
 
   public <T> Callback<T> add(final AsyncCallback<T> cb) {
@@ -82,12 +84,34 @@ public class CallbackGroup {
     applyAllSuccess();
   }
 
+  public void addListener(AsyncCallback<Void> cb) {
+    if (finalAdded) {
+      if (failed) {
+        cb.onFailure(failedThrowable);
+      } else if (remaining.isEmpty()) {
+        cb.onSuccess(null);
+      } else {
+        listeners.add(cb);
+      }
+    } else {
+      listeners.add(cb);
+    }
+  }
+
+  public void addListener(CallbackGroup group) {
+    addListener(group.add(CallbackGroup.<Void> emptyCallback()));
+  }
+
   private void applyAllSuccess() {
     if (!failed && finalAdded && remaining.isEmpty()) {
       for (CallbackImpl<?> cb : callbacks) {
         cb.applySuccess();
       }
+      for (AsyncCallback<Void> cb : listeners) {
+        cb.onSuccess(null);
+      }
       callbacks.clear();
+      listeners.clear();
     }
   }
 
@@ -145,8 +169,12 @@ public class CallbackGroup {
         cb.delegate = null;
         cb.result = null;
       }
+      for (AsyncCallback<Void> cb : listeners) {
+        cb.onFailure(failedThrowable);
+      }
       callbacks.clear();
       remaining.clear();
+      listeners.clear();
     }
 
     void applySuccess() {

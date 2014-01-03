@@ -133,6 +133,18 @@ public class ChangeData {
     ChangeData create(ReviewDb db, ChangeControl c);
   }
 
+  /**
+   * Create an instance for testing only.
+   * <p>
+   * Attempting to lazy load data will fail with NPEs.
+   *
+   * @param id change ID
+   * @return instance for testing.
+   */
+  static ChangeData createForTest(Change.Id id) {
+    return new ChangeData(null, null, null, id);
+  }
+
   private final ReviewDb db;
   private final GitRepositoryManager repoManager;
   private final PatchListCache patchListCache;
@@ -157,7 +169,7 @@ public class ChangeData {
   private boolean patchesLoaded;
 
   @AssistedInject
-  public ChangeData(
+  private ChangeData(
       GitRepositoryManager repoManager,
       PatchListCache patchListCache,
       @Assisted ReviewDb db,
@@ -169,7 +181,7 @@ public class ChangeData {
   }
 
   @AssistedInject
-  ChangeData(
+  private ChangeData(
       GitRepositoryManager repoManager,
       PatchListCache patchListCache,
       @Assisted ReviewDb db,
@@ -182,7 +194,7 @@ public class ChangeData {
   }
 
   @AssistedInject
-  ChangeData(
+  private ChangeData(
       GitRepositoryManager repoManager,
       PatchListCache patchListCache,
       @Assisted ReviewDb db,

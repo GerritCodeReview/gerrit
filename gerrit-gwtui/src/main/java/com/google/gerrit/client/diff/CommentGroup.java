@@ -25,6 +25,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.Configuration;
 import net.codemirror.lib.LineWidget;
+import net.codemirror.lib.TextMarker.FromTo;
 
 /**
  * LineWidget attached to a CodeMirror container.
@@ -145,6 +146,7 @@ class CommentGroup extends Composite {
     if (lineWidget != null) {
       lineWidget.clear();
       lineWidget = null;
+      updateSelection();
     }
     manager.clearLine(cm.side(), line);
     removeFromParent();
@@ -201,6 +203,15 @@ class CommentGroup extends Composite {
     }
   }
 
+  private void updateSelection() {
+    if (cm.somethingSelected()) {
+      FromTo r = cm.getSelectedRange();
+      if (r.getTo().getLine() >= line) {
+        cm.setSelection(r.getFrom(), r.getTo());
+      }
+    }
+  }
+
   private boolean canComputeHeight() {
     return !comments.isVisible() || comments.getOffsetHeight() > 0;
   }
@@ -221,5 +232,7 @@ class CommentGroup extends Composite {
     b.padding.getStyle().setHeight(Math.max(0, h - bpx), Unit.PX);
     a.lineWidget.changed();
     b.lineWidget.changed();
+    a.updateSelection();
+    b.updateSelection();
   }
 }

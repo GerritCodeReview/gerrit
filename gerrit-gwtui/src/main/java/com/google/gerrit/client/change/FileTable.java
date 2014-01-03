@@ -239,8 +239,9 @@ class FileTable extends FlowPanel {
       keysNavigation.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER,
           Util.C.patchTableOpenDiff()));
 
-      keysNavigation.add(new FirstFileCommand(0, '[', "Open first file"));
-      keysNavigation.add(new LastFileCommand(0, ']', "Open last file"));
+      keysNavigation.add(
+          new OpenFileCommand(list.length() - 1, 0, '[', Resources.C.openLastFile()),
+          new OpenFileCommand(0, 0, ']', Resources.C.openCommitMessage()));
 
       keysAction.add(new KeyCommand(0, 'r', PatchUtil.C.toggleReviewed()) {
         @Override
@@ -331,6 +332,20 @@ class FileTable extends FlowPanel {
         onOpenRow(row);
       } else {
         super.onCellSingleClick(event, row, column);
+      }
+    }
+
+    private class OpenFileCommand extends KeyCommand {
+      private final int index;
+
+      OpenFileCommand(int index, int modifiers, char c, String helpText) {
+        super(modifiers, c, helpText);
+        this.index = index;
+      }
+
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        Gerrit.display(url(list.get(index)));
       }
     }
   }

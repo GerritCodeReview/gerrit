@@ -20,6 +20,9 @@ interface Constants extends com.google.gwt.i18n.client.Constants {
   String openChange();
   String reviewedFileTitle();
 
+  String openLastFile();
+  String openCommitMessage();
+
   String patchSet();
   String commit();
   String date();

@@ -210,6 +210,7 @@ public class GetDiff implements RestReadView<FileResource> {
     final List<ContentEntry> lines;
     final SparseFileContent fileA;
     final SparseFileContent fileB;
+    final boolean ignoreWS;
 
     int nextA;
     int nextB;
@@ -218,6 +219,7 @@ public class GetDiff implements RestReadView<FileResource> {
       lines = Lists.newArrayListWithExpectedSize(ps.getEdits().size() + 2);
       fileA = ps.getA();
       fileB = ps.getB();
+      ignoreWS = ps.isIgnoreWhitespace();
     }
 
     void addCommon(int end) {
@@ -225,21 +227,46 @@ public class GetDiff implements RestReadView<FileResource> {
       if (nextA >= end) {
         return;
       }
-      nextB += end - nextA;
 
       while (nextA < end) {
-        if (fileA.contains(nextA)) {
-          ContentEntry e = entry();
-          e.ab = Lists.newArrayListWithCapacity(end - nextA);
-          for (int i = nextA; i == nextA && i < end; i = fileA.next(i), nextA++) {
-            e.ab.add(fileA.get(i));
-          }
-        } else {
-          int endRegion = Math.min(end,
-              (nextA == 0) ? fileA.first() : fileA.next(nextA - 1));
-          ContentEntry e = entry();
-          e.skip = endRegion - nextA;
+        if (!fileA.contains(nextA)) {
+          int endRegion = Math.min(
+              end,
+              nextA == 0 ? fileA.first() : fileA.next(nextA - 1));
+          int len = endRegion - nextA;
+          entry().skip = len;
           nextA = endRegion;
+          nextB += len;
+          continue;
+        }
+
+        ContentEntry e = entry();
+        e.ab = Lists.newArrayListWithCapacity(end - nextA);
+        for (int i = nextA;
+            i == nextA && i < end;
+            i = fileA.next(i), nextA++, nextB++) {
+          if (ignoreWS) {
+            if (fileB.contains(nextB)) {
+              if (e.ab != null) {
+                if (e.ab.isEmpty()) {
+                  e.ab = null;
+                } else {
+                  e = entry();
+                }
+                e.a = Lists.newArrayListWithCapacity(end - nextA);
+                e.b = Lists.newArrayListWithCapacity(end - nextA);
+                e.common = true;
+              }
+
+              e.a.add(fileA.get(nextA));
+              e.b.add(fileB.get(nextB));
+              continue;
+            } else if (e.ab == null) {
+              e = entry();
+            }
+          }
+
+          e.ab.add(fileA.get(nextA));
         }
       }
     }
@@ -314,6 +341,9 @@ public class GetDiff implements RestReadView<FileResource> {
     // implied trailing newline character for each line.
     List<List<Integer>> editA;
     List<List<Integer>> editB;
+
+    // a and b are actually common with this whitespace ignore setting.
+    Boolean common;
 
     // Number of lines to skip on both sides.
     Integer skip;

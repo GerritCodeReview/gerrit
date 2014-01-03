@@ -251,7 +251,9 @@ public class SideBySide2 extends Screen {
 
     removeKeyHandlerRegistrations();
     if (commentManager != null) {
-      commentManager.saveAllDrafts(null);
+      CallbackGroup group = new CallbackGroup();
+      commentManager.saveAllDrafts(group);
+      group.done();
     }
     if (resizeHandler != null) {
       resizeHandler.removeHandler();
@@ -694,7 +696,8 @@ public class SideBySide2 extends Screen {
       public void run() {
         CallbackGroup group = new CallbackGroup();
         commentManager.saveAllDrafts(group);
-        group.addFinal(new GerritCallback<Void>() {
+        group.done();
+        group.addListener(new GerritCallback<Void>() {
           @Override
           public void onSuccess(Void result) {
             String b = base != null ? String.valueOf(base.get()) : null;
@@ -703,7 +706,7 @@ public class SideBySide2 extends Screen {
               PageLinks.toChange(changeId, rev),
               new ChangeScreen2(changeId, b, rev, openReplyBox));
           }
-        }).onSuccess(null);
+        });
       }
     };
   }

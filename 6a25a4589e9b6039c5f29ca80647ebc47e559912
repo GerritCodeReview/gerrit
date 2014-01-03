@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4de091af_4f2e6dae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-03T23:34:45Z",
+      "side": 1,
+      "message": "I was originally hoping these could happen in parallel until we start reading from ChangeNotes so as to somewhat mitigate any performance impact. But considering that we want to be able to turn on reading with only a config change, the code should be right the first time.\n\nNote that it should still go outside the db transaction since that\u0027s still the source of truth.\n\nDone.",
+      "parentUuid": "ad2f4db4_02fa0ae8",
+      "range": {
+        "startLine": 179,
+        "startChar": 8,
+        "endLine": 180,
+        "endChar": 20
+      },
+      "revId": "6a25a4589e9b6039c5f29ca80647ebc47e559912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d344908_a1ecfe37",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2014-01-03T22:41:10Z",
       "side": 1,
       "message": "This ordering is pointless. You need the commit made and use that as input into the indexer.",
+      "range": {
+        "startLine": 119,
+        "startChar": 4,
+        "endLine": 121,
+        "endChar": 20
+      },
+      "revId": "6a25a4589e9b6039c5f29ca80647ebc47e559912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4de091af_6f333113",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-03T23:34:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d344908_a1ecfe37",
       "range": {
         "startLine": 119,
         "startChar": 4,
@@ -83,6 +131,24 @@
     },
     {
       "key": {
+        "uuid": "4de091af_0f3865ea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-03T23:34:45Z",
+      "side": 1,
+      "message": "Actually we have a method that takes an Account. That part\u0027s easy, MergeOp is already getting that with approvalsUtil.getSubmitter().\n\nThe trickier part is that this really needs an IdentifiedUser so it can call newCommitterIdent() which tries to be clever. (Actually that\u0027s easy, the tricky part is getting it working in tests.)\n\nI will do this but not in my next patch set.",
+      "parentUuid": "8d344908_01fa0ae8",
+      "revId": "6a25a4589e9b6039c5f29ca80647ebc47e559912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d344908_e1f60604",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
         "patchSetId": 2
@@ -94,6 +160,30 @@
       "writtenOn": "2014-01-03T22:41:10Z",
       "side": 1,
       "message": "We should break this out to its own commit and fix it sooner rather than later.",
+      "range": {
+        "startLine": 269,
+        "startChar": 6,
+        "endLine": 271,
+        "endChar": 7
+      },
+      "revId": "6a25a4589e9b6039c5f29ca80647ebc47e559912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d663514_3804892d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-03T23:34:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d344908_e1f60604",
       "range": {
         "startLine": 269,
         "startChar": 6,
@@ -123,6 +213,24 @@
     },
     {
       "key": {
+        "uuid": "4de091af_2f3d29db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-03T23:34:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d344908_210aae3b",
+      "revId": "6a25a4589e9b6039c5f29ca80647ebc47e559912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d344908_4105322c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 2
@@ -134,6 +242,30 @@
       "writtenOn": "2014-01-03T22:41:10Z",
       "side": 1,
       "message": "This does not honor the user chosen by onBehalfOf().",
+      "range": {
+        "startLine": 138,
+        "startChar": 15,
+        "endLine": 138,
+        "endChar": 55
+      },
+      "revId": "6a25a4589e9b6039c5f29ca80647ebc47e559912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d663514_d818ed8f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-03T23:34:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d344908_4105322c",
       "range": {
         "startLine": 138,
         "startChar": 15,
@@ -169,6 +301,30 @@
     },
     {
       "key": {
+        "uuid": "6d663514_f815b156",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-03T23:34:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d344908_6104b62e",
+      "range": {
+        "startLine": 237,
+        "startChar": 4,
+        "endLine": 239,
+        "endChar": 20
+      },
+      "revId": "6a25a4589e9b6039c5f29ca80647ebc47e559912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad2f4db4_e2f60604",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 2
@@ -180,6 +336,30 @@
       "writtenOn": "2014-01-03T22:41:10Z",
       "side": 1,
       "message": "Index may rebuild with stale data?",
+      "range": {
+        "startLine": 1947,
+        "startChar": 6,
+        "endLine": 1949,
+        "endChar": 22
+      },
+      "revId": "6a25a4589e9b6039c5f29ca80647ebc47e559912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4de091af_cf21fdb9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1949,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-03T23:34:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad2f4db4_e2f60604",
       "range": {
         "startLine": 1947,
         "startChar": 6,
@@ -209,6 +389,24 @@
     },
     {
       "key": {
+        "uuid": "4de091af_ef1e4171",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-03T23:34:45Z",
+      "side": 1,
+      "message": "Done, though see caveat on that commit message.",
+      "parentUuid": "ad2f4db4_4205322c",
+      "revId": "6a25a4589e9b6039c5f29ca80647ebc47e559912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad2f4db4_c2ef822b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
         "patchSetId": 2
@@ -220,6 +418,24 @@
       "writtenOn": "2014-01-03T22:41:10Z",
       "side": 1,
       "message": "This should be bound as @Singleton so we don\u0027t keep rereading the config on every request.",
+      "revId": "6a25a4589e9b6039c5f29ca80647ebc47e559912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4de091af_8f2bf595",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-03T23:34:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad2f4db4_c2ef822b",
       "revId": "6a25a4589e9b6039c5f29ca80647ebc47e559912",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -243,6 +459,24 @@
     },
     {
       "key": {
+        "uuid": "4de091af_af283999",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-03T23:34:45Z",
+      "side": 1,
+      "message": "See below.",
+      "parentUuid": "ad2f4db4_a2ecfe37",
+      "revId": "6a25a4589e9b6039c5f29ca80647ebc47e559912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d344908_c1ef822b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 2
@@ -260,6 +494,24 @@
     },
     {
       "key": {
+        "uuid": "6d663514_9812756c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-03T23:34:45Z",
+      "side": 1,
+      "message": "I agree, we should kill this method. I don\u0027t think it should block this change, which is straightforward enough IMO.\n\nAlso, changed this to currentApprovals()",
+      "parentUuid": "8d344908_c1ef822b",
+      "revId": "6a25a4589e9b6039c5f29ca80647ebc47e559912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad2f4db4_220aae3b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ReviewerinPredicate.java",
         "patchSetId": 2
@@ -271,6 +523,30 @@
       "writtenOn": "2014-01-03T22:41:10Z",
       "side": 1,
       "message": "Unrelated whitespace edit in an already very big change.",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 32,
+        "endChar": 31
+      },
+      "revId": "6a25a4589e9b6039c5f29ca80647ebc47e559912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d663514_b80f3945",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ReviewerinPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-03T23:34:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad2f4db4_220aae3b",
       "range": {
         "startLine": 30,
         "startChar": 2,

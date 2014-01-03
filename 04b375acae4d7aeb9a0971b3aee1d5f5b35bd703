@@ -22,6 +22,30 @@
       "revId": "04b375acae4d7aeb9a0971b3aee1d5f5b35bd703",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad83cdc3_a2f93ef5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-03T13:04:42Z",
+      "side": 1,
+      "message": "I\u0027ve now implemented this inside of a GitReferenceUpdatedListener.\n\nDone",
+      "parentUuid": "48315fd0_47812ee1",
+      "range": {
+        "startLine": 878,
+        "startChar": 14,
+        "endLine": 915,
+        "endChar": 15
+      },
+      "revId": "04b375acae4d7aeb9a0971b3aee1d5f5b35bd703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

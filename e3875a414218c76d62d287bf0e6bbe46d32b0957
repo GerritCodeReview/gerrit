@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d71a9c9_f9ecd738",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/CallbackGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2014-01-03T20:57:51Z",
+      "side": 1,
+      "message": "I think this should be the order, since failed gets invoked immediately even if the final callback has not been added.\n\n  if (failed) {\n    cb.onFailure(failedThrowable);\n  } else if (finalAdded \u0026\u0026 remaining.isEmpty()) {\n    cb.onSuccess(null);\n  } else {\n    listeners.add(cb);\n  }",
+      "range": {
+        "startLine": 88,
+        "startChar": 4,
+        "endLine": 98,
+        "endChar": 5
+      },
+      "revId": "e3875a414218c76d62d287bf0e6bbe46d32b0957",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

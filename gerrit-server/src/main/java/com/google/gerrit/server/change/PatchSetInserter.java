@@ -260,6 +260,10 @@ public class PatchSetInserter {
             "Change %s was modified", c.getId()));
       }
 
+      if (messageIsForChange()) {
+        insertMessage(db);
+      }
+
       if (copyLabels) {
         PatchSet priorPatchSet = db.patchSets().get(currentPatchSetId);
         ObjectId priorCommitId =
@@ -275,8 +279,8 @@ public class PatchSetInserter {
       }
       db.commit();
 
-      if (changeMessage != null) {
-        db.changeMessages().insert(Collections.singleton(changeMessage));
+      if (!messageIsForChange()) {
+        insertMessage(db);
       }
 
       if (sendMail) {
@@ -348,6 +352,17 @@ public class PatchSetInserter {
       }
     } catch (CommitValidationException e) {
       throw new InvalidChangeOperationException(e.getMessage());
+    }
+  }
+
+  private boolean messageIsForChange() {
+    return changeMessage.getKey().getParentKey()
+        .equals(patchSet.getId().getParentKey());
+  }
+
+  private void insertMessage(ReviewDb db) throws OrmException {
+    if (changeMessage != null) {
+      db.changeMessages().insert(Collections.singleton(changeMessage));
     }
   }
 

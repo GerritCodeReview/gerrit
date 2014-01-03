@@ -99,7 +99,7 @@ class ChunkManager {
         : DiffTable.style.diff();
 
     for (Region current : Natives.asList(diff.content())) {
-      if (current.ab() != null) {
+      if (current.ab() != null || current.common()) {
         mapper.appendCommon(current.ab().length());
       } else {
         render(current, diffColor);

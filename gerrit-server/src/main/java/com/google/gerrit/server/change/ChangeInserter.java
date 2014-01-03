@@ -162,8 +162,8 @@ public class ChangeInserter {
       LabelTypes labelTypes = refControl.getProjectControl().getLabelTypes();
       approvalsUtil.addReviewers(db, labelTypes, change, patchSet,
           patchSetInfo, reviewers, Collections.<Account.Id> emptySet());
-      if (changeMessage != null) {
-        db.changeMessages().insert(Collections.singleton(changeMessage));
+      if (messageIsForChange()) {
+        insertMessage(db);
       }
       db.commit();
     } finally {
@@ -172,6 +172,9 @@ public class ChangeInserter {
 
     CheckedFuture<?, IOException> f =
         mergeabilityChecker.updateAndIndexAsync(change);
+    if (!messageIsForChange()) {
+      insertMessage(db);
+    }
     gitRefUpdated.fire(change.getProject(), patchSet.getRefName(),
         ObjectId.zeroId(), commit);
 
@@ -194,5 +197,16 @@ public class ChangeInserter {
     }
     f.checkedGet();
     return change;
+  }
+
+  private boolean messageIsForChange() {
+    return changeMessage != null
+        && changeMessage.getKey().getParentKey().equals(change.getKey());
+  }
+
+  private void insertMessage(ReviewDb db) throws OrmException {
+    if (changeMessage != null) {
+      db.changeMessages().insert(Collections.singleton(changeMessage));
+    }
   }
 }

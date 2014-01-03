@@ -15,7 +15,6 @@
 package gerrit;
 
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.rules.StoredValues;
 
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
@@ -40,8 +39,7 @@ public class PRED_change_owner_1 extends Predicate.P1 {
     engine.setB0();
     Term a1 = arg1.dereference();
 
-    Change change = StoredValues.CHANGE_DATA.get(engine).getChange();
-    Account.Id ownerId = change.getOwner();
+    Account.Id ownerId = StoredValues.getChange(engine).getOwner();
 
     if (!a1.unify(new StructureTerm(user, new IntegerTerm(ownerId.get())), engine.trail)) {
       return engine.fail();

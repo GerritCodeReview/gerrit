@@ -295,14 +295,6 @@ public class ChangeData {
     return legacyId;
   }
 
-  public Change getChange() {
-    return change;
-  }
-
-  public boolean hasChange() {
-    return change != null;
-  }
-
   boolean fastIsVisibleTo(CurrentUser user) {
     return visibleTo == user;
   }
@@ -321,10 +313,6 @@ public class ChangeData {
       change = db.changes().get(legacyId);
     }
     return change;
-  }
-
-  void setChange(Change c) {
-    change = c;
   }
 
   public PatchSet currentPatchSet() throws OrmException {
@@ -385,7 +373,7 @@ public class ChangeData {
       IncorrectObjectTypeException {
     PatchSet.Id psId = change().currentPatchSetId();
     String sha1 = db.patchSets().get(psId).getRevision().get();
-    Repository repo = repoManager.openRepository(change.getProject());
+    Repository repo = repoManager.openRepository(change().getProject());
     try {
       RevWalk walk = new RevWalk(repo);
       try {

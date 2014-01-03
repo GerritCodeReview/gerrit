@@ -90,14 +90,6 @@ class CommitBox extends Composite {
       String revision) {
     RevisionInfo revInfo = change.revision(revision);
     CommitInfo commit = revInfo.commit();
-    String sub = commit.subject();
-    String msg = commit.message();
-    if (msg.startsWith(sub)) {
-      msg = msg.substring(sub.length());
-      if (msg.length() > 0 && msg.charAt(0) == '\n') {
-        msg = msg.substring(1);
-      }
-    }
 
     commitName.setText(revision);
     idText.setText("Change-Id: " + change.change_id());
@@ -107,7 +99,7 @@ class CommitBox extends Composite {
     formatLink(commit.committer(), committerNameEmail,
         committerDate, change.status());
     text.setHTML(commentLinkProcessor.apply(
-        new SafeHtmlBuilder().append(msg).linkify()));
+        new SafeHtmlBuilder().append(commit.message()).linkify()));
 
     GitwebLink gw = Gerrit.getGitwebLink();
     if (gw != null && gw.canLink(revInfo)) {

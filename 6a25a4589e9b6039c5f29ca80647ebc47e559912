@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d663514_780a013d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-03T22:14:22Z",
+      "side": 1,
+      "message": "This is problematic, any usage of updateFactory.create on the merge thread fails with \"com.google.inject.OutOfScopeException: No user on merge thread\"\n\nWe need to add factory method(s) that accept a user. Ew.",
+      "revId": "6a25a4589e9b6039c5f29ca80647ebc47e559912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

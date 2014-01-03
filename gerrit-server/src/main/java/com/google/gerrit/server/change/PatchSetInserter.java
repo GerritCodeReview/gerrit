@@ -260,6 +260,10 @@ public class PatchSetInserter {
             "Change %s was modified", c.getId()));
       }
 
+      if (changeMessage != null) {
+        db.changeMessages().insert(Collections.singleton(changeMessage));
+      }
+
       if (copyLabels) {
         PatchSet priorPatchSet = db.patchSets().get(currentPatchSetId);
         ObjectId priorCommitId =
@@ -274,10 +278,6 @@ public class PatchSetInserter {
             currentPatchSetId, patchSet, changeKind);
       }
       db.commit();
-
-      if (changeMessage != null) {
-        db.changeMessages().insert(Collections.singleton(changeMessage));
-      }
 
       if (sendMail) {
         try {

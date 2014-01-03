@@ -238,7 +238,7 @@ class DraftBox extends CommentBox {
   }
 
   private void restoreSelection() {
-    if (getFromTo() != null) {
+    if (getFromTo() != null && comment.in_reply_to() == null) {
       getCm().setSelection(getFromTo().getFrom(), getFromTo().getTo());
     }
   }

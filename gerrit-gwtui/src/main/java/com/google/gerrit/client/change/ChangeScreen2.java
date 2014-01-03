@@ -81,7 +81,6 @@ import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
-import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtorm.client.KeyUtil;
 
 import java.sql.Timestamp;
@@ -133,7 +132,6 @@ public class ChangeScreen2 extends Screen {
 
   @UiField HTMLPanel headerLine;
   @UiField Style style;
-  @UiField Element commitSubjectText;
   @UiField ToggleButton star;
   @UiField Anchor permalink;
 
@@ -773,7 +771,6 @@ public class ChangeScreen2 extends Screen {
       statusText.setInnerText(Util.toLongString(info.status()));
     }
 
-    renderCommitSubject(info);
     renderOwner(info);
     renderActionTextDate(info);
     renderDiffBaseListBox(info);
@@ -821,13 +818,6 @@ public class ChangeScreen2 extends Screen {
       sb.append(info.subject());
     }
     setWindowTitle(sb.toString());
-  }
-
-  private void renderCommitSubject(ChangeInfo info) {
-    RevisionInfo rev = info.revision(revision);
-    String sub = rev.commit().subject();
-    commitSubjectText.setInnerSafeHtml(commentLinkProcessor.apply(
-      new SafeHtmlBuilder().append(sub).linkify()));
   }
 
   private void renderOwner(ChangeInfo info) {

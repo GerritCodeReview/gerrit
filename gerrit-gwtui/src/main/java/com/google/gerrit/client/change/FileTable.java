@@ -239,6 +239,9 @@ class FileTable extends FlowPanel {
       keysNavigation.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER,
           Util.C.patchTableOpenDiff()));
 
+      keysNavigation.add(new FirstFileCommand(0, '[', "Open first file"));
+      keysNavigation.add(new LastFileCommand(0, ']', "Open last file"));
+
       keysAction.add(new KeyCommand(0, 'r', PatchUtil.C.toggleReviewed()) {
         @Override
         public void onKeyPress(KeyPressEvent event) {

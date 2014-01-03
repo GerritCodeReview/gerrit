@@ -24,7 +24,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.RepeatingCommand;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -183,23 +183,24 @@ class DraftBox extends CommentBox {
 
     setRangeHighlight(edit);
     if (edit) {
-      final String msg = comment.message() != null
+      String msg = comment.message() != null
           ? comment.message().trim()
           : "";
       editArea.setValue(msg);
-      editArea.setFocus(true);
       cancel.setVisible(!isNew());
       expandText();
       editAreaHeight = editArea.getOffsetHeight();
-      if (msg.length() > 0) {
-        Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
-          @Override
-          public boolean execute() {
-            editArea.setCursorPos(msg.length());
-            return false;
+
+      final int len = msg.length();
+      Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+        @Override
+        public void execute() {
+          editArea.setFocus(true);
+          if (len > 0) {
+            editArea.setCursorPos(len);
           }
-        }, 0);
-      }
+        }
+      });
     } else {
       expandTimer.cancel();
       resizeTimer.cancel();

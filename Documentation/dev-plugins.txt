@@ -292,6 +292,10 @@ can get `com.google.gerrit.pgm.init.AllProjectsConfig` injected:
 
     @Override
     public void run() throws Exception {
+    }
+
+    @Override
+    public void postRun() throws Exception {
       ui.message("\n");
       ui.header(pluginName + " Integration");
       boolean enabled = ui.yesno(true, "By default enabled for all projects");
@@ -344,6 +348,10 @@ public class MyInitStep implements InitStep {
 
     Section mySection = getSection("myplugin", null);
     mySection.string("Link name", "linkname", "MyLink");
+  }
+
+  @Override
+  public void postRun() throws Exception {
   }
 }
 ----

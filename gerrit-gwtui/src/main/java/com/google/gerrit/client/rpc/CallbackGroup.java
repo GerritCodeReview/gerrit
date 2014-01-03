@@ -82,6 +82,18 @@ public class CallbackGroup {
     applyAllSuccess();
   }
 
+  public void addListener(AsyncCallback<Void> cb) {
+    if (!failed && finalAdded && remaining.isEmpty()) {
+      cb.onSuccess(null);
+    } else {
+      handleAdd(cb).onSuccess(null);
+    }
+  }
+
+  public void addListener(CallbackGroup group) {
+    addListener(group.add(CallbackGroup.<Void> emptyCallback()));
+  }
+
   private void applyAllSuccess() {
     if (!failed && finalAdded && remaining.isEmpty()) {
       for (CallbackImpl<?> cb : callbacks) {

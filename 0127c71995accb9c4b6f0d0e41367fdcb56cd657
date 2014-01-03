@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d0fb124_57e12c42",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2014-01-03T04:02:47Z",
+      "side": 1,
+      "message": "nit: the default could be this.ab !\u003d null instead of false.",
+      "range": {
+        "startLine": 113,
+        "startChar": 68,
+        "endLine": 113,
+        "endChar": 73
+      },
+      "revId": "0127c71995accb9c4b6f0d0e41367fdcb56cd657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd2f218b_4be1a542",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2014-01-03T04:02:47Z",
+      "side": 1,
+      "message": "nit: your logic is correct but i think this may be slightly easier to read:\n\n        ContentEntry e \u003d null;\n        for (int i \u003d nextA;\n            i \u003d\u003d nextA \u0026\u0026 i \u003c end;\n            i \u003d fileA.next(i), nextA++, nextB++) {\n          if (ignoreWS \u0026\u0026 fileB.contains(nextB)) {\n              if (e \u003d\u003d null || e.common \u003d\u003d null) {\n                e \u003d entry();\n                e.a \u003d Lists.newArrayListWithCapacity(end - nextA);\n                e.b \u003d Lists.newArrayListWithCapacity(end - nextA);\n                e.common \u003d true;\n              }\n\n              e.a.add(fileA.get(nextA));\n              e.b.add(fileB.get(nextB));\n            } else {\n              if (e \u003d\u003d null || e.common !\u003d null) {\n                e \u003d entry();\n                e.ab \u003d Lists.newArrayListWithCapacity(end - nextA);\n              }\n\n              e.ab.add(fileA.get(nextA));\n          }\n      }",
+      "range": {
+        "startLine": 243,
+        "startChar": 8,
+        "endLine": 270,
+        "endChar": 37
+      },
+      "revId": "0127c71995accb9c4b6f0d0e41367fdcb56cd657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

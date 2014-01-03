@@ -295,14 +295,6 @@ public class ChangeData {
     return legacyId;
   }
 
-  public Change getChange() {
-    return change;
-  }
-
-  public boolean hasChange() {
-    return change != null;
-  }
-
   boolean fastIsVisibleTo(CurrentUser user) {
     return visibleTo == user;
   }

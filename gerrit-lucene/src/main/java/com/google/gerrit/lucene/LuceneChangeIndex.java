@@ -234,7 +234,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     Term id = QueryBuilder.idTerm(cd);
     Document doc = toDocument(cd);
     try {
-      if (cd.getChange().getStatus().isOpen()) {
+      if (cd.change().getStatus().isOpen()) {
         Futures.allAsList(
             closedIndex.delete(id),
             openIndex.insert(doc)).get();
@@ -243,9 +243,7 @@ public class LuceneChangeIndex implements ChangeIndex {
             openIndex.delete(id),
             closedIndex.insert(doc)).get();
       }
-    } catch (ExecutionException e) {
-      throw new IOException(e);
-    } catch (InterruptedException e) {
+    } catch (OrmException | ExecutionException | InterruptedException e) {
       throw new IOException(e);
     }
   }
@@ -256,7 +254,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     Term id = QueryBuilder.idTerm(cd);
     Document doc = toDocument(cd);
     try {
-      if (cd.getChange().getStatus().isOpen()) {
+      if (cd.change().getStatus().isOpen()) {
         Futures.allAsList(
             closedIndex.delete(id),
             openIndex.replace(id, doc)).get();
@@ -265,9 +263,7 @@ public class LuceneChangeIndex implements ChangeIndex {
             openIndex.delete(id),
             closedIndex.replace(id, doc)).get();
       }
-    } catch (ExecutionException e) {
-      throw new IOException(e);
-    } catch (InterruptedException e) {
+    } catch (OrmException | ExecutionException | InterruptedException e) {
       throw new IOException(e);
     }
   }
@@ -280,9 +276,7 @@ public class LuceneChangeIndex implements ChangeIndex {
       Futures.allAsList(
           openIndex.delete(id),
           closedIndex.delete(id)).get();
-    } catch (ExecutionException e) {
-      throw new IOException(e);
-    } catch (InterruptedException e) {
+    } catch (ExecutionException | InterruptedException e) {
       throw new IOException(e);
     }
   }

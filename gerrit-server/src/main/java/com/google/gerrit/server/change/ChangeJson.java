@@ -384,7 +384,7 @@ public class ChangeJson {
     }
 
     LabelTypes labelTypes = ctl.getLabelTypes();
-    if (cd.getChange().getStatus().isOpen()) {
+    if (cd.change().getStatus().isOpen()) {
       return labelsForOpenChange(cd, labelTypes, standard, detailed);
     } else {
       return labelsForClosedChange(cd, labelTypes, standard, detailed);

@@ -308,8 +308,8 @@ public class QueryProcessor {
           }
 
           LabelTypes labelTypes = cc.getLabelTypes();
-          c = eventFactory.asChangeAttribute(d.getChange());
-          eventFactory.extend(c, d.getChange());
+          c = eventFactory.asChangeAttribute(d.change());
+          eventFactory.extend(c, d.change());
 
           if (!trackingFooters.isEmpty()) {
             eventFactory.addTrackingIds(c,
@@ -317,11 +317,11 @@ public class QueryProcessor {
           }
 
           if (includeAllReviewers) {
-            eventFactory.addAllReviewers(c, d.getChange());
+            eventFactory.addAllReviewers(c, d.change());
           }
 
           if (includeSubmitRecords) {
-            PatchSet.Id psId = d.getChange().currentPatchSetId();
+            PatchSet.Id psId = d.change().currentPatchSetId();
             PatchSet patchSet = db.get().patchSets().get(psId);
             List<SubmitRecord> submitResult = cc.canSubmit( //
                 db.get(), patchSet, null, false, true, true);
@@ -368,7 +368,7 @@ public class QueryProcessor {
           }
 
           if (includeDependencies) {
-            eventFactory.addDependencies(c, d.getChange());
+            eventFactory.addDependencies(c, d.change());
           }
 
           show(c);

@@ -110,6 +110,7 @@ public class DiffInfo extends JavaScriptObject {
     public final native JsArrayString a() /*-{ return this.a; }-*/;
     public final native JsArrayString b() /*-{ return this.b; }-*/;
     public final native int skip() /*-{ return this.skip || 0; }-*/;
+    public final native boolean common() /*-{ return this.common || false; }-*/;
 
     public final native JsArray<Span> edit_a() /*-{ return this.edit_a }-*/;
     public final native JsArray<Span> edit_b() /*-{ return this.edit_b }-*/;

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "48315fd0_a703ca9e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-03T00:01:26Z",
+      "side": 1,
+      "message": "This was not obvious to me, because a caller could call putApproval with two label names that differ only in case. But this is low-level enough we should probably just count on the caller having previously checked that labels exist and normalizing to the configured case (which PostReview indeed does).\n\nDone.",
+      "parentUuid": "48315fd0_67df12ed",
+      "range": {
+        "startLine": 119,
+        "startChar": 18,
+        "endLine": 119,
+        "endChar": 37
+      },
+      "revId": "f307146845b7c56178f968922af5dadbb1f5c1ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2dfb5d35_9e923d83",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 11
@@ -36,6 +60,24 @@
       "writtenOn": "2014-01-02T23:08:34Z",
       "side": 1,
       "message": "In ps10 I mentioned we shouldn\u0027t assume the update is on the current patch set, e.g. comments posted to a prior patch set.",
+      "revId": "f307146845b7c56178f968922af5dadbb1f5c1ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48315fd0_87fec651",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-03T00:01:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2dfb5d35_9e923d83",
       "revId": "f307146845b7c56178f968922af5dadbb1f5c1ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

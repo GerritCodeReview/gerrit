@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "ad2f4db4_02fa0ae8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-03T22:41:10Z",
+      "side": 1,
+      "message": "Isn\u0027t this ordering wrong? The update needs to commit before we index the change.",
+      "range": {
+        "startLine": 179,
+        "startChar": 8,
+        "endLine": 180,
+        "endChar": 20
+      },
+      "revId": "6a25a4589e9b6039c5f29ca80647ebc47e559912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d344908_a1ecfe37",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-03T22:41:10Z",
+      "side": 1,
+      "message": "This ordering is pointless. You need the commit made and use that as input into the indexer.",
+      "range": {
+        "startLine": 119,
+        "startChar": 4,
+        "endLine": 121,
+        "endChar": 20
+      },
+      "revId": "6a25a4589e9b6039c5f29ca80647ebc47e559912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d663514_780a013d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
         "patchSetId": 2
@@ -13,6 +59,224 @@
       "writtenOn": "2014-01-03T22:14:22Z",
       "side": 1,
       "message": "This is problematic, any usage of updateFactory.create on the merge thread fails with \"com.google.inject.OutOfScopeException: No user on merge thread\"\n\nWe need to add factory method(s) that accept a user. Ew.",
+      "revId": "6a25a4589e9b6039c5f29ca80647ebc47e559912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d344908_01fa0ae8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-03T22:41:10Z",
+      "side": 1,
+      "message": "Yup. That is the general issue with MergeOp. It somehow always wants things that rely on Provider\u003cCurrentUser\u003e but there is no sensible user on the background retry thread.\n\nMaybe we use the most recent submitter? There should always be at least one. If there isn\u0027t we have other problems and should abort the MergeOp attempt for that change. Of course the SUBM records are about to disappear with this planned migration, so we would need a different source in the ChangeNotes.",
+      "parentUuid": "6d663514_780a013d",
+      "revId": "6a25a4589e9b6039c5f29ca80647ebc47e559912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d344908_e1f60604",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-03T22:41:10Z",
+      "side": 1,
+      "message": "We should break this out to its own commit and fix it sooner rather than later.",
+      "range": {
+        "startLine": 269,
+        "startChar": 6,
+        "endLine": 271,
+        "endChar": 7
+      },
+      "revId": "6a25a4589e9b6039c5f29ca80647ebc47e559912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d344908_210aae3b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-03T22:41:10Z",
+      "side": 1,
+      "message": "When this happens we should be using the onBehalfOf as the author in the ChangeUpdate. Maybe the committer should still be the caller, as an audit trail? Hmm.",
+      "revId": "6a25a4589e9b6039c5f29ca80647ebc47e559912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d344908_4105322c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-03T22:41:10Z",
+      "side": 1,
+      "message": "This does not honor the user chosen by onBehalfOf().",
+      "range": {
+        "startLine": 138,
+        "startChar": 15,
+        "endLine": 138,
+        "endChar": 55
+      },
+      "revId": "6a25a4589e9b6039c5f29ca80647ebc47e559912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d344908_6104b62e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-03T22:41:10Z",
+      "side": 1,
+      "message": "Index will build with stale data.",
+      "range": {
+        "startLine": 237,
+        "startChar": 4,
+        "endLine": 239,
+        "endChar": 20
+      },
+      "revId": "6a25a4589e9b6039c5f29ca80647ebc47e559912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad2f4db4_e2f60604",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1949,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-03T22:41:10Z",
+      "side": 1,
+      "message": "Index may rebuild with stale data?",
+      "range": {
+        "startLine": 1947,
+        "startChar": 6,
+        "endLine": 1949,
+        "endChar": 22
+      },
+      "revId": "6a25a4589e9b6039c5f29ca80647ebc47e559912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad2f4db4_4205322c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-03T22:41:10Z",
+      "side": 1,
+      "message": "Should we pull this into its own commit and apply it sooner?",
+      "revId": "6a25a4589e9b6039c5f29ca80647ebc47e559912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad2f4db4_c2ef822b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-03T22:41:10Z",
+      "side": 1,
+      "message": "This should be bound as @Singleton so we don\u0027t keep rereading the config on every request.",
+      "revId": "6a25a4589e9b6039c5f29ca80647ebc47e559912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad2f4db4_a2ecfe37",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-03T22:41:10Z",
+      "side": 1,
+      "message": "We should think about a way for this to be async on a thread pool or something.",
+      "revId": "6a25a4589e9b6039c5f29ca80647ebc47e559912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d344908_c1ef822b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-03T22:41:10Z",
+      "side": 1,
+      "message": "We should think about a way for this to be async on a thread pool or something.\n\nOr maybe this and ensureChangeLoaded() above aren\u0027t very relevant anymore with much of the search result data stored already in the secondary index?",
+      "revId": "6a25a4589e9b6039c5f29ca80647ebc47e559912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad2f4db4_220aae3b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ReviewerinPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-03T22:41:10Z",
+      "side": 1,
+      "message": "Unrelated whitespace edit in an already very big change.",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 32,
+        "endChar": 31
+      },
       "revId": "6a25a4589e9b6039c5f29ca80647ebc47e559912",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

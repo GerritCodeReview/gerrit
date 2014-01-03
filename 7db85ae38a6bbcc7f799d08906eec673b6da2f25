@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d6b31dd_17ff14d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/AccessControlModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-03T21:40:51Z",
+      "side": 1,
+      "message": "Did we just make the factory twice (first line and last line of commented region).",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 49
+      },
+      "revId": "7db85ae38a6bbcc7f799d08906eec673b6da2f25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

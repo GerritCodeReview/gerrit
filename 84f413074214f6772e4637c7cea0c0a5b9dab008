@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d88c9e3_6105762c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocModule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-01-03T15:20:44Z",
+      "side": 1,
+      "message": "Normally a Module class is a (small) static inner class of another class. I find it unusual that a module contains a cache loader as its inner class.\n\nWhat about making the Loader (ProjectDocLoader) the outter class and the guide module its inner class?",
+      "revId": "84f413074214f6772e4637c7cea0c0a5b9dab008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

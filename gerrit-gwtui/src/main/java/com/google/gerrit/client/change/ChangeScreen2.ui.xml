@@ -36,8 +36,11 @@ limitations under the License.
       position: relative;
       background-color: trimColor;
       height: HEADER_HEIGHT;
-      margin: 0 -5px;
       padding: 0 5px;
+    }
+
+    .headerLine, .infoTable {
+      margin: 0 -5px;
     }
 
     .subjectLine {

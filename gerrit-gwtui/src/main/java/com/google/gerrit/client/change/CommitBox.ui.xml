@@ -26,8 +26,8 @@ limitations under the License.
     .collapsed .scroll { height: 250px }
     .scroll, .more { width: 560px }
     .scroll {
-      border-right: 1px solid trimColor;
-      border-bottom: 1px solid trimColor;
+      background-color: trimColor;
+      padding-left: 5px;
     }
 
     .text {
@@ -64,7 +64,7 @@ limitations under the License.
 
     .header {
       border-spacing: 0;
-      padding: 0;
+      padding: 0 0 0 5px;
       width: 560px;
     }
     .header th { width: 70px; }

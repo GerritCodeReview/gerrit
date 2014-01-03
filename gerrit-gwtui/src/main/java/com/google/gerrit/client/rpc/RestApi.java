@@ -23,6 +23,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.RpcStatus;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestBuilder.Method;
@@ -124,7 +125,8 @@ public class RestApi {
         }
 
       } else if (200 <= status && status < 300) {
-        T data;
+        long start = System.currentTimeMillis();
+        final T data;
         if (isTextBody(res)) {
           data = NativeString.wrap(res.getText()).cast();
         } else if (isJsonBody(res)) {
@@ -149,14 +151,25 @@ public class RestApi {
           return;
         }
 
-        try {
-          cb.onSuccess(data);
-        } finally {
-          if (!background) {
-            RpcStatus.INSTANCE.onRpcComplete();
+        Scheduler.ScheduledCommand cmd = new Scheduler.ScheduledCommand() {
+          @Override
+          public void execute() {
+            try {
+              cb.onSuccess(data);
+            } finally {
+              if (!background) {
+                RpcStatus.INSTANCE.onRpcComplete();
+              }
+            }
           }
-        }
+        };
 
+        // Defer handling the response if the parse took a while.
+        if ((System.currentTimeMillis() - start) > 75) {
+          Scheduler.get().scheduleDeferred(cmd);
+        } else {
+          cmd.execute();
+        }
       } else {
         String msg;
         if (isTextBody(res)) {

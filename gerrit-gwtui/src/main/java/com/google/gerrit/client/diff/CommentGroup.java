@@ -148,11 +148,18 @@ class CommentGroup extends Composite {
       lineWidget = null;
       updateSelection();
     }
-    manager.clearLine(cm.side(), line);
+    manager.clearLine(cm.side(), line, this);
     removeFromParent();
   }
 
-  void attach(DiffTable parent) {
+  void attachPair(DiffTable parent) {
+    if (lineWidget == null && peer.lineWidget == null) {
+      this.attach(parent);
+      peer.attach(parent);
+    }
+  }
+
+  private void attach(DiffTable parent) {
     parent.add(this);
     lineWidget = cm.addLineWidget(Math.max(0, line - 1), getElement(),
         Configuration.create()

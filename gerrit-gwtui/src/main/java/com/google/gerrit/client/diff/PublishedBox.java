@@ -112,7 +112,7 @@ class PublishedBox extends CommentBox {
   void setOpen(boolean open) {
     UIObject.setVisible(summary, !open);
     UIObject.setVisible(message, open);
-    UIObject.setVisible(buttons, open);
+    UIObject.setVisible(buttons, open && replyBox == null);
     if (open) {
       removeStyleName(style.closed());
     } else {
@@ -123,11 +123,13 @@ class PublishedBox extends CommentBox {
 
   void setReplyBox(DraftBox box) {
     replyBox = box;
+    UIObject.setVisible(buttons, false);
     box.setReplyToBox(this);
   }
 
   void unregisterReplyBox() {
     replyBox = null;
+    UIObject.setVisible(buttons, isOpen());
   }
 
   private void openReplyBox() {

@@ -2933,6 +2933,10 @@ Text sections inserted in side B as a
 link:#diff-intraline-info[DiffIntralineInfo] entity.
 |`skip`     |optional|count of lines skipped on both sides when the file is
 too large to include all common lines.
+|`common`   |optional|Set to `true` if the region is common according
+to the requested ignore-whitespace parameter, but a and b contain
+differing amounts of whitespace. When present and true a and b are
+used instead of ab.
 |==========================
 
 [[diff-file-meta-info]]

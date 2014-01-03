@@ -134,10 +134,10 @@ class CommentManager {
       setExpandAllComments(true);
     }
     for (CommentGroup g : sideA.values()) {
-      g.attach(host.diffTable);
+      g.attachPair(host.diffTable);
     }
     for (CommentGroup g : sideB.values()) {
-      g.attach(host.diffTable);
+      g.attachPair(host.diffTable);
       g.handleRedraw();
     }
     attached = true;
@@ -280,8 +280,11 @@ class CommentManager {
     }
   }
 
-  void clearLine(DisplaySide side, int line) {
-    map(side).remove(line);
+  void clearLine(DisplaySide side, int line, CommentGroup group) {
+    SortedMap<Integer, CommentGroup> map = map(side);
+    if (map.get(line) == group) {
+      map.remove(line);
+    }
   }
 
   Runnable toggleOpenBox(final CodeMirror cm) {
@@ -398,8 +401,7 @@ class CommentManager {
     sideB.put(lineB, b);
 
     if (attached) {
-      a.attach(host.diffTable);
-      b.attach(host.diffTable);
+      a.attachPair(host.diffTable);
       b.handleRedraw();
     }
 

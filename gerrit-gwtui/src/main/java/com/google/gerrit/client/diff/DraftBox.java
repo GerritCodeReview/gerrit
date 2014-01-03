@@ -236,6 +236,12 @@ class DraftBox extends CommentBox {
     getCm().focus();
   }
 
+  private void restoreSelection() {
+    if (getFromTo() != null) {
+      getCm().setSelection(getFromTo().getFrom(), getFromTo().getTo());
+    }
+  }
+
   @UiHandler("message")
   void onMessageClick(ClickEvent e) {
     e.stopPropagation();
@@ -307,6 +313,7 @@ class DraftBox extends CommentBox {
     e.stopPropagation();
     if (isNew() && !isDirty()) {
       removeUI();
+      restoreSelection();
     } else {
       setEdit(false);
       if (autoClosed) {
@@ -321,6 +328,7 @@ class DraftBox extends CommentBox {
     e.stopPropagation();
     if (isNew()) {
       removeUI();
+      restoreSelection();
     } else {
       setEdit(false);
       CommentApi.deleteDraft(psId, comment.id(),
@@ -348,6 +356,7 @@ class DraftBox extends CommentBox {
     } else if (e.getNativeKeyCode() == KeyCodes.KEY_ESCAPE && !isDirty()) {
       if (isNew()) {
         removeUI();
+        restoreSelection();
         return;
       } else {
         setEdit(false);

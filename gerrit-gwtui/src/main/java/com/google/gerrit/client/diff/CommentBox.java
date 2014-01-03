@@ -113,4 +113,8 @@ abstract class CommentBox extends Composite {
   CodeMirror getCm() {
     return group.getCm();
   }
+
+  FromTo getFromTo() {
+    return fromTo;
+  }
 }

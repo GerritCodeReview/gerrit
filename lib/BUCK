@@ -112,9 +112,9 @@ maven_jar(
 )
 
 maven_jar(
-  name = 'servlet-api-3_0',
-  id = 'org.apache.tomcat:tomcat-servlet-api:7.0.32',
-  sha1 = 'e2f21e9868414122e6dd23ac66cf304d4290642c',
+  name = 'servlet-api-3_1',
+  id = 'org.apache.tomcat:tomcat-servlet-api:8.0.0-RC10',
+  sha1 = '975935b6203073938dfeeb28e4effc3b094c4fc4',
   license = 'Apache2.0',
   exclude = ['META-INF/NOTICE', 'META-INF/LICENSE'],
 )

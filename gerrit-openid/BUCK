@@ -18,6 +18,6 @@ java_library2(
     '//lib/log:api',
     '//lib/openid:consumer',
   ],
-  compile_deps = ['//lib:servlet-api-3_0'],
+  compile_deps = ['//lib:servlet-api-3_1'],
   visibility = ['PUBLIC'],
 )

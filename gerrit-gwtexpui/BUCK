@@ -54,7 +54,7 @@ java_library(
 java_library2(
   name = 'linker_server',
   srcs = glob([SRC + 'linker/server/*.java']),
-  compile_deps = ['//lib:servlet-api-3_0'],
+  compile_deps = ['//lib:servlet-api-3_1'],
   visibility = ['PUBLIC'],
 )
 
@@ -101,6 +101,6 @@ gwt_module(
 java_library2(
   name = 'server',
   srcs = glob([SRC + 'server/*.java']),
-  compile_deps = ['//lib:servlet-api-3_0'],
+  compile_deps = ['//lib:servlet-api-3_1'],
   visibility = ['PUBLIC'],
 )

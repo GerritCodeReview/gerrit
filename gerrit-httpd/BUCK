@@ -35,7 +35,7 @@ java_library2(
     '//lib/log:api',
     '//lib/lucene:core',
   ],
-  compile_deps = ['//lib:servlet-api-3_0'],
+  compile_deps = ['//lib:servlet-api-3_1'],
   visibility = ['PUBLIC'],
 )
 
@@ -59,7 +59,7 @@ java_test(
     '//lib:gson',
     '//lib:gwtorm',
     '//lib:guava',
-    '//lib:servlet-api-3_0',
+    '//lib:servlet-api-3_1',
     '//lib/guice:guice',
     '//lib/jgit:jgit',
     '//lib/jgit:junit',

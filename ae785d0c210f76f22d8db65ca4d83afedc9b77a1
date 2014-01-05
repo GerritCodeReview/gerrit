@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2dc51d24_4e05132c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-05T15:22:21Z",
+      "side": 1,
+      "message": "Can you mention, that \"notedb.patchSetApprovals.read \u003d true\" must not be set in gerrit.config. Otherwise the site is unusable?",
+      "revId": "ae785d0c210f76f22d8db65ca4d83afedc9b77a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc51d24_eeecff38",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-05T15:22:21Z",
+      "side": 1,
+      "message": "wrong indentation.\n\nI am certainly missing something (some migratition steps?), but this can not work. Consider the following scenario:\n\n* site has 100k open and closed changes\n* site is changed to notesdb.write \u003d notesdb.read* \u003d true\n* Gerrit site can not be used any more:\n\nNPE for all closed changes:\n\n java.lang.NullPointerException\n\tat com.google.gerrit.server.query.change.ChangeData.allApprovals(ChangeData.java:515)\n\tat com.google.gerrit.server.change.ChangeJson.labelsForClosedChange(ChangeJson.java:540)\n\tat com.google.gerrit.server.change.ChangeJson.labelsFor(ChangeJson.java:390)\n\tat com.google.gerrit.server.change.ChangeJson.toChangeInfo(ChangeJson.java:296)\n\tat com.google.gerrit.server.change.ChangeJson.toChangeInfo(ChangeJson.java:262)\n\tat com.google.gerrit.server.change.ChangeJson.formatList2(ChangeJson.java:246)\n\tat com.google.gerrit.server.query.change.QueryChanges.query0(QueryChanges.java:167)\n\tat com.google.gerrit.server.query.change.QueryChanges.query(QueryChanges.java:141)\n\tat com.google.gerrit.server.query.change.QueryChanges.apply(QueryChanges.java:108)\n\tat com.google.gerrit.server.query.change.QueryChanges.apply(QueryChanges.java:1)\n\tat com.google.gerrit.httpd.restapi.RestApiServlet.service(RestApiServlet.java:304)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:722)\n\tat com.google.inject.servlet.ServletDefinition.doServiceImpl(ServletDefinition.java:278)\n\tat com.google.inject.servlet.ServletDefinition.doService(ServletDefinition.java:268)\n\tat com.google.inject.servlet.ServletDefinition.service(ServletDefinition.java:180)\n\tat com.google.inject.servlet.ManagedServletPipeline.service(ManagedServletPipeline.java:93)\n\tat com.google.inject.servlet.FilterChainInvocation.doFilter(FilterChainInvocation.java:85)\n\tat com.google.gerrit.pgm.http.jetty.GetUserFilter.doFilter(GetUserFilter.java:76)\n\tat com.google.inject.servlet.FilterChainInvocation.doFilter(FilterChainInvocation.java:82)\n\tat com.google.gwtexpui.server.CacheControlFilter.doFilter(CacheControlFilter.java:70)\n\tat com.google.inject.servlet.FilterChainInvocation.doFilter(FilterChainInvocation.java:82)\n\tat com.google.gerrit.httpd.RunAsFilter.doFilter(RunAsFilter.java:113)\n\tat com.google.inject.servlet.FilterChainInvocation.doFilter(FilterChainInvocation.java:82)\n\tat com.google.gerrit.httpd.AllRequestFilter$FilterProxy$1.doFilter(AllRequestFilter.java:64)\n\tat com.google.gerrit.httpd.AllRequestFilter$FilterProxy.doFilter(AllRequestFilter.java:67)\n\tat com.google.inject.servlet.FilterChainInvocation.doFilter(FilterChainInvocation.java:82)\n\tat com.google.gerrit.httpd.RequestContextFilter.doFilter(RequestContextFilter.java:75)\n\tat com.google.inject.servlet.FilterChainInvocation.doFilter(FilterChainInvocation.java:82)\n\tat com.google.inject.servlet.ManagedFilterPipeline.dispatch(ManagedFilterPipeline.java:120)\n\tat com.google.inject.servlet.GuiceFilter$1.call(GuiceFilter.java:132)\n\tat com.google.inject.servlet.GuiceFilter$1.call(GuiceFilter.java:129)\n\tat com.google.inject.servlet.GuiceFilter$Context.call(GuiceFilter.java:206)\n\tat com.google.inject.servlet.GuiceFilter.doFilter(GuiceFilter.java:129)\n\tat org.eclipse.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1480)\n\tat org.eclipse.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:517)\n\tat org.eclipse.jetty.server.session.SessionHandler.doHandle(SessionHandler.java:211)\n\tat org.eclipse.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1097)\n\tat org.eclipse.jetty.servlet.ServletHandler.doScope(ServletHandler.java:446)\n\tat org.eclipse.jetty.server.session.SessionHandler.doScope(SessionHandler.java:175)\n\tat org.eclipse.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1031)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:136)\n\tat org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:97)\n\tat org.eclipse.jetty.server.handler.RequestLogHandler.handle(RequestLogHandler.java:92)\n\tat org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:97)\n\tat org.eclipse.jetty.server.Server.handle(Server.java:445)\n\tat org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:269)\n\tat org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:229)\n\tat org.eclipse.jetty.io.AbstractConnection$ReadCallback.run(AbstractConnection.java:358)\n\tat org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:601)\n\tat org.eclipse.jetty.util.thread.QueuedThreadPool$3.run(QueuedThreadPool.java:532)\n\tat java.lang.Thread.run(Thread.java:744)\n\n\nNPE for all open canges:\n\njava.lang.NullPointerException\n\tat com.google.gerrit.server.ApprovalsUtil.byPatchSet(ApprovalsUtil.java:267)\n\tat com.google.gerrit.server.query.change.ChangeData.currentApprovals(ChangeData.java:401)\n\tat com.google.gerrit.server.query.change.ChangeData.ensureCurrentApprovalsLoaded(ChangeData.java:130)\n\tat com.google.gerrit.server.change.ChangeJson.formatList2(ChangeJson.java:241)\n\tat com.google.gerrit.server.change.ChangeJson.format(ChangeJson.java:219)\n\tat com.google.gerrit.server.change.ChangeJson.format(ChangeJson.java:206)\n\tat com.google.gerrit.server.change.GetChange.apply(GetChange.java:49)\n\tat com.google.gerrit.server.change.GetDetail.apply(GetDetail.java:50)\n\tat com.google.gerrit.server.change.GetDetail.apply(GetDetail.java:1)\n\tat com.google.gerrit.httpd.restapi.RestApiServlet.service(RestApiServlet.java:304)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:722)\n\tat com.google.inject.servlet.ServletDefinition.doServiceImpl(ServletDefinition.java:278)\n\tat com.google.inject.servlet.ServletDefinition.doService(ServletDefinition.java:268)\n\tat com.google.inject.servlet.ServletDefinition.service(ServletDefinition.java:180)\n\tat com.google.inject.servlet.ManagedServletPipeline.service(ManagedServletPipeline.java:93)\n\tat com.google.inject.servlet.FilterChainInvocation.doFilter(FilterChainInvocation.java:85)\n\tat com.google.gerrit.pgm.http.jetty.GetUserFilter.doFilter(GetUserFilter.java:76)\n\tat com.google.inject.servlet.FilterChainInvocation.doFilter(FilterChainInvocation.java:82)\n\tat com.google.gwtexpui.server.CacheControlFilter.doFilter(CacheControlFilter.java:70)\n\tat com.google.inject.servlet.FilterChainInvocation.doFilter(FilterChainInvocation.java:82)\n\tat com.google.gerrit.httpd.RunAsFilter.doFilter(RunAsFilter.java:113)\n\tat com.google.inject.servlet.FilterChainInvocation.doFilter(FilterChainInvocation.java:82)\n\tat com.google.gerrit.httpd.AllRequestFilter$FilterProxy$1.doFilter(AllRequestFilter.java:64)\n\tat com.google.gerrit.httpd.AllRequestFilter$FilterProxy.doFilter(AllRequestFilter.java:67)\n\tat com.google.inject.servlet.FilterChainInvocation.doFilter(FilterChainInvocation.java:82)\n\tat com.google.gerrit.httpd.RequestContextFilter.doFilter(RequestContextFilter.java:75)\n\tat com.google.inject.servlet.FilterChainInvocation.doFilter(FilterChainInvocation.java:82)\n\tat com.google.inject.servlet.ManagedFilterPipeline.dispatch(ManagedFilterPipeline.java:120)\n\tat com.google.inject.servlet.GuiceFilter$1.call(GuiceFilter.java:132)\n\tat com.google.inject.servlet.GuiceFilter$1.call(GuiceFilter.java:129)\n\tat com.google.inject.servlet.GuiceFilter$Context.call(GuiceFilter.java:206)\n\tat com.google.inject.servlet.GuiceFilter.doFilter(GuiceFilter.java:129)\n\tat org.eclipse.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1480)\n\tat org.eclipse.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:517)\n\tat org.eclipse.jetty.server.session.SessionHandler.doHandle(SessionHandler.java:211)\n\tat org.eclipse.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1097)\n\tat org.eclipse.jetty.servlet.ServletHandler.doScope(ServletHandler.java:446)\n\tat org.eclipse.jetty.server.session.SessionHandler.doScope(SessionHandler.java:175)\n\tat org.eclipse.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1031)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:136)\n\tat org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:97)\n\tat org.eclipse.jetty.server.handler.RequestLogHandler.handle(RequestLogHandler.java:92)\n\tat org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:97)\n\tat org.eclipse.jetty.server.Server.handle(Server.java:445)\n\tat org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:269)\n\tat org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:229)\n\tat org.eclipse.jetty.io.AbstractConnection$ReadCallback.run(AbstractConnection.java:358)\n\tat org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:601)\n\tat org.eclipse.jetty.util.thread.QueuedThreadPool$3.run(QueuedThreadPool.java:532)\n\tat java.lang.Thread.run(Thread.java:744)",
+      "revId": "ae785d0c210f76f22d8db65ca4d83afedc9b77a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6db475b0_88f9b7f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-05T15:22:21Z",
+      "side": 1,
+      "message": "This is wrong: you can only read if you write, or make migration on the fly: try to read a change 4711, nothing is in notes db for this change, perform online migrate from ReviewDB to NotesDB.",
+      "revId": "ae785d0c210f76f22d8db65ca4d83afedc9b77a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6db475b0_a8f6fb02",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-05T15:22:21Z",
+      "side": 1,
+      "message": "Changing this to:\n\n  cfg.setBoolean(\"notedb\", \"patchSetApprovals\", \"read\", false);\n\nmakes most tests fail.",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 64
+      },
+      "revId": "ae785d0c210f76f22d8db65ca4d83afedc9b77a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc51d24_8ef9bbf5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-05T15:22:21Z",
+      "side": 1,
+      "message": "I think we should check this for misconfiguration and fail loud and/or override it, e. g.:\n\n  if (!write) {\n    if (readFoo || readBar || readBaz || ...) {\n       log.error(\"notedb.write enabled because one of the readFoo was enabled\");\n       write \u003d true;\n    }\n  }",
+      "revId": "ae785d0c210f76f22d8db65ca4d83afedc9b77a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc51d24_aef6f702",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-05T15:22:21Z",
+      "side": 1,
+      "message": "Well, that\u0027s easy. Unless i am missing some migration steps, i would like to see tests where notesdb.write and notesdb.foo.read were activated after change, ps and psa were created.\n\n* in setUp() create a change and psa\n* activate notedb.patchSetApprovals.read \u003d true with recently introduced configuration annotation per method\n* reading psa for this change returns null; now what?\n\n  @Test\n  @GerritConfig(name\u003d\"notedb.patchSetApprovals.read\", value\u003d\"true\")\n  void readNotWrittenPSA() {\n    ChangeNotes notes \u003d newNotes(change);\n    notes.getApprovals() ...\n  }",
+      "range": {
+        "startLine": 381,
+        "startChar": 8,
+        "endLine": 381,
+        "endChar": 35
+      },
+      "revId": "ae785d0c210f76f22d8db65ca4d83afedc9b77a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "0d693906_35dcb085",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-06T21:19:31Z",
+      "side": 1,
+      "message": "You can\u0027t test ApprovalsUtil in current ChangeNotesTest unit test. Why not to implement a real acceptance unit test with full coverage of NotesDb functionality, like it is used in the real life with ApprovalsUtils and friends in addition to ChangeNotesTest that isn\u0027t under Guice control?",
+      "parentUuid": "ad2f4db4_422ed2ad",
+      "revId": "ae785d0c210f76f22d8db65ca4d83afedc9b77a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6db475b0_88f9b7f5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
         "patchSetId": 3

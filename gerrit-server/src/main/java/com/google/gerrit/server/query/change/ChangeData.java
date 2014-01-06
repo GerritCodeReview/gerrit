@@ -42,6 +42,7 @@ import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.assistedinject.Assisted;
@@ -384,6 +385,10 @@ public class ChangeData {
       RepositoryNotFoundException, IOException, MissingObjectException,
       IncorrectObjectTypeException {
     PatchSet.Id psId = change().currentPatchSetId();
+    PatchSet ps = db.patchSets().get(psId);
+    if (ps == null) {
+      throw new NoSuchChangeException(legacyId);
+    }
     String sha1 = db.patchSets().get(psId).getRevision().get();
     Repository repo = repoManager.openRepository(change().getProject());
     try {

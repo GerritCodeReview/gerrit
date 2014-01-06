@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
@@ -248,7 +249,7 @@ public class ChangeField {
           try {
             return Sets.newHashSet(args.trackingFooters.extract(
                 input.commitFooters()).values());
-          } catch (IOException e) {
+          } catch (NoSuchChangeException | IOException e) {
             throw new OrmException(e);
           }
         }
@@ -349,7 +350,7 @@ public class ChangeField {
         public String get(ChangeData input, FillArgs args) throws OrmException {
           try {
             return input.commitMessage();
-          } catch (IOException e) {
+          } catch (NoSuchChangeException | IOException e) {
             throw new OrmException(e);
           }
         }

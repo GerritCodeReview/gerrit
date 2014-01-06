@@ -42,6 +42,7 @@ import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.assistedinject.Assisted;
@@ -366,25 +367,31 @@ public class ChangeData {
     currentApprovals = approvals;
   }
 
-  public String commitMessage() throws IOException, OrmException {
+  public String commitMessage() throws NoSuchChangeException, IOException,
+      OrmException {
     if (commitMessage == null) {
       loadCommitData();
     }
     return commitMessage;
   }
 
-  public List<FooterLine> commitFooters() throws IOException, OrmException {
+  public List<FooterLine> commitFooters() throws NoSuchChangeException,
+      IOException, OrmException {
     if (commitFooters == null) {
       loadCommitData();
     }
     return commitFooters;
   }
 
-  private void loadCommitData() throws OrmException,
+  private void loadCommitData() throws NoSuchChangeException, OrmException,
       RepositoryNotFoundException, IOException, MissingObjectException,
       IncorrectObjectTypeException {
     PatchSet.Id psId = change().currentPatchSetId();
-    String sha1 = db.patchSets().get(psId).getRevision().get();
+    PatchSet ps = db.patchSets().get(psId);
+    if (ps == null) {
+      throw new NoSuchChangeException(legacyId);
+    }
+    String sha1 = ps.getRevision().get();
     Repository repo = repoManager.openRepository(change().getProject());
     try {
       RevWalk walk = new RevWalk(repo);

@@ -18,6 +18,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexPredicate;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 
 import org.slf4j.Logger;
@@ -42,7 +43,7 @@ class TrackingIdPredicate extends IndexPredicate<ChangeData> {
       try {
         return trackingFooters.extract(object.commitFooters())
             .values().contains(getValue());
-      } catch (IOException e) {
+      } catch (NoSuchChangeException | IOException e) {
         log.warn("Cannot extract footers from " + c.getChangeId(), e);
       }
     }

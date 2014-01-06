@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d6c3d14_f6f9a0f4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-06T20:33:51Z",
+      "side": 1,
+      "message": "This can be simplified to just !isAttached() as the widget is always attached to the DOM.",
+      "range": {
+        "startLine": 210,
+        "startChar": 6,
+        "endLine": 219,
+        "endChar": 7
+      },
+      "revId": "2331119be14335c6ce73b447962b219efcd2ae88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d6c3d14_3605d82d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-06T20:33:51Z",
+      "side": 1,
+      "message": "Do this in the DisplayCommand.",
+      "range": {
+        "startLine": 419,
+        "startChar": 6,
+        "endLine": 419,
+        "endChar": 50
+      },
+      "revId": "2331119be14335c6ce73b447962b219efcd2ae88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d6c3d14_d6f62404",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-06T20:33:51Z",
+      "side": 1,
+      "message": "Apply this style on the fly to the DOM node after its been created.",
+      "range": {
+        "startLine": 420,
+        "startChar": 6,
+        "endLine": 422,
+        "endChar": 7
+      },
+      "revId": "2331119be14335c6ce73b447962b219efcd2ae88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad2f4db4_2233ce13",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-06T20:33:51Z",
+      "side": 1,
+      "message": "Keep this as a single Element for the entire view and move it between parents to update the \"current row\".",
+      "range": {
+        "startLine": 424,
+        "startChar": 6,
+        "endLine": 427,
+        "endChar": 7
+      },
+      "revId": "2331119be14335c6ce73b447962b219efcd2ae88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad2f4db4_8238daec",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-06T20:33:51Z",
+      "side": 1,
+      "message": "No longer need to re-render the element if you just update the DOM as I noted above.",
+      "range": {
+        "startLine": 433,
+        "startChar": 4,
+        "endLine": 441,
+        "endChar": 5
+      },
+      "revId": "2331119be14335c6ce73b447962b219efcd2ae88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d6c3d14_160a5c3b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-06T20:33:51Z",
+      "side": 1,
+      "message": "Maybe track the selectedElement instead of selectedRow, and then you don\u0027t have to reparse the row to open it.",
+      "range": {
+        "startLine": 558,
+        "startChar": 6,
+        "endLine": 559,
+        "endChar": 51
+      },
+      "revId": "2331119be14335c6ce73b447962b219efcd2ae88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

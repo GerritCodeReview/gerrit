@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "2d6c3d14_16337c13",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-06T23:25:52Z",
+      "side": 1,
+      "message": "I wouldn\u0027t mind writing ApprovalsUtils unit tests. You\u0027re right that they won\u0027t be in ChangeNotesTests; those are unit tests for ChangeNotes/ChangeUpdate, not ApprovalsUtil :)\n\nI\u0027m not going to write notedb-specific acceptance tests. What I plan to do (but not in this change) is teach the current acceptance test framework to run with various permutations of NotesMigration. If we need better acceptance test coverage we can add more tests without making them notedb-specific.",
+      "parentUuid": "0d693906_35dcb085",
+      "revId": "ae785d0c210f76f22d8db65ca4d83afedc9b77a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6db475b0_88f9b7f5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
         "patchSetId": 3

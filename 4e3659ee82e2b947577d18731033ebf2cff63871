@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ede865cd_9cef852c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2541,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-07T10:23:55Z",
+      "side": 1,
+      "message": "We may want to make it configurable per project too.",
+      "revId": "4e3659ee82e2b947577d18731033ebf2cff63871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ede865cd_bcec4138",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/HttpResponse.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-07T10:23:55Z",
+      "side": 1,
+      "message": "This is already very big change. For that reason i would suggest to extract the acceptance-test-framework related extensions in its own change. In this own change HTTP session could test Documentation/index.html. The result can be found or not found, depends on how Gerrit was compiled: withdocs or without withdocs.",
+      "revId": "4e3659ee82e2b947577d18731033ebf2cff63871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ddcd92e_5dffbbd4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/HttpSession.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-07T10:23:55Z",
+      "side": 1,
+      "message": "Unrelated to this change.",
+      "revId": "4e3659ee82e2b947577d18731033ebf2cff63871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ddcd92e_7d04772e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/RestResponse.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-07T10:23:55Z",
+      "side": 1,
+      "message": "Unrelated to this change.",
+      "revId": "4e3659ee82e2b947577d18731033ebf2cff63871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ddcd92e_9d18638f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/RestSession.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-07T10:23:55Z",
+      "side": 1,
+      "message": "Unrelated to this change.",
+      "revId": "4e3659ee82e2b947577d18731033ebf2cff63871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ddcd92e_bd151f58",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/doc/ProjectDocumentationIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-07T10:23:55Z",
+      "side": 1,
+      "message": "We should have one test without\n\n  @GerritConfig(name\u003d\"site.enableProjectDocs\", value\u003d\"true\")",
+      "revId": "4e3659ee82e2b947577d18731033ebf2cff63871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ede865cd_dcf90df5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/doc/ProjectDocumentationIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-07T10:23:55Z",
+      "side": 1,
+      "message": "Why not:\n\n       assertEquals(\"\u003chtml\u003e\\n\"\n          + \"read me\\n\"\n          + \"\u003c/html\u003e\\n\",\n          r.getEntityContent());",
+      "range": {
+        "startLine": 124,
+        "startChar": 4,
+        "endLine": 127,
+        "endChar": 44
+      },
+      "revId": "4e3659ee82e2b947577d18731033ebf2cff63871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

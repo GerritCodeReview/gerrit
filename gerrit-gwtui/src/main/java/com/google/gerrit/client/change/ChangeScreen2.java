@@ -24,6 +24,7 @@ import com.google.gerrit.client.api.ChangeGlue;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
+import com.google.gerrit.client.changes.ChangeInfo.EditInfo;
 import com.google.gerrit.client.changes.ChangeInfo.MessageInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.changes.ChangeList;
@@ -125,6 +126,7 @@ public class ChangeScreen2 extends Screen {
   private String revision;
   private ChangeInfo changeInfo;
   private CommentLinkProcessor commentLinkProcessor;
+  private NativeMap<EditInfo> edits;
 
   private KeyCommandSet keysNavigation;
   private KeyCommandSet keysAction;
@@ -196,13 +198,24 @@ public class ChangeScreen2 extends Screen {
   @Override
   protected void onLoad() {
     super.onLoad();
-    loadChangeInfo(true, new GerritCallback<ChangeInfo>() {
-      @Override
-      public void onSuccess(ChangeInfo info) {
-        info.init();
-        loadConfigInfo(info, base);
-      }
-    });
+    CallbackGroup group = new CallbackGroup();
+    if (Gerrit.isSignedIn()) {
+      ChangeApi.edit(changeId.get(), group.add(
+          new GerritCallback<NativeMap<EditInfo>>() {
+            @Override
+            public void onSuccess(NativeMap<EditInfo> result) {
+              edits = result;
+            }
+          }));
+    }
+    loadChangeInfo(true, group.addFinal(
+        new GerritCallback<ChangeInfo>() {
+          @Override
+          public void onSuccess(ChangeInfo info) {
+            info.init();
+            loadConfigInfo(info, base);
+          }
+        }));
   }
 
   void loadChangeInfo(boolean fg, AsyncCallback<ChangeInfo> cb) {
@@ -551,6 +564,21 @@ public class ChangeScreen2 extends Screen {
 
   private void loadConfigInfo(final ChangeInfo info, final String base) {
     info.revisions().copyKeysIntoChildren("name");
+    if (edits != null && edits.size() > 0) {
+      edits.copyKeysIntoChildren("name");
+      EditInfo edit = Natives.asList(edits.values()).get(0);
+      info.set_edit(edit);
+      info.revisions().put(edit.name(), RevisionInfo.fromEdit(edit));
+
+      if (revision == null || revision.equals("0")) {
+        JsArray<RevisionInfo> revisions = info.revisions().values();
+        RevisionInfo.sortRevisionInfoByNumber(revisions);
+        RevisionInfo rev = revisions.get(revisions.length() - 1);
+        if (rev.edit()) {
+          info.set_current_revision(rev.name());
+        }
+      }
+    }
     final RevisionInfo rev = resolveRevisionToDisplay(info);
     final RevisionInfo b = resolveRevisionOrPatchSetId(info, base, null);
 

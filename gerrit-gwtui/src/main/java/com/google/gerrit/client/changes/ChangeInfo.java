@@ -99,6 +99,7 @@ public class ChangeInfo extends JavaScriptObject {
   public final native NativeMap<LabelInfo> all_labels() /*-{ return this.labels; }-*/;
   public final native LabelInfo label(String n) /*-{ return this.labels[n]; }-*/;
   public final native String current_revision() /*-{ return this.current_revision; }-*/;
+  public final native void set_current_revision(String r) /*-{ this.current_revision = r; }-*/;
   public final native NativeMap<RevisionInfo> revisions() /*-{ return this.revisions; }-*/;
   public final native RevisionInfo revision(String n) /*-{ return this.revisions[n]; }-*/;
   public final native JsArray<MessageInfo> messages() /*-{ return this.messages; }-*/;
@@ -227,7 +228,11 @@ public class ChangeInfo extends JavaScriptObject {
       Collections.sort(Natives.asList(list), new Comparator<RevisionInfo>() {
         @Override
         public int compare(RevisionInfo a, RevisionInfo b) {
-          return a._number() - b._number();
+          int res = a._number() - b._number();
+          if (res != 0) {
+            return res;
+          }
+          return Boolean.compare(a.edit(), b.edit());
         }
       });
     }

@@ -91,10 +91,15 @@ class Loader {
     // TODO: Better custom keybindings, remove temporary navigation hacks.
     KeyMap km = CodeMirror.cloneKeyMap("vim");
     for (String s : new String[] {
-        "A", "C", "I", "O", "R", "U", "Ctrl-C", "Ctrl-O"}) {
+        "A", "C", "I", "O", "R", "U",
+        "Ctrl-C", "Ctrl-O", "Ctrl-P", "Ctrl-S"}) {
       km.remove(s);
     }
+    for (int i = 0; i <= 9; i++) {
+      km.remove("Ctrl-" + i);
+    }
     CodeMirror.addKeyMap("vim_ro", km);
+
     CodeMirror.mapVimKey("j", "gj");
     CodeMirror.mapVimKey("k", "gk");
     CodeMirror.mapVimKey("Down", "gj");

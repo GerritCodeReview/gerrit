@@ -244,8 +244,7 @@ class PreferencesBox extends Composite {
   @UiHandler("topMenu")
   void onTopMenu(ValueChangeEvent<Boolean> e) {
     prefs.hideTopMenu(!e.getValue());
-    Gerrit.setHeaderVisible(view.diffTable.isHeaderVisible()
-        && !prefs.hideTopMenu());
+    Gerrit.setHeaderVisible(!prefs.hideTopMenu());
     view.resizeCodeMirror();
   }
 

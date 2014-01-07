@@ -86,7 +86,6 @@ class DiffTable extends Composite {
 
   void setHeaderVisible(boolean show) {
     headerVisible = show;
-    Gerrit.setHeaderVisible(show && !parent.getPrefs().hideTopMenu());
     UIObject.setVisible(patchSetNavRow, show);
     if (show) {
       parent.header.removeStyleName(style.fullscreen());

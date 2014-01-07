@@ -85,7 +85,7 @@ public class ChangeInfo extends JavaScriptObject {
   public final native String branch() /*-{ return this.branch; }-*/;
   public final native String topic() /*-{ return this.topic; }-*/;
   public final native String change_id() /*-{ return this.change_id; }-*/;
-  public final native boolean mergeable() /*-{ return this.mergeable; }-*/;
+  public final native boolean mergeable() /*-{ return this.mergeable || false; }-*/;
   public final native int insertions() /*-{ return this.insertions; }-*/;
   public final native int deletions() /*-{ return this.deletions; }-*/;
   private final native String statusRaw() /*-{ return this.status; }-*/;
@@ -99,9 +99,12 @@ public class ChangeInfo extends JavaScriptObject {
   public final native NativeMap<LabelInfo> all_labels() /*-{ return this.labels; }-*/;
   public final native LabelInfo label(String n) /*-{ return this.labels[n]; }-*/;
   public final native String current_revision() /*-{ return this.current_revision; }-*/;
+  public final native void set_current_revision(String r) /*-{ this.current_revision = r; }-*/;
   public final native NativeMap<RevisionInfo> revisions() /*-{ return this.revisions; }-*/;
   public final native RevisionInfo revision(String n) /*-{ return this.revisions[n]; }-*/;
   public final native JsArray<MessageInfo> messages() /*-{ return this.messages; }-*/;
+  public final native void set_edit(EditInfo edit) /*-{ this.edit = edit; }-*/;
+  public final native EditInfo edit() /*-{ return this.edit; }-*/;
 
   public final native boolean has_permitted_labels()
   /*-{ return this.hasOwnProperty('permitted_labels') }-*/;
@@ -225,10 +228,23 @@ public class ChangeInfo extends JavaScriptObject {
   }
 
   public static class RevisionInfo extends JavaScriptObject {
+    public static RevisionInfo fromEdit(EditInfo edit) {
+      RevisionInfo revisionInfo = (RevisionInfo) createObject();
+      revisionInfo.takeFromEdit(edit);
+      return revisionInfo;
+    }
+    private final native void takeFromEdit(EditInfo edit) /*-{
+      this._number = edit._number;
+      this.name = edit.name;
+      this.commit = edit.commit;
+      this.files = edit.files;
+      this.fetch = edit.fetch;
+    }-*/;
     public final native int _number() /*-{ return this._number; }-*/;
     public final native String name() /*-{ return this.name; }-*/;
     public final native boolean draft() /*-{ return this.draft || false; }-*/;
     public final native boolean has_draft_comments() /*-{ return this.has_draft_comments || false; }-*/;
+    public final native boolean edit() /*-{ return this._number == 0; }-*/;
     public final native CommitInfo commit() /*-{ return this.commit; }-*/;
     public final native void set_commit(CommitInfo c) /*-{ this.commit = c; }-*/;
 
@@ -243,12 +259,42 @@ public class ChangeInfo extends JavaScriptObject {
     public final native JsArray<WebLinkInfo> web_links() /*-{ return this.web_links; }-*/;
 
     public static void sortRevisionInfoByNumber(JsArray<RevisionInfo> list) {
+      final int parent_edit_number = findEditParent(list);
       Collections.sort(Natives.asList(list), new Comparator<RevisionInfo>() {
         @Override
         public int compare(RevisionInfo a, RevisionInfo b) {
-          return a._number() - b._number();
+          int a_number = a._number();
+          int b_number = b._number();
+          if (a_number == 0) {
+            a_number = parent_edit_number + 1;
+          }
+          if (b_number == 0) {
+            b_number = parent_edit_number + 1;
+          }
+          return a_number - b_number;
         }
       });
+    }
+    private static int findEditParent(JsArray<RevisionInfo> list) {
+      for (int i = 0; i < list.length(); i++) {
+        // edit under revisions?
+        RevisionInfo editInfo = list.get(i);
+        if (editInfo._number() == 0) {
+          // parent commit is parent patch set revision
+          CommitInfo commit = editInfo.commit().parents().get(0);
+          String parentRevision = commit.commit();
+          // find parent
+          for (int j = 0; j < list.length(); j++) {
+            RevisionInfo parentInfo = list.get(j);
+            String name = parentInfo.name();
+            if (name.equals(parentRevision)) {
+              // found parent pacth set number
+              return parentInfo._number();
+            }
+          }
+        }
+      }
+      return -1;
     }
 
     protected RevisionInfo () {

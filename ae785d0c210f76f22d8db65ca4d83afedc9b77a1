@@ -144,6 +144,24 @@
     },
     {
       "key": {
+        "uuid": "edc14553_14dc3485",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-07T17:32:25Z",
+      "side": 1,
+      "message": "ApprovalsUtil coverage from acceptance tests is surprisingly good: excluding the notedb-only branches, everything is covered except copyLabels.",
+      "parentUuid": "0dc5b95c_35e13044",
+      "revId": "ae785d0c210f76f22d8db65ca4d83afedc9b77a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6db475b0_88f9b7f5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
         "patchSetId": 3

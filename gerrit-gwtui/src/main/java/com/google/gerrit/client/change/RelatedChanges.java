@@ -16,7 +16,6 @@ package com.google.gerrit.client.change;
 
 import static com.google.gerrit.common.PageLinks.op;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
@@ -26,10 +25,13 @@ import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.common.changes.ListChangesOption;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.TabBar;
@@ -40,6 +42,26 @@ import java.util.EnumSet;
 import java.util.List;
 
 public class RelatedChanges extends TabPanel {
+  static final RelatedChangesResources R = GWT
+      .create(RelatedChangesResources.class);
+
+  interface RelatedChangesResources extends ClientBundle {
+    @Source("related_changes.css")
+    RelatedChangesCss css();
+  }
+
+  interface RelatedChangesCss extends CssResource {
+    String activeRow();
+    String current();
+    String gitweb();
+    String indirect();
+    String notCurrent();
+    String pointer();
+    String row();
+    String subject();
+    String tabPanel();
+  }
+
   private enum Tab {
     RELATED_CHANGES(Resources.C.relatedChanges(),
         Resources.C.relatedChangesTooltip()) {
@@ -115,7 +137,7 @@ public class RelatedChanges extends TabPanel {
     selectedTab = -1;
 
     setVisible(false);
-    addStyleName(Gerrit.RESOURCES.css().relatedChangesTabPanel());
+    addStyleName(R.css().tabPanel());
     initTabBar();
   }
 
@@ -191,6 +213,12 @@ public class RelatedChanges extends TabPanel {
           EnumSet.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_COMMIT),
           new TabChangeListCallback(Tab.CONFLICTING_CHANGES, info.project(), revision));
     }
+  }
+
+  @Override
+  protected void onLoad() {
+    super.onLoad();
+    R.css().ensureInjected();
   }
 
   private RelatedChangesTab getTab(Tab tabInfo) {

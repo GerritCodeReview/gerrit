@@ -813,7 +813,7 @@ public class MergeOp {
     return m;
   }
 
-  private void setMerged(final Change c, final ChangeMessage msg)
+  private void setMerged(Change c, ChangeMessage msg)
       throws OrmException, IOException {
     try {
       db.changes().beginTransaction(c.getId());
@@ -822,7 +822,7 @@ public class MergeOp {
       // modified when using the cherry-pick merge strategy.
       CodeReviewCommit commit = commits.get(c.getId());
       PatchSet.Id merged = commit.change.currentPatchSetId();
-      setMergedPatchSet(c.getId(), merged);
+      c = setMergedPatchSet(c.getId(), merged);
       PatchSetApproval submitter = saveApprovals(c, merged);
       addMergedMessage(submitter, msg);
 
@@ -844,9 +844,9 @@ public class MergeOp {
     indexer.index(db, c);
   }
 
-  private void setMergedPatchSet(Change.Id changeId, final PatchSet.Id merged)
+  private Change setMergedPatchSet(Change.Id changeId, final PatchSet.Id merged)
       throws OrmException {
-    db.changes().atomicUpdate(changeId, new AtomicUpdate<Change>() {
+    return db.changes().atomicUpdate(changeId, new AtomicUpdate<Change>() {
       @Override
       public Change update(Change c) {
         c.setStatus(Change.Status.MERGED);
@@ -879,8 +879,6 @@ public class MergeOp {
     // permissions get modified in the future, historical records stay accurate.
     PatchSetApproval submitter = null;
     try {
-      c.setStatus(Change.Status.MERGED);
-
       List<PatchSetApproval> approvals =
           db.patchSetApprovals().byPatchSet(merged).toList();
       Set<PatchSetApproval.Key> toDelete =

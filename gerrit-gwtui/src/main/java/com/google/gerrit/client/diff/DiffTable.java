@@ -101,9 +101,10 @@ class DiffTable extends Composite {
     return patchSetSelectBoxA.getOffsetHeight();
   }
 
-  void setUpPatchSetNav(JsArray<RevisionInfo> list, DiffInfo info) {
-    patchSetSelectBoxA.setUpPatchSetNav(list, info.meta_a());
-    patchSetSelectBoxB.setUpPatchSetNav(list, info.meta_b());
+  void setUpPatchSetNav(JsArray<RevisionInfo> list, DiffInfo info,
+      String project) {
+    patchSetSelectBoxA.setUpPatchSetNav(list, info.meta_a(), project);
+    patchSetSelectBoxB.setUpPatchSetNav(list, info.meta_b(), project);
   }
 
   void add(Widget widget) {

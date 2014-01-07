@@ -55,6 +55,7 @@ public class GerritConfig implements Cloneable {
   protected AccountGeneralPreferences.ChangeScreen changeScreen;
   protected int largeChangeSize;
   protected boolean newFeatures;
+  protected boolean srcToMarkdownEnabled;
 
   public String getLoginUrl() {
     return loginUrl;
@@ -297,5 +298,13 @@ public class GerritConfig implements Cloneable {
 
   public void setNewFeatures(boolean n) {
     newFeatures = n;
+  }
+
+  public boolean getSrcToMarkdownEnabled() {
+    return srcToMarkdownEnabled;
+  }
+
+  public void setSrcToMarkdownEnabled(boolean srcToMarkdownEnabled) {
+    this.srcToMarkdownEnabled = srcToMarkdownEnabled;
   }
 }

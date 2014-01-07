@@ -16,8 +16,11 @@ package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.changes.ChangeApi;
+import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.patches.PatchUtil;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -25,10 +28,13 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -99,6 +105,10 @@ class PatchSetSelectBox2 extends Composite {
     }
     if (meta != null && !Patch.COMMIT_MSG.equals(path)) {
       linkPanel.add(createDownloadLink());
+      if (Gerrit.getConfig().getProjectDocsEnabled() && idActive != null
+          && path.endsWith(".md")) {
+        linkPanel.add(createPreviewLink());
+      }
     }
   }
 
@@ -126,6 +136,46 @@ class PatchSetSelectBox2 extends Composite {
         new ImageResourceRenderer().render(Gerrit.RESOURCES.downloadIcon()),
         base + KeyUtil.encode(id + "," + path) + "^" + sideURL);
     anchor.setTitle(PatchUtil.C.download());
+    return anchor;
+  }
+
+  private Anchor createPreviewLink() {
+    final Anchor anchor = new Anchor(
+        new ImageResourceRenderer().render(Gerrit.RESOURCES.htmlIcon()),
+        GWT.getHostPageBaseURL(),
+        "_blank");
+    anchor.setTitle(PatchUtil.C.previewHtml());
+    anchor.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        if (GWT.getHostPageBaseURL().equals(anchor.getHref())) {
+          event.preventDefault();
+
+          ChangeApi.detail(idActive.getParentKey().get(), new GerritCallback<ChangeInfo>() {
+            @Override
+            public void onSuccess(ChangeInfo info) {
+              StringBuilder href = new StringBuilder();
+              href.append(GWT.getHostPageBaseURL());
+              href.append("doc/");
+              href.append(URL.encodePathSegment(info.project()));
+              href.append("/rev/");
+              href.append(URL.encodePathSegment(idActive.toRefName()));
+              href.append("/");
+
+              String file = path;
+              if (file.contains(".")) {
+                file = file.substring(0,  file.lastIndexOf("."));
+              }
+              file = file + ".html";
+              href.append(URL.encodePathSegment(file));
+
+              anchor.setHref(href.toString());
+              Window.open(href.toString(), null, null);
+            }
+          });
+        }
+      }
+    });
     return anchor;
   }
 

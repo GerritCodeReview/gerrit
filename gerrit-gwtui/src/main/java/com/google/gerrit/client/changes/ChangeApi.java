@@ -15,6 +15,8 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.changes.ChangeInfo.IncludedInInfo;
+import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
+import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -68,6 +70,10 @@ public class ChangeApi {
 
   public static RestApi detail(int id) {
     return call(id, "detail");
+  }
+
+  public static void edits(int id, AsyncCallback<NativeMap<RevisionInfo>> cb) {
+    call(id, "edits").get(cb);
   }
 
   public static void includedIn(int id, AsyncCallback<IncludedInInfo> cb) {

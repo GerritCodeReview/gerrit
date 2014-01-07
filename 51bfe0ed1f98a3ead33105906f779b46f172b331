@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ede865cd_5ce6dd5c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocLoader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-07T09:27:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ddcd92e_5de6db5c",
+      "revId": "51bfe0ed1f98a3ead33105906f779b46f172b331",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ddcd92e_9def832c",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
         "patchSetId": 6
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "0ddcd92e_fdf6c703",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-07T09:27:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ddcd92e_9def832c",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 114
+      },
+      "revId": "51bfe0ed1f98a3ead33105906f779b46f172b331",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ddcd92e_7deb9721",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
         "patchSetId": 6
@@ -53,6 +95,30 @@
       "writtenOn": "2014-01-07T09:08:14Z",
       "side": 1,
       "message": "wrap this line.",
+      "range": {
+        "startLine": 132,
+        "startChar": 8,
+        "endLine": 132,
+        "endChar": 103
+      },
+      "revId": "51bfe0ed1f98a3ead33105906f779b46f172b331",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ddcd92e_1d05332d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-07T09:27:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ddcd92e_7deb9721",
       "range": {
         "startLine": 132,
         "startChar": 8,

@@ -122,6 +122,9 @@ public class AccountDiffPreference {
   @Column(id = 17)
   protected boolean hideLineNumbers;
 
+  @Column(id = 18)
+  protected boolean renderEntireFile;
+
   protected AccountDiffPreference() {
   }
 
@@ -147,6 +150,7 @@ public class AccountDiffPreference {
     this.manualReview = p.manualReview;
     this.hideTopMenu = p.hideTopMenu;
     this.hideLineNumbers = p.hideLineNumbers;
+    this.renderEntireFile = p.renderEntireFile;
   }
 
   public Account.Id getAccountId() {
@@ -282,5 +286,13 @@ public class AccountDiffPreference {
 
   public void setHideLineNumbers(boolean hide) {
     hideLineNumbers = hide;
+  }
+
+  public boolean isRenderEntireFile() {
+    return renderEntireFile;
+  }
+
+  public void setRenderEntireFile(boolean render) {
+    renderEntireFile = render;
   }
 }

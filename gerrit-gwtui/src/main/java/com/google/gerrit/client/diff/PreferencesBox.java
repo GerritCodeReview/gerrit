@@ -79,6 +79,7 @@ class PreferencesBox extends Composite {
   @UiField ToggleButton topMenu;
   @UiField ToggleButton manualReview;
   @UiField ToggleButton expandAllComments;
+  @UiField ToggleButton renderEntireFile;
   @UiField Button apply;
   @UiField Button save;
 
@@ -126,6 +127,7 @@ class PreferencesBox extends Composite {
     topMenu.setValue(!prefs.hideTopMenu());
     manualReview.setValue(prefs.manualReview());
     expandAllComments.setValue(prefs.expandAllComments());
+    renderEntireFile.setValue(prefs.renderEntireFile());
 
     switch (view.getIntraLineStatus()) {
       case OFF:
@@ -270,6 +272,12 @@ class PreferencesBox extends Composite {
         view.getCmFromSide(DisplaySide.B).setOption("showTrailingSpace", s);
       }
     });
+  }
+
+  @UiHandler("renderEntireFile")
+  void onRenderEntireFile(ValueChangeEvent<Boolean> e) {
+    prefs.renderEntireFile(e.getValue());
+    view.updateRenderEntireFile();
   }
 
   @UiHandler("apply")

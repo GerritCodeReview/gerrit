@@ -236,6 +236,13 @@ limitations under the License.
         </g:ToggleButton></td>
       </tr>
       <tr>
+        <th><ui:msg>Render</ui:msg></th>
+        <td><g:ToggleButton ui:field='renderEntireFile'>
+          <g:upFace><ui:msg>Fast</ui:msg></g:upFace>
+          <g:downFace><ui:msg>Slow</ui:msg></g:downFace>
+        </g:ToggleButton></td>
+      </tr>
+      <tr>
         <td></td>
         <td>
           <g:Button ui:field='apply' styleName='{style.apply}'>

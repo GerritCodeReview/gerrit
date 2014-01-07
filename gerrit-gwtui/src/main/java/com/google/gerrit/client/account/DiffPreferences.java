@@ -36,6 +36,7 @@ public class DiffPreferences extends JavaScriptObject {
     p.hideLineNumbers(in.isHideLineNumbers());
     p.expandAllComments(in.isExpandAllComments());
     p.manualReview(in.isManualReview());
+    p.renderEntireFile(in.isRenderEntireFile());
     return p;
   }
 
@@ -52,6 +53,7 @@ public class DiffPreferences extends JavaScriptObject {
     p.setHideLineNumbers(hideLineNumbers());
     p.setExpandAllComments(expandAllComments());
     p.setManualReview(manualReview());
+    p.setRenderEntireFile(renderEntireFile());
   }
 
   public final void ignoreWhitespace(Whitespace i) {
@@ -70,6 +72,7 @@ public class DiffPreferences extends JavaScriptObject {
   public final native void hideLineNumbers(boolean s) /*-{ this.hide_line_numbers = s }-*/;
   public final native void expandAllComments(boolean e) /*-{ this.expand_all_comments = e }-*/;
   public final native void manualReview(boolean r) /*-{ this.manual_review = r }-*/;
+  public final native void renderEntireFile(boolean r) /*-{ this.render_entire_file = r }-*/;
   public final void showLineNumbers(boolean s) { hideLineNumbers(!s); }
 
   public final Whitespace ignoreWhitespace() {
@@ -89,6 +92,7 @@ public class DiffPreferences extends JavaScriptObject {
   public final native boolean hideLineNumbers() /*-{ return this.hide_line_numbers || false }-*/;
   public final native boolean expandAllComments() /*-{ return this.expand_all_comments || false }-*/;
   public final native boolean manualReview() /*-{ return this.manual_review || false }-*/;
+  public final native boolean renderEntireFile() /*-{ return this.render_entire_file || false }-*/;
   public final boolean showLineNumbers() { return !hideLineNumbers(); }
   public final boolean autoReview() { return !manualReview(); }
 

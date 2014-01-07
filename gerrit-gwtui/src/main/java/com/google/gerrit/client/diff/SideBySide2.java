@@ -14,6 +14,8 @@
 
 package com.google.gerrit.client.diff;
 
+import static java.lang.Double.POSITIVE_INFINITY;
+
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.DiffPreferences;
 import com.google.gerrit.client.change.ChangeScreen2;
@@ -71,6 +73,9 @@ import java.util.EnumSet;
 import java.util.List;
 
 public class SideBySide2 extends Screen {
+  private static final KeyMap RENDER_ENTIRE_FILE_KEYMAP = KeyMap.create()
+      .on("Ctrl-F", false);
+
   interface Binder extends UiBinder<FlowPanel, SideBySide2> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
@@ -208,6 +213,7 @@ public class SideBySide2 extends Screen {
       }
     });
 
+    // TODO(cranger): pass infinity
     final int height = getCodeMirrorHeight();
     operation(new Runnable() {
       @Override
@@ -344,6 +350,9 @@ public class SideBySide2 extends Screen {
             cm.execCommand("selectAll");
           }
         }));
+    if (prefs.renderEntireFile()) {
+      cm.addKeyMap(RENDER_ENTIRE_FILE_KEYMAP);
+    }
   }
 
   private BeforeSelectionChangeHandler onSelectionChange(final CodeMirror cm) {
@@ -511,7 +520,8 @@ public class SideBySide2 extends Screen {
       .set("styleSelectedText", true)
       .set("showTrailingSpace", prefs.showWhitespaceErrors())
       .set("keyMap", "vim_ro")
-      .set("value", meta != null ? contents : ""));
+      .set("value", meta != null ? contents : "")
+      .set("viewportMargin", prefs.renderEntireFile() ? POSITIVE_INFINITY : 10));
   }
 
   DiffInfo.IntraLineStatus getIntraLineStatus() {
@@ -745,6 +755,18 @@ public class SideBySide2 extends Screen {
         }
       }
     };
+  }
+
+  void updateRenderEntireFile() {
+    cmA.removeKeyMap(RENDER_ENTIRE_FILE_KEYMAP);
+    cmB.removeKeyMap(RENDER_ENTIRE_FILE_KEYMAP);
+    if (prefs.renderEntireFile()) {
+      cmA.addKeyMap(RENDER_ENTIRE_FILE_KEYMAP);
+      cmB.addKeyMap(RENDER_ENTIRE_FILE_KEYMAP);
+    }
+
+    cmA.setOption("viewportMargin", prefs.renderEntireFile() ? POSITIVE_INFINITY : 10);
+    cmB.setOption("viewportMargin", prefs.renderEntireFile() ? POSITIVE_INFINITY : 10);
   }
 
   void resizeCodeMirror() {

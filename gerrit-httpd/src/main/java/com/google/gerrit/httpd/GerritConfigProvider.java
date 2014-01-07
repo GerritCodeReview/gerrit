@@ -128,6 +128,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
         AccountGeneralPreferences.ChangeScreen.CHANGE_SCREEN2));
     config.setLargeChangeSize(cfg.getInt("change", "largeChange", 500));
     config.setNewFeatures(cfg.getBoolean("gerrit", "enableNewFeatures", true));
+    config.setSrcToMarkdownEnabled(cfg.getBoolean("site", "enableSrcToMarkdown", false));
 
     final String reportBugUrl = cfg.getString("gerrit", null, "reportBugUrl");
     config.setReportBugUrl(reportBugUrl != null ?

@@ -52,7 +52,8 @@ class SkipManager {
         int len = (current.ab() != null ? current.ab() : current.b()).length();
         if (i == 0 && len > context + 1) {
           skips.add(new SkippedLine(0, 0, len - context));
-        } else if (i == regions.length() - 1 && len > context + 1) {
+        } else if (i == regions.length() - 1 && len > context) {
+          len++; // Account for the trailing newline that is always added
           skips.add(new SkippedLine(lineA + context, lineB + context,
               len - context));
         } else if (len > 2 * context + 1) {

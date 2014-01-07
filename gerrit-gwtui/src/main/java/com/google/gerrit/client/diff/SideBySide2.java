@@ -187,7 +187,7 @@ public class SideBySide2 extends Screen {
         info.revisions().copyKeysIntoChildren("name");
         JsArray<RevisionInfo> list = info.revisions().values();
         RevisionInfo.sortRevisionInfoByNumber(list);
-        diffTable.setUpPatchSetNav(list, diff);
+        diffTable.setUpPatchSetNav(list, diff, info.project());
         header.setChangeInfo(info);
       }}));
 

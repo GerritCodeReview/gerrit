@@ -154,8 +154,13 @@ class SkipBar extends Composite {
     int start = range.getFrom().getLine();
     int oldEnd = range.getTo().getLine();
     int newEnd = oldEnd - NUM_ROWS_TO_EXPAND;
-    textMarker.clear();
-    collapse(start, newEnd, false);
+    boolean attach = start == 0;
+    if (attach) {
+      clearMarkerAndWidget();
+    } else {
+      textMarker.clear();
+    }
+    collapse(start, newEnd, attach);
     updateSelection();
   }
 

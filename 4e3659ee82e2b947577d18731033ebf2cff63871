@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "0ddcd92e_1d2e13ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-07T13:43:06Z",
+      "side": 1,
+      "message": "Having the revision as request parameter is not good since the revision information is lost when relative links are resolved.\n\nThis is why I\u0027m planning to change the format to\n\n  /doc/\u003cproject-name\u003e/rev/\u003crevision\u003e/\u003cfile-name\u003e.html\n\nAny better suggestions?",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 19,
+        "endChar": 53
+      },
+      "revId": "4e3659ee82e2b947577d18731033ebf2cff63871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ede865cd_9cef852c",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 6

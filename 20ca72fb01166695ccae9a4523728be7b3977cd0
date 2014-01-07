@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "edc14553_1405142d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-07T22:52:16Z",
+      "side": 1,
+      "message": "notConnected",
+      "range": {
+        "startLine": 244,
+        "startChar": 46,
+        "endLine": 244,
+        "endChar": 55
+      },
+      "revId": "20ca72fb01166695ccae9a4523728be7b3977cd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0dc5b95c_55ff8cd4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
         "patchSetId": 8

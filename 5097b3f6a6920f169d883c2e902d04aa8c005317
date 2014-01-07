@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "0ddcd92e_3d33cf13",
+        "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/plugin/client/Plugin.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-07T14:41:45Z",
+      "side": 1,
+      "message": "I\u0027ve played with this change once again. \n\nIt actually works properly when I\u0027m starting the daemon from Eclipse using the launch configuration, but I\u0027m getting the TypeError when I\u0027m doing the Buck build on commandline and then starting the daemon from the commandline. Do you have an idea what could explain this difference? Have you tried building and starting the daemon from the commandline? Maybe you could reproduce it then.",
+      "parentUuid": "48315fd0_67a39296",
+      "range": {
+        "startLine": 86,
+        "startChar": 29,
+        "endLine": 86,
+        "endChar": 46
+      },
+      "revId": "5097b3f6a6920f169d883c2e902d04aa8c005317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "682c637b_c8f0cfbe",
         "filename": "plugins/cookbook-plugin",
         "patchSetId": 15
@@ -125,6 +149,24 @@
       "side": 1,
       "message": "Can\u0027t reproduce.",
       "parentUuid": "682c637b_c8f0cfbe",
+      "revId": "5097b3f6a6920f169d883c2e902d04aa8c005317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ddcd92e_5d389beb",
+        "filename": "plugins/cookbook-plugin",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-07T14:41:45Z",
+      "side": 1,
+      "message": "Same here. It works properly when I\u0027m starting the daemon from Eclipse using the launch configuration, but I\u0027m getting the NotFound-Screen when I\u0027m doing the Buck build on commandline and then starting the daemon from the commandline.",
+      "parentUuid": "2dfb5d35_1e04ed2c",
       "revId": "5097b3f6a6920f169d883c2e902d04aa8c005317",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

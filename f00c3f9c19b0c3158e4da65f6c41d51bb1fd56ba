@@ -70,6 +70,30 @@
       "revId": "f00c3f9c19b0c3158e4da65f6c41d51bb1fd56ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ede865cd_dc2bcd94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-07T21:46:49Z",
+      "side": 1,
+      "message": "Done in:\n\n  https://gerrit-review.googlesource.com/53540",
+      "parentUuid": "48587f1a_ef23e18f",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 16
+      },
+      "revId": "f00c3f9c19b0c3158e4da65f6c41d51bb1fd56ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

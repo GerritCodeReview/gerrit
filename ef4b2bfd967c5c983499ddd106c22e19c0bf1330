@@ -66,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "0ddcd92e_7d56371e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-07T21:43:31Z",
+      "side": 1,
+      "message": "There is not enouph place on patch set box 1, ..., 30 versions are normal here.",
+      "parentUuid": "48587f1a_efd92165",
+      "revId": "ef4b2bfd967c5c983499ddd106c22e19c0bf1330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48587f1a_0fbf45e4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
         "patchSetId": 9
@@ -77,6 +95,30 @@
       "writtenOn": "2013-12-21T00:32:31Z",
       "side": 1,
       "message": "Use\n  boolean draft \u003d false;\n  if (ps.endsWith(\"+\")) {\n    draft \u003d true;\n    ps \u003d ps.substring(0, ps.length() - 1);\n  }",
+      "range": {
+        "startLine": 546,
+        "startChar": 48,
+        "endLine": 547,
+        "endChar": 24
+      },
+      "revId": "ef4b2bfd967c5c983499ddd106c22e19c0bf1330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ddcd92e_9d4a236f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-07T21:43:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48587f1a_0fbf45e4",
       "range": {
         "startLine": 546,
         "startChar": 48,

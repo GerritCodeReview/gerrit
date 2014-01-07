@@ -74,13 +74,14 @@ public class IdentifiedUser extends CurrentUser {
     private final GroupBackend groupBackend;
 
     @Inject
-    GenericFactory(
-        CapabilityControl.Factory capabilityControlFactory,
-        final AuthConfig authConfig,
-        final @AnonymousCowardName String anonymousCowardName,
-        final @CanonicalWebUrl Provider<String> canonicalUrl,
-        final Realm realm, final AccountCache accountCache,
-        final GroupBackend groupBackend) {
+    public GenericFactory(
+        @Nullable CapabilityControl.Factory capabilityControlFactory,
+        AuthConfig authConfig,
+        @AnonymousCowardName String anonymousCowardName,
+        @CanonicalWebUrl Provider<String> canonicalUrl,
+        Realm realm,
+        AccountCache accountCache,
+        GroupBackend groupBackend) {
       this.capabilityControlFactory = capabilityControlFactory;
       this.authConfig = authConfig;
       this.anonymousCowardName = anonymousCowardName;

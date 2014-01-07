@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "0ddcd92e_1ddc5385",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-07T05:48:00Z",
+      "side": 1,
+      "message": "\u003e What I plan to do (but not in this change) is teach the current acceptance test framework to run with various permutations of NotesMigration.\n\nQuoting the commit message of this change:\n\n \"Since most existing reads of the PatchSetApprovals table have been\nmigrated to ApprovalsUtil, most implementation changes happen there.\"\n\nThe test coverage for these implementation changes in PatchSetApprovals should be in the same change or in the same series.",
+      "parentUuid": "2d6c3d14_16337c13",
+      "revId": "ae785d0c210f76f22d8db65ca4d83afedc9b77a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6db475b0_88f9b7f5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
         "patchSetId": 3

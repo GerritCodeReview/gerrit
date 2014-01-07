@@ -27,6 +27,11 @@ public class KeyMap extends JavaScriptObject {
     return this;
   }-*/;
 
+  public final native KeyMap on(String key, boolean b) /*-{
+    this[key] = b;
+    return this;
+  }-*/;
+
   public final native KeyMap remove(String key) /*-{ delete this[key]; }-*/;
 
   protected KeyMap() {

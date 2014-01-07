@@ -70,6 +70,7 @@ public class GetDiffPreferences implements RestReadView<AccountResource> {
       info.hideLineNumbers = p.isHideLineNumbers() ? true : null;
       info.syntaxHighlighting = p.isSyntaxHighlighting() ? true : null;
       info.tabSize = p.getTabSize();
+      info.renderEntireFile = p.isRenderEntireFile() ? true : null;
       return info;
     }
 
@@ -88,6 +89,7 @@ public class GetDiffPreferences implements RestReadView<AccountResource> {
     Boolean syntaxHighlighting;
     Boolean hideTopMenu;
     Boolean hideLineNumbers;
+    Boolean renderEntireFile;
     int tabSize;
   }
 }

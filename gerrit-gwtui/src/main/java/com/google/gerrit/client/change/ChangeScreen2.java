@@ -125,6 +125,7 @@ public class ChangeScreen2 extends Screen {
   private String revision;
   private ChangeInfo changeInfo;
   private CommentLinkProcessor commentLinkProcessor;
+  private NativeMap<RevisionInfo> edits;
 
   private KeyCommandSet keysNavigation;
   private KeyCommandSet keysAction;
@@ -196,13 +197,24 @@ public class ChangeScreen2 extends Screen {
   @Override
   protected void onLoad() {
     super.onLoad();
-    loadChangeInfo(true, new GerritCallback<ChangeInfo>() {
-      @Override
-      public void onSuccess(ChangeInfo info) {
-        info.init();
-        loadConfigInfo(info, base);
-      }
-    });
+    CallbackGroup group = new CallbackGroup();
+    if (Gerrit.isSignedIn()) {
+      ChangeApi.edits(changeId.get(), group.add(
+          new GerritCallback<NativeMap<RevisionInfo>>() {
+            @Override
+            public void onSuccess(NativeMap<RevisionInfo> result) {
+              edits = result;
+            }
+          }));
+    }
+    loadChangeInfo(true, group.addFinal(
+        new GerritCallback<ChangeInfo>() {
+          @Override
+          public void onSuccess(ChangeInfo info) {
+            info.init();
+            loadConfigInfo(info, base);
+          }
+        }));
   }
 
   void loadChangeInfo(boolean fg, AsyncCallback<ChangeInfo> cb) {
@@ -551,6 +563,22 @@ public class ChangeScreen2 extends Screen {
 
   private void loadConfigInfo(final ChangeInfo info, final String base) {
     info.revisions().copyKeysIntoChildren("name");
+    if (edits != null && edits.size() > 0) {
+      edits.copyKeysIntoChildren("name");
+      for (RevisionInfo r : Natives.asList(edits.values())) {
+        info.revisions().put(r.name(), r);
+      }
+
+      // Swap current revision to revision edit, when
+      // 1. the last revsion is an edit
+      JsArray<RevisionInfo> revisions = info.revisions().values();
+      RevisionInfo.sortRevisionInfoByNumber(revisions);
+      RevisionInfo rev = revisions.get(revisions.length() - 1);
+      if (rev.edit()) {
+        info.set_current_revision(rev.name());
+      }
+      edits = null; // prevent from copying edits more then once.
+    }
     final RevisionInfo rev = resolveRevisionToDisplay(info);
     final RevisionInfo b = resolveRevisionOrPatchSetId(info, base, null);
 

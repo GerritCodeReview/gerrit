@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.changes.ChangeInfo.EditInfo;
 import com.google.gerrit.client.changes.ChangeInfo.IncludedInInfo;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
@@ -66,6 +67,18 @@ public class ChangeApi {
 
   public static RestApi detail(int id) {
     return call(id, "detail");
+  }
+
+  public static void edit(int id, AsyncCallback<EditInfo> cb) {
+    edit(id).get(cb);
+  }
+
+  public static void editWithFiles(int id, AsyncCallback<EditInfo> cb) {
+    edit(id).addParameter("list", true).get(cb);
+  }
+
+  public static RestApi edit(int id) {
+    return change(id).view("edit");
   }
 
   public static void includedIn(int id, AsyncCallback<IncludedInInfo> cb) {

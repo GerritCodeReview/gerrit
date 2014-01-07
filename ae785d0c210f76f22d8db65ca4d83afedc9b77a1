@@ -162,6 +162,24 @@
     },
     {
       "key": {
+        "uuid": "ede865cd_7c04792e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-07T17:57:18Z",
+      "side": 1,
+      "message": "One thing is missing though: activate NotesMigration in those tests. As you pointed out we should find a way to run all existing tests in both modes: ReviewDb-mode + NoteDB-mode, like in old version of NotesMigration.allEnabled(), settting both write \u0026 read to true.\n\nBut if you are going to write it in a follow-up change, it\u0027s fine.",
+      "parentUuid": "edc14553_14dc3485",
+      "revId": "ae785d0c210f76f22d8db65ca4d83afedc9b77a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6db475b0_88f9b7f5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
         "patchSetId": 3

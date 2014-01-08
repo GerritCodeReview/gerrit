@@ -49,19 +49,24 @@ public class MetaDataUpdate {
     }
 
     public PersonIdent getUserPersonIdent() {
-      return createPersonIdent();
+      return createPersonIdent(identifiedUser.get());
     }
 
     public MetaDataUpdate create(Project.NameKey name)
         throws RepositoryNotFoundException, IOException {
+      return create(name, identifiedUser.get());
+    }
+
+    public MetaDataUpdate create(Project.NameKey name, IdentifiedUser user)
+        throws RepositoryNotFoundException, IOException {
       MetaDataUpdate md = factory.create(name, mgr.openRepository(name));
-      md.getCommitBuilder().setAuthor(createPersonIdent());
+      md.getCommitBuilder().setAuthor(createPersonIdent(user));
       md.getCommitBuilder().setCommitter(serverIdent);
       return md;
     }
 
-    private PersonIdent createPersonIdent() {
-      return identifiedUser.get().newCommitterIdent(
+    private PersonIdent createPersonIdent(IdentifiedUser user) {
+      return user.newCommitterIdent(
           serverIdent.getWhen(), serverIdent.getTimeZone());
     }
   }

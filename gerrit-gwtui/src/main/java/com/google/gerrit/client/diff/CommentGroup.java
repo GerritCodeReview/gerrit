@@ -125,6 +125,10 @@ class CommentGroup extends Composite {
         break;
       }
     }
+    setOpenAll(open);
+  }
+
+  void setOpenAll(boolean open) {
     for (int i = 0; i < getBoxCount(); i++) {
       getCommentBox(i).setOpen(open);
     }

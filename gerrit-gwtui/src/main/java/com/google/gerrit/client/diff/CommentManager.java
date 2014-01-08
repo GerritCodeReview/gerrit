@@ -73,8 +73,11 @@ class CommentManager {
   }
 
   void setExpandAllComments(boolean b) {
-    for (PublishedBox box : published.values()) {
-      box.setOpen(b);
+    for (CommentGroup g : sideA.values()) {
+      g.setOpenAll(b);
+    }
+    for (CommentGroup g : sideB.values()) {
+      g.setOpenAll(b);
     }
   }
 

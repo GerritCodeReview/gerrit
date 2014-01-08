@@ -66,7 +66,7 @@ public class ChangeControl {
     private final Provider<ReviewDb> db;
 
     @Inject
-    GenericFactory(ProjectControl.GenericFactory p, Provider<ReviewDb> d) {
+    public GenericFactory(ProjectControl.GenericFactory p, Provider<ReviewDb> d) {
       projectControl = p;
       db = d;
     }
@@ -170,7 +170,7 @@ public class ChangeControl {
     }
   }
 
-  interface AssistedFactory {
+  public interface AssistedFactory {
     ChangeControl create(RefControl refControl, Change change);
     ChangeControl create(RefControl refControl, ChangeNotes notes);
   }

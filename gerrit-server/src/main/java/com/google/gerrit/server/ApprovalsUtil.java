@@ -39,7 +39,6 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.change.ChangeKind;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -148,48 +147,6 @@ public class ApprovalsUtil {
       }
     }
     return ImmutableSetMultimap.copyOf(reviewers);
-  }
-
-  /**
-   * Copy min/max scores from one patch set to another.
-   *
-   * @throws OrmException
-   */
-  public void copyLabels(ReviewDb db, ChangeNotes notes, LabelTypes labelTypes,
-      PatchSet.Id source, PatchSet dest, ChangeKind changeKind)
-      throws OrmException {
-    copyLabels(db, labelTypes, byPatchSet(db, notes, source), source, dest,
-        changeKind);
-  }
-
-  /**
-   * Copy a set's min/max scores from one patch set to another.
-   *
-   * @throws OrmException
-   */
-  public void copyLabels(ReviewDb db, LabelTypes labelTypes,
-      Iterable<PatchSetApproval> sourceApprovals, PatchSet.Id source,
-      PatchSet dest, ChangeKind changeKind) throws OrmException {
-    List<PatchSetApproval> copied = Lists.newArrayList();
-    for (PatchSetApproval a : sourceApprovals) {
-      if (source.equals(a.getPatchSetId())) {
-        LabelType type = labelTypes.byLabel(a.getLabelId());
-        if (type == null) {
-          continue;
-        } else if (type.isCopyMinScore() && type.isMaxNegative(a)) {
-          copied.add(new PatchSetApproval(dest.getId(), a));
-        } else if (type.isCopyMaxScore() && type.isMaxPositive(a)) {
-          copied.add(new PatchSetApproval(dest.getId(), a));
-        } else if (type.isCopyAllScoresOnTrivialRebase()
-            && ChangeKind.TRIVIAL_REBASE.equals(changeKind)) {
-          copied.add(new PatchSetApproval(dest.getId(), a));
-        } else if (type.isCopyAllScoresIfNoCodeChange()
-            && ChangeKind.NO_CODE_CHANGE.equals(changeKind)) {
-          copied.add(new PatchSetApproval(dest.getId(), a));
-        }
-      }
-    }
-    db.patchSetApprovals().insert(copied);
   }
 
   public List<PatchSetApproval> addReviewers(ReviewDb db,

@@ -23,7 +23,8 @@ import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
-import org.apache.lucene.store.NIOFSDirectory;
+import org.apache.lucene.store.IndexInput;
+import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.Version;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
@@ -31,27 +32,30 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarOutputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class DocIndexer {
   private static final Version LUCENE_VERSION = Version.LUCENE_46;
   private static final Pattern SECTION_HEADER = Pattern.compile("^=+ (.*)");
 
-  @Option(name = "-z", usage = "output zip file")
-  private String zipFile;
-
-  @Option(name = "--tmp", usage = "temporary output path")
-  private File tmpdir;
+  @Option(name = "-o", usage = "output JAR file")
+  private String outFile;
 
   @Option(name = "--prefix", usage = "prefix for the html filepath")
   private String prefix = "";
@@ -79,7 +83,19 @@ public class DocIndexer {
       return;
     }
 
-    NIOFSDirectory directory = new NIOFSDirectory(tmpdir);
+    byte[] compressedIndex = zip(index());
+    JarOutputStream jar = new JarOutputStream(new FileOutputStream(outFile));
+    JarEntry entry = new JarEntry("com/google/gerrit/server/documentation/index.zip");
+    entry.setSize(compressedIndex.length);
+    jar.putNextEntry(entry);
+    jar.write(compressedIndex);
+    jar.closeEntry();
+    jar.close();
+  }
+
+  private RAMDirectory index() throws IOException,
+      UnsupportedEncodingException, FileNotFoundException {
+    RAMDirectory directory = new RAMDirectory();
     IndexWriterConfig config = new IndexWriterConfig(
         LUCENE_VERSION,
         new StandardAnalyzer(LUCENE_VERSION, CharArraySet.EMPTY_SET));
@@ -114,25 +130,31 @@ public class DocIndexer {
       reader.close();
     }
     iwriter.close();
-
-    ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(zipFile));
-    zipDir(tmpdir, "", zip);
-    zip.close();
+    return directory;
   }
 
-  private static void zipDir(File dir, String prefix, ZipOutputStream zip)
-      throws IOException {
-    for (File file : dir.listFiles()) {
-      String name = file.getName();
-      if (!prefix.isEmpty()) {
-        name = prefix + "/" + name;
-      }
-      if (file.isDirectory()) {
-        zipDir(file, name, zip);
-      } else {
-        AsciiDoctor.zipFile(file, name, zip);
+  private byte[] zip(RAMDirectory dir) throws IOException {
+    ByteArrayOutputStream buf = new ByteArrayOutputStream();
+    ZipOutputStream zip = new ZipOutputStream(buf);
+
+    for (String name : dir.listAll()) {
+      IndexInput in = dir.openInput(name, null);
+      try {
+        int len = (int) in.length();
+        byte[] tmp = new byte[len];
+        ZipEntry entry = new ZipEntry(name);
+        entry.setSize(len);
+        in.readBytes(tmp, 0, len);
+        zip.putNextEntry(entry);
+        zip.write(tmp, 0, len);
+        zip.closeEntry();
+      } finally {
+        in.close();
       }
     }
+
+    zip.close();
+    return buf.toByteArray();
   }
 
   public static void main(String[] args) {

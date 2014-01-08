@@ -52,6 +52,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
@@ -202,7 +203,8 @@ public class SideBySide2 extends Screen {
   @Override
   public void onShowView() {
     super.onShowView();
-    Window.enableScrolling(false);
+    Window.enableScrolling(prefs.renderEntireFile());
+    UIObject.setVisible(diffTable.sidePanelCell, !prefs.renderEntireFile());
     if (prefs.hideTopMenu()) {
       Gerrit.setHeaderVisible(false);
     }
@@ -217,8 +219,10 @@ public class SideBySide2 extends Screen {
     operation(new Runnable() {
       @Override
       public void run() {
-        cmA.setHeight(height);
-        cmB.setHeight(height);
+        if (!prefs.renderEntireFile()) {
+          cmA.setHeight(height);
+          cmB.setHeight(height);
+        }
         cmA.refresh();
         cmB.refresh();
       }
@@ -471,11 +475,13 @@ public class SideBySide2 extends Screen {
 
     operation(new Runnable() {
       public void run() {
-        // Estimate initial CM3 height, fixed up in onShowView.
-        int height = Window.getClientHeight()
-            - (Gerrit.getHeaderFooterHeight() + 18);
-        cmA.setHeight(height);
-        cmB.setHeight(height);
+        if (!prefs.renderEntireFile()) {
+          // Estimate initial CM3 height, fixed up in onShowView.
+          int height = Window.getClientHeight()
+              - (Gerrit.getHeaderFooterHeight() + 18);
+          cmA.setHeight(height);
+          cmB.setHeight(height);
+        }
 
         render(diff);
         commentManager.render(comments, prefs.expandAllComments());
@@ -623,6 +629,9 @@ public class SideBySide2 extends Screen {
     return new Runnable() {
       @Override
       public void run() {
+        if (prefs.renderEntireFile()) {
+          return;
+        }
         Viewport fromTo = cm.getViewport();
         int size = fromTo.getTo() - fromTo.getFrom() + 1;
         if (cm.getOldViewportSize() == size) {
@@ -762,17 +771,25 @@ public class SideBySide2 extends Screen {
     if (prefs.renderEntireFile()) {
       cmA.addKeyMap(RENDER_ENTIRE_FILE_KEYMAP);
       cmB.addKeyMap(RENDER_ENTIRE_FILE_KEYMAP);
+      cmA.setHeight("");
+      cmB.setHeight("");
     }
 
     cmA.setOption("viewportMargin", prefs.renderEntireFile() ? POSITIVE_INFINITY : 10);
     cmB.setOption("viewportMargin", prefs.renderEntireFile() ? POSITIVE_INFINITY : 10);
+
+    Window.enableScrolling(prefs.renderEntireFile());
+    UIObject.setVisible(diffTable.sidePanelCell, !prefs.renderEntireFile());
+    resizeCodeMirror();
   }
 
   void resizeCodeMirror() {
-    int height = getCodeMirrorHeight();
-    cmA.setHeight(height);
-    cmB.setHeight(height);
-    diffTable.sidePanel.adjustGutters(cmB);
+    if (!prefs.renderEntireFile()) {
+      int height = getCodeMirrorHeight();
+      cmA.setHeight(height);
+      cmB.setHeight(height);
+      diffTable.sidePanel.adjustGutters(cmB);
+    }
   }
 
   private int getCodeMirrorHeight() {

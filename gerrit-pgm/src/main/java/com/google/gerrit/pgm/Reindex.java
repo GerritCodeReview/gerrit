@@ -15,9 +15,13 @@
 package com.google.gerrit.pgm;
 
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
+import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.common.DisabledChangeHooks;
+import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleManager;
@@ -27,16 +31,46 @@ import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.rules.PrologModule;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.InternalUser;
+import com.google.gerrit.server.account.AccountByEmailCacheImpl;
+import com.google.gerrit.server.account.AccountCacheImpl;
+import com.google.gerrit.server.account.CapabilityControl;
+import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.account.GroupCacheImpl;
+import com.google.gerrit.server.account.GroupIncludeCacheImpl;
+import com.google.gerrit.server.account.IncludingGroupMembership;
+import com.google.gerrit.server.account.InternalGroupBackend;
+import com.google.gerrit.server.account.UniversalGroupBackend;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
+import com.google.gerrit.server.change.ChangeKindCache;
+import com.google.gerrit.server.change.MergeabilityChecksExecutor;
+import com.google.gerrit.server.change.PatchSetInserter;
+import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.GitModule;
+import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.git.validators.CommitValidationListener;
+import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.ChangeBatchIndexer;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexModule;
+import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
+import com.google.gerrit.server.project.AccessControlModule;
+import com.google.gerrit.server.project.CommentLinkInfo;
+import com.google.gerrit.server.project.CommentLinkProvider;
+import com.google.gerrit.server.project.ProjectCacheImpl;
+import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.SectionSortCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DataSourceType;
@@ -48,8 +82,11 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Provider;
+import com.google.inject.Provides;
 import com.google.inject.ProvisionException;
+import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
+import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ProgressMonitor;
@@ -155,8 +192,60 @@ public class Reindex extends SiteProgram {
             .toInstance(DynamicSet.<CacheRemovalListener> emptySet());
         install(new DefaultCacheFactory.Module());
         factory(ChangeData.Factory.class);
+
+        factory(ProjectState.Factory.class);
+        bind(new TypeLiteral<List<CommentLinkInfo>>() {})
+            .toProvider(CommentLinkProvider.class).in(SINGLETON);
+        bind(CurrentUser.class).toProvider(Providers.<CurrentUser>of(null));
+        bind(String.class).annotatedWith(CanonicalWebUrl.class)
+            .toProvider(CanonicalWebUrlProvider.class);
+
+        factory(IncludingGroupMembership.Factory.class);
+        bind(GroupBackend.class).to(UniversalGroupBackend.class).in(SINGLETON);
+        DynamicSet.setOf(binder(), GroupBackend.class);
+        bind(InternalGroupBackend.class).in(SINGLETON);
+        DynamicSet.bind(binder(), GroupBackend.class).to(SystemGroupBackend.class);
+        DynamicSet.bind(binder(), GroupBackend.class).to(InternalGroupBackend.class);
+        factory(InternalUser.Factory.class);
+
+        factory(PatchSetInserter.Factory.class);
+        bind(ChangeHooks.class).to(DisabledChangeHooks.class);
+        bind(ReplacePatchSetSender.Factory.class).toProvider(
+            Providers.<ReplacePatchSetSender.Factory>of(null));
+
+        factory(CapabilityControl.Factory.class);
+        factory(MergeUtil.Factory.class);
+        DynamicSet.setOf(binder(), GitReferenceUpdatedListener.class);
+        DynamicSet.setOf(binder(), CommitValidationListener.class);
+        factory(CommitValidators.Factory.class);
       }
     });
+
+    modules.add(AccountCacheImpl.module());
+    modules.add(AccountByEmailCacheImpl.module());
+    modules.add(ChangeKindCache.module());
+    modules.add(GroupCacheImpl.module());
+    modules.add(GroupIncludeCacheImpl.module());
+    modules.add(ProjectCacheImpl.module());
+    modules.add(SectionSortCache.module());
+
+    modules.add(new AccessControlModule());
+    modules.add(new GitModule());
+    modules.add(new PrologModule());
+    modules.add(new AbstractModule() {
+      @Override
+      protected void configure() {
+      }
+
+      @Provides
+      @Singleton
+      @MergeabilityChecksExecutor
+      public WorkQueue.Executor createMergeabilityChecksExecutor(
+          WorkQueue queues) {
+        return queues.createQueue(1, "MergeabilityChecks");
+      }
+    });
+
     return dbInjector.createChildInjector(modules);
   }
 

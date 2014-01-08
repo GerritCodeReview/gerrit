@@ -107,13 +107,12 @@ public class QueryDocumentationExecutor {
   protected Directory readIndexDirectory() throws IOException {
     Directory dir = new RAMDirectory();
     byte[] buffer = new byte[4096];
-    InputStream index =
-        QueryDocumentationExecutor.class.getClassLoader()
-            .getResourceAsStream(INDEX_PATH);
+    InputStream index = getClass().getResourceAsStream(INDEX_PATH);
     if (index == null) {
       log.warn("No index available");
       return null;
     }
+
     ZipInputStream zip = new ZipInputStream(index);
     try {
       ZipEntry entry;

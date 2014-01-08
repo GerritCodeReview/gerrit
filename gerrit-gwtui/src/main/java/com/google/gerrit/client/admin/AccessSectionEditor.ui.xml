@@ -25,6 +25,10 @@ limitations under the License.
   >
 <ui:with field='res' type='com.google.gerrit.client.admin.AdminResources'/>
 <ui:style>
+  @external .panel, .content, .normal, .header, .headerText, .headerTable;
+  @external .name, .nameEdit, .permissionList, .addContainer, .addSelector;
+  @external .deleteIcon, .undoIcon, .deleted;
+
   @eval selectionColor com.google.gerrit.client.Gerrit.getTheme().selectionColor;
   @eval trimColor com.google.gerrit.client.Gerrit.getTheme().trimColor;
 

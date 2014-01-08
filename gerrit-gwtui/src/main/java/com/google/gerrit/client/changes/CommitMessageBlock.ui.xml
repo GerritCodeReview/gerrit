@@ -21,6 +21,9 @@ limitations under the License.
 
   <ui:with field='res' type='com.google.gerrit.client.GerritResources'/>
   <ui:style>
+    @external .commitMessageTable, .header, .contents, .commitSummary, .commitBody;
+    @external .starPanel, .boxTitle, .permalinkPanel;
+
     @eval selectionColor com.google.gerrit.client.Gerrit.getTheme().selectionColor;
     @eval trimColor com.google.gerrit.client.Gerrit.getTheme().trimColor;
     @eval backgroundColor com.google.gerrit.client.Gerrit.getTheme().backgroundColor;

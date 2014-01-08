@@ -24,7 +24,7 @@ limitations under the License.
   ui:generateLocales='default,en'
   >
 <ui:style>
-  @external .gwt-TextArea;
+  @external .commitMessage, .errorMessage, .gwt-TextArea;
 
   .commitMessage {
     margin-top: 2em;

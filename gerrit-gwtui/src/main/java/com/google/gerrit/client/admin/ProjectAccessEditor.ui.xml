@@ -23,6 +23,10 @@ limitations under the License.
   ui:generateLocales='default,en'
   >
 <ui:style>
+  @external .inheritsFrom, .parentTitle, .parentLink;
+  @external .history, .historyTitle, .gitwebLink;
+  @external .addContainer;
+
   .inheritsFrom {
     margin-bottom: 0.5em;
   }

@@ -21,6 +21,8 @@ limitations under the License.
   <ui:with field='patchConstants'
       type='com.google.gerrit.client.patches.PatchConstants'/>
   <ui:style type='com.google.gerrit.client.diff.PatchSetSelectBox2.BoxStyle'>
+    @external .table, .linkCell, .selected, .hidden, .iconCell;
+
     @eval selectionColor com.google.gerrit.client.Gerrit.getTheme().selectionColor;
     .table {
       width: 100%;

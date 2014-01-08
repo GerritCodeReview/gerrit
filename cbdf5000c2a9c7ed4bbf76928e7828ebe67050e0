@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0dc5b95c_f50fb843",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_92.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-08T00:00:15Z",
+      "side": 1,
+      "message": "It is 2014.",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "cbdf5000c2a9c7ed4bbf76928e7828ebe67050e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

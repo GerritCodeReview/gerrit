@@ -253,6 +253,11 @@ public class ProjectConfig extends VersionedMetaData {
     accessSections.put(section.getName(), section);
   }
 
+  public void rewrite(AccessSection section) {
+    accessSections.remove(section.getName());
+    accessSections.put(section.getName(), section);
+  }
+
   public ContributorAgreement getContributorAgreement(String name) {
     return getContributorAgreement(name, false);
   }

@@ -16,8 +16,11 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
@@ -26,6 +29,8 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
@@ -35,12 +40,17 @@ import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
@@ -60,22 +70,25 @@ public final class DeleteGroupCommand extends SshCommand {
   private final GroupCache groupCache;
   private final ProjectCache projectCache;
   private final GroupControl.Factory groupControlFactory;
+  private final MetaDataUpdate.Server metaDataUpdateFactory;
 
   @Inject
   protected DeleteGroupCommand(ReviewDb db,
       CurrentUser currentUser,
       ProjectCache projectCache,
       GroupControl.Factory groupControlFactory,
-      GroupCache groupCache) {
+      GroupCache groupCache,
+      final MetaDataUpdate.Server metaDataUpdateFactory) {
     this.db = db;
     this.currentUser = currentUser;
     this.projectCache = projectCache;
     this.groupCache = groupCache;
     this.groupControlFactory = groupControlFactory;
+    this.metaDataUpdateFactory = metaDataUpdateFactory;
   }
 
   @Override
-  public void run() throws UnloggedFailure, SQLException, OrmException {
+  public void run() throws UnloggedFailure, SQLException, OrmException, IOException, ConfigInvalidException {
     final AccountGroup.NameKey groupNameKey =
         new AccountGroup.NameKey(groupName);
     final AccountGroup group = groupCache.get(groupNameKey);
@@ -106,7 +119,7 @@ public final class DeleteGroupCommand extends SshCommand {
       msgBuilder.append("Really delete group: ");
       msgBuilder.append(groupName);
       msgBuilder.append("?\n");
-      msgBuilder.append("This is an operation which permanently deletes");
+      msgBuilder.append("This is an operation which permanently deletes ");
       msgBuilder.append("data. This cannot be undone!\n");
       msgBuilder.append("If you are sure you wish to delete this group, ");
       msgBuilder.append("re-run\n");
@@ -115,19 +128,81 @@ public final class DeleteGroupCommand extends SshCommand {
     }
 
     if (!aclUsedProjects.isEmpty()) {
-      // TODO(davido): implement auto ACL deletion for each project
-      // if --force is passed
-      String msg = String.format(
-          "Cannot delete group %s,"
-          + " because it is used in this/these project(s): %s.\n"
-          + "Delete the ACL from the WebUI and try again.\n"
-          + "(Sadly enouph, automagic ACL deletion isn't implemented yet!)",
-          group.getName(), Joiner.on(",").join(aclUsedProjects));
-      throw new UnloggedFailure(msg);
+      if (!force) {
+        String msg =
+            String.format("Cannot delete group %s,"
+                + " because it is used in this/these project(s): %s.\n"
+                + "Delete the ACL from the WebUI and try again.\n"
+                + "Or re-run with the --force flag to remove this "
+                + "group and references to it.: ", group.getName(),
+                Joiner.on(",").join(aclUsedProjects));
+        throw new UnloggedFailure(msg);
+      }
+      removeGroupFromProjects(group.getGroupUUID());
     }
 
     delete(group);
     groupCache.evict(group);
+  }
+
+  private void removeGroupFromProjects(AccountGroup.UUID groupUuid)
+      throws IOException, ConfigInvalidException, UnloggedFailure {
+    for (final Project.NameKey projectName : projectCache.all()) {
+      final ProjectState e = projectCache.get(projectName);
+      if (e == null) {
+        // If we can't get it from the cache, pretend its not present.
+        //
+        continue;
+      }
+      List<AccessSection> accessSectionList = new ArrayList<AccessSection>();
+      final ProjectControl pctl = e.controlFor(currentUser);
+      if (pctl.getLocalGroups().contains(
+          GroupReference.forGroup(groupCache.get(groupUuid)))) {
+        try {
+          MetaDataUpdate md = metaDataUpdateFactory.create(projectName);
+
+          ProjectConfig config;
+          config = ProjectConfig.read(md);
+
+          for (AccessSection accessSection : config.getAccessSections()) {
+            AccessSection accessSectionNew = accessSection;
+            List<Permission> permissionList = new ArrayList<Permission>();
+            for (Permission permission : accessSection.getPermissions()) {
+              Iterator<PermissionRule> it = permission.getRules().iterator();
+              while (it.hasNext()) {
+                PermissionRule rule = it.next();
+                if (rule.getGroup().getUUID().equals(groupUuid)) {
+                  it.remove();
+                }
+              }
+              if (!permission.getRules().isEmpty()) {
+                permissionList.add(permission);
+              }
+            }
+            if (!permissionList.isEmpty()) {
+              accessSectionNew.setPermissions(permissionList);
+              accessSectionList.add(accessSectionNew);
+            }
+          }
+          if (accessSectionList.isEmpty()) {
+            Iterator<AccessSection> it = config.getAccessSections().iterator();
+            while (it.hasNext()) {
+              AccessSection accessSection = it.next();
+              config.remove(accessSection);
+            }
+          } else {
+            for (AccessSection accessSection : accessSectionList) {
+              config.rewrite(accessSection);
+            }
+          }
+          md.setMessage("Delete Group " + groupName);
+          config.commit(md);
+
+        } catch (RepositoryNotFoundException exception) {
+          throw new UnloggedFailure(1, "Repository not found");
+        }
+      }
+    }
   }
 
   private void delete(AccountGroup group) throws SQLException, OrmException {

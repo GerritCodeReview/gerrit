@@ -21,6 +21,8 @@ limitations under the License.
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <ui:with field='res' type='com.google.gerrit.client.diff.Resources'/>
   <ui:style>
+    @external .draft, .editArea, .discard;
+
     .draft {
       width: 45px;
       text-align: center;

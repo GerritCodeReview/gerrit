@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0dc5b95c_753d68da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-08T00:11:30Z",
+      "side": 1,
+      "message": "s/buffer/register/ if we\u0027re being picky :)\n\nBut this describes the insert mode behavior, whereas almost every binding refers to the command mode behavior. A more accurate description would be \"it means redo a change which was undone\", which nonetheless is useless on a read-only buffer.",
+      "range": {
+        "startLine": 11,
+        "startChar": 32,
+        "endLine": 11,
+        "endChar": 38
+      },
+      "revId": "c71da52393483918a5b2dcb9da6779ed3ce027d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

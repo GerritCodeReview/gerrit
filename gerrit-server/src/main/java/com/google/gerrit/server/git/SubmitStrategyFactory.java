@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -22,7 +21,6 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.changedetail.RebaseChange;
-import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -30,7 +28,6 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -63,7 +60,6 @@ public class SubmitStrategyFactory {
       final IdentifiedUser.GenericFactory identifiedUserFactory,
       @GerritPersonIdent final PersonIdent myIdent,
       final PatchSetInfoFactory patchSetInfoFactory,
-      @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
       final GitReferenceUpdated gitRefUpdated, final RebaseChange rebaseChange,
       final ProjectCache projectCache,
       final ApprovalsUtil approvalsUtil,

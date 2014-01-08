@@ -15,6 +15,8 @@
 package com.google.gerrit.server.documentation;
 
 public class Constants {
+  public static final String PACKAGE = "com/google/gerrit/server/documentation";
+  public static final String INDEX_ZIP = "index.zip";
 
   public static final String DOC_FIELD = "doc";
   public static final String TITLE_FIELD = "title";

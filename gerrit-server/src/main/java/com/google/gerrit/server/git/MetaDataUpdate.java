@@ -93,7 +93,7 @@ public class MetaDataUpdate {
     }
   }
 
-  interface InternalFactory {
+  public interface InternalFactory {
     MetaDataUpdate create(@Assisted Project.NameKey projectName,
         @Assisted Repository db);
   }

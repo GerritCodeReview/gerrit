@@ -14,6 +14,7 @@
 
 package com.google.gerrit.plugin.client;
 
+import com.google.gerrit.plugin.client.screen.Screen;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 
@@ -49,6 +50,35 @@ public final class Plugin extends JavaScriptObject {
   public final native void refresh()
   /*-{ return this.refresh() }-*/;
 
+  /**
+   * Register a screen displayed at {@code /#/x/plugin/token}.
+   *
+   * @param token literal anchor token appearing after the plugin name. For
+   *        regular expression matching use {@code screenRegex()} .
+   * @param entry callback function invoked to create the screen widgets.
+   */
+  public final void screen(String token, Screen.EntryPoint entry) {
+    screen(token, wrap(entry));
+  }
+
+  private final native void screen(String t, JavaScriptObject e)
+  /*-{ this.screen(t, e) }-*/;
+
+  /**
+   * Register a screen displayed at {@code /#/x/plugin/regex}.
+   *
+   * @param regex JavaScript {@code RegExp} expression to match the anchor token
+   *        after the plugin name. Matching groups are exposed through the
+   *        {@code Screen} object passed into the {@code Screen.EntryPoint}.
+   * @param entry callback function invoked to create the screen widgets.
+   */
+  public final void screenRegex(String regex, Screen.EntryPoint entry) {
+    screenRegex(regex, wrap(entry));
+  }
+
+  private final native void screenRegex(String p, JavaScriptObject e)
+  /*-{ this.screen(new $wnd.RegExp(p), e) }-*/;
+
   protected Plugin() {
   }
 
@@ -56,4 +86,11 @@ public final class Plugin extends JavaScriptObject {
   native void _loaded() /*-{ this._loadedGwt() }-*/;
   private static native final Plugin install(String u)
   /*-{ return $wnd.Gerrit.installGwt(u) }-*/;
+
+  private static final native JavaScriptObject wrap(Screen.EntryPoint b) /*-{
+    return $entry(function(c){
+      b.@com.google.gerrit.plugin.client.screen.Screen.EntryPoint::onLoad(Lcom/google/gerrit/plugin/client/screen/Screen;)(
+        @com.google.gerrit.plugin.client.screen.Screen::new(Lcom/google/gerrit/plugin/client/screen/Screen$Context;)(c));
+    });
+  }-*/;
 }

@@ -15,8 +15,6 @@
 package com.google.gerrit.client.api;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.rpc.NativeString;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.History;
@@ -26,17 +24,20 @@ public class ApiGlue {
   private static String pluginName;
 
   public static void init() {
-    init0(GWT.getHostPageBaseURL(), NativeString.TYPE);
+    init0();
     ActionContext.init();
     Plugin.init();
     addHistoryHook();
   }
 
-  private static native void init0(String serverUrl, JavaScriptObject JsonString) /*-{
+  private static native void init0() /*-{
+    var serverUrl = @com.google.gwt.core.client.GWT::getHostPageBaseURL()();
+    var ScreenDefinition = @com.google.gerrit.client.api.ExtensionScreen.Definition::TYPE;
     $wnd.Gerrit = {
-      JsonString: JsonString,
+      JsonString: @com.google.gerrit.client.rpc.NativeString::TYPE,
       events: {},
       plugins: {},
+      screens: {},
       change_actions: {},
       revision_actions: {},
       project_actions: {},
@@ -63,6 +64,12 @@ public class ApiGlue {
         if ('change' == t) this.change_actions[i]=c;
         else if ('revision' == t) this.revision_actions[i]=c;
         else if ('project' == t) this.project_actions[i]=c;
+        else if ('screen' == t) _screen(p,t,c);
+      },
+      screen: function(r,c){this._screen(this.getPluginName(),r,c)},
+      _screen: function(p,r,c){
+        var s = new ScreenDefinition(r,c);
+        (this.screens[p] || (this.screens[p]=[])).push(s);
       },
 
       url: function (d) {

@@ -712,7 +712,7 @@ public class SideBySide2 extends Screen {
             String b = base != null ? String.valueOf(base.get()) : null;
             String rev = String.valueOf(revision.get());
             Gerrit.display(
-              PageLinks.toChange(changeId, rev),
+              PageLinks.toChange(changeId, b, rev),
               new ChangeScreen2(changeId, b, rev, openReplyBox));
           }
         });

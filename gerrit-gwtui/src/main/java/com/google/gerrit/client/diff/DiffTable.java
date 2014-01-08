@@ -56,6 +56,7 @@ class DiffTable extends Composite {
   @UiField Element patchSetNavRow;
   @UiField Element patchSetNavCellA;
   @UiField Element patchSetNavCellB;
+  @UiField Element sidePanelCell;
   @UiField FlowPanel widgets;
   @UiField static DiffTableStyle style;
 

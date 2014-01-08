@@ -30,7 +30,6 @@ import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
-import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -69,7 +68,6 @@ public class IdentifiedUser extends CurrentUser {
     private final AuthConfig authConfig;
     private final String anonymousCowardName;
     private final Provider<String> canonicalUrl;
-    private final Realm realm;
     private final AccountCache accountCache;
     private final GroupBackend groupBackend;
 
@@ -79,14 +77,12 @@ public class IdentifiedUser extends CurrentUser {
         AuthConfig authConfig,
         @AnonymousCowardName String anonymousCowardName,
         @CanonicalWebUrl Provider<String> canonicalUrl,
-        Realm realm,
         AccountCache accountCache,
         GroupBackend groupBackend) {
       this.capabilityControlFactory = capabilityControlFactory;
       this.authConfig = authConfig;
       this.anonymousCowardName = anonymousCowardName;
       this.canonicalUrl = canonicalUrl;
-      this.realm = realm;
       this.accountCache = accountCache;
       this.groupBackend = groupBackend;
     }
@@ -97,20 +93,20 @@ public class IdentifiedUser extends CurrentUser {
 
     public IdentifiedUser create(Provider<ReviewDb> db, Account.Id id) {
       return new IdentifiedUser(capabilityControlFactory,
-          authConfig, anonymousCowardName, canonicalUrl, realm, accountCache,
+          authConfig, anonymousCowardName, canonicalUrl, accountCache,
           groupBackend, null, db, id, null);
     }
 
     public IdentifiedUser create(SocketAddress remotePeer, Account.Id id) {
       return new IdentifiedUser(capabilityControlFactory,
-          authConfig, anonymousCowardName, canonicalUrl, realm, accountCache,
+          authConfig, anonymousCowardName, canonicalUrl, accountCache,
           groupBackend, Providers.of(remotePeer), null, id,  null);
     }
 
     public CurrentUser runAs(SocketAddress remotePeer, Account.Id id,
         @Nullable CurrentUser caller) {
       return new IdentifiedUser(capabilityControlFactory,
-          authConfig, anonymousCowardName, canonicalUrl, realm, accountCache,
+          authConfig, anonymousCowardName, canonicalUrl, accountCache,
           groupBackend, Providers.of(remotePeer), null, id, caller);
     }
   }
@@ -127,7 +123,6 @@ public class IdentifiedUser extends CurrentUser {
     private final AuthConfig authConfig;
     private final String anonymousCowardName;
     private final Provider<String> canonicalUrl;
-    private final Realm realm;
     private final AccountCache accountCache;
     private final GroupBackend groupBackend;
 
@@ -140,7 +135,7 @@ public class IdentifiedUser extends CurrentUser {
         final AuthConfig authConfig,
         final @AnonymousCowardName String anonymousCowardName,
         final @CanonicalWebUrl Provider<String> canonicalUrl,
-        final Realm realm, final AccountCache accountCache,
+        final AccountCache accountCache,
         final GroupBackend groupBackend,
 
         final @RemotePeer Provider<SocketAddress> remotePeerProvider,
@@ -149,7 +144,6 @@ public class IdentifiedUser extends CurrentUser {
       this.authConfig = authConfig;
       this.anonymousCowardName = anonymousCowardName;
       this.canonicalUrl = canonicalUrl;
-      this.realm = realm;
       this.accountCache = accountCache;
       this.groupBackend = groupBackend;
 
@@ -159,13 +153,13 @@ public class IdentifiedUser extends CurrentUser {
 
     public IdentifiedUser create(Account.Id id) {
       return new IdentifiedUser(capabilityControlFactory,
-          authConfig, anonymousCowardName, canonicalUrl, realm, accountCache,
+          authConfig, anonymousCowardName, canonicalUrl, accountCache,
           groupBackend, remotePeerProvider, dbProvider, id, null);
     }
 
     public IdentifiedUser runAs(Account.Id id, CurrentUser caller) {
       return new IdentifiedUser(capabilityControlFactory,
-          authConfig, anonymousCowardName, canonicalUrl, realm, accountCache,
+          authConfig, anonymousCowardName, canonicalUrl, accountCache,
           groupBackend, remotePeerProvider, dbProvider, id, caller);
     }
   }
@@ -205,7 +199,7 @@ public class IdentifiedUser extends CurrentUser {
       final AuthConfig authConfig,
       final String anonymousCowardName,
       final Provider<String> canonicalUrl,
-      final Realm realm, final AccountCache accountCache,
+      final AccountCache accountCache,
       final GroupBackend groupBackend,
       @Nullable final Provider<SocketAddress> remotePeerProvider,
       @Nullable final Provider<ReviewDb> dbProvider,

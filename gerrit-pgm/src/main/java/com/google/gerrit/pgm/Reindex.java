@@ -15,29 +15,79 @@
 package com.google.gerrit.pgm;
 
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
+import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.common.DisabledChangeHooks;
+import com.google.gerrit.extensions.config.DownloadCommand;
+import com.google.gerrit.extensions.config.DownloadScheme;
+import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.util.SiteProgram;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.rules.PrologModule;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.InternalUser;
+import com.google.gerrit.server.account.AccountByEmailCacheImpl;
+import com.google.gerrit.server.account.AccountCacheImpl;
+import com.google.gerrit.server.account.AccountInfo;
+import com.google.gerrit.server.account.CapabilityControl;
+import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.account.GroupCacheImpl;
+import com.google.gerrit.server.account.GroupIncludeCacheImpl;
+import com.google.gerrit.server.account.IncludingGroupMembership;
+import com.google.gerrit.server.account.InternalGroupBackend;
+import com.google.gerrit.server.account.UniversalGroupBackend;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
+import com.google.gerrit.server.change.ChangeKindCache;
+import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.MergeabilityChecksExecutor;
+import com.google.gerrit.server.change.PatchSetInserter;
+import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.config.CanonicalWebUrlModule;
+import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.GitReceivePackGroups;
+import com.google.gerrit.server.config.GitReceivePackGroupsProvider;
+import com.google.gerrit.server.config.GitUploadPackGroups;
+import com.google.gerrit.server.config.GitUploadPackGroupsProvider;
+import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.git.validators.CommitValidationListener;
+import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.ChangeBatchIndexer;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexModule;
+import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.CommentLinkInfo;
+import com.google.gerrit.server.project.CommentLinkProvider;
+import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.ProjectCacheImpl;
+import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.SectionSortCache;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.solr.SolrIndexModule;
@@ -48,7 +98,9 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Provider;
+import com.google.inject.Provides;
 import com.google.inject.ProvisionException;
+import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 
 import org.eclipse.jgit.lib.Config;
@@ -154,9 +206,161 @@ public class Reindex extends SiteProgram {
         bind(new TypeLiteral<DynamicSet<CacheRemovalListener>>() {})
             .toInstance(DynamicSet.<CacheRemovalListener> emptySet());
         install(new DefaultCacheFactory.Module());
+
+        bind(new TypeLiteral<DynamicMap<DownloadCommand>>() {})
+            .toInstance(DynamicMap.<DownloadCommand> emptyMap());
+        bind(new TypeLiteral<DynamicMap<DownloadScheme>>() {})
+            .toInstance(DynamicMap.<DownloadScheme> emptyMap());
+        bind(new TypeLiteral<DynamicMap<RestView<ChangeResource>>>() {})
+            .toInstance(DynamicMap.<RestView<ChangeResource>> emptyMap());
+        bind(new TypeLiteral<DynamicMap<RestView<RevisionResource>>>() {})
+            .toInstance(DynamicMap.<RestView<RevisionResource>> emptyMap());
+
         factory(ChangeData.Factory.class);
+        factory(ProjectState.Factory.class);
+        bind(new TypeLiteral<List<CommentLinkInfo>>() {})
+            .toProvider(CommentLinkProvider.class).in(SINGLETON);
+
+        factory(ProjectControl.AssistedFactory.class);
+        factory(ChangeControl.AssistedFactory.class);
+        bind(new TypeLiteral<Set<AccountGroup.UUID>>() {})
+          .annotatedWith(GitUploadPackGroups.class)
+          .toProvider(GitUploadPackGroupsProvider.class).in(SINGLETON);
+        bind(new TypeLiteral<Set<AccountGroup.UUID>>() {})
+          .annotatedWith(GitReceivePackGroups.class)
+          .toProvider(GitReceivePackGroupsProvider.class).in(SINGLETON);
+        factory(InternalUser.Factory.class);
+
+        factory(IncludingGroupMembership.Factory.class);
+        bind(GroupBackend.class).to(UniversalGroupBackend.class).in(SINGLETON);
+        DynamicSet.setOf(binder(), GroupBackend.class);
+        bind(InternalGroupBackend.class).in(SINGLETON);
+        DynamicSet.bind(binder(), GroupBackend.class).to(SystemGroupBackend.class);
+        DynamicSet.bind(binder(), GroupBackend.class).to(InternalGroupBackend.class);
+        factory(PatchSetInserter.Factory.class);
+        bind(ChangeHooks.class).to(DisabledChangeHooks.class);
+
+        factory(CapabilityControl.Factory.class);
+        factory(MergeUtil.Factory.class);
+        DynamicSet.setOf(binder(), GitReferenceUpdatedListener.class);
+        DynamicSet.setOf(binder(), CommitValidationListener.class);
+        factory(CommitValidators.Factory.class);
+
+        factory(MetaDataUpdate.InternalFactory.class);
+        bind(MetaDataUpdate.Server.class);
+
+        // reindexing isn't creating any new patch sets and hence the ReplacePatchSetSender is not used,
+        // return a NoOp-ReplacePatchSetSender to avoid possible NPEs
+        bind(ReplacePatchSetSender.Factory.class).toProvider(new Provider<ReplacePatchSetSender.Factory>() {
+          @Override
+          public ReplacePatchSetSender.Factory get() {
+            return new ReplacePatchSetSender.Factory() {
+              @Override
+              public ReplacePatchSetSender create(Change change) {
+                return new ReplacePatchSetSender(null, null) {
+                  @Override
+                  protected void init() {
+                  }
+
+                  @Override
+                  public void send() {
+                  }
+                };
+              }
+            };
+          }
+        });
+
+        // MergeabilityChecker is using the Mergeable REST endpoint to update
+        // the mergeable flag. The Mergeable REST endpoint requires a
+        // RevisionResource which wraps a ChangeResource. To create the
+        // ChangeResource MergeabilityChecker is using the parse(Change.Id)
+        // method of ChangesCollection. To be able to get ChangesCollection
+        // injected a provider for ChangeQueryBuilder.Factory and
+        // AccountInfo.Loader.Factory need to be bound, but they will not be
+        // used during reindexing (the are only needed during the list() method
+        // of ChangesCollection which is not used during reindex).
+        bind(ChangeQueryBuilder.Factory.class).toProvider(new Provider<ChangeQueryBuilder.Factory>() {
+          @Override
+          public ChangeQueryBuilder.Factory get() {
+            return null;
+          }
+        });
+        bind(AccountInfo.Loader.Factory.class).toProvider(new Provider<AccountInfo.Loader.Factory>() {
+          @Override
+          public AccountInfo.Loader.Factory get() {
+            return null;
+          }
+        });
+
+        // ChangesCollection checks that the current user can see the change.
+        // During reindex there is no current user, but all changes should be
+        // visible to the reindexer. Since the change owner can always see the
+        // own change, the change owner is used to create the ChangeControl.
+        bind(CurrentUser.class).toProvider(new Provider<CurrentUser>() {
+          @Override
+          public CurrentUser get() {
+            return null;
+          }
+        });
+        bind(ChangeControl.GenericFactory.class).toProvider(
+            new Provider<ChangeControl.GenericFactory>() {
+          @Override
+              public ChangeControl.GenericFactory get() {
+                return new ChangeControl.GenericFactory(
+                    sysInjector.getInstance(ProjectControl.GenericFactory.class),
+                    sysInjector.getProvider(ReviewDb.class)) {
+
+              @Override
+              public ChangeControl validateFor(Change change, CurrentUser user)
+                  throws NoSuchChangeException, OrmException {
+                    return super.validateFor(change,
+                        sysInjector.getInstance(IdentifiedUser.GenericFactory.class)
+                            .create(change.getOwner()));
+              }
+
+              @Override
+              public ChangeControl controlFor(Change change, CurrentUser user)
+                  throws NoSuchChangeException {
+                    return super.controlFor(change,
+                        sysInjector.getInstance(IdentifiedUser.GenericFactory.class)
+                            .create(change.getOwner()));
+              }
+            };
+          }
+        });
       }
     });
+
+    modules.add(AccountCacheImpl.module());
+    modules.add(AccountByEmailCacheImpl.module());
+    modules.add(ChangeKindCache.module());
+    modules.add(GroupCacheImpl.module());
+    modules.add(GroupIncludeCacheImpl.module());
+    modules.add(ProjectCacheImpl.module());
+    modules.add(SectionSortCache.module());
+
+    modules.add(new CanonicalWebUrlModule() {
+      @Override
+      protected Class<? extends Provider<String>> provider() {
+        return CanonicalWebUrlProvider.class;
+      }
+    });
+    modules.add(new PrologModule());
+    modules.add(new AbstractModule() {
+      @Override
+      protected void configure() {
+      }
+
+      @Provides
+      @Singleton
+      @MergeabilityChecksExecutor
+      public WorkQueue.Executor createMergeabilityChecksExecutor(
+          WorkQueue queues) {
+        return queues.createQueue(1, "MergeabilityChecks");
+      }
+    });
+
     return dbInjector.createChildInjector(modules);
   }
 

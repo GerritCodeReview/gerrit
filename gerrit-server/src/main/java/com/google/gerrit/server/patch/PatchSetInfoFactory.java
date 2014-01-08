@@ -25,6 +25,7 @@ import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -47,11 +48,11 @@ import java.util.Set;
 @Singleton
 public class PatchSetInfoFactory {
   private final GitRepositoryManager repoManager;
-  private final AccountByEmailCache byEmailCache;
+  private final Provider<AccountByEmailCache> byEmailCache;
 
   @Inject
   public PatchSetInfoFactory(final GitRepositoryManager grm,
-      final AccountByEmailCache byEmailCache) {
+      final Provider<AccountByEmailCache> byEmailCache) {
     this.repoManager = grm;
     this.byEmailCache = byEmailCache;
   }
@@ -113,7 +114,7 @@ public class PatchSetInfoFactory {
     // If only one account has access to this email address, select it
     // as the identity of the user.
     //
-    final Set<Account.Id> a = byEmailCache.get(u.getEmail());
+    final Set<Account.Id> a = byEmailCache.get().get(u.getEmail());
     if (a.size() == 1) {
       u.setAccount(a.iterator().next());
     }

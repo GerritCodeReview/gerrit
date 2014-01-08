@@ -32,6 +32,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.systemstatus.MessageOfTheDay;
 import com.google.gerrit.extensions.webui.TopMenu;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.rules.PrologModule;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.AnonymousUser;
@@ -130,6 +131,7 @@ import com.google.inject.internal.UniqueAnnotations;
 import org.apache.velocity.runtime.RuntimeInstance;
 
 import java.util.List;
+import java.util.Set;
 
 
 /** Starts global state with standard dependencies. */
@@ -200,6 +202,9 @@ public class GerritGlobalModule extends FactoryModule {
     bind(AccountVisibility.class)
         .toProvider(AccountVisibilityProvider.class)
         .in(SINGLETON);
+    bind(new TypeLiteral<Set<AccountGroup.UUID>>() {})
+        .annotatedWith(ProjectOwnerGroups.class)
+        .toProvider(ProjectOwnerGroupsProvider.class).in(SINGLETON);
 
     bind(AuthBackend.class).to(UniversalAuthBackend.class).in(SINGLETON);
     DynamicSet.setOf(binder(), AuthBackend.class);

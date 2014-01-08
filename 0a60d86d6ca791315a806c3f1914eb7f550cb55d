@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "adc02d69_3afaa1e9",
+        "filename": "lib/asciidoctor/java/DocIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2014-01-08T21:59:25Z",
+      "side": 1,
+      "message": "Maybe consider using a constant for the path?",
+      "range": {
+        "startLine": 88,
+        "startChar": 35,
+        "endLine": 88,
+        "endChar": 83
+      },
+      "revId": "0a60d86d6ca791315a806c3f1914eb7f550cb55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

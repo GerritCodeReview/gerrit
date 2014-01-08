@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d9e096b_b11e2070",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-08T18:29:17Z",
+      "side": 1,
+      "message": "This variable appears to be the same as cntAll above. Why did we need cntAll2?",
+      "revId": "aa97468dabf0e9f029ce35a4ece24c76d27c6abe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d9e096b_1157ec1c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-08T18:29:17Z",
+      "side": 1,
+      "message": "You are using indexes from cList to iterate through dList. This will never work.",
+      "range": {
+        "startLine": 564,
+        "startChar": 8,
+        "endLine": 565,
+        "endChar": 39
+      },
+      "revId": "aa97468dabf0e9f029ce35a4ece24c76d27c6abe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d9e096b_f128a89a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-08T18:29:17Z",
+      "side": 1,
+      "message": "Comments that have been replied to with a draft are no longer new.",
+      "revId": "aa97468dabf0e9f029ce35a4ece24c76d27c6abe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

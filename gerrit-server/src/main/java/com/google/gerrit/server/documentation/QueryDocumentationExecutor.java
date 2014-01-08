@@ -44,7 +44,6 @@ public class QueryDocumentationExecutor {
   private static final Logger log =
       LoggerFactory.getLogger(QueryDocumentationExecutor.class);
 
-  private static final String INDEX_PATH = "index.zip";
   private static final Version LUCENE_VERSION = Version.LUCENE_46;
 
   private IndexSearcher searcher;
@@ -107,13 +106,12 @@ public class QueryDocumentationExecutor {
   protected Directory readIndexDirectory() throws IOException {
     Directory dir = new RAMDirectory();
     byte[] buffer = new byte[4096];
-    InputStream index =
-        QueryDocumentationExecutor.class.getClassLoader()
-            .getResourceAsStream(INDEX_PATH);
+    InputStream index = getClass().getResourceAsStream(Constants.INDEX_ZIP);
     if (index == null) {
       log.warn("No index available");
       return null;
     }
+
     ZipInputStream zip = new ZipInputStream(index);
     try {
       ZipEntry entry;

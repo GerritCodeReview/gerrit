@@ -40,7 +40,6 @@ import com.google.gerrit.server.notedb.ReviewerState;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.TimeUtil;
@@ -88,7 +87,6 @@ public class PatchSetInserter {
   private final MergeabilityChecker mergeabilityChecker;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
   private final ApprovalsUtil approvalsUtil;
-  private final ChangeKindCache changeKindCache;
 
   private final Repository git;
   private final RevWalk revWalk;
@@ -115,7 +113,6 @@ public class PatchSetInserter {
       CommitValidators.Factory commitValidatorsFactory,
       MergeabilityChecker mergeabilityChecker,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
-      ChangeKindCache changeKindCache,
       @Assisted Repository git,
       @Assisted RevWalk revWalk,
       @Assisted ChangeControl ctl,
@@ -132,7 +129,6 @@ public class PatchSetInserter {
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.mergeabilityChecker = mergeabilityChecker;
     this.replacePatchSetFactory = replacePatchSetFactory;
-    this.changeKindCache = changeKindCache;
 
     this.git = git;
     this.revWalk = revWalk;
@@ -272,17 +268,7 @@ public class PatchSetInserter {
       }
 
       if (copyLabels) {
-        PatchSet priorPatchSet = db.patchSets().get(currentPatchSetId);
-        ObjectId priorCommitId =
-            ObjectId.fromString(priorPatchSet.getRevision().get());
-        RevCommit priorCommit = revWalk.parseCommit(priorCommitId);
-        ProjectState projectState =
-            ctl.getProjectControl().getProjectState();
-        ChangeKind changeKind = changeKindCache.getChangeKind(
-            projectState, git, priorCommit, commit);
-        approvalsUtil.copyLabels(db, ctl.getNotes(),
-            ctl.getProjectControl().getLabelTypes(), currentPatchSetId,
-            patchSet, changeKind);
+        approvalsUtil.copyLabels(db, ctl, patchSet.getId());
       }
       db.commit();
       update.commit();

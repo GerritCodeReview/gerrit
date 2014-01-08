@@ -18,7 +18,6 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromReviewers;
-
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
@@ -57,7 +56,6 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -70,8 +68,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeInserter;
-import com.google.gerrit.server.change.ChangeKind;
-import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.MergeabilityChecker;
 import com.google.gerrit.server.change.RevisionResource;
@@ -89,15 +85,14 @@ import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.notedb.ReviewerState;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.util.RequestScopePropagator;
@@ -257,7 +252,7 @@ public class ReceiveCommits {
 
   private final IdentifiedUser currentUser;
   private final ReviewDb db;
-  private final ChangeNotes.Factory notesFactory;
+  private final ChangeData.Factory changeDataFactory;
   private final ChangeUpdate.Factory updateFactory;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final AccountResolver accountResolver;
@@ -285,7 +280,6 @@ public class ReceiveCommits {
   private final SshInfo sshInfo;
   private final AllProjectsName allProjectsName;
   private final ReceiveConfig receiveConfig;
-  private final ChangeKindCache changeKindCache;
 
   private final ProjectControl projectControl;
   private final Project project;
@@ -322,7 +316,7 @@ public class ReceiveCommits {
   @Inject
   ReceiveCommits(final ReviewDb db,
       final SchemaFactory<ReviewDb> schemaFactory,
-      final ChangeNotes.Factory notesFactory,
+      final ChangeData.Factory changeDataFactory,
       final ChangeUpdate.Factory updateFactory,
       final AccountResolver accountResolver,
       final CmdLineParser.Factory optionParserFactory,
@@ -355,11 +349,10 @@ public class ReceiveCommits {
       @Assisted final Repository repo,
       final SubmoduleOp.Factory subOpFactory,
       final Provider<Submit> submitProvider,
-      final MergeQueue mergeQueue,
-      final ChangeKindCache changeKindCache) throws IOException {
+      final MergeQueue mergeQueue) throws IOException {
     this.currentUser = (IdentifiedUser) projectControl.getCurrentUser();
     this.db = db;
-    this.notesFactory = notesFactory;
+    this.changeDataFactory = changeDataFactory;
     this.updateFactory = updateFactory;
     this.schemaFactory = schemaFactory;
     this.accountResolver = accountResolver;
@@ -387,7 +380,6 @@ public class ReceiveCommits {
     this.sshInfo = sshInfo;
     this.allProjectsName = allProjectsName;
     this.receiveConfig = config;
-    this.changeKindCache = changeKindCache;
 
     this.projectControl = projectControl;
     this.labelTypes = projectControl.getLabelTypes();
@@ -1680,7 +1672,6 @@ public class ReceiveCommits {
     ChangeMessage msg;
     String mergedIntoRef;
     boolean skip;
-    ChangeKind changeKind;
     private PatchSet.Id priorPatchSet;
 
     ReplaceRequest(final Change.Id toChange, final RevCommit newCommit,
@@ -1689,7 +1680,6 @@ public class ReceiveCommits {
       this.newCommit = newCommit;
       this.inputCommand = cmd;
       this.checkMergedInto = checkMergedInto;
-      this.changeKind = ChangeKind.REWORK;
 
       revisions = HashBiMap.create();
       for (Ref ref : refs(toChange)) {
@@ -1791,9 +1781,6 @@ public class ReceiveCommits {
         }
       }
 
-      changeKind = changeKindCache.getChangeKind(
-          projectControl.getProjectState(), repo, priorCommit, newCommit);
-
       PatchSet.Id id =
           ChangeUtil.nextPatchSetId(allRefs, change.currentPatchSetId());
       newPatchSet = new PatchSet(id);
@@ -1868,13 +1855,10 @@ public class ReceiveCommits {
           mergedIntoRef = mergedInto != null ? mergedInto.getName() : null;
         }
 
-        Collection<PatchSetApproval> oldChangeApprovals =
-            approvalsUtil.byChange(db, notesFactory.create(change)).values();
-        SetMultimap<ReviewerState, Account.Id> reviewers =
-            ApprovalsUtil.getReviewers(oldChangeApprovals);
-        MailRecipients oldRecipients = getRecipientsFromReviewers(reviewers);
-        approvalsUtil.copyLabels(db, labelTypes, oldChangeApprovals,
-            priorPatchSet, newPatchSet, changeKind);
+        ChangeData cd = changeDataFactory.create(db, changeCtl);
+        MailRecipients oldRecipients =
+            getRecipientsFromReviewers(cd.reviewers());
+        approvalsUtil.copyLabels(db, changeCtl, newPatchSet.getId());
         approvalsUtil.addReviewers(db, update, labelTypes, change, newPatchSet,
             info, recipients.getReviewers(), oldRecipients.getAll());
         recipients.add(oldRecipients);

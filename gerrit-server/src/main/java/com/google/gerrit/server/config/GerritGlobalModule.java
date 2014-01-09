@@ -71,7 +71,6 @@ import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.MergeabilityChecker;
-import com.google.gerrit.server.documentation.QueryDocumentationExecutor;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.ChangeCache;
@@ -146,7 +145,6 @@ public class GerritGlobalModule extends FactoryModule {
   protected void configure() {
     bind(EmailExpander.class).toProvider(EmailExpanderProvider.class).in(
         SINGLETON);
-    bind(QueryDocumentationExecutor.class).in(SINGLETON);
 
     bind(IdGenerator.class);
     bind(RulesCache.class);

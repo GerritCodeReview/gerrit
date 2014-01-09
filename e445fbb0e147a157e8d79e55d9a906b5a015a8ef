@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cdf801d5_43ed8631",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2014-01-09T11:35:21Z",
+      "side": 1,
+      "message": "This is inaccurate. If a score was given and then removed, -Code-Review will be displayed (which is good).",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 28
+      },
+      "revId": "e445fbb0e147a157e8d79e55d9a906b5a015a8ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

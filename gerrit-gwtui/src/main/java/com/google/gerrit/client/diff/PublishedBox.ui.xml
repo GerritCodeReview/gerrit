@@ -20,6 +20,8 @@ limitations under the License.
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <ui:with field='res' type='com.google.gerrit.client.diff.Resources'/>
   <ui:style type='com.google.gerrit.client.diff.PublishedBox.Style'>
+    @external .avatar, .closed, .name;
+
     .avatar {
       position: absolute;
       width: 26px;

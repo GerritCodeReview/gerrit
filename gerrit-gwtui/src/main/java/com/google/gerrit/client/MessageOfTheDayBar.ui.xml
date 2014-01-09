@@ -19,6 +19,8 @@ limitations under the License.
     xmlns:c='urn:import:com.google.gwtexpui.globalkey.client'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <ui:style>
+    @external .popup, .message, .action;
+
     .popup {
       position: fixed;
       top: 5px;

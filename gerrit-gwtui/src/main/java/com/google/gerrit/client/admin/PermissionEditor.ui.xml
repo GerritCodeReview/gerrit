@@ -25,6 +25,9 @@ limitations under the License.
   >
 <ui:with field='res' type='com.google.gerrit.client.admin.AdminResources'/>
 <ui:style>
+  @external .panel, .normal, .header, .name, .deleteIcon;
+  @external .exclusiveGroup, .addContainer, .addLink;
+
   @eval selectionColor com.google.gerrit.client.Gerrit.getTheme().selectionColor;
   @eval backgroundColor com.google.gerrit.client.Gerrit.getTheme().backgroundColor;
 
@@ -38,14 +41,14 @@ limitations under the License.
     margin-bottom: -1px;
   }
 
-  .header {
+  div.panel .header {
     padding-left: 5px;
     padding-right: 5px;
     padding-bottom: 1px;
     white-space: nowrap;
   }
 
-  .header:hover {
+  .div.panel header:hover {
     background-color: selectionColor;
   }
 

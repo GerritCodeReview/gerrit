@@ -19,6 +19,8 @@ limitations under the License.
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <ui:with field='res' type='com.google.gerrit.client.change.Resources'/>
   <ui:style type='com.google.gerrit.client.change.ReplyBox.Styles'>
+    @external .replyBox, .label_name, .label_help, .label_value, .cancel, .comments;
+
     .replyBox {
     }
     .label_name {

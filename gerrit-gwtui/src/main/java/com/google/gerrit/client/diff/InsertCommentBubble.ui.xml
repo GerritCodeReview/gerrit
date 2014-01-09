@@ -19,6 +19,8 @@ limitations under the License.
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <ui:with field='res' type='com.google.gerrit.client.GerritResources'/>
   <ui:style>
+    @external .bubble, .message;
+
     .bubble {
       z-index: 150;
       white-space: nowrap;

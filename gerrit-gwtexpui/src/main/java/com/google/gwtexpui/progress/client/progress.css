@@ -13,6 +13,8 @@
  * limitations under the License.
  */
 
+@external .*;
+
 .container {
   position: relative;
   border: 1px solid #6B90DA;

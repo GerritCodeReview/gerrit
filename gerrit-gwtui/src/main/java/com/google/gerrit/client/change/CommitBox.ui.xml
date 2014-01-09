@@ -21,6 +21,9 @@ limitations under the License.
     xmlns:clippy='urn:import:com.google.gwtexpui.clippy.client'>
   <ui:image field="toggle" src="more_less.png"/>
   <ui:style type='com.google.gerrit.client.change.CommitBox.Style'>
+    @external .collapsed, .scroll, .text, .more, .moreButton, .toggle;
+    @external .expanded, .header, .date, .clippy;
+
     @eval trimColor com.google.gerrit.client.Gerrit.getTheme().trimColor;
 
     .collapsed .scroll { height: 250px }
@@ -62,7 +65,7 @@ limitations under the License.
     .collapsed button:hover .toggle { background-position: -13px 0px }
     .expanded button:hover .toggle { background-position: 0px 0px }
 
-    .header {
+    table.header {
       border-spacing: 0;
       padding: 0;
       width: 560px;

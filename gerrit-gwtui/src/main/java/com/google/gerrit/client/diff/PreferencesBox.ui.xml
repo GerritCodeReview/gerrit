@@ -26,6 +26,7 @@ limitations under the License.
     @external .gwt-ToggleButton-down;
     @external .gwt-ToggleButton-down-hovering;
     @external .gwt-ToggleButton-down-disabled;
+    @external .dialog, .box, .table, .html-face, .apply, .save;
 
     .dialog {
       background: rgba(0, 0, 0, 0.85) none repeat scroll 0 50%;

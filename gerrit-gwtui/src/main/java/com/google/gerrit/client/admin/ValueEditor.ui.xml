@@ -20,6 +20,8 @@ limitations under the License.
   >
 <ui:with field='res' type='com.google.gerrit.client.admin.AdminResources'/>
 <ui:style>
+  @external .panel, .textPanel, .editIcon, .editPanel, .errorLabel;
+
   .panel {
     position: relative;
     white-space: nowrap;

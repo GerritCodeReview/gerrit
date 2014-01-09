@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "adc02d69_fa2d49b0",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/clippy/client/clippy.css",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-09T00:36:42Z",
+      "side": 1,
+      "message": "These names are too short to expose without prefixing.",
+      "revId": "081a06206c0579c694fdd36eb8a8b21f30336873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8dc5297b_19100b63",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/progress/client/progress.css",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-09T00:36:42Z",
+      "side": 1,
+      "message": "Too short to expose without a prefix.",
+      "revId": "081a06206c0579c694fdd36eb8a8b21f30336873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

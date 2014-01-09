@@ -294,12 +294,7 @@ public class SideBySide2 extends Screen {
     cm.on("cursorActivity", updateActiveLine(cm));
     cm.on("gutterClick", onGutterClick(cm));
     cm.on("viewportChange", adjustGutters(cm));
-    cm.on("focus", new Runnable() {
-      @Override
-      public void run() {
-        updateActiveLine(cm).run();
-      }
-    });
+    cm.on("focus", updateActiveLine(cm));
     cm.addKeyMap(KeyMap.create()
         .on("'a'", upToChange(true))
         .on("'u'", upToChange(false))

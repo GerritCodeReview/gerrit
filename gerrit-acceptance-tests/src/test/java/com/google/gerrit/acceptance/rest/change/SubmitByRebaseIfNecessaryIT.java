@@ -46,6 +46,8 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     RevCommit head = getRemoteHead();
     assertEquals(change.getCommitId(), head.getId());
     assertEquals(oldHead, head.getParent(0));
+    assertApproved(change.getChangeId());
+    assertCurrentRevision(change.getChangeId(), 1, head);
   }
 
   @Test
@@ -63,7 +65,10 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
         createChange(git, "Change 2", "b.txt", "other content");
     submit(change2.getChangeId());
     assertRebase(git, false);
-    assertEquals(oldHead, getRemoteHead().getParent(0));
+    RevCommit head = getRemoteHead();
+    assertEquals(oldHead, head.getParent(0));
+    assertApproved(change2.getChangeId());
+    assertCurrentRevision(change2.getChangeId(), 2, head);
   }
 
   @Test
@@ -84,7 +89,10 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
         createChange(git, "Change 3", "a.txt", "bbb\nccc\n");
     submit(change3.getChangeId());
     assertRebase(git, true);
-    assertEquals(oldHead, getRemoteHead().getParent(0));
+    RevCommit head = getRemoteHead();
+    assertEquals(oldHead, head.getParent(0));
+    assertApproved(change3.getChangeId());
+    assertCurrentRevision(change3.getChangeId(), 2, head);
   }
 
   @Test
@@ -104,5 +112,6 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     submitWithConflict(change2.getChangeId());
     RevCommit head = getRemoteHead();
     assertEquals(oldHead, head);
+    assertCurrentRevision(change2.getChangeId(), 1, change2.getCommitId());
   }
 }

@@ -16,10 +16,13 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.acceptance.GitUtil.initSsh;
+import static com.google.gerrit.common.changes.ListChangesOption.CURRENT_REVISION;
+import static com.google.gerrit.common.changes.ListChangesOption.DETAILED_LABELS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 
+import com.google.common.base.Joiner;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.GitUtil;
@@ -28,15 +31,20 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.common.changes.ListChangesOption;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
+import com.google.gerrit.server.change.ChangeJson.LabelInfo;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.google.gwtjsonrpc.server.SqlTimestampDeserializer;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 
@@ -56,6 +64,7 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.sql.Timestamp;
 
 public abstract class AbstractSubmit extends AbstractDaemonTest {
 
@@ -167,7 +176,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertEquals(expectedStatus, r.getStatusCode());
     if (expectedStatus == HttpStatus.SC_OK) {
       ChangeInfo change =
-          (new Gson()).fromJson(r.getReader(),
+          newGson().fromJson(r.getReader(),
               new TypeToken<ChangeInfo>() {}.getType());
       assertEquals(Change.Status.MERGED, change.status);
     }
@@ -180,6 +189,21 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
         new ReviewInput().label("Code-Review", 2));
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     r.consume();
+  }
+
+  protected void assertCurrentRevision(String changeId, int expectedNum,
+      ObjectId expectedId) throws IOException {
+    ChangeInfo c = getChange(changeId, CURRENT_REVISION);
+    assertEquals(expectedId.name(), c.current_revision);
+    assertEquals(expectedNum, c.revisions.get(expectedId.name())._number);
+  }
+
+  protected void assertApproved(String changeId) throws IOException {
+    ChangeInfo c = getChange(changeId, DETAILED_LABELS);
+    LabelInfo cr = c.labels.get("Code-Review");
+    assertEquals(1, cr.all.size());
+    assertEquals(2, cr.all.get(0).value.intValue());
+    assertEquals("Administrator", cr.all.get(0).name);
   }
 
   protected void assertCherryPick(Git localGit, boolean contentMerge) throws IOException {
@@ -199,6 +223,14 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
       assertEquals(getLatestDiff(repo), getLatestRemoteDiff());
     }
     assertEquals(localHead.getShortMessage(), remoteHead.getShortMessage());
+  }
+
+  protected ChangeInfo getChange(String changeId, ListChangesOption... options)
+      throws IOException {
+    String q = options.length > 0 ? "?o=" + Joiner.on("&o=").join(options) : "";
+    RestResponse r = session.get("/changes/" + changeId + q);
+    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    return newGson().fromJson(r.getReader(), ChangeInfo.class);
   }
 
   private RevCommit getHead(Repository repo) throws IOException {
@@ -257,5 +289,11 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     fmt.format(oldTreeId, newTreeId);
     fmt.flush();
     return out.toString();
+  }
+
+  private static Gson newGson() {
+    return new GsonBuilder()
+        .registerTypeAdapter(Timestamp.class, new SqlTimestampDeserializer())
+        .create();
   }
 }

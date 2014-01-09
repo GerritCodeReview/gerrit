@@ -62,7 +62,11 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
         createChange(git, "Change 2", "b.txt", "other content");
     submit(change2.getChangeId());
     assertCherryPick(git, false);
-    assertEquals(oldHead, getRemoteHead().getParent(0));
+    RevCommit newHead = getRemoteHead();
+    assertEquals(1, newHead.getParentCount());
+    assertEquals(oldHead, newHead.getParent(0));
+    assertApproved(change2.getChangeId());
+    assertCurrentRevision(change2.getChangeId(), 2, newHead);
   }
 
   @Test
@@ -83,7 +87,10 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
         createChange(git, "Change 3", "a.txt", "bbb\nccc\n");
     submit(change3.getChangeId());
     assertCherryPick(git, true);
-    assertEquals(oldHead, getRemoteHead().getParent(0));
+    RevCommit newHead = getRemoteHead();
+    assertEquals(oldHead, newHead.getParent(0));
+    assertApproved(change3.getChangeId());
+    assertCurrentRevision(change3.getChangeId(), 2, newHead);
   }
 
   @Test
@@ -102,6 +109,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
         createChange(git, "Change 2", "a.txt", "other content");
     submitWithConflict(change2.getChangeId());
     assertEquals(oldHead, getRemoteHead());
+    assertCurrentRevision(change2.getChangeId(), 1, change2.getCommitId());
   }
 
   @Test
@@ -120,7 +128,10 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
         createChange(git, "Change 3", "c.txt", "different content");
     submit(change3.getChangeId());
     assertCherryPick(git, false);
-    assertEquals(oldHead, getRemoteHead().getParent(0));
+    RevCommit newHead = getRemoteHead();
+    assertEquals(oldHead, newHead.getParent(0));
+    assertApproved(change3.getChangeId());
+    assertCurrentRevision(change3.getChangeId(), 2, newHead);
   }
 
   @Test
@@ -139,5 +150,6 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
         createChange(git, "Change 3", "b.txt", "different content");
     submitWithConflict(change3.getChangeId());
     assertEquals(oldHead, getRemoteHead());
+    assertCurrentRevision(change3.getChangeId(), 1, change3.getCommitId());
   }
 }

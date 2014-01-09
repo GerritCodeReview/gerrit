@@ -20,6 +20,8 @@ limitations under the License.
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <ui:with field='res' type='com.google.gerrit.client.change.Resources'/>
   <ui:style>
+    @external .openAdd, .suggestBox, .error, .cancel;
+
     button.openAdd {
       margin: 3px 3px 0 0;
       float: right;

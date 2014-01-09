@@ -19,6 +19,8 @@ limitations under the License.
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <ui:with field='res' type='com.google.gerrit.client.change.Resources'/>
   <ui:style type='com.google.gerrit.client.change.PatchSetsBox.Style'>
+    @external .revisionBox, .scroll, .table, .legacy_id, .commit, .draft_comment, .current;
+
     @eval selectionColor com.google.gerrit.client.Gerrit.getTheme().selectionColor;
 
     .revisionBox {

@@ -20,6 +20,8 @@ limitations under the License.
     xmlns:x='urn:import:com.google.gerrit.client.ui'>
   <ui:with field='res' type='com.google.gerrit.client.diff.Resources'/>
   <ui:style>
+    @external .header, .reviewed, .path, .navigation, .nodiff, .preferences;
+
   .header {
     position: relative;
     height: 16px;

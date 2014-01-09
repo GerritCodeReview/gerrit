@@ -20,6 +20,9 @@ limitations under the License.
   xmlns:gerrit='urn:import:com.google.gerrit.client'
   xmlns:u='urn:import:com.google.gerrit.client.ui'>
   <ui:style>
+    @external .panel, .avatar, .infoCell, .userName, .email;
+    @external .userLinks, .userLinksRight, .switchAccount;
+
     .panel {
       padding: 8px;
     }

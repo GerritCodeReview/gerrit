@@ -22,6 +22,30 @@
       "revId": "14245b39cd3928dc54f75bba361e45b25ae97c97",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d027d8d_26fa96e9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1011812
+      },
+      "writtenOn": "2014-01-09T15:27:54Z",
+      "side": 1,
+      "message": "You\u0027re right.  This is unnecessary, the replace function will do exactly what I need it to in this situation.  Removing this.",
+      "parentUuid": "8dc5297b_9903fb26",
+      "range": {
+        "startLine": 256,
+        "startChar": 0,
+        "endLine": 259,
+        "endChar": 3
+      },
+      "revId": "14245b39cd3928dc54f75bba361e45b25ae97c97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

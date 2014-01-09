@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d027d8d_2613b673",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-09T23:45:56Z",
+      "side": 1,
+      "message": "Injecting this was breaking (non-acceptance) tests. Rather than inject ApprovalCopier and all its dependencies (e.g. cache setup), I just had callers use ApprovalCopier directly.",
+      "revId": "36b1c13e09ed7f05dd1ba9fdecf6b06a3697708c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

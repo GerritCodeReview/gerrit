@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2d027d8d_86038a26",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-09T22:00:42Z",
+      "side": 1,
+      "message": "There are 10 pairs of methods with this property. Each method is moderately readable on its own now, so factoring out common setup code only improves readability if the method names are nice and descriptive.\n\nSo if we can come up with a set of descriptive setup method names (better than e.g. setUpCopyMinScoreOnRework), I\u0027m open to this possibility.",
+      "parentUuid": "cdf801d5_a3fe7ad6",
+      "range": {
+        "startLine": 178,
+        "startChar": 4,
+        "endLine": 189,
+        "endChar": 40
+      },
+      "revId": "519be7f9f8ce9757fccf3250138daa50c001b25c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdf801d5_4316a663",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
         "patchSetId": 2
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "0dff79b9_85ea621c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-09T22:00:42Z",
+      "side": 1,
+      "message": "And here I thought submit() meant submit(new SubmitInput()), silly me.",
+      "parentUuid": "cdf801d5_83037e26",
+      "range": {
+        "startLine": 368,
+        "startChar": 4,
+        "endLine": 369,
+        "endChar": 30
+      },
+      "revId": "519be7f9f8ce9757fccf3250138daa50c001b25c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edfb05cc_e42d9ab0",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
         "patchSetId": 2
@@ -82,6 +130,30 @@
       "writtenOn": "2014-01-09T21:09:43Z",
       "side": 1,
       "message": "remove this too.",
+      "range": {
+        "startLine": 370,
+        "startChar": 23,
+        "endLine": 370,
+        "endChar": 28
+      },
+      "revId": "519be7f9f8ce9757fccf3250138daa50c001b25c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dff79b9_65f0860b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-09T22:00:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edfb05cc_e42d9ab0",
       "range": {
         "startLine": 370,
         "startChar": 23,
@@ -111,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "0dff79b9_45ed8a31",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-09T22:00:42Z",
+      "side": 1,
+      "message": "Yeah, I find it somewhat odd that the API contains only write methods and no read methods, but *shrug*.\n\nEven before we get to that I\u0027d like to kill com.google.gerrit.acceptance.rest.change.ChangeInfo and just use the ChangeJson.ChangeInfo everywhere.",
+      "parentUuid": "cdf801d5_6319a291",
+      "revId": "519be7f9f8ce9757fccf3250138daa50c001b25c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edfb05cc_0410b662",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
         "patchSetId": 2
@@ -122,6 +212,24 @@
       "writtenOn": "2014-01-09T21:09:43Z",
       "side": 1,
       "message": "Nit: new line too much",
+      "revId": "519be7f9f8ce9757fccf3250138daa50c001b25c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d027d8d_6619ae91",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-09T22:00:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edfb05cc_0410b662",
       "revId": "519be7f9f8ce9757fccf3250138daa50c001b25c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

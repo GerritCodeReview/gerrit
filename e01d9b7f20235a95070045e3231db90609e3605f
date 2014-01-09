@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d027d8d_66f08e0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-09T02:16:31Z",
+      "side": 1,
+      "message": "Are we planning to use servlet api 3.0? Or just pushing Jetty forward and it needs the newer API?\n\nI don\u0027t think I can use 3.1 yet on gerrit-review. But if its just for Jetty, this should be OK, as we don\u0027t use Jetty on gerrit-review.",
+      "range": {
+        "startLine": 7,
+        "startChar": 37,
+        "endLine": 7,
+        "endChar": 55
+      },
+      "revId": "e01d9b7f20235a95070045e3231db90609e3605f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

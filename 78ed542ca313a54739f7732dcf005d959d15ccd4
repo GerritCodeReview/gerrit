@@ -22,6 +22,30 @@
       "revId": "78ed542ca313a54739f7732dcf005d959d15ccd4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dff79b9_45890a5a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-10T22:28:02Z",
+      "side": 1,
+      "message": "Done.\n\nHopefully not too important as this isn\u0027t the only test that omits it :)",
+      "parentUuid": "edfb05cc_a408c2f2",
+      "range": {
+        "startLine": 113,
+        "startChar": 15,
+        "endLine": 113,
+        "endChar": 25
+      },
+      "revId": "78ed542ca313a54739f7732dcf005d959d15ccd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

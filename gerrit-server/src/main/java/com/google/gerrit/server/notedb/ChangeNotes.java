@@ -16,10 +16,14 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_HOST;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Enums;
 import com.google.common.base.Function;
+import com.google.common.base.Optional;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSetMultimap;
@@ -45,6 +49,7 @@ import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -53,6 +58,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -90,6 +96,8 @@ public class ChangeNotes extends VersionedMetaData {
     private final RevWalk walk;
     private final ListMultimap<PatchSet.Id, PatchSetApproval> approvals;
     private final Map<Account.Id, ReviewerState> reviewers;
+    private Change.Status status;
+    private boolean hasSubmittedWith;
 
     private Parser(Change.Id changeId, ObjectId tip, RevWalk walk) {
       this.changeId = changeId;
@@ -111,6 +119,9 @@ public class ChangeNotes extends VersionedMetaData {
     }
 
     private void parse(RevCommit commit) throws ConfigInvalidException {
+      if (status == null) {
+        status = parseStatus(commit);
+      }
       PatchSet.Id psId = parsePatchSetId(commit);
       Account.Id accountId = parseIdent(commit);
       List<PatchSetApproval> psas = approvals.get(psId);
@@ -123,13 +134,26 @@ public class ChangeNotes extends VersionedMetaData {
         }
       }
 
-      for (String line : commit.getFooterLines(FOOTER_LABEL)) {
-        PatchSetApproval psa = parseApproval(psId, accountId, commit, line);
-        if (!curr.containsKey(psa.getLabel())) {
-          curr.put(psa.getLabel(), psa);
-          psas.add(psa);
+      if (!hasSubmittedWith) {
+        List<String> submittedWith =
+            commit.getFooterLines(FOOTER_SUBMITTED_WITH);
+        hasSubmittedWith = !submittedWith.isEmpty();
+        for (String line : submittedWith) {
+          psas.add(parseSubmittedApproval(psId, line));
         }
       }
+
+      if (!hasSubmittedWith) {
+        for (String line : commit.getFooterLines(FOOTER_LABEL)) {
+          Date when = commit.getCommitterIdent().getWhen();
+          PatchSetApproval psa = parseApproval(psId, accountId, when, line);
+          if (!curr.containsKey(psa.getLabel())) {
+            curr.put(psa.getLabel(), psa);
+            psas.add(psa);
+          }
+        }
+      }
+
       for (ReviewerState state : ReviewerState.values()) {
         for (String line : commit.getFooterLines(state.getFooterKey())) {
           parseReviewer(state, line);
@@ -137,36 +161,64 @@ public class ChangeNotes extends VersionedMetaData {
       }
     }
 
+    private Change.Status parseStatus(RevCommit commit)
+        throws ConfigInvalidException {
+      List<String> statusLines = commit.getFooterLines(FOOTER_STATUS);
+      if (statusLines.isEmpty()) {
+        return null;
+      } else if (statusLines.size() > 1) {
+        throw expectedOneFooter(FOOTER_STATUS, statusLines);
+      }
+      Optional<Change.Status> status = Enums.getIfPresent(
+          Change.Status.class, statusLines.get(0).toUpperCase());
+      if (!status.isPresent()) {
+        throw invalidFooter(FOOTER_STATUS, statusLines.get(0));
+      }
+      return status.get();
+    }
+
     private PatchSet.Id parsePatchSetId(RevCommit commit)
         throws ConfigInvalidException {
       List<String> psIdLines = commit.getFooterLines(FOOTER_PATCH_SET);
       if (psIdLines.size() != 1) {
-        throw parseException("missing or multiple %s: %s",
-            FOOTER_PATCH_SET, psIdLines);
+        throw expectedOneFooter(FOOTER_PATCH_SET, psIdLines);
       }
       Integer psId = Ints.tryParse(psIdLines.get(0));
       if (psId == null) {
-        throw parseException("invalid %s: %s",
-            FOOTER_PATCH_SET, psIdLines.get(0));
+        throw invalidFooter(FOOTER_PATCH_SET, psIdLines.get(0));
       }
       return new PatchSet.Id(changeId, psId);
     }
 
-    private PatchSetApproval parseApproval(PatchSet.Id psId, Account.Id accountId,
-        RevCommit commit, String line) throws ConfigInvalidException {
+    private PatchSetApproval parseApproval(PatchSet.Id psId,
+        Account.Id accountId, Date when, String line)
+        throws ConfigInvalidException {
       try {
         LabelVote l = LabelVote.parseWithEquals(line);
         return new PatchSetApproval(
             new PatchSetApproval.Key(
-              psId, parseIdent(commit), new LabelId(l.getLabel())),
+              psId, accountId, new LabelId(l.getLabel())),
             l.getValue(),
-            new Timestamp(commit.getCommitterIdent().getWhen().getTime()));
+            new Timestamp(when.getTime()));
       } catch (IllegalArgumentException e) {
-        ConfigInvalidException pe =
-            parseException("invalid %s: %s", FOOTER_LABEL, line);
+        ConfigInvalidException pe = invalidFooter(FOOTER_LABEL, line);
         pe.initCause(e);
         throw pe;
       }
+    }
+
+    private PatchSetApproval parseSubmittedApproval(PatchSet.Id psId,
+        String line) throws ConfigInvalidException {
+      int s = line.indexOf(' ');
+      if (s < 0) {
+        throw invalidFooter(FOOTER_SUBMITTED_WITH, line);
+      }
+      PersonIdent ident = RawParseUtils.parsePersonIdent(line.substring(s + 1));
+      if (ident == null) {
+        throw invalidFooter(FOOTER_SUBMITTED_WITH, line);
+      }
+      return parseApproval(psId, parseIdent(ident), ident.getWhen(),
+          line.substring(0, s));
     }
 
     private Account.Id parseIdent(RevCommit commit)
@@ -193,8 +245,7 @@ public class ChangeNotes extends VersionedMetaData {
         throws ConfigInvalidException {
       PersonIdent ident = RawParseUtils.parsePersonIdent(line);
       if (ident == null) {
-        throw parseException(
-            "invalid %s: %s", state.getFooterKey().getName(), line);
+        throw invalidFooter(state.getFooterKey(), line);
       }
       Account.Id accountId = parseIdent(ident);
       if (!reviewers.containsKey(accountId)) {
@@ -227,6 +278,17 @@ public class ChangeNotes extends VersionedMetaData {
       return new ConfigInvalidException("Change " + changeId + ": "
           + String.format(fmt, args));
     }
+
+    private ConfigInvalidException expectedOneFooter(FooterKey footer,
+        List<String> actual) {
+      return parseException("missing or multiple %s: %s",
+          footer.getName(), actual);
+    }
+
+    private ConfigInvalidException invalidFooter(FooterKey footer,
+        String actual) {
+      return parseException("invalid %s: %s", footer.getName(), actual);
+    }
   }
 
   private final GitRepositoryManager repoManager;
@@ -238,7 +300,7 @@ public class ChangeNotes extends VersionedMetaData {
   @VisibleForTesting
   ChangeNotes(GitRepositoryManager repoManager, Change change) {
     this.repoManager = repoManager;
-    this.change = change;
+    this.change = new Change(change);
   }
 
   // TODO(dborowitz): Wrap fewer exceptions if/when we kill gwtorm.
@@ -293,6 +355,9 @@ public class ChangeNotes extends VersionedMetaData {
     try {
       Parser parser = new Parser(change.getId(), rev, walk);
       parser.parseAll();
+      if (parser.status != null) {
+        change.setStatus(parser.status);
+      }
       approvals = ImmutableListMultimap.copyOf(parser.approvals);
       ImmutableSetMultimap.Builder<ReviewerState, Account.Id> reviewers =
           ImmutableSetMultimap.builder();

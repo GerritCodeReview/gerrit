@@ -37,6 +37,7 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.WorkQueue.Executor;
 import com.google.gerrit.server.index.ChangeIndexer;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gwtorm.server.OrmException;
@@ -53,6 +54,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -64,7 +66,7 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
   private final ThreadLocalRequestContext tl;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
-  private final ChangesCollection changes;
+  private final ChangeControl.GenericFactory changeControlFactory;
   private final Provider<Mergeable> mergeable;
   private final ChangeIndexer indexer;
   private final ListeningExecutorService executor;
@@ -75,14 +77,15 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
   public MergeabilityChecker(ThreadLocalRequestContext tl,
       SchemaFactory<ReviewDb> schemaFactory,
       IdentifiedUser.GenericFactory identifiedUserFactory,
-      ChangesCollection changes, Provider<Mergeable> mergeable,
-      ChangeIndexer indexer, @MergeabilityChecksExecutor Executor executor,
+      ChangeControl.GenericFactory changeControlFactory,
+      Provider<Mergeable> mergeable, ChangeIndexer indexer,
+      @MergeabilityChecksExecutor Executor executor,
       MergeabilityCheckQueue mergeabilityCheckQueue,
       MetaDataUpdate.Server metaDataUpdateFactory) {
     this.tl = tl;
     this.schemaFactory = schemaFactory;
     this.identifiedUserFactory = identifiedUserFactory;
-    this.changes = changes;
+    this.changeControlFactory = changeControlFactory;
     this.mergeable = mergeable;
     this.indexer = indexer;
     this.executor = MoreExecutors.listeningDecorator(executor);
@@ -119,7 +122,7 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
         ProjectConfig newCfg = parseConfig(p, event.getNewObjectId());
         if (recheckMerges(oldCfg, newCfg)) {
           try {
-            new ProjectUpdateTask(schemaFactory, p).call();
+            new ProjectUpdateTask(schemaFactory, p, true).call();
           } catch (Exception e) {
             String msg = "Failed to update mergeability flags for project " + p.get()
                 + " on update of " + RefNames.REFS_CONFIG;
@@ -168,12 +171,13 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
    *         mergeability flag was not updated and the change was not reindexed
    */
   public CheckedFuture<Boolean, IOException> updateAsync(Change change) {
-    return Futures.makeChecked(
-        executor.submit(new ChangeUpdateTask(schemaFactory, change)), MAPPER);
+    return updateAsync(change, false);
   }
 
-  private void updateAsync(Change change, boolean force) {
-    executor.submit(new ChangeUpdateTask(schemaFactory, change, force));
+  private CheckedFuture<Boolean, IOException> updateAsync(Change change, boolean force) {
+    return Futures.makeChecked(
+        executor.submit(new ChangeUpdateTask(schemaFactory, change, force)),
+        MAPPER);
   }
 
   /**
@@ -205,6 +209,18 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
   public boolean update(Change change) throws IOException {
     try {
       return new ChangeUpdateTask(schemaFactory, change).call();
+    } catch (Exception e) {
+      Throwables.propagateIfPossible(e);
+      throw MAPPER.apply(e);
+    }
+  }
+
+  public void update(Project.NameKey project) throws IOException {
+    try {
+      for (CheckedFuture<?, IOException> f : new ProjectUpdateTask(
+          schemaFactory, project, false).call()) {
+        f.checkedGet();
+      }
     } catch (Exception e) {
       Throwables.propagateIfPossible(e);
       throw MAPPER.apply(e);
@@ -262,8 +278,11 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
         PatchSet ps = db.patchSets().get(change.currentPatchSetId());
         Mergeable m = mergeable.get();
         m.setForce(force);
+
+        ChangeControl control =
+            changeControlFactory.controlFor(change.getId(), context.getCurrentUser());
         MergeableInfo info = m.apply(
-            new RevisionResource(changes.parse(change.getId()), ps));
+            new RevisionResource(new ChangeResource(control), ps));
         return change.isMergeable() != info.mergeable;
       } catch (ResourceConflictException e) {
         // change is closed
@@ -278,7 +297,8 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
     }
   }
 
-  private abstract class UpdateTask implements Callable<Void> {
+  private abstract class UpdateTask implements
+      Callable<List<CheckedFuture<Boolean, IOException>>> {
     private final SchemaFactory<ReviewDb> schemaFactory;
     private final boolean force;
 
@@ -288,7 +308,7 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
     }
 
     @Override
-    public Void call() throws Exception {
+    public List<CheckedFuture<Boolean, IOException>> call() throws Exception {
       List<Change> openChanges;
       ReviewDb db = schemaFactory.open();
       try {
@@ -297,10 +317,12 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
         db.close();
       }
 
+      List<CheckedFuture<Boolean, IOException>> futures =
+          new ArrayList<>(openChanges.size());
       for (Change change : mergeabilityCheckQueue.addAll(openChanges, force)) {
-        updateAsync(change, force);
+        futures.add(updateAsync(change, force));
       }
-      return null;
+      return futures;
     }
 
     protected abstract List<Change> loadChanges(ReviewDb db) throws OrmException;
@@ -325,8 +347,8 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
     private final Project.NameKey project;
 
     ProjectUpdateTask(SchemaFactory<ReviewDb> schemaFactory,
-        Project.NameKey project) {
-      super(schemaFactory, true);
+        Project.NameKey project, boolean force) {
+      super(schemaFactory, force);
       this.project = project;
     }
 

@@ -19,12 +19,10 @@ import static com.google.gerrit.server.notedb.ReviewerState.REVIEWER;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
 import static com.google.inject.Scopes.SINGLETON;
-
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
-
 import static org.easymock.EasyMock.expect;
 import static org.junit.Assert.assertEquals;
 
@@ -32,12 +30,14 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
+import com.google.common.primitives.Shorts;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ChangeUtil;
@@ -167,7 +167,7 @@ public class ChangeNotesTest {
   }
 
   @Test
-  public void approvalsCommitFormat() throws Exception {
+  public void approvalsCommitFormatSimple() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.putApproval("Code-Review", (short) -1);
@@ -205,6 +205,58 @@ public class ChangeNotesTest {
     } finally {
       walk.release();
     }
+  }
+
+  @Test
+  public void approvalsCommitFormatOnSubmit() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putApproval("Code-Review", (short) 2);
+    update.setSubject("Submit patch set 1");
+    update.submit(ImmutableList.of(
+        psa(c, 1, otherUser, "Code-Review", 2),
+        psa(c, 1, changeOwner, "Code-Review", 1)));
+    commit(update);
+
+    RevWalk walk = new RevWalk(repo);
+    try {
+      RevCommit commit = walk.parseCommit(update.getRevision());
+      walk.parseBody(commit);
+      assertEquals("Submit patch set 1\n"
+          + "\n"
+          + "Patch-Set: 1\n"
+          + "Status: submitted\n"
+          + "Label: Code-Review=+2\n"
+          + "Submitted-With: Code-Review=+2"
+          + " Other Account <2@gerrit> 1228003203 -0800\n"
+          + "Submitted-With: Code-Review=+1"
+          + " Change Owner <1@gerrit> 1228003203 -0800\n",
+          commit.getFullMessage());
+
+      PersonIdent author = commit.getAuthorIdent();
+      assertEquals("Change Owner", author.getName());
+      assertEquals("change@owner.com", author.getEmailAddress());
+      assertEquals(new Date(c.getCreatedOn().getTime() + 1000),
+          author.getWhen());
+      assertEquals(TimeZone.getTimeZone("GMT-8:00"), author.getTimeZone());
+
+      PersonIdent committer = commit.getCommitterIdent();
+      assertEquals("Change Owner", committer.getName());
+      assertEquals("1@gerrit", committer.getEmailAddress());
+      assertEquals(author.getWhen(), committer.getWhen());
+      assertEquals(author.getTimeZone(), committer.getTimeZone());
+    } finally {
+      walk.release();
+    }
+  }
+
+  private PatchSetApproval psa(Change c, int psId, IdentifiedUser user,
+      String label, int value) {
+    return new PatchSetApproval(
+        new PatchSetApproval.Key(
+          new PatchSet.Id(c.getId(), psId),
+          user.getAccountId(), new LabelId(label)),
+        Shorts.checkedCast(value), TimeUtil.nowTs());
   }
 
   @Test
@@ -403,6 +455,50 @@ public class ChangeNotesTest {
     psas = notes.getApprovals().get(c.currentPatchSetId());
     assertEquals(1, psas.size());
     assertEquals(changeOwner.getAccount().getId(), psas.get(0).getAccountId());
+  }
+
+  @Test
+  public void submittedApprovalsOverridePreviousApprovals() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putApproval("Code-Review", (short) 2);
+    commit(update);
+
+    update = newUpdate(c, changeOwner);
+    update.submit(ImmutableList.of(psa(c, 1, changeOwner, "Code-Review", 1)));
+    commit(update);
+
+    ChangeNotes notes = newNotes(c);
+    assertEquals(Change.Status.SUBMITTED, notes.getChange().getStatus());
+    PatchSetApproval psa = Iterables.getOnlyElement(
+        notes.getApprovals().get(c.currentPatchSetId()));
+    assertEquals(c.currentPatchSetId(), psa.getPatchSetId());
+    assertEquals(1, psa.getAccountId().get());
+    assertEquals("Code-Review", psa.getLabel());
+    assertEquals((short) 1, psa.getValue());
+    assertEquals(truncate(after(c, 2000)), psa.getGranted());
+  }
+
+  @Test
+  public void multipleSubmittedApprovalsUsesLatest() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.submit(ImmutableList.of(psa(c, 1, changeOwner, "Code-Review", 2)));
+    commit(update);
+
+    update = newUpdate(c, changeOwner);
+    update.submit(ImmutableList.of(psa(c, 1, changeOwner, "Code-Review", 1)));
+    commit(update);
+
+    ChangeNotes notes = newNotes(c);
+    assertEquals(Change.Status.SUBMITTED, notes.getChange().getStatus());
+    PatchSetApproval psa = Iterables.getOnlyElement(
+        notes.getApprovals().get(c.currentPatchSetId()));
+    assertEquals(c.currentPatchSetId(), psa.getPatchSetId());
+    assertEquals(1, psa.getAccountId().get());
+    assertEquals("Code-Review", psa.getLabel());
+    assertEquals((short) 1, psa.getValue());
+    assertEquals(truncate(after(c, 3000)), psa.getGranted());
   }
 
   private Change newChange() {

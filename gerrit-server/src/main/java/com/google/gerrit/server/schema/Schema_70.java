@@ -36,26 +36,21 @@ public class Schema_70 extends SchemaVersion {
     Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
     try {
       stmt.executeUpdate("UPDATE tracking_ids SET tracking_key = tracking_id");
-      execute(stmt, "DROP INDEX tracking_ids_byTrkId");
+      stmt.execute("DROP INDEX tracking_ids_byTrkId");
       if (((JdbcSchema) db).getDialect() instanceof DialectPostgreSQL) {
-        execute(stmt, "ALTER TABLE tracking_ids DROP CONSTRAINT tracking_ids_pkey");
+        stmt.execute("ALTER TABLE tracking_ids DROP CONSTRAINT tracking_ids_pkey");
       } else {
-        execute(stmt, "ALTER TABLE tracking_ids DROP PRIMARY KEY");
+        stmt.execute("ALTER TABLE tracking_ids DROP PRIMARY KEY");
       }
       stmt.execute("ALTER TABLE tracking_ids"
           + " ADD PRIMARY KEY (change_id, tracking_key, tracking_system)");
       stmt.execute("CREATE INDEX tracking_ids_byTrkKey"
           + " ON tracking_ids (tracking_key)");
-    } finally {
-      stmt.close();
-    }
-  }
-
-  private static final void execute(Statement stmt, String command) {
-    try {
-      stmt.execute(command);
     } catch (SQLException e) {
       // ignore
+    }
+    finally {
+      stmt.close();
     }
   }
 }

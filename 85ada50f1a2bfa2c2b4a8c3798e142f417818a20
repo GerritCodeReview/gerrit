@@ -222,6 +222,30 @@
       "revId": "85ada50f1a2bfa2c2b4a8c3798e142f417818a20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dff79b9_0542f256",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalCopier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-10T15:34:00Z",
+      "side": 1,
+      "message": "\u003e Do you mean PS2?\n\nYes, sorry.\n\n\u003e A deletion of PS2 does not mean that the user changed his mind again and resurrecting the veto from PS1 would be a surprise.\n\nAre you sure? The veto means \"do not submit until I agree you have fixed this in a later patch set.\" If the reviewer agrees it was fixed in PS2 but then PS2 goes away, then that agreement no longer holds.\n\nI think it\u0027s fair in this case to make the reviewer reevaluate whether the more recent patch set fixes the issue. With this I\u0027m leaning towards (b).",
+      "parentUuid": "cdf801d5_833b7eaf",
+      "range": {
+        "startLine": 155,
+        "startChar": 15,
+        "endLine": 155,
+        "endChar": 34
+      },
+      "revId": "85ada50f1a2bfa2c2b4a8c3798e142f417818a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

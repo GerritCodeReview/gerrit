@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "edfb05cc_e4135a3e",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProjectCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T14:42:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cdf801d5_03c54e75",
+      "revId": "66fe19ab12a630544072f1c9736f55932f0e1f97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdf801d5_e3b23217",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProjectCommand.java",
         "patchSetId": 6
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "edfb05cc_c4185e5b",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProjectCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T14:42:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cdf801d5_e3b23217",
+      "range": {
+        "startLine": 197,
+        "startChar": 6,
+        "endLine": 201,
+        "endChar": 7
+      },
+      "revId": "66fe19ab12a630544072f1c9736f55932f0e1f97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdf801d5_c3b73605",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProjectCommand.java",
         "patchSetId": 6
@@ -53,6 +95,30 @@
       "writtenOn": "2014-01-10T12:46:44Z",
       "side": 1,
       "message": "And this.",
+      "range": {
+        "startLine": 204,
+        "startChar": 6,
+        "endLine": 208,
+        "endChar": 7
+      },
+      "revId": "66fe19ab12a630544072f1c9736f55932f0e1f97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdf801d5_c318565b",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProjectCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T14:42:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cdf801d5_c3b73605",
       "range": {
         "startLine": 204,
         "startChar": 6,

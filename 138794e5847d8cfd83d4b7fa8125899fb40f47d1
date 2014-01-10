@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "edfb05cc_2445f25e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-01-10T10:10:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0dff79b9_6522c6bf",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "138794e5847d8cfd83d4b7fa8125899fb40f47d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d027d8d_2645f65e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
         "patchSetId": 5
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "edfb05cc_0442f656",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-01-10T10:10:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d027d8d_2645f65e",
+      "range": {
+        "startLine": 220,
+        "startChar": 32,
+        "endLine": 220,
+        "endChar": 34
+      },
+      "revId": "138794e5847d8cfd83d4b7fa8125899fb40f47d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d027d8d_0642fa56",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
         "patchSetId": 5
@@ -59,6 +107,30 @@
       "writtenOn": "2014-01-10T08:48:11Z",
       "side": 1,
       "message": "`score` is not an appropriate name; it contains both the label name and the score.",
+      "range": {
+        "startLine": 386,
+        "startChar": 25,
+        "endLine": 386,
+        "endChar": 30
+      },
+      "revId": "138794e5847d8cfd83d4b7fa8125899fb40f47d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdf801d5_a350ba21",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-01-10T10:10:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d027d8d_0642fa56",
       "range": {
         "startLine": 386,
         "startChar": 25,

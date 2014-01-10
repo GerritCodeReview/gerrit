@@ -110,11 +110,13 @@ class Labels extends Grid {
       String name = names.get(row);
       LabelInfo label = info.label(name);
       setText(row, 0, name);
-      if (label.all() != null) {
+      if ((label.all() != null) && current) {
         setWidget(row, 1, renderUsers(label));
       }
-      getCellFormatter().setStyleName(row, 0, style.labelName());
-      getCellFormatter().addStyleName(row, 0, getStyleForLabel(label));
+      if (current) {
+        getCellFormatter().setStyleName(row, 0, style.labelName());
+        getCellFormatter().addStyleName(row, 0, getStyleForLabel(label));
+      }
 
       if (canSubmit && info.status() == Change.Status.NEW) {
         switch (label.status()) {

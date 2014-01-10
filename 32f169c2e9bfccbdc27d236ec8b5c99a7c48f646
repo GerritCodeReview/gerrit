@@ -22,6 +22,30 @@
       "revId": "32f169c2e9bfccbdc27d236ec8b5c99a7c48f646",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edfb05cc_24a172bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T14:42:31Z",
+      "side": 1,
+      "message": "It\u0027s not needed. It\u0027s probably a left-over from an earlier patch set. Removing it.\n\nDone",
+      "parentUuid": "cdf801d5_63be42e8",
+      "range": {
+        "startLine": 208,
+        "startChar": 18,
+        "endLine": 208,
+        "endChar": 27
+      },
+      "revId": "32f169c2e9bfccbdc27d236ec8b5c99a7c48f646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

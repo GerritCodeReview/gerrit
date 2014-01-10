@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "edfb05cc_4448ee76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-10T10:20:20Z",
+      "side": 1,
+      "message": "I don\u0027t think this statement is necessary.",
+      "range": {
+        "startLine": 12,
+        "startChar": 15,
+        "endLine": 14,
+        "endChar": 18
+      },
+      "revId": "4748afe4d83e5a20f53a617b8b0561fc4b4f2c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdf801d5_e377d2b5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AdminMessages.properties",
+        "patchSetId": 12
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-10T10:20:20Z",
+      "side": 1,
+      "message": "Helloworld Plugin Options?\n\nor\n\nHelloworld Plugin config parameters?\n\nJust in case we would like to configure other thing then options / config for plugins.",
+      "range": {
+        "startLine": 10,
+        "startChar": 28,
+        "endLine": 10,
+        "endChar": 38
+      },
+      "revId": "4748afe4d83e5a20f53a617b8b0561fc4b4f2c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edfb05cc_2496127a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-10T10:20:20Z",
+      "side": 1,
+      "message": "Why to disable widgets for non owners? Can\u0027t we prevent rendering completely in this case?",
+      "revId": "4748afe4d83e5a20f53a617b8b0561fc4b4f2c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdf801d5_0342ee56",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-10T10:20:20Z",
+      "side": 1,
+      "message": "Move it in some better place for reuse?",
+      "range": {
+        "startLine": 240,
+        "startChar": 23,
+        "endLine": 240,
+        "endChar": 32
+      },
+      "revId": "4748afe4d83e5a20f53a617b8b0561fc4b4f2c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdf801d5_0329ce9c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-10T10:20:20Z",
+      "side": 1,
+      "message": "I would prefer to write !\u003d null condition ind swap if branches, like on line 186.",
+      "revId": "4748afe4d83e5a20f53a617b8b0561fc4b4f2c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

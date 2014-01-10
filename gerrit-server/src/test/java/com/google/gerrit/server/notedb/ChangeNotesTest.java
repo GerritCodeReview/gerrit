@@ -19,10 +19,13 @@ import static com.google.gerrit.server.notedb.ReviewerState.REVIEWER;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
 import static com.google.inject.Scopes.SINGLETON;
+
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
+
+import static org.easymock.EasyMock.expect;
 import static org.junit.Assert.assertEquals;
 
 import com.google.common.collect.ImmutableList;
@@ -50,6 +53,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gerrit.testutil.FakeAccountCache;
 import com.google.gerrit.testutil.FakeRealm;
@@ -60,7 +64,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.util.Providers;
 
-import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.easymock.EasyMock;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -414,10 +418,11 @@ public class ChangeNotesTest {
   }
 
   private ChangeUpdate newUpdate(Change c, IdentifiedUser user)
-      throws ConfigInvalidException, IOException {
+      throws Exception {
     return new ChangeUpdate(SERVER_IDENT, repoManager,
-        NotesMigration.allEnabled(), accountCache, null, LABEL_TYPES, c,
-        TimeUtil.nowTs(), user);
+        NotesMigration.allEnabled(), accountCache, null, LABEL_TYPES,
+        stubChangeControl(c, user),
+        TimeUtil.nowTs());
   }
 
   private ChangeNotes newNotes(Change c) throws OrmException {
@@ -446,5 +451,13 @@ public class ChangeNotesTest {
     md.getCommitBuilder().setAuthor(
         update.getUser().newCommitterIdent(update.getWhen(), TZ));
     return update.commit(md);
+  }
+
+  private ChangeControl stubChangeControl(Change c, IdentifiedUser user) {
+    ChangeControl ctl = EasyMock.createNiceMock(ChangeControl.class);
+    expect(ctl.getChange()).andStubReturn(c);
+    expect(ctl.getCurrentUser()).andStubReturn(user);
+    EasyMock.replay(ctl);
+    return ctl;
   }
 }

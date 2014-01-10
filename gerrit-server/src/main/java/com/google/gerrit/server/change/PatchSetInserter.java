@@ -225,8 +225,7 @@ public class PatchSetInserter {
 
     final PatchSet.Id currentPatchSetId = c.currentPatchSetId();
 
-    ChangeUpdate update = updateFactory.create(c, patchSet.getCreatedOn(),
-        (IdentifiedUser) ctl.getCurrentUser());
+    ChangeUpdate update = updateFactory.create(ctl, patchSet.getCreatedOn());
 
     db.changes().beginTransaction(c.getId());
     try {

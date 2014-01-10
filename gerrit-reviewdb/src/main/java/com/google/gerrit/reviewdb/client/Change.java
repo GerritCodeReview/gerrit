@@ -400,6 +400,23 @@ public final class Change {
     setLastSha1MergeTested(null);
   }
 
+  public Change(Change other) {
+    changeId = other.changeId;
+    changeKey = other.changeKey;
+    rowVersion = other.rowVersion;
+    createdOn = other.createdOn;
+    lastUpdatedOn = other.lastUpdatedOn;
+    sortKey = other.sortKey;
+    owner = other.owner;
+    dest = other.dest;
+    open = other.open;
+    status = other.status;
+    currentPatchSetId = other.currentPatchSetId;
+    subject = other.subject;
+    topic = other.topic;
+    mergeable = other.mergeable;
+  }
+
   /** Legacy 32 bit integer identity for a change. */
   public Change.Id getId() {
     return changeId;

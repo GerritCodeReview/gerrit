@@ -17,12 +17,16 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_HOST;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
+import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -49,6 +53,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -79,8 +84,10 @@ public class ChangeUpdate extends VersionedMetaData {
   private final Date when;
   private final Map<String, Short> approvals;
   private final Map<Account.Id, ReviewerState> reviewers;
+  private Change.Status status;
   private String subject;
   private PatchSet.Id psId;
+  private List<SubmitRecord> submitRecords;
 
   @AssistedInject
   private ChangeUpdate(
@@ -90,6 +97,7 @@ public class ChangeUpdate extends VersionedMetaData {
       AccountCache accountCache,
       MetaDataUpdate.User updateFactory,
       ProjectCache projectCache,
+      IdentifiedUser user,
       @Assisted ChangeControl ctl) {
     this(serverIdent, repoManager, migration, accountCache, updateFactory,
         projectCache, ctl, serverIdent.getWhen());
@@ -147,8 +155,21 @@ public class ChangeUpdate extends VersionedMetaData {
     return when;
   }
 
+  public void setStatus(Change.Status status) {
+    checkArgument(status != Change.Status.SUBMITTED,
+        "use submit(Iterable<PatchSetApproval>)");
+    this.status = status;
+  }
+
   public void putApproval(String label, short value) {
     approvals.put(label, value);
+  }
+
+  public void submit(Iterable<SubmitRecord> submitRecords) {
+    status = Change.Status.SUBMITTED;
+    this.submitRecords = ImmutableList.copyOf(submitRecords);
+    checkArgument(!this.submitRecords.isEmpty(),
+        "no submit records specified at submit time");
   }
 
   public void setSubject(String subject) {
@@ -198,7 +219,7 @@ public class ChangeUpdate extends VersionedMetaData {
     }
   }
 
-  public PersonIdent newIdent(Account author) {
+  private PersonIdent newIdent(Account author, Date when) {
     return new PersonIdent(
         author.getFullName(),
         author.getId().get() + "@" + GERRIT_PLACEHOLDER_HOST,
@@ -258,10 +279,10 @@ public class ChangeUpdate extends VersionedMetaData {
 
   @Override
   protected boolean onSave(CommitBuilder commit) {
-    if (approvals.isEmpty() && reviewers.isEmpty()) {
+    if (isEmpty()) {
       return false;
     }
-    commit.setAuthor(newIdent(getUser().getAccount()));
+    commit.setAuthor(newIdent(getUser().getAccount(), when));
     commit.setCommitter(new PersonIdent(serverIdent, when));
 
     int ps = psId != null ? psId.get() : getChange().currentPatchSetId().get();
@@ -273,13 +294,18 @@ public class ChangeUpdate extends VersionedMetaData {
     }
     msg.append("\n\n");
     addFooter(msg, FOOTER_PATCH_SET, ps);
+    if (status != null) {
+      addFooter(msg, FOOTER_STATUS, status.name().toLowerCase());
+    }
+
     for (Map.Entry<Account.Id, ReviewerState> e : reviewers.entrySet()) {
       Account account = accountCache.get(e.getKey()).getAccount();
-      PersonIdent ident = newIdent(account);
+      PersonIdent ident = newIdent(account, when);
       addFooter(msg, e.getValue().getFooterKey())
           .append(ident.getName())
           .append(" <").append(ident.getEmailAddress()).append(">\n");
     }
+
     for (Map.Entry<String, Short> e : approvals.entrySet()) {
       LabelType lt = labelTypes.byLabel(e.getKey());
       if (lt != null) {
@@ -287,8 +313,33 @@ public class ChangeUpdate extends VersionedMetaData {
             new LabelVote(lt.getName(), e.getValue()).formatWithEquals());
       }
     }
+
+    if (submitRecords != null) {
+      for (SubmitRecord rec : submitRecords) {
+        addFooter(msg, FOOTER_SUBMITTED_WITH, rec.status);
+        for (SubmitRecord.Label label : rec.labels) {
+          StringBuilder sb = addFooter(msg, FOOTER_SUBMITTED_WITH)
+              .append(label.status).append(": ").append(label.label);
+          if (label.appliedBy != null) {
+            PersonIdent ident =
+                newIdent(accountCache.get(label.appliedBy).getAccount(), when);
+            sb.append(": ").append(ident.getName())
+                .append(" <").append(ident.getEmailAddress()).append('>');
+          }
+          sb.append('\n');
+        }
+      }
+    }
+
     commit.setMessage(msg.toString());
     return true;
+  }
+
+  private boolean isEmpty() {
+    return approvals.isEmpty()
+        && reviewers.isEmpty()
+        && status == null
+        && submitRecords == null;
   }
 
   private static StringBuilder addFooter(StringBuilder sb, FooterKey footer) {
@@ -296,8 +347,12 @@ public class ChangeUpdate extends VersionedMetaData {
   }
 
   private static void addFooter(StringBuilder sb, FooterKey footer,
-      Object value) {
-    addFooter(sb, footer).append(value).append('\n');
+      Object... values) {
+    addFooter(sb, footer);
+    for (Object value : values) {
+      sb.append(value);
+    }
+    sb.append('\n');
   }
 
   @Override

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0dff79b9_e556b61e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-10T10:11:18Z",
+      "side": 1,
+      "message": "It\u0027s not only code review and verified scores, it will also include custom labels.\n\nAlso, if I understand the code, it will only add the first label found.  So if a reviewer adds more than one label, only one of them will be added.",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "2a230dc8d258f1e37aa96295bfea7cfaf04169fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dff79b9_0529d29c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-10T10:11:18Z",
+      "side": 1,
+      "message": "Unnecessary quote mark here.",
+      "range": {
+        "startLine": 212,
+        "startChar": 32,
+        "endLine": 212,
+        "endChar": 33
+      },
+      "revId": "2a230dc8d258f1e37aa96295bfea7cfaf04169fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d027d8d_668c0e6c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-10T10:11:18Z",
+      "side": 1,
+      "message": "Starting the substring from 0 will result in the string \"Patch Set ...\" being returned.",
+      "range": {
+        "startLine": 220,
+        "startChar": 32,
+        "endLine": 220,
+        "endChar": 33
+      },
+      "revId": "2a230dc8d258f1e37aa96295bfea7cfaf04169fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

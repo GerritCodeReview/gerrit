@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0dff79b9_654be675",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-10T15:16:32Z",
+      "side": 1,
+      "message": "schema",
+      "range": {
+        "startLine": 16,
+        "startChar": 62,
+        "endLine": 16,
+        "endChar": 68
+      },
+      "revId": "b431a77638c46a450c93c9e3e0269008f42e552b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d027d8d_66752ea2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-10T15:16:32Z",
+      "side": 1,
+      "message": "schema",
+      "range": {
+        "startLine": 21,
+        "startChar": 32,
+        "endLine": 21,
+        "endChar": 38
+      },
+      "revId": "b431a77638c46a450c93c9e3e0269008f42e552b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dff79b9_4548ea76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-10T15:16:32Z",
+      "side": 1,
+      "message": "on the other hand",
+      "range": {
+        "startLine": 23,
+        "startChar": 49,
+        "endLine": 23,
+        "endChar": 66
+      },
+      "revId": "b431a77638c46a450c93c9e3e0269008f42e552b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dff79b9_2545ee5e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-10T15:16:32Z",
+      "side": 1,
+      "message": "For my reference: this was originally changed in Ia7c9761e. This is ok because a) it is a case where we need to pass a manual control, i.e. for the change owner rather than the implicit user, and b) notes are now stored within the control as well.",
+      "revId": "b431a77638c46a450c93c9e3e0269008f42e552b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

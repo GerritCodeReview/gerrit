@@ -26,32 +26,34 @@ limitations under the License.
   >
 <ui:with field='res' type='com.google.gerrit.client.admin.AdminResources'/>
 <ui:style>
+  @external .panelRule, .normalRule, .deletedRule, .actionListRule, .forcePushRule, .deleteIconRule, .groupNameRule;
+
   @eval selectionColor com.google.gerrit.client.Gerrit.getTheme().selectionColor;
 
-  .panel {
+  .panelRule {
     position: relative;
     height: 1.5em;
   }
 
-  .panel:hover {
+  .panelRule:hover {
     background-color: selectionColor;
   }
 
-  .normal {
+  .normalRule {
     padding-left: 10px;
     white-space: nowrap;
     height: 100%;
   }
 
-  .deleted {
+  .deletedRule {
     height: 100%;
   }
 
-  .actionList, .minmax {
+  .actionListRule, .minmax {
     font-size: 80%;
   }
 
-  .forcePush {
+  .forcePushRule {
     position: absolute;
     top: 0;
     right: 36px;
@@ -59,32 +61,32 @@ limitations under the License.
     font-size: 80%;
   }
 
-  .deleteIcon {
+  .deleteIconRule {
     position: absolute;
     top: 2px;
     right: 11px;
   }
 
-  .groupName {
+  .groupNameRule {
     display: inline;
   }
 </ui:style>
 
-<g:HTMLPanel styleName='{style.panel}'>
-<div ui:field='normal' class='{style.normal}'>
-  <g:ValueListBox ui:field='action' styleName='{style.actionList}'/>
+<g:HTMLPanel styleName='{style.panelRule}'>
+<div ui:field='normal' class='{style.normalRule}'>
+  <g:ValueListBox ui:field='action' styleName='{style.actionListRule}'/>
   <span ui:field='rangeEditor'>
     <g:Widget ui:field='min' styleName='{style.minmax}'/>
     <g:Widget ui:field='max' styleName='{style.minmax}'/>
   </span>
 
-  <g:Anchor ui:field='groupNameLink' styleName='{style.groupName}'/>
-  <span ui:field='groupNameSpan' styleName='{style.groupName}'/>
-  <g:CheckBox ui:field='force' addStyleNames='{style.forcePush}'/>
+  <g:Anchor ui:field='groupNameLink' styleName='{style.groupNameRule}'/>
+  <span ui:field='groupNameSpan' styleName='{style.groupNameRule}'/>
+  <g:CheckBox ui:field='force' addStyleNames='{style.forcePushRule}'/>
   <g:Anchor
       ui:field='deleteRule'
       href='javascript:void'
-      styleName='{style.deleteIcon} {res.css.deleteIcon}'
+      styleName='{style.deleteIconRule} {res.css.deleteIcon}'
       title='Delete this rule'>
     <ui:attribute name='title'/>
   </g:Anchor>
@@ -92,13 +94,13 @@ limitations under the License.
 
 <div
     ui:field='deleted'
-    class='{res.css.deleted} {style.deleted}'
+    class='{res.css.deleted} {style.deletedRule}'
     style='display: none'>
   <ui:msg>Group <span ui:field='deletedGroupName'/> was deleted</ui:msg>
   <g:Anchor
       ui:field='undoDelete'
       href='javascript:void'
-      styleName='{style.deleteIcon} {res.css.undoIcon}'
+      styleName='{style.deleteIconRule} {res.css.undoIcon}'
       title='Undo deletion'>
     <ui:attribute name='title'/>
   </g:Anchor>

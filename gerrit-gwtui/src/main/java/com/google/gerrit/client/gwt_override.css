@@ -13,15 +13,7 @@
  * limitations under the License.
  */
 
-@external .gwt-Button;
-@external .gwt-DialogBox .dialogMiddleCenter;
-@external .gwt-TabBar;
-@external .gwt-TabBarFirst;
-@external .gwt-TabBarItem;
-@external .gwt-TabBarItem-selected;
-@external .gwt-TabBarRest;
-@external .gwt-TabPanel;
-@external .gwt-TabPanelBottom;
+@external .*;
 
 @eval backgroundColor com.google.gerrit.client.Gerrit.getTheme().backgroundColor;
 @eval textColor com.google.gerrit.client.Gerrit.getTheme().textColor;

@@ -191,7 +191,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       throws OrmException, IOException {
     final Timestamp timestamp = TimeUtil.nowTs();
     Change change = rsrc.getChange();
-    ChangeUpdate update = updateFactory.create(change, timestamp, caller);
+    ChangeUpdate update = updateFactory.create(rsrc.getControl(), timestamp);
     ReviewDb db = dbProvider.get();
     db.changes().beginTransaction(change.getId());
     try {

@@ -28,7 +28,6 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -159,8 +158,9 @@ public class ChangeInserter {
 
   public Change insert() throws OrmException, IOException {
     ReviewDb db = dbProvider.get();
-    ChangeUpdate update = updateFactory.create(change, change.getCreatedOn(),
-        (IdentifiedUser) refControl.getCurrentUser());
+    ChangeUpdate update = updateFactory.create(
+        refControl.getProjectControl().controlFor(change),
+        change.getCreatedOn());
     db.changes().beginTransaction(change.getId());
     try {
       ChangeUtil.insertAncestors(db, patchSet.getId(), commit);

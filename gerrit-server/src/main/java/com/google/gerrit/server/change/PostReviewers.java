@@ -221,7 +221,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       Map<Account.Id, ChangeControl> reviewers)
       throws OrmException, EmailException, IOException {
     ReviewDb db = dbProvider.get();
-    ChangeUpdate update = updateFactory.create(rsrc.getChange());
+    ChangeUpdate update = updateFactory.create(rsrc.getControl());
     List<PatchSetApproval> added;
     db.changes().beginTransaction(rsrc.getChange().getId());
     try {

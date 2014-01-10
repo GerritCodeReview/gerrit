@@ -72,7 +72,7 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
     ChangeControl control = rsrc.getControl();
     Change.Id changeId = rsrc.getChange().getId();
     ReviewDb db = dbProvider.get();
-    ChangeUpdate update = updateFactory.create(rsrc.getChange());
+    ChangeUpdate update = updateFactory.create(rsrc.getControl());
 
     StringBuilder msg = new StringBuilder();
     db.changes().beginTransaction(changeId);

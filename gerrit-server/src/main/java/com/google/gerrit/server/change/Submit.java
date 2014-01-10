@@ -249,6 +249,11 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     // TODO(dborowitz): Don't use a label in notedb; just check when status
     // change happened.
     update.putApproval(submit.getLabel(), submit.getValue());
+
+    // TODO(dborowitz): Use ApprovalCopier instead of depending on approvals
+    // being copied from previous patch sets.
+    update.submit(approvals);
+
     dbProvider.get().patchSetApprovals().upsert(approvals);
   }
 

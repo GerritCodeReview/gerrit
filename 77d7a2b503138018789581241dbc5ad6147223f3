@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cdf801d5_83225e8d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T14:42:02Z",
+      "side": 1,
+      "message": "Will do this in an own change after this series got accepted :)",
+      "parentUuid": "edfb05cc_246f32d4",
+      "revId": "77d7a2b503138018789581241dbc5ad6147223f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edfb05cc_046c36db",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
         "patchSetId": 13
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "edfb05cc_243292da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T14:42:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edfb05cc_046c36db",
+      "revId": "77d7a2b503138018789581241dbc5ad6147223f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdf801d5_e3c91299",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ProjectConfigEntry.java",
         "patchSetId": 13
@@ -47,6 +83,30 @@
       "writtenOn": "2014-01-10T12:32:42Z",
       "side": 1,
       "message": "I would prefer earlier return in such constructs and indent rest code one level to the left. But i already have seen different opinions/comments of reviewers for this.",
+      "range": {
+        "startLine": 173,
+        "startChar": 10,
+        "endLine": 173,
+        "endChar": 57
+      },
+      "revId": "77d7a2b503138018789581241dbc5ad6147223f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdf801d5_6328826c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ProjectConfigEntry.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T14:42:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cdf801d5_e3c91299",
       "range": {
         "startLine": 173,
         "startChar": 10,
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "edfb05cc_042f9672",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ProjectConfigEntry.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T14:42:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edfb05cc_e4c91a99",
+      "range": {
+        "startLine": 182,
+        "startChar": 18,
+        "endLine": 183,
+        "endChar": 47
+      },
+      "revId": "77d7a2b503138018789581241dbc5ad6147223f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdf801d5_c3ce169f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ProjectConfigEntry.java",
         "patchSetId": 13
@@ -93,6 +177,30 @@
       "writtenOn": "2014-01-10T12:32:42Z",
       "side": 1,
       "message": "Wrap it in a method toBoolean() to reduce code duplication?\n\n  configEntry.onUpdate(p, toBoolean(oldValue), toBoolean(newValue));",
+      "range": {
+        "startLine": 187,
+        "startChar": 24,
+        "endLine": 188,
+        "endChar": 80
+      },
+      "revId": "77d7a2b503138018789581241dbc5ad6147223f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edfb05cc_e43c7aab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ProjectConfigEntry.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T14:42:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cdf801d5_c3ce169f",
       "range": {
         "startLine": 187,
         "startChar": 24,

@@ -23,10 +23,12 @@ import static org.easymock.EasyMock.expect;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Ordering;
+import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -170,7 +172,7 @@ public class ChangeNotesTest {
   }
 
   @Test
-  public void approvalsCommitFormat() throws Exception {
+  public void approvalsCommitFormatSimple() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.putApproval("Verified", (short) 1);
@@ -225,6 +227,79 @@ public class ChangeNotesTest {
           + "\n"
           + "Patch-set: 1\n"
           + "Label: -Code-Review\n",
+          commit.getFullMessage());
+    } finally {
+      walk.release();
+    }
+  }
+
+  @Test
+  public void submitCommitFormat() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setSubject("Submit patch set 1");
+
+    update.submit(ImmutableList.of(
+        submitRecord("NOT_READY", null,
+          submitLabel("Verified", "OK", changeOwner.getAccountId()),
+          submitLabel("Code-Review", "NEED", null)),
+        submitRecord("NOT_READY", null,
+          submitLabel("Verified", "OK", changeOwner.getAccountId()),
+          submitLabel("Alternative-Code-Review", "NEED", null))));
+    update.commit();
+
+    RevWalk walk = new RevWalk(repo);
+    try {
+      RevCommit commit = walk.parseCommit(update.getRevision());
+      walk.parseBody(commit);
+      assertEquals("Submit patch set 1\n"
+          + "\n"
+          + "Patch-set: 1\n"
+          + "Status: submitted\n"
+          + "Submitted-with: NOT_READY\n"
+          + "Submitted-with: OK: Verified: Change Owner <1@gerrit>\n"
+          + "Submitted-with: NEED: Code-Review\n"
+          + "Submitted-with: NOT_READY\n"
+          + "Submitted-with: OK: Verified: Change Owner <1@gerrit>\n"
+          + "Submitted-with: NEED: Alternative-Code-Review\n",
+          commit.getFullMessage());
+
+      PersonIdent author = commit.getAuthorIdent();
+      assertEquals("Change Owner", author.getName());
+      assertEquals("1@gerrit", author.getEmailAddress());
+      assertEquals(new Date(c.getCreatedOn().getTime() + 1000),
+          author.getWhen());
+      assertEquals(TimeZone.getTimeZone("GMT-8:00"), author.getTimeZone());
+
+      PersonIdent committer = commit.getCommitterIdent();
+      assertEquals("Gerrit Server", committer.getName());
+      assertEquals("noreply@gerrit.com", committer.getEmailAddress());
+      assertEquals(author.getWhen(), committer.getWhen());
+      assertEquals(author.getTimeZone(), committer.getTimeZone());
+    } finally {
+      walk.release();
+    }
+  }
+
+  @Test
+  public void submitWithErrorMessage() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setSubject("Submit patch set 1");
+
+    update.submit(ImmutableList.of(
+        submitRecord("RULE_ERROR", "Problem with patch set:\n1")));
+    update.commit();
+
+    RevWalk walk = new RevWalk(repo);
+    try {
+      RevCommit commit = walk.parseCommit(update.getRevision());
+      walk.parseBody(commit);
+      assertEquals("Submit patch set 1\n"
+          + "\n"
+          + "Patch-set: 1\n"
+          + "Status: submitted\n"
+          + "Submitted-with: RULE_ERROR Problem with patch set: 1\n",
           commit.getFullMessage());
     } finally {
       walk.release();
@@ -452,6 +527,56 @@ public class ChangeNotesTest {
   }
 
   @Test
+  public void submitRecords() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setSubject("Submit patch set 1");
+
+    update.submit(ImmutableList.of(
+        submitRecord("NOT_READY", null,
+          submitLabel("Verified", "OK", changeOwner.getAccountId()),
+          submitLabel("Code-Review", "NEED", null)),
+        submitRecord("NOT_READY", null,
+          submitLabel("Verified", "OK", changeOwner.getAccountId()),
+          submitLabel("Alternative-Code-Review", "NEED", null))));
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    List<SubmitRecord> recs = notes.getSubmitRecords();
+    assertEquals(2, recs.size());
+    assertEquals(submitRecord("NOT_READY", null,
+        submitLabel("Verified", "OK", changeOwner.getAccountId()),
+        submitLabel("Code-Review", "NEED", null)), recs.get(0));
+    assertEquals(submitRecord("NOT_READY", null,
+        submitLabel("Verified", "OK", changeOwner.getAccountId()),
+        submitLabel("Alternative-Code-Review", "NEED", null)), recs.get(1));
+  }
+
+  @Test
+  public void latestSubmitRecordsOnly() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setSubject("Submit patch set 1");
+    update.submit(ImmutableList.of(
+        submitRecord("OK", null,
+          submitLabel("Code-Review", "OK", otherUser.getAccountId()))));
+    update.commit();
+
+    incrementPatchSet(c);
+    update = newUpdate(c, changeOwner);
+    update.setSubject("Submit patch set 2");
+    update.submit(ImmutableList.of(
+        submitRecord("OK", null,
+          submitLabel("Code-Review", "OK", changeOwner.getAccountId()))));
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    assertEquals(submitRecord("OK", null,
+          submitLabel("Code-Review", "OK", changeOwner.getAccountId())),
+        Iterables.getOnlyElement(notes.getSubmitRecords()));
+  }
+
+  @Test
   public void multipleUpdatesInBatch() throws Exception {
     Change c = newChange();
     ChangeUpdate update1 = newUpdate(c, changeOwner);
@@ -534,5 +659,25 @@ public class ChangeNotesTest {
     expect(ctl.getCurrentUser()).andStubReturn(user);
     EasyMock.replay(ctl);
     return ctl;
+  }
+
+  private static SubmitRecord submitRecord(String status,
+      String errorMessage, SubmitRecord.Label... labels) {
+    SubmitRecord rec = new SubmitRecord();
+    rec.status = SubmitRecord.Status.valueOf(status);
+    rec.errorMessage = errorMessage;
+    if (labels.length > 0) {
+      rec.labels = ImmutableList.copyOf(labels);
+    }
+    return rec;
+  }
+
+  private static SubmitRecord.Label submitLabel(String name, String status,
+      Account.Id appliedBy) {
+    SubmitRecord.Label label = new SubmitRecord.Label();
+    label.label = name;
+    label.status = SubmitRecord.Label.Status.valueOf(status);
+    label.appliedBy = appliedBy;
+    return label;
   }
 }

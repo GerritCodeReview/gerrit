@@ -183,9 +183,6 @@ public class CherryPick extends SubmitStrategy {
           : args.approvalsUtil.byPatchSet(args.db, n.notes(), n.getPatchsetId())) {
         approvals.add(new PatchSetApproval(ps.getId(), a));
       }
-      // TODO(dborowitz): This doesn't copy labels in the notedb. We should
-      // stamp those in atomically with the same commit that describes the
-      // change being submitted.
       args.db.patchSetApprovals().insert(approvals);
 
       ru = args.repo.updateRef(ps.getRefName());

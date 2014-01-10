@@ -34,6 +34,24 @@
       "revId": "fdd0fe528a165d465b6c1d7d1fa6411c12690629",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edfb05cc_e456ba1e",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-10T09:59:56Z",
+      "side": 1,
+      "message": "Good catch! Also thought about it, but havn\u0027t verified it yet.",
+      "parentUuid": "2d027d8d_8686ea4c",
+      "revId": "fdd0fe528a165d465b6c1d7d1fa6411c12690629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

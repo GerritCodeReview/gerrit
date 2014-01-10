@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "edfb05cc_e4afda86",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalCopier.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T23:12:40Z",
+      "side": 1,
+      "message": "It\u0027s already quite late over here and maybe I\u0027m missing something, but is this correct? patchSets contains all the patch sets and descendingMap means we are getting them in the reverse order, starting from the current patch set. Shouldn\u0027t we rather start from the patch set to which we want to copy the approvals (currPs)? If there are newer patch sets we should ignore them right?",
+      "range": {
+        "startLine": 109,
+        "startChar": 32,
+        "endLine": 109,
+        "endChar": 66
+      },
+      "revId": "eb8f0d188fed9005721bd11283f9a94363229b3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

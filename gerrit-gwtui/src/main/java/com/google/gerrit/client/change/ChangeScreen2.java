@@ -767,6 +767,7 @@ public class ChangeScreen2 extends Screen {
 
     if (!current && info.status() == Change.Status.NEW) {
       statusText.setInnerText(Util.C.notCurrent());
+      labels.setVisible(false);
     } else {
       statusText.setInnerText(Util.toLongString(info.status()));
     }

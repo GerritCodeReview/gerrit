@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "edfb05cc_a41d6249",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 900,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T14:42:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edfb05cc_44bb4ef6",
+      "revId": "09dfa319bdb00a391305cdcc4e37f7e9938a7f6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdf801d5_83b13e12",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidators.java",
         "patchSetId": 10
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "edfb05cc_8422668d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T14:42:14Z",
+      "side": 1,
+      "message": "Fixed in RecieveCommits.",
+      "parentUuid": "cdf801d5_83b13e12",
+      "revId": "09dfa319bdb00a391305cdcc4e37f7e9938a7f6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edfb05cc_24c8528d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
         "patchSetId": 10
@@ -47,6 +83,30 @@
       "writtenOn": "2014-01-10T13:09:24Z",
       "side": 1,
       "message": "Code duplication with lines 241-244. This check is valid for both cases: value \u003d\u003d null \u0026\u0026 value !\u003d null. Extract it from the if?",
+      "range": {
+        "startLine": 199,
+        "startChar": 14,
+        "endLine": 203,
+        "endChar": 15
+      },
+      "revId": "09dfa319bdb00a391305cdcc4e37f7e9938a7f6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdf801d5_a31d5a49",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T14:42:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edfb05cc_24c8528d",
       "range": {
         "startLine": 199,
         "startChar": 14,
